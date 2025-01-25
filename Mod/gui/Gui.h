@@ -20,7 +20,9 @@ public:
 
     void Setup();
     void Render();
+    static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
     static Gui* s_instance;
+    static WNDPROC originalWndProc;
 };

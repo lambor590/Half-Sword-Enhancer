@@ -1,10 +1,20 @@
 #include "Gui.h"
 
 Gui* Gui::s_instance = nullptr;
+WNDPROC Gui::originalWndProc = nullptr;
 
 Logger logger("Gui");
 
+LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+        return true;
+
+    return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
+}
+
 void Gui::Setup() {
+    originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
+    logger.Log("WndProc hooked successfully");
     IMGUI_CHECKVERSION();
     
     ImGuiIO& io = ImGui::GetIO();
