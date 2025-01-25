@@ -288,6 +288,7 @@ void Renderer::Render()
 
     RenderCallback();
 
+    ImGui::End();
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }

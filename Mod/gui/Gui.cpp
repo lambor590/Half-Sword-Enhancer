@@ -15,36 +15,26 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 void Gui::Setup() {
     originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
     logger.Log("WndProc hooked successfully");
+
+    ImGui::CreateContext();
     IMGUI_CHECKVERSION();
-    
+
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;
     io.IniFilename = "HS-Enhancer-imgui.ini";
-    
+
     ImGui::StyleColorsDark();
-    
+
     s_instance = this;
 }
 
 void Gui::Render() {
-    ImGui::NewFrame();
-
     ImGui::Begin("Half Sword Enhancer", nullptr,
-        ImGuiWindowFlags_MenuBar | 
+        ImGuiWindowFlags_MenuBar |
         ImGuiWindowFlags_NoCollapse);
 
-    if (ImGui::BeginMenuBar()) {
-        if (ImGui::BeginMenu("Options")) {
-            ImGui::MenuItem("Settings", nullptr);
-            ImGui::EndMenu();
-        }
-        ImGui::EndMenuBar();
+    if (ImGui::CollapsingHeader("Debug")) {        
+        ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+        ImGui::Text("Delta Time: %.3f ms", 1000.0f / ImGui::GetIO().Framerate);
     }
-
-    ImGui::Text("Press INSERT to hide/show this window");
-
-    ImGui::End();
-
-    ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
