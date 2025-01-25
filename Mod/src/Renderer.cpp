@@ -281,16 +281,7 @@ void Renderer::CreateD3D11RenderTargetViewWithWrappedBackBuffer(UINT bufferIndex
 void Renderer::Render()
 {
     PreRender();
-    
-    ImGui_ImplWin32_NewFrame();
-    ImGui_ImplDX11_NewFrame();
-    ImGui::NewFrame();
-
     RenderCallback();
-
-    ImGui::End();
-    ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
 void Renderer::PreRender()

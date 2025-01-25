@@ -2,11 +2,15 @@
 
 Gui* Gui::s_instance = nullptr;
 WNDPROC Gui::originalWndProc = nullptr;
+bool Gui::isVisible = true;
 
 Logger logger("Gui");
 
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+    if (GetAsyncKeyState(VK_INSERT) & 1)
+        isVisible = !isVisible;
+
+    if (&isVisible && ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
         return true;
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
@@ -29,12 +33,23 @@ void Gui::Setup() {
 }
 
 void Gui::Render() {
-    ImGui::Begin("Half Sword Enhancer", nullptr,
+    if (!isVisible)
+        return;
+
+    ImGui_ImplWin32_NewFrame();
+    ImGui_ImplDX11_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::Begin("Half Sword Enhancer", &isVisible,
         ImGuiWindowFlags_MenuBar |
         ImGuiWindowFlags_NoCollapse);
 
-    if (ImGui::CollapsingHeader("Debug")) {        
+    if (ImGui::CollapsingHeader("Debug")) {
         ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
         ImGui::Text("Delta Time: %.3f ms", 1000.0f / ImGui::GetIO().Framerate);
     }
+
+    ImGui::End();
+    ImGui::Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }

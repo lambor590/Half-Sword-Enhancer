@@ -25,4 +25,5 @@ public:
 private:
     static Gui* s_instance;
     static WNDPROC originalWndProc;
+    static bool isVisible;
 };
