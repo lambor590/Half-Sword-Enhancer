@@ -308,6 +308,7 @@ void Renderer::RenderCallback()
 {
     if (!GUIInitialized)
     {
+        GUI->Init(d3d11Device, d3d11Context, window);
         GUI->Setup();
         GUIInitialized = true;
     }
