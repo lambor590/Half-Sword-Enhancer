@@ -14,20 +14,16 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
         GUIInitialized = true;
     }
 
-    // Prepare render target
     if (isRunningD3D12) {
         bufferIndex = swapChain3->GetCurrentBackBufferIndex();
         d3d11On12Device->AcquireWrappedResources(d3d11WrappedBackBuffers[bufferIndex].GetAddressOf(), 1);
     }
 
-    // Set render states once
     d3d11Context->OMSetRenderTargets(1, d3d11RenderTargetViews[bufferIndex].GetAddressOf(), nullptr);
     d3d11Context->RSSetViewports(1, &viewport);
 
-    // Render GUI
     GUI->Render();
 
-    // Release resources if D3D12
     if (isRunningD3D12) {
         d3d11On12Device->ReleaseWrappedResources(d3d11WrappedBackBuffers[bufferIndex].GetAddressOf(), 1);
         commandQueue->Signal(0, 0);
@@ -65,11 +61,9 @@ bool Renderer::InitD3DResources(IDXGISwapChain* swapChain)
     if (WaitForCommandQueueIfRunningD3D12())
         return false;
 
-    // Inicialización básica
     swapChain->GetDesc(&swapChainDesc);
     bufferCount = isRunningD3D12 ? swapChainDesc.BufferCount : 1;
 
-    // Obtener información de la ventana y configurar viewport
     RECT hwndRect;
     GetClientRect(swapChainDesc.OutputWindow, &hwndRect);
     windowWidth = hwndRect.right - hwndRect.left;
@@ -80,7 +74,6 @@ bool Renderer::InitD3DResources(IDXGISwapChain* swapChain)
         static_cast<float>(windowWidth),
         static_cast<float>(windowHeight));
 
-    // Inicializar D3D según versión
     if (!InitD3D())
         return false;
 
@@ -101,8 +94,6 @@ bool Renderer::RetrieveD3DDeviceFromSwapChain()
     
     return false;
 }
-
-// Funciones eliminadas ya que su funcionalidad se ha integrado en InitD3DResources
 
 bool Renderer::InitD3D()
 {
