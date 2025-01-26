@@ -16,7 +16,7 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
                 currentFenceValue++;
             }
         }
-        
+
         RenderFrame();
         return;
     }
@@ -37,7 +37,7 @@ void Renderer::RenderFrame()
 {
     if (isRunningD3D12) {
         bufferIndex = swapChain3->GetCurrentBackBufferIndex();
-        
+
         if (d3d11WrappedBackBuffers[bufferIndex]) {
             d3d11On12Device->AcquireWrappedResources(d3d11WrappedBackBuffers[bufferIndex].GetAddressOf(), 1);
         }
@@ -56,7 +56,7 @@ void Renderer::RenderFrame()
 
     if (isRunningD3D12 && d3d11WrappedBackBuffers[bufferIndex]) {
         d3d11On12Device->ReleaseWrappedResources(d3d11WrappedBackBuffers[bufferIndex].GetAddressOf(), 1);
-        
+
         if (fence && commandQueue) {
             const UINT64 fenceValue = currentFenceValue;
             commandQueue->Signal(fence.Get(), fenceValue);
@@ -72,10 +72,10 @@ bool Renderer::InitializeGUI()
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
-    
+
     io.ConfigWindowsResizeFromEdges = true;
     io.MouseDrawCursor = false;
-    
+
     GUI->Init(d3d11Device, d3d11Context, window);
     GUI->Setup();
 
@@ -104,7 +104,7 @@ void Renderer::OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT wid
         static_cast<float>(width),
         static_cast<float>(height)
     );
-    
+
     mustInitializeD3DResources = true;
 }
 
@@ -349,7 +349,7 @@ bool Renderer::WaitForCommandQueueIfRunningD3D12()
             currentFenceValue++;
         }
     }
-    
+
     return true;
 }
 
