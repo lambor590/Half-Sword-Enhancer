@@ -128,9 +128,7 @@ void Gui::Render() {
     ImGui_ImplDX11_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::Begin("Half Sword Enhancer", &isVisible,
-        ImGuiWindowFlags_MenuBar |
-        ImGuiWindowFlags_NoCollapse);
+    ImGui::Begin("Half Sword Enhancer", &isVisible, ImGuiWindowFlags_NoCollapse);
 
     if (ImGui::BeginTabBar("MainTabBar")) {
         if (ImGui::BeginTabItem("Gameplay")) {
