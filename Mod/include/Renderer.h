@@ -26,7 +26,7 @@ public:
     Renderer() = default;
     ~Renderer() {
         ReleaseViewsBuffersAndContext();
-        
+
         if (fenceEvent) {
             CloseHandle(fenceEvent);
             fenceEvent = nullptr;
