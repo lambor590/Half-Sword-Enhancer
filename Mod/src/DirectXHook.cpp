@@ -19,16 +19,14 @@ static void __stdcall OnExecuteCommandLists(ID3D12CommandQueue* pThis, UINT numC
     if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT)
     {
         hookInstance->renderer->SetCommandQueue(pThis);
-        //hookInstance->UnhookCommandQueue();
     }
-
     ((ExecuteCommandLists)hookInstance->executeCommandListsReturnAddress)(pThis, numCommandLists, ppCommandLists);
 }
 
 static void GetCommandQueue()
 {
-    ID3D12CommandQueue* dummyCommandQueue = hookInstance->CreateDummyCommandQueue();
-    hookInstance->HookCommandQueue(dummyCommandQueue, (uintptr_t)&OnExecuteCommandLists, &hookInstance->executeCommandListsReturnAddress);
+    ID3D12CommandQueue* cmdQueue = hookInstance->CreateDummyCommandQueue();
+    hookInstance->HookCommandQueue(cmdQueue, (uintptr_t)&OnExecuteCommandLists, &hookInstance->executeCommandListsReturnAddress);
 }
 
 DirectXHook::DirectXHook(ID3DRenderer* renderer)
@@ -49,77 +47,51 @@ void DirectXHook::Hook()
 
 IDXGISwapChain* DirectXHook::CreateDummySwapChain()
 {
-    WNDCLASSEX wc{ 0 };
-    wc.cbSize = sizeof(wc);
-    wc.lpfnWndProc = DefWindowProc;
-    wc.lpszClassName = TEXT("dummy class");
-    RegisterClassExA(&wc);
-    HWND hwnd = CreateWindow(wc.lpszClassName, TEXT(""), WS_DISABLED, 0, 0, 0, 0, NULL, NULL, NULL, nullptr);
+    static HWND dummyWindow = []() {
+        WNDCLASSEX wc{ sizeof(WNDCLASSEX), CS_CLASSDC, DefWindowProc, 0, 0, GetModuleHandle(0), 0, 0, 0, 0, TEXT("DX"), 0 };
+        RegisterClassEx(&wc);
+        return CreateWindow(wc.lpszClassName, 0, 0, 0, 0, 1, 1, 0, 0, wc.hInstance, 0);
+        }();
 
-    DXGI_SWAP_CHAIN_DESC desc{ 0 };
+    DXGI_SWAP_CHAIN_DESC desc{};
     desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    desc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-    desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
     desc.SampleDesc.Count = 1;
     desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     desc.BufferCount = 1;
-    desc.OutputWindow = hwnd;
+    desc.OutputWindow = dummyWindow;
     desc.Windowed = TRUE;
     desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
-    D3D_FEATURE_LEVEL featureLevels[] =
-    {
-        D3D_FEATURE_LEVEL_11_0,
-        D3D_FEATURE_LEVEL_11_1
-    };
+    IDXGISwapChain* swapChain;
+    ID3D11Device* device;
+    D3D11CreateDeviceAndSwapChain(0, D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0, D3D11_SDK_VERSION, &desc, &swapChain, &device, 0, 0);
 
-    ID3D11Device* dummyDevice = nullptr;
-    IDXGISwapChain* dummySwapChain = nullptr;
-    HRESULT result = D3D11CreateDeviceAndSwapChain(
-        NULL,
-        D3D_DRIVER_TYPE_HARDWARE,
-        NULL,
-        0,
-        featureLevels,
-        1,
-        D3D11_SDK_VERSION,
-        &desc,
-        &dummySwapChain,
-        &dummyDevice,
-        NULL,
-        NULL);
-
-    DestroyWindow(desc.OutputWindow);
-    UnregisterClass(wc.lpszClassName, GetModuleHandle(nullptr));
-    // dummySwapChain->Release();
-    // dummyDevice->Release();
-
-    if (FAILED(result))
-    {
-        _com_error error(result);
-        logger.Log("D3D11CreateDeviceAndSwapChain failed: %s", error.ErrorMessage());
-        return nullptr;
-    }
-
-    logger.Log("D3D11CreateDeviceAndSwapChain succeeded");
-    return dummySwapChain;
+    if (device) device->Release();
+    return swapChain;
 }
 
 ID3D12CommandQueue* DirectXHook::CreateDummyCommandQueue()
 {
+    ID3D12Device* device = nullptr;
+    if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device))))
+    {
+        logger.Log("CRITICAL: Failed to create D3D12 device");
+        return nullptr;
+    }
+
     D3D12_COMMAND_QUEUE_DESC queueDesc{};
-    queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
     queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 
-    ID3D12Device* d12Device = nullptr;
-    D3D12CreateDevice(NULL, D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), (void**)&d12Device);
+    ID3D12CommandQueue* queue = nullptr;
+    if (FAILED(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue))))
+    {
+        logger.Log("CRITICAL: Failed to create command queue");
+        device->Release();
+        return nullptr;
+    }
 
-    ID3D12CommandQueue* dummyCommandQueue;
-    d12Device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&dummyCommandQueue));
-
-    logger.Log("Command queue: %p", dummyCommandQueue);
-
-    return dummyCommandQueue;
+    device->Release();
+    return queue;
 }
 
 void DirectXHook::HookSwapChain(
@@ -129,17 +101,13 @@ void DirectXHook::HookSwapChain(
     uintptr_t* presentReturnAddress,
     uintptr_t* resizeBuffersReturnAddress)
 {
-    int vmtPresentOffset = 8;
-    int vmtResizeBuffersOffset = 13;
-    size_t numBytes = sizeof(size_t);
+    const int vmtPresentOffset = 8;
+    const int vmtResizeBuffersOffset = 13;
+    const size_t numBytes = sizeof(size_t);
 
     uintptr_t vmtBaseAddress = (*(uintptr_t*)dummySwapChain);
     uintptr_t vmtPresentIndex = (vmtBaseAddress + (numBytes * vmtPresentOffset));
     uintptr_t vmtResizeBuffersIndex = (vmtBaseAddress + (numBytes * vmtResizeBuffersOffset));
-
-    logger.Log("SwapChain VMT base address: %p", vmtBaseAddress);
-    logger.Log("SwapChain VMT Present index: %p", vmtPresentIndex);
-    logger.Log("SwapChain VMT ResizeBuffers index: %p", vmtResizeBuffersIndex);
 
     MemoryUtils::ToggleMemoryProtection(false, vmtPresentIndex, numBytes);
     MemoryUtils::ToggleMemoryProtection(false, vmtResizeBuffersIndex, numBytes);
@@ -147,14 +115,11 @@ void DirectXHook::HookSwapChain(
     uintptr_t presentAddress = (*(uintptr_t*)vmtPresentIndex);
     uintptr_t resizeBuffersAddress = (*(uintptr_t*)vmtResizeBuffersIndex);
 
-    logger.Log("Present address: %p", presentAddress);
-    logger.Log("ResizeBuffers address: %p", resizeBuffersAddress);
+    MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, presentReturnAddress);
+    MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, resizeBuffersReturnAddress);
 
     MemoryUtils::ToggleMemoryProtection(true, vmtPresentIndex, numBytes);
     MemoryUtils::ToggleMemoryProtection(true, vmtResizeBuffersIndex, numBytes);
-
-    MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, presentReturnAddress);
-    MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, resizeBuffersReturnAddress);
 
     dummySwapChain->Release();
 }
@@ -164,28 +129,18 @@ void DirectXHook::HookCommandQueue(
     uintptr_t executeCommandListsDetourFunction,
     uintptr_t* executeCommandListsReturnAddress)
 {
-    int vmtExecuteCommandListsOffset = 10;
-    size_t numBytes = 8;
+    if (!dummyCommandQueue) return;
 
-    uintptr_t vmtBaseAddress = (*(uintptr_t*)dummyCommandQueue);
-    uintptr_t vmtExecuteCommandListsIndex = (vmtBaseAddress + (numBytes * vmtExecuteCommandListsOffset));
+    uintptr_t* vTable = *(uintptr_t**)dummyCommandQueue;
+    size_t executeOffset = 10;
 
-    logger.Log("CommandQueue VMT base address: %p", vmtBaseAddress);
-    logger.Log("ExecuteCommandLists index: %p", vmtExecuteCommandListsIndex);
+    uintptr_t executeAddr = vTable[executeOffset];
+    executeCommandListsAddress = executeAddr;
 
-    MemoryUtils::ToggleMemoryProtection(false, vmtExecuteCommandListsIndex, numBytes);
-    executeCommandListsAddress = (*(uintptr_t*)vmtExecuteCommandListsIndex);
-    MemoryUtils::ToggleMemoryProtection(true, vmtExecuteCommandListsIndex, numBytes);
+    MemoryUtils::ToggleMemoryProtection(false, executeAddr, sizeof(void*));
+    MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, executeCommandListsReturnAddress);
+    MemoryUtils::ToggleMemoryProtection(true, executeAddr, sizeof(void*));
 
-    logger.Log("ExecuteCommandLists address: %p", executeCommandListsAddress);
-
-    bool hookIsPresent = MemoryUtils::IsAddressHooked(executeCommandListsAddress);
-    if (hookIsPresent)
-    {
-        logger.Log("Hook already present in ExecuteCommandLists");
-    }
-
-    MemoryUtils::PlaceHook(executeCommandListsAddress, executeCommandListsDetourFunction, executeCommandListsReturnAddress);
     dummyCommandQueue->Release();
 }
 
