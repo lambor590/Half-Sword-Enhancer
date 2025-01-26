@@ -5,14 +5,35 @@ using namespace DirectX;
 
 void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
 {
-    if (mustInitializeD3DResources)
-    {
-        if (!InitD3DResources(pThis))
-            return;
-        mustInitializeD3DResources = false;
+    if (mustInitializeD3DResources && !InitD3DResources(pThis))
+        return;
+    
+    if (!GUIInitialized) {
+        GUI->Init(d3d11Device, d3d11Context, window);
+        GUI->Setup();
+        GUIInitialized = true;
     }
 
-    Render();
+    // Prepare render target
+    if (isRunningD3D12) {
+        bufferIndex = swapChain3->GetCurrentBackBufferIndex();
+        d3d11On12Device->AcquireWrappedResources(d3d11WrappedBackBuffers[bufferIndex].GetAddressOf(), 1);
+    }
+
+    // Set render states once
+    d3d11Context->OMSetRenderTargets(1, d3d11RenderTargetViews[bufferIndex].GetAddressOf(), nullptr);
+    d3d11Context->RSSetViewports(1, &viewport);
+
+    // Render GUI
+    GUI->Render();
+
+    // Release resources if D3D12
+    if (isRunningD3D12) {
+        d3d11On12Device->ReleaseWrappedResources(d3d11WrappedBackBuffers[bufferIndex].GetAddressOf(), 1);
+        commandQueue->Signal(0, 0);
+    }
+
+    mustInitializeD3DResources = false;
 }
 
 void Renderer::OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags)
@@ -34,36 +55,34 @@ void Renderer::SetGetCommandQueueCallback(void (*callback)())
 
 bool Renderer::InitD3DResources(IDXGISwapChain* swapChain)
 {
-    logger.Log("Initializing D3D resources...");
-
-    try
-    {
-        if (!isDeviceRetrieved)
-        {
-            this->swapChain = swapChain;
-            isDeviceRetrieved = RetrieveD3DDeviceFromSwapChain();
-        }
-
-        if (WaitForCommandQueueIfRunningD3D12())
+    if (!isDeviceRetrieved) {
+        this->swapChain = swapChain;
+        if (!RetrieveD3DDeviceFromSwapChain())
             return false;
-
-        GetSwapChainDescription();
-        GetBufferCount();
-        GetSwapchainWindowInfo();
-        CreateViewport();
-        InitD3D();
-
-        if (!isRunningD3D12) {
-            ImGui::CreateContext();
-            ImGui_ImplWin32_Init(window);
-            ImGui_ImplDX11_Init(d3d11Device.Get(), d3d11Context.Get());
-        }
+        isDeviceRetrieved = true;
     }
-    catch (std::string errorMsg)
-    {
-        logger.Log(errorMsg);
+
+    if (WaitForCommandQueueIfRunningD3D12())
         return false;
-    }
+
+    // Inicialización básica
+    swapChain->GetDesc(&swapChainDesc);
+    bufferCount = isRunningD3D12 ? swapChainDesc.BufferCount : 1;
+
+    // Obtener información de la ventana y configurar viewport
+    RECT hwndRect;
+    GetClientRect(swapChainDesc.OutputWindow, &hwndRect);
+    windowWidth = hwndRect.right - hwndRect.left;
+    windowHeight = hwndRect.bottom - hwndRect.top;
+    window = swapChainDesc.OutputWindow;
+
+    viewport = CD3D11_VIEWPORT(0.0f, 0.0f,
+        static_cast<float>(windowWidth),
+        static_cast<float>(windowHeight));
+
+    // Inicializar D3D según versión
+    if (!InitD3D())
+        return false;
 
     firstTimeInitPerformed = true;
     logger.Log("Successfully initialized D3D resources");
@@ -72,268 +91,133 @@ bool Renderer::InitD3DResources(IDXGISwapChain* swapChain)
 
 bool Renderer::RetrieveD3DDeviceFromSwapChain()
 {
-    logger.Log("Retrieving D3D device...");
-
-    bool d3d11DeviceRetrieved = SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D11Device), (void**)d3d11Device.GetAddressOf()));
-    if (d3d11DeviceRetrieved)
-    {
-        logger.Log("Retrieved D3D11 device");
+    if (SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D11Device), (void**)d3d11Device.GetAddressOf())))
         return true;
-    }
-
-    bool d3d12DeviceRetrieved = SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D12Device), (void**)d3d12Device.GetAddressOf()));
-    if (d3d12DeviceRetrieved)
-    {
-        logger.Log("Retrieved D3D12 device");
+        
+    if (SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D12Device), (void**)d3d12Device.GetAddressOf()))) {
         isRunningD3D12 = true;
         return true;
     }
-
-    throw("Failed to retrieve D3D device");
+    
+    return false;
 }
 
-void Renderer::GetSwapChainDescription()
+// Funciones eliminadas ya que su funcionalidad se ha integrado en InitD3DResources
+
+bool Renderer::InitD3D()
 {
-    ZeroMemory(&swapChainDesc, sizeof(DXGI_SWAP_CHAIN_DESC));
-    swapChain->GetDesc(&swapChainDesc);
-}
+    if (!isRunningD3D12) {
+        // D3D11 initialization
+        if (!firstTimeInitPerformed) {
+            d3d11Device->GetImmediateContext(&d3d11Context);
+        }
 
-void Renderer::GetBufferCount()
-{
-    if (isRunningD3D12)
-        bufferCount = swapChainDesc.BufferCount;
-    else
-        bufferCount = 1;
-}
+        ComPtr<ID3D11Texture2D> backbuffer;
+        if (FAILED(swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backbuffer.GetAddressOf())))
+            return false;
 
-void Renderer::GetSwapchainWindowInfo()
-{
-    RECT hwndRect;
-    GetClientRect(swapChainDesc.OutputWindow, &hwndRect);
-    windowWidth = hwndRect.right - hwndRect.left;
-    windowHeight = hwndRect.bottom - hwndRect.top;
-    logger.Log("Window width: %i", windowWidth);
-    logger.Log("Window height: %i", windowHeight);
-    window = swapChainDesc.OutputWindow;
-}
+        d3d11RenderTargetViews.resize(1);
+        if (FAILED(d3d11Device->CreateRenderTargetView(backbuffer.Get(), nullptr, d3d11RenderTargetViews[0].GetAddressOf())))
+            return false;
 
-void Renderer::CreateViewport()
-{
-    ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
-    viewport.Width = (float)windowWidth;
-    viewport.Height = (float)windowHeight;
-    viewport.MinDepth = 0.0f;
-    viewport.MaxDepth = 1.0f;
-    viewport.TopLeftX = 0;
-    viewport.TopLeftY = 0;
-}
+        if (!firstTimeInitPerformed) {
+            ImGui::CreateContext();
+            ImGui_ImplWin32_Init(window);
+            ImGui_ImplDX11_Init(d3d11Device.Get(), d3d11Context.Get());
+        }
+    } else {
+        // D3D12 initialization
+        if (!firstTimeInitPerformed) {
+            if (FAILED(D3D11On12CreateDevice(
+                d3d12Device.Get(),
+                NULL,
+                nullptr,
+                0,
+                reinterpret_cast<IUnknown**>(commandQueue.GetAddressOf()),
+                1,
+                0,
+                d3d11Device.GetAddressOf(),
+                d3d11Context.GetAddressOf(),
+                nullptr)) ||
+                FAILED(d3d11Device.As(&d3d11On12Device)) ||
+                FAILED(swapChain->QueryInterface(IID_PPV_ARGS(&swapChain3))))
+            {
+                return false;
+            }
+        }
 
-void Renderer::InitD3D()
-{
-    if (!isRunningD3D12)
-        InitD3D11();
-    else
-        InitD3D12();
-}
+        // Create D3D12 resources
+        d3d12RenderTargets.resize(bufferCount);
+        d3d11WrappedBackBuffers.resize(bufferCount);
+        d3d11RenderTargetViews.resize(bufferCount);
 
-void Renderer::InitD3D11()
-{
-    logger.Log("Initializing D3D11...");
+        ComPtr<ID3D12DescriptorHeap> rtvHeap;
+        D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
+        rtvHeapDesc.NumDescriptors = bufferCount;
+        rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+        rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 
-    if (!firstTimeInitPerformed)
-        CreateD3D11Context();
-    CreateD3D11RenderTargetView();
+        if (FAILED(d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap))))
+            return false;
 
-    logger.Log("Initialized D3D11");
-}
+        D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(rtvHeap->GetCPUDescriptorHandleForHeapStart());
+        UINT rtvDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
-void Renderer::CreateD3D11Context()
-{
-    d3d11Device->GetImmediateContext(&d3d11Context);
-}
+        for (UINT i = 0; i < bufferCount; i++) {
+            if (FAILED(swapChain->GetBuffer(i, IID_PPV_ARGS(&d3d12RenderTargets[i]))))
+                return false;
 
-void Renderer::CreateD3D11RenderTargetView()
-{
-    ComPtr<ID3D11Texture2D> backbuffer;
-    swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backbuffer.GetAddressOf());
-    d3d11RenderTargetViews = std::vector<ComPtr<ID3D11RenderTargetView>>(1, nullptr);
-    d3d11Device->CreateRenderTargetView(backbuffer.Get(), nullptr, d3d11RenderTargetViews[0].GetAddressOf());
-    backbuffer.ReleaseAndGetAddressOf();
-}
+            d3d12Device->CreateRenderTargetView(d3d12RenderTargets[i].Get(), nullptr, rtvHandle);
 
-void Renderer::InitD3D12()
-{
-    logger.Log("Initializing D3D12...");
+            D3D11_RESOURCE_FLAGS d3d11Flags = { D3D11_BIND_RENDER_TARGET };
+            if (FAILED(d3d11On12Device->CreateWrappedResource(
+                d3d12RenderTargets[i].Get(),
+                &d3d11Flags,
+                D3D12_RESOURCE_STATE_RENDER_TARGET,
+                D3D12_RESOURCE_STATE_PRESENT,
+                IID_PPV_ARGS(&d3d11WrappedBackBuffers[i]))))
+            {
+                return false;
+            }
 
-    if (!firstTimeInitPerformed)
-    {
-        CreateD3D11On12Device();
-        CheckSuccess(swapChain->QueryInterface(__uuidof(IDXGISwapChain3), &swapChain3));
+            if (FAILED(d3d11Device->CreateRenderTargetView(
+                d3d11WrappedBackBuffers[i].Get(),
+                nullptr,
+                d3d11RenderTargetViews[i].GetAddressOf())))
+            {
+                return false;
+            }
+
+            rtvHandle.ptr += rtvDescriptorSize;
+        }
     }
-    CreateD3D12Buffers();
 
-    logger.Log("Initialized D3D12");
+    return true;
 }
 
 bool Renderer::WaitForCommandQueueIfRunningD3D12()
 {
-    if (isRunningD3D12)
-    {
-        if (commandQueue.Get() == nullptr)
-        {
-            logger.Log("Waiting for command queue...");
-            if (!getCommandQueueCalled && callbackGetCommandQueue != nullptr)
-            {
-                callbackGetCommandQueue();
-                getCommandQueueCalled = true;
-            }
-            return true;
-        }
+    if (!isRunningD3D12 || commandQueue)
+        return false;
+        
+    if (!getCommandQueueCalled && callbackGetCommandQueue) {
+        callbackGetCommandQueue();
+        getCommandQueueCalled = true;
     }
-    return false;
-}
-
-void Renderer::CreateD3D11On12Device()
-{
-    D3D_FEATURE_LEVEL featureLevels = { D3D_FEATURE_LEVEL_11_0 };
-    bool d3d11On12DeviceCreated = CheckSuccess(
-        D3D11On12CreateDevice(
-            d3d12Device.Get(),
-            NULL,
-            &featureLevels,
-            1,
-            reinterpret_cast<IUnknown**>(commandQueue.GetAddressOf()),
-            1,
-            0,
-            d3d11Device.GetAddressOf(),
-            d3d11Context.GetAddressOf(),
-            nullptr));
-
-    bool d3d11On12DeviceChecked = CheckSuccess(d3d11Device.As(&d3d11On12Device));
-
-    if (!d3d11On12DeviceCreated || !d3d11On12DeviceChecked)
-        throw("Failed to create D3D11On12 device");
-}
-
-void Renderer::CreateD3D12Buffers()
-{
-    d3d12RenderTargets = std::vector<ComPtr<ID3D12Resource>>(bufferCount, nullptr);
-    d3d11WrappedBackBuffers = std::vector<ComPtr<ID3D11Resource>>(bufferCount, nullptr);
-    d3d11RenderTargetViews = std::vector<ComPtr<ID3D11RenderTargetView>>(bufferCount, nullptr);
-
-    ComPtr<ID3D12DescriptorHeap> rtvHeap = CreateD3D12RtvHeap();
-    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(rtvHeap->GetCPUDescriptorHandleForHeapStart());
-    UINT rtvDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-    for (UINT i = 0; i < bufferCount; i++)
-    {
-        CreateD3D12RenderTargetView(i, rtvHandle);
-        CreateD3D11WrappedBackBuffer(i);
-        CreateD3D11RenderTargetViewWithWrappedBackBuffer(i);
-        rtvHandle.ptr = SIZE_T(INT64(rtvHandle.ptr) + INT64(1) * INT64(rtvDescriptorSize));
-    }
-}
-
-ComPtr<ID3D12DescriptorHeap> Renderer::CreateD3D12RtvHeap()
-{
-    ComPtr<ID3D12DescriptorHeap> rtvHeap;
-    D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
-    rtvHeapDesc.NumDescriptors = bufferCount;
-    rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-    rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-    CheckSuccess(d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(rtvHeap.GetAddressOf())));
-    return rtvHeap;
-}
-
-void Renderer::CreateD3D12RenderTargetView(UINT bufferIndex, D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle)
-{
-    if (!CheckSuccess(swapChain->GetBuffer(bufferIndex, IID_PPV_ARGS(&d3d12RenderTargets[bufferIndex]))))
-        throw("Failed to create D3D12 render target view");
-    d3d12Device->CreateRenderTargetView(d3d12RenderTargets[bufferIndex].Get(), nullptr, rtvHandle);
-}
-
-void Renderer::CreateD3D11WrappedBackBuffer(UINT bufferIndex)
-{
-    D3D11_RESOURCE_FLAGS d3d11Flags = { D3D11_BIND_RENDER_TARGET };
-    if (!CheckSuccess(
-        d3d11On12Device->CreateWrappedResource(
-            d3d12RenderTargets[bufferIndex].Get(),
-            &d3d11Flags,
-            D3D12_RESOURCE_STATE_RENDER_TARGET,
-            D3D12_RESOURCE_STATE_PRESENT,
-            IID_PPV_ARGS(&d3d11WrappedBackBuffers[bufferIndex]))))
-    {
-        throw "Failed to create D3D11 wrapped backbuffer";
-    }
-}
-
-void Renderer::CreateD3D11RenderTargetViewWithWrappedBackBuffer(UINT bufferIndex)
-{
-    if (!CheckSuccess(
-        d3d11Device->CreateRenderTargetView(
-            d3d11WrappedBackBuffers[bufferIndex].Get(),
-            nullptr,
-            d3d11RenderTargetViews[bufferIndex].GetAddressOf())))
-    {
-        throw "Failed to create D3D11 render target view";
-    }
-}
-
-void Renderer::Render()
-{
-    PreRender();
-    RenderCallback();
-}
-
-void Renderer::PreRender()
-{
-    if (isRunningD3D12)
-    {
-        bufferIndex = swapChain3->GetCurrentBackBufferIndex();
-        d3d11On12Device->AcquireWrappedResources(d3d11WrappedBackBuffers[bufferIndex].GetAddressOf(), 1);
-    }
-
-    d3d11Context->OMSetRenderTargets(1, d3d11RenderTargetViews[bufferIndex].GetAddressOf(), 0);
-    d3d11Context->RSSetViewports(1, &viewport);
-}
-
-void Renderer::RenderCallback()
-{
-    if (!GUIInitialized)
-    {
-        GUI->Init(d3d11Device, d3d11Context, window);
-        GUI->Setup();
-        GUIInitialized = true;
-    }
-    
-    GUI->Render();
+    return true;
 }
 
 void Renderer::ReleaseViewsBuffersAndContext()
 {
-    for (UINT i = 0; i < bufferCount; i++)
-    {
-        if (d3d12Device.Get() == nullptr)
-        {
-            d3d11RenderTargetViews[i].ReleaseAndGetAddressOf();
-        }
-        else
-        {
-            d3d11RenderTargetViews[i].ReleaseAndGetAddressOf();
-            d3d12RenderTargets[i].ReleaseAndGetAddressOf();
-            d3d11WrappedBackBuffers[i].ReleaseAndGetAddressOf();
-        }
-    }
-
-    if (d3d11Context.Get() != nullptr)
+    if (d3d11Context)
         d3d11Context->Flush();
-}
 
-bool Renderer::CheckSuccess(HRESULT hr)
-{
-    if (SUCCEEDED(hr))
-        return true;
-    _com_error err(hr);
-    logger.Log("%s", err.ErrorMessage());
-
-    return false;
+    d3d11RenderTargetViews.clear();
+    
+    if (isRunningD3D12) {
+        d3d12RenderTargets.clear();
+        d3d11WrappedBackBuffers.clear();
+    }
+    
+    mustInitializeD3DResources = true;
 }
