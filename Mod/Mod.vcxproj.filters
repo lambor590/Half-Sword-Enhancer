@@ -25,6 +25,9 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{e0c6c992-1a4d-481c-8945-d9ede1364c8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sections">
+      <UniqueIdentifier>{e6e0bd5f-31e3-46c6-8349-54626e03b4a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DllMain.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="gui\Gui.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MenuSection.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +130,27 @@
     </ClInclude>
     <ClInclude Include="gui\Gui.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\sections\VisualSection.h">
+      <Filter>Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\sections\SettingsSection.h">
+      <Filter>Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\sections\ISection.h">
+      <Filter>Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\sections\GameplaySection.h">
+      <Filter>Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="gui\sections\DebugSection.h">
+      <Filter>Sections</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MenuSection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Action.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
