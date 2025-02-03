@@ -24,12 +24,12 @@ bool GameHook::Hook()
 
     MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&hookInstance->oProcessEvent);
 
-    logger.Log("Main hook initialized successfully!");
+    logger.Log("ProcessEvent hooked successfully!");
     return true;
 }
 
 void GameHook::Unhook() const
 {
-    logger.Log("Unhooking ProcessEvent");
     MemoryUtils::Unhook(oProcessEvent);
+    logger.Log("ProcessEvent unhooked successfully!");
 }

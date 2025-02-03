@@ -14,7 +14,6 @@ public:
 
     bool Hook();
     void Unhook() const;
-    void AddHook(SDK::UFunction*, void*); // TODO: Implement this function with a proper system
 
 private:
     Logger logger{ "GameHook" };
