@@ -48,9 +48,6 @@ void Gui::Render() {
         if (ImGui::BeginTabItem("Gameplay")) {
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Visual")) {
-            ImGui::EndTabItem();
-        }
         if (ImGui::BeginTabItem("Debug")) {
             ImGui::EndTabItem();
         }
