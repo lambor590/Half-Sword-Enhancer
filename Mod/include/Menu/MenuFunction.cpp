@@ -3,11 +3,18 @@
 #include "imgui.h"
 #include <format>
 
+GameHook* g_GameHook = new GameHook();
+
 void HookedFunction::Render() {
     std::string id = std::format("##Hook_{}", name);
+    bool prevEnabled = isEnabled;
+    
     if (ImGui::Checkbox((name + id).c_str(), &isEnabled)) {
-        if (isEnabled) {
-            callback();
+        if (isEnabled && !prevEnabled) {
+            g_GameHook->RegisterHook(hookedFunction, callback);
+        }
+        else if (!isEnabled && prevEnabled) {
+            g_GameHook->UnregisterHook(hookedFunction);
         }
     }
     
@@ -77,8 +84,7 @@ void KeybindFunction::Render() {
             }
         }
     }
-
-    // Si está habilitado y se presiona la tecla, ejecutar la función
+    
     if (isEnabled && (*key != 0) && (GetAsyncKeyState(*key) & 0x8000)) {
         callback();
     }

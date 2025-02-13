@@ -1,10 +1,17 @@
 #include "GameHook.h"
+#include "MemoryUtils.h"
 
 static GameHook* hookInstance = new GameHook();
 
 inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms)
 {
-    // std::cout << pFunc->GetFullName() << std::endl;
+    auto& hooks = hookInstance->GetRegisteredHooks();
+
+    auto it = hooks.find(pFunc->GetFullName());
+    if (it != hooks.end()) {
+        it->second(pObject, pFunc, Parms);
+    }
+
     return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
 }
 

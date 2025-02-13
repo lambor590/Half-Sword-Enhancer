@@ -5,6 +5,9 @@
 #include <functional>
 #include <memory>
 #include "imgui.h"
+#include "../GameHook.h"
+
+extern GameHook* g_GameHook;
 
 class IMenuFunction {
 protected:
@@ -26,6 +29,12 @@ private:
 public:
     HookedFunction(const std::string& name, const std::string& hookedFunction, std::function<void()> callback)
         : name(name), hookedFunction(hookedFunction), callback(callback) {}
+
+    ~HookedFunction() {
+        if (isEnabled) {
+            g_GameHook->UnregisterHook(hookedFunction);
+        }
+    }
 
     void Render() override;
     const std::string& GetName() const override { return name; }

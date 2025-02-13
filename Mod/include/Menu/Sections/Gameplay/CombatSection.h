@@ -22,4 +22,4 @@ public:
             std::function<void()>([]() { /* código de la función */ })
         ));
     }
-}; 
+};
