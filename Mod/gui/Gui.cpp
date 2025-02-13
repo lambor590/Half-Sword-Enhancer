@@ -1,4 +1,7 @@
 #include "Gui.h"
+#include "../Menu/MenuManager.h"
+#include "../Menu/Sections/Gameplay/CombatSection.h"
+#include "../Menu/Sections/Gameplay/MovementSection.h"
 
 Gui* Gui::s_instance = nullptr;
 WNDPROC Gui::originalWndProc = nullptr;
@@ -31,6 +34,10 @@ void Gui::Setup() {
 
     ImGui::StyleColorsDark();
 
+    // Inicializar secciones
+    MenuManager::Get().AddSection<CombatSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<MovementSection>(MenuTab::Gameplay);
+
     s_instance = this;
 }
 
@@ -46,12 +53,15 @@ void Gui::Render() {
 
     if (ImGui::BeginTabBar("MainTabBar")) {
         if (ImGui::BeginTabItem("Gameplay")) {
+            MenuManager::Get().RenderSections(MenuTab::Gameplay);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Debug")) {
+            MenuManager::Get().RenderSections(MenuTab::Debug);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Settings")) {
+            MenuManager::Get().RenderSections(MenuTab::Settings);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
