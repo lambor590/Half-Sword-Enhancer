@@ -176,8 +176,8 @@
     <ClCompile Include="include\imgui\imgui_draw.cpp" />
     <ClCompile Include="include\imgui\imgui_tables.cpp" />
     <ClCompile Include="include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="include\Menu\MenuFunction.cpp" />
-    <ClCompile Include="include\Menu\MenuManager.cpp" />
+    <ClCompile Include="gui\Menu\MenuFunction.cpp" />
+    <ClCompile Include="gui\Menu\MenuManager.cpp" />
     <ClCompile Include="include\SDK\Basic.cpp" />
     <ClCompile Include="include\SDK\CoreUObject_functions.cpp" />
     <ClCompile Include="src\DirectXHook.cpp" />
@@ -202,11 +202,11 @@
     <ClInclude Include="include\IRenderCallback.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\MemoryUtils.h" />
-    <ClInclude Include="include\Menu\ICollapsibleSection.h" />
-    <ClInclude Include="include\Menu\IMenuFunction.h" />
-    <ClInclude Include="include\Menu\MenuManager.h" />
-    <ClInclude Include="include\Menu\Sections\Gameplay\CombatSection.h" />
-    <ClInclude Include="include\Menu\Sections\Gameplay\MovementSection.h" />
+    <ClInclude Include="gui\Menu\ICollapsibleSection.h" />
+    <ClInclude Include="gui\Menu\IMenuFunction.h" />
+    <ClInclude Include="gui\Menu\MenuManager.h" />
+    <ClInclude Include="gui\Menu\Sections\Gameplay\CombatSection.h" />
+    <ClInclude Include="gui\Menu\Sections\Gameplay\MovementSection.h" />
     <ClInclude Include="include\Renderer.h" />
   </ItemGroup>
   <ItemGroup>

@@ -72,10 +72,10 @@
     <ClCompile Include="gui\Gui.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="include\Menu\MenuFunction.cpp">
+    <ClCompile Include="gui\Menu\MenuFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\Menu\MenuManager.cpp">
+    <ClCompile Include="gui\Menu\MenuManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -131,19 +131,19 @@
     <ClInclude Include="gui\Gui.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Gameplay\CombatSection.h">
+    <ClInclude Include="gui\Menu\Sections\Gameplay\CombatSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Gameplay\MovementSection.h">
+    <ClInclude Include="gui\Menu\Sections\Gameplay\MovementSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\ICollapsibleSection.h">
+    <ClInclude Include="gui\Menu\ICollapsibleSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\IMenuFunction.h">
+    <ClInclude Include="gui\Menu\IMenuFunction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\MenuManager.h">
+    <ClInclude Include="gui\Menu\MenuManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

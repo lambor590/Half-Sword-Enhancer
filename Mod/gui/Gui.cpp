@@ -1,7 +1,7 @@
 #include "Gui.h"
-#include "../Menu/MenuManager.h"
-#include "../Menu/Sections/Gameplay/CombatSection.h"
-#include "../Menu/Sections/Gameplay/MovementSection.h"
+#include "Menu/MenuManager.h"
+#include "Menu/Sections/Gameplay/CombatSection.h"
+#include "Menu/Sections/Gameplay/MovementSection.h"
 
 Gui* Gui::s_instance = nullptr;
 WNDPROC Gui::originalWndProc = nullptr;

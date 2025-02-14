@@ -5,11 +5,13 @@ static GameHook* hookInstance = new GameHook();
 
 inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms)
 {
-    auto& hooks = hookInstance->GetRegisteredHooks();
+    const std::string& funcName = pFunc->GetFullName();
+    size_t hash = std::hash<std::string>{}(funcName);
 
-    auto it = hooks.find(pFunc->GetFullName());
-    if (it != hooks.end()) {
-        it->second(pObject, pFunc, Parms);
+    if (auto it = hookInstance->hookMap.find(hash); it != hookInstance->hookMap.end()) {
+        if (it->second.name == funcName) {
+            it->second.callback();
+        }
     }
 
     return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
@@ -20,7 +22,6 @@ bool GameHook::Hook()
     logger.Log("Hooking ProcessEvent");
 
     SDK::UObject* pObject = SDK::BasicFilesImpleUtils::GetObjectByIndex(0);
-
     if (!pObject) {
         logger.Log("Could not get an instance of UObject. Retrying...");
         return false;
