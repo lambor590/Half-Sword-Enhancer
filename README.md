@@ -16,7 +16,7 @@ This project has no license, which means:
 - Distribution is not allowed
 - Commercial use is not allowed
 - Creation of derivative works is not allowed
-- Private use is not allowed
+- Private use is allowed
 
 The source code is available for transparency purposes only. All rights reserved.
 
