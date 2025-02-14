@@ -18,14 +18,11 @@ public:
     bool Hook();
     void Unhook() const;
 
-    // Registrar un nuevo hook
     void RegisterHook(const std::string& functionName, std::function<void()> callback) {
-        // Precomputamos el hash para mejor rendimiento
         size_t hash = std::hash<std::string>{}(functionName);
         hookMap[hash] = { functionName, std::move(callback) };
     }
 
-    // Desregistrar un hook
     void UnregisterHook(const std::string& functionName) {
         size_t hash = std::hash<std::string>{}(functionName);
         hookMap.erase(hash);

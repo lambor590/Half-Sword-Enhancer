@@ -30,11 +30,10 @@ void Gui::Setup() {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;
-    io.IniFilename = "HS-Enhancer-config.ini";
+    io.IniFilename = "HS-Enhancer_config.ini";
 
     ImGui::StyleColorsDark();
 
-    // Inicializar secciones
     MenuManager::Get().AddSection<CombatSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<MovementSection>(MenuTab::Gameplay);
 
