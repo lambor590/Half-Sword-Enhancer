@@ -75,11 +75,8 @@
     <ClCompile Include="gui\Menu\MenuFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gui\Menu\MenuManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameInstances.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="SDK\SDK\Engine_functions.cpp">
+      <Filter>SDK</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

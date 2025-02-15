@@ -8,10 +8,12 @@
 
 class ICollapsibleSection {
 protected:
-    // Accesos directos a las instancias del juego
-    SDK::UWorld* GetWorld() const { return GameInstances::Get().GetWorld(); }
-    SDK::APlayerController* GetPlayerController() const { return GameInstances::Get().GetPlayerController(); }
-    SDK::APawn* GetPlayerPawn() const { return GameInstances::Get().GetPlayerPawn(); }
+    // Referencias directas a GameInstances
+    GameInstances& instances = GameInstances::Get();
+    // Accesos directos para conveniencia
+    SDK::UWorld*& world = instances.GetWorld();
+    SDK::APlayerController*& controller = instances.GetPlayerController();
+    SDK::APawn*& player = instances.GetPlayerPawn();
 
 public:
     virtual ~ICollapsibleSection() = default;

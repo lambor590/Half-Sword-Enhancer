@@ -177,13 +177,12 @@
     <ClCompile Include="include\imgui\imgui_tables.cpp" />
     <ClCompile Include="include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="gui\Menu\MenuFunction.cpp" />
-    <ClCompile Include="gui\Menu\MenuManager.cpp" />
     <ClCompile Include="SDK\SDK\Basic.cpp" />
     <ClCompile Include="SDK\SDK\CoreUObject_functions.cpp" />
+    <ClCompile Include="SDK\SDK\Engine_functions.cpp" />
     <ClCompile Include="src\DirectXHook.cpp" />
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\GameHook.cpp" />
-    <ClCompile Include="src\GameInstances.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>

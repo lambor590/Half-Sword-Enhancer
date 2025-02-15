@@ -4,7 +4,7 @@
 
 class GameInstances {
 protected:
-    static GameInstances* s_instance;
+    inline static GameInstances* s_instance = nullptr;
     SDK::UWorld* m_world = nullptr;
     SDK::APlayerController* m_playerController = nullptr;
     SDK::APawn* m_playerPawn = nullptr;
@@ -19,14 +19,18 @@ public:
         return *s_instance;
     }
 
-    SDK::UWorld* GetWorld() const { return m_world; }
-    SDK::APlayerController* GetPlayerController() const { return m_playerController; }
-    SDK::APawn* GetPlayerPawn() const { return m_playerPawn; }
+    SDK::UWorld*& GetWorld() { return m_world; }
+    SDK::APlayerController*& GetPlayerController() { return m_playerController; }
+    SDK::APawn*& GetPlayerPawn() { return m_playerPawn; }
 
-    virtual bool Update() {
+    virtual void Update() {
         m_world = SDK::UWorld::GetWorld();
-        m_playerController = m_world->OwningGameInstance->LocalPlayers[0]->PlayerController;
-        m_playerPawn = m_playerController->K2_GetPawn();
+        if (m_world) {
+            m_playerController = m_world->OwningGameInstance->LocalPlayers[0]->PlayerController;
+            if (m_playerController) {
+                m_playerPawn = m_playerController->K2_GetPawn();
+            }
+        }
     }
 
     GameInstances(const GameInstances&) = delete;

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ICollapsibleSection.h"
 #include <vector>
 #include <memory>
@@ -13,7 +14,7 @@ enum class MenuTab {
 
 class MenuManager {
 private:
-    static MenuManager* instance;
+    inline static MenuManager* instance = nullptr;
     std::unordered_map<MenuTab, std::vector<std::unique_ptr<ICollapsibleSection>>> sections;
 
     MenuManager() = default;
