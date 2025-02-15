@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <memory>
-#include "../../ICollapsibleSection.h"
+#include "Menu/ICollapsibleSection.h"
 
 class CombatSection : public CollapsibleSection {
 private:
@@ -13,13 +13,21 @@ public:
         AddFunction(std::make_unique<HookedFunction>(
             "Auto Parry",
             "GameLogic::HandleParry",
-            std::function<void()>([]() { /* código del hook */ })
+            std::function<void()>([this]() { 
+                auto world = GetWorld();
+                auto player = GetPlayerPawn();
+                /* código del hook */ 
+            })
         ));
 
         AddFunction(std::make_unique<KeybindFunction>(
             "Quick Parry",
             &parryKey,
-            std::function<void()>([]() { /* código de la función */ })
+            std::function<void()>([this]() { 
+                auto world = GetWorld();
+                auto player = GetPlayerPawn();
+                /* código de la función */ 
+            })
         ));
     }
 };

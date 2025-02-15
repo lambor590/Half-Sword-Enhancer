@@ -183,12 +183,15 @@
     <ClCompile Include="src\DirectXHook.cpp" />
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\GameHook.cpp" />
+    <ClCompile Include="src\GameInstances.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameInstances.h" />
     <ClInclude Include="gui\Gui.h" />
     <ClInclude Include="include\DirectXHook.h" />
     <ClInclude Include="include\GameHook.h" />
+    <ClInclude Include="include\GameInstances.h" />
     <ClInclude Include="include\ID3DRenderer.h" />
     <ClInclude Include="include\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="include\imgui\backends\imgui_impl_dx12.h" />

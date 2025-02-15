@@ -4,8 +4,15 @@
 #include <memory>
 #include "imgui.h"
 #include "IMenuFunction.h"
+#include "GameInstances.h"
 
 class ICollapsibleSection {
+protected:
+    // Accesos directos a las instancias del juego
+    SDK::UWorld* GetWorld() const { return GameInstances::Get().GetWorld(); }
+    SDK::APlayerController* GetPlayerController() const { return GameInstances::Get().GetPlayerController(); }
+    SDK::APawn* GetPlayerPawn() const { return GameInstances::Get().GetPlayerPawn(); }
+
 public:
     virtual ~ICollapsibleSection() = default;
     virtual void Render() = 0;
