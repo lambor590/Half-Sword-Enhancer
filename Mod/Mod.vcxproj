@@ -71,18 +71,18 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)gui;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)gui;$(ProjectDir)include;$(ProjectDir)SDK;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)gui;$(ProjectDir)src</SourcePath>
-    <ExcludePath>$(ProjectDir)include\SDK;$(ExcludePath)</ExcludePath>
+    <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>HS Enhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)Half Sword Enhancer\resource\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)gui;$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)gui;$(ProjectDir)include;$(ProjectDir)SDK;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)gui;$(ProjectDir)src</SourcePath>
-    <ExcludePath>$(ProjectDir)include\SDK;$(ExcludePath)</ExcludePath>
+    <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>HS Enhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
@@ -178,8 +178,8 @@
     <ClCompile Include="include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="gui\Menu\MenuFunction.cpp" />
     <ClCompile Include="gui\Menu\MenuManager.cpp" />
-    <ClCompile Include="include\SDK\Basic.cpp" />
-    <ClCompile Include="include\SDK\CoreUObject_functions.cpp" />
+    <ClCompile Include="SDK\SDK\Basic.cpp" />
+    <ClCompile Include="SDK\SDK\CoreUObject_functions.cpp" />
     <ClCompile Include="src\DirectXHook.cpp" />
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\GameHook.cpp" />

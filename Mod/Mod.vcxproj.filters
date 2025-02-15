@@ -39,10 +39,10 @@
     <ClCompile Include="src\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="include\SDK\Basic.cpp">
+    <ClCompile Include="SDK\SDK\Basic.cpp">
       <Filter>SDK</Filter>
     </ClCompile>
-    <ClCompile Include="include\SDK\CoreUObject_functions.cpp">
+    <ClCompile Include="SDK\SDK\CoreUObject_functions.cpp">
       <Filter>SDK</Filter>
     </ClCompile>
     <ClCompile Include="include\imgui\backends\imgui_impl_dx11.cpp">
