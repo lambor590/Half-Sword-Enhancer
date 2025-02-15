@@ -167,6 +167,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\MenuSection.cpp" />
     <ClCompile Include="gui\Gui.cpp" />
     <ClCompile Include="include\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="include\imgui\backends\imgui_impl_dx12.cpp" />
@@ -188,6 +189,12 @@
   <ItemGroup>
     <ClInclude Include="GameInstances.h" />
     <ClInclude Include="gui\Gui.h" />
+    <ClInclude Include="gui\sections\DebugSection.h" />
+    <ClInclude Include="gui\sections\GameplaySection.h" />
+    <ClInclude Include="gui\sections\ISection.h" />
+    <ClInclude Include="gui\sections\SettingsSection.h" />
+    <ClInclude Include="gui\sections\VisualSection.h" />
+    <ClInclude Include="include\Action.h" />
     <ClInclude Include="include\DirectXHook.h" />
     <ClInclude Include="include\GameHook.h" />
     <ClInclude Include="include\GameInstances.h" />
