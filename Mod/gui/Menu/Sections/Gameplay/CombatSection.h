@@ -1,6 +1,8 @@
 #pragma once
+
 #include <Windows.h>
 #include <memory>
+
 #include "Menu/ICollapsibleSection.h"
 
 class CombatSection : public CollapsibleSection {

@@ -1,7 +1,4 @@
 #include "Gui.h"
-#include "Menu/MenuManager.h"
-#include "Menu/Sections/Gameplay/CombatSection.h"
-#include "Menu/Sections/Gameplay/MovementSection.h"
 
 Gui* Gui::s_instance = nullptr;
 WNDPROC Gui::originalWndProc = nullptr;
@@ -10,8 +7,6 @@ bool Gui::isVisible = true;
 Logger logger("Gui");
 
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    auto& instance = *s_instance;
-
     if (GetAsyncKeyState(VK_INSERT) & 1)
         isVisible = !isVisible;
 

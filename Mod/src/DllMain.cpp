@@ -4,6 +4,7 @@
 #include "Logger.h"
 #include "MemoryUtils.h"
 #include "GameHook.h"
+#include "GameInstances.h"
 
 static Logger logger{ "DllMain" };
 
@@ -37,12 +38,12 @@ static DWORD WINAPI GameHookThread(LPVOID lpParam)
     {
         Sleep(1000);
     }
+    GameInstances::Get().Update();
     return 0;
 }
 
 BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID)
 {
-
     if (reason == DLL_PROCESS_ATTACH)
     {
         DisableThreadLibraryCalls(module);
@@ -50,6 +51,5 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID)
         CreateThread(0, 0, &DXHookThread, 0, 0, NULL);
         CreateThread(0, 0, &GameHookThread, 0, 0, NULL);
     }
-
     return 1;
 }

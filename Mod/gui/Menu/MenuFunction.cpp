@@ -1,7 +1,8 @@
-#include "IMenuFunction.h"
 #include <Windows.h>
-#include "imgui.h"
 #include <format>
+
+#include "IMenuFunction.h"
+#include "imgui.h"
 
 GameHook* g_GameHook = new GameHook();
 

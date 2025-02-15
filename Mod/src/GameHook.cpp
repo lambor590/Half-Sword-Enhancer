@@ -1,5 +1,4 @@
 #include "GameHook.h"
-#include "MemoryUtils.h"
 
 static GameHook* hookInstance = new GameHook();
 

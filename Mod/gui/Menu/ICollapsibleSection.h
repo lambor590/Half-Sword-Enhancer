@@ -1,7 +1,9 @@
 #pragma once
+
 #include <string>
 #include <vector>
 #include <memory>
+
 #include "imgui.h"
 #include "IMenuFunction.h"
 #include "GameInstances.h"
@@ -13,7 +15,7 @@ protected:
     // Accesos directos para conveniencia
     SDK::UWorld*& world = instances.GetWorld();
     SDK::APlayerController*& controller = instances.GetPlayerController();
-    SDK::APawn*& player = instances.GetPlayerPawn();
+    SDK::AWillie_BP_C*& player = instances.GetPlayerPawn();
 
 public:
     virtual ~ICollapsibleSection() = default;

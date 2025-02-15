@@ -4,8 +4,9 @@
 #include <string>
 #include <functional>
 #include <memory>
+
 #include "imgui.h"
-#include "../GameHook.h"
+#include "GameHook.h"
 
 extern GameHook* g_GameHook;
 

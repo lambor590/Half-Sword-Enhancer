@@ -1,10 +1,11 @@
 #pragma once
 
-#include "ICollapsibleSection.h"
 #include <vector>
 #include <memory>
 #include <unordered_map>
 #include <string>
+
+#include "ICollapsibleSection.h"
 
 enum class MenuTab {
     Gameplay,

@@ -1,7 +1,9 @@
 #pragma once
+
 #include <Windows.h>
 #include <memory>
-#include "../../ICollapsibleSection.h"
+
+#include "Menu/ICollapsibleSection.h"
 
 class MovementSection : public CollapsibleSection {
 private:
