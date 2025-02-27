@@ -6,7 +6,12 @@
 #include "Gui.h"
 
 static std::string GetKeyName(int vKey) {
-    static const std::unordered_map<int, std::string> keyNames = {
+    struct KeyNamePair {
+        int key;
+        const char* name;
+    };
+    
+    static const KeyNamePair keyNames[] = {
         {VK_LSHIFT, "Left Shift"},
         {VK_RSHIFT, "Right Shift"},
         {VK_SHIFT, "Shift"},
@@ -29,8 +34,8 @@ static std::string GetKeyName(int vKey) {
         {VK_DELETE, "Delete"}
     };
 
-    if (auto it = keyNames.find(vKey); it != keyNames.end()) {
-        return it->second;
+    for (const auto& pair : keyNames) {
+        if (pair.key == vKey) return pair.name;
     }
     
     if ((vKey >= '0' && vKey <= '9') || (vKey >= 'A' && vKey <= 'Z')) return std::string(1, (char)vKey);
@@ -84,6 +89,14 @@ static bool HandleKeyPress(bool& waitingForKey, int& key) {
     return false;
 }
 
+static void HandleHookToggle(bool& isEnabled, std::string& hookedFunction, std::function<void()>& callback) {
+    if (isEnabled) {
+        g_GameHook->RegisterHook(hookedFunction, callback);
+    } else {
+        g_GameHook->UnregisterHook(hookedFunction);
+    }
+}
+
 void HookedFunction::Render() {
     const std::string id = std::format("##Hook_{}", name);
     
@@ -91,15 +104,8 @@ void HookedFunction::Render() {
     ImGui::SameLine();
     
     const bool prevEnabled = isEnabled;
-    const std::string checkId = "##check" + id;
-    if (ImGui::Checkbox(checkId.c_str(), &isEnabled)) {
-        if (isEnabled != prevEnabled) {
-            if (isEnabled) {
-                g_GameHook->RegisterHook(hookedFunction, callback);
-            } else {
-                g_GameHook->UnregisterHook(hookedFunction);
-            }
-        }
+    if (ImGui::Checkbox(("##check" + id).c_str(), &isEnabled) && isEnabled != prevEnabled) {
+        HandleHookToggle(isEnabled, hookedFunction, callback);
     }
     
     ImGui::SameLine();
@@ -107,11 +113,7 @@ void HookedFunction::Render() {
     
     if (HandleKeyPress(waitingForKey, key)) {
         isEnabled = !isEnabled;
-        if (isEnabled) {
-            g_GameHook->RegisterHook(hookedFunction, callback);
-        } else {
-            g_GameHook->UnregisterHook(hookedFunction);
-        }
+        HandleHookToggle(isEnabled, hookedFunction, callback);
     }
 }
 
@@ -123,13 +125,8 @@ void KeybindFunction::Render() {
     RenderName(name, *key == VK_ESCAPE, GetKeyName(*key));
     
     if (HandleKeyPress(waitingForKey, *key)) {
-        if (isEnabled) {
-            Gui::UnregisterKeybind(key);
-        }
-        
+        if (isEnabled) Gui::UnregisterKeybind(key);
         isEnabled = (*key != VK_ESCAPE);
-        if (isEnabled) {
-            Gui::RegisterKeybind(key, callback);
-        }
+        if (isEnabled) Gui::RegisterKeybind(key, callback);
     }
 }
