@@ -68,7 +68,7 @@ static void RenderKeyButton(const std::string& id, bool& waitingForKey, const in
     }
 }
 
-static void RenderName(const std::string& name, bool isDisabled, const std::string& keyName) {
+static void RenderName(const std::string& name, bool isDisabled) {
     if (isDisabled) {
         ImGui::TextColored(ImVec4(0.50f, 0.50f, 0.50f, 1.00f), "%s", name.c_str());
     } else {
@@ -109,9 +109,9 @@ void HookedFunction::Render() {
     }
     
     ImGui::SameLine();
-    RenderName(name, !isEnabled && key == VK_ESCAPE, GetKeyName(key));
+    RenderName(name, !isEnabled && key == VK_ESCAPE);
     
-    if (HandleKeyPress(waitingForKey, key)) {
+    if (HandleKeyPress(waitingForKey, key) || (!waitingForKey && key != VK_ESCAPE && GetAsyncKeyState(key) & 1)) {
         isEnabled = !isEnabled;
         HandleHookToggle(isEnabled, hookedFunction, callback);
     }
@@ -122,7 +122,7 @@ void KeybindFunction::Render() {
     
     RenderKeyButton(id, waitingForKey, *key);
     ImGui::SameLine();
-    RenderName(name, *key == VK_ESCAPE, GetKeyName(*key));
+    RenderName(name, *key == VK_ESCAPE);
     
     if (HandleKeyPress(waitingForKey, *key)) {
         if (isEnabled) Gui::UnregisterKeybind(key);
