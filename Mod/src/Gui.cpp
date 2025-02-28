@@ -118,7 +118,7 @@ void Gui::Setup() {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;
-    io.IniFilename = "HS-Enhancer_config.ini";
+    io.IniFilename = NULL;
 
     SetupStyle();
 
