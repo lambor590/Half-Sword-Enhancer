@@ -194,6 +194,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ext\SimpleIni.h" />
     <ClInclude Include="include\ComponentValidator.h" />
     <ClInclude Include="include\GameInstances.h" />
     <ClInclude Include="include\Gui.h" />
