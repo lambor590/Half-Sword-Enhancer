@@ -5,20 +5,20 @@
 #include <functional>
 
 #include "Menu/ICollapsibleSection.h"
-#include "Menu/IMenuFunction.h"
 
 class GeneralSection : public CollapsibleSection {
 private:
     static inline int sloMoKey = 0x5A; // Z
     static inline int saveLoadoutKey = 0x54; // T
+    static inline int infiniteStaminaKey = 0x49; // I
 
 public:
     GeneralSection() : CollapsibleSection("General") {
         Bind("Toggle Slow Motion", &sloMoKey, [this]() {
-            worldSettings->TimeDilation == 1.0f ? worldSettings->TimeDilation = 0.3f : worldSettings->TimeDilation = 1.0f;
+            worldSettings->TimeDilation = (worldSettings->TimeDilation == 1.0f) ? 0.3f : 1.0f;
         }, worldSettings);
 
-        Hook("Infinite Stamina", "OnWalkingOffLedge", [this]() {
+        Hook("Infinite Stamina", "OnWalkingOffLedge", &infiniteStaminaKey, [this]() {
             player->Stamina = 100.0f;
         }, player);
         
