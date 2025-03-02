@@ -2,16 +2,13 @@
 #include <format>
 
 #include "Menu/IMenuFunction.h"
+#include "Menu/ICollapsibleSection.h"
 #include "imgui/imgui.h"
 #include "Gui.h"
+#include "GlobalDefinitions.h"
 
 static std::string GetKeyName(int vKey) {
-    struct KeyNamePair {
-        int key;
-        const char* name;
-    };
-    
-    static const KeyNamePair keyNames[] = {
+    static const std::unordered_map<int, const char*> keyNameMap = {
         {VK_LSHIFT, "Left Shift"},
         {VK_RSHIFT, "Right Shift"},
         {VK_SHIFT, "Shift"},
@@ -34,20 +31,19 @@ static std::string GetKeyName(int vKey) {
         {VK_DELETE, "Delete"}
     };
 
-    for (const auto& pair : keyNames) {
-        if (pair.key == vKey) return pair.name;
-    }
+    auto it = keyNameMap.find(vKey);
+    if (it != keyNameMap.end()) return it->second;
     
-    if ((vKey >= '0' && vKey <= '9') || (vKey >= 'A' && vKey <= 'Z')) return std::string(1, (char)vKey);
+    if ((vKey >= '0' && vKey <= '9') || (vKey >= 'A' && vKey <= 'Z')) return std::string(1, static_cast<char>(vKey));
     if (vKey >= VK_F1 && vKey <= VK_F12) return "F" + std::to_string(vKey - VK_F1 + 1);
     
-    char keyName[32];
+    static char keyName[32];
     UINT scanCode = MapVirtualKey(vKey, MAPVK_VK_TO_VSC);
     return GetKeyNameTextA(scanCode << 16, keyName, sizeof(keyName)) > 0 ? keyName : "Unknown";
 }
 
 static void RenderKeyButton(const std::string& id, bool& waitingForKey, const int& key) {
-    const std::string keyText = waitingForKey ? "Press any key..." : GetKeyName(key);
+    const std::string& keyText = waitingForKey ? "Press any key..." : GetKeyName(key);
     const bool isDisabled = key == VK_ESCAPE;
     
     if (isDisabled) {
@@ -68,7 +64,7 @@ static void RenderKeyButton(const std::string& id, bool& waitingForKey, const in
     }
 }
 
-static void RenderName(const std::string& name, bool isDisabled) {
+static inline void RenderName(const std::string& name, bool isDisabled) {
     if (isDisabled) {
         ImGui::TextColored(ImVec4(0.50f, 0.50f, 0.50f, 1.00f), "%s", name.c_str());
     } else {
@@ -89,31 +85,31 @@ static bool HandleKeyPress(bool& waitingForKey, int& key) {
     return false;
 }
 
-static void HandleHookToggle(bool& isEnabled, std::string& hookedFunction, std::function<void()>& callback) {
-    if (isEnabled) {
-        g_GameHook->RegisterHook(hookedFunction, callback);
-    } else {
-        g_GameHook->UnregisterHook(hookedFunction);
-    }
-}
-
 void HookedFunction::Render() {
     const std::string id = std::format("##Hook_{}", name);
     
-    RenderKeyButton(id + "_key", waitingForKey, key);
+    int currentKey = *key;
+    
+    RenderKeyButton(id + "_key", waitingForKey, currentKey);
     ImGui::SameLine();
     
     const bool prevEnabled = isEnabled;
-    if (ImGui::Checkbox(("##check" + id).c_str(), &isEnabled) && isEnabled != prevEnabled) {
-        HandleHookToggle(isEnabled, hookedFunction, callback);
+    bool currentEnabled = isEnabled;
+    
+    if (ImGui::Checkbox(("##check" + id).c_str(), &currentEnabled)) {
+        if (currentEnabled != prevEnabled) {
+            SetEnabled(currentEnabled);
+        }
     }
     
     ImGui::SameLine();
-    RenderName(name, !isEnabled && key == VK_ESCAPE);
+    RenderName(name, !isEnabled && currentKey == VK_ESCAPE);
     
-    if (HandleKeyPress(waitingForKey, key) || (!waitingForKey && key != VK_ESCAPE && GetAsyncKeyState(key) & 1)) {
-        isEnabled = !isEnabled;
-        HandleHookToggle(isEnabled, hookedFunction, callback);
+    int tempKey = currentKey;
+    if (HandleKeyPress(waitingForKey, tempKey)) {
+        SetKey(tempKey);
+    } else if (!waitingForKey && currentKey != VK_ESCAPE && (GetAsyncKeyState(currentKey) & 1)) {
+        SetEnabled(!isEnabled);
     }
 }
 
@@ -124,9 +120,11 @@ void KeybindFunction::Render() {
     ImGui::SameLine();
     RenderName(name, *key == VK_ESCAPE);
     
-    if (HandleKeyPress(waitingForKey, *key)) {
-        if (isEnabled) Gui::UnregisterKeybind(key);
-        isEnabled = (*key != VK_ESCAPE);
+    int tempKey = *key;
+    if (HandleKeyPress(waitingForKey, tempKey)) {
+        UpdateKey(tempKey);
+        
         if (isEnabled) Gui::RegisterKeybind(key, callback);
+        else Gui::UnregisterKeybind(key);
     }
 }
