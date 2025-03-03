@@ -7,6 +7,7 @@
 #include <dxgi1_4.h>
 #include <wrl/client.h>
 #include <vector>
+#include <functional>
 
 #include "ID3DRenderer.h"
 #include "IRenderCallback.h"
@@ -33,57 +34,74 @@ public:
 private:
     Logger logger{ "Renderer" };
 
-    HWND window = 0;
-    int windowWidth = 0;
-    int windowHeight = 0;
+    struct {
+        HWND handle = 0;
+        int width = 0;
+        int height = 0;
+        D3D11_VIEWPORT viewport;
+        D3D11_VIEWPORT cachedViewport;
+    } window;
 
     Gui Gui;
     IRenderCallback* GUI = &Gui;
     bool GUIInitialized = false;
 
-    bool mustInitializeD3DResources = true;
-    bool firstTimeInitPerformed = false;
-    bool isDeviceRetrieved = false;
-    bool isRunningD3D12 = false;
-    bool getCommandQueueCalled = false;
-    UINT bufferIndex = 0;
-    UINT bufferCount = 0;
+    struct {
+        bool mustInitResources = true;
+        bool firstTimeInitialized = false;
+        bool deviceRetrieved = false;
+        bool isD3D12 = false;
+        bool commandQueueCallbackCalled = false;
+        UINT bufferIndex = 0;
+        UINT bufferCount = 0;
+        DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
+    } state;
 
-    Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device = nullptr;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context = nullptr;
-    Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device = nullptr;
-    Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue = nullptr;
-    Microsoft::WRL::ComPtr<ID3D11On12Device> d3d11On12Device = nullptr;
-    Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain = nullptr;
-    Microsoft::WRL::ComPtr<IDXGISwapChain3> swapChain3 = nullptr;
+    struct {
+        Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device;
+        Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context;
+        Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
+        Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
+        Microsoft::WRL::ComPtr<ID3D11On12Device> d3d11On12Device;
+        Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
+        Microsoft::WRL::ComPtr<IDXGISwapChain3> swapChain3;
+    } devices;
 
-    std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> d3d12RenderTargets;
-    std::vector<Microsoft::WRL::ComPtr<ID3D11Resource>> d3d11WrappedBackBuffers;
-    std::vector<Microsoft::WRL::ComPtr<ID3D11RenderTargetView>> d3d11RenderTargetViews;
+    struct {
+        std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> d3d12RenderTargets;
+        std::vector<Microsoft::WRL::ComPtr<ID3D11Resource>> d3d11WrappedBackBuffers;
+        std::vector<Microsoft::WRL::ComPtr<ID3D11RenderTargetView>> d3d11RenderTargetViews;
+        Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
+        UINT rtvDescriptorSize = 0;
+    } resources;
 
-    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
-    UINT rtvDescriptorSize = 0;
-    DXGI_SWAP_CHAIN_DESC swapChainDesc;
-    D3D11_VIEWPORT viewport;
-    D3D11_VIEWPORT cachedViewport;
-    void (*callbackGetCommandQueue)() = nullptr;
-
-    Microsoft::WRL::ComPtr<ID3D12Fence> fence;
-    UINT64 currentFenceValue = 0;
-    HANDLE fenceEvent = nullptr;
+    struct {
+        Microsoft::WRL::ComPtr<ID3D12Fence> fence;
+        UINT64 currentValue = 0;
+        HANDLE event = nullptr;
+    } fenceSync;
+    
+    std::function<void()> commandQueueCallback = nullptr;
 
     bool InitD3DResources(IDXGISwapChain* swapChain);
     bool RetrieveD3DDeviceFromSwapChain();
-    bool InitializeGUI();
     bool InitD3D();
     bool InitD3D11();
     bool InitD3D11Device();
     bool InitD3D12();
     bool InitD3D12Device();
+    bool CreateRtvDescriptorHeap();
+    bool CreateD3D11On12Device();
     bool CreateD3D12Resources();
     bool CreateD3D12BufferResources(UINT index, D3D12_CPU_DESCRIPTOR_HANDLE& rtvHandle);
+    bool InitializeGUI();
+    void ConfigureSwapChainAndWindow(IDXGISwapChain* swapChain);
 
     void RenderFrame();
+    bool PrepareD3D12Resources();
+    void FinalizeD3D12Rendering();
+    void UpdateViewportIfNeeded();
+    
     bool WaitForD3D12CommandQueue();
     bool SignalFenceAndWait(UINT64 fenceValueToSignal = 0);
     void ReleaseViewsBuffersAndContext();
