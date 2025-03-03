@@ -76,11 +76,6 @@ bool Renderer::InitializeGUI()
     if (!d3d11Device || !d3d11Context || !window)
         return false;
 
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableSetMousePos;
-    io.ConfigWindowsResizeFromEdges = true;
-    io.MouseDrawCursor = false;
-
     GUI->Init(d3d11Device, d3d11Context, window);
     GUI->Setup();
 
