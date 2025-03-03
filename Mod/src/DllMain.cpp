@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <fstream>
 
 #include "Hooks/DirectXHook.h"
 #include "Logger.h"
