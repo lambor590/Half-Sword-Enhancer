@@ -295,31 +295,24 @@ bool Renderer::CreateD3D12BufferResources(UINT index, D3D12_CPU_DESCRIPTOR_HANDL
         return false;
     }
 
-    D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
-    rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-    d3d12Device->CreateRenderTargetView(d3d12RenderTargets[index].Get(), &rtvDesc, rtvHandle);
+    d3d12Device->CreateRenderTargetView(d3d12RenderTargets[index].Get(), nullptr, rtvHandle);
 
     D3D11_RESOURCE_FLAGS d3d11Flags = { D3D11_BIND_RENDER_TARGET };
 
     if (!CheckSuccess(d3d11On12Device->CreateWrappedResource(
         d3d12RenderTargets[index].Get(),
         &d3d11Flags,
-        D3D12_RESOURCE_STATE_COMMON,
-        D3D12_RESOURCE_STATE_COMMON,
+        D3D12_RESOURCE_STATE_RENDER_TARGET,
+        D3D12_RESOURCE_STATE_PRESENT,
         IID_PPV_ARGS(&d3d11WrappedBackBuffers[index]))))
     {
         logger.Log("Failed to create wrapped resource");
         return false;
     }
 
-    D3D11_RENDER_TARGET_VIEW_DESC d3d11RtvDesc = {};
-    d3d11RtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    d3d11RtvDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-
     if (!CheckSuccess(d3d11Device->CreateRenderTargetView(
         d3d11WrappedBackBuffers[index].Get(),
-        &d3d11RtvDesc,
+        nullptr,
         d3d11RenderTargetViews[index].GetAddressOf())))
     {
         logger.Log("Failed to create render target view");
