@@ -5,16 +5,7 @@ using namespace Microsoft::WRL;
 void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
 {
     if (!mustInitializeD3DResources) {
-        if (isRunningD3D12 && fence && commandQueue) {
-            const UINT64 fenceValue = currentFenceValue;
-            if (SUCCEEDED(commandQueue->Signal(fence.Get(), fenceValue)) && 
-                fence->GetCompletedValue() < fenceValue &&
-                SUCCEEDED(fence->SetEventOnCompletion(fenceValue, fenceEvent))) {
-                WaitForSingleObject(fenceEvent, INFINITE);
-            }
-            currentFenceValue++;
-        }
-
+        SignalFenceAndWait();
         RenderFrame();
         return;
     }
@@ -65,9 +56,7 @@ void Renderer::RenderFrame()
     if (isRunningD3D12 && d3d11WrappedBackBuffers[bufferIndex]) {
         d3d11On12Device->ReleaseWrappedResources(d3d11WrappedBackBuffers[bufferIndex].GetAddressOf(), 1);
         d3d11Context->Flush();
-
-        if (fence && commandQueue && SUCCEEDED(commandQueue->Signal(fence.Get(), currentFenceValue))) 
-            currentFenceValue++;
+        SignalFenceAndWait();
     }
 }
 
@@ -85,15 +74,7 @@ bool Renderer::InitializeGUI()
 
 void Renderer::OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags)
 {
-    if (isRunningD3D12 && fence && commandQueue) {
-        const UINT64 fenceValue = currentFenceValue;
-        if (SUCCEEDED(commandQueue->Signal(fence.Get(), fenceValue)) && 
-            fence->GetCompletedValue() < fenceValue &&
-            SUCCEEDED(fence->SetEventOnCompletion(fenceValue, fenceEvent))) {
-                WaitForSingleObject(fenceEvent, INFINITE);
-        }
-        currentFenceValue++;
-    }
+    SignalFenceAndWait();
 
     if (GUIInitialized) ImGui_ImplDX11_InvalidateDeviceObjects();
     
@@ -124,7 +105,7 @@ bool Renderer::InitD3DResources(IDXGISwapChain* swapChain)
         isDeviceRetrieved = true;
     }
 
-    if (WaitForCommandQueueIfRunningD3D12()) return false;
+    if (isRunningD3D12 && WaitForD3D12CommandQueue()) return false;
 
     swapChain->GetDesc(&swapChainDesc);
     bufferCount = isRunningD3D12 ? swapChainDesc.BufferCount : 1;
@@ -333,11 +314,8 @@ bool Renderer::CreateD3D12BufferResources(UINT index, D3D12_CPU_DESCRIPTOR_HANDL
     return true;
 }
 
-bool Renderer::WaitForCommandQueueIfRunningD3D12()
+bool Renderer::WaitForD3D12CommandQueue()
 {
-    if (!isRunningD3D12)
-        return false;
-        
     if (!commandQueue) {
         if (!getCommandQueueCalled && callbackGetCommandQueue) {
             callbackGetCommandQueue();
@@ -346,14 +324,23 @@ bool Renderer::WaitForCommandQueueIfRunningD3D12()
         return true;
     }
 
-    if (fence && commandQueue) {
-        const UINT64 fenceValue = currentFenceValue;
-        if (SUCCEEDED(commandQueue->Signal(fence.Get(), fenceValue)) && 
-            fence->GetCompletedValue() < fenceValue &&
-            SUCCEEDED(fence->SetEventOnCompletion(fenceValue, fenceEvent))) {
-            WaitForSingleObject(fenceEvent, INFINITE);
-            currentFenceValue++;
-        }
+    SignalFenceAndWait();
+    return false;
+}
+
+bool Renderer::SignalFenceAndWait(UINT64 fenceValueToSignal)
+{
+    if (!isRunningD3D12 || !fence || !commandQueue) 
+        return false;
+
+    UINT64 valueToSignal = fenceValueToSignal > 0 ? fenceValueToSignal : currentFenceValue;
+    
+    if (SUCCEEDED(commandQueue->Signal(fence.Get(), valueToSignal)) && 
+        fence->GetCompletedValue() < valueToSignal &&
+        SUCCEEDED(fence->SetEventOnCompletion(valueToSignal, fenceEvent))) {
+        WaitForSingleObject(fenceEvent, INFINITE);
+        currentFenceValue++;
+        return true;
     }
     
     return false;
@@ -366,15 +353,7 @@ void Renderer::ReleaseViewsBuffersAndContext()
         d3d11Context->Flush();
     }
 
-    if (isRunningD3D12 && fence && commandQueue) {
-        const UINT64 fenceValue = currentFenceValue;
-        if (SUCCEEDED(commandQueue->Signal(fence.Get(), fenceValue)) && 
-            fence->GetCompletedValue() < fenceValue &&
-            SUCCEEDED(fence->SetEventOnCompletion(fenceValue, fenceEvent))) {
-            WaitForSingleObject(fenceEvent, INFINITE);
-            currentFenceValue++;
-        }
-    }
+    SignalFenceAndWait();
     
     d3d11RenderTargetViews.clear();
     
@@ -391,4 +370,20 @@ void Renderer::ReleaseViewsBuffersAndContext()
     mustInitializeD3DResources = true;
 
     logger.Log("All D3D resources have been successfully released");
+}
+
+void Renderer::Cleanup()
+{
+    ReleaseViewsBuffersAndContext();
+
+    if (fenceEvent) {
+        CloseHandle(fenceEvent);
+        fenceEvent = nullptr;
+    }
+
+    if (window) {
+        ImGui_ImplWin32_Shutdown();
+        ImGui_ImplDX11_Shutdown();
+        ImGui::DestroyContext();
+    }
 }

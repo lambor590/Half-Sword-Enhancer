@@ -22,18 +22,7 @@ class Renderer : public ID3DRenderer
 public:
     Renderer() = default;
     ~Renderer() {
-        ReleaseViewsBuffersAndContext();
-
-        if (fenceEvent) {
-            CloseHandle(fenceEvent);
-            fenceEvent = nullptr;
-        }
-
-        if (window) {
-            ImGui_ImplWin32_Shutdown();
-            ImGui_ImplDX11_Shutdown();
-            ImGui::DestroyContext();
-        }
+        Cleanup();
     }
 
     void OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) override;
@@ -95,8 +84,10 @@ private:
     bool CreateD3D12BufferResources(UINT index, D3D12_CPU_DESCRIPTOR_HANDLE& rtvHandle);
 
     void RenderFrame();
-    bool WaitForCommandQueueIfRunningD3D12();
+    bool WaitForD3D12CommandQueue();
+    bool SignalFenceAndWait(UINT64 fenceValueToSignal = 0);
     void ReleaseViewsBuffersAndContext();
+    void Cleanup();
 
     inline bool CheckSuccess(HRESULT hr) {
         if (FAILED(hr)) {
