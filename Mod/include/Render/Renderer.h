@@ -5,9 +5,6 @@
 #include <d3d11.h>
 #include <d3d11on12.h>
 #include <dxgi1_4.h>
-#include <fstream>
-#include <d3dcompiler.h>
-#include <DirectXMath.h>
 #include <wrl/client.h>
 #include <vector>
 
