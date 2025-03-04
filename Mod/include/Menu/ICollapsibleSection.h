@@ -32,15 +32,14 @@ protected:
     
     template<typename... Components>
     std::function<void()> ValidateAndRun(const std::function<void()>& callback, Components*&... components) {
-        return [this, callback, &components...]() {
-            if ((instances.ValidateComponent(components) && ...)) {
-                callback();
-            }
+        return [this, callback = std::move(callback), &components...]() {
+            bool valid = (... && instances.ValidateComponent(components));
+            if (valid) callback();
         };
     }
 
 public:
-    CollapsibleSection(const std::string& name) : name(name) {}
+    explicit CollapsibleSection(const std::string& name) : name(name) {}
     
     void Render() override;
     const std::string& GetName() const override { return name; }
@@ -48,14 +47,43 @@ public:
     void AddFunction(std::unique_ptr<IMenuFunction> function);
     
     template<typename... Components>
-    inline void Hook(const std::string& name, const std::string& hookedFunction, 
-                    int* key, std::function<void()> callback, Components*&... components) {
-        AddFunction(std::make_unique<HookedFunction>(name, hookedFunction, ValidateAndRun(callback, components...), key));
+    void Hook(const std::string& name, const std::string& hookedFunction, 
+              int* key, std::function<void()> callback, Components*&... components) {
+        AddFunction(std::make_unique<HookedFunction>(name, hookedFunction, 
+                    ValidateAndRun(std::move(callback), components...), key));
+    }
+    
+    template<typename T, typename... Components>
+    void AddFunctionWithParams(std::unique_ptr<T> function, 
+                             const std::initializer_list<Parameter>& params) {
+        for (const auto& param : params) {
+            function->AddParameter(param);
+        }
+        AddFunction(std::move(function));
     }
     
     template<typename... Components>
-    inline void Bind(const std::string& name, int* key, 
-                   std::function<void()> callback, Components*&... components) {
-        AddFunction(std::make_unique<KeybindFunction>(name, key, ValidateAndRun(callback, components...)));
+    void HookWithParams(const std::string& name, const std::string& hookedFunction, 
+                        int* key, const std::initializer_list<Parameter>& params,
+                        std::function<void()> callback, Components*&... components) {
+        auto function = std::make_unique<HookedFunction>(name, hookedFunction, 
+                        ValidateAndRun(std::move(callback), components...), key);
+        AddFunctionWithParams(std::move(function), params);
     }
-}; 
+    
+    template<typename... Components>
+    void Bind(const std::string& name, int* key, 
+              std::function<void()> callback, Components*&... components) {
+        AddFunction(std::make_unique<KeybindFunction>(name, key, 
+                    ValidateAndRun(std::move(callback), components...)));
+    }
+    
+    template<typename... Components>
+    void BindWithParams(const std::string& name, int* key,
+                        const std::initializer_list<Parameter>& params,
+                        std::function<void()> callback, Components*&... components) {
+        auto function = std::make_unique<KeybindFunction>(name, key, 
+                        ValidateAndRun(std::move(callback), components...));
+        AddFunctionWithParams(std::move(function), params);
+    }
+};
