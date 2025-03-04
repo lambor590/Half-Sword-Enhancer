@@ -107,6 +107,8 @@ void Gui::SetupStyle() {
     colors[ImGuiCol_Text] = cream;
     colors[ImGuiCol_TextDisabled] = ImVec4(0.70f, 0.70f, 0.70f, 1.00f);
     colors[ImGuiCol_TextSelectedBg] = ImVec4(0.75f, 0.55f, 0.12f, 0.35f);
+
+    colors[ImGuiCol_PopupBg] = ImVec4(0.10f, 0.08f, 0.06f, 0.98f);
 }
 
 void Gui::Setup() {
