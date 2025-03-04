@@ -4,9 +4,7 @@ using namespace Microsoft::WRL;
 
 void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
 {
-    if (state.mustInitResources && !InitD3DResources(pThis)) {
-        return;
-    }
+    if (state.mustInitResources && !InitD3DResources(pThis)) return;
     
     SignalFenceAndWait();
     RenderFrame();
@@ -18,12 +16,10 @@ void Renderer::RenderFrame()
 {
     if (!devices.d3d11Device || !devices.d3d11Context) return;
     
-    const bool prepSuccess = !state.isD3D12 || PrepareD3D12Resources();
-    if (!prepSuccess) return;
+    if (state.isD3D12 && !PrepareD3D12Resources()) return;
     
-    const bool hasValidTarget = state.bufferIndex < resources.d3d11RenderTargetViews.size() && 
-                              resources.d3d11RenderTargetViews[state.bufferIndex];
-    if (!hasValidTarget) {
+    if (state.bufferIndex >= resources.d3d11RenderTargetViews.size() || 
+        !resources.d3d11RenderTargetViews[state.bufferIndex]) {
         state.mustInitResources = true;
         return;
     }
@@ -71,9 +67,7 @@ void Renderer::FinalizeD3D12Rendering()
 
 void Renderer::UpdateViewportIfNeeded()
 {
-    const bool viewportChanged = memcmp(&window.viewport, &window.cachedViewport, sizeof(D3D11_VIEWPORT)) != 0;
-    
-    if (viewportChanged) {
+    if (memcmp(&window.viewport, &window.cachedViewport, sizeof(D3D11_VIEWPORT)) != 0) {
         devices.d3d11Context->RSSetViewports(1, &window.viewport);
         window.cachedViewport = window.viewport;
     }
@@ -180,19 +174,15 @@ bool Renderer::InitD3D11()
         return false;
 
     ComPtr<ID3D11Texture2D> backbuffer;
-    if (!CheckSuccess(devices.swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backbuffer.GetAddressOf()))) {
+    if (FAILED(devices.swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backbuffer.GetAddressOf()))) {
         logger.Log("Failed to get backbuffer");
         return false;
     }
 
     resources.d3d11RenderTargetViews.resize(1);
     
-    HRESULT hr = devices.d3d11Device->CreateRenderTargetView(
-        backbuffer.Get(), 
-        nullptr, 
-        resources.d3d11RenderTargetViews[0].GetAddressOf());
-        
-    if (!CheckSuccess(hr)) {
+    if (FAILED(devices.d3d11Device->CreateRenderTargetView(
+        backbuffer.Get(), nullptr, resources.d3d11RenderTargetViews[0].GetAddressOf()))) {
         logger.Log("Failed to create render target view");
         return false;
     }
@@ -224,8 +214,7 @@ bool Renderer::InitD3D12Device()
 {
     logger.Log("Initializing D3D12 device...");
     
-    HRESULT hr = devices.d3d12Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fenceSync.fence));
-    if (!CheckSuccess(hr)) {
+    if (FAILED(devices.d3d12Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fenceSync.fence)))) {
         logger.Log("Failed to create fence");
         return false;
     }
@@ -238,11 +227,7 @@ bool Renderer::InitD3D12Device()
     
     fenceSync.currentValue = 1;
 
-    if (!CreateRtvDescriptorHeap()) {
-        return false;
-    }
-
-    if (!CreateD3D11On12Device()) {
+    if (!CreateRtvDescriptorHeap() || !CreateD3D11On12Device()) {
         return false;
     }
 
@@ -266,8 +251,7 @@ bool Renderer::CreateRtvDescriptorHeap()
         0
     };
 
-    HRESULT hr = devices.d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&resources.rtvHeap));
-    if (!CheckSuccess(hr)) {
+    if (FAILED(devices.d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&resources.rtvHeap)))) {
         logger.Log("Failed to create static RTV heap");
         return false;
     }
@@ -278,7 +262,7 @@ bool Renderer::CreateRtvDescriptorHeap()
 
 bool Renderer::CreateD3D11On12Device()
 {
-    HRESULT hr = D3D11On12CreateDevice(
+    if (FAILED(D3D11On12CreateDevice(
         devices.d3d12Device.Get(),
         D3D11_CREATE_DEVICE_BGRA_SUPPORT,
         nullptr,
@@ -288,15 +272,13 @@ bool Renderer::CreateD3D11On12Device()
         0,
         devices.d3d11Device.GetAddressOf(),
         devices.d3d11Context.GetAddressOf(),
-        nullptr);
-    
-    if (!CheckSuccess(hr)) {
+        nullptr))) {
         logger.Log("Failed to create D3D11On12 device");
         return false;
     }
 
-    return CheckSuccess(devices.d3d11Device.As(&devices.d3d11On12Device)) && 
-           CheckSuccess(devices.swapChain->QueryInterface(IID_PPV_ARGS(&devices.swapChain3)));
+    return SUCCEEDED(devices.d3d11Device.As(&devices.d3d11On12Device)) && 
+           SUCCEEDED(devices.swapChain->QueryInterface(IID_PPV_ARGS(&devices.swapChain3)));
 }
 
 bool Renderer::CreateD3D12Resources()
@@ -314,7 +296,7 @@ bool Renderer::CreateD3D12Resources()
     };
 
     ComPtr<ID3D12DescriptorHeap> rtvHeap;
-    if (!CheckSuccess(devices.d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap)))) {
+    if (FAILED(devices.d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap)))) {
         logger.Log("Failed to create descriptor heap");
         return false;
     }
@@ -336,7 +318,7 @@ bool Renderer::CreateD3D12Resources()
 
 bool Renderer::CreateD3D12BufferResources(UINT index, D3D12_CPU_DESCRIPTOR_HANDLE& rtvHandle)
 {
-    if (!CheckSuccess(devices.swapChain->GetBuffer(index, IID_PPV_ARGS(&resources.d3d12RenderTargets[index])))) {
+    if (FAILED(devices.swapChain->GetBuffer(index, IID_PPV_ARGS(&resources.d3d12RenderTargets[index])))) {
         return false;
     }
 
@@ -344,19 +326,23 @@ bool Renderer::CreateD3D12BufferResources(UINT index, D3D12_CPU_DESCRIPTOR_HANDL
 
     D3D11_RESOURCE_FLAGS d3d11Flags = { D3D11_BIND_RENDER_TARGET };
 
-    bool createWrappedSuccess = CheckSuccess(devices.d3d11On12Device->CreateWrappedResource(
+    if (FAILED(devices.d3d11On12Device->CreateWrappedResource(
         resources.d3d12RenderTargets[index].Get(),
         &d3d11Flags,
         D3D12_RESOURCE_STATE_RENDER_TARGET,
         D3D12_RESOURCE_STATE_PRESENT,
-        IID_PPV_ARGS(&resources.d3d11WrappedBackBuffers[index])));
+        IID_PPV_ARGS(&resources.d3d11WrappedBackBuffers[index])))) {
+        return false;
+    }
         
-    bool createRtvSuccess = createWrappedSuccess && CheckSuccess(devices.d3d11Device->CreateRenderTargetView(
+    if (FAILED(devices.d3d11Device->CreateRenderTargetView(
         resources.d3d11WrappedBackBuffers[index].Get(),
         nullptr,
-        resources.d3d11RenderTargetViews[index].GetAddressOf()));
+        resources.d3d11RenderTargetViews[index].GetAddressOf()))) {
+        return false;
+    }
         
-    return createWrappedSuccess && createRtvSuccess;
+    return true;
 }
 
 bool Renderer::WaitForD3D12CommandQueue()
@@ -380,18 +366,20 @@ bool Renderer::SignalFenceAndWait(UINT64 fenceValueToSignal)
 
     const UINT64 valueToSignal = fenceValueToSignal ? fenceValueToSignal : fenceSync.currentValue;
     
-    const bool fenceSignaled = SUCCEEDED(devices.commandQueue->Signal(fenceSync.fence.Get(), valueToSignal));
-    const bool needsWait = fenceSignaled && fenceSync.fence->GetCompletedValue() < valueToSignal;
-    
-    if (needsWait && SUCCEEDED(fenceSync.fence->SetEventOnCompletion(valueToSignal, fenceSync.event))) {
-        WaitForSingleObject(fenceSync.event, INFINITE);
-        fenceSync.currentValue++;
-        return true;
+    if (FAILED(devices.commandQueue->Signal(fenceSync.fence.Get(), valueToSignal)))
+        return false;
+        
+    if (fenceSync.fence->GetCompletedValue() < valueToSignal) {
+        if (SUCCEEDED(fenceSync.fence->SetEventOnCompletion(valueToSignal, fenceSync.event))) {
+            WaitForSingleObject(fenceSync.event, INFINITE);
+            fenceSync.currentValue++;
+            return true;
+        }
+        return false;
     }
     
-    if (fenceSignaled) fenceSync.currentValue++;
-    
-    return fenceSignaled;
+    fenceSync.currentValue++;
+    return true;
 }
 
 void Renderer::ReleaseViewsBuffersAndContext()
