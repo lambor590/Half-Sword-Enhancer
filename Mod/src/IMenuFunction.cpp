@@ -92,12 +92,14 @@ void HookedFunction::LoadConfig() {
     if (LoadEnabledState(false) && isEnabled) {
         g_GameHook->RegisterHook(hookedFunction, callback);
     }
+    LoadParameters();
 }
 
 void KeybindFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
     isEnabled = (*key != VK_ESCAPE);
+    LoadParameters();
 }
 
 void KeybindFunction::UpdateKey(int newKey) {
