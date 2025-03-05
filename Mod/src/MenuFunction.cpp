@@ -65,11 +65,7 @@ static void RenderKeyButton(const std::string& id, bool& waitingForKey, const in
 }
 
 static inline void RenderName(const std::string& name, bool isDisabled) {
-    if (isDisabled) {
-        ImGui::TextColored(ImVec4(0.50f, 0.50f, 0.50f, 1.00f), "%s", name.c_str());
-    } else {
-        ImGui::Text("%s", name.c_str());
-    }
+    ImGui::TextColored(isDisabled ? ImVec4(0.50f, 0.50f, 0.50f, 1.00f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f), "%s", name.c_str());
 }
 
 static bool HandleKeyPress(bool& waitingForKey, int& key) {
@@ -85,25 +81,60 @@ static bool HandleKeyPress(bool& waitingForKey, int& key) {
     return false;
 }
 
+static bool RenderParametersButton(const std::string& id, const std::string& name) {
+    ImGui::SameLine();
+    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 30);
+    
+    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.35f, 0.25f, 0.16f, 0.80f));
+    bool clicked = ImGui::Button(("##param_" + id).c_str());
+    ImGui::PopStyleColor();
+    
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::Text("Open configuration for %s", name.c_str());
+        ImGui::EndTooltip();
+    }
+    
+    return clicked;
+}
+
+static void RenderParametersPopup(const std::string& id, const std::string& name, IMenuFunction* function) {
+    if (function->GetParameters().empty())
+        return;
+        
+    if (RenderParametersButton(id, name)) {
+        ImGui::OpenPopup(("ConfigParams" + id).c_str());
+    }
+    
+    static bool popupWasOpen = false;
+    bool isPopupOpen = ImGui::BeginPopup(("ConfigParams" + id).c_str());
+    
+    if (isPopupOpen) {
+        function->RenderParameters();
+        ImGui::EndPopup();
+        popupWasOpen = true;
+    } else if (popupWasOpen) {
+        function->SaveParameters();
+        popupWasOpen = false;
+    }
+}
+
 void HookedFunction::Render() {
     const std::string id = std::format("##Hook_{}", name);
-    
     int currentKey = *key;
     
     RenderKeyButton(id + "_key", waitingForKey, currentKey);
     ImGui::SameLine();
     
-    const bool prevEnabled = isEnabled;
     bool currentEnabled = isEnabled;
-    
-    if (ImGui::Checkbox(("##check" + id).c_str(), &currentEnabled)) {
-        if (currentEnabled != prevEnabled) {
-            SetEnabled(currentEnabled);
-        }
+    if (ImGui::Checkbox(("##check" + id).c_str(), &currentEnabled) && currentEnabled != isEnabled) {
+        SetEnabled(currentEnabled);
     }
     
     ImGui::SameLine();
     RenderName(name, !isEnabled && currentKey == VK_ESCAPE);
+    
+    RenderParametersPopup(id, name, this);
     
     int tempKey = currentKey;
     if (HandleKeyPress(waitingForKey, tempKey)) {
@@ -120,11 +151,77 @@ void KeybindFunction::Render() {
     ImGui::SameLine();
     RenderName(name, *key == VK_ESCAPE);
     
+    RenderParametersPopup(id, name, this);
+    
     int tempKey = *key;
     if (HandleKeyPress(waitingForKey, tempKey)) {
         UpdateKey(tempKey);
         
         if (isEnabled) Gui::RegisterKeybind(key, callback);
         else Gui::UnregisterKeybind(key);
+    }
+}
+
+void Parameter::Render() {
+    ImGui::PushItemWidth(150.0f);
+    ImGui::AlignTextToFramePadding();
+    ImGui::Text("%s", displayName.c_str());
+    ImGui::SameLine();
+    
+    switch (type) {
+        case Type::Int: {
+            int* value = std::get<int*>(valuePtr);
+            ImGui::SliderInt(id.c_str(), value, std::get<int>(minValue), std::get<int>(maxValue));
+            break;
+        }
+        case Type::Float: {
+            float* value = std::get<float*>(valuePtr);
+            ImGui::SliderFloat(id.c_str(), value, std::get<float>(minValue), std::get<float>(maxValue), "%.2f");
+            break;
+        }
+        case Type::Bool: {
+            ImGui::Checkbox(id.c_str(), std::get<bool*>(valuePtr));
+            break;
+        }
+    }
+    
+    ImGui::PopItemWidth();
+}
+
+void IMenuFunction::LoadParameters() {
+    for (auto& param : parameters) {
+        switch (param.GetType()) {
+            case Parameter::Type::Int:
+                *param.GetIntPtr() = GetConfig(param.GetName(), *param.GetIntPtr());
+                break;
+            case Parameter::Type::Float:
+                *param.GetFloatPtr() = GetConfig(param.GetName(), *param.GetFloatPtr());
+                break;
+            case Parameter::Type::Bool:
+                *param.GetBoolPtr() = GetConfig(param.GetName(), *param.GetBoolPtr());
+                break;
+        }
+    }
+}
+
+void IMenuFunction::SaveParameters() const {
+    for (const auto& param : parameters) {
+        switch (param.GetType()) {
+            case Parameter::Type::Int:
+                SaveConfig(param.GetName(), *param.GetIntPtr());
+                break;
+            case Parameter::Type::Float:
+                SaveConfig(param.GetName(), *param.GetFloatPtr());
+                break;
+            case Parameter::Type::Bool:
+                SaveConfig(param.GetName(), *param.GetBoolPtr());
+                break;
+        }
+    }
+}
+
+void IMenuFunction::RenderParameters() {
+    for (auto& param : parameters) {
+        param.Render();
     }
 }
