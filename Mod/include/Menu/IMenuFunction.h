@@ -5,13 +5,65 @@
 #include <functional>
 #include <memory>
 #include <unordered_map>
+#include <vector>
+#include <variant>
 
 #include "imgui/imgui.h"
 #include "GlobalDefinitions.h"
 
+class Parameter {
+public:
+    enum class Type {
+        Int,
+        Float,
+        Bool
+    };
+
+private:
+    std::string id;
+    std::string name;
+    std::string displayName;
+    Type type;
+    std::variant<int*, float*, bool*> valuePtr;
+    std::variant<int, float, bool> minValue;
+    std::variant<int, float, bool> maxValue;
+
+public:
+    Parameter(const std::string& name, const std::string& displayName, int* valuePtr, 
+              int minValue = 0, int maxValue = 100)
+        : name(name), displayName(displayName), type(Type::Int), 
+          valuePtr(valuePtr), minValue(minValue), maxValue(maxValue) {
+        id = "##param_" + name;
+    }
+
+    Parameter(const std::string& name, const std::string& displayName, float* valuePtr, 
+              float minValue = 0.0f, float maxValue = 1.0f)
+        : name(name), displayName(displayName), type(Type::Float), 
+          valuePtr(valuePtr), minValue(minValue), maxValue(maxValue) {
+        id = "##param_" + name;
+    }
+
+    Parameter(const std::string& name, const std::string& displayName, bool* valuePtr)
+        : name(name), displayName(displayName), type(Type::Bool), 
+          valuePtr(valuePtr), minValue(false), maxValue(true) {
+        id = "##param_" + name;
+    }
+
+    void Render();
+
+    const std::string& GetName() const { return name; }
+    const std::string& GetDisplayName() const { return displayName; }
+    Type GetType() const { return type; }
+    
+    int* GetIntPtr() const { return type == Type::Int ? std::get<int*>(valuePtr) : nullptr; }
+    float* GetFloatPtr() const { return type == Type::Float ? std::get<float*>(valuePtr) : nullptr; }
+    bool* GetBoolPtr() const { return type == Type::Bool ? std::get<bool*>(valuePtr) : nullptr; }
+};
+
 class IMenuFunction {
 protected:
     bool isEnabled = false;
+    std::vector<Parameter> parameters;
     
 public:
     virtual ~IMenuFunction() = default;
@@ -31,6 +83,12 @@ public:
     
     virtual void SetEnabled(bool enabled);
     bool LoadEnabledState(bool defaultState = false);
+
+    void AddParameter(const Parameter& param) { parameters.push_back(param); }
+    void RenderParameters();
+    void LoadParameters();
+    void SaveParameters() const;
+    const std::vector<Parameter>& GetParameters() const { return parameters; }
 };
 
 class HookedFunction : public IMenuFunction {
@@ -46,6 +104,7 @@ public:
     HookedFunction(const std::string& name, const std::string& hookedFunction, std::function<void()> callback, int* keyPtr)
         : name(name), hookedFunction(hookedFunction), callback(callback), key(keyPtr) {
         prevKey = *key;
+        LoadConfig();
     }
 
     ~HookedFunction() override;
@@ -71,7 +130,9 @@ private:
 
 public:
     KeybindFunction(const std::string& name, int* key, std::function<void()> callback)
-        : name(name), key(key), callback(callback), prevKey(*key) {}
+        : name(name), key(key), callback(callback), prevKey(*key) {
+        LoadConfig();
+    }
     
     void LoadConfig();
     void Render() override;
@@ -80,4 +141,4 @@ public:
     const std::function<void()>& GetCallback() const { return callback; }
     
     void UpdateKey(int newKey);
-}; 
+};
