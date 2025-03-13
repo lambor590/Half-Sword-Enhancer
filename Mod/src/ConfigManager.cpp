@@ -53,24 +53,20 @@ std::string ConfigManager::GetString(const std::string& function, const std::str
 void ConfigManager::SetInt(const std::string& function, const std::string& param, int value) {
     EnsureSectionExists(function);
     ini.SetLongValue(function.c_str(), param.c_str(), value);
-    SaveConfig();
 }
 
 void ConfigManager::SetBool(const std::string& function, const std::string& param, bool value) {
     EnsureSectionExists(function);
     ini.SetBoolValue(function.c_str(), param.c_str(), value);
-    SaveConfig();
 }
 
 void ConfigManager::SetFloat(const std::string& function, const std::string& param, float value) {
     EnsureSectionExists(function);
     ini.SetDoubleValue(function.c_str(), param.c_str(), value);
-    SaveConfig();
 }
 
 void ConfigManager::SetString(const std::string& function, const std::string& param, 
                              const std::string& value) {
     EnsureSectionExists(function);
     ini.SetValue(function.c_str(), param.c_str(), value.c_str());
-    SaveConfig();
 }
