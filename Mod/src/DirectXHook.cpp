@@ -73,24 +73,15 @@ IDXGISwapChain* DirectXHook::CreateDummySwapChain()
 ID3D12CommandQueue* DirectXHook::CreateDummyCommandQueue()
 {
     ID3D12Device* device = nullptr;
-    if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device))))
-    {
-        logger.Log("CRITICAL: Failed to create D3D12 device");
-        return nullptr;
-    }
+    D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
 
     D3D12_COMMAND_QUEUE_DESC queueDesc{};
     queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 
     ID3D12CommandQueue* queue = nullptr;
-    if (FAILED(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue))))
-    {
-        logger.Log("CRITICAL: Failed to create command queue");
-        device->Release();
-        return nullptr;
-    }
-
+    device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue));
     device->Release();
+    
     return queue;
 }
 
