@@ -73,11 +73,9 @@ static bool HandleKeyPress(bool& waitingForKey, int& key) {
 
 static bool RenderParametersButton(const std::string& id, const std::string& name) {
     ImGui::SameLine();
-    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 30);
+    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 75);
     
-    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.35f, 0.25f, 0.16f, 0.80f));
-    bool clicked = ImGui::Button(("##param_" + id).c_str());
-    ImGui::PopStyleColor();
+    bool clicked = ImGui::Button(("Config##param_" + id).c_str());
     
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
