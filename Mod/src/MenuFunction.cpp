@@ -198,7 +198,7 @@ void IMenuFunction::SaveParameters() const {
         }
     }
     
-    ConfigManager::Get().SaveConfig();
+    g_ConfigManager.SaveConfig();
 }
 
 void IMenuFunction::RenderParameters() {
