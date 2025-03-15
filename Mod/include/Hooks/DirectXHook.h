@@ -7,6 +7,7 @@
 #include "Render/Renderer.h"
 #include "Render/ID3DRenderer.h"
 #include "Render/IRenderCallback.h"
+#include "GlobalDefinitions.h"
 #include "Logger.h"
 #include "MemoryUtils.h"
 #include "Gui.h"
