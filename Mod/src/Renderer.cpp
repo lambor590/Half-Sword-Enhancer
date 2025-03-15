@@ -60,6 +60,7 @@ void Renderer::FinalizeD3D12Rendering()
     if (state.bufferIndex < backBuffers.size() && backBuffers[state.bufferIndex]) {
         devices.d3d11On12Device->ReleaseWrappedResources(
             backBuffers[state.bufferIndex].GetAddressOf(), 1);
+            
         devices.d3d11Context->Flush();
         SignalFenceAndWait();
     }
@@ -174,18 +175,14 @@ bool Renderer::InitD3D11()
         return false;
 
     ComPtr<ID3D11Texture2D> backbuffer;
-    if (FAILED(devices.swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backbuffer.GetAddressOf()))) {
-        logger.Log("Failed to get backbuffer");
+    if (FAILED(devices.swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)backbuffer.GetAddressOf())))
         return false;
-    }
 
     resources.d3d11RenderTargetViews.resize(1);
     
     if (FAILED(devices.d3d11Device->CreateRenderTargetView(
-        backbuffer.Get(), nullptr, resources.d3d11RenderTargetViews[0].GetAddressOf()))) {
-        logger.Log("Failed to create render target view");
+        backbuffer.Get(), nullptr, resources.d3d11RenderTargetViews[0].GetAddressOf())))
         return false;
-    }
 
     return true;
 }
@@ -212,24 +209,17 @@ bool Renderer::InitD3D12()
 
 bool Renderer::InitD3D12Device()
 {
-    logger.Log("Initializing D3D12 device...");
-    
-    if (FAILED(devices.d3d12Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fenceSync.fence)))) {
-        logger.Log("Failed to create fence");
+    if (FAILED(devices.d3d12Device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fenceSync.fence))))
         return false;
-    }
 
     fenceSync.event = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-    if (!fenceSync.event) {
-        logger.Log("Failed to create fence event");
+    if (!fenceSync.event)
         return false;
-    }
     
     fenceSync.currentValue = 1;
 
-    if (!CreateRtvDescriptorHeap() || !CreateD3D11On12Device()) {
+    if (!CreateRtvDescriptorHeap() || !CreateD3D11On12Device())
         return false;
-    }
 
     if (!state.firstTimeInitialized && window.handle) {
         ImGui::CreateContext();
@@ -238,7 +228,6 @@ bool Renderer::InitD3D12Device()
     }
 
     window.cachedViewport = CD3D11_VIEWPORT(0.0f, 0.0f, 0.0f, 0.0f);
-    logger.Log("D3D12 device initialized successfully");
     return true;
 }
 
@@ -251,10 +240,8 @@ bool Renderer::CreateRtvDescriptorHeap()
         0
     };
 
-    if (FAILED(devices.d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&resources.rtvHeap)))) {
-        logger.Log("Failed to create static RTV heap");
+    if (FAILED(devices.d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&resources.rtvHeap))))
         return false;
-    }
 
     resources.rtvDescriptorSize = devices.d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     return true;
@@ -272,10 +259,8 @@ bool Renderer::CreateD3D11On12Device()
         0,
         devices.d3d11Device.GetAddressOf(),
         devices.d3d11Context.GetAddressOf(),
-        nullptr))) {
-        logger.Log("Failed to create D3D11On12 device");
+        nullptr)))
         return false;
-    }
 
     return SUCCEEDED(devices.d3d11Device.As(&devices.d3d11On12Device)) && 
            SUCCEEDED(devices.swapChain->QueryInterface(IID_PPV_ARGS(&devices.swapChain3)));
@@ -288,39 +273,22 @@ bool Renderer::CreateD3D12Resources()
     resources.d3d11WrappedBackBuffers.resize(count);
     resources.d3d11RenderTargetViews.resize(count);
 
-    D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {
-        D3D12_DESCRIPTOR_HEAP_TYPE_RTV,
-        count,
-        D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
-        0
-    };
-
-    ComPtr<ID3D12DescriptorHeap> rtvHeap;
-    if (FAILED(devices.d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&rtvHeap)))) {
-        logger.Log("Failed to create descriptor heap");
-        return false;
-    }
-
-    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(rtvHeap->GetCPUDescriptorHandleForHeapStart());
+    D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(resources.rtvHeap->GetCPUDescriptorHandleForHeapStart());
     const UINT stride = resources.rtvDescriptorSize;
     
     for (UINT i = 0; i < count; i++) {
-        if (!CreateD3D12BufferResources(i, rtvHandle)) {
-            logger.Log("Failed to create buffer resources");
+        if (!CreateD3D12BufferResources(i, rtvHandle))
             return false;
-        }
         rtvHandle.ptr += stride;
     }
 
-    logger.Log("D3D12 resources created");
     return true;
 }
 
 bool Renderer::CreateD3D12BufferResources(UINT index, D3D12_CPU_DESCRIPTOR_HANDLE& rtvHandle)
 {
-    if (FAILED(devices.swapChain->GetBuffer(index, IID_PPV_ARGS(&resources.d3d12RenderTargets[index])))) {
+    if (FAILED(devices.swapChain->GetBuffer(index, IID_PPV_ARGS(&resources.d3d12RenderTargets[index]))))
         return false;
-    }
 
     devices.d3d12Device->CreateRenderTargetView(resources.d3d12RenderTargets[index].Get(), nullptr, rtvHandle);
 
@@ -331,16 +299,14 @@ bool Renderer::CreateD3D12BufferResources(UINT index, D3D12_CPU_DESCRIPTOR_HANDL
         &d3d11Flags,
         D3D12_RESOURCE_STATE_RENDER_TARGET,
         D3D12_RESOURCE_STATE_PRESENT,
-        IID_PPV_ARGS(&resources.d3d11WrappedBackBuffers[index])))) {
+        IID_PPV_ARGS(&resources.d3d11WrappedBackBuffers[index]))))
         return false;
-    }
         
     if (FAILED(devices.d3d11Device->CreateRenderTargetView(
         resources.d3d11WrappedBackBuffers[index].Get(),
         nullptr,
-        resources.d3d11RenderTargetViews[index].GetAddressOf()))) {
+        resources.d3d11RenderTargetViews[index].GetAddressOf())))
         return false;
-    }
         
     return true;
 }
@@ -371,11 +337,11 @@ bool Renderer::SignalFenceAndWait(UINT64 fenceValueToSignal)
         
     if (fenceSync.fence->GetCompletedValue() < valueToSignal) {
         if (SUCCEEDED(fenceSync.fence->SetEventOnCompletion(valueToSignal, fenceSync.event))) {
-            WaitForSingleObject(fenceSync.event, INFINITE);
-            fenceSync.currentValue++;
-            return true;
+            if (WaitForSingleObject(fenceSync.event, 500) != WAIT_OBJECT_0)
+                return false;
+        } else {
+            return false;
         }
-        return false;
     }
     
     fenceSync.currentValue++;
@@ -384,15 +350,11 @@ bool Renderer::SignalFenceAndWait(UINT64 fenceValueToSignal)
 
 void Renderer::ReleaseViewsBuffersAndContext()
 {
-    auto& context = devices.d3d11Context;
-    
-    if (context) {
-        context->ClearState();
-        context->Flush();
+    if (devices.d3d11Context) {
+        devices.d3d11Context->ClearState();
+        devices.d3d11Context->Flush();
     }
 
-    if (state.isD3D12) SignalFenceAndWait();
-    
     resources.d3d11RenderTargetViews.clear();
     
     if (state.isD3D12) {
@@ -400,17 +362,47 @@ void Renderer::ReleaseViewsBuffersAndContext()
         resources.d3d12RenderTargets.clear();
     }
     
-    if (context) context->Flush();
+    if (devices.d3d11Context)
+        devices.d3d11Context->Flush();
     
     state.bufferIndex = 0;
     state.mustInitResources = true;
+}
 
-    logger.Log("D3D resources released");
+void Renderer::CleanupD3D12()
+{
+    if (fenceSync.fence) {
+        if (devices.commandQueue)
+            devices.commandQueue->Signal(fenceSync.fence.Get(), fenceSync.currentValue + 1);
+        
+        fenceSync.fence.Reset();
+        fenceSync.currentValue = 0;
+        
+        if (fenceSync.event)
+            SetEvent(fenceSync.event);
+    }
+    
+    resources.rtvHeap.Reset();
+    devices.d3d11On12Device.Reset();
+    devices.swapChain3.Reset();
+    devices.d3d12Device.Reset();
+    devices.commandQueue.Reset();
 }
 
 void Renderer::Cleanup()
 {
     ReleaseViewsBuffersAndContext();
+
+    if (state.isD3D12) {
+        CleanupD3D12();
+    } else if (devices.d3d11Context) {
+        devices.d3d11Context->ClearState();
+        devices.d3d11Context->Flush();
+        devices.d3d11Context.Reset();
+    }
+    
+    devices.d3d11Device.Reset();
+    devices.swapChain.Reset();
 
     if (fenceSync.event) {
         CloseHandle(fenceSync.event);
@@ -421,5 +413,9 @@ void Renderer::Cleanup()
         ImGui_ImplWin32_Shutdown();
         ImGui_ImplDX11_Shutdown();
         ImGui::DestroyContext();
+        window.handle = 0;
     }
+    
+    state = {};
+    state.mustInitResources = true;
 }
