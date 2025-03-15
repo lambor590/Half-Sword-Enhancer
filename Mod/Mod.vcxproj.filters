@@ -136,9 +136,6 @@
     <ClInclude Include="include\ComponentValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ext\SimpleIni.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ConfigManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
