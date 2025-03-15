@@ -12,7 +12,7 @@ private:
     static inline int sloMoKey = 0x5A; // Z
     static inline float slowMotionSpeed = 0.3f;
 
-    static inline int lowGravityKey = 0x58; // X
+    static inline int lowGravityKey = 0x4C; // L
     static inline float lowGravityValue = -100.0f;
 
     static inline int saveLoadoutKey = 0x54; // T
