@@ -22,9 +22,7 @@ class Renderer : public ID3DRenderer
 {
 public:
     Renderer() = default;
-    ~Renderer() {
-        Cleanup();
-    }
+    ~Renderer() = default;
 
     void OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) override;
     void OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) override;
