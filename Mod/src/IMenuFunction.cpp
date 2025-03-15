@@ -5,6 +5,7 @@
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
 #include "Gui.h"
+#include "GlobalDefinitions.h"
 
 static std::string NormalizeSection(const std::string& name) {
     std::string result = name;
@@ -13,42 +14,42 @@ static std::string NormalizeSection(const std::string& name) {
 }
 
 int IMenuFunction::GetConfig(const std::string& paramName, int defaultValue) const {
-    return ConfigManager::Get().GetInt(NormalizeSection(GetName()), paramName, defaultValue);
+    return g_ConfigManager.GetInt(NormalizeSection(GetName()), paramName, defaultValue);
 }
 
 bool IMenuFunction::GetConfig(const std::string& paramName, bool defaultValue) const {
-    return ConfigManager::Get().GetBool(NormalizeSection(GetName()), paramName, defaultValue);
+    return g_ConfigManager.GetBool(NormalizeSection(GetName()), paramName, defaultValue);
 }
 
 float IMenuFunction::GetConfig(const std::string& paramName, float defaultValue) const {
-    return ConfigManager::Get().GetFloat(NormalizeSection(GetName()), paramName, defaultValue);
+    return g_ConfigManager.GetFloat(NormalizeSection(GetName()), paramName, defaultValue);
 }
 
 std::string IMenuFunction::GetConfig(const std::string& paramName, const std::string& defaultValue) const {
-    return ConfigManager::Get().GetString(NormalizeSection(GetName()), paramName, defaultValue);
+    return g_ConfigManager.GetString(NormalizeSection(GetName()), paramName, defaultValue);
 }
 
 void IMenuFunction::SaveConfig(const std::string& paramName, int value) const {
-    ConfigManager::Get().SetInt(NormalizeSection(GetName()), paramName, value);
+    g_ConfigManager.SetInt(NormalizeSection(GetName()), paramName, value);
 }
 
 void IMenuFunction::SaveConfig(const std::string& paramName, bool value) const {
-    ConfigManager::Get().SetBool(NormalizeSection(GetName()), paramName, value);
+    g_ConfigManager.SetBool(NormalizeSection(GetName()), paramName, value);
 }
 
 void IMenuFunction::SaveConfig(const std::string& paramName, float value) const {
-    ConfigManager::Get().SetFloat(NormalizeSection(GetName()), paramName, value);
+    g_ConfigManager.SetFloat(NormalizeSection(GetName()), paramName, value);
 }
 
 void IMenuFunction::SaveConfig(const std::string& paramName, const std::string& value) const {
-    ConfigManager::Get().SetString(NormalizeSection(GetName()), paramName, value);
+    g_ConfigManager.SetString(NormalizeSection(GetName()), paramName, value);
 }
 
 void IMenuFunction::SetEnabled(bool enabled) {
     if (isEnabled != enabled) {
         isEnabled = enabled;
         SaveConfig("enabled", enabled);
-        ConfigManager::Get().SaveConfig();
+        g_ConfigManager.SaveConfig();
     }
 }
 
@@ -66,7 +67,7 @@ void HookedFunction::SetKey(int newKey) {
     if (*key != newKey) {
         *key = prevKey = newKey;
         SaveConfig("key", *key);
-        ConfigManager::Get().SaveConfig();
+        g_ConfigManager.SaveConfig();
     }
 }
 
@@ -81,7 +82,7 @@ void HookedFunction::SetEnabled(bool enabled) {
             g_GameHook->UnregisterHook(hookedFunction);
         }
         
-        ConfigManager::Get().SaveConfig();
+        g_ConfigManager.SaveConfig();
     }
 }
 
@@ -109,6 +110,6 @@ void KeybindFunction::UpdateKey(int newKey) {
     if (prevKey != newKey) {
         prevKey = *key = newKey;
         SaveConfig("key", *key);
-        ConfigManager::Get().SaveConfig();
+        g_ConfigManager.SaveConfig();
     }
 }
