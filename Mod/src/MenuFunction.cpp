@@ -6,36 +6,27 @@
 #include "imgui/imgui.h"
 #include "Gui.h"
 #include "GlobalDefinitions.h"
+#include "ConfigManager.h"
 
 static std::string GetKeyName(int vKey) {
     static const std::unordered_map<int, const char*> keyNameMap = {
-        {VK_LSHIFT, "Left Shift"},
-        {VK_RSHIFT, "Right Shift"},
-        {VK_SHIFT, "Shift"},
-        {VK_CONTROL, "Control"},
-        {VK_LCONTROL, "Left Control"},
-        {VK_RCONTROL, "Right Control"},
-        {VK_MENU, "Alt"},
-        {VK_LMENU, "Left Alt"},
-        {VK_RMENU, "Right Alt"},
-        {VK_BACK, "Backspace"},
-        {VK_TAB, "Tab"},
-        {VK_RETURN, "Enter"},
-        {VK_SPACE, "Space"},
-        {VK_CAPITAL, "Caps Lock"},
-        {VK_ESCAPE, "Unassigned"},
-        {VK_LEFT, "Left"},
-        {VK_UP, "Up"},
-        {VK_RIGHT, "Right"},
-        {VK_DOWN, "Down"},
-        {VK_DELETE, "Delete"}
+        {VK_LSHIFT, "Left Shift"}, {VK_RSHIFT, "Right Shift"}, {VK_SHIFT, "Shift"},
+        {VK_CONTROL, "Control"}, {VK_LCONTROL, "Left Control"}, {VK_RCONTROL, "Right Control"},
+        {VK_MENU, "Alt"}, {VK_LMENU, "Left Alt"}, {VK_RMENU, "Right Alt"},
+        {VK_BACK, "Backspace"}, {VK_TAB, "Tab"}, {VK_RETURN, "Enter"},
+        {VK_SPACE, "Space"}, {VK_CAPITAL, "Caps Lock"}, {VK_ESCAPE, "Escape"},
+        {VK_LEFT, "Left"}, {VK_UP, "Up"}, {VK_RIGHT, "Right"}, {VK_DOWN, "Down"},
+        {VK_DELETE, "Unassigned"}
     };
 
-    auto it = keyNameMap.find(vKey);
-    if (it != keyNameMap.end()) return it->second;
+    if (auto it = keyNameMap.find(vKey); it != keyNameMap.end())
+        return it->second;
     
-    if ((vKey >= '0' && vKey <= '9') || (vKey >= 'A' && vKey <= 'Z')) return std::string(1, static_cast<char>(vKey));
-    if (vKey >= VK_F1 && vKey <= VK_F12) return "F" + std::to_string(vKey - VK_F1 + 1);
+    if ((vKey >= '0' && vKey <= '9') || (vKey >= 'A' && vKey <= 'Z'))
+        return std::string(1, static_cast<char>(vKey));
+        
+    if (vKey >= VK_F1 && vKey <= VK_F12)
+        return "F" + std::to_string(vKey - VK_F1 + 1);
     
     static char keyName[32];
     UINT scanCode = MapVirtualKey(vKey, MAPVK_VK_TO_VSC);
@@ -44,7 +35,7 @@ static std::string GetKeyName(int vKey) {
 
 static void RenderKeyButton(const std::string& id, bool& waitingForKey, const int& key) {
     const std::string& keyText = waitingForKey ? "Press any key..." : GetKeyName(key);
-    const bool isDisabled = key == VK_ESCAPE;
+    const bool isDisabled = key == VK_DELETE;
     
     if (isDisabled) {
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.12f, 0.09f, 0.50f));
@@ -54,9 +45,8 @@ static void RenderKeyButton(const std::string& id, bool& waitingForKey, const in
     }
     
     ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyText.c_str()).x + 20);
-    if (ImGui::Button((keyText + id).c_str())) {
+    if (ImGui::Button((keyText + id).c_str()))
         waitingForKey = true;
-    }
     
     if (isDisabled) {
         ImGui::PopStyleVar();
@@ -102,11 +92,11 @@ static void RenderParametersPopup(const std::string& id, const std::string& name
     if (function->GetParameters().empty())
         return;
         
-    if (RenderParametersButton(id, name)) {
+    if (RenderParametersButton(id, name))
         ImGui::OpenPopup(("ConfigParams" + id).c_str());
-    }
     
-    static bool popupWasOpen = false;
+    static std::unordered_map<std::string, bool> popupOpenStates;
+    bool& popupWasOpen = popupOpenStates[id];
     bool isPopupOpen = ImGui::BeginPopup(("ConfigParams" + id).c_str());
     
     if (isPopupOpen) {
@@ -121,27 +111,23 @@ static void RenderParametersPopup(const std::string& id, const std::string& name
 
 void HookedFunction::Render() {
     const std::string id = std::format("##Hook_{}", name);
-    int currentKey = *key;
     
-    RenderKeyButton(id + "_key", waitingForKey, currentKey);
+    RenderKeyButton(id + "_key", waitingForKey, *key);
     ImGui::SameLine();
     
     bool currentEnabled = isEnabled;
-    if (ImGui::Checkbox(("##check" + id).c_str(), &currentEnabled) && currentEnabled != isEnabled) {
+    if (ImGui::Checkbox(("##check" + id).c_str(), &currentEnabled) && currentEnabled != isEnabled)
         SetEnabled(currentEnabled);
-    }
     
     ImGui::SameLine();
-    RenderName(name, !isEnabled && currentKey == VK_ESCAPE);
+    RenderName(name, !isEnabled && *key == VK_DELETE);
     
     RenderParametersPopup(id, name, this);
     
-    int tempKey = currentKey;
-    if (HandleKeyPress(waitingForKey, tempKey)) {
-        SetKey(tempKey);
-    } else if (!waitingForKey && currentKey != VK_ESCAPE && (GetAsyncKeyState(currentKey) & 1)) {
+    if (HandleKeyPress(waitingForKey, *key))
+        SetKey(*key);
+    else if (!waitingForKey && *key != VK_DELETE && (GetAsyncKeyState(*key) & 1))
         SetEnabled(!isEnabled);
-    }
 }
 
 void KeybindFunction::Render() {
@@ -149,16 +135,14 @@ void KeybindFunction::Render() {
     
     RenderKeyButton(id, waitingForKey, *key);
     ImGui::SameLine();
-    RenderName(name, *key == VK_ESCAPE);
+    RenderName(name, *key == VK_DELETE);
     
     RenderParametersPopup(id, name, this);
     
-    int tempKey = *key;
-    if (HandleKeyPress(waitingForKey, tempKey)) {
-        UpdateKey(tempKey);
-        
-        if (isEnabled) Gui::RegisterKeybind(key, callback);
-        else Gui::UnregisterKeybind(key);
+    if (HandleKeyPress(waitingForKey, *key)) {
+        if (*key != VK_DELETE) 
+            Gui::RegisterKeybind(key, callback);
+        UpdateKey(*key);
     }
 }
 
@@ -169,20 +153,15 @@ void Parameter::Render() {
     ImGui::SameLine();
     
     switch (type) {
-        case Type::Int: {
-            int* value = std::get<int*>(valuePtr);
-            ImGui::SliderInt(id.c_str(), value, std::get<int>(minValue), std::get<int>(maxValue));
+        case Type::Int:
+            ImGui::SliderInt(id.c_str(), std::get<int*>(valuePtr), std::get<int>(minValue), std::get<int>(maxValue));
             break;
-        }
-        case Type::Float: {
-            float* value = std::get<float*>(valuePtr);
-            ImGui::SliderFloat(id.c_str(), value, std::get<float>(minValue), std::get<float>(maxValue), "%.2f");
+        case Type::Float:
+            ImGui::SliderFloat(id.c_str(), std::get<float*>(valuePtr), std::get<float>(minValue), std::get<float>(maxValue), "%.2f");
             break;
-        }
-        case Type::Bool: {
+        case Type::Bool:
             ImGui::Checkbox(id.c_str(), std::get<bool*>(valuePtr));
             break;
-        }
     }
     
     ImGui::PopItemWidth();
@@ -218,10 +197,11 @@ void IMenuFunction::SaveParameters() const {
                 break;
         }
     }
+    
+    ConfigManager::Get().SaveConfig();
 }
 
 void IMenuFunction::RenderParameters() {
-    for (auto& param : parameters) {
+    for (auto& param : parameters)
         param.Render();
-    }
 }
