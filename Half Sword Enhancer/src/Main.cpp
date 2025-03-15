@@ -30,6 +30,7 @@ int main() {
     GetTempPathA(MAX_PATH, tempPath);
     GetTempFileNameA(tempPath, "temp", 0, dllPath);
 
+    std::cout << "HELP: Press INSERT to toggle the UI and DELETE to unassign a key\n\n";
     Updater::checkForUpdates();
     std::cout << "Searching for Half Sword process...\n";
     DWORD processId = getProcessIdByName(processName);
