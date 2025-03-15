@@ -30,6 +30,7 @@ public:
     void OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) override;
     void SetCommandQueue(ID3D12CommandQueue* commandQueue);
     void SetGetCommandQueueCallback(void (*callback)());
+    void Cleanup();
 
 private:
     Logger logger{ "Renderer" };
@@ -38,8 +39,8 @@ private:
         HWND handle = 0;
         int width = 0;
         int height = 0;
-        D3D11_VIEWPORT viewport;
-        D3D11_VIEWPORT cachedViewport;
+        D3D11_VIEWPORT viewport = {};
+        D3D11_VIEWPORT cachedViewport = {};
     } window;
 
     Gui Gui;
@@ -105,7 +106,7 @@ private:
     bool WaitForD3D12CommandQueue();
     bool SignalFenceAndWait(UINT64 fenceValueToSignal = 0);
     void ReleaseViewsBuffersAndContext();
-    void Cleanup();
+    void CleanupD3D12();
 
     inline bool CheckSuccess(HRESULT hr) {
         if (FAILED(hr)) {

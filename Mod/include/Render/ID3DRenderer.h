@@ -12,4 +12,5 @@ public:
     virtual void AddRenderCallback(IRenderCallback* object) {};
     virtual void SetCommandQueue(ID3D12CommandQueue* commandQueue) {};
     virtual void SetGetCommandQueueCallback(void (*callback)()) {};
+    virtual void Cleanup() {};
 };
