@@ -12,14 +12,27 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         isVisible = !isVisible;
 
     if (msg == WM_KEYDOWN) {
-        for (const auto& [key, callback] : s_keybinds) {
-            if (*key == wParam)
-                callback();
-        }
+        auto it = std::find_if(s_keybinds.begin(), s_keybinds.end(), 
+            [wParam](const auto& pair) { return *pair.first == wParam; });
+        if (it != s_keybinds.end())
+            it->second();
     }
 
-    if (isVisible && ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-        return true;
+    if (isVisible) {
+        if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+            return true;
+
+        switch (msg) {
+            case WM_KEYDOWN: case WM_KEYUP: case WM_CHAR:
+            case WM_SYSKEYDOWN: case WM_SYSKEYUP:
+            case WM_MOUSEWHEEL: case WM_MOUSEHWHEEL:
+            case WM_LBUTTONDOWN: case WM_LBUTTONUP:
+            case WM_RBUTTONDOWN: case WM_RBUTTONUP:
+            case WM_MBUTTONDOWN: case WM_MBUTTONUP:
+            case WM_MOUSEMOVE: case WM_SETCURSOR:
+                return true;
+        }
+    }
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
 }
