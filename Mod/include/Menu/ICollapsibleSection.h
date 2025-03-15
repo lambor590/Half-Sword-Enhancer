@@ -32,7 +32,7 @@ protected:
     
     template<typename... Components>
     std::function<void()> ValidateAndRun(const std::function<void()>& callback, Components*&... components) {
-        return [this, callback = std::move(callback), &components...]() {
+        return [this, callback, &components...]() {
             bool valid = (... && instances.ValidateComponent(components));
             if (valid) callback();
         };
