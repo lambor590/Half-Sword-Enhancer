@@ -1,37 +1,39 @@
 #include <Windows.h>
 #include <fstream>
+#include <thread>
+#include <chrono>
+#include <future>
 
-#include "Hooks/DirectXHook.h"
 #include "Logger.h"
 #include "MemoryUtils.h"
 #include "Hooks/GameHook.h"
+#include "Hooks/DirectXHook.h"
+#include "Render/Renderer.h"
+#include "GlobalDefinitions.h"
 
 static Logger logger{ "DllMain" };
+static Renderer renderer;
 
 static void OpenDebugTerminal()
 {
-    std::fstream terminalEnableFile;
-    terminalEnableFile.open("enhancer_enable_terminal.txt", std::fstream::in);
+    std::fstream terminalEnableFile("enhancer_enable_terminal.txt", std::fstream::in);
     if (terminalEnableFile.is_open())
     {
-        if (AllocConsole())
-        {
-            freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
-        }
+        AllocConsole();
+        freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+        SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
         terminalEnableFile.close();
     }
 }
 
-static DWORD WINAPI DXHookThread(LPVOID lpParam)
+static DWORD WINAPI DXHookThread(LPVOID)
 {
-    static Renderer renderer;
-    static DirectXHook dxHook(&renderer);
-    dxHook.Hook();
+    g_DirectXHook = new DirectXHook(&renderer);
+    g_DirectXHook->Hook();
     return 0;
 }
 
-static DWORD WINAPI GameHookThread(LPVOID lpParam)
+static DWORD WINAPI GameHookThread(LPVOID)
 {
     while (!GameHook::Get().Hook())
     {
@@ -40,14 +42,29 @@ static DWORD WINAPI GameHookThread(LPVOID lpParam)
     return 0;
 }
 
+static void Cleanup()
+{
+    logger.Log("Cleaning up resources...");
+    std::promise<void> cleanupPromise;
+    auto cleanupFuture = cleanupPromise.get_future();
+    
+    std::thread cleanupThread([&cleanupPromise]() {        
+        renderer.Cleanup();
+        GameHook::Get().Unhook();
+        cleanupPromise.set_value();
+    });
+}
+
 BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID)
 {
     if (reason == DLL_PROCESS_ATTACH)
     {
         DisableThreadLibraryCalls(module);
         OpenDebugTerminal();
-        CreateThread(0, 0, &DXHookThread, 0, 0, NULL);
-        CreateThread(0, 0, &GameHookThread, 0, 0, NULL);
+        CreateThread(0, 0, DXHookThread, 0, 0, NULL);
+        CreateThread(0, 0, GameHookThread, 0, 0, NULL);
     }
+    else if (reason == DLL_PROCESS_DETACH) Cleanup();
+    
     return 1;
 }
