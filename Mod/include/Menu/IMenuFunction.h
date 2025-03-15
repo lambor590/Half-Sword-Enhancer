@@ -69,7 +69,6 @@ public:
     virtual ~IMenuFunction() = default;
     virtual void Render() = 0;
     virtual const std::string& GetName() const = 0;
-    bool IsEnabled() const { return isEnabled; }
     
     int GetConfig(const std::string& paramName, int defaultValue) const;
     bool GetConfig(const std::string& paramName, bool defaultValue) const;
@@ -117,6 +116,7 @@ public:
     
     int GetKey() const { return key ? *key : 0; }
     void SetKey(int newKey);
+    bool IsEnabled() const { return isEnabled; }
     void SetEnabled(bool enabled) override;
 };
 
@@ -126,7 +126,7 @@ private:
     int* key;
     std::function<void()> callback;
     bool waitingForKey = false;
-    int prevKey = VK_ESCAPE;
+    int prevKey = VK_DELETE;
 
 public:
     KeybindFunction(const std::string& name, int* key, std::function<void()> callback)
