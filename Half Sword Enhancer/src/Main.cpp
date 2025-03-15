@@ -32,7 +32,7 @@ int main() {
 
     std::cout << "HELP: Press INSERT to toggle the UI and DELETE to unassign a key\n\n";
     Updater::checkForUpdates();
-    std::cout << "Searching for Half Sword process...\n";
+    std::cout << "\n\nSearching for Half Sword process...\n";
     DWORD processId = getProcessIdByName(processName);
     if (processId == 0) {
         std::cout << "Half Sword not found, launching it...\n";

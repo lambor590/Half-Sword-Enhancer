@@ -205,25 +205,25 @@ namespace Updater {
         std::string remoteVersion = getRemoteVersion();
         std::cout << "Current version: " << localVersion << "\n";
         if (remoteVersion == "0.0.0") {
-            std::cout << "Failed to check for updates.\nIf you have internet, try again in a few seconds.\n";
+            std::cout << "Failed to check for updates.\nIf you have internet, try again in a few seconds.";
             std::this_thread::sleep_for(std::chrono::seconds(3));
             return;
         }
 
-        std::cout << "Latest public version: " << remoteVersion << "\n";
+        std::cout << "Latest public version: " << remoteVersion;
 
         if (!isUpdateAvailable(localVersion, remoteVersion)) {
-            std::cout << "No updates available.\n";
+            std::cout << "No updates available.";
             return;
         }
 
-        std::cout << "Update available!\nDownloading...\n";
+        std::cout << "Update available!\nDownloading...";
 
         std::string downloadUrl = "https://github.com/lambor590/augfohndfjgbdajfgdnfjgadbuofidgjsdnfjgisfudhngdfgjkdfgbsjgdbj/releases/download/v" +
             remoteVersion + "/HS_Enhancer_Launcher.exe";
 
         if (!downloadUpdate(downloadUrl)) {
-            std::cout << "Error downloading update.\n";
+            std::cout << "Error downloading update.";
         }
     }
 
