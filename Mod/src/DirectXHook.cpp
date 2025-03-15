@@ -1,39 +1,33 @@
 #include "Hooks/DirectXHook.h"
 
-static DirectXHook* hookInstance = nullptr;
-
 static HRESULT __stdcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
 {
-    hookInstance->renderer->OnPresent(pThis, syncInterval, flags);
-    return ((Present)hookInstance->presentReturnAddress)(pThis, syncInterval, flags);
+    g_DirectXHook->renderer->OnPresent(pThis, syncInterval, flags);
+    return ((Present)g_DirectXHook->presentReturnAddress)(pThis, syncInterval, flags);
 }
 
 static HRESULT __stdcall OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags)
 {
-    hookInstance->renderer->OnResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
-    return ((ResizeBuffers)hookInstance->resizeBuffersReturnAddress)(pThis, bufferCount, width, height, newFormat, swapChainFlags);
+    g_DirectXHook->renderer->OnResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
+    return ((ResizeBuffers)g_DirectXHook->resizeBuffersReturnAddress)(pThis, bufferCount, width, height, newFormat, swapChainFlags);
 }
 
 static void __stdcall OnExecuteCommandLists(ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists)
 {
     if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT)
     {
-        hookInstance->renderer->SetCommandQueue(pThis);
+        g_DirectXHook->renderer->SetCommandQueue(pThis);
     }
-    ((ExecuteCommandLists)hookInstance->executeCommandListsReturnAddress)(pThis, numCommandLists, ppCommandLists);
+    ((ExecuteCommandLists)g_DirectXHook->executeCommandListsReturnAddress)(pThis, numCommandLists, ppCommandLists);
 }
 
 static void GetCommandQueue()
 {
-    ID3D12CommandQueue* cmdQueue = hookInstance->CreateDummyCommandQueue();
-    hookInstance->HookCommandQueue(cmdQueue, (uintptr_t)&OnExecuteCommandLists, &hookInstance->executeCommandListsReturnAddress);
+    ID3D12CommandQueue* cmdQueue = g_DirectXHook->CreateDummyCommandQueue();
+    g_DirectXHook->HookCommandQueue(cmdQueue, (uintptr_t)&OnExecuteCommandLists, &g_DirectXHook->executeCommandListsReturnAddress);
 }
 
-DirectXHook::DirectXHook(ID3DRenderer* renderer)
-{
-    this->renderer = renderer;
-    hookInstance = this;
-}
+DirectXHook::DirectXHook(ID3DRenderer* renderer) : renderer(renderer) {}
 
 void DirectXHook::Hook()
 {
