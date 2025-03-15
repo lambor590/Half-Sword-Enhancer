@@ -4,6 +4,7 @@
 #include "Menu/ICollapsibleSection.h"
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
+#include "Gui.h"
 
 static std::string NormalizeSection(const std::string& name) {
     std::string result = name;
@@ -47,6 +48,7 @@ void IMenuFunction::SetEnabled(bool enabled) {
     if (isEnabled != enabled) {
         isEnabled = enabled;
         SaveConfig("enabled", enabled);
+        ConfigManager::Get().SaveConfig();
     }
 }
 
@@ -64,11 +66,7 @@ void HookedFunction::SetKey(int newKey) {
     if (*key != newKey) {
         *key = prevKey = newKey;
         SaveConfig("key", *key);
-        
-        if (GetConfig("key", -1) != *key) {
-            ConfigManager::Get().SetInt(NormalizeSection(GetName()), "key", *key);
-            ConfigManager::Get().SaveConfig();
-        }
+        ConfigManager::Get().SaveConfig();
     }
 }
 
@@ -82,6 +80,8 @@ void HookedFunction::SetEnabled(bool enabled) {
         } else {
             g_GameHook->UnregisterHook(hookedFunction);
         }
+        
+        ConfigManager::Get().SaveConfig();
     }
 }
 
@@ -98,20 +98,17 @@ void HookedFunction::LoadConfig() {
 void KeybindFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
-    isEnabled = (*key != VK_ESCAPE);
+    if (*key != VK_DELETE)
+        Gui::RegisterKeybind(key, callback);
+    
     LoadParameters();
 }
 
 void KeybindFunction::UpdateKey(int newKey) {
+    Gui::UnregisterKeybind(&prevKey);
     if (prevKey != newKey) {
         prevKey = *key = newKey;
         SaveConfig("key", *key);
-        
-        if (GetConfig("key", -1) != *key) {
-            ConfigManager::Get().SetInt(NormalizeSection(GetName()), "key", *key);
-            ConfigManager::Get().SaveConfig();
-        }
-        
-        isEnabled = (*key != VK_ESCAPE);
+        ConfigManager::Get().SaveConfig();
     }
 }
