@@ -10,7 +10,7 @@
 class GeneralSection : public CollapsibleSection {
 private:
     static inline int sloMoKey = 0x5A; // Z
-    static inline float slowMotionSpeed = 0.3f;
+    static inline float slowMotionSpeed = 0.4f;
 
     static inline int lowGravityKey = 0x4C; // L
     static inline float lowGravityValue = -100.0f;
