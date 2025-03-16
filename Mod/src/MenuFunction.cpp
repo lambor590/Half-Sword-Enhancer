@@ -8,7 +8,7 @@
 #include "GlobalDefinitions.h"
 #include "ConfigManager.h"
 
-static std::string GetKeyName(int vKey) {
+static const char* GetKeyName(int vKey) {
     static const std::unordered_map<int, const char*> keyNameMap = {
         {VK_LSHIFT, "Left Shift"}, {VK_RSHIFT, "Right Shift"}, {VK_SHIFT, "Shift"},
         {VK_CONTROL, "Control"}, {VK_LCONTROL, "Left Control"}, {VK_RCONTROL, "Right Control"},
@@ -22,11 +22,18 @@ static std::string GetKeyName(int vKey) {
     if (auto it = keyNameMap.find(vKey); it != keyNameMap.end())
         return it->second;
     
-    if ((vKey >= '0' && vKey <= '9') || (vKey >= 'A' && vKey <= 'Z'))
-        return std::string(1, static_cast<char>(vKey));
+    static char singleChar[2] = {0};
+    if ((vKey >= '0' && vKey <= '9') || (vKey >= 'A' && vKey <= 'Z')) {
+        singleChar[0] = static_cast<char>(vKey);
+        singleChar[1] = '\0';
+        return singleChar;
+    }
         
-    if (vKey >= VK_F1 && vKey <= VK_F12)
-        return "F" + std::to_string(vKey - VK_F1 + 1);
+    static char fKeyName[4] = {0};
+    if (vKey >= VK_F1 && vKey <= VK_F12) {
+        sprintf_s(fKeyName, "F%d", vKey - VK_F1 + 1);
+        return fKeyName;
+    }
     
     static char keyName[32];
     UINT scanCode = MapVirtualKey(vKey, MAPVK_VK_TO_VSC);
@@ -34,7 +41,7 @@ static std::string GetKeyName(int vKey) {
 }
 
 static void RenderKeyButton(const std::string& id, bool& waitingForKey, const int& key) {
-    const char* keyText = waitingForKey ? "Press any key..." : GetKeyName(key).c_str();
+    const char* keyText = waitingForKey ? "Press any key..." : GetKeyName(key);
     const bool isDisabled = key == VK_DELETE;
     
     if (isDisabled) {
@@ -47,6 +54,12 @@ static void RenderKeyButton(const std::string& id, bool& waitingForKey, const in
     ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyText).x + 20);
     if (ImGui::Button((keyText + id).c_str()))
         waitingForKey = true;
+    
+    if (ImGui::IsItemHovered()) {
+        ImGui::BeginTooltip();
+        ImGui::Text("Change keybind");
+        ImGui::EndTooltip();
+    }
     
     if (isDisabled) {
         ImGui::PopStyleVar();
