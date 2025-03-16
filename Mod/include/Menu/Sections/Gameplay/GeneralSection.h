@@ -12,8 +12,8 @@ private:
     static inline int sloMoKey = 0x5A; // Z
     static inline float slowMotionSpeed = 0.4f;
 
-    static inline int lowGravityKey = 0x4C; // L
-    static inline float lowGravityValue = 0.0f;
+    static inline int customGravityKey = 0x4C; // L
+    static inline float customGravityValue = 0.0f;
 
     static inline int saveLoadoutKey = 0x54; // T
     static inline int infiniteStaminaKey = 0x49; // I
@@ -31,22 +31,15 @@ public:
             worldSettings->TimeDilation = (worldSettings->TimeDilation == 1.0f) ? slowMotionSpeed : 1.0f;
         }, worldSettings);
 
-        std::initializer_list<Parameter> lowGravityParams = {
-            Parameter("gravity", "Gravity", &lowGravityValue, -3000.0f, 3000.0f)
+        std::initializer_list<Parameter> customGravityParams = {
+            Parameter("gravity", "Gravity", &customGravityValue, -3000.0f, 3000.0f)
         };
 
-        BindWithParams("Toggle Low Gravity", &lowGravityKey, lowGravityParams, [this]() {
+        BindWithParams("Toggle Custom Gravity", &customGravityKey, customGravityParams, [this]() {
             worldSettings->bWorldGravitySet = true;
-            worldSettings->WorldGravityZ = (worldSettings->WorldGravityZ == -980.0f) ? lowGravityValue : -980.0f;
+            worldSettings->WorldGravityZ = (worldSettings->WorldGravityZ == -980.0f) ? customGravityValue : -980.0f;
         }, worldSettings);
 
-        std::initializer_list<Parameter> jumpParams = {
-            Parameter("force", "Force", &jumpForce, 1000.0f, 10000.0f)
-        };
-
-        BindWithParams("Jump", &jumpKey, jumpParams, [this]() {
-            player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, jumpForce), SDK::FName(), true);
-        }, player);
 
         Hook("Infinite Stamina", "OnWalkingOffLedge", &infiniteStaminaKey, [this]() {
             player->Stamina = 100.0f;
@@ -54,6 +47,14 @@ public:
 
         Bind("Save Loadout", &saveLoadoutKey, [this]() {
             player->Save_Loadout();
+        }, player);
+        
+        std::initializer_list<Parameter> jumpParams = {
+            Parameter("force", "Force", &jumpForce, 1000.0f, 10000.0f)
+        };
+
+        BindWithParams("Jump", &jumpKey, jumpParams, [this]() {
+            player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, jumpForce), SDK::FName(), true);
         }, player);
     }
 };
