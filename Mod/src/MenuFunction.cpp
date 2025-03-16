@@ -34,7 +34,7 @@ static std::string GetKeyName(int vKey) {
 }
 
 static void RenderKeyButton(const std::string& id, bool& waitingForKey, const int& key) {
-    const std::string& keyText = waitingForKey ? "Press any key..." : GetKeyName(key);
+    const char* keyText = waitingForKey ? "Press any key..." : GetKeyName(key).c_str();
     const bool isDisabled = key == VK_DELETE;
     
     if (isDisabled) {
@@ -44,7 +44,7 @@ static void RenderKeyButton(const std::string& id, bool& waitingForKey, const in
         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
     }
     
-    ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyText.c_str()).x + 20);
+    ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyText).x + 20);
     if (ImGui::Button((keyText + id).c_str()))
         waitingForKey = true;
     
@@ -55,7 +55,10 @@ static void RenderKeyButton(const std::string& id, bool& waitingForKey, const in
 }
 
 static inline void RenderName(const std::string& name, bool isDisabled) {
-    ImGui::TextColored(isDisabled ? ImVec4(0.50f, 0.50f, 0.50f, 1.00f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f), "%s", name.c_str());
+    ImGui::TextColored(
+        isDisabled ? ImVec4(0.50f, 0.50f, 0.50f, 1.00f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f), 
+        "%s", name.c_str()
+    );
 }
 
 static bool HandleKeyPress(bool& waitingForKey, int& key) {
@@ -90,11 +93,12 @@ static void RenderParametersPopup(const std::string& id, const std::string& name
     if (function->GetParameters().empty())
         return;
         
+    static std::unordered_map<std::string, bool> popupOpenStates;
+    bool& popupWasOpen = popupOpenStates[id];
+    
     if (RenderParametersButton(id, name))
         ImGui::OpenPopup(("ConfigParams" + id).c_str());
     
-    static std::unordered_map<std::string, bool> popupOpenStates;
-    bool& popupWasOpen = popupOpenStates[id];
     bool isPopupOpen = ImGui::BeginPopup(("ConfigParams" + id).c_str());
     
     if (isPopupOpen) {
@@ -151,12 +155,34 @@ void Parameter::Render() {
     ImGui::SameLine();
     
     switch (type) {
-        case Type::Int:
-            ImGui::SliderInt(id.c_str(), std::get<int*>(valuePtr), std::get<int>(minValue), std::get<int>(maxValue));
+        case Type::Int: {
+            auto intPtr = std::get<int*>(valuePtr);
+            ImGui::PushItemWidth(60.0f);
+            char inputBuffer[16];
+            snprintf(inputBuffer, sizeof(inputBuffer), "%d", *intPtr);
+            if (ImGui::InputText((id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
+                                ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+                *intPtr = atoi(inputBuffer);
+            }
+            ImGui::PopItemWidth();
+            ImGui::SameLine();
+            ImGui::SliderInt(id.c_str(), intPtr, std::get<int>(minValue), std::get<int>(maxValue));
             break;
-        case Type::Float:
-            ImGui::SliderFloat(id.c_str(), std::get<float*>(valuePtr), std::get<float>(minValue), std::get<float>(maxValue), "%.2f");
+        }
+        case Type::Float: {
+            auto floatPtr = std::get<float*>(valuePtr);
+            ImGui::PushItemWidth(60.0f);
+            char inputBuffer[16];
+            snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *floatPtr);
+            if (ImGui::InputText((id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
+                                ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+                *floatPtr = static_cast<float>(atof(inputBuffer));
+            }
+            ImGui::PopItemWidth();
+            ImGui::SameLine();
+            ImGui::SliderFloat(id.c_str(), floatPtr, std::get<float>(minValue), std::get<float>(maxValue), "%.2f");
             break;
+        }
         case Type::Bool:
             ImGui::Checkbox(id.c_str(), std::get<bool*>(valuePtr));
             break;
