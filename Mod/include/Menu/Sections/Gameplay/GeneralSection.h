@@ -13,13 +13,13 @@ private:
     static inline float slowMotionSpeed = 0.4f;
 
     static inline int lowGravityKey = 0x4C; // L
-    static inline float lowGravityValue = -100.0f;
+    static inline float lowGravityValue = 0.0f;
 
     static inline int saveLoadoutKey = 0x54; // T
     static inline int infiniteStaminaKey = 0x49; // I
 
     static inline int jumpKey = 0x4A; // J
-    static inline float jumpForce = 2000.0f;
+    static inline float jumpForce = 3000.0f;
 
 public:
     GeneralSection() : CollapsibleSection("General") {
@@ -32,7 +32,7 @@ public:
         }, worldSettings);
 
         std::initializer_list<Parameter> lowGravityParams = {
-            Parameter("gravity", "Gravity", &lowGravityValue, -5000.0f, 5000.0f)
+            Parameter("gravity", "Gravity", &lowGravityValue, -3000.0f, 3000.0f)
         };
 
         BindWithParams("Toggle Low Gravity", &lowGravityKey, lowGravityParams, [this]() {
@@ -41,7 +41,7 @@ public:
         }, worldSettings);
 
         std::initializer_list<Parameter> jumpParams = {
-            Parameter("force", "Force", &jumpForce, 1000.0f, 15000.0f)
+            Parameter("force", "Force", &jumpForce, 1000.0f, 10000.0f)
         };
 
         BindWithParams("Jump", &jumpKey, jumpParams, [this]() {
