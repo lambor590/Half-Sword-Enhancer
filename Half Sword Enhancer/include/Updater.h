@@ -7,6 +7,8 @@
 #include <fstream>
 #include <iostream>
 
+#include "Logger.h"
+
 namespace Updater {
 
     inline std::string getLocalVersion() {
@@ -203,27 +205,27 @@ namespace Updater {
     inline void checkForUpdates() {
         std::string localVersion = getLocalVersion();
         std::string remoteVersion = getRemoteVersion();
-        std::cout << "Current version: " << localVersion << "\n";
+        Logger::info("Current version: " + localVersion);
         if (remoteVersion == "0.0.0") {
-            std::cout << "Failed to check for updates.\nIf you have internet, try again in a few seconds.";
+            Logger::error("Failed to check for updates.\nIf you have internet, try again in a few seconds.");
             std::this_thread::sleep_for(std::chrono::seconds(3));
             return;
         }
 
-        std::cout << "Latest public version: " << remoteVersion;
+        Logger::info("Latest public version: " + remoteVersion);
 
         if (!isUpdateAvailable(localVersion, remoteVersion)) {
-            std::cout << "No updates available.";
+            Logger::info("No updates available.");
             return;
         }
 
-        std::cout << "Update available!\nDownloading...";
+        Logger::info("Update available!\nDownloading...");
 
         std::string downloadUrl = "https://github.com/lambor590/augfohndfjgbdajfgdnfjgadbuofidgjsdnfjgisfudhngdfgjkdfgbsjgdbj/releases/download/v" +
             remoteVersion + "/HS_Enhancer_Launcher.exe";
 
         if (!downloadUpdate(downloadUrl)) {
-            std::cout << "Error downloading update.";
+            Logger::error("Error downloading update.");
         }
     }
 
