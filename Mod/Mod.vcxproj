@@ -211,6 +211,7 @@
     <ClInclude Include="include\Menu\IMenuFunction.h" />
     <ClInclude Include="include\Menu\MenuManager.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\GeneralSection.h" />
+    <ClInclude Include="include\Menu\Sections\Settings\KeybindsSection.h" />
     <ClInclude Include="include\Render\ID3DRenderer.h" />
     <ClInclude Include="include\Render\IRenderCallback.h" />
     <ClInclude Include="include\Render\Renderer.h" />

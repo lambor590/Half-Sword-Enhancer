@@ -142,5 +142,8 @@
     <ClInclude Include="include\GlobalDefinitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Settings\KeybindsSection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
