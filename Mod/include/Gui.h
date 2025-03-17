@@ -12,6 +12,7 @@
 #include "Logger.h"
 #include "Menu/MenuManager.h"
 #include "Menu/Sections/Gameplay/GeneralSection.h"
+#include "Menu/Sections/Settings/KeybindsSection.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -39,4 +40,6 @@ private:
     static WNDPROC originalWndProc;
     static bool isVisible;
     static std::unordered_map<int*, std::function<void()>> s_keybinds;
+    static inline int s_toggleGuiKey = VK_INSERT;
+    static inline int s_unbindKey = VK_DELETE;
 };
