@@ -12,64 +12,69 @@
 namespace Updater {
 
     inline std::string getLocalVersion() {
-        const char* defaultVersion = "0.0.0";
+        const char defaultVersion[] = "0.0.0";
         char filePath[MAX_PATH];
 
         if (!GetModuleFileNameA(NULL, filePath, MAX_PATH)) {
             return defaultVersion;
         }
 
-        VS_FIXEDFILEINFO* fileInfo = nullptr;
-        UINT size = 0;
         DWORD verSize = GetFileVersionInfoSizeA(filePath, nullptr);
 
         std::vector<BYTE> verData(verSize);
+        VS_FIXEDFILEINFO* fileInfo = nullptr;
+        UINT size = 0;
+
         if (!GetFileVersionInfoA(filePath, 0, verSize, verData.data()) ||
             !VerQueryValueA(verData.data(), "\\", (void**)&fileInfo, &size)) {
             return defaultVersion;
         }
 
         return std::to_string(HIWORD(fileInfo->dwFileVersionMS)) + "." +
-            std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
-            std::to_string(HIWORD(fileInfo->dwFileVersionLS));
+               std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
+               std::to_string(HIWORD(fileInfo->dwFileVersionLS));
     }
 
     inline std::string getRemoteVersion() {
-        const wchar_t* host = L"api.github.com";
-        const wchar_t* path = L"/repos/lambor590/augfohndfjgbdajfgdnfjgadbuofidgjsdnfjgisfudhngdfgjkdfgbsjgdbj/releases/latest";
+        const wchar_t host[] = L"api.github.com";
+        const wchar_t path[] = L"/repos/lambor590/augfohndfjgbdajfgdnfjgadbuofidgjsdnfjgisfudhngdfgjkdfgbsjgdbj/releases/latest";
         std::string version = "0.0.0";
 
-        do {
-            HINTERNET session = WinHttpOpen(L"Half Sword Enhancer", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
-                WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0);
-            if (!session) break;
+        HINTERNET session = WinHttpOpen(L"Half Sword Enhancer", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+            WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0);
+        if (!session) return version;
 
-            HINTERNET connect = WinHttpConnect(session, host, INTERNET_DEFAULT_HTTPS_PORT, 0);
-            if (!connect) {
-                WinHttpCloseHandle(session);
-                break;
+        HINTERNET connect = WinHttpConnect(session, host, INTERNET_DEFAULT_HTTPS_PORT, 0);
+        if (!connect) {
+            WinHttpCloseHandle(session);
+            return version;
+        }
+
+        HINTERNET request = WinHttpOpenRequest(connect, L"GET", path, NULL, NULL, NULL, WINHTTP_FLAG_SECURE);
+        if (!request) {
+            WinHttpCloseHandle(connect);
+            WinHttpCloseHandle(session);
+            return version;
+        }
+
+        if (!WinHttpSendRequest(request, NULL, 0, NULL, 0, 0, 0) ||
+            !WinHttpReceiveResponse(request, NULL)) {
+            WinHttpCloseHandle(request);
+            WinHttpCloseHandle(connect);
+            WinHttpCloseHandle(session);
+            return version;
+        }
+
+        std::string response;
+        DWORD size;
+        char buffer[2048];
+
+        while (WinHttpQueryDataAvailable(request, &size) && size > 0) {
+            DWORD downloaded;
+            if (WinHttpReadData(request, buffer, size, &downloaded)) {
+                response.append(buffer, downloaded);
             }
-
-            HINTERNET request = WinHttpOpenRequest(connect, L"GET", path, NULL, NULL, NULL, WINHTTP_FLAG_SECURE);
-            if (!request) {
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
-                break;
-            }
-
-            if (!WinHttpSendRequest(request, NULL, 0, NULL, 0, 0, 0) ||
-                !WinHttpReceiveResponse(request, NULL)) break;
-
-            std::string response;
-            DWORD size;
-            char buffer[2048]{};
-
-            while (WinHttpQueryDataAvailable(request, &size) && size > 0) {
-                DWORD downloaded;
-                if (WinHttpReadData(request, buffer, size, &downloaded)) {
-                    response.append(buffer, downloaded);
-                }
-            }
+        }
 
             size_t assetsPos = response.find("\"assets\":");
             size_t namePos = (assetsPos != std::string::npos) ?
@@ -80,28 +85,28 @@ namespace Updater {
             if (start != std::string::npos) {
                 start += 12;
                 size_t end = response.find("\"", start);
-                if (end != std::string::npos) {
-                    version = response.substr(start + 1, end - start - 1);
-                }
+            if (end != std::string::npos) {
+                version = response.substr(start + 1, end - start - 1);
             }
+        }
 
-            WinHttpCloseHandle(request);
-            WinHttpCloseHandle(connect);
-            WinHttpCloseHandle(session);
-        } while (false);
-
+        WinHttpCloseHandle(request);
+        WinHttpCloseHandle(connect);
+        WinHttpCloseHandle(session);
         return version;
     }
 
-    inline bool isUpdateAvailable(std::string& local, std::string& remote) {
-        std::vector<int> localVer(3), remoteVer(3);
+    inline bool isUpdateAvailable(const std::string& local, const std::string& remote) {
+        std::vector<int> localVer(3, 0), remoteVer(3, 0);
         std::istringstream localStream(local), remoteStream(remote);
         std::string token;
 
         for (int i = 0; i < 3; i++) {
-            localVer[i] = std::getline(localStream, token, '.') ? std::stoi(token) : 0;
-            remoteVer[i] = std::getline(remoteStream, token, '.') ? std::stoi(token) : 0;
+            if (std::getline(localStream, token, '.')) localVer[i] = std::stoi(token);
+            if (std::getline(remoteStream, token, '.')) remoteVer[i] = std::stoi(token);
+        }
 
+        for (int i = 0; i < 3; i++) {
             if (remoteVer[i] > localVer[i]) return true;
             if (remoteVer[i] < localVer[i]) return false;
         }
@@ -115,17 +120,18 @@ namespace Updater {
         strcat_s(batPath, "update_hse.bat");
 
         std::ofstream batFile(batPath);
-        batFile << "@echo off\n";
-        batFile << "copy /Y \"" << tempFileName << "\" \"" << currentPath << "\"\n";
-        batFile << "if errorlevel 1 goto :error\n";
-        batFile << "del \"" << tempFileName << "\"\n";
-        batFile << "timeout /t 1 /nobreak > nul\n";
-        batFile << "start \"\" \"" << currentPath << "\"\n";
-        batFile << "del \"%~f0\"\n";
-        batFile << "exit\n";
-        batFile << ":error\n";
-        batFile << "del \"" << tempFileName << "\"\n";
-        batFile << "del \"%~f0\"\n";
+
+        batFile << "@echo off\n"
+                << "copy /Y \"" << tempFileName << "\" \"" << currentPath << "\"\n"
+                << "if errorlevel 1 goto :error\n"
+                << "del \"" << tempFileName << "\"\n"
+                << "timeout /t 1 /nobreak > nul\n"
+                << "start \"\" \"" << currentPath << "\"\n"
+                << "del \"%~f0\"\n"
+                << "exit\n"
+                << ":error\n"
+                << "del \"" << tempFileName << "\"\n"
+                << "del \"%~f0\"\n";
         batFile.close();
 
         STARTUPINFOA si = { sizeof(si) };
@@ -151,61 +157,77 @@ namespace Updater {
             return false;
         }
 
-        HINTERNET hSession = nullptr, hConnect = nullptr, hRequest = nullptr;
-        bool success = false;
+        HINTERNET hSession = WinHttpOpen(L"Half Sword Enhancer Updater",
+            WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, nullptr, nullptr, 0);
+        if (!hSession) return false;
 
-        do {
-            if (!(hSession = WinHttpOpen(L"Half Sword Enhancer Updater/1.0",
-                WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, nullptr, nullptr, 0))) break;
+        HINTERNET hConnect = WinHttpConnect(hSession, hostName, urlComp.nPort, 0);
+        if (!hConnect) {
+            WinHttpCloseHandle(hSession);
+            return false;
+        }
 
-            if (!(hConnect = WinHttpConnect(hSession, hostName, urlComp.nPort, 0))) break;
+        HINTERNET hRequest = WinHttpOpenRequest(hConnect, L"GET", urlPath,
+            nullptr, nullptr, WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE);
+        if (!hRequest) {
+            WinHttpCloseHandle(hConnect);
+            WinHttpCloseHandle(hSession);
+            return false;
+        }
 
-            if (!(hRequest = WinHttpOpenRequest(hConnect, L"GET", urlPath,
-                nullptr, nullptr, WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE))) break;
+        if (!WinHttpSendRequest(hRequest, nullptr, 0, nullptr, 0, 0, 0) ||
+            !WinHttpReceiveResponse(hRequest, nullptr)) {
+            WinHttpCloseHandle(hRequest);
+            WinHttpCloseHandle(hConnect);
+            WinHttpCloseHandle(hSession);
+            return false;
+        }
 
-            if (!WinHttpSendRequest(hRequest, nullptr, 0, nullptr, 0, 0, 0) ||
-                !WinHttpReceiveResponse(hRequest, nullptr)) break;
+        char currentPath[MAX_PATH];
+        GetModuleFileNameA(NULL, currentPath, MAX_PATH);
+        std::string tempFileName = std::string(currentPath) + ".update";
 
-            char currentPath[MAX_PATH];
-            GetModuleFileNameA(NULL, currentPath, MAX_PATH);
-            std::string tempFileName = std::string(currentPath) + ".update";
+        HANDLE hFile = CreateFileA(tempFileName.c_str(), GENERIC_WRITE, 0, NULL,
+            CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (hFile == INVALID_HANDLE_VALUE) {
+            WinHttpCloseHandle(hRequest);
+            WinHttpCloseHandle(hConnect);
+            WinHttpCloseHandle(hSession);
+            return false;
+        }
 
-            HANDLE hFile = CreateFileA(tempFileName.c_str(), GENERIC_WRITE, 0, NULL,
-                CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-            if (hFile == INVALID_HANDLE_VALUE) break;
+        char buffer[8192]; // Aumentado el tamaño del buffer para mejorar rendimiento
+        DWORD dwSize, dwDownloaded, dwWritten;
+        bool downloadSuccess = true;
 
-            char buffer[4096];
-            DWORD dwSize, dwDownloaded, dwWritten;
-            bool downloadSuccess = true;
-
-            while (WinHttpQueryDataAvailable(hRequest, &dwSize) && dwSize > 0) {
-                dwSize = min(dwSize, sizeof(buffer));
-                if (!WinHttpReadData(hRequest, buffer, dwSize, &dwDownloaded) ||
-                    !WriteFile(hFile, buffer, dwDownloaded, &dwWritten, NULL)) {
-                    downloadSuccess = false;
-                    break;
-                }
+        while (WinHttpQueryDataAvailable(hRequest, &dwSize) && dwSize > 0) {
+            dwSize = min(dwSize, sizeof(buffer));
+            if (!WinHttpReadData(hRequest, buffer, dwSize, &dwDownloaded) ||
+                !WriteFile(hFile, buffer, dwDownloaded, &dwWritten, NULL)) {
+                downloadSuccess = false;
+                break;
             }
+        }
 
-            CloseHandle(hFile);
-
-            if (downloadSuccess) {
-                createAndRunUpdateScript(tempFileName, currentPath);
-                success = true;
-            }
-        } while (false);
-
+        CloseHandle(hFile);
         WinHttpCloseHandle(hRequest);
         WinHttpCloseHandle(hConnect);
         WinHttpCloseHandle(hSession);
 
-        return success;
+        if (downloadSuccess) {
+            createAndRunUpdateScript(tempFileName, currentPath);
+            return true;
+        }
+
+        return false;
     }
 
     inline void checkForUpdates() {
         std::string localVersion = getLocalVersion();
         std::string remoteVersion = getRemoteVersion();
+        
         Logger::info("Mod version: " + localVersion);
+        
         if (remoteVersion == "0.0.0") {
             Logger::error("Failed to check for updates.");
             std::this_thread::sleep_for(std::chrono::seconds(3));
@@ -228,5 +250,4 @@ namespace Updater {
             Logger::error("Error downloading update.");
         }
     }
-
 }
