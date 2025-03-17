@@ -205,9 +205,9 @@ namespace Updater {
     inline void checkForUpdates() {
         std::string localVersion = getLocalVersion();
         std::string remoteVersion = getRemoteVersion();
-        Logger::info("Current version: " + localVersion);
+        Logger::info("Mod version: " + localVersion);
         if (remoteVersion == "0.0.0") {
-            Logger::error("Failed to check for updates.\nIf you have internet, try again in a few seconds.");
+            Logger::error("Failed to check for updates.");
             std::this_thread::sleep_for(std::chrono::seconds(3));
             return;
         }
