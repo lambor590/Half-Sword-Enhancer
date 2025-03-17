@@ -7,6 +7,7 @@
 #include "../resource/resource.h"
 #include "Util.h"
 #include "Updater.h"
+#include "Logger.h"
 
 using namespace Util;
 
@@ -30,12 +31,12 @@ int main() {
     GetTempPathA(MAX_PATH, tempPath);
     GetTempFileNameA(tempPath, "temp", 0, dllPath);
 
-    std::cout << "HELP: Press INSERT to toggle the UI and DELETE to unassign a key\n\n";
+    Logger::info("You can change the menu keybinds in the settings");
     Updater::checkForUpdates();
-    std::cout << "\n\nSearching for Half Sword process...\n";
+    Logger::info("Searching for Half Sword process...");
     DWORD processId = getProcessIdByName(processName);
     if (processId == 0) {
-        std::cout << "Half Sword not found, launching it...\n";
+        Logger::info("Half Sword not found, launching it...");
         ShellExecuteA(0, 0, "steam://rungameid/2527870", 0, 0, SW_SHOW);
         while (!(processId = getProcessIdByName(processName))) {
             std::this_thread::sleep_for(std::chrono::seconds(2));
@@ -44,7 +45,7 @@ int main() {
 
     HANDLE procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processId);
     if (!procHandle) fail("Failed to open handle!");
-    std::cout << "Handle opened successfully!\n";
+    Logger::info("Handle opened successfully!");
 
     HRSRC hResource = FindResourceA(NULL, MAKEINTRESOURCE(IDR_DLL1), RT_RCDATA);
     if (!hResource) fail("Failed to find mod resource!");
@@ -67,14 +68,14 @@ int main() {
 
 #pragma warning(suppress : 6001)
     CloseHandle(hFile);
-    std::cout << "DLL written to temporary file successfully.\n";
+    Logger::info("DLL written to temporary file successfully.");
 
     LPVOID remoteMem = VirtualAllocEx(procHandle, nullptr, strlen(dllPath) + 1, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
     if (!remoteMem) fail("Failed to allocate memory in Half Sword's process.");
     else if (!WriteProcessMemory(procHandle, remoteMem, dllPath, strlen(dllPath) + 1, NULL)) {
         fail("Failed to write DLL path to Half Sword's process memory.");
     }
-    std::cout << "DLL path written to Half Sword's process memory.\n";
+    Logger::info("DLL path written to Half Sword's process memory.");
 
     HANDLE threadHandle = CreateRemoteThread(procHandle, nullptr, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, remoteMem, 0, nullptr);
     if (!threadHandle) {
@@ -84,17 +85,17 @@ int main() {
         WaitForSingleObject(threadHandle, INFINITE);
         CloseHandle(threadHandle);
     }
-    std::cout << "Remote thread created successfully.\n";
+    Logger::info("Remote thread created successfully.");
 
     DeleteFileA(dllPath);
-    std::cout << "Temporary DLL file deleted.\n";
+    Logger::info("Temporary DLL file deleted.");
 
     if (remoteMem) VirtualFreeEx(procHandle, remoteMem, 0, MEM_RELEASE);
-    std::cout << "Memory deallocated successfully.\n";
+    Logger::info("Memory deallocated successfully.");
 
     CloseHandle(procHandle);
-    std::cout << "Half Sword Enhancer injected successfully! Enjoy!\n"
-        << "Exiting launcher...\n";
+    Logger::info("Half Sword Enhancer injected successfully! Enjoy!");
+    Logger::info("Exiting launcher...");
     std::this_thread::sleep_for(std::chrono::seconds(1));
     return 0;
 }
