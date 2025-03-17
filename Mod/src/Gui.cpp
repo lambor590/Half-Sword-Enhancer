@@ -1,37 +1,28 @@
 #include "Gui.h"
+#include "KeybindManager.h"
+#include "Menu/Sections/Settings/KeybindsSection.h"
 
 Gui* Gui::s_instance = nullptr;
 WNDPROC Gui::originalWndProc = nullptr;
 bool Gui::isVisible = true;
-std::unordered_map<int*, std::function<void()>> Gui::s_keybinds;
 
 Logger logger("Gui");
 
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (GetAsyncKeyState(VK_INSERT) & 1)
+    if (msg == WM_KEYDOWN && (GetAsyncKeyState(KeybindManager::GetToggleGuiKey()) & 1))
         isVisible = !isVisible;
 
-    if (msg == WM_KEYDOWN) {
-        auto it = std::find_if(s_keybinds.begin(), s_keybinds.end(), 
-            [wParam](const auto& pair) { return *pair.first == wParam; });
-        if (it != s_keybinds.end())
-            it->second();
-    }
+    if (KeybindManager::ProcessKeyEvent(msg, wParam))
+        return true;
 
     if (isVisible) {
         if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
             return true;
 
-        switch (msg) {
-            case WM_KEYDOWN: case WM_KEYUP: case WM_CHAR:
-            case WM_SYSKEYDOWN: case WM_SYSKEYUP:
-            case WM_MOUSEWHEEL: case WM_MOUSEHWHEEL:
-            case WM_LBUTTONDOWN: case WM_LBUTTONUP:
-            case WM_RBUTTONDOWN: case WM_RBUTTONUP:
-            case WM_MBUTTONDOWN: case WM_MBUTTONUP:
-            case WM_MOUSEMOVE: case WM_SETCURSOR:
-                return true;
-        }
+        if ((msg >= WM_KEYFIRST && msg <= WM_KEYLAST) ||
+            (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST) ||
+            msg == WM_SETCURSOR)
+            return true;
     }
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
@@ -124,7 +115,7 @@ void Gui::SetupStyle() {
     colors[ImGuiCol_PopupBg] = ImVec4(0.10f, 0.08f, 0.06f, 0.98f);
 }
 
-void Gui::Setup() {
+void Gui::Setup() {    
     originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
     logger.Log("WndProc hooked successfully");
 
@@ -138,6 +129,7 @@ void Gui::Setup() {
     SetupStyle();
 
     MenuManager::Get().AddSection<GeneralSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<KeybindsSection>(MenuTab::Settings);
 
     s_instance = this;
 }
@@ -180,8 +172,7 @@ void Gui::Render() {
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Settings")) {
-            ImGui::Text("Coming Soon");
-            // MenuManager::Get().RenderSections(MenuTab::Settings);
+            MenuManager::Get().RenderSections(MenuTab::Settings);
             ImGui::EndTabItem();
         }
         ImGui::EndTabBar();
