@@ -12,17 +12,27 @@
 using namespace Util;
 
 int main() {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
     std::cout << R"(
         __  __      ______   _____                        __
        / / / /___ _/ / __/  / ___/      ______  _________/ /
       / /_/ / __ `/ / /_    \__ \ | /| / / __ \/ ___/ __  /
      / __  / /_/ / / __/   ___/ / |/ |/ / /_/ / /  / /_/ /
-    /_/ /_/\__,_/_/_/_    /____/|__/|__/\____/_/   \__,_/
+    /_/ /_/\__,_/_/_/     /____/|__/|__/\____/_/   \__,_/
+    )";
+    
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+    std::cout << R"(
+        ______      __
        / ____/___  / /_  ____ _____  ________  _____
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
-    /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/     by The Ghost
+    /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/     
     )" << "\n";
+    
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
     SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
 
@@ -31,6 +41,7 @@ int main() {
     GetTempPathA(MAX_PATH, tempPath);
     GetTempFileNameA(tempPath, "temp", 0, dllPath);
 
+    Logger::info("Made by The Ghost");
     Logger::info("You can change the menu keybinds in the settings");
     Updater::checkForUpdates();
     Logger::info("Searching for Half Sword process...");
