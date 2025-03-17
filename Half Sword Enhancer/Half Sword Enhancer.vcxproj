@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="include\Updater.h" />
     <ClInclude Include="include\Util.h" />
+    <ClInclude Include="include\Logger.h" />
     <ClInclude Include="resource\resource.h" />
   </ItemGroup>
   <ItemGroup>
