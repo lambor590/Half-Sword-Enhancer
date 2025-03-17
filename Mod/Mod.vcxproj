@@ -181,6 +181,7 @@
     <ClCompile Include="src\ConfigManager.cpp" />
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\IMenuFunction.cpp" />
+    <ClCompile Include="src\KeybindManager.cpp" />
     <ClCompile Include="src\MenuFunction.cpp" />
     <ClCompile Include="src\Gui.cpp" />
     <ClCompile Include="SDK\SDK\Basic.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="include\Gui.h" />
     <ClInclude Include="include\Hooks\DirectXHook.h" />
     <ClInclude Include="include\Hooks\GameHook.h" />
+    <ClInclude Include="include\KeybindManager.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\MemoryUtils.h" />
     <ClInclude Include="include\Menu\ICollapsibleSection.h" />

@@ -92,6 +92,9 @@
     <ClCompile Include="src\IMenuFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\KeybindManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Hooks\DirectXHook.h">
@@ -143,6 +146,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Settings\KeybindsSection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KeybindManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
