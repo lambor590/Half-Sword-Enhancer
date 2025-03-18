@@ -9,20 +9,17 @@ bool Gui::isVisible = true;
 Logger logger("Gui");
 
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+    if (KeybindManager::ProcessKeyEvent(msg, wParam))
+        return true;
+    
     if (msg == WM_KEYDOWN && (GetAsyncKeyState(KeybindManager::GetToggleGuiKey()) & 1))
         isVisible = !isVisible;
 
-    if (KeybindManager::ProcessKeyEvent(msg, wParam))
+    if (isVisible && (
+        ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam) || 
+        (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST && ImGui::GetIO().WantCaptureMouse)
+    )) {
         return true;
-
-    if (isVisible) {
-        if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-            return true;
-
-        if ((msg >= WM_KEYFIRST && msg <= WM_KEYLAST) ||
-            (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST) ||
-            msg == WM_SETCURSOR)
-            return true;
     }
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
