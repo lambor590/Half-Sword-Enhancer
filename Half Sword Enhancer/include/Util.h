@@ -22,6 +22,20 @@ namespace Util {
         return processId;
     }
 
+    inline static const bool isRunningAsAdmin() {
+        BOOL isAdmin = FALSE;
+        PSID adminGroup = NULL;
+        SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
+
+        if (AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
+            DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &adminGroup)) {
+            CheckTokenMembership(NULL, adminGroup, &isAdmin);
+            FreeSid(adminGroup);
+        }
+
+        return isAdmin;
+    }
+
     inline static void fail(const char* msg) {
         MessageBox(nullptr, msg, "Error", MB_ICONERROR);
         exit(1);
