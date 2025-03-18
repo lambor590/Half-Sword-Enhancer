@@ -6,6 +6,7 @@
 #include "ConfigManager.h"
 #include "Gui.h"
 #include "GlobalDefinitions.h"
+#include "KeybindManager.h"
 
 static std::string NormalizeSection(const std::string& name) {
     std::string result = name;
@@ -63,9 +64,9 @@ HookedFunction::~HookedFunction() {
     }
 }
 
-void HookedFunction::SetKey(int newKey) {
-    if (*key != newKey) {
-        *key = prevKey = newKey;
+void HookedFunction::SetKey() {
+    if (prevKey != *key) {
+        prevKey = *key;
         SaveConfig("key", *key);
         g_ConfigManager.SaveConfig();
     }
@@ -99,16 +100,16 @@ void HookedFunction::LoadConfig() {
 void KeybindFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
-    if (*key != VK_DELETE)
-        Gui::RegisterKeybind(key, callback);
+    if (*key != -1)
+        KeybindManager::RegisterKeybind(key, callback);
     
     LoadParameters();
 }
 
-void KeybindFunction::UpdateKey(int newKey) {
-    Gui::UnregisterKeybind(&prevKey);
-    if (prevKey != newKey) {
-        prevKey = *key = newKey;
+void KeybindFunction::UpdateKey() {
+    KeybindManager::UnregisterKeybind(&prevKey);
+    if (prevKey != *key) {
+        prevKey = *key;
         SaveConfig("key", *key);
         g_ConfigManager.SaveConfig();
     }
