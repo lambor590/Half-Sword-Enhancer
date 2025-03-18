@@ -33,7 +33,6 @@ int main() {
     )" << "\n";
     
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-
     SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
 
     const char* processName = "VersionTest54-Win64-Shipping.exe";
@@ -43,7 +42,16 @@ int main() {
 
     Logger::info("Made by The Ghost");
     Logger::info("You can change the menu keybinds in the settings");
+    
+    if (isRunningAsAdmin()) {
+        Logger::error("Detected administrator privileges");
+        MessageBoxA(NULL, "This program should not be run as administrator.\nPlease run it as a normal user.",
+            "Half Sword Enhancer", MB_ICONERROR | MB_OK);
+        return 1;
+    }
+    
     Updater::checkForUpdates();
+    
     Logger::info("Searching for Half Sword process...");
     DWORD processId = getProcessIdByName(processName);
     if (processId == 0) {
