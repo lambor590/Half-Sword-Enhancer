@@ -7,42 +7,11 @@
 #include "Gui.h"
 #include "GlobalDefinitions.h"
 #include "ConfigManager.h"
-
-static const char* GetKeyName(int vKey) {
-    static const std::unordered_map<int, const char*> keyNameMap = {
-        {VK_LSHIFT, "Left Shift"}, {VK_RSHIFT, "Right Shift"}, {VK_SHIFT, "Shift"},
-        {VK_CONTROL, "Control"}, {VK_LCONTROL, "Left Control"}, {VK_RCONTROL, "Right Control"},
-        {VK_MENU, "Alt"}, {VK_LMENU, "Left Alt"}, {VK_RMENU, "Right Alt"},
-        {VK_BACK, "Backspace"}, {VK_TAB, "Tab"}, {VK_RETURN, "Enter"},
-        {VK_SPACE, "Space"}, {VK_CAPITAL, "Caps Lock"}, {VK_ESCAPE, "Escape"},
-        {VK_LEFT, "Left"}, {VK_UP, "Up"}, {VK_RIGHT, "Right"}, {VK_DOWN, "Down"},
-        {VK_DELETE, "Unassigned"}
-    };
-
-    if (auto it = keyNameMap.find(vKey); it != keyNameMap.end())
-        return it->second;
-    
-    static char singleChar[2] = {0};
-    if ((vKey >= '0' && vKey <= '9') || (vKey >= 'A' && vKey <= 'Z')) {
-        singleChar[0] = static_cast<char>(vKey);
-        singleChar[1] = '\0';
-        return singleChar;
-    }
-        
-    static char fKeyName[4] = {0};
-    if (vKey >= VK_F1 && vKey <= VK_F12) {
-        sprintf_s(fKeyName, "F%d", vKey - VK_F1 + 1);
-        return fKeyName;
-    }
-    
-    static char keyName[32];
-    UINT scanCode = MapVirtualKey(vKey, MAPVK_VK_TO_VSC);
-    return GetKeyNameTextA(scanCode << 16, keyName, sizeof(keyName)) > 0 ? keyName : "Unknown";
-}
+#include "KeybindManager.h"
 
 static void RenderKeyButton(const std::string& id, bool& waitingForKey, const int& key) {
-    const char* keyText = waitingForKey ? "Press any key..." : GetKeyName(key);
-    const bool isDisabled = key == VK_DELETE;
+    const char* keyText = waitingForKey ? "Press any key..." : KeybindManager::GetKeyName(key);
+    const bool isDisabled = key == -1;
     
     if (isDisabled) {
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.12f, 0.09f, 0.50f));
@@ -72,19 +41,6 @@ static inline void RenderName(const std::string& name, bool isDisabled) {
         isDisabled ? ImVec4(0.50f, 0.50f, 0.50f, 1.00f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f), 
         "%s", name.c_str()
     );
-}
-
-static bool HandleKeyPress(bool& waitingForKey, int& key) {
-    if (!waitingForKey) return false;
-    
-    for (int i = 0; i < 256; i++) {
-        if (GetAsyncKeyState(i) & 0x8000) {
-            key = i;
-            waitingForKey = false;
-            return true;
-        }
-    }
-    return false;
 }
 
 static bool RenderParametersButton(const std::string& id, const std::string& name) {
@@ -135,13 +91,13 @@ void HookedFunction::Render() {
         SetEnabled(currentEnabled);
     
     ImGui::SameLine();
-    RenderName(name, !isEnabled && *key == VK_DELETE);
+    RenderName(name, !isEnabled && *key == -1);
     
     RenderParametersPopup(id, name, this);
     
-    if (HandleKeyPress(waitingForKey, *key))
-        SetKey(*key);
-    else if (!waitingForKey && *key != VK_DELETE && (GetAsyncKeyState(*key) & 1))
+    if (KeybindManager::HandleKeyPress(waitingForKey, *key))
+        SetKey();
+    else if (!waitingForKey && *key != -1 && (GetAsyncKeyState(*key) & 1))
         SetEnabled(!isEnabled);
 }
 
@@ -150,14 +106,14 @@ void KeybindFunction::Render() {
     
     RenderKeyButton(id, waitingForKey, *key);
     ImGui::SameLine();
-    RenderName(name, *key == VK_DELETE);
+    RenderName(name, *key == -1);
     
     RenderParametersPopup(id, name, this);
     
-    if (HandleKeyPress(waitingForKey, *key)) {
-        if (*key != VK_DELETE) 
-            Gui::RegisterKeybind(key, callback);
-        UpdateKey(*key);
+    if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
+        if (*key != -1)
+            KeybindManager::RegisterKeybind(key, callback);
+        UpdateKey();
     }
 }
 
