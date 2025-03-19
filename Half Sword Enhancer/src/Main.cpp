@@ -115,6 +115,6 @@ int main() {
     CloseHandle(procHandle);
     Logger::info("Half Sword Enhancer injected successfully! Enjoy!");
     Logger::info("Exiting launcher...");
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::seconds(3));
     return 0;
 }
