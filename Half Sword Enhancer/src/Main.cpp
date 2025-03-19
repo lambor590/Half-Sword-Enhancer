@@ -13,7 +13,7 @@ using namespace Util;
 
 int main() {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    
+
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
     std::cout << R"(
         __  __      ______   _____                        __
@@ -22,7 +22,7 @@ int main() {
      / __  / /_/ / / __/   ___/ / |/ |/ / /_/ / /  / /_/ /
     /_/ /_/\__,_/_/_/     /____/|__/|__/\____/_/   \__,_/
     )";
-    
+
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
     std::cout << R"(
         ______      __
@@ -31,7 +31,7 @@ int main() {
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/     
     )" << "\n";
-    
+
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
 
@@ -42,14 +42,14 @@ int main() {
 
     Logger::info("Made by The Ghost");
     Logger::info("You can change the menu keybinds in the settings");
-    
+
     if (isRunningAsAdmin()) {
         Logger::warn("Detected administrator privileges. Running as administrator can cause permission issues.");
         return 1;
     }
-    
+
     Updater::checkForUpdates();
-    
+
     Logger::info("Searching for Half Sword process...");
     DWORD processId = getProcessIdByName(processName);
     if (processId == 0) {
@@ -87,14 +87,16 @@ int main() {
     CloseHandle(hFile);
     Logger::info("DLL written to temporary file successfully.");
 
-    LPVOID remoteMem = VirtualAllocEx(procHandle, nullptr, strlen(dllPath) + 1, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+    LPVOID remoteMem = VirtualAllocEx(procHandle, nullptr, strlen(dllPath) + 1, MEM_COMMIT, PAGE_READWRITE);
     if (!remoteMem) fail("Failed to allocate memory in Half Sword's process.");
     else if (!WriteProcessMemory(procHandle, remoteMem, dllPath, strlen(dllPath) + 1, NULL)) {
         fail("Failed to write DLL path to Half Sword's process memory.");
     }
     Logger::info("DLL path written to Half Sword's process memory.");
 
-    HANDLE threadHandle = CreateRemoteThread(procHandle, nullptr, 0, (LPTHREAD_START_ROUTINE)LoadLibraryA, remoteMem, 0, nullptr);
+#pragma warning(suppress : 6387)
+    HANDLE threadHandle = CreateRemoteThread(procHandle, nullptr, 0,
+        (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryA"), remoteMem, 0, nullptr);
     if (!threadHandle) {
         fail("Failed to create remote thread.");
     }
