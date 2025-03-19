@@ -44,9 +44,7 @@ int main() {
     Logger::info("You can change the menu keybinds in the settings");
     
     if (isRunningAsAdmin()) {
-        Logger::error("Detected administrator privileges");
-        MessageBoxA(NULL, "This program should not be run as administrator.\nPlease run it as a normal user.",
-            "Half Sword Enhancer", MB_ICONERROR | MB_OK);
+        Logger::warn("Detected administrator privileges. Running as administrator can cause permission issues.");
         return 1;
     }
     
