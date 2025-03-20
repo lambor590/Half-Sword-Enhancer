@@ -61,10 +61,10 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID)
     {
         DisableThreadLibraryCalls(module);
         OpenDebugTerminal();
-        CreateThread(0, 0, DXHookThread, 0, 0, NULL);
-        CreateThread(0, 0, GameHookThread, 0, 0, NULL);
+        CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
+        CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
     }
     else if (reason == DLL_PROCESS_DETACH) Cleanup();
     
-    return 1;
+    return TRUE;
 }
