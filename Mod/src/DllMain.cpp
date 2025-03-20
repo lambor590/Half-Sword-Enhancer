@@ -48,7 +48,7 @@ static void Cleanup()
     std::promise<void> cleanupPromise;
     auto cleanupFuture = cleanupPromise.get_future();
     
-    std::thread cleanupThread([&cleanupPromise]() {        
+    std::thread cleanupThread([&cleanupPromise]() {
         renderer.Cleanup();
         GameHook::Get().Unhook();
         cleanupPromise.set_value();
