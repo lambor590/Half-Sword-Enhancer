@@ -170,7 +170,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\backends\imgui_impl_dx11.cpp" />
-    <ClCompile Include="ext\imgui\backends\imgui_impl_dx12.cpp" />
     <ClCompile Include="ext\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="ext\imgui\imgui.cpp" />
     <ClCompile Include="ext\imgui\imgui_draw.cpp" />

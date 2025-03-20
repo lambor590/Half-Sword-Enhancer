@@ -30,9 +30,6 @@
     <ClCompile Include="..\Mod\ext\imgui\backends\imgui_impl_dx11.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="..\Mod\ext\imgui\backends\imgui_impl_dx12.cpp">
-      <Filter>ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="..\Mod\ext\imgui\backends\imgui_impl_win32.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
