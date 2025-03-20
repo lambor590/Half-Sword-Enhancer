@@ -43,10 +43,8 @@ int main() {
     Logger::info("Made by The Ghost");
     Logger::info("You can change the menu keybinds in the settings");
 
-    if (isRunningAsAdmin()) {
+    if (isRunningAsAdmin())
         Logger::warn("Detected administrator privileges. Running as administrator can cause permission issues.");
-        return 1;
-    }
 
     Updater::checkForUpdates();
 
