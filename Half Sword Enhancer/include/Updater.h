@@ -37,7 +37,7 @@ namespace Updater {
 
     inline std::string getRemoteVersion() {
         const wchar_t host[] = L"api.github.com";
-        const wchar_t path[] = L"/repos/lambor590/augfohndfjgbdajfgdnfjgadbuofidgjsdnfjgisfudhngdfgjkdfgbsjgdbj/releases/latest";
+        const wchar_t path[] = L"/repos/lambor590/Half-Sword-Enhancer/releases/latest";
         std::string version = "0.0.0";
 
         HINTERNET session = WinHttpOpen(L"Half Sword Enhancer", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
