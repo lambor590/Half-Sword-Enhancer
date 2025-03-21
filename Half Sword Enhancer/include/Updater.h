@@ -196,7 +196,7 @@ namespace Updater {
             return false;
         }
 
-        char buffer[8192]; // Aumentado el tamaño del buffer para mejorar rendimiento
+        char buffer[8192];
         DWORD dwSize, dwDownloaded, dwWritten;
         bool downloadSuccess = true;
 
