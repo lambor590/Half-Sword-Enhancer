@@ -4,7 +4,7 @@ This is a mod for the game Half Sword that enhances various game features and ad
 
 ## Installation
 
-1. Download the executable
+1. [Download the executable](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer_Launcher.exe)
 2. Ready to use!
 
 ## License
