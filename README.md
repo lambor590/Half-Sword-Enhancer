@@ -7,6 +7,17 @@ I left the project to make my own mod from scratch, and here it is.
 
 At the moment there are not many features, but they are enough to have fun and enjoy the main advantages that this mod brings.
 
+## Installation
+
+This mod has no installation process! Not even a few steps to make it work.
+The mod is an executable file. You open it and it does all the magic.
+If you don't have the game open, it will launch it for you.
+The mod doesn't change any game files either.
+
+1. [Download the executable](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer_Launcher.exe)
+2. Run it.
+3. Enjoy!
+
 ## Main features
 * Friendly and easy to use interface displayed in the game window itself.
 * Highly optimized. It doesn't even take 1 FPS.
@@ -32,13 +43,6 @@ At the moment there are not many features, but they are enough to have fun and e
 * Save Loadout (for next fights).
 * Jump.
   * Adjustable force.
-
-## Installation
-
-This mod has no installation process! Not even a few steps to make it work.
-The mod is an executable file. You open it and it does all the magic.
-If you don't have the game open, it will launch it for you.
-The mod doesn't change any game files either.
 
 ## [Join the Discord server!](https://discord.gg/x3KmgsQYMp)
 
