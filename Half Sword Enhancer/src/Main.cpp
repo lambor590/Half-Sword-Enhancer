@@ -35,13 +35,11 @@ int main() {
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
 
+    const std::string& appDataPath = getAppDataPath();
     const char* processName = "VersionTest54-Win64-Shipping.exe";
-    char tempPath[MAX_PATH], dllPath[MAX_PATH];
-    GetTempPathA(MAX_PATH, tempPath);
-    GetTempFileNameA(tempPath, "temp", 0, dllPath);
+    std::string dllPath = appDataPath + "\\temp_enhancer.dll";
 
     Logger::info("Made by The Ghost");
-    Logger::info("You can change the menu keybinds in the settings");
 
     if (isRunningAsAdmin())
         Logger::warn("Detected administrator privileges. Running as administrator can cause permission issues.");
@@ -72,7 +70,7 @@ int main() {
     DWORD dwResourceSize = SizeofResource(NULL, hResource);
     if (!pLockedResource || dwResourceSize == 0) fail("Failed to lock mod resource!");
 
-    HANDLE hFile = CreateFileA(dllPath, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    HANDLE hFile = CreateFileA(dllPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (hFile == INVALID_HANDLE_VALUE) fail("Failed to create temporary DLL file.");
 
     DWORD bytesWritten;
@@ -85,9 +83,9 @@ int main() {
     CloseHandle(hFile);
     Logger::info("DLL written to temporary file successfully.");
 
-    LPVOID remoteMem = VirtualAllocEx(procHandle, nullptr, strlen(dllPath) + 1, MEM_COMMIT, PAGE_READWRITE);
+    LPVOID remoteMem = VirtualAllocEx(procHandle, nullptr, dllPath.length() + 1, MEM_COMMIT, PAGE_READWRITE);
     if (!remoteMem) fail("Failed to allocate memory in Half Sword's process.");
-    else if (!WriteProcessMemory(procHandle, remoteMem, dllPath, strlen(dllPath) + 1, NULL)) {
+    else if (!WriteProcessMemory(procHandle, remoteMem, dllPath.c_str(), dllPath.length() + 1, NULL)) {
         fail("Failed to write DLL path to Half Sword's process memory.");
     }
     Logger::info("DLL path written to Half Sword's process memory.");
@@ -104,7 +102,7 @@ int main() {
     }
     Logger::info("Remote thread created successfully.");
 
-    DeleteFileA(dllPath);
+    DeleteFileA(dllPath.c_str());
     Logger::info("Temporary DLL file deleted.");
 
     if (remoteMem) VirtualFreeEx(procHandle, remoteMem, 0, MEM_RELEASE);
