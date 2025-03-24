@@ -2,6 +2,9 @@
 
 #include <Windows.h>
 #include <TlHelp32.h>
+#include <ShlObj.h>
+#include <filesystem>
+#include <string>
 
 namespace Util {
     inline static DWORD getProcessIdByName(const char* processName) {
@@ -39,5 +42,26 @@ namespace Util {
     inline static void fail(const char* msg) {
         MessageBox(nullptr, msg, "Error", MB_ICONERROR);
         exit(1);
+    }
+    
+    inline static const std::string& getAppDataPath() {
+        static std::string fullPath;
+        
+        if (fullPath.empty()) {
+            char appDataPath[MAX_PATH];
+            
+            if (FAILED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appDataPath))) {
+                fail("Failed to get AppData path");
+            }
+            
+            fullPath = std::string(appDataPath) + "\\Half Sword Enhancer";
+            
+            if (!std::filesystem::exists(fullPath)) {
+                if (!std::filesystem::create_directory(fullPath))
+                    fail("Failed to create directory in AppData");
+            }
+        }
+        
+        return fullPath;
     }
 }
