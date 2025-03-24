@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "Logger.h"
+#include "Util.h"
 
 namespace Updater {
 
@@ -96,7 +97,7 @@ namespace Updater {
         return version;
     }
 
-    inline bool isUpdateAvailable(const std::string& local, const std::string& remote) {
+    inline bool isUpdateAvailable(const char* local, const char* remote) {
         std::vector<int> localVer(3, 0), remoteVer(3, 0);
         std::istringstream localStream(local), remoteStream(remote);
         std::string token;
@@ -114,10 +115,9 @@ namespace Updater {
         return false;
     }
 
-    inline void createAndRunUpdateScript(const std::string& tempFileName, const std::string& currentPath) {
-        char batPath[MAX_PATH];
-        GetTempPathA(MAX_PATH, batPath);
-        strcat_s(batPath, "update_hse.bat");
+    inline void createAndRunUpdateScript(const char* tempFileName, const char* currentPath) {
+        const std::string& appDataPath = Util::getAppDataPath();
+        std::string batPath = appDataPath + "\\update_hse.bat";
 
         std::ofstream batFile(batPath);
 
@@ -136,8 +136,8 @@ namespace Updater {
 
         STARTUPINFOA si = { sizeof(si) };
         PROCESS_INFORMATION pi;
-        CreateProcessA(NULL, (LPSTR)("cmd.exe /c " + std::string(batPath)).c_str(),
-            NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+        std::string cmdLine = "cmd.exe /c " + batPath;
+        CreateProcessA(NULL, const_cast<LPSTR>(cmdLine.c_str()), NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
 
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
@@ -152,7 +152,7 @@ namespace Updater {
         urlComp.dwHostNameLength = sizeof(hostName) / sizeof(wchar_t);
         urlComp.lpszUrlPath = urlPath;
         urlComp.dwUrlPathLength = sizeof(urlPath) / sizeof(wchar_t);
-
+        
         if (!WinHttpCrackUrl(wDownloadUrl.c_str(), 0, 0, &urlComp)) {
             return false;
         }
@@ -185,7 +185,8 @@ namespace Updater {
 
         char currentPath[MAX_PATH];
         GetModuleFileNameA(NULL, currentPath, MAX_PATH);
-        std::string tempFileName = std::string(currentPath) + ".update";
+        const std::string& appDataPath = Util::getAppDataPath();
+        std::string tempFileName = appDataPath + "\\HS_Enhancer_Update.exe";
 
         HANDLE hFile = CreateFileA(tempFileName.c_str(), GENERIC_WRITE, 0, NULL,
             CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -215,7 +216,7 @@ namespace Updater {
         WinHttpCloseHandle(hSession);
 
         if (downloadSuccess) {
-            createAndRunUpdateScript(tempFileName, currentPath);
+            createAndRunUpdateScript(tempFileName.c_str(), currentPath);
             return true;
         }
 
@@ -228,7 +229,7 @@ namespace Updater {
         
         Logger::info("Mod version: " + localVersion);
         
-        if (remoteVersion == "0.0.0") {
+        if (strcmp(remoteVersion.c_str(), "0.0.0") == 0) {
             Logger::error("Failed to check for updates.");
             std::this_thread::sleep_for(std::chrono::seconds(3));
             return;
@@ -236,7 +237,7 @@ namespace Updater {
 
         Logger::info("Latest public version: " + remoteVersion);
 
-        if (!isUpdateAvailable(localVersion, remoteVersion)) {
+        if (!isUpdateAvailable(localVersion.c_str(), remoteVersion.c_str())) {
             Logger::info("No updates available.");
             return;
         }
@@ -244,11 +245,10 @@ namespace Updater {
         Logger::info("Update available! Downloading...");
         MessageBoxA(NULL, "Update available! Downloading...", "Update Available", MB_OK);
 
-        std::string downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
+        std::string downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" + 
             remoteVersion + "/HS_Enhancer_Launcher.exe";
 
-        if (!downloadUpdate(downloadUrl)) {
+        if (!downloadUpdate(downloadUrl))
             Logger::error("Error downloading update.");
-        }
     }
 }
