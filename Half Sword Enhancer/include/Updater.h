@@ -241,7 +241,8 @@ namespace Updater {
             return;
         }
 
-        Logger::info("Update available!\nDownloading...");
+        Logger::info("Update available! Downloading...");
+        MessageBoxA(NULL, "Update available! Downloading...", "Update Available", MB_OK);
 
         std::string downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
             remoteVersion + "/HS_Enhancer_Launcher.exe";
