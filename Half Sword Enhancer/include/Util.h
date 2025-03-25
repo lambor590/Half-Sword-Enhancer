@@ -33,7 +33,7 @@ namespace Util {
     }
 
     inline bool WaitForGameWindow(DWORD processId) {
-        Logger::info("Waiting for game window to be available...");
+        Logger::info("Waiting for Half Sword window to be available...");
         
         const int checkIntervalMs = 500;
         int attempts = 60 * 1000 / checkIntervalMs;
@@ -43,13 +43,13 @@ namespace Util {
             if (hwnd != NULL) {
                 char windowTitle[256];
                 GetWindowTextA(hwnd, windowTitle, sizeof(windowTitle));
-                Logger::info("Game window found: " + std::string(windowTitle));
+                Logger::info("Half Sword window found: " + std::string(windowTitle));
                 return true;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(checkIntervalMs));
         }
         
-        Logger::warn("Timeout reached. Game window not found.");
+        Logger::warn("Timeout reached. Half Sword window not found.");
         return false;
     }
 
