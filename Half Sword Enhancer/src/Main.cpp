@@ -54,6 +54,11 @@ int main() {
         while (!(processId = getProcessIdByName(processName))) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
+        Logger::info("Half Sword process found.");
+    }
+
+    if (!WaitForGameWindow(processId)) {
+        fail("Could not find game window. Aborting injection.");
     }
 
     HANDLE procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processId);
