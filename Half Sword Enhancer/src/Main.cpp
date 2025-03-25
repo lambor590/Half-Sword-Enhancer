@@ -33,7 +33,9 @@ int main() {
     )" << "\n";
 
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    SetWindowText(GetConsoleWindow(), "Half Sword Enhancer " + Updater::getLocalVersion());
+    std::string windowTitle = "Half Sword Enhancer ";
+    windowTitle += Updater::getLocalVersion();
+    SetWindowText(GetConsoleWindow(), windowTitle.c_str());
 
     const std::string& appDataPath = getAppDataPath();
     const char* processName = "VersionTest54-Win64-Shipping.exe";
