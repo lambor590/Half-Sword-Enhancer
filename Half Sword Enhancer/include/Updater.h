@@ -237,8 +237,6 @@ namespace Updater {
         std::string localVersion = getLocalVersion();
         std::string remoteVersion = getRemoteVersion();
         
-        Logger::info("Mod version: " + localVersion);
-        
         if (strcmp(remoteVersion.c_str(), "0.0.0") == 0) {
             Logger::error("Failed to check for updates.");
             std::this_thread::sleep_for(std::chrono::seconds(3));
