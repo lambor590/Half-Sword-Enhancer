@@ -52,7 +52,7 @@ int main() {
         Logger::info("Half Sword not found, launching it...");
         ShellExecuteA(0, 0, "steam://rungameid/2527870", 0, 0, SW_SHOW);
         while (!(processId = getProcessIdByName(processName))) {
-            std::this_thread::sleep_for(std::chrono::seconds(2));
+            std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
 
