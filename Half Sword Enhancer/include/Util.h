@@ -5,8 +5,54 @@
 #include <ShlObj.h>
 #include <filesystem>
 #include <string>
+#include <thread>
+#include "Logger.h"
 
 namespace Util {
+    struct EnumWindowsData {
+        DWORD processId;
+        HWND windowHandle;
+    };
+
+    inline BOOL CALLBACK EnumWindowsCallback(HWND hwnd, LPARAM lParam) {
+        EnumWindowsData* data = reinterpret_cast<EnumWindowsData*>(lParam);
+        DWORD windowProcessId;
+        GetWindowThreadProcessId(hwnd, &windowProcessId);
+        
+        if (windowProcessId == data->processId && IsWindowVisible(hwnd)) {
+            data->windowHandle = hwnd;
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    inline HWND FindProcessWindow(DWORD processId) {
+        EnumWindowsData data = { processId, NULL };
+        EnumWindows(EnumWindowsCallback, reinterpret_cast<LPARAM>(&data));
+        return data.windowHandle;
+    }
+
+    inline bool WaitForGameWindow(DWORD processId) {
+        Logger::info("Waiting for game window to be available...");
+        
+        const int checkIntervalMs = 500;
+        int attempts = 60 * 1000 / checkIntervalMs;
+        
+        for (int i = 0; i < attempts; i++) {
+            HWND hwnd = FindProcessWindow(processId);
+            if (hwnd != NULL) {
+                char windowTitle[256];
+                GetWindowTextA(hwnd, windowTitle, sizeof(windowTitle));
+                Logger::info("Game window found: " + std::string(windowTitle));
+                return true;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(checkIntervalMs));
+        }
+        
+        Logger::warn("Timeout reached. Game window not found.");
+        return false;
+    }
+
     inline static DWORD getProcessIdByName(const char* processName) {
         PROCESSENTRY32 processEntry{ sizeof(PROCESSENTRY32) };
         HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
