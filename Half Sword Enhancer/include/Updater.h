@@ -12,11 +12,11 @@
 
 namespace Updater {
 
-    inline std::string getLocalVersion() {
+    inline const char* getLocalVersion() {
         static std::string cachedVersion;
         
         if (!cachedVersion.empty()) {
-            return cachedVersion;
+            return cachedVersion.c_str();
         }
         
         const char defaultVersion[] = "0.0.0";
@@ -24,7 +24,7 @@ namespace Updater {
 
         if (!GetModuleFileNameA(NULL, filePath, MAX_PATH)) {
             cachedVersion = defaultVersion;
-            return cachedVersion;
+            return cachedVersion.c_str();
         }
 
         DWORD verSize = GetFileVersionInfoSizeA(filePath, nullptr);
@@ -36,14 +36,14 @@ namespace Updater {
         if (!GetFileVersionInfoA(filePath, 0, verSize, verData.data()) ||
             !VerQueryValueA(verData.data(), "\\", (void**)&fileInfo, &size)) {
             cachedVersion = defaultVersion;
-            return cachedVersion;
+            return cachedVersion.c_str();
         }
 
         cachedVersion = std::to_string(HIWORD(fileInfo->dwFileVersionMS)) + "." +
                std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
                std::to_string(HIWORD(fileInfo->dwFileVersionLS));
                
-        return cachedVersion;
+        return cachedVersion.c_str();
     }
 
     inline std::string getRemoteVersion() {
@@ -234,7 +234,6 @@ namespace Updater {
     }
 
     inline void checkForUpdates() {
-        std::string localVersion = getLocalVersion();
         std::string remoteVersion = getRemoteVersion();
         
         if (strcmp(remoteVersion.c_str(), "0.0.0") == 0) {
@@ -245,7 +244,7 @@ namespace Updater {
 
         Logger::info("Latest public version: " + remoteVersion);
 
-        if (!isUpdateAvailable(localVersion.c_str(), remoteVersion.c_str())) {
+        if (!isUpdateAvailable(getLocalVersion(), remoteVersion.c_str())) {
             Logger::info("No updates available.");
             return;
         }
