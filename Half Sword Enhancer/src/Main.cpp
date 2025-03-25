@@ -56,8 +56,8 @@ int main() {
         while (!(processId = getProcessIdByName(processName))) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
         }
-        Logger::info("Half Sword process found.");
     }
+    Logger::info("Half Sword process found.");
 
     if (!WaitForGameWindow(processId)) {
         fail("Could not find game window. Aborting injection.");
@@ -104,7 +104,16 @@ int main() {
         fail("Failed to create remote thread.");
     }
     else {
-        WaitForSingleObject(threadHandle, INFINITE);
+        DWORD waitResult = WaitForSingleObject(threadHandle, 10000);
+        if (waitResult == WAIT_TIMEOUT) {
+            Logger::warn("Thread execution timed out. The game might be unresponsive.");
+            TerminateThread(threadHandle, 1);
+            CloseHandle(threadHandle);
+            VirtualFreeEx(procHandle, remoteMem, 0, MEM_RELEASE);
+            CloseHandle(procHandle);
+            DeleteFileA(dllPath.c_str());
+            fail("DLL injection timed out. Please try again with the game freshly launched.");
+        }
         CloseHandle(threadHandle);
     }
     Logger::info("Remote thread created successfully.");
