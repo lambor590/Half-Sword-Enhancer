@@ -1,7 +1,5 @@
 #include <Windows.h>
 #include <fstream>
-#include <thread>
-#include <chrono>
 #include <future>
 
 #include "Logger.h"
@@ -35,10 +33,7 @@ static DWORD WINAPI DXHookThread(LPVOID)
 
 static DWORD WINAPI GameHookThread(LPVOID)
 {
-    while (!GameHook::Get().Hook())
-    {
-        Sleep(1000);
-    }
+    GameHook::Get().Hook();
     return 0;
 }
 
