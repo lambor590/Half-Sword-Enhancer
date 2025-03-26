@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <functional>
+#include <thread>
 
 #include "Logger.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -27,7 +28,7 @@ public:
         return *s_instance;
     }
 
-    bool Hook();
+    void Hook();
     void Unhook() const;
 
     void RegisterHook(const std::string& functionName, std::function<void()> callback) {
