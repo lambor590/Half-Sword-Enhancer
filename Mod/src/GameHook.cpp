@@ -16,14 +16,16 @@ inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFuncti
     return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
 }
 
-bool GameHook::Hook()
+void GameHook::Hook()
 {
     logger.Log("Hooking ProcessEvent");
 
     SDK::UObject* pObject = SDK::BasicFilesImpleUtils::GetObjectByIndex(0);
-    if (!pObject) {
+
+    while (!pObject) {
         logger.Log("Could not get an instance of UObject. Retrying...");
-        return false;
+        pObject = SDK::BasicFilesImpleUtils::GetObjectByIndex(0);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     uintptr_t* vtable = *reinterpret_cast<uintptr_t**>(pObject);
@@ -32,7 +34,6 @@ bool GameHook::Hook()
     MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&hookInstance->oProcessEvent);
 
     logger.Log("ProcessEvent hooked successfully!");
-    return true;
 }
 
 void GameHook::Unhook() const
