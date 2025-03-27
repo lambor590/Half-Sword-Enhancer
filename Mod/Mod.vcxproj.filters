@@ -24,6 +24,12 @@
     <Filter Include="Sections\Gameplay">
       <UniqueIdentifier>{65d21439-0f61-47f6-b909-6bc9a7bf7170}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sections\Entity Spawner">
+      <UniqueIdentifier>{c3386a45-c87f-45d1-b600-efa2291b0a1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sections\Settings">
+      <UniqueIdentifier>{6d8edfdd-95fa-49d1-9b64-f21552501a48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DllMain.cpp">
@@ -142,17 +148,17 @@
     <ClInclude Include="include\GlobalDefinitions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Settings\KeybindsSection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\KeybindManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h">
-      <Filter>Header Files</Filter>
+      <Filter>Sections\Entity Spawner</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Gameplay\PlayerSection.h">
-      <Filter>Header Files</Filter>
+      <Filter>Sections\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Settings\KeybindsSection.h">
+      <Filter>Sections\Settings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
