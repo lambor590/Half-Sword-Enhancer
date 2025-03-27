@@ -127,7 +127,7 @@
     <ClInclude Include="include\MemoryUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Gameplay\GeneralSection.h">
+    <ClInclude Include="include\Menu\Sections\Gameplay\WorldSection.h">
       <Filter>Sections\Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="include\Gui.h">
@@ -146,6 +146,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\KeybindManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Gameplay\PlayerSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
