@@ -1,6 +1,5 @@
 #include "Gui.h"
 #include "KeybindManager.h"
-#include "Menu/Sections/Settings/KeybindsSection.h"
 
 Gui* Gui::s_instance = nullptr;
 WNDPROC Gui::originalWndProc = nullptr;
