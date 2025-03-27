@@ -124,7 +124,9 @@ void Gui::Setup() {
 
     SetupStyle();
 
-    MenuManager::Get().AddSection<GeneralSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<PlayerSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<WorldSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<NPCSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<KeybindsSection>(MenuTab::Settings);
 
     s_instance = this;
@@ -152,9 +154,8 @@ void Gui::Render() {
             MenuManager::Get().RenderSections(MenuTab::Gameplay);
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Item Spawner")) {
-            ImGui::Text("Coming Soon");
-            // MenuManager::Get().RenderSections(MenuTab::Item_Spawner);
+        if (ImGui::BeginTabItem("Entity Spawner")) {
+            MenuManager::Get().RenderSections(MenuTab::Entity_Spawner);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Loadout Manager")) {
