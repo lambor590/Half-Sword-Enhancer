@@ -9,7 +9,7 @@
 
 enum class MenuTab {
     Gameplay,
-    Item_Spawner,
+    Entity_Spawner,
     Loadout_Manager,
     Post_Process_Settings,
     Settings
