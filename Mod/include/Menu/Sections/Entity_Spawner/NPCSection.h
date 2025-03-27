@@ -1,0 +1,46 @@
+#pragma once
+
+#include <string>
+#include <memory>
+#include <functional>
+#include <vector>
+
+#include "Menu/ICollapsibleSection.h"
+
+class NPCSection : public CollapsibleSection {
+private:
+    static inline int spawnEnemyKey = 0x4E; // N
+    static inline float spawnDistanceForward = 200.0f;
+    static inline float spawnDistanceUp = 0.0f;
+    static inline float spawnScale = 1.0f;
+    static inline bool spawnNPCAggressive = true;
+
+public:
+    NPCSection() : CollapsibleSection("NPC") {
+        std::initializer_list<Parameter> spawnEnemyParams = {
+            Parameter("aggresive", "Is Aggressive", &spawnNPCAggressive),
+            Parameter("distance_forward", "Distance Forward", &spawnDistanceForward, 100.0f, 500.0f),
+            Parameter("distance_up", "Distance Up", &spawnDistanceUp, 0.0f, 300.0f),
+            Parameter("scale", "Scale", &spawnScale, 0.1f, 4.0f)
+        };
+
+        BindWithParams("Spawn NPC", &spawnEnemyKey, spawnEnemyParams, [this]() {
+            SDK::UClass* enemyClass = SDK::UObject::FindClassFast(
+                spawnNPCAggressive ? "Willie_BP_C" : "Willie_BP_NoBrain_C"
+            );
+            SDK::FTransform spawnTransform = player->GetTransform();
+            spawnTransform.Translation += player->GetActorForwardVector() * spawnDistanceForward;
+            spawnTransform.Translation.Z += spawnDistanceUp;
+            spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
+            SDK::AActor* enemy = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+                world,
+                enemyClass,
+                spawnTransform,
+                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+                nullptr,
+                SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
+            SDK::UGameplayStatics::FinishSpawningActor(enemy, spawnTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        }, player, world);
+    }
+};
