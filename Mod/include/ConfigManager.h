@@ -15,6 +15,8 @@ private:
     ConfigManager();
 
 public:
+    static std::filesystem::path GetAppDataPath();
+    
     static ConfigManager& Get() {
         if (!instance) {
             instance = new ConfigManager();
