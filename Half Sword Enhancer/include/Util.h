@@ -67,7 +67,7 @@ namespace Util {
             if (hwnd != NULL) {
                 char windowTitle[256];
                 GetWindowTextA(hwnd, windowTitle, sizeof(windowTitle));
-                Logger::info("Half Sword window found: " + std::string(windowTitle));
+                Logger::info("Half Sword window found!");
                 return true;
             }
             std::this_thread::sleep_for(std::chrono::seconds(1));
