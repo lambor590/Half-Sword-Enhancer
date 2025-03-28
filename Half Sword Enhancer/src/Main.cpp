@@ -63,7 +63,7 @@ int main() {
         fail("Could not find game window. Aborting injection.");
     }
 
-    HANDLE procHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processId);
+    HANDLE procHandle = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_CREATE_THREAD, FALSE, processId);
     if (!procHandle) fail("Failed to open handle! Please run the launcher as administrator.");
     Logger::info("Handle opened successfully!");
 
