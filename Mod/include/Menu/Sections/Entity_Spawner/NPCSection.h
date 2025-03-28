@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Menu/ICollapsibleSection.h"
+#include "Menu/Utils/Spawner.h"
 
 class NPCSection : public CollapsibleSection {
 private:
@@ -25,22 +26,11 @@ public:
         };
 
         BindWithParams("Spawn NPC", &spawnEnemyKey, spawnEnemyParams, [this]() {
-            SDK::UClass* enemyClass = SDK::UObject::FindClassFast(
-                spawnNPCAggressive ? "Willie_BP_C" : "Willie_BP_NoBrain_C"
-            );
             SDK::FTransform spawnTransform = player->GetTransform();
             spawnTransform.Translation += player->GetActorForwardVector() * spawnDistanceForward;
             spawnTransform.Translation.Z += spawnDistanceUp;
             spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
-            SDK::AActor* enemy = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-                world,
-                enemyClass,
-                spawnTransform,
-                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-                nullptr,
-                SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
-            );
-            SDK::UGameplayStatics::FinishSpawningActor(enemy, spawnTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            Spawner::SpawnActor(world, spawnNPCAggressive ? "Willie_BP_C" : "Willie_BP_NoBrain_C", spawnTransform);
         }, player, world);
     }
 };
