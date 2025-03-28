@@ -120,7 +120,7 @@ void Gui::Setup() {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;
-    io.IniFilename = "HS-Enhancer_gui.ini";
+    io.IniFilename = _strdup((ConfigManager::GetAppDataPath() / "imgui.ini").string().c_str());
 
     SetupStyle();
 
