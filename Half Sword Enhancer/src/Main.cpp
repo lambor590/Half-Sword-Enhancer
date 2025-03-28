@@ -64,7 +64,7 @@ int main() {
     }
 
     HANDLE procHandle = OpenProcess(PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_CREATE_THREAD, FALSE, processId);
-    if (!procHandle) fail("Failed to open handle! Please run the launcher as administrator.");
+    if (!procHandle) fail("Failed to open handle! Please run the launcher as administrator or check your antivirus.");
     Logger::info("Handle opened successfully!");
 
     HRSRC hResource = FindResourceA(NULL, MAKEINTRESOURCE(IDR_DLL1), RT_RCDATA);
