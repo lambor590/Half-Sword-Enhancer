@@ -14,11 +14,11 @@ namespace Updater {
 
     inline const char* getLocalVersion() {
         static std::string cachedVersion;
-        
+
         if (!cachedVersion.empty()) {
             return cachedVersion.c_str();
         }
-        
+
         const char defaultVersion[] = "0.0.0";
         char filePath[MAX_PATH];
 
@@ -40,9 +40,9 @@ namespace Updater {
         }
 
         cachedVersion = std::to_string(HIWORD(fileInfo->dwFileVersionMS)) + "." +
-               std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
-               std::to_string(HIWORD(fileInfo->dwFileVersionLS));
-               
+            std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
+            std::to_string(HIWORD(fileInfo->dwFileVersionLS));
+
         return cachedVersion.c_str();
     }
 
@@ -68,6 +68,8 @@ namespace Updater {
             return version;
         }
 
+        WinHttpSetTimeouts(request, 5000, 5000, 5000, 5000);
+
         if (!WinHttpSendRequest(request, NULL, 0, NULL, 0, 0, 0) ||
             !WinHttpReceiveResponse(request, NULL)) {
             WinHttpCloseHandle(request);
@@ -87,15 +89,15 @@ namespace Updater {
             }
         }
 
-            size_t assetsPos = response.find("\"assets\":");
-            size_t namePos = (assetsPos != std::string::npos) ?
-                response.find("\"name\":\"HS_Enhancer_Launcher.exe\"", assetsPos) : std::string::npos;
-            size_t start = (namePos != std::string::npos) ?
-                response.find("\"tag_name\":\"") : std::string::npos;
+        size_t assetsPos = response.find("\"assets\":");
+        size_t namePos = (assetsPos != std::string::npos) ?
+            response.find("\"name\":\"HS_Enhancer_Launcher.exe\"", assetsPos) : std::string::npos;
+        size_t start = (namePos != std::string::npos) ?
+            response.find("\"tag_name\":\"") : std::string::npos;
 
-            if (start != std::string::npos) {
-                start += 12;
-                size_t end = response.find("\"", start);
+        if (start != std::string::npos) {
+            start += 12;
+            size_t end = response.find("\"", start);
             if (end != std::string::npos) {
                 version = response.substr(start + 1, end - start - 1);
             }
@@ -132,16 +134,16 @@ namespace Updater {
         std::ofstream batFile(batPath);
 
         batFile << "@echo off\n"
-                << "copy /Y \"" << tempFileName << "\" \"" << currentPath << "\"\n"
-                << "if errorlevel 1 goto :error\n"
-                << "del \"" << tempFileName << "\"\n"
-                << "timeout /t 1 /nobreak > nul\n"
-                << "start \"\" \"" << currentPath << "\"\n"
-                << "del \"%~f0\"\n"
-                << "exit\n"
-                << ":error\n"
-                << "del \"" << tempFileName << "\"\n"
-                << "del \"%~f0\"\n";
+            << "copy /Y \"" << tempFileName << "\" \"" << currentPath << "\"\n"
+            << "if errorlevel 1 goto :error\n"
+            << "del \"" << tempFileName << "\"\n"
+            << "timeout /t 1 /nobreak > nul\n"
+            << "start \"\" \"" << currentPath << "\"\n"
+            << "del \"%~f0\"\n"
+            << "exit\n"
+            << ":error\n"
+            << "del \"" << tempFileName << "\"\n"
+            << "del \"%~f0\"\n";
         batFile.close();
 
         STARTUPINFOA si = { sizeof(si) };
@@ -162,7 +164,7 @@ namespace Updater {
         urlComp.dwHostNameLength = sizeof(hostName) / sizeof(wchar_t);
         urlComp.lpszUrlPath = urlPath;
         urlComp.dwUrlPathLength = sizeof(urlPath) / sizeof(wchar_t);
-        
+
         if (!WinHttpCrackUrl(wDownloadUrl.c_str(), 0, 0, &urlComp)) {
             return false;
         }
@@ -184,6 +186,8 @@ namespace Updater {
             WinHttpCloseHandle(hSession);
             return false;
         }
+
+        WinHttpSetTimeouts(hRequest, 5000, 5000, 5000, 60000);
 
         if (!WinHttpSendRequest(hRequest, nullptr, 0, nullptr, 0, 0, 0) ||
             !WinHttpReceiveResponse(hRequest, nullptr)) {
@@ -234,8 +238,9 @@ namespace Updater {
     }
 
     inline void checkForUpdates() {
+        Logger::info("Checking for updates...");
         std::string remoteVersion = getRemoteVersion();
-        
+
         if (strcmp(remoteVersion.c_str(), "0.0.0") == 0) {
             Logger::error("Failed to check for updates.");
             std::this_thread::sleep_for(std::chrono::seconds(3));
@@ -252,7 +257,7 @@ namespace Updater {
         Logger::info("Update available! Downloading...");
         MessageBoxA(NULL, "Update available! Downloading...", "Update Available", MB_OK);
 
-        std::string downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" + 
+        std::string downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
             remoteVersion + "/HS_Enhancer_Launcher.exe";
 
         if (!downloadUpdate(downloadUrl))
