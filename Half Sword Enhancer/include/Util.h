@@ -61,7 +61,7 @@ namespace Util {
 
     inline bool WaitForGameWindow(DWORD processId) {
         Logger::info("Waiting for Half Sword window to be available...");
-        
+
         for (int i = 0; i < 60; i++) {
             HWND hwnd = FindProcessWindow(processId);
             if (hwnd != NULL) {
@@ -163,7 +163,7 @@ namespace Util {
         if (processId == 0) {
             Logger::info("Half Sword not found, launching it...");
             ShellExecuteA(0, 0, "steam://rungameid/2527870", 0, 0, SW_SHOW);
-            
+
             for (int i = 0; i < 60; i++) {
                 processId = getProcessIdByName(processName);
                 if (processId != 0) break;
@@ -204,28 +204,27 @@ namespace Util {
     inline void injectDll(HANDLE procHandle, const std::string& dllPath) {
         LPVOID remoteMem = VirtualAllocEx(procHandle, nullptr, dllPath.length() + 1, MEM_COMMIT, PAGE_READWRITE);
         if (!remoteMem) fail("Failed to allocate memory in Half Sword's process.");
-        
+
         ScopedVirtualMemory scopedMem(procHandle, remoteMem);
-        
+
         if (!WriteProcessMemory(procHandle, remoteMem, dllPath.c_str(), dllPath.length() + 1, NULL)) {
             fail("Failed to write DLL path to Half Sword's process memory.");
         }
-        
+
         Logger::info("DLL path written to Half Sword's process memory.");
-        
+
         ScopedHandle threadHandle(CreateRemoteThread(procHandle, nullptr, 0,
             (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryA"),
             remoteMem, 0, nullptr));
-            
+
         if (!threadHandle.isValid()) fail("Failed to create remote thread.");
-        
+
         DWORD waitResult = WaitForSingleObject(threadHandle.get(), 10000);
         if (waitResult == WAIT_TIMEOUT) {
             Logger::warn("Thread execution timed out. The game might be unresponsive.");
-            TerminateThread(threadHandle.get(), 1);
             fail("DLL injection timed out. Please try again with the game freshly launched.");
         }
-        
+
         Logger::info("Remote thread created successfully.");
     }
 }
