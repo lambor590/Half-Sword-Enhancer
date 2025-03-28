@@ -1,10 +1,28 @@
 #include <iostream>
 #include <Windows.h>
+#include <ShlObj.h>
+#include <KnownFolders.h>
 
 #include "ConfigManager.h"
 
+std::filesystem::path ConfigManager::GetAppDataPath() {
+    std::filesystem::path basePath;
+    PWSTR appDataPath = nullptr;
+    
+    if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &appDataPath))) {
+        basePath = std::filesystem::path(appDataPath) / "Half Sword Enhancer";
+        CoTaskMemFree(appDataPath);
+        std::filesystem::create_directories(basePath);
+    } else {
+        basePath = std::filesystem::current_path();
+    }
+    
+    return basePath;
+}
+
 ConfigManager::ConfigManager() {
-    configPath = std::filesystem::current_path() / "HS-Enhancer_config.ini";
+    configPath = GetAppDataPath() / "config.ini";
+    
     ini.SetUnicode();
     LoadConfig();
 }
