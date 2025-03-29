@@ -19,11 +19,11 @@ private:
     static inline float playerRunMultiplier = 1.0f;
     static inline float playerWalkMultiplier = 1.0f;
 
-    static inline int playerStrengthKey = 0x46; // F
+    static inline int playerStrengthKey = -1;
     static inline float playerStrengthMultiplier = 1.0f;
     static inline float playerGrabForceMultiplier = 1000.0f;
 
-    static inline int godModeKey = -1; // Unbound
+    static inline int godModeKey = -1;
 
 public:
     PlayerSection() : CollapsibleSection("Player") {
