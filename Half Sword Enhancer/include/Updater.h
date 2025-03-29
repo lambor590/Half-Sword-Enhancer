@@ -249,7 +249,7 @@ namespace Updater {
 
         Logger::info("Latest public version: " + remoteVersion);
 
-        if (!isUpdateAvailable(getLocalVersion(), remoteVersion.c_str())) {
+        if (!isUpdateAvailable(getLocalVersion().c_str(), remoteVersion.c_str())) {
             Logger::info("No updates available.");
             return;
         }
