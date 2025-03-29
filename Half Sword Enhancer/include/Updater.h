@@ -12,19 +12,19 @@
 
 namespace Updater {
 
-    inline const char* getLocalVersion() {
+    inline std::string getLocalVersion() {
         static std::string cachedVersion;
 
         if (!cachedVersion.empty()) {
-            return cachedVersion.c_str();
+            return cachedVersion;
         }
 
-        const char defaultVersion[] = "0.0.0";
+        const std::string defaultVersion = "0.0.0";
         char filePath[MAX_PATH];
 
         if (!GetModuleFileNameA(NULL, filePath, MAX_PATH)) {
             cachedVersion = defaultVersion;
-            return cachedVersion.c_str();
+            return cachedVersion;
         }
 
         DWORD verSize = GetFileVersionInfoSizeA(filePath, nullptr);
@@ -36,14 +36,14 @@ namespace Updater {
         if (!GetFileVersionInfoA(filePath, 0, verSize, verData.data()) ||
             !VerQueryValueA(verData.data(), "\\", (void**)&fileInfo, &size)) {
             cachedVersion = defaultVersion;
-            return cachedVersion.c_str();
+            return cachedVersion;
         }
 
         cachedVersion = std::to_string(HIWORD(fileInfo->dwFileVersionMS)) + "." +
             std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
             std::to_string(HIWORD(fileInfo->dwFileVersionLS));
 
-        return cachedVersion.c_str();
+        return cachedVersion;
     }
 
     inline std::string getRemoteVersion() {
