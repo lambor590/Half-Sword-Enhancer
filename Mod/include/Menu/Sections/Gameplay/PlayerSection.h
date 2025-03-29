@@ -23,7 +23,7 @@ private:
     static inline float playerStrengthMultiplier = 1.0f;
     static inline float playerGrabForceMultiplier = 1000.0f;
 
-    static inline int godModeKey = -1;
+    static inline int invulnerabilityKey = -1;
 
 public:
     PlayerSection() : CollapsibleSection("Player") {
@@ -64,7 +64,7 @@ public:
             player->L_Grab_Force_Limit = (player->L_Grab_Force_Limit == 10000.0f) ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
         }, player);
 
-        Bind("Toggle God Mode", &godModeKey, [this]() {
+        Bind("Toggle Invulnerability", &invulnerabilityKey, [this]() {
             player->bCanBeDamaged = ~player->bCanBeDamaged;
             player->Invulnerable = !player->Invulnerable;
         }, player);
