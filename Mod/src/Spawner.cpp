@@ -1,7 +1,7 @@
 #include "Menu/Utils/Spawner.h"
 
 namespace Spawner {
-    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform) {
+    SDK::AActor* SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform) {
         SDK::UClass* actorClass = SDK::UObject::FindClassFast(className);
         SDK::AActor* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
             world,
@@ -12,5 +12,6 @@ namespace Spawner {
             SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
         );
         SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        return actor;
     }
 }
