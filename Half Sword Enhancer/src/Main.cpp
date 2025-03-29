@@ -16,7 +16,7 @@ int main() {
     
     const std::string& appDataPath = getAppDataPath();
     const char* processName = "VersionTest54-Win64-Shipping.exe";
-    std::string dllPath = appDataPath + "\\temp_enhancer.dll";
+    std::string dllPath = appDataPath + "\\HS-Enhancer.dll";
     
     Logger::info("Made by The Ghost");
     
@@ -39,9 +39,9 @@ int main() {
     
     extractDllToTempFile(dllPath, IDR_DLL1);
     injectDll(procHandle.get(), dllPath);
-    
-    DeleteFileA(dllPath.c_str());
-    Logger::info("Temporary DLL file deleted.");
+
+    std::filesystem::remove(dllPath);
+    Logger::info("Temporary DLL file removed.");
     
     Logger::info("Half Sword Enhancer injected successfully! Enjoy!");
     Logger::info("Exiting launcher in 3 seconds...");
