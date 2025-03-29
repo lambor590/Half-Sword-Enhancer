@@ -19,9 +19,6 @@ static bool performDllInjection(const std::string& dllPath, const char* processN
         extractDllToTempFile(dllPath, IDR_DLL1);
         bool success = injectDll(processId, dllPath);
 
-        DeleteFileA(dllPath.c_str());
-        Logger::info("Temporary DLL file deleted.");
-
         if (!success)
             fail("DLL injection failed. Please try again with the game freshly launched.");
 
