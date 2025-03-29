@@ -36,14 +36,15 @@ static bool performDllInjection(const std::string& dllPath, const char* processN
 }
 
 int main() {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    try {
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    const int RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
-    const int YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
-    const int WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+        constexpr int RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
+        constexpr int YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+        constexpr int WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
 
-    SetConsoleTextAttribute(hConsole, RED);
-    std::cout << R"(
+        SetConsoleTextAttribute(hConsole, RED);
+        std::cout << R"(
         __  __      ______   _____                        __
        / / / /___ _/ / __/  / ___/      ______  _________/ /
       / /_/ / __ `/ / /_    \__ \ | /| / / __ \/ ___/ __  /
@@ -51,8 +52,8 @@ int main() {
     /_/ /_/\__,_/_/_/     /____/|__/|__/\____/_/   \__,_/
     )";
 
-    SetConsoleTextAttribute(hConsole, YELLOW);
-    std::cout << R"(
+        SetConsoleTextAttribute(hConsole, YELLOW);
+        std::cout << R"(
         ______      __
        / ____/___  / /_  ____ _____  ________  _____
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
@@ -60,9 +61,8 @@ int main() {
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/     
     )" << "\n";
 
-    SetConsoleTextAttribute(hConsole, WHITE);
+        SetConsoleTextAttribute(hConsole, WHITE);
 
-    try {
         SetWindowText(GetConsoleWindow(),
             ("Half Sword Enhancer " + Updater::getLocalVersion()).c_str());
 
