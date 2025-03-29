@@ -66,11 +66,7 @@ public:
 
         Bind("Toggle God Mode", &godModeKey, [this]() {
             player->bCanBeDamaged = ~player->bCanBeDamaged;
-            player->Invulnerable = !player->Invulnerable; // esta puede ser que evite el crasheo al caer al suelo
-            player->BitPad_58_1 = ~player->BitPad_58_1; // hay que hacer otra para "dejar cadaver en siguientes peleas"
-            player->BitPad_5B_6 = ~player->BitPad_5B_6;
-            player->BitPad_5C_0 = ~player->BitPad_5C_0;
-            player->BitPad_5D_1 = ~player->BitPad_5D_1;
+            player->Invulnerable = !player->Invulnerable;
         }, player);
     }
 };
