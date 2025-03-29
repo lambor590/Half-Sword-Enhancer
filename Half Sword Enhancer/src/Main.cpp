@@ -9,7 +9,7 @@ static void printBanner(HANDLE hConsole) {
     constexpr auto RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
     constexpr auto YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
     constexpr auto WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-    
+
     SetConsoleTextAttribute(hConsole, RED);
     std::cout << R"(
         __  __      ______   _____                        __
@@ -39,23 +39,18 @@ static bool performDllInjection(const std::string& dllPath, const char* processN
             return false;
         }
 
-        if (!WaitForGameWindow(processId)) {
+        if (!WaitForGameWindow(processId))
             fail("Could not find game window. Aborting injection.");
-            return false;
-        }
 
         extractDllToTempFile(dllPath, IDR_DLL1);
-
         bool success = injectDll(processId, dllPath);
-        
+
         DeleteFileA(dllPath.c_str());
         Logger::info("Temporary DLL file deleted.");
-        
-        if (!success) {
+
+        if (!success)
             fail("DLL injection failed. Please try again with the game freshly launched.");
-            return false;
-        }
-        
+
         Logger::info("Half Sword Enhancer injected successfully! Enjoy!");
         return true;
     }
@@ -78,9 +73,8 @@ int main() {
         SetWindowText(GetConsoleWindow(),
             ("Half Sword Enhancer " + Updater::getLocalVersion()).c_str());
 
-        const std::string& appDataPath = getAppDataPath();
+        const std::string dllPath = getAppDataPath() + "\\HS-Enhancer.dll";
         const char* processName = "VersionTest54-Win64-Shipping.exe";
-        std::string dllPath = appDataPath + "\\HS-Enhancer.dll";
 
         Logger::info("Made by The Ghost");
 
@@ -88,12 +82,11 @@ int main() {
             Logger::warn("Detected administrator privileges. Running as administrator can cause permission issues.");
 
         Updater::checkForUpdates();
-
         bool success = performDllInjection(dllPath, processName);
 
         Logger::info("Exiting launcher in 3 seconds...");
         std::this_thread::sleep_for(std::chrono::seconds(3));
-        
+
         return success ? 0 : 1;
     }
     catch (const std::exception& e) {
