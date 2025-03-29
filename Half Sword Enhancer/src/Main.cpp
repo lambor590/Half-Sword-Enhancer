@@ -5,32 +5,6 @@
 
 using namespace Util;
 
-static void printBanner(HANDLE hConsole) {
-    constexpr auto RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
-    constexpr auto YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
-    constexpr auto WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-
-    SetConsoleTextAttribute(hConsole, RED);
-    std::cout << R"(
-        __  __      ______   _____                        __
-       / / / /___ _/ / __/  / ___/      ______  _________/ /
-      / /_/ / __ `/ / /_    \__ \ | /| / / __ \/ ___/ __  /
-     / __  / /_/ / / __/   ___/ / |/ |/ / /_/ / /  / /_/ /
-    /_/ /_/\__,_/_/_/     /____/|__/|__/\____/_/   \__,_/
-    )";
-
-    SetConsoleTextAttribute(hConsole, YELLOW);
-    std::cout << R"(
-        ______      __
-       / ____/___  / /_  ____ _____  ________  _____
-      / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
-     / /___/ / / / / / / /_/ / / / / /__/  __/ /
-    /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/     
-    )" << "\n";
-
-    SetConsoleTextAttribute(hConsole, WHITE);
-}
-
 static bool performDllInjection(const std::string& dllPath, const char* processName) {
     try {
         DWORD processId = findOrLaunchGame(processName);
@@ -62,14 +36,33 @@ static bool performDllInjection(const std::string& dllPath, const char* processN
 }
 
 int main() {
-    try {
-        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-        if (hConsole == INVALID_HANDLE_VALUE) {
-            Logger::error("Failed to get console handle");
-            return 1;
-        }
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-        printBanner(hConsole);
+    const int RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
+    const int YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+    const int WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+
+    SetConsoleTextAttribute(hConsole, RED);
+    std::cout << R"(
+        __  __      ______   _____                        __
+       / / / /___ _/ / __/  / ___/      ______  _________/ /
+      / /_/ / __ `/ / /_    \__ \ | /| / / __ \/ ___/ __  /
+     / __  / /_/ / / __/   ___/ / |/ |/ / /_/ / /  / /_/ /
+    /_/ /_/\__,_/_/_/     /____/|__/|__/\____/_/   \__,_/
+    )";
+
+    SetConsoleTextAttribute(hConsole, YELLOW);
+    std::cout << R"(
+        ______      __
+       / ____/___  / /_  ____ _____  ________  _____
+      / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
+     / /___/ / / / / / / /_/ / / / / /__/  __/ /
+    /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/     
+    )" << "\n";
+
+    SetConsoleTextAttribute(hConsole, WHITE);
+
+    try {
         SetWindowText(GetConsoleWindow(),
             ("Half Sword Enhancer " + Updater::getLocalVersion()).c_str());
 
