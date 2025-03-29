@@ -232,60 +232,101 @@ namespace Util {
     }
 
     inline bool injectDll(DWORD processId, const std::string& dllPath, int timeoutMs = 10000) {
-        auto procHandle = createScopedHandle(OpenProcess(
-            PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_CREATE_THREAD, 
-            FALSE, processId
-        ));
-        
-        if (!procHandle.isValid()) {
-            showError("Failed to open handle! Please run the launcher as administrator or check your antivirus.");
-            return false;
-        }
-        
-        Logger::info("Handle opened successfully!");
+        try {
+            HANDLE hProcess = OpenProcess(
+                PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ,
+                FALSE, processId);
 
-        auto remoteMem = createScopedVirtualMemory(
-            procHandle, 
-            VirtualAllocEx(procHandle, nullptr, dllPath.length() + 1, MEM_COMMIT, PAGE_READWRITE)
-        );
-        
-        if (!remoteMem.isValid()) {
-            showError("Failed to allocate memory in Half Sword's process.");
-            return false;
-        }
+            if (!hProcess) {
+                showError("Failed to access the game process.");
+                return false;
+            }
 
-        if (!WriteProcessMemory(procHandle, remoteMem, dllPath.c_str(), dllPath.length() + 1, NULL)) {
-            showError("Failed to write DLL path to Half Sword's process memory.");
-            return false;
-        }
-        
-        HMODULE kernel32Module = GetModuleHandleA("kernel32.dll");
-        FARPROC loadLibraryAddr = kernel32Module ? GetProcAddress(kernel32Module, "LoadLibraryA") : NULL;
-        
-        if (!loadLibraryAddr) {
-            showError("Failed to get LoadLibraryA address");
-            return false;
-        }
+            Logger::info("Waiting a moment for the game engine to be ready...");
+            std::this_thread::sleep_for(std::chrono::seconds(2));
 
-        auto threadHandle = createScopedHandle(CreateRemoteThread(
-            procHandle, nullptr, 0, (LPTHREAD_START_ROUTINE)loadLibraryAddr, 
-            remoteMem, 0, nullptr
-        ));
-        
-        if (!threadHandle.isValid()) {
-            showError("Failed to create remote thread.");
+            SIZE_T pathLength = dllPath.length() + 1;
+            LPVOID remotePath = VirtualAllocEx(hProcess, NULL, pathLength, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+            
+            if (!remotePath) {
+                CloseHandle(hProcess);
+                showError("Failed to allocate memory in the game process.");
+                return false;
+            }
+
+            SIZE_T bytesWritten = 0;
+            const char* pathData = dllPath.c_str();
+            
+            if (!WriteProcessMemory(hProcess, remotePath, pathData, pathLength, &bytesWritten) || bytesWritten != pathLength) {
+                VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
+                CloseHandle(hProcess);
+                showError("Failed to write data in the game process.");
+                return false;
+            }
+            
+            FARPROC loadLibraryAddr = NULL;
+            
+            HMODULE hKernel32 = GetModuleHandleA("kernel32.dll");
+            if (hKernel32) {
+                loadLibraryAddr = (FARPROC)GetProcAddress(hKernel32, "LoadLibraryA");
+            }
+            
+            if (!loadLibraryAddr) {
+                VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
+                CloseHandle(hProcess);
+                showError("Failed to locate required system functions.");
+                return false;
+            }
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            
+            Logger::info("Injecting mod...");
+            
+            HANDLE hThread = CreateRemoteThread(
+                hProcess, 
+                NULL, 
+                0, 
+                (LPTHREAD_START_ROUTINE)loadLibraryAddr, 
+                remotePath, 
+                0, 
+                NULL
+            );
+            
+            if (!hThread) {
+                VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
+                CloseHandle(hProcess);
+                showError("Failed to start the mod process.");
+                return false;
+            }
+            
+            DWORD waitResult = WaitForSingleObject(hThread, timeoutMs);
+            
+            DWORD exitCode = 0;
+            GetExitCodeThread(hThread, &exitCode);
+            CloseHandle(hThread);
+            
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            
+            VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
+            CloseHandle(hProcess);
+            
+            if (waitResult == WAIT_TIMEOUT) {
+                showError("Timeout expired. The game is not responding.");
+                return false;
+            }
+            
+            if (exitCode == 0) {
+                showError("Mod could not be loaded correctly.");
+                return false;
+            }
+            
+            Logger::info("Mod injected successfully in the game.");
+            return true;
+        }
+        catch (const std::exception& e) {
+            Logger::error(std::string("Error in the injection process: ") + e.what());
+            showError("An error occurred during the injection of the mod.");
             return false;
         }
-
-        DWORD waitResult = WaitForSingleObject(threadHandle, timeoutMs);
-        if (waitResult == WAIT_TIMEOUT) {
-            Logger::warn("Thread execution timed out. The game might be unresponsive.");
-            #pragma warning(suppress : 6258)
-            TerminateThread(threadHandle, 1);
-            return false;
-        }
-
-        Logger::info("DLL injected successfully.");
-        return true;
     }
 }
