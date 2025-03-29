@@ -242,8 +242,8 @@ namespace Util {
                 return false;
             }
 
-            Logger::info("Waiting a moment for the game engine to be ready...");
-            std::this_thread::sleep_for(std::chrono::seconds(2));
+            Logger::info("Waiting a bit to inject the mod...");
+            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
 
             SIZE_T pathLength = dllPath.length() + 1;
             LPVOID remotePath = VirtualAllocEx(hProcess, NULL, pathLength, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
