@@ -4,5 +4,5 @@
 #include "SDK/Engine_classes.hpp"
 
 namespace Spawner {
-    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform);
+    SDK::AActor* SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform);
 }
