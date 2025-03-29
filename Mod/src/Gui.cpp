@@ -127,6 +127,7 @@ void Gui::Setup() {
     MenuManager::Get().AddSection<PlayerSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<WorldSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<NPCSection>(MenuTab::Entity_Spawner);
+    MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<KeybindsSection>(MenuTab::Settings);
 
     s_instance = this;
