@@ -158,11 +158,6 @@ namespace Util {
         return isAdmin != 0;
     }
 
-    class EnhancerException : public std::runtime_error {
-    public:
-        explicit EnhancerException(const std::string& message) : std::runtime_error(message) {}
-    };
-
     inline const std::string& getAppDataPath() {
         static std::string fullPath;
 
@@ -273,7 +268,6 @@ namespace Util {
             return false;
         }
 
-        #pragma warning(suppress : 6387 6001)
         auto threadHandle = createScopedHandle(CreateRemoteThread(
             procHandle, nullptr, 0, (LPTHREAD_START_ROUTINE)loadLibraryAddr, 
             remoteMem, 0, nullptr
@@ -284,7 +278,6 @@ namespace Util {
             return false;
         }
 
-        #pragma warning(suppress : 6001)
         DWORD waitResult = WaitForSingleObject(threadHandle, timeoutMs);
         if (waitResult == WAIT_TIMEOUT) {
             Logger::warn("Thread execution timed out. The game might be unresponsive.");
