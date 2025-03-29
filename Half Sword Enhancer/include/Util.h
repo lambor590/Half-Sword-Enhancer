@@ -81,6 +81,15 @@ namespace Util {
         });
     }
 
+    [[noreturn]] inline void fail(const char* msg) {
+        MessageBoxA(nullptr, msg, "Error", MB_ICONERROR);
+        exit(1);
+    }
+
+    inline void showError(const char* msg) {
+        MessageBoxA(nullptr, msg, "Error", MB_ICONERROR);
+    }
+
     struct EnumWindowsData {
         DWORD processId;
         HWND windowHandle;
@@ -137,8 +146,8 @@ namespace Util {
 
     inline bool isRunningAsAdmin() {
         BOOL isAdmin = FALSE;
-        PSID adminGroup = NULL;
         SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
+        PSID adminGroup = NULL;
 
         if (AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
             DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &adminGroup)) {
@@ -153,15 +162,6 @@ namespace Util {
     public:
         explicit EnhancerException(const std::string& message) : std::runtime_error(message) {}
     };
-
-    [[noreturn]] inline void fail(const char* msg) {
-        MessageBoxA(nullptr, msg, "Error", MB_ICONERROR);
-        exit(1);
-    }
-
-    inline void showError(const char* msg) {
-        MessageBoxA(nullptr, msg, "Error", MB_ICONERROR);
-    }
 
     inline const std::string& getAppDataPath() {
         static std::string fullPath;
@@ -265,8 +265,6 @@ namespace Util {
             return false;
         }
         
-        Logger::info("DLL path written to Half Sword's process memory.");
-
         HMODULE kernel32Module = GetModuleHandleA("kernel32.dll");
         FARPROC loadLibraryAddr = kernel32Module ? GetProcAddress(kernel32Module, "LoadLibraryA") : NULL;
         
