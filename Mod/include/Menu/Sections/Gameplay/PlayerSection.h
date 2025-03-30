@@ -25,6 +25,8 @@ private:
 
     static inline int invulnerabilityKey = -1;
 
+    static inline int getUpKey = -1;
+
 public:
     PlayerSection() : CollapsibleSection("Player") {
         Hook("Infinite Stamina", "OnWalkingOffLedge", &infiniteStaminaKey, [this]() {
@@ -44,29 +46,37 @@ public:
         }, player);
 
         std::initializer_list<Parameter> playerSpeedParams = {
-            Parameter("run_speed", "Run Speed", &playerRunMultiplier, 1.0f, 100.0f),
-            Parameter("walk_speed", "Walk Speed", &playerWalkMultiplier, 1.0f, 100.0f)
+            Parameter("run_speed_multiplier", "Run Speed Multiplier", &playerRunMultiplier, 1.0f, 100.0f),
+            Parameter("walk_speed_multiplier", "Walk Speed Multiplier", &playerWalkMultiplier, 1.0f, 100.0f)
         };
 
         BindWithParams("Toggle Speed Multiplier", &playerSpeedKey, playerSpeedParams, [this]() {
-            player->Walk_Speed_Rate_Run = (player->Walk_Speed_Rate_Run == 1.5f) ? (1.5f * playerWalkMultiplier) : 1.5f;
-            player->Running_Speed_Rate = (player->Running_Speed_Rate == 1.5f) ? (1.5f * playerRunMultiplier) : 1.5f;
+            static bool enabled = (player->Walk_Speed_Rate_Run != 1.5f) && (player->Running_Speed_Rate != 1.5f);
+            player->Running_Speed_Rate = enabled ? 1.5f : (1.5f * playerRunMultiplier);
+            player->Walk_Speed_Rate_Run = enabled ? 1.5f : (1.5f * playerWalkMultiplier);
         }, player);
 
         std::initializer_list<Parameter> playerStrengthParams = {
-            Parameter("strength", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 10.0f),
-            Parameter("grab_force", "Grab Force Limit", &playerGrabForceMultiplier, 1.0f, 10.0f)
+            Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 10.0f),
+            Parameter("grab_force_multiplier", "Grab Force Multiplier", &playerGrabForceMultiplier, 1.0f, 10.0f)
         };
 
         BindWithParams("Toggle Strength Multiplier", &playerStrengthKey, playerStrengthParams, [this]() {
-            player->Muscle_Power = (player->Muscle_Power == 35.0f) ? (35.0f * playerStrengthMultiplier) : 35.0f;
-            player->R_Grab_Force_Limit = (player->R_Grab_Force_Limit == 10000.0f) ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
-            player->L_Grab_Force_Limit = (player->L_Grab_Force_Limit == 10000.0f) ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
+            static bool enabled = (player->Muscle_Power != 35.0f)
+                && (player->R_Grab_Force_Limit != 10000.0f)
+                && (player->L_Grab_Force_Limit != 10000.0f);
+            player->Muscle_Power = enabled ? 35.0f : (35.0f * playerStrengthMultiplier);
+            player->R_Grab_Force_Limit = enabled ? 10000.0f : (10000.0f * playerGrabForceMultiplier);
+            player->L_Grab_Force_Limit = enabled ? 10000.0f : (10000.0f * playerGrabForceMultiplier);
         }, player);
 
         Bind("Toggle Invulnerability", &invulnerabilityKey, [this]() {
             player->bCanBeDamaged = ~player->bCanBeDamaged;
             player->Invulnerable = !player->Invulnerable;
+        }, player);
+
+        Bind("Get Up From The Ground", &getUpKey, [this]() {
+            player->Get_Up_Rate = 1.0f;
         }, player);
     }
 };
