@@ -15,6 +15,7 @@ private:
     static inline float spawnDistanceUp = 0.0f;
     static inline float spawnScale = 1.0f;
     static inline bool spawnNPCAggressive = true;
+    static inline int npcTeam = 0;
 
 public:
     NPCSection() : CollapsibleSection("NPC") {
@@ -22,7 +23,8 @@ public:
             Parameter("aggresive", "Is Aggressive", &spawnNPCAggressive),
             Parameter("distance_forward", "Distance Forward", &spawnDistanceForward, 100.0f, 500.0f),
             Parameter("distance_up", "Distance Up", &spawnDistanceUp, 0.0f, 300.0f),
-            Parameter("scale", "Scale", &spawnScale, 0.1f, 4.0f)
+            Parameter("scale", "Scale", &spawnScale, 0.1f, 4.0f),
+            Parameter("npc_team", "NPC Team", &npcTeam, 0, 9)
         };
 
         BindWithParams("Spawn NPC", &spawnEnemyKey, spawnEnemyParams, [this]() {
@@ -30,7 +32,8 @@ public:
             spawnTransform.Translation += player->GetActorForwardVector() * spawnDistanceForward;
             spawnTransform.Translation.Z += spawnDistanceUp;
             spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
-            Spawner::SpawnActor(world, spawnNPCAggressive ? "Willie_BP_C" : "Willie_BP_NoBrain_C", spawnTransform);
+            SDK::AWillie_BP_C* npc = static_cast<SDK::AWillie_BP_C*>(Spawner::SpawnActor(world, spawnNPCAggressive ? "Willie_BP_C" : "Willie_BP_NoBrain_C", spawnTransform));
+            npc->Team_Int = npcTeam;
         }, player, world);
     }
 };
