@@ -163,11 +163,11 @@
     <ClInclude Include="include\Menu\Utils\Spawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\ItemSection.h">
-      <Filter>Header Files</Filter>
+      <Filter>Sections\Entity Spawner</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h">
+      <Filter>Sections\Entity Spawner</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
