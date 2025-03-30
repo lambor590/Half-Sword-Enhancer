@@ -21,7 +21,7 @@ public:
     }
 
     void Render() override {
-        if (ImGui::CollapsingHeader("Keybinds")) {
+        if (ImGui::CollapsingHeader(name.c_str())) {
             bool changed = false;
             
             changed |= RenderKeybind(
