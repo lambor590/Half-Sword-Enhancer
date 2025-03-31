@@ -75,7 +75,7 @@ public:
             player->Invulnerable = !player->Invulnerable;
         }, player);
 
-        Bind("Get Up From The Ground", &getUpKey, [this]() {
+        Bind("Get Up", &getUpKey, [this]() {
             player->Get_Up_Rate = 1.0f;
         }, player);
     }
