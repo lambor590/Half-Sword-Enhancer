@@ -21,7 +21,7 @@ private:
 
     static inline int playerStrengthKey = -1;
     static inline float playerStrengthMultiplier = 1.0f;
-    static inline float playerGrabForceMultiplier = 1000.0f;
+    static inline float playerGrabForceMultiplier = 1.0f;
 
     static inline int invulnerabilityKey = -1;
 
