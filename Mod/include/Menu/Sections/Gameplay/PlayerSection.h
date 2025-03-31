@@ -27,6 +27,9 @@ private:
 
     static inline int getUpKey = -1;
 
+    static inline int dashKey = -1;
+    static inline float dashForce = 7000.0f;
+
 public:
     PlayerSection() : CollapsibleSection("Player") {
         Hook("Infinite Stamina", "OnWalkingOffLedge", &infiniteStaminaKey, [this]() {
@@ -77,6 +80,15 @@ public:
 
         Bind("Get Up", &getUpKey, [this]() {
             player->Get_Up_Rate = 1.0f;
+        }, player);
+
+        std::initializer_list<Parameter> dashParams = {
+            Parameter("force", "Force", &dashForce, 1000.0f, 10000.0f)
+        };
+
+        BindWithParams("Dash", &dashKey, dashParams, [this]() {
+            SDK::FVector forwardVector = player->GetActorForwardVector();
+            player->Mesh->AddImpulse(forwardVector * dashForce, SDK::FName(), true);
         }, player);
     }
 };
