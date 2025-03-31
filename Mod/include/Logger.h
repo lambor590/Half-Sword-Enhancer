@@ -15,7 +15,7 @@ public:
         FILE* logFile = GetLogFile();
         if (logFile == nullptr)
         {
-            std::filesystem::path logPath = ConfigManager::GetAppDataPath() / "HS-Enhancer_logs.txt";
+            std::filesystem::path logPath = ConfigManager::GetAppDataPath() / "logs.log";
             fopen_s(&logFile, logPath.string().c_str(), "w");
             GetLogFile(logFile);
         }
