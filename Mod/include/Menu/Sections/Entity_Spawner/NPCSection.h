@@ -24,7 +24,7 @@ public:
             Parameter("distance_forward", "Distance Forward", &spawnDistanceForward, 100.0f, 500.0f),
             Parameter("distance_up", "Distance Up", &spawnDistanceUp, 0.0f, 300.0f),
             Parameter("scale", "Scale", &spawnScale, 0.1f, 4.0f),
-            Parameter("npc_team", "NPC Team", &npcTeam, 0, 9)
+            Parameter("team", "Team", &npcTeam, 0, 9)
         };
 
         BindWithParams("Spawn NPC", &spawnEnemyKey, spawnEnemyParams, [this]() {
