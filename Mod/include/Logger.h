@@ -3,6 +3,8 @@
 #include <string>
 #include <cstdarg>
 
+#include "ConfigManager.h"
+
 class Logger
 {
 public:
@@ -13,7 +15,8 @@ public:
         FILE* logFile = GetLogFile();
         if (logFile == nullptr)
         {
-            fopen_s(&logFile, "HS-Enhancer_logs.txt", "w");
+            std::filesystem::path logPath = ConfigManager::GetAppDataPath() / "HS-Enhancer_logs.txt";
+            fopen_s(&logFile, logPath.string().c_str(), "w");
             GetLogFile(logFile);
         }
     }
