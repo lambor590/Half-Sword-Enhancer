@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "GripType_Enum_structs.hpp"
 #include "AnimGraphRuntime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "BodyPart_Enum_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "ABP_Willie_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"

@@ -89,6 +89,7 @@ public:
 	uint8                                         Pad_2CA[0x6];                                      // 0x02CA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Time_Dilation;                                     // 0x02D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Player_Team;                                       // 0x02D8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Fog;                                               // 0x02DC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_GI_Settings(int32 EntryPoint);
@@ -163,6 +164,7 @@ static_assert(offsetof(UGI_Settings_C, Fresh_Start_Map__Temp_) == 0x0002C8, "Mem
 static_assert(offsetof(UGI_Settings_C, Tutorial) == 0x0002C9, "Member 'UGI_Settings_C::Tutorial' has a wrong offset!");
 static_assert(offsetof(UGI_Settings_C, Time_Dilation) == 0x0002D0, "Member 'UGI_Settings_C::Time_Dilation' has a wrong offset!");
 static_assert(offsetof(UGI_Settings_C, Player_Team) == 0x0002D8, "Member 'UGI_Settings_C::Player_Team' has a wrong offset!");
+static_assert(offsetof(UGI_Settings_C, Fog) == 0x0002DC, "Member 'UGI_Settings_C::Fog' has a wrong offset!");
 
 }
 

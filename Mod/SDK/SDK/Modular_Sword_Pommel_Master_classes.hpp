@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
+#include "Enum_MaterialLayer_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Modular_Weapon_Module_classes.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 
 
 namespace SDK

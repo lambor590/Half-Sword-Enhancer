@@ -18,9 +18,9 @@
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
 #include "S_PhotosData_structs.hpp"
-#include "S_Logos_structs.hpp"
 #include "S_PostProcessRendering_structs.hpp"
 #include "S_PostProcessFilter_structs.hpp"
+#include "S_Logos_structs.hpp"
 
 
 namespace SDK::Params

@@ -19,7 +19,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_GameSettings.UI_GameSettings_C
-// 0x00F0 (0x03D0 - 0x02E0)
+// 0x00F8 (0x03D8 - 0x02E0)
 class UUI_GameSettings_C final : public UUserWidget
 {
 public:
@@ -34,26 +34,27 @@ public:
 	class UButton*                                Button_2;                                          // 0x0320(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UButton*                                Button_3;                                          // 0x0328(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UButton*                                Button_27;                                         // 0x0330(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UCheckBox*                              CheckBox_0;                                        // 0x0338(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class USlider*                                DamageNPC;                                         // 0x0340(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image;                                             // 0x0348(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_0;                                           // 0x0350(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_1;                                           // 0x0358(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_2;                                           // 0x0360(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_3;                                           // 0x0368(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_4;                                           // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_5;                                           // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_6;                                           // 0x0380(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_7;                                           // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_8;                                           // 0x0390(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class USlider*                                Slider_DamagePlayer;                               // 0x0398(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class USlider*                                Slider_LockOnSlider;                               // 0x03A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	int32                                         GraphicsLevel;                                     // 0x03A8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         NewVar;                                            // 0x03AC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UClass*                                 Go_Back_To;                                        // 0x03B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
-	class UGI_Settings_C*                         GI_Settings;                                       // 0x03B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class USG_Settings_C*                         SG_Settings;                                       // 0x03C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class AWillie_BP_C*                           My_Master__Willie_;                                // 0x03C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UCheckBox*                              CheckBox;                                          // 0x0338(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UCheckBox*                              CheckBox_0;                                        // 0x0340(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class USlider*                                DamageNPC;                                         // 0x0348(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image;                                             // 0x0350(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_0;                                           // 0x0358(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_1;                                           // 0x0360(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_2;                                           // 0x0368(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_3;                                           // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_4;                                           // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_5;                                           // 0x0380(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_6;                                           // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_7;                                           // 0x0390(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_8;                                           // 0x0398(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class USlider*                                Slider_DamagePlayer;                               // 0x03A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class USlider*                                Slider_LockOnSlider;                               // 0x03A8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	int32                                         GraphicsLevel;                                     // 0x03B0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         NewVar;                                            // 0x03B4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Go_Back_To;                                        // 0x03B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	class UGI_Settings_C*                         GI_Settings;                                       // 0x03C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class USG_Settings_C*                         SG_Settings;                                       // 0x03C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class AWillie_BP_C*                           My_Master__Willie_;                                // 0x03D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature();
@@ -68,6 +69,7 @@ public:
 	void BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_GameSettings_Button_3_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked);
+	void BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked);
 	void BndEvt__UI_Settings_Game_Button_1_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Settings_Game_Button_27_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature(float Value);
@@ -79,6 +81,7 @@ public:
 	float Get_Slider_DamagePlayer_Value();
 	float Get_Slider_LockOnSlider_Value();
 	ECheckBoxState GetCheckedState();
+	ECheckBoxState GetCheckedState_0();
 	float GetValue();
 	float GetValue_0();
 	float GetValue_1();
@@ -98,7 +101,7 @@ public:
 	}
 };
 static_assert(alignof(UUI_GameSettings_C) == 0x000008, "Wrong alignment on UUI_GameSettings_C");
-static_assert(sizeof(UUI_GameSettings_C) == 0x0003D0, "Wrong size on UUI_GameSettings_C");
+static_assert(sizeof(UUI_GameSettings_C) == 0x0003D8, "Wrong size on UUI_GameSettings_C");
 static_assert(offsetof(UUI_GameSettings_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_GameSettings_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_GameSettings_C, HoverBack) == 0x0002E8, "Member 'UUI_GameSettings_C::HoverBack' has a wrong offset!");
 static_assert(offsetof(UUI_GameSettings_C, HoverAudio) == 0x0002F0, "Member 'UUI_GameSettings_C::HoverAudio' has a wrong offset!");
@@ -110,26 +113,27 @@ static_assert(offsetof(UUI_GameSettings_C, Button_1) == 0x000318, "Member 'UUI_G
 static_assert(offsetof(UUI_GameSettings_C, Button_2) == 0x000320, "Member 'UUI_GameSettings_C::Button_2' has a wrong offset!");
 static_assert(offsetof(UUI_GameSettings_C, Button_3) == 0x000328, "Member 'UUI_GameSettings_C::Button_3' has a wrong offset!");
 static_assert(offsetof(UUI_GameSettings_C, Button_27) == 0x000330, "Member 'UUI_GameSettings_C::Button_27' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, CheckBox_0) == 0x000338, "Member 'UUI_GameSettings_C::CheckBox_0' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, DamageNPC) == 0x000340, "Member 'UUI_GameSettings_C::DamageNPC' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image) == 0x000348, "Member 'UUI_GameSettings_C::Image' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_0) == 0x000350, "Member 'UUI_GameSettings_C::Image_0' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_1) == 0x000358, "Member 'UUI_GameSettings_C::Image_1' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_2) == 0x000360, "Member 'UUI_GameSettings_C::Image_2' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_3) == 0x000368, "Member 'UUI_GameSettings_C::Image_3' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_4) == 0x000370, "Member 'UUI_GameSettings_C::Image_4' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_5) == 0x000378, "Member 'UUI_GameSettings_C::Image_5' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_6) == 0x000380, "Member 'UUI_GameSettings_C::Image_6' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_7) == 0x000388, "Member 'UUI_GameSettings_C::Image_7' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Image_8) == 0x000390, "Member 'UUI_GameSettings_C::Image_8' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Slider_DamagePlayer) == 0x000398, "Member 'UUI_GameSettings_C::Slider_DamagePlayer' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Slider_LockOnSlider) == 0x0003A0, "Member 'UUI_GameSettings_C::Slider_LockOnSlider' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, GraphicsLevel) == 0x0003A8, "Member 'UUI_GameSettings_C::GraphicsLevel' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, NewVar) == 0x0003AC, "Member 'UUI_GameSettings_C::NewVar' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, Go_Back_To) == 0x0003B0, "Member 'UUI_GameSettings_C::Go_Back_To' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, GI_Settings) == 0x0003B8, "Member 'UUI_GameSettings_C::GI_Settings' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, SG_Settings) == 0x0003C0, "Member 'UUI_GameSettings_C::SG_Settings' has a wrong offset!");
-static_assert(offsetof(UUI_GameSettings_C, My_Master__Willie_) == 0x0003C8, "Member 'UUI_GameSettings_C::My_Master__Willie_' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, CheckBox) == 0x000338, "Member 'UUI_GameSettings_C::CheckBox' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, CheckBox_0) == 0x000340, "Member 'UUI_GameSettings_C::CheckBox_0' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, DamageNPC) == 0x000348, "Member 'UUI_GameSettings_C::DamageNPC' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image) == 0x000350, "Member 'UUI_GameSettings_C::Image' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_0) == 0x000358, "Member 'UUI_GameSettings_C::Image_0' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_1) == 0x000360, "Member 'UUI_GameSettings_C::Image_1' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_2) == 0x000368, "Member 'UUI_GameSettings_C::Image_2' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_3) == 0x000370, "Member 'UUI_GameSettings_C::Image_3' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_4) == 0x000378, "Member 'UUI_GameSettings_C::Image_4' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_5) == 0x000380, "Member 'UUI_GameSettings_C::Image_5' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_6) == 0x000388, "Member 'UUI_GameSettings_C::Image_6' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_7) == 0x000390, "Member 'UUI_GameSettings_C::Image_7' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Image_8) == 0x000398, "Member 'UUI_GameSettings_C::Image_8' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Slider_DamagePlayer) == 0x0003A0, "Member 'UUI_GameSettings_C::Slider_DamagePlayer' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Slider_LockOnSlider) == 0x0003A8, "Member 'UUI_GameSettings_C::Slider_LockOnSlider' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, GraphicsLevel) == 0x0003B0, "Member 'UUI_GameSettings_C::GraphicsLevel' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, NewVar) == 0x0003B4, "Member 'UUI_GameSettings_C::NewVar' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, Go_Back_To) == 0x0003B8, "Member 'UUI_GameSettings_C::Go_Back_To' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, GI_Settings) == 0x0003C0, "Member 'UUI_GameSettings_C::GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, SG_Settings) == 0x0003C8, "Member 'UUI_GameSettings_C::SG_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_GameSettings_C, My_Master__Willie_) == 0x0003D0, "Member 'UUI_GameSettings_C::My_Master__Willie_' has a wrong offset!");
 
 }
 

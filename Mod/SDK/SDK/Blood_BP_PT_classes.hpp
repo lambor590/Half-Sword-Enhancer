@@ -19,7 +19,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Blood_BP_PT.Blood_BP_PT_C
-// 0x01E8 (0x0478 - 0x0290)
+// 0x01F0 (0x0480 - 0x0290)
 class ABlood_BP_PT_C final : public AActor
 {
 public:
@@ -60,6 +60,7 @@ public:
 	bool                                          Delete_Particles_In_Pool;                          // 0x0470(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	uint8                                         Pad_471[0x3];                                      // 0x0471(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Size;                                              // 0x0474(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Decals_Sawned_Total;                               // 0x0478(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
@@ -81,7 +82,7 @@ public:
 	}
 };
 static_assert(alignof(ABlood_BP_PT_C) == 0x000008, "Wrong alignment on ABlood_BP_PT_C");
-static_assert(sizeof(ABlood_BP_PT_C) == 0x000478, "Wrong size on ABlood_BP_PT_C");
+static_assert(sizeof(ABlood_BP_PT_C) == 0x000480, "Wrong size on ABlood_BP_PT_C");
 static_assert(offsetof(ABlood_BP_PT_C, UberGraphFrame) == 0x000290, "Member 'ABlood_BP_PT_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(ABlood_BP_PT_C, BPC_RuntimeVertexPaintAndDetectionComponent) == 0x000298, "Member 'ABlood_BP_PT_C::BPC_RuntimeVertexPaintAndDetectionComponent' has a wrong offset!");
 static_assert(offsetof(ABlood_BP_PT_C, Blood_Fountain_System) == 0x0002A0, "Member 'ABlood_BP_PT_C::Blood_Fountain_System' has a wrong offset!");
@@ -114,6 +115,7 @@ static_assert(offsetof(ABlood_BP_PT_C, New_Var_1) == 0x000410, "Member 'ABlood_B
 static_assert(offsetof(ABlood_BP_PT_C, NewVar_3) == 0x000460, "Member 'ABlood_BP_PT_C::NewVar_3' has a wrong offset!");
 static_assert(offsetof(ABlood_BP_PT_C, Delete_Particles_In_Pool) == 0x000470, "Member 'ABlood_BP_PT_C::Delete_Particles_In_Pool' has a wrong offset!");
 static_assert(offsetof(ABlood_BP_PT_C, Size) == 0x000474, "Member 'ABlood_BP_PT_C::Size' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Decals_Sawned_Total) == 0x000478, "Member 'ABlood_BP_PT_C::Decals_Sawned_Total' has a wrong offset!");
 
 }
 

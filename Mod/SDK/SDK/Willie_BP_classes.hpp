@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "HideBodyPart_Enum_structs.hpp"
-#include "VertexPaintDetectionPlugin_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
 #include "Severable_BodyParts_Enum_structs.hpp"
+#include "VertexPaintDetectionPlugin_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
@@ -21,17 +21,17 @@
 #include "BodyPart_Enum_structs.hpp"
 #include "Willie_Bones_Enum_structs.hpp"
 #include "GripType_Enum_structs.hpp"
-#include "Attached_Transform_Str_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
+#include "Attached_Transform_Str_structs.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
 #include "Enum_VoiceType_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
-#include "LeftRight_Enum_structs.hpp"
 #include "Enum_Tiers_structs.hpp"
+#include "LeftRight_Enum_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
 
 
 namespace SDK
@@ -1202,6 +1202,8 @@ public:
 	bool                                          Quick_Unsheath;                                    // 0x3A21(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Cheat_K;                                           // 0x3A22(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Cheat_Y;                                           // 0x3A23(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Just_Thrusted_R;                                   // 0x3A24(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Just_Thrusted_L;                                   // 0x3A25(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_Startup_Weapons();
@@ -2483,6 +2485,8 @@ static_assert(offsetof(AWillie_BP_C, Unsheath_in_Progress) == 0x003A20, "Member 
 static_assert(offsetof(AWillie_BP_C, Quick_Unsheath) == 0x003A21, "Member 'AWillie_BP_C::Quick_Unsheath' has a wrong offset!");
 static_assert(offsetof(AWillie_BP_C, Cheat_K) == 0x003A22, "Member 'AWillie_BP_C::Cheat_K' has a wrong offset!");
 static_assert(offsetof(AWillie_BP_C, Cheat_Y) == 0x003A23, "Member 'AWillie_BP_C::Cheat_Y' has a wrong offset!");
+static_assert(offsetof(AWillie_BP_C, Just_Thrusted_R) == 0x003A24, "Member 'AWillie_BP_C::Just_Thrusted_R' has a wrong offset!");
+static_assert(offsetof(AWillie_BP_C, Just_Thrusted_L) == 0x003A25, "Member 'AWillie_BP_C::Just_Thrusted_L' has a wrong offset!");
 
 }
 

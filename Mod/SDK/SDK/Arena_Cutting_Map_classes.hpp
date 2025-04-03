@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
+#include "Enum_PlayCards_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Str_Equipment_Loadout_Old_structs.hpp"
-#include "Enum_PlayCards_structs.hpp"
 
 
 namespace SDK
@@ -55,7 +55,7 @@ public:
 	struct FStr_Equipment_Loadout_Old             EquipmentRank_7;                                   // 0x13F0(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
 	struct FStr_Equipment_Loadout_Old             EquipmentRank_7_S;                                 // 0x1540(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
 	struct FStr_Equipment_Loadout_Old             EquipmentRank_7_A;                                 // 0x1690(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	bool                                          NewVar;                                            // 0x17E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          NPC_2H;                                            // 0x17E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          NewVar_0;                                          // 0x17E1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          NewVar_1;                                          // 0x17E2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_17E3[0x5];                                     // 0x17E3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
@@ -154,7 +154,7 @@ static_assert(offsetof(AArena_Cutting_Map_C, EquipmentRank_6_S) == 0x0012A0, "Me
 static_assert(offsetof(AArena_Cutting_Map_C, EquipmentRank_7) == 0x0013F0, "Member 'AArena_Cutting_Map_C::EquipmentRank_7' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, EquipmentRank_7_S) == 0x001540, "Member 'AArena_Cutting_Map_C::EquipmentRank_7_S' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, EquipmentRank_7_A) == 0x001690, "Member 'AArena_Cutting_Map_C::EquipmentRank_7_A' has a wrong offset!");
-static_assert(offsetof(AArena_Cutting_Map_C, NewVar) == 0x0017E0, "Member 'AArena_Cutting_Map_C::NewVar' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, NPC_2H) == 0x0017E0, "Member 'AArena_Cutting_Map_C::NPC_2H' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, NewVar_0) == 0x0017E1, "Member 'AArena_Cutting_Map_C::NewVar_0' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, NewVar_1) == 0x0017E2, "Member 'AArena_Cutting_Map_C::NewVar_1' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, Music) == 0x0017E8, "Member 'AArena_Cutting_Map_C::Music' has a wrong offset!");

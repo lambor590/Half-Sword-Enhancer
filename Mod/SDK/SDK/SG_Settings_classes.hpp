@@ -37,6 +37,7 @@ public:
 	uint8                                         Pad_82[0x6];                                       // 0x0082(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Voice_Volume;                                      // 0x0088(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Tutorial;                                          // 0x0090(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Fog;                                               // 0x0091(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	static class UClass* StaticClass()
@@ -65,6 +66,7 @@ static_assert(offsetof(USG_Settings_C, Invert_Mouse) == 0x000080, "Member 'USG_S
 static_assert(offsetof(USG_Settings_C, Center_Crosshair) == 0x000081, "Member 'USG_Settings_C::Center_Crosshair' has a wrong offset!");
 static_assert(offsetof(USG_Settings_C, Voice_Volume) == 0x000088, "Member 'USG_Settings_C::Voice_Volume' has a wrong offset!");
 static_assert(offsetof(USG_Settings_C, Tutorial) == 0x000090, "Member 'USG_Settings_C::Tutorial' has a wrong offset!");
+static_assert(offsetof(USG_Settings_C, Fog) == 0x000091, "Member 'USG_Settings_C::Fog' has a wrong offset!");
 
 }
 

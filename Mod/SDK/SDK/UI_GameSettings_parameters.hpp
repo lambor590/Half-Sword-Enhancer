@@ -27,6 +27,17 @@ static_assert(alignof(UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_0_K2Nod
 static_assert(sizeof(UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature) == 0x000001, "Wrong size on UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature");
 static_assert(offsetof(UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature, bIsChecked) == 0x000000, "Member 'UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoundEvent_1_OnCheckBoxComponentStateChanged__DelegateSignature::bIsChecked' has a wrong offset!");
 
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature
+// 0x0001 (0x0001 - 0x0000)
+struct UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature final
+{
+public:
+	bool                                          bIsChecked;                                        // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature) == 0x000001, "Wrong alignment on UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature");
+static_assert(sizeof(UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature) == 0x000001, "Wrong size on UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature");
+static_assert(offsetof(UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature, bIsChecked) == 0x000000, "Member 'UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature::bIsChecked' has a wrong offset!");
+
 // Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature
 // 0x0004 (0x0004 - 0x0000)
 struct UI_GameSettings_C_BndEvt__UI_Settings_Game_Slider_LockOnSlider_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature final
@@ -115,8 +126,9 @@ public:
 	uint8                                         Pad_131[0x7];                                      // 0x0131(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class USG_Settings_C*                         CallFunc_CreateSaveGameObject_ReturnValue;         // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UUI_AudioSettings_C*                    CallFunc_Create_ReturnValue_5;                     // 0x0140(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_ComponentBoundEvent_bIsChecked;             // 0x0148(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_149[0x7];                                      // 0x0149(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          K2Node_ComponentBoundEvent_bIsChecked_1;           // 0x0148(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_ComponentBoundEvent_bIsChecked;             // 0x0149(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14A[0x6];                                      // 0x014A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        K2Node_VariableSet_Player_Damage_Rate_ImplicitCast; // 0x0150(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        K2Node_VariableSet_NPC_Damage_Rate_ImplicitCast;   // 0x0158(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        K2Node_VariableSet_Lock_On_Strength_ImplicitCast;  // 0x0160(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -163,7 +175,8 @@ static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, K2Nod
 static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, K2Node_DynamicCast_bSuccess_2) == 0x000130, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::K2Node_DynamicCast_bSuccess_2' has a wrong offset!");
 static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, CallFunc_CreateSaveGameObject_ReturnValue) == 0x000138, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::CallFunc_CreateSaveGameObject_ReturnValue' has a wrong offset!");
 static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, CallFunc_Create_ReturnValue_5) == 0x000140, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::CallFunc_Create_ReturnValue_5' has a wrong offset!");
-static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, K2Node_ComponentBoundEvent_bIsChecked) == 0x000148, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::K2Node_ComponentBoundEvent_bIsChecked' has a wrong offset!");
+static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, K2Node_ComponentBoundEvent_bIsChecked_1) == 0x000148, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::K2Node_ComponentBoundEvent_bIsChecked_1' has a wrong offset!");
+static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, K2Node_ComponentBoundEvent_bIsChecked) == 0x000149, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::K2Node_ComponentBoundEvent_bIsChecked' has a wrong offset!");
 static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, K2Node_VariableSet_Player_Damage_Rate_ImplicitCast) == 0x000150, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::K2Node_VariableSet_Player_Damage_Rate_ImplicitCast' has a wrong offset!");
 static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, K2Node_VariableSet_NPC_Damage_Rate_ImplicitCast) == 0x000158, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::K2Node_VariableSet_NPC_Damage_Rate_ImplicitCast' has a wrong offset!");
 static_assert(offsetof(UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings, K2Node_VariableSet_Lock_On_Strength_ImplicitCast) == 0x000160, "Member 'UI_GameSettings_C_ExecuteUbergraph_UI_GameSettings::K2Node_VariableSet_Lock_On_Strength_ImplicitCast' has a wrong offset!");
@@ -225,6 +238,25 @@ static_assert(offsetof(UI_GameSettings_C_GetCheckedState, Temp_bool_Variable) ==
 static_assert(offsetof(UI_GameSettings_C_GetCheckedState, Temp_byte_Variable) == 0x000002, "Member 'UI_GameSettings_C_GetCheckedState::Temp_byte_Variable' has a wrong offset!");
 static_assert(offsetof(UI_GameSettings_C_GetCheckedState, Temp_byte_Variable_1) == 0x000003, "Member 'UI_GameSettings_C_GetCheckedState::Temp_byte_Variable_1' has a wrong offset!");
 static_assert(offsetof(UI_GameSettings_C_GetCheckedState, K2Node_Select_Default) == 0x000004, "Member 'UI_GameSettings_C_GetCheckedState::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_GameSettings.UI_GameSettings_C.GetCheckedState_0
+// 0x0005 (0x0005 - 0x0000)
+struct UI_GameSettings_C_GetCheckedState_0 final
+{
+public:
+	ECheckBoxState                                ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ECheckBoxState                                Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ECheckBoxState                                Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ECheckBoxState                                K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_GameSettings_C_GetCheckedState_0) == 0x000001, "Wrong alignment on UI_GameSettings_C_GetCheckedState_0");
+static_assert(sizeof(UI_GameSettings_C_GetCheckedState_0) == 0x000005, "Wrong size on UI_GameSettings_C_GetCheckedState_0");
+static_assert(offsetof(UI_GameSettings_C_GetCheckedState_0, ReturnValue) == 0x000000, "Member 'UI_GameSettings_C_GetCheckedState_0::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GameSettings_C_GetCheckedState_0, Temp_bool_Variable) == 0x000001, "Member 'UI_GameSettings_C_GetCheckedState_0::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_GameSettings_C_GetCheckedState_0, Temp_byte_Variable) == 0x000002, "Member 'UI_GameSettings_C_GetCheckedState_0::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_GameSettings_C_GetCheckedState_0, Temp_byte_Variable_1) == 0x000003, "Member 'UI_GameSettings_C_GetCheckedState_0::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_GameSettings_C_GetCheckedState_0, K2Node_Select_Default) == 0x000004, "Member 'UI_GameSettings_C_GetCheckedState_0::K2Node_Select_Default' has a wrong offset!");
 
 // Function UI_GameSettings.UI_GameSettings_C.GetValue
 // 0x0008 (0x0008 - 0x0000)

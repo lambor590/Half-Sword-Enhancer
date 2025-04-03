@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialQuality_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_MaterialQuality_structs.hpp"
 
 
 namespace SDK::Params

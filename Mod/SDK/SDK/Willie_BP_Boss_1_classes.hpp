@@ -22,7 +22,7 @@ namespace SDK
 class AWillie_BP_Boss_1_C final : public AWillie_BP_Boss_Master_C
 {
 public:
-	uint8                                         Pad_3A24[0x4];                                     // 0x3A24(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_3A26[0x2];                                     // 0x3A26(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_Boss_1_C;                 // 0x3A28(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
