@@ -64,7 +64,7 @@ int main() {
             ("Half Sword Enhancer " + Updater::getLocalVersion()).c_str());
 
         const std::string dllPath = getAppDataPath() + "\\HS-Enhancer.dll";
-        const char* processName = "VersionTest54-Win64-Shipping.exe";
+        const char* processName = "HalfSwordUE5-Win64-Shipping.exe";
 
         Logger::info("Made by The Ghost");
 
