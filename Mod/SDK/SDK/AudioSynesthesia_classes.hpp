@@ -117,9 +117,9 @@ class UConstantQAnalyzer final : public UAudioAnalyzer
 {
 public:
 	class UConstantQSettings*                     Settings;                                          // 0x00A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(int32 ChannelIndex, TArray<struct FConstantQResults>& ConstantQResults)> OnConstantQResults;                                // 0x00A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 ChannelIndex, const TArray<struct FConstantQResults>& ConstantQResults)> OnConstantQResults; // 0x00A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B8[0x18];                                      // 0x00B8(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(int32 ChannelIndex, struct FConstantQResults& LatestConstantQResults)> OnLatestConstantQResults;                          // 0x00D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 ChannelIndex, const struct FConstantQResults& LatestConstantQResults)> OnLatestConstantQResults; // 0x00D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_E0[0x18];                                      // 0x00E0(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -248,10 +248,10 @@ class ULoudnessAnalyzer final : public UAudioAnalyzer
 {
 public:
 	class ULoudnessSettings*                      Settings;                                          // 0x00A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(TArray<struct FLoudnessResults>& OverallLoudnessResults)> OnOverallLoudnessResults;                          // 0x00A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(int32 ChannelIndex, TArray<struct FLoudnessResults>& LoudnessResults)> OnPerChannelLoudnessResults;                       // 0x00B8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FLoudnessResults& LatestOverallLoudnessResults)> OnLatestOverallLoudnessResults;                    // 0x00C8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(int32 ChannelIndex, struct FLoudnessResults& LatestLoudnessResults)> OnLatestPerChannelLoudnessResults;                 // 0x00D8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const TArray<struct FLoudnessResults>& OverallLoudnessResults)> OnOverallLoudnessResults; // 0x00A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 ChannelIndex, const TArray<struct FLoudnessResults>& LoudnessResults)> OnPerChannelLoudnessResults; // 0x00B8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FLoudnessResults& LatestOverallLoudnessResults)> OnLatestOverallLoudnessResults; // 0x00C8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 ChannelIndex, const struct FLoudnessResults& LatestLoudnessResults)> OnLatestPerChannelLoudnessResults; // 0x00D8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -367,13 +367,13 @@ class UMeterAnalyzer final : public UAudioAnalyzer
 {
 public:
 	class UMeterSettings*                         Settings;                                          // 0x00A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(TArray<struct FMeterResults>& MeterResults)> OnOverallMeterResults;                             // 0x00A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const TArray<struct FMeterResults>& MeterResults)> OnOverallMeterResults; // 0x00A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B8[0x18];                                      // 0x00B8(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(int32 ChannelIndex, TArray<struct FMeterResults>& MeterResults)> OnPerChannelMeterResults;                          // 0x00D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 ChannelIndex, const TArray<struct FMeterResults>& MeterResults)> OnPerChannelMeterResults; // 0x00D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_E0[0x18];                                      // 0x00E0(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(struct FMeterResults& LatestOverallMeterResults)> OnLatestOverallMeterResults;                       // 0x00F8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FMeterResults& LatestOverallMeterResults)> OnLatestOverallMeterResults; // 0x00F8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_108[0x18];                                     // 0x0108(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(int32 ChannelIndex, struct FMeterResults& LatestMeterResults)> OnLatestPerChannelMeterResults;                    // 0x0120(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 ChannelIndex, const struct FMeterResults& LatestMeterResults)> OnLatestPerChannelMeterResults; // 0x0120(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_130[0x18];                                     // 0x0130(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -485,9 +485,9 @@ class USynesthesiaSpectrumAnalyzer final : public UAudioAnalyzer
 {
 public:
 	class USynesthesiaSpectrumAnalysisSettings*   Settings;                                          // 0x00A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(int32 ChannelIndex, TArray<struct FSynesthesiaSpectrumResults>& SpectrumResults)> OnSpectrumResults;                                 // 0x00A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 ChannelIndex, const TArray<struct FSynesthesiaSpectrumResults>& SpectrumResults)> OnSpectrumResults; // 0x00A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B8[0x18];                                      // 0x00B8(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(int32 ChannelIndex, struct FSynesthesiaSpectrumResults& LatestSpectrumResults)> OnLatestSpectrumResults;                           // 0x00D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 ChannelIndex, const struct FSynesthesiaSpectrumResults& LatestSpectrumResults)> OnLatestSpectrumResults; // 0x00D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_E0[0x18];                                      // 0x00E0(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

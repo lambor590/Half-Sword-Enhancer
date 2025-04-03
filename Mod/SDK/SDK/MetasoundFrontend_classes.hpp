@@ -18,8 +18,8 @@ namespace SDK
 {
 
 // Class MetasoundFrontend.MetaSoundDocumentInterface
-// 0x0000 (0x0028 - 0x0028)
-class IMetaSoundDocumentInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMetaSoundDocumentInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -30,9 +30,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMetaSoundDocumentInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMetaSoundDocumentInterface) == 0x000008, "Wrong alignment on IMetaSoundDocumentInterface");
-static_assert(sizeof(IMetaSoundDocumentInterface) == 0x000028, "Wrong size on IMetaSoundDocumentInterface");
+static_assert(alignof(IMetaSoundDocumentInterface) == 0x000001, "Wrong alignment on IMetaSoundDocumentInterface");
+static_assert(sizeof(IMetaSoundDocumentInterface) == 0x000001, "Wrong size on IMetaSoundDocumentInterface");
 
 // Class MetasoundFrontend.MetasoundParameterPack
 // 0x0018 (0x0040 - 0x0028)

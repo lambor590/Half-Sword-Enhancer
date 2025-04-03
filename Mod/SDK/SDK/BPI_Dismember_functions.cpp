@@ -21,7 +21,7 @@ namespace SDK
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class FName                             bone                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Cut_Mesh                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // int32                                   Dism_Cut_Level                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    VP_Collision_Box_1                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
@@ -32,7 +32,7 @@ void IBPI_Dismember_C::Dismember_Cut(class FName bone, const struct FVector& Loc
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BPI_Dismember_C", "Dismember Cut");
+		Func = AsUObject()->Class->GetFunction("BPI_Dismember_C", "Dismember Cut");
 
 	Params::BPI_Dismember_C_Dismember_Cut Parms{};
 
@@ -43,7 +43,7 @@ void IBPI_Dismember_C::Dismember_Cut(class FName bone, const struct FVector& Loc
 	Parms.VP_Collision_Box_1 = VP_Collision_Box_1;
 	Parms.VP_Collision_Box_2 = VP_Collision_Box_2;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 }

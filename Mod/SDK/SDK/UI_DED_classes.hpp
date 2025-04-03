@@ -19,7 +19,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_DED.UI_DED_C
-// 0x0088 (0x0368 - 0x02E0)
+// 0x0098 (0x0378 - 0x02E0)
 class UUI_DED_C final : public UUserWidget
 {
 public:
@@ -34,13 +34,15 @@ public:
 	class UCanvasPanel*                           CanvasPanel_7;                                     // 0x0320(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UImage*                                 DeathPic;                                          // 0x0328(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UTextBlock*                             Score;                                             // 0x0330(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class AWillie_BP_C*                           My_Master__Willie_;                                // 0x0338(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	double                                        Current_Opacity;                                   // 0x0340(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Can_Restart;                                       // 0x0348(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_349[0x7];                                      // 0x0349(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UGI_Settings_C*                         GI_Settings;                                       // 0x0350(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class ABP_HalfSwordGameMode_C*                BP_Half_Sword_Game_Mode;                           // 0x0358(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0360(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_32;                                      // 0x0338(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class AWillie_BP_C*                           My_Master__Willie_;                                // 0x0340(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Current_Opacity;                                   // 0x0348(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Can_Restart;                                       // 0x0350(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_351[0x7];                                      // 0x0351(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGI_Settings_C*                         GI_Settings;                                       // 0x0358(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                BP_Half_Sword_Game_Mode;                           // 0x0360(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0368(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class USG_PlayerProgression_C*                As_SG_Gauntlet_Player_Progress;                    // 0x0370(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_DED_Button_155_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature();
@@ -49,6 +51,7 @@ public:
 	void Construct();
 	void ExecuteUbergraph_UI_DED(int32 EntryPoint);
 	class FText Get_Score_Text();
+	class FText GetText();
 	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
 public:
@@ -62,7 +65,7 @@ public:
 	}
 };
 static_assert(alignof(UUI_DED_C) == 0x000008, "Wrong alignment on UUI_DED_C");
-static_assert(sizeof(UUI_DED_C) == 0x000368, "Wrong size on UUI_DED_C");
+static_assert(sizeof(UUI_DED_C) == 0x000378, "Wrong size on UUI_DED_C");
 static_assert(offsetof(UUI_DED_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_DED_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_DED_C, DethPicUnfade) == 0x0002E8, "Member 'UUI_DED_C::DethPicUnfade' has a wrong offset!");
 static_assert(offsetof(UUI_DED_C, RestartHover) == 0x0002F0, "Member 'UUI_DED_C::RestartHover' has a wrong offset!");
@@ -74,12 +77,14 @@ static_assert(offsetof(UUI_DED_C, Button_Restart) == 0x000318, "Member 'UUI_DED_
 static_assert(offsetof(UUI_DED_C, CanvasPanel_7) == 0x000320, "Member 'UUI_DED_C::CanvasPanel_7' has a wrong offset!");
 static_assert(offsetof(UUI_DED_C, DeathPic) == 0x000328, "Member 'UUI_DED_C::DeathPic' has a wrong offset!");
 static_assert(offsetof(UUI_DED_C, Score) == 0x000330, "Member 'UUI_DED_C::Score' has a wrong offset!");
-static_assert(offsetof(UUI_DED_C, My_Master__Willie_) == 0x000338, "Member 'UUI_DED_C::My_Master__Willie_' has a wrong offset!");
-static_assert(offsetof(UUI_DED_C, Current_Opacity) == 0x000340, "Member 'UUI_DED_C::Current_Opacity' has a wrong offset!");
-static_assert(offsetof(UUI_DED_C, Can_Restart) == 0x000348, "Member 'UUI_DED_C::Can_Restart' has a wrong offset!");
-static_assert(offsetof(UUI_DED_C, GI_Settings) == 0x000350, "Member 'UUI_DED_C::GI_Settings' has a wrong offset!");
-static_assert(offsetof(UUI_DED_C, BP_Half_Sword_Game_Mode) == 0x000358, "Member 'UUI_DED_C::BP_Half_Sword_Game_Mode' has a wrong offset!");
-static_assert(offsetof(UUI_DED_C, As_GI_Settings) == 0x000360, "Member 'UUI_DED_C::As_GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_DED_C, TextBlock_32) == 0x000338, "Member 'UUI_DED_C::TextBlock_32' has a wrong offset!");
+static_assert(offsetof(UUI_DED_C, My_Master__Willie_) == 0x000340, "Member 'UUI_DED_C::My_Master__Willie_' has a wrong offset!");
+static_assert(offsetof(UUI_DED_C, Current_Opacity) == 0x000348, "Member 'UUI_DED_C::Current_Opacity' has a wrong offset!");
+static_assert(offsetof(UUI_DED_C, Can_Restart) == 0x000350, "Member 'UUI_DED_C::Can_Restart' has a wrong offset!");
+static_assert(offsetof(UUI_DED_C, GI_Settings) == 0x000358, "Member 'UUI_DED_C::GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_DED_C, BP_Half_Sword_Game_Mode) == 0x000360, "Member 'UUI_DED_C::BP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UUI_DED_C, As_GI_Settings) == 0x000368, "Member 'UUI_DED_C::As_GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_DED_C, As_SG_Gauntlet_Player_Progress) == 0x000370, "Member 'UUI_DED_C::As_SG_Gauntlet_Player_Progress' has a wrong offset!");
 
 }
 

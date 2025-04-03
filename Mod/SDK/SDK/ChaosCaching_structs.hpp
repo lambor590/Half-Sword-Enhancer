@@ -278,7 +278,7 @@ static_assert(offsetof(FMovieSceneChaosCacheSectionTemplateParameters, ChaosCach
 struct FMovieSceneChaosCacheSectionTemplate final : public FMovieSceneEvalTemplate
 {
 public:
-	struct FMovieSceneChaosCacheSectionTemplateParameters Params;                                            // 0x0020(0x0030)(NativeAccessSpecifierPublic)
+	struct FMovieSceneChaosCacheSectionTemplateParameters Params;                                    // 0x0020(0x0030)(NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FMovieSceneChaosCacheSectionTemplate) == 0x000008, "Wrong alignment on FMovieSceneChaosCacheSectionTemplate");
 static_assert(sizeof(FMovieSceneChaosCacheSectionTemplate) == 0x000050, "Wrong size on FMovieSceneChaosCacheSectionTemplate");

@@ -20,86 +20,171 @@ namespace SDK::Params
 {
 
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.DED
-// 0x0008 (0x0008 - 0x0000)
+// 0x0018 (0x0018 - 0x0000)
 struct BP_HalfSwordGameMode_C_DED final
 {
 public:
-	class UUI_DED_C*                              CallFunc_Create_ReturnValue;                       // 0x0000(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UUI_FadeToAbyss_C*                      CallFunc_Create_ReturnValue;                       // 0x0000(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UUI_DED_C*                              CallFunc_Create_ReturnValue_1;                     // 0x0008(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0011(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x0012(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0013(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(BP_HalfSwordGameMode_C_DED) == 0x000008, "Wrong alignment on BP_HalfSwordGameMode_C_DED");
-static_assert(sizeof(BP_HalfSwordGameMode_C_DED) == 0x000008, "Wrong size on BP_HalfSwordGameMode_C_DED");
+static_assert(sizeof(BP_HalfSwordGameMode_C_DED) == 0x000018, "Wrong size on BP_HalfSwordGameMode_C_DED");
 static_assert(offsetof(BP_HalfSwordGameMode_C_DED, CallFunc_Create_ReturnValue) == 0x000000, "Member 'BP_HalfSwordGameMode_C_DED::CallFunc_Create_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_DED, CallFunc_Create_ReturnValue_1) == 0x000008, "Member 'BP_HalfSwordGameMode_C_DED::CallFunc_Create_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_DED, CallFunc_Greater_IntInt_ReturnValue) == 0x000010, "Member 'BP_HalfSwordGameMode_C_DED::CallFunc_Greater_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_DED, CallFunc_BooleanAND_ReturnValue) == 0x000011, "Member 'BP_HalfSwordGameMode_C_DED::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_DED, CallFunc_NotEqual_ByteByte_ReturnValue) == 0x000012, "Member 'BP_HalfSwordGameMode_C_DED::CallFunc_NotEqual_ByteByte_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_DED, CallFunc_BooleanAND_ReturnValue_1) == 0x000013, "Member 'BP_HalfSwordGameMode_C_DED::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
 
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.ExecuteUbergraph_BP_HalfSwordGameMode
-// 0x00F0 (0x00F0 - 0x0000)
+// 0x0188 (0x0188 - 0x0000)
 struct BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EMenu_Maps_Enum                               Temp_byte_Variable;                                // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Temp_real_Variable;                                // 0x0008(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Temp_real_Variable_1;                              // 0x0010(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Temp_real_Variable_2;                              // 0x0018(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EMenu_Maps_Enum                               Temp_byte_Variable_1;                              // 0x0020(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_21[0x7];                                       // 0x0021(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	EMenu_Maps_Enum                               Temp_byte_Variable;                                // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Temp_real_Variable_1;                              // 0x0018(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Temp_real_Variable_2;                              // 0x0020(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Temp_real_Variable_3;                              // 0x0028(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Temp_real_Variable_4;                              // 0x0030(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Temp_real_Variable_5;                              // 0x0038(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TDelegate<void()>                             K2Node_CreateDelegate_OutputDelegate;              // 0x0040(0x0010)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0060(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_61[0x7];                                       // 0x0061(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        K2Node_Select_Default;                             // 0x0068(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        K2Node_Select_Default_1;                           // 0x0070(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UAudioComponent*                        CallFunc_SpawnSound2D_ReturnValue;                 // 0x0078(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0080(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_81[0x7];                                       // 0x0081(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UAudioComponent*                        CallFunc_SpawnSound2D_ReturnValue_1;               // 0x0088(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	TScriptInterface<class IAudioParameterControllerInterface> CallFunc_SetBoolParameter_self_CastInput;          // 0x0090(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TScriptInterface<class IAudioParameterControllerInterface> CallFunc_SetBoolParameter_self_CastInput_1;        // 0x00A0(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class USaveGame*                              CallFunc_LoadGameFromSlot_ReturnValue;             // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_DoesSaveGameExist_ReturnValue;            // 0x00B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_B9[0x7];                                       // 0x00B9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class USG_Settings_C*                         K2Node_DynamicCast_AsSG_Settings;                  // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_C9[0x7];                                       // 0x00C9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class FString                                 CallFunc_Conv_DoubleToString_ReturnValue;          // 0x00D0(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	float                                         K2Node_VariableSet_Voice_Volume_ImplicitCast;      // 0x00E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast; // 0x00E4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast_1; // 0x00E8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TDelegate<void()>                             K2Node_CreateDelegate_OutputDelegate;              // 0x0030(0x0010)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0048(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0050(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Has_Been_Initd_Variable;                 // 0x0051(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_52[0x6];                                       // 0x0052(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class UAudioComponent*                        CallFunc_SpawnSound2D_ReturnValue;                 // 0x0058(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	double                                        K2Node_Select_Default;                             // 0x0060(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0068(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_69[0x7];                                       // 0x0069(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	TScriptInterface<class IAudioParameterControllerInterface> CallFunc_SetBoolParameter_self_CastInput; // 0x0070(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class USaveGame*                              CallFunc_LoadGameFromSlot_ReturnValue;             // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_DoesSaveGameExist_ReturnValue;            // 0x0088(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_89[0x7];                                       // 0x0089(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class USG_Settings_C*                         K2Node_DynamicCast_AsSG_Settings;                  // 0x0090(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0098(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_99[0x7];                                       // 0x0099(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class USaveGame*                              CallFunc_LoadGameFromSlot_ReturnValue_1;           // 0x00A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class USG_PlayerProgression_C*                K2Node_DynamicCast_AsSG_Player_Progression;        // 0x00A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_2;                     // 0x00B0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_DoesSaveGameExist_ReturnValue_1;          // 0x00B1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Has_Been_Initd_Variable_1;               // 0x00B2(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_B3[0x5];                                       // 0x00B3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	class USaveGame*                              CallFunc_LoadGameFromSlot_ReturnValue_2;           // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_DoesSaveGameExist_ReturnValue_2;          // 0x00C0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_C1[0x7];                                       // 0x00C1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class USG_PlayerProgression_C*                K2Node_DynamicCast_AsSG_Player_Progression_1;      // 0x00C8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_3;                     // 0x00D0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_D1[0x7];                                       // 0x00D1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class USG_PlayerProgression_C*                CallFunc_CreateSaveGameObject_ReturnValue;         // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SaveGameToSlot_ReturnValue;               // 0x00E0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E1[0x3];                                       // 0x00E1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue;                    // 0x00E4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_Event_DeltaSeconds;                         // 0x00E8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Clamp_ReturnValue;                        // 0x00EC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UAudioComponent*                        CallFunc_SpawnSound2D_ReturnValue_1;               // 0x00F0(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	TScriptInterface<class IAudioParameterControllerInterface> CallFunc_SetBoolParameter_self_CastInput_1; // 0x00F8(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UAudioComponent*                        CallFunc_SpawnSound2D_ReturnValue_2;               // 0x0108(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_IsClosed_Variable;                       // 0x0110(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_111[0x3];                                      // 0x0111(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Clamp_ReturnValue_1;                      // 0x0114(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0118(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_119[0x7];                                      // 0x0119(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class USaveGame*                              CallFunc_LoadGameFromSlot_ReturnValue_3;           // 0x0120(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class USG_PlayerProgression_C*                K2Node_DynamicCast_AsSG_Player_Progression_2;      // 0x0128(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_4;                     // 0x0130(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_DoesSaveGameExist_ReturnValue_3;          // 0x0131(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_132[0x6];                                      // 0x0132(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class USG_PlayerProgression_C*                CallFunc_CreateSaveGameObject_ReturnValue_1;       // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_DeleteGameInSlot_ReturnValue;             // 0x0140(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EMenu_Maps_Enum                               Temp_byte_Variable_1;                              // 0x0141(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_142[0x2];                                      // 0x0142(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Clamp_ReturnValue_2;                      // 0x0144(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Temp_real_Variable_4;                              // 0x0148(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsPlaying_ReturnValue;                    // 0x0150(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x0151(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue_1;          // 0x0152(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_153[0x5];                                      // 0x0153(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Temp_real_Variable_5;                              // 0x0158(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_IsClosed_Variable_1;                     // 0x0160(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_161[0x7];                                      // 0x0161(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        K2Node_Select_Default_1;                           // 0x0168(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue_2;          // 0x0170(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_171[0x3];                                      // 0x0171(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Clamp_ReturnValue_3;                      // 0x0174(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_SelectInt_ReturnValue_1;                  // 0x0178(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_VariableSet_Voice_Volume_ImplicitCast;      // 0x017C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast; // 0x0180(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast_1; // 0x0184(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode) == 0x000008, "Wrong alignment on BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode");
-static_assert(sizeof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode) == 0x0000F0, "Wrong size on BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode");
+static_assert(sizeof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode) == 0x000188, "Wrong size on BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode");
 static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, EntryPoint) == 0x000000, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::EntryPoint' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_byte_Variable) == 0x000004, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_byte_Variable' has a wrong offset!");
 static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable) == 0x000008, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_1) == 0x000010, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_1' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_2) == 0x000018, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_2' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_byte_Variable_1) == 0x000020, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_byte_Variable) == 0x000010, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_1) == 0x000018, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_2) == 0x000020, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_2' has a wrong offset!");
 static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_3) == 0x000028, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_3' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_4) == 0x000030, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_4' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_5) == 0x000038, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_5' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_CreateDelegate_OutputDelegate) == 0x000040, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_CreateDelegate_OutputDelegate' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_GetGameInstance_ReturnValue) == 0x000050, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_AsGI_Settings) == 0x000058, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_bSuccess) == 0x000060, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_bSuccess' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_Select_Default) == 0x000068, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_Select_Default_1) == 0x000070, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_Select_Default_1' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SpawnSound2D_ReturnValue) == 0x000078, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SpawnSound2D_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_Not_PreBool_ReturnValue) == 0x000080, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SpawnSound2D_ReturnValue_1) == 0x000088, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SpawnSound2D_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SetBoolParameter_self_CastInput) == 0x000090, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SetBoolParameter_self_CastInput' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SetBoolParameter_self_CastInput_1) == 0x0000A0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SetBoolParameter_self_CastInput_1' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_LoadGameFromSlot_ReturnValue) == 0x0000B0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_LoadGameFromSlot_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_DoesSaveGameExist_ReturnValue) == 0x0000B8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_DoesSaveGameExist_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_AsSG_Settings) == 0x0000C0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_AsSG_Settings' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_bSuccess_1) == 0x0000C8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_Conv_DoubleToString_ReturnValue) == 0x0000D0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_Conv_DoubleToString_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_VariableSet_Voice_Volume_ImplicitCast) == 0x0000E0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_VariableSet_Voice_Volume_ImplicitCast' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast) == 0x0000E4, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast_1) == 0x0000E8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_CreateDelegate_OutputDelegate) == 0x000030, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_CreateDelegate_OutputDelegate' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_GetGameInstance_ReturnValue) == 0x000040, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_AsGI_Settings) == 0x000048, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_bSuccess) == 0x000050, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_bSuccess' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_bool_Has_Been_Initd_Variable) == 0x000051, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_bool_Has_Been_Initd_Variable' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SpawnSound2D_ReturnValue) == 0x000058, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SpawnSound2D_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_Select_Default) == 0x000060, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_Not_PreBool_ReturnValue) == 0x000068, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SetBoolParameter_self_CastInput) == 0x000070, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SetBoolParameter_self_CastInput' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_LoadGameFromSlot_ReturnValue) == 0x000080, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_LoadGameFromSlot_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_DoesSaveGameExist_ReturnValue) == 0x000088, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_DoesSaveGameExist_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_AsSG_Settings) == 0x000090, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_AsSG_Settings' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_bSuccess_1) == 0x000098, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_LoadGameFromSlot_ReturnValue_1) == 0x0000A0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_LoadGameFromSlot_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_AsSG_Player_Progression) == 0x0000A8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_AsSG_Player_Progression' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_bSuccess_2) == 0x0000B0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_bSuccess_2' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_DoesSaveGameExist_ReturnValue_1) == 0x0000B1, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_DoesSaveGameExist_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_bool_Has_Been_Initd_Variable_1) == 0x0000B2, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_bool_Has_Been_Initd_Variable_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_LoadGameFromSlot_ReturnValue_2) == 0x0000B8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_LoadGameFromSlot_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_DoesSaveGameExist_ReturnValue_2) == 0x0000C0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_DoesSaveGameExist_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_AsSG_Player_Progression_1) == 0x0000C8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_AsSG_Player_Progression_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_bSuccess_3) == 0x0000D0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_bSuccess_3' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_CreateSaveGameObject_ReturnValue) == 0x0000D8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_CreateSaveGameObject_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SaveGameToSlot_ReturnValue) == 0x0000E0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SaveGameToSlot_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SelectInt_ReturnValue) == 0x0000E4, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SelectInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_Event_DeltaSeconds) == 0x0000E8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_Event_DeltaSeconds' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_Clamp_ReturnValue) == 0x0000EC, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_Clamp_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SpawnSound2D_ReturnValue_1) == 0x0000F0, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SpawnSound2D_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SetBoolParameter_self_CastInput_1) == 0x0000F8, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SetBoolParameter_self_CastInput_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SpawnSound2D_ReturnValue_2) == 0x000108, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SpawnSound2D_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_bool_IsClosed_Variable) == 0x000110, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_bool_IsClosed_Variable' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_Clamp_ReturnValue_1) == 0x000114, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_Clamp_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_BooleanOR_ReturnValue) == 0x000118, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_LoadGameFromSlot_ReturnValue_3) == 0x000120, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_LoadGameFromSlot_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_AsSG_Player_Progression_2) == 0x000128, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_AsSG_Player_Progression_2' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_DynamicCast_bSuccess_4) == 0x000130, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_DynamicCast_bSuccess_4' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_DoesSaveGameExist_ReturnValue_3) == 0x000131, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_DoesSaveGameExist_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_CreateSaveGameObject_ReturnValue_1) == 0x000138, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_CreateSaveGameObject_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_DeleteGameInSlot_ReturnValue) == 0x000140, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_DeleteGameInSlot_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_byte_Variable_1) == 0x000141, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_Clamp_ReturnValue_2) == 0x000144, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_Clamp_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_4) == 0x000148, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_4' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_IsPlaying_ReturnValue) == 0x000150, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_IsPlaying_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_NotEqual_ByteByte_ReturnValue) == 0x000151, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_NotEqual_ByteByte_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_NotEqual_ByteByte_ReturnValue_1) == 0x000152, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_NotEqual_ByteByte_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_real_Variable_5) == 0x000158, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_real_Variable_5' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, Temp_bool_IsClosed_Variable_1) == 0x000160, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::Temp_bool_IsClosed_Variable_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_Select_Default_1) == 0x000168, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_Select_Default_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_NotEqual_ByteByte_ReturnValue_2) == 0x000170, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_NotEqual_ByteByte_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_Clamp_ReturnValue_3) == 0x000174, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_Clamp_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SelectInt_ReturnValue_1) == 0x000178, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SelectInt_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, K2Node_VariableSet_Voice_Volume_ImplicitCast) == 0x00017C, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::K2Node_VariableSet_Voice_Volume_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast) == 0x000180, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode, CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast_1) == 0x000184, "Member 'BP_HalfSwordGameMode_C_ExecuteUbergraph_BP_HalfSwordGameMode::CallFunc_SetSoundMixClassOverride_Volume_ImplicitCast_1' has a wrong offset!");
 
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.GM CT
 // 0x0770 (0x0770 - 0x0000)
@@ -1181,25 +1266,39 @@ static_assert(offsetof(BP_HalfSwordGameMode_C_GM_TDM, CallFunc_BeginDeferredActo
 static_assert(offsetof(BP_HalfSwordGameMode_C_GM_TDM, CallFunc_FinishSpawningActor_ReturnValue_2) == 0x000AE8, "Member 'BP_HalfSwordGameMode_C_GM_TDM::CallFunc_FinishSpawningActor_ReturnValue_2' has a wrong offset!");
 
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Minus Enemy
-// 0x000C (0x000C - 0x0000)
+// 0x0010 (0x0010 - 0x0000)
 struct BP_HalfSwordGameMode_C_Minus_Enemy final
 {
 public:
 	int32                                         Temp_int_Variable;                                 // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_LessEqual_IntInt_ReturnValue;             // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_LessEqual_IntInt_ReturnValue;             // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x000C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(BP_HalfSwordGameMode_C_Minus_Enemy) == 0x000004, "Wrong alignment on BP_HalfSwordGameMode_C_Minus_Enemy");
-static_assert(sizeof(BP_HalfSwordGameMode_C_Minus_Enemy) == 0x00000C, "Wrong size on BP_HalfSwordGameMode_C_Minus_Enemy");
+static_assert(sizeof(BP_HalfSwordGameMode_C_Minus_Enemy) == 0x000010, "Wrong size on BP_HalfSwordGameMode_C_Minus_Enemy");
 static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, Temp_int_Variable) == 0x000000, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::Temp_int_Variable' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_Not_PreBool_ReturnValue) == 0x000004, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_LessEqual_IntInt_ReturnValue) == 0x000005, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_LessEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000006, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_BooleanAND_ReturnValue) == 0x000007, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_Subtract_IntInt_ReturnValue) == 0x000008, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_Subtract_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_NotEqual_ByteByte_ReturnValue) == 0x000004, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_NotEqual_ByteByte_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_LessEqual_IntInt_ReturnValue) == 0x000006, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_LessEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000007, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_BooleanAND_ReturnValue) == 0x000008, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(BP_HalfSwordGameMode_C_Minus_Enemy, CallFunc_Subtract_IntInt_ReturnValue) == 0x00000C, "Member 'BP_HalfSwordGameMode_C_Minus_Enemy::CallFunc_Subtract_IntInt_ReturnValue' has a wrong offset!");
+
+// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct BP_HalfSwordGameMode_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(BP_HalfSwordGameMode_C_ReceiveTick) == 0x000004, "Wrong alignment on BP_HalfSwordGameMode_C_ReceiveTick");
+static_assert(sizeof(BP_HalfSwordGameMode_C_ReceiveTick) == 0x000004, "Wrong size on BP_HalfSwordGameMode_C_ReceiveTick");
+static_assert(offsetof(BP_HalfSwordGameMode_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'BP_HalfSwordGameMode_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
 
 }
 

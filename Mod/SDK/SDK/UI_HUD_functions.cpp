@@ -79,6 +79,26 @@ void UUI_HUD_C::ExecuteUbergraph_UI_HUD(int32 EntryPoint)
 }
 
 
+// Function UI_HUD.UI_HUD_C.Get_TextDisabled_1_Text
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_HUD_C::Get_TextDisabled_1_Text()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_HUD_C", "Get_TextDisabled_1_Text");
+
+	Params::UI_HUD_C_Get_TextDisabled_1_Text Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_HUD.UI_HUD_C.PreConstruct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
@@ -102,7 +122,7 @@ void UUI_HUD_C::PreConstruct(bool IsDesignTime)
 // Function UI_HUD.UI_HUD_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_HUD_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

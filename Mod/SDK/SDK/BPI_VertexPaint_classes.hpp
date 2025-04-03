@@ -11,18 +11,17 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_classes.hpp"
-#include "BodyPart_Enum_structs.hpp"
 
 
 namespace SDK
 {
 
 // BlueprintGeneratedClass BPI_VertexPaint.BPI_VertexPaint_C
-// 0x0000 (0x0028 - 0x0028)
-class IBPI_VertexPaint_C final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IBPI_VertexPaint_C final
 {
 public:
-	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, EBodyPart_Enum Hit_Body_Part, bool* Nul);
+	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul);
 
 public:
 	static class UClass* StaticClass()
@@ -33,9 +32,18 @@ public:
 	{
 		return GetDefaultObjImpl<IBPI_VertexPaint_C>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IBPI_VertexPaint_C) == 0x000008, "Wrong alignment on IBPI_VertexPaint_C");
-static_assert(sizeof(IBPI_VertexPaint_C) == 0x000028, "Wrong size on IBPI_VertexPaint_C");
+static_assert(alignof(IBPI_VertexPaint_C) == 0x000001, "Wrong alignment on IBPI_VertexPaint_C");
+static_assert(sizeof(IBPI_VertexPaint_C) == 0x000001, "Wrong size on IBPI_VertexPaint_C");
 
 }
 

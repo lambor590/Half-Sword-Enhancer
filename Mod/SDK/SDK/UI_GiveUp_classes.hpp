@@ -18,7 +18,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_GiveUp.UI_GiveUp_C
-// 0x0068 (0x0348 - 0x02E0)
+// 0x0070 (0x0350 - 0x02E0)
 class UUI_GiveUp_C final : public UUserWidget
 {
 public:
@@ -29,19 +29,21 @@ public:
 	class UImage*                                 Black;                                             // 0x0300(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UProgressBar*                           ProgressBar_0;                                     // 0x0308(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UTextBlock*                             Score;                                             // 0x0310(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class AWillie_BP_C*                           My_Master__Willie_;                                // 0x0318(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         GI_Settings;                                       // 0x0320(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	double                                        Hold_Meter;                                        // 0x0328(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class USG_Autosave_C*                         SaveGame;                                          // 0x0330(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	int32                                         Distributed_Loot;                                  // 0x0338(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Available_Loot;                                    // 0x033C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class ABP_HalfSwordGameMode_C*                HS_Game_Mode;                                      // 0x0340(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_32;                                      // 0x0318(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class AWillie_BP_C*                           My_Master__Willie_;                                // 0x0320(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         GI_Settings;                                       // 0x0328(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Hold_Meter;                                        // 0x0330(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class USG_Autosave_C*                         SaveGame;                                          // 0x0338(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	int32                                         Distributed_Loot;                                  // 0x0340(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Available_Loot;                                    // 0x0344(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                HS_Game_Mode;                                      // 0x0348(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Construct();
 	void ExecuteUbergraph_UI_GiveUp(int32 EntryPoint);
 	float GetPercent();
 	class FText GetText();
+	class FText GetText_0();
 	void PreConstruct(bool IsDesignTime);
 	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
@@ -56,7 +58,7 @@ public:
 	}
 };
 static_assert(alignof(UUI_GiveUp_C) == 0x000008, "Wrong alignment on UUI_GiveUp_C");
-static_assert(sizeof(UUI_GiveUp_C) == 0x000348, "Wrong size on UUI_GiveUp_C");
+static_assert(sizeof(UUI_GiveUp_C) == 0x000350, "Wrong size on UUI_GiveUp_C");
 static_assert(offsetof(UUI_GiveUp_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_GiveUp_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_GiveUp_C, TextAppear) == 0x0002E8, "Member 'UUI_GiveUp_C::TextAppear' has a wrong offset!");
 static_assert(offsetof(UUI_GiveUp_C, FadeToBlack) == 0x0002F0, "Member 'UUI_GiveUp_C::FadeToBlack' has a wrong offset!");
@@ -64,13 +66,14 @@ static_assert(offsetof(UUI_GiveUp_C, Blur) == 0x0002F8, "Member 'UUI_GiveUp_C::B
 static_assert(offsetof(UUI_GiveUp_C, Black) == 0x000300, "Member 'UUI_GiveUp_C::Black' has a wrong offset!");
 static_assert(offsetof(UUI_GiveUp_C, ProgressBar_0) == 0x000308, "Member 'UUI_GiveUp_C::ProgressBar_0' has a wrong offset!");
 static_assert(offsetof(UUI_GiveUp_C, Score) == 0x000310, "Member 'UUI_GiveUp_C::Score' has a wrong offset!");
-static_assert(offsetof(UUI_GiveUp_C, My_Master__Willie_) == 0x000318, "Member 'UUI_GiveUp_C::My_Master__Willie_' has a wrong offset!");
-static_assert(offsetof(UUI_GiveUp_C, GI_Settings) == 0x000320, "Member 'UUI_GiveUp_C::GI_Settings' has a wrong offset!");
-static_assert(offsetof(UUI_GiveUp_C, Hold_Meter) == 0x000328, "Member 'UUI_GiveUp_C::Hold_Meter' has a wrong offset!");
-static_assert(offsetof(UUI_GiveUp_C, SaveGame) == 0x000330, "Member 'UUI_GiveUp_C::SaveGame' has a wrong offset!");
-static_assert(offsetof(UUI_GiveUp_C, Distributed_Loot) == 0x000338, "Member 'UUI_GiveUp_C::Distributed_Loot' has a wrong offset!");
-static_assert(offsetof(UUI_GiveUp_C, Available_Loot) == 0x00033C, "Member 'UUI_GiveUp_C::Available_Loot' has a wrong offset!");
-static_assert(offsetof(UUI_GiveUp_C, HS_Game_Mode) == 0x000340, "Member 'UUI_GiveUp_C::HS_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UUI_GiveUp_C, TextBlock_32) == 0x000318, "Member 'UUI_GiveUp_C::TextBlock_32' has a wrong offset!");
+static_assert(offsetof(UUI_GiveUp_C, My_Master__Willie_) == 0x000320, "Member 'UUI_GiveUp_C::My_Master__Willie_' has a wrong offset!");
+static_assert(offsetof(UUI_GiveUp_C, GI_Settings) == 0x000328, "Member 'UUI_GiveUp_C::GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_GiveUp_C, Hold_Meter) == 0x000330, "Member 'UUI_GiveUp_C::Hold_Meter' has a wrong offset!");
+static_assert(offsetof(UUI_GiveUp_C, SaveGame) == 0x000338, "Member 'UUI_GiveUp_C::SaveGame' has a wrong offset!");
+static_assert(offsetof(UUI_GiveUp_C, Distributed_Loot) == 0x000340, "Member 'UUI_GiveUp_C::Distributed_Loot' has a wrong offset!");
+static_assert(offsetof(UUI_GiveUp_C, Available_Loot) == 0x000344, "Member 'UUI_GiveUp_C::Available_Loot' has a wrong offset!");
+static_assert(offsetof(UUI_GiveUp_C, HS_Game_Mode) == 0x000348, "Member 'UUI_GiveUp_C::HS_Game_Mode' has a wrong offset!");
 
 }
 

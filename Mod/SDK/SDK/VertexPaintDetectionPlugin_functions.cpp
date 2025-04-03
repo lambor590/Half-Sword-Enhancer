@@ -245,16 +245,16 @@ TMap<int32, class UPrimitiveComponent*> UVertexPaintDetectionComponent::GetCurre
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionComponent.GetCurrentTasksInitiatedByComponent
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   TotalAmountOfTasks                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfGetClosestVertexDataTasks                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfGetAllVertexColorsOnlyTasks                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfGetColorsWithinAreaTasks                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfPaintAtLocationTasks                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfPaintWithinAreaTasks                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfPaintEntireMeshTasks                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfPaintColorSnippetTasks                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfSetMeshComponentVertexColorsTasks              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   AmountOfSetMeshComponentVertexColorsUsingSerializedStringTasks(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  TotalAmountOfTasks                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfGetClosestVertexDataTasks                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfGetAllVertexColorsOnlyTasks                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfGetColorsWithinAreaTasks                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfPaintAtLocationTasks                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfPaintWithinAreaTasks                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfPaintEntireMeshTasks                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfPaintColorSnippetTasks                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfSetMeshComponentVertexColorsTasks              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AmountOfSetMeshComponentVertexColorsUsingSerializedStringTasks(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UVertexPaintDetectionComponent::GetCurrentTasksInitiatedByComponent(int32* TotalAmountOfTasks, int32* AmountOfGetClosestVertexDataTasks, int32* AmountOfGetAllVertexColorsOnlyTasks, int32* AmountOfGetColorsWithinAreaTasks, int32* AmountOfPaintAtLocationTasks, int32* AmountOfPaintWithinAreaTasks, int32* AmountOfPaintEntireMeshTasks, int32* AmountOfPaintColorSnippetTasks, int32* AmountOfSetMeshComponentVertexColorsTasks, int32* AmountOfSetMeshComponentVertexColorsUsingSerializedStringTasks)
 {
@@ -382,7 +382,7 @@ bool UVertexPaintDetectionComponent::HasAnyTasksQueuedUp()
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionComponent.TaskRemovedByTaskQueue
 // (Native, Protected, HasOutParams)
 // Parameters:
-// struct FRVPDPCalculateColorsInfo        CalculateColorsInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPCalculateColorsInfo& CalculateColorsInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintDetectionComponent::TaskRemovedByTaskQueue(const struct FRVPDPCalculateColorsInfo& CalculateColorsInfo)
 {
@@ -635,7 +635,7 @@ void UAutoAddColorComponent::StopAutoPaintingMesh(class UPrimitiveComponent* Mes
 // Function VertexPaintDetectionPlugin.AutoAddColorComponent.CanAutoPaintedMeshGetPaused
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UPrimitiveComponent*              MeshComponent                                          (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UPrimitiveComponent*        MeshComponent                                          (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UAutoAddColorComponent::CanAutoPaintedMeshGetPaused(const class UPrimitiveComponent* MeshComponent) const
@@ -663,7 +663,7 @@ bool UAutoAddColorComponent::CanAutoPaintedMeshGetPaused(const class UPrimitiveC
 // Function VertexPaintDetectionPlugin.AutoAddColorComponent.GetIfMeshShouldOnlyStartNewTaskIfChangeWasMade
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UPrimitiveComponent*              MeshComponent                                          (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UPrimitiveComponent*        MeshComponent                                          (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UAutoAddColorComponent::GetIfMeshShouldOnlyStartNewTaskIfChangeWasMade(const class UPrimitiveComponent* MeshComponent) const
@@ -741,7 +741,7 @@ TMap<class UPrimitiveComponent*, struct FRVPDPAutoAddColorSettings> UAutoAddColo
 // Function VertexPaintDetectionPlugin.AutoAddColorComponent.IsAutoPaintedMeshPaused
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UPrimitiveComponent*              MeshComponent                                          (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UPrimitiveComponent*        MeshComponent                                          (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UAutoAddColorComponent::IsAutoPaintedMeshPaused(const class UPrimitiveComponent* MeshComponent) const
@@ -795,9 +795,9 @@ bool UAutoAddColorComponent::IsNewRoundOfTasksGoingToStartAfterDelay() const
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintOnEntireMeshSettings  PaintEntireMeshSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAutoAddColorSettings       AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintOnEntireMeshSettings&PaintEntireMeshSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAutoAddColorSettings&AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
 // bool                                    ResumeIfPaused                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -881,9 +881,9 @@ TMap<class UPrimitiveComponent*, struct FRVPDPPaintOnEntireMeshSettings> UAutoAd
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintOnEntireMeshSettings  PaintEntireMeshSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAutoAddColorSettings       AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintOnEntireMeshSettings&PaintEntireMeshSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAutoAddColorSettings&AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
 
 void UAutoAddColorEntireMeshComponent::UpdateAutoPaintedEntireMesh(class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintOnEntireMeshSettings& PaintEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData, const struct FRVPDPAutoAddColorSettings& AutoAddColorSettings)
 {
@@ -912,9 +912,9 @@ void UAutoAddColorEntireMeshComponent::UpdateAutoPaintedEntireMesh(class UPrimit
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintAtLocationSettings    PaintAtLocationSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAutoAddColorSettings       AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintAtLocationSettings&PaintAtLocationSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAutoAddColorSettings&AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
 // bool                                    ResumeIfPaused                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -998,9 +998,9 @@ TMap<class UPrimitiveComponent*, struct FRVPDPPaintAtLocationSettings> UAutoAddC
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintAtLocationSettings    PaintAtLocationSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAutoAddColorSettings       AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintAtLocationSettings&PaintAtLocationSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAutoAddColorSettings&AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
 
 void UAutoAddColorPaintAtLocComponent::UpdateAutoPaintedAtLocation(class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintAtLocationSettings& PaintAtLocationSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData, const struct FRVPDPAutoAddColorSettings& AutoAddColorSettings)
 {
@@ -1029,9 +1029,9 @@ void UAutoAddColorPaintAtLocComponent::UpdateAutoPaintedAtLocation(class UPrimit
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintWithinAreaSettings    PaintWithinAreaSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAutoAddColorSettings       AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintWithinAreaSettings&PaintWithinAreaSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAutoAddColorSettings&AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
 // bool                                    ResumeIfPaused                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1115,9 +1115,9 @@ TMap<class UPrimitiveComponent*, struct FRVPDPPaintWithinAreaSettings> UAutoAddC
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintWithinAreaSettings    PaintWithinAreaSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAutoAddColorSettings       AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintWithinAreaSettings&PaintWithinAreaSettings                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAutoAddColorSettings&AutoAddColorSettings                                   (Parm, NativeAccessSpecifierPublic)
 
 void UAutoAddColorWithinAreaComponent::UpdateAutoPaintedWithinArea(class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintWithinAreaSettings& PaintWithinAreaSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData, const struct FRVPDPAutoAddColorSettings& AutoAddColorSettings)
 {
@@ -1189,7 +1189,7 @@ void UVertexPaintClothOverlapComponent::OnRep_ClothOverlapTracingEnabled()
 // Function VertexPaintDetectionPlugin.VertexPaintClothOverlapComponent.SetClothObjectsTypesToSphereTrace
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// TArray<EObjectTypeQuery>                ClothObjectTypes                                       (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<EObjectTypeQuery>&         ClothObjectTypes                                       (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UVertexPaintClothOverlapComponent::SetClothObjectsTypesToSphereTrace(const TArray<EObjectTypeQuery>& ClothObjectTypes)
 {
@@ -1239,10 +1239,10 @@ void UVertexPaintClothOverlapComponent::SetClothOverlapTracingEnabled(bool Enabl
 // Function VertexPaintDetectionPlugin.VertexPaintColorSnippetRefs.CheckAndGetTheComponentsThatMatchGroupChildSnippets
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           GroupSnippetID                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class UPrimitiveComponent*>      MeshComponents                                         (Parm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// TMap<class FString, class UPrimitiveComponent*>ChildSnippetsAndMatchingMeshes                         (Parm, OutParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    GroupSnippetID                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TArray<class UPrimitiveComponent*>&MeshComponents                                         (Parm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// TMap<class FString, class UPrimitiveComponent*>*ChildSnippetsAndMatchingMeshes                         (Parm, OutParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UVertexPaintColorSnippetRefs::CheckAndGetTheComponentsThatMatchGroupChildSnippets(const class UObject* WorldContextObject, const class FString& GroupSnippetID, const TArray<class UPrimitiveComponent*>& MeshComponents, TMap<class FString, class UPrimitiveComponent*>* ChildSnippetsAndMatchingMeshes)
@@ -1275,7 +1275,7 @@ bool UVertexPaintColorSnippetRefs::CheckAndGetTheComponentsThatMatchGroupChildSn
 // Function VertexPaintDetectionPlugin.VertexPaintColorSnippetRefs.ContainsColorSnippet
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           SnippetID                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SnippetID                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    OptionalHasToBeStoredInDataAsset                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UVertexPaintColorSnippetDataAsset*DataAsset                                              (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -1307,7 +1307,7 @@ bool UVertexPaintColorSnippetRefs::ContainsColorSnippet(const class FString& Sni
 // Function VertexPaintDetectionPlugin.VertexPaintColorSnippetRefs.GetAllColorSnippetsAndDataAssetForObject
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          Object                                                 (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    Object                                                 (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TMap<class FString, struct FRVPDPStoredColorSnippetInfo>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 TMap<class FString, struct FRVPDPStoredColorSnippetInfo> UVertexPaintColorSnippetRefs::GetAllColorSnippetsAndDataAssetForObject(const class UObject* Object)
@@ -1335,7 +1335,7 @@ TMap<class FString, struct FRVPDPStoredColorSnippetInfo> UVertexPaintColorSnippe
 // Function VertexPaintDetectionPlugin.VertexPaintColorSnippetRefs.GetAllColorSnippetsInSpecifiedDataAsset
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class UVertexPaintColorSnippetDataAsset*ColorSnippetDataAsset                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UVertexPaintColorSnippetDataAsset*ColorSnippetDataAsset                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    IncludeChildGroupSnippets                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TMap<class FString, struct FRVPDPStoredColorSnippetInfo>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -1365,7 +1365,7 @@ TMap<class FString, struct FRVPDPStoredColorSnippetInfo> UVertexPaintColorSnippe
 // Function VertexPaintDetectionPlugin.VertexPaintColorSnippetRefs.GetAllGroupSnippetsInSpecifiedDataAsset
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class UVertexPaintColorSnippetDataAsset*ColorSnippetDataAsset                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UVertexPaintColorSnippetDataAsset*ColorSnippetDataAsset                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TMap<class FString, struct FRVPDPGroupColorSnippetInfo>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 TMap<class FString, struct FRVPDPGroupColorSnippetInfo> UVertexPaintColorSnippetRefs::GetAllGroupSnippetsInSpecifiedDataAsset(const class UVertexPaintColorSnippetDataAsset* ColorSnippetDataAsset)
@@ -1393,8 +1393,8 @@ TMap<class FString, struct FRVPDPGroupColorSnippetInfo> UVertexPaintColorSnippet
 // Function VertexPaintDetectionPlugin.VertexPaintColorSnippetRefs.GetChildSnippetInfosAssociatedWithGroupSnippetID
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           GroupSnippetID                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    GroupSnippetID                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TMap<class FString, struct FRVPDPStoredColorSnippetInfo>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 TMap<class FString, struct FRVPDPStoredColorSnippetInfo> UVertexPaintColorSnippetRefs::GetChildSnippetInfosAssociatedWithGroupSnippetID(const class UObject* WorldContextObject, const class FString& GroupSnippetID)
@@ -1423,7 +1423,7 @@ TMap<class FString, struct FRVPDPStoredColorSnippetInfo> UVertexPaintColorSnippe
 // Function VertexPaintDetectionPlugin.VertexPaintColorSnippetRefs.GetObjectFromSnippetID
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           SnippetID                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SnippetID                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TSoftObjectPtr<class UObject>           ReturnValue                                            (Parm, OutParm, ReturnParm, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 TSoftObjectPtr<class UObject> UVertexPaintColorSnippetRefs::GetObjectFromSnippetID(const class FString& SnippetID)
@@ -1511,7 +1511,7 @@ void IVertexPaintDetectionInterface::ClothBeginOverlappingMesh(class UPrimitiveC
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "ClothBeginOverlappingMesh");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "ClothBeginOverlappingMesh");
 
 	Params::VertexPaintDetectionInterface_ClothBeginOverlappingMesh Parms{};
 
@@ -1523,7 +1523,7 @@ void IVertexPaintDetectionInterface::ClothBeginOverlappingMesh(class UPrimitiveC
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1542,7 +1542,7 @@ void IVertexPaintDetectionInterface::ClothEndOverlappingMesh(class UPrimitiveCom
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "ClothEndOverlappingMesh");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "ClothEndOverlappingMesh");
 
 	Params::VertexPaintDetectionInterface_ClothEndOverlappingMesh Parms{};
 
@@ -1554,7 +1554,7 @@ void IVertexPaintDetectionInterface::ClothEndOverlappingMesh(class UPrimitiveCom
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1563,17 +1563,17 @@ void IVertexPaintDetectionInterface::ClothEndOverlappingMesh(class UPrimitiveCom
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.ColorsAppliedOnActor
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskResultInfo        PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskSettings          PaintedOnActorSettings                                 (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskSettings&   PaintedOnActorSettings                                 (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::ColorsAppliedOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintTaskSettings& PaintedOnActorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "ColorsAppliedOnActor");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "ColorsAppliedOnActor");
 
 	Params::VertexPaintDetectionInterface_ColorsAppliedOnActor Parms{};
 
@@ -1585,7 +1585,7 @@ void IVertexPaintDetectionInterface::ColorsAppliedOnActor(const struct FRVPDPTas
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1594,15 +1594,15 @@ void IVertexPaintDetectionInterface::ColorsAppliedOnActor(const struct FRVPDPTas
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.DetectTaskFinishedOnRegisteredMeshComponent
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::DetectTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "DetectTaskFinishedOnRegisteredMeshComponent");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "DetectTaskFinishedOnRegisteredMeshComponent");
 
 	Params::VertexPaintDetectionInterface_DetectTaskFinishedOnRegisteredMeshComponent Parms{};
 
@@ -1612,7 +1612,7 @@ void IVertexPaintDetectionInterface::DetectTaskFinishedOnRegisteredMeshComponent
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1621,16 +1621,16 @@ void IVertexPaintDetectionInterface::DetectTaskFinishedOnRegisteredMeshComponent
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetAllVertexColorsOnlyOnActor
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPGetColorsOnlySettings      GotAllVertexColorsWithSettings                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetColorsOnlySettings&GotAllVertexColorsWithSettings                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::GetAllVertexColorsOnlyOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "GetAllVertexColorsOnlyOnActor");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "GetAllVertexColorsOnlyOnActor");
 
 	Params::VertexPaintDetectionInterface_GetAllVertexColorsOnlyOnActor Parms{};
 
@@ -1641,7 +1641,7 @@ void IVertexPaintDetectionInterface::GetAllVertexColorsOnlyOnActor(const struct 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1650,19 +1650,19 @@ void IVertexPaintDetectionInterface::GetAllVertexColorsOnlyOnActor(const struct 
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetClosestVertexDataOnActor
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPGetClosestVertexDataSettingsGetClosestVertexDataSettings                           (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPClosestVertexDataResults   ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPEstimatedColorAtHitLocationInfoEstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPAverageColorInAreaInfo     AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetClosestVertexDataSettings&GetClosestVertexDataSettings                           (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPClosestVertexDataResults&ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAverageColorInAreaInfo&AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::GetClosestVertexDataOnActor(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "GetClosestVertexDataOnActor");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "GetClosestVertexDataOnActor");
 
 	Params::VertexPaintDetectionInterface_GetClosestVertexDataOnActor Parms{};
 
@@ -1676,7 +1676,7 @@ void IVertexPaintDetectionInterface::GetClosestVertexDataOnActor(const struct FR
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1685,17 +1685,17 @@ void IVertexPaintDetectionInterface::GetClosestVertexDataOnActor(const struct FR
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.GetColorsWithinArea
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPGetColorsWithinAreaSettingsGetColorsWithinAreaSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPWithinAreaResults          WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetColorsWithinAreaSettings&GetColorsWithinAreaSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPWithinAreaResults&   WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::GetColorsWithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "GetColorsWithinArea");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "GetColorsWithinArea");
 
 	Params::VertexPaintDetectionInterface_GetColorsWithinArea Parms{};
 
@@ -1707,7 +1707,7 @@ void IVertexPaintDetectionInterface::GetColorsWithinArea(const struct FRVPDPTask
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1724,7 +1724,7 @@ TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSett
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "GetSkeletalMeshClothPhysicsSettings");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "GetSkeletalMeshClothPhysicsSettings");
 
 	Params::VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings Parms{};
 
@@ -1733,7 +1733,7 @@ TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSett
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -1751,24 +1751,24 @@ TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSett
 // int32                                   CurrentVertexIndex                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               MaterialVertexIsOn                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    IsVertexOnCloth                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             BoneVertexIsOn                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          VertexPositionInWorldSpace                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          VertexNormal                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FColor                           CurrentVertexColor                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      BoneVertexIsOn                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   VertexPositionInWorldSpace                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   VertexNormal                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FColor&                    CurrentVertexColor                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EPhysicalSurface                        CurrentVertexMostDominantPhysicsSurface                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   CurrentVertexMostDominantPhysicsSurfaceValue           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FColor                           UpdatedVertexColorToApply                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FColor&                    UpdatedVertexColorToApply                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    WantsToApplyUpdatedVertexColor                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ApplyUpdatedOrOverridenVertexColors                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    OverrideVertexColorsToApply                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FColor                           VertexColorsToOverrideWith                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   ApplyUpdatedOrOverridenVertexColors                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   OverrideVertexColorsToApply                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FColor*                          VertexColorsToOverrideWith                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::OverrideVertexColorToApply(int32 OverrideID, class UVertexPaintDetectionComponent* AssociatedPaintComponent, class UPrimitiveComponent* MeshApplyingColorsTo, int32 CurrentLOD, int32 CurrentVertexIndex, class UMaterialInterface* MaterialVertexIsOn, bool IsVertexOnCloth, const class FName& BoneVertexIsOn, const struct FVector& VertexPositionInWorldSpace, const struct FVector& VertexNormal, const struct FColor& CurrentVertexColor, EPhysicalSurface CurrentVertexMostDominantPhysicsSurface, float CurrentVertexMostDominantPhysicsSurfaceValue, const struct FColor& UpdatedVertexColorToApply, bool WantsToApplyUpdatedVertexColor, bool* ApplyUpdatedOrOverridenVertexColors, bool* OverrideVertexColorsToApply, struct FColor* VertexColorsToOverrideWith)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "OverrideVertexColorToApply");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "OverrideVertexColorToApply");
 
 	Params::VertexPaintDetectionInterface_OverrideVertexColorToApply Parms{};
 
@@ -1791,7 +1791,7 @@ void IVertexPaintDetectionInterface::OverrideVertexColorToApply(int32 OverrideID
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -1809,20 +1809,20 @@ void IVertexPaintDetectionInterface::OverrideVertexColorToApply(int32 OverrideID
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_AtLocation
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskResultInfo        PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintAtLocationSettings    PaintedAtLocationSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPClosestVertexDataResults   ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPEstimatedColorAtHitLocationInfoEstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPAverageColorInAreaInfo     AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintAtLocationSettings&PaintedAtLocationSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPClosestVertexDataResults&ClosestVertexColorResult                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationResult                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAverageColorInAreaInfo&AverageColorInAreaInfo                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::PaintedOnActor_AtLocation(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintAtLocationSettings& PaintedAtLocationSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexColorResult, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationResult, const struct FRVPDPAverageColorInAreaInfo& AverageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_AtLocation");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_AtLocation");
 
 	Params::VertexPaintDetectionInterface_PaintedOnActor_AtLocation Parms{};
 
@@ -1837,7 +1837,7 @@ void IVertexPaintDetectionInterface::PaintedOnActor_AtLocation(const struct FRVP
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1846,17 +1846,17 @@ void IVertexPaintDetectionInterface::PaintedOnActor_AtLocation(const struct FRVP
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_EntireMesh
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskResultInfo        PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintOnEntireMeshSettings  PaintedEntireMeshSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintOnEntireMeshSettings&PaintedEntireMeshSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::PaintedOnActor_EntireMesh(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintOnEntireMeshSettings& PaintedEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_EntireMesh");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_EntireMesh");
 
 	Params::VertexPaintDetectionInterface_PaintedOnActor_EntireMesh Parms{};
 
@@ -1868,7 +1868,7 @@ void IVertexPaintDetectionInterface::PaintedOnActor_EntireMesh(const struct FRVP
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1877,17 +1877,17 @@ void IVertexPaintDetectionInterface::PaintedOnActor_EntireMesh(const struct FRVP
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_PaintColorSnippet
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskResultInfo        PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintColorSnippetSettings  PaintedColorSnippetSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintColorSnippetSettings&PaintedColorSnippetSettings                            (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::PaintedOnActor_PaintColorSnippet(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintColorSnippetSettings& PaintedColorSnippetSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_PaintColorSnippet");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_PaintColorSnippet");
 
 	Params::VertexPaintDetectionInterface_PaintedOnActor_PaintColorSnippet Parms{};
 
@@ -1899,7 +1899,7 @@ void IVertexPaintDetectionInterface::PaintedOnActor_PaintColorSnippet(const stru
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1908,17 +1908,17 @@ void IVertexPaintDetectionInterface::PaintedOnActor_PaintColorSnippet(const stru
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_SetMeshComponentVertexColors
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskResultInfo        PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPSetVertexColorsSettings    SetMeshComponentVertexColorSettings                    (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPSetVertexColorsSettings&SetMeshComponentVertexColorSettings                    (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColors(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_SetMeshComponentVertexColors");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_SetMeshComponentVertexColors");
 
 	Params::VertexPaintDetectionInterface_PaintedOnActor_SetMeshComponentVertexColors Parms{};
 
@@ -1930,7 +1930,7 @@ void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColors
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1939,17 +1939,17 @@ void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColors
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskResultInfo        PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPSetVertexColorsUsingSerializedStringSettingsSetMeshComponentVertexColorUsingSerializedStringSettings(ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPSetVertexColorsUsingSerializedStringSettings&SetMeshComponentVertexColorUsingSerializedStringSettings(ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString");
 
 	Params::VertexPaintDetectionInterface_PaintedOnActor_SetMeshComponentVertexColorsUsingSerializedString Parms{};
 
@@ -1961,7 +1961,7 @@ void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColors
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1970,18 +1970,18 @@ void IVertexPaintDetectionInterface::PaintedOnActor_SetMeshComponentVertexColors
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintedOnActor_WithinArea
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskResultInfo        PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintWithinAreaSettings    PaintedWithinAreaSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPWithinAreaResults          WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintWithinAreaSettings&PaintedWithinAreaSettings                              (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPWithinAreaResults&   WithinAreaResults                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::PaintedOnActor_WithinArea(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_WithinArea");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintedOnActor_WithinArea");
 
 	Params::VertexPaintDetectionInterface_PaintedOnActor_WithinArea Parms{};
 
@@ -1994,7 +1994,7 @@ void IVertexPaintDetectionInterface::PaintedOnActor_WithinArea(const struct FRVP
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -2003,16 +2003,16 @@ void IVertexPaintDetectionInterface::PaintedOnActor_WithinArea(const struct FRVP
 // Function VertexPaintDetectionPlugin.VertexPaintDetectionInterface.PaintTaskFinishedOnRegisteredMeshComponent
 // (Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintTaskResultInfo        PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void IVertexPaintDetectionInterface::PaintTaskFinishedOnRegisteredMeshComponent(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("VertexPaintDetectionInterface", "PaintTaskFinishedOnRegisteredMeshComponent");
+		Func = AsUObject()->Class->GetFunction("VertexPaintDetectionInterface", "PaintTaskFinishedOnRegisteredMeshComponent");
 
 	Params::VertexPaintDetectionInterface_PaintTaskFinishedOnRegisteredMeshComponent Parms{};
 
@@ -2023,7 +2023,7 @@ void IVertexPaintDetectionInterface::PaintTaskFinishedOnRegisteredMeshComponent(
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -2033,8 +2033,8 @@ void IVertexPaintDetectionInterface::PaintTaskFinishedOnRegisteredMeshComponent(
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UBoxComponent*                    BoxCollision                                           (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          FromLocation                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          ToLocation                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   FromLocation                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   ToLocation                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   BoxThickness                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::AdjustBoxCollisionToFillAreaBetweenTwoLocations(class UBoxComponent* BoxCollision, const struct FVector& FromLocation, const struct FVector& ToLocation, float BoxThickness)
@@ -2064,11 +2064,11 @@ void UVertexPaintFunctionLibrary::AdjustBoxCollisionToFillAreaBetweenTwoLocation
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLatentActionInfo                LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// TArray<TSoftObjectPtr<class UObject>>   AssetsToLoad                                           (Parm, ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic)
+// const struct FLatentActionInfo&         LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const TArray<TSoftObjectPtr<class UObject>>&AssetsToLoad                                           (Parm, ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic)
 // bool                                    PrintResultsToLog                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class UObject*>                  LoadedAssets                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<class UObject*>*                 LoadedAssets                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   AssetLoadPriority                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::AsyncLoadAssets(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const TArray<TSoftObjectPtr<class UObject>>& AssetsToLoad, bool PrintResultsToLog, TArray<class UObject*>* LoadedAssets, bool* Success, int32 AssetLoadPriority)
@@ -2104,8 +2104,8 @@ void UVertexPaintFunctionLibrary::AsyncLoadAssets(class UObject* WorldContextObj
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.CalcAABBWithoutUniformCheck
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// class USkinnedMeshComponent*            MeshComponent                                          (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       LocalToWorld                                           (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class USkinnedMeshComponent*      MeshComponent                                          (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                LocalToWorld                                           (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBox                             ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FBox UVertexPaintFunctionLibrary::CalcAABBWithoutUniformCheck(const class USkinnedMeshComponent* MeshComponent, const struct FTransform& LocalToWorld)
@@ -2162,7 +2162,7 @@ EObjectTypeQuery UVertexPaintFunctionLibrary::CollisionChannelToObjectType(EColl
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.DoesPhysicsSurfaceBelongToPhysicsSurfaceFamily
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EPhysicalSurface                        PhysicsSurface                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EPhysicalSurface                        ParentOfPhysicsSurfaceFamily                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -2197,7 +2197,7 @@ bool UVertexPaintFunctionLibrary::DoesPhysicsSurfaceBelongToPhysicsSurfaceFamily
 // class UPrimitiveComponent*              PrimitiveComponent                                     (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Lifetime                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Thickness                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     ColorToDraw                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              ColorToDraw                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::DrawPrimitiveComponentBoundsBox(class UPrimitiveComponent* PrimitiveComponent, float Lifetime, float Thickness, const struct FLinearColor& ColorToDraw)
 {
@@ -2225,8 +2225,8 @@ void UVertexPaintFunctionLibrary::DrawPrimitiveComponentBoundsBox(class UPrimiti
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetAllColorSnippetsUnderGroupSnippetAsString
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           GroupSnippetID                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    GroupSnippetID                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<class FString>                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<class FString> UVertexPaintFunctionLibrary::GetAllColorSnippetsUnderGroupSnippetAsString(const class UObject* WorldContextObject, const class FString& GroupSnippetID)
@@ -2256,7 +2256,7 @@ TArray<class FString> UVertexPaintFunctionLibrary::GetAllColorSnippetsUnderGroup
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TMap<class FString, struct FRVPDPStoredColorSnippetInfo>AvailableColorSnippetsAndDataAssets                    (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FString, struct FRVPDPStoredColorSnippetInfo>*AvailableColorSnippetsAndDataAssets                    (Parm, OutParm, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::GetAllMeshColorSnippetsAsString_Wrapper(class UPrimitiveComponent* MeshComponent, TMap<class FString, struct FRVPDPStoredColorSnippetInfo>* AvailableColorSnippetsAndDataAssets)
 {
@@ -2285,7 +2285,7 @@ void UVertexPaintFunctionLibrary::GetAllMeshColorSnippetsAsString_Wrapper(class 
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>AvailableColorSnippetTagsAndDataAssets                 (Parm, OutParm, UObjectWrapper, NativeAccessSpecifierPublic)
+// TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>*AvailableColorSnippetTagsAndDataAssets                 (Parm, OutParm, UObjectWrapper, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::GetAllMeshColorSnippetsAsTags_Wrapper(class UPrimitiveComponent* MeshComponent, TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>* AvailableColorSnippetTagsAndDataAssets)
 {
@@ -2314,8 +2314,8 @@ void UVertexPaintFunctionLibrary::GetAllMeshColorSnippetsAsTags_Wrapper(class UP
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameplayTag                     TagCategory                                            (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>AvailableColorSnippetTagsAndDataAssetsUnderTagCategory (Parm, OutParm, UObjectWrapper, NativeAccessSpecifierPublic)
+// const struct FGameplayTag&              TagCategory                                            (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>*AvailableColorSnippetTagsAndDataAssetsUnderTagCategory (Parm, OutParm, UObjectWrapper, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::GetAllMeshColorSnippetsTagsUnderTagCategory_Wrapper(class UPrimitiveComponent* MeshComponent, const struct FGameplayTag& TagCategory, TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>* AvailableColorSnippetTagsAndDataAssetsUnderTagCategory)
 {
@@ -2369,8 +2369,8 @@ TArray<EPhysicalSurface> UVertexPaintFunctionLibrary::GetAllPhysicsSurfaces()
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetAllTagsUnderTagCategory
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameplayTag                     TagCategory                                            (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGameplayTag&              TagCategory                                            (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FGameplayTag>             ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FGameplayTag> UVertexPaintFunctionLibrary::GetAllTagsUnderTagCategory(const class UObject* WorldContextObject, const struct FGameplayTag& TagCategory)
@@ -2399,10 +2399,10 @@ TArray<struct FGameplayTag> UVertexPaintFunctionLibrary::GetAllTagsUnderTagCateg
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetAllVertexColorChannelsPhysicsSurfaceIsRegisteredTo_Wrapper
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               Material                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EPhysicalSurface                        PhysicsSurface                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    Successful                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   Successful                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<ESurfaceAtChannel>               ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<ESurfaceAtChannel> UVertexPaintFunctionLibrary::GetAllVertexColorChannelsPhysicsSurfaceIsRegisteredTo_Wrapper(const class UObject* WorldContextObject, class UMaterialInterface* Material, EPhysicalSurface PhysicsSurface, bool* Successful)
@@ -2435,8 +2435,8 @@ TArray<ESurfaceAtChannel> UVertexPaintFunctionLibrary::GetAllVertexColorChannels
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetAmountOfColorSnippetChildsFromGroupSnippet
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameplayTag                     GroupSnippet                                           (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGameplayTag&              GroupSnippet                                           (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UVertexPaintFunctionLibrary::GetAmountOfColorSnippetChildsFromGroupSnippet(const class UObject* WorldContextObject, const struct FGameplayTag& GroupSnippet)
@@ -2497,7 +2497,7 @@ int32 UVertexPaintFunctionLibrary::GetAmountOfLODsToPaintOn(class UPrimitiveComp
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetAmountOfPaintedColorsForEachChannel
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FColor>                   VertexColors                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<struct FColor>&            VertexColors                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // float                                   MinColorAmountToBeConsidered                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FRVPDPAmountOfColorsOfEachChannelResultsReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -2528,9 +2528,9 @@ struct FRVPDPAmountOfColorsOfEachChannelResults UVertexPaintFunctionLibrary::Get
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLatentActionInfo                LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// TArray<struct FColor>                   VertexColors                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRVPDPAmountOfColorsOfEachChannelResultsAmountOfColorsOfEachChannel                            (Parm, OutParm, NativeAccessSpecifierPublic)
+// const struct FLatentActionInfo&         LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const TArray<struct FColor>&            VertexColors                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FRVPDPAmountOfColorsOfEachChannelResults*AmountOfColorsOfEachChannel                            (Parm, OutParm, NativeAccessSpecifierPublic)
 // float                                   MinColorAmountToBeConsidered                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::GetAmountOfPaintedColorsForEachChannelAsync(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, const TArray<struct FColor>& VertexColors, struct FRVPDPAmountOfColorsOfEachChannelResults* AmountOfColorsOfEachChannel, float MinColorAmountToBeConsidered)
@@ -2562,7 +2562,7 @@ void UVertexPaintFunctionLibrary::GetAmountOfPaintedColorsForEachChannelAsync(cl
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetCalculateColorsDetectionTasksAmount_Wrapper
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TMap<class UPrimitiveComponent*, int32> ReturnValue                                            (Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 TMap<class UPrimitiveComponent*, int32> UVertexPaintFunctionLibrary::GetCalculateColorsDetectionTasksAmount_Wrapper(const class UObject* WorldContextObject)
@@ -2590,7 +2590,7 @@ TMap<class UPrimitiveComponent*, int32> UVertexPaintFunctionLibrary::GetCalculat
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetCalculateColorsPaintTasksAmount_Wrapper
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TMap<class UPrimitiveComponent*, int32> ReturnValue                                            (Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 TMap<class UPrimitiveComponent*, int32> UVertexPaintFunctionLibrary::GetCalculateColorsPaintTasksAmount_Wrapper(const class UObject* WorldContextObject)
@@ -2618,13 +2618,13 @@ TMap<class UPrimitiveComponent*, int32> UVertexPaintFunctionLibrary::GetCalculat
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetChannelsPhysicsSurfaceIsRegisteredTo
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               MaterialToApplyColorsTo                                (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EPhysicalSurface                        PhysicalSurface                                        (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    AtRedChannel                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    AtGreenChannel                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    AtBlueChannel                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    AtAlphaChannel                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EPhysicalSurface&                 PhysicalSurface                                        (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AtRedChannel                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AtGreenChannel                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AtBlueChannel                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AtAlphaChannel                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::GetChannelsPhysicsSurfaceIsRegisteredTo(const class UObject* WorldContextObject, class UMaterialInterface* MaterialToApplyColorsTo, const EPhysicalSurface& PhysicalSurface, bool* AtRedChannel, bool* AtGreenChannel, bool* AtBlueChannel, bool* AtAlphaChannel)
 {
@@ -2691,7 +2691,7 @@ TArray<class UClothingAssetBase*> UVertexPaintFunctionLibrary::GetClothAssets(cl
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetColorSnippetReferenceDataAsset
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          OptionalWorldContextObject                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    OptionalWorldContextObject                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UVertexPaintColorSnippetRefs*     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UVertexPaintColorSnippetRefs* UVertexPaintFunctionLibrary::GetColorSnippetReferenceDataAsset(const class UObject* OptionalWorldContextObject)
@@ -2720,11 +2720,11 @@ class UVertexPaintColorSnippetRefs* UVertexPaintFunctionLibrary::GetColorSnippet
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameplayTag                     ColorSnippetTag                                        (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLatentActionInfo                LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// TSoftObjectPtr<class UObject>           ObjectSnippetIsAssociatedWith                          (Parm, OutParm, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<struct FColor>                   ColorSnippetVertexColors                               (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGameplayTag&              ColorSnippetTag                                        (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLatentActionInfo&         LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// TSoftObjectPtr<class UObject>*          ObjectSnippetIsAssociatedWith                          (Parm, OutParm, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<struct FColor>*                  ColorSnippetVertexColors                               (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::GetColorSnippetVertexColorsAsync(class UObject* WorldContextObject, const struct FGameplayTag& ColorSnippetTag, const struct FLatentActionInfo& LatentInfo, TSoftObjectPtr<class UObject>* ObjectSnippetIsAssociatedWith, TArray<struct FColor>* ColorSnippetVertexColors, bool* Success)
 {
@@ -2817,9 +2817,9 @@ float UVertexPaintFunctionLibrary::GetComponentBoundsTopWorldZ(class UPrimitiveC
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameplayTag                     GroupSnippet                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class UPrimitiveComponent*>      GroupSnippetMeshes                                     (Parm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGameplayTag&              GroupSnippet                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TArray<class UPrimitiveComponent*>&GroupSnippetMeshes                                     (Parm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FGameplayTag                     ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FGameplayTag UVertexPaintFunctionLibrary::GetMeshColorSnippetChildFromGroupSnippet(class UPrimitiveComponent* MeshComponent, const struct FGameplayTag& GroupSnippet, const TArray<class UPrimitiveComponent*>& GroupSnippetMeshes, bool* Success)
@@ -2853,8 +2853,8 @@ struct FGameplayTag UVertexPaintFunctionLibrary::GetMeshColorSnippetChildFromGro
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameplayTag                     TagCategory                                            (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>AvailableColorSnippetTagsAndDataAssetsUnderTagCategory (Parm, OutParm, UObjectWrapper, NativeAccessSpecifierPublic)
+// const struct FGameplayTag&              TagCategory                                            (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>*AvailableColorSnippetTagsAndDataAssetsUnderTagCategory (Parm, OutParm, UObjectWrapper, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::GetMeshColorSnippetsTagsInTagCategory_Wrapper(class UPrimitiveComponent* MeshComponent, const struct FGameplayTag& TagCategory, TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>>* AvailableColorSnippetTagsAndDataAssetsUnderTagCategory)
 {
@@ -2942,7 +2942,7 @@ const class UObject* UVertexPaintFunctionLibrary::GetMeshComponentSourceMesh(cla
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    GetColorsForAllLODs                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   GetColorsUpToLOD                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FRVPDPVertexDataInfo             ReturnValue                                            (Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
@@ -3007,7 +3007,7 @@ TArray<struct FColor> UVertexPaintFunctionLibrary::GetMeshComponentVertexColorsA
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetOptimizationDataAsset
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          OptionalWorldContextObject                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    OptionalWorldContextObject                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UVertexPaintOptimizationDataAsset*ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UVertexPaintOptimizationDataAsset* UVertexPaintFunctionLibrary::GetOptimizationDataAsset(const class UObject* OptionalWorldContextObject)
@@ -3035,7 +3035,7 @@ class UVertexPaintOptimizationDataAsset* UVertexPaintFunctionLibrary::GetOptimiz
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetParentsOfPhysicsSurface_Wrapper
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EPhysicalSurface                        PhysicalSurface                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<EPhysicalSurface>                ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -3065,7 +3065,7 @@ TArray<EPhysicalSurface> UVertexPaintFunctionLibrary::GetParentsOfPhysicsSurface
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetPhysicalMaterialUsingPhysicsSurface_Wrapper
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TSubclassOf<class UPhysicalMaterial>    PhysicalMaterialClass                                  (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EPhysicalSurface                        PhysicsSurface                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPhysicalMaterial*                ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -3097,7 +3097,7 @@ class UPhysicalMaterial* UVertexPaintFunctionLibrary::GetPhysicalMaterialUsingPh
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetPhysicsSurfaceFamilies_Wrapper
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TMap<EPhysicalSurface, struct FRVPDPRegisteredPhysicsSurfacesSettings>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 TMap<EPhysicalSurface, struct FRVPDPRegisteredPhysicsSurfacesSettings> UVertexPaintFunctionLibrary::GetPhysicsSurfaceFamilies_Wrapper(const class UObject* WorldContextObject)
@@ -3125,7 +3125,7 @@ TMap<EPhysicalSurface, struct FRVPDPRegisteredPhysicsSurfacesSettings> UVertexPa
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetPhysicsSurfacesRegisteredToMaterial
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               Material                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<EPhysicalSurface>                ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -3155,8 +3155,8 @@ TArray<EPhysicalSurface> UVertexPaintFunctionLibrary::GetPhysicsSurfacesRegister
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetSubstringAfterLastCharacter
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class FString                           String                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           Character                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    String                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Character                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class FString UVertexPaintFunctionLibrary::GetSubstringAfterLastCharacter(const class FString& String, const class FString& Character)
@@ -3185,9 +3185,9 @@ class FString UVertexPaintFunctionLibrary::GetSubstringAfterLastCharacter(const 
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetTheGroupSnippetAChildSnippetBelongsTo
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameplayTag                     childSnippet                                           (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameplayTag                     groupSnippetChildBelongsTo                             (Parm, OutParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGameplayTag&              childSnippet                                           (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FGameplayTag*                    groupSnippetChildBelongsTo                             (Parm, OutParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UVertexPaintFunctionLibrary::GetTheGroupSnippetAChildSnippetBelongsTo(const class UObject* WorldContextObject, const struct FGameplayTag& childSnippet, struct FGameplayTag* groupSnippetChildBelongsTo)
@@ -3219,12 +3219,12 @@ bool UVertexPaintFunctionLibrary::GetTheGroupSnippetAChildSnippetBelongsTo(const
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetTheMostDominantPhysicsSurface_Wrapper
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               OptionalMaterialPhysicsSurfaceWasDetectedOn            (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<EPhysicalSurface>                PhysicsSurfaces                                        (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
-// TArray<float>                           PhysicsSurfaceValues                                   (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
-// EPhysicalSurface                        MostDominantPhysicsSurfaceFromArray                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   MostDominantPhysicsSurfaceColorValue                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TArray<EPhysicalSurface>&         PhysicsSurfaces                                        (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<float>&                    PhysicsSurfaceValues                                   (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// EPhysicalSurface*                       MostDominantPhysicsSurfaceFromArray                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  MostDominantPhysicsSurfaceColorValue                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UVertexPaintFunctionLibrary::GetTheMostDominantPhysicsSurface_Wrapper(const class UObject* WorldContextObject, class UMaterialInterface* OptionalMaterialPhysicsSurfaceWasDetectedOn, const TArray<EPhysicalSurface>& PhysicsSurfaces, const TArray<float>& PhysicsSurfaceValues, EPhysicalSurface* MostDominantPhysicsSurfaceFromArray, float* MostDominantPhysicsSurfaceColorValue)
@@ -3261,7 +3261,7 @@ bool UVertexPaintFunctionLibrary::GetTheMostDominantPhysicsSurface_Wrapper(const
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetVertexPaintMaterialDataAsset
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          OptionalWorldContextObject                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    OptionalWorldContextObject                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UVertexPaintMaterialDataAsset*    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UVertexPaintMaterialDataAsset* UVertexPaintFunctionLibrary::GetVertexPaintMaterialDataAsset(const class UObject* OptionalWorldContextObject)
@@ -3289,7 +3289,7 @@ class UVertexPaintMaterialDataAsset* UVertexPaintFunctionLibrary::GetVertexPaint
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.GetVertexPaintMaterialInterface_Wrapper
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TMap<TSoftObjectPtr<class UMaterialInterface>, struct FRVPDPRegisteredMaterialSetting>ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 TMap<TSoftObjectPtr<class UMaterialInterface>, struct FRVPDPRegisteredMaterialSetting> UVertexPaintFunctionLibrary::GetVertexPaintMaterialInterface_Wrapper(const class UObject* WorldContextObject)
@@ -3318,7 +3318,7 @@ TMap<TSoftObjectPtr<class UMaterialInterface>, struct FRVPDPRegisteredMaterialSe
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<TSoftObjectPtr<class UObject>>   AssetsToCheck                                          (Parm, ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic)
+// const TArray<TSoftObjectPtr<class UObject>>&AssetsToCheck                                          (Parm, ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UVertexPaintFunctionLibrary::IsAssetsLoaded(class UObject* WorldContextObject, const TArray<TSoftObjectPtr<class UObject>>& AssetsToCheck)
@@ -3347,7 +3347,7 @@ bool UVertexPaintFunctionLibrary::IsAssetsLoaded(class UObject* WorldContextObje
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.IsMaterialAddedToPaintOnMaterialDataAsset_Wrapper
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TSoftObjectPtr<class UMaterialInterface>Material                                               (Parm, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -3377,7 +3377,7 @@ bool UVertexPaintFunctionLibrary::IsMaterialAddedToPaintOnMaterialDataAsset_Wrap
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.IsPlayInEditor
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UVertexPaintFunctionLibrary::IsPlayInEditor(const class UObject* WorldContextObject)
@@ -3405,7 +3405,7 @@ bool UVertexPaintFunctionLibrary::IsPlayInEditor(const class UObject* WorldConte
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.IsWorldValid
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UWorld*                           World                                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWorld*                     World                                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UVertexPaintFunctionLibrary::IsWorldValid(const class UWorld* World)
@@ -3433,16 +3433,16 @@ bool UVertexPaintFunctionLibrary::IsWorldValid(const class UWorld* World)
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.MultiSphereTraceForClosestUniqueMeshesAndBones_Wrapper
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          Location                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   Location                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Radius                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // ETraceTypeQuery                         TraceChannel                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<EObjectTypeQuery>                ObjectTypesToTraceFor                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// TArray<class AActor*>                   ActorsToIgnore                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<EObjectTypeQuery>&         ObjectTypesToTraceFor                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class AActor*>&            ActorsToIgnore                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    TraceComplex                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    IgnoreSelf                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EDrawDebugTrace                         DrawDebugType                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<struct FRVPDPTraceForClosestUniqueMeshesAndBonesPrerequisite>ClosestUniqueMeshesWithBones                           (Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// TArray<struct FRVPDPTraceForClosestUniqueMeshesAndBonesPrerequisite>*ClosestUniqueMeshesWithBones                           (Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 // float                                   DebugDrawTime                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -3565,7 +3565,7 @@ void UVertexPaintFunctionLibrary::RegisterPaintTaskCallbacksToObjectFromSpecifie
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.ReliableFColorToFLinearColor
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FColor                           Color                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FColor&                    Color                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FLinearColor UVertexPaintFunctionLibrary::ReliableFColorToFLinearColor(const struct FColor& Color)
@@ -3593,7 +3593,7 @@ struct FLinearColor UVertexPaintFunctionLibrary::ReliableFColorToFLinearColor(co
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.ReliableFLinearToFColor
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FLinearColor                     LinearColor                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              LinearColor                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FColor                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FColor UVertexPaintFunctionLibrary::ReliableFLinearToFColor(const struct FLinearColor& LinearColor)
@@ -3673,7 +3673,7 @@ void UVertexPaintFunctionLibrary::RemoveComponentFromPaintTaskQueue(class UPrimi
 // Parameters:
 // class USkeletalMeshComponent*           SkeletalMeshComponent                                  (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UClothingAssetBase*               ClothingAsset                                          (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPChaosClothPhysicsSettings  ClothPhysicsSettings                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FRVPDPChaosClothPhysicsSettings&ClothPhysicsSettings                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::SetChaosClothPhysics(class USkeletalMeshComponent* SkeletalMeshComponent, class UClothingAssetBase* ClothingAsset, const struct FRVPDPChaosClothPhysicsSettings& ClothPhysicsSettings)
 {
@@ -3730,8 +3730,8 @@ void UVertexPaintFunctionLibrary::SetChaosWheeledVehicleFrictionMultiplier_Wrapp
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     Color                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGeometryScriptColorFlags        Flags_0                                                (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Color                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometryScriptColorFlags& Flags_0                                                (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    bClearExisting                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -3903,7 +3903,7 @@ void UVertexPaintFunctionLibrary::UpdateChaosClothPhysicsWithExistingColors(clas
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLatentActionInfo                LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FLatentActionInfo&         LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // class USkeletalMeshComponent*           SkeletalMesh                                           (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UVertexPaintFunctionLibrary::UpdateChaosClothPhysicsWithExistingColorsAsync(class UObject* WorldContextObject, const struct FLatentActionInfo& LatentInfo, class USkeletalMeshComponent* SkeletalMesh)
@@ -3959,7 +3959,7 @@ class USkeletalMesh* UVertexPaintFunctionLibrary::VertexPaintDetectionPlugin_Get
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.VertexPaintDetectionPlugin_SortAssetsNamesAlphabetically
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// TMap<int32, class FString>              AssetIndexAndName                                      (Parm, NativeAccessSpecifierPublic)
+// const TMap<int32, class FString>&       AssetIndexAndName                                      (Parm, NativeAccessSpecifierPublic)
 // TMap<int32, class FString>              ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 TMap<int32, class FString> UVertexPaintFunctionLibrary::VertexPaintDetectionPlugin_SortAssetsNamesAlphabetically(const TMap<int32, class FString>& AssetIndexAndName)
@@ -3987,7 +3987,7 @@ TMap<int32, class FString> UVertexPaintFunctionLibrary::VertexPaintDetectionPlug
 // Function VertexPaintDetectionPlugin.VertexPaintFunctionLibrary.VertexPaintDetectionPlugin_SortStringArrayAlphabetically
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// TArray<class FString>                   Strings                                                (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<class FString>&            Strings                                                (Parm, ZeroConstructor, NativeAccessSpecifierPublic)
 // TArray<class FString>                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<class FString> UVertexPaintFunctionLibrary::VertexPaintDetectionPlugin_SortStringArrayAlphabetically(const TArray<class FString>& Strings)
@@ -4092,8 +4092,8 @@ TMap<class UStaticMesh*, struct FRVPDPPaintOnLODSettings> UVertexPaintOptimizati
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPGetColorsOnlySettings      GetAllVertexColorsStruct                               (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetColorsOnlySettings&GetAllVertexColorsStruct                               (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::GetAllVertexColorsOnly_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPGetColorsOnlySettings& GetAllVertexColorsStruct, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4123,8 +4123,8 @@ void UVertexPaintTasksFunctionLibrary::GetAllVertexColorsOnly_Wrapper(class UVer
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPGetClosestVertexDataSettingsGetClosestVertexDataStruct                             (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetClosestVertexDataSettings&GetClosestVertexDataStruct                             (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::GetClosestVertexDataOnMesh_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataStruct, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4154,8 +4154,8 @@ void UVertexPaintTasksFunctionLibrary::GetClosestVertexDataOnMesh_Wrapper(class 
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPGetColorsWithinAreaSettingsGetColorsWithinAreaStruct                              (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPGetColorsWithinAreaSettings&GetColorsWithinAreaStruct                              (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::GetColorsWithinArea_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaStruct, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4185,8 +4185,8 @@ void UVertexPaintTasksFunctionLibrary::GetColorsWithinArea_Wrapper(class UVertex
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintColorSnippetSettings  PaintColorSnippetStruct                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintColorSnippetSettings&PaintColorSnippetStruct                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::PaintColorSnippetOnMesh_Wrappers(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintColorSnippetSettings& PaintColorSnippetStruct, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4215,9 +4215,9 @@ void UVertexPaintTasksFunctionLibrary::PaintColorSnippetOnMesh_Wrappers(class UV
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class UPrimitiveComponent*>      GroupSnippetMeshes                                     (Parm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintGroupSnippetSettings  PaintGroupSnippetStruct                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const TArray<class UPrimitiveComponent*>&GroupSnippetMeshes                                     (Parm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintGroupSnippetSettings&PaintGroupSnippetStruct                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::PaintGroupSnippetOnMesh_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, const TArray<class UPrimitiveComponent*>& GroupSnippetMeshes, const struct FRVPDPPaintGroupSnippetSettings& PaintGroupSnippetStruct, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4247,8 +4247,8 @@ void UVertexPaintTasksFunctionLibrary::PaintGroupSnippetOnMesh_Wrapper(class UVe
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintOnEntireMeshSettings  PaintOnEntireMeshStruct                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintOnEntireMeshSettings&PaintOnEntireMeshStruct                                (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::PaintOnEntireMesh_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintOnEntireMeshSettings& PaintOnEntireMeshStruct, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4278,8 +4278,8 @@ void UVertexPaintTasksFunctionLibrary::PaintOnEntireMesh_Wrapper(class UVertexPa
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintAtLocationSettings    PaintAtLocationStruct                                  (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintAtLocationSettings&PaintAtLocationStruct                                  (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::PaintOnMeshAtLocation_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintAtLocationSettings& PaintAtLocationStruct, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4309,8 +4309,8 @@ void UVertexPaintTasksFunctionLibrary::PaintOnMeshAtLocation_Wrapper(class UVert
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPPaintWithinAreaSettings    PaintWithinAreaStruct                                  (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPPaintWithinAreaSettings&PaintWithinAreaStruct                                  (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::PaintOnMeshWithinArea_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintWithinAreaSettings& PaintWithinAreaStruct, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4340,8 +4340,8 @@ void UVertexPaintTasksFunctionLibrary::PaintOnMeshWithinArea_Wrapper(class UVert
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPSetVertexColorsSettings    SetMeshComponentVertexColorsSettings                   (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPSetVertexColorsSettings&SetMeshComponentVertexColorsSettings                   (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::SetMeshComponentVertexColors_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorsSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {
@@ -4371,8 +4371,8 @@ void UVertexPaintTasksFunctionLibrary::SetMeshComponentVertexColors_Wrapper(clas
 // Parameters:
 // class UVertexPaintDetectionComponent*   RuntimeVertexPaintAndDetectionComponent                (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              MeshComponent                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRVPDPSetVertexColorsUsingSerializedStringSettingsSetMeshComponentVertexColorsUsingSerializedStringSettings(Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPSetVertexColorsUsingSerializedStringSettings&SetMeshComponentVertexColorsUsingSerializedStringSettings(Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalDataToPassThrough                            (Parm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UVertexPaintTasksFunctionLibrary::SetMeshComponentVertexColorsUsingSerializedString_Wrapper(class UVertexPaintDetectionComponent* RuntimeVertexPaintAndDetectionComponent, class UPrimitiveComponent* MeshComponent, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorsUsingSerializedStringSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalDataToPassThrough)
 {

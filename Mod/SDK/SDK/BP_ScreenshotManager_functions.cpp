@@ -60,9 +60,9 @@ void ABP_ScreenshotManager_C::ReceiveTick(float DeltaSeconds)
 // Function BP_ScreenshotManager.BP_ScreenshotManager_C.TakeScreenshot
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FIntPoint                        Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FString                           Path                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
-// class FString                           Filename                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const struct FIntPoint&                 Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const class FString&                    Path                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Filename                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
 void ABP_ScreenshotManager_C::TakeScreenshot(const struct FIntPoint& Size, const class FString& Path, const class FString& Filename)
 {

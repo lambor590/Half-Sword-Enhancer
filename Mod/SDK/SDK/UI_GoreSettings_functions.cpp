@@ -510,7 +510,7 @@ void UUI_GoreSettings_C::PreConstruct(bool IsDesignTime)
 // Function UI_GoreSettings.UI_GoreSettings_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_GoreSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

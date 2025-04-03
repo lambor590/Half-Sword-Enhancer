@@ -516,7 +516,7 @@ void UUI_GameSettings_C::PreConstruct(bool IsDesignTime)
 // Function UI_GameSettings.UI_GameSettings_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_GameSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

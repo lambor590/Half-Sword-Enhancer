@@ -71,7 +71,7 @@ struct AudioCaptureBlueprintLibrary_GetAvailableAudioInputDevices final
 {
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(TArray<struct FAudioInputDeviceInfo>& AvailableDevices)> OnObtainDevicesEvent;                              // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(const TArray<struct FAudioInputDeviceInfo>& AvailableDevices)> OnObtainDevicesEvent; // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AudioCaptureBlueprintLibrary_GetAvailableAudioInputDevices) == 0x000008, "Wrong alignment on AudioCaptureBlueprintLibrary_GetAvailableAudioInputDevices");
 static_assert(sizeof(AudioCaptureBlueprintLibrary_GetAvailableAudioInputDevices) == 0x000018, "Wrong size on AudioCaptureBlueprintLibrary_GetAvailableAudioInputDevices");

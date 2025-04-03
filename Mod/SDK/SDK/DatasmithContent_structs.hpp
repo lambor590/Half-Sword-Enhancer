@@ -393,7 +393,7 @@ static_assert(offsetof(FDatasmithMeshSectionInfoTemplate, MaterialIndex) == 0x00
 struct FDatasmithMeshSectionInfoMapTemplate final
 {
 public:
-	TMap<uint32, struct FDatasmithMeshSectionInfoTemplate> Map;                                               // 0x0000(0x0050)(NativeAccessSpecifierPublic)
+	TMap<uint32, struct FDatasmithMeshSectionInfoTemplate> Map;                                      // 0x0000(0x0050)(NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FDatasmithMeshSectionInfoMapTemplate) == 0x000008, "Wrong alignment on FDatasmithMeshSectionInfoMapTemplate");
 static_assert(sizeof(FDatasmithMeshSectionInfoMapTemplate) == 0x000050, "Wrong size on FDatasmithMeshSectionInfoMapTemplate");

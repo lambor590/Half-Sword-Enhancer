@@ -108,7 +108,7 @@ void UBaseDynamicMeshComponent::SetColorOverrideMode(EDynamicMeshComponentColorO
 // Function GeometryFramework.BaseDynamicMeshComponent.SetConstantOverrideColor
 // (RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FColor                           NewColor                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FColor&                    NewColor                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBaseDynamicMeshComponent::SetConstantOverrideColor(const struct FColor& NewColor)
 {
@@ -664,7 +664,7 @@ bool UBaseDynamicMeshComponent::HasOverrideRenderMaterial(int32 K) const
 // Function GeometryFramework.DynamicMeshComponent.ConfigureMaterialSet
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<class UMaterialInterface*>       NewMaterialSet                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class UMaterialInterface*>&NewMaterialSet                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UDynamicMeshComponent::ConfigureMaterialSet(const TArray<class UMaterialInterface*>& NewMaterialSet)
 {

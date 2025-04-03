@@ -20,7 +20,7 @@ namespace SDK
 // Function SkeletalMerging.SkeletalMergingLibrary.MergeMeshes
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSkeletalMeshMergeParams         Params_0                                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSkeletalMeshMergeParams&  Params_0                                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class USkeletalMesh*                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class USkeletalMesh* USkeletalMergingLibrary::MergeMeshes(const struct FSkeletalMeshMergeParams& Params_0)
@@ -48,7 +48,7 @@ class USkeletalMesh* USkeletalMergingLibrary::MergeMeshes(const struct FSkeletal
 // Function SkeletalMerging.SkeletalMergingLibrary.MergeSkeletons
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSkeletonMergeParams             Params_0                                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSkeletonMergeParams&      Params_0                                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class USkeleton*                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class USkeleton* USkeletalMergingLibrary::MergeSkeletons(const struct FSkeletonMergeParams& Params_0)

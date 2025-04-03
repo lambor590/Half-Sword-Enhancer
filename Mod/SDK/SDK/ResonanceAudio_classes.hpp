@@ -70,7 +70,7 @@ class AResonanceAudioDirectivityVisualizer final : public AActor
 public:
 	uint8                                         Pad_290[0x70];                                     // 0x0290(0x0070)(Fixing Size After Last Property [ Dumper-7 ])
 	class UMaterial*                              Material;                                          // 0x0300(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
-	class UResonanceAudioSpatializationSourceSettings* Settings;                                          // 0x0308(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
+	class UResonanceAudioSpatializationSourceSettings* Settings;                                     // 0x0308(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 
 public:
 	static class UClass* StaticClass()

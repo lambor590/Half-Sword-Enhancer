@@ -20,7 +20,7 @@ namespace SDK
 // Function AudioWidgets.AudioMeter.SetBackgroundColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioMeter::SetBackgroundColor(const struct FLinearColor& InValue)
 {
@@ -45,7 +45,7 @@ void UAudioMeter::SetBackgroundColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioMeter.SetMeterBackgroundColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioMeter::SetMeterBackgroundColor(const struct FLinearColor& InValue)
 {
@@ -70,7 +70,7 @@ void UAudioMeter::SetMeterBackgroundColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioMeter.SetMeterChannelInfo
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FMeterChannelInfo>        InMeterChannelInfo                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<struct FMeterChannelInfo>& InMeterChannelInfo                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UAudioMeter::SetMeterChannelInfo(const TArray<struct FMeterChannelInfo>& InMeterChannelInfo)
 {
@@ -95,7 +95,7 @@ void UAudioMeter::SetMeterChannelInfo(const TArray<struct FMeterChannelInfo>& In
 // Function AudioWidgets.AudioMeter.SetMeterClippingColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioMeter::SetMeterClippingColor(const struct FLinearColor& InValue)
 {
@@ -120,7 +120,7 @@ void UAudioMeter::SetMeterClippingColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioMeter.SetMeterPeakColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioMeter::SetMeterPeakColor(const struct FLinearColor& InValue)
 {
@@ -145,7 +145,7 @@ void UAudioMeter::SetMeterPeakColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioMeter.SetMeterScaleColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioMeter::SetMeterScaleColor(const struct FLinearColor& InValue)
 {
@@ -170,7 +170,7 @@ void UAudioMeter::SetMeterScaleColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioMeter.SetMeterScaleLabelColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioMeter::SetMeterScaleLabelColor(const struct FLinearColor& InValue)
 {
@@ -195,7 +195,7 @@ void UAudioMeter::SetMeterScaleLabelColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioMeter.SetMeterValueColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioMeter::SetMeterValueColor(const struct FLinearColor& InValue)
 {
@@ -283,7 +283,7 @@ void UAudioOscilloscope::StopProcessing()
 // Function AudioWidgets.AudioRadialSlider.GetOutputValue
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   InSliderValue                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             InSliderValue                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAudioRadialSlider::GetOutputValue(const float InSliderValue)
@@ -311,7 +311,7 @@ float UAudioRadialSlider::GetOutputValue(const float InSliderValue)
 // Function AudioWidgets.AudioRadialSlider.GetSliderValue
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   OutputValue                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             OutputValue                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAudioRadialSlider::GetSliderValue(const float OutputValue)
@@ -339,7 +339,7 @@ float UAudioRadialSlider::GetSliderValue(const float OutputValue)
 // Function AudioWidgets.AudioRadialSlider.SetCenterBackgroundColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetCenterBackgroundColor(const struct FLinearColor& InValue)
 {
@@ -364,7 +364,7 @@ void UAudioRadialSlider::SetCenterBackgroundColor(const struct FLinearColor& InV
 // Function AudioWidgets.AudioRadialSlider.SetHandStartEndRatio
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InHandStartEndRatio                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InHandStartEndRatio                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetHandStartEndRatio(const struct FVector2D& InHandStartEndRatio)
 {
@@ -389,7 +389,7 @@ void UAudioRadialSlider::SetHandStartEndRatio(const struct FVector2D& InHandStar
 // Function AudioWidgets.AudioRadialSlider.SetOutputRange
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InOutputRange                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InOutputRange                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetOutputRange(const struct FVector2D& InOutputRange)
 {
@@ -414,7 +414,7 @@ void UAudioRadialSlider::SetOutputRange(const struct FVector2D& InOutputRange)
 // Function AudioWidgets.AudioRadialSlider.SetShowLabelOnlyOnHover
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bShowLabelOnlyOnHover                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bShowLabelOnlyOnHover                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetShowLabelOnlyOnHover(const bool bShowLabelOnlyOnHover)
 {
@@ -439,7 +439,7 @@ void UAudioRadialSlider::SetShowLabelOnlyOnHover(const bool bShowLabelOnlyOnHove
 // Function AudioWidgets.AudioRadialSlider.SetShowUnitsText
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bShowUnitsText                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bShowUnitsText                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetShowUnitsText(const bool bShowUnitsText)
 {
@@ -464,7 +464,7 @@ void UAudioRadialSlider::SetShowUnitsText(const bool bShowUnitsText)
 // Function AudioWidgets.AudioRadialSlider.SetSliderBarColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetSliderBarColor(const struct FLinearColor& InValue)
 {
@@ -489,7 +489,7 @@ void UAudioRadialSlider::SetSliderBarColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioRadialSlider.SetSliderProgressColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetSliderProgressColor(const struct FLinearColor& InValue)
 {
@@ -514,7 +514,7 @@ void UAudioRadialSlider::SetSliderProgressColor(const struct FLinearColor& InVal
 // Function AudioWidgets.AudioRadialSlider.SetSliderThickness
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   InThickness                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             InThickness                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetSliderThickness(const float InThickness)
 {
@@ -539,7 +539,7 @@ void UAudioRadialSlider::SetSliderThickness(const float InThickness)
 // Function AudioWidgets.AudioRadialSlider.SetTextLabelBackgroundColor
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateColor                      InColor                                                (Parm, NativeAccessSpecifierPublic)
+// const struct FSlateColor&               InColor                                                (Parm, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetTextLabelBackgroundColor(const struct FSlateColor& InColor)
 {
@@ -564,7 +564,7 @@ void UAudioRadialSlider::SetTextLabelBackgroundColor(const struct FSlateColor& I
 // Function AudioWidgets.AudioRadialSlider.SetUnitsText
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             Units                                                  (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const class FText&                      Units                                                  (ConstParm, Parm, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetUnitsText(const class FText& Units)
 {
@@ -589,7 +589,7 @@ void UAudioRadialSlider::SetUnitsText(const class FText& Units)
 // Function AudioWidgets.AudioRadialSlider.SetUnitsTextReadOnly
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bIsReadOnly                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bIsReadOnly                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetUnitsTextReadOnly(const bool bIsReadOnly)
 {
@@ -614,7 +614,7 @@ void UAudioRadialSlider::SetUnitsTextReadOnly(const bool bIsReadOnly)
 // Function AudioWidgets.AudioRadialSlider.SetValueTextReadOnly
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bIsReadOnly                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bIsReadOnly                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioRadialSlider::SetValueTextReadOnly(const bool bIsReadOnly)
 {
@@ -664,7 +664,7 @@ void UAudioRadialSlider::SetWidgetLayout(EAudioRadialSliderLayout InLayout)
 // Function AudioWidgets.AudioSliderBase.GetLinValue
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   OutputValue                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             OutputValue                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAudioSliderBase::GetLinValue(const float OutputValue)
@@ -692,7 +692,7 @@ float UAudioSliderBase::GetLinValue(const float OutputValue)
 // Function AudioWidgets.AudioSliderBase.GetOutputValue
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   InSliderValue                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             InSliderValue                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAudioSliderBase::GetOutputValue(const float InSliderValue)
@@ -720,7 +720,7 @@ float UAudioSliderBase::GetOutputValue(const float InSliderValue)
 // Function AudioWidgets.AudioSliderBase.GetSliderValue
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   OutputValue                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             OutputValue                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAudioSliderBase::GetSliderValue(const float OutputValue)
@@ -748,7 +748,7 @@ float UAudioSliderBase::GetSliderValue(const float OutputValue)
 // Function AudioWidgets.AudioSliderBase.SetShowLabelOnlyOnHover
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bShowLabelOnlyOnHover                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bShowLabelOnlyOnHover                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetShowLabelOnlyOnHover(const bool bShowLabelOnlyOnHover)
 {
@@ -773,7 +773,7 @@ void UAudioSliderBase::SetShowLabelOnlyOnHover(const bool bShowLabelOnlyOnHover)
 // Function AudioWidgets.AudioSliderBase.SetShowUnitsText
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bShowUnitsText                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bShowUnitsText                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetShowUnitsText(const bool bShowUnitsText)
 {
@@ -798,7 +798,7 @@ void UAudioSliderBase::SetShowUnitsText(const bool bShowUnitsText)
 // Function AudioWidgets.AudioSliderBase.SetSliderBackgroundColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetSliderBackgroundColor(const struct FLinearColor& InValue)
 {
@@ -823,7 +823,7 @@ void UAudioSliderBase::SetSliderBackgroundColor(const struct FLinearColor& InVal
 // Function AudioWidgets.AudioSliderBase.SetSliderBarColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetSliderBarColor(const struct FLinearColor& InValue)
 {
@@ -848,7 +848,7 @@ void UAudioSliderBase::SetSliderBarColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioSliderBase.SetSliderThumbColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetSliderThumbColor(const struct FLinearColor& InValue)
 {
@@ -873,7 +873,7 @@ void UAudioSliderBase::SetSliderThumbColor(const struct FLinearColor& InValue)
 // Function AudioWidgets.AudioSliderBase.SetTextLabelBackgroundColor
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateColor                      InColor                                                (Parm, NativeAccessSpecifierPublic)
+// const struct FSlateColor&               InColor                                                (Parm, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetTextLabelBackgroundColor(const struct FSlateColor& InColor)
 {
@@ -898,7 +898,7 @@ void UAudioSliderBase::SetTextLabelBackgroundColor(const struct FSlateColor& InC
 // Function AudioWidgets.AudioSliderBase.SetUnitsText
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             Units                                                  (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const class FText&                      Units                                                  (ConstParm, Parm, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetUnitsText(const class FText& Units)
 {
@@ -923,7 +923,7 @@ void UAudioSliderBase::SetUnitsText(const class FText& Units)
 // Function AudioWidgets.AudioSliderBase.SetUnitsTextReadOnly
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bIsReadOnly                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bIsReadOnly                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetUnitsTextReadOnly(const bool bIsReadOnly)
 {
@@ -948,7 +948,7 @@ void UAudioSliderBase::SetUnitsTextReadOnly(const bool bIsReadOnly)
 // Function AudioWidgets.AudioSliderBase.SetValueTextReadOnly
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bIsReadOnly                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bIsReadOnly                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetValueTextReadOnly(const bool bIsReadOnly)
 {
@@ -973,7 +973,7 @@ void UAudioSliderBase::SetValueTextReadOnly(const bool bIsReadOnly)
 // Function AudioWidgets.AudioSliderBase.SetWidgetBackgroundColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAudioSliderBase::SetWidgetBackgroundColor(const struct FLinearColor& InValue)
 {

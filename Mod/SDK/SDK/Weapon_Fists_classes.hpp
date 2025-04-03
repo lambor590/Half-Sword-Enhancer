@@ -18,14 +18,14 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Weapon_Fists.Weapon_Fists_C
-// 0x0020 (0x0B50 - 0x0B30)
+// 0x0020 (0x0B68 - 0x0B48)
 class AWeapon_Fists_C final : public AModularWeaponBP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_Weapon_Fists_C;                     // 0x0B30(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class USphereComponent*                       Sphere;                                            // 0x0B38(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Base1_0;                                           // 0x0B40(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Tip1;                                              // 0x0B48(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	struct FPointerToUberGraphFrame               UberGraphFrame_Weapon_Fists_C;                     // 0x0B48(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class USphereComponent*                       Sphere;                                            // 0x0B50(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Base1_0;                                           // 0x0B58(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0B60(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__Weapon_Fists_Sphere_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -44,11 +44,11 @@ public:
 	}
 };
 static_assert(alignof(AWeapon_Fists_C) == 0x000008, "Wrong alignment on AWeapon_Fists_C");
-static_assert(sizeof(AWeapon_Fists_C) == 0x000B50, "Wrong size on AWeapon_Fists_C");
-static_assert(offsetof(AWeapon_Fists_C, UberGraphFrame_Weapon_Fists_C) == 0x000B30, "Member 'AWeapon_Fists_C::UberGraphFrame_Weapon_Fists_C' has a wrong offset!");
-static_assert(offsetof(AWeapon_Fists_C, Sphere) == 0x000B38, "Member 'AWeapon_Fists_C::Sphere' has a wrong offset!");
-static_assert(offsetof(AWeapon_Fists_C, Base1_0) == 0x000B40, "Member 'AWeapon_Fists_C::Base1_0' has a wrong offset!");
-static_assert(offsetof(AWeapon_Fists_C, Tip1) == 0x000B48, "Member 'AWeapon_Fists_C::Tip1' has a wrong offset!");
+static_assert(sizeof(AWeapon_Fists_C) == 0x000B68, "Wrong size on AWeapon_Fists_C");
+static_assert(offsetof(AWeapon_Fists_C, UberGraphFrame_Weapon_Fists_C) == 0x000B48, "Member 'AWeapon_Fists_C::UberGraphFrame_Weapon_Fists_C' has a wrong offset!");
+static_assert(offsetof(AWeapon_Fists_C, Sphere) == 0x000B50, "Member 'AWeapon_Fists_C::Sphere' has a wrong offset!");
+static_assert(offsetof(AWeapon_Fists_C, Base1_0) == 0x000B58, "Member 'AWeapon_Fists_C::Base1_0' has a wrong offset!");
+static_assert(offsetof(AWeapon_Fists_C, Tip1) == 0x000B60, "Member 'AWeapon_Fists_C::Tip1' has a wrong offset!");
 
 }
 

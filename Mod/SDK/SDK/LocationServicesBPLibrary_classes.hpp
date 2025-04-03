@@ -49,7 +49,7 @@ static_assert(sizeof(ULocationServices) == 0x000028, "Wrong size on ULocationSer
 class ULocationServicesImpl final : public UObject
 {
 public:
-	TMulticastInlineDelegate<void(const struct FLocationServicesData& LocationData)> OnLocationChanged;                                 // 0x0028(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FLocationServicesData& LocationData)> OnLocationChanged; // 0x0028(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()

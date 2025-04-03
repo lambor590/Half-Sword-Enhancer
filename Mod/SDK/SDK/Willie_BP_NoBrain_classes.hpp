@@ -18,12 +18,12 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Willie_BP_NoBrain.Willie_BP_NoBrain_C
-// 0x0000 (0x3990 - 0x3990)
+// 0x0000 (0x3A30 - 0x3A30)
 class AWillie_BP_NoBrain_C final : public AWillie_BP_C
 {
 public:
-	uint8                                         Pad_3982[0x6];                                     // 0x3982(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_NoBrain_C;                // 0x3988(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	uint8                                         Pad_3A24[0x4];                                     // 0x3A24(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_NoBrain_C;                // 0x3A28(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
 	void ExecuteUbergraph_Willie_BP_NoBrain(int32 EntryPoint);
@@ -41,8 +41,8 @@ public:
 	}
 };
 static_assert(alignof(AWillie_BP_NoBrain_C) == 0x000010, "Wrong alignment on AWillie_BP_NoBrain_C");
-static_assert(sizeof(AWillie_BP_NoBrain_C) == 0x003990, "Wrong size on AWillie_BP_NoBrain_C");
-static_assert(offsetof(AWillie_BP_NoBrain_C, UberGraphFrame_Willie_BP_NoBrain_C) == 0x003988, "Member 'AWillie_BP_NoBrain_C::UberGraphFrame_Willie_BP_NoBrain_C' has a wrong offset!");
+static_assert(sizeof(AWillie_BP_NoBrain_C) == 0x003A30, "Wrong size on AWillie_BP_NoBrain_C");
+static_assert(offsetof(AWillie_BP_NoBrain_C, UberGraphFrame_Willie_BP_NoBrain_C) == 0x003A28, "Member 'AWillie_BP_NoBrain_C::UberGraphFrame_Willie_BP_NoBrain_C' has a wrong offset!");
 
 }
 

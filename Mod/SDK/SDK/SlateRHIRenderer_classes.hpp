@@ -25,7 +25,7 @@ namespace SDK
 class USlateFXSubsystem final : public UEngineSubsystem
 {
 public:
-	TMap<ESlatePostRT, class USlateRHIPostBufferProcessor*> SlatePostBufferProcessors;                         // 0x0030(0x0050)(Transient, UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<ESlatePostRT, class USlateRHIPostBufferProcessor*> SlatePostBufferProcessors;               // 0x0030(0x0050)(Transient, UObjectWrapper, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_80[0x50];                                      // 0x0080(0x0050)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

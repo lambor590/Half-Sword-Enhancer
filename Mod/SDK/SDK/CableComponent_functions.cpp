@@ -126,7 +126,7 @@ class USceneComponent* UCableComponent::GetAttachedComponent() const
 // Function CableComponent.CableComponent.GetCableParticleLocations
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<struct FVector>                  Locations                                              (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<struct FVector>*                 Locations                                              (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UCableComponent::GetCableParticleLocations(TArray<struct FVector>* Locations) const
 {

@@ -254,7 +254,7 @@ void ALandscapeProxy::SetLandscapeMaterialTextureParameterValue(class FName Para
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class FName                             ParameterName                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     Value                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Value                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void ALandscapeProxy::SetLandscapeMaterialVectorParameterValue(class FName ParameterName, const struct FLinearColor& Value)
 {
@@ -305,8 +305,8 @@ void ALandscapeProxy::SetVirtualTextureRenderPassType(ERuntimeVirtualTextureMain
 // Function Landscape.Landscape.RenderHeightmap
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FTransform                       InWorldTransform                                       (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FBox2D                           InExtents                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FTransform&                InWorldTransform                                       (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FBox2D&                    InExtents                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // class UTextureRenderTarget2D*           OutRenderTarget                                        (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -337,8 +337,8 @@ bool ALandscape::RenderHeightmap(const struct FTransform& InWorldTransform, cons
 // Function Landscape.Landscape.RenderWeightmap
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FTransform                       InWorldTransform                                       (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FBox2D                           InExtents                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FTransform&                InWorldTransform                                       (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FBox2D&                    InExtents                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // class FName                             InWeightmapLayerName                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UTextureRenderTarget2D*           OutRenderTarget                                        (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -371,9 +371,9 @@ bool ALandscape::RenderWeightmap(const struct FTransform& InWorldTransform, cons
 // Function Landscape.Landscape.RenderWeightmaps
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FTransform                       InWorldTransform                                       (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FBox2D                           InExtents                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// TArray<class FName>                     InWeightmapLayerNames                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTransform&                InWorldTransform                                       (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FBox2D&                    InExtents                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const TArray<class FName>&              InWeightmapLayerNames                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // class UTextureRenderTarget*             OutRenderTarget                                        (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -433,7 +433,7 @@ TArray<class FName> ALandscape::GetTargetLayerNames(bool bInIncludeVisibilityLay
 // Function Landscape.LandscapeComponent.EditorGetPaintLayerWeightAtLocation
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector                          InLocation                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   InLocation                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class ULandscapeLayerInfoObject*        PaintLayer                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -463,8 +463,8 @@ float ULandscapeComponent::EditorGetPaintLayerWeightAtLocation(const struct FVec
 // Function Landscape.LandscapeComponent.EditorGetPaintLayerWeightByNameAtLocation
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector                          InLocation                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             InPaintLayerName                                       (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   InLocation                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       InPaintLayerName                                       (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float ULandscapeComponent::EditorGetPaintLayerWeightByNameAtLocation(const struct FVector& InLocation, const class FName InPaintLayerName)
@@ -621,7 +621,7 @@ TArray<class USplineMeshComponent*> ULandscapeSplinesComponent::GetSplineMeshCom
 // Function Landscape.LandscapeBlueprintBrushBase.GetBlueprintRenderDependencies
 // (RequiredAPI, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// TArray<class UObject*>                  OutStreamableAssets                                    (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class UObject*>*                 OutStreamableAssets                                    (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void ALandscapeBlueprintBrushBase::GetBlueprintRenderDependencies(TArray<class UObject*>* OutStreamableAssets)
 {
@@ -642,9 +642,9 @@ void ALandscapeBlueprintBrushBase::GetBlueprintRenderDependencies(TArray<class U
 // Function Landscape.LandscapeBlueprintBrushBase.Initialize
 // (RequiredAPI, Native, Event, Public, HasOutParams, HasDefaults, BlueprintEvent)
 // Parameters:
-// struct FTransform                       InLandscapeTransform                                   (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FIntPoint                        InLandscapeSize                                        (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FIntPoint                        InLandscapeRenderTargetSize                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                InLandscapeTransform                                   (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FIntPoint&                 InLandscapeSize                                        (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FIntPoint&                 InLandscapeRenderTargetSize                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void ALandscapeBlueprintBrushBase::Initialize(const struct FTransform& InLandscapeTransform, const struct FIntPoint& InLandscapeSize, const struct FIntPoint& InLandscapeRenderTargetSize)
 {
@@ -673,7 +673,7 @@ void ALandscapeBlueprintBrushBase::Initialize(const struct FTransform& InLandsca
 // Parameters:
 // bool                                    InIsHeightmap                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UTextureRenderTarget2D*           InCombinedResult                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             InWeightmapLayerName                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      InWeightmapLayerName                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UTextureRenderTarget2D*           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UTextureRenderTarget2D* ALandscapeBlueprintBrushBase::Render(bool InIsHeightmap, class UTextureRenderTarget2D* InCombinedResult, const class FName& InWeightmapLayerName)
@@ -703,7 +703,7 @@ class UTextureRenderTarget2D* ALandscapeBlueprintBrushBase::Render(bool InIsHeig
 // Function Landscape.LandscapeBlueprintBrushBase.RenderLayer
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FLandscapeBrushParameters        InParameters                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FLandscapeBrushParameters& InParameters                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UTextureRenderTarget2D*           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UTextureRenderTarget2D* ALandscapeBlueprintBrushBase::RenderLayer(const struct FLandscapeBrushParameters& InParameters)

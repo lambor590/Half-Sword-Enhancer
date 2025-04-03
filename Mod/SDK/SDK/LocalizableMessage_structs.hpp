@@ -36,7 +36,7 @@ struct FLocalizableMessage final
 public:
 	class FString                                 Key;                                               // 0x0000(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 DefaultText;                                       // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FLocalizableMessageParameterEntry> Substitutions;                                     // 0x0020(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FLocalizableMessageParameterEntry> Substitutions;                                  // 0x0020(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FLocalizableMessage) == 0x000008, "Wrong alignment on FLocalizableMessage");
 static_assert(sizeof(FLocalizableMessage) == 0x000030, "Wrong size on FLocalizableMessage");

@@ -19,17 +19,16 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Willie_BP_DressUp.Willie_BP_DressUp_C
-// 0x0020 (0x39B0 - 0x3990)
+// 0x0020 (0x3A50 - 0x3A30)
 class AWillie_BP_DressUp_C final : public AWillie_BP_C
 {
 public:
-	uint8                                         Pad_3982[0x6];                                     // 0x3982(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_DressUp_C;                // 0x3988(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	struct FVector                                NewVar_4_0;                                        // 0x3990(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3A24[0x4];                                     // 0x3A24(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_DressUp_C;                // 0x3A28(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FVector                                NewVar_4_0;                                        // 0x3A30(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint);
-	void Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double* Damage_Out);
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
 
@@ -44,9 +43,9 @@ public:
 	}
 };
 static_assert(alignof(AWillie_BP_DressUp_C) == 0x000010, "Wrong alignment on AWillie_BP_DressUp_C");
-static_assert(sizeof(AWillie_BP_DressUp_C) == 0x0039B0, "Wrong size on AWillie_BP_DressUp_C");
-static_assert(offsetof(AWillie_BP_DressUp_C, UberGraphFrame_Willie_BP_DressUp_C) == 0x003988, "Member 'AWillie_BP_DressUp_C::UberGraphFrame_Willie_BP_DressUp_C' has a wrong offset!");
-static_assert(offsetof(AWillie_BP_DressUp_C, NewVar_4_0) == 0x003990, "Member 'AWillie_BP_DressUp_C::NewVar_4_0' has a wrong offset!");
+static_assert(sizeof(AWillie_BP_DressUp_C) == 0x003A50, "Wrong size on AWillie_BP_DressUp_C");
+static_assert(offsetof(AWillie_BP_DressUp_C, UberGraphFrame_Willie_BP_DressUp_C) == 0x003A28, "Member 'AWillie_BP_DressUp_C::UberGraphFrame_Willie_BP_DressUp_C' has a wrong offset!");
+static_assert(offsetof(AWillie_BP_DressUp_C, NewVar_4_0) == 0x003A30, "Member 'AWillie_BP_DressUp_C::NewVar_4_0' has a wrong offset!");
 
 }
 

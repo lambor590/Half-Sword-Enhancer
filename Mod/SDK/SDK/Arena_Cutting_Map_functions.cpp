@@ -17,6 +17,20 @@
 namespace SDK
 {
 
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Baron Waves Spawn
+// (BlueprintCallable, BlueprintEvent)
+
+void AArena_Cutting_Map_C::Baron_Waves_Spawn()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "Baron Waves Spawn");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -248,6 +262,20 @@ void AArena_Cutting_Map_C::ReceiveTick(float DeltaSeconds)
 	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Spawn Trash
+// (BlueprintCallable, BlueprintEvent)
+
+void AArena_Cutting_Map_C::Spawn_Trash()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "Spawn Trash");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

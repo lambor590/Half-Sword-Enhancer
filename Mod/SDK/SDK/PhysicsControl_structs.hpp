@@ -405,9 +405,9 @@ static_assert(offsetof(FPhysicsControlNamedModifierParameters, Data) == 0x000008
 struct FPhysicsControlControlAndModifierParameters final
 {
 public:
-	TArray<struct FPhysicsControlNamedControlParameters> ControlParameters;                                 // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FPhysicsControlNamedControlMultiplierParameters> ControlMultiplierParameters;                       // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FPhysicsControlNamedModifierParameters> ModifierParameters;                                // 0x0020(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FPhysicsControlNamedControlParameters> ControlParameters;                          // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FPhysicsControlNamedControlMultiplierParameters> ControlMultiplierParameters;      // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FPhysicsControlNamedModifierParameters> ModifierParameters;                        // 0x0020(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FPhysicsControlControlAndModifierParameters) == 0x000008, "Wrong alignment on FPhysicsControlControlAndModifierParameters");
 static_assert(sizeof(FPhysicsControlControlAndModifierParameters) == 0x000030, "Wrong size on FPhysicsControlControlAndModifierParameters");
@@ -420,9 +420,9 @@ static_assert(offsetof(FPhysicsControlControlAndModifierParameters, ModifierPara
 struct FPhysicsControlControlAndModifierUpdates final
 {
 public:
-	TArray<struct FPhysicsControlNamedControlParameters> ControlUpdates;                                    // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FPhysicsControlNamedControlMultiplierParameters> ControlMultiplierUpdates;                          // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FPhysicsControlNamedModifierParameters> ModifierUpdates;                                   // 0x0020(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FPhysicsControlNamedControlParameters> ControlUpdates;                             // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FPhysicsControlNamedControlMultiplierParameters> ControlMultiplierUpdates;         // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FPhysicsControlNamedModifierParameters> ModifierUpdates;                           // 0x0020(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FPhysicsControlControlAndModifierUpdates) == 0x000008, "Wrong alignment on FPhysicsControlControlAndModifierUpdates");
 static_assert(sizeof(FPhysicsControlControlAndModifierUpdates) == 0x000030, "Wrong size on FPhysicsControlControlAndModifierUpdates");
@@ -435,8 +435,8 @@ static_assert(offsetof(FPhysicsControlControlAndModifierUpdates, ModifierUpdates
 struct FPhysicsControlAndBodyModifierCreationDatas final
 {
 public:
-	TMap<class FName, struct FPhysicsControlCreationData> Controls;                                          // 0x0000(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsBodyModifierCreationData> Modifiers;                                         // 0x0050(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlCreationData> Controls;                                  // 0x0000(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsBodyModifierCreationData> Modifiers;                            // 0x0050(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FPhysicsControlAndBodyModifierCreationDatas) == 0x000008, "Wrong alignment on FPhysicsControlAndBodyModifierCreationDatas");
 static_assert(sizeof(FPhysicsControlAndBodyModifierCreationDatas) == 0x0000A0, "Wrong size on FPhysicsControlAndBodyModifierCreationDatas");
@@ -517,7 +517,7 @@ static_assert(offsetof(FRigidBodyControlTarget, TargetOrientation) == 0x000018, 
 struct FRigidBodyControlTargets final
 {
 public:
-	TMap<class FName, struct FRigidBodyControlTarget> Targets;                                           // 0x0000(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FRigidBodyControlTarget> Targets;                                       // 0x0000(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigidBodyControlTargets) == 0x000008, "Wrong alignment on FRigidBodyControlTargets");
 static_assert(sizeof(FRigidBodyControlTargets) == 0x000050, "Wrong size on FRigidBodyControlTargets");
@@ -543,7 +543,7 @@ static_assert(offsetof(FRigidBodyKinematicTarget, TargetOrientation) == 0x000018
 struct FRigidBodyKinematicTargets final
 {
 public:
-	TMap<class FName, struct FRigidBodyKinematicTarget> Targets;                                           // 0x0000(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FRigidBodyKinematicTarget> Targets;                                     // 0x0000(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigidBodyKinematicTargets) == 0x000008, "Wrong alignment on FRigidBodyKinematicTargets");
 static_assert(sizeof(FRigidBodyKinematicTargets) == 0x000050, "Wrong size on FRigidBodyKinematicTargets");
@@ -590,11 +590,11 @@ public:
 	struct FPhysicsControlCharacterSetupData      CharacterSetupData;                                // 0x0368(0x00C0)(Edit, NativeAccessSpecifierPublic)
 	bool                                          bEnableCharacterSetupData;                         // 0x0428(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_429[0x7];                                      // 0x0429(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPhysicsControlAndBodyModifierCreationDatas AdditionalControlsAndBodyModifiers;                // 0x0430(0x00A0)(Edit, NativeAccessSpecifierPublic)
+	struct FPhysicsControlAndBodyModifierCreationDatas AdditionalControlsAndBodyModifiers;           // 0x0430(0x00A0)(Edit, NativeAccessSpecifierPublic)
 	struct FPhysicsControlSetUpdates              AdditionalSets;                                    // 0x04D0(0x0020)(Edit, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters InitialControlAndBodyModifierUpdates;              // 0x04F0(0x0030)(Edit, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters ControlAndModifierParameters;                      // 0x0520(0x0030)(Edit, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierUpdates ControlAndModifierUpdates;                         // 0x0550(0x0030)(Edit, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InitialControlAndBodyModifierUpdates;         // 0x04F0(0x0030)(Edit, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters ControlAndModifierParameters;                 // 0x0520(0x0030)(Edit, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierUpdates ControlAndModifierUpdates;                       // 0x0550(0x0030)(Edit, NativeAccessSpecifierPublic)
 	struct FRigidBodyControlTargets               ControlTargets;                                    // 0x0580(0x0050)(Edit, NativeAccessSpecifierPublic)
 	struct FRigidBodyKinematicTargets             KinematicTargets;                                  // 0x05D0(0x0050)(Edit, NativeAccessSpecifierPublic)
 	class USkeletalMesh*                          PhysicsAssetAuthoredSkeletalMesh;                  // 0x0620(0x0008)(Edit, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)

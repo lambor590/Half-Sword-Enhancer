@@ -10,22 +10,22 @@
 
 #include "Basic.hpp"
 
-#include "MeleeCombatRange_Enum_structs.hpp"
-#include "GripType_Enum_structs.hpp"
-#include "AI_AttackStage_Enum_structs.hpp"
-#include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "MeleeCombatRange_Enum_structs.hpp"
+#include "Engine_structs.hpp"
+#include "AI_CombatBehavior_Enum_structs.hpp"
+#include "AI_Strafe_Enum_structs.hpp"
+#include "AI_AttackStage_Enum_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "AIModule_structs.hpp"
 #include "AIModule_classes.hpp"
-#include "AI_Strafe_Enum_structs.hpp"
-#include "AI_CombatBehavior_Enum_structs.hpp"
 
 
 namespace SDK
 {
 
 // BlueprintGeneratedClass AI_BP.AI_BP_C
-// 0x0450 (0x0808 - 0x03B8)
+// 0x0460 (0x0818 - 0x03B8)
 class AAI_BP_C final : public ADetourCrowdAIController
 {
 public:
@@ -180,6 +180,12 @@ public:
 	double                                        Get_Up_Timer;                                      // 0x07F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Use_Alt_Against_Armor_Rate;                        // 0x07F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Enemy_Armor_Rate;                                  // 0x0800(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Alt_Grip_Toggled;                                  // 0x0808(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_809[0x3];                                      // 0x0809(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         Z__Yaw_;                                           // 0x080C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          R_Grabbed;                                         // 0x0810(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Abyss;                                             // 0x0811(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Weapons_Initialized;                               // 0x0812(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Attack();
@@ -202,7 +208,7 @@ public:
 	}
 };
 static_assert(alignof(AAI_BP_C) == 0x000008, "Wrong alignment on AAI_BP_C");
-static_assert(sizeof(AAI_BP_C) == 0x000808, "Wrong size on AAI_BP_C");
+static_assert(sizeof(AAI_BP_C) == 0x000818, "Wrong size on AAI_BP_C");
 static_assert(offsetof(AAI_BP_C, UberGraphFrame) == 0x0003B8, "Member 'AAI_BP_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(AAI_BP_C, Target) == 0x0003C0, "Member 'AAI_BP_C::Target' has a wrong offset!");
 static_assert(offsetof(AAI_BP_C, My_Pawn) == 0x0003C8, "Member 'AAI_BP_C::My_Pawn' has a wrong offset!");
@@ -330,6 +336,11 @@ static_assert(offsetof(AAI_BP_C, Searching_Grip_Timer) == 0x0007E8, "Member 'AAI
 static_assert(offsetof(AAI_BP_C, Get_Up_Timer) == 0x0007F0, "Member 'AAI_BP_C::Get_Up_Timer' has a wrong offset!");
 static_assert(offsetof(AAI_BP_C, Use_Alt_Against_Armor_Rate) == 0x0007F8, "Member 'AAI_BP_C::Use_Alt_Against_Armor_Rate' has a wrong offset!");
 static_assert(offsetof(AAI_BP_C, Enemy_Armor_Rate) == 0x000800, "Member 'AAI_BP_C::Enemy_Armor_Rate' has a wrong offset!");
+static_assert(offsetof(AAI_BP_C, Alt_Grip_Toggled) == 0x000808, "Member 'AAI_BP_C::Alt_Grip_Toggled' has a wrong offset!");
+static_assert(offsetof(AAI_BP_C, Z__Yaw_) == 0x00080C, "Member 'AAI_BP_C::Z__Yaw_' has a wrong offset!");
+static_assert(offsetof(AAI_BP_C, R_Grabbed) == 0x000810, "Member 'AAI_BP_C::R_Grabbed' has a wrong offset!");
+static_assert(offsetof(AAI_BP_C, Abyss) == 0x000811, "Member 'AAI_BP_C::Abyss' has a wrong offset!");
+static_assert(offsetof(AAI_BP_C, Weapons_Initialized) == 0x000812, "Member 'AAI_BP_C::Weapons_Initialized' has a wrong offset!");
 
 }
 

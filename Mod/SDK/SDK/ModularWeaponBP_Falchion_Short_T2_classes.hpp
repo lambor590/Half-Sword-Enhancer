@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_Falchion_Short_T2.ModularWeaponBP_Falchion_Short_T2_C
-// 0x0000 (0x0B30 - 0x0B30)
+// 0x0000 (0x0B48 - 0x0B48)
 class AModularWeaponBP_Falchion_Short_T2_C final : public AModularWeaponBP_C
 {
 public:
@@ -31,7 +31,7 @@ public:
 	}
 };
 static_assert(alignof(AModularWeaponBP_Falchion_Short_T2_C) == 0x000008, "Wrong alignment on AModularWeaponBP_Falchion_Short_T2_C");
-static_assert(sizeof(AModularWeaponBP_Falchion_Short_T2_C) == 0x000B30, "Wrong size on AModularWeaponBP_Falchion_Short_T2_C");
+static_assert(sizeof(AModularWeaponBP_Falchion_Short_T2_C) == 0x000B48, "Wrong size on AModularWeaponBP_Falchion_Short_T2_C");
 
 }
 

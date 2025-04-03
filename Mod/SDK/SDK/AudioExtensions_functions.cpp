@@ -25,12 +25,12 @@ void IAudioParameterControllerInterface::ResetParameters()
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "ResetParameters");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "ResetParameters");
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, nullptr);
+	AsUObject()->ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -40,14 +40,14 @@ void IAudioParameterControllerInterface::ResetParameters()
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InName                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<bool>                            InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<bool>&                     InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void IAudioParameterControllerInterface::SetBoolArrayParameter(class FName InName, const TArray<bool>& InValue)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetBoolArrayParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetBoolArrayParameter");
 
 	Params::AudioParameterControllerInterface_SetBoolArrayParameter Parms{};
 
@@ -57,7 +57,7 @@ void IAudioParameterControllerInterface::SetBoolArrayParameter(class FName InNam
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -74,7 +74,7 @@ void IAudioParameterControllerInterface::SetBoolParameter(class FName InName, bo
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetBoolParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetBoolParameter");
 
 	Params::AudioParameterControllerInterface_SetBoolParameter Parms{};
 
@@ -84,7 +84,7 @@ void IAudioParameterControllerInterface::SetBoolParameter(class FName InName, bo
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -94,14 +94,14 @@ void IAudioParameterControllerInterface::SetBoolParameter(class FName InName, bo
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InName                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<float>                           InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<float>&                    InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void IAudioParameterControllerInterface::SetFloatArrayParameter(class FName InName, const TArray<float>& InValue)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetFloatArrayParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetFloatArrayParameter");
 
 	Params::AudioParameterControllerInterface_SetFloatArrayParameter Parms{};
 
@@ -111,7 +111,7 @@ void IAudioParameterControllerInterface::SetFloatArrayParameter(class FName InNa
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -128,7 +128,7 @@ void IAudioParameterControllerInterface::SetFloatParameter(class FName InName, f
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetFloatParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetFloatParameter");
 
 	Params::AudioParameterControllerInterface_SetFloatParameter Parms{};
 
@@ -138,7 +138,7 @@ void IAudioParameterControllerInterface::SetFloatParameter(class FName InName, f
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -148,14 +148,14 @@ void IAudioParameterControllerInterface::SetFloatParameter(class FName InName, f
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InName                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<int32>                           InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<int32>&                    InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void IAudioParameterControllerInterface::SetIntArrayParameter(class FName InName, const TArray<int32>& InValue)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetIntArrayParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetIntArrayParameter");
 
 	Params::AudioParameterControllerInterface_SetIntArrayParameter Parms{};
 
@@ -165,7 +165,7 @@ void IAudioParameterControllerInterface::SetIntArrayParameter(class FName InName
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -182,7 +182,7 @@ void IAudioParameterControllerInterface::SetIntParameter(class FName InName, int
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetIntParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetIntParameter");
 
 	Params::AudioParameterControllerInterface_SetIntParameter Parms{};
 
@@ -192,7 +192,7 @@ void IAudioParameterControllerInterface::SetIntParameter(class FName InName, int
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -202,14 +202,14 @@ void IAudioParameterControllerInterface::SetIntParameter(class FName InName, int
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InName                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class UObject*>                  InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class UObject*>&           InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void IAudioParameterControllerInterface::SetObjectArrayParameter(class FName InName, const TArray<class UObject*>& InValue)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetObjectArrayParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetObjectArrayParameter");
 
 	Params::AudioParameterControllerInterface_SetObjectArrayParameter Parms{};
 
@@ -219,7 +219,7 @@ void IAudioParameterControllerInterface::SetObjectArrayParameter(class FName InN
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -236,7 +236,7 @@ void IAudioParameterControllerInterface::SetObjectParameter(class FName InName, 
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetObjectParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetObjectParameter");
 
 	Params::AudioParameterControllerInterface_SetObjectParameter Parms{};
 
@@ -246,7 +246,7 @@ void IAudioParameterControllerInterface::SetObjectParameter(class FName InName, 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -255,14 +255,14 @@ void IAudioParameterControllerInterface::SetObjectParameter(class FName InName, 
 // Function AudioExtensions.AudioParameterControllerInterface.SetParameters_Blueprint
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FAudioParameter>          InParameters                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<struct FAudioParameter>&   InParameters                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void IAudioParameterControllerInterface::SetParameters_Blueprint(const TArray<struct FAudioParameter>& InParameters)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetParameters_Blueprint");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetParameters_Blueprint");
 
 	Params::AudioParameterControllerInterface_SetParameters_Blueprint Parms{};
 
@@ -271,7 +271,7 @@ void IAudioParameterControllerInterface::SetParameters_Blueprint(const TArray<st
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -281,14 +281,14 @@ void IAudioParameterControllerInterface::SetParameters_Blueprint(const TArray<st
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InName                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FString>                   InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class FString>&            InValue                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void IAudioParameterControllerInterface::SetStringArrayParameter(class FName InName, const TArray<class FString>& InValue)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetStringArrayParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetStringArrayParameter");
 
 	Params::AudioParameterControllerInterface_SetStringArrayParameter Parms{};
 
@@ -298,7 +298,7 @@ void IAudioParameterControllerInterface::SetStringArrayParameter(class FName InN
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -308,14 +308,14 @@ void IAudioParameterControllerInterface::SetStringArrayParameter(class FName InN
 // (Native, Public, BlueprintCallable)
 // Parameters:
 // class FName                             InName                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           InValue                                                (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InValue                                                (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void IAudioParameterControllerInterface::SetStringParameter(class FName InName, const class FString& InValue)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetStringParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetStringParameter");
 
 	Params::AudioParameterControllerInterface_SetStringParameter Parms{};
 
@@ -325,7 +325,7 @@ void IAudioParameterControllerInterface::SetStringParameter(class FName InName, 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -341,7 +341,7 @@ void IAudioParameterControllerInterface::SetTriggerParameter(class FName InName)
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioParameterControllerInterface", "SetTriggerParameter");
+		Func = AsUObject()->Class->GetFunction("AudioParameterControllerInterface", "SetTriggerParameter");
 
 	Params::AudioParameterControllerInterface_SetTriggerParameter Parms{};
 
@@ -350,7 +350,7 @@ void IAudioParameterControllerInterface::SetTriggerParameter(class FName InName)
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }

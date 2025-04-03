@@ -17,90 +17,133 @@ namespace SDK::Params
 {
 
 // Function UI_WIN.UI_WIN_C.ExecuteUbergraph_UI_WIN
-// 0x00F8 (0x00F8 - 0x0000)
+// 0x0160 (0x0160 - 0x0000)
 struct UI_WIN_C_ExecuteUbergraph_UI_WIN final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_DoubleDouble_ReturnValue;    // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Has_Been_Initd_Variable;                 // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_IsClosed_Variable;                       // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_Event_IsDesignTime;                         // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x0008(0x0038)(IsPlainOldData, NoDestructor)
-	float                                         K2Node_Event_InDeltaTime;                          // 0x0040(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_44[0x4];                                       // 0x0044(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0048(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Add_DoubleDouble_ReturnValue;             // 0x0058(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_FClamp_ReturnValue;                       // 0x0060(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_1;              // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Has_Been_Initd_Variable_1;               // 0x0070(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable; // 0x0071(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_72[0x6];                                       // 0x0072(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0078(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_2;              // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x0090(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0098(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0099(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_9A[0x6];                                       // 0x009A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_MapRangeClamped_ReturnValue;              // 0x00A0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1;  // 0x00A8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_A9[0x7];                                       // 0x00A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class ACharacter*                             CallFunc_GetPlayerCharacter_ReturnValue;           // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AWillie_BP_C*                           K2Node_DynamicCast_AsWillie_BP;                    // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x00C0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x00C1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_DoubleDouble_ReturnValue;            // 0x00C2(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_C3[0x5];                                       // 0x00C3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	class UUI_Cards_C*                            CallFunc_Create_ReturnValue;                       // 0x00C8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x00D0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_D1[0x7];                                       // 0x00D1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x00E0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_IsClosed_Variable_1;                     // 0x00E1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E2[0x2];                                       // 0x00E2(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         CallFunc_SetOpacity_InOpacity_ImplicitCast;        // 0x00E4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Multiply_DoubleDouble_A_ImplicitCast;     // 0x00E8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast; // 0x00F0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ByteByte_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_6[0x2];                                        // 0x0006(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	class UClass*                                 Temp_class_Variable;                               // 0x0008(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable_1;                              // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UClass*                                 Temp_class_Variable_1;                             // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 Temp_class_Variable_2;                             // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable_2;                              // 0x0028(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_29[0x7];                                       // 0x0029(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UClass*                                 Temp_class_Variable_3;                             // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable; // 0x0038(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_IsClosed_Variable;                       // 0x0039(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Has_Been_Initd_Variable;                 // 0x003A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Has_Been_Initd_Variable_1;               // 0x003B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_Event_IsDesignTime;                         // 0x003C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3D[0x3];                                       // 0x003D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x0040(0x0038)(IsPlainOldData, NoDestructor)
+	float                                         K2Node_Event_InDeltaTime;                          // 0x0078(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_7C[0x4];                                       // 0x007C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0080(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_1;              // 0x0090(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0098(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_2;              // 0x00A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x00A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x00B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x00B9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_BA[0x6];                                       // 0x00BA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_MapRangeClamped_ReturnValue;              // 0x00C0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_DoubleDouble_ReturnValue;    // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_C9[0x7];                                       // 0x00C9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class ACharacter*                             CallFunc_GetPlayerCharacter_ReturnValue;           // 0x00D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AWillie_BP_C*                           K2Node_DynamicCast_AsWillie_BP;                    // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x00E0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x00E1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_DoubleDouble_ReturnValue;            // 0x00E2(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x00E3(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E4[0x4];                                       // 0x00E4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x00E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_IsClosed_Variable_1;                     // 0x00F0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x00F1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_F2[0x6];                                       // 0x00F2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_Add_DoubleDouble_ReturnValue;             // 0x00F8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_FClamp_ReturnValue;                       // 0x0100(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0108(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x010C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x010D(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_10E[0x2];                                      // 0x010E(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	class UClass*                                 K2Node_Select_Default;                             // 0x0110(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1;  // 0x0118(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0119(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x011A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_11B[0x5];                                      // 0x011B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	class UClass*                                 Temp_class_Variable_4;                             // 0x0120(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable_3;                              // 0x0128(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_129[0x7];                                      // 0x0129(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UClass*                                 K2Node_Select_Default_1;                           // 0x0130(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 K2Node_Select_Default_2;                           // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UClass*                                 K2Node_Select_Default_3;                           // 0x0140(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUserWidget*                            CallFunc_Create_ReturnValue;                       // 0x0148(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Multiply_DoubleDouble_A_ImplicitCast;     // 0x0150(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast; // 0x0158(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetOpacity_InOpacity_ImplicitCast;        // 0x015C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(UI_WIN_C_ExecuteUbergraph_UI_WIN) == 0x000008, "Wrong alignment on UI_WIN_C_ExecuteUbergraph_UI_WIN");
-static_assert(sizeof(UI_WIN_C_ExecuteUbergraph_UI_WIN) == 0x0000F8, "Wrong size on UI_WIN_C_ExecuteUbergraph_UI_WIN");
+static_assert(sizeof(UI_WIN_C_ExecuteUbergraph_UI_WIN) == 0x000160, "Wrong size on UI_WIN_C_ExecuteUbergraph_UI_WIN");
 static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, EntryPoint) == 0x000000, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::EntryPoint' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GreaterEqual_DoubleDouble_ReturnValue) == 0x000004, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GreaterEqual_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Has_Been_Initd_Variable) == 0x000005, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Has_Been_Initd_Variable' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_IsClosed_Variable) == 0x000006, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_IsClosed_Variable' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Event_IsDesignTime) == 0x000007, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Event_IsDesignTime' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Event_MyGeometry) == 0x000008, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Event_MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Event_InDeltaTime) == 0x000040, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Event_InDeltaTime' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Multiply_DoubleDouble_ReturnValue) == 0x000048, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Multiply_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_PlayAnimation_ReturnValue) == 0x000050, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Add_DoubleDouble_ReturnValue) == 0x000058, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Add_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_FClamp_ReturnValue) == 0x000060, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_FClamp_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_PlayAnimation_ReturnValue_1) == 0x000068, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_PlayAnimation_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Has_Been_Initd_Variable_1) == 0x000070, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Has_Been_Initd_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable) == 0x000071, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GetPlayerController_ReturnValue) == 0x000078, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_PlayAnimation_ReturnValue_2) == 0x000080, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_PlayAnimation_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GetGameMode_ReturnValue) == 0x000088, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x000090, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_DynamicCast_bSuccess) == 0x000098, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_DynamicCast_bSuccess' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_IsValid_ReturnValue) == 0x000099, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_IsValid_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_MapRangeClamped_ReturnValue) == 0x0000A0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_MapRangeClamped_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1) == 0x0000A8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GetPlayerCharacter_ReturnValue) == 0x0000B0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GetPlayerCharacter_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_DynamicCast_AsWillie_BP) == 0x0000B8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_DynamicCast_AsWillie_BP' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_DynamicCast_bSuccess_1) == 0x0000C0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Not_PreBool_ReturnValue) == 0x0000C1, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Less_DoubleDouble_ReturnValue) == 0x0000C2, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Less_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Create_ReturnValue) == 0x0000C8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Create_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_BooleanAND_ReturnValue) == 0x0000D0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GetPlayerController_ReturnValue_1) == 0x0000D8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_IsValid_ReturnValue_1) == 0x0000E0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_IsValid_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_IsClosed_Variable_1) == 0x0000E1, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_IsClosed_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_SetOpacity_InOpacity_ImplicitCast) == 0x0000E4, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_SetOpacity_InOpacity_ImplicitCast' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Multiply_DoubleDouble_A_ImplicitCast) == 0x0000E8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Multiply_DoubleDouble_A_ImplicitCast' has a wrong offset!");
-static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast) == 0x0000F0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_EqualEqual_ByteByte_ReturnValue) == 0x000004, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_EqualEqual_ByteByte_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Variable) == 0x000005, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_class_Variable) == 0x000008, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_class_Variable' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Variable_1) == 0x000010, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_class_Variable_1) == 0x000018, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_class_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_class_Variable_2) == 0x000020, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_class_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Variable_2) == 0x000028, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_class_Variable_3) == 0x000030, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_class_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable) == 0x000038, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_IsClosed_Variable) == 0x000039, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_IsClosed_Variable' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Has_Been_Initd_Variable) == 0x00003A, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Has_Been_Initd_Variable' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Has_Been_Initd_Variable_1) == 0x00003B, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Has_Been_Initd_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Event_IsDesignTime) == 0x00003C, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Event_IsDesignTime' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Event_MyGeometry) == 0x000040, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Event_MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Event_InDeltaTime) == 0x000078, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Event_InDeltaTime' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Multiply_DoubleDouble_ReturnValue) == 0x000080, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Multiply_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_PlayAnimation_ReturnValue) == 0x000088, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_PlayAnimation_ReturnValue_1) == 0x000090, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_PlayAnimation_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GetPlayerController_ReturnValue) == 0x000098, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_PlayAnimation_ReturnValue_2) == 0x0000A0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_PlayAnimation_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GetGameMode_ReturnValue) == 0x0000A8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x0000B0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_DynamicCast_bSuccess) == 0x0000B8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_DynamicCast_bSuccess' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_IsValid_ReturnValue) == 0x0000B9, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_IsValid_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_MapRangeClamped_ReturnValue) == 0x0000C0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_MapRangeClamped_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GreaterEqual_DoubleDouble_ReturnValue) == 0x0000C8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GreaterEqual_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GetPlayerCharacter_ReturnValue) == 0x0000D0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GetPlayerCharacter_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_DynamicCast_AsWillie_BP) == 0x0000D8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_DynamicCast_AsWillie_BP' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_DynamicCast_bSuccess_1) == 0x0000E0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Not_PreBool_ReturnValue) == 0x0000E1, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Less_DoubleDouble_ReturnValue) == 0x0000E2, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Less_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_BooleanAND_ReturnValue) == 0x0000E3, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GetPlayerController_ReturnValue_1) == 0x0000E8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_IsClosed_Variable_1) == 0x0000F0, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_IsClosed_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_IsValid_ReturnValue_1) == 0x0000F1, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_IsValid_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Add_DoubleDouble_ReturnValue) == 0x0000F8, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Add_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_FClamp_ReturnValue) == 0x000100, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_FClamp_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Add_IntInt_ReturnValue) == 0x000108, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Add_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Less_IntInt_ReturnValue) == 0x00010C, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x00010D, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Select_Default) == 0x000110, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1) == 0x000118, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_BooleanAND_ReturnValue_1) == 0x000119, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_BooleanAND_ReturnValue_2) == 0x00011A, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_class_Variable_4) == 0x000120, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_class_Variable_4' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, Temp_bool_Variable_3) == 0x000128, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::Temp_bool_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Select_Default_1) == 0x000130, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Select_Default_1' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Select_Default_2) == 0x000138, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Select_Default_2' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, K2Node_Select_Default_3) == 0x000140, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::K2Node_Select_Default_3' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Create_ReturnValue) == 0x000148, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Create_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_Multiply_DoubleDouble_A_ImplicitCast) == 0x000150, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_Multiply_DoubleDouble_A_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast) == 0x000158, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_WIN_C_ExecuteUbergraph_UI_WIN, CallFunc_SetOpacity_InOpacity_ImplicitCast) == 0x00015C, "Member 'UI_WIN_C_ExecuteUbergraph_UI_WIN::CallFunc_SetOpacity_InOpacity_ImplicitCast' has a wrong offset!");
 
 // Function UI_WIN.UI_WIN_C.PreConstruct
 // 0x0001 (0x0001 - 0x0000)

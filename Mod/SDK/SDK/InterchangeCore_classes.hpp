@@ -92,7 +92,7 @@ class UInterchangePipelineBase : public UObject
 public:
 	uint8                                         Pad_28[0x18];                                      // 0x0028(0x0018)(Fixing Size After Last Property [ Dumper-7 ])
 	class UInterchangeResultsContainer*           Results;                                           // 0x0040(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
-	TMap<class FName, struct FInterchangePipelinePropertyStates> PropertiesStates;                                  // 0x0048(0x0050)(Protected, NativeAccessSpecifierProtected)
+	TMap<class FName, struct FInterchangePipelinePropertyStates> PropertiesStates;                   // 0x0048(0x0050)(Protected, NativeAccessSpecifierProtected)
 	uint8                                         Pad_98[0x70];                                      // 0x0098(0x0070)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -403,7 +403,7 @@ static_assert(sizeof(UInterchangeBaseNode) == 0x000060, "Wrong size on UIntercha
 class UInterchangeBaseNodeContainer final : public UObject
 {
 public:
-	TMap<class FString, class UInterchangeBaseNode*> Nodes;                                             // 0x0028(0x0050)(Edit, EditConst, UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<class FString, class UInterchangeBaseNode*> Nodes;                                          // 0x0028(0x0050)(Edit, EditConst, UObjectWrapper, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_78[0x50];                                      // 0x0078(0x0050)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

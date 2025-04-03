@@ -34,7 +34,7 @@ void AWillie_BP_C::Add_Startup_Weapons()
 // Function Willie_BP.Willie_BP_C.Add Vertex Paint Blood
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FVector                          Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             bone                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Rate                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -159,8 +159,8 @@ void AWillie_BP_C::Assign_R_Weapon_Slot()
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UDecalComponent*                  Decal                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// struct FAttached_Transform_Str          Attach_Param                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, ContainsInstancedReference, HasGetValueTypeHash)
-// bool                                    Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FAttached_Transform_Str&   Attach_Param                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, ContainsInstancedReference, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul)
 {
@@ -195,42 +195,14 @@ void AWillie_BP_C::Attach_L_Hand_To_Offhand_Position()
 }
 
 
-// Function Willie_BP.Willie_BP_C.Block L Hand Weapon Drop
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Block_L_Hand_Weapon_Drop()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Block L Hand Weapon Drop");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Block R Hand Weapon Drop
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Block_R_Hand_Weapon_Drop()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Block R Hand Weapon Drop");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function Willie_BP.Willie_BP_C.BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
 // class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FHitResult                       Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 
 void AWillie_BP_C::BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
@@ -254,9 +226,9 @@ void AWillie_BP_C::BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEve
 // Function Willie_BP.Willie_BP_C.BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_0_VertexColorGetAllVertexColorsOnly__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
-// struct FRVPDPGetColorsOnlySettings      GotAllVertexColorsWithSettings                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
+// const struct FRVPDPGetColorsOnlySettings&GotAllVertexColorsWithSettings                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
 
 void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_0_VertexColorGetAllVertexColorsOnly__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
@@ -278,12 +250,12 @@ void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent
 // Function Willie_BP.Willie_BP_C.BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FRVPDPTaskResults                TaskResultInfo                                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
-// struct FRVPDPGetClosestVertexDataSettingsDetectedMeshWithSettings                               (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
-// struct FRVPDPClosestVertexDataResults   ClosestVertexInfo                                      (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
-// struct FRVPDPEstimatedColorAtHitLocationInfoEstimatedColorAtHitLocationInfo                        (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
-// struct FRVPDPAverageColorInAreaInfo     AvarageColorInAreaInfo                                 (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
-// struct FRVPDPAdditionalDataToPassThroughInfoAdditionalData                                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
+// const struct FRVPDPTaskResults&         TaskResultInfo                                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
+// const struct FRVPDPGetClosestVertexDataSettings&DetectedMeshWithSettings                               (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
+// const struct FRVPDPClosestVertexDataResults&ClosestVertexInfo                                      (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FRVPDPEstimatedColorAtHitLocationInfo&EstimatedColorAtHitLocationInfo                        (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FRVPDPAverageColorInAreaInfo&AvarageColorInAreaInfo                                 (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FRVPDPAdditionalDataToPassThroughInfo&AdditionalData                                         (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
 
 void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)
 {
@@ -311,8 +283,8 @@ void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent
 // class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FHitResult                       Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 
 void AWillie_BP_C::BndEvt__Willie_BP_Gut_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
@@ -338,10 +310,10 @@ void AWillie_BP_C::BndEvt__Willie_BP_Gut_K2Node_ComponentBoundEvent_1_ComponentH
 // Parameters:
 // class UBoxComponent*                    Box                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class FName                             Hit_Bone                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// EBodyPart_Enum                          Hit_Body_Part                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              Hit_Primitive_Component                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, EBodyPart_Enum Hit_Body_Part, bool* Nul)
+void AWillie_BP_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -352,7 +324,7 @@ void AWillie_BP_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bo
 
 	Parms.Box = Box;
 	Parms.Hit_Bone = Hit_Bone;
-	Parms.Hit_Body_Part = Hit_Body_Part;
+	Parms.Hit_Primitive_Component = Hit_Primitive_Component;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -403,15 +375,77 @@ void AWillie_BP_C::BOXXX(class UBoxComponent* VP_Collision_Box_1, class UBoxComp
 }
 
 
+// Function Willie_BP.Willie_BP_C.Break Arm L
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Break_Arm_L()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Break Arm L");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Break Arm R
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Break_Arm_R()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Break Arm R");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Break L Constraint
 // (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Slide                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Break_L_Constraint()
+void AWillie_BP_C::Break_L_Constraint(bool Slide)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Break L Constraint");
+
+	Params::Willie_BP_C_Break_L_Constraint Parms{};
+
+	Parms.Slide = Slide;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Break Leg L
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Break_Leg_L()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Break Leg L");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Break Leg R
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Break_Leg_R()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Break Leg R");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -426,6 +460,20 @@ void AWillie_BP_C::Break_R_Constraint()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Break R Constraint");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Call Minus Enemy
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Call_Minus_Enemy()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Call Minus Enemy");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -570,15 +618,15 @@ void AWillie_BP_C::Check_Scabbard_Unsheath_State_R(class UPhysicsConstraintCompo
 // Function Willie_BP.Willie_BP_C.Clamp Rotator
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FRotator                         InRot                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// const struct FRotator&                  InRot                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
 // double                                  MinAngleDegrees_X                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  MaxAngleDegrees_X                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  MinAngleDegrees_Y                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  MaxAngleDegrees_Y                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  MinAngleDegrees_Z                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  MaxAngleDegrees_Z                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator                         Return_Clamped                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
-// struct FRotator                         Return_Free                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// struct FRotator*                        Return_Clamped                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// struct FRotator*                        Return_Free                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
 
 void AWillie_BP_C::Clamp_Rotator(const struct FRotator& InRot, double MinAngleDegrees_X, double MaxAngleDegrees_X, double MinAngleDegrees_Y, double MaxAngleDegrees_Y, double MinAngleDegrees_Z, double MaxAngleDegrees_Z, struct FRotator* Return_Clamped, struct FRotator* Return_Free)
 {
@@ -691,8 +739,9 @@ class USceneComponent* AWillie_BP_C::Current_Offhand_Position_Scene()
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
 // Enum_DismembermentPart                  InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UPhysicsConstraintComponent*      Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::CustomEvent(Enum_DismembermentPart InputPin)
+void AWillie_BP_C::CustomEvent(Enum_DismembermentPart InputPin, class UPhysicsConstraintComponent* Target)
 {
 	static class UFunction* Func = nullptr;
 
@@ -702,6 +751,7 @@ void AWillie_BP_C::CustomEvent(Enum_DismembermentPart InputPin)
 	Params::Willie_BP_C_CustomEvent Parms{};
 
 	Parms.InputPin = InputPin;
+	Parms.Target = Target;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -733,10 +783,10 @@ double AWillie_BP_C::Damage_Rate()
 // class UPrimitiveComponent*              Hit_Component_0                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Collided_Component                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class FName                             Hit_Bone                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Hit_Velocity                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Hit_Impulse                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Hit_Velocity                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Hit_Impulse                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Cutting_Power                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Stab_Rate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Rigidity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -745,14 +795,15 @@ double AWillie_BP_C::Damage_Rate()
 // bool                                    Damage_Parent_Bone_                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Kick_Power                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    Hit_Box                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// EPhysicalSurface                        Hit_Surface                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Cutting_Rate_Out                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Rigidity_Out                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Material_Density_Out                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Lower_Threshold_Out                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Ignore_Invincibility                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// EPhysicalSurface*                       Hit_Surface                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Cutting_Rate_Out                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Rigidity_Out                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Material_Density_Out                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Lower_Threshold_Out                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out)
+void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, bool Ignore_Invincibility, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out)
 {
 	static class UFunction* Func = nullptr;
 
@@ -776,6 +827,7 @@ void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_
 	Parms.Damage_Parent_Bone_ = Damage_Parent_Bone_;
 	Parms.Kick_Power = Kick_Power;
 	Parms.Hit_Box = Hit_Box;
+	Parms.Ignore_Invincibility = Ignore_Invincibility;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -869,11 +921,31 @@ void AWillie_BP_C::Disentergrate()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Disintegrate and drop armor
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Condition__Temp_                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Disintegrate_and_drop_armor(bool Condition__Temp_)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Disintegrate and drop armor");
+
+	Params::Willie_BP_C_Disintegrate_and_drop_armor Parms{};
+
+	Parms.Condition__Temp_ = Condition__Temp_;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Dismember Cut
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class FName                             bone                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Cut_Mesh                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // int32                                   Dism_Cut_Level                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    VP_Collision_Box_1                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
@@ -905,11 +977,11 @@ void AWillie_BP_C::Dismember_Cut(class FName bone, const struct FVector& Locatio
 // class USkeletalMeshComponent*           Master_Mesh                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // Enum_DismembermentPart                  Dismembered_Part                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Attach_Marker                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// TArray<class UPrimitiveComponent*>      Overlapped_Markers                                     (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
+// TArray<class UPrimitiveComponent*>&     Overlapped_Markers                                     (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
 // class UBoxComponent*                    VP_Box_Collision_1                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    VP_Box_Collision_2                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Dismember_Weapon                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class USkeletalMeshComponent*           Spawned_Limb_Local1                                    (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class USkeletalMeshComponent**          Spawned_Limb_Local1                                    (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Dismember_Function_Delayed(class USkeletalMeshComponent* Master_Mesh, Enum_DismembermentPart Dismembered_Part, class UPrimitiveComponent* Attach_Marker, TArray<class UPrimitiveComponent*>& Overlapped_Markers, class UBoxComponent* VP_Box_Collision_1, class UBoxComponent* VP_Box_Collision_2, class UPrimitiveComponent* Dismember_Weapon, class USkeletalMeshComponent** Spawned_Limb_Local1)
 {
@@ -943,7 +1015,7 @@ void AWillie_BP_C::Dismember_Function_Delayed(class USkeletalMeshComponent* Mast
 // class USkeletalMeshComponent*           Master_Mesh                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // Enum_DismembermentPart                  Dismembered_Part                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Attach_Marker                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// TArray<class UPrimitiveComponent*>      Overlapped_Markers                                     (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
+// TArray<class UPrimitiveComponent*>&     Overlapped_Markers                                     (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
 // class UBoxComponent*                    VP_Box_Collision_1                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    VP_Box_Collision_2                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Dismember_Weapon                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
@@ -1009,10 +1081,24 @@ void AWillie_BP_C::Dying()
 }
 
 
+// Function Willie_BP.Willie_BP_C.End Arrow Time Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::End_Arrow_Time_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "End Arrow Time Event");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Event Add Blood EmitterTo Hit Object
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FTransform                       SpawnTransform                                         (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FTransform&                SpawnTransform                                         (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Spawn_Rate                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class USceneComponent*                  Parent                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
@@ -1151,6 +1237,34 @@ void AWillie_BP_C::Fall()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Fallen Give Up TL__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Fallen_Give_Up_TL__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Fallen Give Up TL__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Fallen Give Up TL__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Fallen_Give_Up_TL__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Fallen Give Up TL__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Feet Rotation and Normal
 // (Public, BlueprintCallable, BlueprintEvent)
 
@@ -1243,6 +1357,34 @@ struct FVector AWillie_BP_C::Find_Thrusting_Location(EGripType_Enum Grip_Typr, d
 }
 
 
+// Function Willie_BP.Willie_BP_C.Force Fall Down Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Force_Fall_Down_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Force Fall Down Event");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Force FPP
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Force_FPP()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Force FPP");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Force TPP
 // (BlueprintCallable, BlueprintEvent)
 
@@ -1260,10 +1402,10 @@ void AWillie_BP_C::Force_TPP()
 // Function Willie_BP.Willie_BP_C.Get Damage
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FVector                          Impulse                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Velocity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Impulse                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Velocity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             bone                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Raw_Damage                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Cutting_Power                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -1275,9 +1417,10 @@ void AWillie_BP_C::Force_TPP()
 // class UPrimitiveComponent*              Hit_By_Component                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // bool                                    Stab_                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    Hit_Box                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// double                                  Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Ignore_Invincibility                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double* Damage_Out)
+void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, bool Ignore_Invincibility, double* Damage_Out)
 {
 	static class UFunction* Func = nullptr;
 
@@ -1301,6 +1444,7 @@ void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVecto
 	Parms.Hit_By_Component = Hit_By_Component;
 	Parms.Stab_ = Stab_;
 	Parms.Hit_Box = Hit_Box;
+	Parms.Ignore_Invincibility = Ignore_Invincibility;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -1312,10 +1456,10 @@ void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVecto
 // Function Willie_BP.Willie_BP_C.Get Damage_0
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FVector                          Impulse                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Velocity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Impulse                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Velocity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             bone                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Raw_Damage                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Cutting_Power                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -1325,7 +1469,7 @@ void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVecto
 // bool                                    Lower_Threshold                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Shockwave                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Hit_By_Component                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// double                                  Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Get_Damage_0(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, double* Damage_Out)
 {
@@ -1360,7 +1504,7 @@ void AWillie_BP_C::Get_Damage_0(const struct FVector& Impulse, const struct FVec
 // Function Willie_BP.Willie_BP_C.InpActEvt_C_K2Node_InputKeyEvent_2
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_C_K2Node_InputKeyEvent_2(const struct FKey& Key)
 {
@@ -1380,7 +1524,7 @@ void AWillie_BP_C::InpActEvt_C_K2Node_InputKeyEvent_2(const struct FKey& Key)
 // Function Willie_BP.Willie_BP_C.InpActEvt_CapsLock_K2Node_InputKeyEvent_7
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_CapsLock_K2Node_InputKeyEvent_7(const struct FKey& Key)
 {
@@ -1400,7 +1544,7 @@ void AWillie_BP_C::InpActEvt_CapsLock_K2Node_InputKeyEvent_7(const struct FKey& 
 // Function Willie_BP.Willie_BP_C.InpActEvt_Change Camera_K2Node_InputActionEvent_0
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Change_Camera_K2Node_InputActionEvent_0(const struct FKey& Key)
 {
@@ -1417,19 +1561,19 @@ void AWillie_BP_C::InpActEvt_Change_Camera_K2Node_InputActionEvent_0(const struc
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Hold_K2Node_InputActionEvent_8
+// Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Hold_K2Node_InputActionEvent_10
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_8(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_10(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Hold_K2Node_InputActionEvent_8");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Hold_K2Node_InputActionEvent_10");
 
-	Params::Willie_BP_C_InpActEvt_Crouch_Hold_K2Node_InputActionEvent_8 Parms{};
+	Params::Willie_BP_C_InpActEvt_Crouch_Hold_K2Node_InputActionEvent_10 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1440,7 +1584,7 @@ void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_8(const struct 
 // Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Hold_K2Node_InputActionEvent_9
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_9(const struct FKey& Key)
 {
@@ -1460,7 +1604,7 @@ void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_9(const struct 
 // Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Key_K2Node_InputActionEvent_4
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_4(const struct FKey& Key)
 {
@@ -1480,7 +1624,7 @@ void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_4(const struct F
 // Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Key_K2Node_InputActionEvent_5
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_5(const struct FKey& Key)
 {
@@ -1500,7 +1644,7 @@ void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_5(const struct F
 // Function Willie_BP.Willie_BP_C.InpActEvt_G_K2Node_InputKeyEvent_5
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_G_K2Node_InputKeyEvent_5(const struct FKey& Key)
 {
@@ -1520,7 +1664,7 @@ void AWillie_BP_C::InpActEvt_G_K2Node_InputKeyEvent_5(const struct FKey& Key)
 // Function Willie_BP.Willie_BP_C.InpActEvt_G_K2Node_InputKeyEvent_6
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_G_K2Node_InputKeyEvent_6(const struct FKey& Key)
 {
@@ -1537,30 +1681,10 @@ void AWillie_BP_C::InpActEvt_G_K2Node_InputKeyEvent_6(const struct FKey& Key)
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Grab Left_K2Node_InputActionEvent_15
-// (BlueprintEvent)
-// Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_15(const struct FKey& Key)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Left_K2Node_InputActionEvent_15");
-
-	Params::Willie_BP_C_InpActEvt_Grab_Left_K2Node_InputActionEvent_15 Parms{};
-
-	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function Willie_BP.Willie_BP_C.InpActEvt_Grab Left_K2Node_InputActionEvent_16
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_16(const struct FKey& Key)
 {
@@ -1577,19 +1701,19 @@ void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_16(const struct F
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Grab Right_K2Node_InputActionEvent_17
+// Function Willie_BP.Willie_BP_C.InpActEvt_Grab Left_K2Node_InputActionEvent_17
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_17(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_17(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Right_K2Node_InputActionEvent_17");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Left_K2Node_InputActionEvent_17");
 
-	Params::Willie_BP_C_InpActEvt_Grab_Right_K2Node_InputActionEvent_17 Parms{};
+	Params::Willie_BP_C_InpActEvt_Grab_Left_K2Node_InputActionEvent_17 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1600,7 +1724,7 @@ void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_17(const struct 
 // Function Willie_BP.Willie_BP_C.InpActEvt_Grab Right_K2Node_InputActionEvent_18
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_18(const struct FKey& Key)
 {
@@ -1617,21 +1741,85 @@ void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_18(const struct 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Jump_K2Node_InputActionEvent_13
+// Function Willie_BP.Willie_BP_C.InpActEvt_Grab Right_K2Node_InputActionEvent_19
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_13(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_19(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Jump_K2Node_InputActionEvent_13");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Right_K2Node_InputActionEvent_19");
 
-	Params::Willie_BP_C_InpActEvt_Jump_K2Node_InputActionEvent_13 Parms{};
+	Params::Willie_BP_C_InpActEvt_Grab_Right_K2Node_InputActionEvent_19 Parms{};
 
 	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Jump_K2Node_InputActionEvent_14
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_14(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Jump_K2Node_InputActionEvent_14");
+
+	Params::Willie_BP_C_InpActEvt_Jump_K2Node_InputActionEvent_14 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_K_K2Node_InputDebugKeyEvent_1
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FInputActionValue&         ActionValue                                            (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
+
+void AWillie_BP_C::InpActEvt_K_K2Node_InputDebugKeyEvent_1(const struct FKey& Key, const struct FInputActionValue& ActionValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_K_K2Node_InputDebugKeyEvent_1");
+
+	Params::Willie_BP_C_InpActEvt_K_K2Node_InputDebugKeyEvent_1 Parms{};
+
+	Parms.Key = std::move(Key);
+	Parms.ActionValue = std::move(ActionValue);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_L_K2Node_InputDebugKeyEvent_0
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FInputActionValue&         ActionValue                                            (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
+
+void AWillie_BP_C::InpActEvt_L_K2Node_InputDebugKeyEvent_0(const struct FKey& Key, const struct FInputActionValue& ActionValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_L_K2Node_InputDebugKeyEvent_0");
+
+	Params::Willie_BP_C_InpActEvt_L_K2Node_InputDebugKeyEvent_0 Parms{};
+
+	Parms.Key = std::move(Key);
+	Parms.ActionValue = std::move(ActionValue);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -1640,7 +1828,7 @@ void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_13(const struct FKey& 
 // Function Willie_BP.Willie_BP_C.InpActEvt_P_K2Node_InputKeyEvent_3
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_P_K2Node_InputKeyEvent_3(const struct FKey& Key)
 {
@@ -1660,7 +1848,7 @@ void AWillie_BP_C::InpActEvt_P_K2Node_InputKeyEvent_3(const struct FKey& Key)
 // Function Willie_BP.Willie_BP_C.InpActEvt_Pause_K2Node_InputActionEvent_1
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Pause_K2Node_InputActionEvent_1(const struct FKey& Key)
 {
@@ -1680,7 +1868,7 @@ void AWillie_BP_C::InpActEvt_Pause_K2Node_InputActionEvent_1(const struct FKey& 
 // Function Willie_BP.Willie_BP_C.InpActEvt_R_K2Node_InputKeyEvent_4
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_R_K2Node_InputKeyEvent_4(const struct FKey& Key)
 {
@@ -1700,7 +1888,7 @@ void AWillie_BP_C::InpActEvt_R_K2Node_InputKeyEvent_4(const struct FKey& Key)
 // Function Willie_BP.Willie_BP_C.InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {
@@ -1720,7 +1908,7 @@ void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const struc
 // Function Willie_BP.Willie_BP_C.InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1(const struct FKey& Key)
 {
@@ -1740,7 +1928,7 @@ void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1(const struc
 // Function Willie_BP.Willie_BP_C.InpActEvt_Run_K2Node_InputActionEvent_2
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_2(const struct FKey& Key)
 {
@@ -1760,7 +1948,7 @@ void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_2(const struct FKey& Ke
 // Function Willie_BP.Willie_BP_C.InpActEvt_Run_K2Node_InputActionEvent_3
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_3(const struct FKey& Key)
 {
@@ -1777,19 +1965,19 @@ void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_3(const struct FKey& Ke
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Swap Hands_K2Node_InputActionEvent_14
+// Function Willie_BP.Willie_BP_C.InpActEvt_S_K2Node_InputKeyEvent_9
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_14(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_S_K2Node_InputKeyEvent_9(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Swap Hands_K2Node_InputActionEvent_14");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_S_K2Node_InputKeyEvent_9");
 
-	Params::Willie_BP_C_InpActEvt_Swap_Hands_K2Node_InputActionEvent_14 Parms{};
+	Params::Willie_BP_C_InpActEvt_S_K2Node_InputKeyEvent_9 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1797,19 +1985,39 @@ void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_14(const struct 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_10
+// Function Willie_BP.Willie_BP_C.InpActEvt_SloMo_K2Node_InputActionEvent_6
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_10(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_SloMo_K2Node_InputActionEvent_6(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_10");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_SloMo_K2Node_InputActionEvent_6");
 
-	Params::Willie_BP_C_InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_10 Parms{};
+	Params::Willie_BP_C_InpActEvt_SloMo_K2Node_InputActionEvent_6 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Swap Hands_K2Node_InputActionEvent_15
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_15(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Swap Hands_K2Node_InputActionEvent_15");
+
+	Params::Willie_BP_C_InpActEvt_Swap_Hands_K2Node_InputActionEvent_15 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1820,7 +2028,7 @@ void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_10(const str
 // Function Willie_BP.Willie_BP_C.InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_11
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_11(const struct FKey& Key)
 {
@@ -1837,19 +2045,19 @@ void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_11(const str
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Thrust_K2Node_InputActionEvent_6
+// Function Willie_BP.Willie_BP_C.InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_12
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_6(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_12(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust_K2Node_InputActionEvent_6");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust Gamepad_K2Node_InputActionEvent_12");
 
-	Params::Willie_BP_C_InpActEvt_Thrust_K2Node_InputActionEvent_6 Parms{};
+	Params::Willie_BP_C_InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_12 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1860,7 +2068,7 @@ void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_6(const struct FKey&
 // Function Willie_BP.Willie_BP_C.InpActEvt_Thrust_K2Node_InputActionEvent_7
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_7(const struct FKey& Key)
 {
@@ -1877,19 +2085,59 @@ void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_7(const struct FKey&
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Toggle Camera Lock_K2Node_InputActionEvent_12
+// Function Willie_BP.Willie_BP_C.InpActEvt_Thrust_K2Node_InputActionEvent_8
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_12(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_8(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Toggle Camera Lock_K2Node_InputActionEvent_12");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust_K2Node_InputActionEvent_8");
 
-	Params::Willie_BP_C_InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_12 Parms{};
+	Params::Willie_BP_C_InpActEvt_Thrust_K2Node_InputActionEvent_8 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Toggle Camera Lock_K2Node_InputActionEvent_13
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_13(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Toggle Camera Lock_K2Node_InputActionEvent_13");
+
+	Params::Willie_BP_C_InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_13 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Y_K2Node_InputKeyEvent_8
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Y_K2Node_InputKeyEvent_8(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Y_K2Node_InputKeyEvent_8");
+
+	Params::Willie_BP_C_InpActEvt_Y_K2Node_InputKeyEvent_8 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2350,7 +2598,7 @@ void AWillie_BP_C::Muscle_Motor(class USkeletalMeshComponent* Body_Mesh, bool Up
 // Function Willie_BP.Willie_BP_C.Paint Blood Bleed
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FVector                          Location                                               (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             BoneName                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Rate                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -2376,7 +2624,7 @@ void AWillie_BP_C::Paint_Blood_Bleed(const struct FVector& Location, class FName
 // Function Willie_BP.Willie_BP_C.Paint Blood Splash
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FVector                          Location                                               (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             BoneName                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Rate                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -2446,6 +2694,26 @@ void AWillie_BP_C::Pick_Up_Right_Event()
 		Func = Class->GetFunction("Willie_BP_C", "Pick Up Right Event");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Pickup Weapon Sound
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class AModularWeaponBP_C*               InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Pickup_Weapon_Sound(class AModularWeaponBP_C* InputPin)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Pickup Weapon Sound");
+
+	Params::Willie_BP_C_Pickup_Weapon_Sound Parms{};
+
+	Parms.InputPin = InputPin;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -2596,8 +2864,8 @@ void AWillie_BP_C::ReceiveTick(float DeltaSeconds)
 // Function Willie_BP.Willie_BP_C.Relative Rotate
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FTransform                       InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator                         Rotation                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// const struct FTransform&                InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FRotator&                  Rotation                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
 // struct FTransform                       ReturnValue                                            (Parm, OutParm, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 struct FTransform AWillie_BP_C::Relative_Rotate(const struct FTransform& InputPin, const struct FRotator& Rotation)
@@ -2678,11 +2946,12 @@ void AWillie_BP_C::Release_Offhand()
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UClass*                           Class_0                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// struct FTransform                       SpawnTransform                                         (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// EArmorSlots_Enum                        Key                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class ABP_Armor_Master_C*               Dropped_Armor                                          (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// const struct FTransform&                SpawnTransform                                         (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const EArmorSlots_Enum&                 Key                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Use_Spawn_Transform                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class ABP_Armor_Master_C**              Dropped_Armor                                          (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Remove_Armor(class UClass* Class_0, const struct FTransform& SpawnTransform, const EArmorSlots_Enum& Key, class ABP_Armor_Master_C** Dropped_Armor)
+void AWillie_BP_C::Remove_Armor(class UClass* Class_0, const struct FTransform& SpawnTransform, const EArmorSlots_Enum& Key, bool Use_Spawn_Transform, class ABP_Armor_Master_C** Dropped_Armor)
 {
 	static class UFunction* Func = nullptr;
 
@@ -2694,6 +2963,7 @@ void AWillie_BP_C::Remove_Armor(class UClass* Class_0, const struct FTransform& 
 	Parms.Class_0 = Class_0;
 	Parms.SpawnTransform = std::move(SpawnTransform);
 	Parms.Key = Key;
+	Parms.Use_Spawn_Transform = Use_Spawn_Transform;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -2711,6 +2981,20 @@ void AWillie_BP_C::Remove_Hat()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Remove Hat");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Rescale Character
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Rescale_Character()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Rescale Character");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -2907,10 +3191,10 @@ void AWillie_BP_C::Save_Loadout()
 // Function Willie_BP.Willie_BP_C.Send Threat Location R
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FVector                          Threat_Location_0                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Offset                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Threat_Location_0                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Offset                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Immediate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Send_Threat_Location_R(const struct FVector& Threat_Location_0, const struct FVector& Offset, bool Immediate, bool* Nul)
 {
@@ -2938,11 +3222,11 @@ void AWillie_BP_C::Send_Threat_Location_R(const struct FVector& Threat_Location_
 // double                                  Control_Rate                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class USceneComponent*                  Aim_Scene                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class USceneComponent*                  Shoulder_Scene                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// struct FRotator                         Aim_Roataion                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
-// struct FVector                          Default_Arm_Position                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FRotator&                  Aim_Roataion                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// const struct FVector&                   Default_Arm_Position                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // EGripType_Enum                          Grip                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  A                                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Set_Arm_Aim_Location(double Control_Rate, class USceneComponent* Aim_Scene, class USceneComponent* Shoulder_Scene, const struct FRotator& Aim_Roataion, const struct FVector& Default_Arm_Position, EGripType_Enum Grip, double A, struct FVector* Result)
 {
@@ -2976,9 +3260,9 @@ void AWillie_BP_C::Set_Arm_Aim_Location(double Control_Rate, class USceneCompone
 // double                                  X_0                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Guarding_                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Control_Rate                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator                         Aim_ROtation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// const struct FRotator&                  Aim_ROtation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
 // class FName                             Hand_Socket_Name                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator                         Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// struct FRotator*                        Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
 
 void AWillie_BP_C::Set_Arm_Aim_Rotation(class USceneComponent* Shoulder_Scene, double Y_0, double X_0, bool Guarding_, double Control_Rate, const struct FRotator& Aim_ROtation, class FName Hand_Socket_Name, struct FRotator* Result)
 {
@@ -3011,7 +3295,7 @@ void AWillie_BP_C::Set_Arm_Aim_Rotation(class USceneComponent* Shoulder_Scene, d
 // float                                   Wrist_Direction                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class USceneComponent*                  Shoulder_Scene                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // EGripType_Enum                          Grip_Type                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator                         Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// struct FRotator*                        Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
 
 void AWillie_BP_C::Set_Arm_IK_Relative_Rotation(double Control_Rate, float Wrist_Direction, class USceneComponent* Shoulder_Scene, EGripType_Enum Grip_Type, struct FRotator* Result)
 {
@@ -3038,7 +3322,7 @@ void AWillie_BP_C::Set_Arm_IK_Relative_Rotation(double Control_Rate, float Wrist
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class FName                             BoneName                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          A                                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   A                                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Set_Pain_Location(class FName BoneName, const struct FVector& A)
 {
@@ -3060,8 +3344,8 @@ void AWillie_BP_C::Set_Pain_Location(class FName BoneName, const struct FVector&
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // double                                  Control_Rate                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator                         Aim_ROtation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
-// struct FRotator                         Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// const struct FRotator&                  Aim_ROtation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// struct FRotator*                        Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
 
 void AWillie_BP_C::Set_Shoulder_Rotation(double Control_Rate, const struct FRotator& Aim_ROtation, struct FRotator* Result)
 {
@@ -3088,7 +3372,7 @@ void AWillie_BP_C::Set_Shoulder_Rotation(double Control_Rate, const struct FRota
 // bool                                    Clear_Previous                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Load_Saved_Armor                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Save_Armor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FStr_Loadout_Equipment           Load_Armor                                             (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FStr_Loadout_Equipment&    Load_Armor                                             (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool Load_Saved_Armor, bool Save_Armor, const struct FStr_Loadout_Equipment& Load_Armor)
 {
@@ -3115,7 +3399,7 @@ void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool Load_Saved_Armor, bool
 // class AModularWeaponBP_C*               Weapon_L_0                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // bool                                    Dropped_With_no_Damage                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Destroy_Previous                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FStr_WeaponParts                 Str_Weapon_Parts                                       (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FStr_WeaponParts&          Str_Weapon_Parts                                       (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_L_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_WeaponParts& Str_Weapon_Parts)
 {
@@ -3143,7 +3427,7 @@ void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AMo
 // class AModularWeaponBP_C*               Weapon_R_0                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // bool                                    Dropped_With_no_Damage                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Destroy_Previous                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FStr_WeaponParts                 Str_Weapon_Parts                                       (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FStr_WeaponParts&          Str_Weapon_Parts                                       (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void AWillie_BP_C::Set_Up_Right_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_R_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_WeaponParts& Str_Weapon_Parts)
 {
@@ -3211,6 +3495,20 @@ double AWillie_BP_C::Set_Y(class USceneComponent* Shoulder_Scene, double Y_Offse
 	UObject::ProcessEvent(Func, &Parms);
 
 	return Parms.ReturnValue;
+}
+
+
+// Function Willie_BP.Willie_BP_C.Setup Character Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Setup_Character_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Setup Character Event");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -3308,18 +3606,32 @@ void AWillie_BP_C::Slomo_Timeline__UpdateFunc()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Snap Neck
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Snap_Neck()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Snap Neck");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Spawn Blood
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FTransform                       Transform                                              (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FTransform&                Transform                                              (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Spawn_Rate                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             bone                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // EBodyPart_Enum                          Body_Partt                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class USkeletalMeshComponent*           Body_Mesh                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // int32                                   Loop_Count                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Extra_Velocity                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Velocity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Pover                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Velocity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Pover                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Skip_Check                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Spawn_Blood(const struct FTransform& Transform, double Spawn_Rate, class FName bone, EBodyPart_Enum Body_Partt, class USkeletalMeshComponent* Body_Mesh, int32 Loop_Count, bool Extra_Velocity, const struct FVector& Velocity, const struct FVector& Pover, bool Skip_Check)
@@ -3352,7 +3664,7 @@ void AWillie_BP_C::Spawn_Blood(const struct FTransform& Transform, double Spawn_
 // EWillie_Bones_Enum                      NewLocalVar1                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class USkeletalMeshComponent*           Affected_Mesh                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // int32                                   Dism_Level1                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class USkeletalMeshComponent*           Spawned_Limb_Local1                                    (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class USkeletalMeshComponent**          Spawned_Limb_Local1                                    (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Spawn_Limb_No_Mesh_Merge(EWillie_Bones_Enum NewLocalVar1, class USkeletalMeshComponent* Affected_Mesh, int32 Dism_Level1, class USkeletalMeshComponent** Spawned_Limb_Local1)
 {
@@ -3406,7 +3718,7 @@ void AWillie_BP_C::Stop_Detached_Blood_Emitters()
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // double                                  Power                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::StopThatBlade(double Power, bool* Nul)
 {
@@ -3580,6 +3892,34 @@ void AWillie_BP_C::Timeline_3__UpdateFunc()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Timeline_4__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_4__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_4__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_4__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_4__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_4__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Timeline_5__FinishedFunc
 // (BlueprintEvent)
 
@@ -3603,6 +3943,90 @@ void AWillie_BP_C::Timeline_5__UpdateFunc()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Timeline_5__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_6__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_6__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_6__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_6__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_6__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_6__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_7__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_7__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_7__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_7__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_7__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_7__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_8__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_8__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_8__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_8__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_8__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_8__UpdateFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3789,10 +4213,10 @@ void AWillie_BP_C::UserConstructionScript()
 // Function Willie_BP.Willie_BP_C.Velocity Calculator V
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FVector                          Current_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Delayed_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Velocity                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Delayed_Out                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Current_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Delayed_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Velocity                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Delayed_Out                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void AWillie_BP_C::Velocity_Calculator_V(const struct FVector& Current_Location, const struct FVector& Delayed_Location, struct FVector* Velocity, struct FVector* Delayed_Out)
 {
@@ -3904,8 +4328,8 @@ void AWillie_BP_C::Wake_Up()
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UPrimitiveComponent*              Hit_Component_0                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Weapon_Velocity                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FHitResult                       Hit_Result                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+// const struct FVector&                   Weapon_Velocity                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit_Result                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 // double                                  EdgeAllignment_Dot                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Laser_temp_                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UClass*                           Weapon                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)

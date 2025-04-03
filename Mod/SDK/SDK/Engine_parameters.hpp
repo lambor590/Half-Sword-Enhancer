@@ -8715,7 +8715,7 @@ static_assert(offsetof(PlayerController_ClientSetViewTarget, TransitionParams) =
 struct PlayerController_ClientSpawnCameraLensEffect final
 {
 public:
-	TSubclassOf<class AEmitterCameraLensEffectBase> LensEffectEmitterClass;                            // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSubclassOf<class AEmitterCameraLensEffectBase> LensEffectEmitterClass;                          // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PlayerController_ClientSpawnCameraLensEffect) == 0x000008, "Wrong alignment on PlayerController_ClientSpawnCameraLensEffect");
 static_assert(sizeof(PlayerController_ClientSpawnCameraLensEffect) == 0x000008, "Wrong size on PlayerController_ClientSpawnCameraLensEffect");
@@ -8912,7 +8912,7 @@ static_assert(offsetof(PlayerController_ClientUpdateLevelStreamingStatus, bNewSh
 struct PlayerController_ClientUpdateMultipleLevelsStreamingStatus final
 {
 public:
-	TArray<struct FUpdateLevelStreamingLevelStatus> LevelStatuses;                                     // 0x0000(0x0010)(ConstParm, Parm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+	TArray<struct FUpdateLevelStreamingLevelStatus> LevelStatuses;                                   // 0x0000(0x0010)(ConstParm, Parm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PlayerController_ClientUpdateMultipleLevelsStreamingStatus) == 0x000008, "Wrong alignment on PlayerController_ClientUpdateMultipleLevelsStreamingStatus");
 static_assert(sizeof(PlayerController_ClientUpdateMultipleLevelsStreamingStatus) == 0x000010, "Wrong size on PlayerController_ClientUpdateMultipleLevelsStreamingStatus");
@@ -9238,7 +9238,7 @@ static_assert(offsetof(PlayerController_ServerUpdateLevelVisibility, LevelVisibi
 struct PlayerController_ServerUpdateMultipleLevelsVisibility final
 {
 public:
-	TArray<struct FUpdateLevelVisibilityLevelInfo> LevelVisibilities;                                 // 0x0000(0x0010)(ConstParm, Parm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+	TArray<struct FUpdateLevelVisibilityLevelInfo> LevelVisibilities;                                // 0x0000(0x0010)(ConstParm, Parm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PlayerController_ServerUpdateMultipleLevelsVisibility) == 0x000008, "Wrong alignment on PlayerController_ServerUpdateMultipleLevelsVisibility");
 static_assert(sizeof(PlayerController_ServerUpdateMultipleLevelsVisibility) == 0x000010, "Wrong size on PlayerController_ServerUpdateMultipleLevelsVisibility");
@@ -31047,7 +31047,7 @@ struct WorldPartitionSubsystem_IsStreamingCompleted final
 public:
 	EWorldPartitionRuntimeCellState               QueryState;                                        // 0x0000(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FWorldPartitionStreamingQuerySource> QuerySources;                                      // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+	TArray<struct FWorldPartitionStreamingQuerySource> QuerySources;                                 // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 	bool                                          bExactState;                                       // 0x0018(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          ReturnValue;                                       // 0x0019(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1A[0x6];                                       // 0x001A(0x0006)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -35276,7 +35276,7 @@ static_assert(offsetof(CapsuleComponent_GetUnscaledCapsuleSize_WithoutHemisphere
 struct PlayerCameraManager_AddCameraLensEffect final
 {
 public:
-	TSubclassOf<class AEmitterCameraLensEffectBase> LensEffectEmitterClass;                            // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSubclassOf<class AEmitterCameraLensEffectBase> LensEffectEmitterClass;                          // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class AEmitterCameraLensEffectBase*           ReturnValue;                                       // 0x0008(0x0008)(Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PlayerCameraManager_AddCameraLensEffect) == 0x000008, "Wrong alignment on PlayerCameraManager_AddCameraLensEffect");
@@ -35290,7 +35290,7 @@ struct PlayerCameraManager_AddGenericCameraLensEffect final
 {
 public:
 	TSubclassOf<class AActor>                     LensEffectEmitterClass;                            // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TScriptInterface<class ICameraLensEffectInterface> ReturnValue;                                       // 0x0008(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TScriptInterface<class ICameraLensEffectInterface> ReturnValue;                                  // 0x0008(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PlayerCameraManager_AddGenericCameraLensEffect) == 0x000008, "Wrong alignment on PlayerCameraManager_AddGenericCameraLensEffect");
 static_assert(sizeof(PlayerCameraManager_AddGenericCameraLensEffect) == 0x000018, "Wrong size on PlayerCameraManager_AddGenericCameraLensEffect");
@@ -35390,7 +35390,7 @@ static_assert(offsetof(PlayerCameraManager_RemoveCameraModifier, ReturnValue) ==
 struct PlayerCameraManager_RemoveGenericCameraLensEffect final
 {
 public:
-	TScriptInterface<class ICameraLensEffectInterface> Emitter;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TScriptInterface<class ICameraLensEffectInterface> Emitter;                                      // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PlayerCameraManager_RemoveGenericCameraLensEffect) == 0x000008, "Wrong alignment on PlayerCameraManager_RemoveGenericCameraLensEffect");
 static_assert(sizeof(PlayerCameraManager_RemoveGenericCameraLensEffect) == 0x000010, "Wrong size on PlayerCameraManager_RemoveGenericCameraLensEffect");
@@ -36412,7 +36412,7 @@ struct TimelineComponent_AddInterpLinearColor final
 {
 public:
 	class UCurveLinearColor*                      LinearColorCurve;                                  // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(const struct FLinearColor& Output)> InterpFunc;                                        // 0x0008(0x0010)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(const struct FLinearColor& Output)> InterpFunc;                                   // 0x0008(0x0010)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FName                                   PropertyName;                                      // 0x0018(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FName                                   TrackName;                                         // 0x0020(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
@@ -37386,7 +37386,7 @@ static_assert(offsetof(AudioVolume_SetReverbSettings, NewReverbSettings) == 0x00
 struct AudioVolume_SetSubmixOverrideSettings final
 {
 public:
-	TArray<struct FAudioVolumeSubmixOverrideSettings> NewSubmixOverrideSettings;                         // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+	TArray<struct FAudioVolumeSubmixOverrideSettings> NewSubmixOverrideSettings;                     // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AudioVolume_SetSubmixOverrideSettings) == 0x000008, "Wrong alignment on AudioVolume_SetSubmixOverrideSettings");
 static_assert(sizeof(AudioVolume_SetSubmixOverrideSettings) == 0x000010, "Wrong size on AudioVolume_SetSubmixOverrideSettings");
@@ -37819,7 +37819,7 @@ static_assert(offsetof(CameraLensEffectInterfaceClassSupportLibrary_IsInterfaceC
 struct CameraLensEffectInterfaceClassSupportLibrary_IsInterfaceValid final
 {
 public:
-	TScriptInterface<class ICameraLensEffectInterface> CameraLens;                                        // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TScriptInterface<class ICameraLensEffectInterface> CameraLens;                                   // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	EInterfaceValidResult                         Result;                                            // 0x0010(0x0001)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -39331,7 +39331,7 @@ public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UQuartzClockHandle*                     InClockHandle;                                     // 0x0008(0x0008)(Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FQuartzQuantizationBoundary            InQuantizationBoundary;                            // 0x0010(0x0020)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> InDelegate;                                        // 0x0030(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(EQuartzCommandDelegateSubType EventType, class FName Name)> InDelegate;           // 0x0030(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         InStartTime;                                       // 0x0040(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         InFadeInDuration;                                  // 0x0044(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         InFadeVolumeLevel;                                 // 0x0048(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -43937,7 +43937,7 @@ static_assert(offsetof(CancellableAsyncAction_IsActive, ReturnValue) == 0x000000
 struct ViewportStatsSubsystem_AddDisplayDelegate final
 {
 public:
-	TDelegate<void(class FText* OutText, struct FLinearColor* OutColor)> Delegate;                                          // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(class FText* OutText, struct FLinearColor* OutColor)> Delegate;                   // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	int32                                         ReturnValue;                                       // 0x0010(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(ViewportStatsSubsystem_AddDisplayDelegate) == 0x000004, "Wrong alignment on ViewportStatsSubsystem_AddDisplayDelegate");
@@ -44020,7 +44020,7 @@ public:
 	TSubclassOf<class ULocalPlayerSaveGame>       SaveGameClass;                                     // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class APlayerController*                      LocalPlayerController;                             // 0x0008(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 SlotName;                                          // 0x0010(0x0010)(Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(class ULocalPlayerSaveGame* SaveGame)> Delegate;                                          // 0x0020(0x0010)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(class ULocalPlayerSaveGame* SaveGame)> Delegate;                                  // 0x0020(0x0010)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          ReturnValue;                                       // 0x0030(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_31[0x7];                                       // 0x0031(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -53087,7 +53087,7 @@ struct KismetSystemLibrary_LoadAssetClass final
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TSoftClassPtr<class UClass>                   AssetClass;                                        // 0x0008(0x0028)(Parm, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(TSubclassOf<class UObject> Loaded)> OnLoaded;                                          // 0x0030(0x0010)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(TSubclassOf<class UObject> Loaded)> OnLoaded;                                     // 0x0030(0x0010)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FLatentActionInfo                      LatentInfo;                                        // 0x0040(0x0018)(Parm, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(KismetSystemLibrary_LoadAssetClass) == 0x000008, "Wrong alignment on KismetSystemLibrary_LoadAssetClass");
@@ -57509,7 +57509,7 @@ struct SoundSubmix_AddEnvelopeFollowerDelegate final
 {
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(TArray<float>& Envelope)>      OnSubmixEnvelopeBP;                                // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(const TArray<float>& Envelope)> OnSubmixEnvelopeBP;                               // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(SoundSubmix_AddEnvelopeFollowerDelegate) == 0x000008, "Wrong alignment on SoundSubmix_AddEnvelopeFollowerDelegate");
 static_assert(sizeof(SoundSubmix_AddEnvelopeFollowerDelegate) == 0x000018, "Wrong size on SoundSubmix_AddEnvelopeFollowerDelegate");
@@ -57522,8 +57522,8 @@ struct SoundSubmix_AddSpectralAnalysisDelegate final
 {
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FSoundSubmixSpectralAnalysisBandSettings> InBandSettings;                                    // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-	TDelegate<void(TArray<float>& Magnitude)>     OnSubmixSpectralAnalysisBP;                        // 0x0018(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TArray<struct FSoundSubmixSpectralAnalysisBandSettings> InBandSettings;                          // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+	TDelegate<void(const TArray<float>& Magnitude)> OnSubmixSpectralAnalysisBP;                      // 0x0018(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         UpdateRate;                                        // 0x0028(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         DecibelNoiseFloor;                                 // 0x002C(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bDoNormalize;                                      // 0x0030(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -57551,7 +57551,7 @@ struct SoundSubmix_RemoveSpectralAnalysisDelegate final
 {
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TDelegate<void(TArray<float>& Magnitude)>     OnSubmixSpectralAnalysisBP;                        // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(const TArray<float>& Magnitude)> OnSubmixSpectralAnalysisBP;                      // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(SoundSubmix_RemoveSpectralAnalysisDelegate) == 0x000008, "Wrong alignment on SoundSubmix_RemoveSpectralAnalysisDelegate");
 static_assert(sizeof(SoundSubmix_RemoveSpectralAnalysisDelegate) == 0x000018, "Wrong size on SoundSubmix_RemoveSpectralAnalysisDelegate");
@@ -59150,7 +59150,7 @@ static_assert(offsetof(WorldPartitionDestructibleInHLODInterface_GetHLODDestruct
 struct WorldPartitionDestructibleInHLODSupportLibrary_DamageInHLOD final
 {
 public:
-	TScriptInterface<class IWorldPartitionDestructibleInHLODInterface> DestructibleInHLOD;                                // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TScriptInterface<class IWorldPartitionDestructibleInHLODInterface> DestructibleInHLOD;           // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         DamagePercent;                                     // 0x0010(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -59164,7 +59164,7 @@ static_assert(offsetof(WorldPartitionDestructibleInHLODSupportLibrary_DamageInHL
 struct WorldPartitionDestructibleInHLODSupportLibrary_DestroyInHLOD final
 {
 public:
-	TScriptInterface<class IWorldPartitionDestructibleInHLODInterface> DestructibleInHLOD;                                // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TScriptInterface<class IWorldPartitionDestructibleInHLODInterface> DestructibleInHLOD;           // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(WorldPartitionDestructibleInHLODSupportLibrary_DestroyInHLOD) == 0x000008, "Wrong alignment on WorldPartitionDestructibleInHLODSupportLibrary_DestroyInHLOD");
 static_assert(sizeof(WorldPartitionDestructibleInHLODSupportLibrary_DestroyInHLOD) == 0x000010, "Wrong size on WorldPartitionDestructibleInHLODSupportLibrary_DestroyInHLOD");

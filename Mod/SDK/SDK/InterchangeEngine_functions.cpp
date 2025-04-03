@@ -20,9 +20,9 @@ namespace SDK
 // Function InterchangeEngine.InterchangeFilePickerBase.ScriptedFilePickerForTranslatorAssetType
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// EInterchangeTranslatorAssetType         TranslatorAssetType                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FInterchangeFilePickerParameters Parameters                                             (Parm, OutParm, NativeAccessSpecifierPublic)
-// TArray<class FString>                   OutFilenames                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const EInterchangeTranslatorAssetType   TranslatorAssetType                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FInterchangeFilePickerParameters*Parameters                                             (Parm, OutParm, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutFilenames                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeFilePickerBase::ScriptedFilePickerForTranslatorAssetType(const EInterchangeTranslatorAssetType TranslatorAssetType, struct FInterchangeFilePickerParameters* Parameters, TArray<class FString>* OutFilenames)
@@ -56,9 +56,9 @@ bool UInterchangeFilePickerBase::ScriptedFilePickerForTranslatorAssetType(const 
 // Function InterchangeEngine.InterchangeFilePickerBase.ScriptedFilePickerForTranslatorType
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// EInterchangeTranslatorType              TranslatorType                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FInterchangeFilePickerParameters Parameters                                             (Parm, OutParm, NativeAccessSpecifierPublic)
-// TArray<class FString>                   OutFilenames                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const EInterchangeTranslatorType        TranslatorType                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FInterchangeFilePickerParameters*Parameters                                             (Parm, OutParm, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutFilenames                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeFilePickerBase::ScriptedFilePickerForTranslatorType(const EInterchangeTranslatorType TranslatorType, struct FInterchangeFilePickerParameters* Parameters, TArray<class FString>* OutFilenames)
@@ -92,8 +92,8 @@ bool UInterchangeFilePickerBase::ScriptedFilePickerForTranslatorType(const EInte
 // Function InterchangeEngine.InterchangePipelineConfigurationBase.ScriptedShowPipelineConfigurationDialog
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TArray<struct FInterchangeStackInfo>    PipelineStacks                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
-// TArray<class UInterchangePipelineBase*> OutPipelines                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<struct FInterchangeStackInfo>*   PipelineStacks                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class UInterchangePipelineBase*>*OutPipelines                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // class UInterchangeSourceData*           SourceData                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UInterchangeTranslatorBase*       Translator                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -132,8 +132,8 @@ EInterchangePipelineConfigurationDialogResult UInterchangePipelineConfigurationB
 // Function InterchangeEngine.InterchangePipelineConfigurationBase.ScriptedShowReimportPipelineConfigurationDialog
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TArray<struct FInterchangeStackInfo>    PipelineStacks                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
-// TArray<class UInterchangePipelineBase*> OutPipelines                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<struct FInterchangeStackInfo>*   PipelineStacks                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class UInterchangePipelineBase*>*OutPipelines                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // class UInterchangeSourceData*           SourceData                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UInterchangeTranslatorBase*       Translator                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -174,8 +174,8 @@ EInterchangePipelineConfigurationDialogResult UInterchangePipelineConfigurationB
 // Function InterchangeEngine.InterchangePipelineConfigurationBase.ScriptedShowScenePipelineConfigurationDialog
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TArray<struct FInterchangeStackInfo>    PipelineStacks                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
-// TArray<class UInterchangePipelineBase*> OutPipelines                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<struct FInterchangeStackInfo>*   PipelineStacks                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class UInterchangePipelineBase*>*OutPipelines                                           (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // class UInterchangeSourceData*           SourceData                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UInterchangeTranslatorBase*       Translator                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -289,7 +289,7 @@ TArray<class UObject*> UInterchangeAssetImportData::GetPipelines() const
 // Function InterchangeEngine.InterchangeAssetImportData.GetStoredFactoryNode
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           InNodeUniqueId                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InNodeUniqueId                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UInterchangeFactoryBaseNode*      ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UInterchangeFactoryBaseNode* UInterchangeAssetImportData::GetStoredFactoryNode(const class FString& InNodeUniqueId) const
@@ -317,7 +317,7 @@ class UInterchangeFactoryBaseNode* UInterchangeAssetImportData::GetStoredFactory
 // Function InterchangeEngine.InterchangeAssetImportData.GetStoredNode
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           InNodeUniqueId                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InNodeUniqueId                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const class UInterchangeBaseNode*       ReturnValue                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 const class UInterchangeBaseNode* UInterchangeAssetImportData::GetStoredNode(const class FString& InNodeUniqueId) const
@@ -470,7 +470,7 @@ void UInterchangeAssetImportData::SetNodeContainer(class UInterchangeBaseNodeCon
 // Function InterchangeEngine.InterchangeAssetImportData.SetPipelines
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<class UObject*>                  InPipelines                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class UObject*>&           InPipelines                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UInterchangeAssetImportData::SetPipelines(const TArray<class UObject*>& InPipelines) const
 {
@@ -595,7 +595,7 @@ void UInterchangePipelineStackOverride::AddPythonPipeline(class UInterchangePyth
 // Function InterchangeEngine.InterchangeManager.CreateSourceData
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           InFilename                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InFilename                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UInterchangeSourceData*           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UInterchangeSourceData* UInterchangeManager::CreateSourceData(const class FString& InFilename)
@@ -648,7 +648,7 @@ class UInterchangeManager* UInterchangeManager::GetInterchangeManagerScripted()
 // Function InterchangeEngine.InterchangeManager.ExportAsset
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          Asset                                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    Asset                                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIsAutomated                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -678,7 +678,7 @@ bool UInterchangeManager::ExportAsset(const class UObject* Asset, bool bIsAutoma
 // Function InterchangeEngine.InterchangeManager.ExportScene
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class UObject*                          World                                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    World                                                  (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIsAutomated                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -708,9 +708,9 @@ bool UInterchangeManager::ExportScene(const class UObject* World, bool bIsAutoma
 // Function InterchangeEngine.InterchangeManager.ImportAsset
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           ContentPath                                            (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UInterchangeSourceData*           SourceData                                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FImportAssetParameters           ImportAssetParameters                                  (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const class FString&                    ContentPath                                            (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeSourceData*     SourceData                                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FImportAssetParameters&    ImportAssetParameters                                  (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeManager::ImportAsset(const class FString& ContentPath, const class UInterchangeSourceData* SourceData, const struct FImportAssetParameters& ImportAssetParameters)
@@ -740,9 +740,9 @@ bool UInterchangeManager::ImportAsset(const class FString& ContentPath, const cl
 // Function InterchangeEngine.InterchangeManager.ImportScene
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           ContentPath                                            (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UInterchangeSourceData*           SourceData                                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FImportAssetParameters           ImportAssetParameters                                  (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const class FString&                    ContentPath                                            (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeSourceData*     SourceData                                             (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FImportAssetParameters&    ImportAssetParameters                                  (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeManager::ImportScene(const class FString& ContentPath, const class UInterchangeSourceData* SourceData, const struct FImportAssetParameters& ImportAssetParameters)
@@ -772,7 +772,7 @@ bool UInterchangeManager::ImportScene(const class FString& ContentPath, const cl
 // Function InterchangeEngine.InterchangeManager.GetRegisteredFactoryClass
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UClass*                           ClassToMake                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UClass*                     ClassToMake                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const class UClass*                     ReturnValue                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 const class UClass* UInterchangeManager::GetRegisteredFactoryClass(const class UClass* ClassToMake) const

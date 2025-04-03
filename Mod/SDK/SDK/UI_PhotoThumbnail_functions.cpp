@@ -206,7 +206,7 @@ void UUI_PhotoThumbnail_C::ResetThumbAnimation()
 // Function UI_PhotoThumbnail.UI_PhotoThumbnail_C.SetPhotoData
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FS_PhotosData                    PhotoInfo                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const struct FS_PhotosData&             PhotoInfo                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
 void UUI_PhotoThumbnail_C::SetPhotoData(const struct FS_PhotosData& PhotoInfo)
 {

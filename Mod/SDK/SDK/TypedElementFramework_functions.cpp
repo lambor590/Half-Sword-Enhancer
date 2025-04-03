@@ -20,8 +20,8 @@ namespace SDK
 // Function TypedElementFramework.TypedElementHandleLibrary.Equal
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FScriptTypedElementHandle        LHS                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementHandle        RHS                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& LHS                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& RHS                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementHandleLibrary::Equal(const struct FScriptTypedElementHandle& LHS, const struct FScriptTypedElementHandle& RHS)
@@ -50,7 +50,7 @@ bool UTypedElementHandleLibrary::Equal(const struct FScriptTypedElementHandle& L
 // Function TypedElementFramework.TypedElementHandleLibrary.IsSet
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FScriptTypedElementHandle        ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementHandleLibrary::IsSet(const struct FScriptTypedElementHandle& ElementHandle)
@@ -78,8 +78,8 @@ bool UTypedElementHandleLibrary::IsSet(const struct FScriptTypedElementHandle& E
 // Function TypedElementFramework.TypedElementHandleLibrary.NotEqual
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FScriptTypedElementHandle        LHS                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementHandle        RHS                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& LHS                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& RHS                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementHandleLibrary::NotEqual(const struct FScriptTypedElementHandle& LHS, const struct FScriptTypedElementHandle& RHS)
@@ -108,7 +108,7 @@ bool UTypedElementHandleLibrary::NotEqual(const struct FScriptTypedElementHandle
 // Function TypedElementFramework.TypedElementHandleLibrary.Release
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        ElementHandle                                          (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FScriptTypedElementHandle&       ElementHandle                                          (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UTypedElementHandleLibrary::Release(struct FScriptTypedElementHandle& ElementHandle)
 {
@@ -135,8 +135,8 @@ void UTypedElementHandleLibrary::Release(struct FScriptTypedElementHandle& Eleme
 // Function TypedElementFramework.TypedElementListLibrary.Add
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (Parm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementHandle        ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementListLibrary::Add(const struct FScriptTypedElementListProxy& ElementList, const struct FScriptTypedElementHandle& ElementHandle)
@@ -165,8 +165,8 @@ bool UTypedElementListLibrary::Add(const struct FScriptTypedElementListProxy& El
 // Function TypedElementFramework.TypedElementListLibrary.Append
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (Parm, NativeAccessSpecifierPublic)
-// TArray<struct FScriptTypedElementHandle>ElementHandles                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (Parm, NativeAccessSpecifierPublic)
+// const TArray<struct FScriptTypedElementHandle>&ElementHandles                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UTypedElementListLibrary::Append(const struct FScriptTypedElementListProxy& ElementList, const TArray<struct FScriptTypedElementHandle>& ElementHandles)
 {
@@ -192,8 +192,8 @@ void UTypedElementListLibrary::Append(const struct FScriptTypedElementListProxy&
 // Function TypedElementFramework.TypedElementListLibrary.AppendList
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (Parm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     OtherElementList                                       (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&OtherElementList                                       (ConstParm, Parm, NativeAccessSpecifierPublic)
 
 void UTypedElementListLibrary::AppendList(const struct FScriptTypedElementListProxy& ElementList, const struct FScriptTypedElementListProxy& OtherElementList)
 {
@@ -219,7 +219,7 @@ void UTypedElementListLibrary::AppendList(const struct FScriptTypedElementListPr
 // Function TypedElementFramework.TypedElementListLibrary.Clone
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
 // struct FScriptTypedElementListProxy     ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FScriptTypedElementListProxy UTypedElementListLibrary::Clone(const struct FScriptTypedElementListProxy& ElementList)
@@ -247,8 +247,8 @@ struct FScriptTypedElementListProxy UTypedElementListLibrary::Clone(const struct
 // Function TypedElementFramework.TypedElementListLibrary.Contains
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementHandle        ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementListLibrary::Contains(const struct FScriptTypedElementListProxy& ElementList, const struct FScriptTypedElementHandle& ElementHandle)
@@ -277,8 +277,8 @@ bool UTypedElementListLibrary::Contains(const struct FScriptTypedElementListProx
 // Function TypedElementFramework.TypedElementListLibrary.CountElements
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// TSubclassOf<class IInterface>           BaseInterfaceType                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     BaseInterfaceType                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UTypedElementListLibrary::CountElements(const struct FScriptTypedElementListProxy& ElementList, const TSubclassOf<class IInterface> BaseInterfaceType)
@@ -307,8 +307,8 @@ int32 UTypedElementListLibrary::CountElements(const struct FScriptTypedElementLi
 // Function TypedElementFramework.TypedElementListLibrary.CountElementsOfType
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// class FName                             ElementTypeName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const class FName                       ElementTypeName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UTypedElementListLibrary::CountElementsOfType(const struct FScriptTypedElementListProxy& ElementList, const class FName ElementTypeName)
@@ -365,8 +365,8 @@ struct FScriptTypedElementListProxy UTypedElementListLibrary::CreateScriptElemen
 // Function TypedElementFramework.TypedElementListLibrary.Empty
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (Parm, NativeAccessSpecifierPublic)
-// int32                                   Slack                                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (Parm, NativeAccessSpecifierPublic)
+// const int32                             Slack                                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UTypedElementListLibrary::Empty(const struct FScriptTypedElementListProxy& ElementList, const int32 Slack)
 {
@@ -392,8 +392,8 @@ void UTypedElementListLibrary::Empty(const struct FScriptTypedElementListProxy& 
 // Function TypedElementFramework.TypedElementListLibrary.GetElementHandleAt
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FScriptTypedElementHandle        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FScriptTypedElementHandle UTypedElementListLibrary::GetElementHandleAt(const struct FScriptTypedElementListProxy& ElementList, const int32 Index_0)
@@ -422,8 +422,8 @@ struct FScriptTypedElementHandle UTypedElementListLibrary::GetElementHandleAt(co
 // Function TypedElementFramework.TypedElementListLibrary.GetElementHandles
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// TSubclassOf<class IInterface>           BaseInterfaceType                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     BaseInterfaceType                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FScriptTypedElementHandle>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FScriptTypedElementHandle> UTypedElementListLibrary::GetElementHandles(const struct FScriptTypedElementListProxy& ElementList, const TSubclassOf<class IInterface> BaseInterfaceType)
@@ -452,9 +452,9 @@ TArray<struct FScriptTypedElementHandle> UTypedElementListLibrary::GetElementHan
 // Function TypedElementFramework.TypedElementListLibrary.GetElementInterface
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementHandle        ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// TSubclassOf<class IInterface>           BaseInterfaceType                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     BaseInterfaceType                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UObject*                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UObject* UTypedElementListLibrary::GetElementInterface(const struct FScriptTypedElementListProxy& ElementList, const struct FScriptTypedElementHandle& ElementHandle, const TSubclassOf<class IInterface> BaseInterfaceType)
@@ -484,8 +484,8 @@ class UObject* UTypedElementListLibrary::GetElementInterface(const struct FScrip
 // Function TypedElementFramework.TypedElementListLibrary.HasElements
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// TSubclassOf<class IInterface>           BaseInterfaceType                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     BaseInterfaceType                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementListLibrary::HasElements(const struct FScriptTypedElementListProxy& ElementList, const TSubclassOf<class IInterface> BaseInterfaceType)
@@ -514,8 +514,8 @@ bool UTypedElementListLibrary::HasElements(const struct FScriptTypedElementListP
 // Function TypedElementFramework.TypedElementListLibrary.HasElementsOfType
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// class FName                             ElementTypeName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const class FName                       ElementTypeName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementListLibrary::HasElementsOfType(const struct FScriptTypedElementListProxy& ElementList, const class FName ElementTypeName)
@@ -544,8 +544,8 @@ bool UTypedElementListLibrary::HasElementsOfType(const struct FScriptTypedElemen
 // Function TypedElementFramework.TypedElementListLibrary.IsValidIndex
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementListLibrary::IsValidIndex(const struct FScriptTypedElementListProxy& ElementList, const int32 Index_0)
@@ -574,7 +574,7 @@ bool UTypedElementListLibrary::IsValidIndex(const struct FScriptTypedElementList
 // Function TypedElementFramework.TypedElementListLibrary.Num
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UTypedElementListLibrary::Num(const struct FScriptTypedElementListProxy& ElementList)
@@ -602,8 +602,8 @@ int32 UTypedElementListLibrary::Num(const struct FScriptTypedElementListProxy& E
 // Function TypedElementFramework.TypedElementListLibrary.Remove
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (Parm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementHandle        ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& ElementHandle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementListLibrary::Remove(const struct FScriptTypedElementListProxy& ElementList, const struct FScriptTypedElementHandle& ElementHandle)
@@ -632,8 +632,8 @@ bool UTypedElementListLibrary::Remove(const struct FScriptTypedElementListProxy&
 // Function TypedElementFramework.TypedElementListLibrary.Reserve
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (Parm, NativeAccessSpecifierPublic)
-// int32                                   Size                                                   (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (Parm, NativeAccessSpecifierPublic)
+// const int32                             Size                                                   (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UTypedElementListLibrary::Reserve(const struct FScriptTypedElementListProxy& ElementList, const int32 Size)
 {
@@ -659,7 +659,7 @@ void UTypedElementListLibrary::Reserve(const struct FScriptTypedElementListProxy
 // Function TypedElementFramework.TypedElementListLibrary.Reset
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (Parm, NativeAccessSpecifierPublic)
 
 void UTypedElementListLibrary::Reset(const struct FScriptTypedElementListProxy& ElementList)
 {
@@ -684,7 +684,7 @@ void UTypedElementListLibrary::Reset(const struct FScriptTypedElementListProxy& 
 // Function TypedElementFramework.TypedElementListLibrary.Shrink
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementListProxy     ElementList                                            (Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (Parm, NativeAccessSpecifierPublic)
 
 void UTypedElementListLibrary::Shrink(const struct FScriptTypedElementListProxy& ElementList)
 {
@@ -734,8 +734,8 @@ class UTypedElementRegistry* UTypedElementRegistry::GetInstance()
 // Function TypedElementFramework.TypedElementRegistry.GetElementInterface
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// TSubclassOf<class IInterface>           InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UObject*                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UObject* UTypedElementRegistry::GetElementInterface(const struct FScriptTypedElementHandle& InElementHandle, const TSubclassOf<class IInterface> InBaseInterfaceType) const
@@ -764,7 +764,7 @@ class UObject* UTypedElementRegistry::GetElementInterface(const struct FScriptTy
 // Function TypedElementFramework.TestTypedElementInterfaceA.GetDisplayName
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 class FText ITestTypedElementInterfaceA::GetDisplayName(const struct FScriptTypedElementHandle& InElementHandle)
@@ -772,7 +772,7 @@ class FText ITestTypedElementInterfaceA::GetDisplayName(const struct FScriptType
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TestTypedElementInterfaceA", "GetDisplayName");
+		Func = AsUObject()->Class->GetFunction("TestTypedElementInterfaceA", "GetDisplayName");
 
 	Params::TestTypedElementInterfaceA_GetDisplayName Parms{};
 
@@ -781,7 +781,7 @@ class FText ITestTypedElementInterfaceA::GetDisplayName(const struct FScriptType
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -792,8 +792,8 @@ class FText ITestTypedElementInterfaceA::GetDisplayName(const struct FScriptType
 // Function TypedElementFramework.TestTypedElementInterfaceA.SetDisplayName
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// class FText                             InNewName                                              (Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const class FText&                      InNewName                                              (Parm, NativeAccessSpecifierPublic)
 // bool                                    bNotify                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -802,7 +802,7 @@ bool ITestTypedElementInterfaceA::SetDisplayName(const struct FScriptTypedElemen
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TestTypedElementInterfaceA", "SetDisplayName");
+		Func = AsUObject()->Class->GetFunction("TestTypedElementInterfaceA", "SetDisplayName");
 
 	Params::TestTypedElementInterfaceA_SetDisplayName Parms{};
 
@@ -813,7 +813,7 @@ bool ITestTypedElementInterfaceA::SetDisplayName(const struct FScriptTypedElemen
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -824,7 +824,7 @@ bool ITestTypedElementInterfaceA::SetDisplayName(const struct FScriptTypedElemen
 // Function TypedElementFramework.TestTypedElementInterfaceB.MarkAsTested
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ITestTypedElementInterfaceB::MarkAsTested(const struct FScriptTypedElementHandle& InElementHandle)
@@ -832,7 +832,7 @@ bool ITestTypedElementInterfaceB::MarkAsTested(const struct FScriptTypedElementH
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TestTypedElementInterfaceB", "MarkAsTested");
+		Func = AsUObject()->Class->GetFunction("TestTypedElementInterfaceB", "MarkAsTested");
 
 	Params::TestTypedElementInterfaceB_MarkAsTested Parms{};
 
@@ -841,7 +841,7 @@ bool ITestTypedElementInterfaceB::MarkAsTested(const struct FScriptTypedElementH
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -852,7 +852,7 @@ bool ITestTypedElementInterfaceB::MarkAsTested(const struct FScriptTypedElementH
 // Function TypedElementFramework.TestTypedElementInterfaceC.GetIsTested
 // (Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ITestTypedElementInterfaceC::GetIsTested(const struct FScriptTypedElementHandle& InElementHandle) const
@@ -860,7 +860,7 @@ bool ITestTypedElementInterfaceC::GetIsTested(const struct FScriptTypedElementHa
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TestTypedElementInterfaceC", "GetIsTested");
+		Func = AsUObject()->Class->GetFunction("TestTypedElementInterfaceC", "GetIsTested");
 
 	Params::TestTypedElementInterfaceC_GetIsTested Parms{};
 
@@ -869,7 +869,7 @@ bool ITestTypedElementInterfaceC::GetIsTested(const struct FScriptTypedElementHa
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 

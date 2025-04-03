@@ -21,8 +21,8 @@ namespace SDK
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class APostProcessVolume*               PostProcessVolume                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// double                                  PropertyTotal                                          (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  PropertyCount                                          (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double&                                 PropertyTotal                                          (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double&                                 PropertyCount                                          (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  PropertyValue                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  DistanceWeight                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
@@ -85,8 +85,8 @@ void UBPC_PhotoMode_C::ExecuteUbergraph_BPC_PhotoMode(int32 EntryPoint)
 // Function BPC_PhotoMode.BPC_PhotoMode_C.Get Active Camera
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// class UCameraComponent*                 CurrentCamera                                          (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class USpringArmComponent*              CurrentSpringArm                                       (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class UCameraComponent**                CurrentCamera                                          (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class USpringArmComponent**             CurrentSpringArm                                       (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::Get_Active_Camera(class UCameraComponent** CurrentCamera, class USpringArmComponent** CurrentSpringArm)
 {
@@ -110,7 +110,7 @@ void UBPC_PhotoMode_C::Get_Active_Camera(class UCameraComponent** CurrentCamera,
 // Function BPC_PhotoMode.BPC_PhotoMode_C.GetCameraLocation
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FVector                          CameraLocation                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         CameraLocation                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::GetCameraLocation(struct FVector* CameraLocation)
 {
@@ -131,7 +131,7 @@ void UBPC_PhotoMode_C::GetCameraLocation(struct FVector* CameraLocation)
 // Function BPC_PhotoMode.BPC_PhotoMode_C.GetCameraManager
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// class APlayerCameraManager*             PlayerCameraManager                                    (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class APlayerCameraManager**            PlayerCameraManager                                    (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::GetCameraManager(class APlayerCameraManager** PlayerCameraManager)
 {
@@ -152,7 +152,7 @@ void UBPC_PhotoMode_C::GetCameraManager(class APlayerCameraManager** PlayerCamer
 // Function BPC_PhotoMode.BPC_PhotoMode_C.getScreenshotPath
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// class FString                           FullPath                                               (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          FullPath                                               (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::getScreenshotPath(class FString* FullPath)
 {
@@ -173,7 +173,7 @@ void UBPC_PhotoMode_C::getScreenshotPath(class FString* FullPath)
 // Function BPC_PhotoMode.BPC_PhotoMode_C.GetSliderCameraDistance
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// double                                  CameraDistance                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 CameraDistance                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::GetSliderCameraDistance(double* CameraDistance)
 {
@@ -194,7 +194,7 @@ void UBPC_PhotoMode_C::GetSliderCameraDistance(double* CameraDistance)
 // Function BPC_PhotoMode.BPC_PhotoMode_C.GetSliderFOV
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// double                                  FOV                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 FOV                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::GetSliderFOV(double* FOV)
 {
@@ -215,7 +215,7 @@ void UBPC_PhotoMode_C::GetSliderFOV(double* FOV)
 // Function BPC_PhotoMode.BPC_PhotoMode_C.GetSliderRoll
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// double                                  Roll                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Roll                                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::GetSliderRoll(double* Roll)
 {
@@ -236,7 +236,7 @@ void UBPC_PhotoMode_C::GetSliderRoll(double* Roll)
 // Function BPC_PhotoMode.BPC_PhotoMode_C.IconSelector - Gallery
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::IconSelector___Gallery(const struct FKey& Key)
 {
@@ -256,7 +256,7 @@ void UBPC_PhotoMode_C::IconSelector___Gallery(const struct FKey& Key)
 // Function BPC_PhotoMode.BPC_PhotoMode_C.IconSelector - Photo Mode Menu
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::IconSelector___Photo_Mode_Menu(const struct FKey& Key)
 {
@@ -290,7 +290,7 @@ void UBPC_PhotoMode_C::InitWidgets()
 // Function BPC_PhotoMode.BPC_PhotoMode_C.OpenGallery
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FKey                             LastKey_0                                              (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      LastKey_0                                              (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::OpenGallery(const struct FKey& LastKey_0)
 {
@@ -310,7 +310,7 @@ void UBPC_PhotoMode_C::OpenGallery(const struct FKey& LastKey_0)
 // Function BPC_PhotoMode.BPC_PhotoMode_C.Photo Mode
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::Photo_Mode(const struct FKey& Key)
 {
@@ -373,7 +373,7 @@ void UBPC_PhotoMode_C::ResetPhotoMode()
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // double                                  AxisValueIn                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  AxisValueOut                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 AxisValueOut                                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::UnpausedGameAxisMovementControl(double AxisValueIn, double* AxisValueOut)
 {
@@ -396,7 +396,7 @@ void UBPC_PhotoMode_C::UnpausedGameAxisMovementControl(double AxisValueIn, doubl
 // Function BPC_PhotoMode.BPC_PhotoMode_C.UpdateOutputFolder
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class FString                           Custom_Path                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Custom_Path                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
 void UBPC_PhotoMode_C::UpdateOutputFolder(const class FString& Custom_Path)
 {

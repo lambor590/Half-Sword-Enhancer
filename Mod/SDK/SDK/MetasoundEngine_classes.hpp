@@ -62,7 +62,7 @@ public:
 	static class UMetasoundGeneratorHandle* CreateMetaSoundGeneratorHandle(class UAudioComponent* OnComponent);
 
 	bool ApplyParameterPack(class UMetasoundParameterPack* Pack);
-	bool WatchOutput(class FName OutputName, const TDelegate<void(class FName OutputName, struct FMetaSoundOutput& Output)>& OnOutputValueChanged, class FName AnalyzerName, class FName AnalyzerOutputName);
+	bool WatchOutput(class FName OutputName, const TDelegate<void(class FName OutputName, const struct FMetaSoundOutput& Output)>& OnOutputValueChanged, class FName AnalyzerName, class FName AnalyzerOutputName);
 
 	void EnableRuntimeRenderTiming(bool Enable) const;
 	double GetCPUCoreUtilization() const;
@@ -143,7 +143,7 @@ public:
 	TArray<class UMetasoundGeneratorHandle*>      TrackedGenerators;                                 // 0x0040(0x0010)(ZeroConstructor, Transient, UObjectWrapper, NativeAccessSpecifierPrivate)
 
 public:
-	bool WatchOutput(class UAudioComponent* AudioComponent, class FName OutputName, const TDelegate<void(class FName OutputName, struct FMetaSoundOutput& Output)>& OnOutputValueChanged, class FName AnalyzerName, class FName AnalyzerOutputName);
+	bool WatchOutput(class UAudioComponent* AudioComponent, class FName OutputName, const TDelegate<void(class FName OutputName, const struct FMetaSoundOutput& Output)>& OnOutputValueChanged, class FName AnalyzerName, class FName AnalyzerOutputName);
 
 public:
 	static class UClass* StaticClass()
@@ -187,7 +187,7 @@ public:
 	bool                                          bAutoUpdateEnabled;                                // 0x0038(0x0001)(Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_39[0x7];                                       // 0x0039(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FMetasoundFrontendClassName>    AutoUpdateDenylist;                                // 0x0040(0x0010)(Edit, ZeroConstructor, Config, NativeAccessSpecifierPublic)
-	TArray<struct FDefaultMetaSoundAssetAutoUpdateSettings> AutoUpdateAssetDenylist;                           // 0x0050(0x0010)(Edit, ZeroConstructor, Config, NativeAccessSpecifierPublic)
+	TArray<struct FDefaultMetaSoundAssetAutoUpdateSettings> AutoUpdateAssetDenylist;                 // 0x0050(0x0010)(Edit, ZeroConstructor, Config, NativeAccessSpecifierPublic)
 	bool                                          bAutoUpdateLogWarningOnDroppedConnection;          // 0x0060(0x0001)(Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_61[0x7];                                       // 0x0061(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FDirectoryPath>                 DirectoriesToRegister;                             // 0x0068(0x0010)(Edit, ZeroConstructor, Config, NativeAccessSpecifierPublic)
@@ -269,7 +269,7 @@ class UMetaSoundAssetSubsystem final : public UEngineSubsystem
 {
 public:
 	uint8                                         Pad_30[0x8];                                       // 0x0030(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FMetaSoundAsyncAssetDependencies> LoadingDependencies;                               // 0x0038(0x0010)(ZeroConstructor, Transient, NativeAccessSpecifierPrivate)
+	TArray<struct FMetaSoundAsyncAssetDependencies> LoadingDependencies;                             // 0x0038(0x0010)(ZeroConstructor, Transient, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_48[0x198];                                     // 0x0048(0x0198)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -423,9 +423,9 @@ class UMetaSoundBuilderSubsystem final : public UEngineSubsystem
 {
 public:
 	uint8                                         Pad_30[0x8];                                       // 0x0030(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class FName, class UMetaSoundBuilderBase*> NamedBuilders;                                     // 0x0038(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
-	TMap<struct FMetasoundFrontendClassName, TWeakObjectPtr<class UMetaSoundBuilderBase>> AssetBuilders;                                     // 0x0088(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
-	TMap<struct FMetasoundFrontendClassName, TWeakObjectPtr<class UMetaSoundBuilderBase>> TransientBuilders;                                 // 0x00D8(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<class FName, class UMetaSoundBuilderBase*> NamedBuilders;                                   // 0x0038(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<struct FMetasoundFrontendClassName, TWeakObjectPtr<class UMetaSoundBuilderBase>> AssetBuilders; // 0x0088(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<struct FMetasoundFrontendClassName, TWeakObjectPtr<class UMetaSoundBuilderBase>> TransientBuilders; // 0x00D8(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
 
 public:
 	struct FMetasoundFrontendLiteral CreateBoolArrayMetaSoundLiteral(const TArray<bool>& Value, class FName* DataType);

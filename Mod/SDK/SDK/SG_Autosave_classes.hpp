@@ -41,7 +41,7 @@ public:
 	double                                        Bleeding;                                          // 0x00F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Guts_Spilled;                                      // 0x0100(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_101[0x7];                                      // 0x0101(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class UClass*, class UMaterialInstanceDynamic*> Armor_Slot_Materials;                              // 0x0108(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TMap<class UClass*, class UMaterialInstanceDynamic*> Armor_Slot_Materials;                       // 0x0108(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
 	double                                        Health;                                            // 0x0158(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Score;                                             // 0x0160(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Mouse_Sensitivity;                                 // 0x0168(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)

@@ -10,6 +10,7 @@
 
 #include "Basic.hpp"
 
+#include "UMG_structs.hpp"
 #include "SlateCore_structs.hpp"
 
 
@@ -17,14 +18,13 @@ namespace SDK::Params
 {
 
 // Function UI_Pause_Eng.UI_Pause_Eng_C.ExecuteUbergraph_UI_Pause_Eng
-// 0x0150 (0x0150 - 0x0000)
+// 0x0180 (0x0180 - 0x0000)
 struct UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_SetGamePaused_ReturnValue;                // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_SetGamePaused_ReturnValue_1;              // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_6[0x2];                                        // 0x0006(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0008(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0010(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
@@ -51,33 +51,42 @@ public:
 	uint8                                         Pad_A9[0x7];                                       // 0x00A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_6;        // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_IsInputKeyDown_ReturnValue_2;             // 0x00B8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_B9[0x7];                                       // 0x00B9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          CallFunc_BooleanOR_ReturnValue_1;                  // 0x00B9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_BA[0x6];                                       // 0x00BA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_7;        // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue_1;                  // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_DeleteGameInSlot_ReturnValue;             // 0x00C9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_CA[0x6];                                       // 0x00CA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          CallFunc_DeleteGameInSlot_ReturnValue;             // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_C9[0x7];                                       // 0x00C9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_10;             // 0x00D0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_11;             // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x00E0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x00E1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E2[0x6];                                       // 0x00E2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x00E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_SetGamePaused_ReturnValue_2;              // 0x00F0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_SetGamePaused_ReturnValue_3;              // 0x00F1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_F2[0x2];                                       // 0x00F2(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x00F4(0x0038)(IsPlainOldData, NoDestructor)
-	float                                         K2Node_Event_InDeltaTime;                          // 0x012C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0130(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0140(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_141[0x7];                                      // 0x0141(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue_1;                // 0x0148(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SetGamePaused_ReturnValue_1;              // 0x00E8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x00E9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SetGamePaused_ReturnValue_2;              // 0x00EA(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x00EB(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_EC[0x4];                                       // 0x00EC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0100(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_101[0x7];                                      // 0x0101(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue_1;                // 0x0108(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SetGamePaused_ReturnValue_3;              // 0x0110(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_111[0x7];                                      // 0x0111(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue_2;                // 0x0118(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x0120(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0128(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue_1;                // 0x0129(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ByteByte_ReturnValue;          // 0x012A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x012B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x012C(0x0038)(IsPlainOldData, NoDestructor)
+	float                                         K2Node_Event_InDeltaTime;                          // 0x0164(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Conv_BoolToString_ReturnValue;            // 0x0168(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x0178(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Clamp_ReturnValue;                        // 0x017C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng) == 0x000008, "Wrong alignment on UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng");
-static_assert(sizeof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng) == 0x000150, "Wrong size on UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng");
+static_assert(sizeof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng) == 0x000180, "Wrong size on UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, EntryPoint) == 0x000000, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::EntryPoint' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_SetGamePaused_ReturnValue) == 0x000004, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_SetGamePaused_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_SetGamePaused_ReturnValue_1) == 0x000005, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_SetGamePaused_ReturnValue_1' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetPlayerController_ReturnValue) == 0x000008, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetPlayerController_ReturnValue_1) == 0x000010, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetPlayerController_ReturnValue_2) == 0x000018, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetPlayerController_ReturnValue_2' has a wrong offset!");
@@ -101,22 +110,79 @@ static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_Ge
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_BooleanOR_ReturnValue) == 0x0000A8, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetPlayerController_ReturnValue_6) == 0x0000B0, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetPlayerController_ReturnValue_6' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_IsInputKeyDown_ReturnValue_2) == 0x0000B8, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_IsInputKeyDown_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_BooleanOR_ReturnValue_1) == 0x0000B9, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_BooleanOR_ReturnValue_1' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetPlayerController_ReturnValue_7) == 0x0000C0, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetPlayerController_ReturnValue_7' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_BooleanOR_ReturnValue_1) == 0x0000C8, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_BooleanOR_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_DeleteGameInSlot_ReturnValue) == 0x0000C9, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_DeleteGameInSlot_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_DeleteGameInSlot_ReturnValue) == 0x0000C8, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_DeleteGameInSlot_ReturnValue' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_PlayAnimation_ReturnValue_10) == 0x0000D0, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_PlayAnimation_ReturnValue_10' has a wrong offset!");
 static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_PlayAnimation_ReturnValue_11) == 0x0000D8, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_PlayAnimation_ReturnValue_11' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, Temp_bool_Variable) == 0x0000E0, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_Not_PreBool_ReturnValue) == 0x0000E1, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetGameMode_ReturnValue) == 0x0000E8, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_SetGamePaused_ReturnValue_2) == 0x0000F0, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_SetGamePaused_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_SetGamePaused_ReturnValue_3) == 0x0000F1, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_SetGamePaused_ReturnValue_3' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_Event_MyGeometry) == 0x0000F4, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_Event_MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_Event_InDeltaTime) == 0x00012C, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_Event_InDeltaTime' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetGameInstance_ReturnValue) == 0x000130, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_DynamicCast_AsGI_Settings) == 0x000138, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_DynamicCast_bSuccess) == 0x000140, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_DynamicCast_bSuccess' has a wrong offset!");
-static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetGameMode_ReturnValue_1) == 0x000148, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetGameMode_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetGameMode_ReturnValue) == 0x0000E0, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_SetGamePaused_ReturnValue_1) == 0x0000E8, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_SetGamePaused_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, Temp_bool_Variable) == 0x0000E9, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_SetGamePaused_ReturnValue_2) == 0x0000EA, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_SetGamePaused_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_Not_PreBool_ReturnValue) == 0x0000EB, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetGameInstance_ReturnValue) == 0x0000F0, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_DynamicCast_AsGI_Settings) == 0x0000F8, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_DynamicCast_bSuccess) == 0x000100, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_DynamicCast_bSuccess' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetGameMode_ReturnValue_1) == 0x000108, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetGameMode_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_SetGamePaused_ReturnValue_3) == 0x000110, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_SetGamePaused_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_GetGameMode_ReturnValue_2) == 0x000118, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_GetGameMode_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x000120, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_DynamicCast_bSuccess_1) == 0x000128, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_Not_PreBool_ReturnValue_1) == 0x000129, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_Not_PreBool_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_EqualEqual_ByteByte_ReturnValue) == 0x00012A, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_EqualEqual_ByteByte_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_BooleanAND_ReturnValue) == 0x00012B, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_Event_MyGeometry) == 0x00012C, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_Event_MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, K2Node_Event_InDeltaTime) == 0x000164, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::K2Node_Event_InDeltaTime' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_Conv_BoolToString_ReturnValue) == 0x000168, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_Conv_BoolToString_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_Subtract_IntInt_ReturnValue) == 0x000178, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_Subtract_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng, CallFunc_Clamp_ReturnValue) == 0x00017C, "Member 'UI_Pause_Eng_C_ExecuteUbergraph_UI_Pause_Eng::CallFunc_Clamp_ReturnValue' has a wrong offset!");
+
+// Function UI_Pause_Eng.UI_Pause_Eng_C.Get_ProgressLostText_Text
+// 0x0038 (0x0038 - 0x0000)
+struct UI_Pause_Eng_C_Get_ProgressLostText_Text final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0011(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_12[0x6];                                       // 0x0012(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   CallFunc_SelectText_ReturnValue;                   // 0x0018(0x0010)()
+	class FText                                   CallFunc_SelectText_ReturnValue_1;                 // 0x0028(0x0010)()
+};
+static_assert(alignof(UI_Pause_Eng_C_Get_ProgressLostText_Text) == 0x000008, "Wrong alignment on UI_Pause_Eng_C_Get_ProgressLostText_Text");
+static_assert(sizeof(UI_Pause_Eng_C_Get_ProgressLostText_Text) == 0x000038, "Wrong size on UI_Pause_Eng_C_Get_ProgressLostText_Text");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Text, ReturnValue) == 0x000000, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Text::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Text, CallFunc_Not_PreBool_ReturnValue) == 0x000010, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Text::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Text, CallFunc_BooleanAND_ReturnValue) == 0x000011, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Text::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Text, CallFunc_SelectText_ReturnValue) == 0x000018, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Text::CallFunc_SelectText_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Text, CallFunc_SelectText_ReturnValue_1) == 0x000028, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Text::CallFunc_SelectText_ReturnValue_1' has a wrong offset!");
+
+// Function UI_Pause_Eng.UI_Pause_Eng_C.Get_ProgressLostText_Visibility
+// 0x0009 (0x0009 - 0x0000)
+struct UI_Pause_Eng_C_Get_ProgressLostText_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility) == 0x000001, "Wrong alignment on UI_Pause_Eng_C_Get_ProgressLostText_Visibility");
+static_assert(sizeof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility) == 0x000009, "Wrong size on UI_Pause_Eng_C_Get_ProgressLostText_Visibility");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, ReturnValue) == 0x000000, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000004, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000005, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x000006, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000007, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Pause_Eng_C_Get_ProgressLostText_Visibility, K2Node_Select_Default) == 0x000008, "Member 'UI_Pause_Eng_C_Get_ProgressLostText_Visibility::K2Node_Select_Default' has a wrong offset!");
 
 // Function UI_Pause_Eng.UI_Pause_Eng_C.SetLastOpenedWidget
 // 0x0008 (0x0008 - 0x0000)

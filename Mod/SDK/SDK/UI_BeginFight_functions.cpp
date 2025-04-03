@@ -54,7 +54,7 @@ void UUI_BeginFight_C::ExecuteUbergraph_UI_BeginFight(int32 EntryPoint)
 // Function UI_BeginFight.UI_BeginFight_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_BeginFight_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

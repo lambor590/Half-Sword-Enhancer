@@ -67,10 +67,10 @@ class UChaosGameplayEventDispatcher final : public UChaosEventListenerComponent
 {
 public:
 	uint8                                         Pad_A8[0xC0];                                      // 0x00A8(0x00C0)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class UPrimitiveComponent*, struct FChaosHandlerSet> CollisionEventRegistrations;                       // 0x0168(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<class UPrimitiveComponent*, struct FBreakEventCallbackWrapper> BreakEventRegistrations;                           // 0x01B8(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<class UPrimitiveComponent*, struct FRemovalEventCallbackWrapper> RemovalEventRegistrations;                         // 0x0208(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<class UPrimitiveComponent*, struct FCrumblingEventCallbackWrapper> CrumblingEventRegistrations;                       // 0x0258(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FChaosHandlerSet> CollisionEventRegistrations;           // 0x0168(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FBreakEventCallbackWrapper> BreakEventRegistrations;     // 0x01B8(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FRemovalEventCallbackWrapper> RemovalEventRegistrations; // 0x0208(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FCrumblingEventCallbackWrapper> CrumblingEventRegistrations; // 0x0258(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_2A8[0x10];                                     // 0x02A8(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -91,8 +91,8 @@ static_assert(offsetof(UChaosGameplayEventDispatcher, RemovalEventRegistrations)
 static_assert(offsetof(UChaosGameplayEventDispatcher, CrumblingEventRegistrations) == 0x000258, "Member 'UChaosGameplayEventDispatcher::CrumblingEventRegistrations' has a wrong offset!");
 
 // Class ChaosSolverEngine.ChaosNotifyHandlerInterface
-// 0x0000 (0x0028 - 0x0028)
-class IChaosNotifyHandlerInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IChaosNotifyHandlerInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -103,9 +103,18 @@ public:
 	{
 		return GetDefaultObjImpl<IChaosNotifyHandlerInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IChaosNotifyHandlerInterface) == 0x000008, "Wrong alignment on IChaosNotifyHandlerInterface");
-static_assert(sizeof(IChaosNotifyHandlerInterface) == 0x000028, "Wrong size on IChaosNotifyHandlerInterface");
+static_assert(alignof(IChaosNotifyHandlerInterface) == 0x000001, "Wrong alignment on IChaosNotifyHandlerInterface");
+static_assert(sizeof(IChaosNotifyHandlerInterface) == 0x000001, "Wrong size on IChaosNotifyHandlerInterface");
 
 // Class ChaosSolverEngine.ChaosSolverEngineBlueprintLibrary
 // 0x0000 (0x0028 - 0x0028)

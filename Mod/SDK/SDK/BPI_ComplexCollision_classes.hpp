@@ -18,11 +18,11 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BPI_ComplexCollision.BPI_ComplexCollision_C
-// 0x0000 (0x0028 - 0x0028)
-class IBPI_ComplexCollision_C final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IBPI_ComplexCollision_C final
 {
 public:
-	void Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out);
+	void Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, bool Ignore_Invincibility, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out);
 
 public:
 	static class UClass* StaticClass()
@@ -33,9 +33,18 @@ public:
 	{
 		return GetDefaultObjImpl<IBPI_ComplexCollision_C>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IBPI_ComplexCollision_C) == 0x000008, "Wrong alignment on IBPI_ComplexCollision_C");
-static_assert(sizeof(IBPI_ComplexCollision_C) == 0x000028, "Wrong size on IBPI_ComplexCollision_C");
+static_assert(alignof(IBPI_ComplexCollision_C) == 0x000001, "Wrong alignment on IBPI_ComplexCollision_C");
+static_assert(sizeof(IBPI_ComplexCollision_C) == 0x000001, "Wrong size on IBPI_ComplexCollision_C");
 
 }
 

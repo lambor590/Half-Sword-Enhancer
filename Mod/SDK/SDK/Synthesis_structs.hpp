@@ -897,7 +897,7 @@ public:
 	float                                         CutoffFrequency;                                   // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         FilterQ;                                           // 0x0008(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_C[0x4];                                        // 0x000C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FSourceEffectFilterAudioBusModulationSettings> AudioBusModulation;                                // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FSourceEffectFilterAudioBusModulationSettings> AudioBusModulation;                 // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FSourceEffectFilterSettings) == 0x000008, "Wrong alignment on FSourceEffectFilterSettings");
 static_assert(sizeof(FSourceEffectFilterSettings) == 0x000020, "Wrong size on FSourceEffectFilterSettings");
@@ -989,7 +989,7 @@ public:
 	float                                         MotionFilterMix;                                   // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FSourceEffectIndividualFilterSettings  FilterASettings;                                   // 0x0008(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	struct FSourceEffectIndividualFilterSettings  FilterBSettings;                                   // 0x0014(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	TMap<ESourceEffectMotionFilterModDestination, struct FSourceEffectMotionFilterModulationSettings> ModulationMappings;                                // 0x0020(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	TMap<ESourceEffectMotionFilterModDestination, struct FSourceEffectMotionFilterModulationSettings> ModulationMappings; // 0x0020(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 	float                                         DryVolumeDb;                                       // 0x0070(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_74[0x4];                                       // 0x0074(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };

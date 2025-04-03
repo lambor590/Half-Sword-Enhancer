@@ -6,7 +6,7 @@
 * https://github.com/Encryqed/Dumper-7
 */
 
-// Package: Blood_BP
+// Package: Blood_BP_PT
 
 #include "Basic.hpp"
 
@@ -18,13 +18,13 @@
 namespace SDK
 {
 
-// BlueprintGeneratedClass Blood_BP.Blood_BP_C
+// BlueprintGeneratedClass Blood_BP_PT.Blood_BP_PT_C
 // 0x01E8 (0x0478 - 0x0290)
-class ABlood_BP_C final : public AActor
+class ABlood_BP_PT_C final : public AActor
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0290(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class UBPC_RuntimeVertexPaintAndDetectionComponent_C* BPC_RuntimeVertexPaintAndDetectionComponent;       // 0x0298(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UBPC_RuntimeVertexPaintAndDetectionComponent_C* BPC_RuntimeVertexPaintAndDetectionComponent; // 0x0298(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class UNiagaraComponent*                      Blood_Fountain_System;                             // 0x02A0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        DefaultSceneRoot;                                  // 0x02A8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	double                                        Spawn_Rate;                                        // 0x02B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
@@ -58,10 +58,12 @@ public:
 	TMap<struct FVector, class UDecalComponent*>  New_Var_1;                                         // 0x0410(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 	TArray<struct FVector>                        NewVar_3;                                          // 0x0460(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
 	bool                                          Delete_Particles_In_Pool;                          // 0x0470(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	uint8                                         Pad_471[0x3];                                      // 0x0471(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         Size;                                              // 0x0474(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
-	void ExecuteUbergraph_Blood_BP(int32 EntryPoint);
+	void ExecuteUbergraph_Blood_BP_PT(int32 EntryPoint);
 	void Get_Vertex_Color_On_Surface_Event(class UPrimitiveComponent* MeshComponent, const struct FRVPDPGetClosestVertexDataSettings& GetClosestVertexDataStruct);
 	void ReceiveBeginPlay();
 	void ReceiveParticleData(const TArray<struct FBasicParticleData>& Data, class UNiagaraSystem* NiagaraSystem, const struct FVector& SimulationPositionOffset);
@@ -71,46 +73,47 @@ public:
 public:
 	static class UClass* StaticClass()
 	{
-		return StaticBPGeneratedClassImpl<"Blood_BP_C">();
+		return StaticBPGeneratedClassImpl<"Blood_BP_PT_C">();
 	}
-	static class ABlood_BP_C* GetDefaultObj()
+	static class ABlood_BP_PT_C* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<ABlood_BP_C>();
+		return GetDefaultObjImpl<ABlood_BP_PT_C>();
 	}
 };
-static_assert(alignof(ABlood_BP_C) == 0x000008, "Wrong alignment on ABlood_BP_C");
-static_assert(sizeof(ABlood_BP_C) == 0x000478, "Wrong size on ABlood_BP_C");
-static_assert(offsetof(ABlood_BP_C, UberGraphFrame) == 0x000290, "Member 'ABlood_BP_C::UberGraphFrame' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, BPC_RuntimeVertexPaintAndDetectionComponent) == 0x000298, "Member 'ABlood_BP_C::BPC_RuntimeVertexPaintAndDetectionComponent' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Blood_Fountain_System) == 0x0002A0, "Member 'ABlood_BP_C::Blood_Fountain_System' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, DefaultSceneRoot) == 0x0002A8, "Member 'ABlood_BP_C::DefaultSceneRoot' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Spawn_Rate) == 0x0002B0, "Member 'ABlood_BP_C::Spawn_Rate' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Velocity) == 0x0002B8, "Member 'ABlood_BP_C::Velocity' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Loop_Count) == 0x0002C0, "Member 'ABlood_BP_C::Loop_Count' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Parent) == 0x0002C8, "Member 'ABlood_BP_C::Parent' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, bone) == 0x0002D0, "Member 'ABlood_BP_C::bone' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Hit_Velocity) == 0x0002D8, "Member 'ABlood_BP_C::Hit_Velocity' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, GI_Settings) == 0x0002F0, "Member 'ABlood_BP_C::GI_Settings' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Hit_Power) == 0x0002F8, "Member 'ABlood_BP_C::Hit_Power' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Splatters_Static_Hi) == 0x000310, "Member 'ABlood_BP_C::Splatters_Static_Hi' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Splatters_Static_Lo) == 0x000320, "Member 'ABlood_BP_C::Splatters_Static_Lo' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Spaltters_Dynamic) == 0x000330, "Member 'ABlood_BP_C::Spaltters_Dynamic' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Decal_Spawn_OK) == 0x000340, "Member 'ABlood_BP_C::Decal_Spawn_OK' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Decals_Sawned_Recently) == 0x000344, "Member 'ABlood_BP_C::Decals_Sawned_Recently' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Failed_VP_Count) == 0x000348, "Member 'ABlood_BP_C::Failed_VP_Count' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, NewVar) == 0x00034C, "Member 'ABlood_BP_C::NewVar' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, NewVar_0) == 0x000350, "Member 'ABlood_BP_C::NewVar_0' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Particle_System) == 0x000358, "Member 'ABlood_BP_C::Particle_System' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, NewVar_1) == 0x000360, "Member 'ABlood_BP_C::NewVar_1' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, NewVar_2) == 0x0003B0, "Member 'ABlood_BP_C::NewVar_2' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Impact_Point) == 0x0003B8, "Member 'ABlood_BP_C::Impact_Point' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Hit_Component) == 0x0003D0, "Member 'ABlood_BP_C::Hit_Component' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Impact_Normal) == 0x0003D8, "Member 'ABlood_BP_C::Impact_Normal' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Hit_Bone_Name) == 0x0003F0, "Member 'ABlood_BP_C::Hit_Bone_Name' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Velocity_0) == 0x0003F8, "Member 'ABlood_BP_C::Velocity_0' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, New_Var_1) == 0x000410, "Member 'ABlood_BP_C::New_Var_1' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, NewVar_3) == 0x000460, "Member 'ABlood_BP_C::NewVar_3' has a wrong offset!");
-static_assert(offsetof(ABlood_BP_C, Delete_Particles_In_Pool) == 0x000470, "Member 'ABlood_BP_C::Delete_Particles_In_Pool' has a wrong offset!");
+static_assert(alignof(ABlood_BP_PT_C) == 0x000008, "Wrong alignment on ABlood_BP_PT_C");
+static_assert(sizeof(ABlood_BP_PT_C) == 0x000478, "Wrong size on ABlood_BP_PT_C");
+static_assert(offsetof(ABlood_BP_PT_C, UberGraphFrame) == 0x000290, "Member 'ABlood_BP_PT_C::UberGraphFrame' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, BPC_RuntimeVertexPaintAndDetectionComponent) == 0x000298, "Member 'ABlood_BP_PT_C::BPC_RuntimeVertexPaintAndDetectionComponent' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Blood_Fountain_System) == 0x0002A0, "Member 'ABlood_BP_PT_C::Blood_Fountain_System' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, DefaultSceneRoot) == 0x0002A8, "Member 'ABlood_BP_PT_C::DefaultSceneRoot' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Spawn_Rate) == 0x0002B0, "Member 'ABlood_BP_PT_C::Spawn_Rate' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Velocity) == 0x0002B8, "Member 'ABlood_BP_PT_C::Velocity' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Loop_Count) == 0x0002C0, "Member 'ABlood_BP_PT_C::Loop_Count' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Parent) == 0x0002C8, "Member 'ABlood_BP_PT_C::Parent' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, bone) == 0x0002D0, "Member 'ABlood_BP_PT_C::bone' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Hit_Velocity) == 0x0002D8, "Member 'ABlood_BP_PT_C::Hit_Velocity' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, GI_Settings) == 0x0002F0, "Member 'ABlood_BP_PT_C::GI_Settings' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Hit_Power) == 0x0002F8, "Member 'ABlood_BP_PT_C::Hit_Power' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Splatters_Static_Hi) == 0x000310, "Member 'ABlood_BP_PT_C::Splatters_Static_Hi' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Splatters_Static_Lo) == 0x000320, "Member 'ABlood_BP_PT_C::Splatters_Static_Lo' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Spaltters_Dynamic) == 0x000330, "Member 'ABlood_BP_PT_C::Spaltters_Dynamic' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Decal_Spawn_OK) == 0x000340, "Member 'ABlood_BP_PT_C::Decal_Spawn_OK' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Decals_Sawned_Recently) == 0x000344, "Member 'ABlood_BP_PT_C::Decals_Sawned_Recently' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Failed_VP_Count) == 0x000348, "Member 'ABlood_BP_PT_C::Failed_VP_Count' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, NewVar) == 0x00034C, "Member 'ABlood_BP_PT_C::NewVar' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, NewVar_0) == 0x000350, "Member 'ABlood_BP_PT_C::NewVar_0' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Particle_System) == 0x000358, "Member 'ABlood_BP_PT_C::Particle_System' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, NewVar_1) == 0x000360, "Member 'ABlood_BP_PT_C::NewVar_1' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, NewVar_2) == 0x0003B0, "Member 'ABlood_BP_PT_C::NewVar_2' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Impact_Point) == 0x0003B8, "Member 'ABlood_BP_PT_C::Impact_Point' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Hit_Component) == 0x0003D0, "Member 'ABlood_BP_PT_C::Hit_Component' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Impact_Normal) == 0x0003D8, "Member 'ABlood_BP_PT_C::Impact_Normal' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Hit_Bone_Name) == 0x0003F0, "Member 'ABlood_BP_PT_C::Hit_Bone_Name' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Velocity_0) == 0x0003F8, "Member 'ABlood_BP_PT_C::Velocity_0' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, New_Var_1) == 0x000410, "Member 'ABlood_BP_PT_C::New_Var_1' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, NewVar_3) == 0x000460, "Member 'ABlood_BP_PT_C::NewVar_3' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Delete_Particles_In_Pool) == 0x000470, "Member 'ABlood_BP_PT_C::Delete_Particles_In_Pool' has a wrong offset!");
+static_assert(offsetof(ABlood_BP_PT_C, Size) == 0x000474, "Member 'ABlood_BP_PT_C::Size' has a wrong offset!");
 
 }
 

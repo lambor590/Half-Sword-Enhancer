@@ -73,11 +73,11 @@ class UEnhancedInputUserSettings final : public USaveGame
 {
 public:
 	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(class UEnhancedInputUserSettings* Settings)> OnSettingsChanged;                                 // 0x0030(0x0010)(ZeroConstructor, Transient, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class UEnhancedInputUserSettings* Settings)> OnSettingsChanged;    // 0x0030(0x0010)(ZeroConstructor, Transient, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              OnSettingsApplied;                                 // 0x0040(0x0010)(ZeroConstructor, Transient, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_50[0x20];                                      // 0x0050(0x0020)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FGameplayTag                           CurrentProfileIdentifier;                          // 0x0070(0x0008)(SaveGame, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
-	TMap<struct FGameplayTag, class UEnhancedPlayerMappableKeyProfile*> SavedKeyProfiles;                                  // 0x0078(0x0050)(Transient, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
+	TMap<struct FGameplayTag, class UEnhancedPlayerMappableKeyProfile*> SavedKeyProfiles;            // 0x0078(0x0050)(Transient, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
 	TWeakObjectPtr<class ULocalPlayer>            OwningLocalPlayer;                                 // 0x00C8(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	TSet<class UInputMappingContext*>             RegisteredMappingContexts;                         // 0x00D0(0x0050)(Transient, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
 
@@ -126,7 +126,7 @@ static_assert(offsetof(UEnhancedInputUserSettings, RegisteredMappingContexts) ==
 class UEnhancedInputActionDelegateBinding final : public UInputDelegateBinding
 {
 public:
-	TArray<struct FBlueprintEnhancedInputActionBinding> InputActionDelegateBindings;                       // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FBlueprintEnhancedInputActionBinding> InputActionDelegateBindings;                 // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -147,7 +147,7 @@ static_assert(offsetof(UEnhancedInputActionDelegateBinding, InputActionDelegateB
 class UEnhancedInputActionValueBinding final : public UInputDelegateBinding
 {
 public:
-	TArray<struct FBlueprintEnhancedInputActionBinding> InputActionValueBindings;                          // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FBlueprintEnhancedInputActionBinding> InputActionValueBindings;                    // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -266,7 +266,7 @@ static_assert(sizeof(UEnhancedInputLibrary) == 0x000028, "Wrong size on UEnhance
 class UEnhancedInputPlatformData final : public UObject
 {
 public:
-	TMap<class UInputMappingContext*, class UInputMappingContext*> MappingContextRedirects;                           // 0x0028(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, DisableEditOnInstance, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
+	TMap<class UInputMappingContext*, class UInputMappingContext*> MappingContextRedirects;          // 0x0028(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, DisableEditOnInstance, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
 
 public:
 	const class UInputMappingContext* GetContextRedirect(class UInputMappingContext* InContext) const;
@@ -291,7 +291,7 @@ class UEnhancedInputPlatformSettings final : public UPlatformSettings
 {
 public:
 	TArray<TSoftClassPtr<class UClass>>           InputData;                                         // 0x0040(0x0010)(Edit, ZeroConstructor, Config, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
-	TArray<TSubclassOf<class UEnhancedInputPlatformData>> InputDataClasses;                                  // 0x0050(0x0010)(ZeroConstructor, Transient, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
+	TArray<TSubclassOf<class UEnhancedInputPlatformData>> InputDataClasses;                          // 0x0050(0x0010)(ZeroConstructor, Transient, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
 	bool                                          bShouldLogMappingContextRedirects;                 // 0x0060(0x0001)(Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_61[0x7];                                       // 0x0061(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
@@ -312,8 +312,8 @@ static_assert(offsetof(UEnhancedInputPlatformSettings, InputDataClasses) == 0x00
 static_assert(offsetof(UEnhancedInputPlatformSettings, bShouldLogMappingContextRedirects) == 0x000060, "Member 'UEnhancedInputPlatformSettings::bShouldLogMappingContextRedirects' has a wrong offset!");
 
 // Class EnhancedInput.EnhancedInputSubsystemInterface
-// 0x0000 (0x0028 - 0x0028)
-class IEnhancedInputSubsystemInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IEnhancedInputSubsystemInterface final
 {
 public:
 	void AddMappingContext(const class UInputMappingContext* MappingContext, int32 Priority, const struct FModifyContextOptions& Options);
@@ -357,9 +357,18 @@ public:
 	{
 		return GetDefaultObjImpl<IEnhancedInputSubsystemInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IEnhancedInputSubsystemInterface) == 0x000008, "Wrong alignment on IEnhancedInputSubsystemInterface");
-static_assert(sizeof(IEnhancedInputSubsystemInterface) == 0x000028, "Wrong size on IEnhancedInputSubsystemInterface");
+static_assert(alignof(IEnhancedInputSubsystemInterface) == 0x000001, "Wrong alignment on IEnhancedInputSubsystemInterface");
+static_assert(sizeof(IEnhancedInputSubsystemInterface) == 0x000001, "Wrong size on IEnhancedInputSubsystemInterface");
 
 // Class EnhancedInput.InputModifier
 // 0x0000 (0x0028 - 0x0028)
@@ -414,7 +423,7 @@ public:
 	uint8                                         Pad_30[0x150];                                     // 0x0030(0x0150)(Fixing Size After Last Property [ Dumper-7 ])
 	TMulticastInlineDelegate<void()>              ControlMappingsRebuiltDelegate;                    // 0x0180(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	class UEnhancedInputUserSettings*             UserSettings;                                      // 0x0190(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
-	TMap<class UInputAction*, struct FInjectedInput> ContinuouslyInjectedInputs;                        // 0x0198(0x0050)(Transient, Protected, NativeAccessSpecifierProtected)
+	TMap<class UInputAction*, struct FInjectedInput> ContinuouslyInjectedInputs;                     // 0x0198(0x0050)(Transient, Protected, NativeAccessSpecifierProtected)
 
 public:
 	static class UClass* StaticClass()
@@ -441,7 +450,7 @@ public:
 	class UEnhancedPlayerInput*                   PlayerInput;                                       // 0x0180(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_188[0x10];                                     // 0x0188(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<TWeakObjectPtr<class UInputComponent>> CurrentInputStack;                                 // 0x0198(0x0010)(ExportObject, ZeroConstructor, Transient, ContainsInstancedReference, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
-	TMap<class UInputAction*, struct FInjectedInput> ContinuouslyInjectedInputs;                        // 0x01A8(0x0050)(Transient, Protected, NativeAccessSpecifierProtected)
+	TMap<class UInputAction*, struct FInjectedInput> ContinuouslyInjectedInputs;                     // 0x01A8(0x0050)(Transient, Protected, NativeAccessSpecifierProtected)
 
 public:
 	void AddActorInputComponent(class AActor* Actor);
@@ -489,14 +498,14 @@ static_assert(offsetof(UInputModifierScalar, Scalar) == 0x000028, "Member 'UInpu
 class UEnhancedPlayerInput final : public UPlayerInput
 {
 public:
-	TMap<class UInputAction*, struct FKeyConsumptionOptions> KeyConsumptionData;                                // 0x0498(0x0050)(Protected, NativeAccessSpecifierProtected)
+	TMap<class UInputAction*, struct FKeyConsumptionOptions> KeyConsumptionData;                     // 0x0498(0x0050)(Protected, NativeAccessSpecifierProtected)
 	TMap<class UInputMappingContext*, int32>      AppliedInputContexts;                              // 0x04E8(0x0050)(Transient, NativeAccessSpecifierPrivate)
 	TArray<struct FEnhancedActionKeyMapping>      EnhancedActionMappings;                            // 0x0538(0x0010)(ZeroConstructor, Transient, ContainsInstancedReference, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_548[0x50];                                     // 0x0548(0x0050)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class UInputAction*, struct FInputActionInstance> ActionInstanceData;                                // 0x0598(0x0050)(Transient, ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UInputAction*, struct FInputActionInstance> ActionInstanceData;                       // 0x0598(0x0050)(Transient, ContainsInstancedReference, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_5E8[0xA0];                                     // 0x05E8(0x00A0)(Fixing Size After Last Property [ Dumper-7 ])
 	TMap<struct FKey, struct FVector>             KeysPressedThisTick;                               // 0x0688(0x0050)(Transient, NativeAccessSpecifierPrivate)
-	TMap<class UInputAction*, struct FInjectedInputArray> InputsInjectedThisTick;                            // 0x06D8(0x0050)(Transient, NativeAccessSpecifierPrivate)
+	TMap<class UInputAction*, struct FInjectedInputArray> InputsInjectedThisTick;                    // 0x06D8(0x0050)(Transient, NativeAccessSpecifierPrivate)
 	TSet<class UInputAction*>                     LastInjectedActions;                               // 0x0728(0x0050)(Transient, UObjectWrapper, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_778[0x78];                                     // 0x0778(0x0078)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
@@ -567,7 +576,7 @@ static_assert(offsetof(UInputAction, PlayerMappableKeySettings) == 0x000070, "Me
 class UInputDebugKeyDelegateBinding final : public UInputDelegateBinding
 {
 public:
-	TArray<struct FBlueprintInputDebugKeyDelegateBinding> InputDebugKeyDelegateBindings;                     // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FBlueprintInputDebugKeyDelegateBinding> InputDebugKeyDelegateBindings;             // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()

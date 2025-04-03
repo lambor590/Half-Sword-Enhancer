@@ -17,12 +17,12 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BPI_Living_Thing.BPI_Living_Thing_C
-// 0x0000 (0x0028 - 0x0028)
-class IBPI_Living_Thing_C final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IBPI_Living_Thing_C final
 {
 public:
 	void Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul);
-	void Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double* Damage_Out);
+	void Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, bool Ignore_Invincibility, double* Damage_Out);
 
 public:
 	static class UClass* StaticClass()
@@ -33,9 +33,18 @@ public:
 	{
 		return GetDefaultObjImpl<IBPI_Living_Thing_C>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IBPI_Living_Thing_C) == 0x000008, "Wrong alignment on IBPI_Living_Thing_C");
-static_assert(sizeof(IBPI_Living_Thing_C) == 0x000028, "Wrong size on IBPI_Living_Thing_C");
+static_assert(alignof(IBPI_Living_Thing_C) == 0x000001, "Wrong alignment on IBPI_Living_Thing_C");
+static_assert(sizeof(IBPI_Living_Thing_C) == 0x000001, "Wrong size on IBPI_Living_Thing_C");
 
 }
 

@@ -45,7 +45,7 @@ void UPropertyPathTestObject::SetFloat(float InFloat)
 // Function PropertyPath.PropertyPathTestObject.SetStruct
 // (Final, Native, Public)
 // Parameters:
-// struct FPropertyPathTestStruct          InStruct                                               (Parm, NativeAccessSpecifierPublic)
+// const struct FPropertyPathTestStruct&   InStruct                                               (Parm, NativeAccessSpecifierPublic)
 
 void UPropertyPathTestObject::SetStruct(const struct FPropertyPathTestStruct& InStruct)
 {
@@ -70,7 +70,7 @@ void UPropertyPathTestObject::SetStruct(const struct FPropertyPathTestStruct& In
 // Function PropertyPath.PropertyPathTestObject.SetStructConstRef
 // (Final, Native, Public)
 // Parameters:
-// struct FPropertyPathTestStruct          InStruct                                               (Parm, NativeAccessSpecifierPublic)
+// const struct FPropertyPathTestStruct&   InStruct                                               (Parm, NativeAccessSpecifierPublic)
 
 void UPropertyPathTestObject::SetStructConstRef(const struct FPropertyPathTestStruct& InStruct)
 {
@@ -95,7 +95,7 @@ void UPropertyPathTestObject::SetStructConstRef(const struct FPropertyPathTestSt
 // Function PropertyPath.PropertyPathTestObject.SetStructRef
 // (Final, Native, Public)
 // Parameters:
-// struct FPropertyPathTestStruct          InStruct                                               (Parm, NativeAccessSpecifierPublic)
+// const struct FPropertyPathTestStruct&   InStruct                                               (Parm, NativeAccessSpecifierPublic)
 
 void UPropertyPathTestObject::SetStructRef(const struct FPropertyPathTestStruct& InStruct)
 {

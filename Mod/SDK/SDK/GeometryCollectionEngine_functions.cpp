@@ -201,7 +201,7 @@ void UChaosDestructionListener::SetBreakingEventEnabled(bool bIsEnabled)
 // Function GeometryCollectionEngine.ChaosDestructionListener.SetBreakingEventRequestSettings
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FChaosBreakingEventRequestSettingsInSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FChaosBreakingEventRequestSettings&InSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UChaosDestructionListener::SetBreakingEventRequestSettings(const struct FChaosBreakingEventRequestSettings& InSettings)
 {
@@ -251,7 +251,7 @@ void UChaosDestructionListener::SetCollisionEventEnabled(bool bIsEnabled)
 // Function GeometryCollectionEngine.ChaosDestructionListener.SetCollisionEventRequestSettings
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FChaosCollisionEventRequestSettingsInSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FChaosCollisionEventRequestSettings&InSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UChaosDestructionListener::SetCollisionEventRequestSettings(const struct FChaosCollisionEventRequestSettings& InSettings)
 {
@@ -301,7 +301,7 @@ void UChaosDestructionListener::SetRemovalEventEnabled(bool bIsEnabled)
 // Function GeometryCollectionEngine.ChaosDestructionListener.SetRemovalEventRequestSettings
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FChaosRemovalEventRequestSettingsInSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FChaosRemovalEventRequestSettings&InSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UChaosDestructionListener::SetRemovalEventRequestSettings(const struct FChaosRemovalEventRequestSettings& InSettings)
 {
@@ -351,7 +351,7 @@ void UChaosDestructionListener::SetTrailingEventEnabled(bool bIsEnabled)
 // Function GeometryCollectionEngine.ChaosDestructionListener.SetTrailingEventRequestSettings
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FChaosTrailingEventRequestSettingsInSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FChaosTrailingEventRequestSettings&InSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UChaosDestructionListener::SetTrailingEventRequestSettings(const struct FChaosTrailingEventRequestSettings& InSettings)
 {
@@ -376,7 +376,7 @@ void UChaosDestructionListener::SetTrailingEventRequestSettings(const struct FCh
 // Function GeometryCollectionEngine.ChaosDestructionListener.SortBreakingEvents
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FChaosBreakingEventData>  BreakingEvents                                         (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// TArray<struct FChaosBreakingEventData>& BreakingEvents                                         (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // EChaosBreakingSortMethod                SortMethod                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UChaosDestructionListener::SortBreakingEvents(TArray<struct FChaosBreakingEventData>& BreakingEvents, EChaosBreakingSortMethod SortMethod)
@@ -405,7 +405,7 @@ void UChaosDestructionListener::SortBreakingEvents(TArray<struct FChaosBreakingE
 // Function GeometryCollectionEngine.ChaosDestructionListener.SortCollisionEvents
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FChaosCollisionEventData> CollisionEvents                                        (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// TArray<struct FChaosCollisionEventData>&CollisionEvents                                        (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // EChaosCollisionSortMethod               SortMethod                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UChaosDestructionListener::SortCollisionEvents(TArray<struct FChaosCollisionEventData>& CollisionEvents, EChaosCollisionSortMethod SortMethod)
@@ -434,7 +434,7 @@ void UChaosDestructionListener::SortCollisionEvents(TArray<struct FChaosCollisio
 // Function GeometryCollectionEngine.ChaosDestructionListener.SortRemovalEvents
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FChaosRemovalEventData>   RemovalEvents                                          (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// TArray<struct FChaosRemovalEventData>&  RemovalEvents                                          (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // EChaosRemovalSortMethod                 SortMethod                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UChaosDestructionListener::SortRemovalEvents(TArray<struct FChaosRemovalEventData>& RemovalEvents, EChaosRemovalSortMethod SortMethod)
@@ -463,7 +463,7 @@ void UChaosDestructionListener::SortRemovalEvents(TArray<struct FChaosRemovalEve
 // Function GeometryCollectionEngine.ChaosDestructionListener.SortTrailingEvents
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FChaosTrailingEventData>  TrailingEvents                                         (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// TArray<struct FChaosTrailingEventData>& TrailingEvents                                         (Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // EChaosTrailingSortMethod                SortMethod                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UChaosDestructionListener::SortTrailingEvents(TArray<struct FChaosTrailingEventData>& TrailingEvents, EChaosTrailingSortMethod SortMethod)
@@ -517,9 +517,9 @@ bool UChaosDestructionListener::IsEventListening() const
 // Function GeometryCollectionEngine.GeometryCollectionActor.RaycastSingle
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FVector                          Start                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          End                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FHitResult                       OutHit                                                 (Parm, OutParm, IsPlainOldData, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FVector&                   Start                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   End                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FHitResult*                      OutHit                                                 (Parm, OutParm, IsPlainOldData, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool AGeometryCollectionActor::RaycastSingle(const struct FVector& Start, const struct FVector& End, struct FHitResult* OutHit) const
@@ -552,7 +552,7 @@ bool AGeometryCollectionActor::RaycastSingle(const struct FVector& Start, const 
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // int32                                   ItemIndex                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          AngularVelocity                                        (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   AngularVelocity                                        (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::ApplyAngularVelocity(int32 ItemIndex, const struct FVector& AngularVelocity)
 {
@@ -598,7 +598,7 @@ void UGeometryCollectionComponent::ApplyAssetDefaults()
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // int32                                   ItemIndex                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          AngularVelocity                                        (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   AngularVelocity                                        (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::ApplyBreakingAngularVelocity(int32 ItemIndex, const struct FVector& AngularVelocity)
 {
@@ -625,7 +625,7 @@ void UGeometryCollectionComponent::ApplyBreakingAngularVelocity(int32 ItemIndex,
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // int32                                   ItemIndex                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          LinearVelocity                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   LinearVelocity                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::ApplyBreakingLinearVelocity(int32 ItemIndex, const struct FVector& LinearVelocity)
 {
@@ -652,7 +652,7 @@ void UGeometryCollectionComponent::ApplyBreakingLinearVelocity(int32 ItemIndex, 
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // int32                                   ItemIndex                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          Location                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   Location                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Radius                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   PropagationDepth                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   PropagationFactor                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -687,7 +687,7 @@ void UGeometryCollectionComponent::ApplyExternalStrain(int32 ItemIndex, const st
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // int32                                   ItemIndex                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          Location                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   Location                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Radius                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   PropagationDepth                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   PropagationFactor                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -722,7 +722,7 @@ void UGeometryCollectionComponent::ApplyInternalStrain(int32 ItemIndex, const st
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // float                                   Radius                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::ApplyKinematicField(float Radius, const struct FVector& Position)
 {
@@ -749,7 +749,7 @@ void UGeometryCollectionComponent::ApplyKinematicField(float Radius, const struc
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // int32                                   ItemIndex                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          LinearVelocity                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   LinearVelocity                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::ApplyLinearVelocity(int32 ItemIndex, const struct FVector& LinearVelocity)
 {
@@ -929,8 +929,8 @@ int32 UGeometryCollectionComponent::GetInitialLevel(int32 ItemIndex)
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // int32                                   ItemIndex                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   OutMass                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FBox                             OutExtents                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// float*                                  OutMass                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FBox*                            OutExtents                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::GetMassAndExtents(int32 ItemIndex, float* OutMass, struct FBox* OutExtents)
 {
@@ -1018,7 +1018,7 @@ void UGeometryCollectionComponent::OnRep_RepStateData()
 // Function GeometryCollectionEngine.GeometryCollectionComponent.ReceivePhysicsCollision
 // (RequiredAPI, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FChaosPhysicsCollisionInfo       CollisionInfo                                          (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FChaosPhysicsCollisionInfo&CollisionInfo                                          (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::ReceivePhysicsCollision(const struct FChaosPhysicsCollisionInfo& CollisionInfo)
 {
@@ -1082,7 +1082,7 @@ void UGeometryCollectionComponent::SetAbandonedParticleCollisionProfileName(clas
 // Function GeometryCollectionEngine.GeometryCollectionComponent.SetAnchoredByBox
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FBox                             WorldSpaceBox                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBox&                      WorldSpaceBox                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    bAnchored                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   MaxLevel                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1138,8 +1138,8 @@ void UGeometryCollectionComponent::SetAnchoredByIndex(int32 Index_0, bool bAncho
 // Function GeometryCollectionEngine.GeometryCollectionComponent.SetAnchoredByTransformedBox
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FBox                             Box                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FTransform                       Transform                                              (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FBox&                      Box                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FTransform&                Transform                                              (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bAnchored                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   MaxLevel                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1194,7 +1194,7 @@ void UGeometryCollectionComponent::SetDamageModel(EDamageModelTypeEnum InDamageM
 // Function GeometryCollectionEngine.GeometryCollectionComponent.SetDamagePropagationData
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FGeometryCollectionDamagePropagationDataInDamagePropagationData                                (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGeometryCollectionDamagePropagationData&InDamagePropagationData                                (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::SetDamagePropagationData(const struct FGeometryCollectionDamagePropagationData& InDamagePropagationData)
 {
@@ -1219,7 +1219,7 @@ void UGeometryCollectionComponent::SetDamagePropagationData(const struct FGeomet
 // Function GeometryCollectionEngine.GeometryCollectionComponent.SetDamageThreshold
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<float>                           InDamageThreshold                                      (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<float>&                    InDamageThreshold                                      (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::SetDamageThreshold(const TArray<float>& InDamageThreshold)
 {
@@ -1319,7 +1319,7 @@ void UGeometryCollectionComponent::SetGravityGroupIndex(int32 InGravityGroupInde
 // Function GeometryCollectionEngine.GeometryCollectionComponent.SetLocalRestTransforms
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FTransform>               Transforms                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<struct FTransform>&        Transforms                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    bOnlyLeaves                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::SetLocalRestTransforms(const TArray<struct FTransform>& Transforms, bool bOnlyLeaves)
@@ -1550,7 +1550,7 @@ void UGeometryCollectionComponent::SetOneWayInteractionLevel(int32 InOneWayInter
 // Function GeometryCollectionEngine.GeometryCollectionComponent.SetPerLevelCollisionProfileNames
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<class FName>                     ProfileNames                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class FName>&              ProfileNames                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::SetPerLevelCollisionProfileNames(const TArray<class FName>& ProfileNames)
 {
@@ -1575,7 +1575,7 @@ void UGeometryCollectionComponent::SetPerLevelCollisionProfileNames(const TArray
 // Function GeometryCollectionEngine.GeometryCollectionComponent.SetPerParticleCollisionProfileName
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<int32>                           BoneIds                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<int32>&                    BoneIds                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // class FName                             ProfileName                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::SetPerParticleCollisionProfileName(const TArray<int32>& BoneIds, class FName ProfileName)
@@ -1602,7 +1602,7 @@ void UGeometryCollectionComponent::SetPerParticleCollisionProfileName(const TArr
 // Function GeometryCollectionEngine.GeometryCollectionComponent.SetRestCollection
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class UGeometryCollection*              RestCollectionIn                                       (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UGeometryCollection*        RestCollectionIn                                       (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bApplyAssetDefaults                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCollectionComponent::SetRestCollection(const class UGeometryCollection* RestCollectionIn, bool bApplyAssetDefaults)

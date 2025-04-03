@@ -272,9 +272,9 @@ class alignas(0x10) UInterchangeManager final : public UObject
 public:
 	uint8                                         Pad_28[0x178];                                     // 0x0028(0x0178)(Fixing Size After Last Property [ Dumper-7 ])
 	TSet<TSubclassOf<class UObject>>              RegisteredTranslatorsClass;                        // 0x01A0(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
-	TMap<TSubclassOf<class UObject>, TSubclassOf<class UObject>> RegisteredFactoryClasses;                          // 0x01F0(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
-	TMap<TSubclassOf<class UObject>, class UInterchangeWriterBase*> RegisteredWriters;                                 // 0x0240(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
-	TMap<TSubclassOf<class UObject>, class UInterchangeAssetImportDataConverterBase*> RegisteredConverters;                              // 0x0290(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<TSubclassOf<class UObject>, TSubclassOf<class UObject>> RegisteredFactoryClasses;           // 0x01F0(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<TSubclassOf<class UObject>, class UInterchangeWriterBase*> RegisteredWriters;               // 0x0240(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<TSubclassOf<class UObject>, class UInterchangeAssetImportDataConverterBase*> RegisteredConverters; // 0x0290(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_2E0[0x70];                                     // 0x02E0(0x0070)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

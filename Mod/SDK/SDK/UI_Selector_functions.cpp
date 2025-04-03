@@ -20,7 +20,7 @@ namespace SDK
 // Function UI_Selector.UI_Selector_C.AddOption
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class FText                             NewOption                                              (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const class FText&                      NewOption                                              (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Selector_C::AddOption(const class FText& NewOption)
 {
@@ -40,7 +40,7 @@ void UUI_Selector_C::AddOption(const class FText& NewOption)
 // Function UI_Selector.UI_Selector_C.AddOptions(Name)
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TArray<class FName>                     Options_0                                              (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// TArray<class FName>&                    Options_0                                              (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Selector_C::AddOptions_Name_(TArray<class FName>& Options_0)
 {
@@ -62,7 +62,7 @@ void UUI_Selector_C::AddOptions_Name_(TArray<class FName>& Options_0)
 // Function UI_Selector.UI_Selector_C.AddOptions(String)
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TArray<class FString>                   Options_0                                              (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// TArray<class FString>&                  Options_0                                              (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Selector_C::AddOptions_String_(TArray<class FString>& Options_0)
 {
@@ -84,7 +84,7 @@ void UUI_Selector_C::AddOptions_String_(TArray<class FString>& Options_0)
 // Function UI_Selector.UI_Selector_C.AddOptions(Text)
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TArray<class FText>                     Options_0                                              (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// TArray<class FText>&                    Options_0                                              (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Selector_C::AddOptions_Text_(TArray<class FText>& Options_0)
 {
@@ -260,8 +260,8 @@ void UUI_Selector_C::FocusWithMouseWheel()
 // class UWidget*                          SliderTitle_0                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UWidget*                          SliderValue_0                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // bool                                    bSetMargin                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FSlateBrush                      LeftButtonColor                                        (Parm, OutParm)
-// struct FSlateBrush                      RightButtonColor                                       (Parm, OutParm)
+// struct FSlateBrush*                     LeftButtonColor                                        (Parm, OutParm)
+// struct FSlateBrush*                     RightButtonColor                                       (Parm, OutParm)
 
 void UUI_Selector_C::getFocusedOrUnfocusedColor(bool bChangeSliderColorWhenFocused, bool bChangeTextColorWhenFocused_0, class USlider* Slider_0, class UImage* imgLeftButton, class UImage* imgRightButton, class UWidget* SliderTitle_0, class UWidget* SliderValue_0, bool bSetMargin, struct FSlateBrush* LeftButtonColor, struct FSlateBrush* RightButtonColor)
 {
@@ -334,8 +334,8 @@ struct FSlateBrush UUI_Selector_C::getRightButtonSettings()
 // Function UI_Selector.UI_Selector_C.GetSelectedOption
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// int32                                   SelectedIndex                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FText                             SelectedOption                                         (Parm, OutParm)
+// int32*                                  SelectedIndex                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class FText*                            SelectedOption                                         (Parm, OutParm)
 
 void UUI_Selector_C::GetSelectedOption(int32* SelectedIndex, class FText* SelectedOption)
 {
@@ -379,8 +379,8 @@ class FText UUI_Selector_C::getTxtValue()
 // Function UI_Selector.UI_Selector_C.OnMouseButtonDoubleClick
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        InMyGeometry                                           (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    InMouseEvent                                           (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 InMyGeometry                                           (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             InMouseEvent                                           (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_Selector_C::OnMouseButtonDoubleClick(const struct FGeometry& InMyGeometry, const struct FPointerEvent& InMouseEvent)
@@ -404,8 +404,8 @@ struct FEventReply UUI_Selector_C::OnMouseButtonDoubleClick(const struct FGeomet
 // Function UI_Selector.UI_Selector_C.OnMouseEnter
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Selector_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
@@ -426,7 +426,7 @@ void UUI_Selector_C::OnMouseEnter(const struct FGeometry& MyGeometry, const stru
 // Function UI_Selector.UI_Selector_C.OnMouseLeave
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Selector_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
@@ -446,8 +446,8 @@ void UUI_Selector_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 // Function UI_Selector.UI_Selector_C.OnMouseWheel
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_Selector_C::OnMouseWheel(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -491,7 +491,7 @@ void UUI_Selector_C::PreConstruct(bool IsDesignTime)
 // Function UI_Selector.UI_Selector_C.RemoveOption
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class FText                             Item                                                   (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const class FText&                      Item                                                   (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Selector_C::RemoveOption(const class FText& Item)
 {
@@ -567,8 +567,8 @@ void UUI_Selector_C::SetDefaultOptionByIndex(int32 DefaultIndex)
 // Function UI_Selector.UI_Selector_C.SetDefaultOptionByName
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class FText                             ItemToFind                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
-// bool                                    bSuccess                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const class FText&                      ItemToFind                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// bool*                                   bSuccess                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_Selector_C::SetDefaultOptionByName(const class FText& ItemToFind, bool* bSuccess)
 {

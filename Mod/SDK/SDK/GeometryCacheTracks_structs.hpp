@@ -63,7 +63,7 @@ static_assert(offsetof(FMovieSceneGeometryCacheSectionTemplateParameters, Sectio
 struct FMovieSceneGeometryCacheSectionTemplate final : public FMovieSceneEvalTemplate
 {
 public:
-	struct FMovieSceneGeometryCacheSectionTemplateParameters Params;                                            // 0x0020(0x0050)(NativeAccessSpecifierPublic)
+	struct FMovieSceneGeometryCacheSectionTemplateParameters Params;                                 // 0x0020(0x0050)(NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FMovieSceneGeometryCacheSectionTemplate) == 0x000008, "Wrong alignment on FMovieSceneGeometryCacheSectionTemplate");
 static_assert(sizeof(FMovieSceneGeometryCacheSectionTemplate) == 0x000070, "Wrong size on FMovieSceneGeometryCacheSectionTemplate");

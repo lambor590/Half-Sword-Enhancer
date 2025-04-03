@@ -1305,7 +1305,7 @@ public:
 	uint8                                         Pad_24D[0x3];                                      // 0x024D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         BaseRotationLimit;                                 // 0x0250(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_254[0x4];                                      // 0x0254(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FRigUnit_CCDIK_RotationLimitPerItem> RotationLimits;                                    // 0x0258(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_CCDIK_RotationLimitPerItem> RotationLimits;                               // 0x0258(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 	bool                                          bPropagateToChildren;                              // 0x0268(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_269[0x7];                                      // 0x0269(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FRigUnit_CCDIK_WorkData                WorkData;                                          // 0x0270(0x0060)(NativeAccessSpecifierPublic)
@@ -1990,7 +1990,7 @@ public:
 	float                                         InitialValue;                                      // 0x01F0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         MinimumValue;                                      // 0x01F4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         MaximumValue;                                      // 0x01F8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddAnimationChannelSingleLimitSettings LimitsEnabled;                                     // 0x01FC(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddAnimationChannelSingleLimitSettings LimitsEnabled;                   // 0x01FC(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1FE[0x2];                                      // 0x01FE(0x0002)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigUnit_HierarchyAddAnimationChannelFloat) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddAnimationChannelFloat");
@@ -2035,7 +2035,7 @@ public:
 	class FName                                   Name;                                              // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UControlRig*                            RigPtr;                                            // 0x0008(0x0008)(ZeroConstructor, Transient, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	class FString                                 ParentPath;                                        // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FRigVMExternalVariable> VariableBindings;                                  // 0x0020(0x0050)(NativeAccessSpecifierPublic)
+	TMap<class FName, struct FRigVMExternalVariable> VariableBindings;                               // 0x0020(0x0050)(NativeAccessSpecifierPublic)
 	uint8                                         Pad_70[0x18];                                      // 0x0070(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigModuleInstance) == 0x000008, "Wrong alignment on FRigModuleInstance");
@@ -2356,7 +2356,7 @@ static_assert(offsetof(FRigUnit_DrawContainerSetThickness, Thickness) == 0x0001D
 struct FRigHierarchyCopyPasteContent final
 {
 public:
-	TArray<struct FRigHierarchyCopyPasteContentPerElement> Elements;                                          // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigHierarchyCopyPasteContentPerElement> Elements;                                 // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<ERigElementType>                       Types;                                             // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<class FString>                         Contents;                                          // 0x0020(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<struct FTransform>                     LocalTransforms;                                   // 0x0030(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
@@ -2561,7 +2561,7 @@ static_assert(offsetof(FRigUnit_SetMultiControlRotator_Entry, Space) == 0x000020
 struct FRigUnit_SetMultiControlRotator final : public FRigUnitMutable
 {
 public:
-	TArray<struct FRigUnit_SetMultiControlRotator_Entry> Entries;                                           // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_SetMultiControlRotator_Entry> Entries;                                    // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Weight;                                            // 0x01E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1E4[0x4];                                      // 0x01E4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FCachedRigElement>              CachedControlIndices;                              // 0x01E8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
@@ -2904,7 +2904,7 @@ public:
 	uint8                                         Pad_19[0x7];                                       // 0x0019(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class FString                                 ParentPath;                                        // 0x0020(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TSoftClassPtr<class UClass>                   Class;                                             // 0x0030(0x0028)(UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<struct FRigElementKey, struct FRigElementKey> Connections;                                       // 0x0058(0x0050)(Deprecated, NativeAccessSpecifierPublic)
+	TMap<struct FRigElementKey, struct FRigElementKey> Connections;                                  // 0x0058(0x0050)(Deprecated, NativeAccessSpecifierPublic)
 	TMap<class FName, class FString>              ConfigValues;                                      // 0x00A8(0x0050)(NativeAccessSpecifierPublic)
 	TMap<class FName, class FString>              Bindings;                                          // 0x00F8(0x0050)(NativeAccessSpecifierPublic)
 	class FName                                   PreviousName;                                      // 0x0148(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -3276,10 +3276,10 @@ public:
 	ERigControlAxis                               PrimaryAxis;                                       // 0x0010(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bIsScale;                                          // 0x0011(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_12[0x2];                                       // 0x0012(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControlFloat_LimitSettings Limits;                                            // 0x0014(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlFloat_LimitSettings Limits;                                   // 0x0014(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_24[0xC];                                       // 0x0024(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                             // 0x0030(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                             // 0x00B0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                         // 0x0030(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                         // 0x00B0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlFloat_Settings) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlFloat_Settings");
 static_assert(sizeof(FRigUnit_HierarchyAddControlFloat_Settings) == 0x0000D0, "Wrong size on FRigUnit_HierarchyAddControlFloat_Settings");
@@ -3312,7 +3312,7 @@ struct FRigUnit_HierarchyAddControlFloat final : public FRigUnit_HierarchyAddCon
 public:
 	float                                         InitialValue;                                      // 0x0258(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_25C[0x4];                                      // 0x025C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControlFloat_Settings Settings;                                          // 0x0260(0x00D0)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlFloat_Settings Settings;                                      // 0x0260(0x00D0)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlFloat) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlFloat");
 static_assert(sizeof(FRigUnit_HierarchyAddControlFloat) == 0x000330, "Wrong size on FRigUnit_HierarchyAddControlFloat");
@@ -4135,9 +4135,9 @@ public:
 	ERigControlAxis                               PrimaryAxis;                                       // 0x0010(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class UEnum*                                  ControlEnum;                                       // 0x0018(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControlInteger_LimitSettings Limits;                                            // 0x0020(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                             // 0x0030(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                             // 0x00B0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlInteger_LimitSettings Limits;                                 // 0x0020(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                         // 0x0030(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                         // 0x00B0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlInteger_Settings) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlInteger_Settings");
 static_assert(sizeof(FRigUnit_HierarchyAddControlInteger_Settings) == 0x0000D0, "Wrong size on FRigUnit_HierarchyAddControlInteger_Settings");
@@ -4212,7 +4212,7 @@ static_assert(offsetof(FRigUnit_ToWorldSpace_Transform, World) == 0x000070, "Mem
 struct FControlRigSequenceObjectReferences final
 {
 public:
-	TArray<struct FControlRigSequenceObjectReference> Array;                                             // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FControlRigSequenceObjectReference> Array;                                         // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FControlRigSequenceObjectReferences) == 0x000008, "Wrong alignment on FControlRigSequenceObjectReferences");
 static_assert(sizeof(FControlRigSequenceObjectReferences) == 0x000010, "Wrong size on FControlRigSequenceObjectReferences");
@@ -4237,7 +4237,7 @@ struct FControlRigSequenceObjectReferenceMap final
 {
 public:
 	TArray<struct FGuid>                          BindingIds;                                        // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
-	TArray<struct FControlRigSequenceObjectReferences> References;                                        // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
+	TArray<struct FControlRigSequenceObjectReferences> References;                                   // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 };
 static_assert(alignof(FControlRigSequenceObjectReferenceMap) == 0x000008, "Wrong alignment on FControlRigSequenceObjectReferenceMap");
 static_assert(sizeof(FControlRigSequenceObjectReferenceMap) == 0x000020, "Wrong size on FControlRigSequenceObjectReferenceMap");
@@ -4298,7 +4298,7 @@ struct FMovieSceneControlRigSpaceChannel final : public FMovieSceneChannel
 {
 public:
 	TArray<struct FFrameNumber>                   KeyTimes;                                          // 0x0050(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
-	TArray<struct FMovieSceneControlRigSpaceBaseKey> KeyValues;                                         // 0x0060(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
+	TArray<struct FMovieSceneControlRigSpaceBaseKey> KeyValues;                                      // 0x0060(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 	struct FMovieSceneKeyHandleMap                KeyHandles;                                        // 0x0070(0x0088)(Transient, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_F8[0x18];                                      // 0x00F8(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -4652,7 +4652,7 @@ public:
 	float                                         InitialValue;                                      // 0x01F0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         MinimumValue;                                      // 0x01F4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         MaximumValue;                                      // 0x01F8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddAnimationChannelSingleLimitSettings LimitsEnabled;                                     // 0x01FC(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddAnimationChannelSingleLimitSettings LimitsEnabled;                   // 0x01FC(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1FE[0x2];                                      // 0x01FE(0x0002)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigUnit_HierarchyAddAnimationChannelScaleFloat) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddAnimationChannelScaleFloat");
@@ -4898,7 +4898,7 @@ public:
 	struct FVector                                PrimaryAxis;                                       // 0x0250(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                SecondaryAxis;                                     // 0x0268(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                PoleVectorPosition;                                // 0x0280(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FRigUnit_FitChainToCurve_Rotation> Rotations;                                         // 0x0298(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_FitChainToCurve_Rotation> Rotations;                                      // 0x0298(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	ERigVMAnimEasingType                          RotationEaseType;                                  // 0x02A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_2A9[0x3];                                      // 0x02A9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x02AC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -5177,7 +5177,7 @@ struct FRigUnit_DistributeRotationForCollection final : public FRigUnit_Highleve
 {
 public:
 	struct FRigElementKeyCollection               Items;                                             // 0x01D0(0x0010)(Edit, BlueprintVisible, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FRigUnit_DistributeRotation_Rotation> Rotations;                                         // 0x01E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_DistributeRotation_Rotation> Rotations;                                   // 0x01E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	ERigVMAnimEasingType                          RotationEaseType;                                  // 0x01F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1F1[0x3];                                      // 0x01F1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x01F4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -5231,7 +5231,7 @@ static_assert(offsetof(FRigUnit_BoneHarmonics_BoneTarget, Ratio) == 0x000008, "M
 struct FRigUnit_BoneHarmonics final : public FRigUnit_HighlevelBaseMutable
 {
 public:
-	TArray<struct FRigUnit_BoneHarmonics_BoneTarget> Bones;                                             // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_BoneHarmonics_BoneTarget> Bones;                                          // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 	struct FVector                                WaveSpeed;                                         // 0x01E0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                WaveFrequency;                                     // 0x01F8(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                WaveAmplitude;                                     // 0x0210(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -5343,7 +5343,7 @@ struct FRigUnit_HierarchySetShapeSettings final : public FRigUnit_DynamicHierarc
 public:
 	struct FRigElementKey                         Item;                                              // 0x01D0(0x000C)(Edit, BlueprintVisible, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1DC[0x4];                                      // 0x01DC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControl_ShapeSettings Settings;                                          // 0x01E0(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ShapeSettings Settings;                                      // 0x01E0(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchySetShapeSettings) == 0x000010, "Wrong alignment on FRigUnit_HierarchySetShapeSettings");
 static_assert(sizeof(FRigUnit_HierarchySetShapeSettings) == 0x000260, "Wrong size on FRigUnit_HierarchySetShapeSettings");
@@ -5483,7 +5483,7 @@ public:
 	struct FVector                                InitialValue;                                      // 0x01F0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                MinimumValue;                                      // 0x0208(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                MaximumValue;                                      // 0x0220(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddAnimationChannelVectorLimitSettings LimitsEnabled;                                     // 0x0238(0x0006)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddAnimationChannelVectorLimitSettings LimitsEnabled;                   // 0x0238(0x0006)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_23E[0x2];                                      // 0x023E(0x0002)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigUnit_HierarchyAddAnimationChannelScaleVector) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddAnimationChannelScaleVector");
@@ -5707,7 +5707,7 @@ struct FRigUnit_MultiFABRIK final : public FRigUnit_HighlevelBaseMutable
 {
 public:
 	class FName                                   RootBone;                                          // 0x01D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FRigUnit_MultiFABRIK_EndEffector> Effectors;                                         // 0x01D8(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_MultiFABRIK_EndEffector> Effectors;                                       // 0x01D8(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Precision;                                         // 0x01E8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bPropagateToChildren;                              // 0x01EC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1ED[0x3];                                      // 0x01ED(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
@@ -5771,7 +5771,7 @@ public:
 	struct FVector                                PrimaryAxis;                                       // 0x0250(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                SecondaryAxis;                                     // 0x0268(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                PoleVectorPosition;                                // 0x0280(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FRigUnit_FitChainToCurve_Rotation> Rotations;                                         // 0x0298(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_FitChainToCurve_Rotation> Rotations;                                      // 0x0298(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	ERigVMAnimEasingType                          RotationEaseType;                                  // 0x02A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_2A9[0x3];                                      // 0x02A9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x02AC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -5827,7 +5827,7 @@ public:
 	struct FTransform                             WorldOffset;                                       // 0x0210(0x0060)(Edit, BlueprintVisible, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bEnabled;                                          // 0x0270(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_271[0x7];                                      // 0x0271(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_DebugTransformArrayMutable_WorkData WorkData;                                          // 0x0278(0x0010)(Transient, NativeAccessSpecifierPublic)
+	struct FRigUnit_DebugTransformArrayMutable_WorkData WorkData;                                    // 0x0278(0x0010)(Transient, NativeAccessSpecifierPublic)
 	uint8                                         Pad_288[0x8];                                      // 0x0288(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigUnit_DebugTransformArrayMutable) == 0x000010, "Wrong alignment on FRigUnit_DebugTransformArrayMutable");
@@ -6313,10 +6313,10 @@ struct FRigUnit_HierarchyAddControlVector2D_Settings final : public FRigUnit_Hie
 public:
 	ERigControlAxis                               PrimaryAxis;                                       // 0x0010(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControlVector2D_LimitSettings Limits;                                            // 0x0018(0x0030)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlVector2D_LimitSettings Limits;                                // 0x0018(0x0030)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_48[0x8];                                       // 0x0048(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                             // 0x0050(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                             // 0x00D0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                         // 0x0050(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                         // 0x00D0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 	TArray<ERigControlTransformChannel>           FilteredChannels;                                  // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlVector2D_Settings) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlVector2D_Settings");
@@ -6334,7 +6334,7 @@ struct FRigUnit_HierarchyAddControlVector2D final : public FRigUnit_HierarchyAdd
 public:
 	struct FVector2D                              InitialValue;                                      // 0x0258(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_268[0x8];                                      // 0x0268(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControlVector2D_Settings Settings;                                          // 0x0270(0x0100)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlVector2D_Settings Settings;                                   // 0x0270(0x0100)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlVector2D) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlVector2D");
 static_assert(sizeof(FRigUnit_HierarchyAddControlVector2D) == 0x000370, "Wrong size on FRigUnit_HierarchyAddControlVector2D");
@@ -7230,7 +7230,7 @@ struct FRigUnit_HierarchyAddControlInteger final : public FRigUnit_HierarchyAddC
 public:
 	int32                                         InitialValue;                                      // 0x0258(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_25C[0x4];                                      // 0x025C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControlInteger_Settings Settings;                                          // 0x0260(0x00D0)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlInteger_Settings Settings;                                    // 0x0260(0x00D0)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlInteger) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlInteger");
 static_assert(sizeof(FRigUnit_HierarchyAddControlInteger) == 0x000330, "Wrong size on FRigUnit_HierarchyAddControlInteger");
@@ -7268,10 +7268,10 @@ public:
 	ERigVMTransformSpace                          InitialSpace;                                      // 0x0010(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bIsPosition;                                       // 0x0011(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_12[0x6];                                       // 0x0012(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControlVector_LimitSettings Limits;                                            // 0x0018(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlVector_LimitSettings Limits;                                  // 0x0018(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_58[0x8];                                       // 0x0058(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                             // 0x0060(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                             // 0x00E0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                         // 0x0060(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                         // 0x00E0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 	TArray<ERigControlTransformChannel>           FilteredChannels;                                  // 0x0100(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlVector_Settings) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlVector_Settings");
@@ -7289,7 +7289,7 @@ struct FRigUnit_HierarchyAddControlVector final : public FRigUnit_HierarchyAddCo
 {
 public:
 	struct FVector                                InitialValue;                                      // 0x0258(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControlVector_Settings Settings;                                          // 0x0270(0x0110)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlVector_Settings Settings;                                     // 0x0270(0x0110)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlVector) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlVector");
 static_assert(sizeof(FRigUnit_HierarchyAddControlVector) == 0x000380, "Wrong size on FRigUnit_HierarchyAddControlVector");
@@ -7303,10 +7303,10 @@ struct FRigUnit_HierarchyAddControlRotator_Settings final : public FRigUnit_Hier
 public:
 	ERigVMTransformSpace                          InitialSpace;                                      // 0x0010(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControlRotator_LimitSettings Limits;                                            // 0x0018(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlRotator_LimitSettings Limits;                                 // 0x0018(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_58[0x8];                                       // 0x0058(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                             // 0x0060(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                             // 0x00E0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                         // 0x0060(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                         // 0x00E0(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 	TArray<ERigControlTransformChannel>           FilteredChannels;                                  // 0x0100(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlRotator_Settings) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlRotator_Settings");
@@ -7323,7 +7323,7 @@ struct FRigUnit_HierarchyAddControlRotator final : public FRigUnit_HierarchyAddC
 {
 public:
 	struct FRotator                               InitialValue;                                      // 0x0258(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControlRotator_Settings Settings;                                          // 0x0270(0x0110)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlRotator_Settings Settings;                                    // 0x0270(0x0110)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlRotator) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlRotator");
 static_assert(sizeof(FRigUnit_HierarchyAddControlRotator) == 0x000380, "Wrong size on FRigUnit_HierarchyAddControlRotator");
@@ -7339,10 +7339,10 @@ public:
 	bool                                          bUsePreferredRotationOrder;                        // 0x0011(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	EEulerRotationOrder                           PreferredRotationOrder;                            // 0x0012(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_13[0x5];                                       // 0x0013(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControlTransform_LimitSettings Limits;                                            // 0x0018(0x00B0)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlTransform_LimitSettings Limits;                               // 0x0018(0x00B0)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_C8[0x8];                                       // 0x00C8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                             // 0x00D0(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                             // 0x0150(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ShapeSettings Shape;                                         // 0x00D0(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ProxySettings Proxy;                                         // 0x0150(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 	TArray<ERigControlTransformChannel>           FilteredChannels;                                  // 0x0170(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlTransform_Settings) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlTransform_Settings");
@@ -7362,7 +7362,7 @@ struct FRigUnit_HierarchyAddControlTransform final : public FRigUnit_HierarchyAd
 public:
 	uint8                                         Pad_258[0x8];                                      // 0x0258(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FTransform                             InitialValue;                                      // 0x0260(0x0060)(Edit, BlueprintVisible, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddControlTransform_Settings Settings;                                          // 0x02C0(0x0180)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControlTransform_Settings Settings;                                  // 0x02C0(0x0180)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyAddControlTransform) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddControlTransform");
 static_assert(sizeof(FRigUnit_HierarchyAddControlTransform) == 0x000440, "Wrong size on FRigUnit_HierarchyAddControlTransform");
@@ -7377,7 +7377,7 @@ public:
 	bool                                          InitialValue;                                      // 0x01F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          MinimumValue;                                      // 0x01F1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          MaximumValue;                                      // 0x01F2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddAnimationChannelEmptyLimitSettings LimitsEnabled;                                     // 0x01F3(0x0001)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddAnimationChannelEmptyLimitSettings LimitsEnabled;                    // 0x01F3(0x0001)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1F4[0xC];                                      // 0x01F4(0x000C)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigUnit_HierarchyAddAnimationChannelBool) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddAnimationChannelBool");
@@ -7395,7 +7395,7 @@ public:
 	int32                                         InitialValue;                                      // 0x01F0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	int32                                         MinimumValue;                                      // 0x01F4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	int32                                         MaximumValue;                                      // 0x01F8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddAnimationChannelSingleLimitSettings LimitsEnabled;                                     // 0x01FC(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddAnimationChannelSingleLimitSettings LimitsEnabled;                   // 0x01FC(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1FE[0x2];                                      // 0x01FE(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	class UEnum*                                  ControlEnum;                                       // 0x0200(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_208[0x8];                                      // 0x0208(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -7416,7 +7416,7 @@ public:
 	struct FVector2D                              InitialValue;                                      // 0x01F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector2D                              MinimumValue;                                      // 0x0200(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector2D                              MaximumValue;                                      // 0x0210(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddAnimationChannel2DLimitSettings LimitsEnabled;                                     // 0x0220(0x0004)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddAnimationChannel2DLimitSettings LimitsEnabled;                       // 0x0220(0x0004)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_224[0xC];                                      // 0x0224(0x000C)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigUnit_HierarchyAddAnimationChannelVector2D) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddAnimationChannelVector2D");
@@ -7434,7 +7434,7 @@ public:
 	struct FVector                                InitialValue;                                      // 0x01F0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                MinimumValue;                                      // 0x0208(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                MaximumValue;                                      // 0x0220(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddAnimationChannelVectorLimitSettings LimitsEnabled;                                     // 0x0238(0x0006)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddAnimationChannelVectorLimitSettings LimitsEnabled;                   // 0x0238(0x0006)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_23E[0x2];                                      // 0x023E(0x0002)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigUnit_HierarchyAddAnimationChannelVector) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddAnimationChannelVector");
@@ -7467,7 +7467,7 @@ public:
 	struct FRotator                               InitialValue;                                      // 0x01F0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 	struct FRotator                               MinimumValue;                                      // 0x0208(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 	struct FRotator                               MaximumValue;                                      // 0x0220(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_HierarchyAddAnimationChannelRotatorLimitSettings LimitsEnabled;                                     // 0x0238(0x0006)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddAnimationChannelRotatorLimitSettings LimitsEnabled;                  // 0x0238(0x0006)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_23E[0x2];                                      // 0x023E(0x0002)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRigUnit_HierarchyAddAnimationChannelRotator) == 0x000010, "Wrong alignment on FRigUnit_HierarchyAddAnimationChannelRotator");
@@ -7484,7 +7484,7 @@ struct FRigUnit_HierarchyGetShapeSettings final : public FRigUnit_DynamicHierarc
 public:
 	struct FRigElementKey                         Item;                                              // 0x0008(0x000C)(Edit, BlueprintVisible, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_14[0xC];                                       // 0x0014(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_HierarchyAddControl_ShapeSettings Settings;                                          // 0x0020(0x0080)(BlueprintVisible, BlueprintReadOnly, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_HierarchyAddControl_ShapeSettings Settings;                                      // 0x0020(0x0080)(BlueprintVisible, BlueprintReadOnly, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_HierarchyGetShapeSettings) == 0x000010, "Wrong alignment on FRigUnit_HierarchyGetShapeSettings");
 static_assert(sizeof(FRigUnit_HierarchyGetShapeSettings) == 0x0000A0, "Wrong size on FRigUnit_HierarchyGetShapeSettings");
@@ -8384,7 +8384,7 @@ public:
 	struct FVector                                PrimaryAxis;                                       // 0x0250(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                SecondaryAxis;                                     // 0x0268(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector                                PoleVectorPosition;                                // 0x0280(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FRigUnit_FitChainToCurve_Rotation> Rotations;                                         // 0x0298(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_FitChainToCurve_Rotation> Rotations;                                      // 0x0298(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	ERigVMAnimEasingType                          RotationEaseType;                                  // 0x02A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_2A9[0x3];                                      // 0x02A9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x02AC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -8805,7 +8805,7 @@ static_assert(offsetof(FRigUnit_SetControlBool, CachedControlIndex) == 0x0001E0,
 struct FRigUnit_SetMultiControlBool final : public FRigUnitMutable
 {
 public:
-	TArray<struct FRigUnit_SetMultiControlBool_Entry> Entries;                                           // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_SetMultiControlBool_Entry> Entries;                                       // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<struct FCachedRigElement>              CachedControlIndices;                              // 0x01E0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigUnit_SetMultiControlBool) == 0x000010, "Wrong alignment on FRigUnit_SetMultiControlBool");
@@ -8831,7 +8831,7 @@ static_assert(offsetof(FRigUnit_SetMultiControlFloat_Entry, FloatValue) == 0x000
 struct FRigUnit_SetMultiControlFloat final : public FRigUnitMutable
 {
 public:
-	TArray<struct FRigUnit_SetMultiControlFloat_Entry> Entries;                                           // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_SetMultiControlFloat_Entry> Entries;                                      // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Weight;                                            // 0x01E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1E4[0x4];                                      // 0x01E4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FCachedRigElement>              CachedControlIndices;                              // 0x01E8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
@@ -8874,7 +8874,7 @@ public:
 	uint8                                         Pad_24D[0x3];                                      // 0x024D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         BaseRotationLimit;                                 // 0x0250(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_254[0x4];                                      // 0x0254(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FRigUnit_CCDIK_RotationLimitPerItem> RotationLimits;                                    // 0x0258(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_CCDIK_RotationLimitPerItem> RotationLimits;                               // 0x0258(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 	bool                                          bPropagateToChildren;                              // 0x0268(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_269[0x7];                                      // 0x0269(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FRigUnit_CCDIK_WorkData                WorkData;                                          // 0x0270(0x0060)(NativeAccessSpecifierPublic)
@@ -8897,7 +8897,7 @@ static_assert(offsetof(FRigUnit_CCDIKItemArray, WorkData) == 0x000270, "Member '
 struct FRigUnit_SetMultiControlInteger final : public FRigUnitMutable
 {
 public:
-	TArray<struct FRigUnit_SetMultiControlInteger_Entry> Entries;                                           // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_SetMultiControlInteger_Entry> Entries;                                    // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Weight;                                            // 0x01E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1E4[0x4];                                      // 0x01E4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FCachedRigElement>              CachedControlIndices;                              // 0x01E8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
@@ -8945,7 +8945,7 @@ static_assert(offsetof(FRigUnit_SetMultiControlVector2D_Entry, Vector) == 0x0000
 struct FRigUnit_SetMultiControlVector2D final : public FRigUnitMutable
 {
 public:
-	TArray<struct FRigUnit_SetMultiControlVector2D_Entry> Entries;                                           // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_SetMultiControlVector2D_Entry> Entries;                                   // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Weight;                                            // 0x01E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1E4[0x4];                                      // 0x01E4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FCachedRigElement>              CachedControlIndices;                              // 0x01E8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
@@ -9330,7 +9330,7 @@ public:
 	struct FRigUnit_AimConstraint_WorldUp         WorldUp;                                           // 0x0210(0x0028)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	TArray<struct FConstraintParent>              Parents;                                           // 0x0238(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_248[0x8];                                      // 0x0248(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigUnit_AimConstraint_AdvancedSettings AdvancedSettings;                                  // 0x0250(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_AimConstraint_AdvancedSettings AdvancedSettings;                                 // 0x0250(0x0080)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	float                                         Weight;                                            // 0x02D0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_2D4[0x4];                                      // 0x02D4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FCachedRigElement                      WorldUpSpaceCache;                                 // 0x02D8(0x0020)(NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -9362,7 +9362,7 @@ struct FRigUnit_DistributeRotation final : public FRigUnit_HighlevelBaseMutable
 public:
 	class FName                                   StartBone;                                         // 0x01D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FName                                   EndBone;                                           // 0x01D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FRigUnit_DistributeRotation_Rotation> Rotations;                                         // 0x01E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_DistributeRotation_Rotation> Rotations;                                   // 0x01E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	ERigVMAnimEasingType                          RotationEaseType;                                  // 0x01F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1F1[0x3];                                      // 0x01F1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x01F4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -9386,7 +9386,7 @@ struct FRigUnit_DistributeRotationForItemArray final : public FRigUnit_Highlevel
 {
 public:
 	TArray<struct FRigElementKey>                 Items;                                             // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigUnit_DistributeRotation_Rotation> Rotations;                                         // 0x01E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_DistributeRotation_Rotation> Rotations;                                   // 0x01E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	ERigVMAnimEasingType                          RotationEaseType;                                  // 0x01F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1F1[0x3];                                      // 0x01F1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x01F4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -9435,7 +9435,7 @@ static_assert(offsetof(FRigUnit_FABRIK, bSetEffectorTransform) == 0x000290, "Mem
 struct FRigUnit_ModifyBoneTransforms final : public FRigUnit_HighlevelBaseMutable
 {
 public:
-	TArray<struct FRigUnit_ModifyBoneTransforms_PerBone> BoneToModify;                                      // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_ModifyBoneTransforms_PerBone> BoneToModify;                               // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Weight;                                            // 0x01E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         WeightMinimum;                                     // 0x01E4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         WeightMaximum;                                     // 0x01E8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -9457,7 +9457,7 @@ static_assert(offsetof(FRigUnit_ModifyBoneTransforms, WorkData) == 0x0001F0, "Me
 struct FRigUnit_ModifyTransforms final : public FRigUnit_HighlevelBaseMutable
 {
 public:
-	TArray<struct FRigUnit_ModifyTransforms_PerItem> ItemToModify;                                      // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_ModifyTransforms_PerItem> ItemToModify;                                   // 0x01D0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Weight;                                            // 0x01E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         WeightMinimum;                                     // 0x01E4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         WeightMaximum;                                     // 0x01E8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -9760,7 +9760,7 @@ public:
 	struct FTransformFilter                       Filter;                                            // 0x01DD(0x0009)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1E6[0x2];                                      // 0x01E6(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FConstraintParent>              Parents;                                           // 0x01E8(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_ParentConstraint_AdvancedSettings AdvancedSettings;                                  // 0x01F8(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_ParentConstraint_AdvancedSettings AdvancedSettings;                              // 0x01F8(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1FA[0x2];                                      // 0x01FA(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x01FC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FCachedRigElement                      ChildCache;                                        // 0x0200(0x0020)(NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -9796,7 +9796,7 @@ public:
 	uint8                                         Pad_8[0x8];                                        // 0x0008(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FTransform                             Input;                                             // 0x0010(0x0060)(Edit, BlueprintVisible, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<struct FConstraintParent>              Parents;                                           // 0x0070(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_ParentConstraintMath_AdvancedSettings AdvancedSettings;                                  // 0x0080(0x0001)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_ParentConstraintMath_AdvancedSettings AdvancedSettings;                          // 0x0080(0x0001)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_81[0xF];                                       // 0x0081(0x000F)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FTransform                             Output;                                            // 0x0090(0x0060)(Edit, BlueprintVisible, BlueprintReadOnly, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<struct FCachedRigElement>              ParentCaches;                                      // 0x00F0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
@@ -9876,7 +9876,7 @@ public:
 	bool                                          bMaintainOffset;                                   // 0x01DC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FFilterOptionPerAxis                   Filter;                                            // 0x01DD(0x0003)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	TArray<struct FConstraintParent>              Parents;                                           // 0x01E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_RotationConstraint_AdvancedSettings AdvancedSettings;                                  // 0x01F0(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_RotationConstraint_AdvancedSettings AdvancedSettings;                            // 0x01F0(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1F2[0x2];                                      // 0x01F2(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x01F4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1F8[0x8];                                      // 0x01F8(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -9899,7 +9899,7 @@ public:
 	bool                                          bMaintainOffset;                                   // 0x01DC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FFilterOptionPerAxis                   Filter;                                            // 0x01DD(0x0003)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	TArray<struct FConstraintParent>              Parents;                                           // 0x01E0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	struct FRigUnit_RotationConstraint_AdvancedSettings AdvancedSettings;                                  // 0x01F0(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRigUnit_RotationConstraint_AdvancedSettings AdvancedSettings;                            // 0x01F0(0x0002)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1F2[0x2];                                      // 0x01F2(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         Weight;                                            // 0x01F4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FCachedRigElement                      ChildCache;                                        // 0x01F8(0x0020)(NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -10346,7 +10346,7 @@ public:
 	uint8                                         Pad_145[0x3];                                      // 0x0145(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         VerletBlend;                                       // 0x0148(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_14C[0x4];                                      // 0x014C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FRigUnit_PointSimulation_BoneTarget> BoneTargets;                                       // 0x0150(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FRigUnit_PointSimulation_BoneTarget> BoneTargets;                                  // 0x0150(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 	bool                                          bLimitLocalPosition;                               // 0x0160(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bPropagateToChildren;                              // 0x0161(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_162[0x6];                                      // 0x0162(0x0006)(Fixing Size After Last Property [ Dumper-7 ])

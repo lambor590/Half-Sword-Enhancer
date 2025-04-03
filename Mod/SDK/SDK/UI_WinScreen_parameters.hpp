@@ -15,18 +15,81 @@ namespace SDK::Params
 {
 
 // Function UI_WinScreen.UI_WinScreen_C.ExecuteUbergraph_UI_WinScreen
-// 0x0010 (0x0010 - 0x0000)
+// 0x0080 (0x0080 - 0x0000)
 struct UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0008(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue_1;                 // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Clamp_ReturnValue;                        // 0x000C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ByteByte_ReturnValue;          // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ByteByte_ReturnValue_1;        // 0x0011(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0012(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_13[0x1];                                       // 0x0013(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Add_IntInt_ReturnValue_2;                 // 0x0014(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Clamp_ReturnValue_1;                      // 0x0018(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x001C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1D[0x3];                                       // 0x001D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue;                    // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ByteByte_ReturnValue_2;        // 0x0024(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_25[0x3];                                       // 0x0025(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue_1;                  // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Clamp_ReturnValue_2;                      // 0x002C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_ByteByte_ReturnValue_3;        // 0x0030(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_31[0x7];                                       // 0x0031(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0038(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0048(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_49[0x7];                                       // 0x0049(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_Event_IsDesignTime;                         // 0x0058(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_59[0x7];                                       // 0x0059(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0070(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_71[0x3];                                       // 0x0071(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast; // 0x0074(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast_1; // 0x0078(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen) == 0x000008, "Wrong alignment on UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen");
-static_assert(sizeof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen) == 0x000010, "Wrong size on UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen");
+static_assert(sizeof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen) == 0x000080, "Wrong size on UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen");
 static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, EntryPoint) == 0x000000, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::EntryPoint' has a wrong offset!");
-static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_PlayAnimation_ReturnValue) == 0x000008, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_Add_IntInt_ReturnValue) == 0x000004, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_Add_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_Add_IntInt_ReturnValue_1) == 0x000008, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_Add_IntInt_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_Clamp_ReturnValue) == 0x00000C, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_Clamp_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_EqualEqual_ByteByte_ReturnValue) == 0x000010, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_EqualEqual_ByteByte_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_EqualEqual_ByteByte_ReturnValue_1) == 0x000011, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_EqualEqual_ByteByte_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_BooleanOR_ReturnValue) == 0x000012, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_Add_IntInt_ReturnValue_2) == 0x000014, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_Add_IntInt_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_Clamp_ReturnValue_1) == 0x000018, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_Clamp_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_Greater_IntInt_ReturnValue) == 0x00001C, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_Greater_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_SelectInt_ReturnValue) == 0x000020, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_SelectInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_EqualEqual_ByteByte_ReturnValue_2) == 0x000024, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_EqualEqual_ByteByte_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_SelectInt_ReturnValue_1) == 0x000028, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_SelectInt_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_Clamp_ReturnValue_2) == 0x00002C, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_Clamp_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_EqualEqual_ByteByte_ReturnValue_3) == 0x000030, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_EqualEqual_ByteByte_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_GetGameInstance_ReturnValue) == 0x000038, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, K2Node_DynamicCast_AsGI_Settings) == 0x000040, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, K2Node_DynamicCast_bSuccess) == 0x000048, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::K2Node_DynamicCast_bSuccess' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_PlayAnimation_ReturnValue) == 0x000050, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, K2Node_Event_IsDesignTime) == 0x000058, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::K2Node_Event_IsDesignTime' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_GetGameMode_ReturnValue) == 0x000060, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x000068, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, K2Node_DynamicCast_bSuccess_1) == 0x000070, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast) == 0x000074, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen, CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast_1) == 0x000078, "Member 'UI_WinScreen_C_ExecuteUbergraph_UI_WinScreen::CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast_1' has a wrong offset!");
+
+// Function UI_WinScreen.UI_WinScreen_C.PreConstruct
+// 0x0001 (0x0001 - 0x0000)
+struct UI_WinScreen_C_PreConstruct final
+{
+public:
+	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_WinScreen_C_PreConstruct) == 0x000001, "Wrong alignment on UI_WinScreen_C_PreConstruct");
+static_assert(sizeof(UI_WinScreen_C_PreConstruct) == 0x000001, "Wrong size on UI_WinScreen_C_PreConstruct");
+static_assert(offsetof(UI_WinScreen_C_PreConstruct, IsDesignTime) == 0x000000, "Member 'UI_WinScreen_C_PreConstruct::IsDesignTime' has a wrong offset!");
 
 }
 

@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_Weapon_Material_Type_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Enum_Weapon_Material_Type_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 
 
 namespace SDK
@@ -66,8 +66,8 @@ public:
 	Enum_Weapon_Material_Type                     Material_Type;                                     // 0x0431(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	Enum_MaterialQuality                          Quality;                                           // 0x0432(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	uint8                                         Pad_433[0x5];                                      // 0x0433(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<Enum_Weapon_Material_Type, Enum_MaterialLayer> Module_Material_Groups_0;                          // 0x0438(0x0050)(Edit, BlueprintVisible, ExposeOnSpawn)
-	TMap<Enum_Weapon_Material_Type, struct FLinearColor> Module_Color_Groups_0;                             // 0x0488(0x0050)(Edit, BlueprintVisible, ExposeOnSpawn)
+	TMap<Enum_Weapon_Material_Type, Enum_MaterialLayer> Module_Material_Groups_0;                    // 0x0438(0x0050)(Edit, BlueprintVisible, ExposeOnSpawn)
+	TMap<Enum_Weapon_Material_Type, struct FLinearColor> Module_Color_Groups_0;                      // 0x0488(0x0050)(Edit, BlueprintVisible, ExposeOnSpawn)
 
 public:
 	void ExecuteUbergraph_Modular_Weapon_Part_Master(int32 EntryPoint);

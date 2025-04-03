@@ -196,8 +196,8 @@ void UUI_Slider_C::FocusWithMouseWheel()
 // class UWidget*                          SliderTitle_0                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UWidget*                          SliderValue_0                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // bool                                    bSetMargin                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FSlateBrush                      LeftButtonColor                                        (Parm, OutParm)
-// struct FSlateBrush                      RightButtonColor                                       (Parm, OutParm)
+// struct FSlateBrush*                     LeftButtonColor                                        (Parm, OutParm)
+// struct FSlateBrush*                     RightButtonColor                                       (Parm, OutParm)
 
 void UUI_Slider_C::getFocusedOrUnfocusedColor(bool bChangeSliderColorWhenFocused_0, bool bChangeTextColorWhenFocused_0, class USlider* Slider_0, class UImage* imgLeftButton, class UImage* imgRightButton, class UWidget* SliderTitle_0, class UWidget* SliderValue_0, bool bSetMargin, struct FSlateBrush* LeftButtonColor, struct FSlateBrush* RightButtonColor)
 {
@@ -330,8 +330,8 @@ ESlateVisibility UUI_Slider_C::LockVisibility()
 // Function UI_Slider.UI_Slider_C.OnMouseButtonDoubleClick
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        InMyGeometry                                           (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    InMouseEvent                                           (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 InMyGeometry                                           (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             InMouseEvent                                           (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_Slider_C::OnMouseButtonDoubleClick(const struct FGeometry& InMyGeometry, const struct FPointerEvent& InMouseEvent)
@@ -355,8 +355,8 @@ struct FEventReply UUI_Slider_C::OnMouseButtonDoubleClick(const struct FGeometry
 // Function UI_Slider.UI_Slider_C.OnMouseEnter
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Slider_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
@@ -377,7 +377,7 @@ void UUI_Slider_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct
 // Function UI_Slider.UI_Slider_C.OnMouseLeave
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Slider_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
@@ -397,8 +397,8 @@ void UUI_Slider_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 // Function UI_Slider.UI_Slider_C.OnMouseWheel
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_Slider_C::OnMouseWheel(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)

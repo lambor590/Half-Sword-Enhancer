@@ -27,7 +27,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass GI_Settings.GI_Settings_C
-// 0x0110 (0x02D0 - 0x01C0)
+// 0x0120 (0x02E0 - 0x01C0)
 class UGI_Settings_C final : public UGameInstance
 {
 public:
@@ -86,6 +86,9 @@ public:
 	class USG_Settings_C*                         SG_Settings;                                       // 0x02C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	bool                                          Fresh_Start_Map__Temp_;                            // 0x02C8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Tutorial;                                          // 0x02C9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2CA[0x6];                                      // 0x02CA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Time_Dilation;                                     // 0x02D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Player_Team;                                       // 0x02D8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_GI_Settings(int32 EntryPoint);
@@ -109,7 +112,7 @@ public:
 	}
 };
 static_assert(alignof(UGI_Settings_C) == 0x000008, "Wrong alignment on UGI_Settings_C");
-static_assert(sizeof(UGI_Settings_C) == 0x0002D0, "Wrong size on UGI_Settings_C");
+static_assert(sizeof(UGI_Settings_C) == 0x0002E0, "Wrong size on UGI_Settings_C");
 static_assert(offsetof(UGI_Settings_C, UberGraphFrame) == 0x0001C0, "Member 'UGI_Settings_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UGI_Settings_C, NPC_Damage_Rate) == 0x0001C8, "Member 'UGI_Settings_C::NPC_Damage_Rate' has a wrong offset!");
 static_assert(offsetof(UGI_Settings_C, Player_Damage_Rate) == 0x0001D0, "Member 'UGI_Settings_C::Player_Damage_Rate' has a wrong offset!");
@@ -158,6 +161,8 @@ static_assert(offsetof(UGI_Settings_C, SplashScreenSkipped) == 0x0002B8, "Member
 static_assert(offsetof(UGI_Settings_C, SG_Settings) == 0x0002C0, "Member 'UGI_Settings_C::SG_Settings' has a wrong offset!");
 static_assert(offsetof(UGI_Settings_C, Fresh_Start_Map__Temp_) == 0x0002C8, "Member 'UGI_Settings_C::Fresh_Start_Map__Temp_' has a wrong offset!");
 static_assert(offsetof(UGI_Settings_C, Tutorial) == 0x0002C9, "Member 'UGI_Settings_C::Tutorial' has a wrong offset!");
+static_assert(offsetof(UGI_Settings_C, Time_Dilation) == 0x0002D0, "Member 'UGI_Settings_C::Time_Dilation' has a wrong offset!");
+static_assert(offsetof(UGI_Settings_C, Player_Team) == 0x0002D8, "Member 'UGI_Settings_C::Player_Team' has a wrong offset!");
 
 }
 

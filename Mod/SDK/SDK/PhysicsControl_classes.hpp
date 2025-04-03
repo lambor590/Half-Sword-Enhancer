@@ -55,7 +55,7 @@ static_assert(sizeof(UPhysicsControlBPLibrary) == 0x000028, "Wrong size on UPhys
 class UPhysicsControlComponent final : public USceneComponent
 {
 public:
-	TSoftObjectPtr<class UPhysicsControlProfileAsset> PhysicsControlProfileAsset;                        // 0x0230(0x0028)(Edit, BlueprintVisible, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSoftObjectPtr<class UPhysicsControlProfileAsset> PhysicsControlProfileAsset;                    // 0x0230(0x0028)(Edit, BlueprintVisible, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         TeleportDistanceThreshold;                         // 0x0258(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         TeleportRotationThreshold;                         // 0x025C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bShowDebugVisualization;                           // 0x0260(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -230,10 +230,10 @@ class UPhysicsControlProfileAsset final : public UObject
 public:
 	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FPhysicsControlCharacterSetupData      CharacterSetupData;                                // 0x0030(0x00C0)(NativeAccessSpecifierPublic)
-	struct FPhysicsControlAndBodyModifierCreationDatas AdditionalControlsAndModifiers;                    // 0x00F0(0x00A0)(NativeAccessSpecifierPublic)
+	struct FPhysicsControlAndBodyModifierCreationDatas AdditionalControlsAndModifiers;               // 0x00F0(0x00A0)(NativeAccessSpecifierPublic)
 	struct FPhysicsControlSetUpdates              AdditionalSets;                                    // 0x0190(0x0020)(NativeAccessSpecifierPublic)
-	TArray<struct FPhysicsControlControlAndModifierUpdates> InitialControlAndModifierUpdates;                  // 0x01B0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlControlAndModifierUpdates> Profiles;                                          // 0x01C0(0x0050)(NativeAccessSpecifierPublic)
+	TArray<struct FPhysicsControlControlAndModifierUpdates> InitialControlAndModifierUpdates;        // 0x01B0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlControlAndModifierUpdates> Profiles;                     // 0x01C0(0x0050)(NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -259,8 +259,8 @@ class UPhysicsControlInitializerComponent final : public USceneComponent
 {
 public:
 	struct FInitialCharacterControls              InitialCharacterControls;                          // 0x0230(0x00D0)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FInitialPhysicsControl> InitialControls;                                   // 0x0300(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FInitialBodyModifier> InitialBodyModifiers;                              // 0x0350(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FInitialPhysicsControl> InitialControls;                                // 0x0300(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FInitialBodyModifier> InitialBodyModifiers;                             // 0x0350(0x0050)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 	bool                                          bCreateControlsAtBeginPlay;                        // 0x03A0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_3A1[0xF];                                      // 0x03A1(0x000F)(Fixing Struct Size After Last Property [ Dumper-7 ])
 

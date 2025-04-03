@@ -33,7 +33,7 @@ static_assert(offsetof(BPI_Living_Thing_C_Attach_Decal, Attach_Param) == 0x00000
 static_assert(offsetof(BPI_Living_Thing_C_Attach_Decal, Nul) == 0x000070, "Member 'BPI_Living_Thing_C_Attach_Decal::Nul' has a wrong offset!");
 
 // Function BPI_Living_Thing.BPI_Living_Thing_C.Get Damage
-// 0x00B0 (0x00B0 - 0x0000)
+// 0x00B8 (0x00B8 - 0x0000)
 struct BPI_Living_Thing_C_Get_Damage final
 {
 public:
@@ -55,10 +55,12 @@ public:
 	bool                                          Stab_;                                             // 0x0098(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_99[0x7];                                       // 0x0099(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class UBoxComponent*                          Hit_Box;                                           // 0x00A0(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	double                                        Damage_Out;                                        // 0x00A8(0x0008)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Ignore_Invincibility;                              // 0x00A8(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_A9[0x7];                                       // 0x00A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Damage_Out;                                        // 0x00B0(0x0008)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(BPI_Living_Thing_C_Get_Damage) == 0x000008, "Wrong alignment on BPI_Living_Thing_C_Get_Damage");
-static_assert(sizeof(BPI_Living_Thing_C_Get_Damage) == 0x0000B0, "Wrong size on BPI_Living_Thing_C_Get_Damage");
+static_assert(sizeof(BPI_Living_Thing_C_Get_Damage) == 0x0000B8, "Wrong size on BPI_Living_Thing_C_Get_Damage");
 static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Impulse) == 0x000000, "Member 'BPI_Living_Thing_C_Get_Damage::Impulse' has a wrong offset!");
 static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Velocity) == 0x000018, "Member 'BPI_Living_Thing_C_Get_Damage::Velocity' has a wrong offset!");
 static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Location) == 0x000030, "Member 'BPI_Living_Thing_C_Get_Damage::Location' has a wrong offset!");
@@ -74,7 +76,8 @@ static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Shockwave) == 0x00008D, "M
 static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Hit_By_Component) == 0x000090, "Member 'BPI_Living_Thing_C_Get_Damage::Hit_By_Component' has a wrong offset!");
 static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Stab_) == 0x000098, "Member 'BPI_Living_Thing_C_Get_Damage::Stab_' has a wrong offset!");
 static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Hit_Box) == 0x0000A0, "Member 'BPI_Living_Thing_C_Get_Damage::Hit_Box' has a wrong offset!");
-static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Damage_Out) == 0x0000A8, "Member 'BPI_Living_Thing_C_Get_Damage::Damage_Out' has a wrong offset!");
+static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Ignore_Invincibility) == 0x0000A8, "Member 'BPI_Living_Thing_C_Get_Damage::Ignore_Invincibility' has a wrong offset!");
+static_assert(offsetof(BPI_Living_Thing_C_Get_Damage, Damage_Out) == 0x0000B0, "Member 'BPI_Living_Thing_C_Get_Damage::Damage_Out' has a wrong offset!");
 
 }
 

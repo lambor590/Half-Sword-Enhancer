@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "HideBodyPart_Enum_structs.hpp"
-#include "Str_Medieval_Color_Swatches_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_Clothing_Material_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Clothing_Material_structs.hpp"
+#include "Str_Medieval_Color_Swatches_structs.hpp"
 #include "Enum_Tiers_structs.hpp"
 
 
@@ -25,7 +25,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Armor_Master.BP_Armor_Master_C
-// 0x0560 (0x07F0 - 0x0290)
+// 0x0570 (0x0800 - 0x0290)
 class ABP_Armor_Master_C : public AActor
 {
 public:
@@ -33,8 +33,8 @@ public:
 	class UStaticMeshComponent*                   Armor_Mesh_Static;                                 // 0x0298(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USkeletalMeshComponent*                 Armor_Mesh_Skeletal;                               // 0x02A0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        DefaultSceneRoot;                                  // 0x02A8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	TArray<class USkeletalMesh*>                  SkeletalMesh_T1;                                   // 0x02B0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UStaticMesh*>                    CollisionMesh;                                     // 0x02C0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class USkeletalMesh*>                  SkeletalMesh_T1;                                   // 0x02B0(0x0010)(Edit, BlueprintVisible)
+	TArray<class UStaticMesh*>                    CollisionMesh;                                     // 0x02C0(0x0010)(Edit, BlueprintVisible)
 	bool                                          Simulates_Physics;                                 // 0x02D0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Hide_Ears;                                         // 0x02D1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Hide_Jaw;                                          // 0x02D2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -81,8 +81,8 @@ public:
 	TMap<class FName, struct FVector>             Bone_Constraints;                                  // 0x0620(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
 	double                                        AI_Invinvcibility_Rate;                            // 0x0670(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Hands_Rigidity__Gauntlets_;                        // 0x0678(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TArray<class USkeletalMesh*>                  SkeletalMesh_T2;                                   // 0x0680(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class USkeletalMesh*>                  SkeletalMesh_T3;                                   // 0x0690(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class USkeletalMesh*>                  SkeletalMesh_T2;                                   // 0x0680(0x0010)(Edit, BlueprintVisible)
+	TArray<class USkeletalMesh*>                  SkeletalMesh_T3;                                   // 0x0690(0x0010)(Edit, BlueprintVisible)
 	Enum_Tiers                                    Tier;                                              // 0x06A0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_6A1[0x3];                                      // 0x06A1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FLinearColor                           C_1;                                               // 0x06A4(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
@@ -102,6 +102,8 @@ public:
 	bool                                          Metal_;                                            // 0x0798(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_799[0x7];                                      // 0x0799(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	TMap<Enum_DismembermentPart, bool>            Block_Dismember_Part;                              // 0x07A0(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
+	class USG_PlayerProgression_C*                As_SG_Player_Progression;                          // 0x07F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Fixed_Color;                                       // 0x07F8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
 	void BndEvt__BP_Armor_Master_Armor_Mesh_Static_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -122,7 +124,7 @@ public:
 	}
 };
 static_assert(alignof(ABP_Armor_Master_C) == 0x000010, "Wrong alignment on ABP_Armor_Master_C");
-static_assert(sizeof(ABP_Armor_Master_C) == 0x0007F0, "Wrong size on ABP_Armor_Master_C");
+static_assert(sizeof(ABP_Armor_Master_C) == 0x000800, "Wrong size on ABP_Armor_Master_C");
 static_assert(offsetof(ABP_Armor_Master_C, UberGraphFrame) == 0x000290, "Member 'ABP_Armor_Master_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(ABP_Armor_Master_C, Armor_Mesh_Static) == 0x000298, "Member 'ABP_Armor_Master_C::Armor_Mesh_Static' has a wrong offset!");
 static_assert(offsetof(ABP_Armor_Master_C, Armor_Mesh_Skeletal) == 0x0002A0, "Member 'ABP_Armor_Master_C::Armor_Mesh_Skeletal' has a wrong offset!");
@@ -184,6 +186,8 @@ static_assert(offsetof(ABP_Armor_Master_C, Color_Team_3) == 0x000748, "Member 'A
 static_assert(offsetof(ABP_Armor_Master_C, Color_Team_4) == 0x000770, "Member 'ABP_Armor_Master_C::Color_Team_4' has a wrong offset!");
 static_assert(offsetof(ABP_Armor_Master_C, Metal_) == 0x000798, "Member 'ABP_Armor_Master_C::Metal_' has a wrong offset!");
 static_assert(offsetof(ABP_Armor_Master_C, Block_Dismember_Part) == 0x0007A0, "Member 'ABP_Armor_Master_C::Block_Dismember_Part' has a wrong offset!");
+static_assert(offsetof(ABP_Armor_Master_C, As_SG_Player_Progression) == 0x0007F0, "Member 'ABP_Armor_Master_C::As_SG_Player_Progression' has a wrong offset!");
+static_assert(offsetof(ABP_Armor_Master_C, Fixed_Color) == 0x0007F8, "Member 'ABP_Armor_Master_C::Fixed_Color' has a wrong offset!");
 
 }
 

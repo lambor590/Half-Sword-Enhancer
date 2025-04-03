@@ -54,8 +54,8 @@ void UUI_CommandButton_C::ExecuteUbergraph_UI_CommandButton(int32 EntryPoint)
 // Function UI_CommandButton.UI_CommandButton_C.OnMouseEnter
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_CommandButton_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
@@ -76,7 +76,7 @@ void UUI_CommandButton_C::OnMouseEnter(const struct FGeometry& MyGeometry, const
 // Function UI_CommandButton.UI_CommandButton_C.OnMouseLeave
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_CommandButton_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
@@ -136,7 +136,7 @@ void UUI_CommandButton_C::UpdateIconByIndex(int32 Index_0)
 // Function UI_CommandButton.UI_CommandButton_C.UpdateIconDT
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FDataTableRowHandle              IconDT_0                                               (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
+// const struct FDataTableRowHandle&       IconDT_0                                               (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
 
 void UUI_CommandButton_C::UpdateIconDT(const struct FDataTableRowHandle& IconDT_0)
 {

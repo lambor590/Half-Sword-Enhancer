@@ -23,8 +23,8 @@ namespace SDK::Params
 struct PhysicsControlBPLibrary_AddControlParameters final
 {
 public:
-	struct FPhysicsControlControlAndModifierParameters InParameters;                                      // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters OutParameters;                                     // 0x0030(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InParameters;                                 // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters OutParameters;                                // 0x0030(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
 	class FName                                   Name_0;                                            // 0x0060(0x0008)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FPhysicsControlSparseData              ControlData;                                       // 0x0068(0x0050)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 };
@@ -40,8 +40,8 @@ static_assert(offsetof(PhysicsControlBPLibrary_AddControlParameters, ControlData
 struct PhysicsControlBPLibrary_AddModifierParameters final
 {
 public:
-	struct FPhysicsControlControlAndModifierParameters InParameters;                                      // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters OutParameters;                                     // 0x0030(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InParameters;                                 // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters OutParameters;                                // 0x0030(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
 	class FName                                   Name_0;                                            // 0x0060(0x0008)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FPhysicsControlModifierSparseData      ModifierData;                                      // 0x0068(0x0010)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 };
@@ -57,8 +57,8 @@ static_assert(offsetof(PhysicsControlBPLibrary_AddModifierParameters, ModifierDa
 struct PhysicsControlBPLibrary_AddMultipleControlParameters final
 {
 public:
-	struct FPhysicsControlControlAndModifierParameters InParameters;                                      // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters OutParameters;                                     // 0x0030(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InParameters;                                 // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters OutParameters;                                // 0x0030(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
 	TArray<class FName>                           Names;                                             // 0x0060(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 	struct FPhysicsControlSparseData              ControlData;                                       // 0x0070(0x0050)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 };
@@ -74,8 +74,8 @@ static_assert(offsetof(PhysicsControlBPLibrary_AddMultipleControlParameters, Con
 struct PhysicsControlBPLibrary_AddMultipleModifierParameters final
 {
 public:
-	struct FPhysicsControlControlAndModifierParameters InParameters;                                      // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters OutParameters;                                     // 0x0030(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InParameters;                                 // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters OutParameters;                                // 0x0030(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
 	TArray<class FName>                           Names;                                             // 0x0060(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 	struct FPhysicsControlModifierSparseData      ModifierData;                                      // 0x0070(0x0010)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 };
@@ -91,11 +91,11 @@ static_assert(offsetof(PhysicsControlBPLibrary_AddMultipleModifierParameters, Mo
 struct PhysicsControlBPLibrary_BlendControlParametersThroughSet final
 {
 public:
-	struct FPhysicsControlControlAndModifierParameters InParameters;                                      // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InParameters;                                 // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 	struct FPhysicsControlNamedControlParameters  InStartControlParameters;                          // 0x0030(0x0058)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 	struct FPhysicsControlNamedControlParameters  InEndControlParameters;                            // 0x0088(0x0058)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 	TArray<class FName>                           ControlNames;                                      // 0x00E0(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters OutParameters;                                     // 0x00F0(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters OutParameters;                                // 0x00F0(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PhysicsControlBPLibrary_BlendControlParametersThroughSet) == 0x000008, "Wrong alignment on PhysicsControlBPLibrary_BlendControlParametersThroughSet");
 static_assert(sizeof(PhysicsControlBPLibrary_BlendControlParametersThroughSet) == 0x000120, "Wrong size on PhysicsControlBPLibrary_BlendControlParametersThroughSet");
@@ -110,11 +110,11 @@ static_assert(offsetof(PhysicsControlBPLibrary_BlendControlParametersThroughSet,
 struct PhysicsControlBPLibrary_BlendModifierParametersThroughSet final
 {
 public:
-	struct FPhysicsControlControlAndModifierParameters InParameters;                                      // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InParameters;                                 // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 	struct FPhysicsControlNamedModifierParameters InStartModifierParameters;                         // 0x0030(0x0018)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 	struct FPhysicsControlNamedModifierParameters InEndModifierParameters;                           // 0x0048(0x0018)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 	TArray<class FName>                           ModifierNames;                                     // 0x0060(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters OutParameters;                                     // 0x0070(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters OutParameters;                                // 0x0070(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PhysicsControlBPLibrary_BlendModifierParametersThroughSet) == 0x000008, "Wrong alignment on PhysicsControlBPLibrary_BlendModifierParametersThroughSet");
 static_assert(sizeof(PhysicsControlBPLibrary_BlendModifierParametersThroughSet) == 0x0000A0, "Wrong size on PhysicsControlBPLibrary_BlendModifierParametersThroughSet");
@@ -129,11 +129,11 @@ static_assert(offsetof(PhysicsControlBPLibrary_BlendModifierParametersThroughSet
 struct PhysicsControlBPLibrary_BlendParameters final
 {
 public:
-	struct FPhysicsControlControlAndModifierParameters InParametersA;                                     // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-	struct FPhysicsControlControlAndModifierParameters InParametersB;                                     // 0x0030(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InParametersA;                                // 0x0000(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters InParametersB;                                // 0x0030(0x0030)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 	float                                         InInterpolationWeight;                             // 0x0060(0x0004)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_64[0x4];                                       // 0x0064(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPhysicsControlControlAndModifierParameters OutParameters;                                     // 0x0068(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
+	struct FPhysicsControlControlAndModifierParameters OutParameters;                                // 0x0068(0x0030)(Parm, OutParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PhysicsControlBPLibrary_BlendParameters) == 0x000008, "Wrong alignment on PhysicsControlBPLibrary_BlendParameters");
 static_assert(sizeof(PhysicsControlBPLibrary_BlendParameters) == 0x000098, "Wrong size on PhysicsControlBPLibrary_BlendParameters");
@@ -304,9 +304,9 @@ struct PhysicsControlComponent_CreateBodyModifiersFromLimbBones final
 {
 public:
 	struct FPhysicsControlNames                   AllBodyModifiers;                                  // 0x0000(0x0010)(Parm, OutParm, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlLimbBones> LimbBones;                                         // 0x0010(0x0050)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlLimbBones> LimbBones;                                    // 0x0010(0x0050)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 	struct FPhysicsControlModifierData            BodyModifierData;                                  // 0x0060(0x0010)(ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlNames> ReturnValue;                                       // 0x0070(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlNames> ReturnValue;                                      // 0x0070(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PhysicsControlComponent_CreateBodyModifiersFromLimbBones) == 0x000008, "Wrong alignment on PhysicsControlComponent_CreateBodyModifiersFromLimbBones");
 static_assert(sizeof(PhysicsControlComponent_CreateBodyModifiersFromLimbBones) == 0x0000C0, "Wrong size on PhysicsControlComponent_CreateBodyModifiersFromLimbBones");
@@ -386,11 +386,11 @@ struct PhysicsControlComponent_CreateControlsAndBodyModifiersFromLimbBones final
 {
 public:
 	struct FPhysicsControlNames                   AllWorldSpaceControls;                             // 0x0000(0x0010)(Parm, OutParm, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlNames> LimbWorldSpaceControls;                            // 0x0010(0x0050)(Parm, OutParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlNames> LimbWorldSpaceControls;                           // 0x0010(0x0050)(Parm, OutParm, NativeAccessSpecifierPublic)
 	struct FPhysicsControlNames                   AllParentSpaceControls;                            // 0x0060(0x0010)(Parm, OutParm, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlNames> LimbParentSpaceControls;                           // 0x0070(0x0050)(Parm, OutParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlNames> LimbParentSpaceControls;                          // 0x0070(0x0050)(Parm, OutParm, NativeAccessSpecifierPublic)
 	struct FPhysicsControlNames                   AllBodyModifiers;                                  // 0x00C0(0x0010)(Parm, OutParm, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlNames> LimbBodyModifiers;                                 // 0x00D0(0x0050)(Parm, OutParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlNames> LimbBodyModifiers;                                // 0x00D0(0x0050)(Parm, OutParm, NativeAccessSpecifierPublic)
 	class USkeletalMeshComponent*                 SkeletalMeshComponent;                             // 0x0120(0x0008)(Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<struct FPhysicsControlLimbSetupData>   LimbSetupData;                                     // 0x0128(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 	struct FPhysicsControlData                    WorldSpaceControlData;                             // 0x0138(0x0050)(ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
@@ -421,14 +421,14 @@ struct PhysicsControlComponent_CreateControlsFromLimbBones final
 {
 public:
 	struct FPhysicsControlNames                   AllControls;                                       // 0x0000(0x0010)(Parm, OutParm, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlLimbBones> LimbBones;                                         // 0x0010(0x0050)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlLimbBones> LimbBones;                                    // 0x0010(0x0050)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 	EPhysicsControlType                           ControlType;                                       // 0x0060(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_61[0x7];                                       // 0x0061(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FPhysicsControlData                    ControlData;                                       // 0x0068(0x0050)(ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 	class UMeshComponent*                         WorldComponent;                                    // 0x00B8(0x0008)(Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FName                                   WorldBoneName;                                     // 0x00C0(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 NamePrefix;                                        // 0x00C8(0x0010)(Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlNames> ReturnValue;                                       // 0x00D8(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlNames> ReturnValue;                                      // 0x00D8(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PhysicsControlComponent_CreateControlsFromLimbBones) == 0x000008, "Wrong alignment on PhysicsControlComponent_CreateControlsFromLimbBones");
 static_assert(sizeof(PhysicsControlComponent_CreateControlsFromLimbBones) == 0x000128, "Wrong size on PhysicsControlComponent_CreateControlsFromLimbBones");
@@ -447,11 +447,11 @@ struct PhysicsControlComponent_CreateControlsFromLimbBonesAndConstraintProfile f
 {
 public:
 	struct FPhysicsControlNames                   AllControls;                                       // 0x0000(0x0010)(Parm, OutParm, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlLimbBones> LimbBones;                                         // 0x0010(0x0050)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlLimbBones> LimbBones;                                    // 0x0010(0x0050)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 	class FName                                   ConstraintProfile;                                 // 0x0060(0x0008)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bEnabled;                                          // 0x0068(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_69[0x7];                                       // 0x0069(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class FName, struct FPhysicsControlNames> ReturnValue;                                       // 0x0070(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlNames> ReturnValue;                                      // 0x0070(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PhysicsControlComponent_CreateControlsFromLimbBonesAndConstraintProfile) == 0x000008, "Wrong alignment on PhysicsControlComponent_CreateControlsFromLimbBonesAndConstraintProfile");
 static_assert(sizeof(PhysicsControlComponent_CreateControlsFromLimbBonesAndConstraintProfile) == 0x0000C0, "Wrong size on PhysicsControlComponent_CreateControlsFromLimbBonesAndConstraintProfile");
@@ -2221,7 +2221,7 @@ struct PhysicsControlComponent_GetLimbBonesFromSkeletalMesh final
 public:
 	class USkeletalMeshComponent*                 SkeletalMeshComponent;                             // 0x0000(0x0008)(Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<struct FPhysicsControlLimbSetupData>   LimbSetupData;                                     // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FPhysicsControlLimbBones> ReturnValue;                                       // 0x0018(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FPhysicsControlLimbBones> ReturnValue;                                  // 0x0018(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(PhysicsControlComponent_GetLimbBonesFromSkeletalMesh) == 0x000008, "Wrong alignment on PhysicsControlComponent_GetLimbBonesFromSkeletalMesh");
 static_assert(sizeof(PhysicsControlComponent_GetLimbBonesFromSkeletalMesh) == 0x000068, "Wrong size on PhysicsControlComponent_GetLimbBonesFromSkeletalMesh");

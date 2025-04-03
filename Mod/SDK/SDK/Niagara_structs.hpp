@@ -1592,8 +1592,8 @@ static_assert(offsetof(FNiagaraPlatformSetCVarCondition, MaxFloat) == 0x000018, 
 struct FNiagaraPlatformSet final
 {
 public:
-	TArray<struct FNiagaraDeviceProfileStateEntry> DeviceProfileStates;                               // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraPlatformSetCVarCondition> CVarConditions;                                    // 0x0010(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraDeviceProfileStateEntry> DeviceProfileStates;                              // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraPlatformSetCVarCondition> CVarConditions;                                  // 0x0010(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 	int32                                         QualityLevelMask;                                  // 0x0020(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_24[0xC];                                       // 0x0024(0x000C)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -1677,7 +1677,7 @@ public:
 	float                                         MaxTimeWithoutRender;                              // 0x0044(0x0004)(ZeroConstructor, Deprecated, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	ENiagaraCullProxyMode                         CullProxyMode;                                     // 0x0048(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	int32                                         MaxSystemProxies;                                  // 0x004C(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FNiagaraSystemVisibilityCullingSettings VisibilityCulling;                                 // 0x0050(0x000C)(Edit, NoDestructor, NativeAccessSpecifierPublic)
+	struct FNiagaraSystemVisibilityCullingSettings VisibilityCulling;                                // 0x0050(0x000C)(Edit, NoDestructor, NativeAccessSpecifierPublic)
 	struct FNiagaraGlobalBudgetScaling            BudgetScaling;                                     // 0x005C(0x0038)(Edit, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_94[0x4];                                       // 0x0094(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -1946,8 +1946,8 @@ struct FNiagaraEmitterScriptProperties
 {
 public:
 	class UNiagaraScript*                         Script;                                            // 0x0000(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraEventReceiverProperties> EventReceivers;                                    // 0x0008(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraEventGeneratorProperties> EventGenerators;                                   // 0x0018(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraEventReceiverProperties> EventReceivers;                                   // 0x0008(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraEventGeneratorProperties> EventGenerators;                                 // 0x0018(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraEmitterScriptProperties) == 0x000008, "Wrong alignment on FNiagaraEmitterScriptProperties");
 static_assert(sizeof(FNiagaraEmitterScriptProperties) == 0x000028, "Wrong size on FNiagaraEmitterScriptProperties");
@@ -2023,7 +2023,7 @@ static_assert(offsetof(FNiagaraEmitterScalabilitySettings, SpawnCountScale) == 0
 struct FNiagaraEmitterScalabilitySettingsArray final
 {
 public:
-	TArray<struct FNiagaraEmitterScalabilitySettings> Settings;                                          // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraEmitterScalabilitySettings> Settings;                                      // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraEmitterScalabilitySettingsArray) == 0x000008, "Wrong alignment on FNiagaraEmitterScalabilitySettingsArray");
 static_assert(sizeof(FNiagaraEmitterScalabilitySettingsArray) == 0x000010, "Wrong size on FNiagaraEmitterScalabilitySettingsArray");
@@ -2107,7 +2107,7 @@ struct FNiagaraScriptAsyncCompileData final
 public:
 	uint8                                         Pad_0[0xB0];                                       // 0x0000(0x00B0)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FNiagaraVariable>               RapidIterationParameters;                          // 0x00B0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TMap<class FName, class UNiagaraDataInterface*> NamedDataInterfaces;                               // 0x00C0(0x0050)(UObjectWrapper, NativeAccessSpecifierPublic)
+	TMap<class FName, class UNiagaraDataInterface*> NamedDataInterfaces;                             // 0x00C0(0x0050)(UObjectWrapper, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraScriptAsyncCompileData) == 0x000008, "Wrong alignment on FNiagaraScriptAsyncCompileData");
 static_assert(sizeof(FNiagaraScriptAsyncCompileData) == 0x000110, "Wrong size on FNiagaraScriptAsyncCompileData");
@@ -2357,7 +2357,7 @@ static_assert(sizeof(FNiagaraEmitterScalabilityOverride) == 0x000040, "Wrong siz
 struct FNiagaraEmitterScalabilityOverrides final
 {
 public:
-	TArray<struct FNiagaraEmitterScalabilityOverride> Overrides;                                         // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraEmitterScalabilityOverride> Overrides;                                     // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraEmitterScalabilityOverrides) == 0x000008, "Wrong alignment on FNiagaraEmitterScalabilityOverrides");
 static_assert(sizeof(FNiagaraEmitterScalabilityOverrides) == 0x000010, "Wrong size on FNiagaraEmitterScalabilityOverrides");
@@ -2396,10 +2396,10 @@ public:
 	struct FNiagaraEmitterScriptProperties        SpawnScriptProps;                                  // 0x0108(0x0028)(NativeAccessSpecifierPublic)
 	struct FNiagaraParameterStore                 RendererBindings;                                  // 0x0130(0x0088)(NativeAccessSpecifierPublic)
 	TArray<struct FNiagaraExternalUObjectInfo>    RendererBindingsExternalObjects;                   // 0x01B8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TMap<struct FNiagaraVariableBase, struct FNiagaraVariableBase> ResolvedDIBindings;                                // 0x01C8(0x0050)(NativeAccessSpecifierPublic)
+	TMap<struct FNiagaraVariableBase, struct FNiagaraVariableBase> ResolvedDIBindings;               // 0x01C8(0x0050)(NativeAccessSpecifierPublic)
 	TArray<class UNiagaraRendererProperties*>     RendererProperties;                                // 0x0218(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPrivate)
 	TArray<class UNiagaraSimulationStageBase*>    SimulationStages;                                  // 0x0228(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPrivate)
-	TArray<struct FNiagaraSimStageExecutionLoopData> SimStageExecutionLoops;                            // 0x0238(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
+	TArray<struct FNiagaraSimStageExecutionLoopData> SimStageExecutionLoops;                         // 0x0238(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_248[0x10];                                     // 0x0248(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	class UNiagaraScript*                         GPUComputeScript;                                  // 0x0258(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	TArray<class FName>                           SharedEventGeneratorIds;                           // 0x0260(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
@@ -2707,7 +2707,7 @@ struct FNDIDataChannelCompiledData
 {
 public:
 	TArray<struct FNDIDataChannelFunctionInfo>    FunctionInfo;                                      // 0x0000(0x0010)(ZeroConstructor, Protected, NativeAccessSpecifierProtected)
-	TMap<struct FNiagaraCompileHash, struct FNDIDataChannel_GPUScriptParameterAccessInfo> GPUScriptParameterInfos;                           // 0x0010(0x0050)(Protected, NativeAccessSpecifierProtected)
+	TMap<struct FNiagaraCompileHash, struct FNDIDataChannel_GPUScriptParameterAccessInfo> GPUScriptParameterInfos; // 0x0010(0x0050)(Protected, NativeAccessSpecifierProtected)
 	uint32                                        TotalParams;                                       // 0x0060(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	bool                                          bUsedByCPU;                                        // 0x0064(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	bool                                          bUsedByGPU;                                        // 0x0065(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
@@ -2756,7 +2756,7 @@ struct FNDIDataChannelWriteSimCacheFrame final
 public:
 	int32                                         NumElements;                                       // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FNDIDataChannelWriteSimCacheFrameBuffer> VariableData;                                      // 0x0008(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNDIDataChannelWriteSimCacheFrameBuffer> VariableData;                             // 0x0008(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	bool                                          bVisibleToGame;                                    // 0x0018(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bVisibleToCPUSims;                                 // 0x0019(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bVisibleToGPUSims;                                 // 0x001A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -3102,7 +3102,7 @@ public:
 	uint8                                         Pad_11[0x3];                                       // 0x0011(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         StepWidth;                                         // 0x0014(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<struct FWidgetNamedInputValue>         InputDropdownValues;                               // 0x0018(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraWidgetNamedIntegerInputValue> EnumStyleDropdownValues;                           // 0x0028(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraWidgetNamedIntegerInputValue> EnumStyleDropdownValues;                     // 0x0028(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 	int32                                         MaxSegmentsPerRow;                                 // 0x0038(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_3C[0x4];                                       // 0x003C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FWidgetSegmentValueOverride>    SegmentValueOverrides;                             // 0x0040(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
@@ -3622,7 +3622,7 @@ public:
 	class FString                                 ComponentName;                                     // 0x0000(0x0010)(Edit, ZeroConstructor, EditConst, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FVector3f                              LWCTile;                                           // 0x0010(0x000C)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1C[0x4];                                       // 0x001C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FNiagaraOutlinerEmitterInstanceData> Emitters;                                          // 0x0020(0x0010)(Edit, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraOutlinerEmitterInstanceData> Emitters;                                     // 0x0020(0x0010)(Edit, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 	ENiagaraExecutionState                        ActualExecutionState;                              // 0x0030(0x0004)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	ENiagaraExecutionState                        RequestedExecutionState;                           // 0x0034(0x0004)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FNiagaraScalabilityState               ScalabilityState;                                  // 0x0038(0x000C)(Edit, EditConst, NoDestructor, NativeAccessSpecifierPublic)
@@ -3663,7 +3663,7 @@ static_assert(offsetof(FNiagaraOutlinerSystemInstanceData, GpuTickStage) == 0x00
 struct FNiagaraOutlinerSystemData final
 {
 public:
-	TArray<struct FNiagaraOutlinerSystemInstanceData> SystemInstances;                                   // 0x0000(0x0010)(Edit, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraOutlinerSystemInstanceData> SystemInstances;                               // 0x0000(0x0010)(Edit, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 	struct FNiagaraOutlinerTimingData             AveragePerFrameTime;                               // 0x0010(0x0008)(Edit, EditConst, NoDestructor, NativeAccessSpecifierPublic)
 	struct FNiagaraOutlinerTimingData             MaxPerFrameTime;                                   // 0x0018(0x0008)(Edit, EditConst, NoDestructor, NativeAccessSpecifierPublic)
 	struct FNiagaraOutlinerTimingData             AveragePerInstanceTime;                            // 0x0020(0x0008)(Edit, EditConst, NoDestructor, NativeAccessSpecifierPublic)
@@ -3682,7 +3682,7 @@ static_assert(offsetof(FNiagaraOutlinerSystemData, MaxPerInstanceTime) == 0x0000
 struct FNiagaraOutlinerWorldData final
 {
 public:
-	TMap<class FString, struct FNiagaraOutlinerSystemData> Systems;                                           // 0x0000(0x0050)(Edit, EditConst, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FNiagaraOutlinerSystemData> Systems;                                  // 0x0000(0x0050)(Edit, EditConst, NativeAccessSpecifierPublic)
 	bool                                          bHasBegunPlay;                                     // 0x0050(0x0001)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         WorldType;                                         // 0x0051(0x0001)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         NetMode;                                           // 0x0052(0x0001)(Edit, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -3705,7 +3705,7 @@ static_assert(offsetof(FNiagaraOutlinerWorldData, MaxPerFrameTime) == 0x00005C, 
 struct FNiagaraOutlinerData final
 {
 public:
-	TMap<class FString, struct FNiagaraOutlinerWorldData> WorldData;                                         // 0x0000(0x0050)(Edit, EditConst, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FNiagaraOutlinerWorldData> WorldData;                                 // 0x0000(0x0050)(Edit, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraOutlinerData) == 0x000008, "Wrong alignment on FNiagaraOutlinerData");
 static_assert(sizeof(FNiagaraOutlinerData) == 0x000050, "Wrong size on FNiagaraOutlinerData");
@@ -4060,7 +4060,7 @@ static_assert(offsetof(FNiagaraGraphViewSettings, bIsValid) == 0x000014, "Member
 struct FNiagaraSystemScalabilitySettingsArray final
 {
 public:
-	TArray<struct FNiagaraSystemScalabilitySettings> Settings;                                          // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraSystemScalabilitySettings> Settings;                                       // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraSystemScalabilitySettingsArray) == 0x000008, "Wrong alignment on FNiagaraSystemScalabilitySettingsArray");
 static_assert(sizeof(FNiagaraSystemScalabilitySettingsArray) == 0x000010, "Wrong size on FNiagaraSystemScalabilitySettingsArray");
@@ -4264,7 +4264,7 @@ struct FNiagaraPlatformSetConflictInfo final
 public:
 	int32                                         SetAIndex;                                         // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	int32                                         SetBIndex;                                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraPlatformSetConflictEntry> Conflicts;                                         // 0x0008(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraPlatformSetConflictEntry> Conflicts;                                       // 0x0008(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraPlatformSetConflictInfo) == 0x000008, "Wrong alignment on FNiagaraPlatformSetConflictInfo");
 static_assert(sizeof(FNiagaraPlatformSetConflictInfo) == 0x000018, "Wrong size on FNiagaraPlatformSetConflictInfo");
@@ -4350,11 +4350,11 @@ static_assert(offsetof(FNiagaraRendererMaterialStaticBoolParameter, StaticVariab
 struct FNiagaraRendererMaterialParameters final
 {
 public:
-	TArray<struct FNiagaraMaterialAttributeBinding> AttributeBindings;                                 // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraRendererMaterialScalarParameter> ScalarParameters;                                  // 0x0010(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraRendererMaterialVectorParameter> VectorParameters;                                  // 0x0020(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraRendererMaterialTextureParameter> TextureParameters;                                 // 0x0030(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraRendererMaterialStaticBoolParameter> StaticBoolParameters;                              // 0x0040(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraMaterialAttributeBinding> AttributeBindings;                               // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraRendererMaterialScalarParameter> ScalarParameters;                         // 0x0010(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraRendererMaterialVectorParameter> VectorParameters;                         // 0x0020(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraRendererMaterialTextureParameter> TextureParameters;                       // 0x0030(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraRendererMaterialStaticBoolParameter> StaticBoolParameters;                 // 0x0040(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraRendererMaterialParameters) == 0x000008, "Wrong alignment on FNiagaraRendererMaterialParameters");
 static_assert(sizeof(FNiagaraRendererMaterialParameters) == 0x000050, "Wrong size on FNiagaraRendererMaterialParameters");
@@ -4509,8 +4509,8 @@ public:
 	TArray<struct FNiagaraVariableBase>           Attributes;                                        // 0x0090(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FNiagaraScriptDataUsageInfo            DataUsage;                                         // 0x00A0(0x0001)(NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_A1[0x7];                                       // 0x00A1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FNiagaraScriptUObjectCompileInfo> UObjectInfos;                                      // 0x00A8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraScriptDataInterfaceCompileInfo> DataInterfaceInfo;                                 // 0x00B8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraScriptUObjectCompileInfo> UObjectInfos;                                    // 0x00A8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraScriptDataInterfaceCompileInfo> DataInterfaceInfo;                         // 0x00B8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<struct FVMExternalFunctionBindingInfo> CalledVMExternalFunctions;                         // 0x00C8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_D8[0x10];                                      // 0x00D8(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FNiagaraDataSetID>              ReadDataSets;                                      // 0x00E8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
@@ -4752,7 +4752,7 @@ struct FNiagaraSimCacheLayout final
 {
 public:
 	struct FNiagaraSimCacheDataBuffersLayout      SystemLayout;                                      // 0x0000(0x00B8)(NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraSimCacheDataBuffersLayout> EmitterLayouts;                                    // 0x00B8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraSimCacheDataBuffersLayout> EmitterLayouts;                                 // 0x00B8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraSimCacheLayout) == 0x000008, "Wrong alignment on FNiagaraSimCacheLayout");
 static_assert(sizeof(FNiagaraSimCacheLayout) == 0x0000C8, "Wrong size on FNiagaraSimCacheLayout");
@@ -4804,8 +4804,8 @@ static_assert(offsetof(FNiagaraParameterDataSetBinding, DataSetComponentOffset) 
 struct FNiagaraParameterDataSetBindingCollection final
 {
 public:
-	TArray<struct FNiagaraParameterDataSetBinding> FloatOffsets;                                      // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraParameterDataSetBinding> Int32Offsets;                                      // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraParameterDataSetBinding> FloatOffsets;                                     // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraParameterDataSetBinding> Int32Offsets;                                     // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraParameterDataSetBindingCollection) == 0x000008, "Wrong alignment on FNiagaraParameterDataSetBindingCollection");
 static_assert(sizeof(FNiagaraParameterDataSetBindingCollection) == 0x000020, "Wrong size on FNiagaraParameterDataSetBindingCollection");
@@ -4821,14 +4821,14 @@ public:
 	struct FNiagaraDataSetCompiledData            DataSetCompiledData;                               // 0x0088(0x0048)(NativeAccessSpecifierPublic)
 	struct FNiagaraDataSetCompiledData            SpawnInstanceParamsDataSetCompiledData;            // 0x00D0(0x0048)(NativeAccessSpecifierPublic)
 	struct FNiagaraDataSetCompiledData            UpdateInstanceParamsDataSetCompiledData;           // 0x0118(0x0048)(NativeAccessSpecifierPublic)
-	struct FNiagaraParameterDataSetBindingCollection SpawnInstanceGlobalBinding;                        // 0x0160(0x0020)(NativeAccessSpecifierPublic)
-	struct FNiagaraParameterDataSetBindingCollection SpawnInstanceSystemBinding;                        // 0x0180(0x0020)(NativeAccessSpecifierPublic)
-	struct FNiagaraParameterDataSetBindingCollection SpawnInstanceOwnerBinding;                         // 0x01A0(0x0020)(NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraParameterDataSetBindingCollection> SpawnInstanceEmitterBindings;                      // 0x01C0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	struct FNiagaraParameterDataSetBindingCollection UpdateInstanceGlobalBinding;                       // 0x01D0(0x0020)(NativeAccessSpecifierPublic)
-	struct FNiagaraParameterDataSetBindingCollection UpdateInstanceSystemBinding;                       // 0x01F0(0x0020)(NativeAccessSpecifierPublic)
-	struct FNiagaraParameterDataSetBindingCollection UpdateInstanceOwnerBinding;                        // 0x0210(0x0020)(NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraParameterDataSetBindingCollection> UpdateInstanceEmitterBindings;                     // 0x0230(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	struct FNiagaraParameterDataSetBindingCollection SpawnInstanceGlobalBinding;                     // 0x0160(0x0020)(NativeAccessSpecifierPublic)
+	struct FNiagaraParameterDataSetBindingCollection SpawnInstanceSystemBinding;                     // 0x0180(0x0020)(NativeAccessSpecifierPublic)
+	struct FNiagaraParameterDataSetBindingCollection SpawnInstanceOwnerBinding;                      // 0x01A0(0x0020)(NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraParameterDataSetBindingCollection> SpawnInstanceEmitterBindings;           // 0x01C0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	struct FNiagaraParameterDataSetBindingCollection UpdateInstanceGlobalBinding;                    // 0x01D0(0x0020)(NativeAccessSpecifierPublic)
+	struct FNiagaraParameterDataSetBindingCollection UpdateInstanceSystemBinding;                    // 0x01F0(0x0020)(NativeAccessSpecifierPublic)
+	struct FNiagaraParameterDataSetBindingCollection UpdateInstanceOwnerBinding;                     // 0x0210(0x0020)(NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraParameterDataSetBindingCollection> UpdateInstanceEmitterBindings;          // 0x0230(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraSystemCompiledData) == 0x000008, "Wrong alignment on FNiagaraSystemCompiledData");
 static_assert(sizeof(FNiagaraSystemCompiledData) == 0x000240, "Wrong size on FNiagaraSystemCompiledData");
@@ -4850,7 +4850,7 @@ static_assert(offsetof(FNiagaraSystemCompiledData, UpdateInstanceEmitterBindings
 struct FNiagaraSystemScalabilityOverrides final
 {
 public:
-	TArray<struct FNiagaraSystemScalabilityOverride> Overrides;                                         // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraSystemScalabilityOverride> Overrides;                                      // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraSystemScalabilityOverrides) == 0x000008, "Wrong alignment on FNiagaraSystemScalabilityOverrides");
 static_assert(sizeof(FNiagaraSystemScalabilityOverrides) == 0x000010, "Wrong size on FNiagaraSystemScalabilityOverrides");
@@ -5072,7 +5072,7 @@ static_assert(offsetof(FNiagaraRandInfo, Seed3) == 0x000008, "Member 'FNiagaraRa
 struct FNiagaraUserRedirectionParameterStore final : public FNiagaraParameterStore
 {
 public:
-	TMap<struct FNiagaraVariable, struct FNiagaraVariable> UserParameterRedirects;                            // 0x0088(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<struct FNiagaraVariable, struct FNiagaraVariable> UserParameterRedirects;                   // 0x0088(0x0050)(NativeAccessSpecifierPrivate)
 };
 static_assert(alignof(FNiagaraUserRedirectionParameterStore) == 0x000008, "Wrong alignment on FNiagaraUserRedirectionParameterStore");
 static_assert(sizeof(FNiagaraUserRedirectionParameterStore) == 0x0000D8, "Wrong size on FNiagaraUserRedirectionParameterStore");

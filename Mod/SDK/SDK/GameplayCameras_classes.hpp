@@ -507,7 +507,7 @@ class UGameplayCameraComponent final : public USceneComponent
 {
 public:
 	class UCameraAsset*                           Camera;                                            // 0x0230(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class UGameplayCameraComponentEvaluationContext* EvaluationContext;                                 // 0x0238(0x0008)(ZeroConstructor, Transient, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
+	class UGameplayCameraComponentEvaluationContext* EvaluationContext;                              // 0x0238(0x0008)(ZeroConstructor, Transient, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 
 public:
 	void ActivateCamera(int32 PlayerIndex);

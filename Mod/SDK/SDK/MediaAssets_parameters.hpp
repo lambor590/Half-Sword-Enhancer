@@ -552,7 +552,7 @@ static_assert(offsetof(MediaPlayer_GetHorizontalFieldOfView, ReturnValue) == 0x0
 struct MediaPlayer_GetMediaMetadataItems final
 {
 public:
-	TMap<class FString, struct FMediaMetadataItemsBPT> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FMediaMetadataItemsBPT> ReturnValue;                                  // 0x0000(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(MediaPlayer_GetMediaMetadataItems) == 0x000008, "Wrong alignment on MediaPlayer_GetMediaMetadataItems");
 static_assert(sizeof(MediaPlayer_GetMediaMetadataItems) == 0x000050, "Wrong size on MediaPlayer_GetMediaMetadataItems");
@@ -1369,7 +1369,7 @@ static_assert(offsetof(MediaSoundComponent_BP_GetAttenuationSettingsToApply, Ret
 struct MediaSoundComponent_GetNormalizedSpectralData final
 {
 public:
-	TArray<struct FMediaSoundComponentSpectralData> ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
+	TArray<struct FMediaSoundComponentSpectralData> ReturnValue;                                     // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(MediaSoundComponent_GetNormalizedSpectralData) == 0x000008, "Wrong alignment on MediaSoundComponent_GetNormalizedSpectralData");
 static_assert(sizeof(MediaSoundComponent_GetNormalizedSpectralData) == 0x000010, "Wrong size on MediaSoundComponent_GetNormalizedSpectralData");
@@ -1380,7 +1380,7 @@ static_assert(offsetof(MediaSoundComponent_GetNormalizedSpectralData, ReturnValu
 struct MediaSoundComponent_GetSpectralData final
 {
 public:
-	TArray<struct FMediaSoundComponentSpectralData> ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
+	TArray<struct FMediaSoundComponentSpectralData> ReturnValue;                                     // 0x0000(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(MediaSoundComponent_GetSpectralData) == 0x000008, "Wrong alignment on MediaSoundComponent_GetSpectralData");
 static_assert(sizeof(MediaSoundComponent_GetSpectralData) == 0x000010, "Wrong size on MediaSoundComponent_GetSpectralData");

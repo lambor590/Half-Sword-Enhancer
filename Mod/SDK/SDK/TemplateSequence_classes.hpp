@@ -117,7 +117,7 @@ public:
 	uint8                                         Pad_28[0x260];                                     // 0x0028(0x0260)(Fixing Size After Last Property [ Dumper-7 ])
 	class UObject*                                BoundObjectOverride;                               // 0x0288(0x0008)(ZeroConstructor, Transient, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	class UMovieSceneSequence*                    Sequence;                                          // 0x0290(0x0008)(ZeroConstructor, Transient, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
-	struct FMovieSceneRootEvaluationTemplateInstance RootTemplateInstance;                              // 0x0298(0x0020)(Transient, NativeAccessSpecifierPrivate)
+	struct FMovieSceneRootEvaluationTemplateInstance RootTemplateInstance;                           // 0x0298(0x0020)(Transient, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_2B8[0x70];                                     // 0x02B8(0x0070)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

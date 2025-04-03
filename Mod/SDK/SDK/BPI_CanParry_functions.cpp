@@ -20,17 +20,17 @@ namespace SDK
 // Function BPI_CanParry.BPI_CanParry_C.Send Threat Location R
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FVector                          Threat_Location                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Offset                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Threat_Location                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Offset                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Immediate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void IBPI_CanParry_C::Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* Nul)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BPI_CanParry_C", "Send Threat Location R");
+		Func = AsUObject()->Class->GetFunction("BPI_CanParry_C", "Send Threat Location R");
 
 	Params::BPI_CanParry_C_Send_Threat_Location_R Parms{};
 
@@ -38,7 +38,7 @@ void IBPI_CanParry_C::Send_Threat_Location_R(const struct FVector& Threat_Locati
 	Parms.Offset = std::move(Offset);
 	Parms.Immediate = Immediate;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	if (Nul != nullptr)
 		*Nul = Parms.Nul;

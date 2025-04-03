@@ -306,7 +306,7 @@ static_assert(offsetof(AutoAddColorComponent_GetIsAutoPainting, ReturnValue) == 
 struct AutoAddColorComponent_GetMeshesBeingAutoPainted final
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPAutoAddColorSettings> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAutoAddColorSettings> ReturnValue;                 // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AutoAddColorComponent_GetMeshesBeingAutoPainted) == 0x000008, "Wrong alignment on AutoAddColorComponent_GetMeshesBeingAutoPainted");
 static_assert(sizeof(AutoAddColorComponent_GetMeshesBeingAutoPainted) == 0x000050, "Wrong size on AutoAddColorComponent_GetMeshesBeingAutoPainted");
@@ -364,7 +364,7 @@ static_assert(offsetof(AutoAddColorEntireMeshComponent_AddAutoPaintEntireMesh, R
 struct AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesAdditionalDataSettings final
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> ReturnValue;      // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesAdditionalDataSettings) == 0x000008, "Wrong alignment on AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesAdditionalDataSettings");
 static_assert(sizeof(AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesAdditionalDataSettings) == 0x000050, "Wrong size on AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesAdditionalDataSettings");
@@ -375,7 +375,7 @@ static_assert(offsetof(AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMesh
 struct AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesPaintSettings final
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPPaintOnEntireMeshSettings> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class UPrimitiveComponent*, struct FRVPDPPaintOnEntireMeshSettings> ReturnValue;            // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesPaintSettings) == 0x000008, "Wrong alignment on AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesPaintSettings");
 static_assert(sizeof(AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesPaintSettings) == 0x000050, "Wrong size on AutoAddColorEntireMeshComponent_GetAutoPaintingEntireMeshesPaintSettings");
@@ -425,7 +425,7 @@ static_assert(offsetof(AutoAddColorPaintAtLocComponent_AddAutoPaintAtLocation, R
 struct AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationAdditionalDataSettings final
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> ReturnValue;      // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationAdditionalDataSettings) == 0x000008, "Wrong alignment on AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationAdditionalDataSettings");
 static_assert(sizeof(AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationAdditionalDataSettings) == 0x000050, "Wrong size on AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationAdditionalDataSettings");
@@ -436,7 +436,7 @@ static_assert(offsetof(AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocation
 struct AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationPaintSettings final
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPPaintAtLocationSettings> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class UPrimitiveComponent*, struct FRVPDPPaintAtLocationSettings> ReturnValue;              // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationPaintSettings) == 0x000008, "Wrong alignment on AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationPaintSettings");
 static_assert(sizeof(AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationPaintSettings) == 0x000050, "Wrong size on AutoAddColorPaintAtLocComponent_GetAutoPaintingAtLocationPaintSettings");
@@ -486,7 +486,7 @@ static_assert(offsetof(AutoAddColorWithinAreaComponent_AddAutoPaintWithinArea, R
 struct AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaAdditionalDataSettings final
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> ReturnValue;      // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaAdditionalDataSettings) == 0x000008, "Wrong alignment on AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaAdditionalDataSettings");
 static_assert(sizeof(AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaAdditionalDataSettings) == 0x000050, "Wrong size on AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaAdditionalDataSettings");
@@ -497,7 +497,7 @@ static_assert(offsetof(AutoAddColorWithinAreaComponent_GetAutoPaintingWithinArea
 struct AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaPaintSettings final
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPPaintWithinAreaSettings> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class UPrimitiveComponent*, struct FRVPDPPaintWithinAreaSettings> ReturnValue;              // 0x0000(0x0050)(Parm, OutParm, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaPaintSettings) == 0x000008, "Wrong alignment on AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaPaintSettings");
 static_assert(sizeof(AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaPaintSettings) == 0x000050, "Wrong size on AutoAddColorWithinAreaComponent_GetAutoPaintingWithinAreaPaintSettings");
@@ -561,7 +561,7 @@ public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 GroupSnippetID;                                    // 0x0008(0x0010)(Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<class UPrimitiveComponent*>            MeshComponents;                                    // 0x0018(0x0010)(Parm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	TMap<class FString, class UPrimitiveComponent*> ChildSnippetsAndMatchingMeshes;                    // 0x0028(0x0050)(Parm, OutParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class FString, class UPrimitiveComponent*> ChildSnippetsAndMatchingMeshes;                  // 0x0028(0x0050)(Parm, OutParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 	bool                                          ReturnValue;                                       // 0x0078(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_79[0x7];                                       // 0x0079(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -598,7 +598,7 @@ struct VertexPaintColorSnippetRefs_GetAllColorSnippetsAndDataAssetForObject fina
 {
 public:
 	const class UObject*                          Object;                                            // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> ReturnValue;                                       // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> ReturnValue;                            // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintColorSnippetRefs_GetAllColorSnippetsAndDataAssetForObject) == 0x000008, "Wrong alignment on VertexPaintColorSnippetRefs_GetAllColorSnippetsAndDataAssetForObject");
 static_assert(sizeof(VertexPaintColorSnippetRefs_GetAllColorSnippetsAndDataAssetForObject) == 0x000058, "Wrong size on VertexPaintColorSnippetRefs_GetAllColorSnippetsAndDataAssetForObject");
@@ -610,10 +610,10 @@ static_assert(offsetof(VertexPaintColorSnippetRefs_GetAllColorSnippetsAndDataAss
 struct VertexPaintColorSnippetRefs_GetAllColorSnippetsInSpecifiedDataAsset final
 {
 public:
-	const class UVertexPaintColorSnippetDataAsset* ColorSnippetDataAsset;                             // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	const class UVertexPaintColorSnippetDataAsset* ColorSnippetDataAsset;                            // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeChildGroupSnippets;                         // 0x0008(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_9[0x7];                                        // 0x0009(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> ReturnValue;                                       // 0x0010(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> ReturnValue;                            // 0x0010(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintColorSnippetRefs_GetAllColorSnippetsInSpecifiedDataAsset) == 0x000008, "Wrong alignment on VertexPaintColorSnippetRefs_GetAllColorSnippetsInSpecifiedDataAsset");
 static_assert(sizeof(VertexPaintColorSnippetRefs_GetAllColorSnippetsInSpecifiedDataAsset) == 0x000060, "Wrong size on VertexPaintColorSnippetRefs_GetAllColorSnippetsInSpecifiedDataAsset");
@@ -626,8 +626,8 @@ static_assert(offsetof(VertexPaintColorSnippetRefs_GetAllColorSnippetsInSpecifie
 struct VertexPaintColorSnippetRefs_GetAllGroupSnippetsInSpecifiedDataAsset final
 {
 public:
-	const class UVertexPaintColorSnippetDataAsset* ColorSnippetDataAsset;                             // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class FString, struct FRVPDPGroupColorSnippetInfo> ReturnValue;                                       // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	const class UVertexPaintColorSnippetDataAsset* ColorSnippetDataAsset;                            // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FRVPDPGroupColorSnippetInfo> ReturnValue;                             // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintColorSnippetRefs_GetAllGroupSnippetsInSpecifiedDataAsset) == 0x000008, "Wrong alignment on VertexPaintColorSnippetRefs_GetAllGroupSnippetsInSpecifiedDataAsset");
 static_assert(sizeof(VertexPaintColorSnippetRefs_GetAllGroupSnippetsInSpecifiedDataAsset) == 0x000058, "Wrong size on VertexPaintColorSnippetRefs_GetAllGroupSnippetsInSpecifiedDataAsset");
@@ -641,7 +641,7 @@ struct VertexPaintColorSnippetRefs_GetChildSnippetInfosAssociatedWithGroupSnippe
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 GroupSnippetID;                                    // 0x0008(0x0010)(Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> ReturnValue;                                       // 0x0018(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> ReturnValue;                            // 0x0018(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintColorSnippetRefs_GetChildSnippetInfosAssociatedWithGroupSnippetID) == 0x000008, "Wrong alignment on VertexPaintColorSnippetRefs_GetChildSnippetInfosAssociatedWithGroupSnippetID");
 static_assert(sizeof(VertexPaintColorSnippetRefs_GetChildSnippetInfosAssociatedWithGroupSnippetID) == 0x000068, "Wrong size on VertexPaintColorSnippetRefs_GetChildSnippetInfosAssociatedWithGroupSnippetID");
@@ -809,7 +809,7 @@ struct VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings final
 {
 public:
 	class USkeletalMeshComponent*                 SkeletalMeshComponentTryingToGetClothSettingsFor;  // 0x0000(0x0008)(Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings> ReturnValue;                                       // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class UClothingAssetBase*, struct FRVPDPVertexChannelsChaosClothPhysicsSettings> ReturnValue; // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings) == 0x000008, "Wrong alignment on VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings");
 static_assert(sizeof(VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings) == 0x000058, "Wrong size on VertexPaintDetectionInterface_GetSkeletalMeshClothPhysicsSettings");
@@ -1120,7 +1120,7 @@ struct VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsString_Wrapper final
 {
 public:
 	class UPrimitiveComponent*                    MeshComponent;                                     // 0x0000(0x0008)(Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> AvailableColorSnippetsAndDataAssets;               // 0x0008(0x0050)(Parm, OutParm, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> AvailableColorSnippetsAndDataAssets;    // 0x0008(0x0050)(Parm, OutParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsString_Wrapper) == 0x000008, "Wrong alignment on VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsString_Wrapper");
 static_assert(sizeof(VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsString_Wrapper) == 0x000058, "Wrong size on VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsString_Wrapper");
@@ -1133,7 +1133,7 @@ struct VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsTags_Wrapper final
 {
 public:
 	class UPrimitiveComponent*                    MeshComponent;                                     // 0x0000(0x0008)(Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>> AvailableColorSnippetTagsAndDataAssets;            // 0x0008(0x0050)(Parm, OutParm, UObjectWrapper, NativeAccessSpecifierPublic)
+	TMap<struct FGameplayTag, TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset>> AvailableColorSnippetTagsAndDataAssets; // 0x0008(0x0050)(Parm, OutParm, UObjectWrapper, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsTags_Wrapper) == 0x000008, "Wrong alignment on VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsTags_Wrapper");
 static_assert(sizeof(VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsTags_Wrapper) == 0x000058, "Wrong size on VertexPaintFunctionLibrary_GetAllMeshColorSnippetsAsTags_Wrapper");
@@ -1244,7 +1244,7 @@ public:
 	TArray<struct FColor>                         VertexColors;                                      // 0x0000(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 	float                                         MinColorAmountToBeConsidered;                      // 0x0010(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPAmountOfColorsOfEachChannelResults ReturnValue;                                       // 0x0018(0x0058)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	struct FRVPDPAmountOfColorsOfEachChannelResults ReturnValue;                                     // 0x0018(0x0058)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintFunctionLibrary_GetAmountOfPaintedColorsForEachChannel) == 0x000008, "Wrong alignment on VertexPaintFunctionLibrary_GetAmountOfPaintedColorsForEachChannel");
 static_assert(sizeof(VertexPaintFunctionLibrary_GetAmountOfPaintedColorsForEachChannel) == 0x000070, "Wrong size on VertexPaintFunctionLibrary_GetAmountOfPaintedColorsForEachChannel");
@@ -1260,7 +1260,7 @@ public:
 	class UObject*                                WorldContextObject;                                // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FLatentActionInfo                      LatentInfo;                                        // 0x0008(0x0018)(Parm, NoDestructor, NativeAccessSpecifierPublic)
 	TArray<struct FColor>                         VertexColors;                                      // 0x0020(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-	struct FRVPDPAmountOfColorsOfEachChannelResults AmountOfColorsOfEachChannel;                       // 0x0030(0x0058)(Parm, OutParm, NativeAccessSpecifierPublic)
+	struct FRVPDPAmountOfColorsOfEachChannelResults AmountOfColorsOfEachChannel;                     // 0x0030(0x0058)(Parm, OutParm, NativeAccessSpecifierPublic)
 	float                                         MinColorAmountToBeConsidered;                      // 0x0088(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_8C[0x4];                                       // 0x008C(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -1551,7 +1551,7 @@ struct VertexPaintFunctionLibrary_GetPhysicsSurfaceFamilies_Wrapper final
 {
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<EPhysicalSurface, struct FRVPDPRegisteredPhysicsSurfacesSettings> ReturnValue;                                       // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<EPhysicalSurface, struct FRVPDPRegisteredPhysicsSurfacesSettings> ReturnValue;              // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintFunctionLibrary_GetPhysicsSurfaceFamilies_Wrapper) == 0x000008, "Wrong alignment on VertexPaintFunctionLibrary_GetPhysicsSurfaceFamilies_Wrapper");
 static_assert(sizeof(VertexPaintFunctionLibrary_GetPhysicsSurfaceFamilies_Wrapper) == 0x000058, "Wrong size on VertexPaintFunctionLibrary_GetPhysicsSurfaceFamilies_Wrapper");
@@ -1650,7 +1650,7 @@ struct VertexPaintFunctionLibrary_GetVertexPaintMaterialInterface_Wrapper final
 {
 public:
 	const class UObject*                          WorldContextObject;                                // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<TSoftObjectPtr<class UMaterialInterface>, struct FRVPDPRegisteredMaterialSetting> ReturnValue;                                       // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<TSoftObjectPtr<class UMaterialInterface>, struct FRVPDPRegisteredMaterialSetting> ReturnValue; // 0x0008(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintFunctionLibrary_GetVertexPaintMaterialInterface_Wrapper) == 0x000008, "Wrong alignment on VertexPaintFunctionLibrary_GetVertexPaintMaterialInterface_Wrapper");
 static_assert(sizeof(VertexPaintFunctionLibrary_GetVertexPaintMaterialInterface_Wrapper) == 0x000058, "Wrong size on VertexPaintFunctionLibrary_GetVertexPaintMaterialInterface_Wrapper");
@@ -1733,7 +1733,7 @@ public:
 	bool                                          IgnoreSelf;                                        // 0x0049(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	EDrawDebugTrace                               DrawDebugType;                                     // 0x004A(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_4B[0x5];                                       // 0x004B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FRVPDPTraceForClosestUniqueMeshesAndBonesPrerequisite> ClosestUniqueMeshesWithBones;                      // 0x0050(0x0010)(Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPTraceForClosestUniqueMeshesAndBonesPrerequisite> ClosestUniqueMeshesWithBones; // 0x0050(0x0010)(Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 	float                                         DebugDrawTime;                                     // 0x0060(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          ReturnValue;                                       // 0x0064(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_65[0x3];                                       // 0x0065(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -2020,7 +2020,7 @@ static_assert(offsetof(VertexPaintFunctionLibrary_VertexPaintDetectionPlugin_Sor
 struct VertexPaintOptimizationDataAsset_GetRegisteredSkeletalMeshInfo final
 {
 public:
-	TMap<class USkeletalMesh*, struct FRVPDPRegisteredSkeletalMeshInfo> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class USkeletalMesh*, struct FRVPDPRegisteredSkeletalMeshInfo> ReturnValue;                 // 0x0000(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintOptimizationDataAsset_GetRegisteredSkeletalMeshInfo) == 0x000008, "Wrong alignment on VertexPaintOptimizationDataAsset_GetRegisteredSkeletalMeshInfo");
 static_assert(sizeof(VertexPaintOptimizationDataAsset_GetRegisteredSkeletalMeshInfo) == 0x000050, "Wrong size on VertexPaintOptimizationDataAsset_GetRegisteredSkeletalMeshInfo");
@@ -2031,7 +2031,7 @@ static_assert(offsetof(VertexPaintOptimizationDataAsset_GetRegisteredSkeletalMes
 struct VertexPaintOptimizationDataAsset_GetSkeletalMeshNumOfLODsToPaint final
 {
 public:
-	TMap<class USkeletalMesh*, struct FRVPDPPaintOnLODSettings> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class USkeletalMesh*, struct FRVPDPPaintOnLODSettings> ReturnValue;                         // 0x0000(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintOptimizationDataAsset_GetSkeletalMeshNumOfLODsToPaint) == 0x000008, "Wrong alignment on VertexPaintOptimizationDataAsset_GetSkeletalMeshNumOfLODsToPaint");
 static_assert(sizeof(VertexPaintOptimizationDataAsset_GetSkeletalMeshNumOfLODsToPaint) == 0x000050, "Wrong size on VertexPaintOptimizationDataAsset_GetSkeletalMeshNumOfLODsToPaint");
@@ -2042,7 +2042,7 @@ static_assert(offsetof(VertexPaintOptimizationDataAsset_GetSkeletalMeshNumOfLODs
 struct VertexPaintOptimizationDataAsset_GetStaticMeshNumOfLODsToPaint final
 {
 public:
-	TMap<class UStaticMesh*, struct FRVPDPPaintOnLODSettings> ReturnValue;                                       // 0x0000(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+	TMap<class UStaticMesh*, struct FRVPDPPaintOnLODSettings> ReturnValue;                           // 0x0000(0x0050)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(VertexPaintOptimizationDataAsset_GetStaticMeshNumOfLODsToPaint) == 0x000008, "Wrong alignment on VertexPaintOptimizationDataAsset_GetStaticMeshNumOfLODsToPaint");
 static_assert(sizeof(VertexPaintOptimizationDataAsset_GetStaticMeshNumOfLODsToPaint) == 0x000050, "Wrong size on VertexPaintOptimizationDataAsset_GetStaticMeshNumOfLODsToPaint");

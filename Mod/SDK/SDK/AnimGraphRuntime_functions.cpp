@@ -20,8 +20,8 @@ namespace SDK
 // Function AnimGraphRuntime.AnimNodeRigidBodyLibrary.ConvertToRigidBodyAnimNode
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FRigidBodyAnimNodeReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FRigidBodyAnimNodeReference UAnimNodeRigidBodyLibrary::ConvertToRigidBodyAnimNode(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -52,9 +52,9 @@ struct FRigidBodyAnimNodeReference UAnimNodeRigidBodyLibrary::ConvertToRigidBody
 // Function AnimGraphRuntime.AnimNodeRigidBodyLibrary.ConvertToRigidBodyAnimNodePure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FRigidBodyAnimNodeReference      RigidBodyAnimNode                                      (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FRigidBodyAnimNodeReference*     RigidBodyAnimNode                                      (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAnimNodeRigidBodyLibrary::ConvertToRigidBodyAnimNodePure(const struct FAnimNodeReference& Node, struct FRigidBodyAnimNodeReference* RigidBodyAnimNode, bool* Result)
 {
@@ -85,7 +85,7 @@ void UAnimNodeRigidBodyLibrary::ConvertToRigidBodyAnimNodePure(const struct FAni
 // Function AnimGraphRuntime.AnimNodeRigidBodyLibrary.SetOverridePhysicsAsset
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FRigidBodyAnimNodeReference      Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FRigidBodyAnimNodeReference&Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UPhysicsAsset*                    PhysicsAsset                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FRigidBodyAnimNodeReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -115,8 +115,8 @@ struct FRigidBodyAnimNodeReference UAnimNodeRigidBodyLibrary::SetOverridePhysics
 // Function AnimGraphRuntime.BlendSpaceLibrary.ConvertToBlendSpace
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBlendSpaceReference             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FBlendSpaceReference UBlendSpaceLibrary::ConvertToBlendSpace(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -147,9 +147,9 @@ struct FBlendSpaceReference UBlendSpaceLibrary::ConvertToBlendSpace(const struct
 // Function AnimGraphRuntime.BlendSpaceLibrary.ConvertToBlendSpacePure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FBlendSpaceReference             BlendSpace                                             (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FBlendSpaceReference*            BlendSpace                                             (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBlendSpaceLibrary::ConvertToBlendSpacePure(const struct FAnimNodeReference& Node, struct FBlendSpaceReference* BlendSpace, bool* Result)
 {
@@ -180,7 +180,7 @@ void UBlendSpaceLibrary::ConvertToBlendSpacePure(const struct FAnimNodeReference
 // Function AnimGraphRuntime.BlendSpaceLibrary.GetFilteredPosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FBlendSpaceReference             BlendSpace                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpaceReference&      BlendSpace                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector UBlendSpaceLibrary::GetFilteredPosition(const struct FBlendSpaceReference& BlendSpace)
@@ -208,7 +208,7 @@ struct FVector UBlendSpaceLibrary::GetFilteredPosition(const struct FBlendSpaceR
 // Function AnimGraphRuntime.BlendSpaceLibrary.GetPosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FBlendSpaceReference             BlendSpace                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpaceReference&      BlendSpace                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector UBlendSpaceLibrary::GetPosition(const struct FBlendSpaceReference& BlendSpace)
@@ -236,8 +236,8 @@ struct FVector UBlendSpaceLibrary::GetPosition(const struct FBlendSpaceReference
 // Function AnimGraphRuntime.BlendSpaceLibrary.SnapToPosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FBlendSpaceReference             BlendSpace                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector                          NewPosition                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FBlendSpaceReference&      BlendSpace                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector&                   NewPosition                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBlendSpaceLibrary::SnapToPosition(const struct FBlendSpaceReference& BlendSpace, const struct FVector& NewPosition)
 {
@@ -270,14 +270,14 @@ bool ISequencerAnimationOverride::AllowsCinematicOverride() const
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("SequencerAnimationOverride", "AllowsCinematicOverride");
+		Func = AsUObject()->Class->GetFunction("SequencerAnimationOverride", "AllowsCinematicOverride");
 
 	Params::SequencerAnimationOverride_AllowsCinematicOverride Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -295,14 +295,14 @@ TArray<class FName> ISequencerAnimationOverride::GetSequencerAnimSlotNames() con
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("SequencerAnimationOverride", "GetSequencerAnimSlotNames");
+		Func = AsUObject()->Class->GetFunction("SequencerAnimationOverride", "GetSequencerAnimSlotNames");
 
 	Params::SequencerAnimationOverride_GetSequencerAnimSlotNames Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -313,9 +313,9 @@ TArray<class FName> ISequencerAnimationOverride::GetSequencerAnimSlotNames() con
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.ConvertToAnimationStateMachine
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FAnimationStateMachineReference  AnimationState                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FAnimationStateMachineReference* AnimationState                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAnimationStateMachineLibrary::ConvertToAnimationStateMachine(const struct FAnimNodeReference& Node, struct FAnimationStateMachineReference* AnimationState, EAnimNodeReferenceConversionResult* Result)
 {
@@ -346,9 +346,9 @@ void UAnimationStateMachineLibrary::ConvertToAnimationStateMachine(const struct 
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.ConvertToAnimationStateMachinePure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FAnimationStateMachineReference  AnimationState                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FAnimationStateMachineReference* AnimationState                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAnimationStateMachineLibrary::ConvertToAnimationStateMachinePure(const struct FAnimNodeReference& Node, struct FAnimationStateMachineReference* AnimationState, bool* Result)
 {
@@ -379,9 +379,9 @@ void UAnimationStateMachineLibrary::ConvertToAnimationStateMachinePure(const str
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.ConvertToAnimationStateResult
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FAnimationStateResultReference   AnimationState                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FAnimationStateResultReference*  AnimationState                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAnimationStateMachineLibrary::ConvertToAnimationStateResult(const struct FAnimNodeReference& Node, struct FAnimationStateResultReference* AnimationState, EAnimNodeReferenceConversionResult* Result)
 {
@@ -412,9 +412,9 @@ void UAnimationStateMachineLibrary::ConvertToAnimationStateResult(const struct F
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.ConvertToAnimationStateResultPure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FAnimationStateResultReference   AnimationState                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FAnimationStateResultReference*  AnimationState                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UAnimationStateMachineLibrary::ConvertToAnimationStateResultPure(const struct FAnimNodeReference& Node, struct FAnimationStateResultReference* AnimationState, bool* Result)
 {
@@ -445,8 +445,8 @@ void UAnimationStateMachineLibrary::ConvertToAnimationStateResultPure(const stru
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.GetRelevantAnimTimeRemaining
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FAnimationStateResultReference   Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimationStateResultReference&Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAnimationStateMachineLibrary::GetRelevantAnimTimeRemaining(const struct FAnimUpdateContext& UpdateContext, const struct FAnimationStateResultReference& Node)
@@ -475,8 +475,8 @@ float UAnimationStateMachineLibrary::GetRelevantAnimTimeRemaining(const struct F
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.GetRelevantAnimTimeRemainingFraction
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FAnimationStateResultReference   Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimationStateResultReference&Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAnimationStateMachineLibrary::GetRelevantAnimTimeRemainingFraction(const struct FAnimUpdateContext& UpdateContext, const struct FAnimationStateResultReference& Node)
@@ -505,8 +505,8 @@ float UAnimationStateMachineLibrary::GetRelevantAnimTimeRemainingFraction(const 
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.GetState
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FAnimationStateMachineReference  Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimationStateMachineReference&Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class FName                             ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class FName UAnimationStateMachineLibrary::GetState(const struct FAnimUpdateContext& UpdateContext, const struct FAnimationStateMachineReference& Node)
@@ -535,8 +535,8 @@ class FName UAnimationStateMachineLibrary::GetState(const struct FAnimUpdateCont
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.IsStateBlendingIn
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FAnimationStateResultReference   Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimationStateResultReference&Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UAnimationStateMachineLibrary::IsStateBlendingIn(const struct FAnimUpdateContext& UpdateContext, const struct FAnimationStateResultReference& Node)
@@ -565,8 +565,8 @@ bool UAnimationStateMachineLibrary::IsStateBlendingIn(const struct FAnimUpdateCo
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.IsStateBlendingOut
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FAnimationStateResultReference   Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimationStateResultReference&Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UAnimationStateMachineLibrary::IsStateBlendingOut(const struct FAnimUpdateContext& UpdateContext, const struct FAnimationStateResultReference& Node)
@@ -595,8 +595,8 @@ bool UAnimationStateMachineLibrary::IsStateBlendingOut(const struct FAnimUpdateC
 // Function AnimGraphRuntime.AnimationStateMachineLibrary.SetState
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FAnimationStateMachineReference  Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimationStateMachineReference&Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class FName                             TargetState                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Duration                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // ETransitionLogicType                    BlendType                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -634,8 +634,8 @@ void UAnimationStateMachineLibrary::SetState(const struct FAnimUpdateContext& Up
 // Function AnimGraphRuntime.AnimExecutionContextLibrary.ConvertToComponentSpacePoseContext
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimExecutionContext            Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// EAnimExecutionContextConversionResult   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimExecutionContext&     Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// EAnimExecutionContextConversionResult*  Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FAnimComponentSpacePoseContext   ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FAnimComponentSpacePoseContext UAnimExecutionContextLibrary::ConvertToComponentSpacePoseContext(const struct FAnimExecutionContext& Context, EAnimExecutionContextConversionResult* Result)
@@ -666,8 +666,8 @@ struct FAnimComponentSpacePoseContext UAnimExecutionContextLibrary::ConvertToCom
 // Function AnimGraphRuntime.AnimExecutionContextLibrary.ConvertToInitializationContext
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimExecutionContext            Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// EAnimExecutionContextConversionResult   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimExecutionContext&     Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// EAnimExecutionContextConversionResult*  Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FAnimInitializationContext       ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FAnimInitializationContext UAnimExecutionContextLibrary::ConvertToInitializationContext(const struct FAnimExecutionContext& Context, EAnimExecutionContextConversionResult* Result)
@@ -698,8 +698,8 @@ struct FAnimInitializationContext UAnimExecutionContextLibrary::ConvertToInitial
 // Function AnimGraphRuntime.AnimExecutionContextLibrary.ConvertToPoseContext
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimExecutionContext            Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// EAnimExecutionContextConversionResult   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimExecutionContext&     Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// EAnimExecutionContextConversionResult*  Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FAnimPoseContext                 ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FAnimPoseContext UAnimExecutionContextLibrary::ConvertToPoseContext(const struct FAnimExecutionContext& Context, EAnimExecutionContextConversionResult* Result)
@@ -730,8 +730,8 @@ struct FAnimPoseContext UAnimExecutionContextLibrary::ConvertToPoseContext(const
 // Function AnimGraphRuntime.AnimExecutionContextLibrary.ConvertToUpdateContext
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimExecutionContext            Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// EAnimExecutionContextConversionResult   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimExecutionContext&     Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// EAnimExecutionContextConversionResult*  Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FAnimUpdateContext               ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FAnimUpdateContext UAnimExecutionContextLibrary::ConvertToUpdateContext(const struct FAnimExecutionContext& Context, EAnimExecutionContextConversionResult* Result)
@@ -762,7 +762,7 @@ struct FAnimUpdateContext UAnimExecutionContextLibrary::ConvertToUpdateContext(c
 // Function AnimGraphRuntime.AnimExecutionContextLibrary.GetAnimInstance
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimExecutionContext            Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimExecutionContext&     Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UAnimInstance*                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UAnimInstance* UAnimExecutionContextLibrary::GetAnimInstance(const struct FAnimExecutionContext& Context)
@@ -820,7 +820,7 @@ struct FAnimNodeReference UAnimExecutionContextLibrary::GetAnimNodeReference(cla
 // Function AnimGraphRuntime.AnimExecutionContextLibrary.GetCurrentWeight
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimUpdateContext               Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAnimExecutionContextLibrary::GetCurrentWeight(const struct FAnimUpdateContext& Context)
@@ -848,7 +848,7 @@ float UAnimExecutionContextLibrary::GetCurrentWeight(const struct FAnimUpdateCon
 // Function AnimGraphRuntime.AnimExecutionContextLibrary.GetDeltaTime
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimUpdateContext               Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UAnimExecutionContextLibrary::GetDeltaTime(const struct FAnimUpdateContext& Context)
@@ -876,7 +876,7 @@ float UAnimExecutionContextLibrary::GetDeltaTime(const struct FAnimUpdateContext
 // Function AnimGraphRuntime.AnimExecutionContextLibrary.IsActive
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimExecutionContext            Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnimExecutionContext&     Context                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UAnimExecutionContextLibrary::IsActive(const struct FAnimExecutionContext& Context)
@@ -904,8 +904,8 @@ bool UAnimExecutionContextLibrary::IsActive(const struct FAnimExecutionContext& 
 // Function AnimGraphRuntime.BlendListBaseLibrary.ConvertToBlendListBase
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBlendListBaseReference          ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FBlendListBaseReference UBlendListBaseLibrary::ConvertToBlendListBase(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -936,7 +936,7 @@ struct FBlendListBaseReference UBlendListBaseLibrary::ConvertToBlendListBase(con
 // Function AnimGraphRuntime.BlendListBaseLibrary.ResetNode
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FBlendListBaseReference          BlendListBase                                          (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendListBaseReference&   BlendListBase                                          (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UBlendListBaseLibrary::ResetNode(const struct FBlendListBaseReference& BlendListBase)
 {
@@ -961,8 +961,8 @@ void UBlendListBaseLibrary::ResetNode(const struct FBlendListBaseReference& Blen
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.ConvertToBlendSpacePlayer
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBlendSpacePlayerReference       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FBlendSpacePlayerReference UBlendSpacePlayerLibrary::ConvertToBlendSpacePlayer(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -993,9 +993,9 @@ struct FBlendSpacePlayerReference UBlendSpacePlayerLibrary::ConvertToBlendSpaceP
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.ConvertToBlendSpacePlayerPure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FBlendSpacePlayerReference*      BlendSpacePlayer                                       (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBlendSpacePlayerLibrary::ConvertToBlendSpacePlayerPure(const struct FAnimNodeReference& Node, struct FBlendSpacePlayerReference* BlendSpacePlayer, bool* Result)
 {
@@ -1026,7 +1026,7 @@ void UBlendSpacePlayerLibrary::ConvertToBlendSpacePlayerPure(const struct FAnimN
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.GetBlendSpace
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UBlendSpace*                      ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UBlendSpace* UBlendSpacePlayerLibrary::GetBlendSpace(const struct FBlendSpacePlayerReference& BlendSpacePlayer)
@@ -1054,7 +1054,7 @@ class UBlendSpace* UBlendSpacePlayerLibrary::GetBlendSpace(const struct FBlendSp
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.GetLoop
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UBlendSpacePlayerLibrary::GetLoop(const struct FBlendSpacePlayerReference& BlendSpacePlayer)
@@ -1082,7 +1082,7 @@ bool UBlendSpacePlayerLibrary::GetLoop(const struct FBlendSpacePlayerReference& 
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.GetPlayRate
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UBlendSpacePlayerLibrary::GetPlayRate(const struct FBlendSpacePlayerReference& BlendSpacePlayer)
@@ -1110,7 +1110,7 @@ float UBlendSpacePlayerLibrary::GetPlayRate(const struct FBlendSpacePlayerRefere
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.GetPosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector UBlendSpacePlayerLibrary::GetPosition(const struct FBlendSpacePlayerReference& BlendSpacePlayer)
@@ -1138,7 +1138,7 @@ struct FVector UBlendSpacePlayerLibrary::GetPosition(const struct FBlendSpacePla
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.GetStartPosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UBlendSpacePlayerLibrary::GetStartPosition(const struct FBlendSpacePlayerReference& BlendSpacePlayer)
@@ -1166,7 +1166,7 @@ float UBlendSpacePlayerLibrary::GetStartPosition(const struct FBlendSpacePlayerR
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.SetBlendSpace
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UBlendSpace*                      BlendSpace                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBlendSpacePlayerReference       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -1196,8 +1196,8 @@ struct FBlendSpacePlayerReference UBlendSpacePlayerLibrary::SetBlendSpace(const 
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.SetBlendSpaceWithInertialBlending
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UBlendSpace*                      BlendSpace                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   BlendTime                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBlendSpacePlayerReference       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
@@ -1230,7 +1230,7 @@ struct FBlendSpacePlayerReference UBlendSpacePlayerLibrary::SetBlendSpaceWithIne
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.SetLoop
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    bLoop                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBlendSpacePlayerReference       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -1260,7 +1260,7 @@ struct FBlendSpacePlayerReference UBlendSpacePlayerLibrary::SetLoop(const struct
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.SetPlayRate
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   PlayRate                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBlendSpacePlayerReference       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -1290,7 +1290,7 @@ struct FBlendSpacePlayerReference UBlendSpacePlayerLibrary::SetPlayRate(const st
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.SetResetPlayTimeWhenBlendSpaceChanges
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    bReset                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBlendSpacePlayerReference       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -1320,7 +1320,7 @@ struct FBlendSpacePlayerReference UBlendSpacePlayerLibrary::SetResetPlayTimeWhen
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.ShouldResetPlayTimeWhenBlendSpaceChanges
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UBlendSpacePlayerLibrary::ShouldResetPlayTimeWhenBlendSpaceChanges(const struct FBlendSpacePlayerReference& BlendSpacePlayer)
@@ -1348,8 +1348,8 @@ bool UBlendSpacePlayerLibrary::ShouldResetPlayTimeWhenBlendSpaceChanges(const st
 // Function AnimGraphRuntime.BlendSpacePlayerLibrary.SnapToPosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FBlendSpacePlayerReference       BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector                          NewPosition                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FBlendSpacePlayerReference&BlendSpacePlayer                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector&                   NewPosition                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBlendSpacePlayerLibrary::SnapToPosition(const struct FBlendSpacePlayerReference& BlendSpacePlayer, const struct FVector& NewPosition)
 {
@@ -1375,8 +1375,8 @@ void UBlendSpacePlayerLibrary::SnapToPosition(const struct FBlendSpacePlayerRefe
 // Function AnimGraphRuntime.KismetAnimationLibrary.CalculateDirection
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FVector                          Velocity                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRotator                         BaseRotation                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector&                   Velocity                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FRotator&                  BaseRotation                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UKismetAnimationLibrary::CalculateDirection(const struct FVector& Velocity, const struct FRotator& BaseRotation)
@@ -1406,8 +1406,8 @@ float UKismetAnimationLibrary::CalculateDirection(const struct FVector& Velocity
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // float                                   DeltaSeconds                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FPositionHistory                 History                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FVector&                   Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPositionHistory&                History                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // int32                                   NumberOfSamples                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   VelocityMin                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   VelocityMax                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -1447,16 +1447,16 @@ float UKismetAnimationLibrary::K2_CalculateVelocityFromPositionHistory(float Del
 // Parameters:
 // float                                   DeltaSeconds                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class USkeletalMeshComponent*           Component                                              (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             SocketOrBoneName                                       (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             ReferenceSocketOrBone                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       SocketOrBoneName                                       (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       ReferenceSocketOrBone                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // ERelativeTransformSpace                 SocketSpace                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          OffsetInBoneSpace                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FPositionHistory                 History                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FVector&                   OffsetInBoneSpace                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPositionHistory&                History                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // int32                                   NumberOfSamples                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   VelocityMin                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   VelocityMax                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EEasingFuncType                         EasingType                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRuntimeFloatCurve               CustomCurve                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRuntimeFloatCurve&        CustomCurve                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UKismetAnimationLibrary::K2_CalculateVelocityFromSockets(float DeltaSeconds, class USkeletalMeshComponent* Component, const class FName SocketOrBoneName, const class FName ReferenceSocketOrBone, ERelativeTransformSpace SocketSpace, const struct FVector& OffsetInBoneSpace, struct FPositionHistory& History, int32 NumberOfSamples, float VelocityMin, float VelocityMax, EEasingFuncType EasingType, const struct FRuntimeFloatCurve& CustomCurve)
@@ -1497,9 +1497,9 @@ float UKismetAnimationLibrary::K2_CalculateVelocityFromSockets(float DeltaSecond
 // Function AnimGraphRuntime.KismetAnimationLibrary.K2_DirectionBetweenSockets
 // (Final, RequiredAPI, Native, Static, Public, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class USkeletalMeshComponent*           Component                                              (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             SocketOrBoneNameFrom                                   (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             SocketOrBoneNameTo                                     (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class USkeletalMeshComponent*     Component                                              (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       SocketOrBoneNameFrom                                   (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       SocketOrBoneNameTo                                     (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector UKismetAnimationLibrary::K2_DirectionBetweenSockets(const class USkeletalMeshComponent* Component, const class FName SocketOrBoneNameFrom, const class FName SocketOrBoneNameTo)
@@ -1529,10 +1529,10 @@ struct FVector UKismetAnimationLibrary::K2_DirectionBetweenSockets(const class U
 // Function AnimGraphRuntime.KismetAnimationLibrary.K2_DistanceBetweenTwoSocketsAndMapRange
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class USkeletalMeshComponent*           Component                                              (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             SocketOrBoneNameA                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class USkeletalMeshComponent*     Component                                              (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       SocketOrBoneNameA                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // ERelativeTransformSpace                 SocketSpaceA                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             SocketOrBoneNameB                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       SocketOrBoneNameB                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // ERelativeTransformSpace                 SocketSpaceB                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bRemapRange                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   InRangeMin                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -1576,7 +1576,7 @@ float UKismetAnimationLibrary::K2_DistanceBetweenTwoSocketsAndMapRange(const cla
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // bool                                    bLog                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           LogPrefix                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    LogPrefix                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UKismetAnimationLibrary::K2_EndProfilingTimer(bool bLog, const class FString& LogPrefix)
@@ -1605,11 +1605,11 @@ float UKismetAnimationLibrary::K2_EndProfilingTimer(bool bLog, const class FStri
 // Function AnimGraphRuntime.KismetAnimationLibrary.K2_LookAt
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FTransform                       CurrentTransform                                       (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          TargetPosition                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          LookAtVector                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                CurrentTransform                                       (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   TargetPosition                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   LookAtVector                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bUseUpVector                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          UpVector                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   UpVector                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ClampConeInDegree                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FTransform                       ReturnValue                                            (Parm, OutParm, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1738,13 +1738,13 @@ void UKismetAnimationLibrary::K2_StartProfilingTimer()
 // Function AnimGraphRuntime.KismetAnimationLibrary.K2_TwoBoneIK
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FVector                          RootPos                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          JointPos                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          EndPos                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          JointTarget                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          Effector                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          OutJointPos                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          OutEndPos                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   RootPos                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   JointPos                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   EndPos                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   JointTarget                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   Effector                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector*                         OutJointPos                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector*                         OutEndPos                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bAllowStretching                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   StartStretchRatio                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   MaxStretchScale                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -1785,9 +1785,9 @@ void UKismetAnimationLibrary::K2_TwoBoneIK(const struct FVector& RootPos, const 
 // Function AnimGraphRuntime.LayeredBoneBlendLibrary.ConvertToLayeredBlendPerBonePure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FLayeredBoneBlendReference       LayeredBoneBlend                                       (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FLayeredBoneBlendReference*      LayeredBoneBlend                                       (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void ULayeredBoneBlendLibrary::ConvertToLayeredBlendPerBonePure(const struct FAnimNodeReference& Node, struct FLayeredBoneBlendReference* LayeredBoneBlend, bool* Result)
 {
@@ -1818,8 +1818,8 @@ void ULayeredBoneBlendLibrary::ConvertToLayeredBlendPerBonePure(const struct FAn
 // Function AnimGraphRuntime.LayeredBoneBlendLibrary.ConvertToLayeredBoneBlend
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FLayeredBoneBlendReference       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FLayeredBoneBlendReference ULayeredBoneBlendLibrary::ConvertToLayeredBoneBlend(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -1850,7 +1850,7 @@ struct FLayeredBoneBlendReference ULayeredBoneBlendLibrary::ConvertToLayeredBone
 // Function AnimGraphRuntime.LayeredBoneBlendLibrary.GetNumPoses
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FLayeredBoneBlendReference       LayeredBoneBlend                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FLayeredBoneBlendReference&LayeredBoneBlend                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 ULayeredBoneBlendLibrary::GetNumPoses(const struct FLayeredBoneBlendReference& LayeredBoneBlend)
@@ -1878,8 +1878,8 @@ int32 ULayeredBoneBlendLibrary::GetNumPoses(const struct FLayeredBoneBlendRefere
 // Function AnimGraphRuntime.LayeredBoneBlendLibrary.SetBlendMask
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FLayeredBoneBlendReference       LayeredBoneBlend                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FLayeredBoneBlendReference&LayeredBoneBlend                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // int32                                   PoseIndex                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             BlendMaskName                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FLayeredBoneBlendReference       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
@@ -1912,8 +1912,8 @@ struct FLayeredBoneBlendReference ULayeredBoneBlendLibrary::SetBlendMask(const s
 // Function AnimGraphRuntime.LinkedAnimGraphLibrary.ConvertToLinkedAnimGraph
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FLinkedAnimGraphReference        ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FLinkedAnimGraphReference ULinkedAnimGraphLibrary::ConvertToLinkedAnimGraph(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -1944,9 +1944,9 @@ struct FLinkedAnimGraphReference ULinkedAnimGraphLibrary::ConvertToLinkedAnimGra
 // Function AnimGraphRuntime.LinkedAnimGraphLibrary.ConvertToLinkedAnimGraphPure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FLinkedAnimGraphReference        LinkedAnimGraph                                        (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FLinkedAnimGraphReference*       LinkedAnimGraph                                        (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void ULinkedAnimGraphLibrary::ConvertToLinkedAnimGraphPure(const struct FAnimNodeReference& Node, struct FLinkedAnimGraphReference* LinkedAnimGraph, bool* Result)
 {
@@ -1977,7 +1977,7 @@ void ULinkedAnimGraphLibrary::ConvertToLinkedAnimGraphPure(const struct FAnimNod
 // Function AnimGraphRuntime.LinkedAnimGraphLibrary.GetLinkedAnimInstance
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FLinkedAnimGraphReference        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FLinkedAnimGraphReference& Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UAnimInstance*                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UAnimInstance* ULinkedAnimGraphLibrary::GetLinkedAnimInstance(const struct FLinkedAnimGraphReference& Node)
@@ -2005,7 +2005,7 @@ class UAnimInstance* ULinkedAnimGraphLibrary::GetLinkedAnimInstance(const struct
 // Function AnimGraphRuntime.LinkedAnimGraphLibrary.HasLinkedAnimInstance
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FLinkedAnimGraphReference        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FLinkedAnimGraphReference& Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ULinkedAnimGraphLibrary::HasLinkedAnimInstance(const struct FLinkedAnimGraphReference& Node)
@@ -2033,8 +2033,8 @@ bool ULinkedAnimGraphLibrary::HasLinkedAnimInstance(const struct FLinkedAnimGrap
 // Function AnimGraphRuntime.MirrorAnimLibrary.ConvertToMirrorNode
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMirrorAnimNodeReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FMirrorAnimNodeReference UMirrorAnimLibrary::ConvertToMirrorNode(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -2065,9 +2065,9 @@ struct FMirrorAnimNodeReference UMirrorAnimLibrary::ConvertToMirrorNode(const st
 // Function AnimGraphRuntime.MirrorAnimLibrary.ConvertToMirrorNodePure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FMirrorAnimNodeReference         MirrorNode                                             (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FMirrorAnimNodeReference*        MirrorNode                                             (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMirrorAnimLibrary::ConvertToMirrorNodePure(const struct FAnimNodeReference& Node, struct FMirrorAnimNodeReference* MirrorNode, bool* Result)
 {
@@ -2098,7 +2098,7 @@ void UMirrorAnimLibrary::ConvertToMirrorNodePure(const struct FAnimNodeReference
 // Function AnimGraphRuntime.MirrorAnimLibrary.GetMirror
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FMirrorAnimNodeReference         MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMirrorAnimNodeReference&  MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMirrorAnimLibrary::GetMirror(const struct FMirrorAnimNodeReference& MirrorNode)
@@ -2126,7 +2126,7 @@ bool UMirrorAnimLibrary::GetMirror(const struct FMirrorAnimNodeReference& Mirror
 // Function AnimGraphRuntime.MirrorAnimLibrary.GetMirrorDataTable
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FMirrorAnimNodeReference         MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMirrorAnimNodeReference&  MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UMirrorDataTable*                 ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UMirrorDataTable* UMirrorAnimLibrary::GetMirrorDataTable(const struct FMirrorAnimNodeReference& MirrorNode)
@@ -2154,7 +2154,7 @@ class UMirrorDataTable* UMirrorAnimLibrary::GetMirrorDataTable(const struct FMir
 // Function AnimGraphRuntime.MirrorAnimLibrary.GetMirrorTransitionBlendTime
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FMirrorAnimNodeReference         MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMirrorAnimNodeReference&  MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UMirrorAnimLibrary::GetMirrorTransitionBlendTime(const struct FMirrorAnimNodeReference& MirrorNode)
@@ -2182,7 +2182,7 @@ float UMirrorAnimLibrary::GetMirrorTransitionBlendTime(const struct FMirrorAnimN
 // Function AnimGraphRuntime.MirrorAnimLibrary.SetMirror
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMirrorAnimNodeReference         MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMirrorAnimNodeReference&  MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    bInMirror                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMirrorAnimNodeReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -2212,7 +2212,7 @@ struct FMirrorAnimNodeReference UMirrorAnimLibrary::SetMirror(const struct FMirr
 // Function AnimGraphRuntime.MirrorAnimLibrary.SetMirrorTransitionBlendTime
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMirrorAnimNodeReference         MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMirrorAnimNodeReference&  MirrorNode                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   InBlendTime                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMirrorAnimNodeReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -2242,8 +2242,8 @@ struct FMirrorAnimNodeReference UMirrorAnimLibrary::SetMirrorTransitionBlendTime
 // Function AnimGraphRuntime.ModifyCurveAnimLibrary.ConvertToModifyCurveNode
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FModifyCurveAnimNodeReference    ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FModifyCurveAnimNodeReference UModifyCurveAnimLibrary::ConvertToModifyCurveNode(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -2274,9 +2274,9 @@ struct FModifyCurveAnimNodeReference UModifyCurveAnimLibrary::ConvertToModifyCur
 // Function AnimGraphRuntime.ModifyCurveAnimLibrary.ConvertToModifyCurveNodePure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FModifyCurveAnimNodeReference    ModifyCurveNode                                        (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FModifyCurveAnimNodeReference*   ModifyCurveNode                                        (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UModifyCurveAnimLibrary::ConvertToModifyCurveNodePure(const struct FAnimNodeReference& Node, struct FModifyCurveAnimNodeReference* ModifyCurveNode, bool* Result)
 {
@@ -2307,7 +2307,7 @@ void UModifyCurveAnimLibrary::ConvertToModifyCurveNodePure(const struct FAnimNod
 // Function AnimGraphRuntime.ModifyCurveAnimLibrary.GetAlpha
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FModifyCurveAnimNodeReference    ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FModifyCurveAnimNodeReference&ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UModifyCurveAnimLibrary::GetAlpha(const struct FModifyCurveAnimNodeReference& ModifyCurveNode)
@@ -2335,7 +2335,7 @@ float UModifyCurveAnimLibrary::GetAlpha(const struct FModifyCurveAnimNodeReferen
 // Function AnimGraphRuntime.ModifyCurveAnimLibrary.GetApplyMode
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FModifyCurveAnimNodeReference    ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FModifyCurveAnimNodeReference&ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // EModifyCurveApplyMode                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 EModifyCurveApplyMode UModifyCurveAnimLibrary::GetApplyMode(const struct FModifyCurveAnimNodeReference& ModifyCurveNode)
@@ -2363,7 +2363,7 @@ EModifyCurveApplyMode UModifyCurveAnimLibrary::GetApplyMode(const struct FModify
 // Function AnimGraphRuntime.ModifyCurveAnimLibrary.SetAlpha
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FModifyCurveAnimNodeReference    ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FModifyCurveAnimNodeReference&ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   InAlpha                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FModifyCurveAnimNodeReference    ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -2393,7 +2393,7 @@ struct FModifyCurveAnimNodeReference UModifyCurveAnimLibrary::SetAlpha(const str
 // Function AnimGraphRuntime.ModifyCurveAnimLibrary.SetApplyMode
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FModifyCurveAnimNodeReference    ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FModifyCurveAnimNodeReference&ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // EModifyCurveApplyMode                   InMode                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FModifyCurveAnimNodeReference    ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -2423,8 +2423,8 @@ struct FModifyCurveAnimNodeReference UModifyCurveAnimLibrary::SetApplyMode(const
 // Function AnimGraphRuntime.ModifyCurveAnimLibrary.SetCurveMap
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FModifyCurveAnimNodeReference    ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// TMap<class FName, float>                InCurveMap                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FModifyCurveAnimNodeReference&ModifyCurveNode                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const TMap<class FName, float>&         InCurveMap                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FModifyCurveAnimNodeReference    ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FModifyCurveAnimNodeReference UModifyCurveAnimLibrary::SetCurveMap(const struct FModifyCurveAnimNodeReference& ModifyCurveNode, const TMap<class FName, float>& InCurveMap)
@@ -2544,7 +2544,7 @@ void UPlayMontageCallbackProxy::OnMontageEnded(class UAnimMontage* Montage, bool
 // (Final, RequiredAPI, Native, Protected, HasOutParams)
 // Parameters:
 // class FName                             NotifyName                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FBranchingPointNotifyPayload     BranchingPointNotifyPayload                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBranchingPointNotifyPayload&BranchingPointNotifyPayload                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UPlayMontageCallbackProxy::OnNotifyBeginReceived(class FName NotifyName, const struct FBranchingPointNotifyPayload& BranchingPointNotifyPayload)
 {
@@ -2571,7 +2571,7 @@ void UPlayMontageCallbackProxy::OnNotifyBeginReceived(class FName NotifyName, co
 // (Final, RequiredAPI, Native, Protected, HasOutParams)
 // Parameters:
 // class FName                             NotifyName                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FBranchingPointNotifyPayload     BranchingPointNotifyPayload                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBranchingPointNotifyPayload&BranchingPointNotifyPayload                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UPlayMontageCallbackProxy::OnNotifyEndReceived(class FName NotifyName, const struct FBranchingPointNotifyPayload& BranchingPointNotifyPayload)
 {
@@ -2597,8 +2597,8 @@ void UPlayMontageCallbackProxy::OnNotifyEndReceived(class FName NotifyName, cons
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.AdvanceTime
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FSequenceEvaluatorReference      SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSequenceEvaluatorReference&SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   PlayRate                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequenceEvaluatorReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -2629,8 +2629,8 @@ struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::AdvanceTime(const 
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.ConvertToSequenceEvaluator
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequenceEvaluatorReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::ConvertToSequenceEvaluator(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -2661,9 +2661,9 @@ struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::ConvertToSequenceE
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.ConvertToSequenceEvaluatorPure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FSequenceEvaluatorReference      SequenceEvaluator                                      (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FSequenceEvaluatorReference*     SequenceEvaluator                                      (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USequenceEvaluatorLibrary::ConvertToSequenceEvaluatorPure(const struct FAnimNodeReference& Node, struct FSequenceEvaluatorReference* SequenceEvaluator, bool* Result)
 {
@@ -2694,7 +2694,7 @@ void USequenceEvaluatorLibrary::ConvertToSequenceEvaluatorPure(const struct FAni
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.GetAccumulatedTime
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSequenceEvaluatorReference      SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequenceEvaluatorReference&SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float USequenceEvaluatorLibrary::GetAccumulatedTime(const struct FSequenceEvaluatorReference& SequenceEvaluator)
@@ -2722,7 +2722,7 @@ float USequenceEvaluatorLibrary::GetAccumulatedTime(const struct FSequenceEvalua
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.GetSequence
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSequenceEvaluatorReference      SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequenceEvaluatorReference&SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UAnimSequenceBase*                ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UAnimSequenceBase* USequenceEvaluatorLibrary::GetSequence(const struct FSequenceEvaluatorReference& SequenceEvaluator)
@@ -2750,7 +2750,7 @@ class UAnimSequenceBase* USequenceEvaluatorLibrary::GetSequence(const struct FSe
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.SetExplicitFrame
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSequenceEvaluatorReference      SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequenceEvaluatorReference&SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // int32                                   Frame                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequenceEvaluatorReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -2780,7 +2780,7 @@ struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::SetExplicitFrame(c
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.SetExplicitTime
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSequenceEvaluatorReference      SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequenceEvaluatorReference&SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   Time                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequenceEvaluatorReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -2810,7 +2810,7 @@ struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::SetExplicitTime(co
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.SetSequence
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSequenceEvaluatorReference      SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequenceEvaluatorReference&SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UAnimSequenceBase*                Sequence                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequenceEvaluatorReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -2840,8 +2840,8 @@ struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::SetSequence(const 
 // Function AnimGraphRuntime.SequenceEvaluatorLibrary.SetSequenceWithInertialBlending
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FSequenceEvaluatorReference      SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSequenceEvaluatorReference&SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UAnimSequenceBase*                Sequence                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   BlendTime                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequenceEvaluatorReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
@@ -2874,7 +2874,7 @@ struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::SetSequenceWithIne
 // Function AnimGraphRuntime.SequencePlayerLibrary.ComputePlayRateFromDuration
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   Duration                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -2904,8 +2904,8 @@ float USequencePlayerLibrary::ComputePlayRateFromDuration(const struct FSequence
 // Function AnimGraphRuntime.SequencePlayerLibrary.ConvertToSequencePlayer
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequencePlayerReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FSequencePlayerReference USequencePlayerLibrary::ConvertToSequencePlayer(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -2936,9 +2936,9 @@ struct FSequencePlayerReference USequencePlayerLibrary::ConvertToSequencePlayer(
 // Function AnimGraphRuntime.SequencePlayerLibrary.ConvertToSequencePlayerPure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FSequencePlayerReference         SequencePlayer                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FSequencePlayerReference*        SequencePlayer                                         (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USequencePlayerLibrary::ConvertToSequencePlayerPure(const struct FAnimNodeReference& Node, struct FSequencePlayerReference* SequencePlayer, bool* Result)
 {
@@ -2969,7 +2969,7 @@ void USequencePlayerLibrary::ConvertToSequencePlayerPure(const struct FAnimNodeR
 // Function AnimGraphRuntime.SequencePlayerLibrary.GetAccumulatedTime
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float USequencePlayerLibrary::GetAccumulatedTime(const struct FSequencePlayerReference& SequencePlayer)
@@ -2997,7 +2997,7 @@ float USequencePlayerLibrary::GetAccumulatedTime(const struct FSequencePlayerRef
 // Function AnimGraphRuntime.SequencePlayerLibrary.GetLoopAnimation
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool USequencePlayerLibrary::GetLoopAnimation(const struct FSequencePlayerReference& SequencePlayer)
@@ -3025,7 +3025,7 @@ bool USequencePlayerLibrary::GetLoopAnimation(const struct FSequencePlayerRefere
 // Function AnimGraphRuntime.SequencePlayerLibrary.GetPlayRate
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float USequencePlayerLibrary::GetPlayRate(const struct FSequencePlayerReference& SequencePlayer)
@@ -3053,8 +3053,8 @@ float USequencePlayerLibrary::GetPlayRate(const struct FSequencePlayerReference&
 // Function AnimGraphRuntime.SequencePlayerLibrary.GetSequence
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// class UAnimSequenceBase*                SequenceBase                                           (Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// class UAnimSequenceBase*&               SequenceBase                                           (Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequencePlayerReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FSequencePlayerReference USequencePlayerLibrary::GetSequence(const struct FSequencePlayerReference& SequencePlayer, class UAnimSequenceBase*& SequenceBase)
@@ -3085,7 +3085,7 @@ struct FSequencePlayerReference USequencePlayerLibrary::GetSequence(const struct
 // Function AnimGraphRuntime.SequencePlayerLibrary.GetSequencePure
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UAnimSequenceBase*                ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UAnimSequenceBase* USequencePlayerLibrary::GetSequencePure(const struct FSequencePlayerReference& SequencePlayer)
@@ -3113,7 +3113,7 @@ class UAnimSequenceBase* USequencePlayerLibrary::GetSequencePure(const struct FS
 // Function AnimGraphRuntime.SequencePlayerLibrary.GetStartPosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float USequencePlayerLibrary::GetStartPosition(const struct FSequencePlayerReference& SequencePlayer)
@@ -3141,7 +3141,7 @@ float USequencePlayerLibrary::GetStartPosition(const struct FSequencePlayerRefer
 // Function AnimGraphRuntime.SequencePlayerLibrary.SetAccumulatedTime
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   Time                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequencePlayerReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -3171,7 +3171,7 @@ struct FSequencePlayerReference USequencePlayerLibrary::SetAccumulatedTime(const
 // Function AnimGraphRuntime.SequencePlayerLibrary.SetPlayRate
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   PlayRate                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequencePlayerReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -3201,7 +3201,7 @@ struct FSequencePlayerReference USequencePlayerLibrary::SetPlayRate(const struct
 // Function AnimGraphRuntime.SequencePlayerLibrary.SetSequence
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UAnimSequenceBase*                Sequence                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequencePlayerReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -3231,8 +3231,8 @@ struct FSequencePlayerReference USequencePlayerLibrary::SetSequence(const struct
 // Function AnimGraphRuntime.SequencePlayerLibrary.SetSequenceWithInertialBlending
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimUpdateContext               UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnimUpdateContext&        UpdateContext                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UAnimSequenceBase*                Sequence                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   BlendTime                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequencePlayerReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
@@ -3265,7 +3265,7 @@ struct FSequencePlayerReference USequencePlayerLibrary::SetSequenceWithInertialB
 // Function AnimGraphRuntime.SequencePlayerLibrary.SetStartPosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSequencePlayerReference         SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSequencePlayerReference&  SequencePlayer                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   StartPosition                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequencePlayerReference         ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -3295,8 +3295,8 @@ struct FSequencePlayerReference USequencePlayerLibrary::SetStartPosition(const s
 // Function AnimGraphRuntime.SkeletalControlLibrary.ConvertToSkeletalControl
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EAnimNodeReferenceConversionResult      Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EAnimNodeReferenceConversionResult*     Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSkeletalControlReference        ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FSkeletalControlReference USkeletalControlLibrary::ConvertToSkeletalControl(const struct FAnimNodeReference& Node, EAnimNodeReferenceConversionResult* Result)
@@ -3327,9 +3327,9 @@ struct FSkeletalControlReference USkeletalControlLibrary::ConvertToSkeletalContr
 // Function AnimGraphRuntime.SkeletalControlLibrary.ConvertToSkeletalControlPure
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnimNodeReference               Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FSkeletalControlReference        SkeletalControl                                        (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
-// bool                                    Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FAnimNodeReference&        Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FSkeletalControlReference*       SkeletalControl                                        (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// bool*                                   Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USkeletalControlLibrary::ConvertToSkeletalControlPure(const struct FAnimNodeReference& Node, struct FSkeletalControlReference* SkeletalControl, bool* Result)
 {
@@ -3360,7 +3360,7 @@ void USkeletalControlLibrary::ConvertToSkeletalControlPure(const struct FAnimNod
 // Function AnimGraphRuntime.SkeletalControlLibrary.GetAlpha
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSkeletalControlReference        SkeletalControl                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSkeletalControlReference& SkeletalControl                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float USkeletalControlLibrary::GetAlpha(const struct FSkeletalControlReference& SkeletalControl)
@@ -3388,7 +3388,7 @@ float USkeletalControlLibrary::GetAlpha(const struct FSkeletalControlReference& 
 // Function AnimGraphRuntime.SkeletalControlLibrary.SetAlpha
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSkeletalControlReference        SkeletalControl                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSkeletalControlReference& SkeletalControl                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   Alpha                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSkeletalControlReference        ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 

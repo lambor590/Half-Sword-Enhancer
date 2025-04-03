@@ -21,9 +21,9 @@ namespace SDK
 // (Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // bool                                    Use_Custom_Path_                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FString                           Custom_Path                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Custom_Path                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Corrected_Path                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          Corrected_Path                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::Directory_Path_Correction(bool Use_Custom_Path_, const class FString& Custom_Path, class UObject* __WorldContext, class FString* Corrected_Path)
 {
@@ -49,7 +49,7 @@ void UBPFL_PhotoModeUtilities_C::Directory_Path_Correction(bool Use_Custom_Path_
 // (Static, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// struct FIntPoint                        Resolution__X_and_Y_                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FIntPoint*                       Resolution__X_and_Y_                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::Get_Default_Screen_Resolution(class UObject* __WorldContext, struct FIntPoint* Resolution__X_and_Y_)
 {
@@ -73,12 +73,12 @@ void UBPFL_PhotoModeUtilities_C::Get_Default_Screen_Resolution(class UObject* __
 // (Static, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           FullFilePath                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    FullFilePath                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// bool                                    IsValid_                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class UTexture2D*                       TwoD_Image                                             (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Base_Filename                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
-// class FString                           Full_File_Path                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// bool*                                   IsValid_                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UTexture2D**                      TwoD_Image                                             (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class FString*                          Base_Filename                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          Full_File_Path                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::Get_Screenshot_File(class UObject* WorldContextObject, const class FString& FullFilePath, class UObject* __WorldContext, bool* IsValid_, class UTexture2D** TwoD_Image, class FString* Base_Filename, class FString* Full_File_Path)
 {
@@ -114,9 +114,9 @@ void UBPFL_PhotoModeUtilities_C::Get_Screenshot_File(class UObject* WorldContext
 // Parameters:
 // class APlayerController*                PlayerController                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          CameraLocation                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// TMap<class APostProcessVolume*, struct FTransform>VolumesTransforms                                      (Parm, OutParm)
-// TMap<class APostProcessVolume*, struct FVector>VolumesExtent                                          (Parm, OutParm)
+// struct FVector*                         CameraLocation                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// TMap<class APostProcessVolume*, struct FTransform>*VolumesTransforms                                      (Parm, OutParm)
+// TMap<class APostProcessVolume*, struct FVector>*VolumesExtent                                          (Parm, OutParm)
 
 void UBPFL_PhotoModeUtilities_C::GetAllImersedPostProcess(class APlayerController* PlayerController, class UObject* __WorldContext, struct FVector* CameraLocation, TMap<class APostProcessVolume*, struct FTransform>* VolumesTransforms, TMap<class APostProcessVolume*, struct FVector>* VolumesExtent)
 {
@@ -149,8 +149,8 @@ void UBPFL_PhotoModeUtilities_C::GetAllImersedPostProcess(class APlayerControlle
 // ESlateVisibility                        If_Not_Using_Photo_Mode_Set_This_Widget_As             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UBPC_PhotoMode_C*                 PhotoModeComponent                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// ESlateVisibility                        Visibility                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Using_Photo_Mode_or_Gallery_                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESlateVisibility*                       Visibility                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Using_Photo_Mode_or_Gallery_                           (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::Hide_HUD_When_Using_Photo_Mode(ESlateVisibility If_Not_Using_Photo_Mode_Set_This_Widget_As, class UBPC_PhotoMode_C* PhotoModeComponent, class UObject* __WorldContext, ESlateVisibility* Visibility, bool* Using_Photo_Mode_or_Gallery_)
 {
@@ -180,13 +180,13 @@ void UBPFL_PhotoModeUtilities_C::Hide_HUD_When_Using_Photo_Mode(ESlateVisibility
 // Parameters:
 // class UObject*                          World_Context_Object__Self_                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class APlayerController*                Player_Controller                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Screenshot_Folder_Path                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
-// struct FIntPoint                        Resolution__X_and_Y_                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const class FString&                    Screenshot_Folder_Path                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const struct FIntPoint&                 Resolution__X_and_Y_                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // E_ScreenshotMethod                      ScreenshotMethod                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class ABP_ScreenshotManager_C*          ScreenshotManager                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Full_Photo_Path                                        (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
-// class FString                           Photo_Name                                             (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          Full_Photo_Path                                        (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          Photo_Name                                             (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::HighResScreenshot__without_UI_(class UObject* World_Context_Object__Self_, class APlayerController* Player_Controller, const class FString& Screenshot_Folder_Path, const struct FIntPoint& Resolution__X_and_Y_, E_ScreenshotMethod ScreenshotMethod, class ABP_ScreenshotManager_C* ScreenshotManager, class UObject* __WorldContext, class FString* Full_Photo_Path, class FString* Photo_Name)
 {
@@ -219,8 +219,8 @@ void UBPFL_PhotoModeUtilities_C::HighResScreenshot__without_UI_(class UObject* W
 // (Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// bool                                    bIsOpened                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class UUI_Gallery_C*                    WidgetReference                                        (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// bool*                                   bIsOpened                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UUI_Gallery_C**                   WidgetReference                                        (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::isGalleryOpened(class UObject* __WorldContext, bool* bIsOpened, class UUI_Gallery_C** WidgetReference)
 {
@@ -247,8 +247,8 @@ void UBPFL_PhotoModeUtilities_C::isGalleryOpened(class UObject* __WorldContext, 
 // (Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// bool                                    bIsOpened                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class UUI_PhotoMode_C*                  WidgetReference                                        (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// bool*                                   bIsOpened                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UUI_PhotoMode_C**                 WidgetReference                                        (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::isPhotoModeOpened(class UObject* __WorldContext, bool* bIsOpened, class UUI_PhotoMode_C** WidgetReference)
 {
@@ -275,7 +275,7 @@ void UBPFL_PhotoModeUtilities_C::isPhotoModeOpened(class UObject* __WorldContext
 // (Static, Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// bool                                    bIsOpened                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   bIsOpened                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::isPhotoModeOrGalleryOpened(class UObject* __WorldContext, bool* bIsOpened)
 {
@@ -299,8 +299,8 @@ void UBPFL_PhotoModeUtilities_C::isPhotoModeOrGalleryOpened(class UObject* __Wor
 // (Static, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// bool                                    SaveGameIsValid_                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// TArray<struct FS_PhotosData>            PhotosData                                             (Parm, OutParm)
+// bool*                                   SaveGameIsValid_                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// TArray<struct FS_PhotosData>*           PhotosData                                             (Parm, OutParm)
 
 void UBPFL_PhotoModeUtilities_C::LoadPhotos(class UObject* __WorldContext, bool* SaveGameIsValid_, TArray<struct FS_PhotosData>* PhotosData)
 {
@@ -328,14 +328,14 @@ void UBPFL_PhotoModeUtilities_C::LoadPhotos(class UObject* __WorldContext, bool*
 // Parameters:
 // class UObject*                          World_Context_Object__Self_                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class APlayerController*                Player_Controller                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Screenshot_Folder_Path                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
-// struct FIntPoint                        Resolution__X_and_Y_                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FString                           PhotoName                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Screenshot_Folder_Path                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const struct FIntPoint&                 Resolution__X_and_Y_                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const class FString&                    PhotoName                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 // E_ScreenshotMethod                      ScreenshotMethod                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class ABP_ScreenshotManager_C*          ScreenshotManager                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Full_Thumbnail_Path                                    (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
-// class FString                           BaseThumbnailName                                      (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          Full_Thumbnail_Path                                    (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          BaseThumbnailName                                      (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::MakeThumbnail(class UObject* World_Context_Object__Self_, class APlayerController* Player_Controller, const class FString& Screenshot_Folder_Path, const struct FIntPoint& Resolution__X_and_Y_, const class FString& PhotoName, E_ScreenshotMethod ScreenshotMethod, class ABP_ScreenshotManager_C* ScreenshotManager, class UObject* __WorldContext, class FString* Full_Thumbnail_Path, class FString* BaseThumbnailName)
 {
@@ -368,11 +368,11 @@ void UBPFL_PhotoModeUtilities_C::MakeThumbnail(class UObject* World_Context_Obje
 // Function BPFL_PhotoModeUtilities.BPFL_PhotoModeUtilities_C.Nearest Distance To Box With Transform
 // (Static, Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FVector                          Point                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FTransform                       BoxWorldTransform                                      (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          BoxExtent                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Point                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FTransform&                BoxWorldTransform                                      (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   BoxExtent                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// double                                  Distance                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double*                                 Distance                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::Nearest_Distance_To_Box_With_Transform(const struct FVector& Point, const struct FTransform& BoxWorldTransform, const struct FVector& BoxExtent, class UObject* __WorldContext, double* Distance)
 {
@@ -398,9 +398,9 @@ void UBPFL_PhotoModeUtilities_C::Nearest_Distance_To_Box_With_Transform(const st
 // Function BPFL_PhotoModeUtilities.BPFL_PhotoModeUtilities_C.NormalizeScreenshotPath
 // (Static, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class FString                           Folder_Path                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Folder_Path                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Normalized_Path                                        (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          Normalized_Path                                        (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::NormalizeScreenshotPath(const class FString& Folder_Path, class UObject* __WorldContext, class FString* Normalized_Path)
 {
@@ -424,7 +424,7 @@ void UBPFL_PhotoModeUtilities_C::NormalizeScreenshotPath(const class FString& Fo
 // Function BPFL_PhotoModeUtilities.BPFL_PhotoModeUtilities_C.SaveAllPhotos
 // (Static, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TArray<struct FS_PhotosData>            SaveNewPhoto                                           (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// TArray<struct FS_PhotosData>&           SaveNewPhoto                                           (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::SaveAllPhotos(TArray<struct FS_PhotosData>& SaveNewPhoto, class UObject* __WorldContext)
@@ -448,7 +448,7 @@ void UBPFL_PhotoModeUtilities_C::SaveAllPhotos(TArray<struct FS_PhotosData>& Sav
 // Function BPFL_PhotoModeUtilities.BPFL_PhotoModeUtilities_C.SavePhoto
 // (Static, Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FS_PhotosData                    SaveNewPhoto                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const struct FS_PhotosData&             SaveNewPhoto                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 // E_SaveSort                              Sort                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
@@ -474,10 +474,10 @@ void UBPFL_PhotoModeUtilities_C::SavePhoto(const struct FS_PhotosData& SaveNewPh
 // Parameters:
 // class UObject*                          World_Context_Object__Self_                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class APlayerController*                Player_Controller                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Screenshot_Folder_Path                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Screenshot_Folder_Path                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 // class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class FString                           Full_Screenshot_File_Path                              (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
-// class FString                           PhotoName                                              (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          Full_Screenshot_File_Path                              (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+// class FString*                          PhotoName                                              (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
 
 void UBPFL_PhotoModeUtilities_C::Screenshot__with_UI_(class UObject* World_Context_Object__Self_, class APlayerController* Player_Controller, const class FString& Screenshot_Folder_Path, class UObject* __WorldContext, class FString* Full_Screenshot_File_Path, class FString* PhotoName)
 {

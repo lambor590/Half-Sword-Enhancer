@@ -79,8 +79,8 @@ static_assert(offsetof(UObject, Name) == 0x000018, "Member 'UObject::Name' has a
 static_assert(offsetof(UObject, Outer) == 0x000020, "Member 'UObject::Outer' has a wrong offset!");
 
 // Class CoreUObject.Interface
-// 0x0000 (0x0028 - 0x0028)
-class IInterface : public UObject
+// 0x0000 (0x0000 - 0x0000)
+class IInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -91,13 +91,22 @@ public:
 	{
 		return GetDefaultObjImpl<IInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IInterface) == 0x000008, "Wrong alignment on IInterface");
-static_assert(sizeof(IInterface) == 0x000028, "Wrong size on IInterface");
+static_assert(alignof(IInterface) == 0x000001, "Wrong alignment on IInterface");
+static_assert(sizeof(IInterface) == 0x000001, "Wrong size on IInterface");
 
 // Class CoreUObject.EditorPathObjectInterface
-// 0x0000 (0x0028 - 0x0028)
-class IEditorPathObjectInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IEditorPathObjectInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -108,9 +117,18 @@ public:
 	{
 		return GetDefaultObjImpl<IEditorPathObjectInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IEditorPathObjectInterface) == 0x000008, "Wrong alignment on IEditorPathObjectInterface");
-static_assert(sizeof(IEditorPathObjectInterface) == 0x000028, "Wrong size on IEditorPathObjectInterface");
+static_assert(alignof(IEditorPathObjectInterface) == 0x000001, "Wrong alignment on IEditorPathObjectInterface");
+static_assert(sizeof(IEditorPathObjectInterface) == 0x000001, "Wrong size on IEditorPathObjectInterface");
 
 // Class CoreUObject.GCObjectReferencer
 // 0x0010 (0x0038 - 0x0028)
@@ -410,7 +428,7 @@ class UClassCookedMetaData final : public UObject
 {
 public:
 	struct FStructCookedMetaDataStore             ClassMetaData;                                     // 0x0028(0x00A0)(Protected, NativeAccessSpecifierProtected)
-	TMap<class FName, struct FStructCookedMetaDataStore> FunctionsMetaData;                                 // 0x00C8(0x0050)(Protected, NativeAccessSpecifierProtected)
+	TMap<class FName, struct FStructCookedMetaDataStore> FunctionsMetaData;                          // 0x00C8(0x0050)(Protected, NativeAccessSpecifierProtected)
 
 public:
 	static class UClass* StaticClass()

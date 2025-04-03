@@ -21,8 +21,8 @@ namespace SDK
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UTypedElementSelectionSet*        SelectionSet                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    SelectionOptions                                       (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&SelectionOptions                                       (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSetLibrary::DeselectElementsFromList(class UTypedElementSelectionSet* SelectionSet, const struct FScriptTypedElementListProxy& ElementList, const struct FTypedElementSelectionOptions& SelectionOptions)
@@ -53,8 +53,8 @@ bool UTypedElementSelectionSetLibrary::DeselectElementsFromList(class UTypedElem
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UTypedElementSelectionSet*        SelectionSet                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionNormalizationOptionsNormalizationOptions                                   (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionNormalizationOptions&NormalizationOptions                                   (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // struct FScriptTypedElementListProxy     ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FScriptTypedElementListProxy UTypedElementSelectionSetLibrary::GetNormalizedElementList(class UTypedElementSelectionSet* SelectionSet, const struct FScriptTypedElementListProxy& ElementList, const struct FTypedElementSelectionNormalizationOptions& NormalizationOptions)
@@ -85,7 +85,7 @@ struct FScriptTypedElementListProxy UTypedElementSelectionSetLibrary::GetNormali
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UTypedElementSelectionSet*        SelectionSet                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionNormalizationOptionsNormalizationOptions                                   (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionNormalizationOptions&NormalizationOptions                                   (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // struct FScriptTypedElementListProxy     ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FScriptTypedElementListProxy UTypedElementSelectionSetLibrary::GetNormalizedSelection(class UTypedElementSelectionSet* SelectionSet, const struct FTypedElementSelectionNormalizationOptions& NormalizationOptions)
@@ -115,8 +115,8 @@ struct FScriptTypedElementListProxy UTypedElementSelectionSetLibrary::GetNormali
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UTypedElementSelectionSet*        SelectionSet                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    SelectionOptions                                       (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&SelectionOptions                                       (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSetLibrary::SelectElementsFromList(class UTypedElementSelectionSet* SelectionSet, const struct FScriptTypedElementListProxy& ElementList, const struct FTypedElementSelectionOptions& SelectionOptions)
@@ -147,8 +147,8 @@ bool UTypedElementSelectionSetLibrary::SelectElementsFromList(class UTypedElemen
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UTypedElementSelectionSet*        SelectionSet                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    SelectionOptions                                       (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&ElementList                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&SelectionOptions                                       (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSetLibrary::SetSelectionFromList(class UTypedElementSelectionSet* SelectionSet, const struct FScriptTypedElementListProxy& ElementList, const struct FTypedElementSelectionOptions& SelectionOptions)
@@ -178,7 +178,7 @@ bool UTypedElementSelectionSetLibrary::SetSelectionFromList(class UTypedElementS
 // Function TypedElementRuntime.TypedElementSelectionSet.ClearSelection
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::ClearSelection(const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -206,8 +206,8 @@ bool UTypedElementSelectionSet::ClearSelection(const struct FTypedElementSelecti
 // Function TypedElementRuntime.TypedElementSelectionSet.DeselectElement
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::DeselectElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -236,8 +236,8 @@ bool UTypedElementSelectionSet::DeselectElement(const struct FScriptTypedElement
 // Function TypedElementRuntime.TypedElementSelectionSet.DeselectElements
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FScriptTypedElementHandle>InElementHandles                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const TArray<struct FScriptTypedElementHandle>&InElementHandles                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::DeselectElements(const TArray<struct FScriptTypedElementHandle>& InElementHandles, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -266,7 +266,7 @@ bool UTypedElementSelectionSet::DeselectElements(const TArray<struct FScriptType
 // Function TypedElementRuntime.TypedElementSelectionSet.RestoreSelectionState
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FTypedElementSelectionSetState   InSelectionState                                       (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionSetState&InSelectionState                                       (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UTypedElementSelectionSet::RestoreSelectionState(const struct FTypedElementSelectionSetState& InSelectionState)
 {
@@ -291,8 +291,8 @@ void UTypedElementSelectionSet::RestoreSelectionState(const struct FTypedElement
 // Function TypedElementRuntime.TypedElementSelectionSet.SelectElement
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::SelectElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -321,8 +321,8 @@ bool UTypedElementSelectionSet::SelectElement(const struct FScriptTypedElementHa
 // Function TypedElementRuntime.TypedElementSelectionSet.SelectElements
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FScriptTypedElementHandle>InElementHandles                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const TArray<struct FScriptTypedElementHandle>&InElementHandles                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::SelectElements(const TArray<struct FScriptTypedElementHandle>& InElementHandles, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -351,8 +351,8 @@ bool UTypedElementSelectionSet::SelectElements(const TArray<struct FScriptTypedE
 // Function TypedElementRuntime.TypedElementSelectionSet.SetSelection
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FScriptTypedElementHandle>InElementHandles                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const TArray<struct FScriptTypedElementHandle>&InElementHandles                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::SetSelection(const TArray<struct FScriptTypedElementHandle>& InElementHandles, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -381,7 +381,7 @@ bool UTypedElementSelectionSet::SetSelection(const TArray<struct FScriptTypedEle
 // Function TypedElementRuntime.TypedElementSelectionSet.AllowSelectionModifiers
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::AllowSelectionModifiers(const struct FScriptTypedElementHandle& InElementHandle) const
@@ -409,8 +409,8 @@ bool UTypedElementSelectionSet::AllowSelectionModifiers(const struct FScriptType
 // Function TypedElementRuntime.TypedElementSelectionSet.CanDeselectElement
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::CanDeselectElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FTypedElementSelectionOptions& InSelectionOptions) const
@@ -439,8 +439,8 @@ bool UTypedElementSelectionSet::CanDeselectElement(const struct FScriptTypedElem
 // Function TypedElementRuntime.TypedElementSelectionSet.CanSelectElement
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::CanSelectElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FTypedElementSelectionOptions& InSelectionOptions) const
@@ -469,7 +469,7 @@ bool UTypedElementSelectionSet::CanSelectElement(const struct FScriptTypedElemen
 // Function TypedElementRuntime.TypedElementSelectionSet.CountSelectedElements
 // (Final, Native, Public, BlueprintCallable, Const)
 // Parameters:
-// TSubclassOf<class IInterface>           InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UTypedElementSelectionSet::CountSelectedElements(const TSubclassOf<class IInterface> InBaseInterfaceType) const
@@ -497,7 +497,7 @@ int32 UTypedElementSelectionSet::CountSelectedElements(const TSubclassOf<class I
 // Function TypedElementRuntime.TypedElementSelectionSet.CountSelectedObjects
 // (Final, Native, Public, BlueprintCallable, Const)
 // Parameters:
-// class UClass*                           InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UClass*                     InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UTypedElementSelectionSet::CountSelectedObjects(const class UClass* InRequiredClass) const
@@ -525,7 +525,7 @@ int32 UTypedElementSelectionSet::CountSelectedObjects(const class UClass* InRequ
 // Function TypedElementRuntime.TypedElementSelectionSet.GetBottomSelectedObject
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UClass*                           InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UClass*                     InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UObject*                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UObject* UTypedElementSelectionSet::GetBottomSelectedObject(const class UClass* InRequiredClass) const
@@ -603,7 +603,7 @@ int32 UTypedElementSelectionSet::GetNumSelectedElements() const
 // Function TypedElementRuntime.TypedElementSelectionSet.GetSelectedObjects
 // (Final, Native, Public, BlueprintCallable, Const)
 // Parameters:
-// class UClass*                           InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UClass*                     InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<class UObject*>                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<class UObject*> UTypedElementSelectionSet::GetSelectedObjects(const class UClass* InRequiredClass) const
@@ -631,8 +631,8 @@ TArray<class UObject*> UTypedElementSelectionSet::GetSelectedObjects(const class
 // Function TypedElementRuntime.TypedElementSelectionSet.GetSelectionElement
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// ETypedElementSelectionMethod            InSelectionMethod                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const ETypedElementSelectionMethod      InSelectionMethod                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FScriptTypedElementHandle        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FScriptTypedElementHandle UTypedElementSelectionSet::GetSelectionElement(const struct FScriptTypedElementHandle& InElementHandle, const ETypedElementSelectionMethod InSelectionMethod) const
@@ -661,7 +661,7 @@ struct FScriptTypedElementHandle UTypedElementSelectionSet::GetSelectionElement(
 // Function TypedElementRuntime.TypedElementSelectionSet.GetTopSelectedObject
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UClass*                           InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UClass*                     InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UObject*                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UObject* UTypedElementSelectionSet::GetTopSelectedObject(const class UClass* InRequiredClass) const
@@ -689,7 +689,7 @@ class UObject* UTypedElementSelectionSet::GetTopSelectedObject(const class UClas
 // Function TypedElementRuntime.TypedElementSelectionSet.HasSelectedElements
 // (Final, Native, Public, BlueprintCallable, Const)
 // Parameters:
-// TSubclassOf<class IInterface>           InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::HasSelectedElements(const TSubclassOf<class IInterface> InBaseInterfaceType) const
@@ -717,7 +717,7 @@ bool UTypedElementSelectionSet::HasSelectedElements(const TSubclassOf<class IInt
 // Function TypedElementRuntime.TypedElementSelectionSet.HasSelectedObjects
 // (Final, Native, Public, BlueprintCallable, Const)
 // Parameters:
-// class UClass*                           InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UClass*                     InRequiredClass                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::HasSelectedObjects(const class UClass* InRequiredClass) const
@@ -745,8 +745,8 @@ bool UTypedElementSelectionSet::HasSelectedObjects(const class UClass* InRequire
 // Function TypedElementRuntime.TypedElementSelectionSet.IsElementSelected
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementIsSelectedOptions   InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementIsSelectedOptions&InSelectionOptions                                     (ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UTypedElementSelectionSet::IsElementSelected(const struct FScriptTypedElementHandle& InElementHandle, const struct FTypedElementIsSelectedOptions& InSelectionOptions) const
@@ -775,7 +775,7 @@ bool UTypedElementSelectionSet::IsElementSelected(const struct FScriptTypedEleme
 // Function TypedElementRuntime.TypedElementSelectionSet.K2_GetSelectedElementHandles
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, Const)
 // Parameters:
-// TSubclassOf<class IInterface>           InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FScriptTypedElementHandle>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FScriptTypedElementHandle> UTypedElementSelectionSet::K2_GetSelectedElementHandles(const TSubclassOf<class IInterface> InBaseInterfaceType) const
@@ -803,7 +803,7 @@ TArray<struct FScriptTypedElementHandle> UTypedElementSelectionSet::K2_GetSelect
 // Function TypedElementRuntime.TypedElementAssetDataInterface.GetAllReferencedAssetDatas
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // TArray<struct FAssetData>               ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FAssetData> ITypedElementAssetDataInterface::GetAllReferencedAssetDatas(const struct FScriptTypedElementHandle& InElementHandle)
@@ -811,7 +811,7 @@ TArray<struct FAssetData> ITypedElementAssetDataInterface::GetAllReferencedAsset
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementAssetDataInterface", "GetAllReferencedAssetDatas");
+		Func = AsUObject()->Class->GetFunction("TypedElementAssetDataInterface", "GetAllReferencedAssetDatas");
 
 	Params::TypedElementAssetDataInterface_GetAllReferencedAssetDatas Parms{};
 
@@ -820,7 +820,7 @@ TArray<struct FAssetData> ITypedElementAssetDataInterface::GetAllReferencedAsset
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -831,7 +831,7 @@ TArray<struct FAssetData> ITypedElementAssetDataInterface::GetAllReferencedAsset
 // Function TypedElementRuntime.TypedElementAssetDataInterface.GetAssetData
 // (RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FAssetData                       ReturnValue                                            (Parm, OutParm, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FAssetData ITypedElementAssetDataInterface::GetAssetData(const struct FScriptTypedElementHandle& InElementHandle)
@@ -839,7 +839,7 @@ struct FAssetData ITypedElementAssetDataInterface::GetAssetData(const struct FSc
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementAssetDataInterface", "GetAssetData");
+		Func = AsUObject()->Class->GetFunction("TypedElementAssetDataInterface", "GetAssetData");
 
 	Params::TypedElementAssetDataInterface_GetAssetData Parms{};
 
@@ -848,7 +848,7 @@ struct FAssetData ITypedElementAssetDataInterface::GetAssetData(const struct FSc
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -859,16 +859,16 @@ struct FAssetData ITypedElementAssetDataInterface::GetAssetData(const struct FSc
 // Function TypedElementRuntime.TypedElementHierarchyInterface.GetChildElements
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// TArray<struct FScriptTypedElementHandle>OutElementHandles                                      (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
-// bool                                    bAllowCreate                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// TArray<struct FScriptTypedElementHandle>*OutElementHandles                                      (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const bool                              bAllowCreate                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void ITypedElementHierarchyInterface::GetChildElements(const struct FScriptTypedElementHandle& InElementHandle, TArray<struct FScriptTypedElementHandle>* OutElementHandles, const bool bAllowCreate)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementHierarchyInterface", "GetChildElements");
+		Func = AsUObject()->Class->GetFunction("TypedElementHierarchyInterface", "GetChildElements");
 
 	Params::TypedElementHierarchyInterface_GetChildElements Parms{};
 
@@ -878,7 +878,7 @@ void ITypedElementHierarchyInterface::GetChildElements(const struct FScriptTyped
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -890,8 +890,8 @@ void ITypedElementHierarchyInterface::GetChildElements(const struct FScriptTyped
 // Function TypedElementRuntime.TypedElementHierarchyInterface.GetParentElement
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// bool                                    bAllowCreate                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const bool                              bAllowCreate                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FScriptTypedElementHandle        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FScriptTypedElementHandle ITypedElementHierarchyInterface::GetParentElement(const struct FScriptTypedElementHandle& InElementHandle, const bool bAllowCreate)
@@ -899,7 +899,7 @@ struct FScriptTypedElementHandle ITypedElementHierarchyInterface::GetParentEleme
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementHierarchyInterface", "GetParentElement");
+		Func = AsUObject()->Class->GetFunction("TypedElementHierarchyInterface", "GetParentElement");
 
 	Params::TypedElementHierarchyInterface_GetParentElement Parms{};
 
@@ -909,7 +909,7 @@ struct FScriptTypedElementHandle ITypedElementHierarchyInterface::GetParentEleme
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -920,7 +920,7 @@ struct FScriptTypedElementHandle ITypedElementHierarchyInterface::GetParentEleme
 // Function TypedElementRuntime.TypedElementObjectInterface.GetObject
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UObject*                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UObject* ITypedElementObjectInterface::GetObject(const struct FScriptTypedElementHandle& InElementHandle)
@@ -928,7 +928,7 @@ class UObject* ITypedElementObjectInterface::GetObject(const struct FScriptTyped
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementObjectInterface", "GetObject");
+		Func = AsUObject()->Class->GetFunction("TypedElementObjectInterface", "GetObject");
 
 	Params::TypedElementObjectInterface_GetObject Parms{};
 
@@ -937,7 +937,7 @@ class UObject* ITypedElementObjectInterface::GetObject(const struct FScriptTyped
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -948,7 +948,7 @@ class UObject* ITypedElementObjectInterface::GetObject(const struct FScriptTyped
 // Function TypedElementRuntime.TypedElementObjectInterface.GetObjectClass
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UClass*                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UClass* ITypedElementObjectInterface::GetObjectClass(const struct FScriptTypedElementHandle& InElementHandle)
@@ -956,7 +956,7 @@ class UClass* ITypedElementObjectInterface::GetObjectClass(const struct FScriptT
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementObjectInterface", "GetObjectClass");
+		Func = AsUObject()->Class->GetFunction("TypedElementObjectInterface", "GetObjectClass");
 
 	Params::TypedElementObjectInterface_GetObjectClass Parms{};
 
@@ -965,7 +965,7 @@ class UClass* ITypedElementObjectInterface::GetObjectClass(const struct FScriptT
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -976,8 +976,8 @@ class UClass* ITypedElementObjectInterface::GetObjectClass(const struct FScriptT
 // Function TypedElementRuntime.TypedElementPrimitiveCustomDataInterface.SetCustomData
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// TArray<float>                           CustomDataFloats                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<float>&                    CustomDataFloats                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    bMarkRenderStateDirty                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void ITypedElementPrimitiveCustomDataInterface::SetCustomData(const struct FScriptTypedElementHandle& InElementHandle, const TArray<float>& CustomDataFloats, bool bMarkRenderStateDirty)
@@ -985,7 +985,7 @@ void ITypedElementPrimitiveCustomDataInterface::SetCustomData(const struct FScri
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementPrimitiveCustomDataInterface", "SetCustomData");
+		Func = AsUObject()->Class->GetFunction("TypedElementPrimitiveCustomDataInterface", "SetCustomData");
 
 	Params::TypedElementPrimitiveCustomDataInterface_SetCustomData Parms{};
 
@@ -996,7 +996,7 @@ void ITypedElementPrimitiveCustomDataInterface::SetCustomData(const struct FScri
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1005,7 +1005,7 @@ void ITypedElementPrimitiveCustomDataInterface::SetCustomData(const struct FScri
 // Function TypedElementRuntime.TypedElementPrimitiveCustomDataInterface.SetCustomDataValue
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // int32                                   CustomDataIndex                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   CustomDataValue                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bMarkRenderStateDirty                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -1015,7 +1015,7 @@ void ITypedElementPrimitiveCustomDataInterface::SetCustomDataValue(const struct 
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementPrimitiveCustomDataInterface", "SetCustomDataValue");
+		Func = AsUObject()->Class->GetFunction("TypedElementPrimitiveCustomDataInterface", "SetCustomDataValue");
 
 	Params::TypedElementPrimitiveCustomDataInterface_SetCustomDataValue Parms{};
 
@@ -1027,7 +1027,7 @@ void ITypedElementPrimitiveCustomDataInterface::SetCustomDataValue(const struct 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -1036,8 +1036,8 @@ void ITypedElementPrimitiveCustomDataInterface::SetCustomDataValue(const struct 
 // Function TypedElementRuntime.TypedElementSelectionInterface.AllowSelectionModifiers
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     InSelectionSet                                         (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&InSelectionSet                                         (ConstParm, Parm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ITypedElementSelectionInterface::AllowSelectionModifiers(const struct FScriptTypedElementHandle& InElementHandle, const struct FScriptTypedElementListProxy& InSelectionSet)
@@ -1045,7 +1045,7 @@ bool ITypedElementSelectionInterface::AllowSelectionModifiers(const struct FScri
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementSelectionInterface", "AllowSelectionModifiers");
+		Func = AsUObject()->Class->GetFunction("TypedElementSelectionInterface", "AllowSelectionModifiers");
 
 	Params::TypedElementSelectionInterface_AllowSelectionModifiers Parms{};
 
@@ -1055,7 +1055,7 @@ bool ITypedElementSelectionInterface::AllowSelectionModifiers(const struct FScri
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -1066,8 +1066,8 @@ bool ITypedElementSelectionInterface::AllowSelectionModifiers(const struct FScri
 // Function TypedElementRuntime.TypedElementSelectionInterface.CanDeselectElement
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ITypedElementSelectionInterface::CanDeselectElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -1075,7 +1075,7 @@ bool ITypedElementSelectionInterface::CanDeselectElement(const struct FScriptTyp
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementSelectionInterface", "CanDeselectElement");
+		Func = AsUObject()->Class->GetFunction("TypedElementSelectionInterface", "CanDeselectElement");
 
 	Params::TypedElementSelectionInterface_CanDeselectElement Parms{};
 
@@ -1085,7 +1085,7 @@ bool ITypedElementSelectionInterface::CanDeselectElement(const struct FScriptTyp
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -1096,8 +1096,8 @@ bool ITypedElementSelectionInterface::CanDeselectElement(const struct FScriptTyp
 // Function TypedElementRuntime.TypedElementSelectionInterface.CanSelectElement
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ITypedElementSelectionInterface::CanSelectElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -1105,7 +1105,7 @@ bool ITypedElementSelectionInterface::CanSelectElement(const struct FScriptTyped
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementSelectionInterface", "CanSelectElement");
+		Func = AsUObject()->Class->GetFunction("TypedElementSelectionInterface", "CanSelectElement");
 
 	Params::TypedElementSelectionInterface_CanSelectElement Parms{};
 
@@ -1115,7 +1115,7 @@ bool ITypedElementSelectionInterface::CanSelectElement(const struct FScriptTyped
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -1126,9 +1126,9 @@ bool ITypedElementSelectionInterface::CanSelectElement(const struct FScriptTyped
 // Function TypedElementRuntime.TypedElementSelectionInterface.DeselectElement
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     InSelectionSet                                         (Parm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&InSelectionSet                                         (Parm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ITypedElementSelectionInterface::DeselectElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FScriptTypedElementListProxy& InSelectionSet, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -1136,7 +1136,7 @@ bool ITypedElementSelectionInterface::DeselectElement(const struct FScriptTypedE
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementSelectionInterface", "DeselectElement");
+		Func = AsUObject()->Class->GetFunction("TypedElementSelectionInterface", "DeselectElement");
 
 	Params::TypedElementSelectionInterface_DeselectElement Parms{};
 
@@ -1147,7 +1147,7 @@ bool ITypedElementSelectionInterface::DeselectElement(const struct FScriptTypedE
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -1158,9 +1158,9 @@ bool ITypedElementSelectionInterface::DeselectElement(const struct FScriptTypedE
 // Function TypedElementRuntime.TypedElementSelectionInterface.GetSelectionElement
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     InCurrentSelection                                     (ConstParm, Parm, NativeAccessSpecifierPublic)
-// ETypedElementSelectionMethod            InSelectionMethod                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&InCurrentSelection                                     (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const ETypedElementSelectionMethod      InSelectionMethod                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FScriptTypedElementHandle        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FScriptTypedElementHandle ITypedElementSelectionInterface::GetSelectionElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FScriptTypedElementListProxy& InCurrentSelection, const ETypedElementSelectionMethod InSelectionMethod)
@@ -1168,7 +1168,7 @@ struct FScriptTypedElementHandle ITypedElementSelectionInterface::GetSelectionEl
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementSelectionInterface", "GetSelectionElement");
+		Func = AsUObject()->Class->GetFunction("TypedElementSelectionInterface", "GetSelectionElement");
 
 	Params::TypedElementSelectionInterface_GetSelectionElement Parms{};
 
@@ -1179,7 +1179,7 @@ struct FScriptTypedElementHandle ITypedElementSelectionInterface::GetSelectionEl
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -1190,9 +1190,9 @@ struct FScriptTypedElementHandle ITypedElementSelectionInterface::GetSelectionEl
 // Function TypedElementRuntime.TypedElementSelectionInterface.IsElementSelected
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     InSelectionSet                                         (ConstParm, Parm, NativeAccessSpecifierPublic)
-// struct FTypedElementIsSelectedOptions   InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&InSelectionSet                                         (ConstParm, Parm, NativeAccessSpecifierPublic)
+// const struct FTypedElementIsSelectedOptions&InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ITypedElementSelectionInterface::IsElementSelected(const struct FScriptTypedElementHandle& InElementHandle, const struct FScriptTypedElementListProxy& InSelectionSet, const struct FTypedElementIsSelectedOptions& InSelectionOptions)
@@ -1200,7 +1200,7 @@ bool ITypedElementSelectionInterface::IsElementSelected(const struct FScriptType
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementSelectionInterface", "IsElementSelected");
+		Func = AsUObject()->Class->GetFunction("TypedElementSelectionInterface", "IsElementSelected");
 
 	Params::TypedElementSelectionInterface_IsElementSelected Parms{};
 
@@ -1211,7 +1211,7 @@ bool ITypedElementSelectionInterface::IsElementSelected(const struct FScriptType
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -1222,9 +1222,9 @@ bool ITypedElementSelectionInterface::IsElementSelected(const struct FScriptType
 // Function TypedElementRuntime.TypedElementSelectionInterface.SelectElement
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FScriptTypedElementHandle        InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FScriptTypedElementListProxy     InSelectionSet                                         (Parm, NativeAccessSpecifierPublic)
-// struct FTypedElementSelectionOptions    InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FScriptTypedElementListProxy&InSelectionSet                                         (Parm, NativeAccessSpecifierPublic)
+// const struct FTypedElementSelectionOptions&InSelectionOptions                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ITypedElementSelectionInterface::SelectElement(const struct FScriptTypedElementHandle& InElementHandle, const struct FScriptTypedElementListProxy& InSelectionSet, const struct FTypedElementSelectionOptions& InSelectionOptions)
@@ -1232,7 +1232,7 @@ bool ITypedElementSelectionInterface::SelectElement(const struct FScriptTypedEle
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementSelectionInterface", "SelectElement");
+		Func = AsUObject()->Class->GetFunction("TypedElementSelectionInterface", "SelectElement");
 
 	Params::TypedElementSelectionInterface_SelectElement Parms{};
 
@@ -1243,7 +1243,7 @@ bool ITypedElementSelectionInterface::SelectElement(const struct FScriptTypedEle
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 

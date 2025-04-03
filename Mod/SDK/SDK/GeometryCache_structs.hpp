@@ -77,7 +77,7 @@ public:
 	class UGeometryCache*                         GeometryCache;                                     // 0x0000(0x0008)(Edit, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FNiagaraUserParameterBinding           GeometryCacheUserParamBinding;                     // 0x0008(0x0020)(Edit, NativeAccessSpecifierPublic)
 	TArray<class UMaterialInterface*>             OverrideMaterials;                                 // 0x0028(0x0010)(Edit, ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic)
-	TArray<struct FNiagaraGeometryCacheMICOverride> MICOverrideMaterials;                              // 0x0038(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FNiagaraGeometryCacheMICOverride> MICOverrideMaterials;                            // 0x0038(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FNiagaraGeometryCacheReference) == 0x000008, "Wrong alignment on FNiagaraGeometryCacheReference");
 static_assert(sizeof(FNiagaraGeometryCacheReference) == 0x000048, "Wrong size on FNiagaraGeometryCacheReference");

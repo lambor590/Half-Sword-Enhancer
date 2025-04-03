@@ -11,6 +11,7 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
+#include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
 
 
@@ -18,7 +19,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_Pause_Eng.UI_Pause_Eng_C
-// 0x00D0 (0x03B0 - 0x02E0)
+// 0x00F0 (0x03D0 - 0x02E0)
 class UUI_Pause_Eng_C final : public UUserWidget
 {
 public:
@@ -43,11 +44,15 @@ public:
 	class UImage*                                 Image_3;                                           // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UButton*                                Menu;                                              // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UButton*                                Menu_1;                                            // 0x0380(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UHorizontalBox*                         QuitBox;                                           // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UHorizontalBox*                         QuitBox_Japanese;                                  // 0x0390(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextBlock_0;                                       // 0x0398(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UClass*                                 LastOpenedWidget;                                  // 0x03A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x03A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UTextBlock*                             ProgressLostText;                                  // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UHorizontalBox*                         QuitBox;                                           // 0x0390(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UHorizontalBox*                         QuitBox_Japanese;                                  // 0x0398(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_0;                                       // 0x03A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UClass*                                 LastOpenedWidget;                                  // 0x03A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x03B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x03B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class USG_PlayerProgression_C*                As_SG_Gauntlet_Player_Progress;                    // 0x03C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Quitting_;                                         // 0x03C8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__Pause_UI_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
@@ -70,6 +75,8 @@ public:
 	void BndEvt__UI_Pause_Menu_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature();
 	void Construct();
 	void ExecuteUbergraph_UI_Pause_Eng(int32 EntryPoint);
+	class FText Get_ProgressLostText_Text();
+	ESlateVisibility Get_ProgressLostText_Visibility();
 	void GetLastOpenedWidget();
 	void SetLastOpenedWidget(class UClass* UW);
 	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
@@ -85,7 +92,7 @@ public:
 	}
 };
 static_assert(alignof(UUI_Pause_Eng_C) == 0x000008, "Wrong alignment on UUI_Pause_Eng_C");
-static_assert(sizeof(UUI_Pause_Eng_C) == 0x0003B0, "Wrong size on UUI_Pause_Eng_C");
+static_assert(sizeof(UUI_Pause_Eng_C) == 0x0003D0, "Wrong size on UUI_Pause_Eng_C");
 static_assert(offsetof(UUI_Pause_Eng_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_Pause_Eng_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_Pause_Eng_C, HoverRestart) == 0x0002E8, "Member 'UUI_Pause_Eng_C::HoverRestart' has a wrong offset!");
 static_assert(offsetof(UUI_Pause_Eng_C, HoverToMenu) == 0x0002F0, "Member 'UUI_Pause_Eng_C::HoverToMenu' has a wrong offset!");
@@ -107,11 +114,15 @@ static_assert(offsetof(UUI_Pause_Eng_C, Image_0) == 0x000368, "Member 'UUI_Pause
 static_assert(offsetof(UUI_Pause_Eng_C, Image_3) == 0x000370, "Member 'UUI_Pause_Eng_C::Image_3' has a wrong offset!");
 static_assert(offsetof(UUI_Pause_Eng_C, Menu) == 0x000378, "Member 'UUI_Pause_Eng_C::Menu' has a wrong offset!");
 static_assert(offsetof(UUI_Pause_Eng_C, Menu_1) == 0x000380, "Member 'UUI_Pause_Eng_C::Menu_1' has a wrong offset!");
-static_assert(offsetof(UUI_Pause_Eng_C, QuitBox) == 0x000388, "Member 'UUI_Pause_Eng_C::QuitBox' has a wrong offset!");
-static_assert(offsetof(UUI_Pause_Eng_C, QuitBox_Japanese) == 0x000390, "Member 'UUI_Pause_Eng_C::QuitBox_Japanese' has a wrong offset!");
-static_assert(offsetof(UUI_Pause_Eng_C, TextBlock_0) == 0x000398, "Member 'UUI_Pause_Eng_C::TextBlock_0' has a wrong offset!");
-static_assert(offsetof(UUI_Pause_Eng_C, LastOpenedWidget) == 0x0003A0, "Member 'UUI_Pause_Eng_C::LastOpenedWidget' has a wrong offset!");
-static_assert(offsetof(UUI_Pause_Eng_C, As_GI_Settings) == 0x0003A8, "Member 'UUI_Pause_Eng_C::As_GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, ProgressLostText) == 0x000388, "Member 'UUI_Pause_Eng_C::ProgressLostText' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, QuitBox) == 0x000390, "Member 'UUI_Pause_Eng_C::QuitBox' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, QuitBox_Japanese) == 0x000398, "Member 'UUI_Pause_Eng_C::QuitBox_Japanese' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, TextBlock_0) == 0x0003A0, "Member 'UUI_Pause_Eng_C::TextBlock_0' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, LastOpenedWidget) == 0x0003A8, "Member 'UUI_Pause_Eng_C::LastOpenedWidget' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, As_GI_Settings) == 0x0003B0, "Member 'UUI_Pause_Eng_C::As_GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, As_BP_Half_Sword_Game_Mode) == 0x0003B8, "Member 'UUI_Pause_Eng_C::As_BP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, As_SG_Gauntlet_Player_Progress) == 0x0003C0, "Member 'UUI_Pause_Eng_C::As_SG_Gauntlet_Player_Progress' has a wrong offset!");
+static_assert(offsetof(UUI_Pause_Eng_C, Quitting_) == 0x0003C8, "Member 'UUI_Pause_Eng_C::Quitting_' has a wrong offset!");
 
 }
 

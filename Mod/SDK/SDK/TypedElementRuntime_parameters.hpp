@@ -43,7 +43,7 @@ struct TypedElementSelectionSetLibrary_GetNormalizedElementList final
 public:
 	class UTypedElementSelectionSet*              SelectionSet;                                      // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FScriptTypedElementListProxy           ElementList;                                       // 0x0008(0x0010)(ConstParm, Parm, NativeAccessSpecifierPublic)
-	struct FTypedElementSelectionNormalizationOptions NormalizationOptions;                              // 0x0018(0x000C)(ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+	struct FTypedElementSelectionNormalizationOptions NormalizationOptions;                          // 0x0018(0x000C)(ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_24[0x4];                                       // 0x0024(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FScriptTypedElementListProxy           ReturnValue;                                       // 0x0028(0x0010)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };
@@ -60,7 +60,7 @@ struct TypedElementSelectionSetLibrary_GetNormalizedSelection final
 {
 public:
 	class UTypedElementSelectionSet*              SelectionSet;                                      // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FTypedElementSelectionNormalizationOptions NormalizationOptions;                              // 0x0008(0x000C)(ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
+	struct FTypedElementSelectionNormalizationOptions NormalizationOptions;                          // 0x0008(0x000C)(ConstParm, Parm, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FScriptTypedElementListProxy           ReturnValue;                                       // 0x0018(0x0010)(Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 };

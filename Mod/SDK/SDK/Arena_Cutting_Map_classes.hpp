@@ -12,16 +12,17 @@
 
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Str_Equipment_Loadout_Old_structs.hpp"
 #include "Enum_PlayCards_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 
 
 namespace SDK
 {
 
 // BlueprintGeneratedClass Arena_Cutting_Map.Arena_Cutting_Map_C
-// 0x15E8 (0x1880 - 0x0298)
+// 0x1670 (0x1908 - 0x0298)
 class AArena_Cutting_Map_C final : public ALevelScriptActor
 {
 public:
@@ -78,9 +79,24 @@ public:
 	uint8                                         Pad_185C[0x4];                                     // 0x185C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	class APlayerController*                      Player_2_Controller;                               // 0x1860(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	TArray<class UStaticMeshComponent*>           Ground_Tiles;                                      // 0x1868(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
-	class UBPC_RuntimeVertexPaintAndDetectionComponent_C* BPC_VP;                                            // 0x1878(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UBPC_RuntimeVertexPaintAndDetectionComponent_C* BPC_VP;                                    // 0x1878(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	bool                                          NewVar_2;                                          // 0x1880(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1881[0x7];                                     // 0x1881(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class BP_FreeCamera::ABP_FreeCamera_C*        MyDressUpDarling;                                  // 0x1888(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class USG_PlayerProgression_C*                As_SG_Gauntlet_Player_Progress;                    // 0x1890(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Spawn_Point_1;                                     // 0x1898(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Spawn_Point_2;                                     // 0x18B0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Current_Spawn_Point;                               // 0x18C8(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Wave;                                              // 0x18E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Wave_Spawn_Count;                                  // 0x18E4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AWillie_BP_Boss_9_BARON_C*              BARON;                                             // 0x18E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          BARON_Spawned;                                     // 0x18F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_18F1[0x7];                                     // 0x18F1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        NPC_Size;                                          // 0x18F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AStaticMeshActor*                       StaticMeshActor_741_ExecuteUbergraph_Arena_Cutting_Map_RefProperty; // 0x1900(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 public:
+	void Baron_Waves_Spawn();
 	void BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
 	void BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
 	void BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
@@ -93,6 +109,7 @@ public:
 	void LevelReset();
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void Spawn_Trash();
 	void Timeline_0__FinishedFunc();
 	void Timeline_0__UpdateFunc();
 	void Timeline_1__FinishedFunc();
@@ -109,7 +126,7 @@ public:
 	}
 };
 static_assert(alignof(AArena_Cutting_Map_C) == 0x000008, "Wrong alignment on AArena_Cutting_Map_C");
-static_assert(sizeof(AArena_Cutting_Map_C) == 0x001880, "Wrong size on AArena_Cutting_Map_C");
+static_assert(sizeof(AArena_Cutting_Map_C) == 0x001908, "Wrong size on AArena_Cutting_Map_C");
 static_assert(offsetof(AArena_Cutting_Map_C, UberGraphFrame) == 0x000298, "Member 'AArena_Cutting_Map_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, Timeline_1_NewTrack_0_0064C83E472FDBDCC75195AFA2CCCBD7) == 0x0002A0, "Member 'AArena_Cutting_Map_C::Timeline_1_NewTrack_0_0064C83E472FDBDCC75195AFA2CCCBD7' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, Timeline_1__Direction_0064C83E472FDBDCC75195AFA2CCCBD7) == 0x0002A4, "Member 'AArena_Cutting_Map_C::Timeline_1__Direction_0064C83E472FDBDCC75195AFA2CCCBD7' has a wrong offset!");
@@ -156,6 +173,18 @@ static_assert(offsetof(AArena_Cutting_Map_C, NPC_Rank) == 0x001858, "Member 'AAr
 static_assert(offsetof(AArena_Cutting_Map_C, Player_2_Controller) == 0x001860, "Member 'AArena_Cutting_Map_C::Player_2_Controller' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, Ground_Tiles) == 0x001868, "Member 'AArena_Cutting_Map_C::Ground_Tiles' has a wrong offset!");
 static_assert(offsetof(AArena_Cutting_Map_C, BPC_VP) == 0x001878, "Member 'AArena_Cutting_Map_C::BPC_VP' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, NewVar_2) == 0x001880, "Member 'AArena_Cutting_Map_C::NewVar_2' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, MyDressUpDarling) == 0x001888, "Member 'AArena_Cutting_Map_C::MyDressUpDarling' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, As_SG_Gauntlet_Player_Progress) == 0x001890, "Member 'AArena_Cutting_Map_C::As_SG_Gauntlet_Player_Progress' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, Spawn_Point_1) == 0x001898, "Member 'AArena_Cutting_Map_C::Spawn_Point_1' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, Spawn_Point_2) == 0x0018B0, "Member 'AArena_Cutting_Map_C::Spawn_Point_2' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, Current_Spawn_Point) == 0x0018C8, "Member 'AArena_Cutting_Map_C::Current_Spawn_Point' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, Wave) == 0x0018E0, "Member 'AArena_Cutting_Map_C::Wave' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, Wave_Spawn_Count) == 0x0018E4, "Member 'AArena_Cutting_Map_C::Wave_Spawn_Count' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, BARON) == 0x0018E8, "Member 'AArena_Cutting_Map_C::BARON' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, BARON_Spawned) == 0x0018F0, "Member 'AArena_Cutting_Map_C::BARON_Spawned' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, NPC_Size) == 0x0018F8, "Member 'AArena_Cutting_Map_C::NPC_Size' has a wrong offset!");
+static_assert(offsetof(AArena_Cutting_Map_C, StaticMeshActor_741_ExecuteUbergraph_Arena_Cutting_Map_RefProperty) == 0x001900, "Member 'AArena_Cutting_Map_C::StaticMeshActor_741_ExecuteUbergraph_Arena_Cutting_Map_RefProperty' has a wrong offset!");
 
 }
 

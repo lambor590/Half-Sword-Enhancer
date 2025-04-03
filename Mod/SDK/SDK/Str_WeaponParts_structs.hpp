@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 
 
 namespace SDK
@@ -34,8 +34,8 @@ public:
 	struct FVector                                PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524; // 0x0060(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UClass*                                 HeadSubModule1_28_EA08538346D6DADCE01E8B8B7B50A9A0; // 0x0078(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UClass*                                 HeadSubModule2_29_491313E24CE70DD60B5A6D88ED4B5980; // 0x0080(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	TMap<Enum_Weapon_Material_Type, Enum_MaterialLayer> MemberVar_40_43_0B501E224AC2292FC03A999C237C2C81;  // 0x0088(0x0050)(Edit, BlueprintVisible)
-	TMap<Enum_Weapon_Material_Type, struct FLinearColor> MemberVar_44_45_FF627FBE4FE882E7D295BFA0BB6716C0;  // 0x00D8(0x0050)(Edit, BlueprintVisible)
+	TMap<Enum_Weapon_Material_Type, Enum_MaterialLayer> MemberVar_40_43_0B501E224AC2292FC03A999C237C2C81; // 0x0088(0x0050)(Edit, BlueprintVisible)
+	TMap<Enum_Weapon_Material_Type, struct FLinearColor> MemberVar_44_45_FF627FBE4FE882E7D295BFA0BB6716C0; // 0x00D8(0x0050)(Edit, BlueprintVisible)
 	int32                                         COAInt_63_593665BE4EF020F95F7D1A92564C1239;        // 0x0128(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(FStr_WeaponParts) == 0x000008, "Wrong alignment on FStr_WeaponParts");

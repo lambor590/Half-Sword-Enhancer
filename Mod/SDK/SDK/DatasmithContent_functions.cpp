@@ -49,9 +49,9 @@ class UDatasmithAssetUserData* UDatasmithContentBlueprintLibrary::GetDatasmithUs
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UObject*                          Object                                                 (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           StringToMatch                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     OutKeys                                                (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
-// TArray<class FString>                   OutValues                                              (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const class FString&                    StringToMatch                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<class FName>*                    OutKeys                                                (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutValues                                              (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UDatasmithContentBlueprintLibrary::GetDatasmithUserDataKeysAndValuesForValue(class UObject* Object, const class FString& StringToMatch, TArray<class FName>* OutKeys, TArray<class FString>* OutValues)
 {

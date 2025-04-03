@@ -42,7 +42,7 @@ static_assert(sizeof(UCsvActorCountMetric) == 0x000088, "Wrong size on UCsvActor
 class UCsvMetricsSubsystem final : public UWorldSubsystem
 {
 public:
-	TArray<TSubclassOf<class UWorldMetricInterface>> MetricClasses;                                     // 0x0030(0x0010)(ZeroConstructor, Config, UObjectWrapper, NativeAccessSpecifierPublic)
+	TArray<TSubclassOf<class UWorldMetricInterface>> MetricClasses;                                  // 0x0030(0x0010)(ZeroConstructor, Config, UObjectWrapper, NativeAccessSpecifierPublic)
 	uint8                                         Pad_40[0x20];                                      // 0x0040(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

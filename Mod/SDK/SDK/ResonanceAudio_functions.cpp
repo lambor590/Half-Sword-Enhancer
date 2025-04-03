@@ -195,7 +195,7 @@ void UResonanceAudioReverbPluginPreset::SetReverbTimeModifier(float InReverbTime
 // Function ResonanceAudio.ResonanceAudioReverbPluginPreset.SetRoomDimensions
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector                          InDimensions                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   InDimensions                                           (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UResonanceAudioReverbPluginPreset::SetRoomDimensions(const struct FVector& InDimensions)
 {
@@ -220,7 +220,7 @@ void UResonanceAudioReverbPluginPreset::SetRoomDimensions(const struct FVector& 
 // Function ResonanceAudio.ResonanceAudioReverbPluginPreset.SetRoomMaterials
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<ERaMaterialName>                 InMaterials                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<ERaMaterialName>&          InMaterials                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UResonanceAudioReverbPluginPreset::SetRoomMaterials(const TArray<ERaMaterialName>& InMaterials)
 {
@@ -245,7 +245,7 @@ void UResonanceAudioReverbPluginPreset::SetRoomMaterials(const TArray<ERaMateria
 // Function ResonanceAudio.ResonanceAudioReverbPluginPreset.SetRoomPosition
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector                          InPosition                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   InPosition                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UResonanceAudioReverbPluginPreset::SetRoomPosition(const struct FVector& InPosition)
 {
@@ -270,7 +270,7 @@ void UResonanceAudioReverbPluginPreset::SetRoomPosition(const struct FVector& In
 // Function ResonanceAudio.ResonanceAudioReverbPluginPreset.SetRoomRotation
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FQuat                            InRotation                                             (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FQuat&                     InRotation                                             (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UResonanceAudioReverbPluginPreset::SetRoomRotation(const struct FQuat& InRotation)
 {

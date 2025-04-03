@@ -22,7 +22,7 @@ namespace SDK
 struct FStr_Loadout_Armor final
 {
 public:
-	TMap<EArmorSlots_Enum, struct FStr_ArmorElements> ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;  // 0x0000(0x0050)(Edit, BlueprintVisible)
+	TMap<EArmorSlots_Enum, struct FStr_ArmorElements> ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A; // 0x0000(0x0050)(Edit, BlueprintVisible)
 };
 static_assert(alignof(FStr_Loadout_Armor) == 0x000008, "Wrong alignment on FStr_Loadout_Armor");
 static_assert(sizeof(FStr_Loadout_Armor) == 0x000050, "Wrong size on FStr_Loadout_Armor");

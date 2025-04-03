@@ -20,8 +20,8 @@ namespace SDK
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.EqualEqual_InstancedStruct
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FInstancedStruct                 A                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FInstancedStruct                 B                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FInstancedStruct&          A                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FInstancedStruct&          B                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UStructUtilsFunctionLibrary::EqualEqual_InstancedStruct(const struct FInstancedStruct& A, const struct FInstancedStruct& B)
@@ -50,9 +50,9 @@ bool UStructUtilsFunctionLibrary::EqualEqual_InstancedStruct(const struct FInsta
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.GetInstancedStructValue
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// EStructUtilsResult                      ExecResult                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FInstancedStruct                 InstancedStruct                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// int32                                   Value                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EStructUtilsResult*                     ExecResult                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FInstancedStruct&          InstancedStruct                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// int32*                                  Value                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UStructUtilsFunctionLibrary::GetInstancedStructValue(EStructUtilsResult* ExecResult, const struct FInstancedStruct& InstancedStruct, int32* Value)
 {
@@ -83,7 +83,7 @@ void UStructUtilsFunctionLibrary::GetInstancedStructValue(EStructUtilsResult* Ex
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.IsInstancedStructValid
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FInstancedStruct                 InstancedStruct                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FInstancedStruct&          InstancedStruct                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // EStructUtilsResult                      ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 EStructUtilsResult UStructUtilsFunctionLibrary::IsInstancedStructValid(const struct FInstancedStruct& InstancedStruct)
@@ -111,7 +111,7 @@ EStructUtilsResult UStructUtilsFunctionLibrary::IsInstancedStructValid(const str
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.IsValid_InstancedStruct
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FInstancedStruct                 InstancedStruct                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FInstancedStruct&          InstancedStruct                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UStructUtilsFunctionLibrary::IsValid_InstancedStruct(const struct FInstancedStruct& InstancedStruct)
@@ -139,7 +139,7 @@ bool UStructUtilsFunctionLibrary::IsValid_InstancedStruct(const struct FInstance
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.MakeInstancedStruct
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FInstancedStruct                 ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FInstancedStruct UStructUtilsFunctionLibrary::MakeInstancedStruct(const int32& Value)
@@ -167,8 +167,8 @@ struct FInstancedStruct UStructUtilsFunctionLibrary::MakeInstancedStruct(const i
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.NotEqual_InstancedStruct
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FInstancedStruct                 A                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FInstancedStruct                 B                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FInstancedStruct&          A                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FInstancedStruct&          B                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UStructUtilsFunctionLibrary::NotEqual_InstancedStruct(const struct FInstancedStruct& A, const struct FInstancedStruct& B)
@@ -197,8 +197,8 @@ bool UStructUtilsFunctionLibrary::NotEqual_InstancedStruct(const struct FInstanc
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.Reset
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FInstancedStruct                 InstancedStruct                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// class UScriptStruct*                    StructType                                             (ConstParm, Parm, ZeroConstructor, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FInstancedStruct&                InstancedStruct                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const class UScriptStruct*              StructType                                             (ConstParm, Parm, ZeroConstructor, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UStructUtilsFunctionLibrary::Reset(struct FInstancedStruct& InstancedStruct, const class UScriptStruct* StructType)
 {
@@ -226,8 +226,8 @@ void UStructUtilsFunctionLibrary::Reset(struct FInstancedStruct& InstancedStruct
 // Function StructUtilsEngine.StructUtilsFunctionLibrary.SetInstancedStructValue
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FInstancedStruct                 InstancedStruct                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// int32                                   Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FInstancedStruct&                InstancedStruct                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const int32&                            Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UStructUtilsFunctionLibrary::SetInstancedStructValue(struct FInstancedStruct& InstancedStruct, const int32& Value)
 {

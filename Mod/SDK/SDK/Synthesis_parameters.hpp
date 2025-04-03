@@ -1138,7 +1138,7 @@ static_assert(offsetof(SourceEffectFilterPreset_SetSettings, InSettings) == 0x00
 struct SourceEffectFoldbackDistortionPreset_SetSettings final
 {
 public:
-	struct FSourceEffectFoldbackDistortionSettings InSettings;                                        // 0x0000(0x000C)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+	struct FSourceEffectFoldbackDistortionSettings InSettings;                                       // 0x0000(0x000C)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(SourceEffectFoldbackDistortionPreset_SetSettings) == 0x000004, "Wrong alignment on SourceEffectFoldbackDistortionPreset_SetSettings");
 static_assert(sizeof(SourceEffectFoldbackDistortionPreset_SetSettings) == 0x00000C, "Wrong size on SourceEffectFoldbackDistortionPreset_SetSettings");
@@ -1469,7 +1469,7 @@ static_assert(offsetof(SubmixEffectMultibandCompressorPreset_SetExternalSubmix, 
 struct SubmixEffectMultibandCompressorPreset_SetSettings final
 {
 public:
-	struct FSubmixEffectMultibandCompressorSettings InSettings;                                        // 0x0000(0x0038)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+	struct FSubmixEffectMultibandCompressorSettings InSettings;                                      // 0x0000(0x0038)(ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(SubmixEffectMultibandCompressorPreset_SetSettings) == 0x000008, "Wrong alignment on SubmixEffectMultibandCompressorPreset_SetSettings");
 static_assert(sizeof(SubmixEffectMultibandCompressorPreset_SetSettings) == 0x000038, "Wrong size on SubmixEffectMultibandCompressorPreset_SetSettings");

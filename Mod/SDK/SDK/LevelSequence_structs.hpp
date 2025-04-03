@@ -140,7 +140,7 @@ static_assert(sizeof(FUpgradedLevelSequenceBindingReferences) == 0x000010, "Wron
 struct FLevelSequenceBindingReferences final
 {
 public:
-	TMap<struct FGuid, struct FLevelSequenceBindingReferenceArray> BindingIdToReferences;                             // 0x0000(0x0050)(NativeAccessSpecifierPublic)
+	TMap<struct FGuid, struct FLevelSequenceBindingReferenceArray> BindingIdToReferences;            // 0x0000(0x0050)(NativeAccessSpecifierPublic)
 	TSet<struct FGuid>                            AnimSequenceInstances;                             // 0x0050(0x0050)(NativeAccessSpecifierPublic)
 	TSet<struct FGuid>                            PostProcessInstances;                              // 0x00A0(0x0050)(NativeAccessSpecifierPublic)
 };

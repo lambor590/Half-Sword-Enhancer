@@ -765,7 +765,7 @@ static_assert(offsetof(EnhancedInputSubsystemInterface_K2_RemovePlayerMappedKeyI
 struct EnhancedInputSubsystemInterface_OnUserKeyProfileChanged final
 {
 public:
-	const class UEnhancedPlayerMappableKeyProfile* InNewProfile;                                      // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	const class UEnhancedPlayerMappableKeyProfile* InNewProfile;                                     // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(EnhancedInputSubsystemInterface_OnUserKeyProfileChanged) == 0x000008, "Wrong alignment on EnhancedInputSubsystemInterface_OnUserKeyProfileChanged");
 static_assert(sizeof(EnhancedInputSubsystemInterface_OnUserKeyProfileChanged) == 0x000008, "Wrong size on EnhancedInputSubsystemInterface_OnUserKeyProfileChanged");

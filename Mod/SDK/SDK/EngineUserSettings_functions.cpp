@@ -145,9 +145,9 @@ EGraphicsRHI UEngineUserSettingsBPLibrary::GetPreferredRHI()
 // Function EngineUserSettings.EngineUserSettingsBPLibrary.SetGameUserSettingsIniValue
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           Section                                                (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           Key                                                    (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           Value                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Section                                                (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Key                                                    (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Value                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UEngineUserSettingsBPLibrary::SetGameUserSettingsIniValue(const class FString& Section, const class FString& Key, const class FString& Value)
 {

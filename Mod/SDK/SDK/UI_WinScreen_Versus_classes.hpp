@@ -18,7 +18,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_WinScreen_Versus.UI_WinScreen_Versus_C
-// 0x0038 (0x0318 - 0x02E0)
+// 0x0040 (0x0320 - 0x02E0)
 class UUI_WinScreen_Versus_C final : public UUserWidget
 {
 public:
@@ -29,10 +29,13 @@ public:
 	class UImage*                                 Image_0;                                           // 0x0300(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UImage*                                 Image_1;                                           // 0x0308(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	int32                                         Player_Lost_Int;                                   // 0x0310(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_314[0x4];                                      // 0x0314(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGI_Settings_C*                         GI_Settings;                                       // 0x0318(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Construct();
 	void ExecuteUbergraph_UI_WinScreen_Versus(int32 EntryPoint);
+	void PreConstruct(bool IsDesignTime);
 
 public:
 	static class UClass* StaticClass()
@@ -45,7 +48,7 @@ public:
 	}
 };
 static_assert(alignof(UUI_WinScreen_Versus_C) == 0x000008, "Wrong alignment on UUI_WinScreen_Versus_C");
-static_assert(sizeof(UUI_WinScreen_Versus_C) == 0x000318, "Wrong size on UUI_WinScreen_Versus_C");
+static_assert(sizeof(UUI_WinScreen_Versus_C) == 0x000320, "Wrong size on UUI_WinScreen_Versus_C");
 static_assert(offsetof(UUI_WinScreen_Versus_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_WinScreen_Versus_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_WinScreen_Versus_C, FadeIn) == 0x0002E8, "Member 'UUI_WinScreen_Versus_C::FadeIn' has a wrong offset!");
 static_assert(offsetof(UUI_WinScreen_Versus_C, FadeOut) == 0x0002F0, "Member 'UUI_WinScreen_Versus_C::FadeOut' has a wrong offset!");
@@ -53,6 +56,7 @@ static_assert(offsetof(UUI_WinScreen_Versus_C, BCK) == 0x0002F8, "Member 'UUI_Wi
 static_assert(offsetof(UUI_WinScreen_Versus_C, Image_0) == 0x000300, "Member 'UUI_WinScreen_Versus_C::Image_0' has a wrong offset!");
 static_assert(offsetof(UUI_WinScreen_Versus_C, Image_1) == 0x000308, "Member 'UUI_WinScreen_Versus_C::Image_1' has a wrong offset!");
 static_assert(offsetof(UUI_WinScreen_Versus_C, Player_Lost_Int) == 0x000310, "Member 'UUI_WinScreen_Versus_C::Player_Lost_Int' has a wrong offset!");
+static_assert(offsetof(UUI_WinScreen_Versus_C, GI_Settings) == 0x000318, "Member 'UUI_WinScreen_Versus_C::GI_Settings' has a wrong offset!");
 
 }
 

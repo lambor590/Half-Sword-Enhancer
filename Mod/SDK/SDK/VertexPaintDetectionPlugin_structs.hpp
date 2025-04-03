@@ -315,13 +315,13 @@ struct FRVPDPAmountOfColorsOfEachChannelResults final
 public:
 	bool                                          SuccessfullyGotColorChannelResultsAtMinAmount;     // 0x0000(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPAmountOfColorsOfEachChannelChannelResults RedChannelResult;                                  // 0x0004(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPAmountOfColorsOfEachChannelChannelResults GreenChannelResult;                                // 0x0014(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPAmountOfColorsOfEachChannelChannelResults BlueChannelResult;                                 // 0x0024(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPAmountOfColorsOfEachChannelChannelResults AlphaChannelResult;                                // 0x0034(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPAmountOfColorsOfEachChannelChannelResults RedChannelResult;                         // 0x0004(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPAmountOfColorsOfEachChannelChannelResults GreenChannelResult;                       // 0x0014(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPAmountOfColorsOfEachChannelChannelResults BlueChannelResult;                        // 0x0024(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPAmountOfColorsOfEachChannelChannelResults AlphaChannelResult;                       // 0x0034(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
 	bool                                          SuccessfullyGotPhysicsSurfaceResultsAtMinAmount;   // 0x0044(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_45[0x3];                                       // 0x0045(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FRVPDPAmountOfColorsOfEachChannelPhysicsResults> PhysicsSurfacesResults;                            // 0x0048(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPAmountOfColorsOfEachChannelPhysicsResults> PhysicsSurfacesResults;           // 0x0048(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPAmountOfColorsOfEachChannelResults) == 0x000008, "Wrong alignment on FRVPDPAmountOfColorsOfEachChannelResults");
 static_assert(sizeof(FRVPDPAmountOfColorsOfEachChannelResults) == 0x000058, "Wrong size on FRVPDPAmountOfColorsOfEachChannelResults");
@@ -338,8 +338,8 @@ static_assert(offsetof(FRVPDPAmountOfColorsOfEachChannelResults, PhysicsSurfaces
 struct FRVPDPWithinAreaResults final
 {
 public:
-	TArray<struct FVertexDetectMeshDataPerLODStruct> MeshVertexDataWithinArea;                          // 0x0000(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-	struct FRVPDPAmountOfColorsOfEachChannelResults AmountOfPaintedColorsOfEachChannelWithinArea;      // 0x0010(0x0058)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FVertexDetectMeshDataPerLODStruct> MeshVertexDataWithinArea;                       // 0x0000(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	struct FRVPDPAmountOfColorsOfEachChannelResults AmountOfPaintedColorsOfEachChannelWithinArea;    // 0x0010(0x0058)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPWithinAreaResults) == 0x000008, "Wrong alignment on FRVPDPWithinAreaResults");
 static_assert(sizeof(FRVPDPWithinAreaResults) == 0x000068, "Wrong size on FRVPDPWithinAreaResults");
@@ -352,7 +352,7 @@ struct FRVPDPGroupColorSnippetInfo final
 {
 public:
 	class FString                                 GroupSnippetID;                                    // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset> ColorSnippetDataAssetStoredOn;                     // 0x0010(0x0028)(Edit, BlueprintVisible, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset> ColorSnippetDataAssetStoredOn;           // 0x0010(0x0028)(Edit, BlueprintVisible, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<TSoftObjectPtr<class UObject>>         AssociatedGroupMeshes;                             // 0x0038(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, UObjectWrapper, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPGroupColorSnippetInfo) == 0x000008, "Wrong alignment on FRVPDPGroupColorSnippetInfo");
@@ -500,7 +500,7 @@ struct FRVPDPSkeletalMeshSectionInfo final
 public:
 	int32                                         AtSection;                                         // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<int32, struct FRVPDPSkeletalMeshBoneVertexInfo> SkeletalMeshBoneVertexInfo;                        // 0x0008(0x0050)(BlueprintVisible, BlueprintReadOnly, NativeAccessSpecifierPublic)
+	TMap<int32, struct FRVPDPSkeletalMeshBoneVertexInfo> SkeletalMeshBoneVertexInfo;                 // 0x0008(0x0050)(BlueprintVisible, BlueprintReadOnly, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPSkeletalMeshSectionInfo) == 0x000008, "Wrong alignment on FRVPDPSkeletalMeshSectionInfo");
 static_assert(sizeof(FRVPDPSkeletalMeshSectionInfo) == 0x000058, "Wrong size on FRVPDPSkeletalMeshSectionInfo");
@@ -784,7 +784,7 @@ struct FRVPDPCompareMeshVertexColorsToColorSnippetsSettings final : public FRVPD
 public:
 	uint8                                         Pad_24[0x4];                                       // 0x0024(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<struct FGameplayTag>                   CompareWithColorsSnippetTag;                       // 0x0028(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRVPDPColorSnippetDataAssetInfo> CompareWithColorsSnippetDataAssetInfo;             // 0x0038(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPColorSnippetDataAssetInfo> CompareWithColorsSnippetDataAssetInfo;            // 0x0038(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPCompareMeshVertexColorsToColorSnippetsSettings) == 0x000008, "Wrong alignment on FRVPDPCompareMeshVertexColorsToColorSnippetsSettings");
 static_assert(sizeof(FRVPDPCompareMeshVertexColorsToColorSnippetsSettings) == 0x000048, "Wrong size on FRVPDPCompareMeshVertexColorsToColorSnippetsSettings");
@@ -815,16 +815,16 @@ public:
 	bool                                          IncludeVertexDataOnlyForLOD0;                      // 0x0011(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeColorsOfEachBone;                           // 0x0012(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_13[0x5];                                       // 0x0013(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPIncludeAmountOfPaintedColorsOfEachChannelSettings IncludeAmountOfPaintedColorsOfEachChannel;         // 0x0018(0x0018)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	struct FRVPDPCompareMeshVertexColorsToColorArraySettings CompareMeshVertexColorsToColorArray;               // 0x0030(0x0038)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	struct FRVPDPCompareMeshVertexColorsToColorSnippetsSettings CompareMeshVertexColorsToColorSnippets;            // 0x0068(0x0048)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRVPDPIncludeAmountOfPaintedColorsOfEachChannelSettings IncludeAmountOfPaintedColorsOfEachChannel; // 0x0018(0x0018)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRVPDPCompareMeshVertexColorsToColorArraySettings CompareMeshVertexColorsToColorArray;    // 0x0030(0x0038)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRVPDPCompareMeshVertexColorsToColorSnippetsSettings CompareMeshVertexColorsToColorSnippets; // 0x0068(0x0048)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 	bool                                          IncludeVertexColorData;                            // 0x00B0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeSerializedVertexColorData;                  // 0x00B1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeVertexPositionData;                         // 0x00B2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeVertexNormalData;                           // 0x00B3(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeVertexIndexes;                              // 0x00B4(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B5[0x3];                                       // 0x00B5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPCallbackFromSpecifiedMeshComponentsInfo CallbacksOnObjectsForMeshComponent;                // 0x00B8(0x0010)(NativeAccessSpecifierPublic)
+	struct FRVPDPCallbackFromSpecifiedMeshComponentsInfo CallbacksOnObjectsForMeshComponent;         // 0x00B8(0x0010)(NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPTaskCallbackSettings) == 0x000008, "Wrong alignment on FRVPDPTaskCallbackSettings");
 static_assert(sizeof(FRVPDPTaskCallbackSettings) == 0x0000C8, "Wrong size on FRVPDPTaskCallbackSettings");
@@ -1024,8 +1024,8 @@ public:
 	struct FRVPDPGetAverageColorSettings          GetAverageColorInAreaSettings;                     // 0x0110(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_11C[0x4];                                      // 0x011C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FRVPDPAtLocationTasksSettings          HitFundementals;                                   // 0x0120(0x0060)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	struct FRVPDPEstimatedColorAtHitLocationSettings GetEstimatedColorAtHitLocationSettings;            // 0x0180(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClosestVertexDataOptimizationSettings ClosestVertexDataOptimizationSettings;             // 0x018C(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPEstimatedColorAtHitLocationSettings GetEstimatedColorAtHitLocationSettings;         // 0x0180(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClosestVertexDataOptimizationSettings ClosestVertexDataOptimizationSettings;        // 0x018C(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPGetClosestVertexDataSettings) == 0x000008, "Wrong alignment on FRVPDPGetClosestVertexDataSettings");
 static_assert(sizeof(FRVPDPGetClosestVertexDataSettings) == 0x000198, "Wrong size on FRVPDPGetClosestVertexDataSettings");
@@ -1055,13 +1055,13 @@ static_assert(offsetof(FRVPDPComponentToCheckIfIsWithinAreaInfo, TraceComplexIfC
 struct FRVPDPWithinAreaSettings final
 {
 public:
-	TArray<struct FRVPDPComponentToCheckIfIsWithinAreaInfo> ComponentsToCheckIfIsWithin;                       // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPComponentToCheckIfIsWithinAreaInfo> ComponentsToCheckIfIsWithin;             // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, ContainsInstancedReference, NativeAccessSpecifierPublic)
 	bool                                          IncludeVertexColorsWithinArea;                     // 0x0010(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeVertexPositionsWithinrea;                   // 0x0011(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeVertexNormalsWithinArea;                    // 0x0012(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IncludeVertexIndexesWithinArea;                    // 0x0013(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPIncludeAmountOfPaintedColorsOfEachChannelSettings IncludeAmountOfColorsOfEachChannelWithinArea;      // 0x0018(0x0018)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRVPDPIncludeAmountOfPaintedColorsOfEachChannelSettings IncludeAmountOfColorsOfEachChannelWithinArea; // 0x0018(0x0018)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 	bool                                          TraceForSpecificBonesWithinArea;                   // 0x0030(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_31[0x17];                                      // 0x0031(0x0017)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -1093,7 +1093,7 @@ struct FRVPDPVertexDataInfo final
 public:
 	TSoftObjectPtr<class UObject>                 MeshSource;                                        // 0x0000(0x0028)(Edit, BlueprintVisible, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TSoftObjectPtr<class UPrimitiveComponent>     MeshComp;                                          // 0x0028(0x0028)(Edit, BlueprintVisible, ExportObject, EditConst, InstancedReference, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FVertexDetectMeshDataPerLODStruct> MeshDataPerLOD;                                    // 0x0050(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FVertexDetectMeshDataPerLODStruct> MeshDataPerLOD;                                 // 0x0050(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPVertexDataInfo) == 0x000008, "Wrong alignment on FRVPDPVertexDataInfo");
 static_assert(sizeof(FRVPDPVertexDataInfo) == 0x000060, "Wrong size on FRVPDPVertexDataInfo");
@@ -1172,10 +1172,10 @@ public:
 	class UVertexPaintDetectionComponent*         AssociatedPaintComponent;                          // 0x0008(0x0008)(Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, EditConst, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UPrimitiveComponent*                    MeshComponent;                                     // 0x0010(0x0008)(Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, EditConst, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FRVPDPVertexDataInfo                   MeshVertexData;                                    // 0x0018(0x0060)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	struct FRVPDPCompareMeshVertexColorsToColorArrayResult CompareMeshVertexColorsToColorArrayResult;         // 0x0078(0x000C)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPCompareMeshVertexColorsToColorArrayResult CompareMeshVertexColorsToColorArrayResult; // 0x0078(0x000C)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_84[0x4];                                       // 0x0084(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPCompareMeshVertexColorsToColorSnippetResult CompareMeshVertexColorsToColorSnippetResult;       // 0x0088(0x00A8)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
-	struct FRVPDPAmountOfColorsOfEachChannelResults AmountOfPaintedColorsOfEachChannel;                // 0x0130(0x0058)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
+	struct FRVPDPCompareMeshVertexColorsToColorSnippetResult CompareMeshVertexColorsToColorSnippetResult; // 0x0088(0x00A8)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
+	struct FRVPDPAmountOfColorsOfEachChannelResults AmountOfPaintedColorsOfEachChannel;              // 0x0130(0x0058)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
 	struct FRVPDPVertexColorsOnEachBoneResult     VertexColorsOnEachBone;                            // 0x0188(0x0018)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPTaskResults) == 0x000008, "Wrong alignment on FRVPDPTaskResults");
@@ -1355,7 +1355,7 @@ static_assert(offsetof(FRVPDPAutoPaintTaskResults, AdditionalData) == 0x0001D0, 
 struct FRVPDPStartNewRoundOfTasksInfo final
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPAutoPaintTaskResults> NewRoundOfTasks;                                   // 0x0000(0x0050)(BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAutoPaintTaskResults> NewRoundOfTasks;             // 0x0000(0x0050)(BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPStartNewRoundOfTasksInfo) == 0x000008, "Wrong alignment on FRVPDPStartNewRoundOfTasksInfo");
 static_assert(sizeof(FRVPDPStartNewRoundOfTasksInfo) == 0x000050, "Wrong size on FRVPDPStartNewRoundOfTasksInfo");
@@ -1383,16 +1383,16 @@ public:
 	struct FRVPDPClothPhysicsCollisionSettings    ClothCollisionSettings;                            // 0x00A4(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	bool                                          SetLongRangeAttachment;                            // 0x00B4(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B5[0x3];                                       // 0x00B5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsLongRangeAttachmentSettings ClothLongRangeAttachmentSettings;                  // 0x00B8(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsLongRangeAttachmentSettings ClothLongRangeAttachmentSettings;           // 0x00B8(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	bool                                          SetMaterial;                                       // 0x00D8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_D9[0x7];                                       // 0x00D9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FRVPDPClothPhysicsMaterialSettings     ClothMaterialSettings;                             // 0x00E0(0x0030)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	bool                                          SetPhysicsVelocityScale;                           // 0x0110(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_111[0x7];                                      // 0x0111(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsVelocityScaleSettings ClothPhysicsVelocityScaleSettings;                 // 0x0118(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsVelocityScaleSettings ClothPhysicsVelocityScaleSettings;                // 0x0118(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	bool                                          SetAirPressure;                                    // 0x0138(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_139[0x7];                                      // 0x0139(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsSetAirPressureSettings ClothPhysicssAirPressureSettings;                  // 0x0140(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsSetAirPressureSettings ClothPhysicssAirPressureSettings;                // 0x0140(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPChaosClothPhysicsSettings) == 0x000008, "Wrong alignment on FRVPDPChaosClothPhysicsSettings");
 static_assert(sizeof(FRVPDPChaosClothPhysicsSettings) == 0x000150, "Wrong size on FRVPDPChaosClothPhysicsSettings");
@@ -1425,7 +1425,7 @@ public:
 	uint8                                         Pad_1E0[0x40];                                     // 0x01E0(0x0040)(Fixing Size After Last Property [ Dumper-7 ])
 	class UMaterialInterface*                     GetClosestVertexData_ClosestVertexMaterial;        // 0x0220(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_228[0x2588];                                   // 0x0228(0x2588)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class UClothingAssetBase*, struct FRVPDPChaosClothPhysicsSettings> ClothPhysicsSettings;                              // 0x27B0(0x0050)(NativeAccessSpecifierPublic)
+	TMap<class UClothingAssetBase*, struct FRVPDPChaosClothPhysicsSettings> ClothPhysicsSettings;    // 0x27B0(0x0050)(NativeAccessSpecifierPublic)
 	class AActor*                                 VertexPaintActor;                                  // 0x2800(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UPrimitiveComponent*                    VertexPaintComponent;                              // 0x2808(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UStaticMeshComponent*                   VertexPaintStaticMeshComponent;                    // 0x2810(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -1510,7 +1510,7 @@ static_assert(offsetof(FRVPDPPaintColorSnippetSettings, ColorSnippetDataAssetInf
 struct FRVPDPStoredColorSnippetInfo final
 {
 public:
-	TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset> ColorSnippetDataAssetStoredOn;                     // 0x0000(0x0028)(Edit, BlueprintVisible, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSoftObjectPtr<class UVertexPaintColorSnippetDataAsset> ColorSnippetDataAssetStoredOn;           // 0x0000(0x0028)(Edit, BlueprintVisible, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TSoftObjectPtr<class UObject>                 ObjectColorSnippetBelongsTo;                       // 0x0028(0x0028)(Edit, BlueprintVisible, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          IsPartOfAGroupSnippet;                             // 0x0050(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_51[0x7];                                       // 0x0051(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
@@ -1701,14 +1701,14 @@ static_assert(offsetof(FRVPDPDoesVertexHasLineOfSightPaintConditionSettings, Lin
 struct FRVPDPPaintConditionSettings final
 {
 public:
-	TArray<struct FRVPDPIsVertexNormalWithinDotToDirectionPaintConditionSettings> IsVertexNormalWithinDotToDirection;                // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRVPDPIsVertexDirectionTowardLocationPaintConditionSettings> OnlyAffectVerticesWithDirectionToActorOrLocation;  // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPIsVertexNormalWithinDotToDirectionPaintConditionSettings> IsVertexNormalWithinDotToDirection; // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPIsVertexDirectionTowardLocationPaintConditionSettings> OnlyAffectVerticesWithDirectionToActorOrLocation; // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<struct FRVPDPIsVertexWithinDirectionFromLocationPaintConditionSettings> OnlyAffectVerticesWithinDirectionFromActorOrLocation; // 0x0020(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRVPDPIsVertexAboveOrBelowWorldZPaintConditionSettings> IfVertexIsAboveOrBelowWorldZ;                      // 0x0030(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRVPDPIsVertexColorWithinColorRangePaintConditionSettings> IfVertexColorIsWithinRange;                        // 0x0040(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRVPDPIsVertexOnBonePaintConditionSettings> IfVertexIsOnBone;                                  // 0x0050(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRVPDPIsVertexOnMaterialPaintConditionSettings> IfVertexIsOnMaterial;                              // 0x0060(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRVPDPDoesVertexHasLineOfSightPaintConditionSettings> IfVertexHasLineOfSightTo;                          // 0x0070(0x0010)(Edit, BlueprintVisible, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPIsVertexAboveOrBelowWorldZPaintConditionSettings> IfVertexIsAboveOrBelowWorldZ; // 0x0030(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPIsVertexColorWithinColorRangePaintConditionSettings> IfVertexColorIsWithinRange; // 0x0040(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPIsVertexOnBonePaintConditionSettings> IfVertexIsOnBone;                      // 0x0050(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPIsVertexOnMaterialPaintConditionSettings> IfVertexIsOnMaterial;              // 0x0060(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPDoesVertexHasLineOfSightPaintConditionSettings> IfVertexHasLineOfSightTo;    // 0x0070(0x0010)(Edit, BlueprintVisible, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPPaintConditionSettings) == 0x000008, "Wrong alignment on FRVPDPPaintConditionSettings");
 static_assert(sizeof(FRVPDPPaintConditionSettings) == 0x000080, "Wrong size on FRVPDPPaintConditionSettings");
@@ -1751,7 +1751,7 @@ struct FRVPDPApplyColorsUsingPhysicsSurfaceSettings final
 public:
 	bool                                          ApplyVertexColorUsingPhysicsSurface;               // 0x0000(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FRVPDPPhysicsSurfaceToApplySettings> PhysicalSurfacesToApply;                           // 0x0008(0x0010)(Edit, BlueprintVisible, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPPhysicsSurfaceToApplySettings> PhysicalSurfacesToApply;                      // 0x0008(0x0010)(Edit, BlueprintVisible, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 	float                                         StrengtOnChannelsWithoutThePhysicsSurfaces;        // 0x0018(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	EApplyVertexColorSetting                      ApplyWithSettingOnChannelsWithoutThePhysicsSurface; // 0x001C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1D[0x3];                                       // 0x001D(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -1805,12 +1805,12 @@ static_assert(offsetof(FRVPDPAdjustPaintStrengthToDeltaTimeSettings, TargetFPS) 
 struct FRVPDPApplyColorSettings final
 {
 public:
-	struct FRVPDPApplyColorsUsingPhysicsSurfaceSettings ApplyColorsUsingPhysicsSurface;                    // 0x0000(0x0020)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	struct FRVPDPApplyColorsUsingVertexChannelSettings ApplyColorsOnRedChannel;                           // 0x0020(0x00A8)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	struct FRVPDPApplyColorsUsingVertexChannelSettings ApplyColorsOnGreenChannel;                         // 0x00C8(0x00A8)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	struct FRVPDPApplyColorsUsingVertexChannelSettings ApplyColorsOnBlueChannel;                          // 0x0170(0x00A8)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	struct FRVPDPApplyColorsUsingVertexChannelSettings ApplyColorsOnAlphaChannel;                         // 0x0218(0x00A8)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	struct FRVPDPAdjustPaintStrengthToDeltaTimeSettings AdjustPaintStrengthToDeltaTimeSettings;            // 0x02C0(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPApplyColorsUsingPhysicsSurfaceSettings ApplyColorsUsingPhysicsSurface;              // 0x0000(0x0020)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	struct FRVPDPApplyColorsUsingVertexChannelSettings ApplyColorsOnRedChannel;                      // 0x0020(0x00A8)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	struct FRVPDPApplyColorsUsingVertexChannelSettings ApplyColorsOnGreenChannel;                    // 0x00C8(0x00A8)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	struct FRVPDPApplyColorsUsingVertexChannelSettings ApplyColorsOnBlueChannel;                     // 0x0170(0x00A8)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	struct FRVPDPApplyColorsUsingVertexChannelSettings ApplyColorsOnAlphaChannel;                    // 0x0218(0x00A8)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	struct FRVPDPAdjustPaintStrengthToDeltaTimeSettings AdjustPaintStrengthToDeltaTimeSettings;      // 0x02C0(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_2CC[0x4];                                      // 0x02CC(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FRVPDPApplyColorSettings) == 0x000008, "Wrong alignment on FRVPDPApplyColorSettings");
@@ -1914,10 +1914,10 @@ struct FRVPDPPaintAtLocationSettings final : public FRVPDPApplyColorSetting
 {
 public:
 	struct FRVPDPAtLocationTasksSettings          HitFundementals;                                   // 0x0418(0x0060)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	struct FRVPDPPaintAtLocationAreaOfEffectSettings PaintAtAreaSettings;                               // 0x0478(0x0048)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	struct FRVPDPEstimatedColorAtHitLocationSettings GetEstimatedColorAtHitLocationSettings;            // 0x04C0(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPPaintAtLocationAreaOfEffectSettings PaintAtAreaSettings;                            // 0x0478(0x0048)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRVPDPEstimatedColorAtHitLocationSettings GetEstimatedColorAtHitLocationSettings;         // 0x04C0(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_4CC[0x4];                                      // 0x04CC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPGetClosestVertexDataComboPaintAtLocationSettings GetClosestVertexDataCombo;                         // 0x04D0(0x0078)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRVPDPGetClosestVertexDataComboPaintAtLocationSettings GetClosestVertexDataCombo;         // 0x04D0(0x0078)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPPaintAtLocationSettings) == 0x000008, "Wrong alignment on FRVPDPPaintAtLocationSettings");
 static_assert(sizeof(FRVPDPPaintAtLocationSettings) == 0x000548, "Wrong size on FRVPDPPaintAtLocationSettings");
@@ -1963,7 +1963,7 @@ static_assert(offsetof(FRVPDPPaintOnEntireMeshAtRandomVerticesSettings, RandomSe
 struct FRVPDPPaintOnEntireMeshSettings final : public FRVPDPApplyColorSetting
 {
 public:
-	struct FRVPDPPaintOnEntireMeshAtRandomVerticesSettings PaintOnRandomVerticesSettings;                     // 0x0418(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPPaintOnEntireMeshAtRandomVerticesSettings PaintOnRandomVerticesSettings;            // 0x0418(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPPaintOnEntireMeshSettings) == 0x000008, "Wrong alignment on FRVPDPPaintOnEntireMeshSettings");
 static_assert(sizeof(FRVPDPPaintOnEntireMeshSettings) == 0x000458, "Wrong size on FRVPDPPaintOnEntireMeshSettings");
@@ -2044,10 +2044,10 @@ static_assert(offsetof(FRVPDPAutoAddColorSettings, OnlyStartNewTaskIfChangeWasMa
 struct FRVPDPVertexChannelsChaosClothPhysicsSettings final
 {
 public:
-	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtRedChannel;                  // 0x0000(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtGreenChannel;                // 0x0260(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtBlueChannel;                 // 0x04C0(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtAlphaChannel;                // 0x0720(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtRedChannel;     // 0x0000(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtGreenChannel;   // 0x0260(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtBlueChannel;    // 0x04C0(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtAlphaChannel;   // 0x0720(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPVertexChannelsChaosClothPhysicsSettings) == 0x000008, "Wrong alignment on FRVPDPVertexChannelsChaosClothPhysicsSettings");
 static_assert(sizeof(FRVPDPVertexChannelsChaosClothPhysicsSettings) == 0x000980, "Wrong size on FRVPDPVertexChannelsChaosClothPhysicsSettings");
@@ -2061,7 +2061,7 @@ static_assert(offsetof(FRVPDPVertexChannelsChaosClothPhysicsSettings, ClothPhysi
 struct FRVPDPColorSnippetReferenceDataInfo final
 {
 public:
-	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> ColorSnippetsStorageInfo;                          // 0x0000(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FRVPDPStoredColorSnippetInfo> ColorSnippetsStorageInfo;               // 0x0000(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPColorSnippetReferenceDataInfo) == 0x000008, "Wrong alignment on FRVPDPColorSnippetReferenceDataInfo");
 static_assert(sizeof(FRVPDPColorSnippetReferenceDataInfo) == 0x000050, "Wrong size on FRVPDPColorSnippetReferenceDataInfo");
@@ -2073,7 +2073,7 @@ struct FRVPDPColorSnippetDataInfo final
 {
 public:
 	TSoftObjectPtr<class UObject>                 ObjectColorSnippetBelongsTo;                       // 0x0000(0x0028)(Edit, BlueprintVisible, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FVertexDetectMeshDataPerLODStruct> ColorSnippetDataPerLOD;                            // 0x0028(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FVertexDetectMeshDataPerLODStruct> ColorSnippetDataPerLOD;                         // 0x0028(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPColorSnippetDataInfo) == 0x000008, "Wrong alignment on FRVPDPColorSnippetDataInfo");
 static_assert(sizeof(FRVPDPColorSnippetDataInfo) == 0x000038, "Wrong size on FRVPDPColorSnippetDataInfo");
@@ -2152,7 +2152,7 @@ public:
 	EPhysicalSurface                              PaintedAtBlue;                                     // 0x0004(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	EPhysicalSurface                              PaintedAtAlpha;                                    // 0x0005(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_6[0x2];                                        // 0x0006(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<EPhysicalSurface, struct FRVPDPPhysicsSurfaceBlendSettings> PhysicsSurfaceBlendingSettings;                    // 0x0008(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
+	TMap<EPhysicalSurface, struct FRVPDPPhysicsSurfaceBlendSettings> PhysicsSurfaceBlendingSettings; // 0x0008(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPRegisteredMaterialSetting) == 0x000008, "Wrong alignment on FRVPDPRegisteredMaterialSetting");
 static_assert(sizeof(FRVPDPRegisteredMaterialSetting) == 0x000058, "Wrong size on FRVPDPRegisteredMaterialSetting");
@@ -2193,7 +2193,7 @@ struct FRVPDPSkeletalMeshBoneInfoPerLOD final
 public:
 	int32                                         Lod;                                               // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<int32, struct FRVPDPSkeletalMeshSectionInfo> SkeletalMeshSectionInfo;                           // 0x0008(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
+	TMap<int32, struct FRVPDPSkeletalMeshSectionInfo> SkeletalMeshSectionInfo;                       // 0x0008(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPSkeletalMeshBoneInfoPerLOD) == 0x000008, "Wrong alignment on FRVPDPSkeletalMeshBoneInfoPerLOD");
 static_assert(sizeof(FRVPDPSkeletalMeshBoneInfoPerLOD) == 0x000058, "Wrong size on FRVPDPSkeletalMeshBoneInfoPerLOD");
@@ -2207,8 +2207,8 @@ struct FRVPDPRegisteredSkeletalMeshInfo final
 public:
 	int32                                         TotalAmountsOfPaintableBonesWithCollision;         // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FRVPDPSkeletalMeshBoneInfoPerLOD> SkeletalMeshBoneInfoPerLOD;                        // 0x0008(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FRVPDPSkeletalMeshBonesToIncludeInfo> SkeletalMeshBonesToInclude;                        // 0x0018(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FRVPDPSkeletalMeshBoneInfoPerLOD> SkeletalMeshBoneInfoPerLOD;                      // 0x0008(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FRVPDPSkeletalMeshBonesToIncludeInfo> SkeletalMeshBonesToInclude;       // 0x0018(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRVPDPRegisteredSkeletalMeshInfo) == 0x000008, "Wrong alignment on FRVPDPRegisteredSkeletalMeshInfo");
 static_assert(sizeof(FRVPDPRegisteredSkeletalMeshInfo) == 0x000068, "Wrong size on FRVPDPRegisteredSkeletalMeshInfo");

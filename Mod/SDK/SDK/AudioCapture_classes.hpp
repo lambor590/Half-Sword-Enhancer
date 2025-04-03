@@ -69,7 +69,7 @@ class UAudioCaptureBlueprintLibrary final : public UBlueprintFunctionLibrary
 {
 public:
 	static class FString Conv_AudioInputDeviceInfoToString(const struct FAudioInputDeviceInfo& Info);
-	static void GetAvailableAudioInputDevices(const class UObject* WorldContextObject, const TDelegate<void(TArray<struct FAudioInputDeviceInfo>& AvailableDevices)>& OnObtainDevicesEvent);
+	static void GetAvailableAudioInputDevices(const class UObject* WorldContextObject, const TDelegate<void(const TArray<struct FAudioInputDeviceInfo>& AvailableDevices)>& OnObtainDevicesEvent);
 
 public:
 	static class UClass* StaticClass()

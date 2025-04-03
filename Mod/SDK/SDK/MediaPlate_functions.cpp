@@ -161,7 +161,7 @@ void UMediaPlateComponent::OnMediaEnd()
 // Function MediaPlate.MediaPlateComponent.OnMediaOpened
 // (Final, Native, Private)
 // Parameters:
-// class FString                           DeviceUrl                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DeviceUrl                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMediaPlateComponent::OnMediaOpened(const class FString& DeviceUrl)
 {
@@ -306,7 +306,7 @@ bool UMediaPlateComponent::Rewind()
 // Function MediaPlate.MediaPlateComponent.Seek
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FTimespan                        Time                                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTimespan&                 Time                                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMediaPlateComponent::Seek(const struct FTimespan& Time)
@@ -409,7 +409,7 @@ void UMediaPlateComponent::SetLoop(bool bInLoop)
 // Function MediaPlate.MediaPlateComponent.SetMeshRange
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InMeshRange                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InMeshRange                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMediaPlateComponent::SetMeshRange(const struct FVector2D& InMeshRange)
 {

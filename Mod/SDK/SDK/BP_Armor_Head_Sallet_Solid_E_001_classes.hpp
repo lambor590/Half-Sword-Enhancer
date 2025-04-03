@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Armor_Head_Sallet_Solid_E_001.BP_Armor_Head_Sallet_Solid_E_001_C
-// 0x0000 (0x07F0 - 0x07F0)
+// 0x0000 (0x0800 - 0x0800)
 class ABP_Armor_Head_Sallet_Solid_E_001_C final : public ABP_Armor_Master_C
 {
 public:
@@ -31,7 +31,7 @@ public:
 	}
 };
 static_assert(alignof(ABP_Armor_Head_Sallet_Solid_E_001_C) == 0x000010, "Wrong alignment on ABP_Armor_Head_Sallet_Solid_E_001_C");
-static_assert(sizeof(ABP_Armor_Head_Sallet_Solid_E_001_C) == 0x0007F0, "Wrong size on ABP_Armor_Head_Sallet_Solid_E_001_C");
+static_assert(sizeof(ABP_Armor_Head_Sallet_Solid_E_001_C) == 0x000800, "Wrong size on ABP_Armor_Head_Sallet_Solid_E_001_C");
 
 }
 

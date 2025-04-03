@@ -28,15 +28,15 @@ namespace SDK
 class UVertexPaintDetectionComponent : public UActorComponent
 {
 public:
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> GetClosestVertexDataDelegate;                      // 0x00A0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> GetAllVertexColorsOnlyDelegate;                    // 0x00B0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, struct FRVPDPWithinAreaResults& WithinAreaResults, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> GetColorsWithinAreaDelegate;                       // 0x00C0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, struct FRVPDPPaintAtLocationSettings& PaintedAtLocationWithSettings, struct FRVPDPClosestVertexDataResults& ClosestVertexInfoAfterApplyingColor, struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsPaintedAtLocationDelegate;             // 0x00D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaWithSettings, struct FRVPDPWithinAreaResults& WithinAreaResults, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsPaintedMeshWithinAreaDelegate;         // 0x00E0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, struct FRVPDPPaintOnEntireMeshSettings& EntireMeshPaintedWithSettings, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsPaintedEntireMeshDelegate;             // 0x00F0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, struct FRVPDPPaintColorSnippetSettings& PaintColorSnippetWithSettings, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsPaintColorSnippetDelegate;             // 0x0100(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorWithSettings, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsSetMeshColorsDelegate;                 // 0x0110(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringWithSettings, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsSetMeshColorsUsingSerializedStringDelegate; // 0x0120(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> GetClosestVertexDataDelegate; // 0x00A0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> GetAllVertexColorsOnlyDelegate; // 0x00B0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsWithinAreaSettings& GetColorsWithinAreaSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> GetColorsWithinAreaDelegate; // 0x00C0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintAtLocationSettings& PaintedAtLocationWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfoAfterApplyingColor, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsPaintedAtLocationDelegate; // 0x00D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintWithinAreaSettings& PaintedWithinAreaWithSettings, const struct FRVPDPWithinAreaResults& WithinAreaResults, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsPaintedMeshWithinAreaDelegate; // 0x00E0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintOnEntireMeshSettings& EntireMeshPaintedWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsPaintedEntireMeshDelegate; // 0x00F0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPPaintColorSnippetSettings& PaintColorSnippetWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsPaintColorSnippetDelegate; // 0x0100(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsSettings& SetMeshComponentVertexColorWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsSetMeshColorsDelegate; // 0x0110(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPSetVertexColorsUsingSerializedStringSettings& SetMeshComponentVertexColorUsingSerializedStringWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexColorsSetMeshColorsUsingSerializedStringDelegate; // 0x0120(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_130[0x50];                                     // 0x0130(0x0050)(Fixing Size After Last Property [ Dumper-7 ])
 	TMap<int32, class UPrimitiveComponent*>       CurrentGetClosestVertexDataTasks;                  // 0x0180(0x0050)(ExportObject, ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
 	TMap<int32, class UPrimitiveComponent*>       CurrentGetAllVertexColorsOnlyTasks;                // 0x01D0(0x0050)(ExportObject, ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
@@ -47,7 +47,7 @@ public:
 	TMap<int32, class UPrimitiveComponent*>       CurrentPaintColorSnippetTasks;                     // 0x0360(0x0050)(ExportObject, ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
 	TMap<int32, class UPrimitiveComponent*>       CurrentSetMeshComponentVertexColorsTasks;          // 0x03B0(0x0050)(ExportObject, ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
 	TMap<int32, class UPrimitiveComponent*>       CurrentSetMeshComponentVertexColorsUsingSerializedStringTasks; // 0x0400(0x0050)(ExportObject, ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
-	TMap<class FString, class UVertexPaintColorSnippetDataAsset*> LoadedCompareColorSnippetDataAssets;               // 0x0450(0x0050)(Protected, NativeAccessSpecifierProtected)
+	TMap<class FString, class UVertexPaintColorSnippetDataAsset*> LoadedCompareColorSnippetDataAssets; // 0x0450(0x0050)(Protected, NativeAccessSpecifierProtected)
 	uint8                                         Pad_4A0[0x8];                                      // 0x04A0(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -104,8 +104,8 @@ class UAutoAddColorComponent : public UVertexPaintDetectionComponent
 {
 public:
 	uint8                                         Pad_4A8[0x8];                                      // 0x04A8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(const struct FRVPDPStartNewRoundOfTasksInfo& StartedNewRoundOfTasksOnMeshes)> StartedNewRoundOfTasksDelegate;                    // 0x04B0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(class UPrimitiveComponent* MeshComponent)> StartedAutoPaintingMeshDelegate;                   // 0x04C0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPStartNewRoundOfTasksInfo& StartedNewRoundOfTasksOnMeshes)> StartedNewRoundOfTasksDelegate; // 0x04B0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class UPrimitiveComponent* MeshComponent)> StartedAutoPaintingMeshDelegate; // 0x04C0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              VerifiedAutoPaintingMeshesDelegate;                // 0x04D0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	float                                         ConsiderMeshFullyPaintedIfOverOrEqual;             // 0x04E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          ApplyOneFrameDelayBetweenTasksForInstigatingComponent; // 0x04E4(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -123,7 +123,7 @@ public:
 	float                                         PrintDebugLogsToScreen_Duration;                   // 0x0814(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          PrintDebugLogsToOutputLog;                         // 0x0818(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_819[0x7];                                      // 0x0819(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class UPrimitiveComponent*, struct FRVPDPAutoAddColorSettings> AutoPaintingMeshes;                                // 0x0820(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAutoAddColorSettings> AutoPaintingMeshes;          // 0x0820(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
 	uint8                                         Pad_870[0x48];                                     // 0x0870(0x0048)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -179,8 +179,8 @@ class UAutoAddColorEntireMeshComponent final : public UAutoAddColorComponent
 {
 public:
 	struct FRVPDPPaintOnEntireMeshSettings        AutoPaintRootMeshAtBeginPlay_PaintEntireMeshSettings; // 0x08B8(0x0458)(Edit, BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	TMap<class UPrimitiveComponent*, struct FRVPDPPaintOnEntireMeshSettings> AutoPaintingEntireMeshesWithSettings;              // 0x0D10(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
-	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> AutoPaintingEntireMeshesAdditionalDataSettings;    // 0x0D60(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
+	TMap<class UPrimitiveComponent*, struct FRVPDPPaintOnEntireMeshSettings> AutoPaintingEntireMeshesWithSettings; // 0x0D10(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> AutoPaintingEntireMeshesAdditionalDataSettings; // 0x0D60(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
 
 public:
 	bool AddAutoPaintEntireMesh(class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintOnEntireMeshSettings& PaintEntireMeshSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData, const struct FRVPDPAutoAddColorSettings& AutoAddColorSettings, bool ResumeIfPaused);
@@ -209,8 +209,8 @@ static_assert(offsetof(UAutoAddColorEntireMeshComponent, AutoPaintingEntireMeshe
 class UAutoAddColorPaintAtLocComponent final : public UAutoAddColorComponent
 {
 public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPPaintAtLocationSettings> AutoPaintingAtLocationWithSettings;                // 0x08B8(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> AutoPaintingAtLocationAdditionalDataSettings;      // 0x0908(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FRVPDPPaintAtLocationSettings> AutoPaintingAtLocationWithSettings; // 0x08B8(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> AutoPaintingAtLocationAdditionalDataSettings; // 0x0908(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
 
 public:
 	bool AddAutoPaintAtLocation(class UPrimitiveComponent* MeshComponent, const struct FRVPDPPaintAtLocationSettings& PaintAtLocationSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData, const struct FRVPDPAutoAddColorSettings& AutoAddColorSettings, bool ResumeIfPaused);
@@ -243,9 +243,9 @@ public:
 	bool                                          OnlyPaintOnMovingMeshXY;                           // 0x08BD(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          OnlyPaintOnRotatedMesh;                            // 0x08BE(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          OnlyPaintOnReScaledMesh;                           // 0x08BF(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class UPrimitiveComponent*, struct FRVPDPPaintWithinAreaSettings> AutoPaintingWithinAreaWithSettings;                // 0x08C0(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
-	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> AutoPaintingWithinAreaAdditionalDataSettings;      // 0x0910(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
-	TMap<class UPrimitiveComponent*, struct FTransform> MeshComponentsToCheckIfMoved;                      // 0x0960(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
+	TMap<class UPrimitiveComponent*, struct FRVPDPPaintWithinAreaSettings> AutoPaintingWithinAreaWithSettings; // 0x08C0(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
+	TMap<class UPrimitiveComponent*, struct FRVPDPAdditionalDataToPassThroughInfo> AutoPaintingWithinAreaAdditionalDataSettings; // 0x0910(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
+	TMap<class UPrimitiveComponent*, struct FTransform> MeshComponentsToCheckIfMoved;                // 0x0960(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
 	uint8                                         Pad_9B0[0x8];                                      // 0x09B0(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -292,7 +292,7 @@ public:
 	class USkeletalMeshComponent*                 AttachedSkeletalMeshComponent;                     // 0x0258(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	TArray<class UClothingAssetBase*>             AttachedSkeletalMeshComponentClothingAssets;       // 0x0260(0x0010)(ZeroConstructor, Protected, NativeAccessSpecifierProtected)
 	TMap<class UPrimitiveComponent*, int32>       ClothOverlappingComponentAndItemsCache;            // 0x0270(0x0050)(ContainsInstancedReference, Protected, NativeAccessSpecifierProtected)
-	TMap<class UClothingAssetBase*, struct FTransform> ClothBoneTransformsInComponentSpace;               // 0x02C0(0x0050)(Protected, NativeAccessSpecifierProtected)
+	TMap<class UClothingAssetBase*, struct FTransform> ClothBoneTransformsInComponentSpace;          // 0x02C0(0x0050)(Protected, NativeAccessSpecifierProtected)
 	TMap<class UClothingAssetBase*, struct FQuat> ClothBoneQuaternionsInComponentSpace;              // 0x0310(0x0050)(Protected, NativeAccessSpecifierProtected)
 	TMap<class UPrimitiveComponent*, int32>       CurrentTraceOverlappingComponentAndItemsCache;     // 0x0360(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_3B0[0x10];                                     // 0x03B0(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -333,7 +333,7 @@ static_assert(offsetof(UVertexPaintClothOverlapComponent, CurrentTraceOverlappin
 class UVertexPaintColorSnippetDataAsset final : public UDataAsset
 {
 public:
-	TMap<class FString, struct FRVPDPColorSnippetDataInfo> SnippetColorData;                                  // 0x0030(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FRVPDPColorSnippetDataInfo> SnippetColorData;                         // 0x0030(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -354,9 +354,9 @@ static_assert(offsetof(UVertexPaintColorSnippetDataAsset, SnippetColorData) == 0
 class UVertexPaintColorSnippetRefs final : public UDataAsset
 {
 public:
-	TMap<TSoftObjectPtr<class UObject>, struct FRVPDPColorSnippetReferenceDataInfo> StaticMeshesColorSnippets;                         // 0x0030(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
-	TMap<TSoftObjectPtr<class UObject>, struct FRVPDPColorSnippetReferenceDataInfo> SkeletalMeshesColorSnippets;                       // 0x0080(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
-	TMap<class FString, struct FRVPDPGroupColorSnippetInfo> GroupSnippetsAndAssociatedMeshes;                  // 0x00D0(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
+	TMap<TSoftObjectPtr<class UObject>, struct FRVPDPColorSnippetReferenceDataInfo> StaticMeshesColorSnippets; // 0x0030(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
+	TMap<TSoftObjectPtr<class UObject>, struct FRVPDPColorSnippetReferenceDataInfo> SkeletalMeshesColorSnippets; // 0x0080(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
+	TMap<class FString, struct FRVPDPGroupColorSnippetInfo> GroupSnippetsAndAssociatedMeshes;        // 0x00D0(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
 	struct FGameplayTagContainer                  AllAvailableColorSnippets;                         // 0x0120(0x0020)(NativeAccessSpecifierPublic)
 
 public:
@@ -391,13 +391,13 @@ class UVertexPaintDetectionGISubSystem final : public UGameInstanceSubsystem
 {
 public:
 	uint8                                         Pad_30[0x8];                                       // 0x0030(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexPaintTaskFinished;                           // 0x0038(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(struct FRVPDPTaskResults& TaskResultInfo, struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexDetectTaskFinished;                          // 0x0048(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPPaintTaskResultInfo& PaintTaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexPaintTaskFinished; // 0x0038(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData)> VertexDetectTaskFinished; // 0x0048(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	class UVertexPaintDetectionTaskQueue*         TaskQueue;                                         // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
-	TMap<class UPrimitiveComponent*, struct FRVPDPCallbackFromSpecifiedMeshComponentsInfo> PaintTaskCallbacksFromSpecificMeshComponents;      // 0x0060(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<class UPrimitiveComponent*, struct FRVPDPCallbackFromSpecifiedMeshComponentsInfo> DetectTaskCallbacksFromSpecificMeshComponents;     // 0x00B0(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FRVPDPCallbackFromSpecifiedMeshComponentsInfo> PaintTaskCallbacksFromSpecificMeshComponents; // 0x0060(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FRVPDPCallbackFromSpecifiedMeshComponentsInfo> DetectTaskCallbacksFromSpecificMeshComponents; // 0x00B0(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_100[0x10];                                     // 0x0100(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<EPhysicalSurface, class UPhysicalMaterial*> PhysicalMaterialAssets;                            // 0x0110(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<EPhysicalSurface, class UPhysicalMaterial*> PhysicalMaterialAssets;                         // 0x0110(0x0050)(NativeAccessSpecifierPrivate)
 	class UVertexPaintColorSnippetRefs*           ColorSnippetReferenceDataAsset;                    // 0x0160(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	class UVertexPaintOptimizationDataAsset*      OptimizationDataAsset;                             // 0x0168(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	class UVertexPaintMaterialDataAsset*          MaterialDataAsset;                                 // 0x0170(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
@@ -430,8 +430,8 @@ static_assert(offsetof(UVertexPaintDetectionGISubSystem, OptimizationDataAsset) 
 static_assert(offsetof(UVertexPaintDetectionGISubSystem, MaterialDataAsset) == 0x000170, "Member 'UVertexPaintDetectionGISubSystem::MaterialDataAsset' has a wrong offset!");
 
 // Class VertexPaintDetectionPlugin.VertexPaintDetectionInterface
-// 0x0000 (0x0028 - 0x0028)
-class IVertexPaintDetectionInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IVertexPaintDetectionInterface final
 {
 public:
 	void ClothBeginOverlappingMesh(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 Item);
@@ -460,18 +460,27 @@ public:
 	{
 		return GetDefaultObjImpl<IVertexPaintDetectionInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IVertexPaintDetectionInterface) == 0x000008, "Wrong alignment on IVertexPaintDetectionInterface");
-static_assert(sizeof(IVertexPaintDetectionInterface) == 0x000028, "Wrong size on IVertexPaintDetectionInterface");
+static_assert(alignof(IVertexPaintDetectionInterface) == 0x000001, "Wrong alignment on IVertexPaintDetectionInterface");
+static_assert(sizeof(IVertexPaintDetectionInterface) == 0x000001, "Wrong size on IVertexPaintDetectionInterface");
 
 // Class VertexPaintDetectionPlugin.VertexPaintDetectionSettings
 // 0x0098 (0x00D0 - 0x0038)
 class UVertexPaintDetectionSettings final : public UDeveloperSettings
 {
 public:
-	TSoftObjectPtr<class UVertexPaintOptimizationDataAsset> OptimizationDataAssetToUse;                        // 0x0038(0x0028)(Edit, BlueprintVisible, BlueprintReadOnly, Config, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TSoftObjectPtr<class UVertexPaintMaterialDataAsset> MaterialsDataAssetToUse;                           // 0x0060(0x0028)(Edit, BlueprintVisible, BlueprintReadOnly, Config, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TSoftObjectPtr<class UVertexPaintColorSnippetRefs> ColorSnippetReferencesDataAssetToUse;              // 0x0088(0x0028)(Edit, BlueprintVisible, BlueprintReadOnly, Config, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSoftObjectPtr<class UVertexPaintOptimizationDataAsset> OptimizationDataAssetToUse;              // 0x0038(0x0028)(Edit, BlueprintVisible, BlueprintReadOnly, Config, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSoftObjectPtr<class UVertexPaintMaterialDataAsset> MaterialsDataAssetToUse;                     // 0x0060(0x0028)(Edit, BlueprintVisible, BlueprintReadOnly, Config, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSoftObjectPtr<class UVertexPaintColorSnippetRefs> ColorSnippetReferencesDataAssetToUse;         // 0x0088(0x0028)(Edit, BlueprintVisible, BlueprintReadOnly, Config, EditConst, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          EditorWidgetNotificationEnabled;                   // 0x00B0(0x0001)(Edit, ZeroConstructor, Config, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B1[0x3];                                       // 0x00B1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         EditorWidgetNotificationDuration;                  // 0x00B4(0x0004)(Edit, ZeroConstructor, Config, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -512,9 +521,9 @@ public:
 	struct FTimerHandle                           TaskQueueThreadPoolResetTimer;                     // 0x0068(0x0008)(NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_70[0x8];                                       // 0x0070(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	TMap<int32, struct FRVPDPCalculateColorsInfo> CalculateColorsPaintQueue;                         // 0x0078(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<class UPrimitiveComponent*, struct FRVPDPTaskQueueIDInfo> ComponentPaintTaskIDs;                             // 0x00C8(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FRVPDPTaskQueueIDInfo> ComponentPaintTaskIDs;            // 0x00C8(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
 	TMap<int32, struct FRVPDPCalculateColorsInfo> CalculateColorsDetectionQueue;                     // 0x0118(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<class UPrimitiveComponent*, struct FRVPDPTaskQueueIDInfo> ComponentDetectTaskIDs;                            // 0x0168(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<class UPrimitiveComponent*, struct FRVPDPTaskQueueIDInfo> ComponentDetectTaskIDs;           // 0x0168(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_1B8[0x8];                                      // 0x01B8(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -624,8 +633,8 @@ static_assert(sizeof(UVertexPaintFunctionLibrary) == 0x000028, "Wrong size on UV
 class UVertexPaintMaterialDataAsset final : public UDataAsset
 {
 public:
-	TMap<TSoftObjectPtr<class UMaterialInterface>, struct FRVPDPRegisteredMaterialSetting> VertexPaintMaterialInterfaces;                     // 0x0030(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
-	TMap<EPhysicalSurface, struct FRVPDPRegisteredPhysicsSurfacesSettings> PhysicsSurfaceFamilies;                            // 0x0080(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
+	TMap<TSoftObjectPtr<class UMaterialInterface>, struct FRVPDPRegisteredMaterialSetting> VertexPaintMaterialInterfaces; // 0x0030(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
+	TMap<EPhysicalSurface, struct FRVPDPRegisteredPhysicsSurfacesSettings> PhysicsSurfaceFamilies;   // 0x0080(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
 
 public:
 	static class UClass* StaticClass()
@@ -647,9 +656,9 @@ static_assert(offsetof(UVertexPaintMaterialDataAsset, PhysicsSurfaceFamilies) ==
 class UVertexPaintOptimizationDataAsset final : public UDataAsset
 {
 public:
-	TMap<class UStaticMesh*, struct FRVPDPPaintOnLODSettings> StaticMeshNumOfLODsToPaint;                        // 0x0030(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
-	TMap<class USkeletalMesh*, struct FRVPDPPaintOnLODSettings> SkeletalMeshNumOfLODsToPaint;                      // 0x0080(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
-	TMap<class USkeletalMesh*, struct FRVPDPRegisteredSkeletalMeshInfo> RegisteredSkeletalMeshInfo;                        // 0x00D0(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
+	TMap<class UStaticMesh*, struct FRVPDPPaintOnLODSettings> StaticMeshNumOfLODsToPaint;            // 0x0030(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
+	TMap<class USkeletalMesh*, struct FRVPDPPaintOnLODSettings> SkeletalMeshNumOfLODsToPaint;        // 0x0080(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
+	TMap<class USkeletalMesh*, struct FRVPDPRegisteredSkeletalMeshInfo> RegisteredSkeletalMeshInfo;  // 0x00D0(0x0050)(Edit, EditConst, NativeAccessSpecifierPrivate)
 
 public:
 	TMap<class USkeletalMesh*, struct FRVPDPRegisteredSkeletalMeshInfo> GetRegisteredSkeletalMeshInfo() const;

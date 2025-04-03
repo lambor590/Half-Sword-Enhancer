@@ -17,8 +17,8 @@ namespace SDK
 {
 
 // Class AudioLinkEngine.AudioLinkBlueprintInterface
-// 0x0000 (0x0028 - 0x0028)
-class IAudioLinkBlueprintInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IAudioLinkBlueprintInterface final
 {
 public:
 	void PlayLink(float StartTime);
@@ -36,9 +36,18 @@ public:
 	{
 		return GetDefaultObjImpl<IAudioLinkBlueprintInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IAudioLinkBlueprintInterface) == 0x000008, "Wrong alignment on IAudioLinkBlueprintInterface");
-static_assert(sizeof(IAudioLinkBlueprintInterface) == 0x000028, "Wrong size on IAudioLinkBlueprintInterface");
+static_assert(alignof(IAudioLinkBlueprintInterface) == 0x000001, "Wrong alignment on IAudioLinkBlueprintInterface");
+static_assert(sizeof(IAudioLinkBlueprintInterface) == 0x000001, "Wrong size on IAudioLinkBlueprintInterface");
 
 }
 

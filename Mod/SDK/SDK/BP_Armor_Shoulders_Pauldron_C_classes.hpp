@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Armor_Shoulders_Pauldron_C.BP_Armor_Shoulders_Pauldron_C_C
-// 0x0000 (0x07F0 - 0x07F0)
+// 0x0000 (0x0800 - 0x0800)
 class ABP_Armor_Shoulders_Pauldron_C_C : public ABP_Armor_Master_C
 {
 public:
@@ -31,7 +31,7 @@ public:
 	}
 };
 static_assert(alignof(ABP_Armor_Shoulders_Pauldron_C_C) == 0x000010, "Wrong alignment on ABP_Armor_Shoulders_Pauldron_C_C");
-static_assert(sizeof(ABP_Armor_Shoulders_Pauldron_C_C) == 0x0007F0, "Wrong size on ABP_Armor_Shoulders_Pauldron_C_C");
+static_assert(sizeof(ABP_Armor_Shoulders_Pauldron_C_C) == 0x000800, "Wrong size on ABP_Armor_Shoulders_Pauldron_C_C");
 
 }
 

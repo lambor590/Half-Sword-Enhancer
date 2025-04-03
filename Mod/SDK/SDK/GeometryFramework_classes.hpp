@@ -22,8 +22,8 @@ namespace SDK
 {
 
 // Class GeometryFramework.MeshCommandChangeTarget
-// 0x0000 (0x0028 - 0x0028)
-class IMeshCommandChangeTarget final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMeshCommandChangeTarget final
 {
 public:
 	static class UClass* StaticClass()
@@ -34,13 +34,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMeshCommandChangeTarget>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMeshCommandChangeTarget) == 0x000008, "Wrong alignment on IMeshCommandChangeTarget");
-static_assert(sizeof(IMeshCommandChangeTarget) == 0x000028, "Wrong size on IMeshCommandChangeTarget");
+static_assert(alignof(IMeshCommandChangeTarget) == 0x000001, "Wrong alignment on IMeshCommandChangeTarget");
+static_assert(sizeof(IMeshCommandChangeTarget) == 0x000001, "Wrong size on IMeshCommandChangeTarget");
 
 // Class GeometryFramework.MeshReplacementCommandChangeTarget
-// 0x0000 (0x0028 - 0x0028)
-class IMeshReplacementCommandChangeTarget final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMeshReplacementCommandChangeTarget final
 {
 public:
 	static class UClass* StaticClass()
@@ -51,13 +60,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMeshReplacementCommandChangeTarget>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMeshReplacementCommandChangeTarget) == 0x000008, "Wrong alignment on IMeshReplacementCommandChangeTarget");
-static_assert(sizeof(IMeshReplacementCommandChangeTarget) == 0x000028, "Wrong size on IMeshReplacementCommandChangeTarget");
+static_assert(alignof(IMeshReplacementCommandChangeTarget) == 0x000001, "Wrong alignment on IMeshReplacementCommandChangeTarget");
+static_assert(sizeof(IMeshReplacementCommandChangeTarget) == 0x000001, "Wrong size on IMeshReplacementCommandChangeTarget");
 
 // Class GeometryFramework.MeshVertexCommandChangeTarget
-// 0x0000 (0x0028 - 0x0028)
-class IMeshVertexCommandChangeTarget final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMeshVertexCommandChangeTarget final
 {
 public:
 	static class UClass* StaticClass()
@@ -68,9 +86,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMeshVertexCommandChangeTarget>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMeshVertexCommandChangeTarget) == 0x000008, "Wrong alignment on IMeshVertexCommandChangeTarget");
-static_assert(sizeof(IMeshVertexCommandChangeTarget) == 0x000028, "Wrong size on IMeshVertexCommandChangeTarget");
+static_assert(alignof(IMeshVertexCommandChangeTarget) == 0x000001, "Wrong alignment on IMeshVertexCommandChangeTarget");
+static_assert(sizeof(IMeshVertexCommandChangeTarget) == 0x000001, "Wrong size on IMeshVertexCommandChangeTarget");
 
 // Class GeometryFramework.BaseDynamicMeshComponent
 // 0x0070 (0x05C0 - 0x0550)
@@ -264,7 +291,7 @@ class UDynamicMesh final : public UObject
 {
 public:
 	uint8                                         Pad_28[0x48];                                      // 0x0028(0x0048)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(class UDynamicMesh* Mesh)> MeshModifiedBPEvent;                               // 0x0070(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class UDynamicMesh* Mesh)> MeshModifiedBPEvent;                    // 0x0070(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_80[0x20];                                      // 0x0080(0x0020)(Fixing Size After Last Property [ Dumper-7 ])
 	class UDynamicMeshGenerator*                  MeshGenerator;                                     // 0x00A0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, Protected, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	bool                                          bEnableMeshGenerator;                              // 0x00A8(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)

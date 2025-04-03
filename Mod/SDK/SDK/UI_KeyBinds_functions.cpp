@@ -250,7 +250,7 @@ void UUI_KeyBinds_C::ExecuteUbergraph_UI_KeyBinds(int32 EntryPoint)
 // Function UI_KeyBinds.UI_KeyBinds_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_KeyBinds_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

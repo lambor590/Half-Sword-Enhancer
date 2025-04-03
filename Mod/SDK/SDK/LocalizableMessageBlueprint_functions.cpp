@@ -21,7 +21,7 @@ namespace SDK
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLocalizableMessage              Message                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FLocalizableMessage&       Message                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 class FText ULocalizableMessageLibrary::Conv_LocalizableMessageToText(class UObject* WorldContextObject, const struct FLocalizableMessage& Message)
@@ -50,7 +50,7 @@ class FText ULocalizableMessageLibrary::Conv_LocalizableMessageToText(class UObj
 // Function LocalizableMessageBlueprint.LocalizableMessageLibrary.IsEmpty_LocalizableMessage
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FLocalizableMessage              Message                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FLocalizableMessage&       Message                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool ULocalizableMessageLibrary::IsEmpty_LocalizableMessage(const struct FLocalizableMessage& Message)
@@ -78,7 +78,7 @@ bool ULocalizableMessageLibrary::IsEmpty_LocalizableMessage(const struct FLocali
 // Function LocalizableMessageBlueprint.LocalizableMessageLibrary.Reset_LocalizableMessage
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FLocalizableMessage              Message                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FLocalizableMessage&             Message                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void ULocalizableMessageLibrary::Reset_LocalizableMessage(struct FLocalizableMessage& Message)
 {

@@ -21,8 +21,8 @@ namespace SDK
 {
 
 // Class RigVM.RigVMGraphFunctionHost
-// 0x0000 (0x0028 - 0x0028)
-class IRigVMGraphFunctionHost final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IRigVMGraphFunctionHost final
 {
 public:
 	static class UClass* StaticClass()
@@ -33,9 +33,18 @@ public:
 	{
 		return GetDefaultObjImpl<IRigVMGraphFunctionHost>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IRigVMGraphFunctionHost) == 0x000008, "Wrong alignment on IRigVMGraphFunctionHost");
-static_assert(sizeof(IRigVMGraphFunctionHost) == 0x000028, "Wrong size on IRigVMGraphFunctionHost");
+static_assert(alignof(IRigVMGraphFunctionHost) == 0x000001, "Wrong alignment on IRigVMGraphFunctionHost");
+static_assert(sizeof(IRigVMGraphFunctionHost) == 0x000001, "Wrong size on IRigVMGraphFunctionHost");
 
 // Class RigVM.RigVMBlueprintGeneratedClass
 // 0x0028 (0x0388 - 0x0360)

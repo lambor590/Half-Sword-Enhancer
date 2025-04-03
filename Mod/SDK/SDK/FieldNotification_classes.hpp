@@ -17,8 +17,8 @@ namespace SDK
 {
 
 // Class FieldNotification.NotifyFieldValueChanged
-// 0x0000 (0x0028 - 0x0028)
-class INotifyFieldValueChanged final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class INotifyFieldValueChanged final
 {
 public:
 	static class UClass* StaticClass()
@@ -29,9 +29,18 @@ public:
 	{
 		return GetDefaultObjImpl<INotifyFieldValueChanged>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(INotifyFieldValueChanged) == 0x000008, "Wrong alignment on INotifyFieldValueChanged");
-static_assert(sizeof(INotifyFieldValueChanged) == 0x000028, "Wrong size on INotifyFieldValueChanged");
+static_assert(alignof(INotifyFieldValueChanged) == 0x000001, "Wrong alignment on INotifyFieldValueChanged");
+static_assert(sizeof(INotifyFieldValueChanged) == 0x000001, "Wrong size on INotifyFieldValueChanged");
 
 }
 

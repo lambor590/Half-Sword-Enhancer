@@ -58,7 +58,7 @@ void UClothingSimulationInteractor::DisableGravityOverride()
 // Function ClothingSystemRuntimeInterface.ClothingSimulationInteractor.EnableGravityOverride
 // (RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector                          InVector                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   InVector                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UClothingSimulationInteractor::EnableGravityOverride(const struct FVector& InVector)
 {
@@ -202,7 +202,7 @@ void UClothingSimulationInteractor::SetNumSubsteps(int32 NumSubsteps)
 // Function ClothingSystemRuntimeInterface.ClothingSimulationInteractor.GetClothingInteractor
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           ClothingAssetName                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ClothingAssetName                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UClothingInteractor*              ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UClothingInteractor* UClothingSimulationInteractor::GetClothingInteractor(const class FString& ClothingAssetName) const

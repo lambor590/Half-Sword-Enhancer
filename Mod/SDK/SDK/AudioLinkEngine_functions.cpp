@@ -27,7 +27,7 @@ void IAudioLinkBlueprintInterface::PlayLink(float StartTime)
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioLinkBlueprintInterface", "PlayLink");
+		Func = AsUObject()->Class->GetFunction("AudioLinkBlueprintInterface", "PlayLink");
 
 	Params::AudioLinkBlueprintInterface_PlayLink Parms{};
 
@@ -36,7 +36,7 @@ void IAudioLinkBlueprintInterface::PlayLink(float StartTime)
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -52,7 +52,7 @@ void IAudioLinkBlueprintInterface::SetLinkSound(class USoundBase* NewSound)
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioLinkBlueprintInterface", "SetLinkSound");
+		Func = AsUObject()->Class->GetFunction("AudioLinkBlueprintInterface", "SetLinkSound");
 
 	Params::AudioLinkBlueprintInterface_SetLinkSound Parms{};
 
@@ -61,7 +61,7 @@ void IAudioLinkBlueprintInterface::SetLinkSound(class USoundBase* NewSound)
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -75,12 +75,12 @@ void IAudioLinkBlueprintInterface::StopLink()
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioLinkBlueprintInterface", "StopLink");
+		Func = AsUObject()->Class->GetFunction("AudioLinkBlueprintInterface", "StopLink");
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, nullptr);
+	AsUObject()->ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -96,14 +96,14 @@ bool IAudioLinkBlueprintInterface::IsLinkPlaying() const
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AudioLinkBlueprintInterface", "IsLinkPlaying");
+		Func = AsUObject()->Class->GetFunction("AudioLinkBlueprintInterface", "IsLinkPlaying");
 
 	Params::AudioLinkBlueprintInterface_IsLinkPlaying Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 

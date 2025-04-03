@@ -47,8 +47,8 @@ class UTypedElementSelectionSet final : public UObject
 {
 public:
 	uint8                                         Pad_28[0x800];                                     // 0x0028(0x0800)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(class UTypedElementSelectionSet* SelectionSet)> OnPreSelectionChange;                              // 0x0828(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(class UTypedElementSelectionSet* SelectionSet)> OnSelectionChange;                                 // 0x0838(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const class UTypedElementSelectionSet* SelectionSet)> OnPreSelectionChange; // 0x0828(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const class UTypedElementSelectionSet* SelectionSet)> OnSelectionChange; // 0x0838(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_848[0x58];                                     // 0x0848(0x0058)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -92,8 +92,8 @@ static_assert(offsetof(UTypedElementSelectionSet, OnPreSelectionChange) == 0x000
 static_assert(offsetof(UTypedElementSelectionSet, OnSelectionChange) == 0x000838, "Member 'UTypedElementSelectionSet::OnSelectionChange' has a wrong offset!");
 
 // Class TypedElementRuntime.TypedElementAssetDataInterface
-// 0x0000 (0x0028 - 0x0028)
-class ITypedElementAssetDataInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class ITypedElementAssetDataInterface final
 {
 public:
 	TArray<struct FAssetData> GetAllReferencedAssetDatas(const struct FScriptTypedElementHandle& InElementHandle);
@@ -108,13 +108,22 @@ public:
 	{
 		return GetDefaultObjImpl<ITypedElementAssetDataInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(ITypedElementAssetDataInterface) == 0x000008, "Wrong alignment on ITypedElementAssetDataInterface");
-static_assert(sizeof(ITypedElementAssetDataInterface) == 0x000028, "Wrong size on ITypedElementAssetDataInterface");
+static_assert(alignof(ITypedElementAssetDataInterface) == 0x000001, "Wrong alignment on ITypedElementAssetDataInterface");
+static_assert(sizeof(ITypedElementAssetDataInterface) == 0x000001, "Wrong size on ITypedElementAssetDataInterface");
 
 // Class TypedElementRuntime.TypedElementHierarchyInterface
-// 0x0000 (0x0028 - 0x0028)
-class ITypedElementHierarchyInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class ITypedElementHierarchyInterface final
 {
 public:
 	void GetChildElements(const struct FScriptTypedElementHandle& InElementHandle, TArray<struct FScriptTypedElementHandle>* OutElementHandles, const bool bAllowCreate);
@@ -129,13 +138,22 @@ public:
 	{
 		return GetDefaultObjImpl<ITypedElementHierarchyInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(ITypedElementHierarchyInterface) == 0x000008, "Wrong alignment on ITypedElementHierarchyInterface");
-static_assert(sizeof(ITypedElementHierarchyInterface) == 0x000028, "Wrong size on ITypedElementHierarchyInterface");
+static_assert(alignof(ITypedElementHierarchyInterface) == 0x000001, "Wrong alignment on ITypedElementHierarchyInterface");
+static_assert(sizeof(ITypedElementHierarchyInterface) == 0x000001, "Wrong size on ITypedElementHierarchyInterface");
 
 // Class TypedElementRuntime.TypedElementObjectInterface
-// 0x0000 (0x0028 - 0x0028)
-class ITypedElementObjectInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class ITypedElementObjectInterface final
 {
 public:
 	class UObject* GetObject(const struct FScriptTypedElementHandle& InElementHandle);
@@ -150,13 +168,22 @@ public:
 	{
 		return GetDefaultObjImpl<ITypedElementObjectInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(ITypedElementObjectInterface) == 0x000008, "Wrong alignment on ITypedElementObjectInterface");
-static_assert(sizeof(ITypedElementObjectInterface) == 0x000028, "Wrong size on ITypedElementObjectInterface");
+static_assert(alignof(ITypedElementObjectInterface) == 0x000001, "Wrong alignment on ITypedElementObjectInterface");
+static_assert(sizeof(ITypedElementObjectInterface) == 0x000001, "Wrong size on ITypedElementObjectInterface");
 
 // Class TypedElementRuntime.TypedElementPrimitiveCustomDataInterface
-// 0x0000 (0x0028 - 0x0028)
-class ITypedElementPrimitiveCustomDataInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class ITypedElementPrimitiveCustomDataInterface final
 {
 public:
 	void SetCustomData(const struct FScriptTypedElementHandle& InElementHandle, const TArray<float>& CustomDataFloats, bool bMarkRenderStateDirty);
@@ -171,13 +198,22 @@ public:
 	{
 		return GetDefaultObjImpl<ITypedElementPrimitiveCustomDataInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(ITypedElementPrimitiveCustomDataInterface) == 0x000008, "Wrong alignment on ITypedElementPrimitiveCustomDataInterface");
-static_assert(sizeof(ITypedElementPrimitiveCustomDataInterface) == 0x000028, "Wrong size on ITypedElementPrimitiveCustomDataInterface");
+static_assert(alignof(ITypedElementPrimitiveCustomDataInterface) == 0x000001, "Wrong alignment on ITypedElementPrimitiveCustomDataInterface");
+static_assert(sizeof(ITypedElementPrimitiveCustomDataInterface) == 0x000001, "Wrong size on ITypedElementPrimitiveCustomDataInterface");
 
 // Class TypedElementRuntime.TypedElementSelectionInterface
-// 0x0000 (0x0028 - 0x0028)
-class ITypedElementSelectionInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class ITypedElementSelectionInterface final
 {
 public:
 	bool AllowSelectionModifiers(const struct FScriptTypedElementHandle& InElementHandle, const struct FScriptTypedElementListProxy& InSelectionSet);
@@ -197,9 +233,18 @@ public:
 	{
 		return GetDefaultObjImpl<ITypedElementSelectionInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(ITypedElementSelectionInterface) == 0x000008, "Wrong alignment on ITypedElementSelectionInterface");
-static_assert(sizeof(ITypedElementSelectionInterface) == 0x000028, "Wrong size on ITypedElementSelectionInterface");
+static_assert(alignof(ITypedElementSelectionInterface) == 0x000001, "Wrong alignment on ITypedElementSelectionInterface");
+static_assert(sizeof(ITypedElementSelectionInterface) == 0x000001, "Wrong size on ITypedElementSelectionInterface");
 
 }
 

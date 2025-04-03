@@ -303,6 +303,46 @@ void UUI_Pause_Eng_C::ExecuteUbergraph_UI_Pause_Eng(int32 EntryPoint)
 }
 
 
+// Function UI_Pause_Eng.UI_Pause_Eng_C.Get_ProgressLostText_Text
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Pause_Eng_C::Get_ProgressLostText_Text()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Pause_Eng_C", "Get_ProgressLostText_Text");
+
+	Params::UI_Pause_Eng_C_Get_ProgressLostText_Text Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Pause_Eng.UI_Pause_Eng_C.Get_ProgressLostText_Visibility
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Pause_Eng_C::Get_ProgressLostText_Visibility()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Pause_Eng_C", "Get_ProgressLostText_Visibility");
+
+	Params::UI_Pause_Eng_C_Get_ProgressLostText_Visibility Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Pause_Eng.UI_Pause_Eng_C.GetLastOpenedWidget
 // (Public, BlueprintCallable, BlueprintEvent)
 
@@ -340,7 +380,7 @@ void UUI_Pause_Eng_C::SetLastOpenedWidget(class UClass* UW)
 // Function UI_Pause_Eng.UI_Pause_Eng_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_Pause_Eng_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

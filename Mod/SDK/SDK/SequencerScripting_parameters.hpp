@@ -2686,7 +2686,7 @@ struct MovieSceneSectionExtensions_GetChannelsByType final
 {
 public:
 	class UMovieSceneSection*                     Section;                                           // 0x0000(0x0008)(Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TSubclassOf<class UMovieSceneScriptingChannel> ChannelType;                                       // 0x0008(0x0008)(Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSubclassOf<class UMovieSceneScriptingChannel> ChannelType;                                      // 0x0008(0x0008)(Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<class UMovieSceneScriptingChannel*>    ReturnValue;                                       // 0x0010(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(MovieSceneSectionExtensions_GetChannelsByType) == 0x000008, "Wrong alignment on MovieSceneSectionExtensions_GetChannelsByType");

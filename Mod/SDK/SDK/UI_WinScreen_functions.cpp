@@ -50,5 +50,25 @@ void UUI_WinScreen_C::ExecuteUbergraph_UI_WinScreen(int32 EntryPoint)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
+
+// Function UI_WinScreen.UI_WinScreen_C.PreConstruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// bool                                    IsDesignTime                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_WinScreen_C::PreConstruct(bool IsDesignTime)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_WinScreen_C", "PreConstruct");
+
+	Params::UI_WinScreen_C_PreConstruct Parms{};
+
+	Parms.IsDesignTime = IsDesignTime;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
 }
 

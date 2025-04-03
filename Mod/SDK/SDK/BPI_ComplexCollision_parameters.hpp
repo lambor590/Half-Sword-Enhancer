@@ -38,8 +38,9 @@ public:
 	uint8                                         Pad_96[0x2];                                       // 0x0096(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Kick_Power;                                        // 0x0098(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class UBoxComponent*                          Hit_Box;                                           // 0x00A0(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	EPhysicalSurface                              Hit_Surface;                                       // 0x00A8(0x0001)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_A9[0x7];                                       // 0x00A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          Ignore_Invincibility;                              // 0x00A8(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EPhysicalSurface                              Hit_Surface;                                       // 0x00A9(0x0001)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_AA[0x6];                                       // 0x00AA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Damage_Out;                                        // 0x00B0(0x0008)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Cutting_Rate_Out;                                  // 0x00B8(0x0008)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Rigidity_Out;                                      // 0x00C0(0x0008)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -63,7 +64,8 @@ static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Lower_Thresho
 static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Damage_Parent_Bone_) == 0x000095, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Damage_Parent_Bone_' has a wrong offset!");
 static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Kick_Power) == 0x000098, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Kick_Power' has a wrong offset!");
 static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Hit_Box) == 0x0000A0, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Hit_Box' has a wrong offset!");
-static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Hit_Surface) == 0x0000A8, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Hit_Surface' has a wrong offset!");
+static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Ignore_Invincibility) == 0x0000A8, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Ignore_Invincibility' has a wrong offset!");
+static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Hit_Surface) == 0x0000A9, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Hit_Surface' has a wrong offset!");
 static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Damage_Out) == 0x0000B0, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Damage_Out' has a wrong offset!");
 static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Cutting_Rate_Out) == 0x0000B8, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Cutting_Rate_Out' has a wrong offset!");
 static_assert(offsetof(BPI_ComplexCollision_C_Deal_Complex_Damage, Rigidity_Out) == 0x0000C0, "Member 'BPI_ComplexCollision_C_Deal_Complex_Damage::Rigidity_Out' has a wrong offset!");

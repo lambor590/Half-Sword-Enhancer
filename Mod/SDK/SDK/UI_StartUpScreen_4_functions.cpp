@@ -54,7 +54,7 @@ void UUI_StartUpScreen_4_C::ExecuteUbergraph_UI_StartUpScreen_4(int32 EntryPoint
 // Function UI_StartUpScreen_4.UI_StartUpScreen_4_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
 // (BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void UUI_StartUpScreen_4_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {

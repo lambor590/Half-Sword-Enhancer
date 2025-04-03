@@ -17,6 +17,48 @@
 namespace SDK
 {
 
+// Function UI_Cards.UI_Cards_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Cards_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Cards.UI_Cards_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Cards_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Cards.UI_Cards_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Cards_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Cards_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_Cards.UI_Cards_C.BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
 
@@ -135,6 +177,86 @@ void UUI_Cards_C::ExecuteUbergraph_UI_Cards(int32 EntryPoint)
 }
 
 
+// Function UI_Cards.UI_Cards_C.GetPercent
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+float UUI_Cards_C::GetPercent()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Cards_C", "GetPercent");
+
+	Params::UI_Cards_C_GetPercent Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Cards.UI_Cards_C.GetText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Cards_C::GetText()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Cards_C", "GetText");
+
+	Params::UI_Cards_C_GetText Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Cards.UI_Cards_C.GetText_0
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Cards_C::GetText_0()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Cards_C", "GetText_0");
+
+	Params::UI_Cards_C_GetText_0 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Cards.UI_Cards_C.GetVisibility_0
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Cards_C::GetVisibility_0()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Cards_C", "GetVisibility_0");
+
+	Params::UI_Cards_C_GetVisibility_0 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Cards.UI_Cards_C.PreConstruct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
@@ -158,7 +280,7 @@ void UUI_Cards_C::PreConstruct(bool IsDesignTime)
 // Function UI_Cards.UI_Cards_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_Cards_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

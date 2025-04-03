@@ -11,86 +11,142 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
+#include "PhysicsCore_structs.hpp"
 #include "Str_Equipment_Loadout_Old_structs.hpp"
-#include "UMG_classes.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "UMG_structs.hpp"
+#include "UMG_classes.hpp"
 
 
 namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_MainMenuSNF.UI_MainMenuSNF_C
-// 0x0F00 (0x11E0 - 0x02E0)
+// 0x1098 (0x1378 - 0x02E0)
 class UUI_MainMenuSNF_C final : public UUserWidget
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x02E0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class UWidgetAnimation*                       FadeOut;                                           // 0x02E8(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       RandWeaponHover;                                   // 0x02F0(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       RandArmorHover;                                    // 0x02F8(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       FactionHover4;                                     // 0x0300(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       FactionHover3;                                     // 0x0308(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       FactionHover2;                                     // 0x0310(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       FactionHover1;                                     // 0x0318(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       LinkAnim_2;                                        // 0x0320(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       LinkAnim_1;                                        // 0x0328(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       LinkAnim;                                          // 0x0330(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       HoverQuit;                                         // 0x0338(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       Hover3;                                            // 0x0340(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       Hover2;                                            // 0x0348(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UWidgetAnimation*                       Hover1;                                            // 0x0350(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
-	class UButton*                                Button_Credit;                                     // 0x0358(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Quit;                                       // 0x0360(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Rank_1;                                     // 0x0368(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Rank_2;                                     // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Rank_3;                                     // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Rank_4;                                     // 0x0380(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Rank_5;                                     // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Rank_6;                                     // 0x0390(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Rank_7;                                     // 0x0398(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Rank_8;                                     // 0x03A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Button_Start;                                      // 0x03A8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                ButtonOptions;                                     // 0x03B0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 ClickMe;                                           // 0x03B8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                DiscordButton;                                     // 0x03C0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 DiscordIcon;                                       // 0x03C8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Faction1;                                          // 0x03D0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Faction2;                                          // 0x03D8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Faction3;                                          // 0x03E0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                Faction4;                                          // 0x03E8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_0;                                           // 0x03F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_1;                                           // 0x03F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_2;                                           // 0x0400(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_4;                                           // 0x0408(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Image_BlackScreen;                                 // 0x0410(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                ImSecret;                                          // 0x0418(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                RandArmourButton;                                  // 0x0420(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                RandWeaponButton;                                  // 0x0428(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UProgressBar*                           RankProgress;                                      // 0x0430(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                SteamButton;                                       // 0x0438(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 SteamIcon;                                         // 0x0440(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UButton*                                TwitchButton;                                      // 0x0448(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 TwitchIcon;                                        // 0x0450(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class FString                                 URL;                                               // 0x0458(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, HasGetValueTypeHash)
-	class FString                                 URL_0;                                             // 0x0468(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, HasGetValueTypeHash)
-	class FString                                 URL_1;                                             // 0x0478(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, HasGetValueTypeHash)
-	class FString                                 URL_2;                                             // 0x0488(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, HasGetValueTypeHash)
-	class AWillie_BP_C*                           MyDressUpDarling;                                  // 0x0498(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_2;                                   // 0x04A0(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_1;                                   // 0x05F0(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank;                                     // 0x0740(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_0;                                   // 0x0890(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_3;                                   // 0x09E0(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_4;                                   // 0x0B30(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_5;                                   // 0x0C80(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_6;                                   // 0x0DD0(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_7;                                   // 0x0F20(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	struct FStr_Equipment_Loadout_Old             EquipmentRank_8;                                   // 0x1070(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
-	class USG_Equipment_C*                        As_SG_Equipment;                                   // 0x11C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x11C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	bool                                          Can_Start;                                         // 0x11D0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_11D1[0x7];                                     // 0x11D1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x11D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       YellowFade;                                        // 0x02E8(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       RandArmorHover_Free;                               // 0x02F0(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       NewAnimation;                                      // 0x02F8(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       FadeOut;                                           // 0x0300(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       GauntletHover;                                     // 0x0308(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       RandArmorHover;                                    // 0x0310(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       FactionHover4;                                     // 0x0318(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       FactionHover3;                                     // 0x0320(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       FactionHover2;                                     // 0x0328(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       FactionHover1;                                     // 0x0330(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       LinkAnim_2;                                        // 0x0338(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       LinkAnim_1;                                        // 0x0340(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       LinkAnim;                                          // 0x0348(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       HoverQuit;                                         // 0x0350(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       Hover3;                                            // 0x0358(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       Hover2;                                            // 0x0360(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UWidgetAnimation*                       Hover1;                                            // 0x0368(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
+	class UButton*                                Button_0;                                          // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Credit;                                     // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_GauntletMode;                               // 0x0380(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Quit;                                       // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_1;                                     // 0x0390(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_2;                                     // 0x0398(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_3;                                     // 0x03A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_4;                                     // 0x03A8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_5;                                     // 0x03B0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_6;                                     // 0x03B8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_7;                                     // 0x03C0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_8;                                     // 0x03C8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_9;                                     // 0x03D0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_1_Gau;                                 // 0x03D8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_2_Gau;                                 // 0x03E0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_3_Gau;                                 // 0x03E8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_4_Gau;                                 // 0x03F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_5_Gau;                                 // 0x03F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_6_Gau;                                 // 0x0400(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_7_Gau;                                 // 0x0408(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_8_Gau;                                 // 0x0410(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Rank_9_Gau;                                 // 0x0418(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Button_Start;                                      // 0x0420(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                ButtonFreeMode;                                    // 0x0428(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                ButtonOptions;                                     // 0x0430(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 ClickMe;                                           // 0x0438(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                DiscordButton;                                     // 0x0440(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 DiscordIcon;                                       // 0x0448(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Faction1;                                          // 0x0450(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Faction2;                                          // 0x0458(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Faction3;                                          // 0x0460(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                Faction4;                                          // 0x0468(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             FactionBonusText;                                  // 0x0470(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 FactionText;                                       // 0x0478(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_0;                                           // 0x0480(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_1;                                           // 0x0488(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_4;                                           // 0x0490(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Image_BlackScreen;                                 // 0x0498(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                ImSecret;                                          // 0x04A0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UOverlay*                               Overlay_ProgressionBar;                            // 0x04A8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 PortraitImage;                                     // 0x04B0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 PortraitImage_1;                                   // 0x04B8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                RandArmourButton_Cost_1;                           // 0x04C0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                RandArmourButton_Free;                             // 0x04C8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                RandBodyButton;                                    // 0x04D0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UProgressBar*                           RankProgress;                                      // 0x04D8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             RankProgressText;                                  // 0x04E0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             RankProgressText_2;                                // 0x04E8(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                SteamButton;                                       // 0x04F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 SteamIcon;                                         // 0x04F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_175;                                     // 0x0500(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_Challengeyourself;                       // 0x0508(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextFreeMode;                                      // 0x0510(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextFreeMode_1;                                    // 0x0518(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UButton*                                TwitchButton;                                      // 0x0520(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 TwitchIcon;                                        // 0x0528(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class FString                                 URL;                                               // 0x0530(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, HasGetValueTypeHash)
+	class FString                                 URL_0;                                             // 0x0540(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, HasGetValueTypeHash)
+	class FString                                 URL_1;                                             // 0x0550(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, HasGetValueTypeHash)
+	class FString                                 URL_2;                                             // 0x0560(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, HasGetValueTypeHash)
+	class AWillie_BP_C*                           MyDressUpDarling;                                  // 0x0570(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_2;                                   // 0x0578(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_1;                                   // 0x06C8(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank;                                     // 0x0818(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_0;                                   // 0x0968(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_3;                                   // 0x0AB8(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_4;                                   // 0x0C08(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_5;                                   // 0x0D58(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_6;                                   // 0x0EA8(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_7;                                   // 0x0FF8(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	struct FStr_Equipment_Loadout_Old             EquipmentRank_8;                                   // 0x1148(0x0150)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
+	class USG_Equipment_C*                        As_SG_Equipment;                                   // 0x1298(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x12A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Can_Start;                                         // 0x12A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_12A9[0x7];                                     // 0x12A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x12B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        MyCam;                                             // 0x12B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Pointer_Location;                                  // 0x12C0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FRotator                               MyDressUpDarling_Base_Rotation;                    // 0x12D8(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	EPhysicalSurface                              Hit_Surface;                                       // 0x12F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Hit_Is_Weapon;                                     // 0x12F1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_12F2[0x6];                                     // 0x12F2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class AUI_Helper_BP_C*                        Helper_BP;                                         // 0x12F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Click_Hold__Hold_;                                 // 0x1300(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Gauntlet_Mode_Active;                              // 0x1301(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1302[0x2];                                     // 0x1302(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Choosing_Faction_Int;                              // 0x1304(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Body_Change_Attmepts_Current;                      // 0x1308(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Body_Change_Attmepts_Max;                          // 0x130C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Run_Started;                                       // 0x1310(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1311[0x7];                                     // 0x1311(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class USG_PlayerProgression_C*                As_SG_Gauntlet_Player_Progress;                    // 0x1318(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Buttons;                                     // 0x1320(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Level_Up_Character_Selected;                       // 0x1321(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Gauntlet_Enter_Kostyl;                             // 0x1322(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1323[0x1];                                     // 0x1323(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Times_Hit;                                         // 0x1324(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Head_Grabbed;                                      // 0x1328(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1329[0x7];                                     // 0x1329(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                Cursor_Location;                                   // 0x1330(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Cursor_Location_Old;                               // 0x1348(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Mouse_Velocity;                                    // 0x1360(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature();
@@ -114,43 +170,125 @@ public:
 	void BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_0_K2Node_ComponentBoundEvent_52_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_0_K2Node_ComponentBoundEvent_67_OnButtonReleasedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_85_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_59_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_86_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_60_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_87_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_9_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Button_Rank_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_49_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction1_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction1_2_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction1_3_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_51_OnButtonReleasedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_61_OnButtonReleasedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_62_OnButtonReleasedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_63_OnButtonReleasedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_ImSecret_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_90_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_66_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature();
+	void Check_Snap_Neck_Event();
 	void Construct();
+	void Enter_Gauntlet_Mode_Event();
 	void ExecuteUbergraph_UI_MainMenuSNF(int32 EntryPoint);
+	ESlateVisibility Free_Mode_Text_Visibility();
+	ESlateVisibility Get_Button_GauntletMode_Visibility();
+	bool Get_Button_Rank_1_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_1_Visibility();
+	bool Get_Button_Rank_2_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_2_Visibility();
+	bool Get_Button_Rank_3_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_3_Visibility();
+	bool Get_Button_Rank_4_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_4_Visibility();
+	bool Get_Button_Rank_5_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_5_Visibility();
+	bool Get_Button_Rank_6_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_6_Visibility();
+	bool Get_Button_Rank_7_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_7_Visibility();
+	bool Get_Button_Rank_8_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_8_Visibility();
+	bool Get_Button_Rank_9_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_9_Visibility();
+	bool Get_Faction1_bIsEnabled();
+	class FText Get_FactionBonusText_Text();
+	ESlateVisibility Get_FactionText_Visibility();
+	struct FSlateBrush Get_PortraitImage_1_Brush();
+	struct FSlateBrush Get_PortraitImage_Brush();
+	bool Get_RandArmourButton_Cost_1_bIsEnabled();
+	ESlateVisibility Get_RandArmourButton_Free_Visibility();
+	ESlateVisibility Get_RandArmourButton_Visibility();
+	bool Get_RandBodyButton_bIsEnabled();
+	ESlateVisibility Get_RandBodyButton_Visibility();
+	float Get_RankProgress_Percent();
+	class FText Get_RankProgressText_2_Text();
+	class FText Get_RankProgressText_Text();
+	ESlateVisibility Get_TextFreeMode_1_Visibility();
+	class FText GetText();
+	ESlateVisibility GetVisibility_0();
+	void Go_To_Free_Mode_Event();
+	void Initialize_New_Gauntlet_Character();
+	void Mouse_Button_Down_Event();
+	void Mouse_Button_Up_Event();
+	struct FEventReply OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent);
+	struct FEventReply OnMouseButtonUp(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent);
+	void Pick_Gauntlet_Character_Event();
+	void Random_Armor_Event();
+	void Switch_Mode_Event();
+	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
 public:
 	static class UClass* StaticClass()
@@ -163,73 +301,121 @@ public:
 	}
 };
 static_assert(alignof(UUI_MainMenuSNF_C) == 0x000008, "Wrong alignment on UUI_MainMenuSNF_C");
-static_assert(sizeof(UUI_MainMenuSNF_C) == 0x0011E0, "Wrong size on UUI_MainMenuSNF_C");
+static_assert(sizeof(UUI_MainMenuSNF_C) == 0x001378, "Wrong size on UUI_MainMenuSNF_C");
 static_assert(offsetof(UUI_MainMenuSNF_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_MainMenuSNF_C::UberGraphFrame' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, FadeOut) == 0x0002E8, "Member 'UUI_MainMenuSNF_C::FadeOut' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, RandWeaponHover) == 0x0002F0, "Member 'UUI_MainMenuSNF_C::RandWeaponHover' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, RandArmorHover) == 0x0002F8, "Member 'UUI_MainMenuSNF_C::RandArmorHover' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, FactionHover4) == 0x000300, "Member 'UUI_MainMenuSNF_C::FactionHover4' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, FactionHover3) == 0x000308, "Member 'UUI_MainMenuSNF_C::FactionHover3' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, FactionHover2) == 0x000310, "Member 'UUI_MainMenuSNF_C::FactionHover2' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, FactionHover1) == 0x000318, "Member 'UUI_MainMenuSNF_C::FactionHover1' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, LinkAnim_2) == 0x000320, "Member 'UUI_MainMenuSNF_C::LinkAnim_2' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, LinkAnim_1) == 0x000328, "Member 'UUI_MainMenuSNF_C::LinkAnim_1' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, LinkAnim) == 0x000330, "Member 'UUI_MainMenuSNF_C::LinkAnim' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, HoverQuit) == 0x000338, "Member 'UUI_MainMenuSNF_C::HoverQuit' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Hover3) == 0x000340, "Member 'UUI_MainMenuSNF_C::Hover3' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Hover2) == 0x000348, "Member 'UUI_MainMenuSNF_C::Hover2' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Hover1) == 0x000350, "Member 'UUI_MainMenuSNF_C::Hover1' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Credit) == 0x000358, "Member 'UUI_MainMenuSNF_C::Button_Credit' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Quit) == 0x000360, "Member 'UUI_MainMenuSNF_C::Button_Quit' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_1) == 0x000368, "Member 'UUI_MainMenuSNF_C::Button_Rank_1' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_2) == 0x000370, "Member 'UUI_MainMenuSNF_C::Button_Rank_2' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_3) == 0x000378, "Member 'UUI_MainMenuSNF_C::Button_Rank_3' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_4) == 0x000380, "Member 'UUI_MainMenuSNF_C::Button_Rank_4' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_5) == 0x000388, "Member 'UUI_MainMenuSNF_C::Button_Rank_5' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_6) == 0x000390, "Member 'UUI_MainMenuSNF_C::Button_Rank_6' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_7) == 0x000398, "Member 'UUI_MainMenuSNF_C::Button_Rank_7' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_8) == 0x0003A0, "Member 'UUI_MainMenuSNF_C::Button_Rank_8' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Button_Start) == 0x0003A8, "Member 'UUI_MainMenuSNF_C::Button_Start' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, ButtonOptions) == 0x0003B0, "Member 'UUI_MainMenuSNF_C::ButtonOptions' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, ClickMe) == 0x0003B8, "Member 'UUI_MainMenuSNF_C::ClickMe' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, DiscordButton) == 0x0003C0, "Member 'UUI_MainMenuSNF_C::DiscordButton' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, DiscordIcon) == 0x0003C8, "Member 'UUI_MainMenuSNF_C::DiscordIcon' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Faction1) == 0x0003D0, "Member 'UUI_MainMenuSNF_C::Faction1' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Faction2) == 0x0003D8, "Member 'UUI_MainMenuSNF_C::Faction2' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Faction3) == 0x0003E0, "Member 'UUI_MainMenuSNF_C::Faction3' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Faction4) == 0x0003E8, "Member 'UUI_MainMenuSNF_C::Faction4' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Image_0) == 0x0003F0, "Member 'UUI_MainMenuSNF_C::Image_0' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Image_1) == 0x0003F8, "Member 'UUI_MainMenuSNF_C::Image_1' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Image_2) == 0x000400, "Member 'UUI_MainMenuSNF_C::Image_2' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Image_4) == 0x000408, "Member 'UUI_MainMenuSNF_C::Image_4' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Image_BlackScreen) == 0x000410, "Member 'UUI_MainMenuSNF_C::Image_BlackScreen' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, ImSecret) == 0x000418, "Member 'UUI_MainMenuSNF_C::ImSecret' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, RandArmourButton) == 0x000420, "Member 'UUI_MainMenuSNF_C::RandArmourButton' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, RandWeaponButton) == 0x000428, "Member 'UUI_MainMenuSNF_C::RandWeaponButton' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, RankProgress) == 0x000430, "Member 'UUI_MainMenuSNF_C::RankProgress' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, SteamButton) == 0x000438, "Member 'UUI_MainMenuSNF_C::SteamButton' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, SteamIcon) == 0x000440, "Member 'UUI_MainMenuSNF_C::SteamIcon' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, TwitchButton) == 0x000448, "Member 'UUI_MainMenuSNF_C::TwitchButton' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, TwitchIcon) == 0x000450, "Member 'UUI_MainMenuSNF_C::TwitchIcon' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, URL) == 0x000458, "Member 'UUI_MainMenuSNF_C::URL' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, URL_0) == 0x000468, "Member 'UUI_MainMenuSNF_C::URL_0' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, URL_1) == 0x000478, "Member 'UUI_MainMenuSNF_C::URL_1' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, URL_2) == 0x000488, "Member 'UUI_MainMenuSNF_C::URL_2' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, MyDressUpDarling) == 0x000498, "Member 'UUI_MainMenuSNF_C::MyDressUpDarling' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_2) == 0x0004A0, "Member 'UUI_MainMenuSNF_C::EquipmentRank_2' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_1) == 0x0005F0, "Member 'UUI_MainMenuSNF_C::EquipmentRank_1' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank) == 0x000740, "Member 'UUI_MainMenuSNF_C::EquipmentRank' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_0) == 0x000890, "Member 'UUI_MainMenuSNF_C::EquipmentRank_0' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_3) == 0x0009E0, "Member 'UUI_MainMenuSNF_C::EquipmentRank_3' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_4) == 0x000B30, "Member 'UUI_MainMenuSNF_C::EquipmentRank_4' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_5) == 0x000C80, "Member 'UUI_MainMenuSNF_C::EquipmentRank_5' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_6) == 0x000DD0, "Member 'UUI_MainMenuSNF_C::EquipmentRank_6' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_7) == 0x000F20, "Member 'UUI_MainMenuSNF_C::EquipmentRank_7' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_8) == 0x001070, "Member 'UUI_MainMenuSNF_C::EquipmentRank_8' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, As_SG_Equipment) == 0x0011C0, "Member 'UUI_MainMenuSNF_C::As_SG_Equipment' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, As_BP_Half_Sword_Game_Mode) == 0x0011C8, "Member 'UUI_MainMenuSNF_C::As_BP_Half_Sword_Game_Mode' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, Can_Start) == 0x0011D0, "Member 'UUI_MainMenuSNF_C::Can_Start' has a wrong offset!");
-static_assert(offsetof(UUI_MainMenuSNF_C, As_GI_Settings) == 0x0011D8, "Member 'UUI_MainMenuSNF_C::As_GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, YellowFade) == 0x0002E8, "Member 'UUI_MainMenuSNF_C::YellowFade' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, RandArmorHover_Free) == 0x0002F0, "Member 'UUI_MainMenuSNF_C::RandArmorHover_Free' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, NewAnimation) == 0x0002F8, "Member 'UUI_MainMenuSNF_C::NewAnimation' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, FadeOut) == 0x000300, "Member 'UUI_MainMenuSNF_C::FadeOut' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, GauntletHover) == 0x000308, "Member 'UUI_MainMenuSNF_C::GauntletHover' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, RandArmorHover) == 0x000310, "Member 'UUI_MainMenuSNF_C::RandArmorHover' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, FactionHover4) == 0x000318, "Member 'UUI_MainMenuSNF_C::FactionHover4' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, FactionHover3) == 0x000320, "Member 'UUI_MainMenuSNF_C::FactionHover3' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, FactionHover2) == 0x000328, "Member 'UUI_MainMenuSNF_C::FactionHover2' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, FactionHover1) == 0x000330, "Member 'UUI_MainMenuSNF_C::FactionHover1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, LinkAnim_2) == 0x000338, "Member 'UUI_MainMenuSNF_C::LinkAnim_2' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, LinkAnim_1) == 0x000340, "Member 'UUI_MainMenuSNF_C::LinkAnim_1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, LinkAnim) == 0x000348, "Member 'UUI_MainMenuSNF_C::LinkAnim' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, HoverQuit) == 0x000350, "Member 'UUI_MainMenuSNF_C::HoverQuit' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Hover3) == 0x000358, "Member 'UUI_MainMenuSNF_C::Hover3' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Hover2) == 0x000360, "Member 'UUI_MainMenuSNF_C::Hover2' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Hover1) == 0x000368, "Member 'UUI_MainMenuSNF_C::Hover1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_0) == 0x000370, "Member 'UUI_MainMenuSNF_C::Button_0' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Credit) == 0x000378, "Member 'UUI_MainMenuSNF_C::Button_Credit' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_GauntletMode) == 0x000380, "Member 'UUI_MainMenuSNF_C::Button_GauntletMode' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Quit) == 0x000388, "Member 'UUI_MainMenuSNF_C::Button_Quit' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_1) == 0x000390, "Member 'UUI_MainMenuSNF_C::Button_Rank_1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_2) == 0x000398, "Member 'UUI_MainMenuSNF_C::Button_Rank_2' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_3) == 0x0003A0, "Member 'UUI_MainMenuSNF_C::Button_Rank_3' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_4) == 0x0003A8, "Member 'UUI_MainMenuSNF_C::Button_Rank_4' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_5) == 0x0003B0, "Member 'UUI_MainMenuSNF_C::Button_Rank_5' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_6) == 0x0003B8, "Member 'UUI_MainMenuSNF_C::Button_Rank_6' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_7) == 0x0003C0, "Member 'UUI_MainMenuSNF_C::Button_Rank_7' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_8) == 0x0003C8, "Member 'UUI_MainMenuSNF_C::Button_Rank_8' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_9) == 0x0003D0, "Member 'UUI_MainMenuSNF_C::Button_Rank_9' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_1_Gau) == 0x0003D8, "Member 'UUI_MainMenuSNF_C::Button_Rank_1_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_2_Gau) == 0x0003E0, "Member 'UUI_MainMenuSNF_C::Button_Rank_2_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_3_Gau) == 0x0003E8, "Member 'UUI_MainMenuSNF_C::Button_Rank_3_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_4_Gau) == 0x0003F0, "Member 'UUI_MainMenuSNF_C::Button_Rank_4_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_5_Gau) == 0x0003F8, "Member 'UUI_MainMenuSNF_C::Button_Rank_5_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_6_Gau) == 0x000400, "Member 'UUI_MainMenuSNF_C::Button_Rank_6_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_7_Gau) == 0x000408, "Member 'UUI_MainMenuSNF_C::Button_Rank_7_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_8_Gau) == 0x000410, "Member 'UUI_MainMenuSNF_C::Button_Rank_8_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Rank_9_Gau) == 0x000418, "Member 'UUI_MainMenuSNF_C::Button_Rank_9_Gau' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Button_Start) == 0x000420, "Member 'UUI_MainMenuSNF_C::Button_Start' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, ButtonFreeMode) == 0x000428, "Member 'UUI_MainMenuSNF_C::ButtonFreeMode' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, ButtonOptions) == 0x000430, "Member 'UUI_MainMenuSNF_C::ButtonOptions' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, ClickMe) == 0x000438, "Member 'UUI_MainMenuSNF_C::ClickMe' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, DiscordButton) == 0x000440, "Member 'UUI_MainMenuSNF_C::DiscordButton' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, DiscordIcon) == 0x000448, "Member 'UUI_MainMenuSNF_C::DiscordIcon' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Faction1) == 0x000450, "Member 'UUI_MainMenuSNF_C::Faction1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Faction2) == 0x000458, "Member 'UUI_MainMenuSNF_C::Faction2' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Faction3) == 0x000460, "Member 'UUI_MainMenuSNF_C::Faction3' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Faction4) == 0x000468, "Member 'UUI_MainMenuSNF_C::Faction4' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, FactionBonusText) == 0x000470, "Member 'UUI_MainMenuSNF_C::FactionBonusText' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, FactionText) == 0x000478, "Member 'UUI_MainMenuSNF_C::FactionText' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Image_0) == 0x000480, "Member 'UUI_MainMenuSNF_C::Image_0' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Image_1) == 0x000488, "Member 'UUI_MainMenuSNF_C::Image_1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Image_4) == 0x000490, "Member 'UUI_MainMenuSNF_C::Image_4' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Image_BlackScreen) == 0x000498, "Member 'UUI_MainMenuSNF_C::Image_BlackScreen' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, ImSecret) == 0x0004A0, "Member 'UUI_MainMenuSNF_C::ImSecret' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Overlay_ProgressionBar) == 0x0004A8, "Member 'UUI_MainMenuSNF_C::Overlay_ProgressionBar' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, PortraitImage) == 0x0004B0, "Member 'UUI_MainMenuSNF_C::PortraitImage' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, PortraitImage_1) == 0x0004B8, "Member 'UUI_MainMenuSNF_C::PortraitImage_1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, RandArmourButton_Cost_1) == 0x0004C0, "Member 'UUI_MainMenuSNF_C::RandArmourButton_Cost_1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, RandArmourButton_Free) == 0x0004C8, "Member 'UUI_MainMenuSNF_C::RandArmourButton_Free' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, RandBodyButton) == 0x0004D0, "Member 'UUI_MainMenuSNF_C::RandBodyButton' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, RankProgress) == 0x0004D8, "Member 'UUI_MainMenuSNF_C::RankProgress' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, RankProgressText) == 0x0004E0, "Member 'UUI_MainMenuSNF_C::RankProgressText' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, RankProgressText_2) == 0x0004E8, "Member 'UUI_MainMenuSNF_C::RankProgressText_2' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, SteamButton) == 0x0004F0, "Member 'UUI_MainMenuSNF_C::SteamButton' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, SteamIcon) == 0x0004F8, "Member 'UUI_MainMenuSNF_C::SteamIcon' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, TextBlock_175) == 0x000500, "Member 'UUI_MainMenuSNF_C::TextBlock_175' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, TextBlock_Challengeyourself) == 0x000508, "Member 'UUI_MainMenuSNF_C::TextBlock_Challengeyourself' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, TextFreeMode) == 0x000510, "Member 'UUI_MainMenuSNF_C::TextFreeMode' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, TextFreeMode_1) == 0x000518, "Member 'UUI_MainMenuSNF_C::TextFreeMode_1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, TwitchButton) == 0x000520, "Member 'UUI_MainMenuSNF_C::TwitchButton' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, TwitchIcon) == 0x000528, "Member 'UUI_MainMenuSNF_C::TwitchIcon' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, URL) == 0x000530, "Member 'UUI_MainMenuSNF_C::URL' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, URL_0) == 0x000540, "Member 'UUI_MainMenuSNF_C::URL_0' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, URL_1) == 0x000550, "Member 'UUI_MainMenuSNF_C::URL_1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, URL_2) == 0x000560, "Member 'UUI_MainMenuSNF_C::URL_2' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, MyDressUpDarling) == 0x000570, "Member 'UUI_MainMenuSNF_C::MyDressUpDarling' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_2) == 0x000578, "Member 'UUI_MainMenuSNF_C::EquipmentRank_2' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_1) == 0x0006C8, "Member 'UUI_MainMenuSNF_C::EquipmentRank_1' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank) == 0x000818, "Member 'UUI_MainMenuSNF_C::EquipmentRank' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_0) == 0x000968, "Member 'UUI_MainMenuSNF_C::EquipmentRank_0' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_3) == 0x000AB8, "Member 'UUI_MainMenuSNF_C::EquipmentRank_3' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_4) == 0x000C08, "Member 'UUI_MainMenuSNF_C::EquipmentRank_4' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_5) == 0x000D58, "Member 'UUI_MainMenuSNF_C::EquipmentRank_5' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_6) == 0x000EA8, "Member 'UUI_MainMenuSNF_C::EquipmentRank_6' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_7) == 0x000FF8, "Member 'UUI_MainMenuSNF_C::EquipmentRank_7' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, EquipmentRank_8) == 0x001148, "Member 'UUI_MainMenuSNF_C::EquipmentRank_8' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, As_SG_Equipment) == 0x001298, "Member 'UUI_MainMenuSNF_C::As_SG_Equipment' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, As_BP_Half_Sword_Game_Mode) == 0x0012A0, "Member 'UUI_MainMenuSNF_C::As_BP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Can_Start) == 0x0012A8, "Member 'UUI_MainMenuSNF_C::Can_Start' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, As_GI_Settings) == 0x0012B0, "Member 'UUI_MainMenuSNF_C::As_GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, MyCam) == 0x0012B8, "Member 'UUI_MainMenuSNF_C::MyCam' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Pointer_Location) == 0x0012C0, "Member 'UUI_MainMenuSNF_C::Pointer_Location' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, MyDressUpDarling_Base_Rotation) == 0x0012D8, "Member 'UUI_MainMenuSNF_C::MyDressUpDarling_Base_Rotation' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Hit_Surface) == 0x0012F0, "Member 'UUI_MainMenuSNF_C::Hit_Surface' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Hit_Is_Weapon) == 0x0012F1, "Member 'UUI_MainMenuSNF_C::Hit_Is_Weapon' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Helper_BP) == 0x0012F8, "Member 'UUI_MainMenuSNF_C::Helper_BP' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Click_Hold__Hold_) == 0x001300, "Member 'UUI_MainMenuSNF_C::Click_Hold__Hold_' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Gauntlet_Mode_Active) == 0x001301, "Member 'UUI_MainMenuSNF_C::Gauntlet_Mode_Active' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Choosing_Faction_Int) == 0x001304, "Member 'UUI_MainMenuSNF_C::Choosing_Faction_Int' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Body_Change_Attmepts_Current) == 0x001308, "Member 'UUI_MainMenuSNF_C::Body_Change_Attmepts_Current' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Body_Change_Attmepts_Max) == 0x00130C, "Member 'UUI_MainMenuSNF_C::Body_Change_Attmepts_Max' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Run_Started) == 0x001310, "Member 'UUI_MainMenuSNF_C::Run_Started' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, As_SG_Gauntlet_Player_Progress) == 0x001318, "Member 'UUI_MainMenuSNF_C::As_SG_Gauntlet_Player_Progress' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Block_Buttons) == 0x001320, "Member 'UUI_MainMenuSNF_C::Block_Buttons' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Level_Up_Character_Selected) == 0x001321, "Member 'UUI_MainMenuSNF_C::Level_Up_Character_Selected' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Gauntlet_Enter_Kostyl) == 0x001322, "Member 'UUI_MainMenuSNF_C::Gauntlet_Enter_Kostyl' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Times_Hit) == 0x001324, "Member 'UUI_MainMenuSNF_C::Times_Hit' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Head_Grabbed) == 0x001328, "Member 'UUI_MainMenuSNF_C::Head_Grabbed' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Cursor_Location) == 0x001330, "Member 'UUI_MainMenuSNF_C::Cursor_Location' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Cursor_Location_Old) == 0x001348, "Member 'UUI_MainMenuSNF_C::Cursor_Location_Old' has a wrong offset!");
+static_assert(offsetof(UUI_MainMenuSNF_C, Mouse_Velocity) == 0x001360, "Member 'UUI_MainMenuSNF_C::Mouse_Velocity' has a wrong offset!");
 
 }
 

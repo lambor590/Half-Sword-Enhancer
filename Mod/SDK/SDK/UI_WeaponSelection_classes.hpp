@@ -20,7 +20,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_WeaponSelection.UI_WeaponSelection_C
-// 0x00A8 (0x0388 - 0x02E0)
+// 0x00B0 (0x0390 - 0x02E0)
 class UUI_WeaponSelection_C final : public UUserWidget
 {
 public:
@@ -47,6 +47,8 @@ public:
 	class UTexture*                               Slot_5;                                            // 0x0378(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	bool                                          Time_Elapsed;                                      // 0x0380(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Hold;                                              // 0x0381(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_382[0x6];                                      // 0x0382(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGI_Settings_C*                         GI_Settings;                                       // 0x0388(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_WeaponSelection_B1_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature();
@@ -92,7 +94,7 @@ public:
 	}
 };
 static_assert(alignof(UUI_WeaponSelection_C) == 0x000008, "Wrong alignment on UUI_WeaponSelection_C");
-static_assert(sizeof(UUI_WeaponSelection_C) == 0x000388, "Wrong size on UUI_WeaponSelection_C");
+static_assert(sizeof(UUI_WeaponSelection_C) == 0x000390, "Wrong size on UUI_WeaponSelection_C");
 static_assert(offsetof(UUI_WeaponSelection_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_WeaponSelection_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_WeaponSelection_C, B1) == 0x0002E8, "Member 'UUI_WeaponSelection_C::B1' has a wrong offset!");
 static_assert(offsetof(UUI_WeaponSelection_C, Back) == 0x0002F0, "Member 'UUI_WeaponSelection_C::Back' has a wrong offset!");
@@ -115,6 +117,7 @@ static_assert(offsetof(UUI_WeaponSelection_C, Slot_4) == 0x000370, "Member 'UUI_
 static_assert(offsetof(UUI_WeaponSelection_C, Slot_5) == 0x000378, "Member 'UUI_WeaponSelection_C::Slot_5' has a wrong offset!");
 static_assert(offsetof(UUI_WeaponSelection_C, Time_Elapsed) == 0x000380, "Member 'UUI_WeaponSelection_C::Time_Elapsed' has a wrong offset!");
 static_assert(offsetof(UUI_WeaponSelection_C, Hold) == 0x000381, "Member 'UUI_WeaponSelection_C::Hold' has a wrong offset!");
+static_assert(offsetof(UUI_WeaponSelection_C, GI_Settings) == 0x000388, "Member 'UUI_WeaponSelection_C::GI_Settings' has a wrong offset!");
 
 }
 

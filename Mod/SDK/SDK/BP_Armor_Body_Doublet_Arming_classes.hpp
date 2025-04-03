@@ -17,8 +17,8 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Armor_Body_Doublet_Arming.BP_Armor_Body_Doublet_Arming_C
-// 0x0000 (0x07F0 - 0x07F0)
-class ABP_Armor_Body_Doublet_Arming_C final : public ABP_Armor_Master_C
+// 0x0000 (0x0800 - 0x0800)
+class ABP_Armor_Body_Doublet_Arming_C : public ABP_Armor_Master_C
 {
 public:
 	void UserConstructionScript();
@@ -34,7 +34,7 @@ public:
 	}
 };
 static_assert(alignof(ABP_Armor_Body_Doublet_Arming_C) == 0x000010, "Wrong alignment on ABP_Armor_Body_Doublet_Arming_C");
-static_assert(sizeof(ABP_Armor_Body_Doublet_Arming_C) == 0x0007F0, "Wrong size on ABP_Armor_Body_Doublet_Arming_C");
+static_assert(sizeof(ABP_Armor_Body_Doublet_Arming_C) == 0x000800, "Wrong size on ABP_Armor_Body_Doublet_Arming_C");
 
 }
 

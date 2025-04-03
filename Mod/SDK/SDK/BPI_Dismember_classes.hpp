@@ -17,8 +17,8 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BPI_Dismember.BPI_Dismember_C
-// 0x0000 (0x0028 - 0x0028)
-class IBPI_Dismember_C final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IBPI_Dismember_C final
 {
 public:
 	void Dismember_Cut(class FName bone, const struct FVector& Location, class UPrimitiveComponent* Cut_Mesh, int32 Dism_Cut_Level, class UBoxComponent* VP_Collision_Box_1, class UBoxComponent* VP_Collision_Box_2);
@@ -32,9 +32,18 @@ public:
 	{
 		return GetDefaultObjImpl<IBPI_Dismember_C>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IBPI_Dismember_C) == 0x000008, "Wrong alignment on IBPI_Dismember_C");
-static_assert(sizeof(IBPI_Dismember_C) == 0x000028, "Wrong size on IBPI_Dismember_C");
+static_assert(alignof(IBPI_Dismember_C) == 0x000001, "Wrong alignment on IBPI_Dismember_C");
+static_assert(sizeof(IBPI_Dismember_C) == 0x000001, "Wrong size on IBPI_Dismember_C");
 
 }
 

@@ -140,8 +140,8 @@ static_assert(alignof(UAudioPropertySheetBaseAsset) == 0x000008, "Wrong alignmen
 static_assert(sizeof(UAudioPropertySheetBaseAsset) == 0x000028, "Wrong size on UAudioPropertySheetBaseAsset");
 
 // Class AudioExtensions.AudioParameterControllerInterface
-// 0x0000 (0x0028 - 0x0028)
-class IAudioParameterControllerInterface : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IAudioParameterControllerInterface final
 {
 public:
 	void ResetParameters();
@@ -167,9 +167,18 @@ public:
 	{
 		return GetDefaultObjImpl<IAudioParameterControllerInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IAudioParameterControllerInterface) == 0x000008, "Wrong alignment on IAudioParameterControllerInterface");
-static_assert(sizeof(IAudioParameterControllerInterface) == 0x000028, "Wrong size on IAudioParameterControllerInterface");
+static_assert(alignof(IAudioParameterControllerInterface) == 0x000001, "Wrong alignment on IAudioParameterControllerInterface");
+static_assert(sizeof(IAudioParameterControllerInterface) == 0x000001, "Wrong size on IAudioParameterControllerInterface");
 
 // Class AudioExtensions.AudioEndpointSettingsBase
 // 0x0000 (0x0028 - 0x0028)

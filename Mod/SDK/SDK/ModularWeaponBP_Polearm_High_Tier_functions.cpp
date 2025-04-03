@@ -11,6 +11,7 @@
 #include "Basic.hpp"
 
 #include "ModularWeaponBP_Polearm_High_Tier_classes.hpp"
+#include "ModularWeaponBP_Polearm_High_Tier_parameters.hpp"
 
 
 namespace SDK

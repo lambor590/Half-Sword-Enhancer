@@ -376,8 +376,8 @@ void UUI_WeaponSelection_C::Mouse_Click_Right()
 // Function UI_WeaponSelection.UI_WeaponSelection_C.OnKeyDown
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FKeyEvent                        InKeyEvent                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FKeyEvent&                 InKeyEvent                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_WeaponSelection_C::OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
@@ -401,8 +401,8 @@ struct FEventReply UUI_WeaponSelection_C::OnKeyDown(const struct FGeometry& MyGe
 // Function UI_WeaponSelection.UI_WeaponSelection_C.OnKeyUp
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FKeyEvent                        InKeyEvent                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FKeyEvent&                 InKeyEvent                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_WeaponSelection_C::OnKeyUp(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
@@ -426,8 +426,8 @@ struct FEventReply UUI_WeaponSelection_C::OnKeyUp(const struct FGeometry& MyGeom
 // Function UI_WeaponSelection.UI_WeaponSelection_C.OnMouseButtonDown
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_WeaponSelection_C::OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -451,8 +451,8 @@ struct FEventReply UUI_WeaponSelection_C::OnMouseButtonDown(const struct FGeomet
 // Function UI_WeaponSelection.UI_WeaponSelection_C.OnMouseMove
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_WeaponSelection_C::OnMouseMove(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -496,7 +496,7 @@ void UUI_WeaponSelection_C::PreConstruct(bool IsDesignTime)
 // Function UI_WeaponSelection.UI_WeaponSelection_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_WeaponSelection_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

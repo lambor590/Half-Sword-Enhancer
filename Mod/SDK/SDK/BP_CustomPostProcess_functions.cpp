@@ -40,7 +40,7 @@ void ABP_CustomPostProcess_C::ExecuteUbergraph_BP_CustomPostProcess(int32 EntryP
 // Function BP_CustomPostProcess.BP_CustomPostProcess_C.getPostProcess
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FPostProcessSettings             PostProcessSettings                                    (Parm, OutParm)
+// struct FPostProcessSettings*            PostProcessSettings                                    (Parm, OutParm)
 
 void ABP_CustomPostProcess_C::getPostProcess(struct FPostProcessSettings* PostProcessSettings)
 {
@@ -61,7 +61,7 @@ void ABP_CustomPostProcess_C::getPostProcess(struct FPostProcessSettings* PostPr
 // Function BP_CustomPostProcess.BP_CustomPostProcess_C.UpdatePostProcess
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FPostProcessSettings             PP_0                                                   (BlueprintVisible, BlueprintReadOnly, Parm)
+// const struct FPostProcessSettings&      PP_0                                                   (BlueprintVisible, BlueprintReadOnly, Parm)
 
 void ABP_CustomPostProcess_C::UpdatePostProcess(const struct FPostProcessSettings& PP_0)
 {

@@ -11,6 +11,7 @@
 #include <string>
 #include <stdexcept>
 #include <iostream>
+#include "UtfN.hpp"
 
 namespace UC
 {	
@@ -307,6 +308,8 @@ namespace UC
 		inline int32 Num() const { return NumElements; }
 		inline int32 Max() const { return MaxElements; }
 
+		inline const ArrayElementType* GetDataPtr() const { return Data; }
+
 		inline bool IsValidIndex(int32 Index) const { return Data && Index >= 0 && Index < NumElements; }
 
 		inline bool IsValid() const { return Data && NumElements > 0 && MaxElements >= NumElements; }
@@ -347,9 +350,7 @@ namespace UC
 		{
 			if (*this)
 			{
-				std::wstring WData(Data);
-#pragma warning(suppress: 4244)
-				return std::string(WData.begin(), WData.end());
+				return UtfN::Utf16StringToUtf8String<std::string>(Data, NumElements  - 1); // Exclude null-terminator
 			}
 
 			return "";

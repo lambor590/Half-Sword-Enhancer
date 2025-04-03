@@ -20,7 +20,7 @@ namespace SDK
 // Function AndroidPermission.AndroidPermissionFunctionLibrary.AcquirePermissions
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<class FString>                   Permissions                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class FString>&            Permissions                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // class UAndroidPermissionCallbackProxy*  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UAndroidPermissionCallbackProxy* UAndroidPermissionFunctionLibrary::AcquirePermissions(const TArray<class FString>& Permissions)
@@ -48,7 +48,7 @@ class UAndroidPermissionCallbackProxy* UAndroidPermissionFunctionLibrary::Acquir
 // Function AndroidPermission.AndroidPermissionFunctionLibrary.CheckPermission
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           permission                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    permission                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UAndroidPermissionFunctionLibrary::CheckPermission(const class FString& permission)

@@ -22,8 +22,8 @@ namespace SDK
 {
 
 // Class InterchangeImport.InterchangeAnimationPayloadInterface
-// 0x0000 (0x0028 - 0x0028)
-class IInterchangeAnimationPayloadInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IInterchangeAnimationPayloadInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -34,9 +34,18 @@ public:
 	{
 		return GetDefaultObjImpl<IInterchangeAnimationPayloadInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IInterchangeAnimationPayloadInterface) == 0x000008, "Wrong alignment on IInterchangeAnimationPayloadInterface");
-static_assert(sizeof(IInterchangeAnimationPayloadInterface) == 0x000028, "Wrong size on IInterchangeAnimationPayloadInterface");
+static_assert(alignof(IInterchangeAnimationPayloadInterface) == 0x000001, "Wrong alignment on IInterchangeAnimationPayloadInterface");
+static_assert(sizeof(IInterchangeAnimationPayloadInterface) == 0x000001, "Wrong size on IInterchangeAnimationPayloadInterface");
 
 // Class InterchangeImport.InterchangeMaterialFunctionFactory
 // 0x0008 (0x0038 - 0x0030)
@@ -59,8 +68,8 @@ static_assert(alignof(UInterchangeMaterialFunctionFactory) == 0x000008, "Wrong a
 static_assert(sizeof(UInterchangeMaterialFunctionFactory) == 0x000038, "Wrong size on UInterchangeMaterialFunctionFactory");
 
 // Class InterchangeImport.InterchangeBlockedTexturePayloadInterface
-// 0x0000 (0x0028 - 0x0028)
-class IInterchangeBlockedTexturePayloadInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IInterchangeBlockedTexturePayloadInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -71,9 +80,18 @@ public:
 	{
 		return GetDefaultObjImpl<IInterchangeBlockedTexturePayloadInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IInterchangeBlockedTexturePayloadInterface) == 0x000008, "Wrong alignment on IInterchangeBlockedTexturePayloadInterface");
-static_assert(sizeof(IInterchangeBlockedTexturePayloadInterface) == 0x000028, "Wrong size on IInterchangeBlockedTexturePayloadInterface");
+static_assert(alignof(IInterchangeBlockedTexturePayloadInterface) == 0x000001, "Wrong alignment on IInterchangeBlockedTexturePayloadInterface");
+static_assert(sizeof(IInterchangeBlockedTexturePayloadInterface) == 0x000001, "Wrong size on IInterchangeBlockedTexturePayloadInterface");
 
 // Class InterchangeImport.InterchangeActorFactory
 // 0x0000 (0x0030 - 0x0030)
@@ -184,8 +202,8 @@ static_assert(alignof(UInterchangeIESTranslator) == 0x000008, "Wrong alignment o
 static_assert(sizeof(UInterchangeIESTranslator) == 0x000040, "Wrong size on UInterchangeIESTranslator");
 
 // Class InterchangeImport.InterchangeMeshPayloadInterface
-// 0x0000 (0x0028 - 0x0028)
-class IInterchangeMeshPayloadInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IInterchangeMeshPayloadInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -196,9 +214,18 @@ public:
 	{
 		return GetDefaultObjImpl<IInterchangeMeshPayloadInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IInterchangeMeshPayloadInterface) == 0x000008, "Wrong alignment on IInterchangeMeshPayloadInterface");
-static_assert(sizeof(IInterchangeMeshPayloadInterface) == 0x000028, "Wrong size on IInterchangeMeshPayloadInterface");
+static_assert(alignof(IInterchangeMeshPayloadInterface) == 0x000001, "Wrong alignment on IInterchangeMeshPayloadInterface");
+static_assert(sizeof(IInterchangeMeshPayloadInterface) == 0x000001, "Wrong size on IInterchangeMeshPayloadInterface");
 
 // Class InterchangeImport.InterchangeSceneImportAssetFactory
 // 0x0000 (0x0030 - 0x0030)
@@ -255,8 +282,8 @@ static_assert(alignof(UInterchangeSkeletalMeshActorFactory) == 0x000008, "Wrong 
 static_assert(sizeof(UInterchangeSkeletalMeshActorFactory) == 0x000030, "Wrong size on UInterchangeSkeletalMeshActorFactory");
 
 // Class InterchangeImport.InterchangeSlicedTexturePayloadInterface
-// 0x0000 (0x0028 - 0x0028)
-class IInterchangeSlicedTexturePayloadInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IInterchangeSlicedTexturePayloadInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -267,13 +294,22 @@ public:
 	{
 		return GetDefaultObjImpl<IInterchangeSlicedTexturePayloadInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IInterchangeSlicedTexturePayloadInterface) == 0x000008, "Wrong alignment on IInterchangeSlicedTexturePayloadInterface");
-static_assert(sizeof(IInterchangeSlicedTexturePayloadInterface) == 0x000028, "Wrong size on IInterchangeSlicedTexturePayloadInterface");
+static_assert(alignof(IInterchangeSlicedTexturePayloadInterface) == 0x000001, "Wrong alignment on IInterchangeSlicedTexturePayloadInterface");
+static_assert(sizeof(IInterchangeSlicedTexturePayloadInterface) == 0x000001, "Wrong size on IInterchangeSlicedTexturePayloadInterface");
 
 // Class InterchangeImport.InterchangeTextureLightProfilePayloadInterface
-// 0x0000 (0x0028 - 0x0028)
-class IInterchangeTextureLightProfilePayloadInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IInterchangeTextureLightProfilePayloadInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -284,13 +320,22 @@ public:
 	{
 		return GetDefaultObjImpl<IInterchangeTextureLightProfilePayloadInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IInterchangeTextureLightProfilePayloadInterface) == 0x000008, "Wrong alignment on IInterchangeTextureLightProfilePayloadInterface");
-static_assert(sizeof(IInterchangeTextureLightProfilePayloadInterface) == 0x000028, "Wrong size on IInterchangeTextureLightProfilePayloadInterface");
+static_assert(alignof(IInterchangeTextureLightProfilePayloadInterface) == 0x000001, "Wrong alignment on IInterchangeTextureLightProfilePayloadInterface");
+static_assert(sizeof(IInterchangeTextureLightProfilePayloadInterface) == 0x000001, "Wrong size on IInterchangeTextureLightProfilePayloadInterface");
 
 // Class InterchangeImport.InterchangeTexturePayloadInterface
-// 0x0000 (0x0028 - 0x0028)
-class IInterchangeTexturePayloadInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IInterchangeTexturePayloadInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -301,13 +346,22 @@ public:
 	{
 		return GetDefaultObjImpl<IInterchangeTexturePayloadInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IInterchangeTexturePayloadInterface) == 0x000008, "Wrong alignment on IInterchangeTexturePayloadInterface");
-static_assert(sizeof(IInterchangeTexturePayloadInterface) == 0x000028, "Wrong size on IInterchangeTexturePayloadInterface");
+static_assert(alignof(IInterchangeTexturePayloadInterface) == 0x000001, "Wrong alignment on IInterchangeTexturePayloadInterface");
+static_assert(sizeof(IInterchangeTexturePayloadInterface) == 0x000001, "Wrong size on IInterchangeTexturePayloadInterface");
 
 // Class InterchangeImport.InterchangeVariantSetPayloadInterface
-// 0x0000 (0x0028 - 0x0028)
-class IInterchangeVariantSetPayloadInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IInterchangeVariantSetPayloadInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -318,9 +372,18 @@ public:
 	{
 		return GetDefaultObjImpl<IInterchangeVariantSetPayloadInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IInterchangeVariantSetPayloadInterface) == 0x000008, "Wrong alignment on IInterchangeVariantSetPayloadInterface");
-static_assert(sizeof(IInterchangeVariantSetPayloadInterface) == 0x000028, "Wrong size on IInterchangeVariantSetPayloadInterface");
+static_assert(alignof(IInterchangeVariantSetPayloadInterface) == 0x000001, "Wrong alignment on IInterchangeVariantSetPayloadInterface");
+static_assert(sizeof(IInterchangeVariantSetPayloadInterface) == 0x000001, "Wrong size on IInterchangeVariantSetPayloadInterface");
 
 // Class InterchangeImport.InterchangeImageWrapperTranslator
 // 0x0010 (0x0048 - 0x0038)

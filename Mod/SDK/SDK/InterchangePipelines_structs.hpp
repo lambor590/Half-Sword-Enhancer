@@ -87,7 +87,7 @@ public:
 	bool                                          bReferenceMorphTarget;                             // 0x0019(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bHasMorphTargets;                                  // 0x001A(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1B[0x5];                                       // 0x001B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<int32, struct FInterchangeLodSceneNodeContainer> SceneNodePerLodIndex;                              // 0x0020(0x0050)(Edit, NativeAccessSpecifierPublic)
+	TMap<int32, struct FInterchangeLodSceneNodeContainer> SceneNodePerLodIndex;                      // 0x0020(0x0050)(Edit, NativeAccessSpecifierPublic)
 	TArray<class FString>                         ReferencingMeshGeometryUids;                       // 0x0070(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FInterchangeMeshInstance) == 0x000008, "Wrong alignment on FInterchangeMeshInstance");

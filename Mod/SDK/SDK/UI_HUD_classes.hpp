@@ -19,7 +19,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_HUD.UI_HUD_C
-// 0x00C8 (0x03A8 - 0x02E0)
+// 0x00D8 (0x03B8 - 0x02E0)
 class UUI_HUD_C final : public UUserWidget
 {
 public:
@@ -38,22 +38,25 @@ public:
 	class UImage*                                 LegLDmg;                                           // 0x0340(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UImage*                                 LegRDmg;                                           // 0x0348(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UTextBlock*                             TextDisabled;                                      // 0x0350(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextHurt;                                          // 0x0358(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UTextBlock*                             TextWin;                                           // 0x0360(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Vignette;                                          // 0x0368(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Vignette_Pain;                                     // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 Vignette_WakeUp;                                   // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class UImage*                                 WaterMark;                                         // 0x0380(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class AWillie_BP_C*                           My_Player;                                         // 0x0388(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         GI_Settings;                                       // 0x0390(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x0398(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	double                                        Time_Fallen;                                       // 0x03A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UTextBlock*                             TextDisabled_1;                                    // 0x0358(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextHurt;                                          // 0x0360(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UTextBlock*                             TextWin;                                           // 0x0368(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Vignette;                                          // 0x0370(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Vignette_Pain;                                     // 0x0378(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 Vignette_WakeUp;                                   // 0x0380(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UImage*                                 WaterMark;                                         // 0x0388(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class AWillie_BP_C*                           My_Player;                                         // 0x0390(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         GI_Settings;                                       // 0x0398(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x03A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Time_Fallen;                                       // 0x03A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Current_Card_Is_Abyss;                             // 0x03B0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Aim_Lock_Is_Off();
 	void Aim_Lock_Is_On();
 	void Construct();
 	void ExecuteUbergraph_UI_HUD(int32 EntryPoint);
+	class FText Get_TextDisabled_1_Text();
 	void PreConstruct(bool IsDesignTime);
 	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
@@ -68,7 +71,7 @@ public:
 	}
 };
 static_assert(alignof(UUI_HUD_C) == 0x000008, "Wrong alignment on UUI_HUD_C");
-static_assert(sizeof(UUI_HUD_C) == 0x0003A8, "Wrong size on UUI_HUD_C");
+static_assert(sizeof(UUI_HUD_C) == 0x0003B8, "Wrong size on UUI_HUD_C");
 static_assert(offsetof(UUI_HUD_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_HUD_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_HUD_C, AimLockOff) == 0x0002E8, "Member 'UUI_HUD_C::AimLockOff' has a wrong offset!");
 static_assert(offsetof(UUI_HUD_C, AimLockOn) == 0x0002F0, "Member 'UUI_HUD_C::AimLockOn' has a wrong offset!");
@@ -84,16 +87,18 @@ static_assert(offsetof(UUI_HUD_C, HPDmg3) == 0x000338, "Member 'UUI_HUD_C::HPDmg
 static_assert(offsetof(UUI_HUD_C, LegLDmg) == 0x000340, "Member 'UUI_HUD_C::LegLDmg' has a wrong offset!");
 static_assert(offsetof(UUI_HUD_C, LegRDmg) == 0x000348, "Member 'UUI_HUD_C::LegRDmg' has a wrong offset!");
 static_assert(offsetof(UUI_HUD_C, TextDisabled) == 0x000350, "Member 'UUI_HUD_C::TextDisabled' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, TextHurt) == 0x000358, "Member 'UUI_HUD_C::TextHurt' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, TextWin) == 0x000360, "Member 'UUI_HUD_C::TextWin' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, Vignette) == 0x000368, "Member 'UUI_HUD_C::Vignette' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, Vignette_Pain) == 0x000370, "Member 'UUI_HUD_C::Vignette_Pain' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, Vignette_WakeUp) == 0x000378, "Member 'UUI_HUD_C::Vignette_WakeUp' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, WaterMark) == 0x000380, "Member 'UUI_HUD_C::WaterMark' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, My_Player) == 0x000388, "Member 'UUI_HUD_C::My_Player' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, GI_Settings) == 0x000390, "Member 'UUI_HUD_C::GI_Settings' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, As_BP_Half_Sword_Game_Mode) == 0x000398, "Member 'UUI_HUD_C::As_BP_Half_Sword_Game_Mode' has a wrong offset!");
-static_assert(offsetof(UUI_HUD_C, Time_Fallen) == 0x0003A0, "Member 'UUI_HUD_C::Time_Fallen' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, TextDisabled_1) == 0x000358, "Member 'UUI_HUD_C::TextDisabled_1' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, TextHurt) == 0x000360, "Member 'UUI_HUD_C::TextHurt' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, TextWin) == 0x000368, "Member 'UUI_HUD_C::TextWin' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, Vignette) == 0x000370, "Member 'UUI_HUD_C::Vignette' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, Vignette_Pain) == 0x000378, "Member 'UUI_HUD_C::Vignette_Pain' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, Vignette_WakeUp) == 0x000380, "Member 'UUI_HUD_C::Vignette_WakeUp' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, WaterMark) == 0x000388, "Member 'UUI_HUD_C::WaterMark' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, My_Player) == 0x000390, "Member 'UUI_HUD_C::My_Player' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, GI_Settings) == 0x000398, "Member 'UUI_HUD_C::GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, As_BP_Half_Sword_Game_Mode) == 0x0003A0, "Member 'UUI_HUD_C::As_BP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, Time_Fallen) == 0x0003A8, "Member 'UUI_HUD_C::Time_Fallen' has a wrong offset!");
+static_assert(offsetof(UUI_HUD_C, Current_Card_Is_Abyss) == 0x0003B0, "Member 'UUI_HUD_C::Current_Card_Is_Abyss' has a wrong offset!");
 
 }
 

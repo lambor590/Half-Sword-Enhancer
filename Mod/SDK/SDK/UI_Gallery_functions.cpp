@@ -278,7 +278,7 @@ void UUI_Gallery_C::ExecuteUbergraph_UI_Gallery(int32 EntryPoint)
 // Function UI_Gallery.UI_Gallery_C.Get Any Key
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void UUI_Gallery_C::Get_Any_Key(const struct FKey& Key)
 {
@@ -360,8 +360,8 @@ void UUI_Gallery_C::NextPage(bool NextFocusOnTheFirstPhoto)
 // Function UI_Gallery.UI_Gallery_C.OnKeyDown
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FKeyEvent                        InKeyEvent                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FKeyEvent&                 InKeyEvent                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_Gallery_C::OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
@@ -385,8 +385,8 @@ struct FEventReply UUI_Gallery_C::OnKeyDown(const struct FGeometry& MyGeometry, 
 // Function UI_Gallery.UI_Gallery_C.OnMouseButtonDown
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_Gallery_C::OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -410,8 +410,8 @@ struct FEventReply UUI_Gallery_C::OnMouseButtonDown(const struct FGeometry& MyGe
 // Function UI_Gallery.UI_Gallery_C.OnMouseEnter
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Gallery_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
@@ -432,7 +432,7 @@ void UUI_Gallery_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struc
 // Function UI_Gallery.UI_Gallery_C.OnMouseLeave
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_Gallery_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
@@ -452,8 +452,8 @@ void UUI_Gallery_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 // Function UI_Gallery.UI_Gallery_C.OnMouseMove
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_Gallery_C::OnMouseMove(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -477,8 +477,8 @@ struct FEventReply UUI_Gallery_C::OnMouseMove(const struct FGeometry& MyGeometry
 // Function UI_Gallery.UI_Gallery_C.OnMouseWheel
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_Gallery_C::OnMouseWheel(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -502,7 +502,7 @@ struct FEventReply UUI_Gallery_C::OnMouseWheel(const struct FGeometry& MyGeometr
 // Function UI_Gallery.UI_Gallery_C.OnRemovedFromFocusPath
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FFocusEvent                      InFocusEvent                                           (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
+// const struct FFocusEvent&               InFocusEvent                                           (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
 
 void UUI_Gallery_C::OnRemovedFromFocusPath(const struct FFocusEvent& InFocusEvent)
 {
@@ -624,7 +624,7 @@ void UUI_Gallery_C::ResetShowMouseCursor()
 // Function UI_Gallery.UI_Gallery_C.SendPhotoData
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FS_PhotosData                    PhotoData                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const struct FS_PhotosData&             PhotoData                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
 void UUI_Gallery_C::SendPhotoData(const struct FS_PhotosData& PhotoData)
 {
@@ -780,7 +780,7 @@ void UUI_Gallery_C::TabToOpen(int32 TabIndex, class UUI_TabButton_C* CommonButto
 // Function UI_Gallery.UI_Gallery_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_Gallery_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

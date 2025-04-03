@@ -101,8 +101,8 @@ static_assert(alignof(UNavigationObjectRepository) == 0x000008, "Wrong alignment
 static_assert(sizeof(UNavigationObjectRepository) == 0x000090, "Wrong size on UNavigationObjectRepository");
 
 // Class NavigationSystem.NavigationPathGenerator
-// 0x0000 (0x0028 - 0x0028)
-class INavigationPathGenerator final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class INavigationPathGenerator final
 {
 public:
 	static class UClass* StaticClass()
@@ -113,13 +113,22 @@ public:
 	{
 		return GetDefaultObjImpl<INavigationPathGenerator>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(INavigationPathGenerator) == 0x000008, "Wrong alignment on INavigationPathGenerator");
-static_assert(sizeof(INavigationPathGenerator) == 0x000028, "Wrong size on INavigationPathGenerator");
+static_assert(alignof(INavigationPathGenerator) == 0x000001, "Wrong alignment on INavigationPathGenerator");
+static_assert(sizeof(INavigationPathGenerator) == 0x000001, "Wrong size on INavigationPathGenerator");
 
 // Class NavigationSystem.NavLinkCustomInterface
-// 0x0000 (0x0028 - 0x0028)
-class INavLinkCustomInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class INavLinkCustomInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -130,13 +139,22 @@ public:
 	{
 		return GetDefaultObjImpl<INavLinkCustomInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(INavLinkCustomInterface) == 0x000008, "Wrong alignment on INavLinkCustomInterface");
-static_assert(sizeof(INavLinkCustomInterface) == 0x000028, "Wrong size on INavLinkCustomInterface");
+static_assert(alignof(INavLinkCustomInterface) == 0x000001, "Wrong alignment on INavLinkCustomInterface");
+static_assert(sizeof(INavLinkCustomInterface) == 0x000001, "Wrong size on INavLinkCustomInterface");
 
 // Class NavigationSystem.NavLinkHostInterface
-// 0x0000 (0x0028 - 0x0028)
-class INavLinkHostInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class INavLinkHostInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -147,9 +165,18 @@ public:
 	{
 		return GetDefaultObjImpl<INavLinkHostInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(INavLinkHostInterface) == 0x000008, "Wrong alignment on INavLinkHostInterface");
-static_assert(sizeof(INavLinkHostInterface) == 0x000028, "Wrong size on INavLinkHostInterface");
+static_assert(alignof(INavLinkHostInterface) == 0x000001, "Wrong alignment on INavLinkHostInterface");
+static_assert(sizeof(INavLinkHostInterface) == 0x000001, "Wrong size on INavLinkHostInterface");
 
 // Class NavigationSystem.NavLinkTrivial
 // 0x0000 (0x0050 - 0x0050)
@@ -169,8 +196,8 @@ static_assert(alignof(UNavLinkTrivial) == 0x000008, "Wrong alignment on UNavLink
 static_assert(sizeof(UNavLinkTrivial) == 0x000050, "Wrong size on UNavLinkTrivial");
 
 // Class NavigationSystem.NavNodeInterface
-// 0x0000 (0x0028 - 0x0028)
-class INavNodeInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class INavNodeInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -181,9 +208,18 @@ public:
 	{
 		return GetDefaultObjImpl<INavNodeInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(INavNodeInterface) == 0x000008, "Wrong alignment on INavNodeInterface");
-static_assert(sizeof(INavNodeInterface) == 0x000028, "Wrong size on INavNodeInterface");
+static_assert(alignof(INavNodeInterface) == 0x000001, "Wrong alignment on INavNodeInterface");
+static_assert(sizeof(INavNodeInterface) == 0x000001, "Wrong size on INavNodeInterface");
 
 // Class NavigationSystem.NavigationData
 // 0x0218 (0x04A8 - 0x0290)
@@ -546,7 +582,7 @@ static_assert(offsetof(UNavigationInvokerComponent, Priority) == 0x0000AC, "Memb
 class UNavigationPath final : public UObject
 {
 public:
-	TMulticastInlineDelegate<void(class UNavigationPath* AffectedPath, ENavPathEvent PathEvent)> PathUpdatedNotifier;                               // 0x0028(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class UNavigationPath* AffectedPath, ENavPathEvent PathEvent)> PathUpdatedNotifier; // 0x0028(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TArray<struct FVector>                        PathPoints;                                        // 0x0038(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
 	ENavigationOptionFlag                         RecalculateOnInvalidation;                         // 0x0048(0x0001)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_49[0x3F];                                      // 0x0049(0x003F)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -614,8 +650,8 @@ public:
 	TArray<class ANavigationData*>                NavDataSet;                                        // 0x00E0(0x0010)(ZeroConstructor, Transient, UObjectWrapper, NativeAccessSpecifierPublic)
 	TArray<class ANavigationData*>                NavDataRegistrationQueue;                          // 0x00F0(0x0010)(ZeroConstructor, Transient, UObjectWrapper, NativeAccessSpecifierPublic)
 	uint8                                         Pad_100[0x10];                                     // 0x0100(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(class ANavigationData* NavData)> OnNavDataRegisteredEvent;                          // 0x0110(0x0010)(ZeroConstructor, Transient, InstancedReference, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(class ANavigationData* NavData)> OnNavigationGenerationFinishedDelegate;            // 0x0120(0x0010)(ZeroConstructor, Transient, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class ANavigationData* NavData)> OnNavDataRegisteredEvent;         // 0x0110(0x0010)(ZeroConstructor, Transient, InstancedReference, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class ANavigationData* NavData)> OnNavigationGenerationFinishedDelegate; // 0x0120(0x0010)(ZeroConstructor, Transient, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_130[0xF0];                                     // 0x0130(0x00F0)(Fixing Size After Last Property [ Dumper-7 ])
 	EFNavigationSystemRunMode                     OperationMode;                                     // 0x0220(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_221[0x1397];                                   // 0x0221(0x1397)(Fixing Struct Size After Last Property [ Dumper-7 ])

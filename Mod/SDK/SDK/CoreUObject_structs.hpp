@@ -550,7 +550,7 @@ public:
 public:
 	FVector& Normalize()
 	{
-		*this /= static_cast<float>(Magnitude());
+		*this /= Magnitude();
 		return *this;
 	}
 	FVector& operator*=(const FVector& Other)
@@ -599,7 +599,7 @@ public:
 	}
 	FVector GetNormalized() const
 	{
-		return *this / static_cast<float>(Magnitude());
+		return *this / Magnitude();
 	}
 	bool IsZero() const
 	{
@@ -704,7 +704,7 @@ public:
 public:
 	FVector2D& Normalize()
 	{
-		*this /= static_cast<float>(Magnitude());
+		*this /= Magnitude();
 		return *this;
 	}
 	FVector2D& operator*=(const FVector2D& Other)
@@ -749,7 +749,7 @@ public:
 	}
 	FVector2D GetNormalized() const
 	{
-		return *this / static_cast<float>(Magnitude());
+		return *this / Magnitude();
 	}
 	bool IsZero() const
 	{
@@ -1997,7 +1997,7 @@ struct FStructCookedMetaDataStore final
 {
 public:
 	struct FObjectCookedMetaDataStore             ObjectMetaData;                                    // 0x0000(0x0050)(NativeAccessSpecifierPrivate)
-	TMap<class FName, struct FFieldCookedMetaDataStore> PropertiesMetaData;                                // 0x0050(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<class FName, struct FFieldCookedMetaDataStore> PropertiesMetaData;                          // 0x0050(0x0050)(NativeAccessSpecifierPrivate)
 };
 static_assert(alignof(FStructCookedMetaDataStore) == 0x000008, "Wrong alignment on FStructCookedMetaDataStore");
 static_assert(sizeof(FStructCookedMetaDataStore) == 0x0000A0, "Wrong size on FStructCookedMetaDataStore");
@@ -2309,7 +2309,7 @@ public:
 	struct FOverriddenPropertyNodeID              NodeID;                                            // 0x0000(0x0010)(NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	EOverriddenPropertyOperation                  Operation;                                         // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<struct FOverriddenPropertyNodeID, struct FOverriddenPropertyNodeID> SubPropertyNodeKeys;                               // 0x0018(0x0050)(NativeAccessSpecifierPublic)
+	TMap<struct FOverriddenPropertyNodeID, struct FOverriddenPropertyNodeID> SubPropertyNodeKeys;    // 0x0018(0x0050)(NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FOverriddenPropertyNode) == 0x000008, "Wrong alignment on FOverriddenPropertyNode");
 static_assert(sizeof(FOverriddenPropertyNode) == 0x000068, "Wrong size on FOverriddenPropertyNode");

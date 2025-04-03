@@ -10,24 +10,24 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "GripType_Enum_structs.hpp"
-#include "Enum_MaterialQuality_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "SheathType_Enum_structs.hpp"
-#include "PhysicsCore_structs.hpp"
-#include "SwitchGrip_Type_Enum_structs.hpp"
-#include "Enum_Weapon_Material_Type_structs.hpp"
 #include "Str_WeaponParts_structs.hpp"
+#include "Enum_Weapon_Material_Type_structs.hpp"
+#include "PhysicsCore_structs.hpp"
+#include "SheathType_Enum_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "GripType_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_MaterialQuality_structs.hpp"
+#include "SwitchGrip_Type_Enum_structs.hpp"
 
 
 namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP.ModularWeaponBP_C
-// 0x08A0 (0x0B30 - 0x0290)
+// 0x08B8 (0x0B48 - 0x0290)
 class AModularWeaponBP_C : public AActor
 {
 public:
@@ -35,7 +35,7 @@ public:
 	class USceneComponent*                        Grip_L_Hand_Default_Pos;                           // 0x0298(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        Grip_R_Hand_Default_Pos;                           // 0x02A0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USphereComponent*                       SearchBeacon;                                      // 0x02A8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UBPC_RuntimeVertexPaintAndDetectionComponent_C* BPC_RuntimeVertexPaintAndDetectionComponent;       // 0x02B0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UBPC_RuntimeVertexPaintAndDetectionComponent_C* BPC_RuntimeVertexPaintAndDetectionComponent; // 0x02B0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        Grip_R_Hand_Alt_Pos;                               // 0x02B8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        Grip_L_Hand_Alt_Pos;                               // 0x02C0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USkeletalMeshComponent*                 GuardSk;                                           // 0x02C8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
@@ -194,8 +194,8 @@ public:
 	class UClass*                                 Sub_Module_1_Class;                                // 0x0900(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class UClass*                                 Sub_Module_2_Class;                                // 0x0908(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class USG_Weapon_Try_C*                       SG_Weap;                                           // 0x0910(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	TMap<Enum_Weapon_Material_Type, Enum_MaterialLayer> Module_Material_Groups_0;                          // 0x0918(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TMap<Enum_Weapon_Material_Type, struct FLinearColor> Module_Color_Groups_0;                             // 0x0968(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TMap<Enum_Weapon_Material_Type, Enum_MaterialLayer> Module_Material_Groups_0;                    // 0x0918(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TMap<Enum_Weapon_Material_Type, struct FLinearColor> Module_Color_Groups_0;                      // 0x0968(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
 	bool                                          Generated;                                         // 0x09B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_9B9[0x7];                                      // 0x09B9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FStr_WeaponParts                       Str_Weapon_Parts;                                  // 0x09C0(0x0130)(Edit, BlueprintVisible, ExposeOnSpawn, HasGetValueTypeHash)
@@ -209,6 +209,7 @@ public:
 	struct FVector                                Box_Extent;                                        // 0x0B08(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class AWillie_BP_C*                           Last_Parent;                                       // 0x0B20(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	double                                        Use_Alt_Against_Armor_Rate_NPC;                    // 0x0B28(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Weapon_Velocity_0;                                 // 0x0B30(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -248,7 +249,7 @@ public:
 	}
 };
 static_assert(alignof(AModularWeaponBP_C) == 0x000008, "Wrong alignment on AModularWeaponBP_C");
-static_assert(sizeof(AModularWeaponBP_C) == 0x000B30, "Wrong size on AModularWeaponBP_C");
+static_assert(sizeof(AModularWeaponBP_C) == 0x000B48, "Wrong size on AModularWeaponBP_C");
 static_assert(offsetof(AModularWeaponBP_C, UberGraphFrame) == 0x000290, "Member 'AModularWeaponBP_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(AModularWeaponBP_C, Grip_L_Hand_Default_Pos) == 0x000298, "Member 'AModularWeaponBP_C::Grip_L_Hand_Default_Pos' has a wrong offset!");
 static_assert(offsetof(AModularWeaponBP_C, Grip_R_Hand_Default_Pos) == 0x0002A0, "Member 'AModularWeaponBP_C::Grip_R_Hand_Default_Pos' has a wrong offset!");
@@ -402,6 +403,7 @@ static_assert(offsetof(AModularWeaponBP_C, Kick_Power) == 0x000B00, "Member 'AMo
 static_assert(offsetof(AModularWeaponBP_C, Box_Extent) == 0x000B08, "Member 'AModularWeaponBP_C::Box_Extent' has a wrong offset!");
 static_assert(offsetof(AModularWeaponBP_C, Last_Parent) == 0x000B20, "Member 'AModularWeaponBP_C::Last_Parent' has a wrong offset!");
 static_assert(offsetof(AModularWeaponBP_C, Use_Alt_Against_Armor_Rate_NPC) == 0x000B28, "Member 'AModularWeaponBP_C::Use_Alt_Against_Armor_Rate_NPC' has a wrong offset!");
+static_assert(offsetof(AModularWeaponBP_C, Weapon_Velocity_0) == 0x000B30, "Member 'AModularWeaponBP_C::Weapon_Velocity_0' has a wrong offset!");
 
 }
 

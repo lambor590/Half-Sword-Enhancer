@@ -257,7 +257,7 @@ public:
 	struct FGuid                                  ClassID;                                           // 0x0010(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FName                                   Name;                                              // 0x0020(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FMetasoundFrontendNodeInterface        Interface;                                         // 0x0028(0x0030)(NativeAccessSpecifierPublic)
-	TArray<struct FMetasoundFrontendVertexLiteral> InputLiterals;                                     // 0x0058(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMetasoundFrontendVertexLiteral> InputLiterals;                                    // 0x0058(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FMetasoundFrontendNode) == 0x000008, "Wrong alignment on FMetasoundFrontendNode");
 static_assert(sizeof(FMetasoundFrontendNode) == 0x000068, "Wrong size on FMetasoundFrontendNode");
@@ -315,7 +315,7 @@ struct FMetasoundFrontendEdgeStyle final
 public:
 	struct FGuid                                  NodeID;                                            // 0x0000(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FName                                   OutputName;                                        // 0x0010(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FMetasoundFrontendEdgeStyleLiteralColorPair> LiteralColorPairs;                                 // 0x0018(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMetasoundFrontendEdgeStyleLiteralColorPair> LiteralColorPairs;                    // 0x0018(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FMetasoundFrontendEdgeStyle) == 0x000008, "Wrong alignment on FMetasoundFrontendEdgeStyle");
 static_assert(sizeof(FMetasoundFrontendEdgeStyle) == 0x000028, "Wrong size on FMetasoundFrontendEdgeStyle");
@@ -415,7 +415,7 @@ struct FMetasoundFrontendClassInterface
 public:
 	TArray<struct FMetasoundFrontendClassInput>   Inputs;                                            // 0x0000(0x0010)(Edit, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 	TArray<struct FMetasoundFrontendClassOutput>  Outputs;                                           // 0x0010(0x0010)(Edit, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-	TArray<struct FMetasoundFrontendClassEnvironmentVariable> Environment;                                       // 0x0020(0x0010)(Edit, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<struct FMetasoundFrontendClassEnvironmentVariable> Environment;                           // 0x0020(0x0010)(Edit, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 	struct FGuid                                  ChangeID;                                          // 0x0030(0x0010)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 };
 static_assert(alignof(FMetasoundFrontendClassInterface) == 0x000008, "Wrong alignment on FMetasoundFrontendClassInterface");
@@ -473,7 +473,7 @@ struct FMetaSoundFrontendDocumentBuilder final
 {
 public:
 	uint8                                         Pad_0[0x8];                                        // 0x0000(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	TScriptInterface<class IMetaSoundDocumentInterface> DocumentInterface;                                 // 0x0008(0x0010)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
+	TScriptInterface<class IMetaSoundDocumentInterface> DocumentInterface;                           // 0x0008(0x0010)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_18[0x20];                                      // 0x0018(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FMetaSoundFrontendDocumentBuilder) == 0x000008, "Wrong alignment on FMetaSoundFrontendDocumentBuilder");
@@ -548,7 +548,7 @@ public:
 	struct FMetasoundFrontendVersion              InputInterfaceVersion;                             // 0x0010(0x0010)(NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	int32                                         BindingPriority;                                   // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_24[0x4];                                       // 0x0024(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FMetasoundFrontendInterfaceVertexBinding> VertexBindings;                                    // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMetasoundFrontendInterfaceVertexBinding> VertexBindings;                          // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FMetasoundFrontendInterfaceBinding) == 0x000008, "Wrong alignment on FMetasoundFrontendInterfaceBinding");
 static_assert(sizeof(FMetasoundFrontendInterfaceBinding) == 0x000038, "Wrong size on FMetasoundFrontendInterfaceBinding");
@@ -579,7 +579,7 @@ struct FMetasoundFrontendInterface final : public FMetasoundFrontendClassInterfa
 {
 public:
 	struct FMetasoundFrontendVersion              Version;                                           // 0x0040(0x0010)(NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FMetasoundFrontendInterfaceUClassOptions> UClassOptions;                                     // 0x0050(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMetasoundFrontendInterfaceUClassOptions> UClassOptions;                           // 0x0050(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FMetasoundFrontendInterface) == 0x000008, "Wrong alignment on FMetasoundFrontendInterface");
 static_assert(sizeof(FMetasoundFrontendInterface) == 0x000060, "Wrong size on FMetasoundFrontendInterface");
@@ -602,7 +602,7 @@ struct FMetasoundFrontendGraphClass final : public FMetasoundFrontendClass
 {
 public:
 	struct FMetasoundFrontendGraph                Graph;                                             // 0x0090(0x0030)(NativeAccessSpecifierPublic)
-	struct FMetasoundFrontendGraphClassPresetOptions PresetOptions;                                     // 0x00C0(0x0058)(NativeAccessSpecifierPublic)
+	struct FMetasoundFrontendGraphClassPresetOptions PresetOptions;                                  // 0x00C0(0x0058)(NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FMetasoundFrontendGraphClass) == 0x000008, "Wrong alignment on FMetasoundFrontendGraphClass");
 static_assert(sizeof(FMetasoundFrontendGraphClass) == 0x000118, "Wrong size on FMetasoundFrontendGraphClass");

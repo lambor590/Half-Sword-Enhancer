@@ -65,8 +65,8 @@ static_assert(alignof(UWorldMetricInterface) == 0x000008, "Wrong alignment on UW
 static_assert(sizeof(UWorldMetricInterface) == 0x000028, "Wrong size on UWorldMetricInterface");
 
 // Class WorldMetricsCore.WorldMetricsActorTrackerSubscriber
-// 0x0000 (0x0028 - 0x0028)
-class IWorldMetricsActorTrackerSubscriber final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IWorldMetricsActorTrackerSubscriber final
 {
 public:
 	static class UClass* StaticClass()
@@ -77,9 +77,18 @@ public:
 	{
 		return GetDefaultObjImpl<IWorldMetricsActorTrackerSubscriber>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IWorldMetricsActorTrackerSubscriber) == 0x000008, "Wrong alignment on IWorldMetricsActorTrackerSubscriber");
-static_assert(sizeof(IWorldMetricsActorTrackerSubscriber) == 0x000028, "Wrong size on IWorldMetricsActorTrackerSubscriber");
+static_assert(alignof(IWorldMetricsActorTrackerSubscriber) == 0x000001, "Wrong alignment on IWorldMetricsActorTrackerSubscriber");
+static_assert(sizeof(IWorldMetricsActorTrackerSubscriber) == 0x000001, "Wrong size on IWorldMetricsActorTrackerSubscriber");
 
 // Class WorldMetricsCore.WorldMetricsExtension
 // 0x0000 (0x0028 - 0x0028)

@@ -177,7 +177,7 @@ void UMRMeshComponent::SetUseWireframe(bool bUseWireframe)
 // Function MRMesh.MRMeshComponent.SetWireframeColor
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InColor                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InColor                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMRMeshComponent::SetWireframeColor(const struct FLinearColor& InColor)
 {

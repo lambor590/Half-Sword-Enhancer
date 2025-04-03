@@ -76,7 +76,7 @@ static_assert(sizeof(FUniversalObjectLocatorFragment) == 0x000020, "Wrong size o
 struct FUniversalObjectLocator final
 {
 public:
-	TArray<struct FUniversalObjectLocatorFragment> Fragments;                                         // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
+	TArray<struct FUniversalObjectLocatorFragment> Fragments;                                        // 0x0000(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 };
 static_assert(alignof(FUniversalObjectLocator) == 0x000008, "Wrong alignment on FUniversalObjectLocator");
 static_assert(sizeof(FUniversalObjectLocator) == 0x000010, "Wrong size on FUniversalObjectLocator");

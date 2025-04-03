@@ -81,7 +81,7 @@ static_assert(offsetof(FSoundGeneratorOutput, Name) == 0x000000, "Member 'FSound
 struct FSoundWaveCloudStreamingPlatformProjectSettings final
 {
 public:
-	ESoundWaveCloudStreamingPlatformProjectEnableType EnablementSetting;                                 // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	ESoundWaveCloudStreamingPlatformProjectEnableType EnablementSetting;                             // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FSoundWaveCloudStreamingPlatformProjectSettings) == 0x000001, "Wrong alignment on FSoundWaveCloudStreamingPlatformProjectSettings");
 static_assert(sizeof(FSoundWaveCloudStreamingPlatformProjectSettings) == 0x000001, "Wrong size on FSoundWaveCloudStreamingPlatformProjectSettings");

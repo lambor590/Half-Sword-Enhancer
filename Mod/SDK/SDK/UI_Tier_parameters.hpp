@@ -17,32 +17,34 @@ namespace SDK::Params
 {
 
 // Function UI_Tier.UI_Tier_C.ExecuteUbergraph_UI_Tier
-// 0x0030 (0x0030 - 0x0000)
+// 0x0038 (0x0038 - 0x0000)
 struct UI_Tier_C_ExecuteUbergraph_UI_Tier final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UUI_WIN_C*                              CallFunc_Create_ReturnValue;                       // 0x0008(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue_1;          // 0x0011(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_12[0x6];                                       // 0x0012(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_SelectFloat_ReturnValue;                  // 0x0018(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	float                                         CallFunc_PlayAnimation_PlaybackSpeed_ImplicitCast; // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UUI_FadeToLife_C*                       CallFunc_Create_ReturnValue;                       // 0x0008(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x0010(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0028(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_29[0x3];                                       // 0x0029(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_SelectInt_ReturnValue;                    // 0x002C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0030(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(UI_Tier_C_ExecuteUbergraph_UI_Tier) == 0x000008, "Wrong alignment on UI_Tier_C_ExecuteUbergraph_UI_Tier");
-static_assert(sizeof(UI_Tier_C_ExecuteUbergraph_UI_Tier) == 0x000030, "Wrong size on UI_Tier_C_ExecuteUbergraph_UI_Tier");
+static_assert(sizeof(UI_Tier_C_ExecuteUbergraph_UI_Tier) == 0x000038, "Wrong size on UI_Tier_C_ExecuteUbergraph_UI_Tier");
 static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, EntryPoint) == 0x000000, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::EntryPoint' has a wrong offset!");
 static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_Create_ReturnValue) == 0x000008, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_Create_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000010, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_EqualEqual_IntInt_ReturnValue_1) == 0x000011, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_EqualEqual_IntInt_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_SelectFloat_ReturnValue) == 0x000018, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_SelectFloat_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_PlayAnimation_ReturnValue) == 0x000020, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_PlayAnimation_PlaybackSpeed_ImplicitCast) == 0x000028, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_PlayAnimation_PlaybackSpeed_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_GetGameMode_ReturnValue) == 0x000010, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_PlayAnimation_ReturnValue) == 0x000018, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x000020, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, K2Node_DynamicCast_bSuccess) == 0x000028, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::K2Node_DynamicCast_bSuccess' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_SelectInt_ReturnValue) == 0x00002C, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_SelectInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_ExecuteUbergraph_UI_Tier, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000030, "Member 'UI_Tier_C_ExecuteUbergraph_UI_Tier::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
 
 // Function UI_Tier.UI_Tier_C.GetBrush
-// 0x01F0 (0x01F0 - 0x0000)
+// 0x0200 (0x0200 - 0x0000)
 struct UI_Tier_C_GetBrush final
 {
 public:
@@ -56,12 +58,14 @@ public:
 	class UObject*                                Temp_object_Variable_4;                            // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
 	class UObject*                                Temp_object_Variable_5;                            // 0x0100(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
 	class UObject*                                Temp_object_Variable_6;                            // 0x0108(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                K2Node_Select_Default;                             // 0x0110(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	uint8                                         Pad_118[0x8];                                      // 0x0118(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0120(0x00D0)()
+	class UObject*                                Temp_object_Variable_7;                            // 0x0110(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_8;                            // 0x0118(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                K2Node_Select_Default;                             // 0x0120(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	uint8                                         Pad_128[0x8];                                      // 0x0128(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0130(0x00D0)()
 };
 static_assert(alignof(UI_Tier_C_GetBrush) == 0x000010, "Wrong alignment on UI_Tier_C_GetBrush");
-static_assert(sizeof(UI_Tier_C_GetBrush) == 0x0001F0, "Wrong size on UI_Tier_C_GetBrush");
+static_assert(sizeof(UI_Tier_C_GetBrush) == 0x000200, "Wrong size on UI_Tier_C_GetBrush");
 static_assert(offsetof(UI_Tier_C_GetBrush, ReturnValue) == 0x000000, "Member 'UI_Tier_C_GetBrush::ReturnValue' has a wrong offset!");
 static_assert(offsetof(UI_Tier_C_GetBrush, Temp_int_Variable) == 0x0000D0, "Member 'UI_Tier_C_GetBrush::Temp_int_Variable' has a wrong offset!");
 static_assert(offsetof(UI_Tier_C_GetBrush, Temp_object_Variable) == 0x0000D8, "Member 'UI_Tier_C_GetBrush::Temp_object_Variable' has a wrong offset!");
@@ -71,8 +75,10 @@ static_assert(offsetof(UI_Tier_C_GetBrush, Temp_object_Variable_3) == 0x0000F0, 
 static_assert(offsetof(UI_Tier_C_GetBrush, Temp_object_Variable_4) == 0x0000F8, "Member 'UI_Tier_C_GetBrush::Temp_object_Variable_4' has a wrong offset!");
 static_assert(offsetof(UI_Tier_C_GetBrush, Temp_object_Variable_5) == 0x000100, "Member 'UI_Tier_C_GetBrush::Temp_object_Variable_5' has a wrong offset!");
 static_assert(offsetof(UI_Tier_C_GetBrush, Temp_object_Variable_6) == 0x000108, "Member 'UI_Tier_C_GetBrush::Temp_object_Variable_6' has a wrong offset!");
-static_assert(offsetof(UI_Tier_C_GetBrush, K2Node_Select_Default) == 0x000110, "Member 'UI_Tier_C_GetBrush::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_Tier_C_GetBrush, K2Node_MakeStruct_SlateBrush) == 0x000120, "Member 'UI_Tier_C_GetBrush::K2Node_MakeStruct_SlateBrush' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_GetBrush, Temp_object_Variable_7) == 0x000110, "Member 'UI_Tier_C_GetBrush::Temp_object_Variable_7' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_GetBrush, Temp_object_Variable_8) == 0x000118, "Member 'UI_Tier_C_GetBrush::Temp_object_Variable_8' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_GetBrush, K2Node_Select_Default) == 0x000120, "Member 'UI_Tier_C_GetBrush::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_Tier_C_GetBrush, K2Node_MakeStruct_SlateBrush) == 0x000130, "Member 'UI_Tier_C_GetBrush::K2Node_MakeStruct_SlateBrush' has a wrong offset!");
 
 }
 

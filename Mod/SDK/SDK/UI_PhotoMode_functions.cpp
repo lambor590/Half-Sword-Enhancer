@@ -57,7 +57,7 @@ void UUI_PhotoMode_C::BlockScreenshot()
 // (BlueprintEvent)
 // Parameters:
 // int32                                   OptionIndex                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FText                             OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const class FText&                      OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 
 void UUI_PhotoMode_C::BndEvt__Aperture_K2Node_ComponentBoundEvent_33_OnOptionChanged__DelegateSignature(int32 OptionIndex, const class FText& OptionText)
 {
@@ -353,7 +353,7 @@ void UUI_PhotoMode_C::BndEvt__ColorBalanceSelector_K2Node_ComponentBoundEvent_0_
 // (BlueprintEvent)
 // Parameters:
 // int32                                   OptionIndex                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FText                             OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const class FText&                      OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 
 void UUI_PhotoMode_C::BndEvt__ColorBalanceSelector_K2Node_ComponentBoundEvent_32_OnOptionChanged__DelegateSignature(int32 OptionIndex, const class FText& OptionText)
 {
@@ -587,7 +587,7 @@ void UUI_PhotoMode_C::BndEvt__FilmGrain_K2Node_ComponentBoundEvent_12_OnSliderVa
 // (BlueprintEvent)
 // Parameters:
 // int32                                   OptionIndex                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FText                             OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const class FText&                      OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 
 void UUI_PhotoMode_C::BndEvt__Filter_K2Node_ComponentBoundEvent_31_OnOptionChanged__DelegateSignature(int32 OptionIndex, const class FText& OptionText)
 {
@@ -697,7 +697,7 @@ void UUI_PhotoMode_C::BndEvt__FrameRed_K2Node_ComponentBoundEvent_21_OnSliderVal
 // (BlueprintEvent)
 // Parameters:
 // int32                                   OptionIndex                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FText                             OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const class FText&                      OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 
 void UUI_PhotoMode_C::BndEvt__FrameSelector_K2Node_ComponentBoundEvent_29_OnOptionChanged__DelegateSignature(int32 OptionIndex, const class FText& OptionText)
 {
@@ -825,7 +825,7 @@ void UUI_PhotoMode_C::BndEvt__LogoHorizontalAlignment_K2Node_ComponentBoundEvent
 // (BlueprintEvent)
 // Parameters:
 // int32                                   OptionIndex                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FText                             OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const class FText&                      OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 
 void UUI_PhotoMode_C::BndEvt__LogoSelector_K2Node_ComponentBoundEvent_27_OnOptionChanged__DelegateSignature(int32 OptionIndex, const class FText& OptionText)
 {
@@ -935,7 +935,7 @@ void UUI_PhotoMode_C::BndEvt__MotionBlur_K2Node_ComponentBoundEvent_13_OnSliderV
 // (BlueprintEvent)
 // Parameters:
 // int32                                   OptionIndex                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FText                             OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const class FText&                      OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 
 void UUI_PhotoMode_C::BndEvt__PhotoResolution_K2Node_ComponentBoundEvent_28_OnOptionChanged__DelegateSignature(int32 OptionIndex, const class FText& OptionText)
 {
@@ -957,7 +957,7 @@ void UUI_PhotoMode_C::BndEvt__PhotoResolution_K2Node_ComponentBoundEvent_28_OnOp
 // (BlueprintEvent)
 // Parameters:
 // int32                                   OptionIndex                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FText                             OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const class FText&                      OptionText                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 
 void UUI_PhotoMode_C::BndEvt__Rendering_K2Node_ComponentBoundEvent_30_OnOptionChanged__DelegateSignature(int32 OptionIndex, const class FText& OptionText)
 {
@@ -1232,7 +1232,7 @@ void UUI_PhotoMode_C::ChangeFreeCameraFOV(double FOVValue)
 // Function UI_PhotoMode.UI_PhotoMode_C.ChangeFreeCameraRotation
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FRotator                         RotationValue                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// const struct FRotator&                  RotationValue                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
 
 void UUI_PhotoMode_C::ChangeFreeCameraRotation(const struct FRotator& RotationValue)
 {
@@ -1334,7 +1334,7 @@ void UUI_PhotoMode_C::ExecuteUbergraph_UI_PhotoMode(int32 EntryPoint)
 // Function UI_PhotoMode.UI_PhotoMode_C.Focus
 // (HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class UWidget*                          WidgetItem                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, InstancedReference, ReferenceParm, NoDestructor, HasGetValueTypeHash)
+// const class UWidget*&                   WidgetItem                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, InstancedReference, ReferenceParm, NoDestructor, HasGetValueTypeHash)
 
 void UUI_PhotoMode_C::Focus(const class UWidget*& WidgetItem)
 {
@@ -1414,7 +1414,7 @@ ESlateVisibility UUI_PhotoMode_C::Get_Focus_Region_Visibility()
 // Function UI_PhotoMode.UI_PhotoMode_C.Get Photo Resolution
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// struct FIntPoint                        Resolution                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FIntPoint*                       Resolution                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_PhotoMode_C::Get_Photo_Resolution(struct FIntPoint* Resolution)
 {
@@ -1455,7 +1455,7 @@ double UUI_PhotoMode_C::getAdjustedWorldDeltaSeconds()
 // Function UI_PhotoMode.UI_PhotoMode_C.GetAnyKey
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FKey                             Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
 void UUI_PhotoMode_C::GetAnyKey(const struct FKey& Key)
 {
@@ -1727,9 +1727,9 @@ void UUI_PhotoMode_C::OnDestruct()
 // Function UI_PhotoMode.UI_PhotoMode_C.OnFreeCameraStart
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class BP_FreeCamera::ABP_FreeCamera_C*  FreeCameraReference                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class BP_FreeCamera_0::ABP_FreeCamera_C*FreeCameraReference                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void UUI_PhotoMode_C::OnFreeCameraStart(class BP_FreeCamera::ABP_FreeCamera_C* FreeCameraReference)
+void UUI_PhotoMode_C::OnFreeCameraStart(class BP_FreeCamera_0::ABP_FreeCamera_C* FreeCameraReference)
 {
 	static class UFunction* Func = nullptr;
 
@@ -1761,8 +1761,8 @@ void UUI_PhotoMode_C::OnFreenCameraEnd()
 // Function UI_PhotoMode.UI_PhotoMode_C.OnKeyDown
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FKeyEvent                        InKeyEvent                                             (BlueprintVisible, BlueprintReadOnly, Parm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FKeyEvent&                 InKeyEvent                                             (BlueprintVisible, BlueprintReadOnly, Parm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_PhotoMode_C::OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
@@ -1806,8 +1806,8 @@ void UUI_PhotoMode_C::OnLoaded_82A7579942174F38FE2AD9A2E247AA34(class UObject* L
 // Function UI_PhotoMode.UI_PhotoMode_C.OnMouseButtonDoubleClick
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        InMyGeometry                                           (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    InMouseEvent                                           (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 InMyGeometry                                           (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             InMouseEvent                                           (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_PhotoMode_C::OnMouseButtonDoubleClick(const struct FGeometry& InMyGeometry, const struct FPointerEvent& InMouseEvent)
@@ -1831,8 +1831,8 @@ struct FEventReply UUI_PhotoMode_C::OnMouseButtonDoubleClick(const struct FGeome
 // Function UI_PhotoMode.UI_PhotoMode_C.OnMouseButtonDown
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_PhotoMode_C::OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -1856,8 +1856,8 @@ struct FEventReply UUI_PhotoMode_C::OnMouseButtonDown(const struct FGeometry& My
 // Function UI_PhotoMode.UI_PhotoMode_C.OnMouseEnter
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_PhotoMode_C::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
@@ -1878,7 +1878,7 @@ void UUI_PhotoMode_C::OnMouseEnter(const struct FGeometry& MyGeometry, const str
 // Function UI_PhotoMode.UI_PhotoMode_C.OnMouseLeave
 // (BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 
 void UUI_PhotoMode_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
@@ -1898,8 +1898,8 @@ void UUI_PhotoMode_C::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 // Function UI_PhotoMode.UI_PhotoMode_C.OnMouseMove
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_PhotoMode_C::OnMouseMove(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -1923,8 +1923,8 @@ struct FEventReply UUI_PhotoMode_C::OnMouseMove(const struct FGeometry& MyGeomet
 // Function UI_PhotoMode.UI_PhotoMode_C.OnMouseWheel
 // (BlueprintCosmetic, Event, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm)
 
 struct FEventReply UUI_PhotoMode_C::OnMouseWheel(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -1948,7 +1948,7 @@ struct FEventReply UUI_PhotoMode_C::OnMouseWheel(const struct FGeometry& MyGeome
 // Function UI_PhotoMode.UI_PhotoMode_C.OnRemovedFromFocusPath
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FFocusEvent                      InFocusEvent                                           (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
+// const struct FFocusEvent&               InFocusEvent                                           (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
 
 void UUI_PhotoMode_C::OnRemovedFromFocusPath(const struct FFocusEvent& InFocusEvent)
 {
@@ -2022,9 +2022,9 @@ void UUI_PhotoMode_C::PreConstruct(bool IsDesignTime)
 // Function UI_PhotoMode.UI_PhotoMode_C.Register Photo
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class FString                           Save_New_Photo_Title                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
-// class FString                           Save_New_Photo_Photo_Full_Path                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
-// class FString                           Save_New_Photo_Thumbnail_Full_Path                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Save_New_Photo_Title                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Save_New_Photo_Photo_Full_Path                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const class FString&                    Save_New_Photo_Thumbnail_Full_Path                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
 void UUI_PhotoMode_C::Register_Photo(const class FString& Save_New_Photo_Title, const class FString& Save_New_Photo_Photo_Full_Path, const class FString& Save_New_Photo_Thumbnail_Full_Path)
 {
@@ -2046,8 +2046,8 @@ void UUI_PhotoMode_C::Register_Photo(const class FString& Save_New_Photo_Title, 
 // Function UI_PhotoMode.UI_PhotoMode_C.RemoveMaterialFromCamera
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TArray<struct FWeightedBlendable>       TargetArray                                            (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
-// struct FWeightedBlendable               Item                                                   (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, NoDestructor)
+// const TArray<struct FWeightedBlendable>&TargetArray                                            (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// const struct FWeightedBlendable&        Item                                                   (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, NoDestructor)
 
 void UUI_PhotoMode_C::RemoveMaterialFromCamera(const TArray<struct FWeightedBlendable>& TargetArray, const struct FWeightedBlendable& Item)
 {
@@ -2110,7 +2110,7 @@ void UUI_PhotoMode_C::Screenshot()
 // Function UI_PhotoMode.UI_PhotoMode_C.SendPhotoData
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FS_PhotosData                    PhotoData                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const struct FS_PhotosData&             PhotoData                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
 void UUI_PhotoMode_C::SendPhotoData(const struct FS_PhotosData& PhotoData)
 {
@@ -2131,7 +2131,7 @@ void UUI_PhotoMode_C::SendPhotoData(const struct FS_PhotosData& PhotoData)
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // bool                                    bIsHitValid                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FPostProcessSettings             PostProcess                                            (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// struct FPostProcessSettings&            PostProcess                                            (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
 // double                                  Distance                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_PhotoMode_C::Set_Focus_Distance(bool bIsHitValid, struct FPostProcessSettings& PostProcess, double Distance)
@@ -2366,7 +2366,7 @@ ESlateVisibility UUI_PhotoMode_C::TakePictureButtonVisibility()
 // Function UI_PhotoMode.UI_PhotoMode_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_PhotoMode_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

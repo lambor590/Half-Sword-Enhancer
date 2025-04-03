@@ -152,10 +152,10 @@ static_assert(sizeof(UInterchangeGLTFPipeline) == 0x000110, "Wrong size on UInte
 class UMaterialXPipelineSettings final : public UDeveloperSettings
 {
 public:
-	TMap<EInterchangeMaterialXShaders, struct FSoftObjectPath> PredefinedSurfaceShaders;                          // 0x0038(0x0050)(Edit, Config, NativeAccessSpecifierPublic)
-	TMap<EInterchangeMaterialXBSDF, struct FSoftObjectPath> PredefinedBSDF;                                    // 0x0088(0x0050)(Edit, Config, NativeAccessSpecifierPublic)
-	TMap<EInterchangeMaterialXEDF, struct FSoftObjectPath> PredefinedEDF;                                     // 0x00D8(0x0050)(Edit, Config, NativeAccessSpecifierPublic)
-	TMap<EInterchangeMaterialXVDF, struct FSoftObjectPath> PredefinedVDF;                                     // 0x0128(0x0050)(Edit, Config, NativeAccessSpecifierPublic)
+	TMap<EInterchangeMaterialXShaders, struct FSoftObjectPath> PredefinedSurfaceShaders;             // 0x0038(0x0050)(Edit, Config, NativeAccessSpecifierPublic)
+	TMap<EInterchangeMaterialXBSDF, struct FSoftObjectPath> PredefinedBSDF;                          // 0x0088(0x0050)(Edit, Config, NativeAccessSpecifierPublic)
+	TMap<EInterchangeMaterialXEDF, struct FSoftObjectPath> PredefinedEDF;                            // 0x00D8(0x0050)(Edit, Config, NativeAccessSpecifierPublic)
+	TMap<EInterchangeMaterialXVDF, struct FSoftObjectPath> PredefinedVDF;                            // 0x0128(0x0050)(Edit, Config, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -199,8 +199,8 @@ static_assert(sizeof(UInterchangeMaterialXPipeline) == 0x000110, "Wrong size on 
 class UInterchangeGenericAnimationPipeline final : public UInterchangePipelineBase
 {
 public:
-	TWeakObjectPtr<class UInterchangeGenericCommonSkeletalMeshesAndAnimationsProperties> CommonSkeletalMeshesAndAnimationsProperties;       // 0x0108(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TWeakObjectPtr<class UInterchangeGenericCommonMeshesProperties> CommonMeshesProperties;                            // 0x0110(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TWeakObjectPtr<class UInterchangeGenericCommonSkeletalMeshesAndAnimationsProperties> CommonSkeletalMeshesAndAnimationsProperties; // 0x0108(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TWeakObjectPtr<class UInterchangeGenericCommonMeshesProperties> CommonMeshesProperties;          // 0x0110(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bImportAnimations;                                 // 0x0118(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bImportBoneTracks;                                 // 0x0119(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	EInterchangeAnimationRange                    AnimationRange;                                    // 0x011A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -271,8 +271,8 @@ public:
 	struct FRotator                               ImportOffsetRotation;                              // 0x0148(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 	float                                         ImportOffsetUniformScale;                          // 0x0160(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_164[0x4];                                      // 0x0164(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UInterchangeGenericCommonMeshesProperties* CommonMeshesProperties;                            // 0x0168(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class UInterchangeGenericCommonSkeletalMeshesAndAnimationsProperties* CommonSkeletalMeshesAndAnimationsProperties;       // 0x0170(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class UInterchangeGenericCommonMeshesProperties* CommonMeshesProperties;                         // 0x0168(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class UInterchangeGenericCommonSkeletalMeshesAndAnimationsProperties* CommonSkeletalMeshesAndAnimationsProperties; // 0x0170(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UInterchangeGenericMeshPipeline*        MeshPipeline;                                      // 0x0178(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UInterchangeGenericAnimationPipeline*   AnimationPipeline;                                 // 0x0180(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class UInterchangeGenericMaterialPipeline*    MaterialPipeline;                                  // 0x0188(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -350,8 +350,8 @@ static_assert(offsetof(UInterchangeGenericMaterialPipeline, BaseNodeContainer) =
 class UInterchangeGenericMeshPipeline final : public UInterchangePipelineBase
 {
 public:
-	TWeakObjectPtr<class UInterchangeGenericCommonMeshesProperties> CommonMeshesProperties;                            // 0x0108(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TWeakObjectPtr<class UInterchangeGenericCommonSkeletalMeshesAndAnimationsProperties> CommonSkeletalMeshesAndAnimationsProperties;       // 0x0110(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TWeakObjectPtr<class UInterchangeGenericCommonMeshesProperties> CommonMeshesProperties;          // 0x0108(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TWeakObjectPtr<class UInterchangeGenericCommonSkeletalMeshesAndAnimationsProperties> CommonSkeletalMeshesAndAnimationsProperties; // 0x0110(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bImportStaticMeshes;                               // 0x0118(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bCombineStaticMeshes;                              // 0x0119(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_11A[0x2];                                      // 0x011A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])

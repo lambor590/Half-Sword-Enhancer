@@ -54,7 +54,7 @@ class ALevelVariantSetsActor final : public AActor
 {
 public:
 	struct FSoftObjectPath                        LevelVariantSets;                                  // 0x0290(0x0020)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<TSubclassOf<class UObject>, class ULevelVariantSetsFunctionDirector*> DirectorInstances;                                 // 0x02B0(0x0050)(Transient, UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<TSubclassOf<class UObject>, class ULevelVariantSetsFunctionDirector*> DirectorInstances;    // 0x02B0(0x0050)(Transient, UObjectWrapper, NativeAccessSpecifierPrivate)
 
 public:
 	class ULevelVariantSets* GetLevelVariantSets(bool bLoad);

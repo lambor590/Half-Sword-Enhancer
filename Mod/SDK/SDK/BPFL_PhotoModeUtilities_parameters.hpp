@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "E_ScreenshotMethod_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "UMG_structs.hpp"
 #include "S_PhotosData_structs.hpp"
+#include "E_ScreenshotMethod_structs.hpp"
 #include "E_SaveSort_structs.hpp"
 
 
@@ -127,8 +127,8 @@ public:
 	class APlayerController*                      PlayerController;                                  // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UObject*                                __WorldContext;                                    // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                CameraLocation;                                    // 0x0010(0x0018)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TMap<class APostProcessVolume*, struct FTransform> VolumesTransforms;                                 // 0x0028(0x0050)(Parm, OutParm)
-	TMap<class APostProcessVolume*, struct FVector> VolumesExtent;                                     // 0x0078(0x0050)(Parm, OutParm)
+	TMap<class APostProcessVolume*, struct FTransform> VolumesTransforms;                            // 0x0028(0x0050)(Parm, OutParm)
+	TMap<class APostProcessVolume*, struct FVector> VolumesExtent;                                   // 0x0078(0x0050)(Parm, OutParm)
 	TArray<double>                                PriorityArray;                                     // 0x00C8(0x0010)(Edit, BlueprintVisible)
 	int32                                         LastIndex;                                         // 0x00D8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_DC[0x4];                                       // 0x00DC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
@@ -138,8 +138,8 @@ public:
 	struct FTransform                             BoxTransform;                                      // 0x0110(0x0060)(Edit, BlueprintVisible, DisableEditOnTemplate, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FRotator                               CurrentPostProcessRotation;                        // 0x0170(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor)
 	struct FVector                                CameraLoc;                                         // 0x0188(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TMap<class APostProcessVolume*, struct FVector> BlendedVolumesExtent;                              // 0x01A0(0x0050)(Edit, BlueprintVisible, DisableEditOnTemplate)
-	TMap<class APostProcessVolume*, struct FTransform> BlendedPostProcessVolumes;                         // 0x01F0(0x0050)(Edit, BlueprintVisible, DisableEditOnTemplate)
+	TMap<class APostProcessVolume*, struct FVector> BlendedVolumesExtent;                            // 0x01A0(0x0050)(Edit, BlueprintVisible, DisableEditOnTemplate)
+	TMap<class APostProcessVolume*, struct FTransform> BlendedPostProcessVolumes;                    // 0x01F0(0x0050)(Edit, BlueprintVisible, DisableEditOnTemplate)
 	TArray<class APostProcessVolume*>             CallFunc_GetAllActorsOfClass_OutActors;            // 0x0240(0x0010)(ReferenceParm)
 	struct FVector                                CallFunc_K2_GetActorLocation_ReturnValue;          // 0x0250(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Temp_int_Loop_Counter_Variable;                    // 0x0268(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)

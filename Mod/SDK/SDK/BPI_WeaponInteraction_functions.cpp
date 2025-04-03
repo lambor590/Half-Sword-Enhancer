@@ -21,8 +21,8 @@ namespace SDK
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UPrimitiveComponent*              Hit_Component                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          Weapon_Velocity                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FHitResult                       Hit_Result                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+// const struct FVector&                   Weapon_Velocity                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit_Result                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 // double                                  EdgeAllignment_Dot                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Laser_temp_                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UClass*                           Weapon                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
@@ -32,7 +32,7 @@ void IBPI_WeaponInteraction_C::Weapon_HIt(class UPrimitiveComponent* Hit_Compone
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BPI_WeaponInteraction_C", "Weapon HIt");
+		Func = AsUObject()->Class->GetFunction("BPI_WeaponInteraction_C", "Weapon HIt");
 
 	Params::BPI_WeaponInteraction_C_Weapon_HIt Parms{};
 
@@ -43,7 +43,7 @@ void IBPI_WeaponInteraction_C::Weapon_HIt(class UPrimitiveComponent* Hit_Compone
 	Parms.Laser_temp_ = Laser_temp_;
 	Parms.Weapon = Weapon;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 }

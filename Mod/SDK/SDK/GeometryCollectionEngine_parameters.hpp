@@ -547,7 +547,7 @@ static_assert(offsetof(GeometryCollectionComponent_SetDamageModel, InDamageModel
 struct GeometryCollectionComponent_SetDamagePropagationData final
 {
 public:
-	struct FGeometryCollectionDamagePropagationData InDamagePropagationData;                           // 0x0000(0x000C)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+	struct FGeometryCollectionDamagePropagationData InDamagePropagationData;                         // 0x0000(0x000C)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(GeometryCollectionComponent_SetDamagePropagationData) == 0x000004, "Wrong alignment on GeometryCollectionComponent_SetDamagePropagationData");
 static_assert(sizeof(GeometryCollectionComponent_SetDamagePropagationData) == 0x00000C, "Wrong size on GeometryCollectionComponent_SetDamagePropagationData");

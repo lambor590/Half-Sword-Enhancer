@@ -79,7 +79,7 @@ static_assert(sizeof(UPlatformSettings) == 0x000040, "Wrong size on UPlatformSet
 class UPlatformSettingsManager final : public UObject
 {
 public:
-	TMap<TSubclassOf<class UPlatformSettings>, struct FPlatformSettingsInstances> SettingsMap;                                       // 0x0028(0x0050)(Transient, NativeAccessSpecifierPrivate)
+	TMap<TSubclassOf<class UPlatformSettings>, struct FPlatformSettingsInstances> SettingsMap;       // 0x0028(0x0050)(Transient, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_78[0x8];                                       // 0x0078(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

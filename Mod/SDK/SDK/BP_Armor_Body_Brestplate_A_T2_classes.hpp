@@ -10,6 +10,7 @@
 
 #include "Basic.hpp"
 
+#include "Engine_structs.hpp"
 #include "BP_Armor_Master_classes.hpp"
 
 
@@ -17,9 +18,17 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C
-// 0x0000 (0x07F0 - 0x07F0)
+// 0x0010 (0x0810 - 0x0800)
 class ABP_Armor_Body_Brestplate_A_T2_C : public ABP_Armor_Master_C
 {
+public:
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C;    // 0x0800(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+
+public:
+	void ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint);
+	void ReceiveBeginPlay();
+	void ReceiveTick(float DeltaSeconds);
+
 public:
 	static class UClass* StaticClass()
 	{
@@ -31,7 +40,8 @@ public:
 	}
 };
 static_assert(alignof(ABP_Armor_Body_Brestplate_A_T2_C) == 0x000010, "Wrong alignment on ABP_Armor_Body_Brestplate_A_T2_C");
-static_assert(sizeof(ABP_Armor_Body_Brestplate_A_T2_C) == 0x0007F0, "Wrong size on ABP_Armor_Body_Brestplate_A_T2_C");
+static_assert(sizeof(ABP_Armor_Body_Brestplate_A_T2_C) == 0x000810, "Wrong size on ABP_Armor_Body_Brestplate_A_T2_C");
+static_assert(offsetof(ABP_Armor_Body_Brestplate_A_T2_C, UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C) == 0x000800, "Member 'ABP_Armor_Body_Brestplate_A_T2_C::UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C' has a wrong offset!");
 
 }
 

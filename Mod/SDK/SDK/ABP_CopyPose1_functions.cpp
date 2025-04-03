@@ -20,7 +20,7 @@ namespace SDK
 // Function ABP_CopyPose1.ABP_CopyPose1_C.AnimGraph
 // (HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FPoseLink                        AnimGraph_0                                            (Parm, OutParm, NoDestructor)
+// struct FPoseLink*                       AnimGraph_0                                            (Parm, OutParm, NoDestructor)
 
 void UABP_CopyPose1_C::AnimGraph(struct FPoseLink* AnimGraph_0)
 {

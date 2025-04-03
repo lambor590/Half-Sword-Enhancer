@@ -20,21 +20,21 @@ namespace SDK
 // Function IKRig.IKGoalCreatorInterface.AddIKGoals
 // (Native, Event, Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// TMap<class FName, struct FIKRigGoal>    OutGoals                                               (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FName, struct FIKRigGoal>*   OutGoals                                               (Parm, OutParm, NativeAccessSpecifierPublic)
 
 void IIKGoalCreatorInterface::AddIKGoals(TMap<class FName, struct FIKRigGoal>* OutGoals)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("IKGoalCreatorInterface", "AddIKGoals");
+		Func = AsUObject()->Class->GetFunction("IKGoalCreatorInterface", "AddIKGoals");
 
 	Params::IKGoalCreatorInterface_AddIKGoals Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -65,7 +65,7 @@ void UIKRigComponent::ClearAllGoals()
 // Function IKRig.IKRigComponent.SetIKRigGoal
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FIKRigGoal                       Goal                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FIKRigGoal&                Goal                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UIKRigComponent::SetIKRigGoal(const struct FIKRigGoal& Goal)
 {
@@ -90,11 +90,11 @@ void UIKRigComponent::SetIKRigGoal(const struct FIKRigGoal& Goal)
 // Function IKRig.IKRigComponent.SetIKRigGoalPositionAndRotation
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// class FName                             GoalName                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          Position                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FQuat                            Rotation                                               (ConstParm, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   PositionAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   RotationAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       GoalName                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   Position                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FQuat&                     Rotation                                               (ConstParm, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             PositionAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             RotationAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UIKRigComponent::SetIKRigGoalPositionAndRotation(const class FName GoalName, const struct FVector& Position, const struct FQuat& Rotation, const float PositionAlpha, const float RotationAlpha)
 {
@@ -123,10 +123,10 @@ void UIKRigComponent::SetIKRigGoalPositionAndRotation(const class FName GoalName
 // Function IKRig.IKRigComponent.SetIKRigGoalTransform
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// class FName                             GoalName                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       Transform                                              (ConstParm, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   PositionAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   RotationAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       GoalName                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                Transform                                              (ConstParm, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             PositionAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             RotationAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UIKRigComponent::SetIKRigGoalTransform(const class FName GoalName, const struct FTransform& Transform, const float PositionAlpha, const float RotationAlpha)
 {
@@ -154,9 +154,9 @@ void UIKRigComponent::SetIKRigGoalTransform(const class FName GoalName, const st
 // Function IKRig.IKRetargeter.GetChainSettingsFromRetargetAsset
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UIKRetargeter*                    RetargetAsset                                          (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             OptionalProfileName                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UIKRetargeter*              RetargetAsset                                          (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       OptionalProfileName                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FTargetChainSettings             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FTargetChainSettings UIKRetargeter::GetChainSettingsFromRetargetAsset(const class UIKRetargeter* RetargetAsset, const class FName TargetChainName, const class FName OptionalProfileName)
@@ -186,8 +186,8 @@ struct FTargetChainSettings UIKRetargeter::GetChainSettingsFromRetargetAsset(con
 // Function IKRig.IKRetargeter.GetChainSettingsFromRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// class FName                             TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const class FName                       TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FTargetChainSettings             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FTargetChainSettings UIKRetargeter::GetChainSettingsFromRetargetProfile(struct FRetargetProfile& RetargetProfile, const class FName TargetChainName)
@@ -218,8 +218,8 @@ struct FTargetChainSettings UIKRetargeter::GetChainSettingsFromRetargetProfile(s
 // Function IKRig.IKRetargeter.GetChainUsingGoalFromRetargetAsset
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UIKRetargeter*                    RetargetAsset                                          (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             IKGoalName                                             (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UIKRetargeter*              RetargetAsset                                          (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       IKGoalName                                             (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FTargetChainSettings             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FTargetChainSettings UIKRetargeter::GetChainUsingGoalFromRetargetAsset(const class UIKRetargeter* RetargetAsset, const class FName IKGoalName)
@@ -248,9 +248,9 @@ struct FTargetChainSettings UIKRetargeter::GetChainUsingGoalFromRetargetAsset(co
 // Function IKRig.IKRetargeter.GetGlobalSettingsFromRetargetAsset
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UIKRetargeter*                    RetargetAsset                                          (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             OptionalProfileName                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FRetargetGlobalSettings          OutSettings                                            (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// const class UIKRetargeter*              RetargetAsset                                          (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       OptionalProfileName                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FRetargetGlobalSettings*         OutSettings                                            (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UIKRetargeter::GetGlobalSettingsFromRetargetAsset(const class UIKRetargeter* RetargetAsset, const class FName OptionalProfileName, struct FRetargetGlobalSettings* OutSettings)
 {
@@ -279,7 +279,7 @@ void UIKRetargeter::GetGlobalSettingsFromRetargetAsset(const class UIKRetargeter
 // Function IKRig.IKRetargeter.GetGlobalSettingsFromRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FRetargetGlobalSettings          ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FRetargetGlobalSettings UIKRetargeter::GetGlobalSettingsFromRetargetProfile(struct FRetargetProfile& RetargetProfile)
@@ -309,9 +309,9 @@ struct FRetargetGlobalSettings UIKRetargeter::GetGlobalSettingsFromRetargetProfi
 // Function IKRig.IKRetargeter.GetRootSettingsFromRetargetAsset
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UIKRetargeter*                    RetargetAsset                                          (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             OptionalProfileName                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTargetRootSettings              OutSettings                                            (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// const class UIKRetargeter*              RetargetAsset                                          (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName                       OptionalProfileName                                    (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FTargetRootSettings*             OutSettings                                            (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UIKRetargeter::GetRootSettingsFromRetargetAsset(const class UIKRetargeter* RetargetAsset, const class FName OptionalProfileName, struct FTargetRootSettings* OutSettings)
 {
@@ -340,7 +340,7 @@ void UIKRetargeter::GetRootSettingsFromRetargetAsset(const class UIKRetargeter* 
 // Function IKRig.IKRetargeter.GetRootSettingsFromRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FTargetRootSettings              ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FTargetRootSettings UIKRetargeter::GetRootSettingsFromRetargetProfile(struct FRetargetProfile& RetargetProfile)
@@ -370,9 +370,9 @@ struct FTargetRootSettings UIKRetargeter::GetRootSettingsFromRetargetProfile(str
 // Function IKRig.IKRetargeter.SetChainFKSettingsInRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTargetChainFKSettings           FKSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// class FName                             TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTargetChainFKSettings&    FKSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const class FName                       TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UIKRetargeter::SetChainFKSettingsInRetargetProfile(struct FRetargetProfile& RetargetProfile, const struct FTargetChainFKSettings& FKSettings, const class FName TargetChainName)
 {
@@ -401,9 +401,9 @@ void UIKRetargeter::SetChainFKSettingsInRetargetProfile(struct FRetargetProfile&
 // Function IKRig.IKRetargeter.SetChainIKSettingsInRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTargetChainIKSettings           IKSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// class FName                             TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTargetChainIKSettings&    IKSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const class FName                       TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UIKRetargeter::SetChainIKSettingsInRetargetProfile(struct FRetargetProfile& RetargetProfile, const struct FTargetChainIKSettings& IKSettings, const class FName TargetChainName)
 {
@@ -432,9 +432,9 @@ void UIKRetargeter::SetChainIKSettingsInRetargetProfile(struct FRetargetProfile&
 // Function IKRig.IKRetargeter.SetChainSettingsInRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTargetChainSettings             ChainSettings_0                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// class FName                             TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTargetChainSettings&      ChainSettings_0                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const class FName                       TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UIKRetargeter::SetChainSettingsInRetargetProfile(struct FRetargetProfile& RetargetProfile, const struct FTargetChainSettings& ChainSettings_0, const class FName TargetChainName)
 {
@@ -463,9 +463,9 @@ void UIKRetargeter::SetChainSettingsInRetargetProfile(struct FRetargetProfile& R
 // Function IKRig.IKRetargeter.SetChainSpeedPlantSettingsInRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTargetChainSpeedPlantSettings   SpeedPlantSettings                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// class FName                             TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTargetChainSpeedPlantSettings&SpeedPlantSettings                                     (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const class FName                       TargetChainName                                        (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UIKRetargeter::SetChainSpeedPlantSettingsInRetargetProfile(struct FRetargetProfile& RetargetProfile, const struct FTargetChainSpeedPlantSettings& SpeedPlantSettings, const class FName TargetChainName)
 {
@@ -494,8 +494,8 @@ void UIKRetargeter::SetChainSpeedPlantSettingsInRetargetProfile(struct FRetarget
 // Function IKRig.IKRetargeter.SetGlobalSettingsInRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FRetargetGlobalSettings          GlobalSettings_0                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FRetargetGlobalSettings&   GlobalSettings_0                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UIKRetargeter::SetGlobalSettingsInRetargetProfile(struct FRetargetProfile& RetargetProfile, const struct FRetargetGlobalSettings& GlobalSettings_0)
 {
@@ -523,8 +523,8 @@ void UIKRetargeter::SetGlobalSettingsInRetargetProfile(struct FRetargetProfile& 
 // Function IKRig.IKRetargeter.SetRootSettingsInRetargetProfile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FRetargetProfile                 RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FTargetRootSettings              RootSettings_0                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FRetargetProfile&                RetargetProfile                                        (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTargetRootSettings&       RootSettings_0                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UIKRetargeter::SetRootSettingsInRetargetProfile(struct FRetargetProfile& RetargetProfile, const struct FTargetRootSettings& RootSettings_0)
 {

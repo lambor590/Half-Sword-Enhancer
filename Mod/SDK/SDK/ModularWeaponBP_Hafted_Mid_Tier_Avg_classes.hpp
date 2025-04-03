@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_Hafted_Mid_Tier_Avg.ModularWeaponBP_Hafted_Mid_Tier_Avg_C
-// 0x0000 (0x0B30 - 0x0B30)
+// 0x0000 (0x0B48 - 0x0B48)
 class AModularWeaponBP_Hafted_Mid_Tier_Avg_C final : public AModularWeaponBP_C
 {
 public:
@@ -31,7 +31,7 @@ public:
 	}
 };
 static_assert(alignof(AModularWeaponBP_Hafted_Mid_Tier_Avg_C) == 0x000008, "Wrong alignment on AModularWeaponBP_Hafted_Mid_Tier_Avg_C");
-static_assert(sizeof(AModularWeaponBP_Hafted_Mid_Tier_Avg_C) == 0x000B30, "Wrong size on AModularWeaponBP_Hafted_Mid_Tier_Avg_C");
+static_assert(sizeof(AModularWeaponBP_Hafted_Mid_Tier_Avg_C) == 0x000B48, "Wrong size on AModularWeaponBP_Hafted_Mid_Tier_Avg_C");
 
 }
 

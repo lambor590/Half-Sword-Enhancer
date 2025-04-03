@@ -20,7 +20,7 @@ namespace SDK
 // Function MetasoundEngine.MetasoundFrontendLiteralBlueprintAccess.CreateBoolArrayMetaSoundLiteral
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<bool>                            Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<bool>&                     Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::CreateBoolArrayMetaSoundLiteral(const TArray<bool>& Value)
@@ -76,7 +76,7 @@ struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::Creat
 // Function MetasoundEngine.MetasoundFrontendLiteralBlueprintAccess.CreateFloatArrayMetaSoundLiteral
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<float>                           Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<float>&                    Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::CreateFloatArrayMetaSoundLiteral(const TArray<float>& Value)
@@ -132,7 +132,7 @@ struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::Creat
 // Function MetasoundEngine.MetasoundFrontendLiteralBlueprintAccess.CreateIntArrayMetaSoundLiteral
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<int32>                           Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<int32>&                    Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::CreateIntArrayMetaSoundLiteral(const TArray<int32>& Value)
@@ -188,7 +188,7 @@ struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::Creat
 // Function MetasoundEngine.MetasoundFrontendLiteralBlueprintAccess.CreateMetaSoundLiteralFromParam
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAudioParameter                  Param                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAudioParameter&           Param                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::CreateMetaSoundLiteralFromParam(const struct FAudioParameter& Param)
@@ -216,7 +216,7 @@ struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::Creat
 // Function MetasoundEngine.MetasoundFrontendLiteralBlueprintAccess.CreateObjectArrayMetaSoundLiteral
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<class UObject*>                  Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class UObject*>&           Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::CreateObjectArrayMetaSoundLiteral(const TArray<class UObject*>& Value)
@@ -272,7 +272,7 @@ struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::Creat
 // Function MetasoundEngine.MetasoundFrontendLiteralBlueprintAccess.CreateStringArrayMetaSoundLiteral
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<class FString>                   Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class FString>&            Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::CreateStringArrayMetaSoundLiteral(const TArray<class FString>& Value)
@@ -300,7 +300,7 @@ struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::Creat
 // Function MetasoundEngine.MetasoundFrontendLiteralBlueprintAccess.CreateStringMetaSoundLiteral
 // (Final, Native, Static, Private, BlueprintCallable)
 // Parameters:
-// class FString                           Value                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Value                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetasoundFrontendLiteralBlueprintAccess::CreateStringMetaSoundLiteral(const class FString& Value)
@@ -385,12 +385,12 @@ bool UMetasoundGeneratorHandle::ApplyParameterPack(class UMetasoundParameterPack
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             OutputName                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TDelegate<void(class FName OutputName, struct FMetaSoundOutput& Output)>OnOutputValueChanged                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TDelegate<void(class FName OutputName, const struct FMetaSoundOutput& Output)>&OnOutputValueChanged                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             AnalyzerName                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             AnalyzerOutputName                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-bool UMetasoundGeneratorHandle::WatchOutput(class FName OutputName, const TDelegate<void(class FName OutputName, struct FMetaSoundOutput& Output)>& OnOutputValueChanged, class FName AnalyzerName, class FName AnalyzerOutputName)
+bool UMetasoundGeneratorHandle::WatchOutput(class FName OutputName, const TDelegate<void(class FName OutputName, const struct FMetaSoundOutput& Output)>& OnOutputValueChanged, class FName AnalyzerName, class FName AnalyzerOutputName)
 {
 	static class UFunction* Func = nullptr;
 
@@ -566,8 +566,8 @@ void UMetaSoundCacheSubsystem::TouchOrPrecacheMetaSound(class UMetaSoundSource* 
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.GetBool
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetasoundOutputBlueprintAccess::GetBool(const struct FMetaSoundOutput& Output, bool* Success)
@@ -598,8 +598,8 @@ bool UMetasoundOutputBlueprintAccess::GetBool(const struct FMetaSoundOutput& Out
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.GetFloat
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UMetasoundOutputBlueprintAccess::GetFloat(const struct FMetaSoundOutput& Output, bool* Success)
@@ -630,8 +630,8 @@ float UMetasoundOutputBlueprintAccess::GetFloat(const struct FMetaSoundOutput& O
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.GetInt32
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UMetasoundOutputBlueprintAccess::GetInt32(const struct FMetaSoundOutput& Output, bool* Success)
@@ -662,8 +662,8 @@ int32 UMetasoundOutputBlueprintAccess::GetInt32(const struct FMetaSoundOutput& O
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.GetString
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class FString UMetasoundOutputBlueprintAccess::GetString(const struct FMetaSoundOutput& Output, bool* Success)
@@ -694,8 +694,8 @@ class FString UMetasoundOutputBlueprintAccess::GetString(const struct FMetaSound
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.GetTimeSeconds
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// bool                                    Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// bool*                                   Success                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 double UMetasoundOutputBlueprintAccess::GetTimeSeconds(const struct FMetaSoundOutput& Output, bool* Success)
@@ -726,7 +726,7 @@ double UMetasoundOutputBlueprintAccess::GetTimeSeconds(const struct FMetaSoundOu
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.IsBool
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetasoundOutputBlueprintAccess::IsBool(const struct FMetaSoundOutput& Output)
@@ -754,7 +754,7 @@ bool UMetasoundOutputBlueprintAccess::IsBool(const struct FMetaSoundOutput& Outp
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.IsFloat
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetasoundOutputBlueprintAccess::IsFloat(const struct FMetaSoundOutput& Output)
@@ -782,7 +782,7 @@ bool UMetasoundOutputBlueprintAccess::IsFloat(const struct FMetaSoundOutput& Out
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.IsInt32
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetasoundOutputBlueprintAccess::IsInt32(const struct FMetaSoundOutput& Output)
@@ -810,7 +810,7 @@ bool UMetasoundOutputBlueprintAccess::IsInt32(const struct FMetaSoundOutput& Out
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.IsString
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetasoundOutputBlueprintAccess::IsString(const struct FMetaSoundOutput& Output)
@@ -838,7 +838,7 @@ bool UMetasoundOutputBlueprintAccess::IsString(const struct FMetaSoundOutput& Ou
 // Function MetasoundEngine.MetasoundOutputBlueprintAccess.IsTime
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundOutput                 Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FMetaSoundOutput&          Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetasoundOutputBlueprintAccess::IsTime(const struct FMetaSoundOutput& Output)
@@ -868,12 +868,12 @@ bool UMetasoundOutputBlueprintAccess::IsTime(const struct FMetaSoundOutput& Outp
 // Parameters:
 // class UAudioComponent*                  AudioComponent                                         (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             OutputName                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TDelegate<void(class FName OutputName, struct FMetaSoundOutput& Output)>OnOutputValueChanged                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TDelegate<void(class FName OutputName, const struct FMetaSoundOutput& Output)>&OnOutputValueChanged                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             AnalyzerName                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             AnalyzerOutputName                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-bool UMetaSoundOutputSubsystem::WatchOutput(class UAudioComponent* AudioComponent, class FName OutputName, const TDelegate<void(class FName OutputName, struct FMetaSoundOutput& Output)>& OnOutputValueChanged, class FName AnalyzerName, class FName AnalyzerOutputName)
+bool UMetaSoundOutputSubsystem::WatchOutput(class UAudioComponent* AudioComponent, class FName OutputName, const TDelegate<void(class FName OutputName, const struct FMetaSoundOutput& Output)>& OnOutputValueChanged, class FName AnalyzerName, class FName AnalyzerOutputName)
 {
 	static class UFunction* Func = nullptr;
 
@@ -927,7 +927,7 @@ TArray<class FName> UMetaSoundQualityHelper::GetQualityList()
 // Function MetasoundEngine.MetaSoundAssetSubsystem.RegisterAssetClassesInDirectories
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FMetaSoundAssetDirectory> Directories                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<struct FMetaSoundAssetDirectory>&Directories                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UMetaSoundAssetSubsystem::RegisterAssetClassesInDirectories(const TArray<struct FMetaSoundAssetDirectory>& Directories)
 {
@@ -952,7 +952,7 @@ void UMetaSoundAssetSubsystem::RegisterAssetClassesInDirectories(const TArray<st
 // Function MetasoundEngine.MetaSoundAssetSubsystem.UnregisterAssetClassesInDirectories
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FMetaSoundAssetDirectory> Directories                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<struct FMetaSoundAssetDirectory>&Directories                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UMetaSoundAssetSubsystem::UnregisterAssetClassesInDirectories(const TArray<struct FMetaSoundAssetDirectory>& Directories)
 {
@@ -979,8 +979,8 @@ void UMetaSoundAssetSubsystem::UnregisterAssetClassesInDirectories(const TArray<
 // Parameters:
 // class FName                             Name_0                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             DataType                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetasoundFrontendLiteral        DefaultValue                                           (Parm, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetasoundFrontendLiteral& DefaultValue                                           (Parm, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIsConstructorInput                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundBuilderNodeOutputHandleReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1017,8 +1017,8 @@ struct FMetaSoundBuilderNodeOutputHandle UMetaSoundBuilderBase::AddGraphInputNod
 // Parameters:
 // class FName                             Name_0                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             DataType                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetasoundFrontendLiteral        DefaultValue                                           (Parm, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetasoundFrontendLiteral& DefaultValue                                           (Parm, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIsConstructorOutput                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundBuilderNodeInputHandle ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1054,7 +1054,7 @@ struct FMetaSoundBuilderNodeInputHandle UMetaSoundBuilderBase::AddGraphOutputNod
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InterfaceName                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::AddInterface(class FName InterfaceName, EMetaSoundBuilderResult* OutResult)
 {
@@ -1082,8 +1082,8 @@ void UMetaSoundBuilderBase::AddInterface(class FName InterfaceName, EMetaSoundBu
 // Function MetasoundEngine.MetaSoundBuilderBase.AddNode
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TScriptInterface<class IMetaSoundDocumentInterface>NodeClass                                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TScriptInterface<class IMetaSoundDocumentInterface>&NodeClass                                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundNodeHandle             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FMetaSoundNodeHandle UMetaSoundBuilderBase::AddNode(const TScriptInterface<class IMetaSoundDocumentInterface>& NodeClass, EMetaSoundBuilderResult* OutResult)
@@ -1114,8 +1114,8 @@ struct FMetaSoundNodeHandle UMetaSoundBuilderBase::AddNode(const TScriptInterfac
 // Function MetasoundEngine.MetaSoundBuilderBase.AddNodeByClassName
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetasoundFrontendClassName      ClassName                                              (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetasoundFrontendClassName&ClassName                                              (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   MajorVersion                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundNodeHandle             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -1148,8 +1148,8 @@ struct FMetaSoundNodeHandle UMetaSoundBuilderBase::AddNodeByClassName(const stru
 // Function MetasoundEngine.MetaSoundBuilderBase.ConnectNodeInputsToMatchingGraphInterfaceInputs
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FMetaSoundBuilderNodeOutputHandle>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FMetaSoundBuilderNodeOutputHandle> UMetaSoundBuilderBase::ConnectNodeInputsToMatchingGraphInterfaceInputs(const struct FMetaSoundNodeHandle& NodeHandle, EMetaSoundBuilderResult* OutResult)
@@ -1181,8 +1181,8 @@ TArray<struct FMetaSoundBuilderNodeOutputHandle> UMetaSoundBuilderBase::ConnectN
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             GraphInputName                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderNodeInputHandle NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::ConnectNodeInputToGraphInput(class FName GraphInputName, const struct FMetaSoundBuilderNodeInputHandle& NodeInputHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -1211,8 +1211,8 @@ void UMetaSoundBuilderBase::ConnectNodeInputToGraphInput(class FName GraphInputN
 // Function MetasoundEngine.MetaSoundBuilderBase.ConnectNodeOutputsToMatchingGraphInterfaceOutputs
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FMetaSoundBuilderNodeInputHandle>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FMetaSoundBuilderNodeInputHandle> UMetaSoundBuilderBase::ConnectNodeOutputsToMatchingGraphInterfaceOutputs(const struct FMetaSoundNodeHandle& NodeHandle, EMetaSoundBuilderResult* OutResult)
@@ -1244,8 +1244,8 @@ TArray<struct FMetaSoundBuilderNodeInputHandle> UMetaSoundBuilderBase::ConnectNo
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             GraphOutputName                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderNodeOutputHandleNodeOutputHandle                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&NodeOutputHandle                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::ConnectNodeOutputToGraphOutput(class FName GraphOutputName, const struct FMetaSoundBuilderNodeOutputHandle& NodeOutputHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -1274,9 +1274,9 @@ void UMetaSoundBuilderBase::ConnectNodeOutputToGraphOutput(class FName GraphOutp
 // Function MetasoundEngine.MetaSoundBuilderBase.ConnectNodes
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleNodeOutputHandle                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderNodeInputHandle NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&NodeOutputHandle                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::ConnectNodes(const struct FMetaSoundBuilderNodeOutputHandle& NodeOutputHandle, const struct FMetaSoundBuilderNodeInputHandle& NodeInputHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -1305,9 +1305,9 @@ void UMetaSoundBuilderBase::ConnectNodes(const struct FMetaSoundBuilderNodeOutpu
 // Function MetasoundEngine.MetaSoundBuilderBase.ConnectNodesByInterfaceBindings
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             FromNodeHandle                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FMetaSoundNodeHandle             ToNodeHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      FromNodeHandle                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      ToNodeHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::ConnectNodesByInterfaceBindings(const struct FMetaSoundNodeHandle& FromNodeHandle, const struct FMetaSoundNodeHandle& ToNodeHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -1336,7 +1336,7 @@ void UMetaSoundBuilderBase::ConnectNodesByInterfaceBindings(const struct FMetaSo
 // Function MetasoundEngine.MetaSoundBuilderBase.ConvertFromPreset
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::ConvertFromPreset(EMetaSoundBuilderResult* OutResult)
 {
@@ -1362,8 +1362,8 @@ void UMetaSoundBuilderBase::ConvertFromPreset(EMetaSoundBuilderResult* OutResult
 // Function MetasoundEngine.MetaSoundBuilderBase.ConvertToPreset
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TScriptInterface<class IMetaSoundDocumentInterface>ReferencedNodeClass                                    (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TScriptInterface<class IMetaSoundDocumentInterface>&ReferencedNodeClass                                    (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::ConvertToPreset(const TScriptInterface<class IMetaSoundDocumentInterface>& ReferencedNodeClass, EMetaSoundBuilderResult* OutResult)
 {
@@ -1391,8 +1391,8 @@ void UMetaSoundBuilderBase::ConvertToPreset(const TScriptInterface<class IMetaSo
 // Function MetasoundEngine.MetaSoundBuilderBase.DisconnectNodeInput
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::DisconnectNodeInput(const struct FMetaSoundBuilderNodeInputHandle& NodeInputHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -1420,8 +1420,8 @@ void UMetaSoundBuilderBase::DisconnectNodeInput(const struct FMetaSoundBuilderNo
 // Function MetasoundEngine.MetaSoundBuilderBase.DisconnectNodeOutput
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleNodeOutputHandle                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&NodeOutputHandle                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::DisconnectNodeOutput(const struct FMetaSoundBuilderNodeOutputHandle& NodeOutputHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -1449,9 +1449,9 @@ void UMetaSoundBuilderBase::DisconnectNodeOutput(const struct FMetaSoundBuilderN
 // Function MetasoundEngine.MetaSoundBuilderBase.DisconnectNodes
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleNodeOutputHandle                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderNodeInputHandle NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&NodeOutputHandle                                       (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::DisconnectNodes(const struct FMetaSoundBuilderNodeOutputHandle& NodeOutputHandle, const struct FMetaSoundBuilderNodeInputHandle& NodeInputHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -1480,9 +1480,9 @@ void UMetaSoundBuilderBase::DisconnectNodes(const struct FMetaSoundBuilderNodeOu
 // Function MetasoundEngine.MetaSoundBuilderBase.DisconnectNodesByInterfaceBindings
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             FromNodeHandle                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FMetaSoundNodeHandle             ToNodeHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      FromNodeHandle                                         (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      ToNodeHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::DisconnectNodesByInterfaceBindings(const struct FMetaSoundNodeHandle& FromNodeHandle, const struct FMetaSoundNodeHandle& ToNodeHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -1512,7 +1512,7 @@ void UMetaSoundBuilderBase::DisconnectNodesByInterfaceBindings(const struct FMet
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InputName                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundNodeHandle             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FMetaSoundNodeHandle UMetaSoundBuilderBase::FindGraphInputNode(class FName InputName, EMetaSoundBuilderResult* OutResult)
@@ -1544,7 +1544,7 @@ struct FMetaSoundNodeHandle UMetaSoundBuilderBase::FindGraphInputNode(class FNam
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             OutputName                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundNodeHandle             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FMetaSoundNodeHandle UMetaSoundBuilderBase::FindGraphOutputNode(class FName OutputName, EMetaSoundBuilderResult* OutResult)
@@ -1576,7 +1576,7 @@ struct FMetaSoundNodeHandle UMetaSoundBuilderBase::FindGraphOutputNode(class FNa
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InterfaceName                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FMetaSoundNodeHandle>     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FMetaSoundNodeHandle> UMetaSoundBuilderBase::FindInterfaceInputNodes(class FName InterfaceName, EMetaSoundBuilderResult* OutResult)
@@ -1608,7 +1608,7 @@ TArray<struct FMetaSoundNodeHandle> UMetaSoundBuilderBase::FindInterfaceInputNod
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InterfaceName                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FMetaSoundNodeHandle>     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FMetaSoundNodeHandle> UMetaSoundBuilderBase::FindInterfaceOutputNodes(class FName InterfaceName, EMetaSoundBuilderResult* OutResult)
@@ -1639,8 +1639,8 @@ TArray<struct FMetaSoundNodeHandle> UMetaSoundBuilderBase::FindInterfaceOutputNo
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeClassVersion
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendVersion        ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendVersion UMetaSoundBuilderBase::FindNodeClassVersion(const struct FMetaSoundNodeHandle& NodeHandle, EMetaSoundBuilderResult* OutResult)
@@ -1671,9 +1671,9 @@ struct FMetasoundFrontendVersion UMetaSoundBuilderBase::FindNodeClassVersion(con
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeInputByName
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class FName                             InputName                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundBuilderNodeInputHandle ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FMetaSoundBuilderNodeInputHandle UMetaSoundBuilderBase::FindNodeInputByName(const struct FMetaSoundNodeHandle& NodeHandle, class FName InputName, EMetaSoundBuilderResult* OutResult)
@@ -1705,8 +1705,8 @@ struct FMetaSoundBuilderNodeInputHandle UMetaSoundBuilderBase::FindNodeInputByNa
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeInputParent
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundNodeHandle             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FMetaSoundNodeHandle UMetaSoundBuilderBase::FindNodeInputParent(const struct FMetaSoundBuilderNodeInputHandle& InputHandle, EMetaSoundBuilderResult* OutResult)
@@ -1737,8 +1737,8 @@ struct FMetaSoundNodeHandle UMetaSoundBuilderBase::FindNodeInputParent(const str
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeInputs
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FMetaSoundBuilderNodeInputHandle>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FMetaSoundBuilderNodeInputHandle> UMetaSoundBuilderBase::FindNodeInputs(const struct FMetaSoundNodeHandle& NodeHandle, EMetaSoundBuilderResult* OutResult)
@@ -1769,8 +1769,8 @@ TArray<struct FMetaSoundBuilderNodeInputHandle> UMetaSoundBuilderBase::FindNodeI
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeInputsByDataType
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             DataType                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FMetaSoundBuilderNodeInputHandle>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -1803,9 +1803,9 @@ TArray<struct FMetaSoundBuilderNodeInputHandle> UMetaSoundBuilderBase::FindNodeI
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeOutputByName
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class FName                             OutputName                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundBuilderNodeOutputHandleReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FMetaSoundBuilderNodeOutputHandle UMetaSoundBuilderBase::FindNodeOutputByName(const struct FMetaSoundNodeHandle& NodeHandle, class FName OutputName, EMetaSoundBuilderResult* OutResult)
@@ -1837,8 +1837,8 @@ struct FMetaSoundBuilderNodeOutputHandle UMetaSoundBuilderBase::FindNodeOutputBy
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeOutputParent
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleOutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&OutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetaSoundNodeHandle             ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FMetaSoundNodeHandle UMetaSoundBuilderBase::FindNodeOutputParent(const struct FMetaSoundBuilderNodeOutputHandle& OutputHandle, EMetaSoundBuilderResult* OutResult)
@@ -1869,8 +1869,8 @@ struct FMetaSoundNodeHandle UMetaSoundBuilderBase::FindNodeOutputParent(const st
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeOutputs
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FMetaSoundBuilderNodeOutputHandle>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
 TArray<struct FMetaSoundBuilderNodeOutputHandle> UMetaSoundBuilderBase::FindNodeOutputs(const struct FMetaSoundNodeHandle& NodeHandle, EMetaSoundBuilderResult* OutResult)
@@ -1901,8 +1901,8 @@ TArray<struct FMetaSoundBuilderNodeOutputHandle> UMetaSoundBuilderBase::FindNode
 // Function MetasoundEngine.MetaSoundBuilderBase.FindNodeOutputsByDataType
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             DataType                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<struct FMetaSoundBuilderNodeOutputHandle>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -1935,8 +1935,8 @@ TArray<struct FMetaSoundBuilderNodeOutputHandle> UMetaSoundBuilderBase::FindNode
 // Function MetasoundEngine.MetaSoundBuilderBase.GetNodeInputClassDefault
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderBase::GetNodeInputClassDefault(const struct FMetaSoundBuilderNodeInputHandle& InputHandle, EMetaSoundBuilderResult* OutResult)
@@ -1967,10 +1967,10 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderBase::GetNodeInputClassDefault
 // Function MetasoundEngine.MetaSoundBuilderBase.GetNodeInputData
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             Name_0                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            Name_0                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::GetNodeInputData(const struct FMetaSoundBuilderNodeInputHandle& InputHandle, class FName* Name_0, class FName* DataType, EMetaSoundBuilderResult* OutResult)
 {
@@ -2004,8 +2004,8 @@ void UMetaSoundBuilderBase::GetNodeInputData(const struct FMetaSoundBuilderNodeI
 // Function MetasoundEngine.MetaSoundBuilderBase.GetNodeInputDefault
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderBase::GetNodeInputDefault(const struct FMetaSoundBuilderNodeInputHandle& InputHandle, EMetaSoundBuilderResult* OutResult)
@@ -2036,10 +2036,10 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderBase::GetNodeInputDefault(cons
 // Function MetasoundEngine.MetaSoundBuilderBase.GetNodeOutputData
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleOutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             Name_0                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&OutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            Name_0                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::GetNodeOutputData(const struct FMetaSoundBuilderNodeOutputHandle& OutputHandle, class FName* Name_0, class FName* DataType, EMetaSoundBuilderResult* OutResult)
 {
@@ -2074,7 +2074,7 @@ void UMetaSoundBuilderBase::GetNodeOutputData(const struct FMetaSoundBuilderNode
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             Name_0                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::RemoveGraphInput(class FName Name_0, EMetaSoundBuilderResult* OutResult)
 {
@@ -2103,7 +2103,7 @@ void UMetaSoundBuilderBase::RemoveGraphInput(class FName Name_0, EMetaSoundBuild
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             Name_0                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::RemoveGraphOutput(class FName Name_0, EMetaSoundBuilderResult* OutResult)
 {
@@ -2132,7 +2132,7 @@ void UMetaSoundBuilderBase::RemoveGraphOutput(class FName Name_0, EMetaSoundBuil
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InterfaceName                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::RemoveInterface(class FName InterfaceName, EMetaSoundBuilderResult* OutResult)
 {
@@ -2160,8 +2160,8 @@ void UMetaSoundBuilderBase::RemoveInterface(class FName InterfaceName, EMetaSoun
 // Function MetasoundEngine.MetaSoundBuilderBase.RemoveNode
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundNodeHandle             NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      NodeHandle                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::RemoveNode(const struct FMetaSoundNodeHandle& NodeHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -2189,8 +2189,8 @@ void UMetaSoundBuilderBase::RemoveNode(const struct FMetaSoundNodeHandle& NodeHa
 // Function MetasoundEngine.MetaSoundBuilderBase.RemoveNodeInputDefault
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::RemoveNodeInputDefault(const struct FMetaSoundBuilderNodeInputHandle& InputHandle, EMetaSoundBuilderResult* OutResult)
 {
@@ -2219,8 +2219,8 @@ void UMetaSoundBuilderBase::RemoveNodeInputDefault(const struct FMetaSoundBuilde
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             InputName                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetasoundFrontendLiteral        Literal                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetasoundFrontendLiteral& Literal                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::SetGraphInputDefault(class FName InputName, const struct FMetasoundFrontendLiteral& Literal, EMetaSoundBuilderResult* OutResult)
 {
@@ -2249,9 +2249,9 @@ void UMetaSoundBuilderBase::SetGraphInputDefault(class FName InputName, const st
 // Function MetasoundEngine.MetaSoundBuilderBase.SetNodeInputDefault
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetasoundFrontendLiteral        Literal                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&NodeInputHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetasoundFrontendLiteral& Literal                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundBuilderBase::SetNodeInputDefault(const struct FMetaSoundBuilderNodeInputHandle& NodeInputHandle, const struct FMetasoundFrontendLiteral& Literal, EMetaSoundBuilderResult* OutResult)
 {
@@ -2280,7 +2280,7 @@ void UMetaSoundBuilderBase::SetNodeInputDefault(const struct FMetaSoundBuilderNo
 // Function MetasoundEngine.MetaSoundBuilderBase.ContainsNode
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FMetaSoundNodeHandle             Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMetaSoundNodeHandle&      Node                                                   (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetaSoundBuilderBase::ContainsNode(const struct FMetaSoundNodeHandle& Node) const
@@ -2308,7 +2308,7 @@ bool UMetaSoundBuilderBase::ContainsNode(const struct FMetaSoundNodeHandle& Node
 // Function MetasoundEngine.MetaSoundBuilderBase.ContainsNodeInput
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle Input                                                  (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&Input                                                  (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetaSoundBuilderBase::ContainsNodeInput(const struct FMetaSoundBuilderNodeInputHandle& Input) const
@@ -2336,7 +2336,7 @@ bool UMetaSoundBuilderBase::ContainsNodeInput(const struct FMetaSoundBuilderNode
 // Function MetasoundEngine.MetaSoundBuilderBase.ContainsNodeOutput
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleOutput                                                 (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&Output                                                 (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetaSoundBuilderBase::ContainsNodeOutput(const struct FMetaSoundBuilderNodeOutputHandle& Output) const
@@ -2364,7 +2364,7 @@ bool UMetaSoundBuilderBase::ContainsNodeOutput(const struct FMetaSoundBuilderNod
 // Function MetasoundEngine.MetaSoundBuilderBase.GetNodeInputIsConstructorPin
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetaSoundBuilderBase::GetNodeInputIsConstructorPin(const struct FMetaSoundBuilderNodeInputHandle& InputHandle) const
@@ -2392,7 +2392,7 @@ bool UMetaSoundBuilderBase::GetNodeInputIsConstructorPin(const struct FMetaSound
 // Function MetasoundEngine.MetaSoundBuilderBase.GetNodeOutputIsConstructorPin
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleOutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&OutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetaSoundBuilderBase::GetNodeOutputIsConstructorPin(const struct FMetaSoundBuilderNodeOutputHandle& OutputHandle) const
@@ -2498,7 +2498,7 @@ bool UMetaSoundBuilderBase::IsPreset() const
 // Function MetasoundEngine.MetaSoundBuilderBase.NodeInputIsConnected
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FMetaSoundBuilderNodeInputHandle InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetaSoundBuilderBase::NodeInputIsConnected(const struct FMetaSoundBuilderNodeInputHandle& InputHandle) const
@@ -2526,7 +2526,7 @@ bool UMetaSoundBuilderBase::NodeInputIsConnected(const struct FMetaSoundBuilderN
 // Function MetasoundEngine.MetaSoundBuilderBase.NodeOutputIsConnected
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleOutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&OutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetaSoundBuilderBase::NodeOutputIsConnected(const struct FMetaSoundBuilderNodeOutputHandle& OutputHandle) const
@@ -2554,8 +2554,8 @@ bool UMetaSoundBuilderBase::NodeOutputIsConnected(const struct FMetaSoundBuilder
 // Function MetasoundEngine.MetaSoundBuilderBase.NodesAreConnected
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FMetaSoundBuilderNodeOutputHandleOutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderNodeInputHandle InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeOutputHandle&OutputHandle                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderNodeInputHandle&InputHandle                                            (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UMetaSoundBuilderBase::NodesAreConnected(const struct FMetaSoundBuilderNodeOutputHandle& OutputHandle, const struct FMetaSoundBuilderNodeInputHandle& InputHandle) const
@@ -2585,7 +2585,7 @@ bool UMetaSoundBuilderBase::NodesAreConnected(const struct FMetaSoundBuilderNode
 // (Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
 // class UObject*                          Parent                                                 (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderOptions         Options                                                (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderOptions&  Options                                                (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // TScriptInterface<class IMetaSoundDocumentInterface>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 TScriptInterface<class IMetaSoundDocumentInterface> UMetaSoundPatchBuilder::Build(class UObject* Parent, const struct FMetaSoundBuilderOptions& Options) const
@@ -2671,7 +2671,7 @@ void UMetaSoundSourceBuilder::SetBlockRateOverride(float BlockRate)
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // EMetaSoundOutputAudioFormat             OutputFormat                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMetaSoundSourceBuilder::SetFormat(EMetaSoundOutputAudioFormat OutputFormat, EMetaSoundBuilderResult* OutResult)
 {
@@ -2750,7 +2750,7 @@ void UMetaSoundSourceBuilder::SetSampleRateOverride(int32 SampleRate)
 // (Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
 // class UObject*                          Parent                                                 (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderOptions         Options                                                (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMetaSoundBuilderOptions&  Options                                                (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // TScriptInterface<class IMetaSoundDocumentInterface>ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 TScriptInterface<class IMetaSoundDocumentInterface> UMetaSoundSourceBuilder::Build(class UObject* Parent, const struct FMetaSoundBuilderOptions& Options) const
@@ -2804,8 +2804,8 @@ bool UMetaSoundSourceBuilder::GetLiveUpdatesEnabled() const
 // Function MetasoundEngine.MetaSoundBuilderSubsystem.CreateBoolArrayMetaSoundLiteral
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<bool>                            Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TArray<bool>&                     Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateBoolArrayMetaSoundLiteral(const TArray<bool>& Value, class FName* DataType)
@@ -2837,7 +2837,7 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateBoolArrayMeta
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // bool                                    Value                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateBoolMetaSoundLiteral(bool Value, class FName* DataType)
@@ -2868,8 +2868,8 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateBoolMetaSound
 // Function MetasoundEngine.MetaSoundBuilderSubsystem.CreateFloatArrayMetaSoundLiteral
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<float>                           Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TArray<float>&                    Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateFloatArrayMetaSoundLiteral(const TArray<float>& Value, class FName* DataType)
@@ -2901,7 +2901,7 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateFloatArrayMet
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // float                                   Value                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateFloatMetaSoundLiteral(float Value, class FName* DataType)
@@ -2932,8 +2932,8 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateFloatMetaSoun
 // Function MetasoundEngine.MetaSoundBuilderSubsystem.CreateIntArrayMetaSoundLiteral
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<int32>                           Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TArray<int32>&                    Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateIntArrayMetaSoundLiteral(const TArray<int32>& Value, class FName* DataType)
@@ -2965,7 +2965,7 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateIntArrayMetaS
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // int32                                   Value                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateIntMetaSoundLiteral(int32 Value, class FName* DataType)
@@ -2996,7 +2996,7 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateIntMetaSoundL
 // Function MetasoundEngine.MetaSoundBuilderSubsystem.CreateMetaSoundLiteralFromParam
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAudioParameter                  Param                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAudioParameter&           Param                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateMetaSoundLiteralFromParam(const struct FAudioParameter& Param)
@@ -3024,7 +3024,7 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateMetaSoundLite
 // Function MetasoundEngine.MetaSoundBuilderSubsystem.CreateObjectArrayMetaSoundLiteral
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<class UObject*>                  Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class UObject*>&           Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateObjectArrayMetaSoundLiteral(const TArray<class UObject*>& Value)
@@ -3081,7 +3081,7 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateObjectMetaSou
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             BuilderName                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMetaSoundPatchBuilder*           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UMetaSoundPatchBuilder* UMetaSoundBuilderSubsystem::CreatePatchBuilder(class FName BuilderName, EMetaSoundBuilderResult* OutResult)
@@ -3113,8 +3113,8 @@ class UMetaSoundPatchBuilder* UMetaSoundBuilderSubsystem::CreatePatchBuilder(cla
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             BuilderName                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TScriptInterface<class IMetaSoundDocumentInterface>ReferencedPatchClass                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TScriptInterface<class IMetaSoundDocumentInterface>&ReferencedPatchClass                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMetaSoundPatchBuilder*           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UMetaSoundPatchBuilder* UMetaSoundBuilderSubsystem::CreatePatchPresetBuilder(class FName BuilderName, const TScriptInterface<class IMetaSoundDocumentInterface>& ReferencedPatchClass, EMetaSoundBuilderResult* OutResult)
@@ -3147,10 +3147,10 @@ class UMetaSoundPatchBuilder* UMetaSoundBuilderSubsystem::CreatePatchPresetBuild
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             BuilderName                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderNodeOutputHandleOnPlayNodeOutput                                       (Parm, OutParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMetaSoundBuilderNodeInputHandle OnFinishedNodeInput                                    (Parm, OutParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<struct FMetaSoundBuilderNodeInputHandle>AudioOutNodeInputs                                     (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FMetaSoundBuilderNodeOutputHandle*OnPlayNodeOutput                                       (Parm, OutParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FMetaSoundBuilderNodeInputHandle*OnFinishedNodeInput                                    (Parm, OutParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<struct FMetaSoundBuilderNodeInputHandle>*AudioOutNodeInputs                                     (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EMetaSoundOutputAudioFormat             OutputFormat                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIsOneShot                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMetaSoundSourceBuilder*          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -3195,8 +3195,8 @@ class UMetaSoundSourceBuilder* UMetaSoundBuilderSubsystem::CreateSourceBuilder(c
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class FName                             BuilderName                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TScriptInterface<class IMetaSoundDocumentInterface>ReferencedSourceClass                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EMetaSoundBuilderResult                 OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TScriptInterface<class IMetaSoundDocumentInterface>&ReferencedSourceClass                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EMetaSoundBuilderResult*                OutResult                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMetaSoundSourceBuilder*          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UMetaSoundSourceBuilder* UMetaSoundBuilderSubsystem::CreateSourcePresetBuilder(class FName BuilderName, const TScriptInterface<class IMetaSoundDocumentInterface>& ReferencedSourceClass, EMetaSoundBuilderResult* OutResult)
@@ -3228,8 +3228,8 @@ class UMetaSoundSourceBuilder* UMetaSoundBuilderSubsystem::CreateSourcePresetBui
 // Function MetasoundEngine.MetaSoundBuilderSubsystem.CreateStringArrayMetaSoundLiteral
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<class FString>                   Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TArray<class FString>&            Value                                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateStringArrayMetaSoundLiteral(const TArray<class FString>& Value, class FName* DataType)
@@ -3260,8 +3260,8 @@ struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateStringArrayMe
 // Function MetasoundEngine.MetaSoundBuilderSubsystem.CreateStringMetaSoundLiteral
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           Value                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Value                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            DataType                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FMetasoundFrontendLiteral        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FMetasoundFrontendLiteral UMetaSoundBuilderSubsystem::CreateStringMetaSoundLiteral(const class FString& Value, class FName* DataType)

@@ -28,8 +28,8 @@ public:
 	struct FAnimNodeFunctionRef                   __StructProperty_6;                                // 0x0018(0x0020)(BlueprintVisible, NoDestructor)
 	struct FAnimSubsystem_PropertyAccess          AnimBlueprintExtension_PropertyAccess;             // 0x0038(0x0080)()
 	struct FAnimSubsystem_Base                    AnimBlueprintExtension_Base;                       // 0x00B8(0x0018)()
-	struct FAnimNodeExposedValueHandler_PropertyAccess AnimGraphNode_Root;                                // 0x00D0(0x0030)()
-	struct FAnimNodeExposedValueHandler_PropertyAccess AnimGraphNode_CopyPoseFromMesh;                    // 0x0100(0x0030)()
+	struct FAnimNodeExposedValueHandler_PropertyAccess AnimGraphNode_Root;                           // 0x00D0(0x0030)()
+	struct FAnimNodeExposedValueHandler_PropertyAccess AnimGraphNode_CopyPoseFromMesh;               // 0x0100(0x0030)()
 };
 static_assert(alignof(ABP_CopyPose2::FAnimBlueprintGeneratedConstantData) == 0x000008, "Wrong alignment on ABP_CopyPose2::FAnimBlueprintGeneratedConstantData");
 static_assert(sizeof(ABP_CopyPose2::FAnimBlueprintGeneratedConstantData) == 0x000130, "Wrong size on ABP_CopyPose2::FAnimBlueprintGeneratedConstantData");

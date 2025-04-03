@@ -149,8 +149,8 @@ class UTemplateSequence* ATemplateSequenceActor::LoadSequence() const
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UTemplateSequence*                TemplateSequence                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FMovieSceneSequencePlaybackSettingsSettings                                               (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// class ATemplateSequenceActor*           OutActor                                               (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FMovieSceneSequencePlaybackSettings&Settings                                               (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// class ATemplateSequenceActor**          OutActor                                               (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UTemplateSequencePlayer*          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UTemplateSequencePlayer* UTemplateSequencePlayer::CreateTemplateSequencePlayer(class UObject* WorldContextObject, class UTemplateSequence* TemplateSequence, const struct FMovieSceneSequencePlaybackSettings& Settings, class ATemplateSequenceActor** OutActor)
@@ -241,8 +241,8 @@ struct FMinimalViewInfo USequenceCameraShakeTestUtil::GetLastFrameCameraCachePOV
 // Parameters:
 // class APlayerController*                PlayerController                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   PPIndex                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FPostProcessSettings             OutPPSettings                                          (Parm, OutParm, NativeAccessSpecifierPublic)
-// float                                   OutPPBlendWeight                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPostProcessSettings*            OutPPSettings                                          (Parm, OutParm, NativeAccessSpecifierPublic)
+// float*                                  OutPPBlendWeight                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool USequenceCameraShakeTestUtil::GetPostProcessBlendCache(class APlayerController* PlayerController, int32 PPIndex, struct FPostProcessSettings* OutPPSettings, float* OutPPBlendWeight)

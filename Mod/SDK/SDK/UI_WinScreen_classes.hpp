@@ -18,17 +18,21 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_WinScreen.UI_WinScreen_C
-// 0x0018 (0x02F8 - 0x02E0)
+// 0x0030 (0x0310 - 0x02E0)
 class UUI_WinScreen_C final : public UUserWidget
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x02E0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 	class UWidgetAnimation*                       FadeOut;                                           // 0x02E8(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, Transient, RepSkip, NoDestructor, HasGetValueTypeHash)
 	class UImage*                                 Image_1;                                           // 0x02F0(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class UGI_Settings_C*                         GI_Settings;                                       // 0x02F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x0300(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class USG_PlayerProgression_C*                As_SG_Gauntlet_Player_Progress;                    // 0x0308(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Construct();
 	void ExecuteUbergraph_UI_WinScreen(int32 EntryPoint);
+	void PreConstruct(bool IsDesignTime);
 
 public:
 	static class UClass* StaticClass()
@@ -41,10 +45,13 @@ public:
 	}
 };
 static_assert(alignof(UUI_WinScreen_C) == 0x000008, "Wrong alignment on UUI_WinScreen_C");
-static_assert(sizeof(UUI_WinScreen_C) == 0x0002F8, "Wrong size on UUI_WinScreen_C");
+static_assert(sizeof(UUI_WinScreen_C) == 0x000310, "Wrong size on UUI_WinScreen_C");
 static_assert(offsetof(UUI_WinScreen_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_WinScreen_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_WinScreen_C, FadeOut) == 0x0002E8, "Member 'UUI_WinScreen_C::FadeOut' has a wrong offset!");
 static_assert(offsetof(UUI_WinScreen_C, Image_1) == 0x0002F0, "Member 'UUI_WinScreen_C::Image_1' has a wrong offset!");
+static_assert(offsetof(UUI_WinScreen_C, GI_Settings) == 0x0002F8, "Member 'UUI_WinScreen_C::GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_WinScreen_C, As_BP_Half_Sword_Game_Mode) == 0x000300, "Member 'UUI_WinScreen_C::As_BP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UUI_WinScreen_C, As_SG_Gauntlet_Player_Progress) == 0x000308, "Member 'UUI_WinScreen_C::As_SG_Gauntlet_Player_Progress' has a wrong offset!");
 
 }
 

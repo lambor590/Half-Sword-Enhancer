@@ -18,20 +18,20 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C
-// 0x0050 (0x0B80 - 0x0B30)
+// 0x0050 (0x0B98 - 0x0B48)
 class ABP_Weapon_Improv_CandleStick_Small_C final : public AModularWeaponBP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Weapon_Improv_CandleStick_Small_C; // 0x0B30(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class UBoxComponent*                          Box;                                               // 0x0B38(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UChildActorComponent*                   Light;                                             // 0x0B40(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UNiagaraComponent*                      FlameParticle;                                     // 0x0B48(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Candle;                                            // 0x0B50(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UPhysicsConstraintComponent*            Constraint_Candle;                                 // 0x0B58(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Tip2;                                              // 0x0B60(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Base1_0;                                           // 0x0B68(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Tip1;                                              // 0x0B70(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Weapon;                                            // 0x0B78(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Weapon_Improv_CandleStick_Small_C; // 0x0B48(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class UBoxComponent*                          Box;                                               // 0x0B50(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UChildActorComponent*                   Light;                                             // 0x0B58(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UNiagaraComponent*                      FlameParticle;                                     // 0x0B60(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Candle;                                            // 0x0B68(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UPhysicsConstraintComponent*            Constraint_Candle;                                 // 0x0B70(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip2;                                              // 0x0B78(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Base1_0;                                           // 0x0B80(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0B88(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Weapon;                                            // 0x0B90(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -51,17 +51,17 @@ public:
 	}
 };
 static_assert(alignof(ABP_Weapon_Improv_CandleStick_Small_C) == 0x000008, "Wrong alignment on ABP_Weapon_Improv_CandleStick_Small_C");
-static_assert(sizeof(ABP_Weapon_Improv_CandleStick_Small_C) == 0x000B80, "Wrong size on ABP_Weapon_Improv_CandleStick_Small_C");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, UberGraphFrame_BP_Weapon_Improv_CandleStick_Small_C) == 0x000B30, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::UberGraphFrame_BP_Weapon_Improv_CandleStick_Small_C' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Box) == 0x000B38, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Box' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Light) == 0x000B40, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Light' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, FlameParticle) == 0x000B48, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::FlameParticle' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Candle) == 0x000B50, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Candle' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Constraint_Candle) == 0x000B58, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Constraint_Candle' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Tip2) == 0x000B60, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Tip2' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Base1_0) == 0x000B68, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Base1_0' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Tip1) == 0x000B70, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Tip1' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Weapon) == 0x000B78, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Weapon' has a wrong offset!");
+static_assert(sizeof(ABP_Weapon_Improv_CandleStick_Small_C) == 0x000B98, "Wrong size on ABP_Weapon_Improv_CandleStick_Small_C");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, UberGraphFrame_BP_Weapon_Improv_CandleStick_Small_C) == 0x000B48, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::UberGraphFrame_BP_Weapon_Improv_CandleStick_Small_C' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Box) == 0x000B50, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Box' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Light) == 0x000B58, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Light' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, FlameParticle) == 0x000B60, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::FlameParticle' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Candle) == 0x000B68, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Candle' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Constraint_Candle) == 0x000B70, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Constraint_Candle' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Tip2) == 0x000B78, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Tip2' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Base1_0) == 0x000B80, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Base1_0' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Tip1) == 0x000B88, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Tip1' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Improv_CandleStick_Small_C, Weapon) == 0x000B90, "Member 'ABP_Weapon_Improv_CandleStick_Small_C::Weapon' has a wrong offset!");
 
 }
 

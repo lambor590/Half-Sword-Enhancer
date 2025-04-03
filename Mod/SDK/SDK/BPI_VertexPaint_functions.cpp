@@ -22,23 +22,23 @@ namespace SDK
 // Parameters:
 // class UBoxComponent*                    Box                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class FName                             Hit_Bone                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// EBodyPart_Enum                          Hit_Body_Part                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              Hit_Primitive_Component                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_VertexPaint_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, EBodyPart_Enum Hit_Body_Part, bool* Nul)
+void IBPI_VertexPaint_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BPI_VertexPaint_C", "Box Vertex Paint");
+		Func = AsUObject()->Class->GetFunction("BPI_VertexPaint_C", "Box Vertex Paint");
 
 	Params::BPI_VertexPaint_C_Box_Vertex_Paint Parms{};
 
 	Parms.Box = Box;
 	Parms.Hit_Bone = Hit_Bone;
-	Parms.Hit_Body_Part = Hit_Body_Part;
+	Parms.Hit_Primitive_Component = Hit_Primitive_Component;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 
 	if (Nul != nullptr)
 		*Nul = Parms.Nul;

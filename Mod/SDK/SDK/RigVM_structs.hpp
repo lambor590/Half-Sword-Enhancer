@@ -954,7 +954,7 @@ public:
 	class FString                                 Category;                                          // 0x0088(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class FString                                 Keywords;                                          // 0x0098(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<struct FRigVMGraphFunctionArgument>    Arguments;                                         // 0x00A8(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-	TMap<struct FRigVMGraphFunctionIdentifier, uint32> Dependencies;                                      // 0x00B8(0x0050)(NativeAccessSpecifierPublic)
+	TMap<struct FRigVMGraphFunctionIdentifier, uint32> Dependencies;                                 // 0x00B8(0x0050)(NativeAccessSpecifierPublic)
 	TArray<struct FRigVMExternalVariable>         ExternalVariables;                                 // 0x0108(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMGraphFunctionHeader) == 0x000008, "Wrong alignment on FRigVMGraphFunctionHeader");
@@ -1084,14 +1084,14 @@ struct FRigVMFunctionCompilationData final
 public:
 	struct FRigVMByteCode                         ByteCode;                                          // 0x0000(0x00B0)(HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TArray<class FName>                           FunctionNames;                                     // 0x00B0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigVMFunctionCompilationPropertyDescription> WorkPropertyDescriptions;                          // 0x00C0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigVMFunctionCompilationPropertyPath> WorkPropertyPathDescriptions;                      // 0x00D0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigVMFunctionCompilationPropertyDescription> LiteralPropertyDescriptions;                       // 0x00E0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigVMFunctionCompilationPropertyPath> LiteralPropertyPathDescriptions;                   // 0x00F0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigVMFunctionCompilationPropertyDescription> DebugPropertyDescriptions;                         // 0x0100(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigVMFunctionCompilationPropertyPath> DebugPropertyPathDescriptions;                     // 0x0110(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigVMFunctionCompilationPropertyDescription> ExternalPropertyDescriptions;                      // 0x0120(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FRigVMFunctionCompilationPropertyPath> ExternalPropertyPathDescriptions;                  // 0x0130(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigVMFunctionCompilationPropertyDescription> WorkPropertyDescriptions;            // 0x00C0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigVMFunctionCompilationPropertyPath> WorkPropertyPathDescriptions;               // 0x00D0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigVMFunctionCompilationPropertyDescription> LiteralPropertyDescriptions;         // 0x00E0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigVMFunctionCompilationPropertyPath> LiteralPropertyPathDescriptions;            // 0x00F0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigVMFunctionCompilationPropertyDescription> DebugPropertyDescriptions;           // 0x0100(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigVMFunctionCompilationPropertyPath> DebugPropertyPathDescriptions;              // 0x0110(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigVMFunctionCompilationPropertyDescription> ExternalPropertyDescriptions;        // 0x0120(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FRigVMFunctionCompilationPropertyPath> ExternalPropertyPathDescriptions;           // 0x0130(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	TMap<int32, class FName>                      ExternalRegisterIndexToVariable;                   // 0x0140(0x0050)(NativeAccessSpecifierPublic)
 	TMap<class FString, struct FRigVMOperand>     Operands;                                          // 0x0190(0x0050)(NativeAccessSpecifierPublic)
 	uint32                                        Hash;                                              // 0x01E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -1951,7 +1951,7 @@ public:
 	class FString                                 ToolTip;                                           // 0x0018(0x0010)(Edit, BlueprintVisible, ZeroConstructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	ERigVMUserWorkflowType                        Type;                                              // 0x0028(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_29[0x17];                                      // 0x0029(0x0017)(Fixing Size After Last Property [ Dumper-7 ])
-	TDelegate<void(class URigVMUserWorkflowOptions* InOptions, class UObject* InController)> PerformDynamicDelegate;                            // 0x0040(0x0010)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
+	TDelegate<void(const class URigVMUserWorkflowOptions* InOptions, class UObject* InController)> PerformDynamicDelegate; // 0x0040(0x0010)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	TSubclassOf<class UObject>                    OptionsClass;                                      // 0x0050(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 };
 static_assert(alignof(FRigVMUserWorkflow) == 0x000008, "Wrong alignment on FRigVMUserWorkflow");
@@ -5231,7 +5231,7 @@ public:
 	uint8                                         Pad_39[0x7];                                       // 0x0039(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FVector                                TwistAxis;                                         // 0x0040(0x0018)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_58[0x8];                                       // 0x0058(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigVMFunction_MathRBFInterpolateQuatWorkData WorkData;                                          // 0x0060(0x0090)(Transient, NativeAccessSpecifierPublic)
+	struct FRigVMFunction_MathRBFInterpolateQuatWorkData WorkData;                                   // 0x0060(0x0090)(Transient, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMFunction_MathRBFInterpolateQuatBase) == 0x000010, "Wrong alignment on FRigVMFunction_MathRBFInterpolateQuatBase");
 static_assert(sizeof(FRigVMFunction_MathRBFInterpolateQuatBase) == 0x0000F0, "Wrong size on FRigVMFunction_MathRBFInterpolateQuatBase");
@@ -5277,7 +5277,7 @@ public:
 	float                                         SmoothingRadius;                                   // 0x0024(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bNormalizeOutput;                                  // 0x0028(0x0001)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_29[0x7];                                       // 0x0029(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRigVMFunction_MathRBFInterpolateVectorWorkData WorkData;                                          // 0x0030(0x0090)(Transient, NativeAccessSpecifierPublic)
+	struct FRigVMFunction_MathRBFInterpolateVectorWorkData WorkData;                                 // 0x0030(0x0090)(Transient, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMFunction_MathRBFInterpolateVectorBase) == 0x000010, "Wrong alignment on FRigVMFunction_MathRBFInterpolateVectorBase");
 static_assert(sizeof(FRigVMFunction_MathRBFInterpolateVectorBase) == 0x0000C0, "Wrong size on FRigVMFunction_MathRBFInterpolateVectorBase");
@@ -5315,7 +5315,7 @@ static_assert(sizeof(FRigVMDispatch_ArrayDifference) == 0x000070, "Wrong size on
 struct FRigVMFunction_MathRBFInterpolateQuatFloat final : public FRigVMFunction_MathRBFInterpolateQuatBase
 {
 public:
-	TArray<struct FMathRBFInterpolateQuatFloat_Target> Targets;                                           // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateQuatFloat_Target> Targets;                                      // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Output;                                            // 0x0100(0x0004)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_104[0xC];                                      // 0x0104(0x000C)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -5351,7 +5351,7 @@ static_assert(sizeof(FRigVMDispatch_SelectInt32) == 0x000070, "Wrong size on FRi
 struct FRigVMFunction_MathRBFInterpolateQuatVector final : public FRigVMFunction_MathRBFInterpolateQuatBase
 {
 public:
-	TArray<struct FMathRBFInterpolateQuatVector_Target> Targets;                                           // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateQuatVector_Target> Targets;                                     // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FVector                                Output;                                            // 0x0100(0x0018)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_118[0x8];                                      // 0x0118(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -5386,7 +5386,7 @@ static_assert(sizeof(FRigVMDispatch_CoreEquals) == 0x000070, "Wrong size on FRig
 struct FRigVMFunction_MathRBFInterpolateQuatColor final : public FRigVMFunction_MathRBFInterpolateQuatBase
 {
 public:
-	TArray<struct FMathRBFInterpolateQuatColor_Target> Targets;                                           // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateQuatColor_Target> Targets;                                      // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FLinearColor                           Output;                                            // 0x0100(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMFunction_MathRBFInterpolateQuatColor) == 0x000010, "Wrong alignment on FRigVMFunction_MathRBFInterpolateQuatColor");
@@ -5420,7 +5420,7 @@ static_assert(sizeof(FRigVMDispatch_ArrayClone) == 0x000070, "Wrong size on FRig
 struct FRigVMFunction_MathRBFInterpolateQuatQuat final : public FRigVMFunction_MathRBFInterpolateQuatBase
 {
 public:
-	TArray<struct FMathRBFInterpolateQuatQuat_Target> Targets;                                           // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateQuatQuat_Target> Targets;                                       // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FQuat                                  Output;                                            // 0x0100(0x0020)(BlueprintVisible, BlueprintReadOnly, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMFunction_MathRBFInterpolateQuatQuat) == 0x000010, "Wrong alignment on FRigVMFunction_MathRBFInterpolateQuatQuat");
@@ -5449,7 +5449,7 @@ static_assert(sizeof(FRigVMDispatch_BreakStruct) == 0x000070, "Wrong size on FRi
 struct FRigVMFunction_MathRBFInterpolateQuatXform final : public FRigVMFunction_MathRBFInterpolateQuatBase
 {
 public:
-	TArray<struct FMathRBFInterpolateQuatXform_Target> Targets;                                           // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateQuatXform_Target> Targets;                                      // 0x00F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FTransform                             Output;                                            // 0x0100(0x0060)(BlueprintVisible, BlueprintReadOnly, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMFunction_MathRBFInterpolateQuatXform) == 0x000010, "Wrong alignment on FRigVMFunction_MathRBFInterpolateQuatXform");
@@ -5500,7 +5500,7 @@ static_assert(offsetof(FRigVMFunction_EndsWith, Result) == 0x000018, "Member 'FR
 struct FRigVMFunction_MathRBFInterpolateVectorFloat final : public FRigVMFunction_MathRBFInterpolateVectorBase
 {
 public:
-	TArray<struct FMathRBFInterpolateVectorFloat_Target> Targets;                                           // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateVectorFloat_Target> Targets;                                    // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	float                                         Output;                                            // 0x00D0(0x0004)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_D4[0xC];                                       // 0x00D4(0x000C)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -5522,7 +5522,7 @@ static_assert(sizeof(FRigVMFunction_ControlFlowBase) == 0x000008, "Wrong size on
 struct FRigVMFunction_MathRBFInterpolateVectorVector final : public FRigVMFunction_MathRBFInterpolateVectorBase
 {
 public:
-	TArray<struct FMathRBFInterpolateVectorVector_Target> Targets;                                           // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateVectorVector_Target> Targets;                                   // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FVector                                Output;                                            // 0x00D0(0x0018)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_E8[0x8];                                       // 0x00E8(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -5557,7 +5557,7 @@ static_assert(sizeof(FRigVMDispatch_If) == 0x000070, "Wrong size on FRigVMDispat
 struct FRigVMFunction_MathRBFInterpolateVectorColor final : public FRigVMFunction_MathRBFInterpolateVectorBase
 {
 public:
-	TArray<struct FMathRBFInterpolateVectorColor_Target> Targets;                                           // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateVectorColor_Target> Targets;                                    // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FLinearColor                           Output;                                            // 0x00D0(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMFunction_MathRBFInterpolateVectorColor) == 0x000010, "Wrong alignment on FRigVMFunction_MathRBFInterpolateVectorColor");
@@ -5590,7 +5590,7 @@ static_assert(offsetof(FRigVMFunction_NameTruncate, Chopped) == 0x000020, "Membe
 struct FRigVMFunction_MathRBFInterpolateVectorQuat final : public FRigVMFunction_MathRBFInterpolateVectorBase
 {
 public:
-	TArray<struct FMathRBFInterpolateVectorQuat_Target> Targets;                                           // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateVectorQuat_Target> Targets;                                     // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FQuat                                  Output;                                            // 0x00D0(0x0020)(BlueprintVisible, BlueprintReadOnly, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMFunction_MathRBFInterpolateVectorQuat) == 0x000010, "Wrong alignment on FRigVMFunction_MathRBFInterpolateVectorQuat");
@@ -5633,7 +5633,7 @@ static_assert(offsetof(FRigVMFunction_StringStartsWith, Result) == 0x000028, "Me
 struct FRigVMFunction_MathRBFInterpolateVectorXform final : public FRigVMFunction_MathRBFInterpolateVectorBase
 {
 public:
-	TArray<struct FMathRBFInterpolateVectorXform_Target> Targets;                                           // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FMathRBFInterpolateVectorXform_Target> Targets;                                    // 0x00C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 	struct FTransform                             Output;                                            // 0x00D0(0x0060)(BlueprintVisible, BlueprintReadOnly, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FRigVMFunction_MathRBFInterpolateVectorXform) == 0x000010, "Wrong alignment on FRigVMFunction_MathRBFInterpolateVectorXform");

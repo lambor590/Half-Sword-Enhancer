@@ -140,7 +140,7 @@ void UGeometryCacheComponent::PlayReversedFromEnd()
 // Function GeometryCache.GeometryCacheComponent.SetExtrapolateFrames
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bNewExtrapolating                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bNewExtrapolating                                      (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCacheComponent::SetExtrapolateFrames(const bool bNewExtrapolating)
 {
@@ -193,7 +193,7 @@ bool UGeometryCacheComponent::SetGeometryCache(class UGeometryCache* NewGeomCach
 // Function GeometryCache.GeometryCacheComponent.SetLooping
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bNewLooping                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bNewLooping                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCacheComponent::SetLooping(const bool bNewLooping)
 {
@@ -218,7 +218,7 @@ void UGeometryCacheComponent::SetLooping(const bool bNewLooping)
 // Function GeometryCache.GeometryCacheComponent.SetMotionVectorScale
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   NewMotionVectorScale                                   (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             NewMotionVectorScale                                   (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCacheComponent::SetMotionVectorScale(const float NewMotionVectorScale)
 {
@@ -268,7 +268,7 @@ void UGeometryCacheComponent::SetOverrideWireframeColor(bool bOverride)
 // Function GeometryCache.GeometryCacheComponent.SetPlaybackSpeed
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   NewPlaybackSpeed                                       (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             NewPlaybackSpeed                                       (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCacheComponent::SetPlaybackSpeed(const float NewPlaybackSpeed)
 {
@@ -293,7 +293,7 @@ void UGeometryCacheComponent::SetPlaybackSpeed(const float NewPlaybackSpeed)
 // Function GeometryCache.GeometryCacheComponent.SetStartTimeOffset
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   NewStartTimeOffset                                     (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             NewStartTimeOffset                                     (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCacheComponent::SetStartTimeOffset(const float NewStartTimeOffset)
 {
@@ -318,7 +318,7 @@ void UGeometryCacheComponent::SetStartTimeOffset(const float NewStartTimeOffset)
 // Function GeometryCache.GeometryCacheComponent.SetWireframeOverrideColor
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     Color                                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Color                                                  (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCacheComponent::SetWireframeOverrideColor(const struct FLinearColor& Color)
 {
@@ -362,7 +362,7 @@ void UGeometryCacheComponent::Stop()
 // Function GeometryCache.GeometryCacheComponent.TickAtThisTime
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   Time                                                   (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             Time                                                   (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bInIsRunning                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bInBackwards                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bInIsLooping                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -718,8 +718,8 @@ bool UGeometryCacheComponent::IsPlayingReversed() const
 // Function GeometryCache.GeometryCacheTrack_FlipbookAnimation.AddMeshSample
 // (Final, Native, Public, HasOutParams)
 // Parameters:
-// struct FGeometryCacheMeshData           MeshData                                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// float                                   SampleTime                                             (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometryCacheMeshData&    MeshData                                               (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const float                             SampleTime                                             (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGeometryCacheTrack_FlipbookAnimation::AddMeshSample(const struct FGeometryCacheMeshData& MeshData, const float SampleTime)
 {
@@ -745,7 +745,7 @@ void UGeometryCacheTrack_FlipbookAnimation::AddMeshSample(const struct FGeometry
 // Function GeometryCache.GeometryCacheTrack_TransformAnimation.SetMesh
 // (Final, Native, Public, HasOutParams)
 // Parameters:
-// struct FGeometryCacheMeshData           NewMeshData                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometryCacheMeshData&    NewMeshData                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UGeometryCacheTrack_TransformAnimation::SetMesh(const struct FGeometryCacheMeshData& NewMeshData)
 {
@@ -770,7 +770,7 @@ void UGeometryCacheTrack_TransformAnimation::SetMesh(const struct FGeometryCache
 // Function GeometryCache.GeometryCacheTrack_TransformGroupAnimation.SetMesh
 // (Final, Native, Public, HasOutParams)
 // Parameters:
-// struct FGeometryCacheMeshData           NewMeshData                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometryCacheMeshData&    NewMeshData                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UGeometryCacheTrack_TransformGroupAnimation::SetMesh(const struct FGeometryCacheMeshData& NewMeshData)
 {

@@ -73,8 +73,8 @@ static_assert(alignof(UBlueprintGameplayTagLibrary) == 0x000008, "Wrong alignmen
 static_assert(sizeof(UBlueprintGameplayTagLibrary) == 0x000028, "Wrong size on UBlueprintGameplayTagLibrary");
 
 // Class GameplayTags.GameplayTagAssetInterface
-// 0x0000 (0x0028 - 0x0028)
-class IGameplayTagAssetInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IGameplayTagAssetInterface final
 {
 public:
 	void GetOwnedGameplayTags(struct FGameplayTagContainer* TagContainer) const;
@@ -91,9 +91,18 @@ public:
 	{
 		return GetDefaultObjImpl<IGameplayTagAssetInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IGameplayTagAssetInterface) == 0x000008, "Wrong alignment on IGameplayTagAssetInterface");
-static_assert(sizeof(IGameplayTagAssetInterface) == 0x000028, "Wrong size on IGameplayTagAssetInterface");
+static_assert(alignof(IGameplayTagAssetInterface) == 0x000001, "Wrong alignment on IGameplayTagAssetInterface");
+static_assert(sizeof(IGameplayTagAssetInterface) == 0x000001, "Wrong size on IGameplayTagAssetInterface");
 
 // Class GameplayTags.EditableGameplayTagQuery
 // 0x0070 (0x0098 - 0x0028)
@@ -206,7 +215,7 @@ static_assert(offsetof(UEditableGameplayTagQueryExpression_NoTagsMatch, Tags) ==
 class UEditableGameplayTagQueryExpression_AnyExprMatch final : public UEditableGameplayTagQueryExpression
 {
 public:
-	TArray<class UEditableGameplayTagQueryExpression*> Expressions;                                       // 0x0028(0x0010)(Edit, ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPublic)
+	TArray<class UEditableGameplayTagQueryExpression*> Expressions;                                  // 0x0028(0x0010)(Edit, ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -227,7 +236,7 @@ static_assert(offsetof(UEditableGameplayTagQueryExpression_AnyExprMatch, Express
 class UEditableGameplayTagQueryExpression_AllExprMatch final : public UEditableGameplayTagQueryExpression
 {
 public:
-	TArray<class UEditableGameplayTagQueryExpression*> Expressions;                                       // 0x0028(0x0010)(Edit, ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPublic)
+	TArray<class UEditableGameplayTagQueryExpression*> Expressions;                                  // 0x0028(0x0010)(Edit, ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -248,7 +257,7 @@ static_assert(offsetof(UEditableGameplayTagQueryExpression_AllExprMatch, Express
 class UEditableGameplayTagQueryExpression_NoExprMatch final : public UEditableGameplayTagQueryExpression
 {
 public:
-	TArray<class UEditableGameplayTagQueryExpression*> Expressions;                                       // 0x0028(0x0010)(Edit, ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPublic)
+	TArray<class UEditableGameplayTagQueryExpression*> Expressions;                                  // 0x0028(0x0010)(Edit, ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()

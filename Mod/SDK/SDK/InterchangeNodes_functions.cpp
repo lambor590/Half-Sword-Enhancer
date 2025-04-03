@@ -20,7 +20,7 @@ namespace SDK
 // Function InterchangeNodes.InterchangeAnimationTrackSetNode.AddCustomAnimationTrackUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AnimationTrackUid                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AnimationTrackUid                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetNode::AddCustomAnimationTrackUid(const class FString& AnimationTrackUid)
@@ -48,7 +48,7 @@ bool UInterchangeAnimationTrackSetNode::AddCustomAnimationTrackUid(const class F
 // Function InterchangeNodes.InterchangeAnimationTrackSetNode.RemoveCustomAnimationTrackUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AnimationTrackUid                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AnimationTrackUid                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetNode::RemoveCustomAnimationTrackUid(const class FString& AnimationTrackUid)
@@ -76,7 +76,7 @@ bool UInterchangeAnimationTrackSetNode::RemoveCustomAnimationTrackUid(const clas
 // Function InterchangeNodes.InterchangeAnimationTrackSetNode.SetCustomFrameRate
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetNode::SetCustomFrameRate(const float& AttributeValue)
@@ -104,8 +104,8 @@ bool UInterchangeAnimationTrackSetNode::SetCustomFrameRate(const float& Attribut
 // Function InterchangeNodes.InterchangeAnimationTrackSetNode.GetCustomAnimationTrackUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutAnimationTrackUid                                   (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutAnimationTrackUid                                   (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeAnimationTrackSetNode::GetCustomAnimationTrackUid(const int32 Index_0, class FString* OutAnimationTrackUid) const
 {
@@ -158,7 +158,7 @@ int32 UInterchangeAnimationTrackSetNode::GetCustomAnimationTrackUidCount() const
 // Function InterchangeNodes.InterchangeAnimationTrackSetNode.GetCustomAnimationTrackUids
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<class FString>                   OutAnimationTrackUids                                  (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutAnimationTrackUids                                  (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UInterchangeAnimationTrackSetNode::GetCustomAnimationTrackUids(TArray<class FString>* OutAnimationTrackUids) const
 {
@@ -184,7 +184,7 @@ void UInterchangeAnimationTrackSetNode::GetCustomAnimationTrackUids(TArray<class
 // Function InterchangeNodes.InterchangeAnimationTrackSetNode.GetCustomFrameRate
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetNode::GetCustomFrameRate(float* AttributeValue) const
@@ -213,7 +213,7 @@ bool UInterchangeAnimationTrackSetNode::GetCustomFrameRate(float* AttributeValue
 // Function InterchangeNodes.InterchangeAnimationTrackBaseNode.SetCustomCompletionMode
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackBaseNode::SetCustomCompletionMode(const int32& AttributeValue)
@@ -241,7 +241,7 @@ bool UInterchangeAnimationTrackBaseNode::SetCustomCompletionMode(const int32& At
 // Function InterchangeNodes.InterchangeAnimationTrackBaseNode.GetCustomCompletionMode
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackBaseNode::GetCustomCompletionMode(int32* AttributeValue) const
@@ -270,7 +270,7 @@ bool UInterchangeAnimationTrackBaseNode::GetCustomCompletionMode(int32* Attribut
 // Function InterchangeNodes.InterchangeAnimationTrackSetInstanceNode.SetCustomDuration
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetInstanceNode::SetCustomDuration(const int32& AttributeValue)
@@ -298,7 +298,7 @@ bool UInterchangeAnimationTrackSetInstanceNode::SetCustomDuration(const int32& A
 // Function InterchangeNodes.InterchangeAnimationTrackSetInstanceNode.SetCustomStartFrame
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetInstanceNode::SetCustomStartFrame(const int32& AttributeValue)
@@ -326,7 +326,7 @@ bool UInterchangeAnimationTrackSetInstanceNode::SetCustomStartFrame(const int32&
 // Function InterchangeNodes.InterchangeAnimationTrackSetInstanceNode.SetCustomTimeScale
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetInstanceNode::SetCustomTimeScale(const float& AttributeValue)
@@ -354,7 +354,7 @@ bool UInterchangeAnimationTrackSetInstanceNode::SetCustomTimeScale(const float& 
 // Function InterchangeNodes.InterchangeAnimationTrackSetInstanceNode.SetCustomTrackSetDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetInstanceNode::SetCustomTrackSetDependencyUid(const class FString& AttributeValue)
@@ -382,7 +382,7 @@ bool UInterchangeAnimationTrackSetInstanceNode::SetCustomTrackSetDependencyUid(c
 // Function InterchangeNodes.InterchangeAnimationTrackSetInstanceNode.GetCustomDuration
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetInstanceNode::GetCustomDuration(int32* AttributeValue) const
@@ -411,7 +411,7 @@ bool UInterchangeAnimationTrackSetInstanceNode::GetCustomDuration(int32* Attribu
 // Function InterchangeNodes.InterchangeAnimationTrackSetInstanceNode.GetCustomStartFrame
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetInstanceNode::GetCustomStartFrame(int32* AttributeValue) const
@@ -440,7 +440,7 @@ bool UInterchangeAnimationTrackSetInstanceNode::GetCustomStartFrame(int32* Attri
 // Function InterchangeNodes.InterchangeAnimationTrackSetInstanceNode.GetCustomTimeScale
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetInstanceNode::GetCustomTimeScale(float* AttributeValue) const
@@ -469,7 +469,7 @@ bool UInterchangeAnimationTrackSetInstanceNode::GetCustomTimeScale(float* Attrib
 // Function InterchangeNodes.InterchangeAnimationTrackSetInstanceNode.GetCustomTrackSetDependencyUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackSetInstanceNode::GetCustomTrackSetDependencyUid(class FString* AttributeValue) const
@@ -498,7 +498,7 @@ bool UInterchangeAnimationTrackSetInstanceNode::GetCustomTrackSetDependencyUid(c
 // Function InterchangeNodes.InterchangeAnimationTrackNode.SetCustomActorDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::SetCustomActorDependencyUid(const class FString& DependencyUid)
@@ -526,8 +526,8 @@ bool UInterchangeAnimationTrackNode::SetCustomActorDependencyUid(const class FSt
 // Function InterchangeNodes.InterchangeAnimationTrackNode.SetCustomAnimationPayloadKey
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           InUniqueId                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EInterchangeAnimationPayLoadType        InType                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InUniqueId                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeAnimationPayLoadType& InType                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::SetCustomAnimationPayloadKey(const class FString& InUniqueId, const EInterchangeAnimationPayLoadType& InType)
@@ -556,7 +556,7 @@ bool UInterchangeAnimationTrackNode::SetCustomAnimationPayloadKey(const class FS
 // Function InterchangeNodes.InterchangeAnimationTrackNode.SetCustomFrameCount
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::SetCustomFrameCount(const int32& AttributeValue)
@@ -584,7 +584,7 @@ bool UInterchangeAnimationTrackNode::SetCustomFrameCount(const int32& AttributeV
 // Function InterchangeNodes.InterchangeAnimationTrackNode.SetCustomPropertyTrack
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FName                             PropertyTrack                                          (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      PropertyTrack                                          (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::SetCustomPropertyTrack(const class FName& PropertyTrack)
@@ -612,7 +612,7 @@ bool UInterchangeAnimationTrackNode::SetCustomPropertyTrack(const class FName& P
 // Function InterchangeNodes.InterchangeAnimationTrackNode.SetCustomTargetedProperty
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   TargetedProperty                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            TargetedProperty                                       (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::SetCustomTargetedProperty(const int32& TargetedProperty)
@@ -640,7 +640,7 @@ bool UInterchangeAnimationTrackNode::SetCustomTargetedProperty(const int32& Targ
 // Function InterchangeNodes.InterchangeAnimationTrackNode.GetCustomActorDependencyUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          DependencyUid                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::GetCustomActorDependencyUid(class FString* DependencyUid) const
@@ -669,7 +669,7 @@ bool UInterchangeAnimationTrackNode::GetCustomActorDependencyUid(class FString* 
 // Function InterchangeNodes.InterchangeAnimationTrackNode.GetCustomAnimationPayloadKey
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FInterchangeAnimationPayLoadKey  AnimationPayLoadKey                                    (Parm, OutParm, NativeAccessSpecifierPublic)
+// struct FInterchangeAnimationPayLoadKey* AnimationPayLoadKey                                    (Parm, OutParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::GetCustomAnimationPayloadKey(struct FInterchangeAnimationPayLoadKey* AnimationPayLoadKey) const
@@ -698,7 +698,7 @@ bool UInterchangeAnimationTrackNode::GetCustomAnimationPayloadKey(struct FInterc
 // Function InterchangeNodes.InterchangeAnimationTrackNode.GetCustomFrameCount
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::GetCustomFrameCount(int32* AttributeValue) const
@@ -727,7 +727,7 @@ bool UInterchangeAnimationTrackNode::GetCustomFrameCount(int32* AttributeValue) 
 // Function InterchangeNodes.InterchangeAnimationTrackNode.GetCustomPropertyTrack
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FName                             PropertyTrack                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FName*                            PropertyTrack                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::GetCustomPropertyTrack(class FName* PropertyTrack) const
@@ -756,7 +756,7 @@ bool UInterchangeAnimationTrackNode::GetCustomPropertyTrack(class FName* Propert
 // Function InterchangeNodes.InterchangeAnimationTrackNode.GetCustomTargetedProperty
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   TargetedProperty                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  TargetedProperty                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeAnimationTrackNode::GetCustomTargetedProperty(int32* TargetedProperty) const
@@ -785,7 +785,7 @@ bool UInterchangeAnimationTrackNode::GetCustomTargetedProperty(int32* TargetedPr
 // Function InterchangeNodes.InterchangeTransformAnimationTrackNode.SetCustomUsedChannels
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTransformAnimationTrackNode::SetCustomUsedChannels(const int32& AttributeValue)
@@ -813,7 +813,7 @@ bool UInterchangeTransformAnimationTrackNode::SetCustomUsedChannels(const int32&
 // Function InterchangeNodes.InterchangeTransformAnimationTrackNode.GetCustomUsedChannels
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTransformAnimationTrackNode::GetCustomUsedChannels(int32* AttributeValue) const
@@ -842,9 +842,9 @@ bool UInterchangeTransformAnimationTrackNode::GetCustomUsedChannels(int32* Attri
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.SetAnimationPayloadKeyForMorphTargetNodeUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           MorphTargetNodeUid                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           InUniqueId                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EInterchangeAnimationPayLoadType        InType                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    MorphTargetNodeUid                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InUniqueId                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeAnimationPayLoadType& InType                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::SetAnimationPayloadKeyForMorphTargetNodeUid(const class FString& MorphTargetNodeUid, const class FString& InUniqueId, const EInterchangeAnimationPayLoadType& InType)
@@ -874,9 +874,9 @@ bool UInterchangeSkeletalAnimationTrackNode::SetAnimationPayloadKeyForMorphTarge
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.SetAnimationPayloadKeyForSceneNodeUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           SceneNodeUid                                           (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           InUniqueId                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EInterchangeAnimationPayLoadType        InType                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SceneNodeUid                                           (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InUniqueId                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeAnimationPayLoadType& InType                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::SetAnimationPayloadKeyForSceneNodeUid(const class FString& SceneNodeUid, const class FString& InUniqueId, const EInterchangeAnimationPayLoadType& InType)
@@ -906,7 +906,7 @@ bool UInterchangeSkeletalAnimationTrackNode::SetAnimationPayloadKeyForSceneNodeU
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.SetCustomAnimationSampleRate
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// double                                  SampleRate                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const double&                           SampleRate                                             (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::SetCustomAnimationSampleRate(const double& SampleRate)
@@ -934,7 +934,7 @@ bool UInterchangeSkeletalAnimationTrackNode::SetCustomAnimationSampleRate(const 
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.SetCustomAnimationStartTime
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// double                                  StartTime                                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const double&                           StartTime                                              (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::SetCustomAnimationStartTime(const double& StartTime)
@@ -962,7 +962,7 @@ bool UInterchangeSkeletalAnimationTrackNode::SetCustomAnimationStartTime(const d
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.SetCustomAnimationStopTime
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// double                                  StopTime                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const double&                           StopTime                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::SetCustomAnimationStopTime(const double& StopTime)
@@ -990,7 +990,7 @@ bool UInterchangeSkeletalAnimationTrackNode::SetCustomAnimationStopTime(const do
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.SetCustomSkeletonNodeUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::SetCustomSkeletonNodeUid(const class FString& AttributeValue)
@@ -1018,7 +1018,7 @@ bool UInterchangeSkeletalAnimationTrackNode::SetCustomSkeletonNodeUid(const clas
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.GetCustomAnimationSampleRate
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// double                                  SampleRate                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// double*                                 SampleRate                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::GetCustomAnimationSampleRate(double* SampleRate) const
@@ -1047,7 +1047,7 @@ bool UInterchangeSkeletalAnimationTrackNode::GetCustomAnimationSampleRate(double
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.GetCustomAnimationStartTime
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// double                                  StartTime                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// double*                                 StartTime                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::GetCustomAnimationStartTime(double* StartTime) const
@@ -1076,7 +1076,7 @@ bool UInterchangeSkeletalAnimationTrackNode::GetCustomAnimationStartTime(double*
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.GetCustomAnimationStopTime
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// double                                  StopTime                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// double*                                 StopTime                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::GetCustomAnimationStopTime(double* StopTime) const
@@ -1105,7 +1105,7 @@ bool UInterchangeSkeletalAnimationTrackNode::GetCustomAnimationStopTime(double* 
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.GetCustomSkeletonNodeUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSkeletalAnimationTrackNode::GetCustomSkeletonNodeUid(class FString* AttributeValue) const
@@ -1134,8 +1134,8 @@ bool UInterchangeSkeletalAnimationTrackNode::GetCustomSkeletonNodeUid(class FStr
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.GetMorphTargetNodeAnimationPayloadKeys
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TMap<class FString, class FString>      OutMorphTargetNodeAnimationPayloadKeyUids              (Parm, OutParm, NativeAccessSpecifierPublic)
-// TMap<class FString, uint8>              OutMorphTargetNodeAnimationPayloadKeyTypes             (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FString, class FString>*     OutMorphTargetNodeAnimationPayloadKeyUids              (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FString, uint8>*             OutMorphTargetNodeAnimationPayloadKeyTypes             (Parm, OutParm, NativeAccessSpecifierPublic)
 
 void UInterchangeSkeletalAnimationTrackNode::GetMorphTargetNodeAnimationPayloadKeys(TMap<class FString, class FString>* OutMorphTargetNodeAnimationPayloadKeyUids, TMap<class FString, uint8>* OutMorphTargetNodeAnimationPayloadKeyTypes) const
 {
@@ -1164,8 +1164,8 @@ void UInterchangeSkeletalAnimationTrackNode::GetMorphTargetNodeAnimationPayloadK
 // Function InterchangeNodes.InterchangeSkeletalAnimationTrackNode.GetSceneNodeAnimationPayloadKeys
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TMap<class FString, class FString>      OutSceneNodeAnimationPayloadKeyUids                    (Parm, OutParm, NativeAccessSpecifierPublic)
-// TMap<class FString, uint8>              OutSceneNodeAnimationPayloadKeyTypes                   (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FString, class FString>*     OutSceneNodeAnimationPayloadKeyUids                    (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FString, uint8>*             OutSceneNodeAnimationPayloadKeyTypes                   (Parm, OutParm, NativeAccessSpecifierPublic)
 
 void UInterchangeSkeletalAnimationTrackNode::GetSceneNodeAnimationPayloadKeys(TMap<class FString, class FString>* OutSceneNodeAnimationPayloadKeyUids, TMap<class FString, uint8>* OutSceneNodeAnimationPayloadKeyTypes) const
 {
@@ -1194,7 +1194,7 @@ void UInterchangeSkeletalAnimationTrackNode::GetSceneNodeAnimationPayloadKeys(TM
 // Function InterchangeNodes.InterchangePhysicalCameraNode.SetCustomEnableDepthOfField
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePhysicalCameraNode::SetCustomEnableDepthOfField(const bool& AttributeValue)
@@ -1222,7 +1222,7 @@ bool UInterchangePhysicalCameraNode::SetCustomEnableDepthOfField(const bool& Att
 // Function InterchangeNodes.InterchangePhysicalCameraNode.SetCustomFocalLength
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePhysicalCameraNode::SetCustomFocalLength(const float& AttributeValue)
@@ -1250,7 +1250,7 @@ bool UInterchangePhysicalCameraNode::SetCustomFocalLength(const float& Attribute
 // Function InterchangeNodes.InterchangePhysicalCameraNode.SetCustomSensorHeight
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePhysicalCameraNode::SetCustomSensorHeight(const float& AttributeValue)
@@ -1278,7 +1278,7 @@ bool UInterchangePhysicalCameraNode::SetCustomSensorHeight(const float& Attribut
 // Function InterchangeNodes.InterchangePhysicalCameraNode.SetCustomSensorWidth
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePhysicalCameraNode::SetCustomSensorWidth(const float& AttributeValue)
@@ -1306,7 +1306,7 @@ bool UInterchangePhysicalCameraNode::SetCustomSensorWidth(const float& Attribute
 // Function InterchangeNodes.InterchangePhysicalCameraNode.GetCustomEnableDepthOfField
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePhysicalCameraNode::GetCustomEnableDepthOfField(bool* AttributeValue) const
@@ -1335,7 +1335,7 @@ bool UInterchangePhysicalCameraNode::GetCustomEnableDepthOfField(bool* Attribute
 // Function InterchangeNodes.InterchangePhysicalCameraNode.GetCustomFocalLength
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePhysicalCameraNode::GetCustomFocalLength(float* AttributeValue) const
@@ -1364,7 +1364,7 @@ bool UInterchangePhysicalCameraNode::GetCustomFocalLength(float* AttributeValue)
 // Function InterchangeNodes.InterchangePhysicalCameraNode.GetCustomSensorHeight
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePhysicalCameraNode::GetCustomSensorHeight(float* AttributeValue) const
@@ -1393,7 +1393,7 @@ bool UInterchangePhysicalCameraNode::GetCustomSensorHeight(float* AttributeValue
 // Function InterchangeNodes.InterchangePhysicalCameraNode.GetCustomSensorWidth
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePhysicalCameraNode::GetCustomSensorWidth(float* AttributeValue) const
@@ -1422,7 +1422,7 @@ bool UInterchangePhysicalCameraNode::GetCustomSensorWidth(float* AttributeValue)
 // Function InterchangeNodes.InterchangeStandardCameraNode.SetCustomAspectRatio
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::SetCustomAspectRatio(const float& AttributeValue)
@@ -1450,7 +1450,7 @@ bool UInterchangeStandardCameraNode::SetCustomAspectRatio(const float& Attribute
 // Function InterchangeNodes.InterchangeStandardCameraNode.SetCustomFarClipPlane
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::SetCustomFarClipPlane(const float& AttributeValue)
@@ -1478,7 +1478,7 @@ bool UInterchangeStandardCameraNode::SetCustomFarClipPlane(const float& Attribut
 // Function InterchangeNodes.InterchangeStandardCameraNode.SetCustomFieldOfView
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::SetCustomFieldOfView(const float& AttributeValue)
@@ -1506,7 +1506,7 @@ bool UInterchangeStandardCameraNode::SetCustomFieldOfView(const float& Attribute
 // Function InterchangeNodes.InterchangeStandardCameraNode.SetCustomNearClipPlane
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::SetCustomNearClipPlane(const float& AttributeValue)
@@ -1534,7 +1534,7 @@ bool UInterchangeStandardCameraNode::SetCustomNearClipPlane(const float& Attribu
 // Function InterchangeNodes.InterchangeStandardCameraNode.SetCustomProjectionMode
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// EInterchangeCameraProjectionType        AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeCameraProjectionType& AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::SetCustomProjectionMode(const EInterchangeCameraProjectionType& AttributeValue)
@@ -1562,7 +1562,7 @@ bool UInterchangeStandardCameraNode::SetCustomProjectionMode(const EInterchangeC
 // Function InterchangeNodes.InterchangeStandardCameraNode.SetCustomWidth
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::SetCustomWidth(const float& AttributeValue)
@@ -1590,7 +1590,7 @@ bool UInterchangeStandardCameraNode::SetCustomWidth(const float& AttributeValue)
 // Function InterchangeNodes.InterchangeStandardCameraNode.GetCustomAspectRatio
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::GetCustomAspectRatio(float* AttributeValue) const
@@ -1619,7 +1619,7 @@ bool UInterchangeStandardCameraNode::GetCustomAspectRatio(float* AttributeValue)
 // Function InterchangeNodes.InterchangeStandardCameraNode.GetCustomFarClipPlane
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::GetCustomFarClipPlane(float* AttributeValue) const
@@ -1648,7 +1648,7 @@ bool UInterchangeStandardCameraNode::GetCustomFarClipPlane(float* AttributeValue
 // Function InterchangeNodes.InterchangeStandardCameraNode.GetCustomFieldOfView
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::GetCustomFieldOfView(float* AttributeValue) const
@@ -1677,7 +1677,7 @@ bool UInterchangeStandardCameraNode::GetCustomFieldOfView(float* AttributeValue)
 // Function InterchangeNodes.InterchangeStandardCameraNode.GetCustomNearClipPlane
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::GetCustomNearClipPlane(float* AttributeValue) const
@@ -1706,7 +1706,7 @@ bool UInterchangeStandardCameraNode::GetCustomNearClipPlane(float* AttributeValu
 // Function InterchangeNodes.InterchangeStandardCameraNode.GetCustomProjectionMode
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// EInterchangeCameraProjectionType        AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EInterchangeCameraProjectionType*       AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::GetCustomProjectionMode(EInterchangeCameraProjectionType* AttributeValue) const
@@ -1735,7 +1735,7 @@ bool UInterchangeStandardCameraNode::GetCustomProjectionMode(EInterchangeCameraP
 // Function InterchangeNodes.InterchangeStandardCameraNode.GetCustomWidth
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeStandardCameraNode::GetCustomWidth(float* AttributeValue) const
@@ -1764,8 +1764,8 @@ bool UInterchangeStandardCameraNode::GetCustomWidth(float* AttributeValue) const
 // Function InterchangeNodes.InterchangeShaderNode.AddFloatInput
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIsAParameter                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1796,8 +1796,8 @@ bool UInterchangeShaderNode::AddFloatInput(const class FString& InputName, const
 // Function InterchangeNodes.InterchangeShaderNode.AddLinearColorInput
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIsAParameter                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1828,8 +1828,8 @@ bool UInterchangeShaderNode::AddLinearColorInput(const class FString& InputName,
 // Function InterchangeNodes.InterchangeShaderNode.AddStringInput
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIsAParameter                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1860,7 +1860,7 @@ bool UInterchangeShaderNode::AddStringInput(const class FString& InputName, cons
 // Function InterchangeNodes.InterchangeShaderNode.SetCustomShaderType
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderNode::SetCustomShaderType(const class FString& AttributeValue)
@@ -1888,7 +1888,7 @@ bool UInterchangeShaderNode::SetCustomShaderType(const class FString& AttributeV
 // Function InterchangeNodes.InterchangeShaderNode.GetCustomShaderType
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderNode::GetCustomShaderType(class FString* AttributeValue) const
@@ -1917,7 +1917,7 @@ bool UInterchangeShaderNode::GetCustomShaderType(class FString* AttributeValue) 
 // Function InterchangeNodes.InterchangeDecalNode.SetCustomDecalMaterialPathName
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeDecalNode::SetCustomDecalMaterialPathName(const class FString& AttributeValue)
@@ -1945,7 +1945,7 @@ bool UInterchangeDecalNode::SetCustomDecalMaterialPathName(const class FString& 
 // Function InterchangeNodes.InterchangeDecalNode.SetCustomDecalSize
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector                          AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeDecalNode::SetCustomDecalSize(const struct FVector& AttributeValue)
@@ -1973,7 +1973,7 @@ bool UInterchangeDecalNode::SetCustomDecalSize(const struct FVector& AttributeVa
 // Function InterchangeNodes.InterchangeDecalNode.SetCustomSortOrder
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeDecalNode::SetCustomSortOrder(const int32& AttributeValue)
@@ -2001,7 +2001,7 @@ bool UInterchangeDecalNode::SetCustomSortOrder(const int32& AttributeValue)
 // Function InterchangeNodes.InterchangeDecalNode.GetCustomDecalMaterialPathName
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeDecalNode::GetCustomDecalMaterialPathName(class FString* AttributeValue) const
@@ -2030,7 +2030,7 @@ bool UInterchangeDecalNode::GetCustomDecalMaterialPathName(class FString* Attrib
 // Function InterchangeNodes.InterchangeDecalNode.GetCustomDecalSize
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FVector                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector*                         AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeDecalNode::GetCustomDecalSize(struct FVector* AttributeValue) const
@@ -2059,7 +2059,7 @@ bool UInterchangeDecalNode::GetCustomDecalSize(struct FVector* AttributeValue) c
 // Function InterchangeNodes.InterchangeDecalNode.GetCustomSortOrder
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeDecalNode::GetCustomSortOrder(int32* AttributeValue) const
@@ -2116,7 +2116,7 @@ bool UInterchangeBaseLightNode::SetCustomIntensity(float AttributeValue)
 // Function InterchangeNodes.InterchangeBaseLightNode.SetCustomLightColor
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeBaseLightNode::SetCustomLightColor(const struct FLinearColor& AttributeValue)
@@ -2200,7 +2200,7 @@ bool UInterchangeBaseLightNode::SetCustomUseTemperature(bool AttributeValue)
 // Function InterchangeNodes.InterchangeBaseLightNode.GetCustomIntensity
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeBaseLightNode::GetCustomIntensity(float* AttributeValue) const
@@ -2229,7 +2229,7 @@ bool UInterchangeBaseLightNode::GetCustomIntensity(float* AttributeValue) const
 // Function InterchangeNodes.InterchangeBaseLightNode.GetCustomLightColor
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FLinearColor                     AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FLinearColor*                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeBaseLightNode::GetCustomLightColor(struct FLinearColor* AttributeValue) const
@@ -2258,7 +2258,7 @@ bool UInterchangeBaseLightNode::GetCustomLightColor(struct FLinearColor* Attribu
 // Function InterchangeNodes.InterchangeBaseLightNode.GetCustomTemperature
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeBaseLightNode::GetCustomTemperature(float* AttributeValue) const
@@ -2287,7 +2287,7 @@ bool UInterchangeBaseLightNode::GetCustomTemperature(float* AttributeValue) cons
 // Function InterchangeNodes.InterchangeBaseLightNode.GetCustomUseTemperature
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeBaseLightNode::GetCustomUseTemperature(bool* AttributeValue) const
@@ -2344,7 +2344,7 @@ bool UInterchangeLightNode::SetCustomAttenuationRadius(float AttributeValue)
 // Function InterchangeNodes.InterchangeLightNode.SetCustomIESBrightnessScale
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bAddApplyDelegate                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -2374,7 +2374,7 @@ bool UInterchangeLightNode::SetCustomIESBrightnessScale(const float& AttributeVa
 // Function InterchangeNodes.InterchangeLightNode.SetCustomIESTexture
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeLightNode::SetCustomIESTexture(const class FString& AttributeValue)
@@ -2402,7 +2402,7 @@ bool UInterchangeLightNode::SetCustomIESTexture(const class FString& AttributeVa
 // Function InterchangeNodes.InterchangeLightNode.SetCustomIntensityUnits
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// EInterchangeLightUnits                  AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeLightUnits&           AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeLightNode::SetCustomIntensityUnits(const EInterchangeLightUnits& AttributeValue)
@@ -2430,7 +2430,7 @@ bool UInterchangeLightNode::SetCustomIntensityUnits(const EInterchangeLightUnits
 // Function InterchangeNodes.InterchangeLightNode.SetCustomRotation
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FRotator                         AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FRotator&                  AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    bAddApplyDelegate                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -2460,7 +2460,7 @@ bool UInterchangeLightNode::SetCustomRotation(const struct FRotator& AttributeVa
 // Function InterchangeNodes.InterchangeLightNode.SetCustomUseIESBrightness
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bAddApplyDelegate                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -2490,7 +2490,7 @@ bool UInterchangeLightNode::SetCustomUseIESBrightness(const bool& AttributeValue
 // Function InterchangeNodes.InterchangeLightNode.GetCustomAttenuationRadius
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeLightNode::GetCustomAttenuationRadius(float* AttributeValue) const
@@ -2519,7 +2519,7 @@ bool UInterchangeLightNode::GetCustomAttenuationRadius(float* AttributeValue) co
 // Function InterchangeNodes.InterchangeLightNode.GetCustomIESBrightnessScale
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeLightNode::GetCustomIESBrightnessScale(float* AttributeValue) const
@@ -2548,7 +2548,7 @@ bool UInterchangeLightNode::GetCustomIESBrightnessScale(float* AttributeValue) c
 // Function InterchangeNodes.InterchangeLightNode.GetCustomIESTexture
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeLightNode::GetCustomIESTexture(class FString* AttributeValue) const
@@ -2577,7 +2577,7 @@ bool UInterchangeLightNode::GetCustomIESTexture(class FString* AttributeValue) c
 // Function InterchangeNodes.InterchangeLightNode.GetCustomIntensityUnits
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// EInterchangeLightUnits                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EInterchangeLightUnits*                 AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeLightNode::GetCustomIntensityUnits(EInterchangeLightUnits* AttributeValue) const
@@ -2606,7 +2606,7 @@ bool UInterchangeLightNode::GetCustomIntensityUnits(EInterchangeLightUnits* Attr
 // Function InterchangeNodes.InterchangeLightNode.GetCustomRotation
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FRotator                         AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// struct FRotator*                        AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeLightNode::GetCustomRotation(struct FRotator* AttributeValue) const
@@ -2635,7 +2635,7 @@ bool UInterchangeLightNode::GetCustomRotation(struct FRotator* AttributeValue) c
 // Function InterchangeNodes.InterchangeLightNode.GetCustomUseIESBrightness
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeLightNode::GetCustomUseIESBrightness(bool* AttributeValue) const
@@ -2720,7 +2720,7 @@ bool UInterchangePointLightNode::SetCustomUseInverseSquaredFalloff(bool Attribut
 // Function InterchangeNodes.InterchangePointLightNode.GetCustomLightFalloffExponent
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePointLightNode::GetCustomLightFalloffExponent(float* AttributeValue) const
@@ -2749,7 +2749,7 @@ bool UInterchangePointLightNode::GetCustomLightFalloffExponent(float* AttributeV
 // Function InterchangeNodes.InterchangePointLightNode.GetCustomUseInverseSquaredFalloff
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangePointLightNode::GetCustomUseInverseSquaredFalloff(bool* AttributeValue) const
@@ -2834,7 +2834,7 @@ bool UInterchangeSpotLightNode::SetCustomOuterConeAngle(float AttributeValue)
 // Function InterchangeNodes.InterchangeSpotLightNode.GetCustomInnerConeAngle
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSpotLightNode::GetCustomInnerConeAngle(float* AttributeValue) const
@@ -2863,7 +2863,7 @@ bool UInterchangeSpotLightNode::GetCustomInnerConeAngle(float* AttributeValue) c
 // Function InterchangeNodes.InterchangeSpotLightNode.GetCustomOuterConeAngle
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSpotLightNode::GetCustomOuterConeAngle(float* AttributeValue) const
@@ -2948,7 +2948,7 @@ bool UInterchangeRectLightNode::SetCustomSourceWidth(float AttributeValue)
 // Function InterchangeNodes.InterchangeRectLightNode.GetCustomSourceHeight
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeRectLightNode::GetCustomSourceHeight(float* AttributeValue) const
@@ -2977,7 +2977,7 @@ bool UInterchangeRectLightNode::GetCustomSourceHeight(float* AttributeValue) con
 // Function InterchangeNodes.InterchangeRectLightNode.GetCustomSourceWidth
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeRectLightNode::GetCustomSourceWidth(float* AttributeValue) const
@@ -3006,7 +3006,7 @@ bool UInterchangeRectLightNode::GetCustomSourceWidth(float* AttributeValue) cons
 // Function InterchangeNodes.InterchangeTextureNode.SetCustombFlipGreenChannel
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTextureNode::SetCustombFlipGreenChannel(const bool& AttributeValue)
@@ -3034,7 +3034,7 @@ bool UInterchangeTextureNode::SetCustombFlipGreenChannel(const bool& AttributeVa
 // Function InterchangeNodes.InterchangeTextureNode.SetCustomFilter
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// EInterchangeTextureFilterMode           AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeTextureFilterMode&    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTextureNode::SetCustomFilter(const EInterchangeTextureFilterMode& AttributeValue)
@@ -3062,7 +3062,7 @@ bool UInterchangeTextureNode::SetCustomFilter(const EInterchangeTextureFilterMod
 // Function InterchangeNodes.InterchangeTextureNode.SetCustomSRGB
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTextureNode::SetCustomSRGB(const bool& AttributeValue)
@@ -3090,7 +3090,7 @@ bool UInterchangeTextureNode::SetCustomSRGB(const bool& AttributeValue)
 // Function InterchangeNodes.InterchangeTextureNode.SetPayLoadKey
 // (Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           PayloadKey                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    PayloadKey                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeTextureNode::SetPayLoadKey(const class FString& PayloadKey)
 {
@@ -3115,7 +3115,7 @@ void UInterchangeTextureNode::SetPayLoadKey(const class FString& PayloadKey)
 // Function InterchangeNodes.InterchangeTextureNode.GetCustombFlipGreenChannel
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTextureNode::GetCustombFlipGreenChannel(bool* AttributeValue) const
@@ -3144,7 +3144,7 @@ bool UInterchangeTextureNode::GetCustombFlipGreenChannel(bool* AttributeValue) c
 // Function InterchangeNodes.InterchangeTextureNode.GetCustomFilter
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// EInterchangeTextureFilterMode           AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EInterchangeTextureFilterMode*          AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTextureNode::GetCustomFilter(EInterchangeTextureFilterMode* AttributeValue) const
@@ -3173,7 +3173,7 @@ bool UInterchangeTextureNode::GetCustomFilter(EInterchangeTextureFilterMode* Att
 // Function InterchangeNodes.InterchangeTextureNode.GetCustomSRGB
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTextureNode::GetCustomSRGB(bool* AttributeValue) const
@@ -3202,7 +3202,7 @@ bool UInterchangeTextureNode::GetCustomSRGB(bool* AttributeValue) const
 // Function InterchangeNodes.InterchangeVariantSetNode.AddCustomDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeVariantSetNode::AddCustomDependencyUid(const class FString& DependencyUid)
@@ -3230,7 +3230,7 @@ bool UInterchangeVariantSetNode::AddCustomDependencyUid(const class FString& Dep
 // Function InterchangeNodes.InterchangeVariantSetNode.RemoveCustomDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeVariantSetNode::RemoveCustomDependencyUid(const class FString& DependencyUid)
@@ -3258,7 +3258,7 @@ bool UInterchangeVariantSetNode::RemoveCustomDependencyUid(const class FString& 
 // Function InterchangeNodes.InterchangeVariantSetNode.SetCustomDisplayText
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeVariantSetNode::SetCustomDisplayText(const class FString& AttributeValue)
@@ -3286,7 +3286,7 @@ bool UInterchangeVariantSetNode::SetCustomDisplayText(const class FString& Attri
 // Function InterchangeNodes.InterchangeVariantSetNode.SetCustomVariantsPayloadKey
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           PayloadKey                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    PayloadKey                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeVariantSetNode::SetCustomVariantsPayloadKey(const class FString& PayloadKey)
@@ -3314,8 +3314,8 @@ bool UInterchangeVariantSetNode::SetCustomVariantsPayloadKey(const class FString
 // Function InterchangeNodes.InterchangeVariantSetNode.GetCustomDependencyUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutDependencyUid                                       (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutDependencyUid                                       (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeVariantSetNode::GetCustomDependencyUid(const int32 Index_0, class FString* OutDependencyUid) const
 {
@@ -3368,7 +3368,7 @@ int32 UInterchangeVariantSetNode::GetCustomDependencyUidCount() const
 // Function InterchangeNodes.InterchangeVariantSetNode.GetCustomDependencyUids
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<class FString>                   OutDependencyUids                                      (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutDependencyUids                                      (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UInterchangeVariantSetNode::GetCustomDependencyUids(TArray<class FString>* OutDependencyUids) const
 {
@@ -3394,7 +3394,7 @@ void UInterchangeVariantSetNode::GetCustomDependencyUids(TArray<class FString>* 
 // Function InterchangeNodes.InterchangeVariantSetNode.GetCustomDisplayText
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeVariantSetNode::GetCustomDisplayText(class FString* AttributeValue) const
@@ -3423,7 +3423,7 @@ bool UInterchangeVariantSetNode::GetCustomDisplayText(class FString* AttributeVa
 // Function InterchangeNodes.InterchangeVariantSetNode.GetCustomVariantsPayloadKey
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           PayloadKey                                             (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          PayloadKey                                             (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeVariantSetNode::GetCustomVariantsPayloadKey(class FString* PayloadKey) const
@@ -3452,7 +3452,7 @@ bool UInterchangeVariantSetNode::GetCustomVariantsPayloadKey(class FString* Payl
 // Function InterchangeNodes.InterchangeSceneVariantSetsNode.AddCustomVariantSetUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           VariantUid                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    VariantUid                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneVariantSetsNode::AddCustomVariantSetUid(const class FString& VariantUid)
@@ -3480,7 +3480,7 @@ bool UInterchangeSceneVariantSetsNode::AddCustomVariantSetUid(const class FStrin
 // Function InterchangeNodes.InterchangeSceneVariantSetsNode.RemoveCustomVariantSetUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           VariantUid                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    VariantUid                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneVariantSetsNode::RemoveCustomVariantSetUid(const class FString& VariantUid)
@@ -3508,8 +3508,8 @@ bool UInterchangeSceneVariantSetsNode::RemoveCustomVariantSetUid(const class FSt
 // Function InterchangeNodes.InterchangeSceneVariantSetsNode.GetCustomVariantSetUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutVariantUid                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutVariantUid                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeSceneVariantSetsNode::GetCustomVariantSetUid(const int32 Index_0, class FString* OutVariantUid) const
 {
@@ -3562,7 +3562,7 @@ int32 UInterchangeSceneVariantSetsNode::GetCustomVariantSetUidCount() const
 // Function InterchangeNodes.InterchangeSceneVariantSetsNode.GetCustomVariantSetUids
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<class FString>                   OutVariantUids                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutVariantUids                                         (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UInterchangeSceneVariantSetsNode::GetCustomVariantSetUids(TArray<class FString>* OutVariantUids) const
 {
@@ -3588,7 +3588,7 @@ void UInterchangeSceneVariantSetsNode::GetCustomVariantSetUids(TArray<class FStr
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.AddScalarParameterValue
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   AttributeValue                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -3618,7 +3618,7 @@ bool UInterchangeMaterialInstanceNode::AddScalarParameterValue(const class FStri
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.AddStaticSwitchParameterValue
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    AttributeValue                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -3648,8 +3648,8 @@ bool UInterchangeMaterialInstanceNode::AddStaticSwitchParameterValue(const class
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.AddTextureParameterValue
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMaterialInstanceNode::AddTextureParameterValue(const class FString& ParameterName, const class FString& AttributeValue)
@@ -3678,8 +3678,8 @@ bool UInterchangeMaterialInstanceNode::AddTextureParameterValue(const class FStr
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.AddVectorParameterValue
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// class FString                           ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMaterialInstanceNode::AddVectorParameterValue(const class FString& ParameterName, const struct FLinearColor& AttributeValue)
@@ -3708,7 +3708,7 @@ bool UInterchangeMaterialInstanceNode::AddVectorParameterValue(const class FStri
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.GetCustomParent
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMaterialInstanceNode::GetCustomParent(class FString* AttributeValue) const
@@ -3737,8 +3737,8 @@ bool UInterchangeMaterialInstanceNode::GetCustomParent(class FString* AttributeV
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.GetScalarParameterValue
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMaterialInstanceNode::GetScalarParameterValue(const class FString& ParameterName, float* AttributeValue) const
@@ -3769,8 +3769,8 @@ bool UInterchangeMaterialInstanceNode::GetScalarParameterValue(const class FStri
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.GetStaticSwitchParameterValue
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMaterialInstanceNode::GetStaticSwitchParameterValue(const class FString& ParameterName, bool* AttributeValue) const
@@ -3801,8 +3801,8 @@ bool UInterchangeMaterialInstanceNode::GetStaticSwitchParameterValue(const class
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.GetTextureParameterValue
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMaterialInstanceNode::GetTextureParameterValue(const class FString& ParameterName, class FString* AttributeValue) const
@@ -3833,8 +3833,8 @@ bool UInterchangeMaterialInstanceNode::GetTextureParameterValue(const class FStr
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.GetVectorParameterValue
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ParameterName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FLinearColor*                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMaterialInstanceNode::GetVectorParameterValue(const class FString& ParameterName, struct FLinearColor* AttributeValue) const
@@ -3865,7 +3865,7 @@ bool UInterchangeMaterialInstanceNode::GetVectorParameterValue(const class FStri
 // Function InterchangeNodes.InterchangeMaterialInstanceNode.SetCustomParent
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMaterialInstanceNode::SetCustomParent(const class FString& AttributeValue) const
@@ -3893,7 +3893,7 @@ bool UInterchangeMaterialInstanceNode::SetCustomParent(const class FString& Attr
 // Function InterchangeNodes.InterchangeMeshNode.RemoveMorphTargetDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::RemoveMorphTargetDependencyUid(const class FString& DependencyUid)
@@ -3921,7 +3921,7 @@ bool UInterchangeMeshNode::RemoveMorphTargetDependencyUid(const class FString& D
 // Function InterchangeNodes.InterchangeMeshNode.RemoveSceneInstanceUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::RemoveSceneInstanceUid(const class FString& DependencyUid)
@@ -3949,7 +3949,7 @@ bool UInterchangeMeshNode::RemoveSceneInstanceUid(const class FString& Dependenc
 // Function InterchangeNodes.InterchangeMeshNode.RemoveSkeletonDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::RemoveSkeletonDependencyUid(const class FString& DependencyUid)
@@ -3977,7 +3977,7 @@ bool UInterchangeMeshNode::RemoveSkeletonDependencyUid(const class FString& Depe
 // Function InterchangeNodes.InterchangeMeshNode.RemoveSlotMaterialDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::RemoveSlotMaterialDependencyUid(const class FString& SlotName)
@@ -4005,7 +4005,7 @@ bool UInterchangeMeshNode::RemoveSlotMaterialDependencyUid(const class FString& 
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomBoundingBox
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FBox                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FBox&                      AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomBoundingBox(const struct FBox& AttributeValue)
@@ -4033,7 +4033,7 @@ bool UInterchangeMeshNode::SetCustomBoundingBox(const struct FBox& AttributeValu
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomHasSmoothGroup
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomHasSmoothGroup(const bool& AttributeValue)
@@ -4061,7 +4061,7 @@ bool UInterchangeMeshNode::SetCustomHasSmoothGroup(const bool& AttributeValue)
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomHasVertexBinormal
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomHasVertexBinormal(const bool& AttributeValue)
@@ -4089,7 +4089,7 @@ bool UInterchangeMeshNode::SetCustomHasVertexBinormal(const bool& AttributeValue
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomHasVertexColor
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomHasVertexColor(const bool& AttributeValue)
@@ -4117,7 +4117,7 @@ bool UInterchangeMeshNode::SetCustomHasVertexColor(const bool& AttributeValue)
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomHasVertexNormal
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomHasVertexNormal(const bool& AttributeValue)
@@ -4145,7 +4145,7 @@ bool UInterchangeMeshNode::SetCustomHasVertexNormal(const bool& AttributeValue)
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomHasVertexTangent
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomHasVertexTangent(const bool& AttributeValue)
@@ -4173,7 +4173,7 @@ bool UInterchangeMeshNode::SetCustomHasVertexTangent(const bool& AttributeValue)
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomPolygonCount
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomPolygonCount(const int32& AttributeValue)
@@ -4201,7 +4201,7 @@ bool UInterchangeMeshNode::SetCustomPolygonCount(const int32& AttributeValue)
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomUVCount
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomUVCount(const int32& AttributeValue)
@@ -4229,7 +4229,7 @@ bool UInterchangeMeshNode::SetCustomUVCount(const int32& AttributeValue)
 // Function InterchangeNodes.InterchangeMeshNode.SetCustomVertexCount
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// int32                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetCustomVertexCount(const int32& AttributeValue)
@@ -4257,7 +4257,7 @@ bool UInterchangeMeshNode::SetCustomVertexCount(const int32& AttributeValue)
 // Function InterchangeNodes.InterchangeMeshNode.SetMorphTarget
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bIsMorphTarget                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bIsMorphTarget                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetMorphTarget(const bool bIsMorphTarget)
@@ -4285,7 +4285,7 @@ bool UInterchangeMeshNode::SetMorphTarget(const bool bIsMorphTarget)
 // Function InterchangeNodes.InterchangeMeshNode.SetMorphTargetDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetMorphTargetDependencyUid(const class FString& DependencyUid)
@@ -4313,7 +4313,7 @@ bool UInterchangeMeshNode::SetMorphTargetDependencyUid(const class FString& Depe
 // Function InterchangeNodes.InterchangeMeshNode.SetMorphTargetName
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           MorphTargetName                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    MorphTargetName                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetMorphTargetName(const class FString& MorphTargetName)
@@ -4341,8 +4341,8 @@ bool UInterchangeMeshNode::SetMorphTargetName(const class FString& MorphTargetNa
 // Function InterchangeNodes.InterchangeMeshNode.SetPayLoadKey
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           PayloadKey                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// EInterchangeMeshPayLoadType             PayLoadType                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    PayloadKey                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeMeshPayLoadType&      PayLoadType                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeMeshNode::SetPayLoadKey(const class FString& PayloadKey, const EInterchangeMeshPayLoadType& PayLoadType)
 {
@@ -4368,7 +4368,7 @@ void UInterchangeMeshNode::SetPayLoadKey(const class FString& PayloadKey, const 
 // Function InterchangeNodes.InterchangeMeshNode.SetSceneInstanceUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetSceneInstanceUid(const class FString& DependencyUid)
@@ -4396,7 +4396,7 @@ bool UInterchangeMeshNode::SetSceneInstanceUid(const class FString& DependencyUi
 // Function InterchangeNodes.InterchangeMeshNode.SetSkeletonDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    DependencyUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetSkeletonDependencyUid(const class FString& DependencyUid)
@@ -4424,7 +4424,7 @@ bool UInterchangeMeshNode::SetSkeletonDependencyUid(const class FString& Depende
 // Function InterchangeNodes.InterchangeMeshNode.SetSkinnedMesh
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bIsSkinnedMesh                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bIsSkinnedMesh                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetSkinnedMesh(const bool bIsSkinnedMesh)
@@ -4452,8 +4452,8 @@ bool UInterchangeMeshNode::SetSkinnedMesh(const bool bIsSkinnedMesh)
 // Function InterchangeNodes.InterchangeMeshNode.SetSlotMaterialDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           MaterialDependencyUid                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    MaterialDependencyUid                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::SetSlotMaterialDependencyUid(const class FString& SlotName, const class FString& MaterialDependencyUid)
@@ -4482,7 +4482,7 @@ bool UInterchangeMeshNode::SetSlotMaterialDependencyUid(const class FString& Slo
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomBoundingBox
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FBox                             AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// struct FBox*                            AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomBoundingBox(struct FBox* AttributeValue) const
@@ -4511,7 +4511,7 @@ bool UInterchangeMeshNode::GetCustomBoundingBox(struct FBox* AttributeValue) con
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomHasSmoothGroup
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomHasSmoothGroup(bool* AttributeValue) const
@@ -4540,7 +4540,7 @@ bool UInterchangeMeshNode::GetCustomHasSmoothGroup(bool* AttributeValue) const
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomHasVertexBinormal
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomHasVertexBinormal(bool* AttributeValue) const
@@ -4569,7 +4569,7 @@ bool UInterchangeMeshNode::GetCustomHasVertexBinormal(bool* AttributeValue) cons
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomHasVertexColor
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomHasVertexColor(bool* AttributeValue) const
@@ -4598,7 +4598,7 @@ bool UInterchangeMeshNode::GetCustomHasVertexColor(bool* AttributeValue) const
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomHasVertexNormal
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomHasVertexNormal(bool* AttributeValue) const
@@ -4627,7 +4627,7 @@ bool UInterchangeMeshNode::GetCustomHasVertexNormal(bool* AttributeValue) const
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomHasVertexTangent
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomHasVertexTangent(bool* AttributeValue) const
@@ -4656,7 +4656,7 @@ bool UInterchangeMeshNode::GetCustomHasVertexTangent(bool* AttributeValue) const
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomPolygonCount
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomPolygonCount(int32* AttributeValue) const
@@ -4685,7 +4685,7 @@ bool UInterchangeMeshNode::GetCustomPolygonCount(int32* AttributeValue) const
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomUVCount
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomUVCount(int32* AttributeValue) const
@@ -4714,7 +4714,7 @@ bool UInterchangeMeshNode::GetCustomUVCount(int32* AttributeValue) const
 // Function InterchangeNodes.InterchangeMeshNode.GetCustomVertexCount
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetCustomVertexCount(int32* AttributeValue) const
@@ -4768,7 +4768,7 @@ int32 UInterchangeMeshNode::GetMorphTargetDependeciesCount() const
 // Function InterchangeNodes.InterchangeMeshNode.GetMorphTargetDependencies
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<class FString>                   OutDependencies                                        (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutDependencies                                        (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UInterchangeMeshNode::GetMorphTargetDependencies(TArray<class FString>* OutDependencies) const
 {
@@ -4794,8 +4794,8 @@ void UInterchangeMeshNode::GetMorphTargetDependencies(TArray<class FString>* Out
 // Function InterchangeNodes.InterchangeMeshNode.GetMorphTargetDependency
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutDependency                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutDependency                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeMeshNode::GetMorphTargetDependency(const int32 Index_0, class FString* OutDependency) const
 {
@@ -4823,7 +4823,7 @@ void UInterchangeMeshNode::GetMorphTargetDependency(const int32 Index_0, class F
 // Function InterchangeNodes.InterchangeMeshNode.GetMorphTargetName
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           OutMorphTargetName                                     (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutMorphTargetName                                     (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetMorphTargetName(class FString* OutMorphTargetName) const
@@ -4852,8 +4852,8 @@ bool UInterchangeMeshNode::GetMorphTargetName(class FString* OutMorphTargetName)
 // Function InterchangeNodes.InterchangeMeshNode.GetSceneInstanceUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutDependency                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutDependency                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeMeshNode::GetSceneInstanceUid(const int32 Index_0, class FString* OutDependency) const
 {
@@ -4881,7 +4881,7 @@ void UInterchangeMeshNode::GetSceneInstanceUid(const int32 Index_0, class FStrin
 // Function InterchangeNodes.InterchangeMeshNode.GetSceneInstanceUids
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<class FString>                   OutDependencies                                        (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutDependencies                                        (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UInterchangeMeshNode::GetSceneInstanceUids(TArray<class FString>* OutDependencies) const
 {
@@ -4957,7 +4957,7 @@ int32 UInterchangeMeshNode::GetSkeletonDependeciesCount() const
 // Function InterchangeNodes.InterchangeMeshNode.GetSkeletonDependencies
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<class FString>                   OutDependencies                                        (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutDependencies                                        (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UInterchangeMeshNode::GetSkeletonDependencies(TArray<class FString>* OutDependencies) const
 {
@@ -4983,8 +4983,8 @@ void UInterchangeMeshNode::GetSkeletonDependencies(TArray<class FString>* OutDep
 // Function InterchangeNodes.InterchangeMeshNode.GetSkeletonDependency
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutDependency                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutDependency                                          (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeMeshNode::GetSkeletonDependency(const int32 Index_0, class FString* OutDependency) const
 {
@@ -5012,7 +5012,7 @@ void UInterchangeMeshNode::GetSkeletonDependency(const int32 Index_0, class FStr
 // Function InterchangeNodes.InterchangeMeshNode.GetSlotMaterialDependencies
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TMap<class FString, class FString>      OutMaterialDependencies                                (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FString, class FString>*     OutMaterialDependencies                                (Parm, OutParm, NativeAccessSpecifierPublic)
 
 void UInterchangeMeshNode::GetSlotMaterialDependencies(TMap<class FString, class FString>* OutMaterialDependencies) const
 {
@@ -5038,8 +5038,8 @@ void UInterchangeMeshNode::GetSlotMaterialDependencies(TMap<class FString, class
 // Function InterchangeNodes.InterchangeMeshNode.GetSlotMaterialDependencyUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutMaterialDependency                                  (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutMaterialDependency                                  (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeMeshNode::GetSlotMaterialDependencyUid(const class FString& SlotName, class FString* OutMaterialDependency) const
@@ -5120,7 +5120,7 @@ bool UInterchangeMeshNode::IsSkinnedMesh() const
 // Function InterchangeNodes.InterchangeSceneNode.AddSpecializedType
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           SpecializedType                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SpecializedType                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::AddSpecializedType(const class FString& SpecializedType)
@@ -5148,7 +5148,7 @@ bool UInterchangeSceneNode::AddSpecializedType(const class FString& SpecializedT
 // Function InterchangeNodes.InterchangeSceneNode.RemoveSlotMaterialDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::RemoveSlotMaterialDependencyUid(const class FString& SlotName)
@@ -5176,7 +5176,7 @@ bool UInterchangeSceneNode::RemoveSlotMaterialDependencyUid(const class FString&
 // Function InterchangeNodes.InterchangeSceneNode.RemoveSpecializedType
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           SpecializedType                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SpecializedType                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::RemoveSpecializedType(const class FString& SpecializedType)
@@ -5204,7 +5204,7 @@ bool UInterchangeSceneNode::RemoveSpecializedType(const class FString& Specializ
 // Function InterchangeNodes.InterchangeSceneNode.SetCustomAnimationAssetUidToPlay
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::SetCustomAnimationAssetUidToPlay(const class FString& AttributeValue)
@@ -5232,7 +5232,7 @@ bool UInterchangeSceneNode::SetCustomAnimationAssetUidToPlay(const class FString
 // Function InterchangeNodes.InterchangeSceneNode.SetCustomAssetInstanceUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::SetCustomAssetInstanceUid(const class FString& AttributeValue)
@@ -5260,8 +5260,8 @@ bool UInterchangeSceneNode::SetCustomAssetInstanceUid(const class FString& Attri
 // Function InterchangeNodes.InterchangeSceneNode.SetCustomBindPoseLocalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       AttributeValue                                         (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNodeContainer*BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                AttributeValue                                         (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bResetCache                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5292,7 +5292,7 @@ bool UInterchangeSceneNode::SetCustomBindPoseLocalTransform(const class UInterch
 // Function InterchangeNodes.InterchangeSceneNode.SetCustomGeometricTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FTransform                       AttributeValue                                         (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                AttributeValue                                         (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::SetCustomGeometricTransform(const struct FTransform& AttributeValue)
@@ -5320,8 +5320,8 @@ bool UInterchangeSceneNode::SetCustomGeometricTransform(const struct FTransform&
 // Function InterchangeNodes.InterchangeSceneNode.SetCustomLocalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       AttributeValue                                         (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNodeContainer*BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                AttributeValue                                         (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bResetCache                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5352,8 +5352,8 @@ bool UInterchangeSceneNode::SetCustomLocalTransform(const class UInterchangeBase
 // Function InterchangeNodes.InterchangeSceneNode.SetCustomTimeZeroLocalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       AttributeValue                                         (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNodeContainer*BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                AttributeValue                                         (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bResetCache                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5384,8 +5384,8 @@ bool UInterchangeSceneNode::SetCustomTimeZeroLocalTransform(const class UInterch
 // Function InterchangeNodes.InterchangeSceneNode.SetMorphTargetCurveWeight
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FString                           MorphTargetName                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   Weight                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    MorphTargetName                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            Weight                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::SetMorphTargetCurveWeight(const class FString& MorphTargetName, const float& Weight)
@@ -5414,8 +5414,8 @@ bool UInterchangeSceneNode::SetMorphTargetCurveWeight(const class FString& Morph
 // Function InterchangeNodes.InterchangeSceneNode.SetSlotMaterialDependencyUid
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           MaterialDependencyUid                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    MaterialDependencyUid                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::SetSlotMaterialDependencyUid(const class FString& SlotName, const class FString& MaterialDependencyUid)
@@ -5444,7 +5444,7 @@ bool UInterchangeSceneNode::SetSlotMaterialDependencyUid(const class FString& Sl
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomAnimationAssetUidToPlay
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::GetCustomAnimationAssetUidToPlay(class FString* AttributeValue) const
@@ -5473,7 +5473,7 @@ bool UInterchangeSceneNode::GetCustomAnimationAssetUidToPlay(class FString* Attr
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomAssetInstanceUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::GetCustomAssetInstanceUid(class FString* AttributeValue) const
@@ -5502,9 +5502,9 @@ bool UInterchangeSceneNode::GetCustomAssetInstanceUid(class FString* AttributeVa
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomBindPoseGlobalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       GlobalOffsetTransform                                  (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNodeContainer*BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                GlobalOffsetTransform                                  (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FTransform*                      AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bForceRecache                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5538,7 +5538,7 @@ bool UInterchangeSceneNode::GetCustomBindPoseGlobalTransform(const class UInterc
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomBindPoseLocalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FTransform                       AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FTransform*                      AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::GetCustomBindPoseLocalTransform(struct FTransform* AttributeValue) const
@@ -5567,7 +5567,7 @@ bool UInterchangeSceneNode::GetCustomBindPoseLocalTransform(struct FTransform* A
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomGeometricTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FTransform                       AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FTransform*                      AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::GetCustomGeometricTransform(struct FTransform* AttributeValue) const
@@ -5596,9 +5596,9 @@ bool UInterchangeSceneNode::GetCustomGeometricTransform(struct FTransform* Attri
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomGlobalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       GlobalOffsetTransform                                  (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNodeContainer*BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                GlobalOffsetTransform                                  (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FTransform*                      AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bForceRecache                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5632,7 +5632,7 @@ bool UInterchangeSceneNode::GetCustomGlobalTransform(const class UInterchangeBas
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomLocalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FTransform                       AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FTransform*                      AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::GetCustomLocalTransform(struct FTransform* AttributeValue) const
@@ -5661,9 +5661,9 @@ bool UInterchangeSceneNode::GetCustomLocalTransform(struct FTransform* Attribute
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomTimeZeroGlobalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UInterchangeBaseNodeContainer*    BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       GlobalOffsetTransform                                  (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNodeContainer*BaseNodeContainer                                      (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                GlobalOffsetTransform                                  (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FTransform*                      AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bForceRecache                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5697,7 +5697,7 @@ bool UInterchangeSceneNode::GetCustomTimeZeroGlobalTransform(const class UInterc
 // Function InterchangeNodes.InterchangeSceneNode.GetCustomTimeZeroLocalTransform
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// struct FTransform                       AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FTransform*                      AttributeValue                                         (Parm, OutParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::GetCustomTimeZeroLocalTransform(struct FTransform* AttributeValue) const
@@ -5726,7 +5726,7 @@ bool UInterchangeSceneNode::GetCustomTimeZeroLocalTransform(struct FTransform* A
 // Function InterchangeNodes.InterchangeSceneNode.GetMorphTargetCurveWeights
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TMap<class FString, float>              OutMorphTargetCurveWeights                             (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FString, float>*             OutMorphTargetCurveWeights                             (Parm, OutParm, NativeAccessSpecifierPublic)
 
 void UInterchangeSceneNode::GetMorphTargetCurveWeights(TMap<class FString, float>* OutMorphTargetCurveWeights) const
 {
@@ -5752,7 +5752,7 @@ void UInterchangeSceneNode::GetMorphTargetCurveWeights(TMap<class FString, float
 // Function InterchangeNodes.InterchangeSceneNode.GetSlotMaterialDependencies
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TMap<class FString, class FString>      OutMaterialDependencies                                (Parm, OutParm, NativeAccessSpecifierPublic)
+// TMap<class FString, class FString>*     OutMaterialDependencies                                (Parm, OutParm, NativeAccessSpecifierPublic)
 
 void UInterchangeSceneNode::GetSlotMaterialDependencies(TMap<class FString, class FString>* OutMaterialDependencies) const
 {
@@ -5778,8 +5778,8 @@ void UInterchangeSceneNode::GetSlotMaterialDependencies(TMap<class FString, clas
 // Function InterchangeNodes.InterchangeSceneNode.GetSlotMaterialDependencyUid
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutMaterialDependency                                  (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutMaterialDependency                                  (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::GetSlotMaterialDependencyUid(const class FString& SlotName, class FString* OutMaterialDependency) const
@@ -5810,8 +5810,8 @@ bool UInterchangeSceneNode::GetSlotMaterialDependencyUid(const class FString& Sl
 // Function InterchangeNodes.InterchangeSceneNode.GetSpecializedType
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutSpecializedType                                     (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutSpecializedType                                     (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInterchangeSceneNode::GetSpecializedType(const int32 Index_0, class FString* OutSpecializedType) const
 {
@@ -5864,7 +5864,7 @@ int32 UInterchangeSceneNode::GetSpecializedTypeCount() const
 // Function InterchangeNodes.InterchangeSceneNode.GetSpecializedTypes
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<class FString>                   OutSpecializedTypes                                    (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutSpecializedTypes                                    (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UInterchangeSceneNode::GetSpecializedTypes(TArray<class FString>* OutSpecializedTypes) const
 {
@@ -5890,7 +5890,7 @@ void UInterchangeSceneNode::GetSpecializedTypes(TArray<class FString>* OutSpecia
 // Function InterchangeNodes.InterchangeSceneNode.IsSpecializedTypeContains
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           SpecializedType                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    SpecializedType                                        (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeSceneNode::IsSpecializedTypeContains(const class FString& SpecializedType) const
@@ -5919,8 +5919,8 @@ bool UInterchangeSceneNode::IsSpecializedTypeContains(const class FString& Speci
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UInterchangeBaseNode*             InterchangeNode                                        (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           ExpressionUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ExpressionUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderPortsAPI::ConnectDefaultOuputToInput(class UInterchangeBaseNode* InterchangeNode, const class FString& InputName, const class FString& ExpressionUid)
@@ -5951,8 +5951,8 @@ bool UInterchangeShaderPortsAPI::ConnectDefaultOuputToInput(class UInterchangeBa
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UInterchangeBaseNode*             InterchangeNode                                        (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           ExpressionUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ExpressionUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   OutputIndex                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5985,9 +5985,9 @@ bool UInterchangeShaderPortsAPI::ConnectOuputToInputByIndex(class UInterchangeBa
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UInterchangeBaseNode*             InterchangeNode                                        (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           ExpressionUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutputName                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    ExpressionUid                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    OutputName                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderPortsAPI::ConnectOuputToInputByName(class UInterchangeBaseNode* InterchangeNode, const class FString& InputName, const class FString& ExpressionUid, const class FString& OutputName)
@@ -6018,8 +6018,8 @@ bool UInterchangeShaderPortsAPI::ConnectOuputToInputByName(class UInterchangeBas
 // Function InterchangeNodes.InterchangeShaderPortsAPI.GatherInputs
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UInterchangeBaseNode*             InterchangeNode                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FString>                   OutInputNames                                          (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNode*       InterchangeNode                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TArray<class FString>*                  OutInputNames                                          (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UInterchangeShaderPortsAPI::GatherInputs(const class UInterchangeBaseNode* InterchangeNode, TArray<class FString>* OutInputNames)
 {
@@ -6047,10 +6047,10 @@ void UInterchangeShaderPortsAPI::GatherInputs(const class UInterchangeBaseNode* 
 // Function InterchangeNodes.InterchangeShaderPortsAPI.GetInputConnection
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UInterchangeBaseNode*             InterchangeNode                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutExpressionUid                                       (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           OutputName                                             (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNode*       InterchangeNode                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutExpressionUid                                       (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          OutputName                                             (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderPortsAPI::GetInputConnection(const class UInterchangeBaseNode* InterchangeNode, const class FString& InputName, class FString* OutExpressionUid, class FString* OutputName)
@@ -6085,8 +6085,8 @@ bool UInterchangeShaderPortsAPI::GetInputConnection(const class UInterchangeBase
 // Function InterchangeNodes.InterchangeShaderPortsAPI.HasInput
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UInterchangeBaseNode*             InterchangeNode                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             InInputName                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNode*       InterchangeNode                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      InInputName                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderPortsAPI::HasInput(const class UInterchangeBaseNode* InterchangeNode, const class FName& InInputName)
@@ -6115,8 +6115,8 @@ bool UInterchangeShaderPortsAPI::HasInput(const class UInterchangeBaseNode* Inte
 // Function InterchangeNodes.InterchangeShaderPortsAPI.HasParameter
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UInterchangeBaseNode*             InterchangeNode                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FName                             InInputName                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UInterchangeBaseNode*       InterchangeNode                                        (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      InInputName                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderPortsAPI::HasParameter(const class UInterchangeBaseNode* InterchangeNode, const class FName& InInputName)
@@ -6145,7 +6145,7 @@ bool UInterchangeShaderPortsAPI::HasParameter(const class UInterchangeBaseNode* 
 // Function InterchangeNodes.InterchangeShaderPortsAPI.IsAnInput
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeKey                                           (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeKey                                           (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderPortsAPI::IsAnInput(const class FString& AttributeKey)
@@ -6173,7 +6173,7 @@ bool UInterchangeShaderPortsAPI::IsAnInput(const class FString& AttributeKey)
 // Function InterchangeNodes.InterchangeShaderPortsAPI.IsAParameter
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeKey                                           (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeKey                                           (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderPortsAPI::IsAParameter(const class FString& AttributeKey)
@@ -6201,7 +6201,7 @@ bool UInterchangeShaderPortsAPI::IsAParameter(const class FString& AttributeKey)
 // Function InterchangeNodes.InterchangeShaderPortsAPI.MakeInputConnectionKey
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class FString UInterchangeShaderPortsAPI::MakeInputConnectionKey(const class FString& InputName)
@@ -6229,7 +6229,7 @@ class FString UInterchangeShaderPortsAPI::MakeInputConnectionKey(const class FSt
 // Function InterchangeNodes.InterchangeShaderPortsAPI.MakeInputName
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           InputKey                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputKey                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class FString UInterchangeShaderPortsAPI::MakeInputName(const class FString& InputKey)
@@ -6257,7 +6257,7 @@ class FString UInterchangeShaderPortsAPI::MakeInputName(const class FString& Inp
 // Function InterchangeNodes.InterchangeShaderPortsAPI.MakeInputParameterKey
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class FString UInterchangeShaderPortsAPI::MakeInputParameterKey(const class FString& InputName)
@@ -6285,7 +6285,7 @@ class FString UInterchangeShaderPortsAPI::MakeInputParameterKey(const class FStr
 // Function InterchangeNodes.InterchangeShaderPortsAPI.MakeInputValueKey
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InputName                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class FString UInterchangeShaderPortsAPI::MakeInputValueKey(const class FString& InputName)
@@ -6313,7 +6313,7 @@ class FString UInterchangeShaderPortsAPI::MakeInputValueKey(const class FString&
 // Function InterchangeNodes.InterchangeFunctionCallShaderNode.SetCustomMaterialFunction
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AttributeValue                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeFunctionCallShaderNode::SetCustomMaterialFunction(const class FString& AttributeValue)
@@ -6341,7 +6341,7 @@ bool UInterchangeFunctionCallShaderNode::SetCustomMaterialFunction(const class F
 // Function InterchangeNodes.InterchangeFunctionCallShaderNode.GetCustomMaterialFunction
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          AttributeValue                                         (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeFunctionCallShaderNode::GetCustomMaterialFunction(class FString* AttributeValue) const
@@ -6398,7 +6398,7 @@ bool UInterchangeShaderGraphNode::SetCustomBlendMode(int32 AttributeValue)
 // Function InterchangeNodes.InterchangeShaderGraphNode.SetCustomIsAShaderFunction
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::SetCustomIsAShaderFunction(const bool& AttributeValue)
@@ -6426,7 +6426,7 @@ bool UInterchangeShaderGraphNode::SetCustomIsAShaderFunction(const bool& Attribu
 // Function InterchangeNodes.InterchangeShaderGraphNode.SetCustomOpacityMaskClipValue
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// float                                   AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float&                            AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bAddApplyDelegate                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -6456,7 +6456,7 @@ bool UInterchangeShaderGraphNode::SetCustomOpacityMaskClipValue(const float& Att
 // Function InterchangeNodes.InterchangeShaderGraphNode.SetCustomScreenSpaceReflections
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::SetCustomScreenSpaceReflections(const bool& AttributeValue)
@@ -6484,7 +6484,7 @@ bool UInterchangeShaderGraphNode::SetCustomScreenSpaceReflections(const bool& At
 // Function InterchangeNodes.InterchangeShaderGraphNode.SetCustomTwoSided
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::SetCustomTwoSided(const bool& AttributeValue)
@@ -6512,7 +6512,7 @@ bool UInterchangeShaderGraphNode::SetCustomTwoSided(const bool& AttributeValue)
 // Function InterchangeNodes.InterchangeShaderGraphNode.SetCustomTwoSidedTransmission
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// bool                                    AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool&                             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::SetCustomTwoSidedTransmission(const bool& AttributeValue)
@@ -6540,7 +6540,7 @@ bool UInterchangeShaderGraphNode::SetCustomTwoSidedTransmission(const bool& Attr
 // Function InterchangeNodes.InterchangeShaderGraphNode.GetCustomBlendMode
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// int32                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::GetCustomBlendMode(int32* AttributeValue) const
@@ -6569,7 +6569,7 @@ bool UInterchangeShaderGraphNode::GetCustomBlendMode(int32* AttributeValue) cons
 // Function InterchangeNodes.InterchangeShaderGraphNode.GetCustomIsAShaderFunction
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::GetCustomIsAShaderFunction(bool* AttributeValue) const
@@ -6598,7 +6598,7 @@ bool UInterchangeShaderGraphNode::GetCustomIsAShaderFunction(bool* AttributeValu
 // Function InterchangeNodes.InterchangeShaderGraphNode.GetCustomOpacityMaskClipValue
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// float                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::GetCustomOpacityMaskClipValue(float* AttributeValue) const
@@ -6627,7 +6627,7 @@ bool UInterchangeShaderGraphNode::GetCustomOpacityMaskClipValue(float* Attribute
 // Function InterchangeNodes.InterchangeShaderGraphNode.GetCustomScreenSpaceReflections
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::GetCustomScreenSpaceReflections(bool* AttributeValue) const
@@ -6656,7 +6656,7 @@ bool UInterchangeShaderGraphNode::GetCustomScreenSpaceReflections(bool* Attribut
 // Function InterchangeNodes.InterchangeShaderGraphNode.GetCustomTwoSided
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::GetCustomTwoSided(bool* AttributeValue) const
@@ -6685,7 +6685,7 @@ bool UInterchangeShaderGraphNode::GetCustomTwoSided(bool* AttributeValue) const
 // Function InterchangeNodes.InterchangeShaderGraphNode.GetCustomTwoSidedTransmission
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// bool                                    AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool*                                   AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeShaderGraphNode::GetCustomTwoSidedTransmission(bool* AttributeValue) const
@@ -6714,7 +6714,7 @@ bool UInterchangeShaderGraphNode::GetCustomTwoSidedTransmission(bool* AttributeV
 // Function InterchangeNodes.InterchangeTexture2DNode.SetCustomWrapU
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// EInterchangeTextureWrapMode             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeTextureWrapMode&      AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTexture2DNode::SetCustomWrapU(const EInterchangeTextureWrapMode& AttributeValue)
@@ -6742,7 +6742,7 @@ bool UInterchangeTexture2DNode::SetCustomWrapU(const EInterchangeTextureWrapMode
 // Function InterchangeNodes.InterchangeTexture2DNode.SetCustomWrapV
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// EInterchangeTextureWrapMode             AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EInterchangeTextureWrapMode&      AttributeValue                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTexture2DNode::SetCustomWrapV(const EInterchangeTextureWrapMode& AttributeValue)
@@ -6770,7 +6770,7 @@ bool UInterchangeTexture2DNode::SetCustomWrapV(const EInterchangeTextureWrapMode
 // Function InterchangeNodes.InterchangeTexture2DNode.GetCustomWrapU
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// EInterchangeTextureWrapMode             AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EInterchangeTextureWrapMode*            AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTexture2DNode::GetCustomWrapU(EInterchangeTextureWrapMode* AttributeValue) const
@@ -6799,7 +6799,7 @@ bool UInterchangeTexture2DNode::GetCustomWrapU(EInterchangeTextureWrapMode* Attr
 // Function InterchangeNodes.InterchangeTexture2DNode.GetCustomWrapV
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// EInterchangeTextureWrapMode             AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// EInterchangeTextureWrapMode*            AttributeValue                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UInterchangeTexture2DNode::GetCustomWrapV(EInterchangeTextureWrapMode* AttributeValue) const

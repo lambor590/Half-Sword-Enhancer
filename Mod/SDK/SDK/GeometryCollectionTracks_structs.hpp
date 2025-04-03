@@ -54,7 +54,7 @@ static_assert(offsetof(FMovieSceneGeometryCollectionSectionTemplateParameters, S
 struct FMovieSceneGeometryCollectionSectionTemplate final : public FMovieSceneEvalTemplate
 {
 public:
-	struct FMovieSceneGeometryCollectionSectionTemplateParameters Params;                                            // 0x0020(0x0040)(NativeAccessSpecifierPublic)
+	struct FMovieSceneGeometryCollectionSectionTemplateParameters Params;                            // 0x0020(0x0040)(NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FMovieSceneGeometryCollectionSectionTemplate) == 0x000008, "Wrong alignment on FMovieSceneGeometryCollectionSectionTemplate");
 static_assert(sizeof(FMovieSceneGeometryCollectionSectionTemplate) == 0x000060, "Wrong size on FMovieSceneGeometryCollectionSectionTemplate");

@@ -88,8 +88,8 @@ static_assert(sizeof(URetargetOpStack) == 0x000038, "Wrong size on URetargetOpSt
 static_assert(offsetof(URetargetOpStack, RetargetOps) == 0x000028, "Member 'URetargetOpStack::RetargetOps' has a wrong offset!");
 
 // Class IKRig.IKGoalCreatorInterface
-// 0x0000 (0x0028 - 0x0028)
-class IIKGoalCreatorInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IIKGoalCreatorInterface final
 {
 public:
 	void AddIKGoals(TMap<class FName, struct FIKRigGoal>* OutGoals);
@@ -103,9 +103,18 @@ public:
 	{
 		return GetDefaultObjImpl<IIKGoalCreatorInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IIKGoalCreatorInterface) == 0x000008, "Wrong alignment on IIKGoalCreatorInterface");
-static_assert(sizeof(IIKGoalCreatorInterface) == 0x000028, "Wrong size on IIKGoalCreatorInterface");
+static_assert(alignof(IIKGoalCreatorInterface) == 0x000001, "Wrong alignment on IIKGoalCreatorInterface");
+static_assert(sizeof(IIKGoalCreatorInterface) == 0x000001, "Wrong size on IIKGoalCreatorInterface");
 
 // Class IKRig.PinBoneOp
 // 0x00E0 (0x0110 - 0x0030)

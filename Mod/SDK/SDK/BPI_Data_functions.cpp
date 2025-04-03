@@ -20,20 +20,20 @@ namespace SDK
 // Function BPI_Data.BPI_Data_C.SendPhotoData
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// struct FS_PhotosData                    PhotoData                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+// const struct FS_PhotosData&             PhotoData                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
 void IBPI_Data_C::SendPhotoData(const struct FS_PhotosData& PhotoData)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BPI_Data_C", "SendPhotoData");
+		Func = AsUObject()->Class->GetFunction("BPI_Data_C", "SendPhotoData");
 
 	Params::BPI_Data_C_SendPhotoData Parms{};
 
 	Parms.PhotoData = std::move(PhotoData);
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
@@ -48,14 +48,14 @@ void IBPI_Data_C::TabToOpen(int32 TabIndex, class UUI_TabButton_C* CommonButtonP
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BPI_Data_C", "TabToOpen");
+		Func = AsUObject()->Class->GetFunction("BPI_Data_C", "TabToOpen");
 
 	Params::BPI_Data_C_TabToOpen Parms{};
 
 	Parms.TabIndex = TabIndex;
 	Parms.CommonButtonPressed = CommonButtonPressed;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 }

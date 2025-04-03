@@ -79,7 +79,7 @@ class ULevelSequence final : public UMovieSceneSequence
 public:
 	uint8                                         Pad_68[0x8];                                       // 0x0068(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	class UMovieScene*                            MovieScene;                                        // 0x0070(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FUpgradedLevelSequenceBindingReferences BindingReferences;                                 // 0x0078(0x0010)(Protected, NativeAccessSpecifierProtected)
+	struct FUpgradedLevelSequenceBindingReferences BindingReferences;                                // 0x0078(0x0010)(Protected, NativeAccessSpecifierProtected)
 	TSubclassOf<class UObject>                    DirectorClass;                                     // 0x0088(0x0008)(ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	TArray<class UAssetUserData*>                 AssetUserData;                                     // 0x0090(0x0010)(Edit, ExportObject, ZeroConstructor, ContainsInstancedReference, AdvancedDisplay, Protected, UObjectWrapper, NativeAccessSpecifierProtected)
 
@@ -241,7 +241,7 @@ static_assert(sizeof(AReplicatedLevelSequenceActor) == 0x000338, "Wrong size on 
 class ULevelSequenceAnimSequenceLink final : public UAssetUserData
 {
 public:
-	TArray<struct FLevelSequenceAnimSequenceLinkItem> AnimSequenceLinks;                                 // 0x0028(0x0010)(BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FLevelSequenceAnimSequenceLinkItem> AnimSequenceLinks;                             // 0x0028(0x0010)(BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 
 public:
 	static class UClass* StaticClass()
@@ -291,7 +291,7 @@ class ULevelSequenceDirector final : public UObject
 {
 public:
 	int32                                         SubSequenceID;                                     // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TWeakObjectPtr<class UMovieSceneEntitySystemLinker> WeakLinker;                                        // 0x002C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TWeakObjectPtr<class UMovieSceneEntitySystemLinker> WeakLinker;                                  // 0x002C(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint16                                        InstanceId;                                        // 0x0034(0x0002)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint16                                        InstanceSerial;                                    // 0x0036(0x0002)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	class ULevelSequencePlayer*                   Player;                                            // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -352,7 +352,7 @@ class ULevelSequencePlayer final : public UMovieSceneSequencePlayer
 {
 public:
 	uint8                                         Pad_460[0x8];                                      // 0x0460(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	TMulticastInlineDelegate<void(class UCameraComponent* CameraComponent)> OnCameraCut;                                       // 0x0468(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class UCameraComponent* CameraComponent)> OnCameraCut;             // 0x0468(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_478[0x120];                                    // 0x0478(0x0120)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

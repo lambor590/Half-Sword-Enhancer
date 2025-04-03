@@ -504,7 +504,7 @@ static_assert(sizeof(UNetObjectGridFragmentLocFilter) == 0x000150, "Wrong size o
 class UNetObjectPrioritizerDefinitions final : public UObject
 {
 public:
-	TArray<struct FNetObjectPrioritizerDefinition> NetObjectPrioritizerDefinitions;                   // 0x0028(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
+	TArray<struct FNetObjectPrioritizerDefinition> NetObjectPrioritizerDefinitions;                  // 0x0028(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
 
 public:
 	static class UClass* StaticClass()
@@ -639,14 +639,14 @@ static_assert(sizeof(UObjectReplicationBridge) == 0x000550, "Wrong size on UObje
 class UObjectReplicationBridgeConfig final : public UObject
 {
 public:
-	TArray<struct FObjectReplicationBridgePollConfig> PollConfigs;                                       // 0x0028(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
-	TArray<struct FObjectReplicationBridgeFilterConfig> FilterConfigs;                                     // 0x0038(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
-	TArray<struct FObjectReplicationBridgePrioritizerConfig> PrioritizerConfigs;                                // 0x0048(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
-	TArray<struct FObjectReplicationBridgeDeltaCompressionConfig> DeltaCompressionConfigs;                           // 0x0058(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
-	TArray<struct FObjectReplicatedBridgeCriticalClassConfig> CriticalClassConfigs;                              // 0x0068(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
+	TArray<struct FObjectReplicationBridgePollConfig> PollConfigs;                                   // 0x0028(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
+	TArray<struct FObjectReplicationBridgeFilterConfig> FilterConfigs;                               // 0x0038(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
+	TArray<struct FObjectReplicationBridgePrioritizerConfig> PrioritizerConfigs;                     // 0x0048(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
+	TArray<struct FObjectReplicationBridgeDeltaCompressionConfig> DeltaCompressionConfigs;           // 0x0058(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
+	TArray<struct FObjectReplicatedBridgeCriticalClassConfig> CriticalClassConfigs;                  // 0x0068(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
 	bool                                          bAllClassesCritical;                               // 0x0078(0x0001)(ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	uint8                                         Pad_79[0x7];                                       // 0x0079(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FObjectReplicationBridgeTypeStatsConfig> TypeStatsConfigs;                                  // 0x0080(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
+	TArray<struct FObjectReplicationBridgeTypeStatsConfig> TypeStatsConfigs;                         // 0x0080(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
 	class FName                                   DefaultSpatialFilterName;                          // 0x0090(0x0008)(ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	class FName                                   RequiredNetDriverChannelClassName;                 // 0x0098(0x0008)(ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	TArray<class FName>                           CriticalActorClasses;                              // 0x00A0(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
@@ -900,7 +900,7 @@ static_assert(sizeof(USphereWithOwnerBoostNetObjectPrioritizer) == 0x0000A0, "Wr
 class UReplicationStateDescriptorConfig final : public UObject
 {
 public:
-	TArray<struct FSupportsStructNetSerializerConfig> SupportsStructNetSerializerList;                   // 0x0028(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
+	TArray<struct FSupportsStructNetSerializerConfig> SupportsStructNetSerializerList;               // 0x0028(0x0010)(ZeroConstructor, Config, NativeAccessSpecifierPrivate)
 
 public:
 	static class UClass* StaticClass()

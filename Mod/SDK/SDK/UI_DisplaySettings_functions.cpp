@@ -708,7 +708,7 @@ void UUI_DisplaySettings_C::SetLastOpenedWidget(class UClass* UW)
 // Function UI_DisplaySettings.UI_DisplaySettings_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_DisplaySettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

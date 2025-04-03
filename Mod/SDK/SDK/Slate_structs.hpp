@@ -340,8 +340,8 @@ struct FToolMenuProfile
 {
 public:
 	class FName                                   Name;                                              // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TMap<class FName, struct FCustomizedToolMenuEntry> Entries;                                           // 0x0008(0x0050)(NativeAccessSpecifierPublic)
-	TMap<class FName, struct FCustomizedToolMenuSection> Sections;                                          // 0x0058(0x0050)(NativeAccessSpecifierPublic)
+	TMap<class FName, struct FCustomizedToolMenuEntry> Entries;                                      // 0x0008(0x0050)(NativeAccessSpecifierPublic)
+	TMap<class FName, struct FCustomizedToolMenuSection> Sections;                                   // 0x0058(0x0050)(NativeAccessSpecifierPublic)
 	TArray<class FName>                           SuppressExtenders;                                 // 0x00A8(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B8[0xE8];                                      // 0x00B8(0x00E8)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
@@ -357,7 +357,7 @@ static_assert(offsetof(FToolMenuProfile, SuppressExtenders) == 0x0000A8, "Member
 struct FCustomizedToolMenu final : public FToolMenuProfile
 {
 public:
-	TMap<class FName, struct FCustomizedToolMenuNameArray> EntryOrder;                                        // 0x01A0(0x0050)(NativeAccessSpecifierPublic)
+	TMap<class FName, struct FCustomizedToolMenuNameArray> EntryOrder;                               // 0x01A0(0x0050)(NativeAccessSpecifierPublic)
 	TArray<class FName>                           SectionOrder;                                      // 0x01F0(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FCustomizedToolMenu) == 0x000008, "Wrong alignment on FCustomizedToolMenu");

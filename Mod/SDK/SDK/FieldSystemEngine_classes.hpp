@@ -70,7 +70,7 @@ public:
 	bool                                          bIsWorldField;                                     // 0x0520(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bIsChaosField;                                     // 0x0521(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_522[0x6];                                      // 0x0522(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<TSoftObjectPtr<class AChaosSolverActor>> SupportedSolvers;                                  // 0x0528(0x0010)(Edit, ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic)
+	TArray<TSoftObjectPtr<class AChaosSolverActor>> SupportedSolvers;                                // 0x0528(0x0010)(Edit, ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic)
 	struct FFieldObjectCommands                   ConstructionCommands;                              // 0x0538(0x0030)(ContainsInstancedReference, NativeAccessSpecifierPublic)
 	struct FFieldObjectCommands                   BufferCommands;                                    // 0x0568(0x0030)(ContainsInstancedReference, NativeAccessSpecifierPublic)
 	uint8                                         Pad_598[0x58];                                     // 0x0598(0x0058)(Fixing Struct Size After Last Property [ Dumper-7 ])

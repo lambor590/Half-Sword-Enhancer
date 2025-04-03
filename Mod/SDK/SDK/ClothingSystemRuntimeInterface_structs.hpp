@@ -111,7 +111,7 @@ struct FClothCollisionData final
 {
 public:
 	TArray<struct FClothCollisionPrim_Sphere>     Spheres;                                           // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FClothCollisionPrim_SphereConnection> SphereConnections;                                 // 0x0010(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FClothCollisionPrim_SphereConnection> SphereConnections;                           // 0x0010(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<struct FClothCollisionPrim_Convex>     Convexes;                                          // 0x0020(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 	TArray<struct FClothCollisionPrim_Box>        Boxes;                                             // 0x0030(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };

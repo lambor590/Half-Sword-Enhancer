@@ -83,7 +83,7 @@ void UWidget::InvalidateLayoutAndVolatility()
 // Function UMG.Widget.K2_AddFieldValueChangedDelegate
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FFieldNotificationId             FieldId                                                (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FFieldNotificationId&      FieldId                                                (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TDelegate<void(class UObject* Object, const struct FFieldNotificationId& Field)>Delegate                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidget::K2_AddFieldValueChangedDelegate(const struct FFieldNotificationId& FieldId, TDelegate<void(class UObject* Object, const struct FFieldNotificationId& Field)> Delegate)
@@ -110,7 +110,7 @@ void UWidget::K2_AddFieldValueChangedDelegate(const struct FFieldNotificationId&
 // Function UMG.Widget.K2_BroadcastFieldValueChanged
 // (Final, RequiredAPI, Native, Protected, BlueprintCallable)
 // Parameters:
-// struct FFieldNotificationId             FieldId                                                (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FFieldNotificationId&      FieldId                                                (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidget::K2_BroadcastFieldValueChanged(const struct FFieldNotificationId& FieldId)
 {
@@ -135,7 +135,7 @@ void UWidget::K2_BroadcastFieldValueChanged(const struct FFieldNotificationId& F
 // Function UMG.Widget.K2_RemoveFieldValueChangedDelegate
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FFieldNotificationId             FieldId                                                (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FFieldNotificationId&      FieldId                                                (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TDelegate<void(class UObject* Object, const struct FFieldNotificationId& Field)>Delegate                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidget::K2_RemoveFieldValueChangedDelegate(const struct FFieldNotificationId& FieldId, TDelegate<void(class UObject* Object, const struct FFieldNotificationId& Field)> Delegate)
@@ -502,7 +502,7 @@ void UWidget::SetRenderOpacity(float InOpacity)
 // Function UMG.Widget.SetRenderScale
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        Scale                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Scale                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidget::SetRenderScale(const struct FVector2D& Scale)
 {
@@ -527,7 +527,7 @@ void UWidget::SetRenderScale(const struct FVector2D& Scale)
 // Function UMG.Widget.SetRenderShear
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        Shear                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Shear                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidget::SetRenderShear(const struct FVector2D& Shear)
 {
@@ -552,7 +552,7 @@ void UWidget::SetRenderShear(const struct FVector2D& Shear)
 // Function UMG.Widget.SetRenderTransform
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FWidgetTransform                 InTransform                                            (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FWidgetTransform&          InTransform                                            (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UWidget::SetRenderTransform(const struct FWidgetTransform& InTransform)
 {
@@ -602,7 +602,7 @@ void UWidget::SetRenderTransformAngle(float Angle)
 // Function UMG.Widget.SetRenderTransformPivot
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        Pivot                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Pivot                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidget::SetRenderTransformPivot(const struct FVector2D& Pivot)
 {
@@ -627,7 +627,7 @@ void UWidget::SetRenderTransformPivot(const struct FVector2D& Pivot)
 // Function UMG.Widget.SetRenderTranslation
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        Translation                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Translation                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidget::SetRenderTranslation(const struct FVector2D& Translation)
 {
@@ -677,7 +677,7 @@ void UWidget::SetToolTip(class UWidget* Widget)
 // Function UMG.Widget.SetToolTipText
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FText                             InToolTipText                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const class FText&                      InToolTipText                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UWidget::SetToolTipText(const class FText& InToolTipText)
 {
@@ -1645,7 +1645,7 @@ void UUserWidget::FlushAnimations()
 // Function UMG.UserWidget.IsAnimationPlayingForward
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UUserWidget::IsAnimationPlayingForward(const class UWidgetAnimation* InAnimation)
@@ -1704,7 +1704,7 @@ void UUserWidget::ListenForInputAction(class FName ActionName, EInputEvent Event
 // Function UMG.UserWidget.OnAddedToFocusPath
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FFocusEvent                      InFocusEvent                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FFocusEvent&               InFocusEvent                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnAddedToFocusPath(const struct FFocusEvent& InFocusEvent)
 {
@@ -1724,8 +1724,8 @@ void UUserWidget::OnAddedToFocusPath(const struct FFocusEvent& InFocusEvent)
 // Function UMG.UserWidget.OnAnalogValueChanged
 // (RequiredAPI, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FAnalogInputEvent                InAnalogInputEvent                                     (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnalogInputEvent&         InAnalogInputEvent                                     (Parm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnAnalogValueChanged(const struct FGeometry& MyGeometry, const struct FAnalogInputEvent& InAnalogInputEvent)
@@ -1749,7 +1749,7 @@ struct FEventReply UUserWidget::OnAnalogValueChanged(const struct FGeometry& MyG
 // Function UMG.UserWidget.OnAnimationFinished
 // (RequiredAPI, BlueprintCosmetic, Native, Event, Protected, BlueprintEvent)
 // Parameters:
-// class UWidgetAnimation*                 Animation                                              (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           Animation                                              (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnAnimationFinished(const class UWidgetAnimation* Animation)
 {
@@ -1774,7 +1774,7 @@ void UUserWidget::OnAnimationFinished(const class UWidgetAnimation* Animation)
 // Function UMG.UserWidget.OnAnimationStarted
 // (RequiredAPI, BlueprintCosmetic, Native, Event, Protected, BlueprintEvent)
 // Parameters:
-// class UWidgetAnimation*                 Animation                                              (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           Animation                                              (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnAnimationStarted(const class UWidgetAnimation* Animation)
 {
@@ -1799,7 +1799,7 @@ void UUserWidget::OnAnimationStarted(const class UWidgetAnimation* Animation)
 // Function UMG.UserWidget.OnDragCancelled
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UDragDropOperation*               Operation                                              (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnDragCancelled(const struct FPointerEvent& PointerEvent, class UDragDropOperation* Operation)
@@ -1821,9 +1821,9 @@ void UUserWidget::OnDragCancelled(const struct FPointerEvent& PointerEvent, clas
 // Function UMG.UserWidget.OnDragDetected
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// class UDragDropOperation*               Operation                                              (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// class UDragDropOperation**              Operation                                              (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnDragDetected(const struct FGeometry& MyGeometry, const struct FPointerEvent& PointerEvent, class UDragDropOperation** Operation)
 {
@@ -1847,8 +1847,8 @@ void UUserWidget::OnDragDetected(const struct FGeometry& MyGeometry, const struc
 // Function UMG.UserWidget.OnDragEnter
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    PointerEvent                                           (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (Parm, NativeAccessSpecifierPublic)
 // class UDragDropOperation*               Operation                                              (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnDragEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& PointerEvent, class UDragDropOperation* Operation)
@@ -1871,7 +1871,7 @@ void UUserWidget::OnDragEnter(const struct FGeometry& MyGeometry, const struct F
 // Function UMG.UserWidget.OnDragLeave
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    PointerEvent                                           (Parm, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (Parm, NativeAccessSpecifierPublic)
 // class UDragDropOperation*               Operation                                              (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnDragLeave(const struct FPointerEvent& PointerEvent, class UDragDropOperation* Operation)
@@ -1893,8 +1893,8 @@ void UUserWidget::OnDragLeave(const struct FPointerEvent& PointerEvent, class UD
 // Function UMG.UserWidget.OnDragOver
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    PointerEvent                                           (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (Parm, NativeAccessSpecifierPublic)
 // class UDragDropOperation*               Operation                                              (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1920,8 +1920,8 @@ bool UUserWidget::OnDragOver(const struct FGeometry& MyGeometry, const struct FP
 // Function UMG.UserWidget.OnDrop
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    PointerEvent                                           (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (Parm, NativeAccessSpecifierPublic)
 // class UDragDropOperation*               Operation                                              (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -1947,7 +1947,7 @@ bool UUserWidget::OnDrop(const struct FGeometry& MyGeometry, const struct FPoint
 // Function UMG.UserWidget.OnFocusLost
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FFocusEvent                      InFocusEvent                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FFocusEvent&               InFocusEvent                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnFocusLost(const struct FFocusEvent& InFocusEvent)
 {
@@ -1967,8 +1967,8 @@ void UUserWidget::OnFocusLost(const struct FFocusEvent& InFocusEvent)
 // Function UMG.UserWidget.OnFocusReceived
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FFocusEvent                      InFocusEvent                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FFocusEvent&               InFocusEvent                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnFocusReceived(const struct FGeometry& MyGeometry, const struct FFocusEvent& InFocusEvent)
@@ -2006,8 +2006,8 @@ void UUserWidget::OnInitialized()
 // Function UMG.UserWidget.OnKeyChar
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FCharacterEvent                  InCharacterEvent                                       (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FCharacterEvent&           InCharacterEvent                                       (Parm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnKeyChar(const struct FGeometry& MyGeometry, const struct FCharacterEvent& InCharacterEvent)
@@ -2031,8 +2031,8 @@ struct FEventReply UUserWidget::OnKeyChar(const struct FGeometry& MyGeometry, co
 // Function UMG.UserWidget.OnKeyDown
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FKeyEvent                        InKeyEvent                                             (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FKeyEvent&                 InKeyEvent                                             (Parm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
@@ -2056,8 +2056,8 @@ struct FEventReply UUserWidget::OnKeyDown(const struct FGeometry& MyGeometry, co
 // Function UMG.UserWidget.OnKeyUp
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FKeyEvent                        InKeyEvent                                             (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FKeyEvent&                 InKeyEvent                                             (Parm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnKeyUp(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
@@ -2081,8 +2081,8 @@ struct FEventReply UUserWidget::OnKeyUp(const struct FGeometry& MyGeometry, cons
 // Function UMG.UserWidget.OnMotionDetected
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FMotionEvent                     InMotionEvent                                          (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMotionEvent&              InMotionEvent                                          (Parm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnMotionDetected(const struct FGeometry& MyGeometry, const struct FMotionEvent& InMotionEvent)
@@ -2106,8 +2106,8 @@ struct FEventReply UUserWidget::OnMotionDetected(const struct FGeometry& MyGeome
 // Function UMG.UserWidget.OnMouseButtonDoubleClick
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        InMyGeometry                                           (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    InMouseEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 InMyGeometry                                           (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             InMouseEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnMouseButtonDoubleClick(const struct FGeometry& InMyGeometry, const struct FPointerEvent& InMouseEvent)
@@ -2131,8 +2131,8 @@ struct FEventReply UUserWidget::OnMouseButtonDoubleClick(const struct FGeometry&
 // Function UMG.UserWidget.OnMouseButtonDown
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -2156,8 +2156,8 @@ struct FEventReply UUserWidget::OnMouseButtonDown(const struct FGeometry& MyGeom
 // Function UMG.UserWidget.OnMouseButtonUp
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnMouseButtonUp(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -2195,8 +2195,8 @@ void UUserWidget::OnMouseCaptureLost()
 // Function UMG.UserWidget.OnMouseEnter
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnMouseEnter(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
 {
@@ -2217,7 +2217,7 @@ void UUserWidget::OnMouseEnter(const struct FGeometry& MyGeometry, const struct 
 // Function UMG.UserWidget.OnMouseLeave
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 {
@@ -2237,8 +2237,8 @@ void UUserWidget::OnMouseLeave(const struct FPointerEvent& MouseEvent)
 // Function UMG.UserWidget.OnMouseMove
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnMouseMove(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -2262,8 +2262,8 @@ struct FEventReply UUserWidget::OnMouseMove(const struct FGeometry& MyGeometry, 
 // Function UMG.UserWidget.OnMouseWheel
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnMouseWheel(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -2287,8 +2287,8 @@ struct FEventReply UUserWidget::OnMouseWheel(const struct FGeometry& MyGeometry,
 // Function UMG.UserWidget.OnPreviewKeyDown
 // (RequiredAPI, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FKeyEvent                        InKeyEvent                                             (Parm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FKeyEvent&                 InKeyEvent                                             (Parm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnPreviewKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent)
@@ -2312,8 +2312,8 @@ struct FEventReply UUserWidget::OnPreviewKeyDown(const struct FGeometry& MyGeome
 // Function UMG.UserWidget.OnPreviewMouseButtonDown
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             MouseEvent                                             (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnPreviewMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent)
@@ -2337,7 +2337,7 @@ struct FEventReply UUserWidget::OnPreviewMouseButtonDown(const struct FGeometry&
 // Function UMG.UserWidget.OnRemovedFromFocusPath
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FFocusEvent                      InFocusEvent                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FFocusEvent&               InFocusEvent                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnRemovedFromFocusPath(const struct FFocusEvent& InFocusEvent)
 {
@@ -2357,8 +2357,8 @@ void UUserWidget::OnRemovedFromFocusPath(const struct FFocusEvent& InFocusEvent)
 // Function UMG.UserWidget.OnTouchEnded
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    InTouchEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             InTouchEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnTouchEnded(const struct FGeometry& MyGeometry, const struct FPointerEvent& InTouchEvent)
@@ -2382,8 +2382,8 @@ struct FEventReply UUserWidget::OnTouchEnded(const struct FGeometry& MyGeometry,
 // Function UMG.UserWidget.OnTouchForceChanged
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    InTouchEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             InTouchEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnTouchForceChanged(const struct FGeometry& MyGeometry, const struct FPointerEvent& InTouchEvent)
@@ -2407,8 +2407,8 @@ struct FEventReply UUserWidget::OnTouchForceChanged(const struct FGeometry& MyGe
 // Function UMG.UserWidget.OnTouchGesture
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    GestureEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             GestureEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnTouchGesture(const struct FGeometry& MyGeometry, const struct FPointerEvent& GestureEvent)
@@ -2432,8 +2432,8 @@ struct FEventReply UUserWidget::OnTouchGesture(const struct FGeometry& MyGeometr
 // Function UMG.UserWidget.OnTouchMoved
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    InTouchEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             InTouchEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnTouchMoved(const struct FGeometry& MyGeometry, const struct FPointerEvent& InTouchEvent)
@@ -2457,8 +2457,8 @@ struct FEventReply UUserWidget::OnTouchMoved(const struct FGeometry& MyGeometry,
 // Function UMG.UserWidget.OnTouchStarted
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FPointerEvent                    InTouchEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             InTouchEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UUserWidget::OnTouchStarted(const struct FGeometry& MyGeometry, const struct FPointerEvent& InTouchEvent)
@@ -2482,7 +2482,7 @@ struct FEventReply UUserWidget::OnTouchStarted(const struct FGeometry& MyGeometr
 // Function UMG.UserWidget.PauseAnimation
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UUserWidget::PauseAnimation(const class UWidgetAnimation* InAnimation)
@@ -2697,7 +2697,7 @@ void UUserWidget::PreConstruct(bool IsDesignTime)
 // Function UMG.UserWidget.QueuePauseAnimation
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UUserWidget::QueuePauseAnimation(const class UWidgetAnimation* InAnimation)
@@ -2874,7 +2874,7 @@ void UUserWidget::QueueStopAllAnimations()
 // Function UMG.UserWidget.QueueStopAnimation
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::QueueStopAnimation(const class UWidgetAnimation* InAnimation)
 {
@@ -2987,7 +2987,7 @@ void UUserWidget::RemoveFromViewport()
 // Function UMG.UserWidget.ReverseAnimation
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::ReverseAnimation(const class UWidgetAnimation* InAnimation)
 {
@@ -3012,7 +3012,7 @@ void UUserWidget::ReverseAnimation(const class UWidgetAnimation* InAnimation)
 // Function UMG.UserWidget.SetAlignmentInViewport
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        Alignment                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Alignment                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetAlignmentInViewport(const struct FVector2D& Alignment)
 {
@@ -3037,7 +3037,7 @@ void UUserWidget::SetAlignmentInViewport(const struct FVector2D& Alignment)
 // Function UMG.UserWidget.SetAnchorsInViewport
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FAnchors                         Anchors                                                (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnchors&                  Anchors                                                (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetAnchorsInViewport(const struct FAnchors& Anchors)
 {
@@ -3062,7 +3062,7 @@ void UUserWidget::SetAnchorsInViewport(const struct FAnchors& Anchors)
 // Function UMG.UserWidget.SetAnimationCurrentTime
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   InTime                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetAnimationCurrentTime(const class UWidgetAnimation* InAnimation, float InTime)
@@ -3089,7 +3089,7 @@ void UUserWidget::SetAnimationCurrentTime(const class UWidgetAnimation* InAnimat
 // Function UMG.UserWidget.SetColorAndOpacity
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InColorAndOpacity                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InColorAndOpacity                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetColorAndOpacity(const struct FLinearColor& InColorAndOpacity)
 {
@@ -3114,7 +3114,7 @@ void UUserWidget::SetColorAndOpacity(const struct FLinearColor& InColorAndOpacit
 // Function UMG.UserWidget.SetDesiredSizeInViewport
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        Size                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Size                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetDesiredSizeInViewport(const struct FVector2D& Size)
 {
@@ -3139,7 +3139,7 @@ void UUserWidget::SetDesiredSizeInViewport(const struct FVector2D& Size)
 // Function UMG.UserWidget.SetForegroundColor
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateColor                      InForegroundColor                                      (Parm, NativeAccessSpecifierPublic)
+// const struct FSlateColor&               InForegroundColor                                      (Parm, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetForegroundColor(const struct FSlateColor& InForegroundColor)
 {
@@ -3214,7 +3214,7 @@ void UUserWidget::SetInputActionPriority(int32 NewPriority)
 // Function UMG.UserWidget.SetNumLoopsToPlay
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   NumLoopsToPlay                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetNumLoopsToPlay(const class UWidgetAnimation* InAnimation, int32 NumLoopsToPlay)
@@ -3266,7 +3266,7 @@ void UUserWidget::SetOwningPlayer(class APlayerController* LocalPlayerController
 // Function UMG.UserWidget.SetPadding
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetPadding(const struct FMargin& InPadding)
 {
@@ -3291,7 +3291,7 @@ void UUserWidget::SetPadding(const struct FMargin& InPadding)
 // Function UMG.UserWidget.SetPlaybackSpeed
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   PlaybackSpeed                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetPlaybackSpeed(const class UWidgetAnimation* InAnimation, float PlaybackSpeed)
@@ -3318,7 +3318,7 @@ void UUserWidget::SetPlaybackSpeed(const class UWidgetAnimation* InAnimation, fl
 // Function UMG.UserWidget.SetPositionInViewport
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bRemoveDPIScale                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::SetPositionInViewport(const struct FVector2D& Position, bool bRemoveDPIScale)
@@ -3364,7 +3364,7 @@ void UUserWidget::StopAllAnimations()
 // Function UMG.UserWidget.StopAnimation
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::StopAnimation(const class UWidgetAnimation* InAnimation)
 {
@@ -3454,7 +3454,7 @@ void UUserWidget::StopListeningForInputAction(class FName ActionName, EInputEven
 // Function UMG.UserWidget.Tick
 // (RequiredAPI, BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 MyGeometry                                             (Parm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   InDeltaTime                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UUserWidget::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
@@ -3649,7 +3649,7 @@ struct FAnchors UUserWidget::GetAnchorsInViewport() const
 // Function UMG.UserWidget.GetAnimationCurrentTime
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UUserWidget::GetAnimationCurrentTime(const class UWidgetAnimation* InAnimation) const
@@ -3808,7 +3808,7 @@ class APawn* UUserWidget::GetOwningPlayerPawn() const
 // Function UMG.UserWidget.IsAnimationPlaying
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UWidgetAnimation*                 InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidgetAnimation*           InAnimation                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UUserWidget::IsAnimationPlaying(const class UWidgetAnimation* InAnimation) const
@@ -3934,7 +3934,7 @@ bool UUserWidget::IsPlayingAnimation() const
 // Function UMG.UserWidget.OnPaint
 // (RequiredAPI, BlueprintCosmetic, Event, Public, HasOutParams, BlueprintEvent, Const)
 // Parameters:
-// struct FPaintContext                    Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FPaintContext&                   Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UUserWidget::OnPaint(struct FPaintContext& Context) const
 {
@@ -4056,7 +4056,7 @@ void UWidgetSwitcherSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizont
 // Function UMG.WidgetSwitcherSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UWidgetSwitcherSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -4232,7 +4232,7 @@ void UListViewBase::SetScrollbarVisibility(ESlateVisibility InVisibility)
 // Function UMG.ListViewBase.SetScrollOffset
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   InScrollOffset                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             InScrollOffset                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UListViewBase::SetScrollOffset(const float InScrollOffset)
 {
@@ -4488,7 +4488,7 @@ class UWidget* UPanelWidget::GetChildAt(int32 Index_0) const
 // Function UMG.PanelWidget.GetChildIndex
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UWidget*                          Content                                                (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidget*                    Content                                                (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UPanelWidget::GetChildIndex(const class UWidget* Content) const
@@ -4762,7 +4762,7 @@ void UListView::BP_SetItemSelection(class UObject* Item, bool bSelected)
 // Function UMG.ListView.BP_SetListItems
 // (Final, RequiredAPI, Native, Private, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<class UObject*>                  InListItems                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class UObject*>&           InListItems                                            (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UListView::BP_SetListItems(const TArray<class UObject*>& InListItems)
 {
@@ -5060,7 +5060,7 @@ class UObject* UListView::BP_GetSelectedItem() const
 // Function UMG.ListView.BP_GetSelectedItems
 // (Final, RequiredAPI, Native, Private, HasOutParams, BlueprintCallable, Const)
 // Parameters:
-// TArray<class UObject*>                  Items                                                  (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class UObject*>*                 Items                                                  (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UListView::BP_GetSelectedItems(TArray<class UObject*>* Items) const
@@ -5142,7 +5142,7 @@ float UListView::GetHorizontalEntrySpacing() const
 // Function UMG.ListView.GetIndexForItem
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UObject*                          Item                                                   (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    Item                                                   (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UListView::GetIndexForItem(const class UObject* Item) const
@@ -5398,7 +5398,7 @@ void UWrapBoxSlot::SetNewLine(bool InForceNewLine)
 // Function UMG.WrapBoxSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UWrapBoxSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -5473,7 +5473,7 @@ void UWindowTitleBarAreaSlot::SetHorizontalAlignment(EHorizontalAlignment InHori
 // Function UMG.WindowTitleBarAreaSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UWindowTitleBarAreaSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -5542,7 +5542,7 @@ void UWidgetBlueprintLibrary::CancelDragDrop()
 // Function UMG.WidgetBlueprintLibrary.CaptureJoystick
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UWidget*                          CapturingWidget                                        (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bInAllJoysticks                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
@@ -5576,7 +5576,7 @@ struct FEventReply UWidgetBlueprintLibrary::CaptureJoystick(struct FEventReply& 
 // Function UMG.WidgetBlueprintLibrary.CaptureMouse
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UWidget*                          CapturingWidget                                        (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -5608,7 +5608,7 @@ struct FEventReply UWidgetBlueprintLibrary::CaptureMouse(struct FEventReply& Rep
 // Function UMG.WidgetBlueprintLibrary.ClearUserFocus
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    bInAllUsers                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -5700,9 +5700,9 @@ class UDragDropOperation* UWidgetBlueprintLibrary::CreateDragDropOperation(TSubc
 // Function UMG.WidgetBlueprintLibrary.DetectDrag
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UWidget*                          WidgetDetectingDrag                                    (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FKey                             DragKey                                                (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FKey&                      DragKey                                                (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UWidgetBlueprintLibrary::DetectDrag(struct FEventReply& Reply, class UWidget* WidgetDetectingDrag, const struct FKey& DragKey)
@@ -5734,9 +5734,9 @@ struct FEventReply UWidgetBlueprintLibrary::DetectDrag(struct FEventReply& Reply
 // Function UMG.WidgetBlueprintLibrary.DetectDragIfPressed
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FPointerEvent                    PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UWidget*                          WidgetDetectingDrag                                    (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FKey                             DragKey                                                (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FKey&                      DragKey                                                (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UWidgetBlueprintLibrary::DetectDragIfPressed(const struct FPointerEvent& PointerEvent, class UWidget* WidgetDetectingDrag, const struct FKey& DragKey)
@@ -5785,11 +5785,11 @@ void UWidgetBlueprintLibrary::DismissAllMenus()
 // Function UMG.WidgetBlueprintLibrary.DrawBox
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FPaintContext                    Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        Size                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPaintContext&                   Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Size                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class USlateBrushAsset*                 Brush                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::DrawBox(struct FPaintContext& Context, const struct FVector2D& Position, const struct FVector2D& Size, class USlateBrushAsset* Brush, const struct FLinearColor& Tint)
 {
@@ -5820,10 +5820,10 @@ void UWidgetBlueprintLibrary::DrawBox(struct FPaintContext& Context, const struc
 // Function UMG.WidgetBlueprintLibrary.DrawLine
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FPaintContext                    Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        PositionA                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        PositionB                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPaintContext&                   Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 PositionA                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 PositionB                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bAntiAlias                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Thickness                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5857,9 +5857,9 @@ void UWidgetBlueprintLibrary::DrawLine(struct FPaintContext& Context, const stru
 // Function UMG.WidgetBlueprintLibrary.DrawLines
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FPaintContext                    Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// TArray<struct FVector2D>                Points                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FLinearColor                     Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPaintContext&                   Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const TArray<struct FVector2D>&         Points                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bAntiAlias                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Thickness                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -5892,12 +5892,12 @@ void UWidgetBlueprintLibrary::DrawLines(struct FPaintContext& Context, const TAr
 // Function UMG.WidgetBlueprintLibrary.DrawSpline
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FPaintContext                    Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        Start                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        StartDir                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        End                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        EndDir                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPaintContext&                   Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Start                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 StartDir                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 End                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 EndDir                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   Thickness                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::DrawSpline(struct FPaintContext& Context, const struct FVector2D& Start, const struct FVector2D& StartDir, const struct FVector2D& End, const struct FVector2D& EndDir, const struct FLinearColor& Tint, float Thickness)
@@ -5931,10 +5931,10 @@ void UWidgetBlueprintLibrary::DrawSpline(struct FPaintContext& Context, const st
 // Function UMG.WidgetBlueprintLibrary.DrawText
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FPaintContext                    Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// class FString                           InString                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPaintContext&                   Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const class FString&                    InString                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::DrawText(struct FPaintContext& Context, const class FString& InString, const struct FVector2D& Position, const struct FLinearColor& Tint)
 {
@@ -5964,13 +5964,13 @@ void UWidgetBlueprintLibrary::DrawText(struct FPaintContext& Context, const clas
 // Function UMG.WidgetBlueprintLibrary.DrawTextFormatted
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FPaintContext                    Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// class FText                             Text                                                   (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FVector2D                        Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FPaintContext&                   Context                                                (Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const class FText&                      Text                                                   (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UFont*                            Font                                                   (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   FontSize                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             FontTypeFace                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FLinearColor                     Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Tint                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::DrawTextFormatted(struct FPaintContext& Context, const class FText& Text, const struct FVector2D& Position, class UFont* Font, float FontSize, class FName FontTypeFace, const struct FLinearColor& Tint)
 {
@@ -6003,7 +6003,7 @@ void UWidgetBlueprintLibrary::DrawTextFormatted(struct FPaintContext& Context, c
 // Function UMG.WidgetBlueprintLibrary.EndDragDrop
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UWidgetBlueprintLibrary::EndDragDrop(struct FEventReply& Reply)
@@ -6034,7 +6034,7 @@ struct FEventReply UWidgetBlueprintLibrary::EndDragDrop(struct FEventReply& Repl
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class UUserWidget*>              FoundWidgets                                           (Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// TArray<class UUserWidget*>*             FoundWidgets                                           (Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 // TSubclassOf<class UUserWidget>          WidgetClass                                            (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    TopLevelOnly                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -6067,7 +6067,7 @@ void UWidgetBlueprintLibrary::GetAllWidgetsOfClass(class UObject* WorldContextOb
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class UUserWidget*>              FoundWidgets                                           (Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// TArray<class UUserWidget*>*             FoundWidgets                                           (Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 // TSubclassOf<class IInterface>           Interface                                              (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    TopLevelOnly                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -6099,7 +6099,7 @@ void UWidgetBlueprintLibrary::GetAllWidgetsWithInterface(class UObject* WorldCon
 // Function UMG.WidgetBlueprintLibrary.GetBrushResource
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSlateBrush                      Brush                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               Brush                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UObject*                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UObject* UWidgetBlueprintLibrary::GetBrushResource(const struct FSlateBrush& Brush)
@@ -6127,7 +6127,7 @@ class UObject* UWidgetBlueprintLibrary::GetBrushResource(const struct FSlateBrus
 // Function UMG.WidgetBlueprintLibrary.GetBrushResourceAsMaterial
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSlateBrush                      Brush                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               Brush                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UMaterialInterface* UWidgetBlueprintLibrary::GetBrushResourceAsMaterial(const struct FSlateBrush& Brush)
@@ -6155,7 +6155,7 @@ class UMaterialInterface* UWidgetBlueprintLibrary::GetBrushResourceAsMaterial(co
 // Function UMG.WidgetBlueprintLibrary.GetBrushResourceAsTexture2D
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSlateBrush                      Brush                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               Brush                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UTexture2D*                       ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UTexture2D* UWidgetBlueprintLibrary::GetBrushResourceAsTexture2D(const struct FSlateBrush& Brush)
@@ -6208,7 +6208,7 @@ class UDragDropOperation* UWidgetBlueprintLibrary::GetDragDroppingContent()
 // Function UMG.WidgetBlueprintLibrary.GetDynamicMaterial
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSlateBrush                      Brush                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FSlateBrush&                     Brush                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UMaterialInstanceDynamic*         ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UMaterialInstanceDynamic* UWidgetBlueprintLibrary::GetDynamicMaterial(struct FSlateBrush& Brush)
@@ -6238,7 +6238,7 @@ class UMaterialInstanceDynamic* UWidgetBlueprintLibrary::GetDynamicMaterial(stru
 // Function UMG.WidgetBlueprintLibrary.GetInputEventFromCharacterEvent
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FCharacterEvent                  Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FCharacterEvent&           Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FInputEvent                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FInputEvent UWidgetBlueprintLibrary::GetInputEventFromCharacterEvent(const struct FCharacterEvent& Event)
@@ -6266,7 +6266,7 @@ struct FInputEvent UWidgetBlueprintLibrary::GetInputEventFromCharacterEvent(cons
 // Function UMG.WidgetBlueprintLibrary.GetInputEventFromKeyEvent
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FKeyEvent                        Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FKeyEvent&                 Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FInputEvent                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FInputEvent UWidgetBlueprintLibrary::GetInputEventFromKeyEvent(const struct FKeyEvent& Event)
@@ -6294,7 +6294,7 @@ struct FInputEvent UWidgetBlueprintLibrary::GetInputEventFromKeyEvent(const stru
 // Function UMG.WidgetBlueprintLibrary.GetInputEventFromNavigationEvent
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FNavigationEvent                 Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FNavigationEvent&          Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FInputEvent                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FInputEvent UWidgetBlueprintLibrary::GetInputEventFromNavigationEvent(const struct FNavigationEvent& Event)
@@ -6322,7 +6322,7 @@ struct FInputEvent UWidgetBlueprintLibrary::GetInputEventFromNavigationEvent(con
 // Function UMG.WidgetBlueprintLibrary.GetInputEventFromPointerEvent
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FPointerEvent                    Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FInputEvent                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FInputEvent UWidgetBlueprintLibrary::GetInputEventFromPointerEvent(const struct FPointerEvent& Event)
@@ -6350,7 +6350,7 @@ struct FInputEvent UWidgetBlueprintLibrary::GetInputEventFromPointerEvent(const 
 // Function UMG.WidgetBlueprintLibrary.GetKeyEventFromAnalogInputEvent
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAnalogInputEvent                Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAnalogInputEvent&         Event                                                  (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FKeyEvent                        ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FKeyEvent UWidgetBlueprintLibrary::GetKeyEventFromAnalogInputEvent(const struct FAnalogInputEvent& Event)
@@ -6379,9 +6379,9 @@ struct FKeyEvent UWidgetBlueprintLibrary::GetKeyEventFromAnalogInputEvent(const 
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector4                         SafePadding                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        SafePaddingScale                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector4                         SpillOverPadding                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector4*                        SafePadding                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       SafePaddingScale                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector4*                        SpillOverPadding                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::GetSafeZonePadding(class UObject* WorldContextObject, struct FVector4* SafePadding, struct FVector2D* SafePaddingScale, struct FVector4* SpillOverPadding)
 {
@@ -6465,7 +6465,7 @@ bool UWidgetBlueprintLibrary::IsDragDropping()
 // Function UMG.WidgetBlueprintLibrary.LockMouse
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UWidget*                          CapturingWidget                                        (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -6614,7 +6614,7 @@ struct FSlateBrush UWidgetBlueprintLibrary::NoResourceBrush()
 // Function UMG.WidgetBlueprintLibrary.ReleaseJoystickCapture
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    bInAllJoysticks                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
@@ -6646,7 +6646,7 @@ struct FEventReply UWidgetBlueprintLibrary::ReleaseJoystickCapture(struct FEvent
 // Function UMG.WidgetBlueprintLibrary.ReleaseMouseCapture
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UWidgetBlueprintLibrary::ReleaseMouseCapture(struct FEventReply& Reply)
@@ -6695,7 +6695,7 @@ void UWidgetBlueprintLibrary::RestorePreviousWindowTitleBarState()
 // Function UMG.WidgetBlueprintLibrary.SetBrushResourceToMaterial
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSlateBrush                      Brush                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FSlateBrush&                     Brush                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               Material                                               (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::SetBrushResourceToMaterial(struct FSlateBrush& Brush, class UMaterialInterface* Material)
@@ -6724,7 +6724,7 @@ void UWidgetBlueprintLibrary::SetBrushResourceToMaterial(struct FSlateBrush& Bru
 // Function UMG.WidgetBlueprintLibrary.SetBrushResourceToTexture
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSlateBrush                      Brush                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FSlateBrush&                     Brush                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UTexture2D*                       Texture                                                (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::SetBrushResourceToTexture(struct FSlateBrush& Brush, class UTexture2D* Texture)
@@ -6806,7 +6806,7 @@ void UWidgetBlueprintLibrary::SetFocusToGameViewport()
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EMouseCursor                            CursorShape                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             CursorName                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        HotSpot                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 HotSpot                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UWidgetBlueprintLibrary::SetHardwareCursor(class UObject* WorldContextObject, EMouseCursor CursorShape, class FName CursorName, const struct FVector2D& HotSpot)
@@ -6841,7 +6841,7 @@ bool UWidgetBlueprintLibrary::SetHardwareCursor(class UObject* WorldContextObjec
 // class UWidget*                          InWidgetToFocus                                        (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EMouseLockMode                          InMouseLockMode                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bHideCursorDuringCapture                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    bFlushInput                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bFlushInput                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(class APlayerController* PlayerController, class UWidget* InWidgetToFocus, EMouseLockMode InMouseLockMode, bool bHideCursorDuringCapture, const bool bFlushInput)
 {
@@ -6871,7 +6871,7 @@ void UWidgetBlueprintLibrary::SetInputMode_GameAndUIEx(class APlayerController* 
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class APlayerController*                PlayerController                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    bFlushInput                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bFlushInput                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::SetInputMode_GameOnly(class APlayerController* PlayerController, const bool bFlushInput)
 {
@@ -6900,7 +6900,7 @@ void UWidgetBlueprintLibrary::SetInputMode_GameOnly(class APlayerController* Pla
 // class APlayerController*                PlayerController                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UWidget*                          InWidgetToFocus                                        (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // EMouseLockMode                          InMouseLockMode                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    bFlushInput                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bFlushInput                                            (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(class APlayerController* PlayerController, class UWidget* InWidgetToFocus, EMouseLockMode InMouseLockMode, const bool bFlushInput)
 {
@@ -6928,8 +6928,8 @@ void UWidgetBlueprintLibrary::SetInputMode_UIOnlyEx(class APlayerController* Pla
 // Function UMG.WidgetBlueprintLibrary.SetMousePosition
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FVector2D                        NewMousePosition                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 NewMousePosition                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UWidgetBlueprintLibrary::SetMousePosition(struct FEventReply& Reply, const struct FVector2D& NewMousePosition)
@@ -6960,7 +6960,7 @@ struct FEventReply UWidgetBlueprintLibrary::SetMousePosition(struct FEventReply&
 // Function UMG.WidgetBlueprintLibrary.SetUserFocus
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class UWidget*                          FocusWidget                                            (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bInAllUsers                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
@@ -7102,7 +7102,7 @@ struct FEventReply UWidgetBlueprintLibrary::Unhandled()
 // Function UMG.WidgetBlueprintLibrary.UnlockMouse
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FEventReply                      Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FEventReply&                     Reply                                                  (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FEventReply                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
 struct FEventReply UWidgetBlueprintLibrary::UnlockMouse(struct FEventReply& Reply)
@@ -7390,7 +7390,7 @@ float UWidgetAnimation::GetStartTime() const
 // Function UMG.WidgetAnimationPlayCallbackProxy.CreatePlayAnimationProxyObject
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UUMGSequencePlayer*               Result                                                 (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UUMGSequencePlayer**              Result                                                 (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UUserWidget*                      Widget                                                 (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UWidgetAnimation*                 InAnimation                                            (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   StartAtTime                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -7432,7 +7432,7 @@ class UWidgetAnimationPlayCallbackProxy* UWidgetAnimationPlayCallbackProxy::Crea
 // Function UMG.WidgetAnimationPlayCallbackProxy.CreatePlayAnimationTimeRangeProxyObject
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UUMGSequencePlayer*               Result                                                 (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UUMGSequencePlayer**              Result                                                 (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UUserWidget*                      Widget                                                 (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UWidgetAnimation*                 InAnimation                                            (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   StartAtTime                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -7776,7 +7776,7 @@ class UWidget* UWidgetBinding::GetValue() const
 // Function UMG.AsyncTaskDownloadImage.DownloadImage
 // (Final, RequiredAPI, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// class FString                           URL                                                    (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    URL                                                    (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UAsyncTaskDownloadImage*          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UAsyncTaskDownloadImage* UAsyncTaskDownloadImage::DownloadImage(const class FString& URL)
@@ -7804,8 +7804,8 @@ class UAsyncTaskDownloadImage* UAsyncTaskDownloadImage::DownloadImage(const clas
 // Function UMG.GameViewportSubsystem.SetWidgetSlotDesiredSize
 // (Final, RequiredAPI, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FGameViewportWidgetSlot          Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        Size                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGameViewportWidgetSlot&   Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Size                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FGameViewportWidgetSlot          ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FGameViewportWidgetSlot UGameViewportSubsystem::SetWidgetSlotDesiredSize(const struct FGameViewportWidgetSlot& Slot, const struct FVector2D& Size)
@@ -7834,9 +7834,9 @@ struct FGameViewportWidgetSlot UGameViewportSubsystem::SetWidgetSlotDesiredSize(
 // Function UMG.GameViewportSubsystem.SetWidgetSlotPosition
 // (Final, RequiredAPI, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FGameViewportWidgetSlot          Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// class UWidget*                          Widget                                                 (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGameViewportWidgetSlot&   Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const class UWidget*                    Widget                                                 (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bRemoveDPIScale                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FGameViewportWidgetSlot          ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
@@ -7869,7 +7869,7 @@ struct FGameViewportWidgetSlot UGameViewportSubsystem::SetWidgetSlotPosition(con
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
 // class UWidget*                          Widget                                                 (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameViewportWidgetSlot          Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGameViewportWidgetSlot&   Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UGameViewportSubsystem::AddWidget(class UWidget* Widget, const struct FGameViewportWidgetSlot& Slot)
@@ -7900,7 +7900,7 @@ bool UGameViewportSubsystem::AddWidget(class UWidget* Widget, const struct FGame
 // Parameters:
 // class UWidget*                          Widget                                                 (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class ULocalPlayer*                     Player                                                 (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameViewportWidgetSlot          Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGameViewportWidgetSlot&   Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UGameViewportSubsystem::AddWidgetForPlayer(class UWidget* Widget, class ULocalPlayer* Player, const struct FGameViewportWidgetSlot& Slot)
@@ -7956,7 +7956,7 @@ void UGameViewportSubsystem::RemoveWidget(class UWidget* Widget)
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
 // Parameters:
 // class UWidget*                          Widget                                                 (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGameViewportWidgetSlot          Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGameViewportWidgetSlot&   Slot                                                   (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UGameViewportSubsystem::SetWidgetSlot(class UWidget* Widget, const struct FGameViewportWidgetSlot& Slot)
 {
@@ -7982,7 +7982,7 @@ void UGameViewportSubsystem::SetWidgetSlot(class UWidget* Widget, const struct F
 // Function UMG.GameViewportSubsystem.GetWidgetSlot
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UWidget*                          Widget                                                 (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidget*                    Widget                                                 (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FGameViewportWidgetSlot          ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FGameViewportWidgetSlot UGameViewportSubsystem::GetWidgetSlot(const class UWidget* Widget) const
@@ -8010,7 +8010,7 @@ struct FGameViewportWidgetSlot UGameViewportSubsystem::GetWidgetSlot(const class
 // Function UMG.GameViewportSubsystem.IsWidgetAdded
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class UWidget*                          Widget                                                 (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UWidget*                    Widget                                                 (ConstParm, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UGameViewportSubsystem::IsWidgetAdded(const class UWidget* Widget) const
@@ -8043,9 +8043,9 @@ void IUserListEntry::BP_OnEntryReleased()
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UserListEntry", "BP_OnEntryReleased");
+		Func = AsUObject()->Class->GetFunction("UserListEntry", "BP_OnEntryReleased");
 
-	UObject::ProcessEvent(Func, nullptr);
+	AsUObject()->ProcessEvent(Func, nullptr);
 }
 
 
@@ -8059,13 +8059,13 @@ void IUserListEntry::BP_OnItemExpansionChanged(bool bIsExpanded)
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UserListEntry", "BP_OnItemExpansionChanged");
+		Func = AsUObject()->Class->GetFunction("UserListEntry", "BP_OnItemExpansionChanged");
 
 	Params::UserListEntry_BP_OnItemExpansionChanged Parms{};
 
 	Parms.bIsExpanded = bIsExpanded;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
@@ -8079,13 +8079,13 @@ void IUserListEntry::BP_OnItemSelectionChanged(bool bIsSelected)
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UserListEntry", "BP_OnItemSelectionChanged");
+		Func = AsUObject()->Class->GetFunction("UserListEntry", "BP_OnItemSelectionChanged");
 
 	Params::UserListEntry_BP_OnItemSelectionChanged Parms{};
 
 	Parms.bIsSelected = bIsSelected;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
@@ -8183,13 +8183,13 @@ void IUserObjectListEntry::OnListItemObjectSet(class UObject* ListItemObject)
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UserObjectListEntry", "OnListItemObjectSet");
+		Func = AsUObject()->Class->GetFunction("UserObjectListEntry", "OnListItemObjectSet");
 
 	Params::UserObjectListEntry_OnListItemObjectSet Parms{};
 
 	Parms.ListItemObject = ListItemObject;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
@@ -8324,7 +8324,7 @@ void UTextBlock::SetAutoWrapText(bool InAutoTextWrap)
 // Function UMG.TextBlock.SetColorAndOpacity
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateColor                      InColorAndOpacity                                      (Parm, NativeAccessSpecifierPublic)
+// const struct FSlateColor&               InColorAndOpacity                                      (Parm, NativeAccessSpecifierPublic)
 
 void UTextBlock::SetColorAndOpacity(const struct FSlateColor& InColorAndOpacity)
 {
@@ -8349,7 +8349,7 @@ void UTextBlock::SetColorAndOpacity(const struct FSlateColor& InColorAndOpacity)
 // Function UMG.TextBlock.SetFont
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateFontInfo                   InFontInfo                                             (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FSlateFontInfo&            InFontInfo                                             (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UTextBlock::SetFont(const struct FSlateFontInfo& InFontInfo)
 {
@@ -8474,7 +8474,7 @@ void UTextBlock::SetOpacity(float InOpacity)
 // Function UMG.TextBlock.SetShadowColorAndOpacity
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InShadowColorAndOpacity                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InShadowColorAndOpacity                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UTextBlock::SetShadowColorAndOpacity(const struct FLinearColor& InShadowColorAndOpacity)
 {
@@ -8499,7 +8499,7 @@ void UTextBlock::SetShadowColorAndOpacity(const struct FLinearColor& InShadowCol
 // Function UMG.TextBlock.SetShadowOffset
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InShadowOffset                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InShadowOffset                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UTextBlock::SetShadowOffset(const struct FVector2D& InShadowOffset)
 {
@@ -8524,7 +8524,7 @@ void UTextBlock::SetShadowOffset(const struct FVector2D& InShadowOffset)
 // Function UMG.TextBlock.SetStrikeBrush
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateBrush                      InStrikeBrush                                          (Parm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               InStrikeBrush                                          (Parm, NativeAccessSpecifierPublic)
 
 void UTextBlock::SetStrikeBrush(const struct FSlateBrush& InStrikeBrush)
 {
@@ -8549,7 +8549,7 @@ void UTextBlock::SetStrikeBrush(const struct FSlateBrush& InStrikeBrush)
 // Function UMG.TextBlock.SetText
 // (RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InText                                                 (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InText                                                 (Parm, NativeAccessSpecifierPublic)
 
 void UTextBlock::SetText(const class FText& InText)
 {
@@ -8802,7 +8802,7 @@ void UBackgroundBlur::SetBlurStrength(float InStrength)
 // Function UMG.BackgroundBlur.SetCornerRadius
 // (RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector4                         InCornerRadius                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector4&                  InCornerRadius                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBackgroundBlur::SetCornerRadius(const struct FVector4& InCornerRadius)
 {
@@ -8852,7 +8852,7 @@ void UBackgroundBlur::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAl
 // Function UMG.BackgroundBlur.SetLowQualityFallbackBrush
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSlateBrush                      InBrush                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               InBrush                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UBackgroundBlur::SetLowQualityFallbackBrush(const struct FSlateBrush& InBrush)
 {
@@ -8877,7 +8877,7 @@ void UBackgroundBlur::SetLowQualityFallbackBrush(const struct FSlateBrush& InBru
 // Function UMG.BackgroundBlur.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UBackgroundBlur::SetPadding(const struct FMargin& InPadding)
 {
@@ -8952,7 +8952,7 @@ void UBackgroundBlurSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizont
 // Function UMG.BackgroundBlurSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UBackgroundBlurSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -9084,7 +9084,7 @@ void UUniformGridPanel::SetMinDesiredSlotWidth(float InMinDesiredSlotWidth)
 // Function UMG.UniformGridPanel.SetSlotPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InSlotPadding                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InSlotPadding                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UUniformGridPanel::SetSlotPadding(const struct FMargin& InSlotPadding)
 {
@@ -9134,7 +9134,7 @@ class UMaterialInstanceDynamic* UBorder::GetDynamicMaterial()
 // Function UMG.Border.SetBrush
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSlateBrush                      InBrush                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               InBrush                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UBorder::SetBrush(const struct FSlateBrush& InBrush)
 {
@@ -9159,7 +9159,7 @@ void UBorder::SetBrush(const struct FSlateBrush& InBrush)
 // Function UMG.Border.SetBrushColor
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InBrushColor                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InBrushColor                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBorder::SetBrushColor(const struct FLinearColor& InBrushColor)
 {
@@ -9259,7 +9259,7 @@ void UBorder::SetBrushFromTexture(class UTexture2D* Texture)
 // Function UMG.Border.SetContentColorAndOpacity
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InContentColorAndOpacity                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InContentColorAndOpacity                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBorder::SetContentColorAndOpacity(const struct FLinearColor& InContentColorAndOpacity)
 {
@@ -9284,7 +9284,7 @@ void UBorder::SetContentColorAndOpacity(const struct FLinearColor& InContentColo
 // Function UMG.Border.SetDesiredSizeScale
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InScale                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InScale                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UBorder::SetDesiredSizeScale(const struct FVector2D& InScale)
 {
@@ -9334,7 +9334,7 @@ void UBorder::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlignment)
 // Function UMG.Border.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UBorder::SetPadding(const struct FMargin& InPadding)
 {
@@ -9434,7 +9434,7 @@ void UBorderSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlignm
 // Function UMG.BorderSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UBorderSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -9542,7 +9542,7 @@ bool UStackBox::ReplaceStackBoxChildAt(int32 Index_0, class UWidget* Content)
 // Function UMG.Button.SetBackgroundColor
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InBackgroundColor                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InBackgroundColor                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UButton::SetBackgroundColor(const struct FLinearColor& InBackgroundColor)
 {
@@ -9592,7 +9592,7 @@ void UButton::SetClickMethod(EButtonClickMethod InClickMethod)
 // Function UMG.Button.SetColorAndOpacity
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InColorAndOpacity                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InColorAndOpacity                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UButton::SetColorAndOpacity(const struct FLinearColor& InColorAndOpacity)
 {
@@ -9642,7 +9642,7 @@ void UButton::SetPressMethod(EButtonPressMethod InPressMethod)
 // Function UMG.Button.SetStyle
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FButtonStyle                     InStyle                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FButtonStyle&              InStyle                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UButton::SetStyle(const struct FButtonStyle& InStyle)
 {
@@ -9742,7 +9742,7 @@ void UButtonSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlignm
 // Function UMG.ButtonSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UButtonSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -9820,7 +9820,7 @@ class UCanvasPanelSlot* UCanvasPanel::AddChildToCanvas(class UWidget* Content)
 // Function UMG.CanvasPanelSlot.SetAlignment
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InAlignment                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InAlignment                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UCanvasPanelSlot::SetAlignment(const struct FVector2D& InAlignment)
 {
@@ -9845,7 +9845,7 @@ void UCanvasPanelSlot::SetAlignment(const struct FVector2D& InAlignment)
 // Function UMG.CanvasPanelSlot.SetAnchors
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FAnchors                         InAnchors                                              (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnchors&                  InAnchors                                              (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UCanvasPanelSlot::SetAnchors(const struct FAnchors& InAnchors)
 {
@@ -9895,7 +9895,7 @@ void UCanvasPanelSlot::SetAutoSize(bool InbAutoSize)
 // Function UMG.CanvasPanelSlot.SetLayout
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAnchorData                      InLayoutData                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FAnchorData&               InLayoutData                                           (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UCanvasPanelSlot::SetLayout(const struct FAnchorData& InLayoutData)
 {
@@ -9920,7 +9920,7 @@ void UCanvasPanelSlot::SetLayout(const struct FAnchorData& InLayoutData)
 // Function UMG.CanvasPanelSlot.SetMaximum
 // (Final, RequiredAPI, Native, Public, HasDefaults)
 // Parameters:
-// struct FVector2D                        InMaximumAnchors                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InMaximumAnchors                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UCanvasPanelSlot::SetMaximum(const struct FVector2D& InMaximumAnchors)
 {
@@ -9945,7 +9945,7 @@ void UCanvasPanelSlot::SetMaximum(const struct FVector2D& InMaximumAnchors)
 // Function UMG.CanvasPanelSlot.SetMinimum
 // (Final, RequiredAPI, Native, Public, HasDefaults)
 // Parameters:
-// struct FVector2D                        InMinimumAnchors                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InMinimumAnchors                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UCanvasPanelSlot::SetMinimum(const struct FVector2D& InMinimumAnchors)
 {
@@ -9970,7 +9970,7 @@ void UCanvasPanelSlot::SetMinimum(const struct FVector2D& InMinimumAnchors)
 // Function UMG.CanvasPanelSlot.SetOffsets
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InOffset                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InOffset                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UCanvasPanelSlot::SetOffsets(const struct FMargin& InOffset)
 {
@@ -9995,7 +9995,7 @@ void UCanvasPanelSlot::SetOffsets(const struct FMargin& InOffset)
 // Function UMG.CanvasPanelSlot.SetPosition
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InPosition                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InPosition                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UCanvasPanelSlot::SetPosition(const struct FVector2D& InPosition)
 {
@@ -10020,7 +10020,7 @@ void UCanvasPanelSlot::SetPosition(const struct FVector2D& InPosition)
 // Function UMG.CanvasPanelSlot.SetSize
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InSize                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InSize                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UCanvasPanelSlot::SetSize(const struct FVector2D& InSize)
 {
@@ -10636,7 +10636,7 @@ bool UComboBoxKey::IsOpen() const
 // Function UMG.ComboBoxString.AddOption
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           Option                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Option                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UComboBoxString::AddOption(const class FString& Option)
 {
@@ -10718,7 +10718,7 @@ void UComboBoxString::RefreshOptions()
 // Function UMG.ComboBoxString.RemoveOption
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           Option                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Option                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UComboBoxString::RemoveOption(const class FString& Option)
@@ -10746,7 +10746,7 @@ bool UComboBoxString::RemoveOption(const class FString& Option)
 // Function UMG.ComboBoxString.SetSelectedIndex
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// int32                                   Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const int32                             Index_0                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UComboBoxString::SetSelectedIndex(const int32 Index_0)
 {
@@ -10771,7 +10771,7 @@ void UComboBoxString::SetSelectedIndex(const int32 Index_0)
 // Function UMG.ComboBoxString.SetSelectedOption
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           Option                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Option                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UComboBoxString::SetSelectedOption(const class FString& Option)
 {
@@ -10796,7 +10796,7 @@ void UComboBoxString::SetSelectedOption(const class FString& Option)
 // Function UMG.ComboBoxString.FindOptionIndex
 // (Final, RequiredAPI, Native, Public, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// class FString                           Option                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Option                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 int32 UComboBoxString::FindOptionIndex(const class FString& Option) const
@@ -10952,7 +10952,7 @@ bool UComboBoxString::IsOpen() const
 // Function UMG.DynamicEntryBoxBase.SetEntrySpacing
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InEntrySpacing                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InEntrySpacing                                         (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UDynamicEntryBoxBase::SetEntrySpacing(const struct FVector2D& InEntrySpacing)
 {
@@ -10977,7 +10977,7 @@ void UDynamicEntryBoxBase::SetEntrySpacing(const struct FVector2D& InEntrySpacin
 // Function UMG.DynamicEntryBoxBase.SetRadialSettings
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FRadialBoxSettings               InSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FRadialBoxSettings&        InSettings                                             (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UDynamicEntryBoxBase::SetRadialSettings(const struct FRadialBoxSettings& InSettings)
 {
@@ -11155,7 +11155,7 @@ void UDynamicEntryBox::Reset(bool bDeleteWidgets)
 // Function UMG.EditableText.SetFont
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateFontInfo                   InFontInfo                                             (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FSlateFontInfo&            InFontInfo                                             (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UEditableText::SetFont(const struct FSlateFontInfo& InFontInfo)
 {
@@ -11230,7 +11230,7 @@ void UEditableText::SetFontOutlineMaterial(class UMaterialInterface* InMaterial)
 // Function UMG.EditableText.SetHintText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InHintText                                             (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InHintText                                             (Parm, NativeAccessSpecifierPublic)
 
 void UEditableText::SetHintText(const class FText& InHintText)
 {
@@ -11355,7 +11355,7 @@ void UEditableText::SetMinimumDesiredWidth(float InMinDesiredWidth)
 // Function UMG.EditableText.SetText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InText                                                 (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InText                                                 (Parm, NativeAccessSpecifierPublic)
 
 void UEditableText::SetText(const class FText& InText)
 {
@@ -11524,7 +11524,7 @@ void UEditableTextBox::ClearError()
 // Function UMG.EditableTextBox.SetError
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InError                                                (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InError                                                (Parm, NativeAccessSpecifierPublic)
 
 void UEditableTextBox::SetError(const class FText& InError)
 {
@@ -11549,7 +11549,7 @@ void UEditableTextBox::SetError(const class FText& InError)
 // Function UMG.EditableTextBox.SetForegroundColor
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     Color                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Color                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UEditableTextBox::SetForegroundColor(const struct FLinearColor& Color)
 {
@@ -11574,7 +11574,7 @@ void UEditableTextBox::SetForegroundColor(const struct FLinearColor& Color)
 // Function UMG.EditableTextBox.SetHintText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InText                                                 (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InText                                                 (Parm, NativeAccessSpecifierPublic)
 
 void UEditableTextBox::SetHintText(const class FText& InText)
 {
@@ -11674,7 +11674,7 @@ void UEditableTextBox::SetJustification(ETextJustify InJustification)
 // Function UMG.EditableTextBox.SetText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InText                                                 (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InText                                                 (Parm, NativeAccessSpecifierPublic)
 
 void UEditableTextBox::SetText(const class FText& InText)
 {
@@ -12035,7 +12035,7 @@ void UGridSlot::SetLayer(int32 InLayer)
 // Function UMG.GridSlot.SetNudge
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InNudge                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InNudge                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UGridSlot::SetNudge(const struct FVector2D& InNudge)
 {
@@ -12060,7 +12060,7 @@ void UGridSlot::SetNudge(const struct FVector2D& InNudge)
 // Function UMG.GridSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UGridSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -12213,7 +12213,7 @@ void UHorizontalBoxSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizonta
 // Function UMG.HorizontalBoxSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UHorizontalBoxSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -12238,7 +12238,7 @@ void UHorizontalBoxSlot::SetPadding(const struct FMargin& InPadding)
 // Function UMG.HorizontalBoxSlot.SetSize
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateChildSize                  InSize                                                 (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSlateChildSize&           InSize                                                 (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UHorizontalBoxSlot::SetSize(const struct FSlateChildSize& InSize)
 {
@@ -12313,7 +12313,7 @@ class UMaterialInstanceDynamic* UImage::GetDynamicMaterial()
 // Function UMG.Image.SetBrush
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSlateBrush                      InBrush                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               InBrush                                                (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UImage::SetBrush(const struct FSlateBrush& InBrush)
 {
@@ -12546,7 +12546,7 @@ void UImage::SetBrushResourceObject(class UObject* ResourceObject)
 // Function UMG.Image.SetBrushTintColor
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateColor                      TintColor                                              (Parm, NativeAccessSpecifierPublic)
+// const struct FSlateColor&               TintColor                                              (Parm, NativeAccessSpecifierPublic)
 
 void UImage::SetBrushTintColor(const struct FSlateColor& TintColor)
 {
@@ -12571,7 +12571,7 @@ void UImage::SetBrushTintColor(const struct FSlateColor& TintColor)
 // Function UMG.Image.SetColorAndOpacity
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InColorAndOpacity                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InColorAndOpacity                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UImage::SetColorAndOpacity(const struct FLinearColor& InColorAndOpacity)
 {
@@ -12596,7 +12596,7 @@ void UImage::SetColorAndOpacity(const struct FLinearColor& InColorAndOpacity)
 // Function UMG.Image.SetDesiredSizeOverride
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        DesiredSize                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 DesiredSize                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UImage::SetDesiredSizeOverride(const struct FVector2D& DesiredSize)
 {
@@ -12696,7 +12696,7 @@ void UInputKeySelector::SetAllowModifierKeys(bool bInAllowModifierKeys)
 // Function UMG.InputKeySelector.SetEscapeKeys
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<struct FKey>                     InKeys                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<struct FKey>&              InKeys                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UInputKeySelector::SetEscapeKeys(const TArray<struct FKey>& InKeys)
 {
@@ -12721,7 +12721,7 @@ void UInputKeySelector::SetEscapeKeys(const TArray<struct FKey>& InKeys)
 // Function UMG.InputKeySelector.SetKeySelectionText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InKeySelectionText                                     (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InKeySelectionText                                     (Parm, NativeAccessSpecifierPublic)
 
 void UInputKeySelector::SetKeySelectionText(const class FText& InKeySelectionText)
 {
@@ -12746,7 +12746,7 @@ void UInputKeySelector::SetKeySelectionText(const class FText& InKeySelectionTex
 // Function UMG.InputKeySelector.SetNoKeySpecifiedText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InNoKeySpecifiedText                                   (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InNoKeySpecifiedText                                   (Parm, NativeAccessSpecifierPublic)
 
 void UInputKeySelector::SetNoKeySpecifiedText(const class FText& InNoKeySpecifiedText)
 {
@@ -12771,7 +12771,7 @@ void UInputKeySelector::SetNoKeySpecifiedText(const class FText& InNoKeySpecifie
 // Function UMG.InputKeySelector.SetSelectedKey
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FInputChord                      InSelectedKey                                          (ConstParm, Parm, OutParm, ReferenceParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FInputChord&               InSelectedKey                                          (ConstParm, Parm, OutParm, ReferenceParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInputKeySelector::SetSelectedKey(const struct FInputChord& InSelectedKey)
 {
@@ -12796,7 +12796,7 @@ void UInputKeySelector::SetSelectedKey(const struct FInputChord& InSelectedKey)
 // Function UMG.InputKeySelector.SetTextBlockVisibility
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// ESlateVisibility                        InVisibility                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const ESlateVisibility                  InVisibility                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UInputKeySelector::SetTextBlockVisibility(const ESlateVisibility InVisibility)
 {
@@ -13134,7 +13134,7 @@ bool UMenuAnchor::ShouldOpenDueToClick() const
 // Function UMG.MultiLineEditableText.SetFont
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateFontInfo                   InFontInfo                                             (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FSlateFontInfo&            InFontInfo                                             (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableText::SetFont(const struct FSlateFontInfo& InFontInfo)
 {
@@ -13209,7 +13209,7 @@ void UMultiLineEditableText::SetFontOutlineMaterial(class UMaterialInterface* In
 // Function UMG.MultiLineEditableText.SetHintText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InHintText                                             (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InHintText                                             (Parm, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableText::SetHintText(const class FText& InHintText)
 {
@@ -13259,7 +13259,7 @@ void UMultiLineEditableText::SetIsReadOnly(bool bReadOnly)
 // Function UMG.MultiLineEditableText.SetText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InText                                                 (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InText                                                 (Parm, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableText::SetText(const class FText& InText)
 {
@@ -13284,7 +13284,7 @@ void UMultiLineEditableText::SetText(const class FText& InText)
 // Function UMG.MultiLineEditableText.SetWidgetStyle
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FTextBlockStyle                  InWidgetStyle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTextBlockStyle&           InWidgetStyle                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableText::SetWidgetStyle(const struct FTextBlockStyle& InWidgetStyle)
 {
@@ -13384,7 +13384,7 @@ class FText UMultiLineEditableText::GetText() const
 // Function UMG.MultiLineEditableTextBox.SetError
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InError                                                (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InError                                                (Parm, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableTextBox::SetError(const class FText& InError)
 {
@@ -13409,7 +13409,7 @@ void UMultiLineEditableTextBox::SetError(const class FText& InError)
 // Function UMG.MultiLineEditableTextBox.SetForegroundColor
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     Color                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              Color                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableTextBox::SetForegroundColor(const struct FLinearColor& Color)
 {
@@ -13434,7 +13434,7 @@ void UMultiLineEditableTextBox::SetForegroundColor(const struct FLinearColor& Co
 // Function UMG.MultiLineEditableTextBox.SetHintText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InHintText                                             (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InHintText                                             (Parm, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableTextBox::SetHintText(const class FText& InHintText)
 {
@@ -13484,7 +13484,7 @@ void UMultiLineEditableTextBox::SetIsReadOnly(bool bReadOnly)
 // Function UMG.MultiLineEditableTextBox.SetText
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FText                             InText                                                 (Parm, NativeAccessSpecifierPublic)
+// const class FText&                      InText                                                 (Parm, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableTextBox::SetText(const class FText& InText)
 {
@@ -13509,7 +13509,7 @@ void UMultiLineEditableTextBox::SetText(const class FText& InText)
 // Function UMG.MultiLineEditableTextBox.SetTextStyle
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FTextBlockStyle                  InTextStyle                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTextBlockStyle&           InTextStyle                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UMultiLineEditableTextBox::SetTextStyle(const struct FTextBlockStyle& InTextStyle)
 {
@@ -13667,7 +13667,7 @@ void UOverlaySlot::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlign
 // Function UMG.OverlaySlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UOverlaySlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -13717,7 +13717,7 @@ void UOverlaySlot::SetVerticalAlignment(EVerticalAlignment InVerticalAlignment)
 // Function UMG.ProgressBar.SetFillColorAndOpacity
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InColor                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InColor                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UProgressBar::SetFillColorAndOpacity(const struct FLinearColor& InColor)
 {
@@ -14054,7 +14054,7 @@ void URichTextBlock::SetAutoWrapText(bool InAutoTextWrap)
 // Function UMG.RichTextBlock.SetDecorators
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// TArray<TSubclassOf<class URichTextBlockDecorator>>InDecoratorClasses                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, UObjectWrapper, NativeAccessSpecifierPublic)
+// const TArray<TSubclassOf<class URichTextBlockDecorator>>&InDecoratorClasses                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, UObjectWrapper, NativeAccessSpecifierPublic)
 
 void URichTextBlock::SetDecorators(const TArray<TSubclassOf<class URichTextBlockDecorator>>& InDecoratorClasses)
 {
@@ -14079,7 +14079,7 @@ void URichTextBlock::SetDecorators(const TArray<TSubclassOf<class URichTextBlock
 // Function UMG.RichTextBlock.SetDefaultColorAndOpacity
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateColor                      InColorAndOpacity                                      (Parm, NativeAccessSpecifierPublic)
+// const struct FSlateColor&               InColorAndOpacity                                      (Parm, NativeAccessSpecifierPublic)
 
 void URichTextBlock::SetDefaultColorAndOpacity(const struct FSlateColor& InColorAndOpacity)
 {
@@ -14104,7 +14104,7 @@ void URichTextBlock::SetDefaultColorAndOpacity(const struct FSlateColor& InColor
 // Function UMG.RichTextBlock.SetDefaultFont
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateFontInfo                   InFontInfo                                             (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FSlateFontInfo&            InFontInfo                                             (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void URichTextBlock::SetDefaultFont(const struct FSlateFontInfo& InFontInfo)
 {
@@ -14154,7 +14154,7 @@ void URichTextBlock::SetDefaultMaterial(class UMaterialInterface* InMaterial)
 // Function UMG.RichTextBlock.SetDefaultShadowColorAndOpacity
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InShadowColorAndOpacity                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InShadowColorAndOpacity                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void URichTextBlock::SetDefaultShadowColorAndOpacity(const struct FLinearColor& InShadowColorAndOpacity)
 {
@@ -14179,7 +14179,7 @@ void URichTextBlock::SetDefaultShadowColorAndOpacity(const struct FLinearColor& 
 // Function UMG.RichTextBlock.SetDefaultShadowOffset
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InShadowOffset                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InShadowOffset                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void URichTextBlock::SetDefaultShadowOffset(const struct FVector2D& InShadowOffset)
 {
@@ -14204,7 +14204,7 @@ void URichTextBlock::SetDefaultShadowOffset(const struct FVector2D& InShadowOffs
 // Function UMG.RichTextBlock.SetDefaultStrikeBrush
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FSlateBrush                      InStrikeBrush                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               InStrikeBrush                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void URichTextBlock::SetDefaultStrikeBrush(const struct FSlateBrush& InStrikeBrush)
 {
@@ -14229,7 +14229,7 @@ void URichTextBlock::SetDefaultStrikeBrush(const struct FSlateBrush& InStrikeBru
 // Function UMG.RichTextBlock.SetDefaultTextStyle
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FTextBlockStyle                  InDefaultTextStyle                                     (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FTextBlockStyle&           InDefaultTextStyle                                     (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void URichTextBlock::SetDefaultTextStyle(const struct FTextBlockStyle& InDefaultTextStyle)
 {
@@ -14279,7 +14279,7 @@ void URichTextBlock::SetMinDesiredWidth(float InMinDesiredWidth)
 // Function UMG.RichTextBlock.SetText
 // (RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class FText                             InText                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const class FText&                      InText                                                 (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void URichTextBlock::SetText(const class FText& InText)
 {
@@ -14585,7 +14585,7 @@ void UScaleBoxSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlig
 // Function UMG.ScaleBoxSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UScaleBoxSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -14850,7 +14850,7 @@ void UScrollBox::SetConsumeMouseWheel(EConsumeMouseWheel NewConsumeMouseWheel)
 // Function UMG.ScrollBox.SetNavigationDestination
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// EDescendantScrollDestination            NewNavigationDestination                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const EDescendantScrollDestination      NewNavigationDestination                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UScrollBox::SetNavigationDestination(const EDescendantScrollDestination NewNavigationDestination)
 {
@@ -14900,7 +14900,7 @@ void UScrollBox::SetOrientation(EOrientation NewOrientation)
 // Function UMG.ScrollBox.SetScrollbarPadding
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FMargin                          NewScrollbarPadding                                    (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   NewScrollbarPadding                                    (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UScrollBox::SetScrollbarPadding(const struct FMargin& NewScrollbarPadding)
 {
@@ -14925,7 +14925,7 @@ void UScrollBox::SetScrollbarPadding(const struct FMargin& NewScrollbarPadding)
 // Function UMG.ScrollBox.SetScrollbarThickness
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        NewScrollbarThickness                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 NewScrollbarThickness                                  (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UScrollBox::SetScrollbarThickness(const struct FVector2D& NewScrollbarThickness)
 {
@@ -15175,7 +15175,7 @@ void UScrollBoxSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAli
 // Function UMG.ScrollBoxSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UScrollBoxSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -15602,7 +15602,7 @@ void USizeBoxSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlign
 // Function UMG.SizeBoxSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void USizeBoxSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -15752,7 +15752,7 @@ void USlider::SetMinValue(float InValue)
 // Function UMG.Slider.SetSliderBarColor
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USlider::SetSliderBarColor(const struct FLinearColor& InValue)
 {
@@ -15777,7 +15777,7 @@ void USlider::SetSliderBarColor(const struct FLinearColor& InValue)
 // Function UMG.Slider.SetSliderHandleColor
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USlider::SetSliderHandleColor(const struct FLinearColor& InValue)
 {
@@ -15902,7 +15902,7 @@ float USlider::GetValue() const
 // Function UMG.Spacer.SetSize
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InSize                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InSize                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USpacer::SetSize(const struct FVector2D& InSize)
 {
@@ -16053,7 +16053,7 @@ void USpinBox::SetDelta(float NewValue)
 // Function UMG.SpinBox.SetForegroundColor
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateColor                      InForegroundColor                                      (Parm, NativeAccessSpecifierPublic)
+// const struct FSlateColor&               InForegroundColor                                      (Parm, NativeAccessSpecifierPublic)
 
 void USpinBox::SetForegroundColor(const struct FSlateColor& InForegroundColor)
 {
@@ -16893,7 +16893,7 @@ void UVerticalBoxSlot::SetHorizontalAlignment(EHorizontalAlignment InHorizontalA
 // Function UMG.VerticalBoxSlot.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UVerticalBoxSlot::SetPadding(const struct FMargin& InPadding)
 {
@@ -16918,7 +16918,7 @@ void UVerticalBoxSlot::SetPadding(const struct FMargin& InPadding)
 // Function UMG.VerticalBoxSlot.SetSize
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FSlateChildSize                  InSize                                                 (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FSlateChildSize&           InSize                                                 (Parm, NoDestructor, NativeAccessSpecifierPublic)
 
 void UVerticalBoxSlot::SetSize(const struct FSlateChildSize& InSize)
 {
@@ -17018,7 +17018,7 @@ void UViewport::SetLightIntensity(float LightIntensity)
 // Function UMG.Viewport.SetShowFlag
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           InShowFlagName                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    InShowFlagName                                         (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    InValue                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UViewport::SetShowFlag(const class FString& InShowFlagName, bool InValue)
@@ -17070,7 +17070,7 @@ void UViewport::SetSkyIntensity(float LightIntensity)
 // Function UMG.Viewport.SetViewLocation
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector                          Location                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   Location                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UViewport::SetViewLocation(const struct FVector& Location)
 {
@@ -17095,7 +17095,7 @@ void UViewport::SetViewLocation(const struct FVector& Location)
 // Function UMG.Viewport.SetViewRotation
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FRotator                         Rotation                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FRotator&                  Rotation                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UViewport::SetViewRotation(const struct FRotator& Rotation)
 {
@@ -17261,7 +17261,7 @@ void UWidgetComponent::RequestRenderUpdate()
 // Function UMG.WidgetComponent.SetBackgroundColor
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     NewBackgroundColor                                     (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              NewBackgroundColor                                     (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetComponent::SetBackgroundColor(const struct FLinearColor& NewBackgroundColor)
 {
@@ -17286,7 +17286,7 @@ void UWidgetComponent::SetBackgroundColor(const struct FLinearColor& NewBackgrou
 // Function UMG.WidgetComponent.SetCylinderArcAngle
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// float                                   InCylinderArcAngle                                     (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const float                             InCylinderArcAngle                                     (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetComponent::SetCylinderArcAngle(const float InCylinderArcAngle)
 {
@@ -17336,7 +17336,7 @@ void UWidgetComponent::SetDrawAtDesiredSize(bool bInDrawAtDesiredSize)
 // Function UMG.WidgetComponent.SetDrawSize
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        Size                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 Size                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetComponent::SetDrawSize(const struct FVector2D& Size)
 {
@@ -17436,7 +17436,7 @@ void UWidgetComponent::SetOwnerPlayer(class ULocalPlayer* LocalPlayer)
 // Function UMG.WidgetComponent.SetPivot
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InPivot                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InPivot                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetComponent::SetPivot(const struct FVector2D& InPivot)
 {
@@ -17511,7 +17511,7 @@ void UWidgetComponent::SetTickMode(ETickMode InTickMode)
 // Function UMG.WidgetComponent.SetTickWhenOffscreen
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bWantTickWhenOffscreen                                 (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bWantTickWhenOffscreen                                 (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetComponent::SetTickWhenOffscreen(const bool bWantTickWhenOffscreen)
 {
@@ -17536,7 +17536,7 @@ void UWidgetComponent::SetTickWhenOffscreen(const bool bWantTickWhenOffscreen)
 // Function UMG.WidgetComponent.SetTintColorAndOpacity
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FLinearColor                     NewTintColorAndOpacity                                 (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLinearColor&              NewTintColorAndOpacity                                 (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetComponent::SetTintColorAndOpacity(const struct FLinearColor& NewTintColorAndOpacity)
 {
@@ -17561,7 +17561,7 @@ void UWidgetComponent::SetTintColorAndOpacity(const struct FLinearColor& NewTint
 // Function UMG.WidgetComponent.SetTwoSided
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// bool                                    bWantTwoSided                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const bool                              bWantTwoSided                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetComponent::SetTwoSided(const bool bWantTwoSided)
 {
@@ -18161,7 +18161,7 @@ bool UWidgetComponent::IsWidgetVisible() const
 // Function UMG.WidgetInteractionComponent.PressAndReleaseKey
 // (RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FKey                             Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FKey&                      Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UWidgetInteractionComponent::PressAndReleaseKey(const struct FKey& Key)
@@ -18189,7 +18189,7 @@ bool UWidgetInteractionComponent::PressAndReleaseKey(const struct FKey& Key)
 // Function UMG.WidgetInteractionComponent.PressKey
 // (RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FKey                             Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FKey&                      Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bRepeat                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -18219,7 +18219,7 @@ bool UWidgetInteractionComponent::PressKey(const struct FKey& Key, bool bRepeat)
 // Function UMG.WidgetInteractionComponent.PressPointerKey
 // (RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FKey                             Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FKey&                      Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetInteractionComponent::PressPointerKey(const struct FKey& Key)
 {
@@ -18244,7 +18244,7 @@ void UWidgetInteractionComponent::PressPointerKey(const struct FKey& Key)
 // Function UMG.WidgetInteractionComponent.ReleaseKey
 // (RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FKey                             Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FKey&                      Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UWidgetInteractionComponent::ReleaseKey(const struct FKey& Key)
@@ -18272,7 +18272,7 @@ bool UWidgetInteractionComponent::ReleaseKey(const struct FKey& Key)
 // Function UMG.WidgetInteractionComponent.ReleasePointerKey
 // (RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FKey                             Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FKey&                      Key                                                    (Parm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWidgetInteractionComponent::ReleasePointerKey(const struct FKey& Key)
 {
@@ -18322,7 +18322,7 @@ void UWidgetInteractionComponent::ScrollWheel(float ScrollDelta)
 // Function UMG.WidgetInteractionComponent.SendKeyChar
 // (RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// class FString                           Characters                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Characters                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bRepeat                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -18352,7 +18352,7 @@ bool UWidgetInteractionComponent::SendKeyChar(const class FString& Characters, b
 // Function UMG.WidgetInteractionComponent.SetCustomHitResult
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FHitResult                       HitResult                                              (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FHitResult&                HitResult                                              (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UWidgetInteractionComponent::SetCustomHitResult(const struct FHitResult& HitResult)
 {
@@ -18730,7 +18730,7 @@ void UWindowTitleBarArea::SetHorizontalAlignment(EHorizontalAlignment InHorizont
 // Function UMG.WindowTitleBarArea.SetPadding
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// struct FMargin                          InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FMargin&                   InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
 void UWindowTitleBarArea::SetPadding(const struct FMargin& InPadding)
 {
@@ -18833,7 +18833,7 @@ void UWrapBox::SetHorizontalAlignment(EHorizontalAlignment InHorizontalAlignment
 // Function UMG.WrapBox.SetInnerSlotPadding
 // (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
-// struct FVector2D                        InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 InPadding                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UWrapBox::SetInnerSlotPadding(const struct FVector2D& InPadding)
 {
@@ -18858,7 +18858,7 @@ void UWrapBox::SetInnerSlotPadding(const struct FVector2D& InPadding)
 // Function UMG.DragDropOperation.DragCancelled
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UDragDropOperation::DragCancelled(const struct FPointerEvent& PointerEvent)
 {
@@ -18883,7 +18883,7 @@ void UDragDropOperation::DragCancelled(const struct FPointerEvent& PointerEvent)
 // Function UMG.DragDropOperation.Dragged
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UDragDropOperation::Dragged(const struct FPointerEvent& PointerEvent)
 {
@@ -18908,7 +18908,7 @@ void UDragDropOperation::Dragged(const struct FPointerEvent& PointerEvent)
 // Function UMG.DragDropOperation.Drop
 // (RequiredAPI, Native, Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
-// struct FPointerEvent                    PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FPointerEvent&             PointerEvent                                           (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
 void UDragDropOperation::Drop(const struct FPointerEvent& PointerEvent)
 {
@@ -18933,8 +18933,8 @@ void UDragDropOperation::Drop(const struct FPointerEvent& PointerEvent)
 // Function UMG.SlateBlueprintLibrary.AbsoluteToLocal
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        AbsoluteCoordinate                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 AbsoluteCoordinate                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector2D USlateBlueprintLibrary::AbsoluteToLocal(const struct FGeometry& Geometry, const struct FVector2D& AbsoluteCoordinate)
@@ -18964,9 +18964,9 @@ struct FVector2D USlateBlueprintLibrary::AbsoluteToLocal(const struct FGeometry&
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        AbsoluteDesktopCoordinate                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        PixelPosition                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        ViewportPosition                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 AbsoluteDesktopCoordinate                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       PixelPosition                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       ViewportPosition                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USlateBlueprintLibrary::AbsoluteToViewport(class UObject* WorldContextObject, const struct FVector2D& AbsoluteDesktopCoordinate, struct FVector2D* PixelPosition, struct FVector2D* ViewportPosition)
 {
@@ -18998,8 +18998,8 @@ void USlateBlueprintLibrary::AbsoluteToViewport(class UObject* WorldContextObjec
 // Function UMG.SlateBlueprintLibrary.EqualEqual_SlateBrush
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FSlateBrush                      A                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FSlateBrush                      B                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               A                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FSlateBrush&               B                                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool USlateBlueprintLibrary::EqualEqual_SlateBrush(const struct FSlateBrush& A, const struct FSlateBrush& B)
@@ -19028,7 +19028,7 @@ bool USlateBlueprintLibrary::EqualEqual_SlateBrush(const struct FSlateBrush& A, 
 // Function UMG.SlateBlueprintLibrary.GetAbsoluteSize
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector2D USlateBlueprintLibrary::GetAbsoluteSize(const struct FGeometry& Geometry)
@@ -19056,7 +19056,7 @@ struct FVector2D USlateBlueprintLibrary::GetAbsoluteSize(const struct FGeometry&
 // Function UMG.SlateBlueprintLibrary.GetLocalSize
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector2D USlateBlueprintLibrary::GetLocalSize(const struct FGeometry& Geometry)
@@ -19084,7 +19084,7 @@ struct FVector2D USlateBlueprintLibrary::GetLocalSize(const struct FGeometry& Ge
 // Function UMG.SlateBlueprintLibrary.GetLocalTopLeft
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector2D USlateBlueprintLibrary::GetLocalTopLeft(const struct FGeometry& Geometry)
@@ -19112,8 +19112,8 @@ struct FVector2D USlateBlueprintLibrary::GetLocalTopLeft(const struct FGeometry&
 // Function UMG.SlateBlueprintLibrary.IsUnderLocation
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        AbsoluteCoordinate                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 AbsoluteCoordinate                                     (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool USlateBlueprintLibrary::IsUnderLocation(const struct FGeometry& Geometry, const struct FVector2D& AbsoluteCoordinate)
@@ -19142,8 +19142,8 @@ bool USlateBlueprintLibrary::IsUnderLocation(const struct FGeometry& Geometry, c
 // Function UMG.SlateBlueprintLibrary.LocalToAbsolute
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        LocalCoordinate                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 LocalCoordinate                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector2D USlateBlueprintLibrary::LocalToAbsolute(const struct FGeometry& Geometry, const struct FVector2D& LocalCoordinate)
@@ -19173,10 +19173,10 @@ struct FVector2D USlateBlueprintLibrary::LocalToAbsolute(const struct FGeometry&
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        LocalCoordinate                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        PixelPosition                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        ViewportPosition                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 LocalCoordinate                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       PixelPosition                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       ViewportPosition                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USlateBlueprintLibrary::LocalToViewport(class UObject* WorldContextObject, const struct FGeometry& Geometry, const struct FVector2D& LocalCoordinate, struct FVector2D* PixelPosition, struct FVector2D* ViewportPosition)
 {
@@ -19210,8 +19210,8 @@ void USlateBlueprintLibrary::LocalToViewport(class UObject* WorldContextObject, 
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        ScreenPosition                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        ViewportPosition                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 ScreenPosition                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       ViewportPosition                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USlateBlueprintLibrary::ScreenToViewport(class UObject* WorldContextObject, const struct FVector2D& ScreenPosition, struct FVector2D* ViewportPosition)
 {
@@ -19241,8 +19241,8 @@ void USlateBlueprintLibrary::ScreenToViewport(class UObject* WorldContextObject,
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        ScreenPosition                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        AbsoluteCoordinate                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 ScreenPosition                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       AbsoluteCoordinate                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIncludeWindowPosition                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USlateBlueprintLibrary::ScreenToWidgetAbsolute(class UObject* WorldContextObject, const struct FVector2D& ScreenPosition, struct FVector2D* AbsoluteCoordinate, bool bIncludeWindowPosition)
@@ -19274,9 +19274,9 @@ void USlateBlueprintLibrary::ScreenToWidgetAbsolute(class UObject* WorldContextO
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        ScreenPosition                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        LocalCoordinate                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 ScreenPosition                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       LocalCoordinate                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIncludeWindowPosition                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void USlateBlueprintLibrary::ScreenToWidgetLocal(class UObject* WorldContextObject, const struct FGeometry& Geometry, const struct FVector2D& ScreenPosition, struct FVector2D* LocalCoordinate, bool bIncludeWindowPosition)
@@ -19308,7 +19308,7 @@ void USlateBlueprintLibrary::ScreenToWidgetLocal(class UObject* WorldContextObje
 // Function UMG.SlateBlueprintLibrary.TransformScalarAbsoluteToLocal
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   AbsoluteScalar                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -19338,7 +19338,7 @@ float USlateBlueprintLibrary::TransformScalarAbsoluteToLocal(const struct FGeome
 // Function UMG.SlateBlueprintLibrary.TransformScalarLocalToAbsolute
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 // float                                   LocalScalar                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -19368,8 +19368,8 @@ float USlateBlueprintLibrary::TransformScalarLocalToAbsolute(const struct FGeome
 // Function UMG.SlateBlueprintLibrary.TransformVectorAbsoluteToLocal
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        AbsoluteVector                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 AbsoluteVector                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector2D USlateBlueprintLibrary::TransformVectorAbsoluteToLocal(const struct FGeometry& Geometry, const struct FVector2D& AbsoluteVector)
@@ -19398,8 +19398,8 @@ struct FVector2D USlateBlueprintLibrary::TransformVectorAbsoluteToLocal(const st
 // Function UMG.SlateBlueprintLibrary.TransformVectorLocalToAbsolute
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FGeometry                        Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// struct FVector2D                        LocalVector                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FGeometry&                 Geometry                                               (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 LocalVector                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 struct FVector2D USlateBlueprintLibrary::TransformVectorLocalToAbsolute(const struct FGeometry& Geometry, const struct FVector2D& LocalVector)
@@ -19482,8 +19482,8 @@ struct FVector2D UWidgetLayoutLibrary::GetMousePositionOnViewport(class UObject*
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class APlayerController*                Player                                                 (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   LocationX                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// float                                   LocationY                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  LocationX                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float*                                  LocationY                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UWidgetLayoutLibrary::GetMousePositionScaledByDPI(class APlayerController* Player, float* LocationX, float* LocationY)
@@ -19545,7 +19545,7 @@ struct FGeometry UWidgetLayoutLibrary::GetPlayerScreenWidgetGeometry(class APlay
 // Function UMG.WidgetLayoutLibrary.GetViewportScale
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 float UWidgetLayoutLibrary::GetViewportScale(const class UObject* WorldContextObject)
@@ -19630,8 +19630,8 @@ struct FGeometry UWidgetLayoutLibrary::GetViewportWidgetGeometry(class UObject* 
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class APlayerController*                PlayerController                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector                          WorldLocation                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FVector2D                        ScreenPosition                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   WorldLocation                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FVector2D*                       ScreenPosition                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bPlayerViewportRelative                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 

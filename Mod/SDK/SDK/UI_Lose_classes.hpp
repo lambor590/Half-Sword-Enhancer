@@ -18,7 +18,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass UI_Lose.UI_Lose_C
-// 0x0070 (0x0350 - 0x02E0)
+// 0x0078 (0x0358 - 0x02E0)
 class UUI_Lose_C final : public UUserWidget
 {
 public:
@@ -31,17 +31,19 @@ public:
 	class UImage*                                 Black;                                             // 0x0310(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UImage*                                 DeathPic;                                          // 0x0318(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 	class UTextBlock*                             Score;                                             // 0x0320(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
-	class AWillie_BP_C*                           My_Master__Willie_;                                // 0x0328(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	double                                        Current_Opacity;                                   // 0x0330(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Can_Restart;                                       // 0x0338(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_339[0x7];                                      // 0x0339(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UGI_Settings_C*                         GI_Settings;                                       // 0x0340(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class ABP_HalfSwordGameMode_C*                BP_Half_Sword_Game_Mode;                           // 0x0348(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UTextBlock*                             TextBlock_32;                                      // 0x0328(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
+	class AWillie_BP_C*                           My_Master__Willie_;                                // 0x0330(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Current_Opacity;                                   // 0x0338(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Can_Restart;                                       // 0x0340(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_341[0x7];                                      // 0x0341(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGI_Settings_C*                         GI_Settings;                                       // 0x0348(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                BP_Half_Sword_Game_Mode;                           // 0x0350(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Construct();
 	void ExecuteUbergraph_UI_Lose(int32 EntryPoint);
 	class FText Get_Score_Text();
+	class FText GetText();
 	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
 public:
@@ -55,7 +57,7 @@ public:
 	}
 };
 static_assert(alignof(UUI_Lose_C) == 0x000008, "Wrong alignment on UUI_Lose_C");
-static_assert(sizeof(UUI_Lose_C) == 0x000350, "Wrong size on UUI_Lose_C");
+static_assert(sizeof(UUI_Lose_C) == 0x000358, "Wrong size on UUI_Lose_C");
 static_assert(offsetof(UUI_Lose_C, UberGraphFrame) == 0x0002E0, "Member 'UUI_Lose_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(UUI_Lose_C, DethPicUnfade) == 0x0002E8, "Member 'UUI_Lose_C::DethPicUnfade' has a wrong offset!");
 static_assert(offsetof(UUI_Lose_C, RestartHover) == 0x0002F0, "Member 'UUI_Lose_C::RestartHover' has a wrong offset!");
@@ -65,11 +67,12 @@ static_assert(offsetof(UUI_Lose_C, Fade) == 0x000308, "Member 'UUI_Lose_C::Fade'
 static_assert(offsetof(UUI_Lose_C, Black) == 0x000310, "Member 'UUI_Lose_C::Black' has a wrong offset!");
 static_assert(offsetof(UUI_Lose_C, DeathPic) == 0x000318, "Member 'UUI_Lose_C::DeathPic' has a wrong offset!");
 static_assert(offsetof(UUI_Lose_C, Score) == 0x000320, "Member 'UUI_Lose_C::Score' has a wrong offset!");
-static_assert(offsetof(UUI_Lose_C, My_Master__Willie_) == 0x000328, "Member 'UUI_Lose_C::My_Master__Willie_' has a wrong offset!");
-static_assert(offsetof(UUI_Lose_C, Current_Opacity) == 0x000330, "Member 'UUI_Lose_C::Current_Opacity' has a wrong offset!");
-static_assert(offsetof(UUI_Lose_C, Can_Restart) == 0x000338, "Member 'UUI_Lose_C::Can_Restart' has a wrong offset!");
-static_assert(offsetof(UUI_Lose_C, GI_Settings) == 0x000340, "Member 'UUI_Lose_C::GI_Settings' has a wrong offset!");
-static_assert(offsetof(UUI_Lose_C, BP_Half_Sword_Game_Mode) == 0x000348, "Member 'UUI_Lose_C::BP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UUI_Lose_C, TextBlock_32) == 0x000328, "Member 'UUI_Lose_C::TextBlock_32' has a wrong offset!");
+static_assert(offsetof(UUI_Lose_C, My_Master__Willie_) == 0x000330, "Member 'UUI_Lose_C::My_Master__Willie_' has a wrong offset!");
+static_assert(offsetof(UUI_Lose_C, Current_Opacity) == 0x000338, "Member 'UUI_Lose_C::Current_Opacity' has a wrong offset!");
+static_assert(offsetof(UUI_Lose_C, Can_Restart) == 0x000340, "Member 'UUI_Lose_C::Can_Restart' has a wrong offset!");
+static_assert(offsetof(UUI_Lose_C, GI_Settings) == 0x000348, "Member 'UUI_Lose_C::GI_Settings' has a wrong offset!");
+static_assert(offsetof(UUI_Lose_C, BP_Half_Sword_Game_Mode) == 0x000350, "Member 'UUI_Lose_C::BP_Half_Sword_Game_Mode' has a wrong offset!");
 
 }
 

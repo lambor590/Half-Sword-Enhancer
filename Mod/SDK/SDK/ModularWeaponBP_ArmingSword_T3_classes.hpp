@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_ArmingSword_T3.ModularWeaponBP_ArmingSword_T3_C
-// 0x0000 (0x0B30 - 0x0B30)
+// 0x0000 (0x0B48 - 0x0B48)
 class AModularWeaponBP_ArmingSword_T3_C final : public AModularWeaponBP_C
 {
 public:
@@ -31,7 +31,7 @@ public:
 	}
 };
 static_assert(alignof(AModularWeaponBP_ArmingSword_T3_C) == 0x000008, "Wrong alignment on AModularWeaponBP_ArmingSword_T3_C");
-static_assert(sizeof(AModularWeaponBP_ArmingSword_T3_C) == 0x000B30, "Wrong size on AModularWeaponBP_ArmingSword_T3_C");
+static_assert(sizeof(AModularWeaponBP_ArmingSword_T3_C) == 0x000B48, "Wrong size on AModularWeaponBP_ArmingSword_T3_C");
 
 }
 

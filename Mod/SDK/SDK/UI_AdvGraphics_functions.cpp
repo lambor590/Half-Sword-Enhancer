@@ -390,7 +390,7 @@ void UUI_AdvGraphics_C::ExecuteUbergraph_UI_AdvGraphics(int32 EntryPoint)
 // Function UI_AdvGraphics.UI_AdvGraphics_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// struct FGeometry                        MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
 // float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 void UUI_AdvGraphics_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)

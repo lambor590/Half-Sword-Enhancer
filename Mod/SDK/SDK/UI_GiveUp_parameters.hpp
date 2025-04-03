@@ -17,121 +17,132 @@ namespace SDK::Params
 {
 
 // Function UI_GiveUp.UI_GiveUp_C.ExecuteUbergraph_UI_GiveUp
-// 0x0148 (0x0148 - 0x0000)
+// 0x0158 (0x0158 - 0x0000)
 struct UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0008(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_DoubleDouble_ReturnValue;            // 0x0011(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0012(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_13[0x5];                                       // 0x0013(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_1;              // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_2;              // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0028(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Clamp_ReturnValue;                        // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_C[0x4];                                        // 0x000C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0010(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_1;              // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_2;              // 0x0028(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0038(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0048(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_49[0x7];                                       // 0x0049(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class ACharacter*                             CallFunc_GetPlayerCharacter_ReturnValue;           // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AWillie_BP_C*                           K2Node_DynamicCast_AsWillie_BP;                    // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0060(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Has_Been_Initd_Variable;                 // 0x0061(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_IsClosed_Variable;                       // 0x0062(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_63[0x1];                                       // 0x0063(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x0064(0x0038)(IsPlainOldData, NoDestructor)
-	float                                         K2Node_Event_InDeltaTime;                          // 0x009C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_Event_IsDesignTime;                         // 0x00A0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_A1[0x7];                                       // 0x00A1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x00A8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_DeleteGameInSlot_ReturnValue;             // 0x00B0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_DeleteGameInSlot_ReturnValue;             // 0x0038(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_39[0x7];                                       // 0x0039(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0048(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0050(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0051(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_52[0x6];                                       // 0x0052(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class ACharacter*                             CallFunc_GetPlayerCharacter_ReturnValue;           // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_DoubleDouble_ReturnValue;            // 0x0060(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_61[0x7];                                       // 0x0061(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class AWillie_BP_C*                           K2Node_DynamicCast_AsWillie_BP;                    // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0070(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0071(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Has_Been_Initd_Variable;                 // 0x0072(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_IsClosed_Variable;                       // 0x0073(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x0074(0x0038)(IsPlainOldData, NoDestructor)
+	float                                         K2Node_Event_InDeltaTime;                          // 0x00AC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_Event_IsDesignTime;                         // 0x00B0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_B1[0x7];                                       // 0x00B1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x00B8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class USG_Autosave_C*                         CallFunc_CreateSaveGameObject_ReturnValue;         // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_SaveGameToSlot_ReturnValue;               // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_IsClosed_Variable_1;                     // 0x00C9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_CA[0x6];                                       // 0x00CA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          Temp_bool_IsClosed_Variable_1;                     // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable; // 0x00C9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SaveGameToSlot_ReturnValue;               // 0x00CA(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Has_Been_Initd_Variable_1;               // 0x00CB(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_CC[0x4];                                       // 0x00CC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue_1;      // 0x00D0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         CallFunc_Round_ReturnValue;                        // 0x00D8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_DC[0x4];                                       // 0x00DC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_Conv_IntToDouble_ReturnValue;             // 0x00E0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable; // 0x00E8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Has_Been_Initd_Variable_1;               // 0x00E9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_EA[0x6];                                       // 0x00EA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class UUI_Cards_C*                            CallFunc_Create_ReturnValue;                       // 0x00F0(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x00F8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_DoubleDouble_ReturnValue;    // 0x00F9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_FA[0x6];                                       // 0x00FA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_Add_DoubleDouble_ReturnValue;             // 0x0100(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x0108(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_FClamp_ReturnValue;                       // 0x0110(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x0118(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess_2;                     // 0x0120(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0121(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue_2;                    // 0x0122(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_123[0x5];                                      // 0x0123(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_MapRangeClamped_ReturnValue;              // 0x0128(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UUI_Cards_C*                            CallFunc_Create_ReturnValue;                       // 0x00E0(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Conv_IntToDouble_ReturnValue;             // 0x00E8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x00F0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_DoubleDouble_ReturnValue;    // 0x00F1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_F2[0x6];                                       // 0x00F2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_Add_DoubleDouble_ReturnValue;             // 0x00F8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x0100(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_FClamp_ReturnValue;                       // 0x0108(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x0110(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_2;                     // 0x0118(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0119(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x011A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_11B[0x5];                                      // 0x011B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_MapRangeClamped_ReturnValue;              // 0x0120(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x0128(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1;  // 0x0130(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue_1;                // 0x0131(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0132(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_133[0x5];                                      // 0x0133(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_Multiply_DoubleDouble_A_ImplicitCast;     // 0x0138(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast; // 0x0140(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue_2;                    // 0x0131(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue_1;                // 0x0132(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0133(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x0134(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_135[0x3];                                      // 0x0135(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue_1;                // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SetGamePaused_ReturnValue;                // 0x0140(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_141[0x7];                                      // 0x0141(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_Multiply_DoubleDouble_A_ImplicitCast;     // 0x0148(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast; // 0x0150(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast; // 0x0154(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp) == 0x000008, "Wrong alignment on UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp");
-static_assert(sizeof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp) == 0x000148, "Wrong size on UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp");
+static_assert(sizeof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp) == 0x000158, "Wrong size on UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp");
 static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, EntryPoint) == 0x000000, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::EntryPoint' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_IsValid_ReturnValue) == 0x000004, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_IsValid_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_PlayAnimation_ReturnValue) == 0x000008, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Not_PreBool_ReturnValue) == 0x000010, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Less_DoubleDouble_ReturnValue) == 0x000011, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Less_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_BooleanAND_ReturnValue) == 0x000012, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_PlayAnimation_ReturnValue_1) == 0x000018, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_PlayAnimation_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_PlayAnimation_ReturnValue_2) == 0x000020, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_PlayAnimation_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetPlayerController_ReturnValue) == 0x000028, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Subtract_IntInt_ReturnValue) == 0x000004, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Subtract_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Clamp_ReturnValue) == 0x000008, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Clamp_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetPlayerController_ReturnValue) == 0x000010, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_PlayAnimation_ReturnValue) == 0x000018, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_PlayAnimation_ReturnValue_1) == 0x000020, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_PlayAnimation_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_PlayAnimation_ReturnValue_2) == 0x000028, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_PlayAnimation_ReturnValue_2' has a wrong offset!");
 static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetPlayerController_ReturnValue_1) == 0x000030, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetGameInstance_ReturnValue) == 0x000038, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_AsGI_Settings) == 0x000040, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_bSuccess) == 0x000048, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_bSuccess' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetPlayerCharacter_ReturnValue) == 0x000050, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetPlayerCharacter_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_AsWillie_BP) == 0x000058, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_AsWillie_BP' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_bSuccess_1) == 0x000060, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_Has_Been_Initd_Variable) == 0x000061, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_Has_Been_Initd_Variable' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_IsClosed_Variable) == 0x000062, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_IsClosed_Variable' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_Event_MyGeometry) == 0x000064, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_Event_MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_Event_InDeltaTime) == 0x00009C, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_Event_InDeltaTime' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_Event_IsDesignTime) == 0x0000A0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_Event_IsDesignTime' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Multiply_DoubleDouble_ReturnValue) == 0x0000A8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Multiply_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_DeleteGameInSlot_ReturnValue) == 0x0000B0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_DeleteGameInSlot_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetPlayerController_ReturnValue_2) == 0x0000B8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetPlayerController_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_DeleteGameInSlot_ReturnValue) == 0x000038, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_DeleteGameInSlot_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetGameInstance_ReturnValue) == 0x000040, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_AsGI_Settings) == 0x000048, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_bSuccess) == 0x000050, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_bSuccess' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Not_PreBool_ReturnValue) == 0x000051, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetPlayerCharacter_ReturnValue) == 0x000058, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetPlayerCharacter_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Less_DoubleDouble_ReturnValue) == 0x000060, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Less_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_AsWillie_BP) == 0x000068, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_AsWillie_BP' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_bSuccess_1) == 0x000070, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_BooleanAND_ReturnValue) == 0x000071, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_Has_Been_Initd_Variable) == 0x000072, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_Has_Been_Initd_Variable' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_IsClosed_Variable) == 0x000073, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_IsClosed_Variable' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_Event_MyGeometry) == 0x000074, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_Event_MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_Event_InDeltaTime) == 0x0000AC, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_Event_InDeltaTime' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_Event_IsDesignTime) == 0x0000B0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_Event_IsDesignTime' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Multiply_DoubleDouble_ReturnValue) == 0x0000B8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Multiply_DoubleDouble_ReturnValue' has a wrong offset!");
 static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_CreateSaveGameObject_ReturnValue) == 0x0000C0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_CreateSaveGameObject_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_SaveGameToSlot_ReturnValue) == 0x0000C8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_SaveGameToSlot_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_IsClosed_Variable_1) == 0x0000C9, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_IsClosed_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_IsClosed_Variable_1) == 0x0000C8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_IsClosed_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable) == 0x0000C9, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_SaveGameToSlot_ReturnValue) == 0x0000CA, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_SaveGameToSlot_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_Has_Been_Initd_Variable_1) == 0x0000CB, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_Has_Been_Initd_Variable_1' has a wrong offset!");
 static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Multiply_DoubleDouble_ReturnValue_1) == 0x0000D0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Multiply_DoubleDouble_ReturnValue_1' has a wrong offset!");
 static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Round_ReturnValue) == 0x0000D8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Round_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Conv_IntToDouble_ReturnValue) == 0x0000E0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Conv_IntToDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable) == 0x0000E8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_Whether_the_gate_is_currently_open_or_close_Variable' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, Temp_bool_Has_Been_Initd_Variable_1) == 0x0000E9, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::Temp_bool_Has_Been_Initd_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Create_ReturnValue) == 0x0000F0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Create_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_IsValid_ReturnValue_1) == 0x0000F8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_IsValid_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GreaterEqual_DoubleDouble_ReturnValue) == 0x0000F9, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GreaterEqual_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Add_DoubleDouble_ReturnValue) == 0x000100, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Add_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetGameMode_ReturnValue) == 0x000108, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_FClamp_ReturnValue) == 0x000110, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_FClamp_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x000118, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_bSuccess_2) == 0x000120, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_bSuccess_2' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_BooleanOR_ReturnValue) == 0x000121, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_IsValid_ReturnValue_2) == 0x000122, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_IsValid_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_MapRangeClamped_ReturnValue) == 0x000128, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_MapRangeClamped_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Create_ReturnValue) == 0x0000E0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Create_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Conv_IntToDouble_ReturnValue) == 0x0000E8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Conv_IntToDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_IsValid_ReturnValue) == 0x0000F0, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_IsValid_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GreaterEqual_DoubleDouble_ReturnValue) == 0x0000F1, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GreaterEqual_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Add_DoubleDouble_ReturnValue) == 0x0000F8, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Add_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetGameMode_ReturnValue) == 0x000100, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_FClamp_ReturnValue) == 0x000108, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_FClamp_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x000110, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, K2Node_DynamicCast_bSuccess_2) == 0x000118, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::K2Node_DynamicCast_bSuccess_2' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_BooleanOR_ReturnValue) == 0x000119, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_IsValid_ReturnValue_1) == 0x00011A, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_IsValid_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_MapRangeClamped_ReturnValue) == 0x000120, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_MapRangeClamped_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetPlayerController_ReturnValue_2) == 0x000128, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetPlayerController_ReturnValue_2' has a wrong offset!");
 static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1) == 0x000130, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GreaterEqual_DoubleDouble_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Not_PreBool_ReturnValue_1) == 0x000131, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Not_PreBool_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_BooleanAND_ReturnValue_1) == 0x000132, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Multiply_DoubleDouble_A_ImplicitCast) == 0x000138, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Multiply_DoubleDouble_A_ImplicitCast' has a wrong offset!");
-static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast) == 0x000140, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_IsValid_ReturnValue_2) == 0x000131, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_IsValid_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Not_PreBool_ReturnValue_1) == 0x000132, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Not_PreBool_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_BooleanAND_ReturnValue_1) == 0x000133, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_NotEqual_ByteByte_ReturnValue) == 0x000134, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_NotEqual_ByteByte_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_GetGameMode_ReturnValue_1) == 0x000138, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_GetGameMode_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_SetGamePaused_ReturnValue) == 0x000140, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_SetGamePaused_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_Multiply_DoubleDouble_A_ImplicitCast) == 0x000148, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_Multiply_DoubleDouble_A_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast) == 0x000150, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp, CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast) == 0x000154, "Member 'UI_GiveUp_C_ExecuteUbergraph_UI_GiveUp::CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast' has a wrong offset!");
 
 // Function UI_GiveUp.UI_GiveUp_C.GetPercent
 // 0x0018 (0x0018 - 0x0000)
@@ -161,6 +172,19 @@ static_assert(alignof(UI_GiveUp_C_GetText) == 0x000008, "Wrong alignment on UI_G
 static_assert(sizeof(UI_GiveUp_C_GetText) == 0x000020, "Wrong size on UI_GiveUp_C_GetText");
 static_assert(offsetof(UI_GiveUp_C_GetText, ReturnValue) == 0x000000, "Member 'UI_GiveUp_C_GetText::ReturnValue' has a wrong offset!");
 static_assert(offsetof(UI_GiveUp_C_GetText, CallFunc_Conv_DoubleToText_ReturnValue) == 0x000010, "Member 'UI_GiveUp_C_GetText::CallFunc_Conv_DoubleToText_ReturnValue' has a wrong offset!");
+
+// Function UI_GiveUp.UI_GiveUp_C.GetText_0
+// 0x0020 (0x0020 - 0x0000)
+struct UI_GiveUp_C_GetText_0 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_SelectText_ReturnValue;                   // 0x0010(0x0010)()
+};
+static_assert(alignof(UI_GiveUp_C_GetText_0) == 0x000008, "Wrong alignment on UI_GiveUp_C_GetText_0");
+static_assert(sizeof(UI_GiveUp_C_GetText_0) == 0x000020, "Wrong size on UI_GiveUp_C_GetText_0");
+static_assert(offsetof(UI_GiveUp_C_GetText_0, ReturnValue) == 0x000000, "Member 'UI_GiveUp_C_GetText_0::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_GiveUp_C_GetText_0, CallFunc_SelectText_ReturnValue) == 0x000010, "Member 'UI_GiveUp_C_GetText_0::CallFunc_SelectText_ReturnValue' has a wrong offset!");
 
 // Function UI_GiveUp.UI_GiveUp_C.PreConstruct
 // 0x0001 (0x0001 - 0x0000)

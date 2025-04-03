@@ -277,7 +277,7 @@ static_assert(offsetof(FPlayerMappableKeyQueryOptions, RequiredDeviceFlags) == 0
 struct FPlayerMappableKeyProfileCreationArgs final
 {
 public:
-	TSubclassOf<class UEnhancedPlayerMappableKeyProfile> ProfileType;                                       // 0x0000(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TSubclassOf<class UEnhancedPlayerMappableKeyProfile> ProfileType;                                // 0x0000(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FGameplayTag                           ProfileIdentifier;                                 // 0x0008(0x0008)(Edit, BlueprintVisible, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	struct FPlatformUserId                        UserId;                                            // 0x0010(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])

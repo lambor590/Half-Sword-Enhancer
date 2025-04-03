@@ -316,7 +316,7 @@ static_assert(offsetof(USourceEffectDynamicsProcessorPreset, Settings) == 0x0000
 class UEnvelopeFollowerListener final : public UActorComponent
 {
 public:
-	TMulticastInlineDelegate<void(float EnvelopeValue)> OnEnvelopeFollowerUpdate;                          // 0x00A0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(float EnvelopeValue)> OnEnvelopeFollowerUpdate;                    // 0x00A0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B0[0x10];                                      // 0x00B0(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -416,7 +416,7 @@ class USourceEffectFoldbackDistortionPreset final : public USoundEffectSourcePre
 {
 public:
 	uint8                                         Pad_68[0x34];                                      // 0x0068(0x0034)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSourceEffectFoldbackDistortionSettings Settings;                                          // 0x009C(0x000C)(Edit, BlueprintVisible, BlueprintReadOnly, NoDestructor, NativeAccessSpecifierPublic)
+	struct FSourceEffectFoldbackDistortionSettings Settings;                                         // 0x009C(0x000C)(Edit, BlueprintVisible, BlueprintReadOnly, NoDestructor, NativeAccessSpecifierPublic)
 
 public:
 	void SetSettings(const struct FSourceEffectFoldbackDistortionSettings& InSettings);
@@ -784,7 +784,7 @@ class USubmixEffectMultibandCompressorPreset final : public USoundEffectSubmixPr
 {
 public:
 	uint8                                         Pad_68[0x60];                                      // 0x0068(0x0060)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSubmixEffectMultibandCompressorSettings Settings;                                          // 0x00C8(0x0038)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FSubmixEffectMultibandCompressorSettings Settings;                                        // 0x00C8(0x0038)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 
 public:
 	void ResetKey();
@@ -971,7 +971,7 @@ static_assert(offsetof(UMonoWaveTableSynthPreset, WaveTable) == 0x000048, "Membe
 class USynthComponentMonoWaveTable final : public USynthComponent
 {
 public:
-	TMulticastInlineDelegate<void(int32 TableIndex)> OnTableAltered;                                    // 0x0890(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(int32 TableIndex)> OnTableAltered;                                 // 0x0890(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              OnNumTablesChanged;                                // 0x08A0(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	class UMonoWaveTableSynthPreset*              CurrentPreset;                                     // 0x08B0(0x0008)(Edit, ZeroConstructor, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_8B8[0x728];                                    // 0x08B8(0x0728)(Fixing Struct Size After Last Property [ Dumper-7 ])
@@ -1080,7 +1080,7 @@ class USynthSamplePlayer final : public USynthComponent
 public:
 	class USoundWave*                             SoundWave;                                         // 0x0890(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              OnSampleLoaded;                                    // 0x0898(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(float ProgressPercent, float ProgressTimeSeconds)> OnSamplePlaybackProgress;                          // 0x08A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(float ProgressPercent, float ProgressTimeSeconds)> OnSamplePlaybackProgress; // 0x08A8(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_8B8[0x108];                                    // 0x08B8(0x0108)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

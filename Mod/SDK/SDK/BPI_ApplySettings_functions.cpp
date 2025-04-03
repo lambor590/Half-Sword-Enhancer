@@ -27,13 +27,13 @@ void IBPI_ApplySettings_C::Apply_Settings(double FOV)
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BPI_ApplySettings_C", "Apply Settings");
+		Func = AsUObject()->Class->GetFunction("BPI_ApplySettings_C", "Apply Settings");
 
 	Params::BPI_ApplySettings_C_Apply_Settings Parms{};
 
 	Parms.FOV = FOV;
 
-	UObject::ProcessEvent(Func, &Parms);
+	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 }

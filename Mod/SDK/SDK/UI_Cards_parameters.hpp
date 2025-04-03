@@ -10,6 +10,7 @@
 
 #include "Basic.hpp"
 
+#include "UMG_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "Enum_PlayCards_structs.hpp"
 
@@ -18,7 +19,7 @@ namespace SDK::Params
 {
 
 // Function UI_Cards.UI_Cards_C.ExecuteUbergraph_UI_Cards
-// 0x0B30 (0x0B30 - 0x0000)
+// 0x0BB0 (0x0BB0 - 0x0000)
 struct UI_Cards_C_ExecuteUbergraph_UI_Cards final
 {
 public:
@@ -37,57 +38,77 @@ public:
 	class UTexture2D*                             Temp_object_Variable_5;                            // 0x0038(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UTexture2D*                             Temp_object_Variable_6;                            // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UTexture2D*                             Temp_object_Variable_7;                            // 0x0048(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	Enum_PlayCards                                Temp_byte_Variable_3;                              // 0x0050(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_51[0x7];                                       // 0x0051(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UTexture2D*                             Temp_object_Variable_8;                            // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_9;                            // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             Temp_object_Variable_10;                           // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_8;                            // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_9;                            // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_10;                           // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	Enum_PlayCards                                Temp_byte_Variable_3;                              // 0x0068(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_69[0x7];                                       // 0x0069(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class UTexture2D*                             Temp_object_Variable_11;                           // 0x0070(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UTexture2D*                             Temp_object_Variable_12;                           // 0x0078(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UTexture2D*                             Temp_object_Variable_13;                           // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UTexture2D*                             Temp_object_Variable_14;                           // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UTexture2D*                             Temp_object_Variable_15;                           // 0x0090(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_Event_IsDesignTime;                         // 0x0098(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_99[0x3];                                       // 0x0099(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x009C(0x0038)(IsPlainOldData, NoDestructor)
-	float                                         K2Node_Event_InDeltaTime;                          // 0x00D4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_SetGamePaused_ReturnValue;                // 0x00E8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E9[0x7];                                       // 0x00E9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	TArray<Enum_PlayCards>                        K2Node_MakeArray_Array;                            // 0x00F8(0x0010)(ReferenceParm)
-	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x0108(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0110(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_111[0x7];                                      // 0x0111(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<Enum_PlayCards>                        K2Node_MakeArray_Array_1;                          // 0x0118(0x0010)(ReferenceParm)
-	TArray<Enum_PlayCards>                        K2Node_MakeArray_Array_2;                          // 0x0128(0x0010)(ReferenceParm)
-	TArray<Enum_PlayCards>                        K2Node_Select_Default;                             // 0x0138(0x0010)(ReferenceParm)
-	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0148(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_PlayCards                                K2Node_Select_Default_1;                           // 0x0149(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_PlayCards                                CallFunc_Array_Random_OutItem;                     // 0x014A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_14B[0x1];                                      // 0x014B(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         CallFunc_Array_Random_OutIndex;                    // 0x014C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UTexture2D*                             K2Node_Select_Default_2;                           // 0x0150(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_158[0x8];                                      // 0x0158(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSlateBrush                            CallFunc_MakeBrushFromTexture_ReturnValue;         // 0x0160(0x00D0)()
-	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle;                     // 0x0230(0x03F0)()
-	class UTexture2D*                             K2Node_Select_Default_3;                           // 0x0620(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_628[0x8];                                      // 0x0628(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSlateBrush                            CallFunc_MakeBrushFromTexture_ReturnValue_1;       // 0x0630(0x00D0)()
-	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_1;                   // 0x0700(0x03F0)()
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_1;              // 0x0AF0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_2;              // 0x0AF8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_3;              // 0x0B00(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_4;              // 0x0B08(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_SetGamePaused_ReturnValue_1;              // 0x0B10(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_B11[0x7];                                      // 0x0B11(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0B18(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue_1;                // 0x0B20(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0B28(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_16;                           // 0x0098(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_17;                           // 0x00A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_18;                           // 0x00A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_19;                           // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_20;                           // 0x00B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UTexture2D*                             Temp_object_Variable_21;                           // 0x00C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_Event_IsDesignTime;                         // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_C9[0x3];                                       // 0x00C9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x00CC(0x0038)(IsPlainOldData, NoDestructor)
+	float                                         K2Node_Event_InDeltaTime;                          // 0x0104(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0108(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0110(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SetGamePaused_ReturnValue;                // 0x0118(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_119[0x7];                                      // 0x0119(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue;                  // 0x0120(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	TArray<Enum_PlayCards>                        K2Node_MakeArray_Array;                            // 0x0128(0x0010)(ReferenceParm)
+	class ABP_HalfSwordGameMode_C*                K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode;      // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0140(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_141[0x7];                                      // 0x0141(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<Enum_PlayCards>                        K2Node_MakeArray_Array_1;                          // 0x0148(0x0010)(ReferenceParm)
+	TArray<Enum_PlayCards>                        K2Node_MakeArray_Array_2;                          // 0x0158(0x0010)(ReferenceParm)
+	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0168(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_PlayCards                                CallFunc_Array_Random_OutItem;                     // 0x0169(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_16A[0x2];                                      // 0x016A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         CallFunc_Array_Random_OutIndex;                    // 0x016C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_PlayCards                                K2Node_Select_Default;                             // 0x0170(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_171[0x7];                                      // 0x0171(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UTexture2D*                             K2Node_Select_Default_1;                           // 0x0178(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FSlateBrush                            CallFunc_MakeBrushFromTexture_ReturnValue;         // 0x0180(0x00D0)()
+	class UTexture2D*                             K2Node_Select_Default_2;                           // 0x0250(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_258[0x8];                                      // 0x0258(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle;                     // 0x0260(0x03F0)()
+	struct FSlateBrush                            CallFunc_MakeBrushFromTexture_ReturnValue_1;       // 0x0650(0x00D0)()
+	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_1;                   // 0x0720(0x03F0)()
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_1;              // 0x0B10(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_2;              // 0x0B18(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_3;              // 0x0B20(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_4;              // 0x0B28(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SetGamePaused_ReturnValue_1;              // 0x0B30(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_B31[0x7];                                      // 0x0B31(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0B38(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue_1;                // 0x0B40(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0B48(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_B49[0x7];                                      // 0x0B49(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0B50(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0B58(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x0B60(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_B61[0x7];                                      // 0x0B61(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_5;              // 0x0B68(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_6;              // 0x0B70(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AGameModeBase*                          CallFunc_GetGameMode_ReturnValue_2;                // 0x0B78(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_SetGamePaused_ReturnValue_2;              // 0x0B80(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_B81[0x7];                                      // 0x0B81(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x0B88(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	TArray<Enum_PlayCards>                        K2Node_Select_Default_3;                           // 0x0B90(0x0010)(ReferenceParm)
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x0BA0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0BA4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_SelectInt_ReturnValue;                    // 0x0BA8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(UI_Cards_C_ExecuteUbergraph_UI_Cards) == 0x000010, "Wrong alignment on UI_Cards_C_ExecuteUbergraph_UI_Cards");
-static_assert(sizeof(UI_Cards_C_ExecuteUbergraph_UI_Cards) == 0x000B30, "Wrong size on UI_Cards_C_ExecuteUbergraph_UI_Cards");
+static_assert(sizeof(UI_Cards_C_ExecuteUbergraph_UI_Cards) == 0x000BB0, "Wrong size on UI_Cards_C_ExecuteUbergraph_UI_Cards");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, EntryPoint) == 0x000000, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::EntryPoint' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_int_Variable) == 0x000004, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_int_Variable' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_bool_Variable) == 0x000008, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_bool_Variable' has a wrong offset!");
@@ -102,46 +123,158 @@ static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variabl
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_5) == 0x000038, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_5' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_6) == 0x000040, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_6' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_7) == 0x000048, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_7' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_byte_Variable_3) == 0x000050, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_byte_Variable_3' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_8) == 0x000058, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_8' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_9) == 0x000060, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_9' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_10) == 0x000068, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_10' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_8) == 0x000050, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_8' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_9) == 0x000058, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_9' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_10) == 0x000060, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_10' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_byte_Variable_3) == 0x000068, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_byte_Variable_3' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_11) == 0x000070, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_11' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_12) == 0x000078, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_12' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_13) == 0x000080, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_13' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_14) == 0x000088, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_14' has a wrong offset!");
 static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_15) == 0x000090, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_15' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Event_IsDesignTime) == 0x000098, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Event_IsDesignTime' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Event_MyGeometry) == 0x00009C, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Event_MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Event_InDeltaTime) == 0x0000D4, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Event_InDeltaTime' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetPlayerController_ReturnValue) == 0x0000D8, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue) == 0x0000E0, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_SetGamePaused_ReturnValue) == 0x0000E8, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_SetGamePaused_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetGameMode_ReturnValue) == 0x0000F0, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeArray_Array) == 0x0000F8, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeArray_Array' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x000108, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_DynamicCast_bSuccess) == 0x000110, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_DynamicCast_bSuccess' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeArray_Array_1) == 0x000118, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeArray_Array_1' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeArray_Array_2) == 0x000128, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeArray_Array_2' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Select_Default) == 0x000138, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000148, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Select_Default_1) == 0x000149, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Select_Default_1' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_Array_Random_OutItem) == 0x00014A, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_Array_Random_OutItem' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_Array_Random_OutIndex) == 0x00014C, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_Array_Random_OutIndex' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Select_Default_2) == 0x000150, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Select_Default_2' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_MakeBrushFromTexture_ReturnValue) == 0x000160, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_MakeBrushFromTexture_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeStruct_ButtonStyle) == 0x000230, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeStruct_ButtonStyle' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Select_Default_3) == 0x000620, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Select_Default_3' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_MakeBrushFromTexture_ReturnValue_1) == 0x000630, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_MakeBrushFromTexture_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeStruct_ButtonStyle_1) == 0x000700, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeStruct_ButtonStyle_1' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_1) == 0x000AF0, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_2) == 0x000AF8, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_3) == 0x000B00, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_3' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_4) == 0x000B08, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_4' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_SetGamePaused_ReturnValue_1) == 0x000B10, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_SetGamePaused_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetPlayerController_ReturnValue_1) == 0x000B18, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetGameMode_ReturnValue_1) == 0x000B20, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetGameMode_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_Not_PreBool_ReturnValue) == 0x000B28, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_16) == 0x000098, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_16' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_17) == 0x0000A0, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_17' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_18) == 0x0000A8, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_18' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_19) == 0x0000B0, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_19' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_20) == 0x0000B8, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_20' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, Temp_object_Variable_21) == 0x0000C0, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::Temp_object_Variable_21' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Event_IsDesignTime) == 0x0000C8, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Event_IsDesignTime' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Event_MyGeometry) == 0x0000CC, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Event_MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Event_InDeltaTime) == 0x000104, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Event_InDeltaTime' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetPlayerController_ReturnValue) == 0x000108, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue) == 0x000110, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_SetGamePaused_ReturnValue) == 0x000118, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_SetGamePaused_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetGameMode_ReturnValue) == 0x000120, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetGameMode_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeArray_Array) == 0x000128, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeArray_Array' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode) == 0x000138, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_DynamicCast_AsBP_Half_Sword_Game_Mode' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_DynamicCast_bSuccess) == 0x000140, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_DynamicCast_bSuccess' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeArray_Array_1) == 0x000148, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeArray_Array_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeArray_Array_2) == 0x000158, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeArray_Array_2' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000168, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_Array_Random_OutItem) == 0x000169, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_Array_Random_OutItem' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_Array_Random_OutIndex) == 0x00016C, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_Array_Random_OutIndex' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Select_Default) == 0x000170, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Select_Default_1) == 0x000178, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Select_Default_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_MakeBrushFromTexture_ReturnValue) == 0x000180, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_MakeBrushFromTexture_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Select_Default_2) == 0x000250, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Select_Default_2' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeStruct_ButtonStyle) == 0x000260, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeStruct_ButtonStyle' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_MakeBrushFromTexture_ReturnValue_1) == 0x000650, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_MakeBrushFromTexture_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_MakeStruct_ButtonStyle_1) == 0x000720, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_MakeStruct_ButtonStyle_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_1) == 0x000B10, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_2) == 0x000B18, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_3) == 0x000B20, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_4) == 0x000B28, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_4' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_SetGamePaused_ReturnValue_1) == 0x000B30, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_SetGamePaused_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetPlayerController_ReturnValue_1) == 0x000B38, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetGameMode_ReturnValue_1) == 0x000B40, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetGameMode_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_Not_PreBool_ReturnValue) == 0x000B48, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetGameInstance_ReturnValue) == 0x000B50, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_DynamicCast_AsGI_Settings) == 0x000B58, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_DynamicCast_bSuccess_1) == 0x000B60, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_5) == 0x000B68, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_5' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_PlayAnimation_ReturnValue_6) == 0x000B70, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_PlayAnimation_ReturnValue_6' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetGameMode_ReturnValue_2) == 0x000B78, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetGameMode_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_SetGamePaused_ReturnValue_2) == 0x000B80, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_SetGamePaused_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_GetPlayerController_ReturnValue_2) == 0x000B88, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_GetPlayerController_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, K2Node_Select_Default_3) == 0x000B90, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::K2Node_Select_Default_3' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_Subtract_IntInt_ReturnValue) == 0x000BA0, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_Subtract_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_Add_IntInt_ReturnValue) == 0x000BA4, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_Add_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_ExecuteUbergraph_UI_Cards, CallFunc_SelectInt_ReturnValue) == 0x000BA8, "Member 'UI_Cards_C_ExecuteUbergraph_UI_Cards::CallFunc_SelectInt_ReturnValue' has a wrong offset!");
+
+// Function UI_Cards.UI_Cards_C.GetPercent
+// 0x0030 (0x0030 - 0x0000)
+struct UI_Cards_C_GetPercent final
+{
+public:
+	float                                         ReturnValue;                                       // 0x0000(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_Conv_IntToDouble_ReturnValue;             // 0x0008(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_Conv_IntToDouble_ReturnValue_1;           // 0x0018(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Divide_DoubleDouble_ReturnValue;          // 0x0020(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_FunctionResult_ReturnValue_ImplicitCast;    // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_Cards_C_GetPercent) == 0x000008, "Wrong alignment on UI_Cards_C_GetPercent");
+static_assert(sizeof(UI_Cards_C_GetPercent) == 0x000030, "Wrong size on UI_Cards_C_GetPercent");
+static_assert(offsetof(UI_Cards_C_GetPercent, ReturnValue) == 0x000000, "Member 'UI_Cards_C_GetPercent::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetPercent, CallFunc_Conv_IntToDouble_ReturnValue) == 0x000008, "Member 'UI_Cards_C_GetPercent::CallFunc_Conv_IntToDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetPercent, CallFunc_Add_IntInt_ReturnValue) == 0x000010, "Member 'UI_Cards_C_GetPercent::CallFunc_Add_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetPercent, CallFunc_Conv_IntToDouble_ReturnValue_1) == 0x000018, "Member 'UI_Cards_C_GetPercent::CallFunc_Conv_IntToDouble_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetPercent, CallFunc_Divide_DoubleDouble_ReturnValue) == 0x000020, "Member 'UI_Cards_C_GetPercent::CallFunc_Divide_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetPercent, K2Node_FunctionResult_ReturnValue_ImplicitCast) == 0x000028, "Member 'UI_Cards_C_GetPercent::K2Node_FunctionResult_ReturnValue_ImplicitCast' has a wrong offset!");
+
+// Function UI_Cards.UI_Cards_C.GetText
+// 0x0060 (0x0060 - 0x0000)
+struct UI_Cards_C_GetText final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	int32                                         CallFunc_Subtract_IntInt_ReturnValue;              // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0014(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_15[0x3];                                       // 0x0015(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Conv_IntToString_ReturnValue;             // 0x0018(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0028(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_29[0x7];                                       // 0x0029(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0040(0x0010)()
+	class FText                                   CallFunc_SelectText_ReturnValue;                   // 0x0050(0x0010)()
+};
+static_assert(alignof(UI_Cards_C_GetText) == 0x000008, "Wrong alignment on UI_Cards_C_GetText");
+static_assert(sizeof(UI_Cards_C_GetText) == 0x000060, "Wrong size on UI_Cards_C_GetText");
+static_assert(offsetof(UI_Cards_C_GetText, ReturnValue) == 0x000000, "Member 'UI_Cards_C_GetText::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText, CallFunc_Subtract_IntInt_ReturnValue) == 0x000010, "Member 'UI_Cards_C_GetText::CallFunc_Subtract_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000014, "Member 'UI_Cards_C_GetText::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText, CallFunc_Conv_IntToString_ReturnValue) == 0x000018, "Member 'UI_Cards_C_GetText::CallFunc_Conv_IntToString_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText, CallFunc_BooleanAND_ReturnValue) == 0x000028, "Member 'UI_Cards_C_GetText::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText, CallFunc_Concat_StrStr_ReturnValue) == 0x000030, "Member 'UI_Cards_C_GetText::CallFunc_Concat_StrStr_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText, CallFunc_Conv_StringToText_ReturnValue) == 0x000040, "Member 'UI_Cards_C_GetText::CallFunc_Conv_StringToText_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText, CallFunc_SelectText_ReturnValue) == 0x000050, "Member 'UI_Cards_C_GetText::CallFunc_SelectText_ReturnValue' has a wrong offset!");
+
+// Function UI_Cards.UI_Cards_C.GetText_0
+// 0x0078 (0x0078 - 0x0000)
+struct UI_Cards_C_GetText_0 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FString                                 CallFunc_Conv_IntToString_ReturnValue;             // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Add_IntInt_ReturnValue;                   // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_24[0x4];                                       // 0x0024(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0028(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Conv_IntToString_ReturnValue_1;           // 0x0038(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue_1;              // 0x0048(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue_2;              // 0x0058(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0068(0x0010)()
+};
+static_assert(alignof(UI_Cards_C_GetText_0) == 0x000008, "Wrong alignment on UI_Cards_C_GetText_0");
+static_assert(sizeof(UI_Cards_C_GetText_0) == 0x000078, "Wrong size on UI_Cards_C_GetText_0");
+static_assert(offsetof(UI_Cards_C_GetText_0, ReturnValue) == 0x000000, "Member 'UI_Cards_C_GetText_0::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText_0, CallFunc_Conv_IntToString_ReturnValue) == 0x000010, "Member 'UI_Cards_C_GetText_0::CallFunc_Conv_IntToString_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText_0, CallFunc_Add_IntInt_ReturnValue) == 0x000020, "Member 'UI_Cards_C_GetText_0::CallFunc_Add_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText_0, CallFunc_Concat_StrStr_ReturnValue) == 0x000028, "Member 'UI_Cards_C_GetText_0::CallFunc_Concat_StrStr_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText_0, CallFunc_Conv_IntToString_ReturnValue_1) == 0x000038, "Member 'UI_Cards_C_GetText_0::CallFunc_Conv_IntToString_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText_0, CallFunc_Concat_StrStr_ReturnValue_1) == 0x000048, "Member 'UI_Cards_C_GetText_0::CallFunc_Concat_StrStr_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText_0, CallFunc_Concat_StrStr_ReturnValue_2) == 0x000058, "Member 'UI_Cards_C_GetText_0::CallFunc_Concat_StrStr_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetText_0, CallFunc_Conv_StringToText_ReturnValue) == 0x000068, "Member 'UI_Cards_C_GetText_0::CallFunc_Conv_StringToText_ReturnValue' has a wrong offset!");
+
+// Function UI_Cards.UI_Cards_C.GetVisibility_0
+// 0x0005 (0x0005 - 0x0000)
+struct UI_Cards_C_GetVisibility_0 final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_Cards_C_GetVisibility_0) == 0x000001, "Wrong alignment on UI_Cards_C_GetVisibility_0");
+static_assert(sizeof(UI_Cards_C_GetVisibility_0) == 0x000005, "Wrong size on UI_Cards_C_GetVisibility_0");
+static_assert(offsetof(UI_Cards_C_GetVisibility_0, ReturnValue) == 0x000000, "Member 'UI_Cards_C_GetVisibility_0::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetVisibility_0, Temp_bool_Variable) == 0x000001, "Member 'UI_Cards_C_GetVisibility_0::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetVisibility_0, Temp_byte_Variable) == 0x000002, "Member 'UI_Cards_C_GetVisibility_0::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetVisibility_0, Temp_byte_Variable_1) == 0x000003, "Member 'UI_Cards_C_GetVisibility_0::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_Cards_C_GetVisibility_0, K2Node_Select_Default) == 0x000004, "Member 'UI_Cards_C_GetVisibility_0::K2Node_Select_Default' has a wrong offset!");
 
 // Function UI_Cards.UI_Cards_C.PreConstruct
 // 0x0001 (0x0001 - 0x0000)

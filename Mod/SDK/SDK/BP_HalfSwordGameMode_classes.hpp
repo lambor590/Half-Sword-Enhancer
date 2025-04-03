@@ -21,7 +21,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_HalfSwordGameMode.BP_HalfSwordGameMode_C
-// 0x00A0 (0x03C8 - 0x0328)
+// 0x00F8 (0x0420 - 0x0328)
 class ABP_HalfSwordGameMode_C final : public AGameModeBase
 {
 public:
@@ -35,15 +35,43 @@ public:
 	uint8                                         Pad_396[0x2];                                      // 0x0396(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Map_Size_X;                                        // 0x0398(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Map_Size_Y;                                        // 0x03A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Player_Rank;                                       // 0x03A8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          All_Enemies_Dead;                                  // 0x03AC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_3AD[0x3];                                      // 0x03AD(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          All_Enemies_Dead;                                  // 0x03A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3A9[0x7];                                      // 0x03A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class UAudioComponent*                        Background_Music;                                  // 0x03B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	Enum_PlayCards                                Current_PlayCard;                                  // 0x03B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_3B9[0x7];                                      // 0x03B9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class USG_Settings_C*                         As_SG_Settings;                                    // 0x03C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class USG_PlayerProgression_C*                As_SG_Gauntlet_Player_Progress;                    // 0x03C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	int32                                         Player_Rank;                                       // 0x03D0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Player_Team;                                       // 0x03D4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Current_Points;                                    // 0x03D8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Due_Points;                                        // 0x03DC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Available_Rank;                                    // 0x03E0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Ranks_Unlocked;                                    // 0x03E4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Gauntlet_Mode_Enabled;                             // 0x03E8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Baron_Rank_Opened;                                 // 0x03E9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Level_Up_Available;                                // 0x03EA(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Free_Armor;                                        // 0x03EB(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Faction_Chosen;                                    // 0x03EC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Body_Chosen;                                       // 0x03ED(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Boss_Fight_In_Progress;                            // 0x03EE(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3EF[0x1];                                      // 0x03EF(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	class UAudioComponent*                        Boss_Music;                                        // 0x03F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	bool                                          BARON_Spawned;                                     // 0x03F8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Wait_for_music_change;                             // 0x03F9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3FA[0x6];                                      // 0x03FA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class USoundBase*                             Music_Playing;                                     // 0x0400(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          First_Person_View;                                 // 0x0408(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Abyss;                                             // 0x0409(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Last_Chance;                                       // 0x040A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_40B[0x5];                                      // 0x040B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	class UAudioComponent*                        Background_Music_0;                                // 0x0410(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UAudioComponent*                        Background_Music_1;                                // 0x0418(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 public:
+	void Abyss_Starts();
+	void Add_Rank_Points();
+	void Clear_Save_Game_Event();
 	void DED();
 	void ExecuteUbergraph_BP_HalfSwordGameMode(int32 EntryPoint);
 	void GM_CT();
@@ -51,9 +79,13 @@ public:
 	void GM_FFA();
 	void GM_OVA();
 	void GM_TDM();
+	void Load_Game_Event();
 	void Minus_Enemy();
 	void OnAudioFinished_Event();
 	void ReceiveBeginPlay();
+	void ReceiveTick(float DeltaSeconds);
+	void Restart_Music();
+	void Save_Game_Event();
 	void UserConstructionScript();
 
 public:
@@ -67,7 +99,7 @@ public:
 	}
 };
 static_assert(alignof(ABP_HalfSwordGameMode_C) == 0x000008, "Wrong alignment on ABP_HalfSwordGameMode_C");
-static_assert(sizeof(ABP_HalfSwordGameMode_C) == 0x0003C8, "Wrong size on ABP_HalfSwordGameMode_C");
+static_assert(sizeof(ABP_HalfSwordGameMode_C) == 0x000420, "Wrong size on ABP_HalfSwordGameMode_C");
 static_assert(offsetof(ABP_HalfSwordGameMode_C, UberGraphFrame) == 0x000328, "Member 'ABP_HalfSwordGameMode_C::UberGraphFrame' has a wrong offset!");
 static_assert(offsetof(ABP_HalfSwordGameMode_C, DefaultSceneRoot) == 0x000330, "Member 'ABP_HalfSwordGameMode_C::DefaultSceneRoot' has a wrong offset!");
 static_assert(offsetof(ABP_HalfSwordGameMode_C, ProxyModelLocation) == 0x000338, "Member 'ABP_HalfSwordGameMode_C::ProxyModelLocation' has a wrong offset!");
@@ -77,11 +109,33 @@ static_assert(offsetof(ABP_HalfSwordGameMode_C, Match_Won) == 0x000394, "Member 
 static_assert(offsetof(ABP_HalfSwordGameMode_C, Player_DED) == 0x000395, "Member 'ABP_HalfSwordGameMode_C::Player_DED' has a wrong offset!");
 static_assert(offsetof(ABP_HalfSwordGameMode_C, Map_Size_X) == 0x000398, "Member 'ABP_HalfSwordGameMode_C::Map_Size_X' has a wrong offset!");
 static_assert(offsetof(ABP_HalfSwordGameMode_C, Map_Size_Y) == 0x0003A0, "Member 'ABP_HalfSwordGameMode_C::Map_Size_Y' has a wrong offset!");
-static_assert(offsetof(ABP_HalfSwordGameMode_C, Player_Rank) == 0x0003A8, "Member 'ABP_HalfSwordGameMode_C::Player_Rank' has a wrong offset!");
-static_assert(offsetof(ABP_HalfSwordGameMode_C, All_Enemies_Dead) == 0x0003AC, "Member 'ABP_HalfSwordGameMode_C::All_Enemies_Dead' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, All_Enemies_Dead) == 0x0003A8, "Member 'ABP_HalfSwordGameMode_C::All_Enemies_Dead' has a wrong offset!");
 static_assert(offsetof(ABP_HalfSwordGameMode_C, Background_Music) == 0x0003B0, "Member 'ABP_HalfSwordGameMode_C::Background_Music' has a wrong offset!");
 static_assert(offsetof(ABP_HalfSwordGameMode_C, Current_PlayCard) == 0x0003B8, "Member 'ABP_HalfSwordGameMode_C::Current_PlayCard' has a wrong offset!");
 static_assert(offsetof(ABP_HalfSwordGameMode_C, As_SG_Settings) == 0x0003C0, "Member 'ABP_HalfSwordGameMode_C::As_SG_Settings' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, As_SG_Gauntlet_Player_Progress) == 0x0003C8, "Member 'ABP_HalfSwordGameMode_C::As_SG_Gauntlet_Player_Progress' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Player_Rank) == 0x0003D0, "Member 'ABP_HalfSwordGameMode_C::Player_Rank' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Player_Team) == 0x0003D4, "Member 'ABP_HalfSwordGameMode_C::Player_Team' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Current_Points) == 0x0003D8, "Member 'ABP_HalfSwordGameMode_C::Current_Points' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Due_Points) == 0x0003DC, "Member 'ABP_HalfSwordGameMode_C::Due_Points' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Available_Rank) == 0x0003E0, "Member 'ABP_HalfSwordGameMode_C::Available_Rank' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Ranks_Unlocked) == 0x0003E4, "Member 'ABP_HalfSwordGameMode_C::Ranks_Unlocked' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Gauntlet_Mode_Enabled) == 0x0003E8, "Member 'ABP_HalfSwordGameMode_C::Gauntlet_Mode_Enabled' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Baron_Rank_Opened) == 0x0003E9, "Member 'ABP_HalfSwordGameMode_C::Baron_Rank_Opened' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Level_Up_Available) == 0x0003EA, "Member 'ABP_HalfSwordGameMode_C::Level_Up_Available' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Free_Armor) == 0x0003EB, "Member 'ABP_HalfSwordGameMode_C::Free_Armor' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Faction_Chosen) == 0x0003EC, "Member 'ABP_HalfSwordGameMode_C::Faction_Chosen' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Body_Chosen) == 0x0003ED, "Member 'ABP_HalfSwordGameMode_C::Body_Chosen' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Boss_Fight_In_Progress) == 0x0003EE, "Member 'ABP_HalfSwordGameMode_C::Boss_Fight_In_Progress' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Boss_Music) == 0x0003F0, "Member 'ABP_HalfSwordGameMode_C::Boss_Music' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, BARON_Spawned) == 0x0003F8, "Member 'ABP_HalfSwordGameMode_C::BARON_Spawned' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Wait_for_music_change) == 0x0003F9, "Member 'ABP_HalfSwordGameMode_C::Wait_for_music_change' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Music_Playing) == 0x000400, "Member 'ABP_HalfSwordGameMode_C::Music_Playing' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, First_Person_View) == 0x000408, "Member 'ABP_HalfSwordGameMode_C::First_Person_View' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Abyss) == 0x000409, "Member 'ABP_HalfSwordGameMode_C::Abyss' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Last_Chance) == 0x00040A, "Member 'ABP_HalfSwordGameMode_C::Last_Chance' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Background_Music_0) == 0x000410, "Member 'ABP_HalfSwordGameMode_C::Background_Music_0' has a wrong offset!");
+static_assert(offsetof(ABP_HalfSwordGameMode_C, Background_Music_1) == 0x000418, "Member 'ABP_HalfSwordGameMode_C::Background_Music_1' has a wrong offset!");
 
 }
 

@@ -75,7 +75,7 @@ struct FInterchangePipelineStack final
 {
 public:
 	TArray<struct FSoftObjectPath>                Pipelines;                                         // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FInterchangeTranslatorPipelines> PerTranslatorPipelines;                            // 0x0010(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FInterchangeTranslatorPipelines> PerTranslatorPipelines;                           // 0x0010(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FInterchangePipelineStack) == 0x000008, "Wrong alignment on FInterchangePipelineStack");
 static_assert(sizeof(FInterchangePipelineStack) == 0x000020, "Wrong size on FInterchangePipelineStack");
@@ -87,7 +87,7 @@ static_assert(offsetof(FInterchangePipelineStack, PerTranslatorPipelines) == 0x0
 struct FInterchangeImportSettings
 {
 public:
-	TMap<class FName, struct FInterchangePipelineStack> PipelineStacks;                                    // 0x0000(0x0050)(Edit, NativeAccessSpecifierPublic)
+	TMap<class FName, struct FInterchangePipelineStack> PipelineStacks;                              // 0x0000(0x0050)(Edit, NativeAccessSpecifierPublic)
 	class FName                                   DefaultPipelineStack;                              // 0x0050(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TSoftClassPtr<class UClass>                   ImportDialogClass;                                 // 0x0058(0x0028)(Edit, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bShowImportDialog;                                 // 0x0080(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -121,7 +121,7 @@ struct FInterchangeDialogOverride final
 public:
 	bool                                          bShowImportDialog;                                 // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FInterchangePerTranslatorDialogOverride> PerTranslatorImportDialogOverride;                 // 0x0008(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FInterchangePerTranslatorDialogOverride> PerTranslatorImportDialogOverride;        // 0x0008(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FInterchangeDialogOverride) == 0x000008, "Wrong alignment on FInterchangeDialogOverride");
 static_assert(sizeof(FInterchangeDialogOverride) == 0x000018, "Wrong size on FInterchangeDialogOverride");
@@ -133,8 +133,8 @@ static_assert(offsetof(FInterchangeDialogOverride, PerTranslatorImportDialogOver
 struct FInterchangeContentImportSettings final : public FInterchangeImportSettings
 {
 public:
-	TMap<EInterchangeTranslatorAssetType, class FName> DefaultPipelineStackOverride;                      // 0x0088(0x0050)(Edit, NativeAccessSpecifierPublic)
-	TMap<EInterchangeTranslatorAssetType, struct FInterchangeDialogOverride> ShowImportDialogOverride;                          // 0x00D8(0x0050)(Edit, NativeAccessSpecifierPublic)
+	TMap<EInterchangeTranslatorAssetType, class FName> DefaultPipelineStackOverride;                 // 0x0088(0x0050)(Edit, NativeAccessSpecifierPublic)
+	TMap<EInterchangeTranslatorAssetType, struct FInterchangeDialogOverride> ShowImportDialogOverride; // 0x00D8(0x0050)(Edit, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(FInterchangeContentImportSettings) == 0x000008, "Wrong alignment on FInterchangeContentImportSettings");
 static_assert(sizeof(FInterchangeContentImportSettings) == 0x000128, "Wrong size on FInterchangeContentImportSettings");
@@ -168,11 +168,11 @@ public:
 	uint8                                         Pad_39[0x3];                                       // 0x0039(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	TDelegate<void(class UObject* Object)>        OnAssetDone;                                       // 0x003C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_4C[0x14];                                      // 0x004C(0x0014)(Fixing Size After Last Property [ Dumper-7 ])
-	TDelegate<void(TArray<class UObject*>& Objects)> OnAssetsImportDone;                                // 0x0060(0x0010)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(const TArray<class UObject*>& Objects)> OnAssetsImportDone;                       // 0x0060(0x0010)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_70[0x10];                                      // 0x0070(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
 	TDelegate<void(class UObject* Object)>        OnSceneObjectDone;                                 // 0x0080(0x0010)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_90[0x10];                                      // 0x0090(0x0010)(Fixing Size After Last Property [ Dumper-7 ])
-	TDelegate<void(TArray<class UObject*>& Objects)> OnSceneImportDone;                                 // 0x00A0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TDelegate<void(const TArray<class UObject*>& Objects)> OnSceneImportDone;                        // 0x00A0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_B0[0x10];                                      // 0x00B0(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FImportAssetParameters) == 0x000008, "Wrong alignment on FImportAssetParameters");

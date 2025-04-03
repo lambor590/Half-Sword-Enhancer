@@ -20,8 +20,8 @@ namespace SDK
 {
 
 // Class MovieScene.MovieSceneBlenderSystemSupport
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneBlenderSystemSupport final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneBlenderSystemSupport final
 {
 public:
 	static class UClass* StaticClass()
@@ -32,13 +32,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneBlenderSystemSupport>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneBlenderSystemSupport) == 0x000008, "Wrong alignment on IMovieSceneBlenderSystemSupport");
-static_assert(sizeof(IMovieSceneBlenderSystemSupport) == 0x000028, "Wrong size on IMovieSceneBlenderSystemSupport");
+static_assert(alignof(IMovieSceneBlenderSystemSupport) == 0x000001, "Wrong alignment on IMovieSceneBlenderSystemSupport");
+static_assert(sizeof(IMovieSceneBlenderSystemSupport) == 0x000001, "Wrong size on IMovieSceneBlenderSystemSupport");
 
 // Class MovieScene.MovieSceneBoundObjectProxy
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneBoundObjectProxy final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneBoundObjectProxy final
 {
 public:
 	class UObject* BP_GetBoundObjectForSequencer(class UObject* ResolvedObject);
@@ -52,13 +61,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneBoundObjectProxy>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneBoundObjectProxy) == 0x000008, "Wrong alignment on IMovieSceneBoundObjectProxy");
-static_assert(sizeof(IMovieSceneBoundObjectProxy) == 0x000028, "Wrong size on IMovieSceneBoundObjectProxy");
+static_assert(alignof(IMovieSceneBoundObjectProxy) == 0x000001, "Wrong alignment on IMovieSceneBoundObjectProxy");
+static_assert(sizeof(IMovieSceneBoundObjectProxy) == 0x000001, "Wrong size on IMovieSceneBoundObjectProxy");
 
 // Class MovieScene.MovieSceneChannelOverrideProvider
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneChannelOverrideProvider final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneChannelOverrideProvider final
 {
 public:
 	static class UClass* StaticClass()
@@ -69,13 +87,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneChannelOverrideProvider>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneChannelOverrideProvider) == 0x000008, "Wrong alignment on IMovieSceneChannelOverrideProvider");
-static_assert(sizeof(IMovieSceneChannelOverrideProvider) == 0x000028, "Wrong size on IMovieSceneChannelOverrideProvider");
+static_assert(alignof(IMovieSceneChannelOverrideProvider) == 0x000001, "Wrong alignment on IMovieSceneChannelOverrideProvider");
+static_assert(sizeof(IMovieSceneChannelOverrideProvider) == 0x000001, "Wrong size on IMovieSceneChannelOverrideProvider");
 
 // Class MovieScene.MovieSceneDeterminismSource
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneDeterminismSource final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneDeterminismSource final
 {
 public:
 	static class UClass* StaticClass()
@@ -86,13 +113,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneDeterminismSource>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneDeterminismSource) == 0x000008, "Wrong alignment on IMovieSceneDeterminismSource");
-static_assert(sizeof(IMovieSceneDeterminismSource) == 0x000028, "Wrong size on IMovieSceneDeterminismSource");
+static_assert(alignof(IMovieSceneDeterminismSource) == 0x000001, "Wrong alignment on IMovieSceneDeterminismSource");
+static_assert(sizeof(IMovieSceneDeterminismSource) == 0x000001, "Wrong size on IMovieSceneDeterminismSource");
 
 // Class MovieScene.MovieSceneEvaluationHook
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneEvaluationHook final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneEvaluationHook final
 {
 public:
 	static class UClass* StaticClass()
@@ -103,13 +139,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneEvaluationHook>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneEvaluationHook) == 0x000008, "Wrong alignment on IMovieSceneEvaluationHook");
-static_assert(sizeof(IMovieSceneEvaluationHook) == 0x000028, "Wrong size on IMovieSceneEvaluationHook");
+static_assert(alignof(IMovieSceneEvaluationHook) == 0x000001, "Wrong alignment on IMovieSceneEvaluationHook");
+static_assert(sizeof(IMovieSceneEvaluationHook) == 0x000001, "Wrong size on IMovieSceneEvaluationHook");
 
 // Class MovieScene.MovieSceneMetaDataInterface
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneMetaDataInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneMetaDataInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -120,13 +165,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneMetaDataInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneMetaDataInterface) == 0x000008, "Wrong alignment on IMovieSceneMetaDataInterface");
-static_assert(sizeof(IMovieSceneMetaDataInterface) == 0x000028, "Wrong size on IMovieSceneMetaDataInterface");
+static_assert(alignof(IMovieSceneMetaDataInterface) == 0x000001, "Wrong alignment on IMovieSceneMetaDataInterface");
+static_assert(sizeof(IMovieSceneMetaDataInterface) == 0x000001, "Wrong size on IMovieSceneMetaDataInterface");
 
 // Class MovieScene.MovieScenePlaybackClient
-// 0x0000 (0x0028 - 0x0028)
-class IMovieScenePlaybackClient final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieScenePlaybackClient final
 {
 public:
 	static class UClass* StaticClass()
@@ -137,13 +191,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieScenePlaybackClient>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieScenePlaybackClient) == 0x000008, "Wrong alignment on IMovieScenePlaybackClient");
-static_assert(sizeof(IMovieScenePlaybackClient) == 0x000028, "Wrong size on IMovieScenePlaybackClient");
+static_assert(alignof(IMovieScenePlaybackClient) == 0x000001, "Wrong alignment on IMovieScenePlaybackClient");
+static_assert(sizeof(IMovieScenePlaybackClient) == 0x000001, "Wrong size on IMovieScenePlaybackClient");
 
 // Class MovieScene.MovieSceneSequencePlayerObserver
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneSequencePlayerObserver final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneSequencePlayerObserver final
 {
 public:
 	static class UClass* StaticClass()
@@ -154,13 +217,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneSequencePlayerObserver>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneSequencePlayerObserver) == 0x000008, "Wrong alignment on IMovieSceneSequencePlayerObserver");
-static_assert(sizeof(IMovieSceneSequencePlayerObserver) == 0x000028, "Wrong size on IMovieSceneSequencePlayerObserver");
+static_assert(alignof(IMovieSceneSequencePlayerObserver) == 0x000001, "Wrong alignment on IMovieSceneSequencePlayerObserver");
+static_assert(sizeof(IMovieSceneSequencePlayerObserver) == 0x000001, "Wrong size on IMovieSceneSequencePlayerObserver");
 
 // Class MovieScene.MovieSceneBindingEventReceiverInterface
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneBindingEventReceiverInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneBindingEventReceiverInterface final
 {
 public:
 	void OnObjectBoundBySequencer(class UMovieSceneSequencePlayer* Player, const struct FMovieSceneObjectBindingID& BindingID);
@@ -175,13 +247,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneBindingEventReceiverInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneBindingEventReceiverInterface) == 0x000008, "Wrong alignment on IMovieSceneBindingEventReceiverInterface");
-static_assert(sizeof(IMovieSceneBindingEventReceiverInterface) == 0x000028, "Wrong size on IMovieSceneBindingEventReceiverInterface");
+static_assert(alignof(IMovieSceneBindingEventReceiverInterface) == 0x000001, "Wrong alignment on IMovieSceneBindingEventReceiverInterface");
+static_assert(sizeof(IMovieSceneBindingEventReceiverInterface) == 0x000001, "Wrong size on IMovieSceneBindingEventReceiverInterface");
 
 // Class MovieScene.MovieSceneBindingOwnerInterface
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneBindingOwnerInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneBindingOwnerInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -192,13 +273,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneBindingOwnerInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneBindingOwnerInterface) == 0x000008, "Wrong alignment on IMovieSceneBindingOwnerInterface");
-static_assert(sizeof(IMovieSceneBindingOwnerInterface) == 0x000028, "Wrong size on IMovieSceneBindingOwnerInterface");
+static_assert(alignof(IMovieSceneBindingOwnerInterface) == 0x000001, "Wrong alignment on IMovieSceneBindingOwnerInterface");
+static_assert(sizeof(IMovieSceneBindingOwnerInterface) == 0x000001, "Wrong size on IMovieSceneBindingOwnerInterface");
 
 // Class MovieScene.MovieSceneCachedTrack
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneCachedTrack final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneCachedTrack final
 {
 public:
 	static class UClass* StaticClass()
@@ -209,13 +299,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneCachedTrack>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneCachedTrack) == 0x000008, "Wrong alignment on IMovieSceneCachedTrack");
-static_assert(sizeof(IMovieSceneCachedTrack) == 0x000028, "Wrong size on IMovieSceneCachedTrack");
+static_assert(alignof(IMovieSceneCachedTrack) == 0x000001, "Wrong alignment on IMovieSceneCachedTrack");
+static_assert(sizeof(IMovieSceneCachedTrack) == 0x000001, "Wrong size on IMovieSceneCachedTrack");
 
 // Class MovieScene.MovieSceneEasingFunction
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneEasingFunction final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneEasingFunction final
 {
 public:
 	float OnEvaluate(float Interp) const;
@@ -229,9 +328,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneEasingFunction>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneEasingFunction) == 0x000008, "Wrong alignment on IMovieSceneEasingFunction");
-static_assert(sizeof(IMovieSceneEasingFunction) == 0x000028, "Wrong size on IMovieSceneEasingFunction");
+static_assert(alignof(IMovieSceneEasingFunction) == 0x000001, "Wrong alignment on IMovieSceneEasingFunction");
+static_assert(sizeof(IMovieSceneEasingFunction) == 0x000001, "Wrong size on IMovieSceneEasingFunction");
 
 // Class MovieScene.MovieSceneEntitySystem
 // 0x0018 (0x0040 - 0x0028)
@@ -276,8 +384,8 @@ static_assert(alignof(UMovieSceneEntityGroupingSystem) == 0x000008, "Wrong align
 static_assert(sizeof(UMovieSceneEntityGroupingSystem) == 0x0000C8, "Wrong size on UMovieSceneEntityGroupingSystem");
 
 // Class MovieScene.MovieSceneKeyProxy
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneKeyProxy final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneKeyProxy final
 {
 public:
 	static class UClass* StaticClass()
@@ -288,13 +396,22 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneKeyProxy>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneKeyProxy) == 0x000008, "Wrong alignment on IMovieSceneKeyProxy");
-static_assert(sizeof(IMovieSceneKeyProxy) == 0x000028, "Wrong size on IMovieSceneKeyProxy");
+static_assert(alignof(IMovieSceneKeyProxy) == 0x000001, "Wrong alignment on IMovieSceneKeyProxy");
+static_assert(sizeof(IMovieSceneKeyProxy) == 0x000001, "Wrong size on IMovieSceneKeyProxy");
 
 // Class MovieScene.MovieSceneSequenceTickManagerClient
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneSequenceTickManagerClient final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneSequenceTickManagerClient final
 {
 public:
 	static class UClass* StaticClass()
@@ -305,9 +422,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneSequenceTickManagerClient>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneSequenceTickManagerClient) == 0x000008, "Wrong alignment on IMovieSceneSequenceTickManagerClient");
-static_assert(sizeof(IMovieSceneSequenceTickManagerClient) == 0x000028, "Wrong size on IMovieSceneSequenceTickManagerClient");
+static_assert(alignof(IMovieSceneSequenceTickManagerClient) == 0x000001, "Wrong alignment on IMovieSceneSequenceTickManagerClient");
+static_assert(sizeof(IMovieSceneSequenceTickManagerClient) == 0x000001, "Wrong size on IMovieSceneSequenceTickManagerClient");
 
 // Class MovieScene.MovieSceneSignedObject
 // 0x0030 (0x0058 - 0x0028)
@@ -354,7 +480,7 @@ static_assert(sizeof(UMovieSceneChannelOverrideContainer) == 0x000058, "Wrong si
 class UMovieSceneSectionChannelOverrideRegistry final : public UObject
 {
 public:
-	TMap<class FName, class UMovieSceneChannelOverrideContainer*> Overrides;                                         // 0x0028(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
+	TMap<class FName, class UMovieSceneChannelOverrideContainer*> Overrides;                         // 0x0028(0x0050)(UObjectWrapper, NativeAccessSpecifierPrivate)
 
 public:
 	static class UClass* StaticClass()
@@ -371,8 +497,8 @@ static_assert(sizeof(UMovieSceneSectionChannelOverrideRegistry) == 0x000078, "Wr
 static_assert(offsetof(UMovieSceneSectionChannelOverrideRegistry, Overrides) == 0x000028, "Member 'UMovieSceneSectionChannelOverrideRegistry::Overrides' has a wrong offset!");
 
 // Class MovieScene.MovieSceneTrackTemplateProducer
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneTrackTemplateProducer final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneTrackTemplateProducer final
 {
 public:
 	static class UClass* StaticClass()
@@ -383,9 +509,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneTrackTemplateProducer>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneTrackTemplateProducer) == 0x000008, "Wrong alignment on IMovieSceneTrackTemplateProducer");
-static_assert(sizeof(IMovieSceneTrackTemplateProducer) == 0x000028, "Wrong size on IMovieSceneTrackTemplateProducer");
+static_assert(alignof(IMovieSceneTrackTemplateProducer) == 0x000001, "Wrong alignment on IMovieSceneTrackTemplateProducer");
+static_assert(sizeof(IMovieSceneTrackTemplateProducer) == 0x000001, "Wrong size on IMovieSceneTrackTemplateProducer");
 
 // Class MovieScene.MovieSceneCompiledData
 // 0x03D8 (0x0400 - 0x0028)
@@ -433,10 +568,10 @@ class UMovieSceneCompiledDataManager final : public UObject
 {
 public:
 	uint8                                         Pad_28[0xB0];                                      // 0x0028(0x00B0)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<int32, struct FMovieSceneSequenceHierarchy> Hierarchies;                                       // 0x00D8(0x0050)(NativeAccessSpecifierPrivate)
-	TMap<int32, struct FMovieSceneEvaluationTemplate> TrackTemplates;                                    // 0x0128(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<int32, struct FMovieSceneEvaluationField> TrackTemplateFields;                               // 0x0178(0x0050)(NativeAccessSpecifierPrivate)
-	TMap<int32, struct FMovieSceneEntityComponentField> EntityComponentFields;                             // 0x01C8(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<int32, struct FMovieSceneSequenceHierarchy> Hierarchies;                                    // 0x00D8(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<int32, struct FMovieSceneEvaluationTemplate> TrackTemplates;                                // 0x0128(0x0050)(ContainsInstancedReference, NativeAccessSpecifierPrivate)
+	TMap<int32, struct FMovieSceneEvaluationField> TrackTemplateFields;                              // 0x0178(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<int32, struct FMovieSceneEntityComponentField> EntityComponentFields;                       // 0x01C8(0x0050)(NativeAccessSpecifierPrivate)
 	uint8                                         Pad_218[0x18];                                     // 0x0218(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -457,8 +592,8 @@ static_assert(offsetof(UMovieSceneCompiledDataManager, TrackTemplateFields) == 0
 static_assert(offsetof(UMovieSceneCompiledDataManager, EntityComponentFields) == 0x0001C8, "Member 'UMovieSceneCompiledDataManager::EntityComponentFields' has a wrong offset!");
 
 // Class MovieScene.MovieSceneEntityProvider
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneEntityProvider final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneEntityProvider final
 {
 public:
 	static class UClass* StaticClass()
@@ -469,9 +604,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneEntityProvider>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneEntityProvider) == 0x000008, "Wrong alignment on IMovieSceneEntityProvider");
-static_assert(sizeof(IMovieSceneEntityProvider) == 0x000028, "Wrong size on IMovieSceneEntityProvider");
+static_assert(alignof(IMovieSceneEntityProvider) == 0x000001, "Wrong alignment on IMovieSceneEntityProvider");
+static_assert(sizeof(IMovieSceneEntityProvider) == 0x000001, "Wrong size on IMovieSceneEntityProvider");
 
 // Class MovieScene.MovieSceneBindingLifetimeSystem
 // 0x0000 (0x0040 - 0x0040)
@@ -562,8 +706,8 @@ static_assert(alignof(UMovieSceneBoundSceneComponentInstantiator) == 0x000008, "
 static_assert(sizeof(UMovieSceneBoundSceneComponentInstantiator) == 0x000040, "Wrong size on UMovieSceneBoundSceneComponentInstantiator");
 
 // Class MovieScene.MovieSceneValueDecomposer
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneValueDecomposer final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneValueDecomposer final
 {
 public:
 	static class UClass* StaticClass()
@@ -574,9 +718,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneValueDecomposer>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneValueDecomposer) == 0x000008, "Wrong alignment on IMovieSceneValueDecomposer");
-static_assert(sizeof(IMovieSceneValueDecomposer) == 0x000028, "Wrong size on IMovieSceneValueDecomposer");
+static_assert(alignof(IMovieSceneValueDecomposer) == 0x000001, "Wrong alignment on IMovieSceneValueDecomposer");
+static_assert(sizeof(IMovieSceneValueDecomposer) == 0x000001, "Wrong size on IMovieSceneValueDecomposer");
 
 // Class MovieScene.MovieSceneEntitySystemLinker
 // 0x0728 (0x0750 - 0x0028)
@@ -626,7 +779,7 @@ static_assert(sizeof(UMovieSceneEvalTimeSystem) == 0x0001B0, "Wrong size on UMov
 class UMovieSceneEvaluationHookSystem final : public UMovieSceneEntitySystem
 {
 public:
-	TMap<struct FMovieSceneEvaluationInstanceKey, struct FMovieSceneEvaluationHookEventContainer> PendingEventsByRootInstance;                       // 0x0040(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<struct FMovieSceneEvaluationInstanceKey, struct FMovieSceneEvaluationHookEventContainer> PendingEventsByRootInstance; // 0x0040(0x0050)(NativeAccessSpecifierPrivate)
 
 public:
 	static class UClass* StaticClass()
@@ -643,8 +796,8 @@ static_assert(sizeof(UMovieSceneEvaluationHookSystem) == 0x000090, "Wrong size o
 static_assert(offsetof(UMovieSceneEvaluationHookSystem, PendingEventsByRootInstance) == 0x000040, "Member 'UMovieSceneEvaluationHookSystem::PendingEventsByRootInstance' has a wrong offset!");
 
 // Class MovieScene.MovieScenePreAnimatedStateSystemInterface
-// 0x0000 (0x0028 - 0x0028)
-class IMovieScenePreAnimatedStateSystemInterface final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieScenePreAnimatedStateSystemInterface final
 {
 public:
 	static class UClass* StaticClass()
@@ -655,9 +808,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieScenePreAnimatedStateSystemInterface>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieScenePreAnimatedStateSystemInterface) == 0x000008, "Wrong alignment on IMovieScenePreAnimatedStateSystemInterface");
-static_assert(sizeof(IMovieScenePreAnimatedStateSystemInterface) == 0x000028, "Wrong size on IMovieScenePreAnimatedStateSystemInterface");
+static_assert(alignof(IMovieScenePreAnimatedStateSystemInterface) == 0x000001, "Wrong alignment on IMovieScenePreAnimatedStateSystemInterface");
+static_assert(sizeof(IMovieScenePreAnimatedStateSystemInterface) == 0x000001, "Wrong size on IMovieScenePreAnimatedStateSystemInterface");
 
 // Class MovieScene.MovieSceneCachePreAnimatedStateSystem
 // 0x0000 (0x0040 - 0x0040)
@@ -800,8 +962,8 @@ static_assert(sizeof(UMovieSceneTrackInstanceSystem) == 0x000048, "Wrong size on
 static_assert(offsetof(UMovieSceneTrackInstanceSystem, Instantiator) == 0x000040, "Member 'UMovieSceneTrackInstanceSystem::Instantiator' has a wrong offset!");
 
 // Class MovieScene.MovieSceneCustomClockSource
-// 0x0000 (0x0028 - 0x0028)
-class IMovieSceneCustomClockSource final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class IMovieSceneCustomClockSource final
 {
 public:
 	struct FFrameTime OnRequestCurrentTime(const struct FQualifiedFrameTime& InCurrentTime, float InPlayRate);
@@ -818,9 +980,18 @@ public:
 	{
 		return GetDefaultObjImpl<IMovieSceneCustomClockSource>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(IMovieSceneCustomClockSource) == 0x000008, "Wrong alignment on IMovieSceneCustomClockSource");
-static_assert(sizeof(IMovieSceneCustomClockSource) == 0x000028, "Wrong size on IMovieSceneCustomClockSource");
+static_assert(alignof(IMovieSceneCustomClockSource) == 0x000001, "Wrong alignment on IMovieSceneCustomClockSource");
+static_assert(sizeof(IMovieSceneCustomClockSource) == 0x000001, "Wrong size on IMovieSceneCustomClockSource");
 
 // Class MovieScene.MovieSceneBuiltInEasingFunction
 // 0x0010 (0x0038 - 0x0028)
@@ -868,8 +1039,8 @@ static_assert(sizeof(UMovieSceneEasingExternalCurve) == 0x000038, "Wrong size on
 static_assert(offsetof(UMovieSceneEasingExternalCurve, Curve) == 0x000030, "Member 'UMovieSceneEasingExternalCurve::Curve' has a wrong offset!");
 
 // Class MovieScene.NodeAndChannelMappings
-// 0x0000 (0x0028 - 0x0028)
-class INodeAndChannelMappings final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class INodeAndChannelMappings final
 {
 public:
 	static class UClass* StaticClass()
@@ -880,9 +1051,18 @@ public:
 	{
 		return GetDefaultObjImpl<INodeAndChannelMappings>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(INodeAndChannelMappings) == 0x000008, "Wrong alignment on INodeAndChannelMappings");
-static_assert(sizeof(INodeAndChannelMappings) == 0x000028, "Wrong size on INodeAndChannelMappings");
+static_assert(alignof(INodeAndChannelMappings) == 0x000001, "Wrong alignment on INodeAndChannelMappings");
+static_assert(sizeof(INodeAndChannelMappings) == 0x000001, "Wrong size on INodeAndChannelMappings");
 
 // Class MovieScene.MovieSceneNodeGroup
 // 0x0000 (0x0028 - 0x0028)
@@ -927,7 +1107,7 @@ public:
 	TArray<struct FMovieSceneSpawnable>           Spawnables;                                        // 0x0060(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 	TArray<struct FMovieScenePossessable>         Possessables;                                      // 0x0070(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 	TArray<struct FMovieSceneBinding>             ObjectBindings;                                    // 0x0080(0x0010)(ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPrivate)
-	TMap<class FName, struct FMovieSceneObjectBindingIDs> BindingGroups;                                     // 0x0090(0x0050)(NativeAccessSpecifierPrivate)
+	TMap<class FName, struct FMovieSceneObjectBindingIDs> BindingGroups;                             // 0x0090(0x0050)(NativeAccessSpecifierPrivate)
 	TArray<class UMovieSceneTrack*>               Tracks;                                            // 0x00E0(0x0010)(ExportObject, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPrivate)
 	class UMovieSceneTrack*                       CameraCutTrack;                                    // 0x00F0(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, PersistentInstance, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 	struct FMovieSceneFrameRange                  SelectionRange;                                    // 0x00F8(0x0010)(NoDestructor, NativeAccessSpecifierPrivate)
@@ -1238,7 +1418,7 @@ class UMovieSceneSequencePlayer : public UObject
 {
 public:
 	uint8                                         Pad_28[0x1F0];                                     // 0x0028(0x01F0)(Fixing Size After Last Property [ Dumper-7 ])
-	TScriptInterface<class IMovieSceneSequencePlayerObserver> Observer;                                          // 0x0218(0x0010)(Net, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TScriptInterface<class IMovieSceneSequencePlayerObserver> Observer;                              // 0x0218(0x0010)(Net, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              OnPlay;                                            // 0x0228(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              OnPlayReverse;                                     // 0x0238(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              OnStop;                                            // 0x0248(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
@@ -1257,10 +1437,10 @@ public:
 	int32                                         SerialNumber;                                      // 0x02A8(0x0004)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	struct FMovieSceneSequencePlaybackSettings    PlaybackSettings;                                  // 0x02AC(0x0028)(Net, NoDestructor, Protected, NativeAccessSpecifierProtected)
 	uint8                                         Pad_2D4[0x4];                                      // 0x02D4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FMovieSceneRootEvaluationTemplateInstance RootTemplateInstance;                              // 0x02D8(0x0020)(Transient, Protected, NativeAccessSpecifierProtected)
+	struct FMovieSceneRootEvaluationTemplateInstance RootTemplateInstance;                           // 0x02D8(0x0020)(Transient, Protected, NativeAccessSpecifierProtected)
 	uint8                                         Pad_2F8[0x8C];                                     // 0x02F8(0x008C)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FMovieSceneSequenceReplProperties      NetSyncProps;                                      // 0x0384(0x0014)(Net, NoDestructor, Protected, NativeAccessSpecifierProtected)
-	TScriptInterface<class IMovieScenePlaybackClient> PlaybackClient;                                    // 0x0398(0x0010)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
+	TScriptInterface<class IMovieScenePlaybackClient> PlaybackClient;                                // 0x0398(0x0010)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	class UMovieSceneSequenceTickManager*         TickManager;                                       // 0x03A8(0x0008)(ZeroConstructor, Transient, NoDestructor, Protected, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierProtected)
 	uint8                                         Pad_3B0[0xB0];                                     // 0x03B0(0x00B0)(Fixing Struct Size After Last Property [ Dumper-7 ])
 

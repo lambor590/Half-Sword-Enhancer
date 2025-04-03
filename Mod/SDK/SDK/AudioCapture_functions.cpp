@@ -20,7 +20,7 @@ namespace SDK
 // Function AudioCapture.AudioCapture.GetAudioCaptureDeviceInfo
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FAudioCaptureDeviceInfo          OutInfo                                                (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FAudioCaptureDeviceInfo*         OutInfo                                                (Parm, OutParm, NoDestructor, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 bool UAudioCapture::GetAudioCaptureDeviceInfo(struct FAudioCaptureDeviceInfo* OutInfo)
@@ -137,7 +137,7 @@ class UAudioCapture* UAudioCaptureFunctionLibrary::CreateAudioCapture()
 // Function AudioCapture.AudioCaptureBlueprintLibrary.Conv_AudioInputDeviceInfoToString
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// struct FAudioInputDeviceInfo            Info                                                   (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FAudioInputDeviceInfo&     Info                                                   (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class FString UAudioCaptureBlueprintLibrary::Conv_AudioInputDeviceInfoToString(const struct FAudioInputDeviceInfo& Info)
@@ -165,10 +165,10 @@ class FString UAudioCaptureBlueprintLibrary::Conv_AudioInputDeviceInfoToString(c
 // Function AudioCapture.AudioCaptureBlueprintLibrary.GetAvailableAudioInputDevices
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// class UObject*                          WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TDelegate<void(TArray<struct FAudioInputDeviceInfo>& AvailableDevices)>OnObtainDevicesEvent                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class UObject*                    WorldContextObject                                     (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TDelegate<void(const TArray<struct FAudioInputDeviceInfo>& AvailableDevices)>&OnObtainDevicesEvent                                   (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UAudioCaptureBlueprintLibrary::GetAvailableAudioInputDevices(const class UObject* WorldContextObject, const TDelegate<void(TArray<struct FAudioInputDeviceInfo>& AvailableDevices)>& OnObtainDevicesEvent)
+void UAudioCaptureBlueprintLibrary::GetAvailableAudioInputDevices(const class UObject* WorldContextObject, const TDelegate<void(const TArray<struct FAudioInputDeviceInfo>& AvailableDevices)>& OnObtainDevicesEvent)
 {
 	static class UFunction* Func = nullptr;
 

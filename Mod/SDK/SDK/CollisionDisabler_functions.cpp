@@ -114,7 +114,7 @@ void UCollisionDisablerFunctionLibrary::DisableCollision_SingleBodyVsSingleBody(
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class USkeletalMeshComponent*           SkeletalMesh                                           (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     SkeletalMeshBones                                      (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<class FName>&              SkeletalMeshBones                                      (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              SingleBody                                             (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   TimeToExpiration                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -145,9 +145,9 @@ void UCollisionDisablerFunctionLibrary::DisableCollision_SkeletalVsSingleBody(cl
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class USkeletalMeshComponent*           SkeletalMeshA                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     SkeletalMeshBonesA                                     (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<class FName>&              SkeletalMeshBonesA                                     (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
 // class USkeletalMeshComponent*           SkeletalMeshB                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     SkeletalMeshBonesB                                     (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<class FName>&              SkeletalMeshBonesB                                     (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
 // float                                   TimeToExpiration                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UCollisionDisablerFunctionLibrary::DisableCollision_SkeletalVsSkeletal(class USkeletalMeshComponent* SkeletalMeshA, const TArray<class FName>& SkeletalMeshBonesA, class USkeletalMeshComponent* SkeletalMeshB, const TArray<class FName>& SkeletalMeshBonesB, float TimeToExpiration)
@@ -236,7 +236,7 @@ void UCollisionDisablerFunctionLibrary::EnableCollision_SingleBodyVsSingleBody(c
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class USkeletalMeshComponent*           SkeletalMesh                                           (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     SkeletalMeshBones                                      (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<class FName>&              SkeletalMeshBones                                      (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              SingleBody                                             (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UCollisionDisablerFunctionLibrary::EnableCollision_SkeletalVsSingleBody(class USkeletalMeshComponent* SkeletalMesh, const TArray<class FName>& SkeletalMeshBones, class UPrimitiveComponent* SingleBody)
@@ -265,9 +265,9 @@ void UCollisionDisablerFunctionLibrary::EnableCollision_SkeletalVsSingleBody(cla
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class USkeletalMeshComponent*           SkeletalMeshA                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     SkeletalMeshBonesA                                     (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<class FName>&              SkeletalMeshBonesA                                     (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
 // class USkeletalMeshComponent*           SkeletalMeshB                                          (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     SkeletalMeshBonesB                                     (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
+// const TArray<class FName>&              SkeletalMeshBonesB                                     (ConstParm, Parm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UCollisionDisablerFunctionLibrary::EnableCollision_SkeletalVsSkeletal(class USkeletalMeshComponent* SkeletalMeshA, const TArray<class FName>& SkeletalMeshBonesA, class USkeletalMeshComponent* SkeletalMeshB, const TArray<class FName>& SkeletalMeshBonesB)
 {
@@ -296,7 +296,7 @@ void UCollisionDisablerFunctionLibrary::EnableCollision_SkeletalVsSkeletal(class
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class USkeletalMeshComponent*           SkeletalMesh                                           (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     OutBones                                               (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FName>*                    OutBones                                               (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UCollisionDisablerFunctionLibrary::GatherAllPhysicalBones(class USkeletalMeshComponent* SkeletalMesh, TArray<class FName>* OutBones)
 {
@@ -327,7 +327,7 @@ void UCollisionDisablerFunctionLibrary::GatherAllPhysicalBones(class USkeletalMe
 // class USkeletalMeshComponent*           SkeletalMesh                                           (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             StartBone                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bIncudeStartBone                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class FName>                     OutBones                                               (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<class FName>*                    OutBones                                               (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
 void UCollisionDisablerFunctionLibrary::GatherAllPhysicalBonesFrom(class USkeletalMeshComponent* SkeletalMesh, class FName StartBone, bool bIncudeStartBone, TArray<class FName>* OutBones)
 {
@@ -358,7 +358,7 @@ void UCollisionDisablerFunctionLibrary::GatherAllPhysicalBonesFrom(class USkelet
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class AActor*                           Actor                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TArray<class UPrimitiveComponent*>      OutComponents                                          (Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// TArray<class UPrimitiveComponent*>*     OutComponents                                          (Parm, OutParm, ZeroConstructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 void UCollisionDisablerFunctionLibrary::GatherAllPhysicalComponents(class AActor* Actor, TArray<class UPrimitiveComponent*>* OutComponents)
 {
@@ -454,7 +454,7 @@ bool UCollisionDisablerFunctionLibrary::IsCollisionModified(class UPrimitiveComp
 // Function CollisionDisabler.CollisionDisablerFunctionLibrary.ModifyCollision
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FCollisionParams                 Params_0                                               (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FCollisionParams&          Params_0                                               (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              ComponentA                                             (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPrimitiveComponent*              ComponentB                                             (Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class FName                             BoneNameA                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)

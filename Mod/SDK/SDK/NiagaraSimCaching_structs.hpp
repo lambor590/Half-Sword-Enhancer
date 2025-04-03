@@ -79,7 +79,7 @@ static_assert(offsetof(FMovieSceneNiagaraSectionTemplateParameter, Params) == 0x
 struct FMovieSceneNiagaraCacheSectionTemplate final : public FMovieSceneTrackImplementation
 {
 public:
-	TArray<struct FMovieSceneNiagaraSectionTemplateParameter> CacheSections;                                     // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
+	TArray<struct FMovieSceneNiagaraSectionTemplateParameter> CacheSections;                         // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 };
 static_assert(alignof(FMovieSceneNiagaraCacheSectionTemplate) == 0x000008, "Wrong alignment on FMovieSceneNiagaraCacheSectionTemplate");
 static_assert(sizeof(FMovieSceneNiagaraCacheSectionTemplate) == 0x000020, "Wrong size on FMovieSceneNiagaraCacheSectionTemplate");

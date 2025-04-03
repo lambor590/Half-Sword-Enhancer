@@ -18,16 +18,16 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Weapon_Tool_Hammer_B.BP_Weapon_Tool_Hammer_B_C
-// 0x0030 (0x0B60 - 0x0B30)
+// 0x0030 (0x0B78 - 0x0B48)
 class ABP_Weapon_Tool_Hammer_B_C final : public AModularWeaponBP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Weapon_Tool_Hammer_B_C;          // 0x0B30(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class USceneComponent*                        Tip3;                                              // 0x0B38(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Tip2;                                              // 0x0B40(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Base0;                                             // 0x0B48(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Tip1;                                              // 0x0B50(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Weapon;                                            // 0x0B58(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Weapon_Tool_Hammer_B_C;          // 0x0B48(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class USceneComponent*                        Tip3;                                              // 0x0B50(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip2;                                              // 0x0B58(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Base0;                                             // 0x0B60(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0B68(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Weapon;                                            // 0x0B70(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -45,13 +45,13 @@ public:
 	}
 };
 static_assert(alignof(ABP_Weapon_Tool_Hammer_B_C) == 0x000008, "Wrong alignment on ABP_Weapon_Tool_Hammer_B_C");
-static_assert(sizeof(ABP_Weapon_Tool_Hammer_B_C) == 0x000B60, "Wrong size on ABP_Weapon_Tool_Hammer_B_C");
-static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, UberGraphFrame_BP_Weapon_Tool_Hammer_B_C) == 0x000B30, "Member 'ABP_Weapon_Tool_Hammer_B_C::UberGraphFrame_BP_Weapon_Tool_Hammer_B_C' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Tip3) == 0x000B38, "Member 'ABP_Weapon_Tool_Hammer_B_C::Tip3' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Tip2) == 0x000B40, "Member 'ABP_Weapon_Tool_Hammer_B_C::Tip2' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Base0) == 0x000B48, "Member 'ABP_Weapon_Tool_Hammer_B_C::Base0' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Tip1) == 0x000B50, "Member 'ABP_Weapon_Tool_Hammer_B_C::Tip1' has a wrong offset!");
-static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Weapon) == 0x000B58, "Member 'ABP_Weapon_Tool_Hammer_B_C::Weapon' has a wrong offset!");
+static_assert(sizeof(ABP_Weapon_Tool_Hammer_B_C) == 0x000B78, "Wrong size on ABP_Weapon_Tool_Hammer_B_C");
+static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, UberGraphFrame_BP_Weapon_Tool_Hammer_B_C) == 0x000B48, "Member 'ABP_Weapon_Tool_Hammer_B_C::UberGraphFrame_BP_Weapon_Tool_Hammer_B_C' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Tip3) == 0x000B50, "Member 'ABP_Weapon_Tool_Hammer_B_C::Tip3' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Tip2) == 0x000B58, "Member 'ABP_Weapon_Tool_Hammer_B_C::Tip2' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Base0) == 0x000B60, "Member 'ABP_Weapon_Tool_Hammer_B_C::Base0' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Tip1) == 0x000B68, "Member 'ABP_Weapon_Tool_Hammer_B_C::Tip1' has a wrong offset!");
+static_assert(offsetof(ABP_Weapon_Tool_Hammer_B_C, Weapon) == 0x000B70, "Member 'ABP_Weapon_Tool_Hammer_B_C::Weapon' has a wrong offset!");
 
 }
 

@@ -34,7 +34,7 @@ struct FConstraintsInWorld final
 {
 public:
 	TWeakObjectPtr<class UWorld>                  World;                                             // 0x0000(0x0008)(ZeroConstructor, Transient, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<TWeakObjectPtr<class UTickableConstraint>> Constraints;                                       // 0x0008(0x0010)(ZeroConstructor, Transient, UObjectWrapper, NativeAccessSpecifierPublic)
+	TArray<TWeakObjectPtr<class UTickableConstraint>> Constraints;                                   // 0x0008(0x0010)(ZeroConstructor, Transient, UObjectWrapper, NativeAccessSpecifierPublic)
 	uint8                                         Pad_18[0x10];                                      // 0x0018(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 static_assert(alignof(FConstraintsInWorld) == 0x000008, "Wrong alignment on FConstraintsInWorld");

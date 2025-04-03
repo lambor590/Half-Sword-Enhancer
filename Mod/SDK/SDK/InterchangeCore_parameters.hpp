@@ -1450,7 +1450,7 @@ struct InterchangeUserDefinedAttributesAPI_GetUserDefinedAttributeInfos final
 {
 public:
 	const class UInterchangeBaseNode*             InterchangeNode;                                   // 0x0000(0x0008)(ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<struct FInterchangeUserDefinedAttributeInfo> UserDefinedAttributeInfos;                         // 0x0008(0x0010)(Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FInterchangeUserDefinedAttributeInfo> UserDefinedAttributeInfos;                   // 0x0008(0x0010)(Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 static_assert(alignof(InterchangeUserDefinedAttributesAPI_GetUserDefinedAttributeInfos) == 0x000008, "Wrong alignment on InterchangeUserDefinedAttributesAPI_GetUserDefinedAttributeInfos");
 static_assert(sizeof(InterchangeUserDefinedAttributesAPI_GetUserDefinedAttributeInfos) == 0x000018, "Wrong size on InterchangeUserDefinedAttributesAPI_GetUserDefinedAttributeInfos");

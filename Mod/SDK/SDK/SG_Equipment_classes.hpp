@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "Str_ArmorElements_structs.hpp"
-#include "Engine_classes.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
+#include "Engine_classes.hpp"
 
 
 namespace SDK

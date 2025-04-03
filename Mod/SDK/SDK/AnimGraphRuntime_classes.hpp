@@ -87,8 +87,8 @@ static_assert(alignof(UBlendSpaceLibrary) == 0x000008, "Wrong alignment on UBlen
 static_assert(sizeof(UBlendSpaceLibrary) == 0x000028, "Wrong size on UBlendSpaceLibrary");
 
 // Class AnimGraphRuntime.SequencerAnimationOverride
-// 0x0000 (0x0028 - 0x0028)
-class ISequencerAnimationOverride final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class ISequencerAnimationOverride final
 {
 public:
 	bool AllowsCinematicOverride() const;
@@ -103,9 +103,18 @@ public:
 	{
 		return GetDefaultObjImpl<ISequencerAnimationOverride>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(ISequencerAnimationOverride) == 0x000008, "Wrong alignment on ISequencerAnimationOverride");
-static_assert(sizeof(ISequencerAnimationOverride) == 0x000028, "Wrong size on ISequencerAnimationOverride");
+static_assert(alignof(ISequencerAnimationOverride) == 0x000001, "Wrong alignment on ISequencerAnimationOverride");
+static_assert(sizeof(ISequencerAnimationOverride) == 0x000001, "Wrong size on ISequencerAnimationOverride");
 
 // Class AnimGraphRuntime.AnimationStateMachineLibrary
 // 0x0000 (0x0028 - 0x0028)
@@ -389,11 +398,11 @@ static_assert(sizeof(UModifyCurveAnimLibrary) == 0x000028, "Wrong size on UModif
 class UPlayMontageCallbackProxy final : public UObject
 {
 public:
-	TMulticastInlineDelegate<void(class FName NotifyName)> OnCompleted;                                       // 0x0028(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(class FName NotifyName)> OnBlendOut;                                        // 0x0038(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(class FName NotifyName)> OnInterrupted;                                     // 0x0048(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(class FName NotifyName)> OnNotifyBegin;                                     // 0x0058(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(class FName NotifyName)> OnNotifyEnd;                                       // 0x0068(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class FName NotifyName)> OnCompleted;                              // 0x0028(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class FName NotifyName)> OnBlendOut;                               // 0x0038(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class FName NotifyName)> OnInterrupted;                            // 0x0048(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class FName NotifyName)> OnNotifyBegin;                            // 0x0058(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(class FName NotifyName)> OnNotifyEnd;                              // 0x0068(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_78[0x30];                                      // 0x0078(0x0030)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -484,8 +493,8 @@ static_assert(alignof(USequencePlayerLibrary) == 0x000008, "Wrong alignment on U
 static_assert(sizeof(USequencePlayerLibrary) == 0x000028, "Wrong size on USequencePlayerLibrary");
 
 // Class AnimGraphRuntime.SequencerAnimationSupport
-// 0x0000 (0x0028 - 0x0028)
-class ISequencerAnimationSupport final : public IInterface
+// 0x0000 (0x0000 - 0x0000)
+class ISequencerAnimationSupport final
 {
 public:
 	static class UClass* StaticClass()
@@ -496,9 +505,18 @@ public:
 	{
 		return GetDefaultObjImpl<ISequencerAnimationSupport>();
 	}
+
+	class UObject* AsUObject()
+	{
+		return reinterpret_cast<UObject*>(this);
+	}
+	const class UObject* AsUObject() const
+	{
+		return reinterpret_cast<const UObject*>(this);
+	}
 };
-static_assert(alignof(ISequencerAnimationSupport) == 0x000008, "Wrong alignment on ISequencerAnimationSupport");
-static_assert(sizeof(ISequencerAnimationSupport) == 0x000028, "Wrong size on ISequencerAnimationSupport");
+static_assert(alignof(ISequencerAnimationSupport) == 0x000001, "Wrong alignment on ISequencerAnimationSupport");
+static_assert(sizeof(ISequencerAnimationSupport) == 0x000001, "Wrong size on ISequencerAnimationSupport");
 
 // Class AnimGraphRuntime.SkeletalControlLibrary
 // 0x0000 (0x0028 - 0x0028)

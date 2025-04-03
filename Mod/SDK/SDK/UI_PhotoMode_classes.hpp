@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
+#include "E_ColorGradingMode_structs.hpp"
 #include "Engine_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
-#include "E_ColorGradingMode_structs.hpp"
 
 
 namespace SDK
@@ -120,12 +120,12 @@ public:
 	int32                                         LastTabIndex;                                      // 0x05B4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          bUsingFreeCamera;                                  // 0x05B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_5B9[0x7];                                      // 0x05B9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class BP_FreeCamera::ABP_FreeCamera_C*        FreeCameraActor;                                   // 0x05C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      FreeCameraActor;                                   // 0x05C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class UCameraComponent*                       FreeCameraComponent;                               // 0x05C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	struct FRotator                               EditedCameraRoll;                                  // 0x05D0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 	double                                        EditedCameraFOV;                                   // 0x05E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TMulticastInlineDelegate<void(double FOVValue)> ED_FreeCameraFOV;                                  // 0x05F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
-	TMulticastInlineDelegate<void(const struct FRotator& RotationValue)> ED_FreeCameraRotation;                             // 0x0600(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
+	TMulticastInlineDelegate<void(double FOVValue)> ED_FreeCameraFOV;                                // 0x05F0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
+	TMulticastInlineDelegate<void(const struct FRotator& RotationValue)> ED_FreeCameraRotation;      // 0x0600(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
 	bool                                          bShowingMouseCursor;                               // 0x0610(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          bMenuHidden;                                       // 0x0611(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          bCanFocus;                                         // 0x0612(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -142,7 +142,7 @@ public:
 	TArray<class UUI_Checkbox_C*>                 CommonCheckboxes;                                  // 0x0658(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 	bool                                          bUsingAutofocus;                                   // 0x0668(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_669[0x7];                                      // 0x0669(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<class UMeshComponent*, ECollisionResponse> PlayerMeshes;                                      // 0x0670(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
+	TMap<class UMeshComponent*, ECollisionResponse> PlayerMeshes;                                    // 0x0670(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 	struct FWeightedBlendable                     LogoWeightedBlend;                                 // 0x06C0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor)
 	struct FWeightedBlendable                     FrameWeightedBlend;                                // 0x06D0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor)
 	struct FWeightedBlendable                     FrameToAdd;                                        // 0x06E0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor)
@@ -280,7 +280,7 @@ public:
 	void OnCameraMoved();
 	void OnCameraStopped();
 	void OnDestruct();
-	void OnFreeCameraStart(class BP_FreeCamera::ABP_FreeCamera_C* FreeCameraReference);
+	void OnFreeCameraStart(class BP_FreeCamera_0::ABP_FreeCamera_C* FreeCameraReference);
 	void OnFreenCameraEnd();
 	struct FEventReply OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent);
 	void OnLoaded_82A7579942174F38FE2AD9A2E247AA34(class UObject* Loaded);

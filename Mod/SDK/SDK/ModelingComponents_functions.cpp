@@ -83,7 +83,7 @@ void UOctreeDynamicMeshComponent::SetDynamicMesh(class UDynamicMesh* NewMesh)
 // Function ModelingComponents.PreviewGeometry.AddLineSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class ULineSetComponent*                ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class ULineSetComponent* UPreviewGeometry::AddLineSet(const class FString& LineSetIdentifier)
@@ -111,7 +111,7 @@ class ULineSetComponent* UPreviewGeometry::AddLineSet(const class FString& LineS
 // Function ModelingComponents.PreviewGeometry.AddPointSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPointSetComponent*               ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UPointSetComponent* UPreviewGeometry::AddPointSet(const class FString& PointSetIdentifier)
@@ -139,7 +139,7 @@ class UPointSetComponent* UPreviewGeometry::AddPointSet(const class FString& Poi
 // Function ModelingComponents.PreviewGeometry.AddTriangleSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           TriangleSetIdentifier                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    TriangleSetIdentifier                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UTriangleSetComponent*            ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UTriangleSetComponent* UPreviewGeometry::AddTriangleSet(const class FString& TriangleSetIdentifier)
@@ -168,7 +168,7 @@ class UTriangleSetComponent* UPreviewGeometry::AddTriangleSet(const class FStrin
 // (Final, Native, Public, HasOutParams, HasDefaults)
 // Parameters:
 // class UWorld*                           World                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FTransform                       WithTransform                                          (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FTransform&                WithTransform                                          (ConstParm, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 void UPreviewGeometry::CreateInWorld(class UWorld* World, const struct FTransform& WithTransform)
 {
@@ -213,7 +213,7 @@ void UPreviewGeometry::Disconnect()
 // Function ModelingComponents.PreviewGeometry.FindLineSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class ULineSetComponent*                ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class ULineSetComponent* UPreviewGeometry::FindLineSet(const class FString& LineSetIdentifier)
@@ -241,7 +241,7 @@ class ULineSetComponent* UPreviewGeometry::FindLineSet(const class FString& Line
 // Function ModelingComponents.PreviewGeometry.FindPointSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UPointSetComponent*               ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UPointSetComponent* UPreviewGeometry::FindPointSet(const class FString& PointSetIdentifier)
@@ -269,7 +269,7 @@ class UPointSetComponent* UPreviewGeometry::FindPointSet(const class FString& Po
 // Function ModelingComponents.PreviewGeometry.FindTriangleSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           TriangleSetIdentifier                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    TriangleSetIdentifier                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UTriangleSetComponent*            ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
 class UTriangleSetComponent* UPreviewGeometry::FindTriangleSet(const class FString& TriangleSetIdentifier)
@@ -372,7 +372,7 @@ void UPreviewGeometry::RemoveAllTriangleSets(bool bDestroy)
 // Function ModelingComponents.PreviewGeometry.RemoveLineSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bDestroy                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -402,7 +402,7 @@ bool UPreviewGeometry::RemoveLineSet(const class FString& LineSetIdentifier, boo
 // Function ModelingComponents.PreviewGeometry.RemovePointSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bDestroy                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -432,7 +432,7 @@ bool UPreviewGeometry::RemovePointSet(const class FString& PointSetIdentifier, b
 // Function ModelingComponents.PreviewGeometry.RemoveTriangleSet
 // (Final, Native, Public)
 // Parameters:
-// class FString                           TriangleSetIdentifier                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    TriangleSetIdentifier                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bDestroy                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -512,7 +512,7 @@ void UPreviewGeometry::SetAllPointSetsMaterial(class UMaterialInterface* Materia
 // Function ModelingComponents.PreviewGeometry.SetLineSetMaterial
 // (Final, Native, Public)
 // Parameters:
-// class FString                           LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               NewMaterial                                            (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -542,7 +542,7 @@ bool UPreviewGeometry::SetLineSetMaterial(const class FString& LineSetIdentifier
 // Function ModelingComponents.PreviewGeometry.SetLineSetVisibility
 // (Final, Native, Public)
 // Parameters:
-// class FString                           LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    LineSetIdentifier                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bVisible                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -572,7 +572,7 @@ bool UPreviewGeometry::SetLineSetVisibility(const class FString& LineSetIdentifi
 // Function ModelingComponents.PreviewGeometry.SetPointSetMaterial
 // (Final, Native, Public)
 // Parameters:
-// class FString                           PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UMaterialInterface*               NewMaterial                                            (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -602,7 +602,7 @@ bool UPreviewGeometry::SetPointSetMaterial(const class FString& PointSetIdentifi
 // Function ModelingComponents.PreviewGeometry.SetPointSetVisibility
 // (Final, Native, Public)
 // Parameters:
-// class FString                           PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    PointSetIdentifier                                     (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bVisible                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
@@ -657,7 +657,7 @@ class APreviewGeometryActor* UPreviewGeometry::GetActor() const
 // Function ModelingComponents.ModelingObjectsCreationAPI.CreateMaterialObject
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FCreateMaterialObjectParams      CreateMaterialParams                                   (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FCreateMaterialObjectParams&CreateMaterialParams                                   (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FCreateMaterialObjectResult      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FCreateMaterialObjectResult UModelingObjectsCreationAPI::CreateMaterialObject(const struct FCreateMaterialObjectParams& CreateMaterialParams)
@@ -685,7 +685,7 @@ struct FCreateMaterialObjectResult UModelingObjectsCreationAPI::CreateMaterialOb
 // Function ModelingComponents.ModelingObjectsCreationAPI.CreateMeshObject
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FCreateMeshObjectParams          CreateMeshParams                                       (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// const struct FCreateMeshObjectParams&   CreateMeshParams                                       (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 // struct FCreateMeshObjectResult          ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
 
 struct FCreateMeshObjectResult UModelingObjectsCreationAPI::CreateMeshObject(const struct FCreateMeshObjectParams& CreateMeshParams)
@@ -713,7 +713,7 @@ struct FCreateMeshObjectResult UModelingObjectsCreationAPI::CreateMeshObject(con
 // Function ModelingComponents.ModelingObjectsCreationAPI.CreateNewActor
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FCreateActorParams               CreateActorParams                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FCreateActorParams&        CreateActorParams                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FCreateActorResult               ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FCreateActorResult UModelingObjectsCreationAPI::CreateNewActor(const struct FCreateActorParams& CreateActorParams)
@@ -741,7 +741,7 @@ struct FCreateActorResult UModelingObjectsCreationAPI::CreateNewActor(const stru
 // Function ModelingComponents.ModelingObjectsCreationAPI.CreateTextureObject
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// struct FCreateTextureObjectParams       CreateTexParams                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const struct FCreateTextureObjectParams&CreateTexParams                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // struct FCreateTextureObjectResult       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
 struct FCreateTextureObjectResult UModelingObjectsCreationAPI::CreateTextureObject(const struct FCreateTextureObjectParams& CreateTexParams)

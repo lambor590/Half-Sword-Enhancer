@@ -10,187 +10,198 @@
 
 #include "Basic.hpp"
 
+#include "LeftRight_Enum_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "UMG_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
-#include "LeftRight_Enum_structs.hpp"
 
 
 namespace SDK::Params
 {
 
 // Function UI_WeaponSelection.UI_WeaponSelection_C.ExecuteUbergraph_UI_WeaponSelection
-// 0x2130 (0x2130 - 0x0000)
+// 0x2150 (0x2150 - 0x0000)
 struct UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_4[0xC];                                        // 0x0004(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0010(0x00D0)()
-	EWeapon_Slots_Enum                            Temp_byte_Variable;                                // 0x00E0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_1;                              // 0x00E1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_2;                              // 0x00E2(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x00E3(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ELeftRight_Enum                               Temp_byte_Variable_3;                              // 0x00E4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ELeftRight_Enum                               Temp_byte_Variable_4;                              // 0x00E5(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E6[0x2];                                       // 0x00E6(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         Temp_int_Variable;                                 // 0x00E8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_5;                              // 0x00EC(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_6;                              // 0x00ED(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_7;                              // 0x00EE(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_8;                              // 0x00EF(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_9;                              // 0x00F0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_10;                             // 0x00F1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable_1;                              // 0x00F2(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ELeftRight_Enum                               Temp_byte_Variable_11;                             // 0x00F3(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ELeftRight_Enum                               Temp_byte_Variable_12;                             // 0x00F4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_F5[0x3];                                       // 0x00F5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	class ACharacter*                             CallFunc_GetPlayerCharacter_ReturnValue;           // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AWillie_BP_C*                           K2Node_DynamicCast_AsWillie_BP;                    // 0x0100(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0108(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0109(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ELeftRight_Enum                               K2Node_Select_Default;                             // 0x010A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_13;                             // 0x010B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            K2Node_Select_Default_1;                           // 0x010C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue_1;        // 0x010D(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ELeftRight_Enum                               K2Node_Select_Default_2;                           // 0x010E(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_Event_IsDesignTime;                         // 0x010F(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0110(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_111[0x7];                                      // 0x0111(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0118(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_IntInt_ReturnValue_1;            // 0x0120(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            Temp_byte_Variable_14;                             // 0x0121(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_122[0x6];                                      // 0x0122(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0128(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_1;                    // 0x0130(0x00D0)()
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x0200(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_3;        // 0x0208(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x0210(0x0038)(IsPlainOldData, NoDestructor)
-	float                                         K2Node_Event_InDeltaTime;                          // 0x0248(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_24C[0x4];                                      // 0x024C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_2;                    // 0x0250(0x00D0)()
-	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue;        // 0x0320(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_321[0x7];                                      // 0x0321(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UObject*                                CallFunc_SelectObject_ReturnValue;                 // 0x0328(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UObject*                                CallFunc_SelectObject_ReturnValue_1;               // 0x0330(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_338[0x8];                                      // 0x0338(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	EWeapon_Slots_Enum                            Temp_byte_Variable;                                // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_1;                              // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_2;                              // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ELeftRight_Enum                               Temp_byte_Variable_3;                              // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ELeftRight_Enum                               Temp_byte_Variable_4;                              // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_A[0x2];                                        // 0x000A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Temp_int_Variable;                                 // 0x000C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_5;                              // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_6;                              // 0x0011(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_7;                              // 0x0012(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_8;                              // 0x0013(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_9;                              // 0x0014(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_10;                             // 0x0015(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable_1;                              // 0x0016(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ELeftRight_Enum                               Temp_byte_Variable_11;                             // 0x0017(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ELeftRight_Enum                               Temp_byte_Variable_12;                             // 0x0018(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_19[0x7];                                       // 0x0019(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class ACharacter*                             CallFunc_GetPlayerCharacter_ReturnValue;           // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AWillie_BP_C*                           K2Node_DynamicCast_AsWillie_BP;                    // 0x0028(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0030(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0031(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ELeftRight_Enum                               K2Node_Select_Default;                             // 0x0032(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_13;                             // 0x0033(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            K2Node_Select_Default_1;                           // 0x0034(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue_1;        // 0x0035(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ELeftRight_Enum                               K2Node_Select_Default_2;                           // 0x0036(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_Event_IsDesignTime;                         // 0x0037(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0038(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_39[0x7];                                       // 0x0039(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            Temp_byte_Variable_14;                             // 0x0048(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_IntInt_ReturnValue_1;            // 0x0049(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4A[0x6];                                       // 0x004A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_58[0x8];                                       // 0x0058(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0060(0x00D0)()
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x0130(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_3;        // 0x0138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x0140(0x0038)(IsPlainOldData, NoDestructor)
+	float                                         K2Node_Event_InDeltaTime;                          // 0x0178(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_17C[0x4];                                      // 0x017C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_1;                    // 0x0180(0x00D0)()
+	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue;        // 0x0250(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_251[0x7];                                      // 0x0251(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                CallFunc_SelectObject_ReturnValue;                 // 0x0258(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UObject*                                CallFunc_SelectObject_ReturnValue_1;               // 0x0260(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_268[0x8];                                      // 0x0268(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_2;                    // 0x0270(0x00D0)()
 	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_3;                    // 0x0340(0x00D0)()
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_4;                    // 0x0410(0x00D0)()
-	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle;                     // 0x04E0(0x03F0)()
-	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue_1;      // 0x08D0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_8D1[0x7];                                      // 0x08D1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class UObject*                                CallFunc_SelectObject_ReturnValue_2;               // 0x08D8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UObject*                                CallFunc_SelectObject_ReturnValue_3;               // 0x08E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_8E8[0x8];                                      // 0x08E8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle;                     // 0x0410(0x03F0)()
+	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue_1;      // 0x0800(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_801[0x7];                                      // 0x0801(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                CallFunc_SelectObject_ReturnValue_2;               // 0x0808(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UObject*                                CallFunc_SelectObject_ReturnValue_3;               // 0x0810(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_818[0x8];                                      // 0x0818(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_4;                    // 0x0820(0x00D0)()
 	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_5;                    // 0x08F0(0x00D0)()
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_6;                    // 0x09C0(0x00D0)()
-	EWeapon_Slots_Enum                            Temp_byte_Variable_15;                             // 0x0A90(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_A91[0xF];                                      // 0x0A91(0x000F)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_1;                   // 0x0AA0(0x03F0)()
-	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue_2;      // 0x0E90(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue_3;      // 0x0E91(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_E92[0x6];                                      // 0x0E92(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	class UObject*                                CallFunc_SelectObject_ReturnValue_4;               // 0x0E98(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UObject*                                CallFunc_SelectObject_ReturnValue_5;               // 0x0EA0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_EA8[0x8];                                      // 0x0EA8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	EWeapon_Slots_Enum                            Temp_byte_Variable_15;                             // 0x09C0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_9C1[0xF];                                      // 0x09C1(0x000F)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_1;                   // 0x09D0(0x03F0)()
+	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue_2;      // 0x0DC0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue_3;      // 0x0DC1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_DC2[0x6];                                      // 0x0DC2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                CallFunc_SelectObject_ReturnValue_4;               // 0x0DC8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UObject*                                CallFunc_SelectObject_ReturnValue_5;               // 0x0DD0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_DD8[0x8];                                      // 0x0DD8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_6;                    // 0x0DE0(0x00D0)()
 	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_7;                    // 0x0EB0(0x00D0)()
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_8;                    // 0x0F80(0x00D0)()
-	class UObject*                                CallFunc_SelectObject_ReturnValue_6;               // 0x1050(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UObject*                                CallFunc_SelectObject_ReturnValue_7;               // 0x1058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UObject*                                CallFunc_SelectObject_ReturnValue_6;               // 0x0F80(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UObject*                                CallFunc_SelectObject_ReturnValue_7;               // 0x0F88(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_8;                    // 0x0F90(0x00D0)()
 	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_9;                    // 0x1060(0x00D0)()
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_10;                   // 0x1130(0x00D0)()
-	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_2;                   // 0x1200(0x03F0)()
-	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_3;                   // 0x15F0(0x03F0)()
-	int32                                         Temp_int_Variable_1;                               // 0x19E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue_4;      // 0x19E4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EWeapon_Slots_Enum                            K2Node_Select_Default_3;                           // 0x19E5(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_19E6[0x2];                                     // 0x19E6(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	class UObject*                                CallFunc_SelectObject_ReturnValue_8;               // 0x19E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_11;                   // 0x19F0(0x00D0)()
-	class UObject*                                CallFunc_SelectObject_ReturnValue_9;               // 0x1AC0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1AC8[0x8];                                     // 0x1AC8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_2;                   // 0x1130(0x03F0)()
+	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_3;                   // 0x1520(0x03F0)()
+	int32                                         Temp_int_Variable_1;                               // 0x1910(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_ObjectObject_ReturnValue_4;      // 0x1914(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EWeapon_Slots_Enum                            K2Node_Select_Default_3;                           // 0x1915(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1916[0x2];                                     // 0x1916(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                CallFunc_SelectObject_ReturnValue_8;               // 0x1918(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_10;                   // 0x1920(0x00D0)()
+	class UObject*                                CallFunc_SelectObject_ReturnValue_9;               // 0x19F0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_19F8[0x8];                                     // 0x19F8(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_11;                   // 0x1A00(0x00D0)()
 	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_12;                   // 0x1AD0(0x00D0)()
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_13;                   // 0x1BA0(0x00D0)()
-	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_4;                   // 0x1C70(0x03F0)()
+	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle_4;                   // 0x1BA0(0x03F0)()
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_13;                   // 0x1F90(0x00D0)()
 	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush_14;                   // 0x2060(0x00D0)()
+	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x2130(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x2138(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_DynamicCast_bSuccess_1;                     // 0x2140(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2141[0x3];                                     // 0x2141(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast; // 0x2144(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast_1; // 0x2148(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 static_assert(alignof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection) == 0x000010, "Wrong alignment on UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection");
-static_assert(sizeof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection) == 0x002130, "Wrong size on UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection");
+static_assert(sizeof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection) == 0x002150, "Wrong size on UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection");
 static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, EntryPoint) == 0x000000, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::EntryPoint' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush) == 0x000010, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable) == 0x0000E0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_1) == 0x0000E1, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_2) == 0x0000E2, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_2' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_bool_Variable) == 0x0000E3, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_3) == 0x0000E4, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_3' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_4) == 0x0000E5, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_4' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_int_Variable) == 0x0000E8, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_int_Variable' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_5) == 0x0000EC, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_5' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_6) == 0x0000ED, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_6' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_7) == 0x0000EE, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_7' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_8) == 0x0000EF, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_8' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_9) == 0x0000F0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_9' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_10) == 0x0000F1, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_10' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_bool_Variable_1) == 0x0000F2, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_bool_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_11) == 0x0000F3, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_11' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_12) == 0x0000F4, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_12' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerCharacter_ReturnValue) == 0x0000F8, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerCharacter_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_DynamicCast_AsWillie_BP) == 0x000100, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_DynamicCast_AsWillie_BP' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_DynamicCast_bSuccess) == 0x000108, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_DynamicCast_bSuccess' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000109, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Select_Default) == 0x00010A, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_13) == 0x00010B, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_13' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Select_Default_1) == 0x00010C, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Select_Default_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GreaterEqual_IntInt_ReturnValue_1) == 0x00010D, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GreaterEqual_IntInt_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Select_Default_2) == 0x00010E, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Select_Default_2' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Event_IsDesignTime) == 0x00010F, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Event_IsDesignTime' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000110, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerController_ReturnValue) == 0x000118, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_IntInt_ReturnValue_1) == 0x000120, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_IntInt_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_14) == 0x000121, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_14' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerController_ReturnValue_1) == 0x000128, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_1) == 0x000130, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerController_ReturnValue_2) == 0x000200, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerController_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerController_ReturnValue_3) == 0x000208, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerController_ReturnValue_3' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Event_MyGeometry) == 0x000210, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Event_MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Event_InDeltaTime) == 0x000248, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Event_InDeltaTime' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_2) == 0x000250, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_2' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue) == 0x000320, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue) == 0x000328, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_1) == 0x000330, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable) == 0x000004, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_1) == 0x000005, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_2) == 0x000006, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_bool_Variable) == 0x000007, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_3) == 0x000008, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_4) == 0x000009, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_4' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_int_Variable) == 0x00000C, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_int_Variable' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_5) == 0x000010, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_5' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_6) == 0x000011, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_6' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_7) == 0x000012, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_7' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_8) == 0x000013, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_8' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_9) == 0x000014, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_9' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_10) == 0x000015, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_10' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_bool_Variable_1) == 0x000016, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_bool_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_11) == 0x000017, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_11' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_12) == 0x000018, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_12' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerCharacter_ReturnValue) == 0x000020, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerCharacter_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_DynamicCast_AsWillie_BP) == 0x000028, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_DynamicCast_AsWillie_BP' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_DynamicCast_bSuccess) == 0x000030, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_DynamicCast_bSuccess' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000031, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Select_Default) == 0x000032, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_13) == 0x000033, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_13' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Select_Default_1) == 0x000034, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Select_Default_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GreaterEqual_IntInt_ReturnValue_1) == 0x000035, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GreaterEqual_IntInt_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Select_Default_2) == 0x000036, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Select_Default_2' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Event_IsDesignTime) == 0x000037, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Event_IsDesignTime' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000038, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerController_ReturnValue) == 0x000040, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerController_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_14) == 0x000048, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_14' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_IntInt_ReturnValue_1) == 0x000049, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_IntInt_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerController_ReturnValue_1) == 0x000050, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush) == 0x000060, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerController_ReturnValue_2) == 0x000130, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerController_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetPlayerController_ReturnValue_3) == 0x000138, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetPlayerController_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Event_MyGeometry) == 0x000140, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Event_MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Event_InDeltaTime) == 0x000178, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Event_InDeltaTime' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_1) == 0x000180, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue) == 0x000250, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue) == 0x000258, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_1) == 0x000260, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_2) == 0x000270, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_2' has a wrong offset!");
 static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_3) == 0x000340, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_3' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_4) == 0x000410, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_4' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle) == 0x0004E0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue_1) == 0x0008D0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_2) == 0x0008D8, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_3) == 0x0008E0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle) == 0x000410, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue_1) == 0x000800, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_2) == 0x000808, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_3) == 0x000810, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_4) == 0x000820, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_4' has a wrong offset!");
 static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_5) == 0x0008F0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_5' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_6) == 0x0009C0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_6' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_15) == 0x000A90, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_15' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle_1) == 0x000AA0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue_2) == 0x000E90, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue_3) == 0x000E91, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue_3' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_4) == 0x000E98, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_4' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_5) == 0x000EA0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_5' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_byte_Variable_15) == 0x0009C0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_byte_Variable_15' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle_1) == 0x0009D0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue_2) == 0x000DC0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue_3) == 0x000DC1, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_4) == 0x000DC8, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_4' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_5) == 0x000DD0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_5' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_6) == 0x000DE0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_6' has a wrong offset!");
 static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_7) == 0x000EB0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_7' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_8) == 0x000F80, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_8' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_6) == 0x001050, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_6' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_7) == 0x001058, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_7' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_6) == 0x000F80, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_6' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_7) == 0x000F88, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_7' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_8) == 0x000F90, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_8' has a wrong offset!");
 static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_9) == 0x001060, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_9' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_10) == 0x001130, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_10' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle_2) == 0x001200, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle_2' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle_3) == 0x0015F0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle_3' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_int_Variable_1) == 0x0019E0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_int_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue_4) == 0x0019E4, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue_4' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Select_Default_3) == 0x0019E5, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Select_Default_3' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_8) == 0x0019E8, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_8' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_11) == 0x0019F0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_11' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_9) == 0x001AC0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_9' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle_2) == 0x001130, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle_2' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle_3) == 0x001520, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle_3' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, Temp_int_Variable_1) == 0x001910, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::Temp_int_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_NotEqual_ObjectObject_ReturnValue_4) == 0x001914, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_NotEqual_ObjectObject_ReturnValue_4' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_Select_Default_3) == 0x001915, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_Select_Default_3' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_8) == 0x001918, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_8' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_10) == 0x001920, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_10' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SelectObject_ReturnValue_9) == 0x0019F0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SelectObject_ReturnValue_9' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_11) == 0x001A00, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_11' has a wrong offset!");
 static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_12) == 0x001AD0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_12' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_13) == 0x001BA0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_13' has a wrong offset!");
-static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle_4) == 0x001C70, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle_4' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_ButtonStyle_4) == 0x001BA0, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_ButtonStyle_4' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_13) == 0x001F90, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_13' has a wrong offset!");
 static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_MakeStruct_SlateBrush_14) == 0x002060, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_MakeStruct_SlateBrush_14' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_GetGameInstance_ReturnValue) == 0x002130, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_GetGameInstance_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_DynamicCast_AsGI_Settings) == 0x002138, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_DynamicCast_AsGI_Settings' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, K2Node_DynamicCast_bSuccess_1) == 0x002140, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::K2Node_DynamicCast_bSuccess_1' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast) == 0x002144, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast' has a wrong offset!");
+static_assert(offsetof(UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection, CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast_1) == 0x002148, "Member 'UI_WeaponSelection_C_ExecuteUbergraph_UI_WeaponSelection::CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast_1' has a wrong offset!");
 
 // Function UI_WeaponSelection.UI_WeaponSelection_C.OnKeyDown
 // 0x0210 (0x0210 - 0x0000)

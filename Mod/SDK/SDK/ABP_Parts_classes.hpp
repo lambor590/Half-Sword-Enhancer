@@ -27,7 +27,7 @@ class UABP_Parts_C final : public UAnimInstance
 public:
 	uint8                                         Pad_368[0x8];                                      // 0x0368(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0370(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	struct ABP_Parts::FAnimBlueprintGeneratedMutableData __AnimBlueprintMutables;                           // 0x0378(0x0008)(HasGetValueTypeHash)
+	struct ABP_Parts::FAnimBlueprintGeneratedMutableData __AnimBlueprintMutables;                    // 0x0378(0x0008)(HasGetValueTypeHash)
 	struct FAnimSubsystemInstance                 AnimBlueprintExtension_PropertyAccess;             // 0x0380(0x0008)()
 	struct FAnimSubsystemInstance                 AnimBlueprintExtension_Base;                       // 0x0388(0x0008)()
 	struct FAnimNode_ConvertComponentToLocalSpace AnimGraphNode_ComponentToLocalSpace_24;            // 0x0390(0x0020)()
