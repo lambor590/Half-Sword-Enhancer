@@ -182,7 +182,7 @@ namespace Util {
 
         if (processId == 0) {
             Logger::info("Half Sword not found, launching it...");
-            ShellExecuteA(0, 0, "steam://rungameid/2527870", 0, 0, SW_SHOW);
+            ShellExecuteA(0, 0, "steam://rungameid/2642680", 0, 0, SW_SHOW);
 
             for (int i = 0; i < timeoutSeconds && (processId = getProcessIdByName(processName)) == 0; i++)
                 std::this_thread::sleep_for(std::chrono::seconds(1));
