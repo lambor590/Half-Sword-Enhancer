@@ -550,7 +550,7 @@ public:
 public:
 	FVector& Normalize()
 	{
-		*this /= Magnitude();
+		*this /= static_cast<float>(Magnitude());
 		return *this;
 	}
 	FVector& operator*=(const FVector& Other)
@@ -599,7 +599,7 @@ public:
 	}
 	FVector GetNormalized() const
 	{
-		return *this / Magnitude();
+		return *this / static_cast<float>(Magnitude());
 	}
 	bool IsZero() const
 	{
@@ -633,14 +633,14 @@ public:
 	{
 		if (Other.X == 0.0f || Other.Y == 0.0f ||Other.Z == 0.0f)
 			return *this;
-	
+
 		return { X / Other.X, Y / Other.Y, Z / Other.Z };
 	}
 	FVector operator/(float Scalar) const
 	{
 		if (Scalar == 0.0f)
 			return *this;
-	
+
 		return { X / Scalar, Y / Scalar, Z / Scalar };
 	}
 	bool operator==(const FVector& Other) const
@@ -704,7 +704,7 @@ public:
 public:
 	FVector2D& Normalize()
 	{
-		*this /= Magnitude();
+		*this /= static_cast<float>(Magnitude());
 		return *this;
 	}
 	FVector2D& operator*=(const FVector2D& Other)
@@ -749,7 +749,7 @@ public:
 	}
 	FVector2D GetNormalized() const
 	{
-		return *this / Magnitude();
+		return *this / static_cast<float>(Magnitude());
 	}
 	bool IsZero() const
 	{
@@ -783,14 +783,14 @@ public:
 	{
 		if (Other.X == 0.0f || Other.Y == 0.0f)
 			return *this;
-	
+
 		return { X / Other.X, Y / Other.Y };
 	}
 	FVector2D operator/(float Scalar) const
 	{
 		if (Scalar == 0.0f)
 			return *this;
-	
+
 		return { X / Scalar, Y / Scalar };
 	}
 	bool operator==(const FVector2D& Other) const
