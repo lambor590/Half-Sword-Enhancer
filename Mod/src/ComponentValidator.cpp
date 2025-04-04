@@ -2,8 +2,7 @@
 
 template<>
 bool ComponentValidator::Validate<SDK::UWorld>(SDK::UWorld*& world) {
-    if (!s_world) s_world = SDK::UWorld::GetWorld();
-    return (world = s_world) != nullptr;
+    return (world = SDK::UWorld::GetWorld()) != nullptr;
 }
 
 template<>

@@ -4,9 +4,6 @@
 #include "SDK/Willie_BP_classes.hpp"
 
 class ComponentValidator {
-private:
-    inline static SDK::UWorld* s_world = nullptr;
-
 public:
     template<typename T>
     static bool Validate(T*& component) {
