@@ -604,14 +604,14 @@ public:
 	{
 		if (Other.X == 0.0f || Other.Y == 0.0f ||Other.Z == 0.0f)
 			return *this;
-
+	
 		return { X / Other.X, Y / Other.Y, Z / Other.Z };
 	}
 	FVector operator/(float Scalar) const
 	{
 		if (Scalar == 0.0f)
 			return *this;
-
+	
 		return { X / Scalar, Y / Scalar, Z / Scalar };
 	}
 	bool operator==(const FVector& Other) const
@@ -737,14 +737,14 @@ public:
 	{
 		if (Other.X == 0.0f || Other.Y == 0.0f)
 			return *this;
-
+	
 		return { X / Other.X, Y / Other.Y };
 	}
 	FVector2D operator/(float Scalar) const
 	{
 		if (Scalar == 0.0f)
 			return *this;
-
+	
 		return { X / Scalar, Y / Scalar };
 	}
 	bool operator==(const FVector2D& Other) const
