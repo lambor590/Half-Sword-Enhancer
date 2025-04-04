@@ -21,4 +21,4 @@ template<>
 bool ComponentValidator::Validate<SDK::APlayerController>(SDK::APlayerController*& playerController);
 
 template<>
-bool ComponentValidator::Validate<SDK::AWillie_BP_C>(SDK::AWillie_BP_C*& playerPawn); 
+bool ComponentValidator::Validate<SDK::AWillie_BP_C>(SDK::AWillie_BP_C*& playerPawn);
