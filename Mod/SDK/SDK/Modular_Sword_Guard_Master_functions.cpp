@@ -17,23 +17,17 @@
 namespace SDK
 {
 
-// Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.ExecuteUbergraph_Modular_Sword_Guard_Master
-// (Final, UbergraphFunction)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
 
-void AModular_Sword_Guard_Master_C::ExecuteUbergraph_Modular_Sword_Guard_Master(int32 EntryPoint)
+void AModular_Sword_Guard_Master_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Sword_Guard_Master_C", "ExecuteUbergraph_Modular_Sword_Guard_Master");
+		Func = Class->GetFunction("Modular_Sword_Guard_Master_C", "UserConstructionScript");
 
-	Params::Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -57,17 +51,23 @@ void AModular_Sword_Guard_Master_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
+// Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.ExecuteUbergraph_Modular_Sword_Guard_Master
+// (Final, UbergraphFunction)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AModular_Sword_Guard_Master_C::UserConstructionScript()
+void AModular_Sword_Guard_Master_C::ExecuteUbergraph_Modular_Sword_Guard_Master(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Sword_Guard_Master_C", "UserConstructionScript");
+		Func = Class->GetFunction("Modular_Sword_Guard_Master_C", "ExecuteUbergraph_Modular_Sword_Guard_Master");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 }

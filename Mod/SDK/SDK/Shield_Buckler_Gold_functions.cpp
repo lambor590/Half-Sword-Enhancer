@@ -17,6 +17,54 @@
 namespace SDK
 {
 
+// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void AShield_Buckler_Gold_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Buckler_Gold_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AShield_Buckler_Gold_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Buckler_Gold_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.ExecuteUbergraph_Shield_Buckler_Gold
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AShield_Buckler_Gold_C::ExecuteUbergraph_Shield_Buckler_Gold(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Buckler_Gold_C", "ExecuteUbergraph_Shield_Buckler_Gold");
+
+	Params::Shield_Buckler_Gold_C_ExecuteUbergraph_Shield_Buckler_Gold Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -42,54 +90,6 @@ void AShield_Buckler_Gold_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.ExecuteUbergraph_Shield_Buckler_Gold
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AShield_Buckler_Gold_C::ExecuteUbergraph_Shield_Buckler_Gold(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Buckler_Gold_C", "ExecuteUbergraph_Shield_Buckler_Gold");
-
-	Params::Shield_Buckler_Gold_C_ExecuteUbergraph_Shield_Buckler_Gold Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AShield_Buckler_Gold_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Buckler_Gold_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void AShield_Buckler_Gold_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Buckler_Gold_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

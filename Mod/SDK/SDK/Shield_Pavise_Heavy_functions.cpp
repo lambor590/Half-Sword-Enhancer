@@ -17,6 +17,54 @@
 namespace SDK
 {
 
+// Function Shield_Pavise_Heavy.Shield_Pavise_Heavy_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void AShield_Pavise_Heavy_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Pavise_Heavy_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Shield_Pavise_Heavy.Shield_Pavise_Heavy_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AShield_Pavise_Heavy_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Pavise_Heavy_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Shield_Pavise_Heavy.Shield_Pavise_Heavy_C.ExecuteUbergraph_Shield_Pavise_Heavy
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AShield_Pavise_Heavy_C::ExecuteUbergraph_Shield_Pavise_Heavy(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Pavise_Heavy_C", "ExecuteUbergraph_Shield_Pavise_Heavy");
+
+	Params::Shield_Pavise_Heavy_C_ExecuteUbergraph_Shield_Pavise_Heavy Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Shield_Pavise_Heavy.Shield_Pavise_Heavy_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -42,54 +90,6 @@ void AShield_Pavise_Heavy_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Shield_Pavise_Heavy.Shield_Pavise_Heavy_C.ExecuteUbergraph_Shield_Pavise_Heavy
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AShield_Pavise_Heavy_C::ExecuteUbergraph_Shield_Pavise_Heavy(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Pavise_Heavy_C", "ExecuteUbergraph_Shield_Pavise_Heavy");
-
-	Params::Shield_Pavise_Heavy_C_ExecuteUbergraph_Shield_Pavise_Heavy Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Shield_Pavise_Heavy.Shield_Pavise_Heavy_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AShield_Pavise_Heavy_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Pavise_Heavy_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Shield_Pavise_Heavy.Shield_Pavise_Heavy_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void AShield_Pavise_Heavy_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Pavise_Heavy_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

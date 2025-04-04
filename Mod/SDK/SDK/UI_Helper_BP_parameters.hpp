@@ -17,22 +17,16 @@
 namespace SDK::Params
 {
 
-// Function UI_Helper_BP.UI_Helper_BP_C.Add Handle Event
-// 0x0030 (0x0030 - 0x0000)
-struct UI_Helper_BP_C_Add_Handle_Event final
+// Function UI_Helper_BP.UI_Helper_BP_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct UI_Helper_BP_C_ReceiveTick final
 {
 public:
-	class UPrimitiveComponent*                    Component;                                         // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class FName                                   InBoneName;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                GrabLocation;                                      // 0x0010(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Target_0;                                          // 0x0028(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
-static_assert(alignof(UI_Helper_BP_C_Add_Handle_Event) == 0x000008, "Wrong alignment on UI_Helper_BP_C_Add_Handle_Event");
-static_assert(sizeof(UI_Helper_BP_C_Add_Handle_Event) == 0x000030, "Wrong size on UI_Helper_BP_C_Add_Handle_Event");
-static_assert(offsetof(UI_Helper_BP_C_Add_Handle_Event, Component) == 0x000000, "Member 'UI_Helper_BP_C_Add_Handle_Event::Component' has a wrong offset!");
-static_assert(offsetof(UI_Helper_BP_C_Add_Handle_Event, InBoneName) == 0x000008, "Member 'UI_Helper_BP_C_Add_Handle_Event::InBoneName' has a wrong offset!");
-static_assert(offsetof(UI_Helper_BP_C_Add_Handle_Event, GrabLocation) == 0x000010, "Member 'UI_Helper_BP_C_Add_Handle_Event::GrabLocation' has a wrong offset!");
-static_assert(offsetof(UI_Helper_BP_C_Add_Handle_Event, Target_0) == 0x000028, "Member 'UI_Helper_BP_C_Add_Handle_Event::Target_0' has a wrong offset!");
+static_assert(alignof(UI_Helper_BP_C_ReceiveTick) == 0x000004, "Wrong alignment on UI_Helper_BP_C_ReceiveTick");
+static_assert(sizeof(UI_Helper_BP_C_ReceiveTick) == 0x000004, "Wrong size on UI_Helper_BP_C_ReceiveTick");
+static_assert(offsetof(UI_Helper_BP_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'UI_Helper_BP_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
 
 // Function UI_Helper_BP.UI_Helper_BP_C.ExecuteUbergraph_UI_Helper_BP
 // 0x0320 (0x0320 - 0x0000)
@@ -96,16 +90,22 @@ static_assert(offsetof(UI_Helper_BP_C_ExecuteUbergraph_UI_Helper_BP, CallFunc_Se
 static_assert(offsetof(UI_Helper_BP_C_ExecuteUbergraph_UI_Helper_BP, CallFunc_SetAngularDamping_NewAngularDamping_ImplicitCast) == 0x000318, "Member 'UI_Helper_BP_C_ExecuteUbergraph_UI_Helper_BP::CallFunc_SetAngularDamping_NewAngularDamping_ImplicitCast' has a wrong offset!");
 static_assert(offsetof(UI_Helper_BP_C_ExecuteUbergraph_UI_Helper_BP, CallFunc_SetAngularStiffness_NewAngularStiffness_ImplicitCast) == 0x00031C, "Member 'UI_Helper_BP_C_ExecuteUbergraph_UI_Helper_BP::CallFunc_SetAngularStiffness_NewAngularStiffness_ImplicitCast' has a wrong offset!");
 
-// Function UI_Helper_BP.UI_Helper_BP_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct UI_Helper_BP_C_ReceiveTick final
+// Function UI_Helper_BP.UI_Helper_BP_C.Add Handle Event
+// 0x0030 (0x0030 - 0x0000)
+struct UI_Helper_BP_C_Add_Handle_Event final
 {
 public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    Component;                                         // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class FName                                   InBoneName;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                GrabLocation;                                      // 0x0010(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Target_0;                                          // 0x0028(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 };
-static_assert(alignof(UI_Helper_BP_C_ReceiveTick) == 0x000004, "Wrong alignment on UI_Helper_BP_C_ReceiveTick");
-static_assert(sizeof(UI_Helper_BP_C_ReceiveTick) == 0x000004, "Wrong size on UI_Helper_BP_C_ReceiveTick");
-static_assert(offsetof(UI_Helper_BP_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'UI_Helper_BP_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
+static_assert(alignof(UI_Helper_BP_C_Add_Handle_Event) == 0x000008, "Wrong alignment on UI_Helper_BP_C_Add_Handle_Event");
+static_assert(sizeof(UI_Helper_BP_C_Add_Handle_Event) == 0x000030, "Wrong size on UI_Helper_BP_C_Add_Handle_Event");
+static_assert(offsetof(UI_Helper_BP_C_Add_Handle_Event, Component) == 0x000000, "Member 'UI_Helper_BP_C_Add_Handle_Event::Component' has a wrong offset!");
+static_assert(offsetof(UI_Helper_BP_C_Add_Handle_Event, InBoneName) == 0x000008, "Member 'UI_Helper_BP_C_Add_Handle_Event::InBoneName' has a wrong offset!");
+static_assert(offsetof(UI_Helper_BP_C_Add_Handle_Event, GrabLocation) == 0x000010, "Member 'UI_Helper_BP_C_Add_Handle_Event::GrabLocation' has a wrong offset!");
+static_assert(offsetof(UI_Helper_BP_C_Add_Handle_Event, Target_0) == 0x000028, "Member 'UI_Helper_BP_C_Add_Handle_Event::Target_0' has a wrong offset!");
 
 }
 

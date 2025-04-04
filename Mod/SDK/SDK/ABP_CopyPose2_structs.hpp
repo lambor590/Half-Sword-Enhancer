@@ -41,13 +41,5 @@ static_assert(offsetof(ABP_CopyPose2::FAnimBlueprintGeneratedConstantData, AnimB
 static_assert(offsetof(ABP_CopyPose2::FAnimBlueprintGeneratedConstantData, AnimGraphNode_Root) == 0x0000D0, "Member 'ABP_CopyPose2::FAnimBlueprintGeneratedConstantData::AnimGraphNode_Root' has a wrong offset!");
 static_assert(offsetof(ABP_CopyPose2::FAnimBlueprintGeneratedConstantData, AnimGraphNode_CopyPoseFromMesh) == 0x000100, "Member 'ABP_CopyPose2::FAnimBlueprintGeneratedConstantData::AnimGraphNode_CopyPoseFromMesh' has a wrong offset!");
 
-// ScriptStruct ABP_CopyPose2.ABP_CopyPose2_C.AnimBlueprintGeneratedMutableData
-// 0x0000 (0x0001 - 0x0001)
-struct ABP_CopyPose2::FAnimBlueprintGeneratedMutableData final : public FAnimBlueprintMutableData
-{
-};
-static_assert(alignof(ABP_CopyPose2::FAnimBlueprintGeneratedMutableData) == 0x000001, "Wrong alignment on ABP_CopyPose2::FAnimBlueprintGeneratedMutableData");
-static_assert(sizeof(ABP_CopyPose2::FAnimBlueprintGeneratedMutableData) == 0x000001, "Wrong size on ABP_CopyPose2::FAnimBlueprintGeneratedMutableData");
-
 }
 

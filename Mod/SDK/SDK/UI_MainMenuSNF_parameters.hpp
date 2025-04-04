@@ -13,11 +13,11 @@
 #include "Str_ArmorElements_structs.hpp"
 #include "UMG_structs.hpp"
 #include "SlateCore_structs.hpp"
-#include "Str_Loadout_Equipment_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Str_Loadout_Weapons_structs.hpp"
 #include "PhysicsCore_structs.hpp"
+#include "Str_Loadout_Equipment_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Str_WeaponParts_structs.hpp"
 #include "Str_Loadout_Armor_structs.hpp"
@@ -26,6 +26,929 @@
 
 namespace SDK::Params
 {
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Tick
+// 0x003C (0x003C - 0x0000)
+struct UI_MainMenuSNF_C_Tick final
+{
+public:
+	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Tick) == 0x000004, "Wrong alignment on UI_MainMenuSNF_C_Tick");
+static_assert(sizeof(UI_MainMenuSNF_C_Tick) == 0x00003C, "Wrong size on UI_MainMenuSNF_C_Tick");
+static_assert(offsetof(UI_MainMenuSNF_C_Tick, MyGeometry) == 0x000000, "Member 'UI_MainMenuSNF_C_Tick::MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Tick, InDeltaTime) == 0x000038, "Member 'UI_MainMenuSNF_C_Tick::InDeltaTime' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.OnMouseButtonUp
+// 0x0220 (0x0220 - 0x0000)
+struct UI_MainMenuSNF_C_OnMouseButtonUp final
+{
+public:
+	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+	struct FPointerEvent                          MouseEvent;                                        // 0x0038(0x0078)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+	struct FEventReply                            ReturnValue;                                       // 0x00B0(0x00B8)(Parm, OutParm, ReturnParm)
+	struct FEventReply                            K2Node_MakeStruct_EventReply;                      // 0x0168(0x00B8)()
+};
+static_assert(alignof(UI_MainMenuSNF_C_OnMouseButtonUp) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_OnMouseButtonUp");
+static_assert(sizeof(UI_MainMenuSNF_C_OnMouseButtonUp) == 0x000220, "Wrong size on UI_MainMenuSNF_C_OnMouseButtonUp");
+static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonUp, MyGeometry) == 0x000000, "Member 'UI_MainMenuSNF_C_OnMouseButtonUp::MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonUp, MouseEvent) == 0x000038, "Member 'UI_MainMenuSNF_C_OnMouseButtonUp::MouseEvent' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonUp, ReturnValue) == 0x0000B0, "Member 'UI_MainMenuSNF_C_OnMouseButtonUp::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonUp, K2Node_MakeStruct_EventReply) == 0x000168, "Member 'UI_MainMenuSNF_C_OnMouseButtonUp::K2Node_MakeStruct_EventReply' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.OnMouseButtonDown
+// 0x0220 (0x0220 - 0x0000)
+struct UI_MainMenuSNF_C_OnMouseButtonDown final
+{
+public:
+	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+	struct FPointerEvent                          MouseEvent;                                        // 0x0038(0x0078)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+	struct FEventReply                            ReturnValue;                                       // 0x00B0(0x00B8)(Parm, OutParm, ReturnParm)
+	struct FEventReply                            K2Node_MakeStruct_EventReply;                      // 0x0168(0x00B8)()
+};
+static_assert(alignof(UI_MainMenuSNF_C_OnMouseButtonDown) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_OnMouseButtonDown");
+static_assert(sizeof(UI_MainMenuSNF_C_OnMouseButtonDown) == 0x000220, "Wrong size on UI_MainMenuSNF_C_OnMouseButtonDown");
+static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonDown, MyGeometry) == 0x000000, "Member 'UI_MainMenuSNF_C_OnMouseButtonDown::MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonDown, MouseEvent) == 0x000038, "Member 'UI_MainMenuSNF_C_OnMouseButtonDown::MouseEvent' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonDown, ReturnValue) == 0x0000B0, "Member 'UI_MainMenuSNF_C_OnMouseButtonDown::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonDown, K2Node_MakeStruct_EventReply) == 0x000168, "Member 'UI_MainMenuSNF_C_OnMouseButtonDown::K2Node_MakeStruct_EventReply' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.GetVisibility_0
+// 0x0005 (0x0005 - 0x0000)
+struct UI_MainMenuSNF_C_GetVisibility_0 final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_GetVisibility_0) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_GetVisibility_0");
+static_assert(sizeof(UI_MainMenuSNF_C_GetVisibility_0) == 0x000005, "Wrong size on UI_MainMenuSNF_C_GetVisibility_0");
+static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_GetVisibility_0::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_GetVisibility_0::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_GetVisibility_0::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_GetVisibility_0::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, K2Node_Select_Default) == 0x000004, "Member 'UI_MainMenuSNF_C_GetVisibility_0::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.GetText
+// 0x00A0 (0x00A0 - 0x0000)
+struct UI_MainMenuSNF_C_GetText final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   Temp_text_Variable;                                // 0x0018(0x0010)(ConstParm)
+	class FText                                   Temp_text_Variable_1;                              // 0x0028(0x0010)(ConstParm)
+	class FText                                   Temp_text_Variable_2;                              // 0x0038(0x0010)(ConstParm)
+	class FText                                   Temp_text_Variable_3;                              // 0x0048(0x0010)(ConstParm)
+	class FText                                   Temp_text_Variable_4;                              // 0x0058(0x0010)(ConstParm)
+	class FText                                   K2Node_Select_Default;                             // 0x0068(0x0010)(ConstParm)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0078(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_79[0x7];                                       // 0x0079(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   CallFunc_SelectText_ReturnValue;                   // 0x0080(0x0010)()
+	class FText                                   CallFunc_SelectText_ReturnValue_1;                 // 0x0090(0x0010)()
+};
+static_assert(alignof(UI_MainMenuSNF_C_GetText) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_GetText");
+static_assert(sizeof(UI_MainMenuSNF_C_GetText) == 0x0000A0, "Wrong size on UI_MainMenuSNF_C_GetText");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_GetText::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_int_Variable) == 0x000010, "Member 'UI_MainMenuSNF_C_GetText::Temp_int_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable) == 0x000018, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable_1) == 0x000028, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable_2) == 0x000038, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable_3) == 0x000048, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable_4) == 0x000058, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable_4' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, K2Node_Select_Default) == 0x000068, "Member 'UI_MainMenuSNF_C_GetText::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000078, "Member 'UI_MainMenuSNF_C_GetText::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, CallFunc_SelectText_ReturnValue) == 0x000080, "Member 'UI_MainMenuSNF_C_GetText::CallFunc_SelectText_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_GetText, CallFunc_SelectText_ReturnValue_1) == 0x000090, "Member 'UI_MainMenuSNF_C_GetText::CallFunc_SelectText_ReturnValue_1' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_TextFreeMode_1_Visibility
+// 0x0007 (0x0007 - 0x0000)
+struct UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility) == 0x000007, "Wrong size on UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, K2Node_Select_Default) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RankProgressText_Text
+// 0x0020 (0x0020 - 0x0000)
+struct UI_MainMenuSNF_C_Get_RankProgressText_Text final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Conv_IntToText_ReturnValue;               // 0x0010(0x0010)()
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_RankProgressText_Text) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_Get_RankProgressText_Text");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_RankProgressText_Text) == 0x000020, "Wrong size on UI_MainMenuSNF_C_Get_RankProgressText_Text");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_Text, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_Text::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_Text, CallFunc_Conv_IntToText_ReturnValue) == 0x000010, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_Text::CallFunc_Conv_IntToText_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RankProgressText_2_Text
+// 0x0048 (0x0048 - 0x0000)
+struct UI_MainMenuSNF_C_Get_RankProgressText_2_Text final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_1;                               // 0x0014(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_2;                               // 0x0018(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_3;                               // 0x001C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_4;                               // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_5;                               // 0x0024(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_6;                               // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_7;                               // 0x002C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_8;                               // 0x0030(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         K2Node_Select_Default;                             // 0x0034(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_IntToText_ReturnValue;               // 0x0038(0x0010)()
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_Get_RankProgressText_2_Text");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text) == 0x000048, "Wrong size on UI_MainMenuSNF_C_Get_RankProgressText_2_Text");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable) == 0x000010, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_1) == 0x000014, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_2) == 0x000018, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_3) == 0x00001C, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_4) == 0x000020, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_4' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_5) == 0x000024, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_5' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_6) == 0x000028, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_6' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_7) == 0x00002C, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_7' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_8) == 0x000030, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_8' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, K2Node_Select_Default) == 0x000034, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, CallFunc_Conv_IntToText_ReturnValue) == 0x000038, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::CallFunc_Conv_IntToText_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RankProgress_Percent
+// 0x0050 (0x0050 - 0x0000)
+struct UI_MainMenuSNF_C_Get_RankProgress_Percent final
+{
+public:
+	float                                         ReturnValue;                                       // 0x0000(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable;                                 // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_1;                               // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_2;                               // 0x000C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_3;                               // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_4;                               // 0x0014(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_5;                               // 0x0018(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_6;                               // 0x001C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_7;                               // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_8;                               // 0x0024(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Conv_IntToDouble_ReturnValue;             // 0x0028(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         K2Node_Select_Default;                             // 0x0030(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_34[0x4];                                       // 0x0034(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        CallFunc_Conv_IntToDouble_ReturnValue_1;           // 0x0038(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Divide_DoubleDouble_ReturnValue;          // 0x0040(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_FunctionResult_ReturnValue_ImplicitCast;    // 0x0048(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_RankProgress_Percent) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_Get_RankProgress_Percent");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_RankProgress_Percent) == 0x000050, "Wrong size on UI_MainMenuSNF_C_Get_RankProgress_Percent");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_2) == 0x00000C, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_3) == 0x000010, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_4) == 0x000014, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_4' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_5) == 0x000018, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_5' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_6) == 0x00001C, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_6' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_7) == 0x000020, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_7' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_8) == 0x000024, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_8' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, CallFunc_Conv_IntToDouble_ReturnValue) == 0x000028, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::CallFunc_Conv_IntToDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, K2Node_Select_Default) == 0x000030, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, CallFunc_Conv_IntToDouble_ReturnValue_1) == 0x000038, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::CallFunc_Conv_IntToDouble_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, CallFunc_Divide_DoubleDouble_ReturnValue) == 0x000040, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::CallFunc_Divide_DoubleDouble_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, K2Node_FunctionResult_ReturnValue_ImplicitCast) == 0x000048, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::K2Node_FunctionResult_ReturnValue_ImplicitCast' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandBodyButton_Visibility
+// 0x0009 (0x0009 - 0x0000)
+struct UI_MainMenuSNF_C_Get_RandBodyButton_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandBodyButton_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility) == 0x000009, "Wrong size on UI_MainMenuSNF_C_Get_RandBodyButton_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, CallFunc_Less_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, K2Node_Select_Default) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandBodyButton_bIsEnabled
+// 0x0002 (0x0002 - 0x0000)
+struct UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled, CallFunc_Not_PreBool_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandArmourButton_Visibility
+// 0x000D (0x000D - 0x0000)
+struct UI_MainMenuSNF_C_Get_RandArmourButton_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_3;                 // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandArmourButton_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility) == 0x00000D, "Wrong size on UI_MainMenuSNF_C_Get_RandArmourButton_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_Less_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_Greater_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_Greater_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_BooleanAND_ReturnValue_3) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_BooleanAND_ReturnValue_3' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, K2Node_Select_Default) == 0x00000C, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandArmourButton_Free_Visibility
+// 0x000C (0x000C - 0x0000)
+struct UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_Less_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_Greater_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_Greater_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandArmourButton_Cost_1_bIsEnabled
+// 0x0002 (0x0002 - 0x0000)
+struct UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled, CallFunc_Greater_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled::CallFunc_Greater_IntInt_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_PortraitImage_Brush
+// 0x0200 (0x0200 - 0x0000)
+struct UI_MainMenuSNF_C_Get_PortraitImage_Brush final
+{
+public:
+	struct FSlateBrush                            ReturnValue;                                       // 0x0000(0x00D0)(Parm, OutParm, ReturnParm)
+	int32                                         Temp_int_Variable;                                 // 0x00D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_D4[0x4];                                       // 0x00D4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                Temp_object_Variable;                              // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_1;                            // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_2;                            // 0x00E8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_3;                            // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_4;                            // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_5;                            // 0x0100(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_6;                            // 0x0108(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_7;                            // 0x0110(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_8;                            // 0x0118(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                K2Node_Select_Default;                             // 0x0120(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	uint8                                         Pad_128[0x8];                                      // 0x0128(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0130(0x00D0)()
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_PortraitImage_Brush) == 0x000010, "Wrong alignment on UI_MainMenuSNF_C_Get_PortraitImage_Brush");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_PortraitImage_Brush) == 0x000200, "Wrong size on UI_MainMenuSNF_C_Get_PortraitImage_Brush");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_int_Variable) == 0x0000D0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_int_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable) == 0x0000D8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_1) == 0x0000E0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_2) == 0x0000E8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_3) == 0x0000F0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_4) == 0x0000F8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_4' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_5) == 0x000100, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_5' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_6) == 0x000108, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_6' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_7) == 0x000110, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_7' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_8) == 0x000118, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_8' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, K2Node_Select_Default) == 0x000120, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, K2Node_MakeStruct_SlateBrush) == 0x000130, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::K2Node_MakeStruct_SlateBrush' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_PortraitImage_1_Brush
+// 0x0200 (0x0200 - 0x0000)
+struct UI_MainMenuSNF_C_Get_PortraitImage_1_Brush final
+{
+public:
+	struct FSlateBrush                            ReturnValue;                                       // 0x0000(0x00D0)(Parm, OutParm, ReturnParm)
+	int32                                         Temp_int_Variable;                                 // 0x00D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_D4[0x4];                                       // 0x00D4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                Temp_object_Variable;                              // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_1;                            // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_2;                            // 0x00E8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_3;                            // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_4;                            // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_5;                            // 0x0100(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_6;                            // 0x0108(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_7;                            // 0x0110(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                Temp_object_Variable_8;                            // 0x0118(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	class UObject*                                K2Node_Select_Default;                             // 0x0120(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
+	uint8                                         Pad_128[0x8];                                      // 0x0128(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0130(0x00D0)()
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush) == 0x000010, "Wrong alignment on UI_MainMenuSNF_C_Get_PortraitImage_1_Brush");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush) == 0x000200, "Wrong size on UI_MainMenuSNF_C_Get_PortraitImage_1_Brush");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_int_Variable) == 0x0000D0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_int_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable) == 0x0000D8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_1) == 0x0000E0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_2) == 0x0000E8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_3) == 0x0000F0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_4) == 0x0000F8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_4' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_5) == 0x000100, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_5' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_6) == 0x000108, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_6' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_7) == 0x000110, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_7' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_8) == 0x000118, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_8' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, K2Node_Select_Default) == 0x000120, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, K2Node_MakeStruct_SlateBrush) == 0x000130, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::K2Node_MakeStruct_SlateBrush' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_FactionText_Visibility
+// 0x0007 (0x0007 - 0x0000)
+struct UI_MainMenuSNF_C_Get_FactionText_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_FactionText_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_FactionText_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_FactionText_Visibility) == 0x000007, "Wrong size on UI_MainMenuSNF_C_Get_FactionText_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, CallFunc_Less_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, K2Node_Select_Default) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_FactionBonusText_Text
+// 0x0088 (0x0088 - 0x0000)
+struct UI_MainMenuSNF_C_Get_FactionBonusText_Text final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   Temp_text_Variable;                                // 0x0018(0x0010)(ConstParm)
+	class FText                                   Temp_text_Variable_1;                              // 0x0028(0x0010)(ConstParm)
+	class FText                                   Temp_text_Variable_2;                              // 0x0038(0x0010)(ConstParm)
+	class FText                                   Temp_text_Variable_3;                              // 0x0048(0x0010)(ConstParm)
+	class FText                                   Temp_text_Variable_4;                              // 0x0058(0x0010)(ConstParm)
+	class FText                                   K2Node_Select_Default;                             // 0x0068(0x0010)(ConstParm)
+	class FText                                   CallFunc_SelectText_ReturnValue;                   // 0x0078(0x0010)()
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_FactionBonusText_Text) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_Get_FactionBonusText_Text");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_FactionBonusText_Text) == 0x000088, "Wrong size on UI_MainMenuSNF_C_Get_FactionBonusText_Text");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_int_Variable) == 0x000010, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_int_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable) == 0x000018, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable_1) == 0x000028, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable_2) == 0x000038, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable_3) == 0x000048, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable_3' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable_4) == 0x000058, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable_4' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, K2Node_Select_Default) == 0x000068, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::K2Node_Select_Default' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, CallFunc_SelectText_ReturnValue) == 0x000078, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::CallFunc_SelectText_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Faction1_bIsEnabled
+// 0x0004 (0x0004 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Faction1_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Faction1_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled) == 0x000004, "Wrong size on UI_MainMenuSNF_C_Get_Faction1_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Faction1_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Faction1_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled, CallFunc_Not_PreBool_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Faction1_bIsEnabled::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Faction1_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_9_Visibility
+// 0x000C (0x000C - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_9_Gau_bIsEnabled
+// 0x0003 (0x0003 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_8_Visibility
+// 0x000C (0x000C - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_8_Gau_bIsEnabled
+// 0x0003 (0x0003 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_7_Visibility
+// 0x000C (0x000C - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_7_Gau_bIsEnabled
+// 0x0003 (0x0003 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_6_Visibility
+// 0x000C (0x000C - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_6_Gau_bIsEnabled
+// 0x0003 (0x0003 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_5_Visibility
+// 0x000C (0x000C - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_5_Gau_bIsEnabled
+// 0x0003 (0x0003 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_4_Visibility
+// 0x000C (0x000C - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_4_Gau_bIsEnabled
+// 0x0003 (0x0003 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_3_Visibility
+// 0x000B (0x000B - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility) == 0x00000B, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, K2Node_Select_Default) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_3_Gau_bIsEnabled
+// 0x0002 (0x0002 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_2_Visibility
+// 0x000B (0x000B - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility) == 0x00000B, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, K2Node_Select_Default) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_2_Gau_bIsEnabled
+// 0x0002 (0x0002 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_1_Visibility
+// 0x0008 (0x0008 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility) == 0x000008, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, K2Node_Select_Default) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_1_Gau_bIsEnabled
+// 0x0002 (0x0002 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_GauntletMode_Visibility
+// 0x0005 (0x0005 - 0x0000)
+struct UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility) == 0x000005, "Wrong size on UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, K2Node_Select_Default) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::K2Node_Select_Default' has a wrong offset!");
+
+// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Free_Mode_Text_Visibility
+// 0x0005 (0x0005 - 0x0000)
+struct UI_MainMenuSNF_C_Free_Mode_Text_Visibility final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Free_Mode_Text_Visibility");
+static_assert(sizeof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility) == 0x000005, "Wrong size on UI_MainMenuSNF_C_Free_Mode_Text_Visibility");
+static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::ReturnValue' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::Temp_bool_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::Temp_byte_Variable' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::Temp_byte_Variable_1' has a wrong offset!");
+static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, K2Node_Select_Default) == 0x000004, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::K2Node_Select_Default' has a wrong offset!");
 
 // Function UI_MainMenuSNF.UI_MainMenuSNF_C.ExecuteUbergraph_UI_MainMenuSNF
 // 0x7940 (0x7940 - 0x0000)
@@ -460,7 +1383,7 @@ public:
 	struct FGeometry                              K2Node_Event_MyGeometry;                           // 0x14E8(0x0038)(IsPlainOldData, NoDestructor)
 	float                                         K2Node_Event_InDeltaTime;                          // 0x1520(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_1524[0x4];                                     // 0x1524(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClass_OutActors_1;         // 0x1528(0x0010)(ReferenceParm)
+	TArray<class BP_FreeCamera_0::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClass_OutActors_1;       // 0x1528(0x0010)(ReferenceParm)
 	int32                                         CallFunc_Array_Length_ReturnValue_1;               // 0x1538(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_153C[0x4];                                     // 0x153C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FTransform                             CallFunc_K2_GetComponentToWorld_ReturnValue;       // 0x1540(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -727,7 +1650,7 @@ public:
 	uint8                                         Pad_4DA5[0x3];                                     // 0x4DA5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         Temp_int_Array_Index_Variable;                     // 0x4DA8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_4DAC[0x4];                                     // 0x4DAC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item;                           // 0x4DB0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_Array_Get_Item;                           // 0x4DB0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_ActorHasTag_ReturnValue;                  // 0x4DB8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_4DB9[0x3];                                     // 0x4DB9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         Temp_int_Loop_Counter_Variable;                    // 0x4DBC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -1632,929 +2555,6 @@ static_assert(offsetof(UI_MainMenuSNF_C_ExecuteUbergraph_UI_MainMenuSNF, CallFun
 static_assert(offsetof(UI_MainMenuSNF_C_ExecuteUbergraph_UI_MainMenuSNF, CallFunc_PlaySoundAtLocation_VolumeMultiplier_ImplicitCast) == 0x007928, "Member 'UI_MainMenuSNF_C_ExecuteUbergraph_UI_MainMenuSNF::CallFunc_PlaySoundAtLocation_VolumeMultiplier_ImplicitCast' has a wrong offset!");
 static_assert(offsetof(UI_MainMenuSNF_C_ExecuteUbergraph_UI_MainMenuSNF, CallFunc_PlaySoundAtLocation_PitchMultiplier_ImplicitCast) == 0x00792C, "Member 'UI_MainMenuSNF_C_ExecuteUbergraph_UI_MainMenuSNF::CallFunc_PlaySoundAtLocation_PitchMultiplier_ImplicitCast' has a wrong offset!");
 static_assert(offsetof(UI_MainMenuSNF_C_ExecuteUbergraph_UI_MainMenuSNF, CallFunc_VInterpTo_DeltaTime_ImplicitCast) == 0x007930, "Member 'UI_MainMenuSNF_C_ExecuteUbergraph_UI_MainMenuSNF::CallFunc_VInterpTo_DeltaTime_ImplicitCast' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Free_Mode_Text_Visibility
-// 0x0005 (0x0005 - 0x0000)
-struct UI_MainMenuSNF_C_Free_Mode_Text_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Free_Mode_Text_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility) == 0x000005, "Wrong size on UI_MainMenuSNF_C_Free_Mode_Text_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Free_Mode_Text_Visibility, K2Node_Select_Default) == 0x000004, "Member 'UI_MainMenuSNF_C_Free_Mode_Text_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_GauntletMode_Visibility
-// 0x0005 (0x0005 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility) == 0x000005, "Wrong size on UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility, K2Node_Select_Default) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_GauntletMode_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_1_Gau_bIsEnabled
-// 0x0002 (0x0002 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_1_Visibility
-// 0x0008 (0x0008 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility) == 0x000008, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility, K2Node_Select_Default) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_1_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_2_Gau_bIsEnabled
-// 0x0002 (0x0002 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_2_Visibility
-// 0x000B (0x000B - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility) == 0x00000B, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility, K2Node_Select_Default) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_2_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_3_Gau_bIsEnabled
-// 0x0002 (0x0002 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_3_Visibility
-// 0x000B (0x000B - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility) == 0x00000B, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility, K2Node_Select_Default) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_3_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_4_Gau_bIsEnabled
-// 0x0003 (0x0003 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_4_Visibility
-// 0x000C (0x000C - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_4_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_5_Gau_bIsEnabled
-// 0x0003 (0x0003 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_5_Visibility
-// 0x000C (0x000C - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_5_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_6_Gau_bIsEnabled
-// 0x0003 (0x0003 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_6_Visibility
-// 0x000C (0x000C - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_6_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_7_Gau_bIsEnabled
-// 0x0003 (0x0003 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_7_Visibility
-// 0x000C (0x000C - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_7_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_8_Gau_bIsEnabled
-// 0x0003 (0x0003 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_8_Visibility
-// 0x000C (0x000C - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_8_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_9_Gau_bIsEnabled
-// 0x0003 (0x0003 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled) == 0x000003, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Gau_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Button_Rank_9_Visibility
-// 0x000C (0x000C - 0x0000)
-struct UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_Button_Rank_9_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_Faction1_bIsEnabled
-// 0x0004 (0x0004 - 0x0000)
-struct UI_MainMenuSNF_C_Get_Faction1_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_Faction1_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled) == 0x000004, "Wrong size on UI_MainMenuSNF_C_Get_Faction1_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_Faction1_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_Faction1_bIsEnabled::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled, CallFunc_Not_PreBool_ReturnValue) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_Faction1_bIsEnabled::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_Faction1_bIsEnabled, CallFunc_BooleanAND_ReturnValue) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_Faction1_bIsEnabled::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_FactionBonusText_Text
-// 0x0088 (0x0088 - 0x0000)
-struct UI_MainMenuSNF_C_Get_FactionBonusText_Text final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class FText                                   Temp_text_Variable;                                // 0x0018(0x0010)(ConstParm)
-	class FText                                   Temp_text_Variable_1;                              // 0x0028(0x0010)(ConstParm)
-	class FText                                   Temp_text_Variable_2;                              // 0x0038(0x0010)(ConstParm)
-	class FText                                   Temp_text_Variable_3;                              // 0x0048(0x0010)(ConstParm)
-	class FText                                   Temp_text_Variable_4;                              // 0x0058(0x0010)(ConstParm)
-	class FText                                   K2Node_Select_Default;                             // 0x0068(0x0010)(ConstParm)
-	class FText                                   CallFunc_SelectText_ReturnValue;                   // 0x0078(0x0010)()
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_FactionBonusText_Text) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_Get_FactionBonusText_Text");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_FactionBonusText_Text) == 0x000088, "Wrong size on UI_MainMenuSNF_C_Get_FactionBonusText_Text");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_int_Variable) == 0x000010, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_int_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable) == 0x000018, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable_1) == 0x000028, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable_2) == 0x000038, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable_3) == 0x000048, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable_3' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, Temp_text_Variable_4) == 0x000058, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::Temp_text_Variable_4' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, K2Node_Select_Default) == 0x000068, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionBonusText_Text, CallFunc_SelectText_ReturnValue) == 0x000078, "Member 'UI_MainMenuSNF_C_Get_FactionBonusText_Text::CallFunc_SelectText_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_FactionText_Visibility
-// 0x0007 (0x0007 - 0x0000)
-struct UI_MainMenuSNF_C_Get_FactionText_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_FactionText_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_FactionText_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_FactionText_Visibility) == 0x000007, "Wrong size on UI_MainMenuSNF_C_Get_FactionText_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, CallFunc_Less_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_FactionText_Visibility, K2Node_Select_Default) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_FactionText_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_PortraitImage_1_Brush
-// 0x0200 (0x0200 - 0x0000)
-struct UI_MainMenuSNF_C_Get_PortraitImage_1_Brush final
-{
-public:
-	struct FSlateBrush                            ReturnValue;                                       // 0x0000(0x00D0)(Parm, OutParm, ReturnParm)
-	int32                                         Temp_int_Variable;                                 // 0x00D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_D4[0x4];                                       // 0x00D4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UObject*                                Temp_object_Variable;                              // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_1;                            // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_2;                            // 0x00E8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_3;                            // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_4;                            // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_5;                            // 0x0100(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_6;                            // 0x0108(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_7;                            // 0x0110(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_8;                            // 0x0118(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                K2Node_Select_Default;                             // 0x0120(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	uint8                                         Pad_128[0x8];                                      // 0x0128(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0130(0x00D0)()
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush) == 0x000010, "Wrong alignment on UI_MainMenuSNF_C_Get_PortraitImage_1_Brush");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush) == 0x000200, "Wrong size on UI_MainMenuSNF_C_Get_PortraitImage_1_Brush");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_int_Variable) == 0x0000D0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_int_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable) == 0x0000D8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_1) == 0x0000E0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_2) == 0x0000E8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_3) == 0x0000F0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_3' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_4) == 0x0000F8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_4' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_5) == 0x000100, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_5' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_6) == 0x000108, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_6' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_7) == 0x000110, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_7' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, Temp_object_Variable_8) == 0x000118, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::Temp_object_Variable_8' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, K2Node_Select_Default) == 0x000120, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_1_Brush, K2Node_MakeStruct_SlateBrush) == 0x000130, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_1_Brush::K2Node_MakeStruct_SlateBrush' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_PortraitImage_Brush
-// 0x0200 (0x0200 - 0x0000)
-struct UI_MainMenuSNF_C_Get_PortraitImage_Brush final
-{
-public:
-	struct FSlateBrush                            ReturnValue;                                       // 0x0000(0x00D0)(Parm, OutParm, ReturnParm)
-	int32                                         Temp_int_Variable;                                 // 0x00D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_D4[0x4];                                       // 0x00D4(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UObject*                                Temp_object_Variable;                              // 0x00D8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_1;                            // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_2;                            // 0x00E8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_3;                            // 0x00F0(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_4;                            // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_5;                            // 0x0100(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_6;                            // 0x0108(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_7;                            // 0x0110(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                Temp_object_Variable_8;                            // 0x0118(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	class UObject*                                K2Node_Select_Default;                             // 0x0120(0x0008)(ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash)
-	uint8                                         Pad_128[0x8];                                      // 0x0128(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0130(0x00D0)()
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_PortraitImage_Brush) == 0x000010, "Wrong alignment on UI_MainMenuSNF_C_Get_PortraitImage_Brush");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_PortraitImage_Brush) == 0x000200, "Wrong size on UI_MainMenuSNF_C_Get_PortraitImage_Brush");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_int_Variable) == 0x0000D0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_int_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable) == 0x0000D8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_1) == 0x0000E0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_2) == 0x0000E8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_3) == 0x0000F0, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_3' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_4) == 0x0000F8, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_4' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_5) == 0x000100, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_5' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_6) == 0x000108, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_6' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_7) == 0x000110, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_7' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, Temp_object_Variable_8) == 0x000118, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::Temp_object_Variable_8' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, K2Node_Select_Default) == 0x000120, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_PortraitImage_Brush, K2Node_MakeStruct_SlateBrush) == 0x000130, "Member 'UI_MainMenuSNF_C_Get_PortraitImage_Brush::K2Node_MakeStruct_SlateBrush' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandArmourButton_Cost_1_bIsEnabled
-// 0x0002 (0x0002 - 0x0000)
-struct UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled, CallFunc_Greater_IntInt_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Cost_1_bIsEnabled::CallFunc_Greater_IntInt_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandArmourButton_Free_Visibility
-// 0x000C (0x000C - 0x0000)
-struct UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_NotEqual_IntInt_ReturnValue;              // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility) == 0x00000C, "Wrong size on UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_Less_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_NotEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_NotEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_BooleanOR_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_BooleanOR_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_Greater_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_Greater_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility, K2Node_Select_Default) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Free_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandArmourButton_Visibility
-// 0x000D (0x000D - 0x0000)
-struct UI_MainMenuSNF_C_Get_RandArmourButton_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0009(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x000A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_3;                 // 0x000B(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x000C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandArmourButton_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility) == 0x00000D, "Wrong size on UI_MainMenuSNF_C_Get_RandArmourButton_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_Less_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_Not_PreBool_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_Greater_IntInt_ReturnValue) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_Greater_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000009, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_BooleanAND_ReturnValue_2) == 0x00000A, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_BooleanAND_ReturnValue_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, CallFunc_BooleanAND_ReturnValue_3) == 0x00000B, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::CallFunc_BooleanAND_ReturnValue_3' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandArmourButton_Visibility, K2Node_Select_Default) == 0x00000C, "Member 'UI_MainMenuSNF_C_Get_RandArmourButton_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandBodyButton_bIsEnabled
-// 0x0002 (0x0002 - 0x0000)
-struct UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled) == 0x000002, "Wrong size on UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled, CallFunc_Not_PreBool_ReturnValue) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_bIsEnabled::CallFunc_Not_PreBool_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RandBodyButton_Visibility
-// 0x0009 (0x0009 - 0x0000)
-struct UI_MainMenuSNF_C_Get_RandBodyButton_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Less_IntInt_ReturnValue;                  // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_EqualEqual_IntInt_ReturnValue;            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue_1;                 // 0x0007(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_RandBodyButton_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility) == 0x000009, "Wrong size on UI_MainMenuSNF_C_Get_RandBodyButton_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, CallFunc_Less_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::CallFunc_Less_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, CallFunc_EqualEqual_IntInt_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::CallFunc_EqualEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, CallFunc_BooleanAND_ReturnValue_1) == 0x000007, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::CallFunc_BooleanAND_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RandBodyButton_Visibility, K2Node_Select_Default) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_RandBodyButton_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RankProgress_Percent
-// 0x0050 (0x0050 - 0x0000)
-struct UI_MainMenuSNF_C_Get_RankProgress_Percent final
-{
-public:
-	float                                         ReturnValue;                                       // 0x0000(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable;                                 // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_1;                               // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_2;                               // 0x000C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_3;                               // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_4;                               // 0x0014(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_5;                               // 0x0018(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_6;                               // 0x001C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_7;                               // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_8;                               // 0x0024(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Conv_IntToDouble_ReturnValue;             // 0x0028(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         K2Node_Select_Default;                             // 0x0030(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_34[0x4];                                       // 0x0034(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        CallFunc_Conv_IntToDouble_ReturnValue_1;           // 0x0038(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Divide_DoubleDouble_ReturnValue;          // 0x0040(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_FunctionResult_ReturnValue_ImplicitCast;    // 0x0048(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_RankProgress_Percent) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_Get_RankProgress_Percent");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_RankProgress_Percent) == 0x000050, "Wrong size on UI_MainMenuSNF_C_Get_RankProgress_Percent");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_1) == 0x000008, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_2) == 0x00000C, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_3) == 0x000010, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_3' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_4) == 0x000014, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_4' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_5) == 0x000018, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_5' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_6) == 0x00001C, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_6' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_7) == 0x000020, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_7' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, Temp_int_Variable_8) == 0x000024, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::Temp_int_Variable_8' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, CallFunc_Conv_IntToDouble_ReturnValue) == 0x000028, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::CallFunc_Conv_IntToDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, K2Node_Select_Default) == 0x000030, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, CallFunc_Conv_IntToDouble_ReturnValue_1) == 0x000038, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::CallFunc_Conv_IntToDouble_ReturnValue_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, CallFunc_Divide_DoubleDouble_ReturnValue) == 0x000040, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::CallFunc_Divide_DoubleDouble_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgress_Percent, K2Node_FunctionResult_ReturnValue_ImplicitCast) == 0x000048, "Member 'UI_MainMenuSNF_C_Get_RankProgress_Percent::K2Node_FunctionResult_ReturnValue_ImplicitCast' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RankProgressText_2_Text
-// 0x0048 (0x0048 - 0x0000)
-struct UI_MainMenuSNF_C_Get_RankProgressText_2_Text final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_1;                               // 0x0014(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_2;                               // 0x0018(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_3;                               // 0x001C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_4;                               // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_5;                               // 0x0024(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_6;                               // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_7;                               // 0x002C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Temp_int_Variable_8;                               // 0x0030(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         K2Node_Select_Default;                             // 0x0034(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_IntToText_ReturnValue;               // 0x0038(0x0010)()
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_Get_RankProgressText_2_Text");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text) == 0x000048, "Wrong size on UI_MainMenuSNF_C_Get_RankProgressText_2_Text");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable) == 0x000010, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_1) == 0x000014, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_2) == 0x000018, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_3) == 0x00001C, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_3' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_4) == 0x000020, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_4' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_5) == 0x000024, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_5' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_6) == 0x000028, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_6' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_7) == 0x00002C, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_7' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, Temp_int_Variable_8) == 0x000030, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::Temp_int_Variable_8' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, K2Node_Select_Default) == 0x000034, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_2_Text, CallFunc_Conv_IntToText_ReturnValue) == 0x000038, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_2_Text::CallFunc_Conv_IntToText_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_RankProgressText_Text
-// 0x0020 (0x0020 - 0x0000)
-struct UI_MainMenuSNF_C_Get_RankProgressText_Text final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Conv_IntToText_ReturnValue;               // 0x0010(0x0010)()
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_RankProgressText_Text) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_Get_RankProgressText_Text");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_RankProgressText_Text) == 0x000020, "Wrong size on UI_MainMenuSNF_C_Get_RankProgressText_Text");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_Text, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_Text::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_RankProgressText_Text, CallFunc_Conv_IntToText_ReturnValue) == 0x000010, "Member 'UI_MainMenuSNF_C_Get_RankProgressText_Text::CallFunc_Conv_IntToText_ReturnValue' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Get_TextFreeMode_1_Visibility
-// 0x0007 (0x0007 - 0x0000)
-struct UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BooleanAND_ReturnValue;                   // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0006(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility");
-static_assert(sizeof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility) == 0x000007, "Wrong size on UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000004, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, CallFunc_BooleanAND_ReturnValue) == 0x000005, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::CallFunc_BooleanAND_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility, K2Node_Select_Default) == 0x000006, "Member 'UI_MainMenuSNF_C_Get_TextFreeMode_1_Visibility::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.GetText
-// 0x00A0 (0x00A0 - 0x0000)
-struct UI_MainMenuSNF_C_GetText final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class FText                                   Temp_text_Variable;                                // 0x0018(0x0010)(ConstParm)
-	class FText                                   Temp_text_Variable_1;                              // 0x0028(0x0010)(ConstParm)
-	class FText                                   Temp_text_Variable_2;                              // 0x0038(0x0010)(ConstParm)
-	class FText                                   Temp_text_Variable_3;                              // 0x0048(0x0010)(ConstParm)
-	class FText                                   Temp_text_Variable_4;                              // 0x0058(0x0010)(ConstParm)
-	class FText                                   K2Node_Select_Default;                             // 0x0068(0x0010)(ConstParm)
-	bool                                          CallFunc_GreaterEqual_IntInt_ReturnValue;          // 0x0078(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_79[0x7];                                       // 0x0079(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class FText                                   CallFunc_SelectText_ReturnValue;                   // 0x0080(0x0010)()
-	class FText                                   CallFunc_SelectText_ReturnValue_1;                 // 0x0090(0x0010)()
-};
-static_assert(alignof(UI_MainMenuSNF_C_GetText) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_GetText");
-static_assert(sizeof(UI_MainMenuSNF_C_GetText) == 0x0000A0, "Wrong size on UI_MainMenuSNF_C_GetText");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_GetText::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_int_Variable) == 0x000010, "Member 'UI_MainMenuSNF_C_GetText::Temp_int_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable) == 0x000018, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable_1) == 0x000028, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable_2) == 0x000038, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable_2' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable_3) == 0x000048, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable_3' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, Temp_text_Variable_4) == 0x000058, "Member 'UI_MainMenuSNF_C_GetText::Temp_text_Variable_4' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, K2Node_Select_Default) == 0x000068, "Member 'UI_MainMenuSNF_C_GetText::K2Node_Select_Default' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, CallFunc_GreaterEqual_IntInt_ReturnValue) == 0x000078, "Member 'UI_MainMenuSNF_C_GetText::CallFunc_GreaterEqual_IntInt_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, CallFunc_SelectText_ReturnValue) == 0x000080, "Member 'UI_MainMenuSNF_C_GetText::CallFunc_SelectText_ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetText, CallFunc_SelectText_ReturnValue_1) == 0x000090, "Member 'UI_MainMenuSNF_C_GetText::CallFunc_SelectText_ReturnValue_1' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.GetVisibility_0
-// 0x0005 (0x0005 - 0x0000)
-struct UI_MainMenuSNF_C_GetVisibility_0 final
-{
-public:
-	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_GetVisibility_0) == 0x000001, "Wrong alignment on UI_MainMenuSNF_C_GetVisibility_0");
-static_assert(sizeof(UI_MainMenuSNF_C_GetVisibility_0) == 0x000005, "Wrong size on UI_MainMenuSNF_C_GetVisibility_0");
-static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, ReturnValue) == 0x000000, "Member 'UI_MainMenuSNF_C_GetVisibility_0::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, Temp_bool_Variable) == 0x000001, "Member 'UI_MainMenuSNF_C_GetVisibility_0::Temp_bool_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, Temp_byte_Variable) == 0x000002, "Member 'UI_MainMenuSNF_C_GetVisibility_0::Temp_byte_Variable' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, Temp_byte_Variable_1) == 0x000003, "Member 'UI_MainMenuSNF_C_GetVisibility_0::Temp_byte_Variable_1' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_GetVisibility_0, K2Node_Select_Default) == 0x000004, "Member 'UI_MainMenuSNF_C_GetVisibility_0::K2Node_Select_Default' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.OnMouseButtonDown
-// 0x0220 (0x0220 - 0x0000)
-struct UI_MainMenuSNF_C_OnMouseButtonDown final
-{
-public:
-	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-	struct FPointerEvent                          MouseEvent;                                        // 0x0038(0x0078)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
-	struct FEventReply                            ReturnValue;                                       // 0x00B0(0x00B8)(Parm, OutParm, ReturnParm)
-	struct FEventReply                            K2Node_MakeStruct_EventReply;                      // 0x0168(0x00B8)()
-};
-static_assert(alignof(UI_MainMenuSNF_C_OnMouseButtonDown) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_OnMouseButtonDown");
-static_assert(sizeof(UI_MainMenuSNF_C_OnMouseButtonDown) == 0x000220, "Wrong size on UI_MainMenuSNF_C_OnMouseButtonDown");
-static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonDown, MyGeometry) == 0x000000, "Member 'UI_MainMenuSNF_C_OnMouseButtonDown::MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonDown, MouseEvent) == 0x000038, "Member 'UI_MainMenuSNF_C_OnMouseButtonDown::MouseEvent' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonDown, ReturnValue) == 0x0000B0, "Member 'UI_MainMenuSNF_C_OnMouseButtonDown::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonDown, K2Node_MakeStruct_EventReply) == 0x000168, "Member 'UI_MainMenuSNF_C_OnMouseButtonDown::K2Node_MakeStruct_EventReply' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.OnMouseButtonUp
-// 0x0220 (0x0220 - 0x0000)
-struct UI_MainMenuSNF_C_OnMouseButtonUp final
-{
-public:
-	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-	struct FPointerEvent                          MouseEvent;                                        // 0x0038(0x0078)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
-	struct FEventReply                            ReturnValue;                                       // 0x00B0(0x00B8)(Parm, OutParm, ReturnParm)
-	struct FEventReply                            K2Node_MakeStruct_EventReply;                      // 0x0168(0x00B8)()
-};
-static_assert(alignof(UI_MainMenuSNF_C_OnMouseButtonUp) == 0x000008, "Wrong alignment on UI_MainMenuSNF_C_OnMouseButtonUp");
-static_assert(sizeof(UI_MainMenuSNF_C_OnMouseButtonUp) == 0x000220, "Wrong size on UI_MainMenuSNF_C_OnMouseButtonUp");
-static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonUp, MyGeometry) == 0x000000, "Member 'UI_MainMenuSNF_C_OnMouseButtonUp::MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonUp, MouseEvent) == 0x000038, "Member 'UI_MainMenuSNF_C_OnMouseButtonUp::MouseEvent' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonUp, ReturnValue) == 0x0000B0, "Member 'UI_MainMenuSNF_C_OnMouseButtonUp::ReturnValue' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_OnMouseButtonUp, K2Node_MakeStruct_EventReply) == 0x000168, "Member 'UI_MainMenuSNF_C_OnMouseButtonUp::K2Node_MakeStruct_EventReply' has a wrong offset!");
-
-// Function UI_MainMenuSNF.UI_MainMenuSNF_C.Tick
-// 0x003C (0x003C - 0x0000)
-struct UI_MainMenuSNF_C_Tick final
-{
-public:
-	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_MainMenuSNF_C_Tick) == 0x000004, "Wrong alignment on UI_MainMenuSNF_C_Tick");
-static_assert(sizeof(UI_MainMenuSNF_C_Tick) == 0x00003C, "Wrong size on UI_MainMenuSNF_C_Tick");
-static_assert(offsetof(UI_MainMenuSNF_C_Tick, MyGeometry) == 0x000000, "Member 'UI_MainMenuSNF_C_Tick::MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_MainMenuSNF_C_Tick, InDeltaTime) == 0x000038, "Member 'UI_MainMenuSNF_C_Tick::InDeltaTime' has a wrong offset!");
 
 }
 

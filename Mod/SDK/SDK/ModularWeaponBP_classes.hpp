@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_MaterialQuality_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 #include "GripType_Enum_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
-#include "Enum_MaterialQuality_structs.hpp"
 #include "SwitchGrip_Type_Enum_structs.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
 #include "Str_WeaponParts_structs.hpp"

@@ -17,24 +17,16 @@
 namespace SDK::Params
 {
 
-// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
-// 0x0128 (0x0128 - 0x0000)
-struct Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature final
+// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.UserConstructionScript
+// 0x0004 (0x0004 - 0x0000)
+struct Shield_Buckler_Gold_C_UserConstructionScript final
 {
 public:
-	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
-static_assert(alignof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000008, "Wrong alignment on Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
-static_assert(sizeof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000128, "Wrong size on Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
-static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, HitComponent) == 0x000000, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::HitComponent' has a wrong offset!");
-static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherActor' has a wrong offset!");
-static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherComp) == 0x000010, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherComp' has a wrong offset!");
-static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, NormalImpulse) == 0x000018, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::NormalImpulse' has a wrong offset!");
-static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, Hit) == 0x000030, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::Hit' has a wrong offset!");
+static_assert(alignof(Shield_Buckler_Gold_C_UserConstructionScript) == 0x000004, "Wrong alignment on Shield_Buckler_Gold_C_UserConstructionScript");
+static_assert(sizeof(Shield_Buckler_Gold_C_UserConstructionScript) == 0x000004, "Wrong size on Shield_Buckler_Gold_C_UserConstructionScript");
+static_assert(offsetof(Shield_Buckler_Gold_C_UserConstructionScript, CallFunc_Array_AddUnique_ReturnValue) == 0x000000, "Member 'Shield_Buckler_Gold_C_UserConstructionScript::CallFunc_Array_AddUnique_ReturnValue' has a wrong offset!");
 
 // Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.ExecuteUbergraph_Shield_Buckler_Gold
 // 0x0130 (0x0130 - 0x0000)
@@ -58,16 +50,24 @@ static_assert(offsetof(Shield_Buckler_Gold_C_ExecuteUbergraph_Shield_Buckler_Gol
 static_assert(offsetof(Shield_Buckler_Gold_C_ExecuteUbergraph_Shield_Buckler_Gold, K2Node_ComponentBoundEvent_NormalImpulse) == 0x000020, "Member 'Shield_Buckler_Gold_C_ExecuteUbergraph_Shield_Buckler_Gold::K2Node_ComponentBoundEvent_NormalImpulse' has a wrong offset!");
 static_assert(offsetof(Shield_Buckler_Gold_C_ExecuteUbergraph_Shield_Buckler_Gold, K2Node_ComponentBoundEvent_Hit) == 0x000038, "Member 'Shield_Buckler_Gold_C_ExecuteUbergraph_Shield_Buckler_Gold::K2Node_ComponentBoundEvent_Hit' has a wrong offset!");
 
-// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.UserConstructionScript
-// 0x0004 (0x0004 - 0x0000)
-struct Shield_Buckler_Gold_C_UserConstructionScript final
+// Function Shield_Buckler_Gold.Shield_Buckler_Gold_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// 0x0128 (0x0128 - 0x0000)
+struct Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature final
 {
 public:
-	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 };
-static_assert(alignof(Shield_Buckler_Gold_C_UserConstructionScript) == 0x000004, "Wrong alignment on Shield_Buckler_Gold_C_UserConstructionScript");
-static_assert(sizeof(Shield_Buckler_Gold_C_UserConstructionScript) == 0x000004, "Wrong size on Shield_Buckler_Gold_C_UserConstructionScript");
-static_assert(offsetof(Shield_Buckler_Gold_C_UserConstructionScript, CallFunc_Array_AddUnique_ReturnValue) == 0x000000, "Member 'Shield_Buckler_Gold_C_UserConstructionScript::CallFunc_Array_AddUnique_ReturnValue' has a wrong offset!");
+static_assert(alignof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000008, "Wrong alignment on Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+static_assert(sizeof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000128, "Wrong size on Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, HitComponent) == 0x000000, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::HitComponent' has a wrong offset!");
+static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherActor' has a wrong offset!");
+static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherComp) == 0x000010, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherComp' has a wrong offset!");
+static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, NormalImpulse) == 0x000018, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::NormalImpulse' has a wrong offset!");
+static_assert(offsetof(Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, Hit) == 0x000030, "Member 'Shield_Buckler_Gold_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::Hit' has a wrong offset!");
 
 }
 

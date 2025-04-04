@@ -17,43 +17,35 @@
 namespace SDK
 {
 
-// Function CreditWid.CreditWid_C.BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
+// Function CreditWid.CreditWid_C.SetLastOpenedWidget
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UClass*                           UW                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
+void UCreditWid_C::SetLastOpenedWidget(class UClass* UW)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+		Func = Class->GetFunction("CreditWid_C", "SetLastOpenedWidget");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::CreditWid_C_SetLastOpenedWidget Parms{};
+
+	Parms.UW = UW;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function CreditWid.CreditWid_C.BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
+// Function CreditWid.CreditWid_C.GetLastOpenedWidget
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
+void UCreditWid_C::GetLastOpenedWidget()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function CreditWid.CreditWid_C.BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+		Func = Class->GetFunction("CreditWid_C", "GetLastOpenedWidget");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -79,37 +71,45 @@ void UCreditWid_C::ExecuteUbergraph_CreditWid(int32 EntryPoint)
 }
 
 
-// Function CreditWid.CreditWid_C.GetLastOpenedWidget
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function CreditWid.CreditWid_C.BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
 
-void UCreditWid_C::GetLastOpenedWidget()
+void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "GetLastOpenedWidget");
+		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function CreditWid.CreditWid_C.SetLastOpenedWidget
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UClass*                           UW                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// Function CreditWid.CreditWid_C.BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
 
-void UCreditWid_C::SetLastOpenedWidget(class UClass* UW)
+void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("CreditWid_C", "SetLastOpenedWidget");
+		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
 
-	Params::CreditWid_C_SetLastOpenedWidget Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.UW = UW;
 
-	UObject::ProcessEvent(Func, &Parms);
+// Function CreditWid.CreditWid_C.BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

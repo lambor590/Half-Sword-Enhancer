@@ -17,6 +17,40 @@
 namespace SDK
 {
 
+// Function BP_Weapon_Tool_Sickle_E.BP_Weapon_Tool_Sickle_E_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Tool_Sickle_E_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Sickle_E_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Weapon_Tool_Sickle_E.BP_Weapon_Tool_Sickle_E_C.ExecuteUbergraph_BP_Weapon_Tool_Sickle_E
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Tool_Sickle_E_C::ExecuteUbergraph_BP_Weapon_Tool_Sickle_E(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Sickle_E_C", "ExecuteUbergraph_BP_Weapon_Tool_Sickle_E");
+
+	Params::BP_Weapon_Tool_Sickle_E_C_ExecuteUbergraph_BP_Weapon_Tool_Sickle_E Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Weapon_Tool_Sickle_E.BP_Weapon_Tool_Sickle_E_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -42,40 +76,6 @@ void ABP_Weapon_Tool_Sickle_E_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEv
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Weapon_Tool_Sickle_E.BP_Weapon_Tool_Sickle_E_C.ExecuteUbergraph_BP_Weapon_Tool_Sickle_E
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Weapon_Tool_Sickle_E_C::ExecuteUbergraph_BP_Weapon_Tool_Sickle_E(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Sickle_E_C", "ExecuteUbergraph_BP_Weapon_Tool_Sickle_E");
-
-	Params::BP_Weapon_Tool_Sickle_E_C_ExecuteUbergraph_BP_Weapon_Tool_Sickle_E Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Weapon_Tool_Sickle_E.BP_Weapon_Tool_Sickle_E_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_Weapon_Tool_Sickle_E_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Sickle_E_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

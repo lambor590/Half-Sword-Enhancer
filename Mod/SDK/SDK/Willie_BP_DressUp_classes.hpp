@@ -28,9 +28,9 @@ public:
 	struct FVector                                NewVar_4_0;                                        // 0x3A30(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint);
-	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

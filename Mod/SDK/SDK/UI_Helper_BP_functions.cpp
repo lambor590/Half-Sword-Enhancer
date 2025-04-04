@@ -17,43 +17,23 @@
 namespace SDK
 {
 
-// Function UI_Helper_BP.UI_Helper_BP_C.Add Handle Event
-// (BlueprintCallable, BlueprintEvent)
+// Function UI_Helper_BP.UI_Helper_BP_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// class UPrimitiveComponent*              Component                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class FName                             InBoneName                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   GrabLocation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class USceneComponent*                  Target_0                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AUI_Helper_BP_C::Add_Handle_Event(class UPrimitiveComponent* Component, class FName InBoneName, const struct FVector& GrabLocation, class USceneComponent* Target_0)
+void AUI_Helper_BP_C::ReceiveTick(float DeltaSeconds)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Helper_BP_C", "Add Handle Event");
+		Func = Class->GetFunction("UI_Helper_BP_C", "ReceiveTick");
 
-	Params::UI_Helper_BP_C_Add_Handle_Event Parms{};
+	Params::UI_Helper_BP_C_ReceiveTick Parms{};
 
-	Parms.Component = Component;
-	Parms.InBoneName = InBoneName;
-	Parms.GrabLocation = std::move(GrabLocation);
-	Parms.Target_0 = Target_0;
+	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function UI_Helper_BP.UI_Helper_BP_C.Destroy Handle Event
-// (BlueprintCallable, BlueprintEvent)
-
-void AUI_Helper_BP_C::Destroy_Handle_Event()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Helper_BP_C", "Destroy Handle Event");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -77,21 +57,41 @@ void AUI_Helper_BP_C::ExecuteUbergraph_UI_Helper_BP(int32 EntryPoint)
 }
 
 
-// Function UI_Helper_BP.UI_Helper_BP_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function UI_Helper_BP.UI_Helper_BP_C.Destroy Handle Event
+// (BlueprintCallable, BlueprintEvent)
 
-void AUI_Helper_BP_C::ReceiveTick(float DeltaSeconds)
+void AUI_Helper_BP_C::Destroy_Handle_Event()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Helper_BP_C", "ReceiveTick");
+		Func = Class->GetFunction("UI_Helper_BP_C", "Destroy Handle Event");
 
-	Params::UI_Helper_BP_C_ReceiveTick Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.DeltaSeconds = DeltaSeconds;
+
+// Function UI_Helper_BP.UI_Helper_BP_C.Add Handle Event
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Component                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class FName                             InBoneName                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   GrabLocation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class USceneComponent*                  Target_0                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AUI_Helper_BP_C::Add_Handle_Event(class UPrimitiveComponent* Component, class FName InBoneName, const struct FVector& GrabLocation, class USceneComponent* Target_0)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Helper_BP_C", "Add Handle Event");
+
+	Params::UI_Helper_BP_C_Add_Handle_Event Parms{};
+
+	Parms.Component = Component;
+	Parms.InBoneName = InBoneName;
+	Parms.GrabLocation = std::move(GrabLocation);
+	Parms.Target_0 = Target_0;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

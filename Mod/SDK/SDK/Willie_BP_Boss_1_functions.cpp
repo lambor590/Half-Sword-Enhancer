@@ -17,6 +17,20 @@
 namespace SDK
 {
 
+// Function Willie_BP_Boss_1.Willie_BP_Boss_1_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AWillie_BP_Boss_1_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_Boss_1_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP_Boss_1.Willie_BP_Boss_1_C.ExecuteUbergraph_Willie_BP_Boss_1
 // (Final, UbergraphFunction)
 // Parameters:
@@ -34,20 +48,6 @@ void AWillie_BP_Boss_1_C::ExecuteUbergraph_Willie_BP_Boss_1(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP_Boss_1.Willie_BP_Boss_1_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AWillie_BP_Boss_1_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_Boss_1_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

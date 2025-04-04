@@ -17,6 +17,54 @@
 namespace SDK
 {
 
+// Function Shield_Tagre_Gold.Shield_Tagre_Gold_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void AShield_Tagre_Gold_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Tagre_Gold_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Shield_Tagre_Gold.Shield_Tagre_Gold_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AShield_Tagre_Gold_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Tagre_Gold_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Shield_Tagre_Gold.Shield_Tagre_Gold_C.ExecuteUbergraph_Shield_Tagre_Gold
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AShield_Tagre_Gold_C::ExecuteUbergraph_Shield_Tagre_Gold(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Shield_Tagre_Gold_C", "ExecuteUbergraph_Shield_Tagre_Gold");
+
+	Params::Shield_Tagre_Gold_C_ExecuteUbergraph_Shield_Tagre_Gold Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Shield_Tagre_Gold.Shield_Tagre_Gold_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -42,54 +90,6 @@ void AShield_Tagre_Gold_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Shield_Tagre_Gold.Shield_Tagre_Gold_C.ExecuteUbergraph_Shield_Tagre_Gold
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AShield_Tagre_Gold_C::ExecuteUbergraph_Shield_Tagre_Gold(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Tagre_Gold_C", "ExecuteUbergraph_Shield_Tagre_Gold");
-
-	Params::Shield_Tagre_Gold_C_ExecuteUbergraph_Shield_Tagre_Gold Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Shield_Tagre_Gold.Shield_Tagre_Gold_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AShield_Tagre_Gold_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Tagre_Gold_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Shield_Tagre_Gold.Shield_Tagre_Gold_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void AShield_Tagre_Gold_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Shield_Tagre_Gold_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

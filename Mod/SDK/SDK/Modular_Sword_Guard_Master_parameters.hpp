@@ -10,37 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialQuality_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_MaterialQuality_structs.hpp"
 
 
 namespace SDK::Params
 {
-
-// Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.ExecuteUbergraph_Modular_Sword_Guard_Master
-// 0x0008 (0x0008 - 0x0000)
-struct Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master final
-{
-public:
-	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master) == 0x000004, "Wrong alignment on Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master");
-static_assert(sizeof(Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master) == 0x000008, "Wrong size on Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master");
-static_assert(offsetof(Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master, EntryPoint) == 0x000000, "Member 'Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master::EntryPoint' has a wrong offset!");
-static_assert(offsetof(Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master, K2Node_Event_DeltaSeconds) == 0x000004, "Member 'Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master::K2Node_Event_DeltaSeconds' has a wrong offset!");
-
-// Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Modular_Sword_Guard_Master_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Modular_Sword_Guard_Master_C_ReceiveTick) == 0x000004, "Wrong alignment on Modular_Sword_Guard_Master_C_ReceiveTick");
-static_assert(sizeof(Modular_Sword_Guard_Master_C_ReceiveTick) == 0x000004, "Wrong size on Modular_Sword_Guard_Master_C_ReceiveTick");
-static_assert(offsetof(Modular_Sword_Guard_Master_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'Modular_Sword_Guard_Master_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
 
 // Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.UserConstructionScript
 // 0x0130 (0x0130 - 0x0000)
@@ -140,6 +116,30 @@ static_assert(offsetof(Modular_Sword_Guard_Master_C_UserConstructionScript, Call
 static_assert(offsetof(Modular_Sword_Guard_Master_C_UserConstructionScript, CallFunc_Multiply_DoubleDouble_ReturnValue_2) == 0x000118, "Member 'Modular_Sword_Guard_Master_C_UserConstructionScript::CallFunc_Multiply_DoubleDouble_ReturnValue_2' has a wrong offset!");
 static_assert(offsetof(Modular_Sword_Guard_Master_C_UserConstructionScript, CallFunc_Multiply_DoubleDouble_ReturnValue_3) == 0x000120, "Member 'Modular_Sword_Guard_Master_C_UserConstructionScript::CallFunc_Multiply_DoubleDouble_ReturnValue_3' has a wrong offset!");
 static_assert(offsetof(Modular_Sword_Guard_Master_C_UserConstructionScript, CallFunc_SetMassOverrideInKg_MassInKg_ImplicitCast) == 0x000128, "Member 'Modular_Sword_Guard_Master_C_UserConstructionScript::CallFunc_SetMassOverrideInKg_MassInKg_ImplicitCast' has a wrong offset!");
+
+// Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Modular_Sword_Guard_Master_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Modular_Sword_Guard_Master_C_ReceiveTick) == 0x000004, "Wrong alignment on Modular_Sword_Guard_Master_C_ReceiveTick");
+static_assert(sizeof(Modular_Sword_Guard_Master_C_ReceiveTick) == 0x000004, "Wrong size on Modular_Sword_Guard_Master_C_ReceiveTick");
+static_assert(offsetof(Modular_Sword_Guard_Master_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'Modular_Sword_Guard_Master_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
+
+// Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.ExecuteUbergraph_Modular_Sword_Guard_Master
+// 0x0008 (0x0008 - 0x0000)
+struct Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master final
+{
+public:
+	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master) == 0x000004, "Wrong alignment on Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master");
+static_assert(sizeof(Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master) == 0x000008, "Wrong size on Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master");
+static_assert(offsetof(Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master, EntryPoint) == 0x000000, "Member 'Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master::EntryPoint' has a wrong offset!");
+static_assert(offsetof(Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master, K2Node_Event_DeltaSeconds) == 0x000004, "Member 'Modular_Sword_Guard_Master_C_ExecuteUbergraph_Modular_Sword_Guard_Master::K2Node_Event_DeltaSeconds' has a wrong offset!");
 
 }
 

@@ -17,25 +17,6 @@
 namespace SDK::Params
 {
 
-// Function BP_Prop_Training_Dummy_001.BP_Prop_Training_Dummy_001_C.BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
-// 0x0128 (0x0128 - 0x0000)
-struct BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature final
-{
-public:
-	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
-};
-static_assert(alignof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000008, "Wrong alignment on BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
-static_assert(sizeof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000128, "Wrong size on BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
-static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, HitComponent) == 0x000000, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::HitComponent' has a wrong offset!");
-static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherActor' has a wrong offset!");
-static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherComp) == 0x000010, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherComp' has a wrong offset!");
-static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, NormalImpulse) == 0x000018, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::NormalImpulse' has a wrong offset!");
-static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, Hit) == 0x000030, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::Hit' has a wrong offset!");
-
 // Function BP_Prop_Training_Dummy_001.BP_Prop_Training_Dummy_001_C.ExecuteUbergraph_BP_Prop_Training_Dummy_001
 // 0x0268 (0x0268 - 0x0000)
 struct BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001 final
@@ -130,6 +111,25 @@ static_assert(offsetof(BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Tra
 static_assert(offsetof(BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001, CallFunc_GreaterEqual_DoubleDouble_ReturnValue) == 0x000250, "Member 'BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001::CallFunc_GreaterEqual_DoubleDouble_ReturnValue' has a wrong offset!");
 static_assert(offsetof(BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001, K2Node_Select_Default) == 0x000258, "Member 'BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001::K2Node_Select_Default' has a wrong offset!");
 static_assert(offsetof(BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001, CallFunc_PlaySoundAtLocation_VolumeMultiplier_ImplicitCast) == 0x000260, "Member 'BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001::CallFunc_PlaySoundAtLocation_VolumeMultiplier_ImplicitCast' has a wrong offset!");
+
+// Function BP_Prop_Training_Dummy_001.BP_Prop_Training_Dummy_001_C.BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// 0x0128 (0x0128 - 0x0000)
+struct BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature final
+{
+public:
+	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+};
+static_assert(alignof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000008, "Wrong alignment on BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+static_assert(sizeof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000128, "Wrong size on BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, HitComponent) == 0x000000, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::HitComponent' has a wrong offset!");
+static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherActor' has a wrong offset!");
+static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherComp) == 0x000010, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherComp' has a wrong offset!");
+static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, NormalImpulse) == 0x000018, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::NormalImpulse' has a wrong offset!");
+static_assert(offsetof(BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, Hit) == 0x000030, "Member 'BP_Prop_Training_Dummy_001_C_BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::Hit' has a wrong offset!");
 
 }
 

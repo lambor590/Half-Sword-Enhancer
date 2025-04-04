@@ -17,43 +17,16 @@
 namespace SDK::Params
 {
 
-// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
-// 0x0128 (0x0128 - 0x0000)
-struct BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature final
+// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.UserConstructionScript
+// 0x0004 (0x0004 - 0x0000)
+struct BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript final
 {
 public:
-	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
-static_assert(alignof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature) == 0x000008, "Wrong alignment on BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
-static_assert(sizeof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature) == 0x000128, "Wrong size on BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, HitComponent) == 0x000000, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::HitComponent' has a wrong offset!");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::OtherActor' has a wrong offset!");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, OtherComp) == 0x000010, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::OtherComp' has a wrong offset!");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, NormalImpulse) == 0x000018, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::NormalImpulse' has a wrong offset!");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, Hit) == 0x000030, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::Hit' has a wrong offset!");
-
-// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
-// 0x0128 (0x0128 - 0x0000)
-struct BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature final
-{
-public:
-	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
-};
-static_assert(alignof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000008, "Wrong alignment on BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
-static_assert(sizeof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000128, "Wrong size on BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, HitComponent) == 0x000000, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::HitComponent' has a wrong offset!");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherActor' has a wrong offset!");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherComp) == 0x000010, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherComp' has a wrong offset!");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, NormalImpulse) == 0x000018, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::NormalImpulse' has a wrong offset!");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, Hit) == 0x000030, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::Hit' has a wrong offset!");
+static_assert(alignof(BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript) == 0x000004, "Wrong alignment on BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript");
+static_assert(sizeof(BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript) == 0x000004, "Wrong size on BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript, CallFunc_Array_AddUnique_ReturnValue) == 0x000000, "Member 'BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript::CallFunc_Array_AddUnique_ReturnValue' has a wrong offset!");
 
 // Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small
 // 0x0268 (0x0268 - 0x0000)
@@ -95,16 +68,43 @@ static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_ExecuteUbergraph_BP_
 static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small, CallFunc_IsValid_ReturnValue) == 0x000261, "Member 'BP_Weapon_Improv_CandleStick_Small_C_ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small::CallFunc_IsValid_ReturnValue' has a wrong offset!");
 static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small, CallFunc_IsValid_ReturnValue_1) == 0x000262, "Member 'BP_Weapon_Improv_CandleStick_Small_C_ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small::CallFunc_IsValid_ReturnValue_1' has a wrong offset!");
 
-// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.UserConstructionScript
-// 0x0004 (0x0004 - 0x0000)
-struct BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript final
+// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// 0x0128 (0x0128 - 0x0000)
+struct BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature final
 {
 public:
-	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 };
-static_assert(alignof(BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript) == 0x000004, "Wrong alignment on BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript");
-static_assert(sizeof(BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript) == 0x000004, "Wrong size on BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript");
-static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript, CallFunc_Array_AddUnique_ReturnValue) == 0x000000, "Member 'BP_Weapon_Improv_CandleStick_Small_C_UserConstructionScript::CallFunc_Array_AddUnique_ReturnValue' has a wrong offset!");
+static_assert(alignof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000008, "Wrong alignment on BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+static_assert(sizeof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature) == 0x000128, "Wrong size on BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, HitComponent) == 0x000000, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::HitComponent' has a wrong offset!");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherActor' has a wrong offset!");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, OtherComp) == 0x000010, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::OtherComp' has a wrong offset!");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, NormalImpulse) == 0x000018, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::NormalImpulse' has a wrong offset!");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature, Hit) == 0x000030, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature::Hit' has a wrong offset!");
+
+// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
+// 0x0128 (0x0128 - 0x0000)
+struct BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature final
+{
+public:
+	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+};
+static_assert(alignof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature) == 0x000008, "Wrong alignment on BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+static_assert(sizeof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature) == 0x000128, "Wrong size on BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, HitComponent) == 0x000000, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::HitComponent' has a wrong offset!");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::OtherActor' has a wrong offset!");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, OtherComp) == 0x000010, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::OtherComp' has a wrong offset!");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, NormalImpulse) == 0x000018, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::NormalImpulse' has a wrong offset!");
+static_assert(offsetof(BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature, Hit) == 0x000030, "Member 'BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature::Hit' has a wrong offset!");
 
 }
 

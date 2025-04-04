@@ -32,9 +32,9 @@ public:
 	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0310(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Construct();
-	void ExecuteUbergraph_UI_StartUpScreen_1(int32 EntryPoint);
 	void InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key);
+	void ExecuteUbergraph_UI_StartUpScreen_1(int32 EntryPoint);
+	void Construct();
 
 public:
 	static class UClass* StaticClass()

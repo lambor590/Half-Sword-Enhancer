@@ -10,110 +10,32 @@
 
 #include "Basic.hpp"
 
-#include "Str_Equipment_Loadout_Old_structs.hpp"
-#include "Str_Loadout_Weapons_structs.hpp"
+#include "Str_Loadout_Armor_structs.hpp"
 #include "VertexPaintDetectionPlugin_structs.hpp"
 #include "Engine_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_PlayCards_structs.hpp"
+#include "Str_Equipment_Loadout_Old_structs.hpp"
 #include "Str_ArmorElements_structs.hpp"
-#include "Str_Loadout_Armor_structs.hpp"
 #include "Str_WeaponParts_structs.hpp"
+#include "Str_Loadout_Weapons_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
 
 
 namespace SDK::Params
 {
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature
-// 0x0010 (0x0010 - 0x0000)
-struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature final
-{
-public:
-	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature
-// 0x0010 (0x0010 - 0x0000)
-struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature final
-{
-public:
-	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature
-// 0x0010 (0x0010 - 0x0000)
-struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature final
-{
-public:
-	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature
-// 0x0010 (0x0010 - 0x0000)
-struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature final
-{
-public:
-	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature
-// 0x0010 (0x0010 - 0x0000)
-struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature final
-{
-public:
-	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature
-// 0x0010 (0x0010 - 0x0000)
-struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature final
-{
-public:
-	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
-static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Clean Blood
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.ReceiveTick
 // 0x0004 (0x0004 - 0x0000)
-struct Arena_Cutting_Map_C_Clean_Blood final
+struct Arena_Cutting_Map_C_ReceiveTick final
 {
 public:
-	float                                         Amount_to_Apply;                                   // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
-static_assert(alignof(Arena_Cutting_Map_C_Clean_Blood) == 0x000004, "Wrong alignment on Arena_Cutting_Map_C_Clean_Blood");
-static_assert(sizeof(Arena_Cutting_Map_C_Clean_Blood) == 0x000004, "Wrong size on Arena_Cutting_Map_C_Clean_Blood");
-static_assert(offsetof(Arena_Cutting_Map_C_Clean_Blood, Amount_to_Apply) == 0x000000, "Member 'Arena_Cutting_Map_C_Clean_Blood::Amount_to_Apply' has a wrong offset!");
+static_assert(alignof(Arena_Cutting_Map_C_ReceiveTick) == 0x000004, "Wrong alignment on Arena_Cutting_Map_C_ReceiveTick");
+static_assert(sizeof(Arena_Cutting_Map_C_ReceiveTick) == 0x000004, "Wrong size on Arena_Cutting_Map_C_ReceiveTick");
+static_assert(offsetof(Arena_Cutting_Map_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'Arena_Cutting_Map_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
 
 // Function Arena_Cutting_Map.Arena_Cutting_Map_C.ExecuteUbergraph_Arena_Cutting_Map
 // 0x8750 (0x8750 - 0x0000)
@@ -529,10 +451,10 @@ public:
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_7;        // 0x1620(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_1628[0x8];                                     // 0x1628(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FTransform                             CallFunc_MakeTransform_ReturnValue_25;             // 0x1630(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClass_OutActors_4;         // 0x1690(0x0010)(ReferenceParm)
+	TArray<class BP_FreeCamera_0::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClass_OutActors_4;       // 0x1690(0x0010)(ReferenceParm)
 	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_2; // 0x16A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item_5;                         // 0x16A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_FinishSpawningActor_ReturnValue_2;        // 0x16B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_Array_Get_Item_5;                         // 0x16A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_FinishSpawningActor_ReturnValue_2;        // 0x16B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	int32                                         CallFunc_Array_Add_ReturnValue;                    // 0x16B8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         CallFunc_Array_Length_ReturnValue_6;               // 0x16BC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_Less_IntInt_ReturnValue_4;                // 0x16C0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -1678,16 +1600,94 @@ static_assert(offsetof(Arena_Cutting_Map_C_ExecuteUbergraph_Arena_Cutting_Map, C
 static_assert(offsetof(Arena_Cutting_Map_C_ExecuteUbergraph_Arena_Cutting_Map, CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast) == 0x00873C, "Member 'Arena_Cutting_Map_C_ExecuteUbergraph_Arena_Cutting_Map::CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast' has a wrong offset!");
 static_assert(offsetof(Arena_Cutting_Map_C_ExecuteUbergraph_Arena_Cutting_Map, CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast_1) == 0x008740, "Member 'Arena_Cutting_Map_C_ExecuteUbergraph_Arena_Cutting_Map::CallFunc_SetGlobalTimeDilation_TimeDilation_ImplicitCast_1' has a wrong offset!");
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.ReceiveTick
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Clean Blood
 // 0x0004 (0x0004 - 0x0000)
-struct Arena_Cutting_Map_C_ReceiveTick final
+struct Arena_Cutting_Map_C_Clean_Blood final
 {
 public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         Amount_to_Apply;                                   // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
-static_assert(alignof(Arena_Cutting_Map_C_ReceiveTick) == 0x000004, "Wrong alignment on Arena_Cutting_Map_C_ReceiveTick");
-static_assert(sizeof(Arena_Cutting_Map_C_ReceiveTick) == 0x000004, "Wrong size on Arena_Cutting_Map_C_ReceiveTick");
-static_assert(offsetof(Arena_Cutting_Map_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'Arena_Cutting_Map_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
+static_assert(alignof(Arena_Cutting_Map_C_Clean_Blood) == 0x000004, "Wrong alignment on Arena_Cutting_Map_C_Clean_Blood");
+static_assert(sizeof(Arena_Cutting_Map_C_Clean_Blood) == 0x000004, "Wrong size on Arena_Cutting_Map_C_Clean_Blood");
+static_assert(offsetof(Arena_Cutting_Map_C_Clean_Blood, Amount_to_Apply) == 0x000000, "Member 'Arena_Cutting_Map_C_Clean_Blood::Amount_to_Apply' has a wrong offset!");
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature
+// 0x0010 (0x0010 - 0x0000)
+struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature final
+{
+public:
+	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature
+// 0x0010 (0x0010 - 0x0000)
+struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature final
+{
+public:
+	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature
+// 0x0010 (0x0010 - 0x0000)
+struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature final
+{
+public:
+	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature
+// 0x0010 (0x0010 - 0x0000)
+struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature final
+{
+public:
+	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature
+// 0x0010 (0x0010 - 0x0000)
+struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature final
+{
+public:
+	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature
+// 0x0010 (0x0010 - 0x0000)
+struct Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature final
+{
+public:
+	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature) == 0x000008, "Wrong alignment on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(sizeof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature) == 0x000010, "Wrong size on Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature, OverlappedActor) == 0x000000, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature::OverlappedActor' has a wrong offset!");
+static_assert(offsetof(Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature, OtherActor) == 0x000008, "Member 'Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature::OtherActor' has a wrong offset!");
 
 }
 

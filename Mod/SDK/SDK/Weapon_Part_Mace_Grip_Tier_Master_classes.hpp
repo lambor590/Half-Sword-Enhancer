@@ -26,9 +26,9 @@ public:
 	TArray<class UStaticMesh*>                    Random_Mesh;                                       // 0x06D8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
 
 public:
-	void ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master(int32 EntryPoint);
-	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();
+	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

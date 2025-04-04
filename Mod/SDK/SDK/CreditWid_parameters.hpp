@@ -14,6 +14,17 @@
 namespace SDK::Params
 {
 
+// Function CreditWid.CreditWid_C.SetLastOpenedWidget
+// 0x0008 (0x0008 - 0x0000)
+struct CreditWid_C_SetLastOpenedWidget final
+{
+public:
+	class UClass*                                 UW;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(CreditWid_C_SetLastOpenedWidget) == 0x000008, "Wrong alignment on CreditWid_C_SetLastOpenedWidget");
+static_assert(sizeof(CreditWid_C_SetLastOpenedWidget) == 0x000008, "Wrong size on CreditWid_C_SetLastOpenedWidget");
+static_assert(offsetof(CreditWid_C_SetLastOpenedWidget, UW) == 0x000000, "Member 'CreditWid_C_SetLastOpenedWidget::UW' has a wrong offset!");
+
 // Function CreditWid.CreditWid_C.ExecuteUbergraph_CreditWid
 // 0x0020 (0x0020 - 0x0000)
 struct CreditWid_C_ExecuteUbergraph_CreditWid final
@@ -31,17 +42,6 @@ static_assert(offsetof(CreditWid_C_ExecuteUbergraph_CreditWid, EntryPoint) == 0x
 static_assert(offsetof(CreditWid_C_ExecuteUbergraph_CreditWid, CallFunc_Create_ReturnValue) == 0x000008, "Member 'CreditWid_C_ExecuteUbergraph_CreditWid::CallFunc_Create_ReturnValue' has a wrong offset!");
 static_assert(offsetof(CreditWid_C_ExecuteUbergraph_CreditWid, CallFunc_PlayAnimation_ReturnValue) == 0x000010, "Member 'CreditWid_C_ExecuteUbergraph_CreditWid::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
 static_assert(offsetof(CreditWid_C_ExecuteUbergraph_CreditWid, CallFunc_PlayAnimation_ReturnValue_1) == 0x000018, "Member 'CreditWid_C_ExecuteUbergraph_CreditWid::CallFunc_PlayAnimation_ReturnValue_1' has a wrong offset!");
-
-// Function CreditWid.CreditWid_C.SetLastOpenedWidget
-// 0x0008 (0x0008 - 0x0000)
-struct CreditWid_C_SetLastOpenedWidget final
-{
-public:
-	class UClass*                                 UW;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(CreditWid_C_SetLastOpenedWidget) == 0x000008, "Wrong alignment on CreditWid_C_SetLastOpenedWidget");
-static_assert(sizeof(CreditWid_C_SetLastOpenedWidget) == 0x000008, "Wrong size on CreditWid_C_SetLastOpenedWidget");
-static_assert(offsetof(CreditWid_C_SetLastOpenedWidget, UW) == 0x000000, "Member 'CreditWid_C_SetLastOpenedWidget::UW' has a wrong offset!");
 
 }
 

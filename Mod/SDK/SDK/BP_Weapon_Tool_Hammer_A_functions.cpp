@@ -17,6 +17,40 @@
 namespace SDK
 {
 
+// Function BP_Weapon_Tool_Hammer_A.BP_Weapon_Tool_Hammer_A_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Tool_Hammer_A_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Hammer_A_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Weapon_Tool_Hammer_A.BP_Weapon_Tool_Hammer_A_C.ExecuteUbergraph_BP_Weapon_Tool_Hammer_A
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Tool_Hammer_A_C::ExecuteUbergraph_BP_Weapon_Tool_Hammer_A(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Hammer_A_C", "ExecuteUbergraph_BP_Weapon_Tool_Hammer_A");
+
+	Params::BP_Weapon_Tool_Hammer_A_C_ExecuteUbergraph_BP_Weapon_Tool_Hammer_A Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Weapon_Tool_Hammer_A.BP_Weapon_Tool_Hammer_A_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -42,40 +76,6 @@ void ABP_Weapon_Tool_Hammer_A_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEv
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Weapon_Tool_Hammer_A.BP_Weapon_Tool_Hammer_A_C.ExecuteUbergraph_BP_Weapon_Tool_Hammer_A
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Weapon_Tool_Hammer_A_C::ExecuteUbergraph_BP_Weapon_Tool_Hammer_A(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Hammer_A_C", "ExecuteUbergraph_BP_Weapon_Tool_Hammer_A");
-
-	Params::BP_Weapon_Tool_Hammer_A_C_ExecuteUbergraph_BP_Weapon_Tool_Hammer_A Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Weapon_Tool_Hammer_A.BP_Weapon_Tool_Hammer_A_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_Weapon_Tool_Hammer_A_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Hammer_A_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

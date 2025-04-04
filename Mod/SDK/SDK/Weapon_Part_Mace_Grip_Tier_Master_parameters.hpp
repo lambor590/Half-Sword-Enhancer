@@ -14,30 +14,6 @@
 namespace SDK::Params
 {
 
-// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master
-// 0x0008 (0x0008 - 0x0000)
-struct Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master final
-{
-public:
-	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master) == 0x000004, "Wrong alignment on Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master");
-static_assert(sizeof(Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master) == 0x000008, "Wrong size on Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master");
-static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master, EntryPoint) == 0x000000, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master::EntryPoint' has a wrong offset!");
-static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master, K2Node_Event_DeltaSeconds) == 0x000004, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master::K2Node_Event_DeltaSeconds' has a wrong offset!");
-
-// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick) == 0x000004, "Wrong alignment on Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick");
-static_assert(sizeof(Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick) == 0x000004, "Wrong size on Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick");
-static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
-
 // Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.UserConstructionScript
 // 0x01A0 (0x01A0 - 0x0000)
 struct Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScript final
@@ -170,6 +146,30 @@ static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScrip
 static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScript, CallFunc_Contains_ReturnValue_10) == 0x000188, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScript::CallFunc_Contains_ReturnValue_10' has a wrong offset!");
 static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScript, K2Node_Select_Default_9) == 0x000190, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScript::K2Node_Select_Default_9' has a wrong offset!");
 static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScript, K2Node_Select_Default_10) == 0x000198, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScript::K2Node_Select_Default_10' has a wrong offset!");
+
+// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick) == 0x000004, "Wrong alignment on Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick");
+static_assert(sizeof(Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick) == 0x000004, "Wrong size on Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick");
+static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick, DeltaSeconds) == 0x000000, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick::DeltaSeconds' has a wrong offset!");
+
+// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master
+// 0x0008 (0x0008 - 0x0000)
+struct Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master final
+{
+public:
+	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master) == 0x000004, "Wrong alignment on Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master");
+static_assert(sizeof(Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master) == 0x000008, "Wrong size on Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master");
+static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master, EntryPoint) == 0x000000, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master::EntryPoint' has a wrong offset!");
+static_assert(offsetof(Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master, K2Node_Event_DeltaSeconds) == 0x000004, "Member 'Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master::K2Node_Event_DeltaSeconds' has a wrong offset!");
 
 }
 

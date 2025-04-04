@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Modular_Weapon_Module_classes.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
 
 
@@ -33,9 +33,9 @@ public:
 	double                                        Squash_Scale__Temp_;                               // 0x0520(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Modular_Sword_Guard_Master(int32 EntryPoint);
-	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();
+	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_Modular_Sword_Guard_Master(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

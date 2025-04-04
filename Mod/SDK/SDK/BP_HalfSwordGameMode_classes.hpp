@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "Enum_PlayCards_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_PlayCards_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Menu_Maps_Enum_structs.hpp"
 

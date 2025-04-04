@@ -31,12 +31,12 @@ public:
 	class UClass*                                 LastOpenedWidget;                                  // 0x0310(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
-	void ExecuteUbergraph_CreditWid(int32 EntryPoint);
-	void GetLastOpenedWidget();
 	void SetLastOpenedWidget(class UClass* UW);
+	void GetLastOpenedWidget();
+	void ExecuteUbergraph_CreditWid(int32 EntryPoint);
+	void BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
 
 public:
 	static class UClass* StaticClass()

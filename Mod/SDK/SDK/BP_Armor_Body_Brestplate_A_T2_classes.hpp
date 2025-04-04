@@ -25,9 +25,9 @@ public:
 	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C;    // 0x0800(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
-	void ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint);
-	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void ReceiveBeginPlay();
+	void ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

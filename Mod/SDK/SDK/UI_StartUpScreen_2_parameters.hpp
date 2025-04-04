@@ -16,6 +16,17 @@
 namespace SDK::Params
 {
 
+// Function UI_StartUpScreen_2.UI_StartUpScreen_2_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
+// 0x0018 (0x0018 - 0x0000)
+struct UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0) == 0x000008, "Wrong alignment on UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
+static_assert(sizeof(UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0) == 0x000018, "Wrong size on UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
+static_assert(offsetof(UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0, Key) == 0x000000, "Member 'UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0::Key' has a wrong offset!");
+
 // Function UI_StartUpScreen_2.UI_StartUpScreen_2_C.ExecuteUbergraph_UI_StartUpScreen_2
 // 0x0048 (0x0048 - 0x0000)
 struct UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2 final
@@ -42,17 +53,6 @@ static_assert(offsetof(UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2,
 static_assert(offsetof(UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2, CallFunc_GetPlayerController_ReturnValue_1) == 0x000030, "Member 'UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2::CallFunc_GetPlayerController_ReturnValue_1' has a wrong offset!");
 static_assert(offsetof(UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2, CallFunc_Create_ReturnValue) == 0x000038, "Member 'UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2::CallFunc_Create_ReturnValue' has a wrong offset!");
 static_assert(offsetof(UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2, CallFunc_PlayAnimation_ReturnValue) == 0x000040, "Member 'UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2::CallFunc_PlayAnimation_ReturnValue' has a wrong offset!");
-
-// Function UI_StartUpScreen_2.UI_StartUpScreen_2_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
-// 0x0018 (0x0018 - 0x0000)
-struct UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0) == 0x000008, "Wrong alignment on UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
-static_assert(sizeof(UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0) == 0x000018, "Wrong size on UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
-static_assert(offsetof(UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0, Key) == 0x000000, "Member 'UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0::Key' has a wrong offset!");
 
 }
 

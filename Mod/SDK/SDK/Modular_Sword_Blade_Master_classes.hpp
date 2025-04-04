@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Modular_Weapon_Module_classes.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 
 
 namespace SDK
@@ -35,10 +35,10 @@ public:
 	int32                                         Yx100;                                             // 0x0520(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Modular_Sword_Blade_Master(int32 EntryPoint);
-	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();
+	void ReceiveTick(float DeltaSeconds);
+	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Modular_Sword_Blade_Master(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

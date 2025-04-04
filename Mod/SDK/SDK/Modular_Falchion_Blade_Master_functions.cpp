@@ -17,35 +17,15 @@
 namespace SDK
 {
 
-// Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ExecuteUbergraph_Modular_Falchion_Blade_Master
-// (Final, UbergraphFunction)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.UserConstructionScript
+// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void AModular_Falchion_Blade_Master_C::ExecuteUbergraph_Modular_Falchion_Blade_Master(int32 EntryPoint)
+void AModular_Falchion_Blade_Master_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ExecuteUbergraph_Modular_Falchion_Blade_Master");
-
-	Params::Modular_Falchion_Blade_Master_C_ExecuteUbergraph_Modular_Falchion_Blade_Master Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AModular_Falchion_Blade_Master_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "UserConstructionScript");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -71,17 +51,37 @@ void AModular_Falchion_Blade_Master_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.UserConstructionScript
-// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
 
-void AModular_Falchion_Blade_Master_C::UserConstructionScript()
+void AModular_Falchion_Blade_Master_C::ReceiveBeginPlay()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "UserConstructionScript");
+		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ReceiveBeginPlay");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ExecuteUbergraph_Modular_Falchion_Blade_Master
+// (Final, UbergraphFunction)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AModular_Falchion_Blade_Master_C::ExecuteUbergraph_Modular_Falchion_Blade_Master(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ExecuteUbergraph_Modular_Falchion_Blade_Master");
+
+	Params::Modular_Falchion_Blade_Master_C_ExecuteUbergraph_Modular_Falchion_Blade_Master Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 }

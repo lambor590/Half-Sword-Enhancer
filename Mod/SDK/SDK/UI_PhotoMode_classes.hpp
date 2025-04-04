@@ -120,7 +120,7 @@ public:
 	int32                                         LastTabIndex;                                      // 0x05B4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          bUsingFreeCamera;                                  // 0x05B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_5B9[0x7];                                      // 0x05B9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class BP_FreeCamera_0::ABP_FreeCamera_C*      FreeCameraActor;                                   // 0x05C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        FreeCameraActor;                                   // 0x05C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class UCameraComponent*                       FreeCameraComponent;                               // 0x05C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	struct FRotator                               EditedCameraRoll;                                  // 0x05D0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 	double                                        EditedCameraFOV;                                   // 0x05E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -280,7 +280,7 @@ public:
 	void OnCameraMoved();
 	void OnCameraStopped();
 	void OnDestruct();
-	void OnFreeCameraStart(class BP_FreeCamera_0::ABP_FreeCamera_C* FreeCameraReference);
+	void OnFreeCameraStart(class BP_FreeCamera::ABP_FreeCamera_C* FreeCameraReference);
 	void OnFreenCameraEnd();
 	struct FEventReply OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent);
 	void OnLoaded_82A7579942174F38FE2AD9A2E247AA34(class UObject* Loaded);

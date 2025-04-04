@@ -16,6 +16,19 @@
 namespace SDK::Params
 {
 
+// Function UI_BeginFight.UI_BeginFight_C.Tick
+// 0x003C (0x003C - 0x0000)
+struct UI_BeginFight_C_Tick final
+{
+public:
+	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+static_assert(alignof(UI_BeginFight_C_Tick) == 0x000004, "Wrong alignment on UI_BeginFight_C_Tick");
+static_assert(sizeof(UI_BeginFight_C_Tick) == 0x00003C, "Wrong size on UI_BeginFight_C_Tick");
+static_assert(offsetof(UI_BeginFight_C_Tick, MyGeometry) == 0x000000, "Member 'UI_BeginFight_C_Tick::MyGeometry' has a wrong offset!");
+static_assert(offsetof(UI_BeginFight_C_Tick, InDeltaTime) == 0x000038, "Member 'UI_BeginFight_C_Tick::InDeltaTime' has a wrong offset!");
+
 // Function UI_BeginFight.UI_BeginFight_C.ExecuteUbergraph_UI_BeginFight
 // 0x0068 (0x0068 - 0x0000)
 struct UI_BeginFight_C_ExecuteUbergraph_UI_BeginFight final
@@ -40,19 +53,6 @@ static_assert(offsetof(UI_BeginFight_C_ExecuteUbergraph_UI_BeginFight, CallFunc_
 static_assert(offsetof(UI_BeginFight_C_ExecuteUbergraph_UI_BeginFight, CallFunc_Add_DoubleDouble_B_ImplicitCast) == 0x000050, "Member 'UI_BeginFight_C_ExecuteUbergraph_UI_BeginFight::CallFunc_Add_DoubleDouble_B_ImplicitCast' has a wrong offset!");
 static_assert(offsetof(UI_BeginFight_C_ExecuteUbergraph_UI_BeginFight, CallFunc_Add_DoubleDouble_A_ImplicitCast) == 0x000058, "Member 'UI_BeginFight_C_ExecuteUbergraph_UI_BeginFight::CallFunc_Add_DoubleDouble_A_ImplicitCast' has a wrong offset!");
 static_assert(offsetof(UI_BeginFight_C_ExecuteUbergraph_UI_BeginFight, K2Node_VariableSet_In_Delta_Time_ImplicitCast) == 0x000060, "Member 'UI_BeginFight_C_ExecuteUbergraph_UI_BeginFight::K2Node_VariableSet_In_Delta_Time_ImplicitCast' has a wrong offset!");
-
-// Function UI_BeginFight.UI_BeginFight_C.Tick
-// 0x003C (0x003C - 0x0000)
-struct UI_BeginFight_C_Tick final
-{
-public:
-	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-static_assert(alignof(UI_BeginFight_C_Tick) == 0x000004, "Wrong alignment on UI_BeginFight_C_Tick");
-static_assert(sizeof(UI_BeginFight_C_Tick) == 0x00003C, "Wrong size on UI_BeginFight_C_Tick");
-static_assert(offsetof(UI_BeginFight_C_Tick, MyGeometry) == 0x000000, "Member 'UI_BeginFight_C_Tick::MyGeometry' has a wrong offset!");
-static_assert(offsetof(UI_BeginFight_C_Tick, InDeltaTime) == 0x000038, "Member 'UI_BeginFight_C_Tick::InDeltaTime' has a wrong offset!");
 
 }
 

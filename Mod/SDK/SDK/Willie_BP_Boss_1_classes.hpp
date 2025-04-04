@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Willie_BP_Boss_Master_classes.hpp"
 #include "Engine_structs.hpp"
+#include "Willie_BP_Boss_Master_classes.hpp"
 
 
 namespace SDK
@@ -26,8 +26,8 @@ public:
 	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_Boss_1_C;                 // 0x3A28(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
-	void ExecuteUbergraph_Willie_BP_Boss_1(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Willie_BP_Boss_1(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()
