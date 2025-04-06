@@ -65,10 +65,15 @@ public:
     static bool HandleKeyPress(bool& waitingForKey, int& key) {
         if (!waitingForKey) return false;
 
+        static bool keyPressed[256] = { false };
+
         for (int i = 0; i < 256; i++) {
             if (GetAsyncKeyState(i) & 0x8000) {
+                keyPressed[i] = true;
+            } else if (keyPressed[i]) {
                 key = i == s_unbindKey ? -1 : i;
                 waitingForKey = false;
+                keyPressed[i] = false;
                 return true;
             }
         }
