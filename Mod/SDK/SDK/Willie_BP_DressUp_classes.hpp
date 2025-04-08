@@ -19,18 +19,18 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Willie_BP_DressUp.Willie_BP_DressUp_C
-// 0x0020 (0x3A50 - 0x3A30)
+// 0x0020 (0x3A40 - 0x3A20)
 class AWillie_BP_DressUp_C final : public AWillie_BP_C
 {
 public:
-	uint8                                         Pad_3A26[0x2];                                     // 0x3A26(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_DressUp_C;                // 0x3A28(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	struct FVector                                NewVar_4_0;                                        // 0x3A30(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3A16[0x2];                                     // 0x3A16(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_DressUp_C;                // 0x3A18(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FVector                                NewVar_4_0;                                        // 0x3A20(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ReceiveTick(float DeltaSeconds);
-	void ReceiveBeginPlay();
 	void ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint);
+	void ReceiveBeginPlay();
+	void ReceiveTick(float DeltaSeconds);
 
 public:
 	static class UClass* StaticClass()

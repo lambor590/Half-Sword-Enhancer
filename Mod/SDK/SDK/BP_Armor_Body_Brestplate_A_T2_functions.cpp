@@ -17,21 +17,21 @@
 namespace SDK
 {
 
-// Function BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C.ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2
+// (Final, UbergraphFunction)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Armor_Body_Brestplate_A_T2_C::ReceiveTick(float DeltaSeconds)
+void ABP_Armor_Body_Brestplate_A_T2_C::ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Body_Brestplate_A_T2_C", "ReceiveTick");
+		Func = Class->GetFunction("BP_Armor_Body_Brestplate_A_T2_C", "ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2");
 
-	Params::BP_Armor_Body_Brestplate_A_T2_C_ReceiveTick Parms{};
+	Params::BP_Armor_Body_Brestplate_A_T2_C_ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2 Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -51,21 +51,21 @@ void ABP_Armor_Body_Brestplate_A_T2_C::ReceiveBeginPlay()
 }
 
 
-// Function BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C.ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2
-// (Final, UbergraphFunction)
+// Function BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Armor_Body_Brestplate_A_T2_C::ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint)
+void ABP_Armor_Body_Brestplate_A_T2_C::ReceiveTick(float DeltaSeconds)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Body_Brestplate_A_T2_C", "ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2");
+		Func = Class->GetFunction("BP_Armor_Body_Brestplate_A_T2_C", "ReceiveTick");
 
-	Params::BP_Armor_Body_Brestplate_A_T2_C_ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2 Parms{};
+	Params::BP_Armor_Body_Brestplate_A_T2_C_ReceiveTick Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

@@ -35,10 +35,10 @@ public:
 	class UUI_MainMenuSNF_C*                      Parent_UI;                                         // 0x02E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
-	void ReceiveTick(float DeltaSeconds);
-	void ExecuteUbergraph_UI_Helper_BP(int32 EntryPoint);
-	void Destroy_Handle_Event();
 	void Add_Handle_Event(class UPrimitiveComponent* Component, class FName InBoneName, const struct FVector& GrabLocation, class USceneComponent* Target_0);
+	void Destroy_Handle_Event();
+	void ExecuteUbergraph_UI_Helper_BP(int32 EntryPoint);
+	void ReceiveTick(float DeltaSeconds);
 
 public:
 	static class UClass* StaticClass()

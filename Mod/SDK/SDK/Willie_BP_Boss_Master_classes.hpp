@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Willie_BP_Boss_Master.Willie_BP_Boss_Master_C
-// 0x0000 (0x3A30 - 0x3A30)
+// 0x0000 (0x3A20 - 0x3A20)
 #pragma pack(push, 0x1)
 class alignas(0x10) AWillie_BP_Boss_Master_C : public AWillie_BP_C
 {

@@ -17,29 +17,35 @@
 namespace SDK
 {
 
-// Function BP_CandleLight.BP_CandleLight_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
+// Function BP_CandleLight.BP_CandleLight_C.ExecuteUbergraph_BP_CandleLight
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_CandleLight_C::UserConstructionScript()
+void ABP_CandleLight_C::ExecuteUbergraph_BP_CandleLight(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleLight_C", "UserConstructionScript");
+		Func = Class->GetFunction("BP_CandleLight_C", "ExecuteUbergraph_BP_CandleLight");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::BP_CandleLight_C_ExecuteUbergraph_BP_CandleLight Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_CandleLight.BP_CandleLight_C.Timeline__UpdateFunc
-// (BlueprintEvent)
+// Function BP_CandleLight.BP_CandleLight_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
 
-void ABP_CandleLight_C::Timeline__UpdateFunc()
+void ABP_CandleLight_C::ReceiveBeginPlay()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleLight_C", "Timeline__UpdateFunc");
+		Func = Class->GetFunction("BP_CandleLight_C", "ReceiveBeginPlay");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -59,37 +65,31 @@ void ABP_CandleLight_C::Timeline__FinishedFunc()
 }
 
 
-// Function BP_CandleLight.BP_CandleLight_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function BP_CandleLight.BP_CandleLight_C.Timeline__UpdateFunc
+// (BlueprintEvent)
 
-void ABP_CandleLight_C::ReceiveBeginPlay()
+void ABP_CandleLight_C::Timeline__UpdateFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleLight_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("BP_CandleLight_C", "Timeline__UpdateFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_CandleLight.BP_CandleLight_C.ExecuteUbergraph_BP_CandleLight
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function BP_CandleLight.BP_CandleLight_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
 
-void ABP_CandleLight_C::ExecuteUbergraph_BP_CandleLight(int32 EntryPoint)
+void ABP_CandleLight_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_CandleLight_C", "ExecuteUbergraph_BP_CandleLight");
+		Func = Class->GetFunction("BP_CandleLight_C", "UserConstructionScript");
 
-	Params::BP_CandleLight_C_ExecuteUbergraph_BP_CandleLight Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

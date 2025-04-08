@@ -3864,34 +3864,6 @@ void AWillie_BP_C::Timeline_2__UpdateFunc()
 }
 
 
-// Function Willie_BP.Willie_BP_C.Timeline_3__FinishedFunc
-// (BlueprintEvent)
-
-void AWillie_BP_C::Timeline_3__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_3__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Timeline_3__UpdateFunc
-// (BlueprintEvent)
-
-void AWillie_BP_C::Timeline_3__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Timeline_3__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function Willie_BP.Willie_BP_C.Timeline_4__FinishedFunc
 // (BlueprintEvent)
 

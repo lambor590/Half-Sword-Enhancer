@@ -41,19 +41,19 @@ public:
 	int32                                         NewVar_1;                                          // 0x0344(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	class FText GetText_0();
-	class FText GetText();
-	void ExecuteUbergraph_UI_Attention_NoGore1(int32 EntryPoint);
-	void Construct();
-	void BndEvt__UI_Attention_NoGore_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Attention_NoGore_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
+	void Construct();
+	void ExecuteUbergraph_UI_Attention_NoGore1(int32 EntryPoint);
+	class FText GetText();
+	class FText GetText_0();
 
 public:
 	static class UClass* StaticClass()

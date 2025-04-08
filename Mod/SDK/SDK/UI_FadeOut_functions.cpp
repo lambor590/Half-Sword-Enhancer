@@ -17,6 +17,20 @@
 namespace SDK
 {
 
+// Function UI_FadeOut.UI_FadeOut_C.Construct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_FadeOut_C::Construct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_FadeOut_C", "Construct");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_FadeOut.UI_FadeOut_C.ExecuteUbergraph_UI_FadeOut
 // (Final, UbergraphFunction)
 // Parameters:
@@ -34,20 +48,6 @@ void UUI_FadeOut_C::ExecuteUbergraph_UI_FadeOut(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function UI_FadeOut.UI_FadeOut_C.Construct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
-
-void UUI_FadeOut_C::Construct()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_FadeOut_C", "Construct");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

@@ -14,6 +14,23 @@
 namespace SDK::Params
 {
 
+// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master
+// 0x0008 (0x0008 - 0x0000)
+struct Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master final
+{
+public:
+	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.UserConstructionScript
 // 0x01A0 (0x01A0 - 0x0000)
 struct Weapon_Part_Mace_Grip_Tier_Master_C_UserConstructionScript final
@@ -92,23 +109,6 @@ public:
 	uint8                                         Pad_189[0x7];                                      // 0x0189(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class UTexture*                               K2Node_Select_Default_9;                           // 0x0190(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UTexture*                               K2Node_Select_Default_10;                          // 0x0198(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Weapon_Part_Mace_Grip_Tier_Master_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master
-// 0x0008 (0x0008 - 0x0000)
-struct Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master final
-{
-public:
-	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 }

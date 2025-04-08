@@ -17,40 +17,6 @@
 namespace SDK
 {
 
-// Function BP_Weapon_Tool_Axe_B.BP_Weapon_Tool_Axe_B_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_Weapon_Tool_Axe_B_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Axe_B_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_Weapon_Tool_Axe_B.BP_Weapon_Tool_Axe_B_C.ExecuteUbergraph_BP_Weapon_Tool_Axe_B
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Weapon_Tool_Axe_B_C::ExecuteUbergraph_BP_Weapon_Tool_Axe_B(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Axe_B_C", "ExecuteUbergraph_BP_Weapon_Tool_Axe_B");
-
-	Params::BP_Weapon_Tool_Axe_B_C_ExecuteUbergraph_BP_Weapon_Tool_Axe_B Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function BP_Weapon_Tool_Axe_B.BP_Weapon_Tool_Axe_B_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -76,6 +42,40 @@ void ABP_Weapon_Tool_Axe_B_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Tool_Axe_B.BP_Weapon_Tool_Axe_B_C.ExecuteUbergraph_BP_Weapon_Tool_Axe_B
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Tool_Axe_B_C::ExecuteUbergraph_BP_Weapon_Tool_Axe_B(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Axe_B_C", "ExecuteUbergraph_BP_Weapon_Tool_Axe_B");
+
+	Params::BP_Weapon_Tool_Axe_B_C_ExecuteUbergraph_BP_Weapon_Tool_Axe_B Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Tool_Axe_B.BP_Weapon_Tool_Axe_B_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Tool_Axe_B_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Axe_B_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

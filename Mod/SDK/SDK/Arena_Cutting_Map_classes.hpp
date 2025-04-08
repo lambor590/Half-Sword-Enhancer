@@ -82,7 +82,7 @@ public:
 	class UBPC_RuntimeVertexPaintAndDetectionComponent_C* BPC_VP;                                    // 0x1878(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	bool                                          NewVar_2;                                          // 0x1880(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_1881[0x7];                                     // 0x1881(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class BP_FreeCamera_0::ABP_FreeCamera_C*      MyDressUpDarling;                                  // 0x1888(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        MyDressUpDarling;                                  // 0x1888(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class USG_PlayerProgression_C*                As_SG_Gauntlet_Player_Progress;                    // 0x1890(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                Spawn_Point_1;                                     // 0x1898(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                Spawn_Point_2;                                     // 0x18B0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -96,24 +96,24 @@ public:
 	class AStaticMeshActor*                       StaticMeshActor_741_ExecuteUbergraph_Arena_Cutting_Map_RefProperty; // 0x1900(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Timeline_1__UpdateFunc();
-	void Timeline_1__FinishedFunc();
-	void Timeline_0__UpdateFunc();
-	void Timeline_0__FinishedFunc();
-	void Spawn_Trash();
-	void ReceiveTick(float DeltaSeconds);
-	void ReceiveBeginPlay();
-	void LevelReset();
-	void ExecuteUbergraph_Arena_Cutting_Map(int32 EntryPoint);
-	void Clear_Old_Actors();
-	void Clean_Blood(float Amount_to_Apply);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
 	void Baron_Waves_Spawn();
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void Clean_Blood(float Amount_to_Apply);
+	void Clear_Old_Actors();
+	void ExecuteUbergraph_Arena_Cutting_Map(int32 EntryPoint);
+	void LevelReset();
+	void ReceiveBeginPlay();
+	void ReceiveTick(float DeltaSeconds);
+	void Spawn_Trash();
+	void Timeline_0__FinishedFunc();
+	void Timeline_0__UpdateFunc();
+	void Timeline_1__FinishedFunc();
+	void Timeline_1__UpdateFunc();
 
 public:
 	static class UClass* StaticClass()

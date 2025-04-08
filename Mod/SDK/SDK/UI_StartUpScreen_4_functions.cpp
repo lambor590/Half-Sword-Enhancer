@@ -17,23 +17,17 @@
 namespace SDK
 {
 
-// Function UI_StartUpScreen_4.UI_StartUpScreen_4_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
-// (BlueprintEvent)
-// Parameters:
-// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// Function UI_StartUpScreen_4.UI_StartUpScreen_4_C.Construct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
 
-void UUI_StartUpScreen_4_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key)
+void UUI_StartUpScreen_4_C::Construct()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_4_C", "InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
+		Func = Class->GetFunction("UI_StartUpScreen_4_C", "Construct");
 
-	Params::UI_StartUpScreen_4_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 Parms{};
-
-	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -57,17 +51,23 @@ void UUI_StartUpScreen_4_C::ExecuteUbergraph_UI_StartUpScreen_4(int32 EntryPoint
 }
 
 
-// Function UI_StartUpScreen_4.UI_StartUpScreen_4_C.Construct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Function UI_StartUpScreen_4.UI_StartUpScreen_4_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void UUI_StartUpScreen_4_C::Construct()
+void UUI_StartUpScreen_4_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_4_C", "Construct");
+		Func = Class->GetFunction("UI_StartUpScreen_4_C", "InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::UI_StartUpScreen_4_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 }

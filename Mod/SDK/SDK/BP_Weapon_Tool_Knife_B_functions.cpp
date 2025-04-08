@@ -17,54 +17,6 @@
 namespace SDK
 {
 
-// Function BP_Weapon_Tool_Knife_B.BP_Weapon_Tool_Knife_B_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_Weapon_Tool_Knife_B_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Knife_B_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_Weapon_Tool_Knife_B.BP_Weapon_Tool_Knife_B_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ABP_Weapon_Tool_Knife_B_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Knife_B_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_Weapon_Tool_Knife_B.BP_Weapon_Tool_Knife_B_C.ExecuteUbergraph_BP_Weapon_Tool_Knife_B
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Weapon_Tool_Knife_B_C::ExecuteUbergraph_BP_Weapon_Tool_Knife_B(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Tool_Knife_B_C", "ExecuteUbergraph_BP_Weapon_Tool_Knife_B");
-
-	Params::BP_Weapon_Tool_Knife_B_C_ExecuteUbergraph_BP_Weapon_Tool_Knife_B Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function BP_Weapon_Tool_Knife_B.BP_Weapon_Tool_Knife_B_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -90,6 +42,54 @@ void ABP_Weapon_Tool_Knife_B_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEve
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Tool_Knife_B.BP_Weapon_Tool_Knife_B_C.ExecuteUbergraph_BP_Weapon_Tool_Knife_B
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Tool_Knife_B_C::ExecuteUbergraph_BP_Weapon_Tool_Knife_B(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Knife_B_C", "ExecuteUbergraph_BP_Weapon_Tool_Knife_B");
+
+	Params::BP_Weapon_Tool_Knife_B_C_ExecuteUbergraph_BP_Weapon_Tool_Knife_B Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Tool_Knife_B.BP_Weapon_Tool_Knife_B_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_Weapon_Tool_Knife_B_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Knife_B_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Weapon_Tool_Knife_B.BP_Weapon_Tool_Knife_B_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Tool_Knife_B_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Tool_Knife_B_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

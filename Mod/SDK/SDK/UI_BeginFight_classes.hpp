@@ -28,9 +28,9 @@ public:
 	float                                         In_Delta_Time;                                     // 0x02F8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
-	void ExecuteUbergraph_UI_BeginFight(int32 EntryPoint);
 	void Construct();
+	void ExecuteUbergraph_UI_BeginFight(int32 EntryPoint);
+	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
 public:
 	static class UClass* StaticClass()

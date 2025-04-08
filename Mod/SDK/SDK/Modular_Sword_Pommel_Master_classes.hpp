@@ -33,9 +33,9 @@ public:
 	double                                        Overall_Scale__Temp_;                              // 0x0528(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void UserConstructionScript();
-	void ReceiveTick(float DeltaSeconds);
 	void ExecuteUbergraph_Modular_Sword_Pommel_Master(int32 EntryPoint);
+	void ReceiveTick(float DeltaSeconds);
+	void UserConstructionScript();
 
 public:
 	static class UClass* StaticClass()

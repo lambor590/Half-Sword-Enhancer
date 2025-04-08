@@ -17,17 +17,23 @@
 namespace SDK
 {
 
-// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
+// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master
+// (Final, UbergraphFunction)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWeapon_Part_Mace_Grip_Tier_Master_C::UserConstructionScript()
+void AWeapon_Part_Mace_Grip_Tier_Master_C::ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Part_Mace_Grip_Tier_Master_C", "UserConstructionScript");
+		Func = Class->GetFunction("Weapon_Part_Mace_Grip_Tier_Master_C", "ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -51,23 +57,17 @@ void AWeapon_Part_Mace_Grip_Tier_Master_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master
-// (Final, UbergraphFunction)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
 
-void AWeapon_Part_Mace_Grip_Tier_Master_C::ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master(int32 EntryPoint)
+void AWeapon_Part_Mace_Grip_Tier_Master_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Weapon_Part_Mace_Grip_Tier_Master_C", "ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master");
+		Func = Class->GetFunction("Weapon_Part_Mace_Grip_Tier_Master_C", "UserConstructionScript");
 
-	Params::Weapon_Part_Mace_Grip_Tier_Master_C_ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

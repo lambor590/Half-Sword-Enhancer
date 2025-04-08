@@ -14,36 +14,6 @@
 namespace SDK::Params
 {
 
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.GetText_0
-// 0x0068 (0x0068 - 0x0000)
-struct UI_Attention_NoGore1_C_GetText_0 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class FText                                   Temp_text_Variable;                                // 0x0018(0x0010)()
-	class FText                                   Temp_text_Variable_1;                              // 0x0028(0x0010)()
-	class FText                                   Temp_text_Variable_2;                              // 0x0038(0x0010)()
-	class FText                                   Temp_text_Variable_3;                              // 0x0048(0x0010)()
-	class FText                                   K2Node_Select_Default;                             // 0x0058(0x0010)()
-};
-
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.GetText
-// 0x0068 (0x0068 - 0x0000)
-struct UI_Attention_NoGore1_C_GetText final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class FText                                   Temp_text_Variable;                                // 0x0018(0x0010)()
-	class FText                                   Temp_text_Variable_1;                              // 0x0028(0x0010)()
-	class FText                                   Temp_text_Variable_2;                              // 0x0038(0x0010)()
-	class FText                                   Temp_text_Variable_3;                              // 0x0048(0x0010)()
-	class FText                                   K2Node_Select_Default;                             // 0x0058(0x0010)()
-};
-
 // Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.ExecuteUbergraph_UI_Attention_NoGore1
 // 0x00F0 (0x00F0 - 0x0000)
 struct UI_Attention_NoGore1_C_ExecuteUbergraph_UI_Attention_NoGore1 final
@@ -90,6 +60,36 @@ public:
 	bool                                          CallFunc_IsGamePaused_ReturnValue;                 // 0x00D8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_D9[0x7];                                       // 0x00D9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class FString                                 CallFunc_Conv_BoolToString_ReturnValue;            // 0x00E0(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+};
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.GetText
+// 0x0068 (0x0068 - 0x0000)
+struct UI_Attention_NoGore1_C_GetText final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   Temp_text_Variable;                                // 0x0018(0x0010)()
+	class FText                                   Temp_text_Variable_1;                              // 0x0028(0x0010)()
+	class FText                                   Temp_text_Variable_2;                              // 0x0038(0x0010)()
+	class FText                                   Temp_text_Variable_3;                              // 0x0048(0x0010)()
+	class FText                                   K2Node_Select_Default;                             // 0x0058(0x0010)()
+};
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.GetText_0
+// 0x0068 (0x0068 - 0x0000)
+struct UI_Attention_NoGore1_C_GetText_0 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	int32                                         Temp_int_Variable;                                 // 0x0010(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14[0x4];                                       // 0x0014(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FText                                   Temp_text_Variable;                                // 0x0018(0x0010)()
+	class FText                                   Temp_text_Variable_1;                              // 0x0028(0x0010)()
+	class FText                                   Temp_text_Variable_2;                              // 0x0038(0x0010)()
+	class FText                                   Temp_text_Variable_3;                              // 0x0048(0x0010)()
+	class FText                                   K2Node_Select_Default;                             // 0x0058(0x0010)()
 };
 
 }

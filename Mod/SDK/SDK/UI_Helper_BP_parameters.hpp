@@ -17,12 +17,15 @@
 namespace SDK::Params
 {
 
-// Function UI_Helper_BP.UI_Helper_BP_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct UI_Helper_BP_C_ReceiveTick final
+// Function UI_Helper_BP.UI_Helper_BP_C.Add Handle Event
+// 0x0030 (0x0030 - 0x0000)
+struct UI_Helper_BP_C_Add_Handle_Event final
 {
 public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    Component;                                         // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class FName                                   InBoneName;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                GrabLocation;                                      // 0x0010(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Target_0;                                          // 0x0028(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function UI_Helper_BP.UI_Helper_BP_C.ExecuteUbergraph_UI_Helper_BP
@@ -61,15 +64,12 @@ public:
 	float                                         CallFunc_SetAngularStiffness_NewAngularStiffness_ImplicitCast; // 0x031C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Helper_BP.UI_Helper_BP_C.Add Handle Event
-// 0x0030 (0x0030 - 0x0000)
-struct UI_Helper_BP_C_Add_Handle_Event final
+// Function UI_Helper_BP.UI_Helper_BP_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct UI_Helper_BP_C_ReceiveTick final
 {
 public:
-	class UPrimitiveComponent*                    Component;                                         // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class FName                                   InBoneName;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                GrabLocation;                                      // 0x0010(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Target_0;                                          // 0x0028(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 }

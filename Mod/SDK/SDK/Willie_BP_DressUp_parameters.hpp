@@ -17,14 +17,6 @@
 namespace SDK::Params
 {
 
-// Function Willie_BP_DressUp.Willie_BP_DressUp_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Willie_BP_DressUp_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
 // Function Willie_BP_DressUp.Willie_BP_DressUp_C.ExecuteUbergraph_Willie_BP_DressUp
 // 0x0138 (0x0138 - 0x0000)
 struct Willie_BP_DressUp_C_ExecuteUbergraph_Willie_BP_DressUp final
@@ -37,6 +29,14 @@ public:
 	float                                         K2Node_Event_DeltaSeconds;                         // 0x0038(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_3C[0x4];                                       // 0x003C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FHitResult                             CallFunc_K2_SetWorldLocation_SweepHitResult;       // 0x0040(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
+};
+
+// Function Willie_BP_DressUp.Willie_BP_DressUp_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Willie_BP_DressUp_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 }

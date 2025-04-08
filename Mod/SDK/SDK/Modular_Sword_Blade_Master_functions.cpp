@@ -17,15 +17,35 @@
 namespace SDK
 {
 
-// Function Modular_Sword_Blade_Master.Modular_Sword_Blade_Master_C.UserConstructionScript
-// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function Modular_Sword_Blade_Master.Modular_Sword_Blade_Master_C.ExecuteUbergraph_Modular_Sword_Blade_Master
+// (Final, UbergraphFunction)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AModular_Sword_Blade_Master_C::UserConstructionScript()
+void AModular_Sword_Blade_Master_C::ExecuteUbergraph_Modular_Sword_Blade_Master(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Sword_Blade_Master_C", "UserConstructionScript");
+		Func = Class->GetFunction("Modular_Sword_Blade_Master_C", "ExecuteUbergraph_Modular_Sword_Blade_Master");
+
+	Params::Modular_Sword_Blade_Master_C_ExecuteUbergraph_Modular_Sword_Blade_Master Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Modular_Sword_Blade_Master.Modular_Sword_Blade_Master_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AModular_Sword_Blade_Master_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Modular_Sword_Blade_Master_C", "ReceiveBeginPlay");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -51,37 +71,17 @@ void AModular_Sword_Blade_Master_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function Modular_Sword_Blade_Master.Modular_Sword_Blade_Master_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function Modular_Sword_Blade_Master.Modular_Sword_Blade_Master_C.UserConstructionScript
+// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void AModular_Sword_Blade_Master_C::ReceiveBeginPlay()
+void AModular_Sword_Blade_Master_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Sword_Blade_Master_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("Modular_Sword_Blade_Master_C", "UserConstructionScript");
 
 	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Modular_Sword_Blade_Master.Modular_Sword_Blade_Master_C.ExecuteUbergraph_Modular_Sword_Blade_Master
-// (Final, UbergraphFunction)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AModular_Sword_Blade_Master_C::ExecuteUbergraph_Modular_Sword_Blade_Master(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Sword_Blade_Master_C", "ExecuteUbergraph_Modular_Sword_Blade_Master");
-
-	Params::Modular_Sword_Blade_Master_C_ExecuteUbergraph_Modular_Sword_Blade_Master Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
 }
 
 }

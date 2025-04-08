@@ -17,25 +17,17 @@
 namespace SDK
 {
 
-// Function UI_BeginFight.UI_BeginFight_C.Tick
+// Function UI_BeginFight.UI_BeginFight_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
-// Parameters:
-// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_BeginFight_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
+void UUI_BeginFight_C::Construct()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_BeginFight_C", "Tick");
+		Func = Class->GetFunction("UI_BeginFight_C", "Construct");
 
-	Params::UI_BeginFight_C_Tick Parms{};
-
-	Parms.MyGeometry = std::move(MyGeometry);
-	Parms.InDeltaTime = InDeltaTime;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -59,17 +51,25 @@ void UUI_BeginFight_C::ExecuteUbergraph_UI_BeginFight(int32 EntryPoint)
 }
 
 
-// Function UI_BeginFight.UI_BeginFight_C.Construct
+// Function UI_BeginFight.UI_BeginFight_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_BeginFight_C::Construct()
+void UUI_BeginFight_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_BeginFight_C", "Construct");
+		Func = Class->GetFunction("UI_BeginFight_C", "Tick");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::UI_BeginFight_C_Tick Parms{};
+
+	Parms.MyGeometry = std::move(MyGeometry);
+	Parms.InDeltaTime = InDeltaTime;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 }

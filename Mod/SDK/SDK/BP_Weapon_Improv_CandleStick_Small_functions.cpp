@@ -17,49 +17,29 @@
 namespace SDK
 {
 
-// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_Weapon_Improv_CandleStick_Small_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ABP_Weapon_Improv_CandleStick_Small_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small
-// (Final, UbergraphFunction, HasDefaults)
+// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 
-void ABP_Weapon_Improv_CandleStick_Small_C::ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small(int32 EntryPoint)
+void ABP_Weapon_Improv_CandleStick_Small_C::BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small");
+		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
 
-	Params::BP_Weapon_Improv_CandleStick_Small_C_ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small Parms{};
+	Params::BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -93,31 +73,51 @@ void ABP_Weapon_Improv_CandleStick_Small_C::BndEvt__Buckler_Buckler_K2Node_Compo
 }
 
 
-// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
-// (HasOutParams, BlueprintEvent)
+// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
-// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Weapon_Improv_CandleStick_Small_C::BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+void ABP_Weapon_Improv_CandleStick_Small_C::ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small");
 
-	Params::BP_Weapon_Improv_CandleStick_Small_C_BndEvt__BP_Weapon_Improv_CandleStick_Big_Candle_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
+	Params::BP_Weapon_Improv_CandleStick_Small_C_ExecuteUbergraph_BP_Weapon_Improv_CandleStick_Small Parms{};
 
-	Parms.HitComponent = HitComponent;
-	Parms.OtherActor = OtherActor;
-	Parms.OtherComp = OtherComp;
-	Parms.NormalImpulse = std::move(NormalImpulse);
-	Parms.Hit = std::move(Hit);
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_Weapon_Improv_CandleStick_Small_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Improv_CandleStick_Small_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

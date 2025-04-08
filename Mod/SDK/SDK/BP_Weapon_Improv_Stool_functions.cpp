@@ -17,40 +17,6 @@
 namespace SDK
 {
 
-// Function BP_Weapon_Improv_Stool.BP_Weapon_Improv_Stool_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_Weapon_Improv_Stool_C::UserConstructionScript()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_Stool_C", "UserConstructionScript");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_Weapon_Improv_Stool.BP_Weapon_Improv_Stool_C.ExecuteUbergraph_BP_Weapon_Improv_Stool
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Weapon_Improv_Stool_C::ExecuteUbergraph_BP_Weapon_Improv_Stool(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Weapon_Improv_Stool_C", "ExecuteUbergraph_BP_Weapon_Improv_Stool");
-
-	Params::BP_Weapon_Improv_Stool_C_ExecuteUbergraph_BP_Weapon_Improv_Stool Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function BP_Weapon_Improv_Stool.BP_Weapon_Improv_Stool_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -76,6 +42,40 @@ void ABP_Weapon_Improv_Stool_C::BndEvt__Buckler_Buckler_K2Node_ComponentBoundEve
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Improv_Stool.BP_Weapon_Improv_Stool_C.ExecuteUbergraph_BP_Weapon_Improv_Stool
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Improv_Stool_C::ExecuteUbergraph_BP_Weapon_Improv_Stool(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Improv_Stool_C", "ExecuteUbergraph_BP_Weapon_Improv_Stool");
+
+	Params::BP_Weapon_Improv_Stool_C_ExecuteUbergraph_BP_Weapon_Improv_Stool Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Improv_Stool.BP_Weapon_Improv_Stool_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Improv_Stool_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Improv_Stool_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

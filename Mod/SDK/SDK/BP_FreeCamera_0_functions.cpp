@@ -18,7 +18,7 @@ namespace SDK
 {
 
 // Function BP_FreeCamera.BP_FreeCamera_C.ExecuteUbergraph_BP_FreeCamera
-// (Final, UbergraphFunction)
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
@@ -34,6 +34,20 @@ void BP_FreeCamera_0::ABP_FreeCamera_C::ExecuteUbergraph_BP_FreeCamera(int32 Ent
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_FreeCamera.BP_FreeCamera_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void BP_FreeCamera_0::ABP_FreeCamera_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_FreeCamera_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -57,15 +71,15 @@ void BP_FreeCamera_0::ABP_FreeCamera_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function BP_FreeCamera.BP_FreeCamera_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function BP_FreeCamera.BP_FreeCamera_C.UserConstructionScript
+// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void BP_FreeCamera_0::ABP_FreeCamera_C::ReceiveBeginPlay()
+void BP_FreeCamera_0::ABP_FreeCamera_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_FreeCamera_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("BP_FreeCamera_C", "UserConstructionScript");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

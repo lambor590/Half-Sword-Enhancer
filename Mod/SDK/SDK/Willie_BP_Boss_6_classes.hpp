@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Willie_BP_Boss_6.Willie_BP_Boss_6_C
-// 0x0000 (0x3A30 - 0x3A30)
+// 0x0000 (0x3A20 - 0x3A20)
 class AWillie_BP_Boss_6_C final : public AWillie_BP_Boss_Master_C
 {
 public:

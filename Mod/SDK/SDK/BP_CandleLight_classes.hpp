@@ -37,11 +37,11 @@ public:
 	double                                        Wiggle;                                            // 0x02D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void UserConstructionScript();
-	void Timeline__UpdateFunc();
-	void Timeline__FinishedFunc();
-	void ReceiveBeginPlay();
 	void ExecuteUbergraph_BP_CandleLight(int32 EntryPoint);
+	void ReceiveBeginPlay();
+	void Timeline__FinishedFunc();
+	void Timeline__UpdateFunc();
+	void UserConstructionScript();
 
 public:
 	static class UClass* StaticClass()

@@ -17,26 +17,6 @@
 namespace SDK
 {
 
-// Function BP_Prop_Training_Dummy_001.BP_Prop_Training_Dummy_001_C.ExecuteUbergraph_BP_Prop_Training_Dummy_001
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Prop_Training_Dummy_001_C::ExecuteUbergraph_BP_Prop_Training_Dummy_001(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Training_Dummy_001_C", "ExecuteUbergraph_BP_Prop_Training_Dummy_001");
-
-	Params::BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001 Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function BP_Prop_Training_Dummy_001.BP_Prop_Training_Dummy_001_C.BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -60,6 +40,26 @@ void ABP_Prop_Training_Dummy_001_C::BndEvt__Barrel_BP_SM_Barrel_K2Node_Component
 	Parms.OtherComp = OtherComp;
 	Parms.NormalImpulse = std::move(NormalImpulse);
 	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Prop_Training_Dummy_001.BP_Prop_Training_Dummy_001_C.ExecuteUbergraph_BP_Prop_Training_Dummy_001
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Prop_Training_Dummy_001_C::ExecuteUbergraph_BP_Prop_Training_Dummy_001(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Prop_Training_Dummy_001_C", "ExecuteUbergraph_BP_Prop_Training_Dummy_001");
+
+	Params::BP_Prop_Training_Dummy_001_C_ExecuteUbergraph_BP_Prop_Training_Dummy_001 Parms{};
+
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

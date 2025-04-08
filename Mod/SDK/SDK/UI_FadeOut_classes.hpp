@@ -28,8 +28,8 @@ public:
 	bool                                          Is_Opened;                                         // 0x02F8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_UI_FadeOut(int32 EntryPoint);
 	void Construct();
+	void ExecuteUbergraph_UI_FadeOut(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

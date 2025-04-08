@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "Str_Equipment_Loadout_Old_structs.hpp"
 #include "PhysicsCore_structs.hpp"
+#include "Str_Equipment_Loadout_Old_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "UMG_structs.hpp"
@@ -121,7 +121,7 @@ public:
 	bool                                          Can_Start;                                         // 0x12A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_12A9[0x7];                                     // 0x12A9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x12B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class BP_FreeCamera_0::ABP_FreeCamera_C*      MyCam;                                             // 0x12B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        MyCam;                                             // 0x12B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                Pointer_Location;                                  // 0x12C0(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FRotator                               MyDressUpDarling_Base_Rotation;                    // 0x12D8(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 	EPhysicalSurface                              Hit_Surface;                                       // 0x12F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -129,8 +129,7 @@ public:
 	uint8                                         Pad_12F2[0x6];                                     // 0x12F2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	class AUI_Helper_BP_C*                        Helper_BP;                                         // 0x12F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	bool                                          Click_Hold__Hold_;                                 // 0x1300(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Gauntlet_Mode_Active;                              // 0x1301(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1302[0x2];                                     // 0x1302(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_1301[0x3];                                     // 0x1301(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         Choosing_Faction_Int;                              // 0x1304(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Body_Change_Attmepts_Current;                      // 0x1308(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Body_Change_Attmepts_Max;                          // 0x130C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -149,146 +148,146 @@ public:
 	struct FVector                                Mouse_Velocity;                                    // 0x1360(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
-	void Switch_Mode_Event();
-	void Random_Armor_Event();
-	void Pick_Gauntlet_Character_Event();
-	struct FEventReply OnMouseButtonUp(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent);
-	struct FEventReply OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent);
-	void Mouse_Button_Up_Event();
-	void Mouse_Button_Down_Event();
-	void Initialize_New_Gauntlet_Character();
-	void Go_To_Free_Mode_Event();
-	ESlateVisibility GetVisibility_0();
-	class FText GetText();
-	ESlateVisibility Get_TextFreeMode_1_Visibility();
-	class FText Get_RankProgressText_Text();
-	class FText Get_RankProgressText_2_Text();
-	float Get_RankProgress_Percent();
-	ESlateVisibility Get_RandBodyButton_Visibility();
-	bool Get_RandBodyButton_bIsEnabled();
-	ESlateVisibility Get_RandArmourButton_Visibility();
-	ESlateVisibility Get_RandArmourButton_Free_Visibility();
-	bool Get_RandArmourButton_Cost_1_bIsEnabled();
-	struct FSlateBrush Get_PortraitImage_Brush();
-	struct FSlateBrush Get_PortraitImage_1_Brush();
-	ESlateVisibility Get_FactionText_Visibility();
-	class FText Get_FactionBonusText_Text();
-	bool Get_Faction1_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_9_Visibility();
-	bool Get_Button_Rank_9_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_8_Visibility();
-	bool Get_Button_Rank_8_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_7_Visibility();
-	bool Get_Button_Rank_7_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_6_Visibility();
-	bool Get_Button_Rank_6_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_5_Visibility();
-	bool Get_Button_Rank_5_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_4_Visibility();
-	bool Get_Button_Rank_4_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_3_Visibility();
-	bool Get_Button_Rank_3_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_2_Visibility();
-	bool Get_Button_Rank_2_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_Rank_1_Visibility();
-	bool Get_Button_Rank_1_Gau_bIsEnabled();
-	ESlateVisibility Get_Button_GauntletMode_Visibility();
-	ESlateVisibility Free_Mode_Text_Visibility();
-	void ExecuteUbergraph_UI_MainMenuSNF(int32 EntryPoint);
-	void Enter_Gauntlet_Mode_Event();
-	void Construct();
-	void Check_Snap_Neck_Event();
-	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_66_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_90_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_ImSecret_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_63_OnButtonReleasedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_62_OnButtonReleasedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_61_OnButtonReleasedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_51_OnButtonReleasedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction1_3_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction1_2_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Faction1_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_49_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_9_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_87_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_60_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_86_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_59_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_85_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_0_K2Node_ComponentBoundEvent_67_OnButtonReleasedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenuSNF_Button_0_K2Node_ComponentBoundEvent_52_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_Button_2_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_MainMenu_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__NewWidgetBlueprint_Button_Start_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__NewWidgetBlueprint_Button_Quit_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__NewWidgetBlueprint_Button_Credit_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__NewWidgetBlueprint_Button_1_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__NewWidgetBlueprint_Button_261_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__NewWidgetBlueprint_Button_Credit_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__NewWidgetBlueprint_Button_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__NewWidgetBlueprint_Button_Quit_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__NewWidgetBlueprint_Button_Start_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_Button_0_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_Button_2_K2Node_ComponentBoundEvent_12_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_20_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_ButtonOptions_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_DiscordButton_K2Node_ComponentBoundEvent_14_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_KickstarterButton_K2Node_ComponentBoundEvent_18_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_15_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenu_SteamButton_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_0_K2Node_ComponentBoundEvent_52_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_0_K2Node_ComponentBoundEvent_67_OnButtonReleasedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_GauntletMode_K2Node_ComponentBoundEvent_45_OnButtonReleasedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_69_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_1_Gau_K2Node_ComponentBoundEvent_79_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_1_K2Node_ComponentBoundEvent_53_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_70_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_2_Gau_K2Node_ComponentBoundEvent_80_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_40_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_2_K2Node_ComponentBoundEvent_54_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_71_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_3_Gau_K2Node_ComponentBoundEvent_81_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_3_K2Node_ComponentBoundEvent_55_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_72_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_4_Gau_K2Node_ComponentBoundEvent_82_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_4_K2Node_ComponentBoundEvent_56_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_73_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_5_Gau_K2Node_ComponentBoundEvent_83_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_43_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_5_K2Node_ComponentBoundEvent_57_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_74_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_6_Gau_K2Node_ComponentBoundEvent_84_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_6_K2Node_ComponentBoundEvent_58_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_75_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_7_Gau_K2Node_ComponentBoundEvent_85_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_7_K2Node_ComponentBoundEvent_59_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_76_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_8_Gau_K2Node_ComponentBoundEvent_86_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_8_K2Node_ComponentBoundEvent_60_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_77_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_9_Gau_K2Node_ComponentBoundEvent_87_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_9_K2Node_ComponentBoundEvent_64_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Button_Rank_K2Node_ComponentBoundEvent_41_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_48_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_ButtonFreeMode_K2Node_ComponentBoundEvent_49_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction1_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction1_2_K2Node_ComponentBoundEvent_26_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction1_3_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_23_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_24_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_28_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction1_K2Node_ComponentBoundEvent_51_OnButtonReleasedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_37_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_38_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction2_K2Node_ComponentBoundEvent_61_OnButtonReleasedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction3_K2Node_ComponentBoundEvent_62_OnButtonReleasedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_Faction4_K2Node_ComponentBoundEvent_63_OnButtonReleasedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_ImSecret_K2Node_ComponentBoundEvent_42_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_88_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_89_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_Free_K2Node_ComponentBoundEvent_90_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandArmourButton_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_65_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandBodyButton_K2Node_ComponentBoundEvent_66_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_22_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_31_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_MainMenuSNF_RandWeaponButton_K2Node_ComponentBoundEvent_32_OnButtonHoverEvent__DelegateSignature();
+	void Check_Snap_Neck_Event();
+	void Construct();
+	void Enter_Gauntlet_Mode_Event();
+	void ExecuteUbergraph_UI_MainMenuSNF(int32 EntryPoint);
+	ESlateVisibility Free_Mode_Text_Visibility();
+	ESlateVisibility Get_Button_GauntletMode_Visibility();
+	bool Get_Button_Rank_1_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_1_Visibility();
+	bool Get_Button_Rank_2_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_2_Visibility();
+	bool Get_Button_Rank_3_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_3_Visibility();
+	bool Get_Button_Rank_4_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_4_Visibility();
+	bool Get_Button_Rank_5_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_5_Visibility();
+	bool Get_Button_Rank_6_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_6_Visibility();
+	bool Get_Button_Rank_7_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_7_Visibility();
+	bool Get_Button_Rank_8_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_8_Visibility();
+	bool Get_Button_Rank_9_Gau_bIsEnabled();
+	ESlateVisibility Get_Button_Rank_9_Visibility();
+	bool Get_Faction1_bIsEnabled();
+	class FText Get_FactionBonusText_Text();
+	ESlateVisibility Get_FactionText_Visibility();
+	struct FSlateBrush Get_PortraitImage_1_Brush();
+	struct FSlateBrush Get_PortraitImage_Brush();
+	bool Get_RandArmourButton_Cost_1_bIsEnabled();
+	ESlateVisibility Get_RandArmourButton_Free_Visibility();
+	ESlateVisibility Get_RandArmourButton_Visibility();
+	bool Get_RandBodyButton_bIsEnabled();
+	ESlateVisibility Get_RandBodyButton_Visibility();
+	float Get_RankProgress_Percent();
+	class FText Get_RankProgressText_2_Text();
+	class FText Get_RankProgressText_Text();
+	ESlateVisibility Get_TextFreeMode_1_Visibility();
+	class FText GetText();
+	ESlateVisibility GetVisibility_0();
+	void Go_To_Free_Mode_Event();
+	void Initialize_New_Gauntlet_Character();
+	void Mouse_Button_Down_Event();
+	void Mouse_Button_Up_Event();
+	struct FEventReply OnMouseButtonDown(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent);
+	struct FEventReply OnMouseButtonUp(const struct FGeometry& MyGeometry, const struct FPointerEvent& MouseEvent);
+	void Pick_Gauntlet_Character_Event();
+	void Random_Armor_Event();
+	void Switch_Mode_Event();
+	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
 public:
 	static class UClass* StaticClass()

@@ -10,12 +10,29 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
 namespace SDK::Params
 {
+
+// Function Modular_Sword_Pommel_Master.Modular_Sword_Pommel_Master_C.ExecuteUbergraph_Modular_Sword_Pommel_Master
+// 0x0008 (0x0008 - 0x0000)
+struct Modular_Sword_Pommel_Master_C_ExecuteUbergraph_Modular_Sword_Pommel_Master final
+{
+public:
+	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function Modular_Sword_Pommel_Master.Modular_Sword_Pommel_Master_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Modular_Sword_Pommel_Master_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
 
 // Function Modular_Sword_Pommel_Master.Modular_Sword_Pommel_Master_C.UserConstructionScript
 // 0x0050 (0x0050 - 0x0000)
@@ -41,23 +58,6 @@ public:
 	Enum_MaterialLayer                            K2Node_Select_Default;                             // 0x0048(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_49[0x3];                                       // 0x0049(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         CallFunc_SetMassOverrideInKg_MassInKg_ImplicitCast; // 0x004C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Modular_Sword_Pommel_Master.Modular_Sword_Pommel_Master_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Modular_Sword_Pommel_Master_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Modular_Sword_Pommel_Master.Modular_Sword_Pommel_Master_C.ExecuteUbergraph_Modular_Sword_Pommel_Master
-// 0x0008 (0x0008 - 0x0000)
-struct Modular_Sword_Pommel_Master_C_ExecuteUbergraph_Modular_Sword_Pommel_Master final
-{
-public:
-	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 }

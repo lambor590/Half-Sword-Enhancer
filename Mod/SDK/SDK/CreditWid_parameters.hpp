@@ -14,14 +14,6 @@
 namespace SDK::Params
 {
 
-// Function CreditWid.CreditWid_C.SetLastOpenedWidget
-// 0x0008 (0x0008 - 0x0000)
-struct CreditWid_C_SetLastOpenedWidget final
-{
-public:
-	class UClass*                                 UW;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-
 // Function CreditWid.CreditWid_C.ExecuteUbergraph_CreditWid
 // 0x0020 (0x0020 - 0x0000)
 struct CreditWid_C_ExecuteUbergraph_CreditWid final
@@ -32,6 +24,14 @@ public:
 	class UUI_MainMenuSNF_C*                      CallFunc_Create_ReturnValue;                       // 0x0008(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0010(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_1;              // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function CreditWid.CreditWid_C.SetLastOpenedWidget
+// 0x0008 (0x0008 - 0x0000)
+struct CreditWid_C_SetLastOpenedWidget final
+{
+public:
+	class UClass*                                 UW;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
 }

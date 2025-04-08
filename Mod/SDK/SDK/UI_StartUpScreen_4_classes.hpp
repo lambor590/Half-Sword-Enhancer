@@ -30,9 +30,9 @@ public:
 	bool                                          Is_Opened;                                         // 0x0308(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key);
-	void ExecuteUbergraph_UI_StartUpScreen_4(int32 EntryPoint);
 	void Construct();
+	void ExecuteUbergraph_UI_StartUpScreen_4(int32 EntryPoint);
+	void InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key);
 
 public:
 	static class UClass* StaticClass()

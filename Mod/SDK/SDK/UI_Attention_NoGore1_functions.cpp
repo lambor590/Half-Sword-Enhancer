@@ -17,43 +17,143 @@
 namespace SDK
 {
 
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.GetText_0
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
 
-class FText UUI_Attention_NoGore1_C::GetText_0()
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "GetText_0");
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
 
-	Params::UI_Attention_NoGore1_C_GetText_0 Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.GetText
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
 
-class FText UUI_Attention_NoGore1_C::GetText()
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "GetText");
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
 
-	Params::UI_Attention_NoGore1_C_GetText Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	UObject::ProcessEvent(Func, &Parms);
 
-	return Parms.ReturnValue;
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.Construct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_Attention_NoGore1_C::Construct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "Construct");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -77,143 +177,43 @@ void UUI_Attention_NoGore1_C::ExecuteUbergraph_UI_Attention_NoGore1(int32 EntryP
 }
 
 
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.Construct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.GetText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
 
-void UUI_Attention_NoGore1_C::Construct()
+class FText UUI_Attention_NoGore1_C::GetText()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "Construct");
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "GetText");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::UI_Attention_NoGore1_C_GetText Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
 }
 
 
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
+// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.GetText_0
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
 
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
+class FText UUI_Attention_NoGore1_C::GetText_0()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+		Func = Class->GetFunction("UI_Attention_NoGore1_C", "GetText_0");
 
-	UObject::ProcessEvent(Func, nullptr);
-}
+	Params::UI_Attention_NoGore1_C_GetText_0 Parms{};
 
+	UObject::ProcessEvent(Func, &Parms);
 
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_9_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_1_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Attention_NoGore1.UI_Attention_NoGore1_C.BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Attention_NoGore1_C::BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Attention_NoGore1_C", "BndEvt__UI_Attention_NoGore1_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
+	return Parms.ReturnValue;
 }
 
 }

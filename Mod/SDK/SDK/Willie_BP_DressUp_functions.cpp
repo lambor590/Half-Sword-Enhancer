@@ -17,21 +17,21 @@
 namespace SDK
 {
 
-// Function Willie_BP_DressUp.Willie_BP_DressUp_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function Willie_BP_DressUp.Willie_BP_DressUp_C.ExecuteUbergraph_Willie_BP_DressUp
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_DressUp_C::ReceiveTick(float DeltaSeconds)
+void AWillie_BP_DressUp_C::ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_DressUp_C", "ReceiveTick");
+		Func = Class->GetFunction("Willie_BP_DressUp_C", "ExecuteUbergraph_Willie_BP_DressUp");
 
-	Params::Willie_BP_DressUp_C_ReceiveTick Parms{};
+	Params::Willie_BP_DressUp_C_ExecuteUbergraph_Willie_BP_DressUp Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -51,21 +51,21 @@ void AWillie_BP_DressUp_C::ReceiveBeginPlay()
 }
 
 
-// Function Willie_BP_DressUp.Willie_BP_DressUp_C.ExecuteUbergraph_Willie_BP_DressUp
-// (Final, UbergraphFunction, HasDefaults)
+// Function Willie_BP_DressUp.Willie_BP_DressUp_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_DressUp_C::ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint)
+void AWillie_BP_DressUp_C::ReceiveTick(float DeltaSeconds)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_DressUp_C", "ExecuteUbergraph_Willie_BP_DressUp");
+		Func = Class->GetFunction("Willie_BP_DressUp_C", "ReceiveTick");
 
-	Params::Willie_BP_DressUp_C_ExecuteUbergraph_Willie_BP_DressUp Parms{};
+	Params::Willie_BP_DressUp_C_ReceiveTick Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

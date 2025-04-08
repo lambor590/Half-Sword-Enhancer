@@ -14,14 +14,6 @@
 namespace SDK::Params
 {
 
-// Function BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct BP_Armor_Body_Brestplate_A_T2_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
 // Function BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C.ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2
 // 0x0008 (0x0008 - 0x0000)
 struct BP_Armor_Body_Brestplate_A_T2_C_ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2 final
@@ -29,6 +21,14 @@ struct BP_Armor_Body_Brestplate_A_T2_C_ExecuteUbergraph_BP_Armor_Body_Brestplate
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct BP_Armor_Body_Brestplate_A_T2_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 }

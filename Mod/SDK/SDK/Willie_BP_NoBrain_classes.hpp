@@ -18,12 +18,12 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Willie_BP_NoBrain.Willie_BP_NoBrain_C
-// 0x0000 (0x3A30 - 0x3A30)
+// 0x0000 (0x3A20 - 0x3A20)
 class AWillie_BP_NoBrain_C final : public AWillie_BP_C
 {
 public:
-	uint8                                         Pad_3A26[0x2];                                     // 0x3A26(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_NoBrain_C;                // 0x3A28(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	uint8                                         Pad_3A16[0x2];                                     // 0x3A16(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_NoBrain_C;                // 0x3A18(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
 	void ExecuteUbergraph_Willie_BP_NoBrain(int32 EntryPoint);
