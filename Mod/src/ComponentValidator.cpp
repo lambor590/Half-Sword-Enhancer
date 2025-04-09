@@ -14,14 +14,14 @@ bool ComponentValidator::Validate<SDK::AWorldSettings>(SDK::AWorldSettings*& wor
 template<>
 bool ComponentValidator::Validate<SDK::APlayerController>(SDK::APlayerController*& playerController) {
     SDK::UWorld* world;
-    return Validate(world) && 
-           (playerController = world->OwningGameInstance->LocalPlayers[0]->PlayerController);
+    return Validate(world) &&
+        (playerController = world->OwningGameInstance->LocalPlayers[0]->PlayerController);
 }
 
 template<>
 bool ComponentValidator::Validate<SDK::AWillie_BP_C>(SDK::AWillie_BP_C*& playerPawn) {
     SDK::APlayerController* controller;
-    return Validate(controller) && 
-           (playerPawn = static_cast<SDK::AWillie_BP_C*>(controller->Pawn)) &&
-           playerPawn->Class->Name == SDK::AWillie_BP_C::StaticClass()->Name;
+    return Validate(controller) &&
+        (playerPawn = static_cast<SDK::AWillie_BP_C*>(controller->Pawn)) &&
+        playerPawn->IsA(SDK::AWillie_BP_C::StaticClass());
 }
