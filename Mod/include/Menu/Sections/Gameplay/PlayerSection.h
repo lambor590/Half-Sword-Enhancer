@@ -22,6 +22,7 @@ private:
     static inline int playerStrengthKey = -1;
     static inline float playerStrengthMultiplier = 1.0f;
     static inline float playerGrabForceMultiplier = 1.0f;
+    static inline float playerHandsRigidityMultiplier = 1.0f;
 
     static inline int invulnerabilityKey = -1;
 
@@ -60,17 +61,20 @@ public:
         }, player);
 
         std::initializer_list<Parameter> playerStrengthParams = {
-            Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 10.0f),
-            Parameter("grab_force_multiplier", "Grab Force Multiplier", &playerGrabForceMultiplier, 1.0f, 10.0f)
+            Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 4.0f),
+            Parameter("grab_force_multiplier", "Grab Force Multiplier", &playerGrabForceMultiplier, 1.0f, 10.0f),
+            Parameter("hands_rigidity_multiplier", "Hands Rigidity Multiplier", &playerHandsRigidityMultiplier, 1.0f, 10.0f)
         };
 
         BindWithParams("Toggle Strength Multiplier", &playerStrengthKey, playerStrengthParams, [this]() {
             static bool enabled = (player->Muscle_Power != 35.0f)
                 && (player->R_Grab_Force_Limit != 10000.0f)
-                && (player->L_Grab_Force_Limit != 10000.0f);
+                && (player->L_Grab_Force_Limit != 10000.0f)
+                && (player->Hands_Rigidity__Gauntlets_ != 0.666f);
             player->Muscle_Power = enabled ? 35.0f : (35.0f * playerStrengthMultiplier);
             player->R_Grab_Force_Limit = enabled ? 10000.0f : (10000.0f * playerGrabForceMultiplier);
             player->L_Grab_Force_Limit = enabled ? 10000.0f : (10000.0f * playerGrabForceMultiplier);
+            player->Hands_Rigidity__Gauntlets_ = enabled ? 0.666f : (0.666f * playerHandsRigidityMultiplier);
         }, player);
 
         Bind("Toggle Invulnerability", &invulnerabilityKey, [this]() {
