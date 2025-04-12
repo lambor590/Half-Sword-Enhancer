@@ -409,14 +409,14 @@ namespace Updater {
 
             Logger::info("Download completed successfully");
 
-            Util::showError("Update downloaded successfully. The application will now close and update itself.");
+            MessageBoxA(NULL, "Update downloaded successfully. The application will now close and update itself.", "Update Complete", MB_OK | MB_ICONINFORMATION);
 
             createAndRunUpdateScript(tempFileName.c_str(), currentPath);
             return true;
         }
         catch (const std::exception& e) {
             Logger::error("Update download failed");
-            Util::showError("Error during update process. Please try again later or update manually.");
+            Util::showError("Error during update process: " + std::string(e.what()) + ". Please try again later or download the latest version yourself.");
             return false;
         }
     }
