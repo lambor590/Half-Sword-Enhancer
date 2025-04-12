@@ -78,7 +78,7 @@ public:
         }, player);
 
         Bind("Toggle Invulnerability", &invulnerabilityKey, [this]() {
-            player->bCanBeDamaged = ~player->bCanBeDamaged;
+            player->BitPad_5C_0 = ~player->BitPad_5C_0;
             player->Invulnerable = !player->Invulnerable;
         }, player);
 
