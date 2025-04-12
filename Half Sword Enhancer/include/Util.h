@@ -7,6 +7,7 @@
 #include <string>
 #include <thread>
 #include <iostream>
+#include <fstream>
 #include <libloaderapi.h>
 #include <memory>
 #include <functional>
@@ -23,20 +24,20 @@ namespace Util {
 
     public:
         ScopedResource(HandleType h, CleanupFunc cf) : handle(h), cleanup(cf) {}
-        
-        ~ScopedResource() { 
-            if (!released && isValid()) 
-                cleanup(handle); 
+
+        ~ScopedResource() {
+            if (!released && isValid())
+                cleanup(handle);
         }
-        
+
         operator HandleType() const { return handle; }
         HandleType get() const { return handle; }
-        
-        HandleType release() { 
-            released = true; 
-            return handle; 
+
+        HandleType release() {
+            released = true;
+            return handle;
         }
-        
+
         bool isValid() const {
             if constexpr (std::is_same_v<HandleType, HANDLE>)
                 return handle != NULL && handle != INVALID_HANDLE_VALUE;
@@ -47,16 +48,16 @@ namespace Util {
         ScopedResource(const ScopedResource&) = delete;
         ScopedResource& operator=(const ScopedResource&) = delete;
 
-        ScopedResource(ScopedResource&& other) noexcept 
+        ScopedResource(ScopedResource&& other) noexcept
             : handle(other.handle), cleanup(other.cleanup), released(other.released) {
             other.released = true;
         }
-        
+
         ScopedResource& operator=(ScopedResource&& other) noexcept {
             if (this != &other) {
                 if (!released && isValid())
                     cleanup(handle);
-                
+
                 handle = other.handle;
                 cleanup = other.cleanup;
                 released = other.released;
@@ -74,9 +75,9 @@ namespace Util {
     }
 
     inline ScopedVirtualMemory createScopedVirtualMemory(HANDLE process, LPVOID memory) {
-        return ScopedVirtualMemory(memory, [process](LPVOID mem) { 
-            if (process && mem) 
-                VirtualFreeEx(process, mem, 0, MEM_RELEASE); 
+        return ScopedVirtualMemory(memory, [process](LPVOID mem) {
+            if (process && mem)
+                VirtualFreeEx(process, mem, 0, MEM_RELEASE);
         });
     }
 
@@ -85,8 +86,17 @@ namespace Util {
         exit(1);
     }
 
+    [[noreturn]] inline void fail(const std::string& msg) {
+        MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);
+        exit(1);
+    }
+
     inline void showError(const char* msg) {
         MessageBoxA(nullptr, msg, "Error", MB_ICONERROR);
+    }
+
+    inline void showError(const std::string& msg) {
+        MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);
     }
 
     struct EnumWindowsData {
@@ -129,8 +139,8 @@ namespace Util {
     inline DWORD getProcessIdByName(const char* processName) {
         PROCESSENTRY32 processEntry{ sizeof(PROCESSENTRY32) };
         auto snapshot = createScopedHandle(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0));
-        
-        if (!snapshot.isValid()) 
+
+        if (!snapshot.isValid())
             return 0;
 
         if (Process32First(snapshot, &processEntry)) {
@@ -139,7 +149,7 @@ namespace Util {
                     return processEntry.th32ProcessID;
             } while (Process32Next(snapshot, &processEntry));
         }
-        
+
         return 0;
     }
 
@@ -168,7 +178,7 @@ namespace Util {
 
             fullPath = std::string(appDataPath) + "\\Half Sword Enhancer";
 
-            if (!std::filesystem::exists(fullPath) && 
+            if (!std::filesystem::exists(fullPath) &&
                 !std::filesystem::create_directory(fullPath))
                 fail("Failed to create directory in AppData");
         }
@@ -197,34 +207,81 @@ namespace Util {
 
     inline void extractDllToTempFile(const std::string& dllPath, DWORD resourceId) {
         HRSRC hResource = FindResourceA(NULL, MAKEINTRESOURCE(resourceId), RT_RCDATA);
-        if (!hResource) 
+        if (!hResource)
             fail("Failed to find mod resource!");
 
         #pragma warning(suppress : 6387)
         HGLOBAL hLoadedResource = LoadResource(NULL, hResource);
-        if (!hLoadedResource) 
+        if (!hLoadedResource)
             fail("Failed to load mod resource!");
 
         #pragma warning(suppress : 6387)
         LPVOID pLockedResource = LockResource(hLoadedResource);
-        if (!pLockedResource) 
+        if (!pLockedResource)
             fail("Failed to lock mod resource!");
-        
+
         #pragma warning(suppress : 6387)
         DWORD dwResourceSize = SizeofResource(NULL, hResource);
-        if (dwResourceSize == 0) 
+        if (dwResourceSize == 0)
             fail("Resource size is zero!");
 
-        auto hFile = createScopedHandle(CreateFileA(
-            dllPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 
-            FILE_ATTRIBUTE_NORMAL, NULL
-        ));
-        
-        if (!hFile.isValid()) 
-            fail("Failed to create temporary DLL file.");
+        const int maxAttempts = 3;
+        HANDLE fileHandle = INVALID_HANDLE_VALUE;
+        std::string errorMsg;
+
+        if (std::filesystem::exists(dllPath)) {
+            try {
+                std::filesystem::remove(dllPath);
+                Logger::info("Removed existing DLL file.");
+            } catch (const std::filesystem::filesystem_error& e) {
+                Logger::warn(std::string("Could not remove existing DLL: ") + e.what());
+            }
+        }
+
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+            fileHandle = CreateFileA(
+                dllPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+                FILE_ATTRIBUTE_NORMAL, NULL
+            );
+
+            if (fileHandle != INVALID_HANDLE_VALUE) {
+                break; // Success
+            }
+
+            DWORD error = GetLastError();
+            char errorBuffer[256];
+            FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
+            errorMsg = std::string("CreateFile error: ") + errorBuffer;
+            Logger::warn(std::string("Attempt ") + std::to_string(attempt) + "/" + std::to_string(maxAttempts) +
+                         ": Failed to create DLL file: " + errorMsg);
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+
+        if (fileHandle == INVALID_HANDLE_VALUE) {
+            Logger::warn("Failed to create DLL in primary location, trying alternative location...");
+
+            std::string altPath = std::filesystem::current_path().string() + "\\HS-Enhancer-Temp.dll";
+
+            fileHandle = CreateFileA(
+                altPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+                FILE_ATTRIBUTE_NORMAL, NULL
+            );
+
+            if (fileHandle != INVALID_HANDLE_VALUE) {
+                Logger::info("Using alternative DLL path: " + altPath);
+                const_cast<std::string&>(dllPath) = altPath;
+            }
+        }
+
+        if (fileHandle == INVALID_HANDLE_VALUE) {
+            fail(std::string("Failed to create temporary DLL file after multiple attempts.") + errorMsg);
+        }
+
+        auto hFile = createScopedHandle(fileHandle);
 
         DWORD bytesWritten;
-        if (!WriteFile(hFile, pLockedResource, dwResourceSize, &bytesWritten, NULL) || 
+        if (!WriteFile(hFile, pLockedResource, dwResourceSize, &bytesWritten, NULL) ||
             bytesWritten != dwResourceSize)
             fail("Failed to write DLL to temporary file.");
 
@@ -233,12 +290,36 @@ namespace Util {
 
     inline bool injectDll(DWORD processId, const std::string& dllPath, int timeoutMs = 10000) {
         try {
+            if (!std::filesystem::exists(dllPath)) {
+                Logger::error("DLL file does not exist: " + dllPath);
+                showError("The mod DLL file could not be found. Please check your antivirus settings.");
+                return false;
+            }
+
+            try {
+                std::ifstream testFile(dllPath, std::ios::binary);
+                if (!testFile.is_open()) {
+                    Logger::error("Cannot open DLL file for reading: " + dllPath);
+                    showError("The mod DLL file exists but cannot be accessed. Please check your permissions.");
+                    return false;
+                }
+                testFile.close();
+            } catch (const std::exception& e) {
+                Logger::error(std::string("Error accessing DLL file: ") + e.what());
+                showError("Error accessing the mod DLL file. Please check your antivirus settings.");
+                return false;
+            }
+
             HANDLE hProcess = OpenProcess(
                 PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ,
                 FALSE, processId);
 
             if (!hProcess) {
-                showError("Failed to access the game process.");
+                DWORD error = GetLastError();
+                char errorBuffer[256];
+                FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
+                Logger::error(std::string("Failed to open game process: ") + errorBuffer);
+                showError("Failed to access the game process. Try running as administrator. If the problem persists, check your antivirus settings.");
                 return false;
             }
 
@@ -247,8 +328,12 @@ namespace Util {
 
             SIZE_T pathLength = dllPath.length() + 1;
             LPVOID remotePath = VirtualAllocEx(hProcess, NULL, pathLength, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-            
+
             if (!remotePath) {
+                DWORD error = GetLastError();
+                char errorBuffer[256];
+                FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
+                Logger::error(std::string("Failed to allocate memory in game process: ") + errorBuffer);
                 CloseHandle(hProcess);
                 showError("Failed to allocate memory in the game process.");
                 return false;
@@ -256,70 +341,81 @@ namespace Util {
 
             SIZE_T bytesWritten = 0;
             const char* pathData = dllPath.c_str();
-            
+
             if (!WriteProcessMemory(hProcess, remotePath, pathData, pathLength, &bytesWritten) || bytesWritten != pathLength) {
+                DWORD error = GetLastError();
+                char errorBuffer[256];
+                FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
+                Logger::error(std::string("Failed to write to game process memory: ") + errorBuffer);
                 VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
                 CloseHandle(hProcess);
                 showError("Failed to write data in the game process.");
                 return false;
             }
-            
+
             FARPROC loadLibraryAddr = NULL;
-            
+
             HMODULE hKernel32 = GetModuleHandleA("kernel32.dll");
             if (hKernel32) {
                 loadLibraryAddr = (FARPROC)GetProcAddress(hKernel32, "LoadLibraryA");
             }
-            
+
             if (!loadLibraryAddr) {
+                Logger::error("Failed to get LoadLibraryA address");
                 VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
                 CloseHandle(hProcess);
                 showError("Failed to locate required system functions.");
                 return false;
             }
-            
+
             std::this_thread::sleep_for(std::chrono::milliseconds(50));
-            
+
             Logger::info("Injecting mod...");
-            
+
             HANDLE hThread = CreateRemoteThread(
-                hProcess, 
-                NULL, 
-                0, 
-                (LPTHREAD_START_ROUTINE)loadLibraryAddr, 
-                remotePath, 
-                0, 
+                hProcess,
+                NULL,
+                0,
+                (LPTHREAD_START_ROUTINE)loadLibraryAddr,
+                remotePath,
+                0,
                 NULL
             );
-            
+
             if (!hThread) {
+                DWORD error = GetLastError();
+                char errorBuffer[256];
+                FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
+                Logger::error(std::string("Failed to create remote thread: ") + errorBuffer);
                 VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
                 CloseHandle(hProcess);
                 showError("Failed to start the mod process.");
                 return false;
             }
-            
+
             DWORD waitResult = WaitForSingleObject(hThread, timeoutMs);
-            
+
             DWORD exitCode = 0;
             GetExitCodeThread(hThread, &exitCode);
             CloseHandle(hThread);
-            
+
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            
+
             VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
             CloseHandle(hProcess);
-            
+
             if (waitResult == WAIT_TIMEOUT) {
+                Logger::error("Timeout waiting for injection to complete");
                 showError("Timeout expired. The game is not responding.");
                 return false;
             }
-            
+
             if (exitCode == 0) {
-                showError("Mod could not be loaded correctly.");
+                Logger::error("LoadLibrary returned 0 in remote process");
+                showError("Mod could not be loaded correctly. This might be due to antivirus blocking the mod.");
                 return false;
             }
-            
+
             Logger::info("Mod injected successfully in the game.");
             return true;
         }
