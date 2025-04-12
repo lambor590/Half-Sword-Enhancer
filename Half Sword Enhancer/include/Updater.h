@@ -368,12 +368,10 @@ namespace Updater {
                 return false;
             }
 
-            char buffer[16384];
+            char buffer[16384]{};
             DWORD dwSize, dwDownloaded, dwWritten;
             DWORD totalBytes = 0;
             bool downloadSuccess = true;
-
-            MessageBoxA(NULL, "Downloading update. Please wait...", "Update in Progress", MB_OK | MB_ICONINFORMATION);
 
             while (WinHttpQueryDataAvailable(hRequest, &dwSize) && dwSize > 0) {
                 dwSize = min(dwSize, sizeof(buffer));
