@@ -7,27 +7,61 @@ using namespace Util;
 
 static bool performDllInjection(const std::string& dllPath, const char* processName) {
     try {
+        Logger::info("Starting injection process...");
+
+        const std::string& appDataPath = getAppDataPath();
+        std::string testFilePath = appDataPath + "\\write_test.tmp";
+
+        try {
+            std::ofstream testFile(testFilePath);
+            if (testFile.is_open()) {
+                testFile << "Test";
+                testFile.close();
+                std::filesystem::remove(testFilePath);
+            } else {
+                Logger::warn("Cannot write to AppData directory, may use alternative paths");
+            }
+        } catch (const std::exception& e) {
+            Logger::warn(std::string("AppData write test failed: ") + e.what());
+        }
+
         DWORD processId = findOrLaunchGame(processName);
         if (processId == 0) {
             Logger::error("Failed to find or launch game");
+            showError("Could not launch Half Sword. Please make sure the game is installed correctly on Steam.");
             return false;
         }
 
-        if (!WaitForGameWindow(processId))
-            fail("Could not find game window. Aborting injection.");
+        if (!WaitForGameWindow(processId)) {
+            Logger::error("Game window not found after timeout");
+            showError("Could not find game window. Please make sure the game launches correctly.");
+            return false;
+        }
 
-        extractDllToTempFile(dllPath, IDR_DLL1);
+        try {
+            Logger::info("Extracting DLL to temporary file...");
+            extractDllToTempFile(dllPath, IDR_DLL1);
+        } catch (const std::exception& e) {
+            Logger::error(std::string("Failed to extract DLL: ") + e.what());
+            showError("Failed to extract mod files. This might be due to antivirus blocking the mod.");
+            return false;
+        }
+
+        Logger::info("Attempting to inject DLL...");
         bool success = injectDll(processId, dllPath);
 
-        if (!success)
-            fail("DLL injection failed. Please try again with the game freshly launched.");
+        if (!success) {
+            Logger::error("DLL injection failed");
+            showError("DLL injection failed. Please try again with the game freshly launched or check your antivirus settings.");
+            return false;
+        }
 
         Logger::info("Half Sword Enhancer injected successfully! Enjoy!");
         return true;
     }
     catch (const std::exception& e) {
         Logger::error(std::string("Error during injection: ") + e.what());
-        showError(e.what());
+        showError(std::string("Error during injection: ") + e.what());
         return false;
     }
 }
@@ -55,7 +89,7 @@ int main() {
        / ____/___  / /_  ____ _____  ________  _____
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
-    /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/     
+    /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
     )" << "\n";
 
         SetConsoleTextAttribute(hConsole, WHITE);
