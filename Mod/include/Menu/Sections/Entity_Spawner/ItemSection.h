@@ -111,7 +111,8 @@ private:
             {"Average Mace", "ModularWeaponBP_Mace_Mid_Tier_Avg_C"},
             {"Long Mace", "ModularWeaponBP_Mace_Mid_Tier_Long_C"},
             {"Short High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Short_C"},
-            {"Average High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Avg_C"}
+            {"Average High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Avg_C"},
+            {"Giant High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Giant_C"}
         };
 
         items[ItemCategory::Weapons][WeaponSubcategory::Axes] = {
