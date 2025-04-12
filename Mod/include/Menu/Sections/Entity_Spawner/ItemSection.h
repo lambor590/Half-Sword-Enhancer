@@ -27,7 +27,7 @@ enum class ItemCategory : uint8_t {
     Shoulders,
     Waist,
     Props,
-    
+
     COUNT
 };
 
@@ -40,7 +40,7 @@ enum class WeaponSubcategory : uint8_t {
     Tools,
     Shields,
     Improvised,
-    
+
     COUNT
 };
 
@@ -69,7 +69,7 @@ private:
         "Props"
     };
     static inline const int categoriesCount = sizeof(categories) / sizeof(categories[0]);
-    
+
     static inline const char* weaponSubcategories[] = {
         "Swords",
         "Maces",
@@ -84,10 +84,11 @@ private:
 
     static inline std::map<ItemCategory, std::map<WeaponSubcategory, std::vector<ItemInfo>>> initWeaponItems() {
         std::map<ItemCategory, std::map<WeaponSubcategory, std::vector<ItemInfo>>> items;
-        
+
         items[ItemCategory::Weapons][WeaponSubcategory::Swords] = {
             {"Short Sword", "ModularWeaponBP_LongSword_T3_C"},
             {"Long Sword", "ModularWeaponBP_LongSword_T2_C"},
+            {"Long Sword T4", "ModularWeaponBP_LongSword_T4_C"},
             {"Arming Sword", "ModularWeaponBP_ArmingSword_C"},
             {"Arming Sword T1", "ModularWeaponBP_ArmingSword_T1_C"},
             {"Arming Sword T2", "ModularWeaponBP_ArmingSword_T2_C"},
@@ -103,7 +104,7 @@ private:
             {"Long Falchion T1", "ModularWeaponBP_Falchion_Long_T1_C"},
             {"Long Falchion T2", "ModularWeaponBP_Falchion_Long_T2_C"}
         };
-        
+
         items[ItemCategory::Weapons][WeaponSubcategory::Maces] = {
             {"Mace", "BP_Weapon_Mace_C"},
             {"Short Mace", "ModularWeaponBP_Mace_Low_Tier_Short_C"},
@@ -112,23 +113,26 @@ private:
             {"Short High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Short_C"},
             {"Average High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Avg_C"}
         };
-        
+
         items[ItemCategory::Weapons][WeaponSubcategory::Axes] = {
             {"Axe", "BP_Weapon_Axe_C"},
             {"Modular Axe", "ModularWeaponBP_Axe_C"},
             {"Two-Handed Axe", "ModularWeaponBP_Axe2H_C"}
         };
-        
+
         items[ItemCategory::Weapons][WeaponSubcategory::Polearms] = {
             {"Spear A", "ModularWeaponBP_Spear_A_C"},
             {"Spear B", "ModularWeaponBP_Spear_B_C"},
             {"Halberd A", "ModularWeaponBP_Halberd_A_C"},
             {"Halberd B", "ModularWeaponBP_Halberd_B_C"},
+            {"Halberd D", "ModularWeaponBP_Halberd_D_C"},
             {"Billhook A", "ModularWeaponBP_Billhook_A_C"},
             {"Billhook B", "ModularWeaponBP_Billhook_B_C"},
             {"War Staff A", "ModularWeaponBP_WarStaff_A_C"},
             {"War Staff B", "ModularWeaponBP_WarStaff_B_C"},
             {"High Tier Polearm", "ModularWeaponBP_Polearm_High_Tier_C"},
+            {"High Tier Polearm Big", "ModularWeaponBP_Polearm_High_Tier_Big_C"},
+            {"High Tier Polearm Gold", "ModularWeaponBP_Polearm_High_Tier_Gold_C"},
             {"Mid Tier Polearm", "ModularWeaponBP_Polearm_Mid_Tier_C"},
             {"Low Tier Polearm", "ModularWeaponBP_Polearm_Low_Tier_C"},
             {"Short Hafted High Tier", "ModularWeaponBP_Hafted_High_Tier_Short_C"},
@@ -137,15 +141,16 @@ private:
             {"Long Hafted Mid Tier", "ModularWeaponBP_Hafted_Mid_Tier_Long_C"},
             {"Short Hafted Low Tier", "ModularWeaponBP_Hafted_Low_Tier_Short_C"}
         };
-        
+
         items[ItemCategory::Weapons][WeaponSubcategory::Daggers] = {
             {"Dagger", "BP_Weapon_Dagger_C"},
             {"Modular Dagger", "ModularWeaponBP_Dagger_C"},
             {"Modular Dagger T1", "ModularWeaponBP_Dagger_T1_C"},
             {"Modular Dagger T2", "ModularWeaponBP_Dagger_T2_C"},
-            {"Rondel", "ModularWeaponBP_Rondel_C"}
+            {"Rondel", "ModularWeaponBP_Rondel_C"},
+            {"Rondel Gold", "ModularWeaponBP_Rondel_Gold_C"}
         };
-        
+
         items[ItemCategory::Weapons][WeaponSubcategory::Tools] = {
             {"Hammer A", "BP_Weapon_Tool_Hammer_A_C"},
             {"Hammer B", "BP_Weapon_Tool_Hammer_B_C"},
@@ -160,6 +165,7 @@ private:
             {"Sickle A", "BP_Weapon_Tool_Sickle_A_C"},
             {"Sickle D", "BP_Weapon_Tool_Sickle_D_C"},
             {"Sickle E", "BP_Weapon_Tool_Sickle_E_C"},
+            {"Scythe A", "BP_Weapon_Tool_Scythe_A_C"},
             {"Shovel A", "BP_Weapon_Tool_Shovel_A_C"},
             {"Shovel B", "BP_Weapon_Tool_Shovel_B_C"},
             {"Pitchfork A", "BP_Weapon_Tool_Pitchfork_A_C"},
@@ -169,11 +175,13 @@ private:
 
         items[ItemCategory::Weapons][WeaponSubcategory::Shields] = {
             {"Buckler Shield", "Shield_Buckler_C"},
+            {"Buckler Shield Gold", "Shield_Buckler_Gold_C"},
             {"Boss Grip Shield", "Shield_BossGrip_C"},
             {"Light Pavise", "Shield_Pavise_Light_C"},
             {"Heavy Pavise", "Shield_Pavise_Heavy_C"},
             {"Tower Pavise", "Shield_Pavise_Tower_C"},
-            {"Tagre Shield", "Shield_Tagre_C"}
+            {"Tagre Shield", "Shield_Tagre_C"},
+            {"Tagre Shield Gold", "Shield_Tagre_Gold_C"}
         };
 
         items[ItemCategory::Weapons][WeaponSubcategory::Improvised] = {
@@ -181,13 +189,13 @@ private:
             {"Big Candlestick", "BP_Weapon_Improv_CandleStick_Big_C"},
             {"Stool", "BP_Weapon_Improv_Stool_C"}
         };
-        
+
         return items;
     }
-    
+
     static inline std::map<ItemCategory, std::vector<ItemInfo>> initArmorItems() {
         std::map<ItemCategory, std::vector<ItemInfo>> items;
-        
+
         items[ItemCategory::Helmets] = {
             {"Armet R", "BP_Armor_Head_Armet_001_R_C"},
             {"Armet B", "BP_Armor_Head_Armet_001_B_C"},
@@ -317,10 +325,10 @@ private:
             {"Foulds T2", "BP_Armor_Waist_Foulds_T2_C"},
             {"Foulds T3", "BP_Armor_Waist_Foulds_T3_C"}
         };
-        
+
         return items;
     }
-    
+
     static inline std::vector<ItemInfo> initPropItems() {
         return {
             {"Training Dummy", "BP_Prop_Training_Dummy_001_C"},
@@ -335,53 +343,53 @@ private:
     static inline int currentCategoryIndex = 0;
     static inline int currentWeaponSubcategoryIndex = 0;
     static inline int currentItemIndex = 0;
-    
+
     static inline const char* itemNames[MAX_ITEMS];
-    
+
     void setItemNamesArray(const std::vector<ItemInfo>& items) {
         const int count = min(static_cast<int>(items.size()), static_cast<int>(MAX_ITEMS));
         for (int i = 0; i < count; i++) {
             itemNames[i] = items[i].displayName;
         }
     }
-    
+
     const char* getSelectedClassName() const {
         if (currentCategoryIndex == WEAPONS_INDEX) {
             auto subcategory = static_cast<WeaponSubcategory>(currentWeaponSubcategoryIndex);
             const auto& items = weaponItems[ItemCategory::Weapons][subcategory];
             return items[currentItemIndex].className;
-        } 
+        }
         else if (currentCategoryIndex == PROPS_INDEX) {
             return propItems[currentItemIndex].className;
-        } 
+        }
         else {
             ItemCategory category = static_cast<ItemCategory>(currentCategoryIndex);
             const auto& items = armorItems[category];
             return items[currentItemIndex].className;
         }
     }
-    
+
     const char* getSelectedDisplayName() const {
         if (currentCategoryIndex == WEAPONS_INDEX) {
             auto subcategory = static_cast<WeaponSubcategory>(currentWeaponSubcategoryIndex);
             const auto& items = weaponItems[ItemCategory::Weapons][subcategory];
             return items[currentItemIndex].displayName;
-        } 
+        }
         else if (currentCategoryIndex == PROPS_INDEX) {
             return propItems[currentItemIndex].displayName;
-        } 
+        }
         else {
             ItemCategory category = static_cast<ItemCategory>(currentCategoryIndex);
             const auto& items = armorItems[category];
             return items[currentItemIndex].displayName;
         }
     }
-    
+
     void SpawnSelectedItem() {
         const char* className = getSelectedClassName();
-        
+
         if (!className) return;
-        
+
         SDK::FTransform spawnTransform = player->GetTransform();
         spawnTransform.Translation += player->GetActorForwardVector() * spawnDistanceForward;
         spawnTransform.Translation.Z += spawnDistanceUp;
@@ -391,7 +399,7 @@ private:
 
     void RenderItemSelector(const std::vector<ItemInfo>& items) {
         if (items.empty()) return;
-        
+
         setItemNamesArray(items);
         int itemCount = min(static_cast<int>(items.size()), static_cast<int>(MAX_ITEMS));
 
@@ -448,7 +456,7 @@ public:
             if (ImGui::Button("Spawn Selected Item")) {
                 auto validatedSpawn = ValidateAndRun([this]() {
                     SpawnSelectedItem();
-                    }, player, world);
+                }, player, world);
 
                 validatedSpawn();
             }
