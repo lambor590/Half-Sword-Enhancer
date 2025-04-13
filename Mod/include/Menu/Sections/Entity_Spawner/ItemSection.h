@@ -198,6 +198,8 @@ private:
         std::map<ItemCategory, std::vector<ItemInfo>> items;
 
         items[ItemCategory::Helmets] = {
+            {"Armet", "BP_Armor_Head_Armet_001_C"},
+            {"Armet Gold", "BP_Armor_Head_Armet_001_G_C"},
             {"Armet R", "BP_Armor_Head_Armet_001_R_C"},
             {"Armet B", "BP_Armor_Head_Armet_001_B_C"},
             {"Barbute A", "BP_Armor_Head_Barbute_A_C"},
@@ -208,7 +210,8 @@ private:
             {"Open Sallet CB", "BP_Armor_Head_Sallet_Open_CB_001_C"},
             {"Solid Sallet A 001", "BP_Armor_Head_Sallet_Solid_A_001_C"},
             {"Solid Sallet A 002", "BP_Armor_Head_Sallet_Solid_A_002_C"},
-            {"Solid Sallet B", "BP_Armor_Head_Sallet_Solid_B_001_C"},
+            {"Solid Sallet B 001", "BP_Armor_Head_Sallet_Solid_B_001_C"},
+            {"Solid Sallet B 002", "BP_Armor_Head_Sallet_Solid_B_002_C"},
             {"Solid Sallet C 001", "BP_Armor_Head_Sallet_Solid_C_001_C"},
             {"Solid Sallet C 002", "BP_Armor_Head_Sallet_Solid_C_002_C"},
             {"Solid Sallet D 001", "BP_Armor_Head_Sallet_Solid_D_001_C"},
@@ -219,12 +222,15 @@ private:
             {"Visor Sallet B", "BP_Armor_Head_Sallet_Visor_B_001_C"},
             {"Kettle Helm A", "BP_Armor_Head_Kettle_Helm_A_C"},
             {"Kettle Helm B", "BP_Armor_Head_Kettle_Helm_B_C"},
+            {"Kettle Helm B 2", "BP_Armor_Head_Kettle_Helm_B_2_C"},
             {"Kettle Helm C", "BP_Armor_Head_Kettle_Helm_C_C"},
             {"Kettle Helm D", "BP_Armor_Head_Kettle_Helm_D_C"},
+            {"Kettle Helm D 2", "BP_Armor_Head_Kettle_Helm_D_2_C"},
             {"Bycocket A 001", "BP_Armor_Head_Hat_Bycocket_A_001_C"},
             {"Bycocket A 002", "BP_Armor_Head_Hat_Bycocket_A_002_C"},
             {"Bycocket B 001", "BP_Armor_Head_Hat_Bycocket_B_001_C"},
             {"Bycocket B 002", "BP_Armor_Head_Hat_Bycocket_B_002_C"},
+            {"Bycocket B 002 Brown", "BP_Armor_Head_Hat_Bycocket_B_002_Brown_C"},
             {"Bycocket C", "BP_Armor_Head_Hat_Bycocket_C_001_C"},
             {"Bycocket D", "BP_Armor_Head_Hat_Bycocket_D_001_C"},
             {"Bycocket E", "BP_Armor_Head_Hat_Bycocket_E_001_C"},
@@ -247,6 +253,7 @@ private:
             {"Cuirass C T2", "BP_Armor_Body_Cuirass_C_T2_C"},
             {"Cuirass C T3", "BP_Armor_Body_Cuirass_C_T3_C"},
             {"Cuirass C T3 B", "BP_Armor_Body_Cuirass_C_T3_B_C"},
+            {"Cuirass C T3 Gold", "BP_Armor_Body_Cuirass_C_T3_G_C"},
             {"Breastplate A T1", "BP_Armor_Body_Brestplate_A_T1_C"},
             {"Breastplate A T2", "BP_Armor_Body_Brestplate_A_T2_C"},
             {"Breastplate B T1", "BP_Armor_Body_Brestplate_B_T1_C"},
@@ -254,10 +261,14 @@ private:
             {"Plackard T2", "BP_Armor_Body_Plackard_T2_C"},
             {"Gambeson A T1", "BP_Armor_Body_Gambeson_A_T1_C"},
             {"Gambeson A T2", "BP_Armor_Body_Gambeson_A_T2_C"},
+            {"Gambeson A Red", "BP_Armor_Body_Gambeson_A_Red_C"},
+            {"Gambeson A Gray", "BP_Armor_Body_Gambeson_A_Gray_C"},
             {"Gambeson B T1", "BP_Armor_Body_Gambeson_B_T1_C"},
             {"Gambeson B T2", "BP_Armor_Body_Gambeson_B_T2_C"},
             {"Doublet", "BP_Armor_Body_Doublet_C"},
             {"Arming Doublet", "BP_Armor_Body_Doublet_Arming_C"},
+            {"Arming Doublet Black", "BP_Armor_Body_Doublet_Arming_Black_C"},
+            {"Arming Doublet Purple", "BP_Armor_Body_Doublet_Arming_Purple_C"},
             {"Shirt A", "BP_Armor_Body_Shirt_A_C"},
             {"Shirt B", "BP_Armor_Body_Shirt_B_C"}
         };
@@ -270,6 +281,7 @@ private:
             {"Vambrace C T2", "BP_Armor_Arms_Vambrace_C_T2_C"},
             {"Vambrace C T3", "BP_Armor_Arms_Vambrace_C_T3_C"},
             {"Vambrace C T3 B", "BP_Armor_Arms_Vambrace_C_T3_B_C"},
+            {"Vambrace C T3 Gold", "BP_Armor_Arms_Vambrace_C_T3_G_C"},
             {"Chains T1", "BP_Armor_Arms_Chains_T1_C"},
             {"Chains T2", "BP_Armor_Arms_Chains_T2_C"}
         };
@@ -278,12 +290,21 @@ private:
             {"Cuisse A T2", "BP_Armor_Legs_Cuisse_A_T2_C"},
             {"Cuisse A T3", "BP_Armor_Legs_Cuisse_A_T3_C"},
             {"Cuisse B", "BP_Armor_Legs_Cuisse_B_C"},
+            {"Cuisse G", "BP_Armor_Legs_Cuisse_G_C"},
             {"Greaves T2", "BP_Armor_Legs_Greaves_T2_C"},
             {"Greaves T3", "BP_Armor_Legs_Greaves_T3_C"},
             {"Hosen A", "BP_Armor_Legs_Hosen_A_C"},
+            {"Hosen A Brown", "BP_Armor_Legs_Hosen_A_Brown_C"},
             {"Hosen B", "BP_Armor_Legs_Hosen_B_C"},
             {"Hosen C", "BP_Armor_Legs_Hosen_C_C"},
+            {"Hosen C Poor", "BP_Armor_Legs_Hosen_C_Poor_C"},
+            {"Hosen C Black", "BP_Armor_Hosen_C_Black_C"},
             {"Arming Hosen A", "BP_Armor_Legs_Hosen_Arming_A_C"},
+            {"Arming Hosen A Purple", "BP_Armor_Legs_Hosen_Arming_A_Purple_C"},
+            {"Arming Hosen B", "BP_Armor_Legs_Hosen_Arming_B_C"},
+            {"Arming Hosen B Black", "BP_Armor_Legs_Hosen_Arming_B_Black_C"},
+            {"Arming Hosen C", "BP_Armor_Legs_Hosen_Arming_C_C"},
+            {"Arming Hosen C Blue", "BP_Armor_Hosen_Arming_C_Blue_C"},
             {"Panties", "BP_Armor_Legs_Panties_C"}
         };
 
@@ -291,6 +312,7 @@ private:
             {"Gauntlets T1", "BP_Armor_Hands_Gauntlets_T1_C"},
             {"Gauntlets T2", "BP_Armor_Hands_Gauntlets_T2_C"},
             {"Gauntlets T3", "BP_Armor_Hands_Gauntlets_T3_C"},
+            {"Gauntlets T3 Gold", "BP_Armor_Hands_Gauntlets_T3_G_C"},
             {"Gauntlets T3B", "BP_Armor_Hands_Gauntlets_T3B_C"},
             {"Half Gauntlets T1", "BP_Armor_Hands_HalfGauntlets_T1_C"},
             {"Half Gauntlets T2", "BP_Armor_Hands_HalfGauntlets_T2_C"}
@@ -301,6 +323,7 @@ private:
             {"Shoes B", "BP_Armor_Feet_Shoes_B_C"},
             {"Shoes C", "BP_Armor_Feet_Shoes_C_C"},
             {"Sabatons A", "BP_Armor_Feet_Sabbatons_A_C"},
+            {"Sabatons A Gold", "BP_Armor_Feet_Sabbatons_A_G_C"},
             {"Sabatons AB", "BP_Armor_Feet_Sabbatons_AB_C"}
         };
 
@@ -318,6 +341,7 @@ private:
             {"Spaulder B T2", "BP_Armor_Shoulders_Spaulder_B_T2_C"},
             {"Spaulder B T3", "BP_Armor_Shoulders_Spaulder_B_T3_C"},
             {"Pauldron C", "BP_Armor_Shoulders_Pauldron_C_C"},
+            {"Pauldron C Gold", "BP_Armor_Shoulders_Pauldron_C_G_C"},
             {"Pauldron C B", "BP_Armor_Shoulders_Pauldron_C_B_C"}
         };
 
