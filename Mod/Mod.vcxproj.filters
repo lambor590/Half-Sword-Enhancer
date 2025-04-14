@@ -30,6 +30,9 @@
     <Filter Include="Sections\Settings">
       <UniqueIdentifier>{6d8edfdd-95fa-49d1-9b64-f21552501a48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{33cde545-1a54-4930-a8be-77b978337349}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DllMain.cpp">
@@ -169,5 +172,13 @@
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h">
       <Filter>Sections\Entity Spawner</Filter>
     </ClInclude>
+    <ClInclude Include="resource\resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource\Mod.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
