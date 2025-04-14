@@ -166,7 +166,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <Optimization>Full</Optimization>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -233,6 +233,10 @@
     <ClInclude Include="include\Render\ID3DRenderer.h" />
     <ClInclude Include="include\Render\IRenderCallback.h" />
     <ClInclude Include="include\Render\Renderer.h" />
+    <ClInclude Include="resource\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource\Mod.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
