@@ -109,11 +109,14 @@ private:
 
         items[ItemCategory::Weapons][WeaponSubcategory::Maces] = {
             {"Mace", "BP_Weapon_Mace_C"},
-            {"Short Mace", "ModularWeaponBP_Mace_Low_Tier_Short_C"},
-            {"Average Mace", "ModularWeaponBP_Mace_Mid_Tier_Avg_C"},
-            {"Long Mace", "ModularWeaponBP_Mace_Mid_Tier_Long_C"},
+            {"Short Low Tier Mace", "ModularWeaponBP_Mace_Low_Tier_Short_C"},
+            {"Long Low Tier Mace", "ModularWeaponBP_Mace_Low_Tier_Long_C"},
+            {"Short Mid Tier Mace", "ModularWeaponBP_Mace_Mid_Tier_Short_C"},
+            {"Average Mid Tier Mace", "ModularWeaponBP_Mace_Mid_Tier_Avg_C"},
+            {"Long Mid Tier Mace", "ModularWeaponBP_Mace_Mid_Tier_Long_C"},
             {"Short High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Short_C"},
             {"Average High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Avg_C"},
+            {"Long High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Long_C"},
             {"Giant High Tier Mace", "ModularWeaponBP_Mace_High_Tier_Giant_C"}
         };
 
@@ -133,16 +136,19 @@ private:
             {"Billhook B", "ModularWeaponBP_Billhook_B_C"},
             {"War Staff A", "ModularWeaponBP_WarStaff_A_C"},
             {"War Staff B", "ModularWeaponBP_WarStaff_B_C"},
-            {"High Tier Polearm", "ModularWeaponBP_Polearm_High_Tier_C"},
             {"High Tier Polearm Big", "ModularWeaponBP_Polearm_High_Tier_Big_C"},
             {"High Tier Polearm Gold", "ModularWeaponBP_Polearm_High_Tier_Gold_C"},
+            {"High Tier Polearm", "ModularWeaponBP_Polearm_High_Tier_C"},
             {"Mid Tier Polearm", "ModularWeaponBP_Polearm_Mid_Tier_C"},
             {"Low Tier Polearm", "ModularWeaponBP_Polearm_Low_Tier_C"},
-            {"Short Hafted High Tier", "ModularWeaponBP_Hafted_High_Tier_Short_C"},
+            {"Short Hafted Low Tier", "ModularWeaponBP_Hafted_Low_Tier_Short_C"},
+            {"Long Hafted Low Tier", "ModularWeaponBP_Hafted_Low_Tier_Long_C"},
             {"Short Hafted Mid Tier", "ModularWeaponBP_Hafted_Mid_Tier_Short_C"},
             {"Average Hafted Mid Tier", "ModularWeaponBP_Hafted_Mid_Tier_Avg_C"},
             {"Long Hafted Mid Tier", "ModularWeaponBP_Hafted_Mid_Tier_Long_C"},
-            {"Short Hafted Low Tier", "ModularWeaponBP_Hafted_Low_Tier_Short_C"}
+            {"Short Hafted High Tier", "ModularWeaponBP_Hafted_High_Tier_Short_C"},
+            {"Average Hafted High Tier", "ModularWeaponBP_Hafted_High_Tier_Avg_C"},
+            {"Long Hafted High Tier", "ModularWeaponBP_Hafted_High_Tier_Long_C"}
         };
 
         items[ItemCategory::Weapons][WeaponSubcategory::Daggers] = {
@@ -162,11 +168,14 @@ private:
             {"Axe A", "BP_Weapon_Tool_Axe_A_C"},
             {"Axe B", "BP_Weapon_Tool_Axe_B_C"},
             {"Axe C", "BP_Weapon_Tool_Axe_C_C"},
+            {"Axe D", "BP_Weapon_Tool_Axe_D_C"},
             {"Knife A", "BP_Weapon_Tool_Knife_A_C"},
             {"Knife B", "BP_Weapon_Tool_Knife_B_C"},
             {"Knife C", "BP_Weapon_Tool_Knife_C_C"},
             {"Scissors", "BP_Weapon_Tool_Scissors_C"},
             {"Sickle A", "BP_Weapon_Tool_Sickle_A_C"},
+            {"Sickle B", "BP_Weapon_Tool_Sickle_B_C"},
+            {"Sickle C", "BP_Weapon_Tool_Sickle_C_C"},
             {"Sickle D", "BP_Weapon_Tool_Sickle_D_C"},
             {"Sickle E", "BP_Weapon_Tool_Sickle_E_C"},
             {"Scythe A", "BP_Weapon_Tool_Scythe_A_C"},
@@ -174,7 +183,8 @@ private:
             {"Shovel B", "BP_Weapon_Tool_Shovel_B_C"},
             {"Pitchfork A", "BP_Weapon_Tool_Pitchfork_A_C"},
             {"Tongs", "BP_Weapon_Tool_Tongs_C"},
-            {"Hoe A", "BP_Weapon_Tool_Hoe_A_C"}
+            {"Hoe A", "BP_Weapon_Tool_Hoe_A_C"},
+            {"Hoe B", "BP_Weapon_Tool_Hoe_B_C"}
         };
 
         items[ItemCategory::Weapons][WeaponSubcategory::Shields] = {
@@ -191,6 +201,7 @@ private:
         items[ItemCategory::Weapons][WeaponSubcategory::Improvised] = {
             {"Small Candlestick", "BP_Weapon_Improv_CandleStick_Small_C"},
             {"Big Candlestick", "BP_Weapon_Improv_CandleStick_Big_C"},
+            {"Lantern", "BP_Weapon_Improv_Lantern_C"},
             {"Stool", "BP_Weapon_Improv_Stool_C"}
         };
 
