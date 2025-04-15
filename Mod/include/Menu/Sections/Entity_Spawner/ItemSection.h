@@ -86,20 +86,22 @@ private:
         std::map<ItemCategory, std::map<WeaponSubcategory, std::vector<ItemInfo>>> items;
 
         items[ItemCategory::Weapons][WeaponSubcategory::Swords] = {
-            {"Short Sword", "ModularWeaponBP_LongSword_T3_C"},
-            {"Long Sword", "ModularWeaponBP_LongSword_T2_C"},
+            {"Long Sword T1", "ModularWeaponBP_LongSword_T1_C"},
+            {"Long Sword T2", "ModularWeaponBP_LongSword_T2_C"},
+            {"Long Sword T3", "ModularWeaponBP_LongSword_T3_C"},
             {"Long Sword T4", "ModularWeaponBP_LongSword_T4_C"},
             {"Arming Sword", "ModularWeaponBP_ArmingSword_C"},
             {"Arming Sword T1", "ModularWeaponBP_ArmingSword_T1_C"},
             {"Arming Sword T2", "ModularWeaponBP_ArmingSword_T2_C"},
             {"Arming Sword T3", "ModularWeaponBP_ArmingSword_T3_C"},
-            {"Bastard Sword", "ModularWeaponBP_BastardSword_T2_C"},
             {"Bastard Sword T1", "ModularWeaponBP_BastardSword_T1_C"},
+            {"Bastard Sword T2", "ModularWeaponBP_BastardSword_T2_C"},
             {"Bastard Sword T3", "ModularWeaponBP_BastardSword_T3_C"},
             {"Great Sword", "ModularWeaponBP_GreatSword_C"},
             {"Short Falchion", "ModularWeaponBP_Falchion_Short_C"},
             {"Short Falchion T1", "ModularWeaponBP_Falchion_Short_T1_C"},
             {"Short Falchion T2", "ModularWeaponBP_Falchion_Short_T2_C"},
+            {"Short Falchion T3", "ModularWeaponBP_Falchion_Short_T3_C"},
             {"Long Falchion", "ModularWeaponBP_Falchion_Long_C"},
             {"Long Falchion T1", "ModularWeaponBP_Falchion_Long_T1_C"},
             {"Long Falchion T2", "ModularWeaponBP_Falchion_Long_T2_C"}
@@ -148,6 +150,7 @@ private:
             {"Modular Dagger", "ModularWeaponBP_Dagger_C"},
             {"Modular Dagger T1", "ModularWeaponBP_Dagger_T1_C"},
             {"Modular Dagger T2", "ModularWeaponBP_Dagger_T2_C"},
+            {"Modular Dagger T3", "ModularWeaponBP_Dagger_T3_C"},
             {"Rondel", "ModularWeaponBP_Rondel_C"},
             {"Rondel Gold", "ModularWeaponBP_Rondel_Gold_C"}
         };
