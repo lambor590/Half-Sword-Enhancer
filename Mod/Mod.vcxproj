@@ -187,6 +187,8 @@
     <ClCompile Include="ext\imgui\imgui_draw.cpp" />
     <ClCompile Include="ext\imgui\imgui_tables.cpp" />
     <ClCompile Include="ext\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="SDK\SDK\AIModule_functions.cpp" />
+    <ClCompile Include="SDK\SDK\AI_BP_functions.cpp" />
     <ClCompile Include="src\CollapsibleSection.cpp" />
     <ClCompile Include="src\ComponentValidator.cpp" />
     <ClCompile Include="src\ConfigManager.cpp" />
