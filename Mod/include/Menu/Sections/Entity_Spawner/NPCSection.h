@@ -82,9 +82,9 @@ public:
             }
 
             if (player)
-                ImGui::Text("Your current team is %d", player->Team_Int);
+                ImGui::Text("Your team is %d. Spawn an NPC to refresh it.", player->Team_Int);
             else
-                ImGui::Text("Spawn an NPC to see your team");
+                ImGui::Text("Spawn an NPC to see your team.");
 
             ImGui::Text("NPC Type");
             if (ImGui::Combo("##NPCTypeSelector", &npcTypeIndex, npcTypeNames, npcTypesCount)) {
