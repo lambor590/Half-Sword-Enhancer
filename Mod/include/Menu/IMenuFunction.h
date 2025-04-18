@@ -123,6 +123,14 @@ public:
 class HookedFunction : public IMenuFunction {
 private:
     std::string name;
+    // imgui ids
+    std::string idPrefix;
+    std::string keyId;
+    std::string checkId;
+    std::string paramButtonId;
+    std::string popupId;
+    bool popupWasOpen = false;
+
     std::string hookedFunction;
     bool useEvent = false;
     GameHook::GameEvent eventType;
@@ -133,14 +141,35 @@ private:
     bool executeOnToggle = false;
 
 public:
-    HookedFunction(const std::string& name, const std::string& hookedFunction, std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
-        : name(name), hookedFunction(hookedFunction), callback(std::move(callback)), key(keyPtr), executeOnToggle(executeOnToggle) {
+    HookedFunction(const std::string& funcName, const std::string& hookedFunction,
+                   std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
+        : name(funcName),
+          idPrefix("##Hook_" + funcName),
+          keyId(idPrefix + "_key"),
+          checkId("##check" + idPrefix),
+          paramButtonId("Config##param_" + idPrefix),
+          popupId("ConfigParams" + idPrefix),
+          hookedFunction(hookedFunction),
+          callback(std::move(callback)),
+          key(keyPtr),
+          executeOnToggle(executeOnToggle) {
         prevKey = *key;
         LoadConfig();
     }
 
-    HookedFunction(const std::string& name, GameHook::GameEvent event, std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
-        : name(name), callback(std::move(callback)), key(keyPtr), useEvent(true), eventType(event), executeOnToggle(executeOnToggle) {
+    HookedFunction(const std::string& funcName, GameHook::GameEvent event,
+                   std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
+        : name(funcName),
+          idPrefix("##Hook_" + funcName),
+          keyId(idPrefix + "_key"),
+          checkId("##check" + idPrefix),
+          paramButtonId("Config##param_" + idPrefix),
+          popupId("ConfigParams" + idPrefix),
+          callback(std::move(callback)),
+          key(keyPtr),
+          useEvent(true),
+          eventType(event),
+          executeOnToggle(executeOnToggle) {
         prevKey = *key;
         LoadConfig();
     }
@@ -162,6 +191,13 @@ public:
 class KeybindFunction : public IMenuFunction {
 private:
     std::string name;
+    // imgui ids
+    std::string idPrefix;
+    std::string keyId;
+    std::string paramButtonId;
+    std::string popupId;
+    bool popupWasOpen = false;
+
     int* key;
     std::function<void(bool)> callback;
     bool waitingForKey = false;
@@ -169,8 +205,17 @@ private:
     bool toggleable = false;
 
 public:
-    KeybindFunction(const std::string& name, int* key, std::function<void(bool)> callback, bool toggleable = false)
-        : name(name), key(key), callback(std::move(callback)), toggleable(toggleable), prevKey(*key) {
+    KeybindFunction(const std::string& funcName, int* keyPtr,
+                    std::function<void(bool)> callback, bool toggleable = false)
+        : name(funcName),
+          idPrefix("##Key_" + funcName),
+          keyId(idPrefix),
+          paramButtonId("Config##param_" + idPrefix),
+          popupId("ConfigParams" + idPrefix),
+          key(keyPtr),
+          callback(std::move(callback)),
+          toggleable(toggleable),
+          prevKey(*key) {
         LoadConfig();
     }
 
