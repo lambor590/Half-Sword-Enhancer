@@ -8,44 +8,6 @@
 #include "GlobalDefinitions.h"
 #include "KeybindManager.h"
 
-static std::string NormalizeSection(const std::string& name) {
-    std::string result = name;
-    result.erase(std::remove(result.begin(), result.end(), ' '), result.end());
-    return result;
-}
-
-int IMenuFunction::GetConfig(const std::string& paramName, int defaultValue) const {
-    return g_ConfigManager.GetInt(NormalizeSection(GetName()), paramName, defaultValue);
-}
-
-bool IMenuFunction::GetConfig(const std::string& paramName, bool defaultValue) const {
-    return g_ConfigManager.GetBool(NormalizeSection(GetName()), paramName, defaultValue);
-}
-
-float IMenuFunction::GetConfig(const std::string& paramName, float defaultValue) const {
-    return g_ConfigManager.GetFloat(NormalizeSection(GetName()), paramName, defaultValue);
-}
-
-std::string IMenuFunction::GetConfig(const std::string& paramName, const std::string& defaultValue) const {
-    return g_ConfigManager.GetString(NormalizeSection(GetName()), paramName, defaultValue);
-}
-
-void IMenuFunction::SaveConfig(const std::string& paramName, int value) const {
-    g_ConfigManager.SetInt(NormalizeSection(GetName()), paramName, value);
-}
-
-void IMenuFunction::SaveConfig(const std::string& paramName, bool value) const {
-    g_ConfigManager.SetBool(NormalizeSection(GetName()), paramName, value);
-}
-
-void IMenuFunction::SaveConfig(const std::string& paramName, float value) const {
-    g_ConfigManager.SetFloat(NormalizeSection(GetName()), paramName, value);
-}
-
-void IMenuFunction::SaveConfig(const std::string& paramName, const std::string& value) const {
-    g_ConfigManager.SetString(NormalizeSection(GetName()), paramName, value);
-}
-
 void IMenuFunction::SetEnabled(bool enabled) {
     if (isEnabled != enabled) {
         isEnabled = enabled;
@@ -59,7 +21,7 @@ bool IMenuFunction::LoadEnabledState(bool defaultState) {
 }
 
 HookedFunction::~HookedFunction() {
-    if (isEnabled) {
+    if (!useEvent && isEnabled) {
         g_GameHook->UnregisterHook(hookedFunction);
     }
 }
@@ -77,11 +39,15 @@ void HookedFunction::SetEnabled(bool enabled) {
         isEnabled = enabled;
         SaveConfig("enabled", enabled);
         
-        if (isEnabled) {
-            g_GameHook->RegisterHook(hookedFunction, callback);
-        } else {
-            g_GameHook->UnregisterHook(hookedFunction);
+        if (!useEvent) {
+            if (isEnabled) {
+                g_GameHook->RegisterHook(hookedFunction, [this]() { callback(isEnabled); });
+            } else {
+                g_GameHook->UnregisterHook(hookedFunction);
+            }
         }
+        
+        if (executeOnToggle) callback(isEnabled);
         
         g_ConfigManager.SaveConfig();
     }
@@ -91,26 +57,69 @@ void HookedFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
     
-    if (LoadEnabledState(false) && isEnabled) {
-        g_GameHook->RegisterHook(hookedFunction, callback);
+    if (useEvent) {
+        static std::unordered_map<HookedFunction*, bool> registered;
+        LoadEnabledState(false);
+        if (!registered[this]) {
+            GameHook::Get().RegisterEvent(eventType, [this]() { callback(isEnabled); });
+            registered[this] = true;
+        }
+    } else {
+        if (LoadEnabledState(false) && isEnabled) {
+            g_GameHook->RegisterHook(hookedFunction, [this]() { callback(isEnabled); });
+        }
     }
     LoadParameters();
+}
+
+void KeybindFunction::SetEnabled(bool enabled) {
+    if (!toggleable) return;
+    if (isEnabled != enabled) {
+        isEnabled = enabled;
+        SaveConfig("enabled", enabled);
+        if (isEnabled) {
+            if (*key != -1)
+                KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
+        } else {
+            KeybindManager::UnregisterKeybind(&prevKey);
+        }
+        g_ConfigManager.SaveConfig();
+    }
 }
 
 void KeybindFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
-    if (*key != -1)
-        KeybindManager::RegisterKeybind(key, callback);
-    
+    if (toggleable) {
+        if (LoadEnabledState(false) && isEnabled && *key != -1)
+            KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
+    } else {
+        if (*key != -1)
+            KeybindManager::RegisterKeybind(key, [this]() { callback(true); });
+    }
     LoadParameters();
 }
 
 void KeybindFunction::UpdateKey() {
-    KeybindManager::UnregisterKeybind(&prevKey);
-    if (prevKey != *key) {
-        prevKey = *key;
-        SaveConfig("key", *key);
-        g_ConfigManager.SaveConfig();
+    if (toggleable) {
+        if (prevKey != *key) {
+            if (isEnabled) {
+                KeybindManager::UnregisterKeybind(&prevKey);
+                if (*key != -1)
+                    KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
+            }
+            prevKey = *key;
+            SaveConfig("key", *key);
+            g_ConfigManager.SaveConfig();
+        }
+    } else {
+        KeybindManager::UnregisterKeybind(&prevKey);
+        if (prevKey != *key) {
+            prevKey = *key;
+            SaveConfig("key", *key);
+            g_ConfigManager.SaveConfig();
+            if (*key != -1)
+                KeybindManager::RegisterKeybind(key, [this]() { callback(true); });
+        }
     }
 }
