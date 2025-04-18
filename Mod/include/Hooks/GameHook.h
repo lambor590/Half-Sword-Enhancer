@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <functional>
 #include <thread>
+#include <vector>
 
 #include "Logger.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -41,6 +42,23 @@ public:
         hookMap.erase(hash);
     }
 
+    enum class GameEvent {
+        BeginFight,
+        OffLedge
+    };
+
+    void RegisterEvent(GameEvent event, std::function<void()> callback) {
+        auto& vec = eventCallbacks[event];
+        bool first = vec.empty();
+        vec.push_back(std::move(callback));
+        if (first) {
+            const std::string& funcName = EventNames.at(event);
+            RegisterHook(funcName, [this, event]() {
+                for (auto& fn : eventCallbacks[event]) fn();
+            });
+        }
+    }
+
     GameHook(const GameHook&) = delete;
     GameHook& operator=(const GameHook&) = delete;
 
@@ -53,6 +71,11 @@ private:
     Logger logger{ "GameHook" };
     uintptr_t oProcessEvent = NULL;
     std::unordered_map<size_t, HookData> hookMap;
+    std::unordered_map<GameEvent, std::vector<std::function<void()>>> eventCallbacks;
+    static inline const std::unordered_map<GameEvent, std::string> EventNames = {
+        { GameEvent::BeginFight, "ExecuteUbergraph_UI_BeginFight" },
+        { GameEvent::OffLedge,    "OnWalkingOffLedge" }
+    };
 
     friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms);
 };
