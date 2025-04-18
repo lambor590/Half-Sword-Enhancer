@@ -4,10 +4,12 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <optional>
 
 #include "imgui/imgui.h"
 #include "Menu/IMenuFunction.h"
 #include "GameInstances.h"
+#include "Hooks/GameHook.h"
 
 class ICollapsibleSection {
 protected:
@@ -46,44 +48,48 @@ public:
     
     void AddFunction(std::unique_ptr<IMenuFunction> function);
     
-    template<typename... Components>
-    void Hook(const std::string& name, const std::string& hookedFunction, 
-              int* key, std::function<void()> callback, Components*&... components) {
-        AddFunction(std::make_unique<HookedFunction>(name, hookedFunction, 
-                    ValidateAndRun(std::move(callback), components...), key));
+    struct FunctionBuilder {
+        CollapsibleSection* section;
+        std::string name;
+        int* keyPtr = nullptr;
+        std::optional<GameHook::GameEvent> eventType;
+        bool toggleable = false;
+        std::optional<std::initializer_list<Parameter>> paramsList;
+
+        template<typename... Components>
+        FunctionBuilder WithKey(int* key) const { FunctionBuilder fb = *this; fb.keyPtr = key; return fb; }
+        FunctionBuilder OnEvent(GameHook::GameEvent evt) const { FunctionBuilder fb = *this; fb.eventType = evt; return fb; }
+        FunctionBuilder Toggle(bool t = true) const { FunctionBuilder fb = *this; fb.toggleable = t; return fb; }
+        FunctionBuilder WithParams(std::initializer_list<Parameter> p) const { FunctionBuilder fb = *this; fb.paramsList = p; return fb; }
+        
+        template<typename Callback, typename... Components>
+        void Action(Callback callback, Components*&... comps) {
+            auto sec = section;
+            auto validatedCb = [sec, callback = std::move(callback), &comps...](bool active) {
+                if (!(... && sec->instances.ValidateComponent(comps))) return;
+                if constexpr (std::is_invocable_v<Callback>) callback(); else callback(active);
+            };
+
+            auto fn = eventType.has_value()
+                ? std::unique_ptr<IMenuFunction>(std::make_unique<HookedFunction>(name, eventType.value(), validatedCb, keyPtr, toggleable))
+                : std::unique_ptr<IMenuFunction>(std::make_unique<KeybindFunction>(name, keyPtr, validatedCb, toggleable));
+
+            section->AddFunctionWithParams(std::move(fn), paramsList.value_or(std::initializer_list<Parameter>{}));
+        }
+    };
+
+    FunctionBuilder Function(const std::string& funcName) {
+        return FunctionBuilder{this, funcName};
     }
-    
-    template<typename T, typename... Components>
+
+    template<typename T>
     void AddFunctionWithParams(std::unique_ptr<T> function, 
-                             const std::initializer_list<Parameter>& params) {
+                              const std::initializer_list<Parameter>& params) {
         for (const auto& param : params) {
             function->AddParameter(param);
         }
+
+        function->LoadParameters();
         AddFunction(std::move(function));
-    }
-    
-    template<typename... Components>
-    void HookWithParams(const std::string& name, const std::string& hookedFunction, 
-                        int* key, const std::initializer_list<Parameter>& params,
-                        std::function<void()> callback, Components*&... components) {
-        auto function = std::make_unique<HookedFunction>(name, hookedFunction, 
-                        ValidateAndRun(std::move(callback), components...), key);
-        AddFunctionWithParams(std::move(function), params);
-    }
-    
-    template<typename... Components>
-    void Bind(const std::string& name, int* key, 
-              std::function<void()> callback, Components*&... components) {
-        AddFunction(std::make_unique<KeybindFunction>(name, key, 
-                    ValidateAndRun(std::move(callback), components...)));
-    }
-    
-    template<typename... Components>
-    void BindWithParams(const std::string& name, int* key,
-                        const std::initializer_list<Parameter>& params,
-                        std::function<void()> callback, Components*&... components) {
-        auto function = std::make_unique<KeybindFunction>(name, key, 
-                        ValidateAndRun(std::move(callback), components...));
-        AddFunctionWithParams(std::move(function), params);
     }
 };
