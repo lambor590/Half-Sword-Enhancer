@@ -12,9 +12,7 @@ void CollapsibleSection::Render() {
 }
 
 void CollapsibleSection::AddFunction(std::unique_ptr<IMenuFunction> function) {    
-    if (auto hookedFunction = dynamic_cast<HookedFunction*>(function.get())) {
-        hookedFunction->LoadConfig();
-    } else if (auto keybindFunction = dynamic_cast<KeybindFunction*>(function.get())) {
+    if (auto keybindFunction = dynamic_cast<KeybindFunction*>(function.get())) {
         keybindFunction->LoadConfig();
     }
     
