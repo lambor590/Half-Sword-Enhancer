@@ -112,7 +112,7 @@ void KeybindFunction::Render() {
     
     if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
         if (*key != -1)
-            KeybindManager::RegisterKeybind(key, callback);
+            KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
         UpdateKey();
     }
 }
