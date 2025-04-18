@@ -4,12 +4,15 @@
 #include <string>
 #include <functional>
 #include <memory>
-#include <unordered_map>
 #include <vector>
 #include <variant>
+#include <algorithm>
+#include <type_traits>
+#include <utility>
 
 #include "imgui/imgui.h"
 #include "GlobalDefinitions.h"
+#include "Hooks/GameHook.h"
 
 class Parameter {
 public:
@@ -70,15 +73,42 @@ public:
     virtual void Render() = 0;
     virtual const std::string& GetName() const = 0;
 
-    int GetConfig(const std::string& paramName, int defaultValue) const;
-    bool GetConfig(const std::string& paramName, bool defaultValue) const;
-    float GetConfig(const std::string& paramName, float defaultValue) const;
-    std::string GetConfig(const std::string& paramName, const std::string& defaultValue) const;
-
-    void SaveConfig(const std::string& paramName, int value) const;
-    void SaveConfig(const std::string& paramName, bool value) const;
-    void SaveConfig(const std::string& paramName, float value) const;
-    void SaveConfig(const std::string& paramName, const std::string& value) const;
+    static std::string NormalizeSection(const std::string& name) {
+        std::string s = name;
+        s.erase(std::remove(s.begin(), s.end(), ' '), s.end());
+        return s;
+    }
+    
+    template<typename T>
+    T GetConfig(const std::string& paramName, T defaultValue) const {
+        auto section = NormalizeSection(GetName());
+        if constexpr (std::is_same_v<T, int>)
+            return g_ConfigManager.GetInt(section, paramName, defaultValue);
+        else if constexpr (std::is_same_v<T, bool>)
+            return g_ConfigManager.GetBool(section, paramName, defaultValue);
+        else if constexpr (std::is_same_v<T, float>)
+            return g_ConfigManager.GetFloat(section, paramName, defaultValue);
+        else
+            return g_ConfigManager.GetString(section, paramName, defaultValue);
+    }
+    
+    template<typename T>
+    void SaveConfig(const std::string& paramName, T value) const {
+        static_assert(
+            std::is_same_v<T, int> || std::is_same_v<T, bool> ||
+            std::is_same_v<T, float> || std::is_same_v<T, std::string>,
+            "Unsupported config type"
+        );
+        auto section = NormalizeSection(GetName());
+        if constexpr (std::is_same_v<T, int>)
+            g_ConfigManager.SetInt(section, paramName, value);
+        else if constexpr (std::is_same_v<T, bool>)
+            g_ConfigManager.SetBool(section, paramName, value);
+        else if constexpr (std::is_same_v<T, float>)
+            g_ConfigManager.SetFloat(section, paramName, value);
+        else
+            g_ConfigManager.SetString(section, paramName, value);
+    }
 
     virtual void SetEnabled(bool enabled);
     bool LoadEnabledState(bool defaultState = false);
@@ -94,14 +124,23 @@ class HookedFunction : public IMenuFunction {
 private:
     std::string name;
     std::string hookedFunction;
-    std::function<void()> callback;
+    bool useEvent = false;
+    GameHook::GameEvent eventType;
+    std::function<void(bool)> callback;
     int* key;
     bool waitingForKey = false;
     int prevKey = 0;
+    bool executeOnToggle = false;
 
 public:
-    HookedFunction(const std::string& name, const std::string& hookedFunction, std::function<void()> callback, int* keyPtr)
-        : name(name), hookedFunction(hookedFunction), callback(callback), key(keyPtr) {
+    HookedFunction(const std::string& name, const std::string& hookedFunction, std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
+        : name(name), hookedFunction(hookedFunction), callback(std::move(callback)), key(keyPtr), executeOnToggle(executeOnToggle) {
+        prevKey = *key;
+        LoadConfig();
+    }
+
+    HookedFunction(const std::string& name, GameHook::GameEvent event, std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
+        : name(name), callback(std::move(callback)), key(keyPtr), useEvent(true), eventType(event), executeOnToggle(executeOnToggle) {
         prevKey = *key;
         LoadConfig();
     }
@@ -112,7 +151,7 @@ public:
     void Render() override;
     const std::string& GetName() const override { return name; }
     const std::string& GetHookedFunction() const { return hookedFunction; }
-    const std::function<void()>& GetCallback() const { return callback; }
+    const std::function<void(bool)>& GetCallback() const { return callback; }
 
     int GetKey() const { return key ? *key : 0; }
     void SetKey();
@@ -124,21 +163,24 @@ class KeybindFunction : public IMenuFunction {
 private:
     std::string name;
     int* key;
-    std::function<void()> callback;
+    std::function<void(bool)> callback;
     bool waitingForKey = false;
     int prevKey = 0;
+    bool toggleable = false;
 
 public:
-    KeybindFunction(const std::string& name, int* key, std::function<void()> callback)
-        : name(name), key(key), callback(callback), prevKey(*key) {
+    KeybindFunction(const std::string& name, int* key, std::function<void(bool)> callback, bool toggleable = false)
+        : name(name), key(key), callback(std::move(callback)), toggleable(toggleable), prevKey(*key) {
         LoadConfig();
     }
 
     void LoadConfig();
     void Render() override;
+    void SetEnabled(bool enabled) override;
+    bool IsEnabled() const { return isEnabled; }
     const std::string& GetName() const override { return name; }
     int* GetKey() const { return key; }
-    const std::function<void()>& GetCallback() const { return callback; }
+    const std::function<void(bool)>& GetCallback() const { return callback; }
 
     void UpdateKey();
 };
