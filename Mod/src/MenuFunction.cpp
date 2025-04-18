@@ -81,19 +81,17 @@ static void RenderParametersPopup(const std::string& id, const std::string& name
 }
 
 void HookedFunction::Render() {
-    const std::string id = std::string("##Hook_") + name;
-    
-    RenderKeyButton(id + "_key", waitingForKey, *key);
+    RenderKeyButton(keyId, waitingForKey, *key);
     ImGui::SameLine();
     
     bool currentEnabled = isEnabled;
-    if (ImGui::Checkbox(("##check" + id).c_str(), &currentEnabled) && currentEnabled != isEnabled)
+    if (ImGui::Checkbox(checkId.c_str(), &currentEnabled) && currentEnabled != isEnabled)
         SetEnabled(currentEnabled);
     
     ImGui::SameLine();
     RenderName(name, !isEnabled && *key == -1);
     
-    RenderParametersPopup(id, name, this);
+    RenderParametersPopup(idPrefix, name, this);
     
     if (KeybindManager::HandleKeyPress(waitingForKey, *key))
         SetKey();
@@ -102,13 +100,11 @@ void HookedFunction::Render() {
 }
 
 void KeybindFunction::Render() {
-    const std::string id = std::string("##Key_") + name;
-    
-    RenderKeyButton(id, waitingForKey, *key);
+    RenderKeyButton(keyId, waitingForKey, *key);
     ImGui::SameLine();
     RenderName(name, *key == -1);
     
-    RenderParametersPopup(id, name, this);
+    RenderParametersPopup(idPrefix, name, this);
     
     if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
         if (*key != -1)
