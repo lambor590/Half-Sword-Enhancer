@@ -2,3 +2,5 @@
 packages/
 bin/
 HS Enhancer.dll
+.cursor
+*ps1
