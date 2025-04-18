@@ -110,13 +110,53 @@ public:
             g_ConfigManager.SetString(section, paramName, value);
     }
 
-    virtual void SetEnabled(bool enabled);
-    bool LoadEnabledState(bool defaultState = false);
+    inline virtual void SetEnabled(bool enabled) {
+        if (isEnabled != enabled) {
+            isEnabled = enabled;
+            SaveConfig("enabled", enabled);
+            g_ConfigManager.SaveConfig();
+        }
+    }
+    inline bool LoadEnabledState(bool defaultState = false) {
+        return isEnabled = GetConfig("enabled", defaultState);
+    }
 
     void AddParameter(const Parameter& param) { parameters.push_back(param); }
-    void RenderParameters();
-    void LoadParameters();
-    void SaveParameters() const;
+    inline void RenderParameters() {
+        for (auto& param : parameters)
+            param.Render();
+    }
+    inline void LoadParameters() {
+        for (auto& param : parameters) {
+            switch (param.GetType()) {
+                case Parameter::Type::Int:
+                    *param.GetIntPtr() = GetConfig(param.GetName(), *param.GetIntPtr());
+                    break;
+                case Parameter::Type::Float:
+                    *param.GetFloatPtr() = GetConfig(param.GetName(), *param.GetFloatPtr());
+                    break;
+                case Parameter::Type::Bool:
+                    *param.GetBoolPtr() = GetConfig(param.GetName(), *param.GetBoolPtr());
+                    break;
+            }
+        }
+    }
+    inline void SaveParameters() const {
+        for (const auto& param : parameters) {
+            switch (param.GetType()) {
+                case Parameter::Type::Int:
+                    SaveConfig(param.GetName(), *param.GetIntPtr());
+                    break;
+                case Parameter::Type::Float:
+                    SaveConfig(param.GetName(), *param.GetFloatPtr());
+                    break;
+                case Parameter::Type::Bool:
+                    SaveConfig(param.GetName(), *param.GetBoolPtr());
+                    break;
+            }
+        }
+        g_ConfigManager.SaveConfig();
+    }
     const std::vector<Parameter>& GetParameters() const { return parameters; }
 };
 
