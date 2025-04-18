@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include <format>
+#include <string>
 
 #include "Menu/IMenuFunction.h"
 #include "Menu/ICollapsibleSection.h"
@@ -81,7 +81,7 @@ static void RenderParametersPopup(const std::string& id, const std::string& name
 }
 
 void HookedFunction::Render() {
-    const std::string id = std::format("##Hook_{}", name);
+    const std::string id = std::string("##Hook_") + name;
     
     RenderKeyButton(id + "_key", waitingForKey, *key);
     ImGui::SameLine();
@@ -102,7 +102,7 @@ void HookedFunction::Render() {
 }
 
 void KeybindFunction::Render() {
-    const std::string id = std::format("##Key_{}", name);
+    const std::string id = std::string("##Key_") + name;
     
     RenderKeyButton(id, waitingForKey, *key);
     ImGui::SameLine();
