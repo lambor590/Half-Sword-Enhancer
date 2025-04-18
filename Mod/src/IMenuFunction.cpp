@@ -8,18 +8,6 @@
 #include "GlobalDefinitions.h"
 #include "KeybindManager.h"
 
-void IMenuFunction::SetEnabled(bool enabled) {
-    if (isEnabled != enabled) {
-        isEnabled = enabled;
-        SaveConfig("enabled", enabled);
-        g_ConfigManager.SaveConfig();
-    }
-}
-
-bool IMenuFunction::LoadEnabledState(bool defaultState) {
-    return isEnabled = GetConfig("enabled", defaultState);
-}
-
 HookedFunction::~HookedFunction() {
     if (!useEvent && isEnabled) {
         g_GameHook->UnregisterHook(hookedFunction);
@@ -59,13 +47,13 @@ void HookedFunction::LoadConfig() {
     
     if (useEvent) {
         static std::unordered_map<HookedFunction*, bool> registered;
-        LoadEnabledState(false);
+        this->LoadEnabledState(false);
         if (!registered[this]) {
             GameHook::Get().RegisterEvent(eventType, [this]() { callback(isEnabled); });
             registered[this] = true;
         }
     } else {
-        if (LoadEnabledState(false) && isEnabled) {
+        if (this->LoadEnabledState(false) && isEnabled) {
             g_GameHook->RegisterHook(hookedFunction, [this]() { callback(isEnabled); });
         }
     }
@@ -91,7 +79,7 @@ void KeybindFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
     if (toggleable) {
-        if (LoadEnabledState(false) && isEnabled && *key != -1)
+        if (this->LoadEnabledState(false) && isEnabled && *key != -1)
             KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
     } else {
         if (*key != -1)
