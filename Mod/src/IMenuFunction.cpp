@@ -10,12 +10,8 @@
 
 HookedFunction::~HookedFunction() {
     if (!isEnabled) return;
-    if (!eventTypes.empty()) {
-        for (auto evt : eventTypes)
-            g_GameHook->UnregisterEvent(evt, this);
-    } else {
-        g_GameHook->UnregisterHook(hookedFunction);
-    }
+    for (auto evt : eventTypes)
+        g_GameHook->UnregisterEvent(evt, this);
 }
 
 void HookedFunction::SetKey() {
@@ -30,19 +26,11 @@ void HookedFunction::SetEnabled(bool enabled) {
     if (isEnabled != enabled) {
         isEnabled = enabled;
         SaveConfig("enabled", enabled);
-        
-        if (!eventTypes.empty()) {
-            for (auto evt : eventTypes) {
-                if (isEnabled)
-                    g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
-                else
-                    g_GameHook->UnregisterEvent(evt, this);
-            }
-        } else {
+        for (auto evt : eventTypes) {
             if (isEnabled)
-                g_GameHook->RegisterHook(hookedFunction, [this]() { callback(isEnabled); });
+                g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
             else
-                g_GameHook->UnregisterHook(hookedFunction);
+                g_GameHook->UnregisterEvent(evt, this);
         }
         if (executeOnToggle) callback(isEnabled);
         g_ConfigManager.SaveConfig();
@@ -54,12 +42,8 @@ void HookedFunction::LoadConfig() {
     prevKey = *key;
     LoadEnabledState(false);
     if (isEnabled) {
-        if (!eventTypes.empty()) {
-            for (auto evt : eventTypes)
-                g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
-        } else {
-            g_GameHook->RegisterHook(hookedFunction, [this]() { callback(isEnabled); });
-        }
+        for (auto evt : eventTypes)
+            g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
     }
     LoadParameters();
 }
