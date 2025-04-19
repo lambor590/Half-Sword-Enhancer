@@ -171,7 +171,6 @@ private:
     std::string popupId;
     bool popupWasOpen = false;
 
-    std::string hookedFunction;
     std::vector<GameHook::GameEvent> eventTypes;
     std::function<void(bool)> callback;
     int* key;
@@ -180,23 +179,6 @@ private:
     bool executeOnToggle = false;
 
 public:
-    // Constructor for direct function hook by name
-    HookedFunction(const std::string& funcName, const std::string& hookedFunction,
-                   std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
-        : name(funcName),
-          idPrefix("##Hook_" + funcName),
-          keyId(idPrefix + "_key"),
-          checkId("##check" + idPrefix),
-          paramButtonId("Config##param_" + idPrefix),
-          popupId("ConfigParams" + idPrefix),
-          hookedFunction(hookedFunction),
-          callback(std::move(callback)),
-          key(keyPtr),
-          executeOnToggle(executeOnToggle) {
-        prevKey = *key;
-        LoadConfig();
-    }
-
     HookedFunction(const std::string& funcName,
                    const std::vector<GameHook::GameEvent>& events,
                    std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
@@ -219,7 +201,6 @@ public:
     void LoadConfig();
     void Render() override;
     const std::string& GetName() const override { return name; }
-    const std::string& GetHookedFunction() const { return hookedFunction; }
     const std::function<void(bool)>& GetCallback() const { return callback; }
 
     int GetKey() const { return key ? *key : 0; }
