@@ -172,8 +172,7 @@ private:
     bool popupWasOpen = false;
 
     std::string hookedFunction;
-    bool useEvent = false;
-    GameHook::GameEvent eventType;
+    std::vector<GameHook::GameEvent> eventTypes;
     std::function<void(bool)> callback;
     int* key;
     bool waitingForKey = false;
@@ -181,6 +180,7 @@ private:
     bool executeOnToggle = false;
 
 public:
+    // Constructor for direct function hook by name
     HookedFunction(const std::string& funcName, const std::string& hookedFunction,
                    std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
         : name(funcName),
@@ -197,7 +197,8 @@ public:
         LoadConfig();
     }
 
-    HookedFunction(const std::string& funcName, GameHook::GameEvent event,
+    HookedFunction(const std::string& funcName,
+                   const std::vector<GameHook::GameEvent>& events,
                    std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
         : name(funcName),
           idPrefix("##Hook_" + funcName),
@@ -207,10 +208,9 @@ public:
           popupId("ConfigParams" + idPrefix),
           callback(std::move(callback)),
           key(keyPtr),
-          useEvent(true),
-          eventType(event),
-          executeOnToggle(executeOnToggle) {
-        prevKey = *key;
+          prevKey(*key),
+          executeOnToggle(executeOnToggle),
+          eventTypes(events) {
         LoadConfig();
     }
 
