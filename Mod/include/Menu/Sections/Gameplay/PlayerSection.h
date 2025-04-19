@@ -98,14 +98,8 @@ public:
             .WithKey(&invulnerabilityKey)
             .Toggle()
             .Action([this](bool active) {
-                if (active && !player->Invulnerable) {
-                    player->BitPad_5C_0 = true;
-                    player->Invulnerable = true;
-                }
-                else if (!active && player->Invulnerable) {
-                    player->BitPad_5C_0 = false;
-                    player->Invulnerable = false;
-                }
+                player->BitPad_5C_0 = active;
+                player->Invulnerable = active;
             }, player);
 
         Function("Get Up")
