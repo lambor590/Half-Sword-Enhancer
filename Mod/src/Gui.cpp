@@ -69,9 +69,9 @@ void Gui::SetupStyle() {
     colors[ImGuiCol_TitleBgActive] = darkGold;
     colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.15f, 0.12f, 0.09f, 0.90f);
     
-    style.WindowPadding = ImVec2(12, 12);
-    style.FramePadding = ImVec2(6, 4);
-    style.ItemSpacing = ImVec2(8, 6);
+    style.WindowPadding = ImVec2(15, 15);
+    style.FramePadding = ImVec2(8, 6);
+    style.ItemSpacing = ImVec2(10, 8);
     style.ItemInnerSpacing = ImVec2(6, 4);
     style.WindowRounding = 6.0f;
     style.ChildRounding = 6.0f;
@@ -124,6 +124,9 @@ void Gui::Setup() {
 
     SetupStyle();
 
+    ImGui::SetNextWindowSize(ImVec2(699, 389), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(544, 331), ImGuiCond_Once, ImVec2(0.5f, 0.5f));
+
     MenuManager::Get().AddSection<PlayerSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<WorldSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<NPCSection>(MenuTab::Entity_Spawner);
@@ -141,15 +144,8 @@ void Gui::Render() {
     ImGui_ImplDX11_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::SetNextWindowSize(ImVec2(699, 389), ImGuiCond_FirstUseEver);
-    ImGui::SetNextWindowPos(ImVec2(544, 331), ImGuiCond_FirstUseEver, ImVec2(0.5f, 0.5f));
-    
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(15, 15));
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10, 8));
-    
     ImGui::Begin("Half Sword Enhancer", &isVisible, ImGuiWindowFlags_NoCollapse);
 
-    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
     if (ImGui::BeginTabBar("MainTabBar", ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_Reorderable)) {
         if (ImGui::BeginTabItem("Gameplay")) {
             MenuManager::Get().RenderSections(MenuTab::Gameplay);
@@ -161,12 +157,10 @@ void Gui::Render() {
         }
         if (ImGui::BeginTabItem("Loadout Manager")) {
             ImGui::Text("Coming Soon");
-            // MenuManager::Get().RenderSections(MenuTab::Loadout_Manager);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Post Process")) {
             ImGui::Text("Coming Soon");
-            // MenuManager::Get().RenderSections(MenuTab::Post_Process_Settings);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Settings")) {
@@ -175,7 +169,6 @@ void Gui::Render() {
         }
         ImGui::EndTabBar();
     }
-    ImGui::PopStyleVar(3);
 
     ImGui::End();
     ImGui::Render();
