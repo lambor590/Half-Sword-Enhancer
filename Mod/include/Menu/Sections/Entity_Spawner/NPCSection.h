@@ -65,14 +65,17 @@ public:
             Parameter("team", "Team", &npcTeam, 0, 9)
         };
 
-        BindWithParams("Spawn NPC", &spawnEnemyKey, spawnEnemyParams, [this]() {
-            SDK::FTransform spawnTransform = player->GetTransform();
-            spawnTransform.Translation += player->GetActorForwardVector() * spawnDistanceForward;
-            spawnTransform.Translation.Z += spawnDistanceUp;
-            spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
-            SDK::AWillie_BP_C* npc = static_cast<SDK::AWillie_BP_C*>(Spawner::SpawnActor(world, getNPCClassName(), spawnTransform));
-            npc->Team_Int = npcTeam;
-        }, player, world);
+        Function("Spawn NPC")
+            .WithKey(&spawnEnemyKey)
+            .WithParams(spawnEnemyParams)
+            .Action([this]() {
+                SDK::FTransform spawnTransform = player->GetTransform();
+                spawnTransform.Translation += player->GetActorForwardVector() * spawnDistanceForward;
+                spawnTransform.Translation.Z += spawnDistanceUp;
+                spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
+                SDK::AWillie_BP_C* npc = static_cast<SDK::AWillie_BP_C*>(Spawner::SpawnActor(world, getNPCClassName(), spawnTransform));
+                npc->Team_Int = npcTeam;
+            }, player, world);
     }
 
     void Render() override {
