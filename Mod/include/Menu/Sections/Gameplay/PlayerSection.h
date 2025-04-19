@@ -7,6 +7,7 @@
 
 #include "Menu/ICollapsibleSection.h"
 #include "SDK/AIModule_classes.hpp"
+#include "Hooks/GameHook.h"
 
 class PlayerSection : public CollapsibleSection {
 private:
@@ -36,32 +37,41 @@ private:
 
 public:
     PlayerSection() : CollapsibleSection("Player") {
-        Hook("Infinite Stamina", "OnWalkingOffLedge", &infiniteStaminaKey, [this]() {
-            player->Stamina = 100.0f;
-        }, player);
+        Function("Infinite Stamina")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&infiniteStaminaKey)
+            .Action([this]() {
+                player->Stamina = 100.0f;
+            }, player);
 
-        Bind("Save Loadout", &saveLoadoutKey, [this]() {
-            player->Save_Loadout();
-        }, player);
+        Function("Save Loadout")
+            .WithKey(&saveLoadoutKey)
+            .Action([this]() {
+                player->Save_Loadout();
+            }, player);
 
-        std::initializer_list<Parameter> jumpParams = {
-            Parameter("force", "Force", &jumpForce, 1000.0f, 10000.0f)
-        };
-
-        BindWithParams("Jump", &jumpKey, jumpParams, [this]() {
-            player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, jumpForce), SDK::FName(), true);
-        }, player);
+        Function("Jump")
+            .WithKey(&jumpKey)
+            .WithParams({ Parameter("force", "Force", &jumpForce, 1000.0f, 10000.0f) })
+            .Action([this]() {
+                player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, jumpForce), SDK::FName(), true);
+            }, player);
 
         std::initializer_list<Parameter> playerSpeedParams = {
             Parameter("run_speed_multiplier", "Run Speed Multiplier", &playerRunMultiplier, 1.0f, 100.0f),
             Parameter("walk_speed_multiplier", "Walk Speed Multiplier", &playerWalkMultiplier, 1.0f, 100.0f)
         };
 
-        BindWithParams("Toggle Speed Multiplier", &playerSpeedKey, playerSpeedParams, [this]() {
-            static bool enabled = (player->Walk_Speed_Rate_Run != 1.5f) && (player->Running_Speed_Rate != 1.5f);
-            player->Running_Speed_Rate = enabled ? 1.5f : (1.5f * playerRunMultiplier);
-            player->Walk_Speed_Rate_Run = enabled ? 1.5f : (1.5f * playerWalkMultiplier);
-        }, player);
+        Function("Speed Multiplier")
+            .OnEvent(GameHook::GameEvent::BeginFight)
+            .OnEvent(GameHook::GameEvent::InAbyss)
+            .WithKey(&playerSpeedKey)
+            .Toggle()
+            .WithParams(playerSpeedParams)
+            .Action([this](bool active) {
+                player->Running_Speed_Rate = active ? (1.5f * playerRunMultiplier) : 1.5f;
+                player->Walk_Speed_Rate_Run = active ? (1.5f * playerWalkMultiplier) : 1.5f;
+            }, player);
 
         std::initializer_list<Parameter> playerStrengthParams = {
             Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 4.0f),
@@ -69,74 +79,94 @@ public:
             Parameter("hands_rigidity_multiplier", "Hands Rigidity Multiplier", &playerHandsRigidityMultiplier, 1.0f, 10.0f)
         };
 
-        BindWithParams("Toggle Strength Multiplier", &playerStrengthKey, playerStrengthParams, [this]() {
-            static bool enabled = (player->Muscle_Power != 35.0f)
-                && (player->R_Grab_Force_Limit != 10000.0f)
-                && (player->L_Grab_Force_Limit != 10000.0f)
-                && (player->Hands_Rigidity__Gauntlets_ != 0.666f);
-            player->Muscle_Power = enabled ? 35.0f : (35.0f * playerStrengthMultiplier);
-            player->R_Grab_Force_Limit = enabled ? 10000.0f : (10000.0f * playerGrabForceMultiplier);
-            player->L_Grab_Force_Limit = enabled ? 10000.0f : (10000.0f * playerGrabForceMultiplier);
-            player->Hands_Rigidity__Gauntlets_ = enabled ? 0.666f : (0.666f * playerHandsRigidityMultiplier);
-        }, player);
+        Function("Strength Multiplier")
+            .OnEvent(GameHook::GameEvent::BeginFight)
+            .OnEvent(GameHook::GameEvent::InAbyss)
+            .WithKey(&playerStrengthKey)
+            .Toggle()
+            .WithParams(playerStrengthParams)
+            .Action([this](bool active) {
+                player->Muscle_Power = active ? (35.0f * playerStrengthMultiplier) : 35.0f;
+                player->R_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
+                player->L_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
+                player->Hands_Rigidity__Gauntlets_ = active ? (0.666f * playerHandsRigidityMultiplier) : 0.666f;
+            }, player);
 
-        Bind("Toggle Invulnerability", &invulnerabilityKey, [this]() {
-            player->BitPad_5C_0 = ~player->BitPad_5C_0;
-            player->Invulnerable = !player->Invulnerable;
-        }, player);
+        Function("Invulnerability")
+            .OnEvent(GameHook::GameEvent::BeginFight)
+            .OnEvent(GameHook::GameEvent::InAbyss)
+            .WithKey(&invulnerabilityKey)
+            .Toggle()
+            .Action([this](bool active) {
+                if (active && !player->Invulnerable) {
+                    player->BitPad_5C_0 = true;
+                    player->Invulnerable = true;
+                }
+                else if (!active && player->Invulnerable) {
+                    player->BitPad_5C_0 = false;
+                    player->Invulnerable = false;
+                }
+            }, player);
 
-        Bind("Get Up", &getUpKey, [this]() {
-            player->Get_Up_Rate = 1.0f;
-        }, player);
+        Function("Get Up")
+            .WithKey(&getUpKey)
+            .Action([this]() {
+                player->Get_Up_Rate = 1.0f;
+            }, player);
 
         std::initializer_list<Parameter> dashParams = {
             Parameter("force", "Force", &dashForce, 1000.0f, 10000.0f)
         };
 
-        BindWithParams("Dash", &dashKey, dashParams, [this]() {
-            SDK::FVector forwardVector = player->GetActorForwardVector();
-            player->Mesh->AddImpulse(forwardVector * dashForce, SDK::FName(), true);
-        }, player);
+        Function("Dash")
+            .WithKey(&dashKey)
+            .WithParams(dashParams)
+            .Action([this]() {
+                SDK::FVector forwardVector = player->GetActorForwardVector();
+                player->Mesh->AddImpulse(forwardVector * dashForce, SDK::FName(), true);
+            }, player);
 
-        Bind("Possess Nearest Willie", &possessWillieKey, [this]() {
-            static SDK::AAIController* prevAIController = nullptr;
-            static SDK::APawn* originalPawn = nullptr;
-            static bool isPossessed = false;
-            SDK::APawn* currentPawn = controller->K2_GetPawn();
+        Function("Possess Nearest Willie")
+            .WithKey(&possessWillieKey)
+            .Action([this]() {
+                static SDK::AAIController* prevAIController = nullptr;
+                static SDK::APawn* originalPawn = nullptr;
+                static bool isPossessed = false;
+                SDK::APawn* currentPawn = controller->K2_GetPawn();
 
-            if (!isPossessed) {
-                originalPawn = currentPawn;
-                SDK::TArray<SDK::AActor*> actors;
-                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-                SDK::AWillie_BP_C* nearest = nullptr;
-                float minDist = -1.f;
+                if (!isPossessed) {
+                    originalPawn = currentPawn;
+                    SDK::TArray<SDK::AActor*> actors;
+                    SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
+                    SDK::AWillie_BP_C* nearest = nullptr;
+                    float minDist = -1.f;
 
-                for (SDK::AActor* actor : actors) {
-                    SDK::AWillie_BP_C* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (willie != player) {
-                        float dist = player->GetDistanceTo(willie);
-                        if (minDist < 0.f || dist < minDist) {
-                            minDist = dist;
-                            nearest = willie;
+                    for (SDK::AActor* actor : actors) {
+                        SDK::AWillie_BP_C* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+                        if (willie != player) {
+                            float dist = player->GetDistanceTo(willie);
+                            if (minDist < 0.f || dist < minDist) {
+                                minDist = dist;
+                                nearest = willie;
+                            }
                         }
                     }
-                }
 
-                if (nearest) {
-                    prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
-                    prevAIController->SetActorTickEnabled(false);
-                    controller->Possess(nearest);
-                    nearest->Player = true;
-                    isPossessed = true;
+                    if (nearest) {
+                        prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
+                        prevAIController->SetActorTickEnabled(false);
+                        controller->Possess(nearest);
+                        nearest->Player = true;
+                        isPossessed = true;
+                    }
+                } else {
+                    SDK::AWillie_BP_C* enemyPawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
+                    controller->Possess(originalPawn);
+                    enemyPawn->Player = false;
+                    isPossessed = false;
+                    prevAIController->Possess(enemyPawn);
+                    prevAIController->SetActorTickEnabled(true);
                 }
-            } else {
-                SDK::AWillie_BP_C* enemyPawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
-                controller->Possess(originalPawn);
-                enemyPawn->Player = false;
-                isPossessed = false;
-                prevAIController->Possess(enemyPawn);
-                prevAIController->SetActorTickEnabled(true);
-            }
-        }, player, controller, world);
+            }, player, controller, world);
     }
 };
