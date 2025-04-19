@@ -52,13 +52,13 @@ public:
         CollapsibleSection* section;
         std::string name;
         int* keyPtr = nullptr;
-        std::optional<GameHook::GameEvent> eventType;
+        std::vector<GameHook::GameEvent> eventTypes;
         bool toggleable = false;
         std::optional<std::initializer_list<Parameter>> paramsList;
 
         template<typename... Components>
         FunctionBuilder WithKey(int* key) const { FunctionBuilder fb = *this; fb.keyPtr = key; return fb; }
-        FunctionBuilder OnEvent(GameHook::GameEvent evt) const { FunctionBuilder fb = *this; fb.eventType = evt; return fb; }
+        FunctionBuilder OnEvent(GameHook::GameEvent evt) const { FunctionBuilder fb = *this; fb.eventTypes.push_back(evt); return fb; }
         FunctionBuilder Toggle(bool t = true) const { FunctionBuilder fb = *this; fb.toggleable = t; return fb; }
         FunctionBuilder WithParams(std::initializer_list<Parameter> p) const { FunctionBuilder fb = *this; fb.paramsList = p; return fb; }
         
@@ -70,11 +70,13 @@ public:
                 if constexpr (std::is_invocable_v<Callback>) callback(); else callback(active);
             };
 
-            auto fn = eventType.has_value()
-                ? std::unique_ptr<IMenuFunction>(std::make_unique<HookedFunction>(name, eventType.value(), validatedCb, keyPtr, toggleable))
-                : std::unique_ptr<IMenuFunction>(std::make_unique<KeybindFunction>(name, keyPtr, validatedCb, toggleable));
-
-            section->AddFunctionWithParams(std::move(fn), paramsList.value_or(std::initializer_list<Parameter>{}));
+            if (!eventTypes.empty()) {
+                auto fn = std::make_unique<HookedFunction>(name, eventTypes, validatedCb, keyPtr, toggleable);
+                section->AddFunctionWithParams(std::move(fn), paramsList.value_or(std::initializer_list<Parameter>{}));
+            } else {
+                auto fn = std::make_unique<KeybindFunction>(name, keyPtr, validatedCb, toggleable);
+                section->AddFunctionWithParams(std::move(fn), paramsList.value_or(std::initializer_list<Parameter>{}));
+            }
         }
     };
 
