@@ -9,28 +9,26 @@
 #include "ConfigManager.h"
 #include "KeybindManager.h"
 
-static void RenderKeyButton(const std::string& id, bool& waitingForKey, const int& key) {
+static void RenderKeyButton(const char* id, bool& waitingForKey, int key) {
     const char* keyText = waitingForKey ? "Press any key..." : KeybindManager::GetKeyName(key);
-    const bool isDisabled = key == -1;
-    
-    if (isDisabled) {
+    const bool disabled = (key == -1);
+    if (disabled) {
         ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.12f, 0.09f, 0.50f));
         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.50f, 0.50f, 0.50f, 1.00f));
         ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.20f, 0.15f, 0.10f, 0.50f));
         ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
     }
-    
     ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyText).x + 20);
-    if (ImGui::Button((keyText + id).c_str()))
+    ImGui::PushID(id);
+    if (ImGui::Button(keyText))
         waitingForKey = true;
-    
+    ImGui::PopID();
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
         ImGui::Text("Change keybind");
         ImGui::EndTooltip();
     }
-    
-    if (isDisabled) {
+    if (disabled) {
         ImGui::PopStyleVar();
         ImGui::PopStyleColor(3);
     }
@@ -58,30 +56,8 @@ static bool RenderParametersButton(const std::string& id, const std::string& nam
     return clicked;
 }
 
-static void RenderParametersPopup(const std::string& id, const std::string& name, IMenuFunction* function) {
-    if (function->GetParameters().empty())
-        return;
-        
-    static std::unordered_map<std::string, bool> popupOpenStates;
-    bool& popupWasOpen = popupOpenStates[id];
-    
-    if (RenderParametersButton(id, name))
-        ImGui::OpenPopup(("ConfigParams" + id).c_str());
-    
-    bool isPopupOpen = ImGui::BeginPopup(("ConfigParams" + id).c_str());
-    
-    if (isPopupOpen) {
-        function->RenderParameters();
-        ImGui::EndPopup();
-        popupWasOpen = true;
-    } else if (popupWasOpen) {
-        function->SaveParameters();
-        popupWasOpen = false;
-    }
-}
-
 void HookedFunction::Render() {
-    RenderKeyButton(keyId, waitingForKey, *key);
+    RenderKeyButton(keyId.c_str(), waitingForKey, *key);
     ImGui::SameLine();
     
     bool currentEnabled = isEnabled;
@@ -90,9 +66,21 @@ void HookedFunction::Render() {
     
     ImGui::SameLine();
     RenderName(name, !isEnabled && *key == -1);
-    
-    RenderParametersPopup(idPrefix, name, this);
-    
+
+    if (!GetParameters().empty()) {
+        if (RenderParametersButton(idPrefix, name))
+            ImGui::OpenPopup(popupId.c_str());
+        bool isPopupOpen = ImGui::BeginPopup(popupId.c_str());
+        if (isPopupOpen) {
+            RenderParameters();
+            ImGui::EndPopup();
+            popupWasOpen = true;
+        } else if (popupWasOpen) {
+            SaveParameters();
+            popupWasOpen = false;
+        }
+    }
+
     if (KeybindManager::HandleKeyPress(waitingForKey, *key))
         SetKey();
     else if (!waitingForKey && *key != -1 && (GetAsyncKeyState(*key) & 1))
@@ -100,12 +88,24 @@ void HookedFunction::Render() {
 }
 
 void KeybindFunction::Render() {
-    RenderKeyButton(keyId, waitingForKey, *key);
+    RenderKeyButton(keyId.c_str(), waitingForKey, *key);
     ImGui::SameLine();
     RenderName(name, *key == -1);
-    
-    RenderParametersPopup(idPrefix, name, this);
-    
+
+    if (!GetParameters().empty()) {
+        if (RenderParametersButton(idPrefix, name))
+            ImGui::OpenPopup(popupId.c_str());
+        bool isPopupOpen = ImGui::BeginPopup(popupId.c_str());
+        if (isPopupOpen) {
+            RenderParameters();
+            ImGui::EndPopup();
+            popupWasOpen = true;
+        } else if (popupWasOpen) {
+            SaveParameters();
+            popupWasOpen = false;
+        }
+    }
+
     if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
         if (*key != -1)
             KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
