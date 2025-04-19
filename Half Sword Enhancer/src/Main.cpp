@@ -10,20 +10,6 @@ static bool performDllInjection(const std::string& dllPath, const char* processN
         Logger::info("Starting injection process...");
 
         const std::string& appDataPath = getAppDataPath();
-        std::string testFilePath = appDataPath + "\\write_test.tmp";
-
-        try {
-            std::ofstream testFile(testFilePath);
-            if (testFile.is_open()) {
-                testFile << "Test";
-                testFile.close();
-                std::filesystem::remove(testFilePath);
-            } else {
-                Logger::warn("Cannot write to AppData directory, may use alternative paths");
-            }
-        } catch (const std::exception& e) {
-            Logger::warn(std::string("AppData write test failed: ") + e.what());
-        }
 
         DWORD processId = findOrLaunchGame(processName);
         if (processId == 0) {
