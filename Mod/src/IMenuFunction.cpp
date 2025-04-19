@@ -9,7 +9,11 @@
 #include "KeybindManager.h"
 
 HookedFunction::~HookedFunction() {
-    if (!useEvent && isEnabled) {
+    if (!isEnabled) return;
+    if (!eventTypes.empty()) {
+        for (auto evt : eventTypes)
+            g_GameHook->UnregisterEvent(evt, this);
+    } else {
         g_GameHook->UnregisterHook(hookedFunction);
     }
 }
@@ -27,16 +31,20 @@ void HookedFunction::SetEnabled(bool enabled) {
         isEnabled = enabled;
         SaveConfig("enabled", enabled);
         
-        if (!useEvent) {
-            if (isEnabled) {
-                g_GameHook->RegisterHook(hookedFunction, [this]() { callback(isEnabled); });
-            } else {
-                g_GameHook->UnregisterHook(hookedFunction);
+        if (!eventTypes.empty()) {
+            for (auto evt : eventTypes) {
+                if (isEnabled)
+                    g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
+                else
+                    g_GameHook->UnregisterEvent(evt, this);
             }
+        } else {
+            if (isEnabled)
+                g_GameHook->RegisterHook(hookedFunction, [this]() { callback(isEnabled); });
+            else
+                g_GameHook->UnregisterHook(hookedFunction);
         }
-        
         if (executeOnToggle) callback(isEnabled);
-        
         g_ConfigManager.SaveConfig();
     }
 }
@@ -44,16 +52,12 @@ void HookedFunction::SetEnabled(bool enabled) {
 void HookedFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
-    
-    if (useEvent) {
-        static std::unordered_map<HookedFunction*, bool> registered;
-        this->LoadEnabledState(false);
-        if (!registered[this]) {
-            GameHook::Get().RegisterEvent(eventType, [this]() { callback(isEnabled); });
-            registered[this] = true;
-        }
-    } else {
-        if (this->LoadEnabledState(false) && isEnabled) {
+    LoadEnabledState(false);
+    if (isEnabled) {
+        if (!eventTypes.empty()) {
+            for (auto evt : eventTypes)
+                g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
+        } else {
             g_GameHook->RegisterHook(hookedFunction, [this]() { callback(isEnabled); });
         }
     }
