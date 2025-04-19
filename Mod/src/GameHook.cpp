@@ -8,8 +8,9 @@ inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFuncti
     size_t hash = std::hash<std::string>{}(funcName);
 
     if (auto it = hookInstance->hookMap.find(hash); it != hookInstance->hookMap.end()) {
-        if (it->second.name == funcName) {
-            it->second.callback();
+        const auto& hd = it->second;
+        if (hd.funcName == funcName && (hd.className.empty() || pObject->Class->GetName() == hd.className)) {
+            hd.callback();
         }
     }
 
