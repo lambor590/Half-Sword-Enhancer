@@ -172,15 +172,15 @@ namespace Util {
 
         if (fullPath.empty()) {
             char appDataPath[MAX_PATH];
-
             if (FAILED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appDataPath)))
                 fail("Failed to get AppData path");
 
             fullPath = std::string(appDataPath) + "\\Half Sword Enhancer";
-
-            if (!std::filesystem::exists(fullPath) &&
-                !std::filesystem::create_directory(fullPath))
-                fail("Failed to create directory in AppData");
+            try {
+                std::filesystem::create_directories(fullPath);
+            } catch (const std::filesystem::filesystem_error& e) {
+                fail((std::string("Failed to create directory in AppData: ") + e.what()).c_str());
+            }
         }
 
         return fullPath;
@@ -229,13 +229,11 @@ namespace Util {
         HANDLE fileHandle = INVALID_HANDLE_VALUE;
         std::string errorMsg;
 
-        if (std::filesystem::exists(dllPath)) {
-            try {
-                std::filesystem::remove(dllPath);
-                Logger::info("Removed existing DLL file.");
-            } catch (const std::filesystem::filesystem_error& e) {
-                Logger::warn(std::string("Could not remove existing DLL: ") + e.what());
-            }
+        try {
+            std::filesystem::remove(dllPath);
+            Logger::info("Removed existing DLL file.");
+        } catch (const std::filesystem::filesystem_error& e) {
+            Logger::warn(std::string("Could not remove existing DLL: ") + e.what());
         }
 
         for (int attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -288,6 +286,13 @@ namespace Util {
         Logger::info("DLL written to temporary file successfully.");
     }
 
+    inline std::string getLastErrorMessage(DWORD error = GetLastError()) {
+        char buf[256];
+        FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                       NULL, error, 0, buf, sizeof(buf), NULL);
+        return std::string(buf);
+    }
+
     inline bool injectDll(DWORD processId, const std::string& dllPath, int timeoutMs = 10000) {
         try {
             if (!std::filesystem::exists(dllPath)) {
@@ -315,38 +320,29 @@ namespace Util {
                 FALSE, processId);
 
             if (!hProcess) {
-                DWORD error = GetLastError();
-                char errorBuffer[256];
-                FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
-                Logger::error(std::string("Failed to open game process: ") + errorBuffer);
+                Logger::error(std::string("Failed to open game process: ") + getLastErrorMessage());
                 showError("Failed to access the game process. Try running as administrator. If the problem persists, check your antivirus settings.");
                 return false;
             }
 
             Logger::info("Waiting a bit to inject the mod...");
-            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 20));
 
             SIZE_T pathLength = dllPath.length() + 1;
             LPVOID remotePath = VirtualAllocEx(hProcess, NULL, pathLength, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 
             if (!remotePath) {
-                DWORD error = GetLastError();
-                char errorBuffer[256];
-                FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
-                Logger::error(std::string("Failed to allocate memory in game process: ") + errorBuffer);
+                Logger::error(std::string("Failed to allocate memory in game process: ") + getLastErrorMessage());
                 CloseHandle(hProcess);
                 showError("Failed to allocate memory in the game process.");
                 return false;
             }
 
-            SIZE_T bytesWritten = 0;
+            SIZE_T bytesWritten;
             const char* pathData = dllPath.c_str();
 
             if (!WriteProcessMemory(hProcess, remotePath, pathData, pathLength, &bytesWritten) || bytesWritten != pathLength) {
-                DWORD error = GetLastError();
-                char errorBuffer[256];
-                FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
-                Logger::error(std::string("Failed to write to game process memory: ") + errorBuffer);
+                Logger::error(std::string("Failed to write to game process memory: ") + getLastErrorMessage());
                 VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
                 CloseHandle(hProcess);
                 showError("Failed to write data in the game process.");
@@ -368,7 +364,7 @@ namespace Util {
                 return false;
             }
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
             Logger::info("Injecting mod...");
 
@@ -383,10 +379,7 @@ namespace Util {
             );
 
             if (!hThread) {
-                DWORD error = GetLastError();
-                char errorBuffer[256];
-                FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
-                Logger::error(std::string("Failed to create remote thread: ") + errorBuffer);
+                Logger::error(std::string("Failed to create remote thread: ") + getLastErrorMessage());
                 VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
                 CloseHandle(hProcess);
                 showError("Failed to start the mod process.");
@@ -399,7 +392,7 @@ namespace Util {
             GetExitCodeThread(hThread, &exitCode);
             CloseHandle(hThread);
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
             VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
             CloseHandle(hProcess);
