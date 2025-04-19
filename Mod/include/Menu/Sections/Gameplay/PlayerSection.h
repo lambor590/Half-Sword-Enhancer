@@ -132,33 +132,31 @@ public:
                     originalPawn = currentPawn;
                     SDK::TArray<SDK::AActor*> actors;
                     SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-                    SDK::AWillie_BP_C* nearest = nullptr;
-                    float minDist = -1.f;
 
-                    for (SDK::AActor* actor : actors) {
-                        SDK::AWillie_BP_C* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                        if (willie != player) {
-                            float dist = player->GetDistanceTo(willie);
-                            if (minDist < 0.f || dist < minDist) {
-                                minDist = dist;
-                                nearest = willie;
-                            }
+                    SDK::AWillie_BP_C* nearest = nullptr;
+                    float minDist = FLT_MAX;
+                    for (auto* actor : actors) {
+                        auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+                        if (willie == player) continue;
+                        float dist = player->GetDistanceTo(willie);
+                        if (dist < minDist) {
+                            minDist = dist;
+                            nearest = willie;
                         }
                     }
+                    if (!nearest) return;
 
-                    if (nearest) {
-                        prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
-                        prevAIController->SetActorTickEnabled(false);
-                        controller->Possess(nearest);
-                        nearest->Player = true;
-                        isPossessed = true;
-                    }
+                    prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
+                    prevAIController->SetActorTickEnabled(false);
+                    controller->Possess(nearest);
+                    nearest->Player = true;
+                    isPossessed = true;
                 } else {
-                    SDK::AWillie_BP_C* enemyPawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
+                    auto* williePawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
                     controller->Possess(originalPawn);
-                    enemyPawn->Player = false;
+                    williePawn->Player = false;
                     isPossessed = false;
-                    prevAIController->Possess(enemyPawn);
+                    prevAIController->Possess(williePawn);
                     prevAIController->SetActorTickEnabled(true);
                 }
             }, player, controller, world);
