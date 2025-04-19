@@ -456,9 +456,12 @@ public:
             Parameter("scale", "Scale", &spawnScale, 0.1f, 5.0f)
         };
 
-        BindWithParams("Spawn Item", &spawnItemKey, spawnItemParams, [this]() {
-            SpawnSelectedItem();
-        }, player, world);
+        Function("Spawn Item")
+            .WithKey(&spawnItemKey)
+            .WithParams(spawnItemParams)
+            .Action([this]() {
+                SpawnSelectedItem();
+            }, player, world);
     }
 
     void Render() override {
