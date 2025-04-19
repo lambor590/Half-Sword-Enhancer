@@ -125,10 +125,15 @@ public:
             .Action([this]() {
                 static SDK::AAIController* prevAIController = nullptr;
                 static SDK::APawn* originalPawn = nullptr;
-                static bool isPossessed = false;
+                static SDK::AWillie_BP_C* possessedWillie = nullptr;
                 SDK::APawn* currentPawn = controller->K2_GetPawn();
+                if (possessedWillie && currentPawn != possessedWillie) {
+                    prevAIController = nullptr;
+                    originalPawn = nullptr;
+                    possessedWillie = nullptr;
+                }
 
-                if (!isPossessed) {
+                if (!possessedWillie) {
                     originalPawn = currentPawn;
                     SDK::TArray<SDK::AActor*> actors;
                     SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
@@ -150,14 +155,16 @@ public:
                     prevAIController->SetActorTickEnabled(false);
                     controller->Possess(nearest);
                     nearest->Player = true;
-                    isPossessed = true;
+                    possessedWillie = nearest;
                 } else {
                     auto* williePawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
                     controller->Possess(originalPawn);
                     williePawn->Player = false;
-                    isPossessed = false;
                     prevAIController->Possess(williePawn);
                     prevAIController->SetActorTickEnabled(true);
+                    possessedWillie = nullptr;
+                    prevAIController = nullptr;
+                    originalPawn = nullptr;
                 }
             }, player, controller, world);
     }
