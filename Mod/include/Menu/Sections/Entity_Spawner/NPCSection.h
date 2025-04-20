@@ -19,6 +19,7 @@ private:
     static inline float spawnDistanceForward = 200.0f;
     static inline float spawnDistanceUp = 0.0f;
     static inline float spawnScale = 1.0f;
+    static inline bool bodyguard = false;
     static inline int npcTeam = 0;
     static inline int npcTypeIndex = 0;
 
@@ -59,6 +60,7 @@ public:
     NPCSection() : CollapsibleSection("NPC") {
         initNPCTypeNames();
         std::initializer_list<Parameter> spawnEnemyParams = {
+            Parameter("bodyguard", "Bodyguard", &bodyguard),
             Parameter("distance_forward", "Distance Forward", &spawnDistanceForward, 100.0f, 500.0f),
             Parameter("distance_up", "Distance Up", &spawnDistanceUp, 0.0f, 300.0f),
             Parameter("scale", "Scale", &spawnScale, 0.1f, 4.0f),
@@ -74,7 +76,12 @@ public:
                 spawnTransform.Translation.Z += spawnDistanceUp;
                 spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
                 SDK::AWillie_BP_C* npc = static_cast<SDK::AWillie_BP_C*>(Spawner::SpawnActor(world, getNPCClassName(), spawnTransform));
-                npc->Team_Int = npcTeam;
+                if (bodyguard) {
+                    player->Team_Int = 1337;
+                    npc->Team_Int = player->Team_Int;
+                } else {
+                    npc->Team_Int = npcTeam;
+                }
             }, player, world);
     }
 
@@ -83,11 +90,6 @@ public:
             for (auto& function : functions) {
                 function->Render();
             }
-
-            if (player)
-                ImGui::Text("Your team is %d. Spawn an NPC to refresh it.", player->Team_Int);
-            else
-                ImGui::Text("Spawn an NPC to see your team.");
 
             ImGui::Text("NPC Type");
             if (ImGui::Combo("##NPCTypeSelector", &npcTypeIndex, npcTypeNames, npcTypesCount)) {
