@@ -109,13 +109,9 @@ public:
                 player->Get_Up_Rate = 1.0f;
             }, player);
 
-        std::initializer_list<Parameter> dashParams = {
-            Parameter("force", "Force", &dashForce, 1000.0f, 10000.0f)
-        };
-
         Function("Dash")
             .WithKey(&dashKey)
-            .WithParams(dashParams)
+            .WithParams({ Parameter("force", "Force", &dashForce, 1000.0f, 10000.0f) })
             .Action([this]() {
                 SDK::FVector forwardVector = player->GetActorForwardVector();
                 player->Mesh->AddImpulse(forwardVector * dashForce, SDK::FName(), true);
