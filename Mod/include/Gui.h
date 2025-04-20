@@ -16,9 +16,9 @@
 #include "Menu/Sections/Gameplay/WorldSection.h"
 #include "Menu/Sections/Entity_Spawner/NPCSection.h"
 #include "Menu/Sections/Entity_Spawner/ItemSection.h"
-#include "Menu/Sections/Settings/KeybindsSection.h"
+#include "Menu/Sections/Settings/GuiSection.h"
 
-class KeybindsSection;
+class GuiSection;
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
