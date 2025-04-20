@@ -7,6 +7,7 @@
 
 #include "Menu/ICollapsibleSection.h"
 #include "SDK/AIModule_classes.hpp"
+#include "SDK/Willie_BP_NoBrain_classes.hpp"
 #include "Hooks/GameHook.h"
 
 class PlayerSection : public CollapsibleSection {
@@ -151,8 +152,10 @@ public:
                     }
                     if (!nearest) return;
 
-                    prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
-                    prevAIController->SetActorTickEnabled(false);
+                    if (!nearest->IsA(SDK::AWillie_BP_NoBrain_C::StaticClass())) {
+                        prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
+                        prevAIController->SetActorTickEnabled(false);
+                    }
                     controller->Possess(nearest);
                     nearest->Player = true;
                     possessedWillie = nearest;
@@ -160,10 +163,12 @@ public:
                     auto* williePawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
                     controller->Possess(originalPawn);
                     williePawn->Player = false;
-                    prevAIController->Possess(williePawn);
-                    prevAIController->SetActorTickEnabled(true);
+                    if (prevAIController) {
+                        prevAIController->Possess(williePawn);
+                        prevAIController->SetActorTickEnabled(true);
+                        prevAIController = nullptr;
+                    }
                     possessedWillie = nullptr;
-                    prevAIController = nullptr;
                     originalPawn = nullptr;
                 }
             }, player, controller, world);
