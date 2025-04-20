@@ -165,7 +165,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
@@ -231,7 +231,7 @@
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\WorldSection.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\PlayerSection.h" />
-    <ClInclude Include="include\Menu\Sections\Settings\KeybindsSection.h" />
+    <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h" />
     <ClInclude Include="include\Menu\Utils\Spawner.h" />
     <ClInclude Include="include\Render\ID3DRenderer.h" />
     <ClInclude Include="include\Render\IRenderCallback.h" />

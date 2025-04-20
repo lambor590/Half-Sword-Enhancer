@@ -169,7 +169,7 @@
     <ClInclude Include="include\Menu\Sections\Gameplay\PlayerSection.h">
       <Filter>Sections\Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Settings\KeybindsSection.h">
+    <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h">
       <Filter>Sections\Settings</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Utils\Spawner.h">
