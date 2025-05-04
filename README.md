@@ -1,27 +1,52 @@
 # Half Sword Enhancer
 
-An easy to use and feature rich mod.
+>An easy to use and feature rich mod.
 
-Maybe you know me from the QOL mod.
-I left the project to make my own mod from scratch, and here it is.
-
-At the moment there are not many features, but they are enough to have fun and enjoy the main advantages that this mod brings.
+## Table of Contents
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Main features](#main-features)
+- [Detailed Features](#detailed-features)
+- [Troubleshooting & FAQ](#troubleshooting--faq)
+- [Join the Discord server!](#join-the-discord-server)
+- [License](#license)
 
 ## Installation
+Choose between the **Launcher** or **Manual install**.
 
-This mod has no installation process! Not even a few steps to make it work.
-The mod is an executable file. You open it and it does all the magic.
-If you don't have the game open, it will launch it for you.
-The mod doesn't change any game files either.
+### 🚀 Launcher
+- Download the executable: [HS_Enhancer_Launcher.exe](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer_Launcher.exe)
+- Run it. It will launch the game if not open and won't modify game files.
 
-1. [Download the executable](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer_Launcher.exe)
-2. Run it.
-3. Enjoy!
+### 🛠️ Manual Install
+- Download the zip: [HS_Enhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer.zip)
+- Extract both files into your game folder.
+
+### ⚖️ Differences
+Both versions are identical in terms of mod functionality; only the installation process differs. The mod itself does not modify any game files.
+
+| Feature           | Launcher                              | Manual Install                         |
+|-------------------|---------------------------------------|----------------------------------------|
+| Installation      | One-click: checks updates, launches game and injects mod | Copy two files into game folder       |
+| Automatic updates | ✅ Yes                                | ❌ No                                  |
+| Internet required | Only for update check (optional)      | Not required                           |
+
+## Quick Start
+
+### Toggling the menu
+Press `INSERT` by default; you can change the keybind in settings.
+
+### Becoming a giant
+Spawn an NPC with custom scale then possess it:
+1. Go to **Entity Spawner** → **Spawn NPC** → open **Config** → set **Scale**.
+2. Recommended scale: `1.70`.
+3. Increase **Distance Up** (~`85`) to avoid floor clipping.
 
 ## Main features
 * Friendly and easy to use interface displayed in the game window itself.
+  * Can be toggled by pressing `INSERT` by default.
 * Highly optimized. It doesn't even take 1 FPS.
-* Doesn't use any code from the QOL mod. It's all made from scratch.
+* Completely made from scratch, specifically for Half Sword.
 * Crash prevention system.
 * Auto-updates.
   * This may cause antivirus alerts.
@@ -33,18 +58,90 @@ The mod doesn't change any game files either.
 * All features are configurable within the mod interface.
 * Full DirectX 11 & 12 support.
 
-## Mod features
+## Detailed Features
 
-* Slow Motion.
-  * Adjustable speed.
-* Custom Gravity.
-  * Adjustable gravity. 
-* Infinite Stamina.
-* Save Loadout (for next fights).
-* Jump.
-  * Adjustable force.
+### 🌍 World
+- **Slow Motion**
+  - **Speed**: the speed of the game when is enabled.
+- **Custom Gravity**
+  - **Gravity**: applies a custom gravity level.
+- **Kill All Enemies**
+  - **Radius**: kills any enemy within this distance.
+  - **Snap Neck**: just another way to kill enemies.
+- **Toggle Enemy AI**
+  - **Radius**: toggles AI for enemies within this distance.
 
-## [Join the Discord server!](https://discord.gg/x3KmgsQYMp)
+### 🧑‍🚀 Player
+- **Infinite Stamina**: keeps your stamina bar full at all times.
+- **Save Loadout**: saves your current weapons and clothes for next fight.
+- **Jump**
+  - **Force**: controls how high you jump.
+- **Speed Multiplier**
+  - **Run Speed Multiplier**: makes you run faster.
+  - **Walk Speed Multiplier**: makes you walk faster.
+- **Strength Multiplier**
+  - **Strength Multiplier**: makes your body more rigid and responsive. If you have it too high (4+), your character will have a hard time to move.
+  - **Grab Force Multiplier**: makes it harder for your hands to loose grip (you can still loose grip as it seems to have a random chance, not sure).
+  - **Hands Rigidity Multiplier**: makes your punches hit harder.
+- **Invulnerability**: makes you immune to all damage.
+- **Get Up**: forces you to stand up when knocked down.
+- **Dash**
+  - **Force**: controls how fast you dash.
+- **Possess Nearest Willie**: take control of the closest NPC.
+
+### 🏹 Entities
+- **NPC Spawner**
+  - **NPC Type**: choose which NPC class to spawn.
+  - **Distance Forward**: how far in front the NPC appears.
+  - **Distance Up**: height offset for spawn position.
+  - **Scale**: size multiplier for the spawned NPC.
+  - **Team**: assign the NPC to a team number.
+  - **Bodyguard**: it won't attack you.
+- **Item Spawner**
+  - **Category**: select the item category.
+  - **Subcategory**: choose a specific item type.
+  - **Forward Distance**: how far in front the item appears.
+  - **Up Distance**: height offset for spawn position.
+  - **Scale**: size multiplier for the spawned item.
+
+And this is just the beginning, there's much more to come!
+
+## Troubleshooting & FAQ
+
+### Game crashes
+These are crashes that are not under my control and I can't do anything to fix them, at least at the moment.
+
+#### Entity Spawner
+- Your PC can't handle it.
+  - You are running too low on FPS.
+- The game can't handle it.
+  - The game is not optimized to have a lot of entities.
+  - Physics can also crash the game.
+
+#### `Jump` and `Custom Gravity`
+Currently, certain clothing or armor combinations crash the game when they fall and hit the ground with enough force; this is a game bug.
+
+### Issues
+
+#### Save Loadout
+There's a native function the mod uses to save your loadout. It only works in free mode, not in gauntlet. I'll implement a custom save later.
+
+#### When I reach a certain height I lose the fight
+An invisible trigger around the map marks anyone who touches it as the loser. I'll try to remove it in a future update.
+
+#### I can't stand or run without falling
+This is caused by the Strength Multiplier. If set too high (>4), your character may lose balance. Recommended value: 3–4.
+
+### Launcher issues
+
+#### Injection fails
+Some antivirus software blocks the launcher. Add it to exclusions or disable real-time protection.
+
+#### Fatal error on boot
+Conflicts with Mass Clown's trainer. Remove `ue4ss.dll` and `dwmapi.dll` from the game binaries folder (`<Game Folder>\HalfSwordUE5\Binaries\Win64`).
+
+## Join the Discord server!
+[Join the Discord server!](https://discord.gg/x3KmgsQYMp)
 
 * Take part in community polls to make decisions!
 * Suggest new ideas, changes or anything that comes to mind!
@@ -53,8 +150,6 @@ The mod doesn't change any game files either.
 * Become a tester and help with development!
   * Please note that tester applications are currently closed.
 * Share videos and screenshots with the community!
-
-Download the launcher from [Nexus Mods](https://www.nexusmods.com/halfsword/mods/26) or [GitHub](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer_Launcher.exe)!
 
 ## License
 
