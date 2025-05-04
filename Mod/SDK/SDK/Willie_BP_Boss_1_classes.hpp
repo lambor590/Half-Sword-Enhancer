@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Willie_BP_Boss_Master_classes.hpp"
 #include "Engine_structs.hpp"
+#include "Willie_BP_Boss_Master_classes.hpp"
 
 
 namespace SDK

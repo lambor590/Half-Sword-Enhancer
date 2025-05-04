@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Str_ArmorElements_structs.hpp"
-#include "Enum_Clothing_Material_structs.hpp"
-#include "Str_Loadout_Equipment_structs.hpp"
-#include "Engine_structs.hpp"
-#include "Enum_Tiers_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Enum_Tiers_structs.hpp"
+#include "Str_ArmorElements_structs.hpp"
+#include "Str_Loadout_Equipment_structs.hpp"
+#include "Enum_Clothing_Material_structs.hpp"
+#include "Engine_structs.hpp"
 #include "SkeletalMerging_structs.hpp"
 
 

@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "Menu_Garment_Enum_structs.hpp"
-#include "Menu_LeftHand_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Menu_LeftHand_Enum_structs.hpp"
 #include "Menu_Maps_Enum_structs.hpp"
 #include "Menu_Modes_Enum_structs.hpp"
 #include "Menu_Head_Enum_structs.hpp"
+#include "Menu_Garment_Enum_structs.hpp"
 #include "Menu_Cuirass_Enum_structs.hpp"
 #include "Menu_RightHand_Enum_structs.hpp"
 #include "Menu_Equip_Change_Enum_structs.hpp"

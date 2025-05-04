@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "Modular_Weapon_Part_Master_classes.hpp"
 #include "GripType_Enum_structs.hpp"
 #include "Engine_structs.hpp"
-#include "Weapon_Icon_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "SheathType_Enum_structs.hpp"
 #include "SwitchGrip_Type_Enum_structs.hpp"
+#include "SheathType_Enum_structs.hpp"
+#include "Weapon_Icon_Enum_structs.hpp"
+#include "Modular_Weapon_Part_Master_classes.hpp"
 
 
 namespace SDK

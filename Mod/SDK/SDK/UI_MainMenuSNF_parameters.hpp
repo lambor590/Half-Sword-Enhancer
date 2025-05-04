@@ -10,16 +10,16 @@
 
 #include "Basic.hpp"
 
+#include "Str_WeaponParts_structs.hpp"
 #include "Str_ArmorElements_structs.hpp"
 #include "UMG_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Str_Loadout_Weapons_structs.hpp"
 #include "PhysicsCore_structs.hpp"
-#include "Engine_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
-#include "Str_WeaponParts_structs.hpp"
+#include "Engine_structs.hpp"
+#include "Str_Loadout_Weapons_structs.hpp"
 #include "Str_Loadout_Armor_structs.hpp"
 #include "PlayerCharacter_Settings_Struct_structs.hpp"
 

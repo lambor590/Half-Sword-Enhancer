@@ -37,8 +37,8 @@ public:
 
 public:
 	void ExecuteUbergraph_Modular_Falchion_Blade_Master(int32 EntryPoint);
-	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void ReceiveBeginPlay();
 	void UserConstructionScript();
 
 public:

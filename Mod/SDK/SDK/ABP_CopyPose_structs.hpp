@@ -32,11 +32,5 @@ public:
 	struct FAnimNodeExposedValueHandler_PropertyAccess AnimGraphNode_CopyPoseFromMesh;               // 0x0100(0x0030)()
 };
 
-// ScriptStruct ABP_CopyPose.ABP_CopyPose_C.AnimBlueprintGeneratedMutableData
-// 0x0000 (0x0001 - 0x0001)
-struct ABP_CopyPose::FAnimBlueprintGeneratedMutableData final : public FAnimBlueprintMutableData
-{
-};
-
 }
 

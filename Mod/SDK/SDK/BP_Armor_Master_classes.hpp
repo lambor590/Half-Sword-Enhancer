@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "HideBodyPart_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Enum_Clothing_Material_structs.hpp"
-#include "Str_Medieval_Color_Swatches_structs.hpp"
 #include "Enum_Tiers_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
+#include "Str_Medieval_Color_Swatches_structs.hpp"
+#include "Enum_Clothing_Material_structs.hpp"
 
 
 namespace SDK
