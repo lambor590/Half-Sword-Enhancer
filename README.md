@@ -141,6 +141,22 @@ Some antivirus software blocks the launcher. Add it to exclusions or disable rea
 #### Fatal error on boot
 Conflicts with Mass Clown's trainer. Remove `ue4ss.dll` and `dwmapi.dll` from the game binaries folder (`<Game Folder>\HalfSwordUE5\Binaries\Win64`).
 
+#### There's an update available, but clicking `OK` does nothing
+* The auto-updater is broken for some people.
+* Download the manual install version or launcher from:
+  * [Nexus Mods](https://www.nexusmods.com/halfsword/mods/26)
+  * GitHub:
+    * [Launcher](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer_Launcher.exe)
+    * [Manual Install](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer.zip)
+
+#### Why does my antivirus flag the launcher as a Trojan?
+This is because the launcher does things that might be suspicious to antivirus software:
+* Enumerates running processes to find and inject into the game.
+* Executes commands to launch the game.
+* Auto-updates by downloading and executing another program.
+* Memory manipulation to load the mod into the game's process.
+* DLL injection: extracts and injects the mod DLL.
+
 ## Join the Discord server!
 [Join the Discord server!](https://discord.gg/x3KmgsQYMp)
 
