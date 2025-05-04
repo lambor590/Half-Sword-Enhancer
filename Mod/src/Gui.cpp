@@ -11,8 +11,10 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     if (KeybindManager::ProcessKeyEvent(msg, wParam))
         return true;
     
-    if (msg == WM_KEYDOWN && (GetAsyncKeyState(KeybindManager::GetToggleGuiKey()) & 1))
+    if (msg == WM_KEYDOWN && wParam == KeybindManager::GetToggleGuiKey()) {
         isVisible = !isVisible;
+        return true;
+    }
 
     if (isVisible && (
         ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam) || 
