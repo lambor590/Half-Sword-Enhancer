@@ -16,7 +16,8 @@ Choose between the **Launcher** or **Manual install**.
 
 ### 🚀 Launcher
 - Download the executable: [HS_Enhancer_Launcher.exe](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer_Launcher.exe)
-- Run it. It will launch the game if not open and won't modify game files.
+- Run it. It will check for updates, launch the game if not open and inject the mod.
+- Must be run each time you want to use the mod.
 
 ### 🛠️ Manual Install
 - Download the zip: [HS_Enhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer.zip)
