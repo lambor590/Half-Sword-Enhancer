@@ -64,8 +64,7 @@ public:
         };
 
         Function("Speed Multiplier")
-            .OnEvent(GameHook::GameEvent::BeginFight)
-            .OnEvent(GameHook::GameEvent::InAbyss)
+            .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&playerSpeedKey)
             .Toggle()
             .WithParams(playerSpeedParams)
@@ -81,8 +80,7 @@ public:
         };
 
         Function("Strength Multiplier")
-            .OnEvent(GameHook::GameEvent::BeginFight)
-            .OnEvent(GameHook::GameEvent::InAbyss)
+            .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&playerStrengthKey)
             .Toggle()
             .WithParams(playerStrengthParams)
@@ -94,8 +92,7 @@ public:
             }, player);
 
         Function("Invulnerability")
-            .OnEvent(GameHook::GameEvent::BeginFight)
-            .OnEvent(GameHook::GameEvent::InAbyss)
+            .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&invulnerabilityKey)
             .Toggle()
             .Action([this](bool active) {
