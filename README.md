@@ -4,6 +4,7 @@
 
 ## Table of Contents
 - [Installation](#installation)
+- [Linux Guide](Linux-Guide.md)
 - [Quick Start](#quick-start)
 - [Main features](#main-features)
 - [Detailed Features](#detailed-features)
