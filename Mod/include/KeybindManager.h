@@ -14,7 +14,8 @@ class KeybindManager {
 private:
     static int s_toggleGuiKey;
     static int s_unbindKey;
-    static std::unordered_map<int*, std::function<void()>> s_keybinds;
+    static std::unordered_map<int, std::function<void()>> s_keybinds;
+    static std::unordered_map<int*, int> s_keyPtrMap;
     static bool s_initialized;
 
 public:
@@ -38,7 +39,9 @@ public:
             {VK_SUBTRACT, "Numpad -"}, {VK_DECIMAL, "Numpad ."}, {VK_DIVIDE, "Numpad /"},
             {VK_OEM_1, ";"}, {VK_OEM_PLUS, "="}, {VK_OEM_COMMA, ","}, {VK_OEM_MINUS, "-"},
             {VK_OEM_PERIOD, "."}, {VK_OEM_2, "/"}, {VK_OEM_3, "`"}, {VK_OEM_4, "["},
-            {VK_OEM_5, "\\"}, {VK_OEM_6, "]"}, {VK_OEM_7, "'"}
+            {VK_OEM_5, "\\"}, {VK_OEM_6, "]"}, {VK_OEM_7, "'"},
+            {VK_MBUTTON, "MMB"}, {VK_XBUTTON1, "Mouse 4"},
+            {VK_XBUTTON2, "Mouse 5"}
         };
 
         if (auto it = keyNameMap.find(vKey); it != keyNameMap.end())
@@ -80,12 +83,25 @@ public:
         return false;
     }
 
-    static void RegisterKeybind(int* key, std::function<void()> callback) {
-        s_keybinds[key] = callback;
+    static void RegisterKeybind(int* keyPtr, std::function<void()> callback) {
+        auto it = s_keyPtrMap.find(keyPtr);
+        if (it != s_keyPtrMap.end()) {
+            s_keybinds.erase(it->second);
+            s_keyPtrMap.erase(it);
+        }
+        int code = *keyPtr;
+        if (code != -1) {
+            s_keybinds[code] = callback;
+            s_keyPtrMap[keyPtr] = code;
+        }
     }
 
-    static void UnregisterKeybind(int* key) {
-        s_keybinds.erase(key);
+    static void UnregisterKeybind(int* keyPtr) {
+        auto it = s_keyPtrMap.find(keyPtr);
+        if (it != s_keyPtrMap.end()) {
+            s_keybinds.erase(it->second);
+            s_keyPtrMap.erase(it);
+        }
     }
 
     static int& GetToggleGuiKey() {
@@ -100,7 +116,7 @@ public:
 
     static bool ProcessKeyEvent(UINT msg, WPARAM wParam);
 
-    static std::unordered_map<int*, std::function<void()>>& GetKeybinds() {
+    static std::unordered_map<int, std::function<void()>>& GetKeybinds() {
         return s_keybinds;
     }
 };
