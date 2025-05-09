@@ -113,6 +113,9 @@
     <ClCompile Include="SDK\SDK\Willie_BP_NoBrain_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SDK\SDK\Arena_Cutting_Map_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Hooks\DirectXHook.h">
