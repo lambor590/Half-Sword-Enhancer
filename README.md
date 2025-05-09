@@ -42,6 +42,8 @@ Spawn an NPC with custom scale then possess it:
 1. Go to **Entity Spawner** → **Spawn NPC** → open **Config** → set **Scale**.
 2. Recommended scale: `1.70`.
 3. Increase **Distance Up** (~`85`) to avoid floor clipping.
+4. Spawn the NPC.
+5. Possess it. There's no default keybind for this, so you need to bind `Possess Nearest Willie` to a key.
 
 ## Main features
 * Friendly and easy to use interface displayed in the game window itself.
