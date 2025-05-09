@@ -1,8 +1,12 @@
 #include "Menu/Utils/Spawner.h"
 
 namespace Spawner {
-    SDK::AActor* SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform) {
-        SDK::UClass* actorClass = SDK::UObject::FindClassFast(className);
+    SDK::AActor* SpawnActor(const SDK::UWorld* world, const std::string& classPath, const SDK::FTransform& transform) {
+        std::wstring wClassName(classPath.begin(), classPath.end());
+        SDK::FString classPathFStr(wClassName.c_str());
+        SDK::FSoftClassPath softClassPath = SDK::UKismetSystemLibrary::MakeSoftClassPath(classPathFStr);
+        SDK::TSoftClassPtr<SDK::UClass> softClassRef = SDK::UKismetSystemLibrary::Conv_SoftClassPathToSoftClassRef(softClassPath);
+        SDK::UClass* actorClass = SDK::UKismetSystemLibrary::LoadClassAsset_Blocking(softClassRef);
         SDK::AActor* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
             world,
             actorClass,
