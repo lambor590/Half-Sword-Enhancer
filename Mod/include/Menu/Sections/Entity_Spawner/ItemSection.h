@@ -16,7 +16,7 @@
 
 struct ItemInfo {
     const char* displayName;
-    const char* className;
+    const char* classPath;
 };
 
 enum class ItemCategory : uint8_t {
@@ -398,15 +398,15 @@ private:
         if (currentCategoryIndex == WEAPONS_INDEX) {
             auto subcategory = static_cast<WeaponSubcategory>(currentWeaponSubcategoryIndex);
             const auto& items = weaponItems[ItemCategory::Weapons][subcategory];
-            return items[currentItemIndex].className;
+            return items[currentItemIndex].classPath;
         }
         else if (currentCategoryIndex == PROPS_INDEX) {
-            return propItems[currentItemIndex].className;
+            return propItems[currentItemIndex].classPath;
         }
         else {
             ItemCategory category = static_cast<ItemCategory>(currentCategoryIndex);
             const auto& items = armorItems[category];
-            return items[currentItemIndex].className;
+            return items[currentItemIndex].classPath;
         }
     }
 
