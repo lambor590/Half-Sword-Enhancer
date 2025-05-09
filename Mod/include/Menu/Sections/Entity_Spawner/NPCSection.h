@@ -8,6 +8,9 @@
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/Utils/Spawner.h"
 
+#define WILLIE_PATH(s) "/Game/Character/Blueprints" s
+#define BOSSES_PATH(s) WILLIE_PATH("/Unique/Bosses") s
+
 struct NPCTypeInfo {
     const char* displayName;
     const char* className;
@@ -24,17 +27,17 @@ private:
     static inline int npcTypeIndex = 0;
 
     static inline const NPCTypeInfo npcTypes[] = {
-        { "Regular", "Willie_BP_C" },
-        { "No Brain", "Willie_BP_NoBrain_C" },
-        { "Boss 1", "Willie_BP_Boss_1_C" },
-        { "Boss 2", "Willie_BP_Boss_2_C" },
-        { "Boss 3", "Willie_BP_Boss_3_C" },
-        { "Boss 4", "Willie_BP_Boss_4_C" },
-        { "Boss 5", "Willie_BP_Boss_5_C" },
-        { "Boss 6", "Willie_BP_Boss_6_C" },
-        { "Boss 7", "Willie_BP_Boss_7_C" },
-        { "Boss 8", "Willie_BP_Boss_8_C" },
-        { "Boss 9 (Baron)", "Willie_BP_Boss_9_BARON_C" }
+        { "Regular", WILLIE_PATH("/Willie_BP.Willie_BP_C") },
+        { "No Brain", WILLIE_PATH("/Willie_BP_NoBrain.Willie_BP_NoBrain_C") },
+        { "Boss 1", BOSSES_PATH("/Willie_BP_Boss_1.Willie_BP_Boss_1_C") },
+        { "Boss 2", BOSSES_PATH("/Willie_BP_Boss_2.Willie_BP_Boss_2_C") },
+        { "Boss 3", BOSSES_PATH("/Willie_BP_Boss_3.Willie_BP_Boss_3_C") },
+        { "Boss 4", BOSSES_PATH("/Willie_BP_Boss_4.Willie_BP_Boss_4_C") },
+        { "Boss 5", BOSSES_PATH("/Willie_BP_Boss_5.Willie_BP_Boss_5_C") },
+        { "Boss 6", BOSSES_PATH("/Willie_BP_Boss_6.Willie_BP_Boss_6_C") },
+        { "Boss 7", BOSSES_PATH("/Willie_BP_Boss_7.Willie_BP_Boss_7_C") },
+        { "Boss 8", BOSSES_PATH("/Willie_BP_Boss_8.Willie_BP_Boss_8_C") },
+        { "Boss 9 (Baron)", BOSSES_PATH("/Willie_BP_Boss_9_BARON.Willie_BP_Boss_9_BARON_C") }
     };
     static inline const int npcTypesCount = sizeof(npcTypes) / sizeof(npcTypes[0]);
 
