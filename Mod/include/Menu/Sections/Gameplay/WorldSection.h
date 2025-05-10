@@ -7,6 +7,7 @@
 
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/Utils/Spawner.h"
+#include "SDK/Arena_Cutting_Map_classes.hpp"
 
 class WorldSection : public CollapsibleSection {
 private:
@@ -26,6 +27,9 @@ private:
     static inline int destroyWilliesKey = -1;
     static inline bool destroyDeadOnly = true;
     static inline bool destroyDisintegrate = true;
+
+    static inline int clearBloodKey = -1;
+    static inline float clearBloodAmount = 0.1f;
 
 public:
     WorldSection() : CollapsibleSection("World") {
@@ -117,5 +121,16 @@ public:
                             ? w->Disintegrate_and_drop_armor(true)
                             : w->K2_DestroyActor();
             }, player, world);
+
+        std::initializer_list<Parameter> clearBloodParams = {
+            Parameter("amount", "Amount", &clearBloodAmount, 0.0f, 1.0f)
+        };
+
+        Function("Clear Blood")
+            .WithKey(&clearBloodKey)
+            .WithParams(clearBloodParams)
+            .Action([this]() {
+                static_cast<SDK::AArena_Cutting_Map_C*>(world->PersistentLevel->LevelScriptActor)->Clean_Blood(clearBloodAmount);
+            }, world);
     }
 };
