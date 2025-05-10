@@ -89,6 +89,7 @@ public:
                 player->R_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
                 player->L_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
                 player->Hands_Rigidity__Gauntlets_ = active ? (0.666f * playerHandsRigidityMultiplier) : 0.666f;
+                player->All_Body_Tonus = 1.0f * playerStrengthMultiplier;
             }, player);
 
         Function("Invulnerability")
