@@ -23,6 +23,10 @@ private:
     static inline int toggleEnemyAIKey = -1;
     static inline float toggleEnemyAIRadius = 1000.0f;
 
+    static inline int destroyWilliesKey = -1;
+    static inline bool destroyDeadOnly = true;
+    static inline bool destroyDisintegrate = true;
+
 public:
     WorldSection() : CollapsibleSection("World") {
         std::initializer_list<Parameter> slowMotionParams = {
@@ -93,6 +97,25 @@ public:
                         controller->SetActorTickEnabled(newTickEnabled);
                     }
                 }
+            }, player, world);
+
+        std::initializer_list<Parameter> destroyWilliesParams = {
+            Parameter("deadOnly", "Only Dead", &destroyDeadOnly),
+            Parameter("disintegrate", "Disintegrate", &destroyDisintegrate)
+        };
+
+        Function("Destroy All Willies")
+            .WithKey(&destroyWilliesKey)
+            .WithParams(destroyWilliesParams)
+            .Action([this]() {
+                SDK::TArray<SDK::AActor*> actors;
+                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
+                for (auto* actor : actors)
+                    if (auto* w = static_cast<SDK::AWillie_BP_C*>(actor);
+                        w != player && (!destroyDeadOnly || w->Health <= 0))
+                        destroyDisintegrate
+                            ? w->Disintegrate_and_drop_armor(true)
+                            : w->K2_DestroyActor();
             }, player, world);
     }
 };
