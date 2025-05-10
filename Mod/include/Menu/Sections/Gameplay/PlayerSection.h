@@ -14,6 +14,9 @@ class PlayerSection : public CollapsibleSection {
 private:
     static inline int saveLoadoutKey = 0x54; // T
     static inline int infiniteStaminaKey = 0x49; // I
+    static inline int getUpKey = -1;
+    static inline int possessWillieKey = -1;
+    static inline int invulnerabilityKey = -1;
 
     static inline int jumpKey = 0x4A; // J
     static inline float jumpForce = 5000.0f;
@@ -27,14 +30,8 @@ private:
     static inline float playerGrabForceMultiplier = 1.0f;
     static inline float playerHandsRigidityMultiplier = 1.0f;
 
-    static inline int invulnerabilityKey = -1;
-
-    static inline int getUpKey = -1;
-
     static inline int dashKey = -1;
     static inline float dashForce = 7000.0f;
-
-    static inline int possessWillieKey = -1;
 
 public:
     PlayerSection() : CollapsibleSection("Player") {
