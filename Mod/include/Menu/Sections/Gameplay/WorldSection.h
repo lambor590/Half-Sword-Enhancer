@@ -31,6 +31,8 @@ private:
     static inline int clearBloodKey = -1;
     static inline float clearBloodAmount = 0.1f;
 
+    static inline int setGamePausedKey = -1;
+
 public:
     WorldSection() : CollapsibleSection("World") {
         std::initializer_list<Parameter> slowMotionParams = {
@@ -131,6 +133,14 @@ public:
             .WithParams(clearBloodParams)
             .Action([this]() {
                 static_cast<SDK::AArena_Cutting_Map_C*>(world->PersistentLevel->LevelScriptActor)->Clean_Blood(clearBloodAmount);
+            }, world);
+
+        Function("Toggle Game Paused")
+            .WithKey(&setGamePausedKey)
+            .Action([this]() {
+                SDK::UGameplayStatics::IsGamePaused(world) ?
+                    SDK::UGameplayStatics::SetGamePaused(world, false) :
+                    SDK::UGameplayStatics::SetGamePaused(world, true);
             }, world);
     }
 };
