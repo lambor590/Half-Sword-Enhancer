@@ -14,9 +14,12 @@ class PlayerSection : public CollapsibleSection {
 private:
     static inline int saveLoadoutKey = 0x54; // T
     static inline int infiniteStaminaKey = 0x49; // I
+    static inline int infiniteCounciousnessKey = -1;
     static inline int getUpKey = -1;
     static inline int possessWillieKey = -1;
     static inline int invulnerabilityKey = -1;
+    static inline int noPainKey = -1;
+    static inline int noKickCooldownKey = -1;
 
     static inline int jumpKey = 0x4A; // J
     static inline float jumpForce = 5000.0f;
@@ -40,6 +43,13 @@ public:
             .WithKey(&infiniteStaminaKey)
             .Action([this]() {
                 player->Stamina = 100.0f;
+            }, player);
+
+        Function("Infinite Counciousness")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&infiniteCounciousnessKey)
+            .Action([this]() {
+                player->Consciousness = 100.0f;
             }, player);
 
         Function("Save Loadout")
@@ -71,7 +81,7 @@ public:
             }, player);
 
         std::initializer_list<Parameter> playerStrengthParams = {
-            Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 4.0f),
+            Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 3.5f),
             Parameter("grab_force_multiplier", "Grab Force Multiplier", &playerGrabForceMultiplier, 1.0f, 10.0f),
             Parameter("hands_rigidity_multiplier", "Hands Rigidity Multiplier", &playerHandsRigidityMultiplier, 1.0f, 10.0f)
         };
@@ -86,7 +96,13 @@ public:
                 player->R_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
                 player->L_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
                 player->Hands_Rigidity__Gauntlets_ = active ? (0.666f * playerHandsRigidityMultiplier) : 0.666f;
-                player->All_Body_Tonus = 1.0f * playerStrengthMultiplier;
+            }, player);
+
+        Function("No Kick Cooldown")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&noKickCooldownKey)
+            .Action([this]() {
+                player->Kick_Cooldown = false;
             }, player);
 
         Function("Invulnerability")
@@ -96,6 +112,40 @@ public:
             .Action([this](bool active) {
                 player->BitPad_5C_0 = active;
                 player->Invulnerable = active;
+            }, player);
+
+        Function("No Pain")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&noPainKey)
+            .Action([this]() {
+                player->Health = 100.0f;
+                player->Neck_Health = 10000000.0f;
+                player->Head_Health = 10000000.0f;
+                player->Body_Upper_Health = 100.0f;
+                player->Body_Lower_Health = 100.0f;
+                player->Arm_R_Health = 100.0f;
+                player->Arm_L_Health = 100.0f;
+                player->Leg_R_Health = 100.0f;
+                player->Leg_L_Health = 100.0f;
+                player->Head_Health__Crush_ = 100.0f;
+                player->Pain_Lower_Body = 0.0f;
+                player->Pain_Upper_Body = 0.0f;
+                player->Pain_Neck = 0.0f;
+                player->Pain_Head = 0.0f;
+                player->Pain_Arm_R = 0.0f;
+                player->Pain_Arm_L = 0.0f;
+                player->Pain_Leg_R = 0.0f;
+                player->Pain_Leg_L = 0.0f;
+                player->Pain = 0.0f;
+                player->Pain_L_Arm_Alpha = 0.0f;
+                player->Pain_R_Arm_Alpha = 0.0f;
+                player->Pain_Shock = 0.0f;
+                player->Current_Pain_Threshold = 0.0f;
+                player->Pain_Grab_Rate = 0.0f;
+                player->Pain_Shock_Rate = 0.0f;
+                player->Pain_Shock_Interp = 0.0f;
+                player->Health_Threshold_For_Dismemberment = 0.0f;
+                player->Sustained_Damage = 0.0f;
             }, player);
 
         Function("Get Up")
