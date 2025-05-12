@@ -14,7 +14,7 @@ std::vector<int> KeybindManager::s_boundCodes;
 const char* KeybindManager::s_keyNameTable[256];
 static void InitKeyNameTable() noexcept {
     for (int i = 0; i < 256; ++i) KeybindManager::s_keyNameTable[i] = "Unknown";
-    KeybindManager::s_keyNameTable[static_cast<unsigned char>(-1)] = "Unbound";
+    KeybindManager::s_keyNameTable[255] = "Unbound";
     KeybindManager::s_keyNameTable[VK_LSHIFT]      = "Left Shift";
     KeybindManager::s_keyNameTable[VK_RSHIFT]      = "Right Shift";
     KeybindManager::s_keyNameTable[VK_SHIFT]       = "Shift";
