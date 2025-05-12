@@ -6,6 +6,11 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
 {
     if (state.mustInitResources && !InitD3DResources(pThis)) return;
     
+    if (!Gui::IsVisible()) {
+        state.mustInitResources = false;
+        return;
+    }
+    
     SignalFenceAndWait();
     RenderFrame();
     
