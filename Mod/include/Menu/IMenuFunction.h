@@ -168,6 +168,7 @@ protected:
     std::string keyId;
     std::string checkId;
     std::string popupId;
+    std::string paramButtonId;
     bool popupWasOpen = false;
 
     int* key;
@@ -181,7 +182,8 @@ protected:
                 const std::string& idPrefix, const std::string& keyId,
                 const std::string& checkId, const std::string& popupId,
                 bool toggleable)
-        : name(funcName), idPrefix(idPrefix), keyId(keyId), checkId(checkId), popupId(popupId),
+        : name(funcName), idPrefix(idPrefix), keyId(keyId), checkId(checkId),
+          popupId(popupId), paramButtonId("Config##param_" + idPrefix),
           key(keyPtr), callback(std::move(callback)), waitingForKey(false), prevKey(*key), toggleable(toggleable) {}
 
     virtual void OnKeyAssigned() = 0;
