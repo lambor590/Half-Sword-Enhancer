@@ -41,34 +41,33 @@ static inline void RenderName(const std::string& name, bool isDisabled) {
     );
 }
 
-static bool RenderParametersButton(const std::string& id, const std::string& name) {
+static bool RenderParametersButton(const char* buttonId, const std::string& name) {
     ImGui::SameLine();
     ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 75);
-    
-    bool clicked = ImGui::Button(("Config##param_" + id).c_str());
-    
+    bool clicked = ImGui::Button(buttonId);
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
         ImGui::Text("Open configuration for %s", name.c_str());
         ImGui::EndTooltip();
     }
-    
     return clicked;
 }
 
-void HookedFunction::Render() {
+void KeyFunction::Render() {
     RenderKeyButton(keyId.c_str(), waitingForKey, *key);
     ImGui::SameLine();
-    
-    bool currentEnabled = isEnabled;
-    if (ImGui::Checkbox(checkId.c_str(), &currentEnabled) && currentEnabled != isEnabled)
-        SetEnabled(currentEnabled);
-    
-    ImGui::SameLine();
-    RenderName(name, !isEnabled && *key == -1);
+    if (toggleable) {
+        bool currentEnabled = isEnabled;
+        if (ImGui::Checkbox(checkId.c_str(), &currentEnabled) && currentEnabled != isEnabled)
+            SetEnabled(currentEnabled);
+        ImGui::SameLine();
+        RenderName(name, !isEnabled && *key == -1);
+    } else {
+        RenderName(name, *key == -1);
+    }
 
     if (!GetParameters().empty()) {
-        if (RenderParametersButton(idPrefix, name))
+        if (RenderParametersButton(paramButtonId.c_str(), name))
             ImGui::OpenPopup(popupId.c_str());
         bool isPopupOpen = ImGui::BeginPopup(popupId.c_str());
         if (isPopupOpen) {
@@ -82,35 +81,19 @@ void HookedFunction::Render() {
     }
 
     if (KeybindManager::HandleKeyPress(waitingForKey, *key))
-        SetKey();
-    else if (!waitingForKey && *key != -1 && (GetAsyncKeyState(*key) & 1))
+        OnKeyAssigned();
+    else if (toggleable && !waitingForKey && *key != -1 && (GetAsyncKeyState(*key) & 1))
         SetEnabled(!isEnabled);
 }
 
-void KeybindFunction::Render() {
-    RenderKeyButton(keyId.c_str(), waitingForKey, *key);
-    ImGui::SameLine();
-    RenderName(name, *key == -1);
+void KeybindFunction::OnKeyAssigned() {
+    if (*key != -1)
+        KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
+    UpdateKey();
+}
 
-    if (!GetParameters().empty()) {
-        if (RenderParametersButton(idPrefix, name))
-            ImGui::OpenPopup(popupId.c_str());
-        bool isPopupOpen = ImGui::BeginPopup(popupId.c_str());
-        if (isPopupOpen) {
-            RenderParameters();
-            ImGui::EndPopup();
-            popupWasOpen = true;
-        } else if (popupWasOpen) {
-            SaveParameters();
-            popupWasOpen = false;
-        }
-    }
-
-    if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
-        if (*key != -1)
-            KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
-        UpdateKey();
-    }
+void HookedFunction::OnKeyAssigned() {
+    SetKey();
 }
 
 void Parameter::Render() {
