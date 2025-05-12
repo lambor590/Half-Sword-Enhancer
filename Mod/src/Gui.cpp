@@ -139,9 +139,6 @@ void Gui::Setup() {
 }
 
 void Gui::Render() {
-    if (!isVisible)
-        return;
-
     ImGui_ImplWin32_NewFrame();
     ImGui_ImplDX11_NewFrame();
     ImGui::NewFrame();
