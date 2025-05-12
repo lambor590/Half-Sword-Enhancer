@@ -31,6 +31,7 @@ public:
     void Setup();
     void Render();
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+    static bool IsVisible() { return isVisible; }
 
 private:
     void SetupStyle();
