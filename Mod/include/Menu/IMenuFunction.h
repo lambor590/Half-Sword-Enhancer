@@ -167,7 +167,6 @@ private:
     std::string idPrefix;
     std::string keyId;
     std::string checkId;
-    std::string paramButtonId;
     std::string popupId;
     bool popupWasOpen = false;
 
@@ -186,7 +185,6 @@ public:
           idPrefix("##Hook_" + funcName),
           keyId(idPrefix + "_key"),
           checkId("##check" + idPrefix),
-          paramButtonId("Config##param_" + idPrefix),
           popupId("ConfigParams" + idPrefix),
           callback(std::move(callback)),
           key(keyPtr),
@@ -215,7 +213,6 @@ private:
     // imgui ids
     std::string idPrefix;
     std::string keyId;
-    std::string paramButtonId;
     std::string popupId;
     bool popupWasOpen = false;
 
@@ -231,7 +228,6 @@ public:
         : name(funcName),
           idPrefix("##Key_" + funcName),
           keyId(idPrefix),
-          paramButtonId("Config##param_" + idPrefix),
           popupId("ConfigParams" + idPrefix),
           key(keyPtr),
           callback(std::move(callback)),
