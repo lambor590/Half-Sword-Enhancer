@@ -160,59 +160,13 @@ public:
     const std::vector<Parameter>& GetParameters() const { return parameters; }
 };
 
-class HookedFunction : public IMenuFunction {
-private:
+
+class KeyFunction : public IMenuFunction {
+protected:
     std::string name;
-    // imgui ids
     std::string idPrefix;
     std::string keyId;
     std::string checkId;
-    std::string popupId;
-    bool popupWasOpen = false;
-
-    std::vector<GameHook::GameEvent> eventTypes;
-    std::function<void(bool)> callback;
-    int* key;
-    bool waitingForKey = false;
-    int prevKey = 0;
-    bool executeOnToggle = false;
-
-public:
-    HookedFunction(const std::string& funcName,
-                   const std::vector<GameHook::GameEvent>& events,
-                   std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
-        : name(funcName),
-          idPrefix("##Hook_" + funcName),
-          keyId(idPrefix + "_key"),
-          checkId("##check" + idPrefix),
-          popupId("ConfigParams" + idPrefix),
-          callback(std::move(callback)),
-          key(keyPtr),
-          prevKey(*key),
-          executeOnToggle(executeOnToggle),
-          eventTypes(events) {
-        LoadConfig();
-    }
-
-    ~HookedFunction() override;
-
-    void LoadConfig();
-    void Render() override;
-    const std::string& GetName() const override { return name; }
-    const std::function<void(bool)>& GetCallback() const { return callback; }
-
-    int GetKey() const { return key ? *key : 0; }
-    void SetKey();
-    bool IsEnabled() const { return isEnabled; }
-    void SetEnabled(bool enabled) override;
-};
-
-class KeybindFunction : public IMenuFunction {
-private:
-    std::string name;
-    // imgui ids
-    std::string idPrefix;
-    std::string keyId;
     std::string popupId;
     bool popupWasOpen = false;
 
@@ -222,27 +176,69 @@ private:
     int prevKey = 0;
     bool toggleable = false;
 
+    KeyFunction(const std::string& funcName, int* keyPtr,
+                std::function<void(bool)> callback,
+                const std::string& idPrefix, const std::string& keyId,
+                const std::string& checkId, const std::string& popupId,
+                bool toggleable)
+        : name(funcName), idPrefix(idPrefix), keyId(keyId), checkId(checkId), popupId(popupId),
+          key(keyPtr), callback(std::move(callback)), waitingForKey(false), prevKey(*key), toggleable(toggleable) {}
+
+    virtual void OnKeyAssigned() = 0;
+
+public:
+    void Render() override;
+    const std::string& GetName() const override { return name; }
+    int GetKey() const { return key ? *key : 0; }
+    const std::function<void(bool)>& GetCallback() const { return callback; }
+};
+
+class HookedFunction : public KeyFunction {
+protected:
+    void OnKeyAssigned() override;
+
+private:
+    std::vector<GameHook::GameEvent> eventTypes;
+    bool executeOnToggle = false;
+
+public:
+    HookedFunction(const std::string& funcName,
+                   const std::vector<GameHook::GameEvent>& events,
+                   std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
+        : KeyFunction(funcName, keyPtr, std::move(callback),
+                      "##Hook_" + funcName,
+                      "##Hook_" + funcName + "_key",
+                      "##check##Hook_" + funcName,
+                      "ConfigParams##Hook_" + funcName,
+                      true),
+          eventTypes(events), executeOnToggle(executeOnToggle) {
+        LoadConfig();
+    }
+
+    ~HookedFunction() override;
+
+    void LoadConfig();
+    void SetEnabled(bool enabled) override;
+    void SetKey();
+};
+
+class KeybindFunction : public KeyFunction {
+protected:
+    void OnKeyAssigned() override;
+
 public:
     KeybindFunction(const std::string& funcName, int* keyPtr,
                     std::function<void(bool)> callback, bool toggleable = false)
-        : name(funcName),
-          idPrefix("##Key_" + funcName),
-          keyId(idPrefix),
-          popupId("ConfigParams" + idPrefix),
-          key(keyPtr),
-          callback(std::move(callback)),
-          toggleable(toggleable),
-          prevKey(*key) {
+        : KeyFunction(funcName, keyPtr, std::move(callback),
+                      "##Key_" + funcName,
+                      "##Key_" + funcName + "_key",
+                      "##check##Key_" + funcName,
+                      "ConfigParams##Key_" + funcName,
+                      toggleable) {
         LoadConfig();
     }
 
     void LoadConfig();
-    void Render() override;
     void SetEnabled(bool enabled) override;
-    bool IsEnabled() const { return isEnabled; }
-    const std::string& GetName() const override { return name; }
-    int* GetKey() const { return key; }
-    const std::function<void(bool)>& GetCallback() const { return callback; }
-
     void UpdateKey();
 };
