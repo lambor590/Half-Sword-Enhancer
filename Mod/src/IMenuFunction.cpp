@@ -59,7 +59,7 @@ void KeybindFunction::SetEnabled(bool enabled) {
             if (*key != -1)
                 KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
         } else {
-            KeybindManager::UnregisterKeybind(&prevKey);
+            KeybindManager::UnregisterKeybind(key);
         }
         g_ConfigManager.SaveConfig();
     }
@@ -82,7 +82,7 @@ void KeybindFunction::UpdateKey() {
     if (toggleable) {
         if (prevKey != *key) {
             if (isEnabled) {
-                KeybindManager::UnregisterKeybind(&prevKey);
+                KeybindManager::UnregisterKeybind(key);
                 if (*key != -1)
                     KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
             }
@@ -91,7 +91,7 @@ void KeybindFunction::UpdateKey() {
             g_ConfigManager.SaveConfig();
         }
     } else {
-        KeybindManager::UnregisterKeybind(&prevKey);
+        KeybindManager::UnregisterKeybind(key);
         if (prevKey != *key) {
             prevKey = *key;
             SaveConfig("key", *key);
