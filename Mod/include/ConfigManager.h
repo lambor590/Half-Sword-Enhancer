@@ -26,7 +26,6 @@ public:
 
     void SaveConfig();
     void LoadConfig();
-    void EnsureSectionExists(const std::string& function);
 
     int GetInt(const std::string& function, const std::string& param, int defaultValue);
                

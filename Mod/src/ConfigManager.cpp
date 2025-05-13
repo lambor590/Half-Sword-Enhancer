@@ -45,12 +45,6 @@ void ConfigManager::LoadConfig() {
     }
 }
 
-void ConfigManager::EnsureSectionExists(const std::string& function) {
-    if (!ini.SectionExists(function.c_str())) {
-        ini.SetValue(function.c_str(), nullptr, nullptr);
-    }
-}
-
 int ConfigManager::GetInt(const std::string& function, const std::string& param, int defaultValue) {
     return ini.GetLongValue(function.c_str(), param.c_str(), defaultValue);
 }
@@ -69,22 +63,18 @@ std::string ConfigManager::GetString(const std::string& function, const std::str
 }
 
 void ConfigManager::SetInt(const std::string& function, const std::string& param, int value) {
-    EnsureSectionExists(function);
     ini.SetLongValue(function.c_str(), param.c_str(), value);
 }
 
 void ConfigManager::SetBool(const std::string& function, const std::string& param, bool value) {
-    EnsureSectionExists(function);
     ini.SetBoolValue(function.c_str(), param.c_str(), value);
 }
 
 void ConfigManager::SetFloat(const std::string& function, const std::string& param, float value) {
-    EnsureSectionExists(function);
     ini.SetDoubleValue(function.c_str(), param.c_str(), value);
 }
 
 void ConfigManager::SetString(const std::string& function, const std::string& param, 
                              const std::string& value) {
-    EnsureSectionExists(function);
     ini.SetValue(function.c_str(), param.c_str(), value.c_str());
 }
