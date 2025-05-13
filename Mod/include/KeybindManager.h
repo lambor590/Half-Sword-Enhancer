@@ -6,6 +6,7 @@
 #include <utility>
 
 class ConfigManager;
+class IMenuFunction;
 extern ConfigManager& g_ConfigManager;
 
 class KeybindManager {
@@ -15,7 +16,8 @@ public:
 
 private:
     static Callback s_callbacks[256];
-    static std::vector<std::pair<int*, Callback>> s_bindingList;
+    struct Binding { int* keyPtr; Callback callback; IMenuFunction* function; };
+    static std::vector<Binding> s_bindingList;
     static bool s_initialized;
     static int s_toggleGuiKey;
     static int s_unbindKey;
@@ -24,7 +26,7 @@ private:
 public:
     static void Initialize() noexcept;
 
-    static void RegisterKeybind(int* keyPtr, Callback callback) noexcept;
+    static void RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept;
     static void UnregisterKeybind(int* keyPtr) noexcept;
     static void UpdateBindings() noexcept;
     static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;
@@ -38,4 +40,8 @@ public:
     static int& GetToggleGuiKey() noexcept { return s_toggleGuiKey; }
     static int& GetUnbindKey() noexcept { return s_unbindKey; }
     static void SaveKeybinds() noexcept;
+
+    static bool IsKeyBound(int code, int* excludeKeyPtr = nullptr) noexcept;
+    static void RemoveBinding(int code, int* excludeKeyPtr = nullptr) noexcept;
+    static IMenuFunction* GetBoundFunction(int code, int* excludeKeyPtr = nullptr) noexcept;
 };
