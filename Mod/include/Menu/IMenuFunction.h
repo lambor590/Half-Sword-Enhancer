@@ -176,6 +176,11 @@ protected:
     bool waitingForKey = false;
     int prevKey = 0;
     bool toggleable = false;
+    std::string conflictPopupId;
+    std::string replaceButtonId;
+    std::string cancelButtonId;
+    int pendingConflictKey;
+    int* pendingConflictKeyPtr;
 
     KeyFunction(const std::string& funcName, int* keyPtr,
                 std::function<void(bool)> callback,
@@ -184,7 +189,11 @@ protected:
                 bool toggleable)
         : name(funcName), idPrefix(idPrefix), keyId(keyId), checkId(checkId),
           popupId(popupId), paramButtonId("Config##param_" + idPrefix),
-          key(keyPtr), callback(std::move(callback)), waitingForKey(false), prevKey(*key), toggleable(toggleable) {}
+          key(keyPtr), callback(std::move(callback)), waitingForKey(false), prevKey(*key), toggleable(toggleable),
+          conflictPopupId("Key Conflict##KeyConflict" + idPrefix),
+          replaceButtonId("Replace##KeyConflict" + idPrefix),
+          cancelButtonId("Cancel##KeyConflict" + idPrefix),
+          pendingConflictKey(0), pendingConflictKeyPtr(nullptr) {}
 
     virtual void OnKeyAssigned() = 0;
 
