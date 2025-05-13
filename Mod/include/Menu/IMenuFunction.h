@@ -179,6 +179,7 @@ protected:
     std::string conflictPopupId;
     std::string replaceButtonId;
     std::string cancelButtonId;
+    std::string chooseButtonId;
     int pendingConflictKey;
     int* pendingConflictKeyPtr;
 
@@ -192,7 +193,8 @@ protected:
           key(keyPtr), callback(std::move(callback)), waitingForKey(false), prevKey(*key), toggleable(toggleable),
           conflictPopupId("Key Conflict##KeyConflict" + idPrefix),
           replaceButtonId("Replace##KeyConflict" + idPrefix),
-          cancelButtonId("Cancel##KeyConflict" + idPrefix),
+          cancelButtonId("Keep##KeyConflict" + idPrefix),
+          chooseButtonId("Remap##KeyConflict" + idPrefix),
           pendingConflictKey(0), pendingConflictKeyPtr(nullptr) {}
 
     virtual void OnKeyAssigned() = 0;
