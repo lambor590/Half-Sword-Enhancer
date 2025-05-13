@@ -3,9 +3,10 @@
 #include "KeybindManager.h"
 #include "ConfigManager.h"
 #include "GlobalDefinitions.h"
+#include "Menu/IMenuFunction.h"
 
 KeybindManager::Callback KeybindManager::s_callbacks[256] = {};
-std::vector<std::pair<int*, KeybindManager::Callback>> KeybindManager::s_bindingList;
+std::vector<KeybindManager::Binding> KeybindManager::s_bindingList;
 bool KeybindManager::s_initialized = false;
 int KeybindManager::s_toggleGuiKey = VK_INSERT;
 int KeybindManager::s_unbindKey = VK_DELETE;
@@ -94,16 +95,16 @@ void KeybindManager::Initialize() noexcept {
     }
 }
 
-void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback) noexcept {
+void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept {
     auto it = std::find_if(s_bindingList.begin(), s_bindingList.end(),
-        [keyPtr](const auto& p) { return p.first == keyPtr; });
+        [keyPtr](const auto& b) { return b.keyPtr == keyPtr; });
     if (it != s_bindingList.end()) {
-        int oldCode = *it->first;
+        int oldCode = *it->keyPtr;
         if (oldCode >= 0 && oldCode < 256)
             s_callbacks[oldCode] = nullptr;
-        *it = {keyPtr, callback};
+        *it = Binding{keyPtr, callback, function};
     } else {
-        s_bindingList.emplace_back(keyPtr, callback);
+        s_bindingList.emplace_back(Binding{keyPtr, callback, function});
     }
     int code = *keyPtr;
     if (code >= 0 && code < 256)
@@ -112,9 +113,9 @@ void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback) noexcept {
 
 void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
     auto it = std::find_if(s_bindingList.begin(), s_bindingList.end(),
-        [keyPtr](const auto& p) { return p.first == keyPtr; });
+        [keyPtr](const auto& b) { return b.keyPtr == keyPtr; });
     if (it != s_bindingList.end()) {
-        int code = *it->first;
+        int code = *it->keyPtr;
         if (code >= 0 && code < 256)
             s_callbacks[code] = nullptr;
         s_bindingList.erase(it);
@@ -128,9 +129,9 @@ void KeybindManager::UpdateBindings() noexcept {
     }
     s_boundCodes.clear();
     for (auto& binding : s_bindingList) {
-        int code = *binding.first;
+        int code = *binding.keyPtr;
         if (code >= 0 && code < 256) {
-            s_callbacks[code] = binding.second;
+            s_callbacks[code] = binding.callback;
             s_boundCodes.push_back(code);
         }
     }
@@ -186,4 +187,37 @@ void KeybindManager::SaveKeybinds() noexcept {
     g_ConfigManager.SetInt("Keybinds", "toggle_gui_key", s_toggleGuiKey);
     g_ConfigManager.SetInt("Keybinds", "unbind_key", s_unbindKey);
     g_ConfigManager.SaveConfig();
+}
+
+bool KeybindManager::IsKeyBound(int code, int* excludeKeyPtr) noexcept {
+    for (auto& b : s_bindingList) {
+        if (b.keyPtr != excludeKeyPtr && *b.keyPtr == code)
+            return true;
+    }
+    return false;
+}
+
+void KeybindManager::RemoveBinding(int code, int* excludeKeyPtr) noexcept {
+    for (auto& b : s_bindingList) {
+        if (b.keyPtr != excludeKeyPtr && *b.keyPtr == code) {
+            *b.keyPtr = -1;
+            if (b.function) {
+                if (auto kf = dynamic_cast<KeyFunction*>(b.function)) {
+                    kf->ResetPrevKey();
+                    kf->SaveConfig("key", *b.keyPtr);
+                    g_ConfigManager.SaveConfig();
+                }
+            }
+            UnregisterKeybind(b.keyPtr);
+            return;
+        }
+    }
+}
+
+IMenuFunction* KeybindManager::GetBoundFunction(int code, int* excludeKeyPtr) noexcept {
+    for (const auto& b : s_bindingList) {
+        if (b.keyPtr != excludeKeyPtr && *b.keyPtr == code)
+            return b.function;
+    }
+    return nullptr;
 } 
