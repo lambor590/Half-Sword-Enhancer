@@ -193,6 +193,7 @@ public:
     const std::string& GetName() const override { return name; }
     int GetKey() const { return key ? *key : 0; }
     const std::function<void(bool)>& GetCallback() const { return callback; }
+    void ResetPrevKey() { prevKey = *key; }
 };
 
 class HookedFunction : public KeyFunction {
