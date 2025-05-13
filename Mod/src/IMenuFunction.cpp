@@ -40,6 +40,8 @@ void HookedFunction::SetEnabled(bool enabled) {
 void HookedFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
+    if (*key != -1)
+        KeybindManager::RegisterKeybind(key, [this]() { SetEnabled(!isEnabled); }, this);
     LoadEnabledState(false);
     if (isEnabled) {
         for (auto evt : eventTypes)
@@ -55,7 +57,7 @@ void KeybindFunction::SetEnabled(bool enabled) {
         SaveConfig("enabled", enabled);
         if (isEnabled) {
             if (*key != -1)
-                KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
+                KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
         } else {
             KeybindManager::UnregisterKeybind(&prevKey);
         }
@@ -68,10 +70,10 @@ void KeybindFunction::LoadConfig() {
     prevKey = *key;
     if (toggleable) {
         if (this->LoadEnabledState(false) && isEnabled && *key != -1)
-            KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
+            KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
     } else {
         if (*key != -1)
-            KeybindManager::RegisterKeybind(key, [this]() { callback(true); });
+            KeybindManager::RegisterKeybind(key, [this]() { callback(true); }, this);
     }
     LoadParameters();
 }
@@ -82,7 +84,7 @@ void KeybindFunction::UpdateKey() {
             if (isEnabled) {
                 KeybindManager::UnregisterKeybind(&prevKey);
                 if (*key != -1)
-                    KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
+                    KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
             }
             prevKey = *key;
             SaveConfig("key", *key);
@@ -95,7 +97,7 @@ void KeybindFunction::UpdateKey() {
             SaveConfig("key", *key);
             g_ConfigManager.SaveConfig();
             if (*key != -1)
-                KeybindManager::RegisterKeybind(key, [this]() { callback(true); });
+                KeybindManager::RegisterKeybind(key, [this]() { callback(true); }, this);
         }
     }
 }
