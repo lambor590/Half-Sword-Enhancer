@@ -18,12 +18,12 @@ void CollapsibleSection::Render() {
         ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 25.0f);
         
         ImGui::Indent(10.0f);
-        
         ImGui::Spacing();
         
-        for (auto& function : functions) {
-            function->Render();
-            ImGui::Spacing();
+        const size_t count = functions.size();
+        for (size_t i = 0; i < count; ++i) {
+            functions[i]->Render();
+            if (i < count - 1) ImGui::Spacing();
         }
         
         ImGui::Unindent(10.0f);
