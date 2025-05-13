@@ -7,6 +7,151 @@ bool Gui::isVisible = true;
 
 Logger logger("Gui");
 
+void MedievalStyle::PushButtonStyle() {
+    ImGui::PushStyleColor(ImGuiCol_Button, darkWood);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, lightWood);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, oldBrass);
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.90f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
+}
+
+void MedievalStyle::PopButtonStyle() {
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(4);
+}
+
+void MedievalStyle::PushCheckboxStyle() {
+    ImGui::PushStyleColor(ImGuiCol_FrameBg, darkWood);
+    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, mediumWood);
+    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, darkLeather);
+    ImGui::PushStyleColor(ImGuiCol_CheckMark, brightBrass);
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
+}
+
+void MedievalStyle::PopCheckboxStyle() {
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(5);
+}
+
+void MedievalStyle::PushInputStyle() {
+    ImGui::PushStyleColor(ImGuiCol_FrameBg, darkWood);
+    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, mediumWood);
+    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, darkLeather);
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
+}
+
+void MedievalStyle::PopInputStyle() {
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(4);
+}
+
+void MedievalStyle::PushHeaderStyle() {
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.28f, 0.19f, 0.11f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.38f, 0.26f, 0.15f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0.44f, 0.30f, 0.18f, 1.00f));
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f));
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 8));
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(12, 10));
+}
+
+void MedievalStyle::PopHeaderStyle() {
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(4);
+}
+
+void MedievalStyle::PushPopupStyle() {
+    ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.12f, 0.09f, 0.06f, 0.98f));
+    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f));
+    ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 1.0f);
+    ImGui::PushStyleVar(ImGuiStyleVar_PopupRounding, 4.0f);
+}
+
+void MedievalStyle::PopPopupStyle() {
+    ImGui::PopStyleVar(2);
+    ImGui::PopStyleColor(2);
+}
+
+void MedievalStyle::ApplyGlobalStyle() {
+    ImGuiStyle& style = ImGui::GetStyle();
+    ImVec4* colors = style.Colors;
+    
+    colors[ImGuiCol_WindowBg] = black;
+    colors[ImGuiCol_Border] = oldBrass;
+    colors[ImGuiCol_BorderShadow] = shadow;
+    colors[ImGuiCol_Text] = parchment;
+    colors[ImGuiCol_TextDisabled] = ImVec4(0.65f, 0.60f, 0.55f, 1.00f);
+    
+    colors[ImGuiCol_Header] = darkWood;
+    colors[ImGuiCol_HeaderHovered] = mediumWood;
+    colors[ImGuiCol_HeaderActive] = darkLeather;
+    
+    colors[ImGuiCol_Tab] = darkWood;
+    colors[ImGuiCol_TabHovered] = mediumWood;
+    colors[ImGuiCol_TabActive] = lightWood;
+    colors[ImGuiCol_TabUnfocused] = darkInk;
+    colors[ImGuiCol_TabUnfocusedActive] = darkWood;
+    
+    colors[ImGuiCol_Button] = darkWood;
+    colors[ImGuiCol_ButtonHovered] = lightWood;
+    colors[ImGuiCol_ButtonActive] = oldBrass;
+    
+    colors[ImGuiCol_FrameBg] = darkWood;
+    colors[ImGuiCol_FrameBgHovered] = mediumWood;
+    colors[ImGuiCol_FrameBgActive] = lightWood;
+    
+    colors[ImGuiCol_ScrollbarBg] = darkInk;
+    colors[ImGuiCol_ScrollbarGrab] = darkLeather;
+    colors[ImGuiCol_ScrollbarGrabHovered] = mediumWood;
+    colors[ImGuiCol_ScrollbarGrabActive] = oldBrass;
+    
+    colors[ImGuiCol_TitleBg] = darkWood;
+    colors[ImGuiCol_TitleBgActive] = mediumWood;
+    colors[ImGuiCol_TitleBgCollapsed] = darkInk;
+    colors[ImGuiCol_PopupBg] = ImVec4(0.12f, 0.09f, 0.06f, 0.98f);
+    
+    colors[ImGuiCol_CheckMark] = brightBrass;
+    colors[ImGuiCol_SliderGrab] = darkLeather;
+    colors[ImGuiCol_SliderGrabActive] = oldBrass;
+    colors[ImGuiCol_ResizeGrip] = darkLeather;
+    colors[ImGuiCol_ResizeGripHovered] = mediumWood;
+    colors[ImGuiCol_ResizeGripActive] = oldBrass;
+    colors[ImGuiCol_Separator] = oldBrass;
+    colors[ImGuiCol_SeparatorHovered] = mediumWood;
+    colors[ImGuiCol_SeparatorActive] = brightBrass;
+    colors[ImGuiCol_TextSelectedBg] = ImVec4(0.70f, 0.55f, 0.30f, 0.35f);
+    
+    style.WindowPadding = ImVec2(18, 18);
+    style.FramePadding = ImVec2(10, 8);
+    style.ItemSpacing = ImVec2(12, 10);
+    style.ItemInnerSpacing = ImVec2(8, 6);
+    style.WindowRounding = 8.0f;
+    style.ChildRounding = 6.0f;
+    style.FrameRounding = 5.0f;
+    style.PopupRounding = 6.0f;
+    style.ScrollbarRounding = 6.0f;
+    style.GrabRounding = 5.0f;
+    style.TabRounding = 8.0f;
+    
+    style.WindowBorderSize = 1.5f;
+    style.FrameBorderSize = 1.0f;
+    style.PopupBorderSize = 1.0f;
+    style.TabBorderSize = 1.0f;
+    
+    style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
+    style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
+    style.SelectableTextAlign = ImVec2(0.5f, 0.5f);
+    style.DisplayWindowPadding = ImVec2(18, 18);
+    style.DisplaySafeAreaPadding = ImVec2(3, 3);
+    
+    style.IndentSpacing = 25.0f;
+    style.SeparatorTextPadding = ImVec2(15, 6);
+}
+
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (KeybindManager::ProcessKeyEvent(msg, wParam))
         return true;
@@ -27,90 +172,7 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 void Gui::SetupStyle() {
-    ImGuiStyle& style = ImGui::GetStyle();
-    
-    ImVec4* colors = style.Colors;
-    const ImVec4 gold = ImVec4(0.75f, 0.55f, 0.12f, 1.00f);
-    const ImVec4 darkGold = ImVec4(0.55f, 0.42f, 0.10f, 1.00f);
-    const ImVec4 darkBrown = ImVec4(0.20f, 0.15f, 0.10f, 1.00f);
-    const ImVec4 lightBrown = ImVec4(0.35f, 0.25f, 0.16f, 1.00f);
-    const ImVec4 black = ImVec4(0.08f, 0.07f, 0.06f, 0.95f);
-    const ImVec4 cream = ImVec4(0.92f, 0.88f, 0.83f, 1.00f);
-    const ImVec4 darkCream = ImVec4(0.82f, 0.78f, 0.73f, 1.00f);
-
-    colors[ImGuiCol_WindowBg] = black;
-    colors[ImGuiCol_Border] = gold;
-    colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.60f);
-    colors[ImGuiCol_Text] = cream;
-    colors[ImGuiCol_TextDisabled] = ImVec4(0.70f, 0.70f, 0.70f, 1.00f);
-
-    colors[ImGuiCol_Header] = darkBrown;
-    colors[ImGuiCol_HeaderHovered] = lightBrown;
-    colors[ImGuiCol_HeaderActive] = darkGold;
-    
-    colors[ImGuiCol_Button] = darkBrown;
-    colors[ImGuiCol_ButtonHovered] = lightBrown;
-    colors[ImGuiCol_ButtonActive] = darkGold;
-    
-    colors[ImGuiCol_FrameBg] = darkBrown;
-    colors[ImGuiCol_FrameBgHovered] = lightBrown;
-    colors[ImGuiCol_FrameBgActive] = darkGold;
-
-    colors[ImGuiCol_Tab] = darkBrown;
-    colors[ImGuiCol_TabHovered] = lightBrown;
-    colors[ImGuiCol_TabActive] = darkGold;
-    colors[ImGuiCol_TabUnfocused] = ImVec4(0.15f, 0.12f, 0.09f, 1.00f);
-    colors[ImGuiCol_TabUnfocusedActive] = lightBrown;
-
-    colors[ImGuiCol_ScrollbarBg] = ImVec4(0.12f, 0.10f, 0.08f, 0.90f);
-    colors[ImGuiCol_ScrollbarGrab] = darkBrown;
-    colors[ImGuiCol_ScrollbarGrabHovered] = lightBrown;
-    colors[ImGuiCol_ScrollbarGrabActive] = gold;
-
-    colors[ImGuiCol_TitleBg] = darkBrown;
-    colors[ImGuiCol_TitleBgActive] = darkGold;
-    colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.15f, 0.12f, 0.09f, 0.90f);
-    
-    style.WindowPadding = ImVec2(15, 15);
-    style.FramePadding = ImVec2(8, 6);
-    style.ItemSpacing = ImVec2(10, 8);
-    style.ItemInnerSpacing = ImVec2(6, 4);
-    style.WindowRounding = 6.0f;
-    style.ChildRounding = 6.0f;
-    style.FrameRounding = 4.0f;
-    style.PopupRounding = 4.0f;
-    style.ScrollbarRounding = 9.0f;
-    style.GrabRounding = 4.0f;
-    style.TabRounding = 6.0f;
-    style.WindowBorderSize = 1.0f;
-    style.FrameBorderSize = 1.0f;
-    style.PopupBorderSize = 1.0f;
-    style.TabBorderSize = 1.0f;
-    
-    style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
-    style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
-    style.SelectableTextAlign = ImVec2(0.5f, 0.5f);
-    style.DisplayWindowPadding = ImVec2(15, 15);
-    style.DisplaySafeAreaPadding = ImVec2(2, 2);
-
-    colors[ImGuiCol_CheckMark] = gold;
-    
-    colors[ImGuiCol_ResizeGrip] = darkBrown;
-    colors[ImGuiCol_ResizeGripHovered] = lightBrown;
-    colors[ImGuiCol_ResizeGripActive] = gold;
-
-    colors[ImGuiCol_SliderGrab] = lightBrown;
-    colors[ImGuiCol_SliderGrabActive] = gold;
-    
-    colors[ImGuiCol_Separator] = darkGold;
-    colors[ImGuiCol_SeparatorHovered] = lightBrown;
-    colors[ImGuiCol_SeparatorActive] = gold;
-
-    colors[ImGuiCol_Text] = cream;
-    colors[ImGuiCol_TextDisabled] = ImVec4(0.70f, 0.70f, 0.70f, 1.00f);
-    colors[ImGuiCol_TextSelectedBg] = ImVec4(0.75f, 0.55f, 0.12f, 0.35f);
-
-    colors[ImGuiCol_PopupBg] = ImVec4(0.10f, 0.08f, 0.06f, 0.98f);
+    MedievalStyle::ApplyGlobalStyle();
 }
 
 void Gui::Setup() {    
