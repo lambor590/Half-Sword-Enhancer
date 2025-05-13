@@ -145,29 +145,7 @@ void Gui::Render() {
 
     ImGui::Begin("Half Sword Enhancer", &isVisible, ImGuiWindowFlags_NoCollapse);
 
-    if (ImGui::BeginTabBar("MainTabBar", ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_Reorderable)) {
-        if (ImGui::BeginTabItem("Gameplay")) {
-            MenuManager::Get().RenderSections(MenuTab::Gameplay);
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Entity Spawner")) {
-            MenuManager::Get().RenderSections(MenuTab::Entity_Spawner);
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Loadout Manager")) {
-            ImGui::Text("Coming Soon");
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Post Process")) {
-            ImGui::Text("Coming Soon");
-            ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Settings")) {
-            MenuManager::Get().RenderSections(MenuTab::Settings);
-            ImGui::EndTabItem();
-        }
-        ImGui::EndTabBar();
-    }
+    MenuManager::Get().RenderMenu();
 
     ImGui::End();
     ImGui::Render();
