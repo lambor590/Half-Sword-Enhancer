@@ -104,19 +104,50 @@ void KeyFunction::Render() {
         }
     }
 
-    if (KeybindManager::HandleKeyPress(waitingForKey, *key))
-        OnKeyAssigned();
-    else if (toggleable && !waitingForKey && *key != -1 && (GetAsyncKeyState(*key) & 1))
+    if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
+        int newKey = *key;
+        if (newKey != -1 && KeybindManager::IsKeyBound(newKey, key)) {
+            pendingConflictKey = newKey;
+            pendingConflictKeyPtr = key;
+            ImGui::OpenPopup(conflictPopupId.c_str());
+        } else {
+            OnKeyAssigned();
+        }
+    } else if (toggleable && !waitingForKey && *key != -1 && (GetAsyncKeyState(*key) & 1)) {
         SetEnabled(!isEnabled);
+    }
+
+    ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
+    if (ImGui::BeginPopupModal(conflictPopupId.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+        auto conflictFunc = KeybindManager::GetBoundFunction(pendingConflictKey, pendingConflictKeyPtr);
+        const char* conflictName = conflictFunc ? conflictFunc->GetName().c_str() : "Unknown";
+        ImGui::Text("Key %s is already bound to %s. Replace it?", 
+                    KeybindManager::GetKeyName(pendingConflictKey), conflictName);
+        if (ImGui::Button(replaceButtonId.c_str())) {
+            KeybindManager::RemoveBinding(pendingConflictKey, pendingConflictKeyPtr);
+            OnKeyAssigned();
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button(cancelButtonId.c_str())) {
+            *pendingConflictKeyPtr = prevKey;
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
+    ImGui::PopStyleColor();
 }
 
 void KeybindFunction::OnKeyAssigned() {
     if (*key != -1)
-        KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); });
+        KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
     UpdateKey();
 }
 
 void HookedFunction::OnKeyAssigned() {
+    KeybindManager::UnregisterKeybind(key);
+    if (*key != -1)
+        KeybindManager::RegisterKeybind(key, [this]() { SetEnabled(!isEnabled); }, this);
     SetKey();
 }
 
