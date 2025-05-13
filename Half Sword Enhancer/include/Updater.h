@@ -233,6 +233,19 @@ namespace Updater {
                 return;
             }
 
+            {
+                std::filesystem::path exePath(currentPath);
+                std::filesystem::path dir = exePath.parent_path();
+                std::filesystem::path testFile = dir / "update_test.tmp";
+                std::ofstream test(testFile.string());
+                if (!test.is_open()) {
+                    Util::showError("Failed to update: please run the launcher as administrator or move it to a folder with write permissions.");
+                    return;
+                }
+                test.close();
+                std::filesystem::remove(testFile);
+            }
+
             batFile << "@echo off\n"
                 << "copy /Y \"" << tempFileName << "\" \"" << currentPath << "\"\n"
                 << "if errorlevel 1 goto :error\n"
