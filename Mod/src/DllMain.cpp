@@ -8,6 +8,7 @@
 #include "Hooks/DirectXHook.h"
 #include "Render/Renderer.h"
 #include "GlobalDefinitions.h"
+#include "KeybindManager.h"
 
 static Logger logger{ "DllMain" };
 static Renderer renderer;
@@ -56,6 +57,7 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID)
     {
         DisableThreadLibraryCalls(module);
         OpenDebugTerminal();
+        KeybindManager::Initialize();
         CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
         CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
     }

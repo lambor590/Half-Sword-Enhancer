@@ -16,9 +16,7 @@ private:
     bool waitingForUnbindKey = false;
 
 public:
-    GuiSection() : CollapsibleSection("GUI") {
-        KeybindManager::Initialize();
-    }
+    GuiSection() : CollapsibleSection("GUI") {}
 
     void Render() override {
         if (ImGui::CollapsingHeader(name.c_str())) {
