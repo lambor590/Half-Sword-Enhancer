@@ -8,10 +8,17 @@ bool Gui::isVisible = true;
 Logger logger("Gui");
 
 void MedievalStyle::PushButtonStyle() {
-    ImGui::PushStyleColor(ImGuiCol_Button, darkWood);
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, lightWood);
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, oldBrass);
-    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.90f));
+    static const ImGuiCol colorIds[] = {
+        ImGuiCol_Button, ImGuiCol_ButtonHovered, ImGuiCol_ButtonActive, ImGuiCol_Border
+    };
+    static const ImVec4 colorValues[] = {
+        darkWood, lightWood, oldBrass, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.90f)
+    };
+    
+    for (int i = 0; i < IM_ARRAYSIZE(colorIds); i++) {
+        ImGui::PushStyleColor(colorIds[i], colorValues[i]);
+    }
+    
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
 }
@@ -22,11 +29,19 @@ void MedievalStyle::PopButtonStyle() {
 }
 
 void MedievalStyle::PushCheckboxStyle() {
-    ImGui::PushStyleColor(ImGuiCol_FrameBg, darkWood);
-    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, mediumWood);
-    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, darkLeather);
-    ImGui::PushStyleColor(ImGuiCol_CheckMark, brightBrass);
-    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f));
+    static const ImGuiCol colorIds[] = {
+        ImGuiCol_FrameBg, ImGuiCol_FrameBgHovered, ImGuiCol_FrameBgActive, 
+        ImGuiCol_CheckMark, ImGuiCol_Border
+    };
+    static const ImVec4 colorValues[] = {
+        darkWood, mediumWood, darkLeather, brightBrass, 
+        ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f)
+    };
+    
+    for (int i = 0; i < IM_ARRAYSIZE(colorIds); i++) {
+        ImGui::PushStyleColor(colorIds[i], colorValues[i]);
+    }
+    
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
 }
@@ -37,10 +52,18 @@ void MedievalStyle::PopCheckboxStyle() {
 }
 
 void MedievalStyle::PushInputStyle() {
-    ImGui::PushStyleColor(ImGuiCol_FrameBg, darkWood);
-    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, mediumWood);
-    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, darkLeather);
-    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f));
+    static const ImGuiCol colorIds[] = {
+        ImGuiCol_FrameBg, ImGuiCol_FrameBgHovered, ImGuiCol_FrameBgActive, ImGuiCol_Border
+    };
+    static const ImVec4 colorValues[] = {
+        darkWood, mediumWood, darkLeather, 
+        ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f)
+    };
+    
+    for (int i = 0; i < IM_ARRAYSIZE(colorIds); i++) {
+        ImGui::PushStyleColor(colorIds[i], colorValues[i]);
+    }
+    
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 3.0f);
 }
@@ -51,10 +74,20 @@ void MedievalStyle::PopInputStyle() {
 }
 
 void MedievalStyle::PushHeaderStyle() {
-    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.28f, 0.19f, 0.11f, 1.00f));
-    ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.38f, 0.26f, 0.15f, 1.00f));
-    ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0.44f, 0.30f, 0.18f, 1.00f));
-    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f));
+    static const ImGuiCol colorIds[] = {
+        ImGuiCol_Header, ImGuiCol_HeaderHovered, ImGuiCol_HeaderActive, ImGuiCol_Border
+    };
+    static const ImVec4 colorValues[] = {
+        ImVec4(0.28f, 0.19f, 0.11f, 1.00f), 
+        ImVec4(0.38f, 0.26f, 0.15f, 1.00f), 
+        ImVec4(0.44f, 0.30f, 0.18f, 1.00f),
+        ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f)
+    };
+    
+    for (int i = 0; i < IM_ARRAYSIZE(colorIds); i++) {
+        ImGui::PushStyleColor(colorIds[i], colorValues[i]);
+    }
+    
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(10, 8));
     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(12, 10));
 }
@@ -65,8 +98,18 @@ void MedievalStyle::PopHeaderStyle() {
 }
 
 void MedievalStyle::PushPopupStyle() {
-    ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0.12f, 0.09f, 0.06f, 0.98f));
-    ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f));
+    static const ImGuiCol colorIds[] = {
+        ImGuiCol_PopupBg, ImGuiCol_Border
+    };
+    static const ImVec4 colorValues[] = {
+        ImVec4(0.12f, 0.09f, 0.06f, 0.98f),
+        ImVec4(oldBrass.x, oldBrass.y, oldBrass.z, 0.80f)
+    };
+    
+    for (int i = 0; i < IM_ARRAYSIZE(colorIds); i++) {
+        ImGui::PushStyleColor(colorIds[i], colorValues[i]);
+    }
+    
     ImGui::PushStyleVar(ImGuiStyleVar_PopupBorderSize, 1.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_PopupRounding, 4.0f);
 }
@@ -80,76 +123,91 @@ void MedievalStyle::ApplyGlobalStyle() {
     ImGuiStyle& style = ImGui::GetStyle();
     ImVec4* colors = style.Colors;
     
-    colors[ImGuiCol_WindowBg] = black;
-    colors[ImGuiCol_Border] = oldBrass;
-    colors[ImGuiCol_BorderShadow] = shadow;
-    colors[ImGuiCol_Text] = parchment;
-    colors[ImGuiCol_TextDisabled] = ImVec4(0.65f, 0.60f, 0.55f, 1.00f);
+    static const ImGuiCol basicColorIds[] = {
+        ImGuiCol_WindowBg, ImGuiCol_Border, ImGuiCol_BorderShadow, 
+        ImGuiCol_Text, ImGuiCol_TextDisabled,
+        ImGuiCol_Header, ImGuiCol_HeaderHovered, ImGuiCol_HeaderActive,
+        ImGuiCol_Tab, ImGuiCol_TabHovered, ImGuiCol_TabActive, 
+        ImGuiCol_TabUnfocused, ImGuiCol_TabUnfocusedActive,
+        ImGuiCol_Button, ImGuiCol_ButtonHovered, ImGuiCol_ButtonActive,
+        ImGuiCol_FrameBg, ImGuiCol_FrameBgHovered, ImGuiCol_FrameBgActive,
+        ImGuiCol_ScrollbarBg, ImGuiCol_ScrollbarGrab, 
+        ImGuiCol_ScrollbarGrabHovered, ImGuiCol_ScrollbarGrabActive,
+        ImGuiCol_TitleBg, ImGuiCol_TitleBgActive, ImGuiCol_TitleBgCollapsed,
+        ImGuiCol_CheckMark, ImGuiCol_SliderGrab, ImGuiCol_SliderGrabActive,
+        ImGuiCol_ResizeGrip, ImGuiCol_ResizeGripHovered, ImGuiCol_ResizeGripActive,
+        ImGuiCol_Separator, ImGuiCol_SeparatorHovered, ImGuiCol_SeparatorActive,
+        ImGuiCol_TextSelectedBg
+    };
     
-    colors[ImGuiCol_Header] = darkWood;
-    colors[ImGuiCol_HeaderHovered] = mediumWood;
-    colors[ImGuiCol_HeaderActive] = darkLeather;
+    static const ImVec4 basicColorValues[] = {
+        black, oldBrass, shadow, parchment, ImVec4(0.65f, 0.60f, 0.55f, 1.00f),
+        darkWood, mediumWood, darkLeather,
+        darkWood, mediumWood, lightWood, darkInk, darkWood,
+        darkWood, lightWood, oldBrass,
+        darkWood, mediumWood, lightWood,
+        darkInk, darkLeather, mediumWood, oldBrass,
+        darkWood, mediumWood, darkInk,
+        brightBrass, darkLeather, oldBrass,
+        darkLeather, mediumWood, oldBrass,
+        oldBrass, mediumWood, brightBrass,
+        ImVec4(0.70f, 0.55f, 0.30f, 0.35f)
+    };
     
-    colors[ImGuiCol_Tab] = darkWood;
-    colors[ImGuiCol_TabHovered] = mediumWood;
-    colors[ImGuiCol_TabActive] = lightWood;
-    colors[ImGuiCol_TabUnfocused] = darkInk;
-    colors[ImGuiCol_TabUnfocusedActive] = darkWood;
+    for (int i = 0; i < IM_ARRAYSIZE(basicColorIds); i++) {
+        colors[basicColorIds[i]] = basicColorValues[i];
+    }
     
-    colors[ImGuiCol_Button] = darkWood;
-    colors[ImGuiCol_ButtonHovered] = lightWood;
-    colors[ImGuiCol_ButtonActive] = oldBrass;
-    
-    colors[ImGuiCol_FrameBg] = darkWood;
-    colors[ImGuiCol_FrameBgHovered] = mediumWood;
-    colors[ImGuiCol_FrameBgActive] = lightWood;
-    
-    colors[ImGuiCol_ScrollbarBg] = darkInk;
-    colors[ImGuiCol_ScrollbarGrab] = darkLeather;
-    colors[ImGuiCol_ScrollbarGrabHovered] = mediumWood;
-    colors[ImGuiCol_ScrollbarGrabActive] = oldBrass;
-    
-    colors[ImGuiCol_TitleBg] = darkWood;
-    colors[ImGuiCol_TitleBgActive] = mediumWood;
-    colors[ImGuiCol_TitleBgCollapsed] = darkInk;
     colors[ImGuiCol_PopupBg] = ImVec4(0.12f, 0.09f, 0.06f, 0.98f);
     
-    colors[ImGuiCol_CheckMark] = brightBrass;
-    colors[ImGuiCol_SliderGrab] = darkLeather;
-    colors[ImGuiCol_SliderGrabActive] = oldBrass;
-    colors[ImGuiCol_ResizeGrip] = darkLeather;
-    colors[ImGuiCol_ResizeGripHovered] = mediumWood;
-    colors[ImGuiCol_ResizeGripActive] = oldBrass;
-    colors[ImGuiCol_Separator] = oldBrass;
-    colors[ImGuiCol_SeparatorHovered] = mediumWood;
-    colors[ImGuiCol_SeparatorActive] = brightBrass;
-    colors[ImGuiCol_TextSelectedBg] = ImVec4(0.70f, 0.55f, 0.30f, 0.35f);
+    struct StyleProperty {
+        enum Type { Float, Vec2 };
+        Type type;
+        size_t offset;
+        union Value {
+            float floatVal;
+            ImVec2 vec2Val;
+            Value() : floatVal(0) {}
+            Value(float val) : floatVal(val) {}
+            Value(const ImVec2& val) : vec2Val(val) {}
+        } value;
+        
+        StyleProperty(Type t, size_t off, float val) : type(t), offset(off), value(val) {}
+        StyleProperty(Type t, size_t off, const ImVec2& val) : type(t), offset(off), value(val) {}
+    };
     
-    style.WindowPadding = ImVec2(18, 18);
-    style.FramePadding = ImVec2(10, 8);
-    style.ItemSpacing = ImVec2(12, 10);
-    style.ItemInnerSpacing = ImVec2(8, 6);
-    style.WindowRounding = 8.0f;
-    style.ChildRounding = 6.0f;
-    style.FrameRounding = 5.0f;
-    style.PopupRounding = 6.0f;
-    style.ScrollbarRounding = 6.0f;
-    style.GrabRounding = 5.0f;
-    style.TabRounding = 8.0f;
+    static const StyleProperty styleProps[] = {
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, WindowPadding), ImVec2(18, 18) },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, FramePadding), ImVec2(10, 8) },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, ItemSpacing), ImVec2(12, 10) },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, ItemInnerSpacing), ImVec2(8, 6) },
+        { StyleProperty::Float, offsetof(ImGuiStyle, WindowRounding), 8.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, ChildRounding), 6.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, FrameRounding), 5.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, PopupRounding), 6.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, ScrollbarRounding), 6.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, GrabRounding), 5.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, TabRounding), 8.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, WindowBorderSize), 1.5f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, FrameBorderSize), 1.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, PopupBorderSize), 1.0f },
+        { StyleProperty::Float, offsetof(ImGuiStyle, TabBorderSize), 1.0f },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, WindowTitleAlign), ImVec2(0.5f, 0.5f) },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, ButtonTextAlign), ImVec2(0.5f, 0.5f) },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, SelectableTextAlign), ImVec2(0.5f, 0.5f) },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, DisplayWindowPadding), ImVec2(18, 18) },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, DisplaySafeAreaPadding), ImVec2(3, 3) },
+        { StyleProperty::Float, offsetof(ImGuiStyle, IndentSpacing), 25.0f },
+        { StyleProperty::Vec2, offsetof(ImGuiStyle, SeparatorTextPadding), ImVec2(15, 6) }
+    };
     
-    style.WindowBorderSize = 1.5f;
-    style.FrameBorderSize = 1.0f;
-    style.PopupBorderSize = 1.0f;
-    style.TabBorderSize = 1.0f;
-    
-    style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
-    style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
-    style.SelectableTextAlign = ImVec2(0.5f, 0.5f);
-    style.DisplayWindowPadding = ImVec2(18, 18);
-    style.DisplaySafeAreaPadding = ImVec2(3, 3);
-    
-    style.IndentSpacing = 25.0f;
-    style.SeparatorTextPadding = ImVec2(15, 6);
+    for (const auto& prop : styleProps) {
+        if (prop.type == StyleProperty::Float) {
+            *reinterpret_cast<float*>(reinterpret_cast<char*>(&style) + prop.offset) = prop.value.floatVal;
+        } else {
+            *reinterpret_cast<ImVec2*>(reinterpret_cast<char*>(&style) + prop.offset) = prop.value.vec2Val;
+        }
+    }
 }
 
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
