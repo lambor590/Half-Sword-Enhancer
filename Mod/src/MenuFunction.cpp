@@ -121,7 +121,7 @@ void KeyFunction::Render() {
     if (ImGui::BeginPopupModal(conflictPopupId.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
         auto conflictFunc = KeybindManager::GetBoundFunction(pendingConflictKey, pendingConflictKeyPtr);
         const char* conflictName = conflictFunc ? conflictFunc->GetName().c_str() : "Unknown";
-        ImGui::Text("Key %s is already bound to %s. Replace it?", 
+        ImGui::Text("Key %s is already bound to %s. What do you want to do?", 
                     KeybindManager::GetKeyName(pendingConflictKey), conflictName);
         if (ImGui::Button(replaceButtonId.c_str())) {
             KeybindManager::RemoveBinding(pendingConflictKey, pendingConflictKeyPtr);
@@ -131,6 +131,12 @@ void KeyFunction::Render() {
         ImGui::SameLine();
         if (ImGui::Button(cancelButtonId.c_str())) {
             *pendingConflictKeyPtr = prevKey;
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button(chooseButtonId.c_str())) {
+            *pendingConflictKeyPtr = prevKey;
+            waitingForKey = true;
             ImGui::CloseCurrentPopup();
         }
         ImGui::EndPopup();
