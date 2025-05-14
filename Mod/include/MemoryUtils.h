@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Windows.h>
-#include <map>
 #include <vector>
 #include <Psapi.h>
 #include <sstream>
@@ -17,7 +16,7 @@
 // Contains various memory manipulation functions related to hooking or modding
 namespace MemoryUtils
 {
-    static Logger logger{ "MemoryUtils" };
+    extern Logger logger;
     static constexpr int maskBytes = 0xffff;
 
     struct HookInformation
@@ -25,25 +24,9 @@ namespace MemoryUtils
         std::vector<unsigned char> originalBytes = { 0 };
         uintptr_t trampolineInstructionsAddress = 0;
     };
-    static std::unordered_map<uintptr_t, HookInformation> InfoBufferForHookedAddresses;
+    extern std::unordered_map<uintptr_t, HookInformation> InfoBufferForHookedAddresses;
 
-    // Disables or enables the memory protection in a given region. 
-    // Remembers and restores the original memory protection type of the given addresses.
-    static void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size)
-    {
-        static std::map<uintptr_t, DWORD> protectionHistory;
-        if (enableProtection && protectionHistory.find(address) != protectionHistory.end())
-        {
-            VirtualProtect((void*)address, size, protectionHistory[address], &protectionHistory[address]);
-            protectionHistory.erase(address);
-        }
-        else if (!enableProtection && protectionHistory.find(address) == protectionHistory.end())
-        {
-            DWORD oldProtection = 0;
-            VirtualProtect((void*)address, size, PAGE_EXECUTE_READWRITE, &oldProtection);
-            protectionHistory[address] = oldProtection;
-        }
-    }
+    void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size);
 
     // Copies memory after changing the permissions at both the source and destination so we don't get an access violation.
     static void MemCopy(uintptr_t destination, uintptr_t source, size_t numBytes)
@@ -468,93 +451,9 @@ namespace MemoryUtils
 
     // Place a trampoline hook from A to B while taking third-party hooks into consideration.
     // Add extra clearance when the jump doesn't fit cleanly.
-    static void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress)
-    {
-        logger.Log("Hooking...");
+    void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress);
 
-        // Most overlays don't care if we overwrite the 0xE9 jump and place it somewhere else, but MSI Afterburner does.
-        // So instead of overwriting jumps we follow them and place our jump at the final destination.
-        int maxFollowAttempts = 50;
-        int countFollowAttempts = 0;
-        while (IsAddressHooked(addressToHook))
-        {
-            if (IsRelativeNearJumpPresentAtAddress(addressToHook))
-            {
-                addressToHook = CalculateAbsoluteDestinationFromRelativeNearJumpAtAddress(addressToHook);
-            }
-            else if (IsAbsoluteIndirectNearJumpPresentAtAddress(addressToHook))
-            {
-                addressToHook = CalculateAbsoluteDestinationFromAbsoluteIndirectNearJumpAtAddress(addressToHook);
-            }
-            else if (IsAbsoluteDirectFarJumpPresentAtAddress(addressToHook))
-            {
-                //addressToHook = CalculateAbsoluteDestinationFromAbsoluteDirectFarJumpAtAddress(addressToHook);
-            }
-
-            countFollowAttempts++;
-            if (countFollowAttempts >= maxFollowAttempts)
-            {
-                break;
-            }
-        }
-
-        PrintBytesAtAddress(addressToHook, 20);
-
-        const size_t assemblyShortJumpSize = 5;
-        const size_t assemblyFarJumpSize = 14;
-        size_t trampolineSize = 0;
-        uintptr_t trampolineAddress = 0;
-        uintptr_t trampolineReturnAddress = 0;
-        size_t thirdPartyHookProtectionBuffer = assemblyFarJumpSize;
-
-        size_t clearance = CalculateRequiredAsmClearance(addressToHook, assemblyShortJumpSize);
-
-        trampolineSize = assemblyFarJumpSize * 3 + clearance + thirdPartyHookProtectionBuffer;
-
-#ifdef _WIN64
-        trampolineAddress = AllocateMemoryWithin32BitRange(trampolineSize, addressToHook + assemblyShortJumpSize);
-#else
-        trampolineAddress = AllocateMemory(trampolineSize);
-#endif
-
-        trampolineReturnAddress = addressToHook + clearance;
-        MemCopy(trampolineAddress + assemblyFarJumpSize + thirdPartyHookProtectionBuffer, addressToHook, clearance);
-
-        HookInformation hookInfo;
-        hookInfo.originalBytes = std::vector<unsigned char>(clearance);
-        hookInfo.trampolineInstructionsAddress = trampolineAddress + assemblyFarJumpSize + thirdPartyHookProtectionBuffer;
-        InfoBufferForHookedAddresses[addressToHook] = hookInfo;
-        MemCopy(
-            (uintptr_t)&InfoBufferForHookedAddresses[addressToHook].originalBytes[0],
-            trampolineAddress + assemblyFarJumpSize + thirdPartyHookProtectionBuffer,
-            InfoBufferForHookedAddresses[addressToHook].originalBytes.size());
-#ifdef _WIN64
-        PlaceAbsoluteJump(trampolineAddress + thirdPartyHookProtectionBuffer, destinationAddress);
-        PlaceAbsoluteJump(trampolineAddress + trampolineSize - assemblyFarJumpSize, trampolineReturnAddress);
-#else
-        PlaceRelativeJump(trampolineAddress + thirdPartyHookProtectionBuffer, destinationAddress);
-        PlaceRelativeJump(trampolineAddress + trampolineSize - assemblyFarJumpSize, trampolineReturnAddress);
-#endif
-        * returnAddress = trampolineAddress + assemblyFarJumpSize + thirdPartyHookProtectionBuffer;
-        PlaceRelativeJump(addressToHook, trampolineAddress, clearance);
-    }
-
-    static void Unhook(uintptr_t hookedAddress)
-    {
-        auto search = InfoBufferForHookedAddresses.find(hookedAddress);
-        if (search != InfoBufferForHookedAddresses.end())
-        {
-            MemSet(
-                InfoBufferForHookedAddresses[hookedAddress].trampolineInstructionsAddress,
-                0x90,
-                InfoBufferForHookedAddresses[hookedAddress].originalBytes.size());
-            MemCopy(
-                hookedAddress,
-                (uintptr_t)&InfoBufferForHookedAddresses[hookedAddress].originalBytes[0],
-                InfoBufferForHookedAddresses[hookedAddress].originalBytes.size());
-            logger.Log("Removed hook from %p", hookedAddress);
-        }
-    }
+    void Unhook(uintptr_t hookedAddress);
 
     static uintptr_t ReadPointerChain(std::vector<uintptr_t> pointerOffsets)
     {
