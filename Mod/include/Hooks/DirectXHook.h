@@ -4,13 +4,9 @@
 #include <d3d12.h>
 #include <Windows.h>
 
-#include "Render/Renderer.h"
 #include "Render/ID3DRenderer.h"
-#include "Render/IRenderCallback.h"
-#include "GlobalDefinitions.h"
 #include "Logger.h"
-#include "MemoryUtils.h"
-#include "Gui.h"
+#include "imgui/backends/imgui_impl_win32.h"
 
 /*
 * Here we have typedefs of the functions we want to hook.
@@ -24,8 +20,6 @@
 typedef HRESULT(__stdcall* Present)(IDXGISwapChain* This, UINT SyncInterval, UINT Flags);
 typedef HRESULT(__stdcall* ResizeBuffers)(IDXGISwapChain* This, UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat, UINT SwapChainFlags);
 typedef void(__stdcall* ExecuteCommandLists)(ID3D12CommandQueue* This, UINT NumCommandLists, const ID3D12CommandList** ppCommandLists);
-
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // Hooks DirectX 11 and DirectX 12
 class DirectXHook
