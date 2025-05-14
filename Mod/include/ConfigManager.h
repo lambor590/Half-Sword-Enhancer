@@ -1,14 +1,12 @@
 #pragma once
 
 #include <string>
-#include <memory>
 #include <filesystem>
 
 #include "SimpleIni.h"
 
 class ConfigManager {
 private:
-    inline static ConfigManager* instance = nullptr;
     CSimpleIni ini;
     std::filesystem::path configPath;
 
@@ -18,10 +16,8 @@ public:
     static std::filesystem::path GetAppDataPath();
     
     static ConfigManager& Get() {
-        if (!instance) {
-            instance = new ConfigManager();
-        }
-        return *instance;
+        static ConfigManager manager;
+        return manager;
     }
 
     void SaveConfig();
