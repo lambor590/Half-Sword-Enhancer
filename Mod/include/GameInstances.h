@@ -3,14 +3,13 @@
 #include "ComponentValidator.h"
 
 class GameInstances {
-protected:
-    inline static GameInstances* s_instance = nullptr;
+private:
     GameInstances() = default;
 
 public:
     static GameInstances& Get() {
-        if (!s_instance) s_instance = new GameInstances();
-        return *s_instance;
+        static GameInstances instance;
+        return instance;
     }
 
     template<typename T>
