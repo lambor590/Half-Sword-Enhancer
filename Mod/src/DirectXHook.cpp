@@ -1,4 +1,6 @@
 #include "Hooks/DirectXHook.h"
+#include "GlobalDefinitions.h"
+#include "MemoryUtils.h"
 
 static HRESULT __stdcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
 {
