@@ -18,17 +18,13 @@ typedef void* (__stdcall* ProcessEvent)(SDK::UObject*, SDK::UFunction*, void*);
 
 class GameHook
 {
-protected:
-    inline static GameHook* s_instance = nullptr;
-
+private:
     GameHook() = default;
 
 public:
     static GameHook& Get() {
-        if (!s_instance) {
-            s_instance = new GameHook();
-        }
-        return *s_instance;
+        static GameHook instance;
+        return instance;
     }
 
     void Hook();
