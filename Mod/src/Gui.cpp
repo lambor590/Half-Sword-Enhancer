@@ -1,7 +1,6 @@
 #include "Gui.h"
 #include "KeybindManager.h"
 
-Gui* Gui::s_instance = nullptr;
 WNDPROC Gui::originalWndProc = nullptr;
 bool Gui::isVisible = true;
 
@@ -254,8 +253,6 @@ void Gui::Setup() {
     MenuManager::Get().AddSection<NPCSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<GuiSection>(MenuTab::Settings);
-
-    s_instance = this;
 }
 
 void Gui::Render() {
