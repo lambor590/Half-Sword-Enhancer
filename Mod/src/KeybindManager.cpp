@@ -2,7 +2,6 @@
 
 #include "KeybindManager.h"
 #include "ConfigManager.h"
-#include "GlobalDefinitions.h"
 #include "Menu/IMenuFunction.h"
 
 KeybindManager::Callback KeybindManager::s_callbacks[256] = {};
@@ -193,19 +192,20 @@ bool KeybindManager::IsKeyBound(int code, int* excludeKeyPtr) noexcept {
 }
 
 void KeybindManager::RemoveBinding(int code, int* excludeKeyPtr) noexcept {
-    for (auto& b : s_bindingList) {
-        if (b.keyPtr != excludeKeyPtr && *b.keyPtr == code) {
-            *b.keyPtr = -1;
-            if (b.function) {
-                if (auto kf = dynamic_cast<KeyFunction*>(b.function)) {
-                    kf->ResetPrevKey();
-                    kf->SaveConfig("key", *b.keyPtr);
-                    g_ConfigManager.SaveConfig();
-                }
-            }
-            UnregisterKeybind(b.keyPtr);
-            return;
+    auto it = std::find_if(s_bindingList.begin(), s_bindingList.end(),
+        [&](const Binding& b) { return b.keyPtr != excludeKeyPtr && *b.keyPtr == code; });
+
+    if (it != s_bindingList.end()) {
+        int* keyPtrToUnregister = it->keyPtr;
+        
+        *it->keyPtr = -1; 
+        
+        if (it->function) {
+            it->function->OnKeyUnbound();
+            g_ConfigManager.SaveConfig(); 
         }
+        
+        UnregisterKeybind(keyPtrToUnregister); 
     }
 }
 
