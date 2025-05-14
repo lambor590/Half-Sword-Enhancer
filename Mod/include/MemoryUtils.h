@@ -224,24 +224,6 @@ namespace MemoryUtils
         return 0;
     }
 
-    static uintptr_t AllocateMemory(size_t numBytes)
-    {
-        uintptr_t memoryAddress = NULL;
-        memoryAddress = (uintptr_t)VirtualAlloc(NULL, numBytes, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-
-        if (memoryAddress == NULL)
-        {
-            logger.Log("Failed to allocate %i bytes of memory", numBytes);
-        }
-        else
-        {
-            logger.Log("Allocated %i bytes of memory at %p", numBytes, memoryAddress);
-            MemSet(memoryAddress, 0x90, numBytes);
-        }
-
-        return memoryAddress;
-    }
-
     static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
     {
         uintptr_t memoryAddress = NULL;
@@ -473,5 +455,10 @@ namespace MemoryUtils
             }
         }
         return pointer;
+    }
+
+    static bool FreeMemory(uintptr_t address, size_t size)
+    {
+        return VirtualFree((void*)address, size, MEM_RELEASE);
     }
 }
