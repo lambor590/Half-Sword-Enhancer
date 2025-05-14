@@ -20,7 +20,7 @@ private:
     static inline int invulnerabilityKey = -1;
     static inline int noPainKey = -1;
     static inline int noKickCooldownKey = -1;
-    static inline int npcNoPainKey = -1;
+    static inline int enemyNoPainKey = -1;
 
     static inline int jumpKey = 0x4A; // J
     static inline float jumpForce = 5000.0f;
@@ -152,9 +152,9 @@ public:
                 this->applyNoPainEffect(player);
             }, player);
 
-        Function("NPC No Pain")
+        Function("Enemy No Pain")
             .OnEvent(GameHook::GameEvent::OffLedge)
-            .WithKey(&npcNoPainKey)
+            .WithKey(&enemyNoPainKey)
             .Action([this]() {
                 SDK::TArray<SDK::AActor*> actors;
                 SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
