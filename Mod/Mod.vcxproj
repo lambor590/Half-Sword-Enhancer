@@ -197,6 +197,7 @@
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\IMenuFunction.cpp" />
     <ClCompile Include="src\KeybindManager.cpp" />
+    <ClCompile Include="src\MemoryUtils.cpp" />
     <ClCompile Include="src\MenuFunction.cpp" />
     <ClCompile Include="src\Gui.cpp" />
     <ClCompile Include="SDK\SDK\Basic.cpp" />
