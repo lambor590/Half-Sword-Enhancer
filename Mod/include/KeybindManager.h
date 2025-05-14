@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <functional>
 #include <vector>
-#include <utility>
 
 class ConfigManager;
 class IMenuFunction;
