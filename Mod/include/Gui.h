@@ -55,10 +55,16 @@ public:
 };
 
 class Gui : public IRenderCallback {
-public:
+private:
     Gui() = default;
+public:
     Gui(const Gui&) = delete;
     Gui& operator=(const Gui&) = delete;
+
+    static Gui& Get() {
+        static Gui instance;
+        return instance;
+    }
 
     void Setup();
     void Render();
@@ -67,7 +73,6 @@ public:
 
 private:
     void SetupStyle();
-    static Gui* s_instance;
     static WNDPROC originalWndProc;
     static bool isVisible;
 };
