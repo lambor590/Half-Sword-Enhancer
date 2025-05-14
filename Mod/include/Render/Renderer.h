@@ -41,8 +41,7 @@ private:
         D3D11_VIEWPORT cachedViewport = {};
     } window;
 
-    Gui Gui;
-    IRenderCallback* GUI = &Gui;
+    IRenderCallback* GUI = &Gui::Get();
     bool GUIInitialized = false;
 
     struct {
