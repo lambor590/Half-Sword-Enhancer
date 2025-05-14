@@ -1,4 +1,3 @@
-#include <iostream>
 #include <Windows.h>
 #include <ShlObj.h>
 #include <KnownFolders.h>
@@ -40,7 +39,6 @@ void ConfigManager::LoadConfig() {
     if (std::filesystem::exists(configPath)) {
         ini.LoadFile(configPath.string().c_str());
     } else {
-        ini.SetUnicode();
         SaveConfig();
     }
 }
