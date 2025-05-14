@@ -45,7 +45,8 @@ public:
     enum class GameEvent {
         BeginFight,
         InAbyss,
-        OffLedge
+        OffLedge,
+        OnTick
     };
 
     void RegisterEvent(GameEvent event, void* id, std::function<void()> callback) {
@@ -100,7 +101,8 @@ private:
     static inline const std::unordered_map<GameEvent, std::string> EventNames = {
         { GameEvent::BeginFight, "ExecuteUbergraph_UI_BeginFight" },
         { GameEvent::InAbyss, "ExecuteUbergraph_Abyss_Map_Open_Intermediate" },
-        { GameEvent::OffLedge, "OnWalkingOffLedge" }
+        { GameEvent::OffLedge, "OnWalkingOffLedge" },
+        { GameEvent::OnTick, "Willie_BP_C::ReceiveTick" }
     };
 
     friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms);
