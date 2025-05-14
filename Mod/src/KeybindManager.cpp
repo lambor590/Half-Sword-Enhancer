@@ -168,6 +168,10 @@ bool KeybindManager::HandleKeyPress(bool& waitingForKey, int& key) noexcept {
         if (GetAsyncKeyState(i) & 0x8000) {
             keyPressed[i] = true;
         } else if (keyPressed[i]) {
+            if (i == VK_LBUTTON || i == VK_RBUTTON) {
+                keyPressed[i] = false; 
+                continue; 
+            }
             key = (i == s_unbindKey ? -1 : i);
             waitingForKey = false;
             keyPressed[i] = false;
