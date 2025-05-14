@@ -20,6 +20,7 @@ private:
     static inline int invulnerabilityKey = -1;
     static inline int noPainKey = -1;
     static inline int noKickCooldownKey = -1;
+    static inline int npcNoPainKey = -1;
 
     static inline int jumpKey = 0x4A; // J
     static inline float jumpForce = 5000.0f;
@@ -35,6 +36,36 @@ private:
 
     static inline int dashKey = -1;
     static inline float dashForce = 7000.0f;
+
+    void applyNoPainEffect(SDK::AWillie_BP_C* willie) {
+        willie->Health = 100.0f;
+        willie->Neck_Health = 100.0f;
+        willie->Head_Health = 100.0f;
+        willie->Body_Upper_Health = 100.0f;
+        willie->Body_Lower_Health = 100.0f;
+        willie->Arm_R_Health = 100.0f;
+        willie->Arm_L_Health = 100.0f;
+        willie->Leg_R_Health = 100.0f;
+        willie->Leg_L_Health = 100.0f;
+        willie->Head_Health__Crush_ = 100.0f;
+        willie->Pain_Lower_Body = 0.0f;
+        willie->Pain_Upper_Body = 0.0f;
+        willie->Pain_Neck = 0.0f;
+        willie->Pain_Head = 0.0f;
+        willie->Pain_Arm_R = 0.0f;
+        willie->Pain_Arm_L = 0.0f;
+        willie->Pain_Leg_R = 0.0f;
+        willie->Pain_Leg_L = 0.0f;
+        willie->Pain = 0.0f;
+        willie->Pain_L_Arm_Alpha = 0.0f;
+        willie->Pain_R_Arm_Alpha = 0.0f;
+        willie->Pain_Shock = 0.0f;
+        willie->Current_Pain_Threshold = 0.0f;
+        willie->Pain_Grab_Rate = 0.0f;
+        willie->Pain_Shock_Rate = 0.0f;
+        willie->Pain_Shock_Interp = 0.0f;
+        willie->Sustained_Damage = 0.0f;
+    }
 
 public:
     PlayerSection() : CollapsibleSection("Player") {
@@ -118,35 +149,21 @@ public:
             .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&noPainKey)
             .Action([this]() {
-                player->Health = 100.0f;
-                player->Neck_Health = 10000000.0f;
-                player->Head_Health = 10000000.0f;
-                player->Body_Upper_Health = 100.0f;
-                player->Body_Lower_Health = 100.0f;
-                player->Arm_R_Health = 100.0f;
-                player->Arm_L_Health = 100.0f;
-                player->Leg_R_Health = 100.0f;
-                player->Leg_L_Health = 100.0f;
-                player->Head_Health__Crush_ = 100.0f;
-                player->Pain_Lower_Body = 0.0f;
-                player->Pain_Upper_Body = 0.0f;
-                player->Pain_Neck = 0.0f;
-                player->Pain_Head = 0.0f;
-                player->Pain_Arm_R = 0.0f;
-                player->Pain_Arm_L = 0.0f;
-                player->Pain_Leg_R = 0.0f;
-                player->Pain_Leg_L = 0.0f;
-                player->Pain = 0.0f;
-                player->Pain_L_Arm_Alpha = 0.0f;
-                player->Pain_R_Arm_Alpha = 0.0f;
-                player->Pain_Shock = 0.0f;
-                player->Current_Pain_Threshold = 0.0f;
-                player->Pain_Grab_Rate = 0.0f;
-                player->Pain_Shock_Rate = 0.0f;
-                player->Pain_Shock_Interp = 0.0f;
-                player->Health_Threshold_For_Dismemberment = 0.0f;
-                player->Sustained_Damage = 0.0f;
+                this->applyNoPainEffect(player);
             }, player);
+
+        Function("NPC No Pain")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&npcNoPainKey)
+            .Action([this]() {
+                SDK::TArray<SDK::AActor*> actors;
+                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
+                for (auto* actor : actors) {
+                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+                    if (willie == player || !willie) continue;
+                    this->applyNoPainEffect(willie);
+                }
+            }, player, world);
 
         Function("Get Up")
             .WithKey(&getUpKey)
