@@ -121,6 +121,7 @@ void KeyFunction::Render() {
         const char* conflictName = conflictFunc ? conflictFunc->GetName().c_str() : "Unknown";
         ImGui::Text("Key %s is already bound to %s. What do you want to do?", 
                     KeybindManager::GetKeyName(pendingConflictKey), conflictName);
+        ImGui::Spacing();
         if (ImGui::Button(replaceButtonId.c_str())) {
             KeybindManager::RemoveBinding(pendingConflictKey, pendingConflictKeyPtr);
             OnKeyAssigned();
