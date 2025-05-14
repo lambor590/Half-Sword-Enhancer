@@ -72,6 +72,7 @@ public:
     virtual ~IMenuFunction() = default;
     virtual void Render() = 0;
     virtual const std::string& GetName() const = 0;
+    virtual void OnKeyUnbound() { /* Default: no-op */ }
 
     static std::string NormalizeSection(const std::string& name) {
         std::string s = name;
@@ -205,6 +206,12 @@ public:
     int GetKey() const { return key ? *key : 0; }
     const std::function<void(bool)>& GetCallback() const { return callback; }
     void ResetPrevKey() { prevKey = *key; }
+
+    void OnKeyUnbound() override {
+        ResetPrevKey();
+        SaveConfig("key", -1);
+        // Note: g_ConfigManager.SaveConfig() is called by KeybindManager after this.
+    }
 };
 
 class HookedFunction : public KeyFunction {
