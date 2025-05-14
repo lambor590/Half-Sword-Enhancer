@@ -113,8 +113,6 @@ void KeyFunction::Render() {
         } else {
             OnKeyAssigned();
         }
-    } else if (toggleable && !waitingForKey && *key != -1 && (GetAsyncKeyState(*key) & 1)) {
-        SetEnabled(!isEnabled);
     }
 
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
