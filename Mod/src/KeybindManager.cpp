@@ -98,28 +98,23 @@ void KeybindManager::Initialize() noexcept {
 void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept {
     auto it = std::find_if(s_bindingList.begin(), s_bindingList.end(),
         [keyPtr](const auto& b) { return b.keyPtr == keyPtr; });
+
     if (it != s_bindingList.end()) {
-        int oldCode = *it->keyPtr;
-        if (oldCode >= 0 && oldCode < 256)
-            s_callbacks[oldCode] = nullptr;
-        *it = Binding{keyPtr, callback, function};
+        it->callback = callback;
+        it->function = function;
     } else {
         s_bindingList.emplace_back(Binding{keyPtr, callback, function});
     }
-    int code = *keyPtr;
-    if (code >= 0 && code < 256)
-        s_callbacks[code] = callback;
+    UpdateBindings();
 }
 
 void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
     auto it = std::find_if(s_bindingList.begin(), s_bindingList.end(),
         [keyPtr](const auto& b) { return b.keyPtr == keyPtr; });
     if (it != s_bindingList.end()) {
-        int code = *it->keyPtr;
-        if (code >= 0 && code < 256)
-            s_callbacks[code] = nullptr;
         s_bindingList.erase(it);
     }
+    UpdateBindings();
 }
 
 void KeybindManager::UpdateBindings() noexcept {
