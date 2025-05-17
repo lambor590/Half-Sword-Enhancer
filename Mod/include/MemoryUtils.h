@@ -456,9 +456,4 @@ namespace MemoryUtils
         }
         return pointer;
     }
-
-    static bool FreeMemory(uintptr_t address, size_t size)
-    {
-        return VirtualFree((void*)address, size, MEM_RELEASE);
-    }
 }
