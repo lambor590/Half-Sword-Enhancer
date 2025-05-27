@@ -14,7 +14,7 @@ class PlayerSection : public CollapsibleSection {
 private:
     static inline int saveLoadoutKey = 0x54; // T
     static inline int infiniteStaminaKey = 0x49; // I
-    static inline int infiniteCounciousnessKey = -1;
+    static inline int infiniteConsciousnessKey = -1;
     static inline int getUpKey = -1;
     static inline int possessWillieKey = -1;
     static inline int invulnerabilityKey = -1;
@@ -77,9 +77,9 @@ public:
                 player->Stamina = 100.0f;
             }, player);
 
-        Function("Infinite Counciousness")
+        Function("Infinite Consciousness")
             .OnEvent(GameHook::GameEvent::OffLedge)
-            .WithKey(&infiniteCounciousnessKey)
+            .WithKey(&infiniteConsciousnessKey)
             .Action([this]() {
                 player->Consciousness = 100.0f;
             }, player);
