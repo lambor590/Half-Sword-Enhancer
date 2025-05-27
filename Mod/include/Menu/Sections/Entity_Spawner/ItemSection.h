@@ -10,8 +10,8 @@
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/Utils/Spawner.h"
 
-#define WEAPON_PATH(s) "/Game/Assets/Weapons/Blueprints" s
-#define ARMOR_PATH(s) "/Game/Assets/Armor/Blueprints" s
+#define WEAPON_PATH(s) "/Game/Assets/Weapons/Blueprints/Built_Weapons" s
+#define ARMOR_PATH(s) "/Game/Assets/Armor/Blueprints/Built_Armor" s
 #define PROP_PATH(s) "/Game/Assets/Props" s
 
 struct ItemInfo {
@@ -90,26 +90,26 @@ private:
         std::map<ItemCategory, std::map<WeaponSubcategory, std::vector<ItemInfo>>> items;
 
         items[ItemCategory::Weapons][WeaponSubcategory::Swords] = {
-            {"Long Sword T1", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_LongSword_T1.ModularWeaponBP_LongSword_T1_C")},
-            {"Long Sword T2", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_LongSword_T2.ModularWeaponBP_LongSword_T2_C")},
-            {"Long Sword T3", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_LongSword_T3.ModularWeaponBP_LongSword_T3_C")},
-            {"Long Sword T4", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_LongSword_T4.ModularWeaponBP_LongSword_T4_C")},
-            {"Arming Sword", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_ArmingSword.ModularWeaponBP_ArmingSword_C")},
-            {"Arming Sword T1", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_ArmingSword_T1.ModularWeaponBP_ArmingSword_T1_C")},
-            {"Arming Sword T2", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_ArmingSword_T2.ModularWeaponBP_ArmingSword_T2_C")},
-            {"Arming Sword T3", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_ArmingSword_T3.ModularWeaponBP_ArmingSword_T3_C")},
-            {"Bastard Sword T1", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_BastardSword_T1.ModularWeaponBP_BastardSword_T1_C")},
-            {"Bastard Sword T2", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_BastardSword_T2.ModularWeaponBP_BastardSword_T2_C")},
-            {"Bastard Sword T3", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_BastardSword_T3.ModularWeaponBP_BastardSword_T3_C")},
-            {"Great Sword", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_GreatSword.ModularWeaponBP_GreatSword_C")},
-            {"Short Falchion", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Falchion_Short.ModularWeaponBP_Falchion_Short_C")},
-            {"Short Falchion T1", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Falchion_Short_T1.ModularWeaponBP_Falchion_Short_T1_C")},
-            {"Short Falchion T2", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Falchion_Short_T2.ModularWeaponBP_Falchion_Short_T2_C")},
-            {"Short Falchion T3", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Falchion_Short_T3.ModularWeaponBP_Falchion_Short_T3_C")},
-            {"Long Falchion", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Falchion_Long.ModularWeaponBP_Falchion_Long_C")},
-            {"Long Falchion T1", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Falchion_Long_T1.ModularWeaponBP_Falchion_Long_T1_C")},
-            {"Long Falchion T2", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Falchion_Long_T2.ModularWeaponBP_Falchion_Long_T2_C")},
-            {"Rapier", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Rapier.ModularWeaponBP_Rapier_C")}
+            {"Long Sword T1", WEAPON_PATH("/ModularWeaponBP_LongSword_T1.ModularWeaponBP_LongSword_T1_C")},
+            {"Long Sword T2", WEAPON_PATH("/ModularWeaponBP_LongSword_T2.ModularWeaponBP_LongSword_T2_C")},
+            {"Long Sword T3", WEAPON_PATH("/ModularWeaponBP_LongSword_T3.ModularWeaponBP_LongSword_T3_C")},
+            {"Long Sword T4", WEAPON_PATH("/ModularWeaponBP_LongSword_T4.ModularWeaponBP_LongSword_T4_C")},
+            {"Arming Sword", WEAPON_PATH("/ModularWeaponBP_ArmingSword.ModularWeaponBP_ArmingSword_C")},
+            {"Arming Sword T1", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T1.ModularWeaponBP_ArmingSword_T1_C")},
+            {"Arming Sword T2", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T2.ModularWeaponBP_ArmingSword_T2_C")},
+            {"Arming Sword T3", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T3.ModularWeaponBP_ArmingSword_T3_C")},
+            {"Bastard Sword T1", WEAPON_PATH("/ModularWeaponBP_BastardSword_T1.ModularWeaponBP_BastardSword_T1_C")},
+            {"Bastard Sword T2", WEAPON_PATH("/ModularWeaponBP_BastardSword_T2.ModularWeaponBP_BastardSword_T2_C")},
+            {"Bastard Sword T3", WEAPON_PATH("/ModularWeaponBP_BastardSword_T3.ModularWeaponBP_BastardSword_T3_C")},
+            {"Great Sword", WEAPON_PATH("/ModularWeaponBP_GreatSword.ModularWeaponBP_GreatSword_C")},
+            {"Short Falchion", WEAPON_PATH("/ModularWeaponBP_Falchion_Short.ModularWeaponBP_Falchion_Short_C")},
+            {"Short Falchion T1", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T1.ModularWeaponBP_Falchion_Short_T1_C")},
+            {"Short Falchion T2", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T2.ModularWeaponBP_Falchion_Short_T2_C")},
+            {"Short Falchion T3", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T3.ModularWeaponBP_Falchion_Short_T3_C")},
+            {"Long Falchion", WEAPON_PATH("/ModularWeaponBP_Falchion_Long.ModularWeaponBP_Falchion_Long_C")},
+            {"Long Falchion T1", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T1.ModularWeaponBP_Falchion_Long_T1_C")},
+            {"Long Falchion T2", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T2.ModularWeaponBP_Falchion_Long_T2_C")},
+            {"Rapier", WEAPON_PATH("/ModularWeaponBP_Rapier.ModularWeaponBP_Rapier_C")}
         };
 
         items[ItemCategory::Weapons][WeaponSubcategory::Maces] = {
@@ -156,10 +156,10 @@ private:
         };
 
         items[ItemCategory::Weapons][WeaponSubcategory::Daggers] = {
-            {"Dagger", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Dagger.ModularWeaponBP_Dagger_C")},
-            {"Dagger T1", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Dagger_T1.ModularWeaponBP_Dagger_T1_C")},
-            {"Dagger T2", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Dagger_T2.ModularWeaponBP_Dagger_T2_C")},
-            {"Dagger T3", WEAPON_PATH("/Built_Weapons/ModularWeaponBP_Dagger_T3.ModularWeaponBP_Dagger_T3_C")},
+            {"Dagger", WEAPON_PATH("/ModularWeaponBP_Dagger.ModularWeaponBP_Dagger_C")},
+            {"Dagger T1", WEAPON_PATH("/ModularWeaponBP_Dagger_T1.ModularWeaponBP_Dagger_T1_C")},
+            {"Dagger T2", WEAPON_PATH("/ModularWeaponBP_Dagger_T2.ModularWeaponBP_Dagger_T2_C")},
+            {"Dagger T3", WEAPON_PATH("/ModularWeaponBP_Dagger_T3.ModularWeaponBP_Dagger_T3_C")},
             {"Rondel", WEAPON_PATH("/Reforged/ModularWeaponBP_Rondel.ModularWeaponBP_Rondel_C")},
             {"Rondel Gold", WEAPON_PATH("/Reforged/ModularWeaponBP_Rondel_Gold.ModularWeaponBP_Rondel_Gold_C")}
         };
@@ -215,78 +215,78 @@ private:
         std::map<ItemCategory, std::vector<ItemInfo>> items;
 
         items[ItemCategory::Helmets] = {
-            {"Armet", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Armet_001.BP_Armor_Head_Armet_001_C")},
-            {"Armet Gold", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Armet_001_G.BP_Armor_Head_Armet_001_G_C")},
-            {"Armet R", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Armet_001_R.BP_Armor_Head_Armet_001_R_C")},
-            {"Armet B", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Armet_001_B.BP_Armor_Head_Armet_001_B_C")},
-            {"Barbute A", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Barbute_A.BP_Armor_Head_Barbute_A_C")},
-            {"Barbute B", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Barbute_B.BP_Armor_Head_Barbute_B_C")},
-            {"Open Sallet A", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Open_A_001.BP_Armor_Head_Sallet_Open_A_001_C")},
-            {"Open Sallet B", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Open_B_001.BP_Armor_Head_Sallet_Open_B_001_C")},
-            {"Open Sallet CA", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Open_CA_001.BP_Armor_Head_Sallet_Open_CA_001_C")},
-            {"Open Sallet CB", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Open_CB_001.BP_Armor_Head_Sallet_Open_CB_001_C")},
-            {"Solid Sallet A 001", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_A_001.BP_Armor_Head_Sallet_Solid_A_001_C")},
-            {"Solid Sallet A 002", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_A_002.BP_Armor_Head_Sallet_Solid_A_002_C")},
-            {"Solid Sallet B 001", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_B_001.BP_Armor_Head_Sallet_Solid_B_001_C")},
-            {"Solid Sallet B 002", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_B_002.BP_Armor_Head_Sallet_Solid_B_002_C")},
-            {"Solid Sallet C 001", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_C_001.BP_Armor_Head_Sallet_Solid_C_001_C")},
-            {"Solid Sallet C 002", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_C_002.BP_Armor_Head_Sallet_Solid_C_002_C")},
-            {"Solid Sallet D 001", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_D_001.BP_Armor_Head_Sallet_Solid_D_001_C")},
-            {"Solid Sallet D 002", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_D_002.BP_Armor_Head_Sallet_Solid_D_002_C")},
-            {"Solid Sallet E 001", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_E_001.BP_Armor_Head_Sallet_Solid_E_001_C")},
-            {"Solid Sallet E 002", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Solid_E_002.BP_Armor_Head_Sallet_Solid_E_002_C")},
-            {"Visor Sallet A", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Visor_A_001.BP_Armor_Head_Sallet_Visor_A_001_C")},
-            {"Visor Sallet B", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Sallet_Visor_B_001.BP_Armor_Head_Sallet_Visor_B_001_C")},
-            {"Kettle Helm A", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Kettle_Helm_A.BP_Armor_Head_Kettle_Helm_A_C")},
-            {"Kettle Helm B", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Kettle_Helm_B.BP_Armor_Head_Kettle_Helm_B_C")},
-            {"Kettle Helm B 2", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Kettle_Helm_B_2.BP_Armor_Head_Kettle_Helm_B_2_C")},
-            {"Kettle Helm C", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Kettle_Helm_C.BP_Armor_Head_Kettle_Helm_C_C")},
-            {"Kettle Helm D", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Kettle_Helm_D.BP_Armor_Head_Kettle_Helm_D_C")},
-            {"Kettle Helm D 2", ARMOR_PATH("/Built_Armor/Metal/Head/BP_Armor_Head_Kettle_Helm_D_2.BP_Armor_Head_Kettle_Helm_D_2_C")},
-            {"Bycocket A 001", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_A_001.BP_Armor_Head_Hat_Bycocket_A_001_C")},
-            {"Bycocket A 002", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_A_002.BP_Armor_Head_Hat_Bycocket_A_002_C")},
-            {"Bycocket B 001", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_B_001.BP_Armor_Head_Hat_Bycocket_B_001_C")},
-            {"Bycocket B 002", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_B_002.BP_Armor_Head_Hat_Bycocket_B_002_C")},
-            {"Bycocket B 002 Brown", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_B_002_Brown.BP_Armor_Head_Hat_Bycocket_B_002_Brown_C")},
-            {"Bycocket C", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_C_001.BP_Armor_Head_Hat_Bycocket_C_001_C")},
-            {"Bycocket D", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_D_001.BP_Armor_Head_Hat_Bycocket_D_001_C")},
-            {"Bycocket E", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_E_001.BP_Armor_Head_Hat_Bycocket_E_001_C")},
-            {"Bycocket F", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_F_001.BP_Armor_Head_Hat_Bycocket_F_001_C")},
-            {"Bycocket G", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_G_001.BP_Armor_Head_Hat_Bycocket_G_001_C")},
-            {"Bycocket H", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_H_001.BP_Armor_Head_Hat_Bycocket_H_001_C")},
-            {"Bycocket I", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_I_001.BP_Armor_Head_Hat_Bycocket_I_001_C")},
-            {"Bycocket J", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_J_001.BP_Armor_Head_Hat_Bycocket_J_001_C")},
-            {"Gnome Hat A", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Gnome_A.BP_Armor_Head_Hat_Gnome_A_C")},
-            {"Gnome Hat B", ARMOR_PATH("/Built_Armor/Cloth/Hats/BP_Armor_Head_Hat_Gnome_B.BP_Armor_Head_Hat_Gnome_B_C")}
+            {"Armet", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Armet_001.BP_Armor_Head_Armet_001_C")},
+            {"Armet Gold", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Armet_001_G.BP_Armor_Head_Armet_001_G_C")},
+            {"Armet R", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Armet_001_R.BP_Armor_Head_Armet_001_R_C")},
+            {"Armet B", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Armet_001_B.BP_Armor_Head_Armet_001_B_C")},
+            {"Barbute A", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Barbute_A.BP_Armor_Head_Barbute_A_C")},
+            {"Barbute B", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Barbute_B.BP_Armor_Head_Barbute_B_C")},
+            {"Open Sallet A", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Open_A_001.BP_Armor_Head_Sallet_Open_A_001_C")},
+            {"Open Sallet B", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Open_B_001.BP_Armor_Head_Sallet_Open_B_001_C")},
+            {"Open Sallet CA", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Open_CA_001.BP_Armor_Head_Sallet_Open_CA_001_C")},
+            {"Open Sallet CB", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Open_CB_001.BP_Armor_Head_Sallet_Open_CB_001_C")},
+            {"Solid Sallet A 001", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_A_001.BP_Armor_Head_Sallet_Solid_A_001_C")},
+            {"Solid Sallet A 002", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_A_002.BP_Armor_Head_Sallet_Solid_A_002_C")},
+            {"Solid Sallet B 001", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_B_001.BP_Armor_Head_Sallet_Solid_B_001_C")},
+            {"Solid Sallet B 002", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_B_002.BP_Armor_Head_Sallet_Solid_B_002_C")},
+            {"Solid Sallet C 001", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_C_001.BP_Armor_Head_Sallet_Solid_C_001_C")},
+            {"Solid Sallet C 002", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_C_002.BP_Armor_Head_Sallet_Solid_C_002_C")},
+            {"Solid Sallet D 001", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_D_001.BP_Armor_Head_Sallet_Solid_D_001_C")},
+            {"Solid Sallet D 002", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_D_002.BP_Armor_Head_Sallet_Solid_D_002_C")},
+            {"Solid Sallet E 001", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_E_001.BP_Armor_Head_Sallet_Solid_E_001_C")},
+            {"Solid Sallet E 002", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Solid_E_002.BP_Armor_Head_Sallet_Solid_E_002_C")},
+            {"Visor Sallet A", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Visor_A_001.BP_Armor_Head_Sallet_Visor_A_001_C")},
+            {"Visor Sallet B", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Sallet_Visor_B_001.BP_Armor_Head_Sallet_Visor_B_001_C")},
+            {"Kettle Helm A", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Kettle_Helm_A.BP_Armor_Head_Kettle_Helm_A_C")},
+            {"Kettle Helm B", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Kettle_Helm_B.BP_Armor_Head_Kettle_Helm_B_C")},
+            {"Kettle Helm B 2", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Kettle_Helm_B_2.BP_Armor_Head_Kettle_Helm_B_2_C")},
+            {"Kettle Helm C", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Kettle_Helm_C.BP_Armor_Head_Kettle_Helm_C_C")},
+            {"Kettle Helm D", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Kettle_Helm_D.BP_Armor_Head_Kettle_Helm_D_C")},
+            {"Kettle Helm D 2", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Kettle_Helm_D_2.BP_Armor_Head_Kettle_Helm_D_2_C")},
+            {"Bycocket A 001", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_A_001.BP_Armor_Head_Hat_Bycocket_A_001_C")},
+            {"Bycocket A 002", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_A_002.BP_Armor_Head_Hat_Bycocket_A_002_C")},
+            {"Bycocket B 001", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_B_001.BP_Armor_Head_Hat_Bycocket_B_001_C")},
+            {"Bycocket B 002", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_B_002.BP_Armor_Head_Hat_Bycocket_B_002_C")},
+            {"Bycocket B 002 Brown", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_B_002_Brown.BP_Armor_Head_Hat_Bycocket_B_002_Brown_C")},
+            {"Bycocket C", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_C_001.BP_Armor_Head_Hat_Bycocket_C_001_C")},
+            {"Bycocket D", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_D_001.BP_Armor_Head_Hat_Bycocket_D_001_C")},
+            {"Bycocket E", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_E_001.BP_Armor_Head_Hat_Bycocket_E_001_C")},
+            {"Bycocket F", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_F_001.BP_Armor_Head_Hat_Bycocket_F_001_C")},
+            {"Bycocket G", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_G_001.BP_Armor_Head_Hat_Bycocket_G_001_C")},
+            {"Bycocket H", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_H_001.BP_Armor_Head_Hat_Bycocket_H_001_C")},
+            {"Bycocket I", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_I_001.BP_Armor_Head_Hat_Bycocket_I_001_C")},
+            {"Bycocket J", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Bycocket_J_001.BP_Armor_Head_Hat_Bycocket_J_001_C")},
+            {"Gnome Hat A", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Gnome_A.BP_Armor_Head_Hat_Gnome_A_C")},
+            {"Gnome Hat B", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Gnome_B.BP_Armor_Head_Hat_Gnome_B_C")}
         };
 
         items[ItemCategory::BodyArmor] = {
-            {"Cuirass A T1", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_A_T1.BP_Armor_Body_Cuirass_A_T1_C")},
-            {"Cuirass A T2", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_A_T2.BP_Armor_Body_Cuirass_A_T2_C")},
-            {"Cuirass B T1", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_B_T1.BP_Armor_Body_Cuirass_B_T1_C")},
-            {"Cuirass B T2", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_B_T2.BP_Armor_Body_Cuirass_B_T2_C")},
-            {"Cuirass C T1", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_C_T1.BP_Armor_Body_Cuirass_C_T1_C")},
-            {"Cuirass C T2", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_C_T2.BP_Armor_Body_Cuirass_C_T2_C")},
-            {"Cuirass C T3", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_C_T3.BP_Armor_Body_Cuirass_C_T3_C")},
-            {"Cuirass C T3 B", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_C_T3_B.BP_Armor_Body_Cuirass_C_T3_B_C")},
-            {"Cuirass C T3 Gold", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Cuirass_C_T3_G.BP_Armor_Body_Cuirass_C_T3_G_C")},
-            {"Breastplate A T1", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Brestplate_A_T1.BP_Armor_Body_Brestplate_A_T1_C")},
-            {"Breastplate A T2", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C")},
-            {"Breastplate B T1", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Brestplate_B_T1.BP_Armor_Body_Brestplate_B_T1_C")},
-            {"Breastplate B T2", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Brestplate_B_T2.BP_Armor_Body_Brestplate_B_T2_C")},
-            {"Plackard T2", ARMOR_PATH("/Built_Armor/Metal/Chest/BP_Armor_Body_Plackard_T2.BP_Armor_Body_Plackard_T2_C")},
-            {"Gambeson A T1", ARMOR_PATH("/Built_Armor/BP_Armor_Body_Gambeson_A_T1.BP_Armor_Body_Gambeson_A_T1_C")},
-            {"Gambeson A T2", ARMOR_PATH("/Built_Armor/BP_Armor_Body_Gambeson_A_T2.BP_Armor_Body_Gambeson_A_T2_C")},
-            {"Gambeson A Red", ARMOR_PATH("/Built_Armor/BP_Armor_Body_Gambeson_A_Red.BP_Armor_Body_Gambeson_A_Red_C")},
-            {"Gambeson A Gray", ARMOR_PATH("/Built_Armor/BP_Armor_Body_Gambeson_A_Gray.BP_Armor_Body_Gambeson_A_Gray_C")},
-            {"Gambeson B T1", ARMOR_PATH("/Built_Armor/BP_Armor_Body_Gambeson_B_T1.BP_Armor_Body_Gambeson_B_T1_C")},
-            {"Gambeson B T2", ARMOR_PATH("/Built_Armor/BP_Armor_Body_Gambeson_B_T2.BP_Armor_Body_Gambeson_B_T2_C")},
-            {"Doublet", ARMOR_PATH("/Built_Armor/Cloth/BP_Armor_Body_Doublet.BP_Armor_Body_Doublet_C")},
-            {"Arming Doublet", ARMOR_PATH("/Built_Armor/Cloth/BP_Armor_Body_Doublet_Arming.BP_Armor_Body_Doublet_Arming_C")},
-            {"Arming Doublet Black", ARMOR_PATH("/Built_Armor/Cloth/BP_Armor_Body_Doublet_Arming_Black.BP_Armor_Body_Doublet_Arming_Black_C")},
-            {"Arming Doublet Purple", ARMOR_PATH("/Built_Armor/Cloth/BP_Armor_Body_Doublet_Arming_Purple.BP_Armor_Body_Doublet_Arming_Purple_C")},
-            {"Shirt A", ARMOR_PATH("/Built_Armor/Cloth/BP_Armor_Body_Shirt_A.BP_Armor_Body_Shirt_A_C")},
-            {"Shirt B", ARMOR_PATH("/Built_Armor/Cloth/BP_Armor_Body_Shirt_B.BP_Armor_Body_Shirt_B_C")}
+            {"Cuirass A T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_A_T1.BP_Armor_Body_Cuirass_A_T1_C")},
+            {"Cuirass A T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_A_T2.BP_Armor_Body_Cuirass_A_T2_C")},
+            {"Cuirass B T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_B_T1.BP_Armor_Body_Cuirass_B_T1_C")},
+            {"Cuirass B T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_B_T2.BP_Armor_Body_Cuirass_B_T2_C")},
+            {"Cuirass C T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T1.BP_Armor_Body_Cuirass_C_T1_C")},
+            {"Cuirass C T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T2.BP_Armor_Body_Cuirass_C_T2_C")},
+            {"Cuirass C T3", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T3.BP_Armor_Body_Cuirass_C_T3_C")},
+            {"Cuirass C T3 B", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T3_B.BP_Armor_Body_Cuirass_C_T3_B_C")},
+            {"Cuirass C T3 Gold", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T3_G.BP_Armor_Body_Cuirass_C_T3_G_C")},
+            {"Breastplate A T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Brestplate_A_T1.BP_Armor_Body_Brestplate_A_T1_C")},
+            {"Breastplate A T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C")},
+            {"Breastplate B T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Brestplate_B_T1.BP_Armor_Body_Brestplate_B_T1_C")},
+            {"Breastplate B T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Brestplate_B_T2.BP_Armor_Body_Brestplate_B_T2_C")},
+            {"Plackard T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Plackard_T2.BP_Armor_Body_Plackard_T2_C")},
+            {"Gambeson A T1", ARMOR_PATH("/BP_Armor_Body_Gambeson_A_T1.BP_Armor_Body_Gambeson_A_T1_C")},
+            {"Gambeson A T2", ARMOR_PATH("/BP_Armor_Body_Gambeson_A_T2.BP_Armor_Body_Gambeson_A_T2_C")},
+            {"Gambeson A Red", ARMOR_PATH("/BP_Armor_Body_Gambeson_A_Red.BP_Armor_Body_Gambeson_A_Red_C")},
+            {"Gambeson A Gray", ARMOR_PATH("/BP_Armor_Body_Gambeson_A_Gray.BP_Armor_Body_Gambeson_A_Gray_C")},
+            {"Gambeson B T1", ARMOR_PATH("/BP_Armor_Body_Gambeson_B_T1.BP_Armor_Body_Gambeson_B_T1_C")},
+            {"Gambeson B T2", ARMOR_PATH("/BP_Armor_Body_Gambeson_B_T2.BP_Armor_Body_Gambeson_B_T2_C")},
+            {"Doublet", ARMOR_PATH("/Cloth/BP_Armor_Body_Doublet.BP_Armor_Body_Doublet_C")},
+            {"Arming Doublet", ARMOR_PATH("/Cloth/BP_Armor_Body_Doublet_Arming.BP_Armor_Body_Doublet_Arming_C")},
+            {"Arming Doublet Black", ARMOR_PATH("/Cloth/BP_Armor_Body_Doublet_Arming_Black.BP_Armor_Body_Doublet_Arming_Black_C")},
+            {"Arming Doublet Purple", ARMOR_PATH("/Cloth/BP_Armor_Body_Doublet_Arming_Purple.BP_Armor_Body_Doublet_Arming_Purple_C")},
+            {"Shirt A", ARMOR_PATH("/Cloth/BP_Armor_Body_Shirt_A.BP_Armor_Body_Shirt_A_C")},
+            {"Shirt B", ARMOR_PATH("/Cloth/BP_Armor_Body_Shirt_B.BP_Armor_Body_Shirt_B_C")}
         };
 
         items[ItemCategory::Arms] = {
@@ -372,8 +372,15 @@ private:
 
     static inline std::vector<ItemInfo> initPropItems() {
         return {
+            {"Basket", PROP_PATH("/Blueprints/BP_Container_Basket_001.BP_Container_Basket_001_C")},
             {"Candle", PROP_PATH("/Candle/Blueprints/BP_Candle.BP_Candle_C")},
-            {"Candle Light", PROP_PATH("/Lights/Blueprints/BP_CandleLight.BP_CandleLight_C")}
+            {"Candle Light", PROP_PATH("/Lights/Blueprints/BP_CandleLight.BP_CandleLight_C")},
+            {"Chest Coffin", PROP_PATH("/Blueprints/BP_Container_Chest_Coffin_001.BP_Container_Chest_Coffin_001_C")},
+            {"Chest Coffin 2", PROP_PATH("/Blueprints/BP_Container_Chest_Coffin_002.BP_Container_Chest_Coffin_002_C")},
+            {"Chest", PROP_PATH("/Blueprints/BP_Container_Chest_001.BP_Container_Chest_001_C")},
+            {"Clutter", PROP_PATH("/Blueprints/BP_Container_Clutter_001.BP_Container_Clutter_001_C")},
+            {"Skeleton", PROP_PATH("/Blueprints/BP_Container_Skeleton_001.BP_Container_Skeleton_001_C")},
+            {"Table", PROP_PATH("/Blueprints/BP_Container_Table_001.BP_Container_Table_001_C")}
         };
     }
 
