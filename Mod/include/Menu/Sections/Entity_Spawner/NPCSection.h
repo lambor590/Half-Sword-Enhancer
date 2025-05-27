@@ -78,13 +78,18 @@ public:
                 spawnTransform.Translation += player->GetActorForwardVector() * spawnDistanceForward;
                 spawnTransform.Translation.Z += spawnDistanceUp;
                 spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
-                SDK::AWillie_BP_C* npc = static_cast<SDK::AWillie_BP_C*>(Spawner::SpawnActor(world, getNPCClassName(), spawnTransform));
-                if (bodyguard) {
-                    player->Team_Int = 1337;
-                    npc->Team_Int = player->Team_Int;
-                } else {
-                    npc->Team_Int = npcTeam;
-                }
+                
+                Spawner::SpawnActor(world, getNPCClassName(), spawnTransform, [this](SDK::AActor* actor) {
+                    SDK::AWillie_BP_C* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                    if (npc) {
+                        if (bodyguard) {
+                            player->Team_Int = 1337;
+                            npc->Team_Int = player->Team_Int;
+                        } else {
+                            npc->Team_Int = npcTeam;
+                        }
+                    }
+                });
             }, player, world);
     }
 
