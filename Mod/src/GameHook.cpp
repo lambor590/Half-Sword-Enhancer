@@ -1,4 +1,5 @@
 #include "Hooks/GameHook.h"
+#include "Menu/Utils/Spawner.h"
 
 static GameHook* hookInstance = &GameHook::Get();
 
@@ -33,6 +34,10 @@ void GameHook::Hook()
     oProcessEvent = vtable[SDK::Offsets::ProcessEventIdx];
 
     MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&hookInstance->oProcessEvent);
+
+    RegisterEvent(GameEvent::OnTick, &hookInstance, []() {
+        Spawner::ProcessSpawnQueue();
+    });
 
     logger.Log("ProcessEvent hooked successfully!");
 }
