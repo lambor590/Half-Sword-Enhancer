@@ -81,7 +81,9 @@ public:
             .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&infiniteConsciousnessKey)
             .Action([this]() {
+                player->Consciousness_Cap = 100.0f;
                 player->Consciousness = 100.0f;
+                player->Consciousness_2__Legs_ = 100.0f;
             }, player);
 
         Function("Save Loadout")
