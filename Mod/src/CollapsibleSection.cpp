@@ -5,12 +5,8 @@
 #include "Gui.h"
 
 void CollapsibleSection::Render() {
-    MedievalStyle::PushHeaderStyle();
-
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     bool isOpen = ImGui::CollapsingHeader(name.c_str());
-    
-    MedievalStyle::PopHeaderStyle();
     
     if (isOpen) {
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
