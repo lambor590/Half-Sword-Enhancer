@@ -7,6 +7,7 @@
 
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/Utils/Spawner.h"
+#include "DefaultStyle.h"
 
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
 #define BOSSES_PATH(s) WILLIE_PATH("/Unique/Bosses") s
@@ -94,15 +95,28 @@ public:
     }
 
     void Render() override {
-        if (ImGui::CollapsingHeader(name.c_str())) {
+        bool isOpen = ImGui::CollapsingHeader(name.c_str());
+        
+        if (isOpen) {
+            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10, 8));
+            ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 25.0f);
+            
+            ImGui::Indent(10.0f);
+            ImGui::Spacing();
+
             for (auto& function : functions) {
                 function->Render();
+                ImGui::Spacing();
             }
 
             ImGui::Text("NPC Type");
             if (ImGui::Combo("##NPCTypeSelector", &npcTypeIndex, npcTypeNames, npcTypesCount)) {
                 // Selection changed
             }
+            
+            ImGui::Unindent(10.0f);
+            ImGui::PopStyleVar(3);
         }
     }
 };
