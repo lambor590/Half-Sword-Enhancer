@@ -109,6 +109,7 @@ private:
             {"Long Falchion", WEAPON_PATH("/ModularWeaponBP_Falchion_Long.ModularWeaponBP_Falchion_Long_C")},
             {"Long Falchion T1", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T1.ModularWeaponBP_Falchion_Long_T1_C")},
             {"Long Falchion T2", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T2.ModularWeaponBP_Falchion_Long_T2_C")},
+            {"Long Falchion T3", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T3.ModularWeaponBP_Falchion_Long_T3_C")},
             {"Rapier", WEAPON_PATH("/ModularWeaponBP_Rapier.ModularWeaponBP_Rapier_C")}
         };
 
@@ -261,7 +262,6 @@ private:
         };
 
         items[ItemCategory::BodyArmor] = {
-            {"Cuirass A T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_A_T1.BP_Armor_Body_Cuirass_A_T1_C")},
             {"Cuirass A T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_A_T2.BP_Armor_Body_Cuirass_A_T2_C")},
             {"Cuirass B T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_B_T1.BP_Armor_Body_Cuirass_B_T1_C")},
             {"Cuirass B T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_B_T2.BP_Armor_Body_Cuirass_B_T2_C")},
@@ -335,18 +335,18 @@ private:
         };
 
         items[ItemCategory::Feet] = {
-            {"Shoes A", ARMOR_PATH("/Cloth/Feet/BP_Armor_Feet_Shoes_A.BP_Armor_Feet_Shoes_A_C")},
-            {"Shoes B", ARMOR_PATH("/Cloth/Feet/BP_Armor_Feet_Shoes_B.BP_Armor_Feet_Shoes_B_C")},
-            {"Shoes C", ARMOR_PATH("/Cloth/Feet/BP_Armor_Feet_Shoes_C.BP_Armor_Feet_Shoes_C_C")},
+            {"Shoes A", ARMOR_PATH("/BP_Armor_Feet_Shoes_A.BP_Armor_Feet_Shoes_A_C")},
+            {"Shoes B", ARMOR_PATH("/BP_Armor_Feet_Shoes_B.BP_Armor_Feet_Shoes_B_C")},
+            {"Shoes C", ARMOR_PATH("/BP_Armor_Feet_Shoes_C.BP_Armor_Feet_Shoes_C_C")},
             {"Sabatons A", ARMOR_PATH("/Metal/Feet/BP_Armor_Feet_Sabbatons_A.BP_Armor_Feet_Sabbatons_A_C")},
             {"Sabatons A Gold", ARMOR_PATH("/Metal/Feet/BP_Armor_Feet_Sabbatons_A_G.BP_Armor_Feet_Sabbatons_A_G_C")},
             {"Sabatons AB", ARMOR_PATH("/Metal/Feet/BP_Armor_Feet_Sabbatons_AB.BP_Armor_Feet_Sabbatons_AB_C")}
         };
 
         items[ItemCategory::Neck] = {
-            {"Standard T1", ARMOR_PATH("/Metal/Neck/BP_Armor_Neck_Standard_T1.BP_Armor_Neck_Standard_T1_C")},
-            {"Standard T2", ARMOR_PATH("/Metal/Neck/BP_Armor_Neck_Standard_T2.BP_Armor_Neck_Standard_T2_C")},
-            {"Standard T3", ARMOR_PATH("/Metal/Neck/BP_Armor_Neck_Standard_T3.BP_Armor_Neck_Standard_T3_C")},
+            {"Standard T1", ARMOR_PATH("/Mail/BP_Armor_Neck_Standard_T1.BP_Armor_Neck_Standard_T1_C")},
+            {"Standard T2", ARMOR_PATH("/Mail/BP_Armor_Neck_Standard_T2.BP_Armor_Neck_Standard_T2_C")},
+            {"Standard T3", ARMOR_PATH("/Mail/BP_Armor_Neck_Standard_T3.BP_Armor_Neck_Standard_T3_C")},
             {"Bevor T2", ARMOR_PATH("/Metal/Neck/BP_Armor_Neck_Bevor_T2.BP_Armor_Neck_Bevor_T2_C")},
             {"Bevor T3", ARMOR_PATH("/Metal/Neck/BP_Armor_Neck_Bevor_T3.BP_Armor_Neck_Bevor_T3_C")}
         };
@@ -362,9 +362,9 @@ private:
         };
 
         items[ItemCategory::Waist] = {
-            {"Foulds T1", ARMOR_PATH("/Metal/Waist/BP_Armor_Waist_Foulds_T1.BP_Armor_Waist_Foulds_T1_C")},
-            {"Foulds T2", ARMOR_PATH("/Metal/Waist/BP_Armor_Waist_Foulds_T2.BP_Armor_Waist_Foulds_T2_C")},
-            {"Foulds T3", ARMOR_PATH("/Metal/Waist/BP_Armor_Waist_Foulds_T3.BP_Armor_Waist_Foulds_T3_C")}
+            {"Foulds T1", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T1.BP_Armor_Waist_Foulds_T1_C")},
+            {"Foulds T2", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T2.BP_Armor_Waist_Foulds_T2_C")},
+            {"Foulds T3", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T3.BP_Armor_Waist_Foulds_T3_C")}
         };
 
         return items;
