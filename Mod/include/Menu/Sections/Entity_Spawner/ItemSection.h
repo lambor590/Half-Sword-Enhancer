@@ -555,7 +555,11 @@ public:
 
             ImGui::Spacing();
             if (ImGui::Button("Spawn Item")) {
-                SpawnSelectedItem();
+                auto validatedSpawn = ValidateAndRun([this]() {
+                    SpawnSelectedItem();
+                }, player, world);
+
+                validatedSpawn();
             }
             
             ImGui::Unindent(10.0f);
