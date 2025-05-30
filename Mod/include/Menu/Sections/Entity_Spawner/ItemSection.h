@@ -9,6 +9,7 @@
 
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/Utils/Spawner.h"
+#include "DefaultStyle.h"
 
 #define WEAPON_PATH(s) "/Game/Assets/Weapons/Blueprints/Built_Weapons" s
 #define ARMOR_PATH(s) "/Game/Assets/Armor/Blueprints/Built_Armor" s
@@ -393,6 +394,8 @@ private:
     static inline int currentItemIndex = 0;
 
     static inline const char* itemNames[MAX_ITEMS];
+    static inline const char* currentItems[MAX_ITEMS];
+    static inline int currentItemsCount = 0;
 
     void setItemNamesArray(const std::vector<ItemInfo>& items) {
         const int count = min(static_cast<int>(items.size()), static_cast<int>(MAX_ITEMS));
@@ -401,36 +404,75 @@ private:
         }
     }
 
-    const char* getSelectedClassName() const {
+    void BuildCurrentItemList() {
         if (currentCategoryIndex == WEAPONS_INDEX) {
             auto subcategory = static_cast<WeaponSubcategory>(currentWeaponSubcategoryIndex);
             const auto& items = weaponItems[ItemCategory::Weapons][subcategory];
-            return items[currentItemIndex].classPath;
+            currentItemsCount = min(static_cast<int>(items.size()), static_cast<int>(MAX_ITEMS));
+            for (int i = 0; i < currentItemsCount; i++) {
+                currentItems[i] = items[i].displayName;
+            }
         }
         else if (currentCategoryIndex == PROPS_INDEX) {
-            return propItems[currentItemIndex].classPath;
+            currentItemsCount = min(static_cast<int>(propItems.size()), static_cast<int>(MAX_ITEMS));
+            for (int i = 0; i < currentItemsCount; i++) {
+                currentItems[i] = propItems[i].displayName;
+            }
         }
         else {
             ItemCategory category = static_cast<ItemCategory>(currentCategoryIndex);
             const auto& items = armorItems[category];
-            return items[currentItemIndex].classPath;
+            currentItemsCount = min(static_cast<int>(items.size()), static_cast<int>(MAX_ITEMS));
+            for (int i = 0; i < currentItemsCount; i++) {
+                currentItems[i] = items[i].displayName;
+            }
         }
+    }
+
+    const char* getSelectedClassName() const {
+        if (currentCategoryIndex == WEAPONS_INDEX) {
+            auto subcategory = static_cast<WeaponSubcategory>(currentWeaponSubcategoryIndex);
+            const auto& items = weaponItems[ItemCategory::Weapons][subcategory];
+            if (currentItemIndex >= 0 && currentItemIndex < static_cast<int>(items.size())) {
+                return items[currentItemIndex].classPath;
+            }
+        }
+        else if (currentCategoryIndex == PROPS_INDEX) {
+            if (currentItemIndex >= 0 && currentItemIndex < static_cast<int>(propItems.size())) {
+                return propItems[currentItemIndex].classPath;
+            }
+        }
+        else {
+            ItemCategory category = static_cast<ItemCategory>(currentCategoryIndex);
+            const auto& items = armorItems[category];
+            if (currentItemIndex >= 0 && currentItemIndex < static_cast<int>(items.size())) {
+                return items[currentItemIndex].classPath;
+            }
+        }
+        return nullptr;
     }
 
     const char* getSelectedDisplayName() const {
         if (currentCategoryIndex == WEAPONS_INDEX) {
             auto subcategory = static_cast<WeaponSubcategory>(currentWeaponSubcategoryIndex);
             const auto& items = weaponItems[ItemCategory::Weapons][subcategory];
-            return items[currentItemIndex].displayName;
+            if (currentItemIndex >= 0 && currentItemIndex < static_cast<int>(items.size())) {
+                return items[currentItemIndex].displayName;
+            }
         }
         else if (currentCategoryIndex == PROPS_INDEX) {
-            return propItems[currentItemIndex].displayName;
+            if (currentItemIndex >= 0 && currentItemIndex < static_cast<int>(propItems.size())) {
+                return propItems[currentItemIndex].displayName;
+            }
         }
         else {
             ItemCategory category = static_cast<ItemCategory>(currentCategoryIndex);
             const auto& items = armorItems[category];
-            return items[currentItemIndex].displayName;
+            if (currentItemIndex >= 0 && currentItemIndex < static_cast<int>(items.size())) {
+                return items[currentItemIndex].displayName;
+            }
         }
+        return nullptr;
     }
 
     void SpawnSelectedItem() {
@@ -471,46 +513,53 @@ public:
             .Action([this]() {
                 SpawnSelectedItem();
             }, player, world);
+            
+        BuildCurrentItemList();
     }
 
     void Render() override {
-        if (ImGui::CollapsingHeader(name.c_str())) {
+        bool isOpen = ImGui::CollapsingHeader(name.c_str());
+        
+        if (isOpen) {
+            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10, 8));
+            ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 25.0f);
+            
+            ImGui::Indent(10.0f);
+            ImGui::Spacing();
+
             for (auto& function : functions) {
                 function->Render();
+                ImGui::Spacing();
             }
 
             ImGui::Text("Category");
             if (ImGui::Combo("##CategorySelector", &currentCategoryIndex, categories, categoriesCount)) {
                 currentItemIndex = 0;
                 currentWeaponSubcategoryIndex = 0;
+                BuildCurrentItemList();
             }
 
             if (currentCategoryIndex == WEAPONS_INDEX) {
                 ImGui::Text("Subcategory");
                 if (ImGui::Combo("##SubcategorySelector", &currentWeaponSubcategoryIndex, weaponSubcategories, weaponSubcategoriesCount)) {
                     currentItemIndex = 0;
+                    BuildCurrentItemList();
                 }
-
-                auto subcategory = static_cast<WeaponSubcategory>(currentWeaponSubcategoryIndex);
-                const auto& items = weaponItems[ItemCategory::Weapons][subcategory];
-                RenderItemSelector(items);
-            }
-            else if (currentCategoryIndex == PROPS_INDEX) {
-                RenderItemSelector(propItems);
-            }
-            else {
-                ItemCategory category = static_cast<ItemCategory>(currentCategoryIndex);
-                const auto& items = armorItems[category];
-                RenderItemSelector(items);
             }
 
-            if (ImGui::Button("Spawn Selected Item")) {
-                auto validatedSpawn = ValidateAndRun([this]() {
-                    SpawnSelectedItem();
-                }, player, world);
-
-                validatedSpawn();
+            ImGui::Text("Item");
+            if (ImGui::Combo("##ItemSelector", &currentItemIndex, currentItems, currentItemsCount)) {
+                // Selection changed
             }
+
+            ImGui::Spacing();
+            if (ImGui::Button("Spawn Item")) {
+                SpawnSelectedItem();
+            }
+            
+            ImGui::Unindent(10.0f);
+            ImGui::PopStyleVar(3);
         }
     }
 };
