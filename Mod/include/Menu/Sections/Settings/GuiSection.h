@@ -9,6 +9,7 @@
 #include "ConfigManager.h"
 #include "KeybindManager.h"
 #include "Menu/IMenuFunction.h"
+#include "DefaultStyle.h"
 
 class GuiSection : public CollapsibleSection {
 private:
@@ -19,7 +20,16 @@ public:
     GuiSection() : CollapsibleSection("GUI") {}
 
     void Render() override {
-        if (ImGui::CollapsingHeader(name.c_str())) {
+        bool isOpen = ImGui::CollapsingHeader(name.c_str());
+        
+        if (isOpen) {
+            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
+            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10, 8));
+            ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 25.0f);
+            
+            ImGui::Indent(10.0f);
+            ImGui::Spacing();
+
             bool changed = false;
             
             changed |= RenderKeybind(
@@ -28,6 +38,8 @@ public:
                 "Toggle GUI Key",
                 "Change key to show/hide interface"
             );
+            
+            ImGui::Spacing();
             
             changed |= RenderKeybind(
                 waitingForUnbindKey, 
@@ -38,6 +50,9 @@ public:
             
             if (changed)
                 KeybindManager::SaveKeybinds();
+                
+            ImGui::Unindent(10.0f);
+            ImGui::PopStyleVar(3);
         }
     }
 
