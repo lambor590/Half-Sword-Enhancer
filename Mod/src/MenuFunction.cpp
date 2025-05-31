@@ -65,12 +65,13 @@ static bool RenderParametersButton(const char* buttonId, const std::string& name
     return clicked;
 }
 
-void KeyFunction::Render() {
-    RenderKeyButton(keyId.c_str(), waitingForKey, *key);
+template<typename Derived>
+void KeyFunction<Derived>::Render() {
+    RenderKeyButton(GetKeyId(), waitingForKey, *key);
     ImGui::SameLine();
     if (toggleable) {
         bool currentEnabled = isEnabled;
-        if (ImGui::Checkbox(checkId.c_str(), &currentEnabled) && currentEnabled != isEnabled)
+        if (ImGui::Checkbox(GetCheckId(), &currentEnabled) && currentEnabled != isEnabled)
             SetEnabled(currentEnabled);
         
         ImGui::SameLine();
@@ -80,9 +81,9 @@ void KeyFunction::Render() {
     }
 
     if (!GetParameters().empty()) {
-        if (RenderParametersButton(paramButtonId.c_str(), name))
-            ImGui::OpenPopup(popupId.c_str());
-        if (ImGui::BeginPopup(popupId.c_str())) {
+        if (RenderParametersButton(GetParamButtonId(), name))
+            ImGui::OpenPopup(GetPopupId());
+        if (ImGui::BeginPopup(GetPopupId())) {
             RenderParameters();
             ImGui::EndPopup();
             popupWasOpen = true;
@@ -97,31 +98,32 @@ void KeyFunction::Render() {
         if (newKey != -1 && KeybindManager::IsKeyBound(newKey, key)) {
             pendingConflictKey = newKey;
             pendingConflictKeyPtr = key;
-            ImGui::OpenPopup(conflictPopupId.c_str());
+            ImGui::OpenPopup(GetConflictPopupId());
         } else {
             OnKeyAssigned();
         }
     }
 
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
-    if (ImGui::BeginPopupModal(conflictPopupId.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+    if (ImGui::BeginPopupModal(GetConflictPopupId(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
         auto conflictFunc = KeybindManager::GetBoundFunction(pendingConflictKey, pendingConflictKeyPtr);
-        const char* conflictName = conflictFunc ? conflictFunc->GetName().c_str() : "Unknown";
+        std::string conflictName = conflictFunc ? std::string(conflictFunc->GetName()) : "Unknown";
         ImGui::Text("Key %s is already bound to %s. What do you want to do?", 
-                    KeybindManager::GetKeyName(pendingConflictKey), conflictName);
+                    KeybindManager::GetKeyName(pendingConflictKey), conflictName.c_str());
         ImGui::Spacing();
-        if (ImGui::Button(replaceButtonId.c_str())) {
+        
+        if (ImGui::Button("Replace")) {
             KeybindManager::RemoveBinding(pendingConflictKey, pendingConflictKeyPtr);
             OnKeyAssigned();
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
-        if (ImGui::Button(cancelButtonId.c_str())) {
+        if (ImGui::Button("Cancel")) {
             *pendingConflictKeyPtr = prevKey;
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
-        if (ImGui::Button(chooseButtonId.c_str())) {
+        if (ImGui::Button("Choose Another")) {
             *pendingConflictKeyPtr = prevKey;
             waitingForKey = true;
             ImGui::CloseCurrentPopup();
@@ -130,6 +132,9 @@ void KeyFunction::Render() {
     }
     ImGui::PopStyleColor();
 }
+
+template void KeyFunction<HookedFunction>::Render();
+template void KeyFunction<KeybindFunction>::Render();
 
 void KeybindFunction::OnKeyAssigned() {
     if (*key != -1)
@@ -144,60 +149,99 @@ void HookedFunction::OnKeyAssigned() {
     SetKey();
 }
 
-void Parameter::Render() {
+void Parameter::RenderInt(const Parameter& param) {
     ImGui::PushItemWidth(160.0f);
     ImGui::AlignTextToFramePadding();
     
-    ImGui::TextColored(DefaultStyle::parchmentDark, "%s", displayName.c_str());
+    ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
     ImGui::SameLine();
     
-    switch (type) {
-        case Type::Int: {
-            auto intPtr = std::get<int*>(valuePtr);
-            
-            ImGui::PushItemWidth(65.0f);
-            char inputBuffer[16];
-            snprintf(inputBuffer, sizeof(inputBuffer), "%d", *intPtr);
-            if (ImGui::InputText((id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
-                                ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
-                *intPtr = atoi(inputBuffer);
-            }
-            ImGui::PopItemWidth();
-            ImGui::SameLine();
-            
-            ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
-            ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
-            
-            ImGui::SliderInt(id.c_str(), intPtr, std::get<int>(minValue), std::get<int>(maxValue));
-            
-            ImGui::PopStyleColor(2);
-            break;
-        }
-        case Type::Float: {
-            auto floatPtr = std::get<float*>(valuePtr);
-            
-            ImGui::PushItemWidth(65.0f);
-            char inputBuffer[16];
-            snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *floatPtr);
-            if (ImGui::InputText((id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
-                                ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
-                *floatPtr = static_cast<float>(atof(inputBuffer));
-            }
-            ImGui::PopItemWidth();
-            ImGui::SameLine();
-            
-            ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
-            ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
-            
-            ImGui::SliderFloat(id.c_str(), floatPtr, std::get<float>(minValue), std::get<float>(maxValue), "%.2f");
-            
-            ImGui::PopStyleColor(2);
-            break;
-        }
-        case Type::Bool:
-            ImGui::Checkbox(id.c_str(), std::get<bool*>(valuePtr));
-            break;
-    }
+    auto intPtr = static_cast<int*>(param.valuePtr);
     
+    ImGui::PushItemWidth(65.0f);
+    char inputBuffer[16];
+    snprintf(inputBuffer, sizeof(inputBuffer), "%d", *intPtr);
+    if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
+                        ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+        *intPtr = atoi(inputBuffer);
+    }
     ImGui::PopItemWidth();
+    ImGui::SameLine();
+    
+    ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
+    ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
+    
+    ImGui::SliderInt(param.id.c_str(), intPtr, param.GetIntMin(), param.GetIntMax());
+    
+    ImGui::PopStyleColor(2);
+    ImGui::PopItemWidth();
+}
+
+void Parameter::RenderFloat(const Parameter& param) {
+    ImGui::PushItemWidth(160.0f);
+    ImGui::AlignTextToFramePadding();
+    
+    ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
+    ImGui::SameLine();
+    
+    auto floatPtr = static_cast<float*>(param.valuePtr);
+    
+    ImGui::PushItemWidth(65.0f);
+    char inputBuffer[16];
+    snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *floatPtr);
+    if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
+                        ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+        *floatPtr = static_cast<float>(atof(inputBuffer));
+    }
+    ImGui::PopItemWidth();
+    ImGui::SameLine();
+    
+    ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
+    ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
+    
+    ImGui::SliderFloat(param.id.c_str(), floatPtr, param.GetFloatMin(), param.GetFloatMax(), "%.2f");
+    
+    ImGui::PopStyleColor(2);
+    ImGui::PopItemWidth();
+}
+
+void Parameter::RenderBool(const Parameter& param) {
+    ImGui::PushItemWidth(160.0f);
+    ImGui::AlignTextToFramePadding();
+    
+    ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
+    ImGui::SameLine();
+    
+    ImGui::Checkbox(param.id.c_str(), static_cast<bool*>(param.valuePtr));
+    ImGui::PopItemWidth();
+}
+
+void Parameter::LoadInt(const Parameter& param, const IMenuFunction* func) {
+    auto intPtr = static_cast<int*>(param.valuePtr);
+    *intPtr = func->GetConfig(param.GetName(), *intPtr);
+}
+
+void Parameter::LoadFloat(const Parameter& param, const IMenuFunction* func) {
+    auto floatPtr = static_cast<float*>(param.valuePtr);
+    *floatPtr = func->GetConfig(param.GetName(), *floatPtr);
+}
+
+void Parameter::LoadBool(const Parameter& param, const IMenuFunction* func) {
+    auto boolPtr = static_cast<bool*>(param.valuePtr);
+    *boolPtr = func->GetConfig(param.GetName(), *boolPtr);
+}
+
+void Parameter::SaveInt(const Parameter& param, const IMenuFunction* func) {
+    auto intPtr = static_cast<int*>(param.valuePtr);
+    func->SaveConfig(param.GetName(), *intPtr);
+}
+
+void Parameter::SaveFloat(const Parameter& param, const IMenuFunction* func) {
+    auto floatPtr = static_cast<float*>(param.valuePtr);
+    func->SaveConfig(param.GetName(), *floatPtr);
+}
+
+void Parameter::SaveBool(const Parameter& param, const IMenuFunction* func) {
+    auto boolPtr = static_cast<bool*>(param.valuePtr);
+    func->SaveConfig(param.GetName(), *boolPtr);
 }
