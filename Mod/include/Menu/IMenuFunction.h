@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <string>
+#include <string_view>
 #include <functional>
 #include <memory>
 #include <vector>
@@ -16,51 +17,81 @@
 
 class Parameter {
 public:
-    enum class Type {
-        Int,
-        Float,
-        Bool
-    };
+    enum class Type : uint8_t { Int, Float, Bool };
 
 private:
-    std::string id;
-    std::string name;
-    std::string displayName;
+    std::string_view name;
+    std::string_view displayName;
     Type type;
-    std::variant<int*, float*, bool*> valuePtr;
-    std::variant<int, float, bool> minValue;
-    std::variant<int, float, bool> maxValue;
+    void* valuePtr;
+    union { int intMin, intMax; float floatMin, floatMax; } minValue, maxValue;
+    mutable std::string id;
+    
+    using RenderFn = void(*)(const Parameter&);
+    using LoadFn = void(*)(const Parameter&, const class IMenuFunction*);
+    using SaveFn = void(*)(const Parameter&, const class IMenuFunction*);
+    
+    RenderFn renderFn;
+    LoadFn loadFn;
+    SaveFn saveFn;
+    
+    static void RenderInt(const Parameter& param);
+    static void RenderFloat(const Parameter& param);
+    static void RenderBool(const Parameter& param);
+    
+    static void LoadInt(const Parameter& param, const class IMenuFunction* func);
+    static void LoadFloat(const Parameter& param, const class IMenuFunction* func);
+    static void LoadBool(const Parameter& param, const class IMenuFunction* func);
+    
+    static void SaveInt(const Parameter& param, const class IMenuFunction* func);
+    static void SaveFloat(const Parameter& param, const class IMenuFunction* func);
+    static void SaveBool(const Parameter& param, const class IMenuFunction* func);
 
 public:
-    Parameter(const std::string& name, const std::string& displayName, int* valuePtr,
-        int minValue = 0, int maxValue = 100)
-        : name(name), displayName(displayName), type(Type::Int),
-        valuePtr(valuePtr), minValue(minValue), maxValue(maxValue) {
-        id = "##param_" + name;
+    Parameter(std::string_view name, std::string_view displayName, int* valuePtr, int minValue = 0, int maxValue = 100)
+        : name(name), displayName(displayName), type(Type::Int), valuePtr(valuePtr), renderFn(RenderInt), loadFn(LoadInt), saveFn(SaveInt) {
+        this->minValue.intMin = minValue;
+        this->maxValue.intMax = maxValue;
+        id.reserve(name.size() + 8);
+        id = "##param_";
+        id += name;
     }
 
-    Parameter(const std::string& name, const std::string& displayName, float* valuePtr,
-        float minValue = 0.0f, float maxValue = 1.0f)
-        : name(name), displayName(displayName), type(Type::Float),
-        valuePtr(valuePtr), minValue(minValue), maxValue(maxValue) {
-        id = "##param_" + name;
+    Parameter(std::string_view name, std::string_view displayName, float* valuePtr, float minValue = 0.0f, float maxValue = 1.0f)
+        : name(name), displayName(displayName), type(Type::Float), valuePtr(valuePtr), renderFn(RenderFloat), loadFn(LoadFloat), saveFn(SaveFloat) {
+        this->minValue.floatMin = minValue;
+        this->maxValue.floatMax = maxValue;
+        id.reserve(name.size() + 8);
+        id = "##param_";
+        id += name;
     }
 
-    Parameter(const std::string& name, const std::string& displayName, bool* valuePtr)
-        : name(name), displayName(displayName), type(Type::Bool),
-        valuePtr(valuePtr), minValue(false), maxValue(true) {
-        id = "##param_" + name;
+    Parameter(std::string_view name, std::string_view displayName, bool* valuePtr)
+        : name(name), displayName(displayName), type(Type::Bool), valuePtr(valuePtr), renderFn(RenderBool), loadFn(LoadBool), saveFn(SaveBool) {
+        this->minValue.intMin = 0;
+        this->maxValue.intMax = 1;
+        id.reserve(name.size() + 8);
+        id = "##param_";
+        id += name;
     }
 
-    void Render();
+    void Render() const { renderFn(*this); }
+    void Load(const class IMenuFunction* func) const { loadFn(*this, func); }
+    void Save(const class IMenuFunction* func) const { saveFn(*this, func); }
 
-    const std::string& GetName() const { return name; }
-    const std::string& GetDisplayName() const { return displayName; }
+    std::string_view GetName() const { return name; }
+    std::string_view GetDisplayName() const { return displayName; }
     Type GetType() const { return type; }
+    const std::string& GetId() const { return id; }
 
-    int* GetIntPtr() const { return type == Type::Int ? std::get<int*>(valuePtr) : nullptr; }
-    float* GetFloatPtr() const { return type == Type::Float ? std::get<float*>(valuePtr) : nullptr; }
-    bool* GetBoolPtr() const { return type == Type::Bool ? std::get<bool*>(valuePtr) : nullptr; }
+    int* GetIntPtr() const { return type == Type::Int ? static_cast<int*>(valuePtr) : nullptr; }
+    float* GetFloatPtr() const { return type == Type::Float ? static_cast<float*>(valuePtr) : nullptr; }
+    bool* GetBoolPtr() const { return type == Type::Bool ? static_cast<bool*>(valuePtr) : nullptr; }
+    
+    int GetIntMin() const { return minValue.intMin; }
+    int GetIntMax() const { return maxValue.intMax; }
+    float GetFloatMin() const { return minValue.floatMin; }
+    float GetFloatMax() const { return maxValue.floatMax; }
 };
 
 class IMenuFunction {
@@ -71,191 +102,166 @@ protected:
 public:
     virtual ~IMenuFunction() = default;
     virtual void Render() = 0;
-    virtual const std::string& GetName() const = 0;
-    virtual void OnKeyUnbound() { /* Default: no-op */ }
+    virtual std::string_view GetName() const = 0;
+    virtual void OnKeyUnbound() {}
 
-    static std::string NormalizeSection(const std::string& name) {
-        std::string s = name;
+    static std::string NormalizeSection(std::string_view name) {
+        std::string s(name);
         s.erase(std::remove(s.begin(), s.end(), ' '), s.end());
         return s;
     }
     
     template<typename T>
-    T GetConfig(const std::string& paramName, T defaultValue) const {
+    T GetConfig(std::string_view paramName, T defaultValue) const {
         auto section = NormalizeSection(GetName());
         if constexpr (std::is_same_v<T, int>)
-            return g_ConfigManager.GetInt(section, paramName, defaultValue);
+            return g_ConfigManager.GetInt(section, std::string(paramName), defaultValue);
         else if constexpr (std::is_same_v<T, bool>)
-            return g_ConfigManager.GetBool(section, paramName, defaultValue);
+            return g_ConfigManager.GetBool(section, std::string(paramName), defaultValue);
         else if constexpr (std::is_same_v<T, float>)
-            return g_ConfigManager.GetFloat(section, paramName, defaultValue);
+            return g_ConfigManager.GetFloat(section, std::string(paramName), defaultValue);
         else
-            return g_ConfigManager.GetString(section, paramName, defaultValue);
+            return g_ConfigManager.GetString(section, std::string(paramName), defaultValue);
     }
     
     template<typename T>
-    void SaveConfig(const std::string& paramName, T value) const {
-        static_assert(
-            std::is_same_v<T, int> || std::is_same_v<T, bool> ||
-            std::is_same_v<T, float> || std::is_same_v<T, std::string>,
-            "Unsupported config type"
-        );
+    void SaveConfig(std::string_view paramName, T value) const {
         auto section = NormalizeSection(GetName());
         if constexpr (std::is_same_v<T, int>)
-            g_ConfigManager.SetInt(section, paramName, value);
+            g_ConfigManager.SetInt(section, std::string(paramName), value);
         else if constexpr (std::is_same_v<T, bool>)
-            g_ConfigManager.SetBool(section, paramName, value);
+            g_ConfigManager.SetBool(section, std::string(paramName), value);
         else if constexpr (std::is_same_v<T, float>)
-            g_ConfigManager.SetFloat(section, paramName, value);
+            g_ConfigManager.SetFloat(section, std::string(paramName), value);
         else
-            g_ConfigManager.SetString(section, paramName, value);
+            g_ConfigManager.SetString(section, std::string(paramName), value);
     }
 
-    inline virtual void SetEnabled(bool enabled) {
+    virtual void SetEnabled(bool enabled) {
         if (isEnabled != enabled) {
             isEnabled = enabled;
             SaveConfig("enabled", enabled);
             g_ConfigManager.SaveConfig();
         }
     }
-    inline bool LoadEnabledState(bool defaultState = false) {
+    
+    bool LoadEnabledState(bool defaultState = false) {
         return isEnabled = GetConfig("enabled", defaultState);
     }
 
-    void AddParameter(const Parameter& param) { parameters.push_back(param); }
-    inline void RenderParameters() {
+    void AddParameter(Parameter&& param) { parameters.emplace_back(std::move(param)); }
+    void AddParameter(const Parameter& param) { parameters.emplace_back(param); }
+    
+    void RenderParameters() {
         for (auto& param : parameters)
             param.Render();
     }
-    inline void LoadParameters() {
-        for (auto& param : parameters) {
-            switch (param.GetType()) {
-                case Parameter::Type::Int:
-                    *param.GetIntPtr() = GetConfig(param.GetName(), *param.GetIntPtr());
-                    break;
-                case Parameter::Type::Float:
-                    *param.GetFloatPtr() = GetConfig(param.GetName(), *param.GetFloatPtr());
-                    break;
-                case Parameter::Type::Bool:
-                    *param.GetBoolPtr() = GetConfig(param.GetName(), *param.GetBoolPtr());
-                    break;
-            }
+    
+    void LoadParameters() {
+        for (const auto& param : parameters) {
+            param.Load(this);
         }
     }
-    inline void SaveParameters() const {
+    
+    void SaveParameters() const {
         for (const auto& param : parameters) {
-            switch (param.GetType()) {
-                case Parameter::Type::Int:
-                    SaveConfig(param.GetName(), *param.GetIntPtr());
-                    break;
-                case Parameter::Type::Float:
-                    SaveConfig(param.GetName(), *param.GetFloatPtr());
-                    break;
-                case Parameter::Type::Bool:
-                    SaveConfig(param.GetName(), *param.GetBoolPtr());
-                    break;
-            }
+            param.Save(this);
         }
         g_ConfigManager.SaveConfig();
     }
+    
     const std::vector<Parameter>& GetParameters() const { return parameters; }
 };
 
+class HookedFunction;
+class KeybindFunction;
 
+template<typename Derived>
 class KeyFunction : public IMenuFunction {
 protected:
     std::string name;
-    std::string idPrefix;
-    std::string keyId;
-    std::string checkId;
-    std::string popupId;
-    std::string paramButtonId;
-    bool popupWasOpen = false;
-
     int* key;
     std::function<void(bool)> callback;
     bool waitingForKey = false;
     int prevKey = 0;
     bool toggleable = false;
-    std::string conflictPopupId;
-    std::string replaceButtonId;
-    std::string cancelButtonId;
-    std::string chooseButtonId;
-    int pendingConflictKey;
-    int* pendingConflictKeyPtr;
+    bool popupWasOpen = false;
+    int pendingConflictKey = 0;
+    int* pendingConflictKeyPtr = nullptr;
 
-    KeyFunction(const std::string& funcName, int* keyPtr,
-                std::function<void(bool)> callback,
-                const std::string& idPrefix, const std::string& keyId,
-                const std::string& checkId, const std::string& popupId,
-                bool toggleable)
-        : name(funcName), idPrefix(idPrefix), keyId(keyId), checkId(checkId),
-          popupId(popupId), paramButtonId("Config##param_" + idPrefix),
-          key(keyPtr), callback(std::move(callback)), waitingForKey(false), prevKey(*key), toggleable(toggleable),
-          conflictPopupId("Key Conflict##KeyConflict" + idPrefix),
-          replaceButtonId("Replace##KeyConflict" + idPrefix),
-          cancelButtonId("Keep##KeyConflict" + idPrefix),
-          chooseButtonId("Remap##KeyConflict" + idPrefix),
-          pendingConflictKey(0), pendingConflictKeyPtr(nullptr) {}
+private:
+    mutable bool idsInitialized = false;
+    mutable std::string keyId, checkId, popupId, conflictPopupId, paramButtonId;
+
+    void InitializeIds() const {
+        if (!idsInitialized) {
+            std::string_view prefix = std::is_same_v<Derived, HookedFunction> ? "##Hook_" : "##Key_";
+            std::string base = std::string(prefix) + name;
+            
+            keyId = base + "_key";
+            checkId = base;
+            popupId = base + "_params";
+            conflictPopupId = base + "_conflict";
+            paramButtonId = "Config##" + base;
+            
+            idsInitialized = true;
+        }
+    }
+
+protected:
+    KeyFunction(std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable)
+        : name(funcName), key(keyPtr), callback(std::move(callback)), prevKey(*key), toggleable(toggleable) {}
 
     virtual void OnKeyAssigned() = 0;
 
 public:
     void Render() override;
-    const std::string& GetName() const override { return name; }
+    std::string_view GetName() const override { return name; }
     int GetKey() const { return key ? *key : 0; }
     const std::function<void(bool)>& GetCallback() const { return callback; }
     void ResetPrevKey() { prevKey = *key; }
 
+    const char* GetKeyId() const { InitializeIds(); return keyId.c_str(); }
+    const char* GetCheckId() const { InitializeIds(); return checkId.c_str(); }
+    const char* GetPopupId() const { InitializeIds(); return popupId.c_str(); }
+    const char* GetParamButtonId() const { InitializeIds(); return paramButtonId.c_str(); }
+    const char* GetConflictPopupId() const { InitializeIds(); return conflictPopupId.c_str(); }
+
     void OnKeyUnbound() override {
         ResetPrevKey();
         SaveConfig("key", -1);
-        // Note: g_ConfigManager.SaveConfig() is called by KeybindManager after this.
     }
 };
 
-class HookedFunction : public KeyFunction {
-protected:
-    void OnKeyAssigned() override;
-
+class HookedFunction : public KeyFunction<HookedFunction> {
 private:
     std::vector<GameHook::GameEvent> eventTypes;
     bool executeOnToggle = false;
 
+protected:
+    void OnKeyAssigned() override;
+
 public:
-    HookedFunction(const std::string& funcName,
-                   const std::vector<GameHook::GameEvent>& events,
+    HookedFunction(std::string_view funcName, const std::vector<GameHook::GameEvent>& events,
                    std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
-        : KeyFunction(funcName, keyPtr, std::move(callback),
-                      "##Hook_" + funcName,
-                      "##Hook_" + funcName + "_key",
-                      "##check##Hook_" + funcName,
-                      "ConfigParams##Hook_" + funcName,
-                      true),
+        : KeyFunction(funcName, keyPtr, std::move(callback), true),
           eventTypes(events), executeOnToggle(executeOnToggle) {
         LoadConfig();
     }
 
     ~HookedFunction() override;
-
     void LoadConfig();
     void SetEnabled(bool enabled) override;
     void SetKey();
 };
 
-class KeybindFunction : public KeyFunction {
+class KeybindFunction : public KeyFunction<KeybindFunction> {
 protected:
     void OnKeyAssigned() override;
 
 public:
-    KeybindFunction(const std::string& funcName, int* keyPtr,
-                    std::function<void(bool)> callback, bool toggleable = false)
-        : KeyFunction(funcName, keyPtr, std::move(callback),
-                      "##Key_" + funcName,
-                      "##Key_" + funcName + "_key",
-                      "##check##Key_" + funcName,
-                      "ConfigParams##Key_" + funcName,
-                      toggleable) {
+    KeybindFunction(std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable = false)
+        : KeyFunction(funcName, keyPtr, std::move(callback), toggleable) {
         LoadConfig();
     }
 
