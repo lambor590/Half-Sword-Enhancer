@@ -11,19 +11,25 @@
 #include "Util.h"
 
 namespace Updater {
+    constexpr const wchar_t* GITHUB_HOST = L"api.github.com";
+    constexpr const wchar_t* GITHUB_API_PATH = L"/repos/lambor590/Half-Sword-Enhancer/releases/latest";
+    constexpr const char* TAG_PREFIX = "\"tag_name\":\"";
+    constexpr const char* ASSETS_PREFIX = "\"assets\":";
+    constexpr const char* LAUNCHER_NAME = "\"name\":\"HS_Enhancer_Launcher.exe\"";
+    constexpr const char* DEFAULT_VERSION = "0.0.0";
+    constexpr const wchar_t* USER_AGENT = L"Half Sword Enhancer";
 
-    inline std::string getLocalVersion() {
+    [[nodiscard]] inline std::string getLocalVersion() noexcept {
         static std::string cachedVersion;
 
         if (!cachedVersion.empty()) {
             return cachedVersion;
         }
 
-        const std::string defaultVersion = "0.0.0";
         char filePath[MAX_PATH];
 
         if (!GetModuleFileNameA(NULL, filePath, MAX_PATH)) {
-            cachedVersion = defaultVersion;
+            cachedVersion = DEFAULT_VERSION;
             return cachedVersion;
         }
 
@@ -35,7 +41,7 @@ namespace Updater {
 
         if (!GetFileVersionInfoA(filePath, 0, verSize, verData.data()) ||
             !VerQueryValueA(verData.data(), "\\", (void**)&fileInfo, &size)) {
-            cachedVersion = defaultVersion;
+            cachedVersion = DEFAULT_VERSION;
             return cachedVersion;
         }
 
@@ -46,29 +52,27 @@ namespace Updater {
         return cachedVersion;
     }
 
-    inline std::string getRemoteVersion() {
+    [[nodiscard]] inline std::string getRemoteVersion() noexcept {
         try {
-            const wchar_t host[] = L"api.github.com";
-            const wchar_t path[] = L"/repos/lambor590/Half-Sword-Enhancer/releases/latest";
-            std::string version = "0.0.0";
+            std::string version = DEFAULT_VERSION;
 
             Logger::info("Checking for updates...");
 
-            HINTERNET session = WinHttpOpen(L"Half Sword Enhancer", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+            HINTERNET session = WinHttpOpen(USER_AGENT, WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
                 WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0);
             if (!session) {
                 Logger::error("Failed to initialize WinHTTP: " + std::to_string(GetLastError()));
                 return version;
             }
 
-            HINTERNET connect = WinHttpConnect(session, host, INTERNET_DEFAULT_HTTPS_PORT, 0);
+            HINTERNET connect = WinHttpConnect(session, GITHUB_HOST, INTERNET_DEFAULT_HTTPS_PORT, 0);
             if (!connect) {
                 Logger::error("Failed to connect to GitHub");
                 WinHttpCloseHandle(session);
                 return version;
             }
 
-            HINTERNET request = WinHttpOpenRequest(connect, L"GET", path, NULL, NULL, NULL, WINHTTP_FLAG_SECURE);
+            HINTERNET request = WinHttpOpenRequest(connect, L"GET", GITHUB_API_PATH, NULL, NULL, NULL, WINHTTP_FLAG_SECURE);
             if (!request) {
                 Logger::error("Failed to open request");
                 WinHttpCloseHandle(connect);
@@ -76,7 +80,8 @@ namespace Updater {
                 return version;
             }
 
-            WinHttpSetTimeouts(request, 5000, 5000, 5000, 15000);
+            WinHttpSetTimeouts(request, Util::WIN_HTTP_TIMEOUT_MS, Util::WIN_HTTP_TIMEOUT_MS, 
+                             Util::WIN_HTTP_TIMEOUT_MS, Util::WIN_HTTP_RECEIVE_TIMEOUT_MS);
 
             if (!WinHttpSendRequest(request, NULL, 0, NULL, 0, 0, 0) ||
                 !WinHttpReceiveResponse(request, NULL)) {
@@ -99,13 +104,13 @@ namespace Updater {
             }
 
             std::string response;
-            response.reserve(8192);
+            response.reserve(Util::RESPONSE_BUFFER_SIZE);
             DWORD size;
-            char buffer[8192];
+            char buffer[Util::RESPONSE_BUFFER_SIZE];
 
             while (WinHttpQueryDataAvailable(request, &size) && size > 0) {
                 DWORD downloaded;
-                if (WinHttpReadData(request, buffer, min(size, sizeof(buffer)), &downloaded)) {
+                if (WinHttpReadData(request, buffer, min(size, Util::RESPONSE_BUFFER_SIZE), &downloaded)) {
                     response.append(buffer, downloaded);
                 }
             }
@@ -118,7 +123,6 @@ namespace Updater {
                 return version;
             }
 
-            static const char* TAG_PREFIX = "\"tag_name\":\"";
             size_t tagPos = response.find(TAG_PREFIX);
             if (tagPos != std::string::npos) {
                 tagPos += strlen(TAG_PREFIX);
@@ -138,9 +142,6 @@ namespace Updater {
                 }
             }
 
-            static const char* ASSETS_PREFIX = "\"assets\":";
-            static const char* NAME_PREFIX = "\"name\":\"HS_Enhancer_Launcher.exe\"";
-
             size_t assetsPos = response.find(ASSETS_PREFIX);
             if (assetsPos == std::string::npos) {
                 Logger::error("Invalid GitHub response format");
@@ -150,7 +151,7 @@ namespace Updater {
                 return version;
             }
 
-            size_t namePos = response.find(NAME_PREFIX, assetsPos);
+            size_t namePos = response.find(LAUNCHER_NAME, assetsPos);
             if (namePos == std::string::npos) {
                 Logger::error("Launcher executable not found in response");
                 WinHttpCloseHandle(request);
@@ -192,11 +193,11 @@ namespace Updater {
         }
         catch (const std::exception& e) {
             Logger::error("Update check failed: " + std::string(e.what()));
-            return "0.0.0";
+            return DEFAULT_VERSION;
         }
     }
 
-    inline bool isUpdateAvailable(const char* local, const char* remote) {
+    [[nodiscard]] inline bool isUpdateAvailable(const char* local, const char* remote) noexcept {
         std::vector<int> localVer(3, 0), remoteVer(3, 0);
         std::istringstream localStream(local), remoteStream(remote);
         std::string token;
