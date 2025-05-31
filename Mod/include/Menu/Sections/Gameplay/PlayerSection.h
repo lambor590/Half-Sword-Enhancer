@@ -115,7 +115,7 @@ public:
             }, player);
 
         std::initializer_list<Parameter> playerStrengthParams = {
-            Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 3.5f),
+            Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 10.0f),
             Parameter("grab_force_multiplier", "Grab Force Multiplier", &playerGrabForceMultiplier, 1.0f, 10.0f),
             Parameter("hands_rigidity_multiplier", "Hands Rigidity Multiplier", &playerHandsRigidityMultiplier, 1.0f, 10.0f),
             Parameter("adjust_body_tonus", "Adjust Body Tonus", &playerAdjustBodyTonus)
