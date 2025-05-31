@@ -46,10 +46,53 @@ namespace Updater {
         }
 
         cachedVersion = std::to_string(HIWORD(fileInfo->dwFileVersionMS)) + "." +
-            std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
-            std::to_string(HIWORD(fileInfo->dwFileVersionLS));
+                       std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
+                       std::to_string(HIWORD(fileInfo->dwFileVersionLS));
 
         return cachedVersion;
+    }
+
+    template<typename CleanupFunc>
+    class scoped_winhttp_handle {
+    private:
+        HINTERNET handle;
+        CleanupFunc cleanup;
+
+    public:
+        constexpr scoped_winhttp_handle(HINTERNET h, CleanupFunc cf) noexcept 
+            : handle(h), cleanup(std::move(cf)) {}
+
+        ~scoped_winhttp_handle() {
+            if (handle) cleanup(handle);
+        }
+
+        constexpr operator HINTERNET() const noexcept { return handle; }
+        constexpr HINTERNET get() const noexcept { return handle; }
+        constexpr bool valid() const noexcept { return handle != nullptr; }
+
+        scoped_winhttp_handle(const scoped_winhttp_handle&) = delete;
+        scoped_winhttp_handle& operator=(const scoped_winhttp_handle&) = delete;
+    };
+
+    [[nodiscard]] inline auto make_winhttp_session(const wchar_t* userAgent) noexcept {
+        return scoped_winhttp_handle(
+            WinHttpOpen(userAgent, WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0),
+            [](HINTERNET h) { WinHttpCloseHandle(h); }
+        );
+    }
+
+    [[nodiscard]] inline auto make_winhttp_connection(HINTERNET session, const wchar_t* host) noexcept {
+        return scoped_winhttp_handle(
+            WinHttpConnect(session, host, INTERNET_DEFAULT_HTTPS_PORT, 0),
+            [](HINTERNET h) { WinHttpCloseHandle(h); }
+        );
+    }
+
+    [[nodiscard]] inline auto make_winhttp_request(HINTERNET connection, const wchar_t* path) noexcept {
+        return scoped_winhttp_handle(
+            WinHttpOpenRequest(connection, L"GET", path, NULL, NULL, NULL, WINHTTP_FLAG_SECURE),
+            [](HINTERNET h) { WinHttpCloseHandle(h); }
+        );
     }
 
     [[nodiscard]] inline std::string getRemoteVersion() noexcept {
@@ -58,37 +101,27 @@ namespace Updater {
 
             Logger::info("Checking for updates...");
 
-            HINTERNET session = WinHttpOpen(USER_AGENT, WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
-                WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, 0);
-            if (!session) {
+            auto session = make_winhttp_session(USER_AGENT);
+            if (!session.valid()) {
                 Logger::error("Failed to initialize WinHTTP: " + std::to_string(GetLastError()));
                 return version;
             }
 
-            HINTERNET connect = WinHttpConnect(session, GITHUB_HOST, INTERNET_DEFAULT_HTTPS_PORT, 0);
-            if (!connect) {
+            auto connect = make_winhttp_connection(session, GITHUB_HOST);
+            if (!connect.valid()) {
                 Logger::error("Failed to connect to GitHub");
-                WinHttpCloseHandle(session);
                 return version;
             }
 
-            HINTERNET request = WinHttpOpenRequest(connect, L"GET", GITHUB_API_PATH, NULL, NULL, NULL, WINHTTP_FLAG_SECURE);
-            if (!request) {
+            auto request = make_winhttp_request(connect, GITHUB_API_PATH);
+            if (!request.valid()) {
                 Logger::error("Failed to open request");
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
                 return version;
             }
-
-            WinHttpSetTimeouts(request, Util::WIN_HTTP_TIMEOUT_MS, Util::WIN_HTTP_TIMEOUT_MS, 
-                             Util::WIN_HTTP_TIMEOUT_MS, Util::WIN_HTTP_RECEIVE_TIMEOUT_MS);
 
             if (!WinHttpSendRequest(request, NULL, 0, NULL, 0, 0, 0) ||
                 !WinHttpReceiveResponse(request, NULL)) {
                 Logger::error("Failed to send/receive request");
-                WinHttpCloseHandle(request);
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
                 return version;
             }
 
@@ -97,9 +130,6 @@ namespace Updater {
             if (WinHttpQueryHeaders(request, WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER,
                 NULL, &statusCode, &statusCodeSize, NULL) && statusCode != 200) {
                 Logger::error("GitHub API error: " + std::to_string(statusCode));
-                WinHttpCloseHandle(request);
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
                 return version;
             }
 
@@ -117,9 +147,6 @@ namespace Updater {
 
             if (response.empty()) {
                 Logger::error("Empty response from GitHub");
-                WinHttpCloseHandle(request);
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
                 return version;
             }
 
@@ -135,60 +162,11 @@ namespace Updater {
                     }
 
                     Logger::info("Latest version: " + version);
-                    WinHttpCloseHandle(request);
-                    WinHttpCloseHandle(connect);
-                    WinHttpCloseHandle(session);
                     return version;
                 }
             }
 
-            size_t assetsPos = response.find(ASSETS_PREFIX);
-            if (assetsPos == std::string::npos) {
-                Logger::error("Invalid GitHub response format");
-                WinHttpCloseHandle(request);
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
-                return version;
-            }
-
-            size_t namePos = response.find(LAUNCHER_NAME, assetsPos);
-            if (namePos == std::string::npos) {
-                Logger::error("Launcher executable not found in response");
-                WinHttpCloseHandle(request);
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
-                return version;
-            }
-
-            tagPos = response.find(TAG_PREFIX);
-            if (tagPos == std::string::npos) {
-                Logger::error("Version tag not found in response");
-                WinHttpCloseHandle(request);
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
-                return version;
-            }
-
-            tagPos += strlen(TAG_PREFIX);
-            size_t endPos = response.find("\"", tagPos);
-            if (endPos == std::string::npos) {
-                Logger::error("Malformed version tag");
-                WinHttpCloseHandle(request);
-                WinHttpCloseHandle(connect);
-                WinHttpCloseHandle(session);
-                return version;
-            }
-
-            version = response.substr(tagPos, endPos - tagPos);
-
-            if (!version.empty() && version[0] == 'v') {
-                version = version.substr(1);
-            }
-
-            Logger::info("Latest version: " + version);
-            WinHttpCloseHandle(request);
-            WinHttpCloseHandle(connect);
-            WinHttpCloseHandle(session);
+            Logger::error("Failed to parse version from GitHub response");
             return version;
         }
         catch (const std::exception& e) {
