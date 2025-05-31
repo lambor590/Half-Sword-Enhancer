@@ -15,6 +15,25 @@
 #include "Logger.h"
 
 namespace Util {
+    constexpr DWORD DEFAULT_TIMEOUT_SECONDS = 60;
+    constexpr DWORD DEFAULT_INJECTION_TIMEOUT_MS = 10000;
+    constexpr DWORD MAX_FILE_CREATION_ATTEMPTS = 3;
+    constexpr DWORD FILE_CREATION_RETRY_DELAY_MS = 500;
+    constexpr DWORD INJECTION_RANDOM_DELAY_MAX_MS = 20;
+    constexpr DWORD INJECTION_STABILIZATION_DELAY_MS = 10;
+    constexpr SIZE_T RESPONSE_BUFFER_SIZE = 8192;
+    constexpr DWORD WIN_HTTP_TIMEOUT_MS = 5000;
+    constexpr DWORD WIN_HTTP_RECEIVE_TIMEOUT_MS = 15000;
+    constexpr SIZE_T ERROR_BUFFER_SIZE = 256;
+    
+    constexpr const char* PROCESS_NAME = "HalfSwordUE5-Win64-Shipping.exe";
+    constexpr const char* STEAM_GAME_URL = "steam://rungameid/2642680";
+    constexpr const char* APP_FOLDER_NAME = "Half Sword Enhancer";
+    constexpr const char* DLL_FILENAME = "HS-Enhancer.dll";
+    constexpr const char* TEMP_DLL_FILENAME = "HS-Enhancer-Temp.dll";
+    constexpr const char* KERNEL32_DLL = "kernel32.dll";
+    constexpr const char* LOADLIBRARY_FUNCTION = "LoadLibraryA";
+
     template<typename HandleType, typename CleanupFunc>
     class ScopedResource {
     private:
@@ -23,22 +42,22 @@ namespace Util {
         bool released = false;
 
     public:
-        ScopedResource(HandleType h, CleanupFunc cf) : handle(h), cleanup(cf) {}
+        constexpr ScopedResource(HandleType h, CleanupFunc cf) noexcept : handle(h), cleanup(cf) {}
 
         ~ScopedResource() {
             if (!released && isValid())
                 cleanup(handle);
         }
 
-        operator HandleType() const { return handle; }
-        HandleType get() const { return handle; }
+        constexpr operator HandleType() const noexcept { return handle; }
+        constexpr HandleType get() const noexcept { return handle; }
 
-        HandleType release() {
+        HandleType release() noexcept {
             released = true;
             return handle;
         }
 
-        bool isValid() const {
+        [[nodiscard]] constexpr bool isValid() const noexcept {
             if constexpr (std::is_same_v<HandleType, HANDLE>)
                 return handle != NULL && handle != INVALID_HANDLE_VALUE;
             else
@@ -70,32 +89,32 @@ namespace Util {
     using ScopedHandle = ScopedResource<HANDLE, std::function<void(HANDLE)>>;
     using ScopedVirtualMemory = ScopedResource<LPVOID, std::function<void(LPVOID)>>;
 
-    inline ScopedHandle createScopedHandle(HANDLE handle) {
+    [[nodiscard]] inline ScopedHandle createScopedHandle(HANDLE handle) noexcept {
         return ScopedHandle(handle, [](HANDLE h) { CloseHandle(h); });
     }
 
-    inline ScopedVirtualMemory createScopedVirtualMemory(HANDLE process, LPVOID memory) {
+    [[nodiscard]] inline ScopedVirtualMemory createScopedVirtualMemory(HANDLE process, LPVOID memory) noexcept {
         return ScopedVirtualMemory(memory, [process](LPVOID mem) {
             if (process && mem)
                 VirtualFreeEx(process, mem, 0, MEM_RELEASE);
         });
     }
 
-    [[noreturn]] inline void fail(const char* msg) {
+    [[noreturn]] inline void fail(const char* msg) noexcept {
         MessageBoxA(nullptr, msg, "Error", MB_ICONERROR);
         exit(1);
     }
 
-    [[noreturn]] inline void fail(const std::string& msg) {
+    [[noreturn]] inline void fail(const std::string& msg) noexcept {
         MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);
         exit(1);
     }
 
-    inline void showError(const char* msg) {
+    inline void showError(const char* msg) noexcept {
         MessageBoxA(nullptr, msg, "Error", MB_ICONERROR);
     }
 
-    inline void showError(const std::string& msg) {
+    inline void showError(const std::string& msg) noexcept {
         MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);
     }
 
@@ -104,7 +123,7 @@ namespace Util {
         HWND windowHandle;
     };
 
-    inline BOOL CALLBACK EnumWindowsCallback(HWND hwnd, LPARAM lParam) {
+    inline BOOL CALLBACK EnumWindowsCallback(HWND hwnd, LPARAM lParam) noexcept {
         auto* data = reinterpret_cast<EnumWindowsData*>(lParam);
         DWORD windowProcessId;
         GetWindowThreadProcessId(hwnd, &windowProcessId);
@@ -116,13 +135,13 @@ namespace Util {
         return TRUE;
     }
 
-    inline HWND FindProcessWindow(DWORD processId) {
+    [[nodiscard]] inline HWND FindProcessWindow(DWORD processId) noexcept {
         EnumWindowsData data = { processId, NULL };
         EnumWindows(EnumWindowsCallback, reinterpret_cast<LPARAM>(&data));
         return data.windowHandle;
     }
 
-    inline bool WaitForGameWindow(DWORD processId, int timeoutSeconds = 60) {
+    [[nodiscard]] inline bool WaitForGameWindow(DWORD processId, int timeoutSeconds = DEFAULT_TIMEOUT_SECONDS) {
         Logger::info("Waiting for Half Sword window to be available...");
 
         for (int i = 0; i < timeoutSeconds; i++) {
@@ -136,7 +155,7 @@ namespace Util {
         return false;
     }
 
-    inline DWORD getProcessIdByName(const char* processName) {
+    [[nodiscard]] inline DWORD getProcessIdByName(const char* processName) noexcept {
         PROCESSENTRY32 processEntry{ sizeof(PROCESSENTRY32) };
         auto snapshot = createScopedHandle(CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0));
 
@@ -153,7 +172,7 @@ namespace Util {
         return 0;
     }
 
-    inline bool isRunningAsAdmin() {
+    [[nodiscard]] inline bool isRunningAsAdmin() noexcept {
         BOOL isAdmin = FALSE;
         SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
         PSID adminGroup = NULL;
@@ -167,7 +186,7 @@ namespace Util {
         return isAdmin != 0;
     }
 
-    inline const std::string& getAppDataPath() {
+    [[nodiscard]] inline const std::string& getAppDataPath() {
         static std::string fullPath;
 
         if (fullPath.empty()) {
@@ -175,7 +194,7 @@ namespace Util {
             if (FAILED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appDataPath)))
                 fail("Failed to get AppData path");
 
-            fullPath = std::string(appDataPath) + "\\Half Sword Enhancer";
+            fullPath = std::string(appDataPath) + "\\" + APP_FOLDER_NAME;
             try {
                 std::filesystem::create_directories(fullPath);
             } catch (const std::filesystem::filesystem_error& e) {
@@ -186,13 +205,13 @@ namespace Util {
         return fullPath;
     }
 
-    inline DWORD findOrLaunchGame(const char* processName, int timeoutSeconds = 60) {
+    [[nodiscard]] inline DWORD findOrLaunchGame(const char* processName = PROCESS_NAME, int timeoutSeconds = DEFAULT_TIMEOUT_SECONDS) {
         Logger::info("Searching for Half Sword process...");
         DWORD processId = getProcessIdByName(processName);
 
         if (processId == 0) {
             Logger::info("Half Sword not found, launching it...");
-            ShellExecuteA(0, 0, "steam://rungameid/2642680", 0, 0, SW_SHOW);
+            ShellExecuteA(0, 0, STEAM_GAME_URL, 0, 0, SW_SHOW);
 
             for (int i = 0; i < timeoutSeconds && (processId = getProcessIdByName(processName)) == 0; i++)
                 std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -225,7 +244,6 @@ namespace Util {
         if (dwResourceSize == 0)
             fail("Resource size is zero!");
 
-        const int maxAttempts = 3;
         HANDLE fileHandle = INVALID_HANDLE_VALUE;
         std::string errorMsg;
 
@@ -236,30 +254,30 @@ namespace Util {
             Logger::warn(std::string("Could not remove existing DLL: ") + e.what());
         }
 
-        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+        for (DWORD attempt = 1; attempt <= MAX_FILE_CREATION_ATTEMPTS; attempt++) {
             fileHandle = CreateFileA(
                 dllPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
                 FILE_ATTRIBUTE_NORMAL, NULL
             );
 
             if (fileHandle != INVALID_HANDLE_VALUE) {
-                break; // Success
+                break;
             }
 
             DWORD error = GetLastError();
-            char errorBuffer[256];
-            FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, sizeof(errorBuffer), NULL);
+            char errorBuffer[ERROR_BUFFER_SIZE];
+            FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorBuffer, ERROR_BUFFER_SIZE, NULL);
             errorMsg = std::string("CreateFile error: ") + errorBuffer;
-            Logger::warn(std::string("Attempt ") + std::to_string(attempt) + "/" + std::to_string(maxAttempts) +
+            Logger::warn(std::string("Attempt ") + std::to_string(attempt) + "/" + std::to_string(MAX_FILE_CREATION_ATTEMPTS) +
                          ": Failed to create DLL file: " + errorMsg);
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            std::this_thread::sleep_for(std::chrono::milliseconds(FILE_CREATION_RETRY_DELAY_MS));
         }
 
         if (fileHandle == INVALID_HANDLE_VALUE) {
             Logger::warn("Failed to create DLL in primary location, trying alternative location...");
 
-            std::string altPath = std::filesystem::current_path().string() + "\\HS-Enhancer-Temp.dll";
+            std::string altPath = std::filesystem::current_path().string() + "\\" + TEMP_DLL_FILENAME;
 
             fileHandle = CreateFileA(
                 altPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
@@ -286,14 +304,14 @@ namespace Util {
         Logger::info("DLL written to temporary file successfully.");
     }
 
-    inline std::string getLastErrorMessage(DWORD error = GetLastError()) {
-        char buf[256];
+    [[nodiscard]] inline std::string getLastErrorMessage(DWORD error = GetLastError()) noexcept {
+        char buf[ERROR_BUFFER_SIZE];
         FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                       NULL, error, 0, buf, sizeof(buf), NULL);
+                       NULL, error, 0, buf, ERROR_BUFFER_SIZE, NULL);
         return std::string(buf);
     }
 
-    inline bool injectDll(DWORD processId, const std::string& dllPath, int timeoutMs = 10000) {
+    inline bool injectDll(DWORD processId, const std::string& dllPath, int timeoutMs = DEFAULT_INJECTION_TIMEOUT_MS) {
         try {
             if (!std::filesystem::exists(dllPath)) {
                 Logger::error("DLL file does not exist: " + dllPath);
@@ -326,7 +344,7 @@ namespace Util {
             }
 
             Logger::info("Waiting a bit to inject the mod...");
-            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % 20));
+            std::this_thread::sleep_for(std::chrono::milliseconds(rand() % INJECTION_RANDOM_DELAY_MAX_MS));
 
             SIZE_T pathLength = dllPath.length() + 1;
             LPVOID remotePath = VirtualAllocEx(hProcess, NULL, pathLength, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
@@ -351,9 +369,9 @@ namespace Util {
 
             FARPROC loadLibraryAddr = NULL;
 
-            HMODULE hKernel32 = GetModuleHandleA("kernel32.dll");
+            HMODULE hKernel32 = GetModuleHandleA(KERNEL32_DLL);
             if (hKernel32) {
-                loadLibraryAddr = (FARPROC)GetProcAddress(hKernel32, "LoadLibraryA");
+                loadLibraryAddr = (FARPROC)GetProcAddress(hKernel32, LOADLIBRARY_FUNCTION);
             }
 
             if (!loadLibraryAddr) {
@@ -364,7 +382,7 @@ namespace Util {
                 return false;
             }
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(INJECTION_STABILIZATION_DELAY_MS));
 
             Logger::info("Injecting mod...");
 
@@ -392,7 +410,7 @@ namespace Util {
             GetExitCodeThread(hThread, &exitCode);
             CloseHandle(hThread);
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            std::this_thread::sleep_for(std::chrono::milliseconds(INJECTION_STABILIZATION_DELAY_MS));
 
             VirtualFreeEx(hProcess, remotePath, 0, MEM_RELEASE);
             CloseHandle(hProcess);
