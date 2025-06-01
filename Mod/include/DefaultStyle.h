@@ -89,6 +89,7 @@ public:
         colors[ImGuiCol_NavWindowingHighlight] = windowingHighlight;
         colors[ImGuiCol_NavWindowingDimBg] = windowingDimBg;
         colors[ImGuiCol_ModalWindowDimBg] = modalDimBg;
+        colors[ImGuiCol_InputTextCursor] = brightBrass;
         
         return colors;
     }
