@@ -19,79 +19,61 @@ class Parameter {
 public:
     enum class Type : uint8_t { Int, Float, Bool };
 
-private:
-    std::string_view name;
-    std::string_view displayName;
+    std::string_view name, displayName;
     Type type;
     void* valuePtr;
     union { int intMin, intMax; float floatMin, floatMax; } minValue, maxValue;
     mutable std::string id;
-    
-    using RenderFn = void(*)(const Parameter&);
-    using LoadFn = void(*)(const Parameter&, const class IMenuFunction*);
-    using SaveFn = void(*)(const Parameter&, const class IMenuFunction*);
+
+private:
+    using RenderFn = void(*)(const Parameter&) noexcept;
+    using LoadFn = void(*)(const Parameter&, const class IMenuFunction*) noexcept;
+    using SaveFn = void(*)(const Parameter&, const class IMenuFunction*) noexcept;
     
     RenderFn renderFn;
     LoadFn loadFn;
     SaveFn saveFn;
     
-    static void RenderInt(const Parameter& param);
-    static void RenderFloat(const Parameter& param);
-    static void RenderBool(const Parameter& param);
+    static void RenderInt(const Parameter& param) noexcept;
+    static void RenderFloat(const Parameter& param) noexcept;
+    static void RenderBool(const Parameter& param) noexcept;
     
-    static void LoadInt(const Parameter& param, const class IMenuFunction* func);
-    static void LoadFloat(const Parameter& param, const class IMenuFunction* func);
-    static void LoadBool(const Parameter& param, const class IMenuFunction* func);
+    static void LoadInt(const Parameter& param, const class IMenuFunction* func) noexcept;
+    static void LoadFloat(const Parameter& param, const class IMenuFunction* func) noexcept;
+    static void LoadBool(const Parameter& param, const class IMenuFunction* func) noexcept;
     
-    static void SaveInt(const Parameter& param, const class IMenuFunction* func);
-    static void SaveFloat(const Parameter& param, const class IMenuFunction* func);
-    static void SaveBool(const Parameter& param, const class IMenuFunction* func);
+    static void SaveInt(const Parameter& param, const class IMenuFunction* func) noexcept;
+    static void SaveFloat(const Parameter& param, const class IMenuFunction* func) noexcept;
+    static void SaveBool(const Parameter& param, const class IMenuFunction* func) noexcept;
 
 public:
-    Parameter(std::string_view name, std::string_view displayName, int* valuePtr, int minValue = 0, int maxValue = 100)
-        : name(name), displayName(displayName), type(Type::Int), valuePtr(valuePtr), renderFn(RenderInt), loadFn(LoadInt), saveFn(SaveInt) {
+    Parameter(std::string_view name, std::string_view displayName, int* valuePtr, int minValue = 0, int maxValue = 100) noexcept
+        : name(name), displayName(displayName), type(Type::Int), valuePtr(valuePtr), 
+          renderFn(RenderInt), loadFn(LoadInt), saveFn(SaveInt) {
         this->minValue.intMin = minValue;
         this->maxValue.intMax = maxValue;
-        id.reserve(name.size() + 8);
-        id = "##param_";
-        id += name;
+        id = "##param_" + std::string(name);
     }
 
-    Parameter(std::string_view name, std::string_view displayName, float* valuePtr, float minValue = 0.0f, float maxValue = 1.0f)
-        : name(name), displayName(displayName), type(Type::Float), valuePtr(valuePtr), renderFn(RenderFloat), loadFn(LoadFloat), saveFn(SaveFloat) {
+    Parameter(std::string_view name, std::string_view displayName, float* valuePtr, float minValue = 0.0f, float maxValue = 1.0f) noexcept
+        : name(name), displayName(displayName), type(Type::Float), valuePtr(valuePtr), 
+          renderFn(RenderFloat), loadFn(LoadFloat), saveFn(SaveFloat) {
         this->minValue.floatMin = minValue;
         this->maxValue.floatMax = maxValue;
-        id.reserve(name.size() + 8);
-        id = "##param_";
-        id += name;
+        id = "##param_" + std::string(name);
     }
 
-    Parameter(std::string_view name, std::string_view displayName, bool* valuePtr)
-        : name(name), displayName(displayName), type(Type::Bool), valuePtr(valuePtr), renderFn(RenderBool), loadFn(LoadBool), saveFn(SaveBool) {
+    Parameter(std::string_view name, std::string_view displayName, bool* valuePtr) noexcept
+        : name(name), displayName(displayName), type(Type::Bool), valuePtr(valuePtr), 
+          renderFn(RenderBool), loadFn(LoadBool), saveFn(SaveBool) {
         this->minValue.intMin = 0;
         this->maxValue.intMax = 1;
-        id.reserve(name.size() + 8);
-        id = "##param_";
-        id += name;
+        id = "##param_" + std::string(name);
     }
 
-    void Render() const { renderFn(*this); }
-    void Load(const class IMenuFunction* func) const { loadFn(*this, func); }
-    void Save(const class IMenuFunction* func) const { saveFn(*this, func); }
-
-    std::string_view GetName() const { return name; }
-    std::string_view GetDisplayName() const { return displayName; }
-    Type GetType() const { return type; }
-    const std::string& GetId() const { return id; }
-
-    int* GetIntPtr() const { return type == Type::Int ? static_cast<int*>(valuePtr) : nullptr; }
-    float* GetFloatPtr() const { return type == Type::Float ? static_cast<float*>(valuePtr) : nullptr; }
-    bool* GetBoolPtr() const { return type == Type::Bool ? static_cast<bool*>(valuePtr) : nullptr; }
-    
-    int GetIntMin() const { return minValue.intMin; }
-    int GetIntMax() const { return maxValue.intMax; }
-    float GetFloatMin() const { return minValue.floatMin; }
-    float GetFloatMax() const { return maxValue.floatMax; }
+    void Render() const noexcept { renderFn(*this); }
+    void Load(const class IMenuFunction* func) const noexcept { loadFn(*this, func); }
+    void Save(const class IMenuFunction* func) const noexcept { saveFn(*this, func); }
 };
 
 class IMenuFunction {
