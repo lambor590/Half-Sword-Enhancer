@@ -30,6 +30,10 @@ public:
         this->commandQueue = commandQueue;
     }
     
+    void SetGetCommandQueueCallback(void (*callback)()) noexcept override {
+        commandQueueCallback = callback;
+    }
+    
     void Cleanup() noexcept override;
 
 private:
@@ -69,6 +73,8 @@ private:
     HANDLE fenceEvent = nullptr;
     
     void (Renderer::*renderFunc)() noexcept = nullptr;
+
+    void (*commandQueueCallback)() = nullptr;
 
     template<bool IsD3D12>
     __forceinline void RenderFrameImpl() noexcept;
