@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <functional>
 #include <vector>
+#include <array>
 
 class ConfigManager;
 class IMenuFunction;
@@ -11,10 +12,11 @@ extern ConfigManager& g_ConfigManager;
 class KeybindManager {
 public:
     using Callback = std::function<void()>;
+    
     static const char* s_keyNameTable[256];
 
 private:
-    static Callback s_callbacks[256];
+    static std::array<Callback, 256> s_callbacks;
     struct Binding { int* keyPtr; Callback callback; IMenuFunction* function; };
     static std::vector<Binding> s_bindingList;
     static bool s_initialized;
@@ -30,7 +32,7 @@ public:
     static void UpdateBindings() noexcept;
     static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;
 
-    inline static const char* GetKeyName(int vKey) noexcept {
+    static inline const char* GetKeyName(int vKey) noexcept {
         return s_keyNameTable[static_cast<unsigned char>(vKey)];
     }
 
