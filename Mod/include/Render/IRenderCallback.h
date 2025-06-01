@@ -8,18 +8,23 @@ class IRenderCallback
 public:
     virtual void Setup() {};
     virtual void Render() = 0;
+    
     void Init(
         Microsoft::WRL::ComPtr<ID3D11Device> device,
         Microsoft::WRL::ComPtr<ID3D11DeviceContext> context,
-        HWND window)
+        HWND window) noexcept
     {
         this->device = device;
         this->context = context;
         this->window = window;
     }
+    
+    bool IsInitialized() const noexcept {
+        return device && context && window;
+    }
 
 protected:
     Microsoft::WRL::ComPtr<ID3D11Device> device = nullptr;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> context = nullptr;
-    HWND window = NULL;
+    HWND window = nullptr;
 };
