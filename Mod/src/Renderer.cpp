@@ -40,10 +40,11 @@ template<bool IsD3D12>
 __forceinline void Renderer::RenderFrameImpl() noexcept
 {
     if constexpr (IsD3D12) {
-        state.bufferIndex = static_cast<uint8_t>(swapChain3->GetCurrentBackBufferIndex());
+        const uint8_t bufferIdx = static_cast<uint8_t>(swapChain3->GetCurrentBackBufferIndex());
+        state.bufferIndex = bufferIdx;
         
-        ID3D11Resource* const __restrict wrappedBuffer = d3d11WrappedBackBuffers[state.bufferIndex].Get();
-        ID3D11RenderTargetView* const __restrict renderTarget = d3d11RenderTargetViews[state.bufferIndex].Get();
+        ID3D11Resource* const __restrict wrappedBuffer = d3d11WrappedBackBuffers[bufferIdx].Get();
+        ID3D11RenderTargetView* const __restrict renderTarget = d3d11RenderTargetViews[bufferIdx].Get();
         
         _mm_prefetch(reinterpret_cast<const char*>(wrappedBuffer), _MM_HINT_T0);
         _mm_prefetch(reinterpret_cast<const char*>(renderTarget), _MM_HINT_T0);
@@ -98,6 +99,13 @@ bool Renderer::InitD3DResources(IDXGISwapChain* swapChain) noexcept
     return false;
 }
 
+static inline void GetWindowDimensions(HWND handle, int& width, int& height) noexcept {
+    RECT clientRect;
+    GetClientRect(handle, &clientRect);
+    width = clientRect.right - clientRect.left;
+    height = clientRect.bottom - clientRect.top;
+}
+
 bool Renderer::InitD3D11() noexcept
 {
     d3d11Device->GetImmediateContext(&d3d11Context);
@@ -106,10 +114,7 @@ bool Renderer::InitD3D11() noexcept
     swapChain->GetDesc(&desc);
     window.handle = desc.OutputWindow;
     
-    RECT clientRect;
-    GetClientRect(window.handle, &clientRect);
-    window.width = clientRect.right - clientRect.left;
-    window.height = clientRect.bottom - clientRect.top;
+    GetWindowDimensions(window.handle, window.width, window.height);
     window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
     
@@ -145,9 +150,11 @@ bool Renderer::InitD3D12() noexcept
         return false;
     }
     
+    static constexpr auto createFlags = RenderConfig::D3D11_FLAGS;
+    
     if (FAILED(d3d12Device->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence))) ||
         FAILED(d3d12Device->CreateDescriptorHeap(&RenderConfig::RTV_HEAP_DESC, IID_PPV_ARGS(&rtvHeap))) ||
-        FAILED(D3D11On12CreateDevice(d3d12Device.Get(), D3D11_CREATE_DEVICE_BGRA_SUPPORT, nullptr, 0,
+        FAILED(D3D11On12CreateDevice(d3d12Device.Get(), createFlags, nullptr, 0,
             reinterpret_cast<IUnknown**>(commandQueue.GetAddressOf()), 1, 0, &d3d11Device, &d3d11Context, nullptr)) ||
         FAILED(d3d11Device.As(&d3d11On12Device)) ||
         FAILED(swapChain.As(&swapChain3))) UNLIKELY {
@@ -167,21 +174,20 @@ bool Renderer::InitD3D12() noexcept
     window.handle = desc.OutputWindow;
     state.bufferCount = static_cast<uint8_t>(desc.BufferCount);
     
-    RECT clientRect;
-    GetClientRect(window.handle, &clientRect);
-    window.width = clientRect.right - clientRect.left;
-    window.height = clientRect.bottom - clientRect.top;
+    GetWindowDimensions(window.handle, window.width, window.height);
     window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
     
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
     const UINT stride = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     
+    static constexpr auto rtState = RenderConfig::D3D12_RT_STATE;
+    static constexpr auto presentState = RenderConfig::D3D12_PRESENT_STATE;
+    
     for (uint8_t i = 0; i < state.bufferCount; ++i) {
         if (FAILED(swapChain->GetBuffer(i, IID_PPV_ARGS(&d3d12RenderTargets[i]))) ||
             FAILED(d3d11On12Device->CreateWrappedResource(d3d12RenderTargets[i].Get(), &RenderConfig::RT_FLAGS,
-                D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT, 
-                IID_PPV_ARGS(&d3d11WrappedBackBuffers[i]))) ||
+                rtState, presentState, IID_PPV_ARGS(&d3d11WrappedBackBuffers[i]))) ||
             FAILED(d3d11Device->CreateRenderTargetView(d3d11WrappedBackBuffers[i].Get(), nullptr, 
                 &d3d11RenderTargetViews[i]))) UNLIKELY {
             logger.Log("Failed to create render target %d for D3D12", static_cast<int>(i));
@@ -211,18 +217,19 @@ __forceinline bool Renderer::SignalAndWait() noexcept
 {
     ID3D12CommandQueue* const __restrict cmdQueue = commandQueue.Get();
     ID3D12Fence* const __restrict fencePtr = fence.Get();
+    const UINT64 currentFence = fenceValue;
     
-    if (FAILED(cmdQueue->Signal(fencePtr, fenceValue)) ||
-        (fencePtr->GetCompletedValue() < fenceValue && 
-         FAILED(fencePtr->SetEventOnCompletion(fenceValue, fenceEvent)))) UNLIKELY {
+    if (FAILED(cmdQueue->Signal(fencePtr, currentFence)) ||
+        (fencePtr->GetCompletedValue() < currentFence && 
+         FAILED(fencePtr->SetEventOnCompletion(currentFence, fenceEvent)))) UNLIKELY {
         return false;
     }
     
-    if (fencePtr->GetCompletedValue() < fenceValue) UNLIKELY {
+    if (fencePtr->GetCompletedValue() < currentFence) UNLIKELY {
         WaitForSingleObject(fenceEvent, RenderConfig::SYNC_TIMEOUT_MS);
     }
     
-    ++fenceValue;
+    fenceValue += RenderConfig::FENCE_INCREMENT;
     return true;
 }
 
