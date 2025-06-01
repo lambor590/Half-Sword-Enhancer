@@ -119,6 +119,9 @@
     <ClCompile Include="src\MemoryUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DefaultStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Hooks\DirectXHook.h">
@@ -189,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="resource\resource.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DefaultStyle.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
