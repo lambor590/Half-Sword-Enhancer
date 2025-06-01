@@ -149,6 +149,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
