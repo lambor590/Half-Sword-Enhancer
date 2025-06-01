@@ -2,46 +2,69 @@
 
 #include <string>
 #include <cstdarg>
+#include <string_view>
+#include <filesystem>
 
 #include "ConfigManager.h"
 
 class Logger
 {
 public:
-    Logger(const char* prefix)
-    {
-        printPrefix = prefix;
-
+    static constexpr size_t MAX_LOG_SIZE = 512;
+    
+    explicit Logger(std::string_view prefix) noexcept : printPrefix(prefix) {
         FILE* logFile = GetLogFile();
-        if (logFile == nullptr)
-        {
+        if (logFile == nullptr) {
             std::filesystem::path logPath = ConfigManager::GetAppDataPath() / "logs.log";
-            fopen_s(&logFile, logPath.string().c_str(), "w");
-            GetLogFile(logFile);
+            FILE* newFile = nullptr;
+            fopen_s(&newFile, logPath.string().c_str(), "w");
+            GetLogFile(newFile);
         }
     }
 
-    void Log(std::string msg, ...) const
-    {
-        va_list args;
-        va_start(args, msg);
-        vprintf(std::string(printPrefix + " > " + msg + "\n").c_str(), args);
-        if (GetLogFile() != nullptr)
-        {
-            vfprintf(GetLogFile(), std::string(printPrefix + " > " + msg + "\n").c_str(), args);
-            fflush(GetLogFile());
+    template<typename... Args>
+    void Log(std::string_view format, Args&&... args) const noexcept {
+        thread_local char buffer[MAX_LOG_SIZE];
+        thread_local char formatBuffer[MAX_LOG_SIZE];
+        
+        const int prefixLen = static_cast<int>(printPrefix.size());
+        constexpr const char* template_str = " > ";
+        constexpr int templateLen = 3;
+        
+        size_t pos = 0;
+        if (pos + prefixLen < MAX_LOG_SIZE) {
+            std::memcpy(formatBuffer + pos, printPrefix.data(), prefixLen);
+            pos += prefixLen;
         }
-        va_end(args);
+        if (pos + templateLen < MAX_LOG_SIZE) {
+            std::memcpy(formatBuffer + pos, template_str, templateLen);
+            pos += templateLen;
+        }
+        if (pos + format.size() < MAX_LOG_SIZE - 2) {
+            std::memcpy(formatBuffer + pos, format.data(), format.size());
+            pos += format.size();
+        }
+        if (pos < MAX_LOG_SIZE - 1) {
+            formatBuffer[pos++] = '\n';
+        }
+        formatBuffer[pos] = '\0';
+        
+        const int result = std::snprintf(buffer, MAX_LOG_SIZE, formatBuffer, std::forward<Args>(args)...);
+        if (result > 0) [[likely]] {
+            printf("%s", buffer);
+            if (FILE* logFile = GetLogFile(); logFile != nullptr) [[likely]] {
+                fputs(buffer, logFile);
+                fflush(logFile);
+            }
+        }
     }
 
 private:
-    std::string printPrefix = "";
+    std::string_view printPrefix;
 
-    static FILE* GetLogFile(FILE* newLogFile = nullptr)
-    {
+    static FILE* GetLogFile(FILE* newLogFile = nullptr) noexcept {
         static FILE* logFile = nullptr;
-        if (newLogFile != nullptr)
-        {
+        if (newLogFile != nullptr) {
             logFile = newLogFile;
         }
         return logFile;
