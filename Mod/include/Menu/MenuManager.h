@@ -8,7 +8,7 @@
 
 #include "ICollapsibleSection.h"
 
-enum class MenuTab {
+enum class MenuTab : uint8_t {
     Gameplay,
     Entity_Spawner,
     Loadout_Manager,
@@ -20,15 +20,23 @@ enum class MenuTab {
 class MenuManager {
 private:
     inline static MenuManager* instance = nullptr;
-    inline static constexpr size_t TabCount = static_cast<size_t>(MenuTab::Count);
+    static constexpr size_t TabCount = static_cast<size_t>(MenuTab::Count);
+    
     std::array<std::vector<std::unique_ptr<ICollapsibleSection>>, TabCount> sections;
-    inline static constexpr std::array<std::pair<MenuTab, const char*>, TabCount> tabOrder = {{
+    
+    static constexpr std::array<std::pair<MenuTab, const char*>, TabCount> tabOrder = {{
         {MenuTab::Gameplay, "Gameplay"},
         {MenuTab::Entity_Spawner, "Entity Spawner"},
         {MenuTab::Loadout_Manager, "Loadout Manager"},
         {MenuTab::Post_Process_Settings, "Post Process"},
         {MenuTab::Settings, "Settings"}
     }};
+    
+    static constexpr ImGuiTabBarFlags tabBarFlags = 
+        ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_Reorderable;
+    
+    static constexpr const char* comingSoonText = "Coming Soon";
+    static constexpr const char* mainTabBarId = "MainTabBar";
 
     MenuManager() = default;
 
@@ -52,8 +60,13 @@ public:
         }
     }
 
+    template<MenuTab tab>
+    constexpr bool IsComingSoon() {
+        return tab == MenuTab::Loadout_Manager || tab == MenuTab::Post_Process_Settings;
+    }
+
     void RenderMenu() {
-        if (ImGui::BeginTabBar("MainTabBar", ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_Reorderable)) {
+        if (ImGui::BeginTabBar(mainTabBarId, tabBarFlags)) {
             for (auto& p : tabOrder) {
                 auto tab = p.first;
                 auto label = p.second;
@@ -62,7 +75,7 @@ public:
                     if (!sects.empty()) {
                         RenderSections(tab);
                     } else if (tab == MenuTab::Loadout_Manager || tab == MenuTab::Post_Process_Settings) {
-                        ImGui::Text("Coming Soon");
+                        ImGui::Text(comingSoonText);
                     }
                     ImGui::EndTabItem();
                 }
