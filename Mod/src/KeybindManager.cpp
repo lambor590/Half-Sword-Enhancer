@@ -4,86 +4,136 @@
 #include "ConfigManager.h"
 #include "Menu/IMenuFunction.h"
 
-KeybindManager::Callback KeybindManager::s_callbacks[256] = {};
+static constexpr const char* GetKeyNameForIndex(int index) noexcept {
+    if (index == 255) return "Unbound";
+    
+    switch (index) {
+    case VK_LSHIFT: return "Left Shift";
+    case VK_RSHIFT: return "Right Shift";
+    case VK_SHIFT: return "Shift";
+    case VK_CONTROL: return "Control";
+    case VK_LCONTROL: return "Left Control";
+    case VK_RCONTROL: return "Right Control";
+    case VK_MENU: return "Alt";
+    case VK_LMENU: return "Left Alt";
+    case VK_RMENU: return "Right Alt";
+    case VK_BACK: return "Backspace";
+    case VK_TAB: return "Tab";
+    case VK_RETURN: return "Enter";
+    case VK_SPACE: return "Space";
+    case VK_CAPITAL: return "Caps Lock";
+    case VK_ESCAPE: return "Escape";
+    case VK_LEFT: return "Left";
+    case VK_UP: return "Up";
+    case VK_RIGHT: return "Right";
+    case VK_DOWN: return "Down";
+    case VK_DELETE: return "Delete";
+    case VK_INSERT: return "Insert";
+    case VK_HOME: return "Home";
+    case VK_END: return "End";
+    case VK_PRIOR: return "Page Up";
+    case VK_NEXT: return "Page Down";
+    case VK_SNAPSHOT: return "Print Screen";
+    case VK_SCROLL: return "Scroll Lock";
+    case VK_PAUSE: return "Pause";
+    case VK_NUMLOCK: return "Num Lock";
+    case VK_NUMPAD0: return "Numpad 0";
+    case VK_NUMPAD1: return "Numpad 1";
+    case VK_NUMPAD2: return "Numpad 2";
+    case VK_NUMPAD3: return "Numpad 3";
+    case VK_NUMPAD4: return "Numpad 4";
+    case VK_NUMPAD5: return "Numpad 5";
+    case VK_NUMPAD6: return "Numpad 6";
+    case VK_NUMPAD7: return "Numpad 7";
+    case VK_NUMPAD8: return "Numpad 8";
+    case VK_NUMPAD9: return "Numpad 9";
+    case VK_MULTIPLY: return "Numpad *";
+    case VK_ADD: return "Numpad +";
+    case VK_SUBTRACT: return "Numpad -";
+    case VK_DECIMAL: return "Numpad .";
+    case VK_DIVIDE: return "Numpad /";
+    case VK_OEM_1: return ";";
+    case VK_OEM_PLUS: return "=";
+    case VK_OEM_COMMA: return ",";
+    case VK_OEM_MINUS: return "-";
+    case VK_OEM_PERIOD: return ".";
+    case VK_OEM_2: return "/";
+    case VK_OEM_3: return "`";
+    case VK_OEM_4: return "[";
+    case VK_OEM_5: return "\\";
+    case VK_OEM_6: return "]";
+    case VK_OEM_7: return "'";
+    case VK_MBUTTON: return "MMB";
+    case VK_XBUTTON1: return "Mouse 4";
+    case VK_XBUTTON2: return "Mouse 5";
+    case VK_F1: return "F1";
+    case VK_F2: return "F2";
+    case VK_F3: return "F3";
+    case VK_F4: return "F4";
+    case VK_F5: return "F5";
+    case VK_F6: return "F6";
+    case VK_F7: return "F7";
+    case VK_F8: return "F8";
+    case VK_F9: return "F9";
+    case VK_F10: return "F10";
+    case VK_F11: return "F11";
+    case VK_F12: return "F12";
+    case '0': return "0";
+    case '1': return "1";
+    case '2': return "2";
+    case '3': return "3";
+    case '4': return "4";
+    case '5': return "5";
+    case '6': return "6";
+    case '7': return "7";
+    case '8': return "8";
+    case '9': return "9";
+    case 'A': return "A";
+    case 'B': return "B";
+    case 'C': return "C";
+    case 'D': return "D";
+    case 'E': return "E";
+    case 'F': return "F";
+    case 'G': return "G";
+    case 'H': return "H";
+    case 'I': return "I";
+    case 'J': return "J";
+    case 'K': return "K";
+    case 'L': return "L";
+    case 'M': return "M";
+    case 'N': return "N";
+    case 'O': return "O";
+    case 'P': return "P";
+    case 'Q': return "Q";
+    case 'R': return "R";
+    case 'S': return "S";
+    case 'T': return "T";
+    case 'U': return "U";
+    case 'V': return "V";
+    case 'W': return "W";
+    case 'X': return "X";
+    case 'Y': return "Y";
+    case 'Z': return "Z";
+    default: return "Unknown";
+    }
+}
+
+const char* KeybindManager::s_keyNameTable[256];
+
+static struct KeyNameTableInitializer {
+    KeyNameTableInitializer() noexcept {
+        for (int i = 0; i < 256; ++i) {
+            KeybindManager::s_keyNameTable[i] = GetKeyNameForIndex(i);
+        }
+    }
+} s_keyNameTableInit;
+
+std::array<KeybindManager::Callback, 256> KeybindManager::s_callbacks{};
 std::vector<KeybindManager::Binding> KeybindManager::s_bindingList;
 bool KeybindManager::s_initialized = false;
 int KeybindManager::s_toggleGuiKey = VK_INSERT;
 int KeybindManager::s_unbindKey = VK_DELETE;
 std::vector<int> KeybindManager::s_boundCodes;
-
-const char* KeybindManager::s_keyNameTable[256];
-static void InitKeyNameTable() noexcept {
-    for (int i = 0; i < 256; ++i) KeybindManager::s_keyNameTable[i] = "Unknown";
-    KeybindManager::s_keyNameTable[255] = "Unbound";
-    KeybindManager::s_keyNameTable[VK_LSHIFT]      = "Left Shift";
-    KeybindManager::s_keyNameTable[VK_RSHIFT]      = "Right Shift";
-    KeybindManager::s_keyNameTable[VK_SHIFT]       = "Shift";
-    KeybindManager::s_keyNameTable[VK_CONTROL]     = "Control";
-    KeybindManager::s_keyNameTable[VK_LCONTROL]    = "Left Control";
-    KeybindManager::s_keyNameTable[VK_RCONTROL]    = "Right Control";
-    KeybindManager::s_keyNameTable[VK_MENU]        = "Alt";
-    KeybindManager::s_keyNameTable[VK_LMENU]       = "Left Alt";
-    KeybindManager::s_keyNameTable[VK_RMENU]       = "Right Alt";
-    KeybindManager::s_keyNameTable[VK_BACK]        = "Backspace";
-    KeybindManager::s_keyNameTable[VK_TAB]         = "Tab";
-    KeybindManager::s_keyNameTable[VK_RETURN]      = "Enter";
-    KeybindManager::s_keyNameTable[VK_SPACE]       = "Space";
-    KeybindManager::s_keyNameTable[VK_CAPITAL]     = "Caps Lock";
-    KeybindManager::s_keyNameTable[VK_ESCAPE]      = "Escape";
-    KeybindManager::s_keyNameTable[VK_LEFT]        = "Left";
-    KeybindManager::s_keyNameTable[VK_UP]          = "Up";
-    KeybindManager::s_keyNameTable[VK_RIGHT]       = "Right";
-    KeybindManager::s_keyNameTable[VK_DOWN]        = "Down";
-    KeybindManager::s_keyNameTable[VK_DELETE]      = "Delete";
-    KeybindManager::s_keyNameTable[VK_INSERT]      = "Insert";
-    KeybindManager::s_keyNameTable[VK_HOME]        = "Home";
-    KeybindManager::s_keyNameTable[VK_END]         = "End";
-    KeybindManager::s_keyNameTable[VK_PRIOR]       = "Page Up";
-    KeybindManager::s_keyNameTable[VK_NEXT]        = "Page Down";
-    KeybindManager::s_keyNameTable[VK_SNAPSHOT]    = "Print Screen";
-    KeybindManager::s_keyNameTable[VK_SCROLL]      = "Scroll Lock";
-    KeybindManager::s_keyNameTable[VK_PAUSE]       = "Pause";
-    KeybindManager::s_keyNameTable[VK_NUMLOCK]     = "Num Lock";
-    KeybindManager::s_keyNameTable[VK_NUMPAD0]     = "Numpad 0";
-    KeybindManager::s_keyNameTable[VK_NUMPAD1]     = "Numpad 1";
-    KeybindManager::s_keyNameTable[VK_NUMPAD2]     = "Numpad 2";
-    KeybindManager::s_keyNameTable[VK_NUMPAD3]     = "Numpad 3";
-    KeybindManager::s_keyNameTable[VK_NUMPAD4]     = "Numpad 4";
-    KeybindManager::s_keyNameTable[VK_NUMPAD5]     = "Numpad 5";
-    KeybindManager::s_keyNameTable[VK_NUMPAD6]     = "Numpad 6";
-    KeybindManager::s_keyNameTable[VK_NUMPAD7]     = "Numpad 7";
-    KeybindManager::s_keyNameTable[VK_NUMPAD8]     = "Numpad 8";
-    KeybindManager::s_keyNameTable[VK_NUMPAD9]     = "Numpad 9";
-    KeybindManager::s_keyNameTable[VK_MULTIPLY]    = "Numpad *";
-    KeybindManager::s_keyNameTable[VK_ADD]         = "Numpad +";
-    KeybindManager::s_keyNameTable[VK_SUBTRACT]    = "Numpad -";
-    KeybindManager::s_keyNameTable[VK_DECIMAL]     = "Numpad .";
-    KeybindManager::s_keyNameTable[VK_DIVIDE]      = "Numpad /";
-    KeybindManager::s_keyNameTable[VK_OEM_1]       = ";";
-    KeybindManager::s_keyNameTable[VK_OEM_PLUS]    = "=";
-    KeybindManager::s_keyNameTable[VK_OEM_COMMA]   = ",";
-    KeybindManager::s_keyNameTable[VK_OEM_MINUS]   = "-";
-    KeybindManager::s_keyNameTable[VK_OEM_PERIOD]  = ".";
-    KeybindManager::s_keyNameTable[VK_OEM_2]       = "/";
-    KeybindManager::s_keyNameTable[VK_OEM_3]       = "`";
-    KeybindManager::s_keyNameTable[VK_OEM_4]       = "[";
-    KeybindManager::s_keyNameTable[VK_OEM_5]       = "\\";
-    KeybindManager::s_keyNameTable[VK_OEM_6]       = "]";
-    KeybindManager::s_keyNameTable[VK_OEM_7]       = "'";
-    KeybindManager::s_keyNameTable[VK_MBUTTON]     = "MMB";
-    KeybindManager::s_keyNameTable[VK_XBUTTON1]    = "Mouse 4";
-    KeybindManager::s_keyNameTable[VK_XBUTTON2]    = "Mouse 5";
-    static const char* digitNames[10] = {"0","1","2","3","4","5","6","7","8","9"};
-    for (int i = 0; i < 10; ++i) KeybindManager::s_keyNameTable['0' + i] = digitNames[i];
-    static const char* letterNames[26] = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
-    for (int i = 0; i < 26; ++i) KeybindManager::s_keyNameTable['A' + i] = letterNames[i];
-    static const char* fKeyNames[12] = {"F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"};
-    for (int i = 0; i < 12; ++i) KeybindManager::s_keyNameTable[VK_F1 + i] = fKeyNames[i];
-}
-
-static const struct KeyNameTableInitializer {
-    KeyNameTableInitializer() { InitKeyNameTable(); }
-} s_keyNameTableInitializer;
 
 void KeybindManager::Initialize() noexcept {
     if (!s_initialized) {
@@ -198,23 +248,14 @@ bool KeybindManager::IsKeyBound(int code, int* excludeKeyPtr) noexcept {
 void KeybindManager::RemoveBinding(int code, int* excludeKeyPtr) noexcept {
     auto it = std::find_if(s_bindingList.begin(), s_bindingList.end(),
         [&](const Binding& b) { return b.keyPtr != excludeKeyPtr && *b.keyPtr == code; });
-
     if (it != s_bindingList.end()) {
-        int* keyPtrToUnregister = it->keyPtr;
-        
-        *it->keyPtr = -1; 
-        
-        if (it->function) {
-            it->function->OnKeyUnbound();
-            g_ConfigManager.SaveConfig(); 
-        }
-        
-        UnregisterKeybind(keyPtrToUnregister); 
+        *it->keyPtr = 255;
+        UpdateBindings();
     }
 }
 
 IMenuFunction* KeybindManager::GetBoundFunction(int code, int* excludeKeyPtr) noexcept {
-    for (const auto& b : s_bindingList) {
+    for (auto& b : s_bindingList) {
         if (b.keyPtr != excludeKeyPtr && *b.keyPtr == code)
             return b.function;
     }
