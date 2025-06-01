@@ -6,7 +6,7 @@ static GameHook* hookInstance = &GameHook::Get();
 inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms)
 {
     const std::string& funcName = pFunc->GetName();
-    size_t hash = std::hash<std::string>{}(funcName);
+    uint64_t hash = fnv1a_hash(funcName);
 
     if (auto it = hookInstance->hookMap.find(hash); it != hookInstance->hookMap.end()) {
         const auto& hd = it->second;
