@@ -11,6 +11,14 @@
 #include "Menu/IMenuFunction.h"
 #include "DefaultStyle.h"
 
+namespace {
+    constexpr const char* toggleGuiLabel = "Toggle GUI Key";
+    constexpr const char* unbindLabel = "Unbind Key";
+    constexpr const char* toggleTooltip = "Change key to show/hide interface";
+    constexpr const char* unbindTooltip = "Change key to unbind shortcuts";
+    constexpr const char* pressAnyKeyText = "Press any key...";
+}
+
 class GuiSection : public CollapsibleSection {
 private:
     bool waitingForToggleKey = false;
@@ -23,20 +31,15 @@ public:
         bool isOpen = ImGui::CollapsingHeader(name.c_str());
         
         if (isOpen) {
-            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
-            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10, 8));
-            ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 25.0f);
+            SectionStyle::StyleRAII style;
             
-            ImGui::Indent(10.0f);
-            ImGui::Spacing();
-
             bool changed = false;
             
             changed |= RenderKeybind(
                 waitingForToggleKey, 
                 KeybindManager::GetToggleGuiKey(),
-                "Toggle GUI Key",
-                "Change key to show/hide interface"
+                toggleGuiLabel,
+                toggleTooltip
             );
             
             ImGui::Spacing();
@@ -44,21 +47,18 @@ public:
             changed |= RenderKeybind(
                 waitingForUnbindKey, 
                 KeybindManager::GetUnbindKey(),
-                "Unbind Key",
-                "Change key to unbind shortcuts"
+                unbindLabel,
+                unbindTooltip
             );
             
             if (changed)
                 KeybindManager::SaveKeybinds();
-                
-            ImGui::Unindent(10.0f);
-            ImGui::PopStyleVar(3);
         }
     }
 
 private:
     bool RenderKeybind(bool& waitingForKey, int& key, const char* label, const char* tooltip) {
-        const char* keyName = waitingForKey ? "Press any key..." : KeybindManager::GetKeyName(key);
+        const char* keyName = waitingForKey ? pressAnyKeyText : KeybindManager::GetKeyName(key);
         
         ImGui::AlignTextToFramePadding();
         ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyName).x + 20);
