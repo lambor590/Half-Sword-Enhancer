@@ -67,12 +67,25 @@ private:
     
     UINT64 fenceValue = 0;
     HANDLE fenceEvent = nullptr;
+    
+    void (Renderer::*renderFunc)() noexcept = nullptr;
 
-    __forceinline void RenderFrame() noexcept;
+    template<bool IsD3D12>
+    __forceinline void RenderFrameImpl() noexcept;
+    
+    __forceinline void RenderFrameD3D11() noexcept;
+    __forceinline void RenderFrameD3D12() noexcept;
     __forceinline bool SignalAndWait() noexcept;
     
     bool InitD3DResources(IDXGISwapChain* swapChain) noexcept;
     bool InitD3D11() noexcept;
     bool InitD3D12() noexcept;
     void ReleaseResources() noexcept;
+    
+    __forceinline void SetViewportIfDirty() noexcept {
+        if (window.viewportDirty) UNLIKELY {
+            d3d11Context->RSSetViewports(1, &window.viewport);
+            window.viewportDirty = false;
+        }
+    }
 };
