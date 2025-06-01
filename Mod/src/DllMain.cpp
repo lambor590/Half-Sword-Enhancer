@@ -12,56 +12,69 @@
 
 static Logger logger{ "DllMain" };
 static Renderer renderer;
+static DirectXHook dxHook(&renderer);
 
-static void OpenDebugTerminal()
+static inline bool CheckTerminalFile() noexcept {
+    std::fstream terminalFile("enhancer_enable_terminal.txt", std::fstream::in);
+    return terminalFile.is_open();
+}
+
+static void OpenDebugTerminal() noexcept
 {
-    std::fstream terminalEnableFile("enhancer_enable_terminal.txt", std::fstream::in);
-    if (terminalEnableFile.is_open())
-    {
+    if (CheckTerminalFile()) {
         AllocConsole();
         freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
         SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
-        terminalEnableFile.close();
     }
 }
 
-static DWORD WINAPI DXHookThread(LPVOID)
+static DWORD WINAPI DXHookThread(LPVOID) noexcept
 {
-    g_DirectXHook = new DirectXHook(&renderer);
+    g_DirectXHook = &dxHook;
     g_DirectXHook->Hook();
     return 0;
 }
 
-static DWORD WINAPI GameHookThread(LPVOID)
+static DWORD WINAPI GameHookThread(LPVOID) noexcept
 {
     GameHook::Get().Hook();
     return 0;
 }
 
-static void Cleanup()
+static void Cleanup() noexcept
 {
     logger.Log("Cleaning up resources...");
     std::promise<void> cleanupPromise;
     auto cleanupFuture = cleanupPromise.get_future();
     
-    std::thread cleanupThread([&cleanupPromise]() {
+    std::thread cleanupThread([&cleanupPromise]() noexcept {
         renderer.Cleanup();
         GameHook::Get().Unhook();
         cleanupPromise.set_value();
     });
+    
+    if (cleanupFuture.wait_for(std::chrono::seconds(5)) == std::future_status::timeout) {
+        logger.Log("Cleanup timed out, terminating forcefully");
+        cleanupThread.detach();
+    } else {
+        cleanupThread.join();
+    }
 }
 
-BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID)
+BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept
 {
-    if (reason == DLL_PROCESS_ATTACH)
-    {
+    switch (reason) {
+    case DLL_PROCESS_ATTACH:
         DisableThreadLibraryCalls(module);
         OpenDebugTerminal();
         KeybindManager::Initialize();
         CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
         CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
+        break;
+    case DLL_PROCESS_DETACH:
+        Cleanup();
+        break;
     }
-    else if (reason == DLL_PROCESS_DETACH) Cleanup();
     
     return TRUE;
 }
