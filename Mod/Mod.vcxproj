@@ -167,6 +167,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <Optimization>MaxSpeed</Optimization>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -197,6 +198,7 @@
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\IMenuFunction.cpp" />
     <ClCompile Include="src\KeybindManager.cpp" />
+    <ClCompile Include="src\DefaultStyle.cpp" />
     <ClCompile Include="src\MemoryUtils.cpp" />
     <ClCompile Include="src\MenuFunction.cpp" />
     <ClCompile Include="src\Gui.cpp" />
@@ -220,6 +222,7 @@
     <ClInclude Include="include\Hooks\GameHook.h" />
     <ClInclude Include="include\KeybindManager.h" />
     <ClInclude Include="include\Logger.h" />
+    <ClInclude Include="include\DefaultStyle.h" />
     <ClInclude Include="include\MemoryUtils.h" />
     <ClInclude Include="include\Menu\ICollapsibleSection.h" />
     <ClInclude Include="include\Menu\IMenuFunction.h" />
