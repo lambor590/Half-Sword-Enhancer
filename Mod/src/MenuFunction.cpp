@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <string>
+#include <algorithm>
 
 #include "Menu/IMenuFunction.h"
 #include "Menu/ICollapsibleSection.h"
@@ -58,6 +59,59 @@ namespace {
             ImGui::PopStyleColor(2);
         }
     };
+
+    template<typename T>
+    void RenderParameter(const Parameter& param) noexcept {
+        ImGui::PushItemWidth(itemWidth160);
+        ImGui::AlignTextToFramePadding();
+        
+        ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
+        ImGui::SameLine();
+        
+        auto valuePtr = static_cast<T*>(param.valuePtr);
+        
+        if constexpr (std::is_same_v<T, bool>) {
+            ImGui::Checkbox(param.id.c_str(), valuePtr);
+        } else {
+            ImGui::PushItemWidth(itemWidth65);
+            char inputBuffer[16];
+            
+            if constexpr (std::is_same_v<T, int>) {
+                snprintf(inputBuffer, sizeof(inputBuffer), "%d", *valuePtr);
+                if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
+                                    ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+                    *valuePtr = atoi(inputBuffer);
+                }
+                ImGui::PopItemWidth();
+                ImGui::SameLine();
+                SliderStyleRAII sliderStyle;
+                ImGui::SliderInt(param.id.c_str(), valuePtr, param.minValue.intMin, param.maxValue.intMax);
+            } else { // float
+                snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *valuePtr);
+                if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
+                                    ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+                    *valuePtr = static_cast<float>(atof(inputBuffer));
+                }
+                ImGui::PopItemWidth();
+                ImGui::SameLine();
+                SliderStyleRAII sliderStyle;
+                ImGui::SliderFloat(param.id.c_str(), valuePtr, param.minValue.floatMin, param.maxValue.floatMax, "%.2f");
+            }
+        }
+        ImGui::PopItemWidth();
+    }
+
+    template<typename T>
+    void LoadParameter(const Parameter& param, const IMenuFunction* func) noexcept {
+        auto valuePtr = static_cast<T*>(param.valuePtr);
+        *valuePtr = func->GetConfig(param.name, *valuePtr);
+    }
+
+    template<typename T>
+    void SaveParameter(const Parameter& param, const IMenuFunction* func) noexcept {
+        auto valuePtr = static_cast<T*>(param.valuePtr);
+        func->SaveConfig(param.name, *valuePtr);
+    }
 }
 
 static void RenderKeyButton(const char* id, bool& waitingForKey, int key) {
@@ -185,93 +239,38 @@ void HookedFunction::OnKeyAssigned() {
     SetKey();
 }
 
-void Parameter::RenderInt(const Parameter& param) {
-    ImGui::PushItemWidth(itemWidth160);
-    ImGui::AlignTextToFramePadding();
-    
-    ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
-    ImGui::SameLine();
-    
-    auto intPtr = static_cast<int*>(param.valuePtr);
-    
-    ImGui::PushItemWidth(itemWidth65);
-    char inputBuffer[16];
-    snprintf(inputBuffer, sizeof(inputBuffer), "%d", *intPtr);
-    if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
-                        ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
-        *intPtr = atoi(inputBuffer);
-    }
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
-    
-    SliderStyleRAII sliderStyle;
-    ImGui::SliderInt(param.id.c_str(), intPtr, param.GetIntMin(), param.GetIntMax());
-    
-    ImGui::PopItemWidth();
+void Parameter::RenderInt(const Parameter& param) noexcept {
+    RenderParameter<int>(param);
 }
 
-void Parameter::RenderFloat(const Parameter& param) {
-    ImGui::PushItemWidth(itemWidth160);
-    ImGui::AlignTextToFramePadding();
-    
-    ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
-    ImGui::SameLine();
-    
-    auto floatPtr = static_cast<float*>(param.valuePtr);
-    
-    ImGui::PushItemWidth(itemWidth65);
-    char inputBuffer[16];
-    snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *floatPtr);
-    if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
-                        ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
-        *floatPtr = static_cast<float>(atof(inputBuffer));
-    }
-    ImGui::PopItemWidth();
-    ImGui::SameLine();
-    
-    SliderStyleRAII sliderStyle;
-    ImGui::SliderFloat(param.id.c_str(), floatPtr, param.GetFloatMin(), param.GetFloatMax(), "%.2f");
-    
-    ImGui::PopItemWidth();
+void Parameter::RenderFloat(const Parameter& param) noexcept {
+    RenderParameter<float>(param);
 }
 
-void Parameter::RenderBool(const Parameter& param) {
-    ImGui::PushItemWidth(itemWidth160);
-    ImGui::AlignTextToFramePadding();
-    
-    ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
-    ImGui::SameLine();
-    
-    ImGui::Checkbox(param.id.c_str(), static_cast<bool*>(param.valuePtr));
-    ImGui::PopItemWidth();
+void Parameter::RenderBool(const Parameter& param) noexcept {
+    RenderParameter<bool>(param);
 }
 
-void Parameter::LoadInt(const Parameter& param, const IMenuFunction* func) {
-    auto intPtr = static_cast<int*>(param.valuePtr);
-    *intPtr = func->GetConfig(param.GetName(), *intPtr);
+void Parameter::LoadInt(const Parameter& param, const IMenuFunction* func) noexcept {
+    LoadParameter<int>(param, func);
 }
 
-void Parameter::LoadFloat(const Parameter& param, const IMenuFunction* func) {
-    auto floatPtr = static_cast<float*>(param.valuePtr);
-    *floatPtr = func->GetConfig(param.GetName(), *floatPtr);
+void Parameter::LoadFloat(const Parameter& param, const IMenuFunction* func) noexcept {
+    LoadParameter<float>(param, func);
 }
 
-void Parameter::LoadBool(const Parameter& param, const IMenuFunction* func) {
-    auto boolPtr = static_cast<bool*>(param.valuePtr);
-    *boolPtr = func->GetConfig(param.GetName(), *boolPtr);
+void Parameter::LoadBool(const Parameter& param, const IMenuFunction* func) noexcept {
+    LoadParameter<bool>(param, func);
 }
 
-void Parameter::SaveInt(const Parameter& param, const IMenuFunction* func) {
-    auto intPtr = static_cast<int*>(param.valuePtr);
-    func->SaveConfig(param.GetName(), *intPtr);
+void Parameter::SaveInt(const Parameter& param, const IMenuFunction* func) noexcept {
+    SaveParameter<int>(param, func);
 }
 
-void Parameter::SaveFloat(const Parameter& param, const IMenuFunction* func) {
-    auto floatPtr = static_cast<float*>(param.valuePtr);
-    func->SaveConfig(param.GetName(), *floatPtr);
+void Parameter::SaveFloat(const Parameter& param, const IMenuFunction* func) noexcept {
+    SaveParameter<float>(param, func);
 }
 
-void Parameter::SaveBool(const Parameter& param, const IMenuFunction* func) {
-    auto boolPtr = static_cast<bool*>(param.valuePtr);
-    func->SaveConfig(param.GetName(), *boolPtr);
+void Parameter::SaveBool(const Parameter& param, const IMenuFunction* func) noexcept {
+    SaveParameter<bool>(param, func);
 }
