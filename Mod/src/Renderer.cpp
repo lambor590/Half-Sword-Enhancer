@@ -145,6 +145,9 @@ bool Renderer::InitD3D11() noexcept
 
 bool Renderer::InitD3D12() noexcept
 {
+    if (commandQueueCallback && !commandQueue)
+        commandQueueCallback();
+    
     if (!commandQueue) {
         logger.Log("Command queue not set for D3D12");
         return false;
