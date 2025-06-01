@@ -9,57 +9,93 @@
 #include "ConfigManager.h"
 #include "KeybindManager.h"
 
+namespace {
+    constexpr ImVec4 disabledButtonColor = ImVec4(0.18f, 0.13f, 0.09f, 0.50f);
+    constexpr ImVec4 disabledTextColor = ImVec4(0.55f, 0.45f, 0.35f, 0.60f);
+    constexpr ImVec4 disabledBorderColor = ImVec4(0.28f, 0.20f, 0.12f, 0.40f);
+    constexpr ImVec4 disabledNameColor = ImVec4(0.60f, 0.55f, 0.48f, 0.70f);
+    constexpr ImVec4 modalDimColor = ImVec4(0, 0, 0, 0.6f);
+    
+    constexpr float buttonWidthPadding = 28.0f;
+    constexpr float parameterButtonOffset = 85.0f;
+    constexpr float itemWidth160 = 160.0f;
+    constexpr float itemWidth65 = 65.0f;
+    constexpr float frameBorderSize = 1.0f;
+    
+    constexpr const char* pressKeyText = "Press a key...";
+    constexpr const char* configureText = "Configure %s";
+    constexpr const char* changeKeybindText = "Change keybind";
+    constexpr const char* replaceButtonText = "Replace";
+    constexpr const char* cancelButtonText = "Cancel";
+    constexpr const char* chooseAnotherText = "Choose Another";
+    constexpr const char* unknownText = "Unknown";
+    constexpr const char* keyConflictFormat = "Key %s is already bound to %s. What do you want to do?";
+    
+    struct ButtonStyleRAII {
+        explicit ButtonStyleRAII(bool disabled) : pushCount(disabled ? 4 : 0) {
+            if (disabled) {
+                ImGui::PushStyleColor(ImGuiCol_Button, disabledButtonColor);
+                ImGui::PushStyleColor(ImGuiCol_Text, disabledTextColor);
+                ImGui::PushStyleColor(ImGuiCol_Border, disabledBorderColor);
+                ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, frameBorderSize);
+            }
+        }
+        ~ButtonStyleRAII() {
+            if (pushCount) {
+                ImGui::PopStyleVar();
+                ImGui::PopStyleColor(3);
+            }
+        }
+        int pushCount;
+    };
+    
+    struct SliderStyleRAII {
+        SliderStyleRAII() {
+            ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
+            ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
+        }
+        ~SliderStyleRAII() {
+            ImGui::PopStyleColor(2);
+        }
+    };
+}
+
 static void RenderKeyButton(const char* id, bool& waitingForKey, int key) {
-    const char* keyText = waitingForKey ? "Press a key..." : KeybindManager::GetKeyName(key);
+    const char* keyText = waitingForKey ? pressKeyText : KeybindManager::GetKeyName(key);
     const bool disabled = (key == -1);
     
-    if (disabled) {
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.18f, 0.13f, 0.09f, 0.50f));
-        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.55f, 0.45f, 0.35f, 0.60f));
-        ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.28f, 0.20f, 0.12f, 0.40f));
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
-        
-        float textWidth = ImGui::CalcTextSize(keyText).x;
-        ImGui::SetNextItemWidth(textWidth + 28);
-        ImGui::PushID(id);
-        if (ImGui::Button(keyText))
-            waitingForKey = true;
-        ImGui::PopID();
-        
-        ImGui::PopStyleVar();
-        ImGui::PopStyleColor(3);
-    } else {
-        float textWidth = ImGui::CalcTextSize(keyText).x;
-        ImGui::SetNextItemWidth(textWidth + 28);
-        ImGui::PushID(id);
-        if (ImGui::Button(keyText))
-            waitingForKey = true;
-        ImGui::PopID();
-    }
+    ButtonStyleRAII style(disabled);
+    
+    float textWidth = ImGui::CalcTextSize(keyText).x;
+    ImGui::SetNextItemWidth(textWidth + buttonWidthPadding);
+    ImGui::PushID(id);
+    if (ImGui::Button(keyText))
+        waitingForKey = true;
+    ImGui::PopID();
     
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
-        ImGui::TextColored(DefaultStyle::parchment, "Change keybind");
+        ImGui::TextColored(DefaultStyle::parchment, changeKeybindText);
         ImGui::EndTooltip();
     }
 }
 
 static inline void RenderName(const std::string& name, bool isDisabled) {
     ImGui::TextColored(
-        isDisabled ? ImVec4(0.60f, 0.55f, 0.48f, 0.70f) : DefaultStyle::parchment, 
+        isDisabled ? disabledNameColor : DefaultStyle::parchment, 
         "%s", name.c_str()
     );
 }
 
 static bool RenderParametersButton(const char* buttonId, const std::string& name) {
     ImGui::SameLine();
-    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - 85);
+    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - parameterButtonOffset);
     
     bool clicked = ImGui::Button(buttonId);
     
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
-        ImGui::Text("Configure %s", name.c_str());
+        ImGui::Text(configureText, name.c_str());
         ImGui::EndTooltip();
     }
     return clicked;
@@ -104,26 +140,26 @@ void KeyFunction<Derived>::Render() {
         }
     }
 
-    ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
+    ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, modalDimColor);
     if (ImGui::BeginPopupModal(GetConflictPopupId(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
         auto conflictFunc = KeybindManager::GetBoundFunction(pendingConflictKey, pendingConflictKeyPtr);
-        std::string conflictName = conflictFunc ? std::string(conflictFunc->GetName()) : "Unknown";
-        ImGui::Text("Key %s is already bound to %s. What do you want to do?", 
+        std::string conflictName = conflictFunc ? std::string(conflictFunc->GetName()) : unknownText;
+        ImGui::Text(keyConflictFormat, 
                     KeybindManager::GetKeyName(pendingConflictKey), conflictName.c_str());
         ImGui::Spacing();
         
-        if (ImGui::Button("Replace")) {
+        if (ImGui::Button(replaceButtonText)) {
             KeybindManager::RemoveBinding(pendingConflictKey, pendingConflictKeyPtr);
             OnKeyAssigned();
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
-        if (ImGui::Button("Cancel")) {
+        if (ImGui::Button(cancelButtonText)) {
             *pendingConflictKeyPtr = prevKey;
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
-        if (ImGui::Button("Choose Another")) {
+        if (ImGui::Button(chooseAnotherText)) {
             *pendingConflictKeyPtr = prevKey;
             waitingForKey = true;
             ImGui::CloseCurrentPopup();
@@ -150,7 +186,7 @@ void HookedFunction::OnKeyAssigned() {
 }
 
 void Parameter::RenderInt(const Parameter& param) {
-    ImGui::PushItemWidth(160.0f);
+    ImGui::PushItemWidth(itemWidth160);
     ImGui::AlignTextToFramePadding();
     
     ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
@@ -158,7 +194,7 @@ void Parameter::RenderInt(const Parameter& param) {
     
     auto intPtr = static_cast<int*>(param.valuePtr);
     
-    ImGui::PushItemWidth(65.0f);
+    ImGui::PushItemWidth(itemWidth65);
     char inputBuffer[16];
     snprintf(inputBuffer, sizeof(inputBuffer), "%d", *intPtr);
     if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
@@ -168,17 +204,14 @@ void Parameter::RenderInt(const Parameter& param) {
     ImGui::PopItemWidth();
     ImGui::SameLine();
     
-    ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
-    ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
-    
+    SliderStyleRAII sliderStyle;
     ImGui::SliderInt(param.id.c_str(), intPtr, param.GetIntMin(), param.GetIntMax());
     
-    ImGui::PopStyleColor(2);
     ImGui::PopItemWidth();
 }
 
 void Parameter::RenderFloat(const Parameter& param) {
-    ImGui::PushItemWidth(160.0f);
+    ImGui::PushItemWidth(itemWidth160);
     ImGui::AlignTextToFramePadding();
     
     ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
@@ -186,7 +219,7 @@ void Parameter::RenderFloat(const Parameter& param) {
     
     auto floatPtr = static_cast<float*>(param.valuePtr);
     
-    ImGui::PushItemWidth(65.0f);
+    ImGui::PushItemWidth(itemWidth65);
     char inputBuffer[16];
     snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *floatPtr);
     if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
@@ -196,17 +229,14 @@ void Parameter::RenderFloat(const Parameter& param) {
     ImGui::PopItemWidth();
     ImGui::SameLine();
     
-    ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
-    ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
-    
+    SliderStyleRAII sliderStyle;
     ImGui::SliderFloat(param.id.c_str(), floatPtr, param.GetFloatMin(), param.GetFloatMax(), "%.2f");
     
-    ImGui::PopStyleColor(2);
     ImGui::PopItemWidth();
 }
 
 void Parameter::RenderBool(const Parameter& param) {
-    ImGui::PushItemWidth(160.0f);
+    ImGui::PushItemWidth(itemWidth160);
     ImGui::AlignTextToFramePadding();
     
     ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
