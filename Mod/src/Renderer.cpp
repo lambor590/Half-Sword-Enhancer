@@ -13,11 +13,7 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) n
     
     if (!Gui::IsVisible() || !state.guiReady) UNLIKELY return;
     
-    if (state.isD3D12) LIKELY {
-        SignalAndWait();
-    }
-    
-    RenderFrame();
+    (this->*renderFunc)();
 }
 
 void Renderer::OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept
@@ -40,40 +36,44 @@ void Renderer::OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT wid
     state.bufferIndex = 0;
 }
 
-__forceinline void Renderer::RenderFrame() noexcept
+template<bool IsD3D12>
+__forceinline void Renderer::RenderFrameImpl() noexcept
 {
-    if (state.isD3D12) LIKELY {
+    if constexpr (IsD3D12) {
         state.bufferIndex = static_cast<uint8_t>(swapChain3->GetCurrentBackBufferIndex());
         
-        auto& wrappedBuffer = d3d11WrappedBackBuffers[state.bufferIndex];
-        auto& renderTarget = d3d11RenderTargetViews[state.bufferIndex];
+        ID3D11Resource* const __restrict wrappedBuffer = d3d11WrappedBackBuffers[state.bufferIndex].Get();
+        ID3D11RenderTargetView* const __restrict renderTarget = d3d11RenderTargetViews[state.bufferIndex].Get();
         
-        _mm_prefetch(reinterpret_cast<const char*>(wrappedBuffer.Get()), _MM_HINT_T0);
-        _mm_prefetch(reinterpret_cast<const char*>(renderTarget.Get()), _MM_HINT_T0);
+        _mm_prefetch(reinterpret_cast<const char*>(wrappedBuffer), _MM_HINT_T0);
+        _mm_prefetch(reinterpret_cast<const char*>(renderTarget), _MM_HINT_T0);
         
-        d3d11On12Device->AcquireWrappedResources(wrappedBuffer.GetAddressOf(), 1);
-        d3d11Context->OMSetRenderTargets(1, renderTarget.GetAddressOf(), nullptr);
+        d3d11On12Device->AcquireWrappedResources(&wrappedBuffer, 1);
+        d3d11Context->OMSetRenderTargets(1, &renderTarget, nullptr);
         
-        if (window.viewportDirty) UNLIKELY {
-            d3d11Context->RSSetViewports(1, &window.viewport);
-            window.viewportDirty = false;
-        }
-        
+        SetViewportIfDirty();
         Gui::Get().Render();
         
-        d3d11On12Device->ReleaseWrappedResources(wrappedBuffer.GetAddressOf(), 1);
+        d3d11On12Device->ReleaseWrappedResources(&wrappedBuffer, 1);
         d3d11Context->Flush();
         SignalAndWait();
     } else {
-        d3d11Context->OMSetRenderTargets(1, d3d11RenderTargetViews[0].GetAddressOf(), nullptr);
+        ID3D11RenderTargetView* const __restrict renderTarget = d3d11RenderTargetViews[0].Get();
+        d3d11Context->OMSetRenderTargets(1, &renderTarget, nullptr);
         
-        if (window.viewportDirty) UNLIKELY {
-            d3d11Context->RSSetViewports(1, &window.viewport);
-            window.viewportDirty = false;
-        }
-        
+        SetViewportIfDirty();
         Gui::Get().Render();
     }
+}
+
+__forceinline void Renderer::RenderFrameD3D11() noexcept
+{
+    RenderFrameImpl<false>();
+}
+
+__forceinline void Renderer::RenderFrameD3D12() noexcept
+{
+    RenderFrameImpl<true>();
 }
 
 bool Renderer::InitD3DResources(IDXGISwapChain* swapChain) noexcept
@@ -82,12 +82,14 @@ bool Renderer::InitD3DResources(IDXGISwapChain* swapChain) noexcept
     
     if (SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D11Device), (void**)&d3d11Device))) LIKELY {
         state.isD3D12 = false;
+        renderFunc = &Renderer::RenderFrameD3D11;
         logger.Log("Initializing D3D11 renderer");
         return InitD3D11();
     }
     
     if (SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D12Device), (void**)&d3d12Device))) UNLIKELY {
         state.isD3D12 = true;
+        renderFunc = &Renderer::RenderFrameD3D12;
         logger.Log("Initializing D3D12 renderer");
         return InitD3D12();
     }
@@ -132,7 +134,7 @@ bool Renderer::InitD3D11() noexcept
         logger.Log("GUI initialized successfully");
     }
     
-    logger.Log("D3D11 renderer initialized successfully ({}x{})", window.width, window.height);
+    logger.Log("D3D11 renderer initialized successfully (%dx%d)", window.width, window.height);
     return true;
 }
 
@@ -182,7 +184,7 @@ bool Renderer::InitD3D12() noexcept
                 IID_PPV_ARGS(&d3d11WrappedBackBuffers[i]))) ||
             FAILED(d3d11Device->CreateRenderTargetView(d3d11WrappedBackBuffers[i].Get(), nullptr, 
                 &d3d11RenderTargetViews[i]))) UNLIKELY {
-            logger.Log("Failed to create render target {} for D3D12", i);
+            logger.Log("Failed to create render target %d for D3D12", static_cast<int>(i));
             return false;
         }
         
@@ -201,19 +203,22 @@ bool Renderer::InitD3D12() noexcept
         logger.Log("GUI initialized successfully");
     }
     
-    logger.Log("D3D12 renderer initialized successfully ({}x{}, {} buffers)", window.width, window.height, state.bufferCount);
+    logger.Log("D3D12 renderer initialized successfully (%dx%d, %d buffers)", window.width, window.height, static_cast<int>(state.bufferCount));
     return true;
 }
 
 __forceinline bool Renderer::SignalAndWait() noexcept
 {
-    if (FAILED(commandQueue->Signal(fence.Get(), fenceValue)) ||
-        (fence->GetCompletedValue() < fenceValue && 
-         FAILED(fence->SetEventOnCompletion(fenceValue, fenceEvent)))) UNLIKELY {
+    ID3D12CommandQueue* const __restrict cmdQueue = commandQueue.Get();
+    ID3D12Fence* const __restrict fencePtr = fence.Get();
+    
+    if (FAILED(cmdQueue->Signal(fencePtr, fenceValue)) ||
+        (fencePtr->GetCompletedValue() < fenceValue && 
+         FAILED(fencePtr->SetEventOnCompletion(fenceValue, fenceEvent)))) UNLIKELY {
         return false;
     }
     
-    if (fence->GetCompletedValue() < fenceValue) UNLIKELY {
+    if (fencePtr->GetCompletedValue() < fenceValue) UNLIKELY {
         WaitForSingleObject(fenceEvent, RenderConfig::SYNC_TIMEOUT_MS);
     }
     
@@ -267,4 +272,5 @@ void Renderer::Cleanup() noexcept
     }
     
     state = {};
+    renderFunc = nullptr;
 }
