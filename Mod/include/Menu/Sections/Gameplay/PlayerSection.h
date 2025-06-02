@@ -33,7 +33,7 @@ private:
     static inline float playerStrengthMultiplier = 1.0f;
     static inline float playerGrabForceMultiplier = 1.0f;
     static inline float playerHandsRigidityMultiplier = 1.0f;
-    static inline bool playerAdjustBodyTonus = false;
+    static inline bool playerAdjustBodyTonus = true;
 
     static inline int dashKey = -1;
     static inline float dashForce = 7000.0f;
