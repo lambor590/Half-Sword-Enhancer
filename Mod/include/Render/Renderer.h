@@ -87,6 +87,7 @@ private:
     bool InitD3D11() noexcept;
     bool InitD3D12() noexcept;
     void ReleaseResources() noexcept;
+    __forceinline void InitOrReinitImGui() noexcept;
     
     __forceinline void SetViewportIfDirty() noexcept {
         if (window.viewportDirty) UNLIKELY {
