@@ -33,7 +33,6 @@ private:
     static inline float playerStrengthMultiplier = 1.0f;
     static inline float playerGrabForceMultiplier = 1.0f;
     static inline float playerHandsRigidityMultiplier = 1.0f;
-    static inline bool playerAdjustBodyTonus = true;
 
     static inline int dashKey = -1;
     static inline float dashForce = 7000.0f;
@@ -117,8 +116,7 @@ public:
         std::initializer_list<Parameter> playerStrengthParams = {
             Parameter("strength_multiplier", "Strength Multiplier", &playerStrengthMultiplier, 1.0f, 10.0f),
             Parameter("grab_force_multiplier", "Grab Force Multiplier", &playerGrabForceMultiplier, 1.0f, 10.0f),
-            Parameter("hands_rigidity_multiplier", "Hands Rigidity Multiplier", &playerHandsRigidityMultiplier, 1.0f, 10.0f),
-            Parameter("adjust_body_tonus", "Adjust Body Tonus", &playerAdjustBodyTonus)
+            Parameter("hands_rigidity_multiplier", "Hands Rigidity Multiplier", &playerHandsRigidityMultiplier, 1.0f, 10.0f)
         };
 
         Function("Strength Multiplier")
@@ -131,8 +129,6 @@ public:
                 player->R_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
                 player->L_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
                 player->Hands_Rigidity__Gauntlets_ = active ? (0.666f * playerHandsRigidityMultiplier) : 0.666f;
-                if (playerAdjustBodyTonus)
-                    player->All_Body_Tonus = 500.0f;
             }, player);
 
         Function("No Kick Cooldown")
