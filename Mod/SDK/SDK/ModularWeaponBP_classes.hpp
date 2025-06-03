@@ -13,12 +13,12 @@
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "GripType_Enum_structs.hpp"
-#include "SwitchGrip_Type_Enum_structs.hpp"
-#include "Enum_MaterialQuality_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Enum_MaterialQuality_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "SwitchGrip_Type_Enum_structs.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
 #include "Str_WeaponParts_structs.hpp"
 
@@ -221,6 +221,7 @@ public:
 	void BndEvt__ModularWeaponBP_SubModule_2_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
 	void Clear_Stuck_Bone(class FName bone);
 	void Collision_Hit(class UPrimitiveComponent* Hit_Component, class AActor* Other_Actor_0, const struct FVector& Normal_Impulse_0, const struct FHitResult& Hit);
+	void Event_Enable_Last_Parent_Collision();
 	void ExecuteUbergraph_ModularWeaponBP(int32 EntryPoint);
 	void GGAGA();
 	void ReceiveBeginPlay();

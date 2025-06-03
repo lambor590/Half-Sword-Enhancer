@@ -37,6 +37,20 @@ void AModular_Falchion_Blade_Master_C::ExecuteUbergraph_Modular_Falchion_Blade_M
 }
 
 
+// Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AModular_Falchion_Blade_Master_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ReceiveTick
 // (Event, Public, BlueprintEvent)
 // Parameters:
@@ -54,20 +68,6 @@ void AModular_Falchion_Blade_Master_C::ReceiveTick(float DeltaSeconds)
 	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AModular_Falchion_Blade_Master_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Modular_Falchion_Blade_Master_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

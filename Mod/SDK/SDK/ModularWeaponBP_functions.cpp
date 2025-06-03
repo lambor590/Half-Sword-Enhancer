@@ -259,6 +259,20 @@ void AModularWeaponBP_C::Collision_Hit(class UPrimitiveComponent* Hit_Component,
 }
 
 
+// Function ModularWeaponBP.ModularWeaponBP_C.Event Enable Last Parent Collision
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Event_Enable_Last_Parent_Collision()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModularWeaponBP_C", "Event Enable Last Parent Collision");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function ModularWeaponBP.ModularWeaponBP_C.ExecuteUbergraph_ModularWeaponBP
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:

@@ -36,8 +36,8 @@ public:
 
 public:
 	void ExecuteUbergraph_Modular_Sword_Blade_Master(int32 EntryPoint);
-	void ReceiveTick(float DeltaSeconds);
 	void ReceiveBeginPlay();
+	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();
 
 public:

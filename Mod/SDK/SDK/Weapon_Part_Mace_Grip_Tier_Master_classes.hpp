@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "Modular_Weapon_Shaft_Master_classes.hpp"
+#include "Engine_structs.hpp"
 
 
 namespace SDK
