@@ -21,6 +21,8 @@ private:
     static inline int noPainKey = -1;
     static inline int noKickCooldownKey = -1;
     static inline int enemyNoPainKey = -1;
+    static inline int ragdollKey = -1;
+    static inline int enemyRagdollKey = -1;
 
     static inline int jumpKey = 0x4A; // J
     static inline float jumpForce = 5000.0f;
@@ -154,6 +156,26 @@ public:
                     player->Leg_R_Tonus = 1.0f;
                 }
             }, player);
+
+        Function("Ragdoll")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&ragdollKey)
+            .Action([this]() {
+                player->All_Body_Tonus = 0.0f;
+            }, player);
+
+        Function("Enemy Ragdoll")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&enemyRagdollKey)
+            .Action([this]() {
+                SDK::TArray<SDK::AActor*> actors;
+                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
+                for (auto* actor : actors) {
+                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+                    if (willie == player || !willie) continue;
+                    willie->All_Body_Tonus = 0.0f;
+                }
+            }, player, world);
 
         Function("No Kick Cooldown")
             .OnEvent(GameHook::GameEvent::OffLedge)
