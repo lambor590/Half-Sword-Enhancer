@@ -34,6 +34,10 @@ private:
     static inline float playerGrabForceMultiplier = 1.0f;
     static inline float playerHandsRigidityMultiplier = 1.0f;
 
+    static inline int bodyTonusKey = -1;
+    static inline float bodyTonusAllBodyMultiplier = 1.0f;
+    static inline bool bodyTonusNoWeakening = false;
+
     static inline int dashKey = -1;
     static inline float dashForce = 7000.0f;
 
@@ -129,6 +133,26 @@ public:
                 player->R_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
                 player->L_Grab_Force_Limit = active ? (10000.0f * playerGrabForceMultiplier) : 10000.0f;
                 player->Hands_Rigidity__Gauntlets_ = active ? (0.666f * playerHandsRigidityMultiplier) : 0.666f;
+            }, player);
+
+        std::initializer_list<Parameter> bodyTonusParams = {
+            Parameter("all_body", "All Body Tonus Multiplier", &bodyTonusAllBodyMultiplier, 1.0f, 10.0f),
+            Parameter("no_weakening", "No Weakening", &bodyTonusNoWeakening)
+        };
+
+        Function("Custom Body Tonus")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&bodyTonusKey)
+            .WithParams(bodyTonusParams)
+            .Action([this]() {
+                player->All_Body_Tonus = 100.0f * bodyTonusAllBodyMultiplier;
+                if (bodyTonusNoWeakening) {
+                    player->Head_Tonus = 1.0f;
+                    player->Arm_L_Tonus = 1.0f;
+                    player->Arm_R_Tonus = 1.0f;
+                    player->Leg_L_Tonus = 1.0f;
+                    player->Leg_R_Tonus = 1.0f;
+                }
             }, player);
 
         Function("No Kick Cooldown")
