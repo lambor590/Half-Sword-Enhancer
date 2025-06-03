@@ -15,6 +15,7 @@ private:
     static inline int saveLoadoutKey = 0x54; // T
     static inline int infiniteStaminaKey = 0x49; // I
     static inline int infiniteConsciousnessKey = -1;
+    static inline int enemyInfiniteConsciousnessKey = -1;
     static inline int getUpKey = -1;
     static inline int possessWillieKey = -1;
     static inline int invulnerabilityKey = -1;
@@ -90,6 +91,21 @@ public:
                 player->Consciousness = 100.0f;
                 player->Consciousness_2__Legs_ = 100.0f;
             }, player);
+
+        Function("Enemy Infinite Consciousness")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&enemyInfiniteConsciousnessKey)
+            .Action([this]() {
+                SDK::TArray<SDK::AActor*> actors;
+                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
+                for (auto* actor : actors) {
+                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+                    if (willie == player || !willie) continue;
+                    willie->Consciousness_Cap = 100.0f;
+                    willie->Consciousness = 100.0f;
+                    willie->Consciousness_2__Legs_ = 100.0f;
+                }
+            }, player, world);
 
         Function("Save Loadout")
             .WithKey(&saveLoadoutKey)
