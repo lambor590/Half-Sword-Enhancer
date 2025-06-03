@@ -39,7 +39,7 @@ private:
 
     static inline int bodyTonusKey = -1;
     static inline float bodyTonusAllBodyMultiplier = 1.0f;
-    static inline bool bodyTonusNoWeakening = false;
+    static inline bool bodyTonusNoBodyWeakening = false;
 
     static inline int dashKey = -1;
     static inline float dashForce = 7000.0f;
@@ -155,7 +155,7 @@ public:
 
         std::initializer_list<Parameter> bodyTonusParams = {
             Parameter("all_body", "All Body Tonus Multiplier", &bodyTonusAllBodyMultiplier, 1.0f, 10.0f),
-            Parameter("no_weakening", "No Weakening", &bodyTonusNoWeakening)
+            Parameter("no_body_weakening", "No Body Weakening", &bodyTonusNoBodyWeakening)
         };
 
         Function("Custom Body Tonus")
@@ -164,7 +164,7 @@ public:
             .WithParams(bodyTonusParams)
             .Action([this]() {
                 player->All_Body_Tonus = 100.0f * bodyTonusAllBodyMultiplier;
-                if (bodyTonusNoWeakening) {
+                if (bodyTonusNoBodyWeakening) {
                     player->Head_Tonus = 1.0f;
                     player->Arm_L_Tonus = 1.0f;
                     player->Arm_R_Tonus = 1.0f;
