@@ -172,20 +172,6 @@ namespace Util {
         return 0;
     }
 
-    [[nodiscard]] inline bool isRunningAsAdmin() noexcept {
-        BOOL isAdmin = FALSE;
-        SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
-        PSID adminGroup = NULL;
-
-        if (AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
-            DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &adminGroup)) {
-            CheckTokenMembership(NULL, adminGroup, &isAdmin);
-            FreeSid(adminGroup);
-        }
-
-        return isAdmin != 0;
-    }
-
     [[nodiscard]] inline const std::string& getAppDataPath() {
         static std::string fullPath;
 
