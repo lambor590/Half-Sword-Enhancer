@@ -163,12 +163,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Mod\ext\imgui\backends\imgui_impl_dx11.cpp" />
-    <ClCompile Include="..\Mod\ext\imgui\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="..\Mod\ext\imgui\imgui.cpp" />
-    <ClCompile Include="..\Mod\ext\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\Mod\ext\imgui\imgui_tables.cpp" />
-    <ClCompile Include="..\Mod\ext\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
