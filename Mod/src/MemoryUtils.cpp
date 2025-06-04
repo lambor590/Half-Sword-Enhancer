@@ -3,9 +3,6 @@
 #include <map>
 #include <vector>
 #include <Psapi.h>
-#include <sstream>
-#include <iomanip>
-#include <array>
 #include <algorithm>
 
 namespace MemoryUtils 
@@ -33,167 +30,119 @@ namespace MemoryUtils
         }
     }
 
-    static bool IsRelativeNearJumpPresentAtAddress(uintptr_t address)
-    {
-        unsigned char buffer;
-        MemCopy((uintptr_t)&buffer, address, 1);
-        return buffer == 0xe9;
-    }
-
-    static bool IsAbsoluteIndirectNearJumpPresentAtAddress(uintptr_t address)
-    {
-        unsigned char buffer[3];
-        MemCopy((uintptr_t)buffer, address, 3);
-        return buffer[0] == 0x48 && buffer[1] == 0xff && buffer[2] == 0x25;
-    }
-
-    static bool IsAbsoluteDirectFarJumpPresentAtAddress(uintptr_t address)
+    static bool IsAddressHooked(uintptr_t address)
     {
         unsigned char buffer[6];
         MemCopy((uintptr_t)buffer, address, 6);
-        return buffer[0] == 0xff && buffer[1] == 0x25 && 
-               buffer[2] == 0x00 && buffer[3] == 0x00 && buffer[4] == 0x00 && buffer[5] == 0x00;
+        
+        return buffer[0] == 0xe9 || 
+               (buffer[0] == 0x48 && buffer[1] == 0xff && buffer[2] == 0x25) ||
+               (buffer[0] == 0xff && buffer[1] == 0x25 && 
+                buffer[2] == 0x00 && buffer[3] == 0x00 && buffer[4] == 0x00 && buffer[5] == 0x00);
     }
 
-    static bool IsAddressHooked(uintptr_t address)
+    static uintptr_t FollowJump(uintptr_t address)
     {
-        return IsRelativeNearJumpPresentAtAddress(address) || 
-               IsAbsoluteIndirectNearJumpPresentAtAddress(address) ||
-               IsAbsoluteDirectFarJumpPresentAtAddress(address);
+        unsigned char buffer[7];
+        MemCopy((uintptr_t)buffer, address, 7);
+        
+        if (buffer[0] == 0xe9) {
+            int32_t offset = *(int32_t*)(buffer + 1);
+            return address + 5 + offset;
+        }
+        else if (buffer[0] == 0x48 && buffer[1] == 0xff && buffer[2] == 0x25) {
+            int32_t offset = *(int32_t*)(buffer + 3);
+            return *(uintptr_t*)(address + 7 + offset);
+        }
+        else if (buffer[0] == 0xff && buffer[1] == 0x25) {
+            return *(uintptr_t*)(address + 6);
+        }
+        return address;
     }
 
     static size_t CalculateRequiredAsmClearance(uintptr_t address, size_t minimumClearance)
     {
-        constexpr size_t maximumAmountOfBytesToCheck = 30;
-        std::vector<uint8_t> bytesBuffer(maximumAmountOfBytesToCheck);
-        MemCopy((uintptr_t)bytesBuffer.data(), address, maximumAmountOfBytesToCheck);
+        constexpr size_t maxBytes = 30;
+        std::vector<uint8_t> buffer(maxBytes);
+        MemCopy((uintptr_t)buffer.data(), address, maxBytes);
 
-        if (IsAbsoluteDirectFarJumpPresentAtAddress(address)) return 14;
+        unsigned char* bytes = buffer.data();
+        if (bytes[0] == 0xff && bytes[1] == 0x25 && 
+            bytes[2] == 0x00 && bytes[3] == 0x00 && bytes[4] == 0x00 && bytes[5] == 0x00) {
+            return 14;
+        }
 
-        for (size_t byteCount = 0; byteCount < maximumAmountOfBytesToCheck;)
+        for (size_t byteCount = 0; byteCount < maxBytes;)
         {
-            size_t instructionSize = nmd_x86_ldisasm(
-                &bytesBuffer[byteCount],
-                maximumAmountOfBytesToCheck - byteCount,
-                NMD_X86_MODE_64);
-
-            if (instructionSize <= 0) {
-                logger.Log("Instruction invalid, could not check length!");
-                return minimumClearance;
-            }
-
+            size_t instructionSize = nmd_x86_ldisasm(&buffer[byteCount], maxBytes - byteCount, NMD_X86_MODE_64);
+            if (instructionSize <= 0) return minimumClearance;
             if (byteCount >= minimumClearance) return byteCount;
             byteCount += instructionSize;
         }
         return minimumClearance;
     }
 
-    static uintptr_t CalculateAbsoluteDestinationFromRelativeNearJumpAtAddress(uintptr_t relativeNearJumpMemoryLocation)
+    static void PlaceJump(uintptr_t address, uintptr_t destination, bool absolute = false, size_t clearance = 5)
     {
-        int32_t offset = 0;
-        MemCopy((uintptr_t)&offset, relativeNearJumpMemoryLocation + 1, 4);
-        return relativeNearJumpMemoryLocation + 5 + offset;
-    }
-
-    static uintptr_t CalculateAbsoluteDestinationFromAbsoluteIndirectNearJumpAtAddress(uintptr_t absoluteIndirectNearJumpMemoryLocation)
-    {
-        int32_t offset = 0;
-        MemCopy((uintptr_t)&offset, absoluteIndirectNearJumpMemoryLocation + 3, 4);
-        uintptr_t memoryContainingAbsoluteAddress = absoluteIndirectNearJumpMemoryLocation + 7 + offset;
-        return *(uintptr_t*)memoryContainingAbsoluteAddress;
-    }
-
-    static int32_t CalculateRelativeDisplacementForRelativeJump(uintptr_t relativeJumpAddress, uintptr_t destinationAddress)
-    {
-        return -int32_t(relativeJumpAddress + 5 - destinationAddress);
-    }
-
-    static void PlaceAbsoluteJump(uintptr_t address, uintptr_t destinationAddress, size_t clearance = 14)
-    {
-        MemSet(address, 0x90, clearance);
-        unsigned char absoluteJumpBytes[6] = { 0xff, 0x25, 0x00, 0x00, 0x00, 0x00 };
-        MemCopy(address, (uintptr_t)absoluteJumpBytes, 6);
-        MemCopy(address + 6, (uintptr_t)&destinationAddress, 8);
-        logger.Log("Created absolute jump from %p to %p with a clearance of %i", address, destinationAddress, clearance);
-    }
-
-    static void PlaceRelativeJump(uintptr_t address, uintptr_t destinationAddress, size_t clearance = 5)
-    {
-        MemSet(address, 0x90, clearance);
-        unsigned char relativeJumpBytes[5] = { 0xe9, 0x00, 0x00, 0x00, 0x00 };
-        MemCopy(address, (uintptr_t)relativeJumpBytes, 5);
-        int32_t relativeAddress = CalculateRelativeDisplacementForRelativeJump(address, destinationAddress);
-        MemCopy(address + 1, (uintptr_t)&relativeAddress, 4);
-        logger.Log("Created relative jump from %p to %p with a clearance of %i", address, destinationAddress, clearance);
-    }
-
-    static void PrintBytesAtAddress(uintptr_t address, size_t numBytes)
-    {
-        std::vector<uint8_t> bytesBuffer(numBytes);
-        MemCopy((uintptr_t)bytesBuffer.data(), address, numBytes);
+        MemSet(address, NOP_INSTRUCTION, clearance);
         
-        std::stringstream ss;
-        ss << "Existing bytes: ";
-        for (auto byte : bytesBuffer) {
-            ss << "0x" << std::hex << std::setfill('0') << std::setw(2) << (int)byte << " ";
+        if (absolute) {
+            unsigned char jump[6] = { 0xff, 0x25, 0x00, 0x00, 0x00, 0x00 };
+            MemCopy(address, (uintptr_t)jump, 6);
+            MemCopy(address + 6, (uintptr_t)&destination, 8);
+        } else {
+            unsigned char jump[5] = { 0xe9, 0x00, 0x00, 0x00, 0x00 };
+            MemCopy(address, (uintptr_t)jump, 5);
+            int32_t offset = -int32_t(address + 5 - destination);
+            MemCopy(address + 1, (uintptr_t)&offset, 4);
         }
-        logger.Log("%s", ss.str().c_str());
     }
 
     void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress)
     {
-        logger.Log("Hooking...");
-
-        constexpr int maxFollowAttempts = 50;
-        int countFollowAttempts = 0;
+        constexpr int maxAttempts = 50;
+        int attempts = 0;
         
-        while (IsAddressHooked(addressToHook) && countFollowAttempts < maxFollowAttempts)
-        {
-            if (IsRelativeNearJumpPresentAtAddress(addressToHook)) {
-                addressToHook = CalculateAbsoluteDestinationFromRelativeNearJumpAtAddress(addressToHook);
-            } else if (IsAbsoluteIndirectNearJumpPresentAtAddress(addressToHook)) {
-                addressToHook = CalculateAbsoluteDestinationFromAbsoluteIndirectNearJumpAtAddress(addressToHook);
-            }
-            countFollowAttempts++;
+        while (IsAddressHooked(addressToHook) && attempts < maxAttempts) {
+            addressToHook = FollowJump(addressToHook);
+            attempts++;
         }
 
-        PrintBytesAtAddress(addressToHook, 20);
-
-        constexpr size_t assemblyShortJumpSize = 5;
-        constexpr size_t assemblyFarJumpSize = 14;
-        constexpr size_t thirdPartyHookProtectionBuffer = assemblyFarJumpSize;
+        constexpr size_t jumpSize = 5;
+        constexpr size_t farJumpSize = 14;
+        constexpr size_t protectionBuffer = farJumpSize;
         
-        size_t clearance = CalculateRequiredAsmClearance(addressToHook, assemblyShortJumpSize);
-        size_t trampolineSize = assemblyFarJumpSize * 3 + clearance + thirdPartyHookProtectionBuffer;
+        size_t clearance = CalculateRequiredAsmClearance(addressToHook, jumpSize);
+        size_t trampolineSize = farJumpSize * 3 + clearance + protectionBuffer;
         
-        uintptr_t trampolineAddress = AllocateMemoryWithin32BitRange(trampolineSize, addressToHook + assemblyShortJumpSize);
-        uintptr_t trampolineReturnAddress = addressToHook + clearance;
-        uintptr_t originalInstructionsInTrampoline = trampolineAddress + assemblyFarJumpSize + thirdPartyHookProtectionBuffer;
-
-        MemCopy(originalInstructionsInTrampoline, addressToHook, clearance);
+        uintptr_t trampoline = AllocateMemoryWithin32BitRange(trampolineSize, addressToHook);
+        if (!trampoline) {
+            logger.Log("Failed to allocate trampoline memory");
+            return;
+        }
+        
+        uintptr_t originalInstructions = trampoline + farJumpSize + protectionBuffer;
+        MemCopy(originalInstructions, addressToHook, clearance);
 
         HookInformation hookInfo;
         hookInfo.originalBytes.resize(clearance);
-        hookInfo.trampolineInstructionsAddress = originalInstructionsInTrampoline;
-        MemCopy((uintptr_t)hookInfo.originalBytes.data(), originalInstructionsInTrampoline, clearance);
+        hookInfo.trampolineInstructionsAddress = originalInstructions;
+        MemCopy((uintptr_t)hookInfo.originalBytes.data(), originalInstructions, clearance);
         InfoBufferForHookedAddresses[addressToHook] = hookInfo;
 
-        PlaceAbsoluteJump(trampolineAddress + thirdPartyHookProtectionBuffer, destinationAddress);
-        PlaceAbsoluteJump(trampolineAddress + trampolineSize - assemblyFarJumpSize, trampolineReturnAddress);
+        PlaceJump(trampoline + protectionBuffer, destinationAddress, true, farJumpSize);
+        PlaceJump(trampoline + trampolineSize - farJumpSize, addressToHook + clearance, true, farJumpSize);
         
-        *returnAddress = originalInstructionsInTrampoline;
-        PlaceRelativeJump(addressToHook, trampolineAddress, clearance);
+        *returnAddress = originalInstructions;
+        PlaceJump(addressToHook, trampoline, false, clearance);
     }
 
     void Unhook(uintptr_t hookedAddress)
     {
         auto it = InfoBufferForHookedAddresses.find(hookedAddress);
-        if (it != InfoBufferForHookedAddresses.end())
-        {
+        if (it != InfoBufferForHookedAddresses.end()) {
             auto& hookInfo = it->second;
-            MemSet(hookInfo.trampolineInstructionsAddress, 0x90, hookInfo.originalBytes.size());
             MemCopy(hookedAddress, (uintptr_t)hookInfo.originalBytes.data(), hookInfo.originalBytes.size());
-            logger.Log("Removed hook from %p", hookedAddress);
             InfoBufferForHookedAddresses.erase(it);
         }
     }
@@ -201,14 +150,13 @@ namespace MemoryUtils
     uintptr_t GetProcessBaseAddress(DWORD processId) noexcept
     {
         HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processId);
-        if (hProcess == NULL) return 0;
+        if (!hProcess) return 0;
 
         HMODULE hModule;
         DWORD cbNeeded;
         uintptr_t baseAddress = 0;
 
-        if (EnumProcessModules(hProcess, &hModule, sizeof(hModule), &cbNeeded))
-        {
+        if (EnumProcessModules(hProcess, &hModule, sizeof(hModule), &cbNeeded)) {
             baseAddress = reinterpret_cast<uintptr_t>(hModule);
         }
 
@@ -249,28 +197,32 @@ namespace MemoryUtils
 
     uintptr_t SigScan(const std::vector<uint16_t>& pattern) noexcept
     {
-        DWORD processId = GetCurrentProcessId();
-        uintptr_t baseAddress = GetProcessBaseAddress(processId);
-        if (baseAddress == 0) return 0;
+        uintptr_t baseAddress = GetProcessBaseAddress(GetCurrentProcessId());
+        if (!baseAddress) return 0;
 
         MEMORY_BASIC_INFORMATION mbi;
         uintptr_t searchAddress = baseAddress;
         size_t patternSize = pattern.size();
 
-        while (VirtualQuery(reinterpret_cast<LPCVOID>(searchAddress), &mbi, sizeof(mbi))) {
-            if (mbi.State == MEM_COMMIT && (mbi.Protect & PAGE_GUARD) == 0 && mbi.Protect != PAGE_NOACCESS) {
+        while (VirtualQuery((LPCVOID)searchAddress, &mbi, sizeof(mbi))) {
+            if (mbi.State == MEM_COMMIT && 
+                (mbi.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_READWRITE | PAGE_READONLY)) &&
+                !(mbi.Protect & PAGE_GUARD) && mbi.Protect != PAGE_NOACCESS) {
+                
                 auto* buffer = static_cast<uint8_t*>(mbi.BaseAddress);
                 size_t regionSize = mbi.RegionSize;
 
-                for (size_t i = 0; i <= regionSize - patternSize; ++i) {
-                    bool found = true;
-                    for (size_t j = 0; j < patternSize; ++j) {
-                        if (pattern[j] != maskBytes && pattern[j] != buffer[i + j]) {
-                            found = false;
-                            break;
+                if (regionSize >= patternSize) {
+                    for (size_t i = 0; i <= regionSize - patternSize; ++i) {
+                        bool found = true;
+                        for (size_t j = 0; j < patternSize; ++j) {
+                            if (pattern[j] != maskBytes && pattern[j] != buffer[i + j]) {
+                                found = false;
+                                break;
+                            }
                         }
+                        if (found) return reinterpret_cast<uintptr_t>(buffer + i);
                     }
-                    if (found) return reinterpret_cast<uintptr_t>(buffer + i);
                 }
             }
 
