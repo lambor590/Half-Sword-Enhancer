@@ -20,6 +20,7 @@ namespace MemoryUtils
     extern Logger logger;
     static constexpr int maskBytes = 0xffff;
     static constexpr size_t PATTERN_CACHE_SIZE = 32;
+    static constexpr unsigned char NOP_INSTRUCTION = 0x90;
 
     struct HookInformation
     {
@@ -67,24 +68,12 @@ namespace MemoryUtils
 
     uintptr_t GetProcessBaseAddress(DWORD processId) noexcept;
 
-    static std::string GetCurrentProcessName() noexcept
-    {
-        thread_local char lpFilename[MAX_PATH];
-        GetModuleFileNameA(NULL, lpFilename, sizeof(lpFilename));
-        if (char* lastSlash = strrchr(lpFilename, '\\')) {
-            return std::string(lastSlash + 1);
-        }
-        return std::string(lpFilename);
-    }
-
     static inline const std::string& GetCurrentModuleName() noexcept
     {
         static const std::string cachedName = []() {
             HMODULE module = NULL;
             static char dummy = 'x';
-            GetModuleHandleExA(
-                GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-                &dummy, &module);
+            GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, &dummy, &module);
 
             char lpFilename[MAX_PATH];
             GetModuleFileNameA(module, lpFilename, sizeof(lpFilename));
@@ -111,45 +100,41 @@ namespace MemoryUtils
 
     static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
     {
-        constexpr size_t unidirectionalRange = 0x7fffffff;
-        constexpr size_t arbitraryIncrement = 10000;
+        constexpr size_t range = 0x7fffffff;
+        constexpr size_t increment = 65536;
         
-        uintptr_t lowerBound = origin > unidirectionalRange ? origin - unidirectionalRange : 0;
-        uintptr_t higherBound = origin + unidirectionalRange;
+        uintptr_t lowerBound = origin > range ? origin - range : 0;
+        uintptr_t higherBound = origin + range;
 
-        for (uintptr_t i = lowerBound; i < higherBound; i += arbitraryIncrement)
+        SYSTEM_INFO si;
+        GetSystemInfo(&si);
+        size_t alignedSize = (numBytes + si.dwPageSize - 1) & ~(static_cast<unsigned long long>(si.dwPageSize) - 1);
+
+        for (uintptr_t i = lowerBound; i < higherBound; i += increment)
         {
-            if (uintptr_t memoryAddress = (uintptr_t)VirtualAlloc((void*)i, numBytes, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE))
+            if (uintptr_t addr = (uintptr_t)VirtualAlloc((void*)i, alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE))
             {
-                if (memoryAddress >= lowerBound && memoryAddress <= higherBound) {
-                    logger.Log("Allocated %i bytes of memory at %p", numBytes, memoryAddress);
-                    MemSet(memoryAddress, 0x90, numBytes);
-                    return memoryAddress;
+                if (addr >= lowerBound && addr <= higherBound) {
+                    MemSet(addr, NOP_INSTRUCTION, numBytes);
+                    return addr;
                 }
-                
-                MEMORY_BASIC_INFORMATION info;
-                VirtualQuery((void*)memoryAddress, &info, sizeof(MEMORY_BASIC_INFORMATION));
-                i += info.RegionSize;
-                VirtualFree((void*)memoryAddress, 0, MEM_RELEASE);
+                VirtualFree((void*)addr, 0, MEM_RELEASE);
             }
         }
-
-        logger.Log("Failed to allocate %i bytes of memory. Origin: %p", numBytes, origin);
-        return NULL;
+        return 0;
     }
 
     void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress);
     void Unhook(uintptr_t hookedAddress);
 
-    static uintptr_t ReadPointerChain(std::vector<uintptr_t> pointerOffsets)
+    static uintptr_t ReadPointerChain(const std::vector<uintptr_t>& pointerOffsets)
     {
-        DWORD processId = GetCurrentProcessId();
-        uintptr_t pointer = GetProcessBaseAddress(processId);
+        uintptr_t pointer = GetProcessBaseAddress(GetCurrentProcessId());
         
         for (size_t i = 0; i < pointerOffsets.size(); i++)
         {
             pointer += pointerOffsets[i];
-            if (pointerOffsets[i] != pointerOffsets.back()) {
+            if (i < pointerOffsets.size() - 1) {
                 MemCopy((uintptr_t)&pointer, pointer, sizeof(uintptr_t));
             }
             if (pointer == 0) return 0;
