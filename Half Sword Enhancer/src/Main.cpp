@@ -88,9 +88,6 @@ int main() {
 
         Logger::info("Made by The Ghost");
 
-        if (isRunningAsAdmin())
-            Logger::warn("Detected administrator privileges. Running as administrator can cause permission issues.");
-
         Updater::checkForUpdates();
         bool success = performDllInjection(dllPath);
 
