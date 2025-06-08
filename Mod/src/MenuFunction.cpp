@@ -10,35 +10,39 @@
 #include "ConfigManager.h"
 #include "KeybindManager.h"
 
+namespace GuiConstants {
+    constexpr ImVec4 DISABLED_BUTTON_COLOR{0.18f, 0.13f, 0.09f, 0.50f};
+    constexpr ImVec4 DISABLED_TEXT_COLOR{0.55f, 0.45f, 0.35f, 0.60f};
+    constexpr ImVec4 DISABLED_BORDER_COLOR{0.28f, 0.20f, 0.12f, 0.40f};
+    constexpr ImVec4 DISABLED_NAME_COLOR{0.60f, 0.55f, 0.48f, 0.70f};
+    constexpr ImVec4 MODAL_DIM_COLOR{0, 0, 0, 0.6f};
+    
+    constexpr float BUTTON_WIDTH_PADDING = 28.0f;
+    constexpr float PARAMETER_BUTTON_OFFSET = 85.0f;
+    constexpr float ITEM_WIDTH_160 = 160.0f;
+    constexpr float ITEM_WIDTH_65 = 65.0f;
+    constexpr float FRAME_BORDER_SIZE = 1.0f;
+    constexpr size_t INPUT_BUFFER_SIZE = 16;
+    
+    constexpr std::string_view PRESS_KEY_TEXT = "Press a key...";
+    constexpr std::string_view CONFIGURE_TEXT = "Configure %s";
+    constexpr std::string_view CHANGE_KEYBIND_TEXT = "Change keybind";
+    constexpr std::string_view REPLACE_BUTTON_TEXT = "Replace";
+    constexpr std::string_view CANCEL_BUTTON_TEXT = "Cancel";
+    constexpr std::string_view CHOOSE_ANOTHER_TEXT = "Choose Another";
+    constexpr std::string_view UNKNOWN_TEXT = "Unknown";
+    constexpr std::string_view KEY_CONFLICT_FORMAT = "Key %s is already bound to %s. What do you want to do?";
+    constexpr std::string_view INPUT_SUFFIX = "_input";
+}
+
 namespace {
-    constexpr ImVec4 disabledButtonColor = ImVec4(0.18f, 0.13f, 0.09f, 0.50f);
-    constexpr ImVec4 disabledTextColor = ImVec4(0.55f, 0.45f, 0.35f, 0.60f);
-    constexpr ImVec4 disabledBorderColor = ImVec4(0.28f, 0.20f, 0.12f, 0.40f);
-    constexpr ImVec4 disabledNameColor = ImVec4(0.60f, 0.55f, 0.48f, 0.70f);
-    constexpr ImVec4 modalDimColor = ImVec4(0, 0, 0, 0.6f);
-    
-    constexpr float buttonWidthPadding = 28.0f;
-    constexpr float parameterButtonOffset = 85.0f;
-    constexpr float itemWidth160 = 160.0f;
-    constexpr float itemWidth65 = 65.0f;
-    constexpr float frameBorderSize = 1.0f;
-    
-    constexpr const char* pressKeyText = "Press a key...";
-    constexpr const char* configureText = "Configure %s";
-    constexpr const char* changeKeybindText = "Change keybind";
-    constexpr const char* replaceButtonText = "Replace";
-    constexpr const char* cancelButtonText = "Cancel";
-    constexpr const char* chooseAnotherText = "Choose Another";
-    constexpr const char* unknownText = "Unknown";
-    constexpr const char* keyConflictFormat = "Key %s is already bound to %s. What do you want to do?";
-    
     struct ButtonStyleRAII {
         explicit ButtonStyleRAII(bool disabled) : pushCount(disabled ? 4 : 0) {
             if (disabled) {
-                ImGui::PushStyleColor(ImGuiCol_Button, disabledButtonColor);
-                ImGui::PushStyleColor(ImGuiCol_Text, disabledTextColor);
-                ImGui::PushStyleColor(ImGuiCol_Border, disabledBorderColor);
-                ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, frameBorderSize);
+                ImGui::PushStyleColor(ImGuiCol_Button, GuiConstants::DISABLED_BUTTON_COLOR);
+                ImGui::PushStyleColor(ImGuiCol_Text, GuiConstants::DISABLED_TEXT_COLOR);
+                ImGui::PushStyleColor(ImGuiCol_Border, GuiConstants::DISABLED_BORDER_COLOR);
+                ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, GuiConstants::FRAME_BORDER_SIZE);
             }
         }
         ~ButtonStyleRAII() {
@@ -59,18 +63,16 @@ namespace {
             ImGui::PopStyleColor(2);
         }
     };
-
-
 }
 
 static void RenderKeyButton(const char* id, bool& waitingForKey, int key) {
-    const char* keyText = waitingForKey ? pressKeyText : KeybindManager::GetKeyName(key);
+    const char* keyText = waitingForKey ? GuiConstants::PRESS_KEY_TEXT.data() : KeybindManager::GetKeyName(key);
     const bool disabled = (key == -1);
     
     const ButtonStyleRAII style(disabled);
     
     const float textWidth = ImGui::CalcTextSize(keyText).x;
-    ImGui::SetNextItemWidth(textWidth + buttonWidthPadding);
+    ImGui::SetNextItemWidth(textWidth + GuiConstants::BUTTON_WIDTH_PADDING);
     ImGui::PushID(id);
     
     if (ImGui::Button(keyText)) {
@@ -81,27 +83,27 @@ static void RenderKeyButton(const char* id, bool& waitingForKey, int key) {
     
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
-        ImGui::TextColored(DefaultStyle::parchment, changeKeybindText);
+        ImGui::TextColored(DefaultStyle::parchment, GuiConstants::CHANGE_KEYBIND_TEXT.data());
         ImGui::EndTooltip();
     }
 }
 
 static inline void RenderName(const std::string& name, bool isDisabled) {
     ImGui::TextColored(
-        isDisabled ? disabledNameColor : DefaultStyle::parchment, 
+        isDisabled ? GuiConstants::DISABLED_NAME_COLOR : DefaultStyle::parchment, 
         "%s", name.c_str()
     );
 }
 
 static bool RenderParametersButton(const char* buttonId, const std::string& name) {
     ImGui::SameLine();
-    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - parameterButtonOffset);
+    ImGui::SetCursorPosX(ImGui::GetWindowWidth() - GuiConstants::PARAMETER_BUTTON_OFFSET);
     
     const bool clicked = ImGui::Button(buttonId);
     
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
-        ImGui::Text(configureText, name.c_str());
+        ImGui::Text(GuiConstants::CONFIGURE_TEXT.data(), name.c_str());
         ImGui::EndTooltip();
     }
     return clicked;
@@ -150,27 +152,27 @@ void KeyFunction<Derived>::Render() {
         }
     }
 
-    ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, modalDimColor);
+    ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, GuiConstants::MODAL_DIM_COLOR);
     if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
         const auto conflictFunc = KeybindManager::GetBoundFunction(pendingConflictKey, pendingConflictKeyPtr);
-        const std::string conflictName = conflictFunc ? std::string(conflictFunc->GetName()) : unknownText;
+        const std::string conflictName = conflictFunc ? std::string(conflictFunc->GetName()) : std::string(GuiConstants::UNKNOWN_TEXT);
         
-        ImGui::Text(keyConflictFormat, 
+        ImGui::Text(GuiConstants::KEY_CONFLICT_FORMAT.data(), 
                     KeybindManager::GetKeyName(pendingConflictKey), conflictName.c_str());
         ImGui::Spacing();
         
-        if (ImGui::Button(replaceButtonText)) {
+        if (ImGui::Button(GuiConstants::REPLACE_BUTTON_TEXT.data())) {
             KeybindManager::RemoveBinding(pendingConflictKey, pendingConflictKeyPtr);
             OnKeyAssigned();
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
-        if (ImGui::Button(cancelButtonText)) {
+        if (ImGui::Button(GuiConstants::CANCEL_BUTTON_TEXT.data())) {
             *pendingConflictKeyPtr = prevKey;
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
-        if (ImGui::Button(chooseAnotherText)) {
+        if (ImGui::Button(GuiConstants::CHOOSE_ANOTHER_TEXT.data())) {
             *pendingConflictKeyPtr = prevKey;
             waitingForKey = true;
             ImGui::CloseCurrentPopup();
@@ -199,65 +201,67 @@ void HookedFunction::OnKeyAssigned() {
 namespace {
     template<typename T>
     void RenderParameterImpl(const Parameter& param) noexcept {
-        ImGui::PushItemWidth(itemWidth160);
+        ImGui::PushItemWidth(GuiConstants::ITEM_WIDTH_160);
         ImGui::AlignTextToFramePadding();
         
         ImGui::TextColored(DefaultStyle::parchmentDark, "%.*s", 
                           static_cast<int>(param.displayName.size()), param.displayName.data());
         ImGui::SameLine();
         
-        const auto valuePtr = static_cast<T*>(param.valuePtr);
+        auto* valuePtr = static_cast<T*>(param.valuePtr);
         
         if constexpr (std::is_same_v<T, bool>) {
             ImGui::Checkbox(param.id.c_str(), valuePtr);
         } else {
-            ImGui::PushItemWidth(itemWidth65);
-            char inputBuffer[16];
+            ImGui::PushItemWidth(GuiConstants::ITEM_WIDTH_65);
             
-            if constexpr (std::is_same_v<T, int>) {
-                snprintf(inputBuffer, sizeof(inputBuffer), "%d", *valuePtr);
-                
-                std::string inputId;
-                inputId.reserve(param.id.length() + 7);
-                inputId = param.id + "_input";
-                
-                if (ImGui::InputText(inputId.c_str(), inputBuffer, sizeof(inputBuffer), 
-                                    ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
-                    *valuePtr = atoi(inputBuffer);
+            char inputBuffer[GuiConstants::INPUT_BUFFER_SIZE];
+            
+            if constexpr (std::is_integral_v<T>) {
+                snprintf(inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, "%d", *valuePtr);
+            } else {
+                snprintf(inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, "%.2f", *valuePtr);
+            }
+            
+            thread_local static std::string inputId;
+            inputId.clear();
+            inputId.reserve(param.id.length() + GuiConstants::INPUT_SUFFIX.length());
+            inputId = param.id;
+            inputId += GuiConstants::INPUT_SUFFIX;
+            
+            constexpr ImGuiInputTextFlags flags = ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue;
+            
+            if (ImGui::InputText(inputId.c_str(), inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, flags)) {
+                if constexpr (std::is_integral_v<T>) {
+                    *valuePtr = static_cast<T>(atoi(inputBuffer));
+                } else {
+                    *valuePtr = static_cast<T>(atof(inputBuffer));
                 }
-                ImGui::PopItemWidth();
-                ImGui::SameLine();
-                const SliderStyleRAII sliderStyle;
+            }
+            
+            ImGui::PopItemWidth();
+            ImGui::SameLine();
+            
+            const SliderStyleRAII sliderStyle;
+            if constexpr (std::is_integral_v<T>) {
                 ImGui::SliderInt(param.id.c_str(), valuePtr, param.minValue.intMin, param.maxValue.intMax);
             } else {
-                snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *valuePtr);
-                
-                std::string inputId;
-                inputId.reserve(param.id.length() + 7);
-                inputId = param.id + "_input";
-                
-                if (ImGui::InputText(inputId.c_str(), inputBuffer, sizeof(inputBuffer), 
-                                    ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
-                    *valuePtr = static_cast<float>(atof(inputBuffer));
-                }
-                ImGui::PopItemWidth();
-                ImGui::SameLine();
-                const SliderStyleRAII sliderStyle;
                 ImGui::SliderFloat(param.id.c_str(), valuePtr, param.minValue.floatMin, param.maxValue.floatMax, "%.2f");
             }
         }
+        
         ImGui::PopItemWidth();
     }
 
     template<typename T>
     void LoadParameterImpl(const Parameter& param, const IMenuFunction* func) noexcept {
-        auto valuePtr = static_cast<T*>(param.valuePtr);
+        auto* valuePtr = static_cast<T*>(param.valuePtr);
         *valuePtr = func->GetConfig(param.name, *valuePtr);
     }
 
     template<typename T>
     void SaveParameterImpl(const Parameter& param, const IMenuFunction* func) noexcept {
-        auto valuePtr = static_cast<T*>(param.valuePtr);
+        auto* valuePtr = static_cast<T*>(param.valuePtr);
         func->SaveConfig(param.name, *valuePtr);
     }
 }
