@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <functional>
 #include <unordered_map>
+#include <vector>
 
 class ConfigManager;
 class IMenuFunction;
@@ -22,6 +23,7 @@ private:
     };
     
     static std::unordered_map<int*, Binding> s_bindings;
+    static std::unordered_map<int, std::vector<Binding*>> s_keyToBindings;
     static bool s_initialized;
     static int s_toggleGuiKey;
     static int s_unbindKey;
