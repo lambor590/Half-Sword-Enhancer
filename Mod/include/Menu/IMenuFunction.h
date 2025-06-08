@@ -15,6 +15,24 @@
 #include "GlobalDefinitions.h"
 #include "Hooks/GameHook.h"
 
+template<typename T>
+class TypedParameter {
+public:
+    std::string_view name, displayName;
+    T* valuePtr;
+    T minValue, maxValue;
+    mutable std::string id;
+    
+    constexpr TypedParameter(std::string_view name, std::string_view displayName, T* valuePtr, T minVal = T{}, T maxVal = T{}) noexcept
+        : name(name), displayName(displayName), valuePtr(valuePtr), minValue(minVal), maxValue(maxVal) {
+        id = "##param_" + std::string(name);
+    }
+    
+    void Render() const noexcept;
+    void Load(const class IMenuFunction* func) const noexcept;
+    void Save(const class IMenuFunction* func) const noexcept;
+};
+
 class Parameter {
 public:
     enum class Type : uint8_t { Int, Float, Bool };
@@ -34,17 +52,26 @@ private:
     LoadFn loadFn;
     SaveFn saveFn;
     
+    template<typename T>
+    static void RenderParameter(const Parameter& param) noexcept;
+    
+    template<typename T>
+    static void LoadParameter(const Parameter& param, const IMenuFunction* func) noexcept;
+    
+    template<typename T>
+    static void SaveParameter(const Parameter& param, const IMenuFunction* func) noexcept;
+    
     static void RenderInt(const Parameter& param) noexcept;
     static void RenderFloat(const Parameter& param) noexcept;
     static void RenderBool(const Parameter& param) noexcept;
     
-    static void LoadInt(const Parameter& param, const class IMenuFunction* func) noexcept;
-    static void LoadFloat(const Parameter& param, const class IMenuFunction* func) noexcept;
-    static void LoadBool(const Parameter& param, const class IMenuFunction* func) noexcept;
+    static void LoadInt(const Parameter& param, const IMenuFunction* func) noexcept;
+    static void LoadFloat(const Parameter& param, const IMenuFunction* func) noexcept;
+    static void LoadBool(const Parameter& param, const IMenuFunction* func) noexcept;
     
-    static void SaveInt(const Parameter& param, const class IMenuFunction* func) noexcept;
-    static void SaveFloat(const Parameter& param, const class IMenuFunction* func) noexcept;
-    static void SaveBool(const Parameter& param, const class IMenuFunction* func) noexcept;
+    static void SaveInt(const Parameter& param, const IMenuFunction* func) noexcept;
+    static void SaveFloat(const Parameter& param, const IMenuFunction* func) noexcept;
+    static void SaveBool(const Parameter& param, const IMenuFunction* func) noexcept;
 
 public:
     Parameter(std::string_view name, std::string_view displayName, int* valuePtr, int minValue = 0, int maxValue = 100) noexcept
@@ -66,8 +93,6 @@ public:
     Parameter(std::string_view name, std::string_view displayName, bool* valuePtr) noexcept
         : name(name), displayName(displayName), type(Type::Bool), valuePtr(valuePtr), 
           renderFn(RenderBool), loadFn(LoadBool), saveFn(SaveBool) {
-        this->minValue.intMin = 0;
-        this->maxValue.intMax = 1;
         id = "##param_" + std::string(name);
     }
 
