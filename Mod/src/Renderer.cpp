@@ -11,7 +11,7 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) n
         state.needsInit = false;
     }
 
-    if (!Gui::IsVisible() || !state.guiReady) UNLIKELY return;
+    if (!state.guiReady) UNLIKELY return;
 
     (this->*renderFunc)();
 }
