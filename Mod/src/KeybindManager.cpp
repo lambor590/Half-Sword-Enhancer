@@ -1,122 +1,133 @@
 #include <algorithm>
+#include <array>
 
 #include "KeybindManager.h"
 #include "ConfigManager.h"
 #include "Menu/IMenuFunction.h"
 #include "NotificationManager.h"
 
-static const char* GetKeyNameForIndex(int index) noexcept {
-    if (index == 255) return "Unbound";
+static constexpr std::array<const char*, 256> CreateKeyNameTable() noexcept {
+    std::array<const char*, 256> table{};
     
-    switch (index) {
-    case VK_LSHIFT: return "Left Shift";
-    case VK_RSHIFT: return "Right Shift";
-    case VK_SHIFT: return "Shift";
-    case VK_CONTROL: return "Control";
-    case VK_LCONTROL: return "Left Control";
-    case VK_RCONTROL: return "Right Control";
-    case VK_MENU: return "Alt";
-    case VK_LMENU: return "Left Alt";
-    case VK_RMENU: return "Right Alt";
-    case VK_BACK: return "Backspace";
-    case VK_TAB: return "Tab";
-    case VK_RETURN: return "Enter";
-    case VK_SPACE: return "Space";
-    case VK_CAPITAL: return "Caps Lock";
-    case VK_ESCAPE: return "Escape";
-    case VK_LEFT: return "Left";
-    case VK_UP: return "Up";
-    case VK_RIGHT: return "Right";
-    case VK_DOWN: return "Down";
-    case VK_DELETE: return "Delete";
-    case VK_INSERT: return "Insert";
-    case VK_HOME: return "Home";
-    case VK_END: return "End";
-    case VK_PRIOR: return "Page Up";
-    case VK_NEXT: return "Page Down";
-    case VK_SNAPSHOT: return "Print Screen";
-    case VK_SCROLL: return "Scroll Lock";
-    case VK_PAUSE: return "Pause";
-    case VK_NUMLOCK: return "Num Lock";
-    case VK_NUMPAD0: return "Numpad 0";
-    case VK_NUMPAD1: return "Numpad 1";
-    case VK_NUMPAD2: return "Numpad 2";
-    case VK_NUMPAD3: return "Numpad 3";
-    case VK_NUMPAD4: return "Numpad 4";
-    case VK_NUMPAD5: return "Numpad 5";
-    case VK_NUMPAD6: return "Numpad 6";
-    case VK_NUMPAD7: return "Numpad 7";
-    case VK_NUMPAD8: return "Numpad 8";
-    case VK_NUMPAD9: return "Numpad 9";
-    case VK_MULTIPLY: return "Numpad *";
-    case VK_ADD: return "Numpad +";
-    case VK_SUBTRACT: return "Numpad -";
-    case VK_DECIMAL: return "Numpad .";
-    case VK_DIVIDE: return "Numpad /";
-    case VK_OEM_1: return ";";
-    case VK_OEM_PLUS: return "=";
-    case VK_OEM_COMMA: return ",";
-    case VK_OEM_MINUS: return "-";
-    case VK_OEM_PERIOD: return ".";
-    case VK_OEM_2: return "/";
-    case VK_OEM_3: return "`";
-    case VK_OEM_4: return "[";
-    case VK_OEM_5: return "\\";
-    case VK_OEM_6: return "]";
-    case VK_OEM_7: return "'";
-    case VK_MBUTTON: return "MMB";
-    case VK_XBUTTON1: return "Mouse 4";
-    case VK_XBUTTON2: return "Mouse 5";
-    case VK_F1: return "F1";
-    case VK_F2: return "F2";
-    case VK_F3: return "F3";
-    case VK_F4: return "F4";
-    case VK_F5: return "F5";
-    case VK_F6: return "F6";
-    case VK_F7: return "F7";
-    case VK_F8: return "F8";
-    case VK_F9: return "F9";
-    case VK_F10: return "F10";
-    case VK_F11: return "F11";
-    case VK_F12: return "F12";
-    case '0': return "0";
-    case '1': return "1";
-    case '2': return "2";
-    case '3': return "3";
-    case '4': return "4";
-    case '5': return "5";
-    case '6': return "6";
-    case '7': return "7";
-    case '8': return "8";
-    case '9': return "9";
-    case 'A': return "A";
-    case 'B': return "B";
-    case 'C': return "C";
-    case 'D': return "D";
-    case 'E': return "E";
-    case 'F': return "F";
-    case 'G': return "G";
-    case 'H': return "H";
-    case 'I': return "I";
-    case 'J': return "J";
-    case 'K': return "K";
-    case 'L': return "L";
-    case 'M': return "M";
-    case 'N': return "N";
-    case 'O': return "O";
-    case 'P': return "P";
-    case 'Q': return "Q";
-    case 'R': return "R";
-    case 'S': return "S";
-    case 'T': return "T";
-    case 'U': return "U";
-    case 'V': return "V";
-    case 'W': return "W";
-    case 'X': return "X";
-    case 'Y': return "Y";
-    case 'Z': return "Z";
-    default: return "Unknown";
+    for (int i = 0; i < 256; ++i) {
+        table[i] = "Unknown";
     }
+    
+    table[255] = "Unbound";
+    table[VK_LSHIFT] = "Left Shift";
+    table[VK_RSHIFT] = "Right Shift";
+    table[VK_SHIFT] = "Shift";
+    table[VK_CONTROL] = "Control";
+    table[VK_LCONTROL] = "Left Control";
+    table[VK_RCONTROL] = "Right Control";
+    table[VK_MENU] = "Alt";
+    table[VK_LMENU] = "Left Alt";
+    table[VK_RMENU] = "Right Alt";
+    table[VK_BACK] = "Backspace";
+    table[VK_TAB] = "Tab";
+    table[VK_RETURN] = "Enter";
+    table[VK_SPACE] = "Space";
+    table[VK_CAPITAL] = "Caps Lock";
+    table[VK_ESCAPE] = "Escape";
+    table[VK_LEFT] = "Left";
+    table[VK_UP] = "Up";
+    table[VK_RIGHT] = "Right";
+    table[VK_DOWN] = "Down";
+    table[VK_DELETE] = "Delete";
+    table[VK_INSERT] = "Insert";
+    table[VK_HOME] = "Home";
+    table[VK_END] = "End";
+    table[VK_PRIOR] = "Page Up";
+    table[VK_NEXT] = "Page Down";
+    table[VK_SNAPSHOT] = "Print Screen";
+    table[VK_SCROLL] = "Scroll Lock";
+    table[VK_PAUSE] = "Pause";
+    table[VK_NUMLOCK] = "Num Lock";
+    table[VK_NUMPAD0] = "Numpad 0";
+    table[VK_NUMPAD1] = "Numpad 1";
+    table[VK_NUMPAD2] = "Numpad 2";
+    table[VK_NUMPAD3] = "Numpad 3";
+    table[VK_NUMPAD4] = "Numpad 4";
+    table[VK_NUMPAD5] = "Numpad 5";
+    table[VK_NUMPAD6] = "Numpad 6";
+    table[VK_NUMPAD7] = "Numpad 7";
+    table[VK_NUMPAD8] = "Numpad 8";
+    table[VK_NUMPAD9] = "Numpad 9";
+    table[VK_MULTIPLY] = "Numpad *";
+    table[VK_ADD] = "Numpad +";
+    table[VK_SUBTRACT] = "Numpad -";
+    table[VK_DECIMAL] = "Numpad .";
+    table[VK_DIVIDE] = "Numpad /";
+    table[VK_OEM_1] = ";";
+    table[VK_OEM_PLUS] = "=";
+    table[VK_OEM_COMMA] = ",";
+    table[VK_OEM_MINUS] = "-";
+    table[VK_OEM_PERIOD] = ".";
+    table[VK_OEM_2] = "/";
+    table[VK_OEM_3] = "`";
+    table[VK_OEM_4] = "[";
+    table[VK_OEM_5] = "\\";
+    table[VK_OEM_6] = "]";
+    table[VK_OEM_7] = "'";
+    table[VK_MBUTTON] = "MMB";
+    table[VK_XBUTTON1] = "Mouse 4";
+    table[VK_XBUTTON2] = "Mouse 5";
+    table[VK_F1] = "F1";
+    table[VK_F2] = "F2";
+    table[VK_F3] = "F3";
+    table[VK_F4] = "F4";
+    table[VK_F5] = "F5";
+    table[VK_F6] = "F6";
+    table[VK_F7] = "F7";
+    table[VK_F8] = "F8";
+    table[VK_F9] = "F9";
+    table[VK_F10] = "F10";
+    table[VK_F11] = "F11";
+    table[VK_F12] = "F12";
+    table['0'] = "0";
+    table['1'] = "1";
+    table['2'] = "2";
+    table['3'] = "3";
+    table['4'] = "4";
+    table['5'] = "5";
+    table['6'] = "6";
+    table['7'] = "7";
+    table['8'] = "8";
+    table['9'] = "9";
+    table['A'] = "A";
+    table['B'] = "B";
+    table['C'] = "C";
+    table['D'] = "D";
+    table['E'] = "E";
+    table['F'] = "F";
+    table['G'] = "G";
+    table['H'] = "H";
+    table['I'] = "I";
+    table['J'] = "J";
+    table['K'] = "K";
+    table['L'] = "L";
+    table['M'] = "M";
+    table['N'] = "N";
+    table['O'] = "O";
+    table['P'] = "P";
+    table['Q'] = "Q";
+    table['R'] = "R";
+    table['S'] = "S";
+    table['T'] = "T";
+    table['U'] = "U";
+    table['V'] = "V";
+    table['W'] = "W";
+    table['X'] = "X";
+    table['Y'] = "Y";
+    table['Z'] = "Z";
+    
+    return table;
+}
+
+static constexpr auto s_keyNameLookup = CreateKeyNameTable();
+
+static const char* GetKeyNameForIndex(int index) noexcept {
+    return s_keyNameLookup[static_cast<unsigned char>(index)];
 }
 
 const char* KeybindManager::s_keyNameTable[256];
@@ -124,12 +135,13 @@ const char* KeybindManager::s_keyNameTable[256];
 static struct KeyNameTableInitializer {
     KeyNameTableInitializer() noexcept {
         for (int i = 0; i < 256; ++i) {
-            KeybindManager::s_keyNameTable[i] = GetKeyNameForIndex(i);
+            KeybindManager::s_keyNameTable[i] = s_keyNameLookup[i];
         }
     }
 } s_keyNameTableInit;
 
 std::unordered_map<int*, KeybindManager::Binding> KeybindManager::s_bindings;
+std::unordered_map<int, std::vector<KeybindManager::Binding*>> KeybindManager::s_keyToBindings;
 bool KeybindManager::s_initialized = false;
 int KeybindManager::s_toggleGuiKey = VK_INSERT;
 int KeybindManager::s_unbindKey = VK_DELETE;
@@ -143,11 +155,29 @@ void KeybindManager::Initialize() noexcept {
 }
 
 void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept {
-    s_bindings[keyPtr] = {keyPtr, callback, function};
+    auto& binding = s_bindings[keyPtr];
+    binding = {keyPtr, callback, function};
+    
+    if (*keyPtr != -1) {
+        s_keyToBindings[*keyPtr].push_back(&binding);
+    }
 }
 
 void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
-    s_bindings.erase(keyPtr);
+    auto it = s_bindings.find(keyPtr);
+    if (it != s_bindings.end()) {
+        int key = *it->second.keyPtr;
+        if (key != -1) {
+            auto& keyBindings = s_keyToBindings[key];
+            keyBindings.erase(std::remove_if(keyBindings.begin(), keyBindings.end(),
+                [keyPtr](const Binding* b) { return b->keyPtr == keyPtr; }), keyBindings.end());
+            
+            if (keyBindings.empty()) {
+                s_keyToBindings.erase(key);
+            }
+        }
+        s_bindings.erase(it);
+    }
 }
 
 bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
@@ -171,22 +201,22 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
     
     if (keyCode < 0 || keyCode >= 256) return false;
     
-    for (const auto& [keyPtr, binding] : s_bindings) {
-        if (*binding.keyPtr == keyCode) {
-            binding.callback();
+    auto it = s_keyToBindings.find(keyCode);
+    if (it != s_keyToBindings.end()) {
+        for (auto* binding : it->second) {
+            binding->callback();
             
-            if (binding.function) {
-                const std::string functionName = std::string(binding.function->GetName());
+            if (binding->function) {
+                const std::string functionName = std::string(binding->function->GetName());
                 
-                if (auto hookedFunc = dynamic_cast<HookedFunction*>(binding.function)) {
+                if (auto hookedFunc = dynamic_cast<HookedFunction*>(binding->function)) {
                     NotificationManager::NotifyHookToggle(functionName, hookedFunc->LoadEnabledState());
                 } else {
                     NotificationManager::NotifyOneTimeAction(functionName);
                 }
             }
-            
-            return true;
         }
+        return true;
     }
     return false;
 }
@@ -223,28 +253,43 @@ void KeybindManager::SaveKeybinds() noexcept {
 }
 
 bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
-    for (const auto& [keyPtr, binding] : s_bindings) {
-        if (binding.keyPtr != excludeKeyPtr && *binding.keyPtr == key) {
-            return true;
+    auto it = s_keyToBindings.find(key);
+    if (it != s_keyToBindings.end()) {
+        for (auto* binding : it->second) {
+            if (binding->keyPtr != excludeKeyPtr) {
+                return true;
+            }
         }
     }
     return false;
 }
 
 void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
-    for (auto it = s_bindings.begin(); it != s_bindings.end(); ++it) {
-        if (it->second.keyPtr != excludeKeyPtr && *it->second.keyPtr == key) {
-            *it->second.keyPtr = 255;
-            s_bindings.erase(it);
-            return;
+    auto it = s_keyToBindings.find(key);
+    if (it != s_keyToBindings.end()) {
+        for (auto* binding : it->second) {
+            if (binding->keyPtr != excludeKeyPtr) {
+                *binding->keyPtr = 255;
+                s_bindings.erase(binding->keyPtr);
+                
+                auto& keyBindings = s_keyToBindings[key];
+                keyBindings.erase(std::remove(keyBindings.begin(), keyBindings.end(), binding), keyBindings.end());
+                if (keyBindings.empty()) {
+                    s_keyToBindings.erase(key);
+                }
+                return;
+            }
         }
     }
 }
 
 IMenuFunction* KeybindManager::GetBoundFunction(int key, int* excludeKeyPtr) noexcept {
-    for (const auto& [keyPtr, binding] : s_bindings) {
-        if (binding.keyPtr != excludeKeyPtr && *binding.keyPtr == key) {
-            return binding.function;
+    auto it = s_keyToBindings.find(key);
+    if (it != s_keyToBindings.end()) {
+        for (auto* binding : it->second) {
+            if (binding->keyPtr != excludeKeyPtr) {
+                return binding->function;
+            }
         }
     }
     return nullptr;
