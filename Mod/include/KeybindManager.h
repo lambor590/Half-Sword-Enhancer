@@ -2,8 +2,7 @@
 
 #include <Windows.h>
 #include <functional>
-#include <vector>
-#include <array>
+#include <unordered_map>
 
 class ConfigManager;
 class IMenuFunction;
@@ -16,20 +15,21 @@ public:
     static const char* s_keyNameTable[256];
 
 private:
-    static std::array<Callback, 256> s_callbacks;
-    struct Binding { int* keyPtr; Callback callback; IMenuFunction* function; };
-    static std::vector<Binding> s_bindingList;
+    struct Binding {
+        int* keyPtr;
+        Callback callback;
+        IMenuFunction* function;
+    };
+    
+    static std::unordered_map<int*, Binding> s_bindings;
     static bool s_initialized;
     static int s_toggleGuiKey;
     static int s_unbindKey;
-    static std::vector<int> s_boundCodes;
 
 public:
     static void Initialize() noexcept;
-
     static void RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept;
     static void UnregisterKeybind(int* keyPtr) noexcept;
-    static void UpdateBindings() noexcept;
     static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;
 
     static inline const char* GetKeyName(int vKey) noexcept {
@@ -42,7 +42,7 @@ public:
     static int& GetUnbindKey() noexcept { return s_unbindKey; }
     static void SaveKeybinds() noexcept;
 
-    static bool IsKeyBound(int code, int* excludeKeyPtr = nullptr) noexcept;
-    static void RemoveBinding(int code, int* excludeKeyPtr = nullptr) noexcept;
-    static IMenuFunction* GetBoundFunction(int code, int* excludeKeyPtr = nullptr) noexcept;
+    static bool IsKeyBound(int key, int* excludeKeyPtr = nullptr) noexcept;
+    static void RemoveBinding(int key, int* excludeKeyPtr = nullptr) noexcept;
+    static IMenuFunction* GetBoundFunction(int key, int* excludeKeyPtr = nullptr) noexcept;
 };
