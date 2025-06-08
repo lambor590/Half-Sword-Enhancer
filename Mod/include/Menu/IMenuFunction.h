@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <type_traits>
 #include <utility>
+#include <mutex>
+#include <array>
 
 #include "imgui/imgui.h"
 #include "GlobalDefinitions.h"
@@ -197,22 +199,27 @@ protected:
     int* pendingConflictKeyPtr = nullptr;
 
 private:
-    mutable bool idsInitialized = false;
-    mutable std::string keyId, checkId, popupId, conflictPopupId, paramButtonId;
+    mutable std::once_flag m_idsInitialized;
+    mutable std::array<std::string, 5> m_cachedIds;
+    
+    enum class IdIndex : size_t { Key = 0, Check = 1, Popup = 2, Conflict = 3, ParamButton = 4 };
 
     void InitializeIds() const {
-        if (!idsInitialized) {
-            std::string_view prefix = std::is_same_v<Derived, HookedFunction> ? "##Hook_" : "##Key_";
-            std::string base = std::string(prefix) + name;
+        std::call_once(m_idsInitialized, [this]() {
+            constexpr std::string_view prefix = 
+                std::is_same_v<Derived, HookedFunction> ? "##Hook_" : "##Key_";
             
-            keyId = base + "_key";
-            checkId = base;
-            popupId = base + "_params";
-            conflictPopupId = base + "_conflict";
-            paramButtonId = "Config##" + base;
+            std::string base;
+            base.reserve(prefix.length() + name.length() + 10);
+            base.append(prefix);
+            base.append(name);
             
-            idsInitialized = true;
-        }
+            m_cachedIds[static_cast<size_t>(IdIndex::Key)] = base + "_key";
+            m_cachedIds[static_cast<size_t>(IdIndex::Check)] = base;
+            m_cachedIds[static_cast<size_t>(IdIndex::Popup)] = base + "_params";
+            m_cachedIds[static_cast<size_t>(IdIndex::Conflict)] = base + "_conflict";
+            m_cachedIds[static_cast<size_t>(IdIndex::ParamButton)] = "Config##" + base;
+        });
     }
 
 protected:
@@ -228,11 +235,26 @@ public:
     const std::function<void(bool)>& GetCallback() const { return callback; }
     void ResetPrevKey() { prevKey = *key; }
 
-    const char* GetKeyId() const { InitializeIds(); return keyId.c_str(); }
-    const char* GetCheckId() const { InitializeIds(); return checkId.c_str(); }
-    const char* GetPopupId() const { InitializeIds(); return popupId.c_str(); }
-    const char* GetParamButtonId() const { InitializeIds(); return paramButtonId.c_str(); }
-    const char* GetConflictPopupId() const { InitializeIds(); return conflictPopupId.c_str(); }
+    const char* GetKeyId() const { 
+        InitializeIds(); 
+        return m_cachedIds[static_cast<size_t>(IdIndex::Key)].c_str(); 
+    }
+    const char* GetCheckId() const { 
+        InitializeIds(); 
+        return m_cachedIds[static_cast<size_t>(IdIndex::Check)].c_str(); 
+    }
+    const char* GetPopupId() const { 
+        InitializeIds(); 
+        return m_cachedIds[static_cast<size_t>(IdIndex::Popup)].c_str(); 
+    }
+    const char* GetParamButtonId() const { 
+        InitializeIds(); 
+        return m_cachedIds[static_cast<size_t>(IdIndex::ParamButton)].c_str(); 
+    }
+    const char* GetConflictPopupId() const { 
+        InitializeIds(); 
+        return m_cachedIds[static_cast<size_t>(IdIndex::Conflict)].c_str(); 
+    }
 
     void OnKeyUnbound() override {
         ResetPrevKey();
