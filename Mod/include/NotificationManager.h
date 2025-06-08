@@ -24,6 +24,7 @@ class NotificationManager {
 private:
     static std::deque<Notification> s_notifications;
     static bool s_enabled;
+    static thread_local std::string s_stringBuffer;
     static constexpr size_t MAX_NOTIFICATIONS = 5;
     static constexpr float NOTIFICATION_WIDTH = 300.0f;
     static constexpr float NOTIFICATION_HEIGHT = 50.0f;
