@@ -4,6 +4,7 @@
 
 std::deque<Notification> NotificationManager::s_notifications;
 bool NotificationManager::s_enabled = true;
+thread_local std::string NotificationManager::s_stringBuffer;
 
 void NotificationManager::Initialize() noexcept {
     s_enabled = g_ConfigManager.GetBool("Notifications", "enabled", true);
@@ -87,21 +88,21 @@ void NotificationManager::AddNotification(std::string&& message, float duration)
 void NotificationManager::NotifyHookToggle(const std::string& functionName, bool enabled) noexcept {
     if (!s_enabled) return;
     
-    std::string message;
-    message.reserve(functionName.length() + 10);
-    message = functionName;
-    message += enabled ? " enabled" : " disabled";
-    AddNotification(std::move(message));
+    s_stringBuffer.clear();
+    s_stringBuffer.reserve(functionName.length() + 10);
+    s_stringBuffer.append(functionName);
+    s_stringBuffer.append(enabled ? " enabled" : " disabled");
+    AddNotification(std::string(s_stringBuffer));
 }
 
 void NotificationManager::NotifyOneTimeAction(const std::string& actionName) noexcept {
     if (!s_enabled) return;
     
-    std::string message;
-    message.reserve(actionName.length() + 10);
-    message = actionName;
-    message += " executed";
-    AddNotification(std::move(message), 2.0f);
+    s_stringBuffer.clear();
+    s_stringBuffer.reserve(actionName.length() + 10);
+    s_stringBuffer.append(actionName);
+    s_stringBuffer.append(" executed");
+    AddNotification(std::string(s_stringBuffer), 2.0f);
 }
 
 float NotificationManager::CalculateAlpha(const Notification& notification, float elapsed) noexcept {
