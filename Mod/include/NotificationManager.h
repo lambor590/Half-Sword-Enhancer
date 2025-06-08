@@ -2,8 +2,9 @@
 
 #include <string>
 #include <chrono>
-#include <vector>
-#include <memory>
+#include <deque>
+
+#include "imgui/imgui.h"
 
 class ConfigManager;
 extern ConfigManager& g_ConfigManager;
@@ -12,19 +13,23 @@ struct Notification {
     std::string message;
     std::chrono::steady_clock::time_point startTime;
     float duration;
-    float fadeInDuration;
-    float fadeOutDuration;
+    static constexpr float fadeInDuration = 0.3f;
+    static constexpr float fadeOutDuration = 0.5f;
     
-    Notification(const std::string& msg, float dur = 3.0f, float fadeIn = 0.3f, float fadeOut = 0.5f)
-        : message(msg), startTime(std::chrono::steady_clock::now()), 
-          duration(dur), fadeInDuration(fadeIn), fadeOutDuration(fadeOut) {}
+    Notification(std::string&& msg, float dur = 2.5f) noexcept
+        : message(std::move(msg)), startTime(std::chrono::steady_clock::now()), duration(dur) {}
 };
 
 class NotificationManager {
 private:
-    static std::vector<std::unique_ptr<Notification>> s_notifications;
+    static std::deque<Notification> s_notifications;
     static bool s_enabled;
-    static bool s_initialized;
+    static constexpr size_t MAX_NOTIFICATIONS = 5;
+    static constexpr float NOTIFICATION_WIDTH = 300.0f;
+    static constexpr float NOTIFICATION_HEIGHT = 50.0f;
+    static constexpr float PADDING = 10.0f;
+    static constexpr ImVec4 NOTIFICATION_BG = ImVec4(0.1f, 0.1f, 0.1f, 0.9f);
+    static constexpr ImVec4 NOTIFICATION_TEXT = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
     
     NotificationManager() = default;
 
@@ -33,8 +38,6 @@ public:
     static void Update() noexcept;
     static void Render() noexcept;
     
-    static void AddNotification(const std::string& message, float duration = 3.0f) noexcept;
-    
     static void NotifyHookToggle(const std::string& functionName, bool enabled) noexcept;
     static void NotifyOneTimeAction(const std::string& actionName) noexcept;
     
@@ -42,5 +45,6 @@ public:
     static void SetEnabled(bool enabled) noexcept;
     
 private:
-    static float CalculateAlpha(const Notification& notification) noexcept;
+    static void AddNotification(std::string&& message, float duration = 2.5f) noexcept;
+    static float CalculateAlpha(const Notification& notification, float elapsed) noexcept;
 };
