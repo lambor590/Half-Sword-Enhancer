@@ -60,71 +60,23 @@ namespace {
         }
     };
 
-    template<typename T>
-    void RenderParameter(const Parameter& param) noexcept {
-        ImGui::PushItemWidth(itemWidth160);
-        ImGui::AlignTextToFramePadding();
-        
-        ImGui::TextColored(DefaultStyle::parchmentDark, "%s", std::string(param.displayName).c_str());
-        ImGui::SameLine();
-        
-        auto valuePtr = static_cast<T*>(param.valuePtr);
-        
-        if constexpr (std::is_same_v<T, bool>) {
-            ImGui::Checkbox(param.id.c_str(), valuePtr);
-        } else {
-            ImGui::PushItemWidth(itemWidth65);
-            char inputBuffer[16];
-            
-            if constexpr (std::is_same_v<T, int>) {
-                snprintf(inputBuffer, sizeof(inputBuffer), "%d", *valuePtr);
-                if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
-                                    ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
-                    *valuePtr = atoi(inputBuffer);
-                }
-                ImGui::PopItemWidth();
-                ImGui::SameLine();
-                SliderStyleRAII sliderStyle;
-                ImGui::SliderInt(param.id.c_str(), valuePtr, param.minValue.intMin, param.maxValue.intMax);
-            } else { // float
-                snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *valuePtr);
-                if (ImGui::InputText((param.id + "_input").c_str(), inputBuffer, sizeof(inputBuffer), 
-                                    ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
-                    *valuePtr = static_cast<float>(atof(inputBuffer));
-                }
-                ImGui::PopItemWidth();
-                ImGui::SameLine();
-                SliderStyleRAII sliderStyle;
-                ImGui::SliderFloat(param.id.c_str(), valuePtr, param.minValue.floatMin, param.maxValue.floatMax, "%.2f");
-            }
-        }
-        ImGui::PopItemWidth();
-    }
 
-    template<typename T>
-    void LoadParameter(const Parameter& param, const IMenuFunction* func) noexcept {
-        auto valuePtr = static_cast<T*>(param.valuePtr);
-        *valuePtr = func->GetConfig(param.name, *valuePtr);
-    }
-
-    template<typename T>
-    void SaveParameter(const Parameter& param, const IMenuFunction* func) noexcept {
-        auto valuePtr = static_cast<T*>(param.valuePtr);
-        func->SaveConfig(param.name, *valuePtr);
-    }
 }
 
 static void RenderKeyButton(const char* id, bool& waitingForKey, int key) {
     const char* keyText = waitingForKey ? pressKeyText : KeybindManager::GetKeyName(key);
     const bool disabled = (key == -1);
     
-    ButtonStyleRAII style(disabled);
+    const ButtonStyleRAII style(disabled);
     
-    float textWidth = ImGui::CalcTextSize(keyText).x;
+    const float textWidth = ImGui::CalcTextSize(keyText).x;
     ImGui::SetNextItemWidth(textWidth + buttonWidthPadding);
     ImGui::PushID(id);
-    if (ImGui::Button(keyText))
+    
+    if (ImGui::Button(keyText)) {
         waitingForKey = true;
+    }
+    
     ImGui::PopID();
     
     if (ImGui::IsItemHovered()) {
@@ -145,7 +97,7 @@ static bool RenderParametersButton(const char* buttonId, const std::string& name
     ImGui::SameLine();
     ImGui::SetCursorPosX(ImGui::GetWindowWidth() - parameterButtonOffset);
     
-    bool clicked = ImGui::Button(buttonId);
+    const bool clicked = ImGui::Button(buttonId);
     
     if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
@@ -159,10 +111,12 @@ template<typename Derived>
 void KeyFunction<Derived>::Render() {
     RenderKeyButton(GetKeyId(), waitingForKey, *key);
     ImGui::SameLine();
+    
     if (toggleable) {
         bool currentEnabled = isEnabled;
-        if (ImGui::Checkbox(GetCheckId(), &currentEnabled) && currentEnabled != isEnabled)
+        if (ImGui::Checkbox(GetCheckId(), &currentEnabled) && currentEnabled != isEnabled) {
             SetEnabled(currentEnabled);
+        }
         
         ImGui::SameLine();
         RenderName(name, !isEnabled && *key == -1);
@@ -171,8 +125,10 @@ void KeyFunction<Derived>::Render() {
     }
 
     if (!GetParameters().empty()) {
-        if (RenderParametersButton(GetParamButtonId(), name))
+        if (RenderParametersButton(GetParamButtonId(), name)) {
             ImGui::OpenPopup(GetPopupId());
+        }
+        
         if (ImGui::BeginPopup(GetPopupId())) {
             RenderParameters();
             ImGui::EndPopup();
@@ -184,7 +140,7 @@ void KeyFunction<Derived>::Render() {
     }
 
     if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
-        int newKey = *key;
+        const int newKey = *key;
         if (newKey != -1 && KeybindManager::IsKeyBound(newKey, key)) {
             pendingConflictKey = newKey;
             pendingConflictKeyPtr = key;
@@ -195,9 +151,10 @@ void KeyFunction<Derived>::Render() {
     }
 
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, modalDimColor);
-    if (ImGui::BeginPopupModal(GetConflictPopupId(), NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-        auto conflictFunc = KeybindManager::GetBoundFunction(pendingConflictKey, pendingConflictKeyPtr);
-        std::string conflictName = conflictFunc ? std::string(conflictFunc->GetName()) : unknownText;
+    if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        const auto conflictFunc = KeybindManager::GetBoundFunction(pendingConflictKey, pendingConflictKeyPtr);
+        const std::string conflictName = conflictFunc ? std::string(conflictFunc->GetName()) : unknownText;
+        
         ImGui::Text(keyConflictFormat, 
                     KeybindManager::GetKeyName(pendingConflictKey), conflictName.c_str());
         ImGui::Spacing();
@@ -239,38 +196,104 @@ void HookedFunction::OnKeyAssigned() {
     SetKey();
 }
 
+namespace {
+    template<typename T>
+    void RenderParameterImpl(const Parameter& param) noexcept {
+        ImGui::PushItemWidth(itemWidth160);
+        ImGui::AlignTextToFramePadding();
+        
+        ImGui::TextColored(DefaultStyle::parchmentDark, "%.*s", 
+                          static_cast<int>(param.displayName.size()), param.displayName.data());
+        ImGui::SameLine();
+        
+        const auto valuePtr = static_cast<T*>(param.valuePtr);
+        
+        if constexpr (std::is_same_v<T, bool>) {
+            ImGui::Checkbox(param.id.c_str(), valuePtr);
+        } else {
+            ImGui::PushItemWidth(itemWidth65);
+            char inputBuffer[16];
+            
+            if constexpr (std::is_same_v<T, int>) {
+                snprintf(inputBuffer, sizeof(inputBuffer), "%d", *valuePtr);
+                
+                std::string inputId;
+                inputId.reserve(param.id.length() + 7);
+                inputId = param.id + "_input";
+                
+                if (ImGui::InputText(inputId.c_str(), inputBuffer, sizeof(inputBuffer), 
+                                    ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+                    *valuePtr = atoi(inputBuffer);
+                }
+                ImGui::PopItemWidth();
+                ImGui::SameLine();
+                const SliderStyleRAII sliderStyle;
+                ImGui::SliderInt(param.id.c_str(), valuePtr, param.minValue.intMin, param.maxValue.intMax);
+            } else {
+                snprintf(inputBuffer, sizeof(inputBuffer), "%.2f", *valuePtr);
+                
+                std::string inputId;
+                inputId.reserve(param.id.length() + 7);
+                inputId = param.id + "_input";
+                
+                if (ImGui::InputText(inputId.c_str(), inputBuffer, sizeof(inputBuffer), 
+                                    ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+                    *valuePtr = static_cast<float>(atof(inputBuffer));
+                }
+                ImGui::PopItemWidth();
+                ImGui::SameLine();
+                const SliderStyleRAII sliderStyle;
+                ImGui::SliderFloat(param.id.c_str(), valuePtr, param.minValue.floatMin, param.maxValue.floatMax, "%.2f");
+            }
+        }
+        ImGui::PopItemWidth();
+    }
+
+    template<typename T>
+    void LoadParameterImpl(const Parameter& param, const IMenuFunction* func) noexcept {
+        auto valuePtr = static_cast<T*>(param.valuePtr);
+        *valuePtr = func->GetConfig(param.name, *valuePtr);
+    }
+
+    template<typename T>
+    void SaveParameterImpl(const Parameter& param, const IMenuFunction* func) noexcept {
+        auto valuePtr = static_cast<T*>(param.valuePtr);
+        func->SaveConfig(param.name, *valuePtr);
+    }
+}
+
 void Parameter::RenderInt(const Parameter& param) noexcept {
-    RenderParameter<int>(param);
+    RenderParameterImpl<int>(param);
 }
 
 void Parameter::RenderFloat(const Parameter& param) noexcept {
-    RenderParameter<float>(param);
+    RenderParameterImpl<float>(param);
 }
 
 void Parameter::RenderBool(const Parameter& param) noexcept {
-    RenderParameter<bool>(param);
+    RenderParameterImpl<bool>(param);
 }
 
 void Parameter::LoadInt(const Parameter& param, const IMenuFunction* func) noexcept {
-    LoadParameter<int>(param, func);
+    LoadParameterImpl<int>(param, func);
 }
 
 void Parameter::LoadFloat(const Parameter& param, const IMenuFunction* func) noexcept {
-    LoadParameter<float>(param, func);
+    LoadParameterImpl<float>(param, func);
 }
 
 void Parameter::LoadBool(const Parameter& param, const IMenuFunction* func) noexcept {
-    LoadParameter<bool>(param, func);
+    LoadParameterImpl<bool>(param, func);
 }
 
 void Parameter::SaveInt(const Parameter& param, const IMenuFunction* func) noexcept {
-    SaveParameter<int>(param, func);
+    SaveParameterImpl<int>(param, func);
 }
 
 void Parameter::SaveFloat(const Parameter& param, const IMenuFunction* func) noexcept {
-    SaveParameter<float>(param, func);
+    SaveParameterImpl<float>(param, func);
 }
 
 void Parameter::SaveBool(const Parameter& param, const IMenuFunction* func) noexcept {
-    SaveParameter<bool>(param, func);
+    SaveParameterImpl<bool>(param, func);
 }
