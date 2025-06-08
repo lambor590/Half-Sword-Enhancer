@@ -10,6 +10,7 @@
 #include "KeybindManager.h"
 #include "Menu/IMenuFunction.h"
 #include "DefaultStyle.h"
+#include "NotificationManager.h"
 
 namespace {
     constexpr const char* toggleGuiLabel = "Toggle GUI Key";
@@ -23,9 +24,12 @@ class GuiSection : public CollapsibleSection {
 private:
     bool waitingForToggleKey = false;
     bool waitingForUnbindKey = false;
+    bool notificationsEnabled = true;
 
 public:
-    GuiSection() : CollapsibleSection("GUI") {}
+    GuiSection() : CollapsibleSection("GUI") {
+        notificationsEnabled = NotificationManager::IsEnabled();
+    }
 
     void Render() override {
         bool isOpen = ImGui::CollapsingHeader(name.c_str());
@@ -50,6 +54,20 @@ public:
                 unbindLabel,
                 unbindTooltip
             );
+            
+            ImGui::Spacing();
+            ImGui::Separator();
+            ImGui::Spacing();
+            
+            if (ImGui::Checkbox("Enable Notifications", &notificationsEnabled)) {
+                NotificationManager::SetEnabled(notificationsEnabled);
+            }
+            
+            if (ImGui::IsItemHovered()) {
+                ImGui::BeginTooltip();
+                ImGui::Text("Show notifications when keybinds are activated");
+                ImGui::EndTooltip();
+            }
             
             if (changed)
                 KeybindManager::SaveKeybinds();
