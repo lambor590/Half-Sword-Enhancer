@@ -19,8 +19,6 @@
 #include "Menu/Sections/Settings/GuiSection.h"
 #include "DefaultStyle.h"
 
-class GuiSection;
-
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 class Gui : public IRenderCallback {
@@ -41,7 +39,6 @@ public:
     static bool IsVisible() { return isVisible; }
 
 private:
-    void SetupStyle();
     static WNDPROC originalWndProc;
     static bool isVisible;
 };
