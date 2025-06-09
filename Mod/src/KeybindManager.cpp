@@ -225,20 +225,22 @@ bool KeybindManager::HandleKeyPress(bool& waitingForKey, int& key) noexcept {
     if (!waitingForKey) return false;
     
     static bool keyPressed[256] = { false };
+    static constexpr int relevantKeys[] = {
+        VK_ESCAPE, VK_F1, VK_F2, VK_F3, VK_F4, VK_F5, VK_F6, VK_F7, VK_F8, VK_F9, VK_F10, VK_F11, VK_F12,
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        VK_SPACE, VK_RETURN, VK_TAB, VK_SHIFT, VK_CONTROL, VK_MENU,
+        VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_INSERT, VK_DELETE, VK_HOME, VK_END, VK_PRIOR, VK_NEXT
+    };
     
-    for (int i = 0; i < 256; ++i) {
-        const bool isCurrentlyPressed = (GetAsyncKeyState(i) & 0x8000) != 0;
+    for (int vKey : relevantKeys) {
+        const bool isCurrentlyPressed = (GetAsyncKeyState(vKey) & 0x8000) != 0;
         
         if (isCurrentlyPressed) {
-            keyPressed[i] = true;
-        } else if (keyPressed[i]) {
-            keyPressed[i] = false;
-            
-            if (i == VK_LBUTTON || i == VK_RBUTTON) {
-                continue;
-            }
-            
-            key = (i == s_unbindKey) ? -1 : i;
+            keyPressed[vKey] = true;
+        } else if (keyPressed[vKey]) {
+            keyPressed[vKey] = false;
+            key = (vKey == s_unbindKey) ? -1 : vKey;
             waitingForKey = false;
             return true;
         }
