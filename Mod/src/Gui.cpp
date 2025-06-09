@@ -33,7 +33,8 @@ void Gui::Setup() {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;
-    io.IniFilename = _strdup((ConfigManager::GetAppDataPath() / "imgui.ini").string().c_str());
+    static const std::string iniPath = (ConfigManager::GetAppDataPath() / "imgui.ini").string();
+    io.IniFilename = iniPath.c_str();
 
     DefaultStyle::ApplyGlobalStyle();
 
@@ -56,9 +57,7 @@ void Gui::Render() {
 
     if (!isVisible) {
         ImGuiIO& io = ImGui::GetIO();
-        io.WantCaptureMouse = false;
-        io.WantCaptureKeyboard = false;
-        io.WantTextInput = false;
+        io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
     }
 
     NotificationManager::Update();
