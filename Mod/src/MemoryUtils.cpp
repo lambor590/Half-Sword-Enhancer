@@ -1,9 +1,11 @@
-#include "MemoryUtils.h"
 #include <Windows.h>
 #include <map>
 #include <vector>
 #include <Psapi.h>
-#include <algorithm>
+#include <immintrin.h>
+#include <unordered_map>
+
+#include "MemoryUtils.h"
 
 namespace MemoryUtils 
 {
@@ -12,19 +14,21 @@ namespace MemoryUtils
     
     static std::map<uintptr_t, DWORD> g_protectionHistory; 
 
-    std::array<PatternCacheEntry, PATTERN_CACHE_SIZE> patternCache{};
-    size_t cacheIndex = 0;
+    static std::unordered_map<uint64_t, uintptr_t> patternCache;
 
     void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size) noexcept
     {
-        if (enableProtection && g_protectionHistory.find(address) != g_protectionHistory.end())
+        auto it = g_protectionHistory.find(address);
+        
+        if (enableProtection && it != g_protectionHistory.end())
         {
-            VirtualProtect((void*)address, size, g_protectionHistory[address], &g_protectionHistory[address]);
-            g_protectionHistory.erase(address);
+            DWORD dummy;
+            VirtualProtect((void*)address, size, it->second, &dummy);
+            g_protectionHistory.erase(it);
         }
-        else if (!enableProtection && g_protectionHistory.find(address) == g_protectionHistory.end())
+        else if (!enableProtection && it == g_protectionHistory.end())
         {
-            DWORD oldProtection = 0;
+            DWORD oldProtection;
             VirtualProtect((void*)address, size, PAGE_EXECUTE_READWRITE, &oldProtection);
             g_protectionHistory[address] = oldProtection;
         }
@@ -167,30 +171,16 @@ namespace MemoryUtils
     uintptr_t SigScanCached(const std::vector<uint16_t>& pattern) noexcept
     {
         uint64_t hash = HashPattern(pattern);
+        uint16_t patternSize = static_cast<uint16_t>((pattern.size() > UINT16_MAX) ? UINT16_MAX : pattern.size());
         
-        for (const auto& entry : patternCache) {
-            if (entry.hash == hash && entry.patternSize == pattern.size()) {
-                bool match = true;
-                for (size_t i = 0; i < pattern.size() && i < 32; ++i) {
-                    if (entry.pattern[i] != pattern[i]) {
-                        match = false;
-                        break;
-                    }
-                }
-                if (match) return entry.result;
-            }
+        if (auto it = patternCache.find(hash); it != patternCache.end()) {
+            return it->second;
         }
-        
         uintptr_t result = SigScan(pattern);
         
-        auto& entry = patternCache[cacheIndex % PATTERN_CACHE_SIZE];
-        entry.hash = hash;
-        entry.patternSize = min(pattern.size(), size_t(32));
-        entry.result = result;
-        for (size_t i = 0; i < entry.patternSize; ++i) {
-            entry.pattern[i] = pattern[i];
+        if (result != 0) {
+            patternCache[hash] = result;
         }
-        ++cacheIndex;
         
         return result;
     }
@@ -213,16 +203,8 @@ namespace MemoryUtils
                 size_t regionSize = mbi.RegionSize;
 
                 if (regionSize >= patternSize) {
-                    for (size_t i = 0; i <= regionSize - patternSize; ++i) {
-                        bool found = true;
-                        for (size_t j = 0; j < patternSize; ++j) {
-                            if (pattern[j] != maskBytes && pattern[j] != buffer[i + j]) {
-                                found = false;
-                                break;
-                            }
-                        }
-                        if (found) return reinterpret_cast<uintptr_t>(buffer + i);
-                    }
+                    uintptr_t result = SigScanRegion(buffer, regionSize, pattern.data(), patternSize);
+                    if (result) return result;
                 }
             }
 
@@ -232,4 +214,51 @@ namespace MemoryUtils
 
         return 0;
     }
-} 
+    
+    uintptr_t SigScanRegion(uint8_t* buffer, size_t regionSize, const uint16_t* pattern, size_t patternSize) noexcept
+    {
+        if (patternSize == 0 || regionSize < patternSize) return 0;
+        
+        const uint16_t firstByte = pattern[0];
+        const bool firstByteWildcard = (firstByte == maskBytes);
+        const size_t searchLimit = regionSize - patternSize + 1;
+        
+        if (!firstByteWildcard) {
+            for (size_t i = 0; i < searchLimit; ++i) {
+                if (buffer[i] == firstByte) {
+                    _mm_prefetch(reinterpret_cast<const char*>(buffer + i + 64), _MM_HINT_T0);
+                    
+                    bool match = true;
+                    for (size_t j = 1; j < patternSize; ++j) {
+                        if (pattern[j] != maskBytes && pattern[j] != buffer[i + j]) {
+                            match = false;
+                            break;
+                        }
+                    }
+                    
+                    if (match) {
+                        return reinterpret_cast<uintptr_t>(buffer + i);
+                    }
+                }
+            }
+        } else {
+            for (size_t i = 0; i < searchLimit; ++i) {
+                _mm_prefetch(reinterpret_cast<const char*>(buffer + i + 64), _MM_HINT_T0);
+                
+                bool found = true;
+                for (size_t j = 0; j < patternSize; ++j) {
+                    if (pattern[j] != maskBytes && pattern[j] != buffer[i + j]) {
+                        found = false;
+                        break;
+                    }
+                }
+                
+                if (found) {
+                    return reinterpret_cast<uintptr_t>(buffer + i);
+                }
+            }
+        }
+        
+        return 0;
+    }
+}
