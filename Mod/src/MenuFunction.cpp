@@ -224,8 +224,6 @@ namespace {
             }
             
             thread_local static std::string inputId;
-            inputId.clear();
-            inputId.reserve(param.id.length() + GuiConstants::INPUT_SUFFIX.length());
             inputId = param.id;
             inputId += GuiConstants::INPUT_SUFFIX;
             
