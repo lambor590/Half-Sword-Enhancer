@@ -2,7 +2,6 @@
 // Archivo de inclusión generado de Microsoft Visual C++.
 // Usado por Half Sword Enhancer.rc
 //
-#define IDR_DLL1                        101
 #define IDI_ICON1                       104
 
 // Next default values for new objects
