@@ -17,24 +17,6 @@
 #include "GlobalDefinitions.h"
 #include "Hooks/GameHook.h"
 
-template<typename T>
-class TypedParameter {
-public:
-    std::string_view name, displayName;
-    T* valuePtr;
-    T minValue, maxValue;
-    mutable std::string id;
-    
-    constexpr TypedParameter(std::string_view name, std::string_view displayName, T* valuePtr, T minVal = T{}, T maxVal = T{}) noexcept
-        : name(name), displayName(displayName), valuePtr(valuePtr), minValue(minVal), maxValue(maxVal) {
-        id = "##param_" + std::string(name);
-    }
-    
-    void Render() const noexcept;
-    void Load(const class IMenuFunction* func) const noexcept;
-    void Save(const class IMenuFunction* func) const noexcept;
-};
-
 class Parameter {
 public:
     enum class Type : uint8_t { Int, Float, Bool };
@@ -42,7 +24,7 @@ public:
     std::string_view name, displayName;
     Type type;
     void* valuePtr;
-    union { int intMin, intMax; float floatMin, floatMax; } minValue, maxValue;
+    union { int intMin, intMax; float floatMin, floatMax; } minValue{}, maxValue{};
     mutable std::string id;
 
 private:
