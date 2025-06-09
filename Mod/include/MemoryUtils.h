@@ -19,7 +19,6 @@ namespace MemoryUtils
 {
     extern Logger logger;
     static constexpr int maskBytes = 0xffff;
-    static constexpr size_t PATTERN_CACHE_SIZE = 32;
     static constexpr unsigned char NOP_INSTRUCTION = 0x90;
 
     struct HookInformation
@@ -28,16 +27,9 @@ namespace MemoryUtils
         uintptr_t trampolineInstructionsAddress = 0;
     };
 
-    struct PatternCacheEntry {
-        std::array<uint16_t, 32> pattern;
-        size_t patternSize;
-        uintptr_t result;
-        uint64_t hash;
-    };
 
     extern std::unordered_map<uintptr_t, HookInformation> InfoBufferForHookedAddresses;
-    extern std::array<PatternCacheEntry, PATTERN_CACHE_SIZE> patternCache;
-    extern size_t cacheIndex;
+    uintptr_t SigScanRegion(uint8_t* buffer, size_t regionSize, const uint16_t* pattern, size_t patternSize) noexcept;
 
     constexpr uint64_t HashPattern(const std::vector<uint16_t>& pattern) noexcept {
         uint64_t hash = 14695981039346656037ULL;
