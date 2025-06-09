@@ -10,52 +10,49 @@ constexpr int CONSOLE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_IN
 constexpr int CONSOLE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
 constexpr int EXIT_DELAY_SECONDS = 3;
 
-static bool performDllInjection(const std::string& dllPath, const char* processName = PROCESS_NAME) noexcept {
+static bool performModInjection(const std::string& dllPath) noexcept {
     try {
-        Logger::info("Starting injection process...");
+        Logger::info("Starting mod injection process...");
 
         const std::string& appDataPath = getAppDataPath();
 
-        DWORD processId = findOrLaunchGame(processName);
+        DWORD processId = locateOrStartApplication();
         if (processId == 0) {
-            Logger::error("Failed to find or launch game");
-            showError("Could not launch Half Sword. Please make sure the game is installed correctly on Steam.");
+            Logger::error("Could not find application window");
+            showError("Could not find Half Sword window. Please make sure the game launches correctly.");
             return false;
         }
+        
+        Logger::info("Application window found, ready for mod injection...");
 
-        if (!WaitForGameWindow(processId)) {
-            Logger::error("Game window not found after timeout");
-            showError("Could not find game window. Please make sure the game launches correctly.");
-            return false;
+        if (!std::filesystem::exists(dllPath)) {
+            std::string localVersion = Updater::getLocalVersion();
+            if (!downloadDllFromGitHub(dllPath, localVersion)) {
+                Logger::error("Failed to download mod DLL");
+                showError("Failed to download mod files. Please check your internet connection.");
+                return false;
+            }
         }
 
-        try {
-            Logger::info("Extracting DLL to temporary file...");
-            extractDllToTempFile(dllPath, IDR_DLL1);
-        } catch (const std::exception& e) {
-            Logger::error(std::string("Failed to extract DLL: ") + e.what());
-            showError("Failed to extract mod files. This might be due to antivirus blocking the mod.");
-            return false;
-        }
-
-        Logger::info("Attempting to inject DLL...");
-        bool success = injectDll(processId, dllPath);
+        Logger::info("Attempting to inject mod...");
+        bool success = initializeModInjection(processId, dllPath);
 
         if (!success) {
-            Logger::error("DLL injection failed");
-            showError("DLL injection failed. Please try again with the game freshly launched or check your antivirus settings.");
+            Logger::error("Mod injection failed");
+            showError("Mod injection failed. Please try again with the game freshly launched or check your antivirus settings.");
             return false;
         }
 
-        Logger::info("Half Sword Enhancer injected successfully! Enjoy!");
+        Logger::info("Half Sword Enhancer loaded successfully! Enjoy!");
         return true;
     }
     catch (const std::exception& e) {
-        Logger::error(std::string("Error during injection: ") + e.what());
-        showError(std::string("Error during injection: ") + e.what());
+        Logger::error(std::string("Error during mod injection: ") + e.what());
+        showError(std::string("Error during mod injection: ") + e.what());
         return false;
     }
 }
+
 
 int main() {
     try {
@@ -89,7 +86,7 @@ int main() {
         Logger::info("Made by The Ghost");
 
         Updater::checkForUpdates();
-        bool success = performDllInjection(dllPath);
+        bool success = performModInjection(dllPath);
 
         Logger::info("Exiting launcher in " + std::to_string(EXIT_DELAY_SECONDS) + " seconds...");
         std::this_thread::sleep_for(std::chrono::seconds(EXIT_DELAY_SECONDS));
