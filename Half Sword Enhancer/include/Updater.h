@@ -2,10 +2,9 @@
 
 #include <winhttp.h>
 #include <string>
-#include <sstream>
 #include <vector>
 #include <fstream>
-#include <iostream>
+#include <filesystem>
 
 #include "Logger.h"
 #include "Util.h"
@@ -45,9 +44,12 @@ namespace Updater {
             return cachedVersion;
         }
 
-        cachedVersion = std::to_string(HIWORD(fileInfo->dwFileVersionMS)) + "." +
-                       std::to_string(LOWORD(fileInfo->dwFileVersionMS)) + "." +
-                       std::to_string(HIWORD(fileInfo->dwFileVersionLS));
+        char version[32];
+        sprintf_s(version, "%d.%d.%d", 
+            HIWORD(fileInfo->dwFileVersionMS), 
+            LOWORD(fileInfo->dwFileVersionMS), 
+            HIWORD(fileInfo->dwFileVersionLS));
+        cachedVersion = version;
 
         return cachedVersion;
     }
@@ -136,12 +138,13 @@ namespace Updater {
             std::string response;
             response.reserve(Util::RESPONSE_BUFFER_SIZE);
             DWORD size;
-            char buffer[Util::RESPONSE_BUFFER_SIZE];
+            std::vector<char> buffer(Util::RESPONSE_BUFFER_SIZE);
 
             while (WinHttpQueryDataAvailable(request, &size) && size > 0) {
                 DWORD downloaded;
-                if (WinHttpReadData(request, buffer, min(size, Util::RESPONSE_BUFFER_SIZE), &downloaded)) {
-                    response.append(buffer, downloaded);
+                size = min(size, Util::RESPONSE_BUFFER_SIZE);
+                if (WinHttpReadData(request, buffer.data(), size, &downloaded)) {
+                    response.append(buffer.data(), downloaded);
                 }
             }
 
@@ -176,21 +179,7 @@ namespace Updater {
     }
 
     [[nodiscard]] inline bool isUpdateAvailable(const char* local, const char* remote) noexcept {
-        std::vector<int> localVer(3, 0), remoteVer(3, 0);
-        std::istringstream localStream(local), remoteStream(remote);
-        std::string token;
-
-        for (int i = 0; i < 3; i++) {
-            if (std::getline(localStream, token, '.')) localVer[i] = std::stoi(token);
-            if (std::getline(remoteStream, token, '.')) remoteVer[i] = std::stoi(token);
-        }
-
-        for (int i = 0; i < 3; i++) {
-            if (remoteVer[i] > localVer[i]) return true;
-            if (remoteVer[i] < localVer[i]) return false;
-        }
-
-        return false;
+        return strcmp(remote, local) != 0 && strcmp(remote, "0.0.0") != 0;
     }
 
     inline void createAndRunUpdateScript(const char* tempFileName, const char* currentPath) {
@@ -360,19 +349,19 @@ namespace Updater {
                 return false;
             }
 
-            char buffer[16384]{};
+            std::vector<char> buffer(16384, 0);
             DWORD dwSize, dwDownloaded, dwWritten;
             DWORD totalBytes = 0;
             bool downloadSuccess = true;
 
             while (WinHttpQueryDataAvailable(hRequest, &dwSize) && dwSize > 0) {
-                dwSize = min(dwSize, sizeof(buffer));
-                if (!WinHttpReadData(hRequest, buffer, dwSize, &dwDownloaded)) {
+                dwSize = min(dwSize, static_cast<DWORD>(buffer.size()));
+                if (!WinHttpReadData(hRequest, buffer.data(), dwSize, &dwDownloaded)) {
                     downloadSuccess = false;
                     break;
                 }
 
-                if (!WriteFile(hFile, buffer, dwDownloaded, &dwWritten, NULL) || dwWritten != dwDownloaded) {
+                if (!WriteFile(hFile, buffer.data(), dwDownloaded, &dwWritten, NULL) || dwWritten != dwDownloaded) {
                     downloadSuccess = false;
                     break;
                 }
@@ -425,21 +414,42 @@ namespace Updater {
                 return;
             }
 
-            std::string message = "A new version of Half Sword Enhancer is available!\n\n";
-            message += "Current version: " + localVersion + "\n";
-            message += "New version: " + remoteVersion + "\n\n";
-            message += "Do you want to download and install the update now?";
+            char message[512];
+            sprintf_s(message, "A new version of Half Sword Enhancer is available!\n\n"
+                              "Current version: %s\n"
+                              "New version: %s\n\n"
+                              "Do you want to download and install the update now?",
+                              localVersion.c_str(), remoteVersion.c_str());
 
-            int result = MessageBoxA(NULL, message.c_str(), "Update Available", MB_YESNO | MB_ICONINFORMATION);
+            int result = MessageBoxA(NULL, message, "Update Available", MB_YESNO | MB_ICONINFORMATION);
 
             if (result != IDYES) {
                 return;
             }
 
-            std::string downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                remoteVersion + "/HS_Enhancer_Launcher.exe";
+            Logger::info("Updating mod first...");
+            const std::string& appDataPath = Util::getAppDataPath();
+            std::string modPath = appDataPath + "\\" + Util::DLL_FILENAME;
+            
+            try {
+                std::filesystem::remove(modPath);
+                Logger::info("Removed existing mod DLL for update");
+            } catch (const std::exception&) {
+                Logger::warn("Could not remove existing mod DLL");
+            }
 
-            downloadUpdate(downloadUrl);
+            if (!Util::downloadDllFromGitHub(modPath, remoteVersion)) {
+                Logger::error("Failed to update mod");
+                Util::showError("Failed to update mod files. The launcher update will continue anyway.");
+            } else {
+                Logger::info("Mod updated successfully");
+            }
+
+            Logger::info("Now updating launcher...");
+            char launcherDownloadUrl[256];
+            sprintf_s(launcherDownloadUrl, "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v%s/HS_Enhancer_Launcher.exe", remoteVersion.c_str());
+
+            downloadUpdate(launcherDownloadUrl);
         }
         catch (const std::exception&) {
             Logger::error("Error checking for updates");
