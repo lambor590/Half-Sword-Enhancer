@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Half Sword Enhancer", "Half Sword Enhancer\Half Sword Enhancer.vcxproj", "{C8B11247-AD69-495F-B699-31A31747E2A8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5} = {9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mod", "Mod\Mod.vcxproj", "{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}"
 EndProject
@@ -14,12 +11,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proxy", "Proxy\Proxy.vcxpro
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Beta|x64 = Beta|x64
+		Beta|x86 = Beta|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8B11247-AD69-495F-B699-31A31747E2A8}.Beta|x64.ActiveCfg = Beta|x64
+		{C8B11247-AD69-495F-B699-31A31747E2A8}.Beta|x64.Build.0 = Beta|x64
+		{C8B11247-AD69-495F-B699-31A31747E2A8}.Beta|x86.ActiveCfg = Beta|x64
+		{C8B11247-AD69-495F-B699-31A31747E2A8}.Beta|x86.Build.0 = Beta|x64
 		{C8B11247-AD69-495F-B699-31A31747E2A8}.Debug|x64.ActiveCfg = Debug|x64
 		{C8B11247-AD69-495F-B699-31A31747E2A8}.Debug|x64.Build.0 = Debug|x64
 		{C8B11247-AD69-495F-B699-31A31747E2A8}.Debug|x86.ActiveCfg = Debug|Win32
@@ -28,6 +31,10 @@ Global
 		{C8B11247-AD69-495F-B699-31A31747E2A8}.Release|x64.Build.0 = Release|x64
 		{C8B11247-AD69-495F-B699-31A31747E2A8}.Release|x86.ActiveCfg = Release|Win32
 		{C8B11247-AD69-495F-B699-31A31747E2A8}.Release|x86.Build.0 = Release|Win32
+		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Beta|x64.ActiveCfg = Release|x64
+		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Beta|x64.Build.0 = Release|x64
+		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Beta|x86.ActiveCfg = Beta|x64
+		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Beta|x86.Build.0 = Beta|x64
 		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Debug|x64.ActiveCfg = Debug|x64
 		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Debug|x64.Build.0 = Debug|x64
 		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Debug|x86.ActiveCfg = Debug|Win32
@@ -36,6 +43,10 @@ Global
 		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Release|x64.Build.0 = Release|x64
 		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Release|x86.ActiveCfg = Release|Win32
 		{9ED8B15E-16C0-4115-B3D0-E0DBA450FCE5}.Release|x86.Build.0 = Release|Win32
+		{4840BEE3-F9E3-4821-9336-BF0CE8B83C2F}.Beta|x64.ActiveCfg = Release|x64
+		{4840BEE3-F9E3-4821-9336-BF0CE8B83C2F}.Beta|x64.Build.0 = Release|x64
+		{4840BEE3-F9E3-4821-9336-BF0CE8B83C2F}.Beta|x86.ActiveCfg = Beta|Win32
+		{4840BEE3-F9E3-4821-9336-BF0CE8B83C2F}.Beta|x86.Build.0 = Beta|Win32
 		{4840BEE3-F9E3-4821-9336-BF0CE8B83C2F}.Debug|x64.ActiveCfg = Debug|x64
 		{4840BEE3-F9E3-4821-9336-BF0CE8B83C2F}.Debug|x64.Build.0 = Debug|x64
 		{4840BEE3-F9E3-4821-9336-BF0CE8B83C2F}.Debug|x86.ActiveCfg = Debug|Win32
@@ -47,5 +58,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1472DD9E-35B1-4229-BC83-237E1ABCAE69}
 	EndGlobalSection
 EndGlobal
