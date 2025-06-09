@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <thread>
 #include <vector>
-#include <utility>
 #include <string_view>
 #include <array>
 
@@ -18,17 +17,6 @@
 
 typedef void* (__stdcall* ProcessEvent)(SDK::UObject*, SDK::UFunction*, void*);
 
-constexpr uint64_t fnv1a_hash(std::string_view str) noexcept {
-    constexpr uint64_t offset_basis = 14695981039346656037ULL;
-    constexpr uint64_t prime = 1099511628211ULL;
-    
-    uint64_t hash = offset_basis;
-    for (char c : str) {
-        hash ^= static_cast<uint64_t>(c);
-        hash *= prime;
-    }
-    return hash;
-}
 
 class GameHook
 {
@@ -44,17 +32,9 @@ public:
     void Hook();
     void Unhook() const;
 
-    void RegisterHook(const std::string& functionName, std::function<void()> callback) {
-        auto [hookClass, hookFunc] = ParseFunctionName(functionName);
-        uint64_t hash = fnv1a_hash(hookFunc);
-        hookMap[hash] = { std::string(hookClass), std::string(hookFunc), std::move(callback) };
-    }
+    void RegisterHook(const std::string& functionName, std::function<void()> callback);
 
-    void UnregisterHook(const std::string& functionName) {
-        auto [_, hookFunc] = ParseFunctionName(functionName);
-        uint64_t hash = fnv1a_hash(hookFunc);
-        hookMap.erase(hash);
-    }
+    void UnregisterHook(const std::string& functionName);
 
     enum class GameEvent : uint8_t {
         BeginFight,
@@ -116,13 +96,18 @@ private:
     struct HookData {
         std::string className;
         std::string funcName;
+        uint64_t classHash{0};
         std::function<void()> callback;
+        
+        HookData() = default;
+        HookData(std::string cName, std::string fName, uint64_t cHash, std::function<void()> cb)
+            : className(std::move(cName)), funcName(std::move(fName)), classHash(cHash), callback(std::move(cb)) {}
     };
 
     Logger logger{ "GameHook" };
     uintptr_t oProcessEvent = NULL;
     std::unordered_map<uint64_t, HookData> hookMap;
     std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
-
+    
     friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms);
 };
