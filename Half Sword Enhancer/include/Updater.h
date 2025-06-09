@@ -179,7 +179,23 @@ namespace Updater {
     }
 
     [[nodiscard]] inline bool isUpdateAvailable(const char* local, const char* remote) noexcept {
-        return strcmp(remote, local) != 0 && strcmp(remote, "0.0.0") != 0;
+        if (!remote || strcmp(remote, "0.0.0") == 0) {
+            return false;
+        }
+        
+        #ifdef BETA_VERSION
+            int localMajor = 0, localMinor = 0, localPatch = 0;
+            int remoteMajor = 0, remoteMinor = 0, remotePatch = 0;
+            
+            sscanf_s(local, "%d.%d.%d", &localMajor, &localMinor, &localPatch);
+            sscanf_s(remote, "%d.%d.%d", &remoteMajor, &remoteMinor, &remotePatch);
+            
+            return (remoteMajor > localMajor) || 
+                   (remoteMajor == localMajor && remoteMinor > localMinor) || 
+                   (remoteMajor == localMajor && remoteMinor == localMinor && remotePatch >= localPatch);
+        #else
+            return strcmp(remote, local) != 0;
+        #endif
     }
 
     inline void createAndRunUpdateScript(const char* tempFileName, const char* currentPath) {
