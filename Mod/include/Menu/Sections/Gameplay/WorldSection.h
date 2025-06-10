@@ -184,7 +184,7 @@ public:
                                 if (distance <= clearObjectsRadius) {
                                     isWithinRadiusOfAnyWillie = true;
                                 }
-                                if (distance <= 70.0f) {
+                                if (distance <= 100.0f) {
                                     isFarFromAllWillies = false;
                                 }
                                 if (isWithinRadiusOfAnyWillie && !isFarFromAllWillies) {
