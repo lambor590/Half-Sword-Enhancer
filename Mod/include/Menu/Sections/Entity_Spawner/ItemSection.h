@@ -438,10 +438,11 @@ public:
         Function("Spawn Item")
             .WithKey(&spawnItemKey)
             .WithParams({
-                Parameter("distance_forward", "Forward Distance", &spawnDistanceForward, 50.0f, 300.0f),
-                Parameter("distance_up", "Up Distance", &spawnDistanceUp, 0.0f, 200.0f),
-                Parameter("scale", "Scale", &spawnScale, 0.1f, 5.0f)
+                Parameter("distance_forward", "Forward Distance", &spawnDistanceForward, 50.0f, 300.0f, "How far in front the item appears"),
+                Parameter("distance_up", "Up Distance", &spawnDistanceUp, 0.0f, 200.0f, "Height offset for spawn position"),
+                Parameter("scale", "Scale", &spawnScale, 0.1f, 5.0f, "Size multiplier for the spawned item")
             })
+            .WithTooltip("Spawns the selected item with configurable position and size")
             .Action([this]() { SpawnSelectedItem(); }, player, world);
     }
 
