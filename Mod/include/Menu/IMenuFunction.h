@@ -16,12 +16,22 @@
 #include "imgui/imgui.h"
 #include "GlobalDefinitions.h"
 #include "Hooks/GameHook.h"
+#include "DefaultStyle.h"
+
+class TooltipHelper {
+public:
+    static void ShowTooltip(const char* tooltip);
+    static void ShowTooltip(const std::string& tooltip);
+    static void ShowTooltip(std::string_view tooltip);
+    static void InvalidateCache();
+};
 
 class Parameter {
 public:
     enum class Type : uint8_t { Int, Float, Bool };
 
     std::string_view name, displayName;
+    std::string_view tooltip;
     Type type;
     void* valuePtr;
     union { int intMin, intMax; float floatMin, floatMax; } minValue{}, maxValue{};
@@ -58,24 +68,24 @@ private:
     static void SaveBool(const Parameter& param, const IMenuFunction* func) noexcept;
 
 public:
-    Parameter(std::string_view name, std::string_view displayName, int* valuePtr, int minValue = 0, int maxValue = 100) noexcept
-        : name(name), displayName(displayName), type(Type::Int), valuePtr(valuePtr), 
+    Parameter(std::string_view name, std::string_view displayName, int* valuePtr, int minValue = 0, int maxValue = 100, std::string_view tooltip = "") noexcept
+        : name(name), displayName(displayName), tooltip(tooltip), type(Type::Int), valuePtr(valuePtr), 
           renderFn(RenderInt), loadFn(LoadInt), saveFn(SaveInt) {
         this->minValue.intMin = minValue;
         this->maxValue.intMax = maxValue;
         id = "##param_" + std::string(name);
     }
 
-    Parameter(std::string_view name, std::string_view displayName, float* valuePtr, float minValue = 0.0f, float maxValue = 1.0f) noexcept
-        : name(name), displayName(displayName), type(Type::Float), valuePtr(valuePtr), 
+    Parameter(std::string_view name, std::string_view displayName, float* valuePtr, float minValue = 0.0f, float maxValue = 1.0f, std::string_view tooltip = "") noexcept
+        : name(name), displayName(displayName), tooltip(tooltip), type(Type::Float), valuePtr(valuePtr), 
           renderFn(RenderFloat), loadFn(LoadFloat), saveFn(SaveFloat) {
         this->minValue.floatMin = minValue;
         this->maxValue.floatMax = maxValue;
         id = "##param_" + std::string(name);
     }
 
-    Parameter(std::string_view name, std::string_view displayName, bool* valuePtr) noexcept
-        : name(name), displayName(displayName), type(Type::Bool), valuePtr(valuePtr), 
+    Parameter(std::string_view name, std::string_view displayName, bool* valuePtr, std::string_view tooltip = "") noexcept
+        : name(name), displayName(displayName), tooltip(tooltip), type(Type::Bool), valuePtr(valuePtr), 
           renderFn(RenderBool), loadFn(LoadBool), saveFn(SaveBool) {
         id = "##param_" + std::string(name);
     }
@@ -171,6 +181,7 @@ template<typename Derived>
 class KeyFunction : public IMenuFunction {
 protected:
     std::string name;
+    std::string tooltip;
     int* key;
     std::function<void(bool)> callback;
     bool waitingForKey = false;
@@ -205,14 +216,15 @@ private:
     }
 
 protected:
-    KeyFunction(std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable)
-        : name(funcName), key(keyPtr), callback(std::move(callback)), prevKey(*key), toggleable(toggleable) {}
+    KeyFunction(std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable, std::string_view funcTooltip = "")
+        : name(funcName), tooltip(funcTooltip), key(keyPtr), callback(std::move(callback)), prevKey(*key), toggleable(toggleable) {}
 
     virtual void OnKeyAssigned() = 0;
 
 public:
     void Render() override;
     std::string_view GetName() const override { return name; }
+    std::string_view GetTooltip() const { return tooltip; }
     int GetKey() const { return key ? *key : 0; }
     const std::function<void(bool)>& GetCallback() const { return callback; }
     void ResetPrevKey() { prevKey = *key; }
@@ -254,8 +266,8 @@ protected:
 
 public:
     HookedFunction(std::string_view funcName, const std::vector<GameHook::GameEvent>& events,
-                   std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false)
-        : KeyFunction(funcName, keyPtr, std::move(callback), true),
+                   std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false, std::string_view funcTooltip = "")
+        : KeyFunction(funcName, keyPtr, std::move(callback), true, funcTooltip),
           eventTypes(events), executeOnToggle(executeOnToggle) {
         LoadConfig();
     }
@@ -271,8 +283,8 @@ protected:
     void OnKeyAssigned() override;
 
 public:
-    KeybindFunction(std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable = false)
-        : KeyFunction(funcName, keyPtr, std::move(callback), toggleable) {
+    KeybindFunction(std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable = false, std::string_view funcTooltip = "")
+        : KeyFunction(funcName, keyPtr, std::move(callback), toggleable, funcTooltip) {
         LoadConfig();
     }
 
