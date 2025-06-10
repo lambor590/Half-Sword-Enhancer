@@ -11,6 +11,10 @@
 
 class WorldSection : public CollapsibleSection {
 private:
+    static constexpr float DEFAULT_TIME_DILATION = 1.0f;
+    static constexpr float DEFAULT_GRAVITY = -980.0f;
+    static constexpr float MIN_HEALTH = 0.0f;
+
     static inline int sloMoKey = 0x5A; // Z
     static inline float slowMotionSpeed = 0.4f;
 
@@ -36,14 +40,14 @@ private:
 public:
     WorldSection() : CollapsibleSection("World") {
         std::initializer_list<Parameter> slowMotionParams = {
-            Parameter("speed", "Speed", &slowMotionSpeed, 0.01f, 0.99f)
+            Parameter("speed", "Speed", &slowMotionSpeed, 0.01f, 0.99f, "The speed of the game when is enabled")
         };
 
         Function("Toggle Slow Motion")
             .WithKey(&sloMoKey)
             .WithParams(slowMotionParams)
             .Action([this]() {
-                worldSettings->TimeDilation = (worldSettings->TimeDilation == 1.0f) ? slowMotionSpeed : 1.0f;
+                worldSettings->TimeDilation = (worldSettings->TimeDilation == DEFAULT_TIME_DILATION) ? slowMotionSpeed : DEFAULT_TIME_DILATION;
             }, worldSettings);
 
         std::initializer_list<Parameter> customGravityParams = {
@@ -55,12 +59,12 @@ public:
             .WithParams(customGravityParams)
             .Action([this]() {
                 worldSettings->bWorldGravitySet = true;
-                worldSettings->WorldGravityZ = (worldSettings->WorldGravityZ == -980.0f) ? customGravityValue : -980.0f;
+                worldSettings->WorldGravityZ = (worldSettings->WorldGravityZ == DEFAULT_GRAVITY) ? customGravityValue : DEFAULT_GRAVITY;
             }, worldSettings);
 
         std::initializer_list<Parameter> killAllEnemiesParams = {
             Parameter("radius", "Radius", &killAllEnemiesRadius, 50.0f, 5000.0f),
-            Parameter("snapNeck", "Snap Neck", &snapNeckEnemies)
+            Parameter("snapNeck", "Snap Neck", &snapNeckEnemies, "Just another way to kill enemies")
         };
 
         Function("Kill All Enemies")
@@ -70,12 +74,13 @@ public:
                 SDK::TArray<SDK::AActor*> actors;
                 SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
                 for (SDK::AActor* actor : actors) {
-                    SDK::AWillie_BP_C* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (willie == player || player->GetDistanceTo(willie) > killAllEnemiesRadius) continue;
-                    if (snapNeckEnemies)
+                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+                    if (willie == player || player->GetDistanceTo(willie) > killAllEnemiesRadius) [[unlikely]] continue;
+                    if (snapNeckEnemies) [[unlikely]] {
                         willie->Snap_Neck();
-                    else
+                    } else {
                         willie->Death();
+                    }
                 }
             }, player, world);
 
@@ -93,10 +98,10 @@ public:
                 bool computed = false;
 
                 for (SDK::AActor* actor : actors) {
-                    SDK::AWillie_BP_C* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (willie == player || player->GetDistanceTo(willie) > toggleEnemyAIRadius) continue;
-                    if (SDK::AAIController* controller = static_cast<SDK::AAIController*>(willie->GetController())) {
-                        if (!computed) {
+                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+                    if (willie == player || player->GetDistanceTo(willie) > toggleEnemyAIRadius) [[unlikely]] continue;
+                    if (auto* controller = static_cast<SDK::AAIController*>(willie->GetController())) [[likely]] {
+                        if (!computed) [[unlikely]] {
                             newTickEnabled = !controller->IsActorTickEnabled();
                             computed = true;
                         }
@@ -106,41 +111,47 @@ public:
             }, player, world);
 
         std::initializer_list<Parameter> destroyWilliesParams = {
-            Parameter("deadOnly", "Only Dead", &destroyDeadOnly),
-            Parameter("disintegrate", "Disintegrate", &destroyDisintegrate)
+            Parameter("dead_only", "Only Dead", &destroyDeadOnly, "Only destroy dead bodies, not living enemies"),
+            Parameter("disintegrate", "Disintegrate", &destroyDisintegrate, "Use disintegration effect instead of instant removal")
         };
 
         Function("Destroy All Willies")
             .WithKey(&destroyWilliesKey)
             .WithParams(destroyWilliesParams)
+            .WithTooltip("Removes all NPCs from the world with optional filters")
             .Action([this]() {
                 SDK::TArray<SDK::AActor*> actors;
                 SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-                for (auto* actor : actors)
+                for (auto* actor : actors) {
                     if (auto* w = static_cast<SDK::AWillie_BP_C*>(actor);
-                        w != player && (!destroyDeadOnly || w->Health <= 0))
-                        destroyDisintegrate
-                            ? w->Disintegrate_and_drop_armor(true)
-                            : w->K2_DestroyActor();
+                        w != player && (!destroyDeadOnly || w->Health <= MIN_HEALTH)) [[likely]] {
+                        if (destroyDisintegrate) [[unlikely]] {
+                            w->Disintegrate_and_drop_armor(true);
+                        } else {
+                            w->K2_DestroyActor();
+                        }
+                    }
+                }
             }, player, world);
 
         std::initializer_list<Parameter> clearBloodParams = {
-            Parameter("amount", "Amount", &clearBloodAmount, 0.0f, 1.0f)
+            Parameter("amount", "Amount", &clearBloodAmount, 0.0f, 1.0f, "How much blood to remove (0.0 = none, 1.0 = all)")
         };
 
         Function("Clear Blood")
             .WithKey(&clearBloodKey)
             .WithParams(clearBloodParams)
+            .WithTooltip("Removes blood decals from the arena with configurable intensity. Only works in the arena.")
             .Action([this]() {
                 static_cast<SDK::AArena_Cutting_Map_C*>(world->PersistentLevel->LevelScriptActor)->Clean_Blood(clearBloodAmount);
             }, world);
 
         Function("Toggle Game Paused")
             .WithKey(&setGamePausedKey)
+            .WithTooltip("Pauses/unpauses the entire game simulation")
             .Action([this]() {
-                SDK::UGameplayStatics::IsGamePaused(world) ?
-                    SDK::UGameplayStatics::SetGamePaused(world, false) :
-                    SDK::UGameplayStatics::SetGamePaused(world, true);
+                const bool isPaused = SDK::UGameplayStatics::IsGamePaused(world);
+                SDK::UGameplayStatics::SetGamePaused(world, !isPaused);
             }, world);
     }
 };
