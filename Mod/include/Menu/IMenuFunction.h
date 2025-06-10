@@ -191,6 +191,8 @@ protected:
     int pendingConflictKey = 0;
     int* pendingConflictKeyPtr = nullptr;
     int pendingOriginalKey = 0;
+    mutable int cachedBindingCount = 0;
+    mutable std::vector<IMenuFunction*> cachedBoundFunctions;
 
 private:
     mutable std::once_flag m_idsInitialized;
