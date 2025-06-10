@@ -17,9 +17,9 @@ public:
 
 private:
     struct Binding {
-        int* keyPtr;
+        int* keyPtr = nullptr;
         Callback callback;
-        IMenuFunction* function;
+        IMenuFunction* function = nullptr;
     };
     
     static std::unordered_map<int*, Binding> s_bindings;
