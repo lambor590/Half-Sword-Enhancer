@@ -19,6 +19,9 @@ struct NPCTypeInfo {
 
 class NPCSection : public CollapsibleSection {
 private:
+    static constexpr int SPECIAL_TEAM_ID = 1337;
+    static constexpr float DEFAULT_SCALE = 1.0f;
+
     static inline int spawnEnemyKey = 0x4E; // N
     static inline float spawnDistanceForward = 200.0f;
     static inline float spawnDistanceUp = 0.0f;
@@ -44,36 +47,38 @@ private:
 
     static inline const char* npcTypeNames[sizeof(npcTypes) / sizeof(npcTypes[0])];
 
-    static void initNPCTypeNames() {
+    static void initNPCTypeNames() noexcept {
         static bool initialized = false;
-        if (!initialized) {
-            for (int i = 0; i < npcTypesCount; i++) {
+        if (!initialized) [[unlikely]] {
+            for (int i = 0; i < npcTypesCount; ++i) {
                 npcTypeNames[i] = npcTypes[i].displayName;
             }
             initialized = true;
         }
     }
 
-    const char* getNPCClassName() const {
-        return (npcTypeIndex >= 0 && npcTypeIndex < npcTypesCount)
-            ? npcTypes[npcTypeIndex].className
-            : npcTypes[0].className;
+    const char* getNPCClassName() const noexcept {
+        if (npcTypeIndex >= 0 && npcTypeIndex < npcTypesCount) [[likely]] {
+            return npcTypes[npcTypeIndex].className;
+        }
+        return npcTypes[0].className;
     }
 
 public:
     NPCSection() : CollapsibleSection("NPC") {
         initNPCTypeNames();
         std::initializer_list<Parameter> spawnEnemyParams = {
-            Parameter("bodyguard", "Bodyguard", &bodyguard),
-            Parameter("distance_forward", "Distance Forward", &spawnDistanceForward, 100.0f, 500.0f),
-            Parameter("distance_up", "Distance Up", &spawnDistanceUp, 0.0f, 300.0f),
-            Parameter("scale", "Scale", &spawnScale, 0.1f, 4.0f),
-            Parameter("team", "Team", &npcTeam, 0, 9)
+            Parameter("bodyguard", "Bodyguard", &bodyguard, "Will join your team"),
+            Parameter("distance_forward", "Distance Forward", &spawnDistanceForward, 100.0f, 500.0f, "How far in front the NPC appears"),
+            Parameter("distance_up", "Distance Up", &spawnDistanceUp, 0.0f, 300.0f, "Height offset for spawn position"),
+            Parameter("scale", "Scale", &spawnScale, 0.1f, 4.0f, "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game doesn't crash."),
+            Parameter("team", "Team", &npcTeam, 0, 9, "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team.")
         };
 
         Function("Spawn NPC")
             .WithKey(&spawnEnemyKey)
             .WithParams(spawnEnemyParams)
+            .WithTooltip("Spawns an NPC with configurable type, position and team settings")
             .Action([this]() {
                 SDK::FTransform spawnTransform = player->GetTransform();
                 spawnTransform.Translation += player->GetActorForwardVector() * spawnDistanceForward;
@@ -81,10 +86,10 @@ public:
                 spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
                 
                 Spawner::SpawnActor(world, getNPCClassName(), spawnTransform, [this](SDK::AActor* actor) {
-                    SDK::AWillie_BP_C* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (npc) {
-                        if (bodyguard) {
-                            player->Team_Int = 1337;
+                    auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                    if (npc) [[likely]] {
+                        if (bodyguard) [[unlikely]] {
+                            player->Team_Int = SPECIAL_TEAM_ID;
                             npc->Team_Int = player->Team_Int;
                         } else {
                             npc->Team_Int = npcTeam;
@@ -95,28 +100,20 @@ public:
     }
 
     void Render() override {
-        bool isOpen = ImGui::CollapsingHeader(name.c_str());
+        if (!ImGui::CollapsingHeader(name.c_str())) [[likely]] return;
         
-        if (isOpen) {
-            ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
-            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10, 8));
-            ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 25.0f);
-            
-            ImGui::Indent(10.0f);
+        const SectionStyle::StyleRAII style;
+        
+        for (auto& function : functions) {
+            function->Render();
             ImGui::Spacing();
+        }
 
-            for (auto& function : functions) {
-                function->Render();
-                ImGui::Spacing();
-            }
-
-            ImGui::Text("NPC Type");
-            if (ImGui::Combo("##NPCTypeSelector", &npcTypeIndex, npcTypeNames, npcTypesCount)) {
-                // Selection changed
-            }
-            
-            ImGui::Unindent(10.0f);
-            ImGui::PopStyleVar(3);
+        ImGui::Text("NPC Type");
+        TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
+        
+        if (ImGui::Combo("##NPCTypeSelector", &npcTypeIndex, npcTypeNames, npcTypesCount)) [[unlikely]] {
+            // Selection changed
         }
     }
 };
