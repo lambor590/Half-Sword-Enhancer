@@ -74,6 +74,7 @@ public:
     struct FunctionBuilder {
         CollapsibleSection* section;
         std::string name;
+        std::string tooltip;
         int* keyPtr = nullptr;
         std::vector<GameHook::GameEvent> eventTypes;
         bool toggleable = false;
@@ -98,6 +99,11 @@ public:
             params.assign(p);
             return std::move(*this); 
         }
+        
+        FunctionBuilder&& WithTooltip(std::string_view tip) && noexcept {
+            tooltip = tip;
+            return std::move(*this);
+        }
 
         template<typename Callback, typename... Components>
         void Action(Callback&& callback, Components*&... comps) && {
@@ -113,11 +119,11 @@ public:
             std::unique_ptr<IMenuFunction> fn;
             if (eventTypes.empty()) {
                 fn = std::make_unique<KeybindFunction>(
-                    std::move(name), keyPtr, std::move(validatedCb), toggleable
+                    std::move(name), keyPtr, std::move(validatedCb), toggleable, std::move(tooltip)
                 );
             } else {
                 fn = std::make_unique<HookedFunction>(
-                    std::move(name), std::move(eventTypes), std::move(validatedCb), keyPtr, toggleable
+                    std::move(name), std::move(eventTypes), std::move(validatedCb), keyPtr, toggleable, std::move(tooltip)
                 );
             }
             
