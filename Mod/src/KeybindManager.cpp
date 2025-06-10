@@ -5,6 +5,7 @@
 #include "ConfigManager.h"
 #include "Menu/IMenuFunction.h"
 #include "NotificationManager.h"
+#include "Gui.h"
 
 static constexpr std::array<const char*, 256> CreateKeyNameTable() noexcept {
     std::array<const char*, 256> table{};
@@ -199,7 +200,10 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
         return false;
     }
     
-    if (keyCode < 0 || keyCode >= 256) return false;
+    if (keyCode == s_toggleGuiKey) {
+        Gui::ToggleVisibility();
+        return true;
+    }
     
     auto it = s_keyToBindings.find(keyCode);
     if (it != s_keyToBindings.end()) {
