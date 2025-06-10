@@ -123,7 +123,7 @@ public:
         Function("Destroy All Willies")
             .WithKey(&destroyWilliesKey)
             .WithParams(destroyWilliesParams)
-            .WithTooltip("Removes all NPCs from the world with optional filters")
+            .WithTooltip("Removes all NPCs from the world")
             .Action([this]() {
                 SDK::TArray<SDK::AActor*> actors;
                 SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
@@ -166,7 +166,7 @@ public:
         Function("Clear Objects")
             .WithKey(&clearObjectsKey)
             .WithParams(clearObjectsParams)
-            .WithTooltip("Removes weapons and armor")
+            .WithTooltip("Removes dropped weapons and armor")
             .Action([this]() {
                 SDK::TArray<SDK::AActor*> allWillies;
                 SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &allWillies);
