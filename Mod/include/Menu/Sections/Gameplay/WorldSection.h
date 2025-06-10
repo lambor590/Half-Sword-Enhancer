@@ -8,6 +8,8 @@
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/Utils/Spawner.h"
 #include "SDK/Arena_Cutting_Map_classes.hpp"
+#include "SDK/ModularWeaponBP_classes.hpp"
+#include "SDK/BP_Armor_Master_classes.hpp"
 
 class WorldSection : public CollapsibleSection {
 private:
@@ -36,6 +38,9 @@ private:
     static inline float clearBloodAmount = 0.1f;
 
     static inline int setGamePausedKey = -1;
+
+    static inline int clearObjectsKey = -1;
+    static inline float clearObjectsRadius = 1000.0f;
 
 public:
     WorldSection() : CollapsibleSection("World") {
@@ -153,5 +158,49 @@ public:
                 const bool isPaused = SDK::UGameplayStatics::IsGamePaused(world);
                 SDK::UGameplayStatics::SetGamePaused(world, !isPaused);
             }, world);
+
+        std::initializer_list<Parameter> clearObjectsParams = {
+            Parameter("radius", "Radius", &clearObjectsRadius, 50.0f, 5000.0f)
+        };
+
+        Function("Clear Objects")
+            .WithKey(&clearObjectsKey)
+            .WithParams(clearObjectsParams)
+            .WithTooltip("Removes weapons and armor")
+            .Action([this]() {
+                SDK::TArray<SDK::AActor*> allWillies;
+                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &allWillies);
+                
+                auto clearObjectsOfType = [&](SDK::UClass* objectClass) {
+                    SDK::TArray<SDK::AActor*> objects;
+                    SDK::UGameplayStatics::GetAllActorsOfClass(world, objectClass, &objects);
+                    for (auto* object : objects) {                        
+                        bool isWithinRadiusOfAnyWillie = false;
+                        bool isFarFromAllWillies = true;
+                        
+                        for (auto* willieActor : allWillies) {
+                            if (auto* willie = static_cast<SDK::AWillie_BP_C*>(willieActor)) {
+                                float distance = willie->GetDistanceTo(object);
+                                if (distance <= clearObjectsRadius) {
+                                    isWithinRadiusOfAnyWillie = true;
+                                }
+                                if (distance <= 70.0f) {
+                                    isFarFromAllWillies = false;
+                                }
+                                if (isWithinRadiusOfAnyWillie && !isFarFromAllWillies) {
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (isWithinRadiusOfAnyWillie && isFarFromAllWillies) {
+                            object->K2_DestroyActor();
+                        }
+                    }
+                };
+                
+                clearObjectsOfType(SDK::AModularWeaponBP_C::StaticClass());
+                clearObjectsOfType(SDK::ABP_Armor_Master_C::StaticClass());
+            }, player, world);
     }
 };
