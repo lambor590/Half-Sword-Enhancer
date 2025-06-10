@@ -47,4 +47,6 @@ public:
     static bool IsKeyBound(int key, int* excludeKeyPtr = nullptr) noexcept;
     static void RemoveBinding(int key, int* excludeKeyPtr = nullptr) noexcept;
     static IMenuFunction* GetBoundFunction(int key, int* excludeKeyPtr = nullptr) noexcept;
+    static std::vector<IMenuFunction*> GetAllBoundFunctions(int key, int* excludeKeyPtr = nullptr) noexcept;
+    static int GetBindingCount(int key, int* excludeKeyPtr = nullptr) noexcept;
 };
