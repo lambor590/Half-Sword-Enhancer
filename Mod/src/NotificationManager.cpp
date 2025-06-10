@@ -75,8 +75,10 @@ void NotificationManager::Render() noexcept {
     
     static constexpr ImGuiWindowFlags containerFlags = 
         ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs | 
-        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
-    static constexpr ImGuiWindowFlags childFlags = ImGuiWindowFlags_NoScrollbar;
+        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | 
+        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
+    static constexpr ImGuiWindowFlags childFlags = ImGuiWindowFlags_NoScrollbar | 
+        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
     
     ImGui::SetNextWindowPos(containerPos);
     ImGui::SetNextWindowSize(ImVec2(NOTIFICATION_WIDTH, HEIGHT_PLUS_PADDING * lastVisibleCount - PADDING));
