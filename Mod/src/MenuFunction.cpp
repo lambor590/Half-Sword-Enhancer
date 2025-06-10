@@ -28,14 +28,20 @@ namespace GuiConstants {
     constexpr std::string_view CONFIGURE_TEXT = "Configure %s";
     constexpr std::string_view CHANGE_KEYBIND_TEXT = "Change keybind";
     constexpr std::string_view REPLACE_BUTTON_TEXT = "Replace";
+    constexpr std::string_view SHARE_KEY_BUTTON_TEXT = "Share Key";
     constexpr std::string_view CANCEL_BUTTON_TEXT = "Cancel";
     constexpr std::string_view CHOOSE_ANOTHER_TEXT = "Choose Another";
     constexpr std::string_view UNKNOWN_TEXT = "Unknown";
     constexpr std::string_view KEY_CONFLICT_FORMAT = "Key %s is already bound to %s. What do you want to do?";
+    constexpr std::string_view KEY_MULTI_CONFLICT_FORMAT = "Key %s is already bound to %d functions. What do you want to do?";
     constexpr std::string_view INPUT_SUFFIX = "_input";
 }
 
 namespace {
+    constexpr bool IsKeyUnbound(int key) noexcept {
+        return key == -1 || key == 255;
+    }
+    
     struct ButtonStyleRAII {
         explicit ButtonStyleRAII(bool disabled) : pushCount(disabled ? 4 : 0) {
             if (disabled) {
@@ -65,23 +71,37 @@ namespace {
     };
 }
 
-static void RenderKeyButton(const char* id, bool& waitingForKey, int key) {
+static void RenderKeyButton(const char* id, bool& waitingForKey, int key, int& pendingOriginalKey) {
     const char* keyText = waitingForKey ? GuiConstants::PRESS_KEY_TEXT.data() : KeybindManager::GetKeyName(key);
-    const bool disabled = (key == -1);
+    const bool disabled = IsKeyUnbound(key);
     
-    const ButtonStyleRAII style(disabled);
-    
-    const float textWidth = ImGui::CalcTextSize(keyText).x;
-    ImGui::SetNextItemWidth(textWidth + GuiConstants::BUTTON_WIDTH_PADDING);
-    ImGui::PushID(id);
-    
-    if (ImGui::Button(keyText)) {
-        waitingForKey = true;
+    if (disabled) [[unlikely]] {
+        const ButtonStyleRAII style(true);
+        
+        const float textWidth = ImGui::CalcTextSize(keyText).x;
+        ImGui::SetNextItemWidth(textWidth + GuiConstants::BUTTON_WIDTH_PADDING);
+        ImGui::PushID(id);
+        
+        if (ImGui::Button(keyText)) {
+            waitingForKey = true;
+            pendingOriginalKey = key;
+        }
+        
+        ImGui::PopID();
+    } else {
+        const float textWidth = ImGui::CalcTextSize(keyText).x;
+        ImGui::SetNextItemWidth(textWidth + GuiConstants::BUTTON_WIDTH_PADDING);
+        ImGui::PushID(id);
+        
+        if (ImGui::Button(keyText)) {
+            waitingForKey = true;
+            pendingOriginalKey = key;
+        }
+        
+        ImGui::PopID();
     }
     
-    ImGui::PopID();
-    
-    if (ImGui::IsItemHovered()) {
+    if (ImGui::IsItemHovered()) [[unlikely]] {
         ImGui::BeginTooltip();
         ImGui::TextColored(DefaultStyle::parchment, GuiConstants::CHANGE_KEYBIND_TEXT.data());
         ImGui::EndTooltip();
@@ -111,7 +131,7 @@ static bool RenderParametersButton(const char* buttonId, const std::string& name
 
 template<typename Derived>
 void KeyFunction<Derived>::Render() {
-    RenderKeyButton(GetKeyId(), waitingForKey, *key);
+    RenderKeyButton(GetKeyId(), waitingForKey, *key, pendingOriginalKey);
     ImGui::SameLine();
     
     if (toggleable) {
@@ -121,10 +141,10 @@ void KeyFunction<Derived>::Render() {
         }
         
         ImGui::SameLine();
-        RenderName(name, !isEnabled && *key == -1);
+        RenderName(name, !isEnabled && IsKeyUnbound(*key));
         TooltipHelper::ShowTooltip(tooltip);
     } else {
-        RenderName(name, *key == -1);
+        RenderName(name, IsKeyUnbound(*key));
         TooltipHelper::ShowTooltip(tooltip);
     }
 
@@ -145,10 +165,17 @@ void KeyFunction<Derived>::Render() {
 
     if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
         const int newKey = *key;
-        if (newKey != -1 && KeybindManager::IsKeyBound(newKey, key)) {
-            pendingConflictKey = newKey;
-            pendingConflictKeyPtr = key;
-            ImGui::OpenPopup(GetConflictPopupId());
+        if (newKey != -1) {
+            cachedBindingCount = KeybindManager::GetBindingCount(newKey, key);
+            if (cachedBindingCount > 0) {
+                *key = pendingOriginalKey;
+                pendingConflictKey = newKey;
+                pendingConflictKeyPtr = key;
+                cachedBoundFunctions = KeybindManager::GetAllBoundFunctions(pendingConflictKey, pendingConflictKeyPtr);
+                ImGui::OpenPopup(GetConflictPopupId());
+            } else {
+                OnKeyAssigned();
+            }
         } else {
             OnKeyAssigned();
         }
@@ -156,26 +183,54 @@ void KeyFunction<Derived>::Render() {
 
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, GuiConstants::MODAL_DIM_COLOR);
     if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-        const auto conflictFunc = KeybindManager::GetBoundFunction(pendingConflictKey, pendingConflictKeyPtr);
-        const std::string conflictName = conflictFunc ? std::string(conflictFunc->GetName()) : std::string(GuiConstants::UNKNOWN_TEXT);
-        
-        ImGui::Text(GuiConstants::KEY_CONFLICT_FORMAT.data(), 
-                    KeybindManager::GetKeyName(pendingConflictKey), conflictName.c_str());
+        if (cachedBindingCount == 1) {
+            std::string conflictName{GuiConstants::UNKNOWN_TEXT};
+            if (!cachedBoundFunctions.empty() && cachedBoundFunctions[0] && !cachedBoundFunctions[0]->GetName().empty()) {
+                conflictName = std::string(cachedBoundFunctions[0]->GetName());
+            }
+            
+            ImGui::Text(GuiConstants::KEY_CONFLICT_FORMAT.data(), 
+                        KeybindManager::GetKeyName(pendingConflictKey), conflictName.c_str());
+        } else {
+            ImGui::Text(GuiConstants::KEY_MULTI_CONFLICT_FORMAT.data(), 
+                        KeybindManager::GetKeyName(pendingConflictKey), cachedBindingCount);
+            
+            ImGui::Spacing();
+            ImGui::Text("Currently bound to:");
+            for (size_t i = 0; i < cachedBoundFunctions.size() && i < 5; ++i) {
+                if (cachedBoundFunctions[i] && !cachedBoundFunctions[i]->GetName().empty()) {
+                    ImGui::BulletText("%s", cachedBoundFunctions[i]->GetName().data());
+                } else {
+                    ImGui::BulletText("Unknown Function");
+                }
+            }
+            if (cachedBoundFunctions.size() > 5) {
+                ImGui::BulletText("... and %zu more", cachedBoundFunctions.size() - 5);
+            }
+        }
         ImGui::Spacing();
         
-        if (ImGui::Button(GuiConstants::REPLACE_BUTTON_TEXT.data())) {
+        const char* replaceButtonText = (cachedBindingCount > 1) ? "Remove One" : "Replace";
+        if (ImGui::Button(replaceButtonText)) {
             KeybindManager::RemoveBinding(pendingConflictKey, pendingConflictKeyPtr);
+            *pendingConflictKeyPtr = pendingConflictKey;
+            OnKeyAssigned();
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button(GuiConstants::SHARE_KEY_BUTTON_TEXT.data())) {
+            *pendingConflictKeyPtr = pendingConflictKey;
             OnKeyAssigned();
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
         if (ImGui::Button(GuiConstants::CANCEL_BUTTON_TEXT.data())) {
-            *pendingConflictKeyPtr = prevKey;
+            *pendingConflictKeyPtr = pendingOriginalKey;
             ImGui::CloseCurrentPopup();
         }
         ImGui::SameLine();
         if (ImGui::Button(GuiConstants::CHOOSE_ANOTHER_TEXT.data())) {
-            *pendingConflictKeyPtr = prevKey;
+            *pendingConflictKeyPtr = pendingOriginalKey;
             waitingForKey = true;
             ImGui::CloseCurrentPopup();
         }
@@ -188,6 +243,7 @@ template void KeyFunction<HookedFunction>::Render();
 template void KeyFunction<KeybindFunction>::Render();
 
 void KeybindFunction::OnKeyAssigned() {
+    KeybindManager::UnregisterKeybind(key);
     if (*key != -1)
         KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
     UpdateKey();
