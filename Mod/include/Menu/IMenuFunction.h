@@ -190,6 +190,7 @@ protected:
     bool popupWasOpen = false;
     int pendingConflictKey = 0;
     int* pendingConflictKeyPtr = nullptr;
+    int pendingOriginalKey = 0;
 
 private:
     mutable std::once_flag m_idsInitialized;
