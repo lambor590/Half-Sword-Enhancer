@@ -1,98 +1,99 @@
 #pragma once
 
-#include <string>
-#include <memory>
-#include <functional>
-#include <vector>
-
 #include "Menu/ICollapsibleSection.h"
 #include "ConfigManager.h"
 #include "KeybindManager.h"
 #include "Menu/IMenuFunction.h"
-#include "DefaultStyle.h"
 #include "NotificationManager.h"
 
-namespace {
-    constexpr const char* toggleGuiLabel = "Toggle GUI Key";
-    constexpr const char* unbindLabel = "Unbind Key";
-    constexpr const char* toggleTooltip = "Change key to show/hide interface";
-    constexpr const char* unbindTooltip = "Change key to unbind shortcuts";
-    constexpr const char* pressAnyKeyText = "Press any key...";
-}
-
 class GuiSection : public CollapsibleSection {
-private:
+    static constexpr const char* GUI_SECTION_NAME = "GUI";
+    static constexpr const char* TOGGLE_GUI_LABEL = "Toggle GUI Key";
+    static constexpr const char* UNBIND_LABEL = "Unbind Key";
+    static constexpr const char* TOGGLE_TOOLTIP = "Change key to show/hide interface";
+    static constexpr const char* UNBIND_TOOLTIP = "Change key to unbind shortcuts";
+    static constexpr const char* NOTIFICATIONS_LABEL = "Enable Notifications";
+    static constexpr const char* NOTIFICATIONS_TOOLTIP = "Show notifications when keybinds are activated";
+    static constexpr const char* TOOLTIPS_LABEL = "Enable Tooltips";
+    static constexpr const char* TOOLTIPS_TOOLTIP = "Show helpful tooltips when hovering over interface elements";
+    static constexpr const char* TOOLTIPS_ID = "##tooltips";
+    static constexpr const char* PRESS_KEY_TEXT = "Press any key...";
+    static constexpr float BUTTON_PADDING = 20.0f;
+
     bool waitingForToggleKey = false;
     bool waitingForUnbindKey = false;
-    bool notificationsEnabled = true;
+    bool notificationsEnabled;
 
 public:
-    GuiSection() : CollapsibleSection("GUI") {
-        notificationsEnabled = NotificationManager::IsEnabled();
-    }
+    GuiSection() : CollapsibleSection(GUI_SECTION_NAME), notificationsEnabled(NotificationManager::IsEnabled()) {}
 
     void Render() override {
-        bool isOpen = ImGui::CollapsingHeader(name.c_str());
+        if (!ImGui::CollapsingHeader(name.c_str())) [[likely]] return;
         
-        if (isOpen) {
-            SectionStyle::StyleRAII style;
-            
-            bool changed = false;
-            
-            changed |= RenderKeybind(
-                waitingForToggleKey, 
-                KeybindManager::GetToggleGuiKey(),
-                toggleGuiLabel,
-                toggleTooltip
-            );
-            
-            ImGui::Spacing();
-            
-            changed |= RenderKeybind(
-                waitingForUnbindKey, 
-                KeybindManager::GetUnbindKey(),
-                unbindLabel,
-                unbindTooltip
-            );
-            
-            ImGui::Spacing();
-            ImGui::Separator();
-            ImGui::Spacing();
-            
-            if (ImGui::Checkbox("Enable Notifications", &notificationsEnabled)) {
-                NotificationManager::SetEnabled(notificationsEnabled);
+        const SectionStyle::StyleRAII style;
+        
+        bool changed = RenderKeybind(TOGGLE_GUI_LABEL, TOGGLE_TOOLTIP, waitingForToggleKey, KeybindManager::GetToggleGuiKey());
+        
+        ImGui::Spacing();
+        
+        changed |= RenderKeybind(UNBIND_LABEL, UNBIND_TOOLTIP, waitingForUnbindKey, KeybindManager::GetUnbindKey());
+        
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+        
+        if (ImGui::Checkbox(NOTIFICATIONS_LABEL, &notificationsEnabled)) {
+            if (notificationsEnabled) {
+                NotificationManager::SetEnabled(true);
+            } else {
+                NotificationManager::SetEnabled(false);
             }
-            
-            if (ImGui::IsItemHovered()) {
-                ImGui::BeginTooltip();
-                ImGui::Text("Show notifications when keybinds are activated");
-                ImGui::EndTooltip();
-            }
-            
-            if (changed)
-                KeybindManager::SaveKeybinds();
         }
-    }
-
-private:
-    bool RenderKeybind(bool& waitingForKey, int& key, const char* label, const char* tooltip) {
-        const char* keyName = waitingForKey ? pressAnyKeyText : KeybindManager::GetKeyName(key);
-        
-        ImGui::AlignTextToFramePadding();
-        ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyName).x + 20);
-        
-        if (ImGui::Button(keyName)) {
-            waitingForKey = true;
-        }
-        
-        if (ImGui::IsItemHovered()) {
+        if (ImGui::IsItemHovered()) [[unlikely]] {
             ImGui::BeginTooltip();
-            ImGui::Text("%s", tooltip);
+            ImGui::Text(NOTIFICATIONS_TOOLTIP);
             ImGui::EndTooltip();
         }
         
+        ImGui::Spacing();
+        
+        static bool tooltipsEnabled = g_ConfigManager.GetBool("GUI", "tooltips_enabled", true);
+        if (ImGui::Checkbox(TOOLTIPS_LABEL, &tooltipsEnabled)) {
+            if (tooltipsEnabled) {
+                g_ConfigManager.SetBool("GUI", "tooltips_enabled", true);
+                g_ConfigManager.SaveConfig();
+                TooltipHelper::InvalidateCache();
+            } else {
+                g_ConfigManager.SetBool("GUI", "tooltips_enabled", false);
+                g_ConfigManager.SaveConfig();
+                TooltipHelper::InvalidateCache();
+            }
+        }
+        if (ImGui::IsItemHovered()) [[unlikely]] {
+            ImGui::BeginTooltip();
+            ImGui::Text(TOOLTIPS_TOOLTIP);
+            ImGui::EndTooltip();
+        }
+        
+        if (changed) [[unlikely]] KeybindManager::SaveKeybinds();
+    }
+
+private:
+    [[nodiscard]] bool RenderKeybind(const char* label, const char* tooltip, bool& waitingForKey, int& key) noexcept {
+        const char* const keyName = waitingForKey ? PRESS_KEY_TEXT : KeybindManager::GetKeyName(key);
+        
+        ImGui::AlignTextToFramePadding();
+        ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyName).x + BUTTON_PADDING);
+        
+        if (ImGui::Button(keyName)) [[unlikely]] waitingForKey = true;
+        
         ImGui::SameLine();
-        ImGui::Text("%s", label);
+        ImGui::Text(label);
+        if (ImGui::IsItemHovered()) [[unlikely]] {
+            ImGui::BeginTooltip();
+            ImGui::Text(tooltip);
+            ImGui::EndTooltip();
+        }
         
         return KeybindManager::HandleKeyPress(waitingForKey, key);
     }
