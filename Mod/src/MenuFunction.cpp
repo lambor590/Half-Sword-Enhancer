@@ -122,8 +122,10 @@ void KeyFunction<Derived>::Render() {
         
         ImGui::SameLine();
         RenderName(name, !isEnabled && *key == -1);
+        TooltipHelper::ShowTooltip(tooltip);
     } else {
         RenderName(name, *key == -1);
+        TooltipHelper::ShowTooltip(tooltip);
     }
 
     if (!GetParameters().empty()) {
@@ -206,9 +208,10 @@ namespace {
         
         ImGui::TextColored(DefaultStyle::parchmentDark, "%.*s", 
                           static_cast<int>(param.displayName.size()), param.displayName.data());
+        TooltipHelper::ShowTooltip(param.tooltip);
         ImGui::SameLine();
         
-        auto* valuePtr = static_cast<T*>(param.valuePtr);
+        auto* const valuePtr = static_cast<T*>(param.valuePtr);
         
         if constexpr (std::is_same_v<T, bool>) {
             ImGui::Checkbox(param.id.c_str(), valuePtr);
@@ -223,13 +226,13 @@ namespace {
                 snprintf(inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, "%.2f", *valuePtr);
             }
             
-            thread_local static std::string inputId;
-            inputId = param.id;
-            inputId += GuiConstants::INPUT_SUFFIX;
+            thread_local std::string inputId;
+            inputId.assign(param.id);
+            inputId.append(GuiConstants::INPUT_SUFFIX);
             
             constexpr ImGuiInputTextFlags flags = ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue;
             
-            if (ImGui::InputText(inputId.c_str(), inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, flags)) {
+            if (ImGui::InputText(inputId.c_str(), inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, flags)) [[unlikely]] {
                 if constexpr (std::is_integral_v<T>) {
                     *valuePtr = static_cast<T>(atoi(inputBuffer));
                 } else {
@@ -298,4 +301,57 @@ void Parameter::SaveFloat(const Parameter& param, const IMenuFunction* func) noe
 
 void Parameter::SaveBool(const Parameter& param, const IMenuFunction* func) noexcept {
     SaveParameterImpl<bool>(param, func);
+}
+
+namespace {
+    struct alignas(32) TooltipState {
+        bool enabled = true;
+        uint8_t counter = 0;
+        
+        [[nodiscard]] inline bool IsEnabled() noexcept {
+            if (++counter >= 60) [[unlikely]] {
+                enabled = g_ConfigManager.GetBool("GUI", "tooltips_enabled", true);
+                counter = 0;
+            }
+            return enabled;
+        }
+        
+        inline void Refresh() noexcept {
+            enabled = g_ConfigManager.GetBool("GUI", "tooltips_enabled", true);
+            counter = 0;
+        }
+    };
+    
+    thread_local TooltipState g_state;
+    
+    inline void ShowTooltipImpl(const char* text) noexcept {
+        if (!g_state.IsEnabled()) [[likely]] return;
+        
+        if (ImGui::IsItemHovered()) [[unlikely]] {
+            ImGui::BeginTooltip();
+            ImGui::TextColored(DefaultStyle::parchment, "%s", text);
+            ImGui::EndTooltip();
+        }
+    }
+}
+
+void TooltipHelper::ShowTooltip(const char* tooltip) {
+    if (!tooltip || !tooltip[0]) [[unlikely]] return;
+    ShowTooltipImpl(tooltip);
+}
+
+void TooltipHelper::ShowTooltip(const std::string& tooltip) {
+    if (tooltip.empty()) [[unlikely]] return;
+    ShowTooltipImpl(tooltip.c_str());
+}
+
+void TooltipHelper::ShowTooltip(std::string_view tooltip) {
+    if (tooltip.empty()) [[unlikely]] return;
+    thread_local std::string buffer;
+    buffer.assign(tooltip);
+    ShowTooltipImpl(buffer.c_str());
+}
+
+void TooltipHelper::InvalidateCache() {
+    g_state.Refresh();
 }
