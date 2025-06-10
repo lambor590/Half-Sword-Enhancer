@@ -37,6 +37,7 @@ public:
     void Render();
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
     static bool IsVisible() { return isVisible; }
+    static void ToggleVisibility() { isVisible = !isVisible; }
 
 private:
     static WNDPROC originalWndProc;
