@@ -37,10 +37,10 @@ private:
     static inline int clearBloodKey = -1;
     static inline float clearBloodAmount = 0.1f;
 
-    static inline int setGamePausedKey = -1;
-
     static inline int clearObjectsKey = -1;
     static inline float clearObjectsRadius = 1000.0f;
+    
+    static inline int setGamePausedKey = -1;
 
 public:
     WorldSection() : CollapsibleSection("World") {
@@ -151,14 +151,6 @@ public:
                 static_cast<SDK::AArena_Cutting_Map_C*>(world->PersistentLevel->LevelScriptActor)->Clean_Blood(clearBloodAmount);
             }, world);
 
-        Function("Toggle Game Paused")
-            .WithKey(&setGamePausedKey)
-            .WithTooltip("Pauses/unpauses the entire game simulation")
-            .Action([this]() {
-                const bool isPaused = SDK::UGameplayStatics::IsGamePaused(world);
-                SDK::UGameplayStatics::SetGamePaused(world, !isPaused);
-            }, world);
-
         std::initializer_list<Parameter> clearObjectsParams = {
             Parameter("radius", "Radius", &clearObjectsRadius, 50.0f, 5000.0f)
         };
@@ -202,5 +194,13 @@ public:
                 clearObjectsOfType(SDK::AModularWeaponBP_C::StaticClass());
                 clearObjectsOfType(SDK::ABP_Armor_Master_C::StaticClass());
             }, player, world);
+
+        Function("Toggle Game Paused")
+            .WithKey(&setGamePausedKey)
+            .WithTooltip("Pauses/unpauses the entire game simulation")
+            .Action([this]() {
+                const bool isPaused = SDK::UGameplayStatics::IsGamePaused(world);
+                SDK::UGameplayStatics::SetGamePaused(world, !isPaused);
+            }, world);
     }
 };
