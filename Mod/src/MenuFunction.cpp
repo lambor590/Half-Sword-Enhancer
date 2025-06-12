@@ -18,7 +18,7 @@ namespace GuiConstants {
     constexpr ImVec4 MODAL_DIM_COLOR{0, 0, 0, 0.6f};
     
     constexpr float BUTTON_WIDTH_PADDING = 28.0f;
-    constexpr float PARAMETER_BUTTON_OFFSET = 85.0f;
+    constexpr float PARAMETER_BUTTON_OFFSET = 95.0f;
     constexpr float ITEM_WIDTH_160 = 160.0f;
     constexpr float ITEM_WIDTH_65 = 65.0f;
     constexpr float FRAME_BORDER_SIZE = 1.0f;
