@@ -24,7 +24,11 @@ static void OpenDebugTerminal() noexcept
     if (CheckTerminalFile()) {
         AllocConsole();
         freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-        SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
+        #ifdef BETA_VERSION
+            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer - Internal Build");
+        #else
+            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
+        #endif
     }
 }
 
@@ -67,6 +71,12 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept
     case DLL_PROCESS_ATTACH:
         DisableThreadLibraryCalls(module);
         OpenDebugTerminal();
+        #ifdef BETA_VERSION
+            logger.Log("Half Sword Enhancer - Internal Build initializing...");
+            logger.Log("This is an internal development build for testing purposes.");
+        #else
+            logger.Log("Half Sword Enhancer initializing...");
+        #endif
         KeybindManager::Initialize();
         CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
         CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
