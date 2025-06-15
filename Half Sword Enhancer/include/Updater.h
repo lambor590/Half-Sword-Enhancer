@@ -183,7 +183,7 @@ namespace Updater {
             return false;
         }
         
-        #ifdef BETA_VERSION
+        #ifdef DEV_VERSION
             int localMajor = 0, localMinor = 0, localPatch = 0;
             int remoteMajor = 0, remoteMinor = 0, remotePatch = 0;
             
