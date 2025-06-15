@@ -30,12 +30,8 @@ namespace Util {
         MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);
     }
 
-
     [[nodiscard]] inline DWORD findApplicationByWindow() noexcept {
-        HWND gameWindow = FindWindowA(nullptr, "Half Sword  ");
-        if (!gameWindow) {
-            gameWindow = FindWindowA("UnrealWindow", nullptr);
-        }
+        HWND gameWindow = FindWindowA("UnrealWindow", nullptr);
         
         if (gameWindow) {
             DWORD processId = 0;
