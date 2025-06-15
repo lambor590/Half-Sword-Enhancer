@@ -111,10 +111,10 @@ int main(int argc, char* argv[]) {
 
         SetConsoleTextAttribute(hConsole, CONSOLE_YELLOW);
 
-        #ifdef BETA_VERSION
+        #ifdef DEV_VERSION
             std::cout << R"(
         ______      __
-       / ____/___  / /_  ____ _____  ________  _____  [ B E T A ]
+       / ____/___  / /_  ____ _____  ________  _____  [ INTERNAL BUILD ]
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
@@ -131,9 +131,9 @@ int main(int argc, char* argv[]) {
 
         SetConsoleTextAttribute(hConsole, CONSOLE_WHITE);
 
-        #ifdef BETA_VERSION
+        #ifdef DEV_VERSION
             SetWindowText(GetConsoleWindow(),
-                ("Half Sword Enhancer BETA " + Updater::getLocalVersion()).c_str());
+                ("Half Sword Enhancer - Internal Build " + Updater::getLocalVersion()).c_str());
         #else
             SetWindowText(GetConsoleWindow(),
                 ("Half Sword Enhancer " + Updater::getLocalVersion()).c_str());
@@ -145,9 +145,10 @@ int main(int argc, char* argv[]) {
 
         const std::string dllPath = getAppDataPath() + "\\" + DLL_FILENAME;
 
-        #ifdef BETA_VERSION
-            Logger::info("Made by The Ghost - BETA VERSION");
-            Logger::warn("This is a pre-release version for testing only!");
+        #ifdef DEV_VERSION
+            Logger::info("Made by The Ghost - Internal Build");
+            Logger::warn("This is an internal development build for testing purposes.");
+            Logger::info("This build will automatically update to the final release when available.");
             Logger::info("Tip: You can drag & drop DLL files onto this launcher to install them!");
         #else
             Logger::info("Made by The Ghost");
