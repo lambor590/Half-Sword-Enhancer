@@ -18,12 +18,13 @@ public:
 private:
     struct Binding {
         int* keyPtr = nullptr;
+        int originalKey = -1;
         Callback callback;
         IMenuFunction* function = nullptr;
     };
     
     static std::unordered_map<int*, Binding> s_bindings;
-    static std::unordered_map<int, std::vector<Binding*>> s_keyToBindings;
+    static std::unordered_map<int, std::vector<int*>> s_keyToBindings;
     static bool s_initialized;
     static int s_toggleGuiKey;
     static int s_unbindKey;
