@@ -129,7 +129,7 @@ public:
         Function("Jump")
             .WithKey(&jumpKey)
             .WithParams({ Parameter("force", "Force", &jumpForce, 1000.0f, 10000.0f, "Controls how high you jump") })
-            .WithTooltip("Jump with configurable force")
+            .WithTooltip("Jump with configurable force. There's no way to make it more natural, so it will always be a bit floaty.")
             .Action([this]() {
                 player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, jumpForce), SDK::FName(), true);
             }, player);
