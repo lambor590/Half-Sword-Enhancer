@@ -58,7 +58,11 @@ void Gui::Render() {
     NotificationManager::Update();
 
     if (isVisible) {
-        ImGui::Begin("Half Sword Enhancer", &isVisible, ImGuiWindowFlags_NoCollapse);
+        #ifdef DEV_VERSION
+            ImGui::Begin("Half Sword Enhancer - Internal Build", &isVisible, ImGuiWindowFlags_NoCollapse);
+        #else
+            ImGui::Begin("Half Sword Enhancer", &isVisible, ImGuiWindowFlags_NoCollapse);
+        #endif
         MenuManager::Get().RenderMenu();
         ImGui::End();
     }
