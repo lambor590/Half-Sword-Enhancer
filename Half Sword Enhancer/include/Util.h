@@ -30,6 +30,12 @@ namespace Util {
         MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);
     }
 
+    inline bool logAndShowError(const std::string& logMsg, const std::string& userMsg) noexcept {
+        Logger::error(logMsg);
+        showError(userMsg);
+        return false;
+    }
+
     [[nodiscard]] inline DWORD findApplicationByWindow() noexcept {
         HWND gameWindow = FindWindowA("UnrealWindow", nullptr);
         
@@ -82,16 +88,16 @@ namespace Util {
         try {
             Logger::info("Downloading mod DLL from GitHub...");
 
-            char downloadUrl[256];
-            sprintf_s(downloadUrl, "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v%s/HS-Enhancer.dll", version.c_str());
-            std::wstring wDownloadUrl(downloadUrl, downloadUrl + strlen(downloadUrl));
+            const std::string downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" + version + "/HS-Enhancer.dll";
+            const std::wstring wDownloadUrl(downloadUrl.begin(), downloadUrl.end());
 
-            URL_COMPONENTS urlComp = { sizeof(URL_COMPONENTS) };
             wchar_t hostName[256] = {}, urlPath[1024] = {};
-            urlComp.lpszHostName = hostName;
-            urlComp.dwHostNameLength = sizeof(hostName) / sizeof(wchar_t);
-            urlComp.lpszUrlPath = urlPath;
-            urlComp.dwUrlPathLength = sizeof(urlPath) / sizeof(wchar_t);
+            URL_COMPONENTS urlComp = { 
+                sizeof(URL_COMPONENTS), 0, nullptr, 0, 0, 
+                hostName, sizeof(hostName) / sizeof(wchar_t),
+                0, urlPath, sizeof(urlPath) / sizeof(wchar_t),
+                nullptr, 0
+            };
 
             if (!WinHttpCrackUrl(wDownloadUrl.c_str(), 0, 0, &urlComp)) {
                 Logger::error("Failed to parse DLL download URL");
@@ -141,13 +147,6 @@ namespace Util {
                 WinHttpCloseHandle(hConnect);
                 WinHttpCloseHandle(hSession);
                 return false;
-            }
-
-            try {
-                std::filesystem::remove(dllPath);
-                Logger::info("Removed existing DLL file.");
-            } catch (const std::filesystem::filesystem_error& e) {
-                Logger::warn(std::string("Could not remove existing DLL: ") + e.what());
             }
 
             HANDLE hFile = CreateFileA(dllPath.c_str(), GENERIC_WRITE, 0, NULL,
