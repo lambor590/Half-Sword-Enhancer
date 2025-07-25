@@ -8,6 +8,7 @@
 
 #include "Logger.h"
 #include "Util.h"
+#include "LauncherConfig.h"
 
 namespace Updater {
     constexpr const wchar_t* GITHUB_HOST = L"api.github.com";
@@ -444,21 +445,15 @@ namespace Updater {
             }
 
             Logger::info("Updating mod first...");
-            const std::string& appDataPath = Util::getAppDataPath();
-            std::string modPath = appDataPath + "\\" + Util::DLL_FILENAME;
-            
-            try {
-                std::filesystem::remove(modPath);
-                Logger::info("Removed existing mod DLL for update");
-            } catch (const std::exception&) {
-                Logger::warn("Could not remove existing mod DLL");
-            }
+            const std::string modPath = LauncherConfig::GetModFilePath();
 
             if (!Util::downloadDllFromGitHub(modPath, remoteVersion)) {
                 Logger::error("Failed to update mod");
                 Util::showError("Failed to update mod files. The launcher update will continue anyway.");
             } else {
                 Logger::info("Mod updated successfully");
+                LauncherConfig& config = LauncherConfig::Get();
+                config.SetDownloadedModVersion(remoteVersion);
             }
 
             Logger::info("Now updating launcher...");
