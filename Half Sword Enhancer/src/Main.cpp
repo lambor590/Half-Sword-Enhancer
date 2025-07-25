@@ -169,8 +169,7 @@ int main(int argc, char* argv[]) {
         if (!config.HasCheckForUpdatesSetting()) {
             Logger::info("Check for updates setting not found - asking user for preference...");
             
-            int result = MessageBoxA(NULL, 
-                "Welcome to Half Sword Enhancer!\n\n"
+            int result = MessageBoxA(NULL,
                 "Would you like the launcher to check for new updates automatically?\n\n"
                 "- YES: Get notified when new versions are available\n"
                 "- NO: Check manually when you want\n\n"
