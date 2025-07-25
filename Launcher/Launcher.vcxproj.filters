@@ -40,7 +40,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource\Half Sword Enhancer.rc">
+    <ResourceCompile Include="resource\Launcher.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
