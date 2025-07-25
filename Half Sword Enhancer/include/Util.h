@@ -91,13 +91,15 @@ namespace Util {
             const std::string downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" + version + "/HS-Enhancer.dll";
             const std::wstring wDownloadUrl(downloadUrl.begin(), downloadUrl.end());
 
-            wchar_t hostName[256] = {}, urlPath[1024] = {};
-            URL_COMPONENTS urlComp = { 
-                sizeof(URL_COMPONENTS), 0, nullptr, 0, 0, 
-                hostName, sizeof(hostName) / sizeof(wchar_t),
-                0, urlPath, sizeof(urlPath) / sizeof(wchar_t),
-                nullptr, 0
-            };
+            wchar_t hostName[256] = {};
+            wchar_t urlPath[1024] = {};
+            
+            URL_COMPONENTS urlComp = {};
+            urlComp.dwStructSize = sizeof(URL_COMPONENTS);
+            urlComp.lpszHostName = hostName;
+            urlComp.dwHostNameLength = sizeof(hostName) / sizeof(wchar_t);
+            urlComp.lpszUrlPath = urlPath;
+            urlComp.dwUrlPathLength = sizeof(urlPath) / sizeof(wchar_t);
 
             if (!WinHttpCrackUrl(wDownloadUrl.c_str(), 0, 0, &urlComp)) {
                 Logger::error("Failed to parse DLL download URL");
@@ -149,15 +151,15 @@ namespace Util {
                 return false;
             }
 
-            HANDLE hFile = CreateFileA(dllPath.c_str(), GENERIC_WRITE, 0, NULL,
+            std::string actualDllPath = dllPath;
+            HANDLE hFile = CreateFileA(actualDllPath.c_str(), GENERIC_WRITE, 0, NULL,
                 CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
             if (hFile == INVALID_HANDLE_VALUE) {
-                std::string altPath = std::filesystem::current_path().string() + "\\" + TEMP_DLL_FILENAME;
-                hFile = CreateFileA(altPath.c_str(), GENERIC_WRITE, 0, NULL,
+                actualDllPath = std::filesystem::current_path().string() + "\\" + TEMP_DLL_FILENAME;
+                hFile = CreateFileA(actualDllPath.c_str(), GENERIC_WRITE, 0, NULL,
                     CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
                 if (hFile != INVALID_HANDLE_VALUE) {
-                    Logger::info("Using alternative DLL path: " + altPath);
-                    const_cast<std::string&>(dllPath) = altPath;
+                    Logger::info("Using alternative DLL path: " + actualDllPath);
                 } else {
                     Logger::error("Failed to create DLL file");
                     WinHttpCloseHandle(hRequest);
@@ -194,14 +196,28 @@ namespace Util {
 
             if (!downloadSuccess || totalBytes < 10000) {
                 Logger::error("DLL download failed or file too small");
+                std::filesystem::remove(actualDllPath);
                 return false;
+            }
+
+            if (actualDllPath != dllPath) {
+                try {
+                    if (std::filesystem::exists(dllPath)) {
+                        std::filesystem::remove(dllPath);
+                    }
+                    std::filesystem::rename(actualDllPath, dllPath);
+                    Logger::info("Moved DLL to final location: " + dllPath);
+                } catch (const std::exception& e) {
+                    Logger::error("Failed to move DLL to final location: " + std::string(e.what()));
+                    return false;
+                }
             }
 
             Logger::info("DLL downloaded successfully (" + std::to_string(totalBytes) + " bytes)");
             return true;
         }
         catch (const std::exception& e) {
-            Logger::error(std::string("Error downloading DLL: ") + e.what());
+            Logger::error("Error downloading DLL: " + std::string(e.what()));
             return false;
         }
     }
@@ -299,7 +315,7 @@ namespace Util {
             return true;
             
         } catch (const std::exception& e) {
-            Logger::error(std::string("Error in mod injection: ") + e.what());
+            Logger::error("Error in mod injection: " + std::string(e.what()));
             showError("An error occurred during the injection of the mod.");
             return false;
         }
