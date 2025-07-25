@@ -3,7 +3,7 @@
 #include <string>
 #include <filesystem>
 
-#include "../ext/SimpleIni.h"
+#include "../../ext/SimpleIni.h"
 #include "Util.h"
 
 class LauncherConfig {
