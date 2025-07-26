@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Archivo de inclusión generado de Microsoft Visual C++.
-// Usado por Half Sword Enhancer.rc
+// Usado por Launcher.rc
 //
 #define IDI_ICON1                       104
 
