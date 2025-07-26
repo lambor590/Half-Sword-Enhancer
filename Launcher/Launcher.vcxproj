@@ -218,7 +218,6 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
-  
   <!-- Conditional PropertyGroups for DevBuild -->
   <PropertyGroup Condition="'$(DevBuild)'=='true'">
     <TargetName>HS Enhancer Launcher Dev</TargetName>
@@ -232,12 +231,10 @@
       <PreprocessorDefinitions>DEV_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-
   <ItemGroup>
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ext\SimpleIni.h" />
     <ClInclude Include="include\LauncherConfig.h" />
     <ClInclude Include="include\Updater.h" />
     <ClInclude Include="include\Util.h" />
