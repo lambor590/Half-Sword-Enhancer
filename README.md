@@ -22,7 +22,7 @@ Choose between the **Launcher** or **Manual install**.
 
 ### 🛠️ Manual Install
 - Download the zip: [HS_Enhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HS_Enhancer.zip)
-- Extract both files into your game folder.
+- Extract both files into `<Game Folder>\HalfSwordUE5\Binaries\Win64`.
 
 ### ⚖️ Differences
 Both versions are identical in terms of mod functionality; only the installation process differs. The mod itself does not modify any game files.
