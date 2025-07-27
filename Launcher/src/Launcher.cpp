@@ -237,11 +237,11 @@ int HSELauncher::Run(int argc, char* argv[]) {
         DisplayBanner();
         if (HandleDraggedDLL(argc, argv)) hse::Logger::info("Mod DLL installed successfully. Now starting injection...");
         if (config.IsFirstRun()) ShowFirstRunInstructions();
-        if (!EnsureModExists()) {
+        if (!PerformUpdatesIfNeeded()) {
             ShowExitMessage(false);
             return 1;
         }
-        if (!PerformUpdatesIfNeeded()) {
+        if (!EnsureModExists()) {
             ShowExitMessage(false);
             return 1;
         }
