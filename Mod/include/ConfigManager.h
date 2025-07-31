@@ -2,13 +2,17 @@
 
 #include <string>
 #include <filesystem>
+#include <chrono>
 
-#include "SimpleIni.h"
+#include "../../ext/SimpleIni.h"
 
 class ConfigManager {
 private:
     CSimpleIni ini;
     std::filesystem::path configPath;
+    mutable bool needsSave = false;
+    mutable std::chrono::steady_clock::time_point lastSaveTime;
+    static constexpr std::chrono::milliseconds SAVE_DELAY{500};
 
     ConfigManager();
 
@@ -21,7 +25,9 @@ public:
     }
 
     void SaveConfig();
+    void SaveConfigDeferred();
     void LoadConfig();
+    void FlushPendingSave();
 
     int GetInt(const std::string& function, const std::string& param, int defaultValue);
                
