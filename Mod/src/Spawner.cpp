@@ -1,6 +1,6 @@
 #include <queue>
 #include <mutex>
-#include <iostream>
+#include <unordered_map>
 
 #include "Utils/Spawner.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -10,26 +10,38 @@ namespace Spawner {
     static std::queue<SpawnRequest> spawnQueue;
     static std::mutex queueMutex;
 
-    static float GetGroundOffset(const std::string& classPath, const SDK::FVector& actorScale) {
-        float baseOffset = 50.0f;
+    ActorType GetActorType(const std::string& classPath) {
+        static const std::unordered_map<std::string, ActorType> typeMap = {
+            {"Willie_BP", ActorType::Willie},
+            {"ModularWeapon", ActorType::Weapon},
+            {"Shield", ActorType::Shield},
+            {"Dagger", ActorType::Tool},
+            {"Tool", ActorType::Tool},
+            {"Armor", ActorType::Armor}
+        };
+
+        for (const auto& [key, type] : typeMap) {
+            if (classPath.find(key) != std::string::npos) {
+                return type;
+            }
+        }
+        return ActorType::Unknown;
+    }
+
+    float GetGroundOffsetForType(ActorType type, const SDK::FVector& scale) {
+        static const std::unordered_map<ActorType, float> offsetMap = {
+            {ActorType::Willie, 100.0f},
+            {ActorType::Weapon, 30.0f},
+            {ActorType::Shield, 30.0f},
+            {ActorType::Tool, 15.0f},
+            {ActorType::Armor, 25.0f},
+            {ActorType::Unknown, 50.0f}
+        };
+
+        auto it = offsetMap.find(type);
+        float baseOffset = (it != offsetMap.end()) ? it->second : 50.0f;
         
-        if (classPath.find("Willie_BP") != std::string::npos) {
-            baseOffset = 100.0f;
-        }
-        else if (classPath.find("ModularWeapon") != std::string::npos || 
-                 classPath.find("Shield") != std::string::npos) {
-            baseOffset = 30.0f;
-        }
-        else if (classPath.find("Dagger") != std::string::npos || 
-                 classPath.find("Tool") != std::string::npos) {
-            baseOffset = 15.0f;
-        }
-        else if (classPath.find("Armor") != std::string::npos) {
-            baseOffset = 25.0f;
-        }
-        
-        float scaledOffset = baseOffset * (static_cast<float>(actorScale.Z) * 1.2f);
-        return scaledOffset;
+        return baseOffset * (static_cast<float>(scale.Z) * 1.2f);
     }
 
     static SDK::AActor* SpawnActorInternal(const SDK::UWorld* world, const std::string& classPath, const SDK::FTransform& transform) {
@@ -53,9 +65,9 @@ namespace Spawner {
     SDK::FVector GetGroundPosition(const SDK::UWorld* world, SDK::FVector position, float groundOffset, float traceDistance) {
         SDK::FHitResult hitResult;
         SDK::FVector startPos = position;
-        startPos.Z += 1000.0f;
+        startPos.Z += traceDistance * 0.5f;
         SDK::FVector endPos = position;
-        endPos.Z -= 1000.0f;
+        endPos.Z -= traceDistance * 0.5f;
         
         SDK::TArray<SDK::AActor*> actorsToIgnore;
         
@@ -66,12 +78,12 @@ namespace Spawner {
             SDK::ETraceTypeQuery::TraceTypeQuery1,
             true,
             actorsToIgnore,
-            SDK::EDrawDebugTrace::ForOneFrame,
+            SDK::EDrawDebugTrace::None,
             &hitResult,
             true,
             SDK::FLinearColor(1.0f, 0.0f, 0.0f, 1.0f),
             SDK::FLinearColor(0.0f, 1.0f, 0.0f, 1.0f),
-            5.0f
+            1.0f
         );
         
         if (hit && hitResult.bBlockingHit) {
@@ -85,7 +97,7 @@ namespace Spawner {
         return groundLevel;
     }
 
-    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround) {
+    void QueueSpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround) {
         std::lock_guard<std::mutex> lock(queueMutex);
         spawnQueue.push({world, className, transform, callback, snapToGround});
     }
@@ -99,7 +111,8 @@ namespace Spawner {
             SDK::FTransform finalTransform = request.transform;
             
             if (request.snapToGround) {
-                float groundOffset = GetGroundOffset(request.classPath, request.transform.Scale3D);
+                ActorType actorType = GetActorType(request.classPath);
+                float groundOffset = GetGroundOffsetForType(actorType, request.transform.Scale3D);
                 SDK::FVector groundPosition = GetGroundPosition(request.world, request.transform.Translation, groundOffset);
                 finalTransform.Translation = groundPosition;
             }
