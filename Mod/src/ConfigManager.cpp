@@ -33,6 +33,22 @@ void ConfigManager::SaveConfig() {
         std::filesystem::create_directories(configPath.parent_path());
         result = ini.SaveFile(configPath.string().c_str());
     }
+    needsSave = false;
+    lastSaveTime = std::chrono::steady_clock::now();
+}
+
+void ConfigManager::SaveConfigDeferred() {
+    needsSave = true;
+    auto now = std::chrono::steady_clock::now();
+    if (now - lastSaveTime >= SAVE_DELAY) {
+        SaveConfig();
+    }
+}
+
+void ConfigManager::FlushPendingSave() {
+    if (needsSave) {
+        SaveConfig();
+    }
 }
 
 void ConfigManager::LoadConfig() {
@@ -62,17 +78,21 @@ std::string ConfigManager::GetString(const std::string& function, const std::str
 
 void ConfigManager::SetInt(const std::string& function, const std::string& param, int value) {
     ini.SetLongValue(function.c_str(), param.c_str(), value);
+    SaveConfigDeferred();
 }
 
 void ConfigManager::SetBool(const std::string& function, const std::string& param, bool value) {
     ini.SetBoolValue(function.c_str(), param.c_str(), value);
+    SaveConfigDeferred();
 }
 
 void ConfigManager::SetFloat(const std::string& function, const std::string& param, float value) {
     ini.SetDoubleValue(function.c_str(), param.c_str(), value);
+    SaveConfigDeferred();
 }
 
 void ConfigManager::SetString(const std::string& function, const std::string& param, 
                              const std::string& value) {
     ini.SetValue(function.c_str(), param.c_str(), value.c_str());
+    SaveConfigDeferred();
 }
