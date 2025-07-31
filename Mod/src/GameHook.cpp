@@ -1,29 +1,41 @@
 #include "Hooks/GameHook.h"
 #include "Menu/Utils/Spawner.h"
+#include "ConfigManager.h"
 
 static GameHook* hookInstance = &GameHook::Get();
 
-static inline uint64_t hash_string(std::string_view str) noexcept {
+namespace {
     constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
     constexpr uint64_t FNV_PRIME = 1099511628211ULL;
-    
-    uint64_t hash = FNV_OFFSET_BASIS;
-    for (char c : str) {
-        hash ^= static_cast<uint64_t>(static_cast<unsigned char>(c));
-        hash *= FNV_PRIME;
+
+    constexpr uint64_t hash_string_impl(const char* str, size_t len) noexcept {
+        uint64_t hash = FNV_OFFSET_BASIS;
+        for (size_t i = 0; i < len; ++i) {
+            hash ^= static_cast<uint64_t>(static_cast<unsigned char>(str[i]));
+            hash *= FNV_PRIME;
+        }
+        return hash;
     }
-    return hash;
+
+    uint64_t hash_string_fast(const char* str) noexcept {
+        uint64_t hash = FNV_OFFSET_BASIS;
+        while (*str) {
+            hash ^= static_cast<uint64_t>(static_cast<unsigned char>(*str++));
+            hash *= FNV_PRIME;
+        }
+        return hash;
+    }
 }
 
 inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms)
 {
     const std::string& funcName = pFunc->GetName();
-    uint64_t funcHash = hash_string(funcName);
-        
-    if (auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) {
+    uint64_t funcHash = hash_string_fast(funcName.c_str());
+
+    if (auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[likely]] {
         const auto& hookData = it->second;
-        if (hookData.className.empty() ||
-            hash_string(pObject->Class->GetName()) == hookData.classHash) {
+        if (hookData.classHash == 0 || 
+            hash_string_fast(pObject->Class->GetName().c_str()) == hookData.classHash) [[likely]] {
             hookData.callback();
         }
     }
@@ -34,6 +46,8 @@ inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFuncti
 void GameHook::Hook()
 {
     logger.Log("Hooking ProcessEvent");
+
+    hookMap.reserve(HOOK_MAP_RESERVE_SIZE);
 
     SDK::UObject* pObject = SDK::BasicFilesImpleUtils::GetObjectByIndex(0);
 
@@ -52,6 +66,10 @@ void GameHook::Hook()
         Spawner::ProcessSpawnQueue();
     });
 
+    if (ConfigManager::Get().GetBool("UE", "console_enabled", false)) {
+        UnlockUEConsole();
+    }
+
     logger.Log("ProcessEvent hooked successfully!");
 }
 
@@ -63,14 +81,64 @@ void GameHook::Unhook() const
 
 void GameHook::RegisterHook(const std::string& functionName, std::function<void()> callback) {
     auto [hookClass, hookFunc] = ParseFunctionName(functionName);
-    uint64_t funcHash = hash_string(hookFunc);
-    uint64_t classHash = hookClass.empty() ? 0 : hash_string(hookClass);
-    
-    hookMap[funcHash] = HookData(std::string(hookClass), std::string(hookFunc), classHash, std::move(callback));
+    uint64_t funcHash = hash_string_fast(hookFunc.data());
+    uint64_t classHash = hookClass.empty() ? 0 : hash_string_fast(hookClass.data());
+
+    hookMap.emplace(funcHash, HookData{classHash, std::move(callback)});
 }
 
 void GameHook::UnregisterHook(const std::string& functionName) {
     auto [_, hookFunc] = ParseFunctionName(functionName);
-    uint64_t hash = hash_string(hookFunc);
+    uint64_t hash = hash_string_fast(hookFunc.data());
     hookMap.erase(hash);
+}
+
+void GameHook::UnlockUEConsole() {
+    SDK::UEngine* engine = SDK::UEngine::GetEngine();
+    if (!engine) {
+        logger.Log("Failed to get UEngine instance");
+        return;
+    }
+
+    SDK::UInputSettings* inputSettings = SDK::UInputSettings::GetDefaultObj();
+    if (inputSettings && inputSettings->ConsoleKeys.Num() > 0) {
+        inputSettings->ConsoleKeys[0].KeyName = SDK::UKismetStringLibrary::Conv_StringToName(SDK::FString(L"F2"));
+        logger.Log("Console key changed to F2");
+    }
+
+    SDK::UGameViewportClient* viewport = engine->GameViewport;
+    if (viewport) {
+        if (!viewport->ViewportConsole) {
+            SDK::UObject* newConsole = SDK::UGameplayStatics::SpawnObject(engine->ConsoleClass, engine->GameViewport);
+            if (newConsole) {
+                viewport->ViewportConsole = static_cast<SDK::UConsole*>(newConsole);
+                logger.Log("Console object created successfully");
+            }
+        }
+        logger.Log("Viewport input settings configured");
+    }
+
+    logger.Log("UE Console unlocked - Press F2 to open console");
+}
+
+void GameHook::LockUEConsole() {
+    SDK::UEngine* engine = SDK::UEngine::GetEngine();
+    if (!engine) {
+        logger.Log("Failed to get UEngine instance");
+        return;
+    }
+
+    SDK::UGameViewportClient* viewport = engine->GameViewport;
+    if (viewport && viewport->ViewportConsole) {
+        viewport->ViewportConsole = nullptr;
+        logger.Log("Console object destroyed");
+    }
+
+    SDK::UInputSettings* inputSettings = SDK::UInputSettings::GetDefaultObj();
+    if (inputSettings && inputSettings->ConsoleKeys.Num() > 0) {
+        inputSettings->ConsoleKeys[0].KeyName = SDK::UKismetStringLibrary::Conv_StringToName(SDK::FString(L"None"));
+        logger.Log("Console key disabled");
+    }
+
+    logger.Log("UE Console locked");
 }
