@@ -1,14 +1,6 @@
 #pragma once
 
-#include <Windows.h>
-#include <string>
-#include <unordered_map>
-#include <functional>
-#include <algorithm>
-#include <thread>
-#include <vector>
-#include <string_view>
-#include <array>
+#include "Utils/CommonHeaders.h"
 
 #include "Logger.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -35,6 +27,9 @@ public:
     void RegisterHook(const std::string& functionName, std::function<void()> callback);
 
     void UnregisterHook(const std::string& functionName);
+
+    void UnlockUEConsole();
+    void LockUEConsole();
 
     enum class GameEvent : uint8_t {
         BeginFight,
@@ -80,6 +75,7 @@ public:
         };
         return EventNames[static_cast<uint8_t>(event)];
     }
+    
 
     GameHook(const GameHook&) = delete;
     GameHook& operator=(const GameHook&) = delete;
@@ -94,20 +90,20 @@ private:
     }
 
     struct HookData {
-        std::string className;
-        std::string funcName;
         uint64_t classHash{0};
         std::function<void()> callback;
         
         HookData() = default;
-        HookData(std::string cName, std::string fName, uint64_t cHash, std::function<void()> cb)
-            : className(std::move(cName)), funcName(std::move(fName)), classHash(cHash), callback(std::move(cb)) {}
+        HookData(uint64_t cHash, std::function<void()> cb)
+            : classHash(cHash), callback(std::move(cb)) {}
     };
 
     Logger logger{ "GameHook" };
     uintptr_t oProcessEvent = NULL;
     std::unordered_map<uint64_t, HookData> hookMap;
     std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
+    
+    static constexpr size_t HOOK_MAP_RESERVE_SIZE = 64;
     
     friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms);
 };
