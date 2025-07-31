@@ -27,6 +27,7 @@ private:
     static inline float spawnDistanceUp = 0.0f;
     static inline float spawnScale = 1.0f;
     static inline bool bodyguard = false;
+    static inline bool snapToGround = true;
     static inline int npcTeam = 0;
     static inline int npcTypeIndex = 0;
 
@@ -69,6 +70,7 @@ public:
         initNPCTypeNames();
         std::initializer_list<Parameter> spawnEnemyParams = {
             Parameter("bodyguard", "Bodyguard", &bodyguard, "Will join your team"),
+            Parameter("snap_to_ground", "Snap to Ground", &snapToGround, "Automatically adjust height to touch the ground"),
             Parameter("distance_forward", "Distance Forward", &spawnDistanceForward, 100.0f, 500.0f, "How far in front the NPC appears"),
             Parameter("distance_up", "Distance Up", &spawnDistanceUp, 0.0f, 300.0f, "Height offset for spawn position"),
             Parameter("scale", "Scale", &spawnScale, 0.1f, 4.0f, "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game doesn't crash."),
@@ -95,7 +97,7 @@ public:
                             npc->Team_Int = npcTeam;
                         }
                     }
-                });
+                }, snapToGround);
             }, player, world);
     }
 
