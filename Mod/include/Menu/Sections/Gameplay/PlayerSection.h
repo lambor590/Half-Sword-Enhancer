@@ -9,17 +9,11 @@
 #include "SDK/AIModule_classes.hpp"
 #include "SDK/Willie_BP_NoBrain_classes.hpp"
 #include "Hooks/GameHook.h"
+#include "Utils/GameConstants.h"
+#include "Utils/ActorUtils.h"
 
 class PlayerSection : public CollapsibleSection {
 private:
-    static constexpr float DEFAULT_HEALTH = 100.0f;
-    static constexpr float DEFAULT_PAIN = 0.0f;
-    static constexpr float DEFAULT_PLAYER_SPEED = 1.5f;
-    static constexpr float DEFAULT_MUSCLE_POWER = 35.0f;
-    static constexpr float DEFAULT_GRAB_FORCE = 10000.0f;
-    static constexpr float DEFAULT_HANDS_RIGIDITY = 0.666f;
-    static constexpr float DEFAULT_ALL_BODY_TONUS = 100.0f;
-    static constexpr float MAX_DISTANCE = FLT_MAX;
     
     static inline int saveLoadoutKey = 0x54; // T
     static inline int infiniteStaminaKey = 0x49; // I
@@ -53,35 +47,6 @@ private:
     static inline int dashKey = -1;
     static inline float dashForce = 7000.0f;
 
-    void applyNoPainEffect(SDK::AWillie_BP_C* willie) noexcept {
-        willie->Health = DEFAULT_HEALTH;
-        willie->Neck_Health = DEFAULT_HEALTH;
-        willie->Head_Health = DEFAULT_HEALTH;
-        willie->Body_Upper_Health = DEFAULT_HEALTH;
-        willie->Body_Lower_Health = DEFAULT_HEALTH;
-        willie->Arm_R_Health = DEFAULT_HEALTH;
-        willie->Arm_L_Health = DEFAULT_HEALTH;
-        willie->Leg_R_Health = DEFAULT_HEALTH;
-        willie->Leg_L_Health = DEFAULT_HEALTH;
-        willie->Head_Health__Crush_ = DEFAULT_HEALTH;
-        willie->Pain_Lower_Body = DEFAULT_PAIN;
-        willie->Pain_Upper_Body = DEFAULT_PAIN;
-        willie->Pain_Neck = DEFAULT_PAIN;
-        willie->Pain_Head = DEFAULT_PAIN;
-        willie->Pain_Arm_R = DEFAULT_PAIN;
-        willie->Pain_Arm_L = DEFAULT_PAIN;
-        willie->Pain_Leg_R = DEFAULT_PAIN;
-        willie->Pain_Leg_L = DEFAULT_PAIN;
-        willie->Pain = DEFAULT_PAIN;
-        willie->Pain_L_Arm_Alpha = DEFAULT_PAIN;
-        willie->Pain_R_Arm_Alpha = DEFAULT_PAIN;
-        willie->Pain_Shock = DEFAULT_PAIN;
-        willie->Current_Pain_Threshold = DEFAULT_PAIN;
-        willie->Pain_Grab_Rate = DEFAULT_PAIN;
-        willie->Pain_Shock_Rate = DEFAULT_PAIN;
-        willie->Pain_Shock_Interp = DEFAULT_PAIN;
-        willie->Sustained_Damage = DEFAULT_PAIN;
-    }
 
 public:
     PlayerSection() : CollapsibleSection("Player") {
@@ -90,7 +55,7 @@ public:
             .WithKey(&infiniteStaminaKey)
             .WithTooltip("Keeps your stamina bar full at all times")
             .Action([this]() {
-                player->Stamina = DEFAULT_HEALTH;
+                player->Stamina = GameConstants::DEFAULT_HEALTH;
             }, player);
 
         Function("Infinite Consciousness")
@@ -98,9 +63,9 @@ public:
             .WithKey(&infiniteConsciousnessKey)
             .WithTooltip("Prevents you from losing consciousness, so you can't be knocked out")
             .Action([this]() {
-                player->Consciousness_Cap = DEFAULT_HEALTH;
-                player->Consciousness = DEFAULT_HEALTH;
-                player->Consciousness_2__Legs_ = DEFAULT_HEALTH;
+                player->Consciousness_Cap = GameConstants::DEFAULT_HEALTH;
+                player->Consciousness = GameConstants::DEFAULT_HEALTH;
+                player->Consciousness_2__Legs_ = GameConstants::DEFAULT_HEALTH;
             }, player);
 
         Function("Enemy Infinite Consciousness")
@@ -108,15 +73,11 @@ public:
             .WithKey(&enemyInfiniteConsciousnessKey)
             .WithTooltip("Enemies can't be knocked out")
             .Action([this]() {
-                SDK::TArray<SDK::AActor*> actors;
-                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-                for (auto* actor : actors) {
-                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (willie == player || !willie) [[unlikely]] continue;
-                    willie->Consciousness_Cap = DEFAULT_HEALTH;
-                    willie->Consciousness = DEFAULT_HEALTH;
-                    willie->Consciousness_2__Legs_ = DEFAULT_HEALTH;
-                }
+                ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
+                    willie->Consciousness_Cap = GameConstants::DEFAULT_HEALTH;
+                    willie->Consciousness = GameConstants::DEFAULT_HEALTH;
+                    willie->Consciousness_2__Legs_ = GameConstants::DEFAULT_HEALTH;
+                });
             }, player, world);
 
         Function("Save Loadout")
@@ -146,8 +107,8 @@ public:
             .WithParams(playerSpeedParams)
             .WithTooltip("Speed multiplier for running and walking. More noticible when you run a long distance.")
             .Action([this](bool active) {
-                player->Running_Speed_Rate = active ? (DEFAULT_PLAYER_SPEED * playerRunMultiplier) : DEFAULT_PLAYER_SPEED;
-                player->Walk_Speed_Rate_Run = active ? (DEFAULT_PLAYER_SPEED * playerWalkMultiplier) : DEFAULT_PLAYER_SPEED;
+                player->Running_Speed_Rate = active ? (GameConstants::DEFAULT_PLAYER_SPEED * playerRunMultiplier) : GameConstants::DEFAULT_PLAYER_SPEED;
+                player->Walk_Speed_Rate_Run = active ? (GameConstants::DEFAULT_PLAYER_SPEED * playerWalkMultiplier) : GameConstants::DEFAULT_PLAYER_SPEED;
             }, player);
 
         std::initializer_list<Parameter> playerStrengthParams = {
@@ -163,10 +124,10 @@ public:
             .WithParams(playerStrengthParams)
             .WithTooltip("Strength multiplier for muscle power, grab force and hands rigidity")
             .Action([this](bool active) {
-                player->Muscle_Power = active ? (DEFAULT_MUSCLE_POWER * playerStrengthMultiplier) : DEFAULT_MUSCLE_POWER;
-                player->R_Grab_Force_Limit = active ? (DEFAULT_GRAB_FORCE * playerGrabForceMultiplier) : DEFAULT_GRAB_FORCE;
-                player->L_Grab_Force_Limit = active ? (DEFAULT_GRAB_FORCE * playerGrabForceMultiplier) : DEFAULT_GRAB_FORCE;
-                player->Hands_Rigidity__Gauntlets_ = active ? (DEFAULT_HANDS_RIGIDITY * playerHandsRigidityMultiplier) : DEFAULT_HANDS_RIGIDITY;
+                player->Muscle_Power = active ? (GameConstants::DEFAULT_MUSCLE_POWER * playerStrengthMultiplier) : GameConstants::DEFAULT_MUSCLE_POWER;
+                player->R_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * playerGrabForceMultiplier) : GameConstants::DEFAULT_GRAB_FORCE;
+                player->L_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * playerGrabForceMultiplier) : GameConstants::DEFAULT_GRAB_FORCE;
+                player->Hands_Rigidity__Gauntlets_ = active ? (GameConstants::DEFAULT_HANDS_RIGIDITY * playerHandsRigidityMultiplier) : GameConstants::DEFAULT_HANDS_RIGIDITY;
             }, player);
 
         std::initializer_list<Parameter> bodyTonusParams = {
@@ -180,14 +141,13 @@ public:
             .WithParams(bodyTonusParams)
             .WithTooltip("Adjusts muscle tension and prevents body weakening. Heavily affects your movement speed.")
             .Action([this]() {
-                player->All_Body_Tonus = DEFAULT_ALL_BODY_TONUS * bodyTonusAllBodyMultiplier;
+                player->All_Body_Tonus = GameConstants::DEFAULT_ALL_BODY_TONUS * bodyTonusAllBodyMultiplier;
                 if (bodyTonusNoBodyWeakening) [[unlikely]] {
-                    constexpr float FULL_TONUS = 1.0f;
-                    player->Head_Tonus = FULL_TONUS;
-                    player->Arm_L_Tonus = FULL_TONUS;
-                    player->Arm_R_Tonus = FULL_TONUS;
-                    player->Leg_L_Tonus = FULL_TONUS;
-                    player->Leg_R_Tonus = FULL_TONUS;
+                    player->Head_Tonus = GameConstants::FULL_TONUS;
+                    player->Arm_L_Tonus = GameConstants::FULL_TONUS;
+                    player->Arm_R_Tonus = GameConstants::FULL_TONUS;
+                    player->Leg_L_Tonus = GameConstants::FULL_TONUS;
+                    player->Leg_R_Tonus = GameConstants::FULL_TONUS;
                 }
             }, player);
 
@@ -196,7 +156,7 @@ public:
             .WithKey(&ragdollKey)
             .WithTooltip("Makes character go completely limp and ragdoll")
             .Action([this]() {
-                player->All_Body_Tonus = DEFAULT_PAIN;
+                player->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
             }, player);
 
         Function("Enemy Ragdoll")
@@ -204,13 +164,9 @@ public:
             .WithKey(&enemyRagdollKey)
             .WithTooltip("Makes all enemies go limp and ragdoll")
             .Action([this]() {
-                SDK::TArray<SDK::AActor*> actors;
-                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-                for (auto* actor : actors) {
-                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (willie == player || !willie) [[unlikely]] continue;
-                    willie->All_Body_Tonus = DEFAULT_PAIN;
-                }
+                ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
+                    willie->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
+                });
             }, player, world);
 
         Function("No Kick Cooldown")
@@ -236,7 +192,7 @@ public:
             .WithKey(&noPainKey)
             .WithTooltip("Makes you immune to pain and removes all pain effects")
             .Action([this]() {
-                this->applyNoPainEffect(player);
+                ActorUtils::ApplyNoPainEffect(player);
             }, player);
 
         Function("Enemy No Pain")
@@ -244,21 +200,14 @@ public:
             .WithKey(&enemyNoPainKey)
             .WithTooltip("Makes all enemies immune to pain and removes their pain effects")
             .Action([this]() {
-                SDK::TArray<SDK::AActor*> actors;
-                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-                for (auto* actor : actors) {
-                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (willie == player || !willie) [[unlikely]] continue;
-                    this->applyNoPainEffect(willie);
-                }
+                ActorUtils::ForEachWillie(world, player, ActorUtils::ApplyNoPainEffect);
             }, player, world);
 
         Function("Get Up")
             .WithKey(&getUpKey)
             .WithTooltip("Forces you to stand up when knocked down")
             .Action([this]() {
-                constexpr float GET_UP_RATE = 1.0f;
-                player->Get_Up_Rate = GET_UP_RATE;
+                player->Get_Up_Rate = GameConstants::GET_UP_RATE;
             }, player);
 
         Function("Dash")
@@ -287,21 +236,17 @@ public:
 
                 if (!possessedWillie) [[likely]] {
                     originalPawn = currentPawn;
-                    SDK::TArray<SDK::AActor*> actors;
-                    SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-
                     SDK::AWillie_BP_C* nearest = nullptr;
-                    float minDist = MAX_DISTANCE;
-                    for (auto* actor : actors) {
-                        auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                        if (willie == player) [[unlikely]] continue;
-                        
+                    float minDist = GameConstants::MAX_DISTANCE;
+                    
+                    ActorUtils::ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
                         const float dist = player->GetDistanceTo(willie);
-                        if (dist < minDist) [[likely]] {
+                        if (dist < minDist) {
                             minDist = dist;
                             nearest = willie;
                         }
-                    }
+                    });
+                    
                     if (!nearest) [[unlikely]] return;
 
                     if (!nearest->IsA(SDK::AWillie_BP_NoBrain_C::StaticClass())) [[likely]] {
