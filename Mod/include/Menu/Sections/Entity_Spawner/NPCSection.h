@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Menu/ICollapsibleSection.h"
-#include "Menu/Utils/Spawner.h"
+#include "Utils/Spawner.h"
 #include "DefaultStyle.h"
 
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
@@ -87,7 +87,7 @@ public:
                 spawnTransform.Translation.Z += spawnDistanceUp;
                 spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
                 
-                Spawner::SpawnActor(world, getNPCClassName(), spawnTransform, [this](SDK::AActor* actor) {
+                Spawner::QueueSpawnActor(world, getNPCClassName(), spawnTransform, [this](SDK::AActor* actor) {
                     auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                     if (npc) [[likely]] {
                         if (bodyguard) [[unlikely]] {
