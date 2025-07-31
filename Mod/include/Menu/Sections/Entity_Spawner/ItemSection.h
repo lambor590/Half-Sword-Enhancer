@@ -35,6 +35,7 @@ private:
     static inline float spawnDistanceForward = 150.0f;
     static inline float spawnDistanceUp = 50.0f;
     static inline float spawnScale = 1.0f;
+    static inline bool snapToGround = true;
     static inline uint8_t currentCategoryIndex = 0;
     static inline uint8_t currentWeaponSubcategoryIndex = 0;
     static inline uint16_t currentItemIndex = 0;
@@ -430,7 +431,7 @@ private:
         spawnTransform.Translation.Y += forward.Y * spawnDistanceForward;
         spawnTransform.Translation.Z += spawnDistanceUp;
         spawnTransform.Scale3D = {spawnScale, spawnScale, spawnScale};
-        Spawner::SpawnActor(world, className, spawnTransform);
+        Spawner::SpawnActor(world, className, spawnTransform, nullptr, snapToGround);
     }
 
 public:
@@ -438,6 +439,7 @@ public:
         Function("Spawn Item")
             .WithKey(&spawnItemKey)
             .WithParams({
+                Parameter("snap_to_ground", "Snap to Ground", &snapToGround, "Automatically adjust height to touch the ground"),
                 Parameter("distance_forward", "Forward Distance", &spawnDistanceForward, 50.0f, 300.0f, "How far in front the item appears"),
                 Parameter("distance_up", "Up Distance", &spawnDistanceUp, 0.0f, 200.0f, "Height offset for spawn position"),
                 Parameter("scale", "Scale", &spawnScale, 0.1f, 5.0f, "Size multiplier for the spawned item")
