@@ -50,7 +50,11 @@ public:
 
     template<typename T>
     void AddSection(MenuTab tab) {
-        sections[static_cast<size_t>(tab)].push_back(std::make_unique<T>());
+        auto& sectionVec = sections[static_cast<size_t>(tab)];
+        if (sectionVec.empty()) {
+            sectionVec.reserve(8); // Reserve space for typical section count
+        }
+        sectionVec.push_back(std::make_unique<T>());
     }
 
     void RenderSections(MenuTab tab) {
@@ -62,7 +66,7 @@ public:
 
     template<MenuTab tab>
     constexpr bool IsComingSoon() {
-        return tab == MenuTab::Loadout_Manager || tab == MenuTab::Post_Process_Settings;
+        return tab == MenuTab::Post_Process_Settings;
     }
 
     void RenderMenu() {
@@ -74,7 +78,7 @@ public:
                     auto& sects = sections[static_cast<size_t>(tab)];
                     if (!sects.empty()) {
                         RenderSections(tab);
-                    } else if (tab == MenuTab::Loadout_Manager || tab == MenuTab::Post_Process_Settings) {
+                    } else if (tab == MenuTab::Post_Process_Settings) {
                         ImGui::Text(comingSoonText);
                     }
                     ImGui::EndTabItem();
