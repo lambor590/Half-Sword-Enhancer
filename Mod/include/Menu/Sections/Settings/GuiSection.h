@@ -5,6 +5,9 @@
 #include "KeybindManager.h"
 #include "Menu/IMenuFunction.h"
 #include "NotificationManager.h"
+#include "Hooks/GameHook.h"
+#include "Utils/GuiUtils.h"
+#include "Utils/ConfigUtils.h"
 
 class GuiSection : public CollapsibleSection {
     static constexpr const char* GUI_SECTION_NAME = "GUI";
@@ -17,6 +20,8 @@ class GuiSection : public CollapsibleSection {
     static constexpr const char* TOOLTIPS_LABEL = "Enable Tooltips";
     static constexpr const char* TOOLTIPS_TOOLTIP = "Show helpful tooltips when hovering over interface elements";
     static constexpr const char* TOOLTIPS_ID = "##tooltips";
+    static constexpr const char* UE_CONSOLE_LABEL = "Unlock UE Console";
+    static constexpr const char* UE_CONSOLE_TOOLTIP = "Unlock access to Unreal Engine console (F2)";
     static constexpr const char* PRESS_KEY_TEXT = "Press any key...";
     static constexpr float BUTTON_PADDING = 20.0f;
 
@@ -42,37 +47,29 @@ public:
         ImGui::Separator();
         ImGui::Spacing();
         
-        if (ImGui::Checkbox(NOTIFICATIONS_LABEL, &notificationsEnabled)) {
-            if (notificationsEnabled) {
-                NotificationManager::SetEnabled(true);
-            } else {
-                NotificationManager::SetEnabled(false);
-            }
-        }
-        if (ImGui::IsItemHovered()) [[unlikely]] {
-            ImGui::BeginTooltip();
-            ImGui::Text(NOTIFICATIONS_TOOLTIP);
-            ImGui::EndTooltip();
+        if (GuiUtils::CheckboxWithTooltip(NOTIFICATIONS_LABEL, &notificationsEnabled, NOTIFICATIONS_TOOLTIP)) {
+            NotificationManager::SetEnabled(notificationsEnabled);
         }
         
         ImGui::Spacing();
         
-        static bool tooltipsEnabled = g_ConfigManager.GetBool("GUI", "tooltips_enabled", true);
-        if (ImGui::Checkbox(TOOLTIPS_LABEL, &tooltipsEnabled)) {
-            if (tooltipsEnabled) {
-                g_ConfigManager.SetBool("GUI", "tooltips_enabled", true);
-                g_ConfigManager.SaveConfig();
-                TooltipHelper::InvalidateCache();
-            } else {
-                g_ConfigManager.SetBool("GUI", "tooltips_enabled", false);
-                g_ConfigManager.SaveConfig();
-                TooltipHelper::InvalidateCache();
-            }
+        if (GuiUtils::CheckboxWithConfig(TOOLTIPS_LABEL, "GUI", "tooltips_enabled", true, TOOLTIPS_TOOLTIP)) {
+            TooltipHelper::InvalidateCache();
         }
-        if (ImGui::IsItemHovered()) [[unlikely]] {
-            ImGui::BeginTooltip();
-            ImGui::Text(TOOLTIPS_TOOLTIP);
-            ImGui::EndTooltip();
+        
+        ImGui::Spacing();
+        
+        static bool ueConsoleEnabled = ConfigManager::Get().GetBool("UE", "console_enabled", false);
+        if (GuiUtils::CheckboxWithTooltip(UE_CONSOLE_LABEL, &ueConsoleEnabled, UE_CONSOLE_TOOLTIP)) {
+            ConfigUtils::BatchUpdate([&](ConfigUtils::ConfigTransaction& config) {
+                config.SetBool("UE", "console_enabled", ueConsoleEnabled);
+            });
+            
+            if (ueConsoleEnabled) {
+                GameHook::Get().UnlockUEConsole();
+            } else {
+                GameHook::Get().LockUEConsole();
+            }
         }
         
         if (changed) [[unlikely]] KeybindManager::SaveKeybinds();
