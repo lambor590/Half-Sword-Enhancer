@@ -33,11 +33,7 @@ inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFuncti
     uint64_t funcHash = hash_string_fast(funcName.c_str());
 
     if (auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[likely]] {
-        const auto& hookData = it->second;
-        if (hookData.classHash == 0 || 
-            hash_string_fast(pObject->Class->GetName().c_str()) == hookData.classHash) [[likely]] {
-            hookData.callback();
-        }
+        it->second();
     }
 
     return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
@@ -80,16 +76,12 @@ void GameHook::Unhook() const
 }
 
 void GameHook::RegisterHook(const std::string& functionName, std::function<void()> callback) {
-    auto [hookClass, hookFunc] = ParseFunctionName(functionName);
-    uint64_t funcHash = hash_string_fast(hookFunc.data());
-    uint64_t classHash = hookClass.empty() ? 0 : hash_string_fast(hookClass.data());
-
-    hookMap.emplace(funcHash, HookData{classHash, std::move(callback)});
+    uint64_t hash = hash_string_fast(functionName.c_str());
+    hookMap.emplace(hash, std::move(callback));
 }
 
 void GameHook::UnregisterHook(const std::string& functionName) {
-    auto [_, hookFunc] = ParseFunctionName(functionName);
-    uint64_t hash = hash_string_fast(hookFunc.data());
+    uint64_t hash = hash_string_fast(functionName.c_str());
     hookMap.erase(hash);
 }
 
