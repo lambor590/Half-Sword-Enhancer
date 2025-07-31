@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Menu/ICollapsibleSection.h"
-#include "Menu/Utils/Spawner.h"
+#include "Utils/Spawner.h"
 #include "SDK/Arena_Cutting_Map_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
