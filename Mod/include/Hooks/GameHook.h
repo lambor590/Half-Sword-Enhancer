@@ -71,7 +71,7 @@ public:
             "ExecuteUbergraph_UI_BeginFight",
             "ExecuteUbergraph_Abyss_Map_Open_Intermediate", 
             "OnWalkingOffLedge",
-            "Willie_BP_C::ReceiveTick"
+            "ReceiveTick"
         };
         return EventNames[static_cast<uint8_t>(event)];
     }
@@ -81,26 +81,10 @@ public:
     GameHook& operator=(const GameHook&) = delete;
 
 private:
-    static constexpr std::pair<std::string_view, std::string_view> ParseFunctionName(std::string_view functionName) noexcept {
-        auto pos = functionName.find("::");
-        if (pos != std::string_view::npos) {
-            return {functionName.substr(0, pos), functionName.substr(pos + 2)};
-        }
-        return {"", functionName};
-    }
-
-    struct HookData {
-        uint64_t classHash{0};
-        std::function<void()> callback;
-        
-        HookData() = default;
-        HookData(uint64_t cHash, std::function<void()> cb)
-            : classHash(cHash), callback(std::move(cb)) {}
-    };
 
     Logger logger{ "GameHook" };
     uintptr_t oProcessEvent = NULL;
-    std::unordered_map<uint64_t, HookData> hookMap;
+    std::unordered_map<uint64_t, std::function<void()>> hookMap;
     std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
     
     static constexpr size_t HOOK_MAP_RESERVE_SIZE = 64;
