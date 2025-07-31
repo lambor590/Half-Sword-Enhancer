@@ -5,7 +5,7 @@
 #include <string_view>
 #include <span>
 #include "Menu/ICollapsibleSection.h"
-#include "Menu/Utils/Spawner.h"
+#include "Utils/Spawner.h"
 #include "DefaultStyle.h"
 
 #define WEAPON_PATH(s) "/Game/Assets/Weapons/Blueprints/Built_Weapons" s
@@ -431,7 +431,7 @@ private:
         spawnTransform.Translation.Y += forward.Y * spawnDistanceForward;
         spawnTransform.Translation.Z += spawnDistanceUp;
         spawnTransform.Scale3D = {spawnScale, spawnScale, spawnScale};
-        Spawner::SpawnActor(world, className, spawnTransform, nullptr, snapToGround);
+        Spawner::QueueSpawnActor(world, className, spawnTransform, nullptr, snapToGround);
     }
 
 public:
