@@ -1,5 +1,5 @@
 #include "Hooks/GameHook.h"
-#include "Menu/Utils/Spawner.h"
+#include "Utils/Spawner.h"
 #include "ConfigManager.h"
 
 static GameHook* hookInstance = &GameHook::Get();
