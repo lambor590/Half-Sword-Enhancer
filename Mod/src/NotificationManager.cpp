@@ -144,19 +144,19 @@ void NotificationManager::AddNotification(std::string&& message, float duration)
 void NotificationManager::NotifyHookToggle(const std::string& functionName, bool enabled) noexcept {
     if (!s_enabled) [[unlikely]] return;
     
-    static constexpr auto enabledStr = " enabled";
-    static constexpr auto disabledStr = " disabled";
-    
-    AddNotification(functionName + (enabled ? enabledStr : disabledStr));
+    static constexpr auto enabledStr = "Enabled ";
+    static constexpr auto disabledStr = "Disabled ";
+
+    AddNotification((enabled ? enabledStr : disabledStr) + functionName);
 }
 
 void NotificationManager::NotifyOneTimeAction(const std::string& actionName) noexcept {
     if (!s_enabled) [[unlikely]] return;
     
-    static constexpr auto executedStr = " executed";
+    static constexpr auto executedStr = "Executed ";
     static constexpr float actionDuration = 2.0f;
-    
-    AddNotification(actionName + executedStr, actionDuration);
+
+    AddNotification(executedStr + actionName, actionDuration);
 }
 
 [[nodiscard]] constexpr float NotificationManager::CalculateAlpha(float elapsed, float duration) noexcept {
