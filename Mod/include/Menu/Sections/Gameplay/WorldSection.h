@@ -10,12 +10,11 @@
 #include "SDK/Arena_Cutting_Map_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
+#include "Utils/GameConstants.h"
+#include "Utils/ActorUtils.h"
 
 class WorldSection : public CollapsibleSection {
 private:
-    static constexpr float DEFAULT_TIME_DILATION = 1.0f;
-    static constexpr float DEFAULT_GRAVITY = -980.0f;
-    static constexpr float MIN_HEALTH = 0.0f;
 
     static inline int sloMoKey = 0x5A; // Z
     static inline float slowMotionSpeed = 0.4f;
@@ -52,7 +51,7 @@ public:
             .WithKey(&sloMoKey)
             .WithParams(slowMotionParams)
             .Action([this]() {
-                worldSettings->TimeDilation = (worldSettings->TimeDilation == DEFAULT_TIME_DILATION) ? slowMotionSpeed : DEFAULT_TIME_DILATION;
+                worldSettings->TimeDilation = (worldSettings->TimeDilation == GameConstants::DEFAULT_TIME_DILATION) ? slowMotionSpeed : GameConstants::DEFAULT_TIME_DILATION;
             }, worldSettings);
 
         std::initializer_list<Parameter> customGravityParams = {
@@ -64,7 +63,7 @@ public:
             .WithParams(customGravityParams)
             .Action([this]() {
                 worldSettings->bWorldGravitySet = true;
-                worldSettings->WorldGravityZ = (worldSettings->WorldGravityZ == DEFAULT_GRAVITY) ? customGravityValue : DEFAULT_GRAVITY;
+                worldSettings->WorldGravityZ = (worldSettings->WorldGravityZ == GameConstants::DEFAULT_GRAVITY) ? customGravityValue : GameConstants::DEFAULT_GRAVITY;
             }, worldSettings);
 
         std::initializer_list<Parameter> killAllEnemiesParams = {
@@ -76,17 +75,13 @@ public:
             .WithKey(&killAllEnemiesKey)
             .WithParams(killAllEnemiesParams)
             .Action([this]() {
-                SDK::TArray<SDK::AActor*> actors;
-                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-                for (SDK::AActor* actor : actors) {
-                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (willie == player || player->GetDistanceTo(willie) > killAllEnemiesRadius) [[unlikely]] continue;
-                    if (snapNeckEnemies) [[unlikely]] {
+                ActorUtils::ForEachWillieInRadius(world, player, killAllEnemiesRadius, [this](SDK::AWillie_BP_C* willie) {
+                    if (snapNeckEnemies) {
                         willie->Snap_Neck();
                     } else {
                         willie->Death();
                     }
-                }
+                });
             }, player, world);
 
         std::initializer_list<Parameter> toggleEnemyAIRadiusParams = {
@@ -97,22 +92,18 @@ public:
             .WithKey(&toggleEnemyAIKey)
             .WithParams(toggleEnemyAIRadiusParams)
             .Action([this]() {
-                SDK::TArray<SDK::AActor*> actors;
-                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
                 bool newTickEnabled = false;
                 bool computed = false;
 
-                for (SDK::AActor* actor : actors) {
-                    auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-                    if (willie == player || player->GetDistanceTo(willie) > toggleEnemyAIRadius) [[unlikely]] continue;
-                    if (auto* controller = static_cast<SDK::AAIController*>(willie->GetController())) [[likely]] {
-                        if (!computed) [[unlikely]] {
+                ActorUtils::ForEachWillieInRadius(world, player, toggleEnemyAIRadius, [&](SDK::AWillie_BP_C* willie) {
+                    if (auto* controller = static_cast<SDK::AAIController*>(willie->GetController())) {
+                        if (!computed) {
                             newTickEnabled = !controller->IsActorTickEnabled();
                             computed = true;
                         }
                         controller->SetActorTickEnabled(newTickEnabled);
                     }
-                }
+                });
             }, player, world);
 
         std::initializer_list<Parameter> destroyWilliesParams = {
@@ -125,18 +116,15 @@ public:
             .WithParams(destroyWilliesParams)
             .WithTooltip("Removes all NPCs from the world")
             .Action([this]() {
-                SDK::TArray<SDK::AActor*> actors;
-                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-                for (auto* actor : actors) {
-                    if (auto* w = static_cast<SDK::AWillie_BP_C*>(actor);
-                        w != player && (!destroyDeadOnly || w->Health <= MIN_HEALTH)) [[likely]] {
-                        if (destroyDisintegrate) [[unlikely]] {
-                            w->Disintegrate_and_drop_armor(true);
+                ActorUtils::ForEachWillie(world, player, [this](SDK::AWillie_BP_C* willie) {
+                    if (!destroyDeadOnly || willie->Health <= GameConstants::MIN_HEALTH) {
+                        if (destroyDisintegrate) {
+                            willie->Disintegrate_and_drop_armor(true);
                         } else {
-                            w->K2_DestroyActor();
+                            willie->K2_DestroyActor();
                         }
                     }
-                }
+                });
             }, player, world);
 
         std::initializer_list<Parameter> clearBloodParams = {
@@ -160,35 +148,25 @@ public:
             .WithParams(clearObjectsParams)
             .WithTooltip("Removes dropped weapons and armor")
             .Action([this]() {
-                SDK::TArray<SDK::AActor*> allWillies;
-                SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &allWillies);
+                constexpr float MIN_DISTANCE_FROM_WILLIES = 100.0f;
                 
                 auto clearObjectsOfType = [&](SDK::UClass* objectClass) {
-                    SDK::TArray<SDK::AActor*> objects;
-                    SDK::UGameplayStatics::GetAllActorsOfClass(world, objectClass, &objects);
-                    for (auto* object : objects) {                        
-                        bool isWithinRadiusOfAnyWillie = false;
-                        bool isFarFromAllWillies = true;
+                    ActorUtils::ForEachObjectOfType<SDK::AActor>(world, [&](SDK::AActor* object) {
+                        if (!object->IsA(objectClass)) return;
                         
-                        for (auto* willieActor : allWillies) {
-                            if (auto* willie = static_cast<SDK::AWillie_BP_C*>(willieActor)) {
-                                float distance = willie->GetDistanceTo(object);
-                                if (distance <= clearObjectsRadius) {
-                                    isWithinRadiusOfAnyWillie = true;
-                                }
-                                if (distance <= 100.0f) {
-                                    isFarFromAllWillies = false;
-                                }
-                                if (isWithinRadiusOfAnyWillie && !isFarFromAllWillies) {
-                                    break;
-                                }
-                            }
-                        }
+                        bool isWithinRadius = false;
+                        bool isFarFromAll = true;
                         
-                        if (isWithinRadiusOfAnyWillie && isFarFromAllWillies) {
+                        ActorUtils::ForEachWillie(world, nullptr, [&](SDK::AWillie_BP_C* willie) {
+                            float distance = willie->GetDistanceTo(object);
+                            if (distance <= clearObjectsRadius) isWithinRadius = true;
+                            if (distance <= MIN_DISTANCE_FROM_WILLIES) isFarFromAll = false;
+                        });
+                        
+                        if (isWithinRadius && isFarFromAll) {
                             object->K2_DestroyActor();
                         }
-                    }
+                    });
                 };
                 
                 clearObjectsOfType(SDK::AModularWeaponBP_C::StaticClass());
