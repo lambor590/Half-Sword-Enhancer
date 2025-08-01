@@ -17,6 +17,10 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Dev|x64">
+      <Configuration>Release Dev</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -52,6 +56,14 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <DevBuild>true</DevBuild>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -77,8 +89,8 @@
     <LinkIncremental>false</LinkIncremental>
     <TargetName>HS Enhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)Half Sword Enhancer\resource\</OutDir>
-    <ExternalIncludePath>$(ProjectDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)include;$(ProjectDir)SDK;$(IncludePath)</IncludePath>
@@ -87,8 +99,19 @@
     <LinkIncremental>false</LinkIncremental>
     <TargetName>HS Enhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)Half Sword Enhancer\resource\</OutDir>
-    <ExternalIncludePath>$(ProjectDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'">
+    <IncludePath>$(ProjectDir)include;$(ProjectDir)SDK;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src</SourcePath>
+    <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>HS Enhancer</TargetName>
+    <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
+    <DevBuild>true</DevBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -181,6 +204,50 @@
       <StripPrivateSymbols>true</StripPrivateSymbols>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>DEV_VERSION;NDEBUG;MOD_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <StringPooling>true</StringPooling>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>d3d11.lib;d3d12.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <OptimizeReferences>true</OptimizeReferences>
+      <StripPrivateSymbols>true</StripPrivateSymbols>
+    </Link>
+  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(DevBuild)'=='true'">
+    <DefineConstants>DEV_VERSION</DefineConstants>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(DevBuild)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>DEV_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="ext\imgui\backends\imgui_impl_win32.cpp" />
@@ -191,6 +258,10 @@
     <ClCompile Include="SDK\SDK\AIModule_functions.cpp" />
     <ClCompile Include="SDK\SDK\AI_BP_functions.cpp" />
     <ClCompile Include="SDK\SDK\Arena_Cutting_Map_functions.cpp" />
+    <ClCompile Include="SDK\SDK\BP_Armor_Master_functions.cpp" />
+    <ClCompile Include="SDK\SDK\GI_Settings_functions.cpp" />
+    <ClCompile Include="SDK\SDK\ModularWeaponBP_functions.cpp" />
+    <ClCompile Include="SDK\SDK\SG_PlayerProgression_functions.cpp" />
     <ClCompile Include="SDK\SDK\Willie_BP_NoBrain_functions.cpp" />
     <ClCompile Include="src\CollapsibleSection.cpp" />
     <ClCompile Include="src\ComponentValidator.cpp" />
@@ -201,6 +272,7 @@
     <ClCompile Include="src\DefaultStyle.cpp" />
     <ClCompile Include="src\MemoryUtils.cpp" />
     <ClCompile Include="src\MenuFunction.cpp" />
+    <ClCompile Include="src\NotificationManager.cpp" />
     <ClCompile Include="src\Gui.cpp" />
     <ClCompile Include="SDK\SDK\Basic.cpp" />
     <ClCompile Include="SDK\SDK\CoreUObject_functions.cpp" />
@@ -231,12 +303,20 @@
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\WorldSection.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\PlayerSection.h" />
+    <ClInclude Include="include\Menu\Sections\Loadout_Manager\LoadoutManagerSection.h" />
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h" />
-    <ClInclude Include="include\Menu\Utils\Spawner.h" />
+    <ClInclude Include="include\NotificationManager.h" />
+    <ClInclude Include="include\Utils\Spawner.h" />
     <ClInclude Include="include\Render\ID3DRenderer.h" />
     <ClInclude Include="include\Render\IRenderCallback.h" />
+    <ClInclude Include="include\Render\RenderConfig.h" />
     <ClInclude Include="include\Render\Renderer.h" />
     <ClInclude Include="resource\resource.h" />
+    <ClInclude Include="include\Utils\GameConstants.h" />
+    <ClInclude Include="include\Utils\ActorUtils.h" />
+    <ClInclude Include="include\Utils\ConfigUtils.h" />
+    <ClInclude Include="include\Utils\GuiUtils.h" />
+    <ClInclude Include="include\Utils\CommonHeaders.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Mod.rc" />
