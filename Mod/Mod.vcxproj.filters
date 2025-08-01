@@ -30,8 +30,17 @@
     <Filter Include="Sections\Settings">
       <UniqueIdentifier>{6d8edfdd-95fa-49d1-9b64-f21552501a48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sections\Post Process">
+      <UniqueIdentifier>{9a8b7c6d-5e4f-3201-b5a6-c7d8e9f01234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sections\Loadout Manager">
+      <UniqueIdentifier>{8a9b0c1d-2e3f-4567-8901-23456789abcd}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{33cde545-1a54-4930-a8be-77b978337349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{a1b2c3d4-e5f6-7890-a1b2-c3d4e5f67890}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -116,10 +125,28 @@
     <ClCompile Include="SDK\SDK\Arena_Cutting_Map_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DefaultStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\MemoryUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DefaultStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NotificationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\SDK\ModularWeaponBP_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\SDK\BP_Armor_Master_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\SDK\GI_Settings_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\SDK\SG_PlayerProgression_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -181,7 +208,7 @@
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h">
       <Filter>Sections\Settings</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Utils\Spawner.h">
+    <ClInclude Include="include\Utils\Spawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\ItemSection.h">
@@ -193,8 +220,32 @@
     <ClInclude Include="resource\resource.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Loadout_Manager\LoadoutManagerSection.h">
+      <Filter>Sections\Loadout Manager</Filter>
+    </ClInclude>
     <ClInclude Include="include\DefaultStyle.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\NotificationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Render\RenderConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\GameConstants.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\ActorUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\ConfigUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\GuiUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\CommonHeaders.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
