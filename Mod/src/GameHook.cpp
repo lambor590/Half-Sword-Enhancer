@@ -87,9 +87,10 @@ void GameHook::UnregisterHook(const std::string& functionName) {
 
 void GameHook::UnlockUEConsole() {
     SDK::UEngine* engine = SDK::UEngine::GetEngine();
-    if (!engine) {
-        logger.Log("Failed to get UEngine instance");
-        return;
+    while (!engine) {
+        logger.Log("Waiting for UEngine instance...");
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        engine = SDK::UEngine::GetEngine();
     }
 
     SDK::UInputSettings* inputSettings = SDK::UInputSettings::GetDefaultObj();
