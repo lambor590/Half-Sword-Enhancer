@@ -7,145 +7,14 @@
 #include "NotificationManager.h"
 #include "Gui.h"
 
-static constexpr std::array<const char*, 256> CreateKeyNameTable() noexcept {
-    std::array<const char*, 256> table{};
-    
-    for (int i = 0; i < 256; ++i) {
-        table[i] = "Unknown";
-    }
-    
-    table[255] = "Unbound";
-    table[VK_LSHIFT] = "Left Shift";
-    table[VK_RSHIFT] = "Right Shift";
-    table[VK_SHIFT] = "Shift";
-    table[VK_CONTROL] = "Control";
-    table[VK_LCONTROL] = "Left Control";
-    table[VK_RCONTROL] = "Right Control";
-    table[VK_MENU] = "Alt";
-    table[VK_LMENU] = "Left Alt";
-    table[VK_RMENU] = "Right Alt";
-    table[VK_BACK] = "Backspace";
-    table[VK_TAB] = "Tab";
-    table[VK_RETURN] = "Enter";
-    table[VK_SPACE] = "Space";
-    table[VK_CAPITAL] = "Caps Lock";
-    table[VK_ESCAPE] = "Escape";
-    table[VK_LEFT] = "Left";
-    table[VK_UP] = "Up";
-    table[VK_RIGHT] = "Right";
-    table[VK_DOWN] = "Down";
-    table[VK_DELETE] = "Delete";
-    table[VK_INSERT] = "Insert";
-    table[VK_HOME] = "Home";
-    table[VK_END] = "End";
-    table[VK_PRIOR] = "Page Up";
-    table[VK_NEXT] = "Page Down";
-    table[VK_SNAPSHOT] = "Print Screen";
-    table[VK_SCROLL] = "Scroll Lock";
-    table[VK_PAUSE] = "Pause";
-    table[VK_NUMLOCK] = "Num Lock";
-    table[VK_NUMPAD0] = "Numpad 0";
-    table[VK_NUMPAD1] = "Numpad 1";
-    table[VK_NUMPAD2] = "Numpad 2";
-    table[VK_NUMPAD3] = "Numpad 3";
-    table[VK_NUMPAD4] = "Numpad 4";
-    table[VK_NUMPAD5] = "Numpad 5";
-    table[VK_NUMPAD6] = "Numpad 6";
-    table[VK_NUMPAD7] = "Numpad 7";
-    table[VK_NUMPAD8] = "Numpad 8";
-    table[VK_NUMPAD9] = "Numpad 9";
-    table[VK_MULTIPLY] = "Numpad *";
-    table[VK_ADD] = "Numpad +";
-    table[VK_SUBTRACT] = "Numpad -";
-    table[VK_DECIMAL] = "Numpad .";
-    table[VK_DIVIDE] = "Numpad /";
-    table[VK_OEM_1] = ";";
-    table[VK_OEM_PLUS] = "=";
-    table[VK_OEM_COMMA] = ",";
-    table[VK_OEM_MINUS] = "-";
-    table[VK_OEM_PERIOD] = ".";
-    table[VK_OEM_2] = "/";
-    table[VK_OEM_3] = "`";
-    table[VK_OEM_4] = "[";
-    table[VK_OEM_5] = "\\";
-    table[VK_OEM_6] = "]";
-    table[VK_OEM_7] = "'";
-    table[VK_MBUTTON] = "MMB";
-    table[VK_XBUTTON1] = "Mouse 4";
-    table[VK_XBUTTON2] = "Mouse 5";
-    table[VK_F1] = "F1";
-    table[VK_F2] = "F2";
-    table[VK_F3] = "F3";
-    table[VK_F4] = "F4";
-    table[VK_F5] = "F5";
-    table[VK_F6] = "F6";
-    table[VK_F7] = "F7";
-    table[VK_F8] = "F8";
-    table[VK_F9] = "F9";
-    table[VK_F10] = "F10";
-    table[VK_F11] = "F11";
-    table[VK_F12] = "F12";
-    table['0'] = "0";
-    table['1'] = "1";
-    table['2'] = "2";
-    table['3'] = "3";
-    table['4'] = "4";
-    table['5'] = "5";
-    table['6'] = "6";
-    table['7'] = "7";
-    table['8'] = "8";
-    table['9'] = "9";
-    table['A'] = "A";
-    table['B'] = "B";
-    table['C'] = "C";
-    table['D'] = "D";
-    table['E'] = "E";
-    table['F'] = "F";
-    table['G'] = "G";
-    table['H'] = "H";
-    table['I'] = "I";
-    table['J'] = "J";
-    table['K'] = "K";
-    table['L'] = "L";
-    table['M'] = "M";
-    table['N'] = "N";
-    table['O'] = "O";
-    table['P'] = "P";
-    table['Q'] = "Q";
-    table['R'] = "R";
-    table['S'] = "S";
-    table['T'] = "T";
-    table['U'] = "U";
-    table['V'] = "V";
-    table['W'] = "W";
-    table['X'] = "X";
-    table['Y'] = "Y";
-    table['Z'] = "Z";
-    
-    return table;
-}
-
-static constexpr auto s_keyNameLookup = CreateKeyNameTable();
-
-static const char* GetKeyNameForIndex(int index) noexcept {
-    return s_keyNameLookup[static_cast<unsigned char>(index)];
-}
-
 const char* KeybindManager::s_keyNameTable[256];
 
-static struct KeyNameTableInitializer {
-    KeyNameTableInitializer() noexcept {
-        for (int i = 0; i < 256; ++i) {
-            KeybindManager::s_keyNameTable[i] = s_keyNameLookup[i];
-        }
-    }
-} s_keyNameTableInit;
-
 std::unordered_map<int*, KeybindManager::Binding> KeybindManager::s_bindings;
-std::unordered_map<int, std::vector<int*>> KeybindManager::s_keyToBindings;
+std::unordered_map<int, std::unordered_set<int*>> KeybindManager::s_keyToBindings;
 bool KeybindManager::s_initialized = false;
 int KeybindManager::s_toggleGuiKey = VK_INSERT;
 int KeybindManager::s_unbindKey = VK_DELETE;
+bool KeybindManager::s_processingKeyEvent = false;
 
 void KeybindManager::Initialize() noexcept {
     if (!s_initialized) {
@@ -156,26 +25,29 @@ void KeybindManager::Initialize() noexcept {
 }
 
 void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept {
+    if (s_processingKeyEvent) [[unlikely]] return;
+    
     UnregisterKeybind(keyPtr);
     
-    s_bindings[keyPtr] = {keyPtr, *keyPtr, std::move(callback), function};
+    s_bindings[keyPtr] = {keyPtr, std::move(callback), function};
     
     if (*keyPtr != -1) {
-        s_keyToBindings[*keyPtr].push_back(keyPtr);
+        s_keyToBindings[*keyPtr].insert(keyPtr);
     }
 }
 
 void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
+    if (s_processingKeyEvent) [[unlikely]] return;
+    
     auto it = s_bindings.find(keyPtr);
     if (it == s_bindings.end()) return;
     
-    int key = it->second.originalKey;
-    if (key != -1) {
-        auto keyIt = s_keyToBindings.find(key);
+    int currentKey = *keyPtr;
+    if (currentKey != -1) {
+        auto keyIt = s_keyToBindings.find(currentKey);
         if (keyIt != s_keyToBindings.end()) {
-            auto& keyBindings = keyIt->second;
-            keyBindings.erase(std::remove(keyBindings.begin(), keyBindings.end(), keyPtr), keyBindings.end());
-            if (keyBindings.empty()) {
+            keyIt->second.erase(keyPtr);
+            if (keyIt->second.empty()) {
                 s_keyToBindings.erase(keyIt);
             }
         }
@@ -185,6 +57,8 @@ void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
 }
 
 bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
+    if (s_processingKeyEvent) [[unlikely]] return false;
+    
     int keyCode;
     switch (msg) {
     case WM_KEYDOWN:
@@ -211,11 +85,22 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
     const auto it = s_keyToBindings.find(keyCode);
     if (it == s_keyToBindings.end()) [[likely]] return false;
     
+    s_processingKeyEvent = true;
+    
+    std::vector<std::pair<Callback, IMenuFunction*>> callbacksToExecute;
+    callbacksToExecute.reserve(it->second.size());
+    
     for (int* keyPtr : it->second) {
-        const auto& binding = s_bindings.at(keyPtr);
-        binding.callback();
+        const auto bindingIt = s_bindings.find(keyPtr);
+        if (bindingIt != s_bindings.end()) [[likely]] {
+            callbacksToExecute.emplace_back(bindingIt->second.callback, bindingIt->second.function);
+        }
+    }
+    
+    for (const auto& [callback, function] : callbacksToExecute) {
+        callback();
         
-        if (auto* function = binding.function) [[likely]] {
+        if (function) [[likely]] {
             if (const auto name = function->GetName(); !name.empty()) [[likely]] {
                 if (auto* hookedFunc = dynamic_cast<HookedFunction*>(function)) [[likely]] {
                     NotificationManager::NotifyHookToggle(std::string{name}, hookedFunc->LoadEnabledState());
@@ -225,6 +110,8 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
             }
         }
     }
+    
+    s_processingKeyEvent = false;
     return true;
 }
 
@@ -241,13 +128,17 @@ bool KeybindManager::HandleKeyPress(bool& waitingForKey, int& key) noexcept {
         VK_MBUTTON, VK_XBUTTON1, VK_XBUTTON2
     };
     
-    for (int vKey : relevantKeys) {
+    static constexpr size_t numRelevantKeys = sizeof(relevantKeys) / sizeof(relevantKeys[0]);
+    static bool asyncKeyStates[numRelevantKeys];
+    
+    for (size_t i = 0; i < numRelevantKeys; ++i) {
+        const int vKey = relevantKeys[i];
         const bool isCurrentlyPressed = (GetAsyncKeyState(vKey) & 0x8000) != 0;
         
-        if (isCurrentlyPressed) {
-            keyPressed[vKey] = true;
-        } else if (keyPressed[vKey]) {
-            keyPressed[vKey] = false;
+        if (isCurrentlyPressed && !asyncKeyStates[i]) {
+            asyncKeyStates[i] = true;
+        } else if (!isCurrentlyPressed && asyncKeyStates[i]) {
+            asyncKeyStates[i] = false;
             key = (vKey == s_unbindKey) ? -1 : vKey;
             waitingForKey = false;
             return true;
@@ -268,10 +159,7 @@ bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
     
     if (!excludeKeyPtr) return !it->second.empty();
     
-    for (int* keyPtr : it->second) {
-        if (keyPtr != excludeKeyPtr) return true;
-    }
-    return false;
+    return it->second.size() > (it->second.contains(excludeKeyPtr) ? 1 : 0);
 }
 
 void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
@@ -279,15 +167,14 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
     if (it == s_keyToBindings.end()) return;
     
     auto& keyBindings = it->second;
-    for (auto bindingIt = keyBindings.begin(); bindingIt != keyBindings.end(); ++bindingIt) {
-        int* keyPtr = *bindingIt;
+    for (int* keyPtr : keyBindings) {
         if (keyPtr != excludeKeyPtr) {
             *keyPtr = 255;
             s_bindings.erase(keyPtr);
-            keyBindings.erase(bindingIt);
+            keyBindings.erase(keyPtr);
             
             if (keyBindings.empty()) {
-                s_keyToBindings.erase(key);
+                s_keyToBindings.erase(it);
             }
             return;
         }
@@ -296,10 +183,13 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
 
 IMenuFunction* KeybindManager::GetBoundFunction(int key, int* excludeKeyPtr) noexcept {
     const auto it = s_keyToBindings.find(key);
-    if (it != s_keyToBindings.end()) {
-        for (int* keyPtr : it->second) {
-            if (keyPtr != excludeKeyPtr) {
-                return s_bindings.at(keyPtr).function;
+    if (it == s_keyToBindings.end()) [[likely]] return nullptr;
+    
+    for (int* keyPtr : it->second) {
+        if (keyPtr != excludeKeyPtr) {
+            const auto bindingIt = s_bindings.find(keyPtr);
+            if (bindingIt != s_bindings.end()) [[likely]] {
+                return bindingIt->second.function;
             }
         }
     }
@@ -315,8 +205,11 @@ std::vector<IMenuFunction*> KeybindManager::GetAllBoundFunctions(int key, int* e
     
     for (int* keyPtr : it->second) {
         if (keyPtr != excludeKeyPtr) {
-            if (auto* function = s_bindings.at(keyPtr).function) {
-                functions.push_back(function);
+            const auto bindingIt = s_bindings.find(keyPtr);
+            if (bindingIt != s_bindings.end()) [[likely]] {
+                if (auto* function = bindingIt->second.function) {
+                    functions.push_back(function);
+                }
             }
         }
     }
@@ -329,9 +222,29 @@ int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) noexcept {
     
     if (!excludeKeyPtr) return static_cast<int>(it->second.size());
     
-    int count = 0;
-    for (int* keyPtr : it->second) {
-        if (keyPtr != excludeKeyPtr) ++count;
+    return static_cast<int>(it->second.size() - (it->second.contains(excludeKeyPtr) ? 1 : 0));
+}
+
+void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
+    if (s_processingKeyEvent) [[unlikely]] return;
+    
+    auto it = s_bindings.find(keyPtr);
+    if (it == s_bindings.end()) return;
+    
+    int newKey = *keyPtr;
+    
+    for (auto& [key, bindings] : s_keyToBindings) {
+        if (bindings.contains(keyPtr)) {
+            if (key == newKey) return;
+            bindings.erase(keyPtr);
+            if (bindings.empty()) {
+                s_keyToBindings.erase(key);
+            }
+            break;
+        }
     }
-    return count;
+    
+    if (newKey != -1) {
+        s_keyToBindings[newKey].insert(keyPtr);
+    }
 } 
