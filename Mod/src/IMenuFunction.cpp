@@ -17,6 +17,7 @@ HookedFunction::~HookedFunction() {
 
 void HookedFunction::SetKey() {
     if (prevKey != *key) {
+        KeybindManager::UpdateBinding(key);
         prevKey = *key;
         SaveConfig("key", *key);
         g_ConfigManager.SaveConfig();
@@ -92,6 +93,8 @@ void KeybindFunction::LoadConfig() {
 
 void KeybindFunction::UpdateKey() {
     if (prevKey == *key) return;
+    
+    KeybindManager::UpdateBinding(key);
     
     if (toggleable) {
         if (isEnabled) {
