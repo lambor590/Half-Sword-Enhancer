@@ -5,7 +5,6 @@
 #include "KeybindManager.h"
 #include "Menu/IMenuFunction.h"
 #include "NotificationManager.h"
-#include "Hooks/GameHook.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/ConfigUtils.h"
 
