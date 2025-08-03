@@ -87,7 +87,7 @@ public:
                 spawnTransform.Translation.Z += spawnDistanceUp;
                 spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
                 
-                Spawner::QueueSpawnActor(world, getNPCClassName(), spawnTransform, [this](SDK::AActor* actor) {
+                Spawner::SpawnActor(world, getNPCClassName(), spawnTransform, [this](SDK::AActor* actor) {
                     auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                     if (npc) [[likely]] {
                         if (bodyguard) [[unlikely]] {
