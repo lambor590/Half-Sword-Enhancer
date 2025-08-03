@@ -5,10 +5,9 @@
 #include "Utils/Spawner.h"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
+#include "Hooks/GameHook.h"
 
 namespace Spawner {
-    static std::queue<SpawnRequest> spawnQueue;
-    static std::mutex queueMutex;
 
     ActorType GetActorType(const std::string& classPath) {
         static const std::unordered_map<std::string, ActorType> typeMap = {
@@ -97,33 +96,23 @@ namespace Spawner {
         return groundLevel;
     }
 
-    void QueueSpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround) {
-        std::lock_guard<std::mutex> lock(queueMutex);
-        spawnQueue.push({world, className, transform, callback, snapToGround});
-    }
-
-    void ProcessSpawnQueue() {
-        std::lock_guard<std::mutex> lock(queueMutex);
-        
-        while (!spawnQueue.empty()) {
-            const auto& request = spawnQueue.front();
+    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround) {
+        GameHook::QueueAction([world, className, transform, callback, snapToGround]() {
+            SDK::FTransform finalTransform = transform;
             
-            SDK::FTransform finalTransform = request.transform;
-            
-            if (request.snapToGround) {
-                ActorType actorType = GetActorType(request.classPath);
-                float groundOffset = GetGroundOffsetForType(actorType, request.transform.Scale3D);
-                SDK::FVector groundPosition = GetGroundPosition(request.world, request.transform.Translation, groundOffset);
+            if (snapToGround) {
+                ActorType actorType = GetActorType(className);
+                float groundOffset = GetGroundOffsetForType(actorType, transform.Scale3D);
+                SDK::FVector groundPosition = GetGroundPosition(world, transform.Translation, groundOffset);
                 finalTransform.Translation = groundPosition;
             }
             
-            SDK::AActor* spawnedActor = SpawnActorInternal(request.world, request.classPath, finalTransform);
+            SDK::AActor* spawnedActor = SpawnActorInternal(world, className, finalTransform);
             
-            if (request.callback) {
-                request.callback(spawnedActor);
+            if (callback) {
+                callback(spawnedActor);
             }
-            
-            spawnQueue.pop();
-        }
+        });
     }
+
 }
