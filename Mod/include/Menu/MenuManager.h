@@ -66,7 +66,7 @@ public:
 
     template<MenuTab tab>
     constexpr bool IsComingSoon() {
-        return tab == MenuTab::Post_Process_Settings;
+        return tab == MenuTab::Post_Process_Settings || tab == MenuTab::Loadout_Manager;
     }
 
     void RenderMenu() {
@@ -78,7 +78,7 @@ public:
                     auto& sects = sections[static_cast<size_t>(tab)];
                     if (!sects.empty()) {
                         RenderSections(tab);
-                    } else if (tab == MenuTab::Post_Process_Settings) {
+                    } else if (tab == MenuTab::Post_Process_Settings || tab == MenuTab::Loadout_Manager) {
                         ImGui::Text(comingSoonText);
                     }
                     ImGui::EndTabItem();
