@@ -1,7 +1,10 @@
 #pragma once
 
-#include "Utils/CommonHeaders.h"
+#include <queue>
+#include <mutex>
+#include <functional>
 
+#include "Utils/CommonHeaders.h"
 #include "Logger.h"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Basic.hpp"
@@ -30,6 +33,9 @@ public:
 
     void UnlockUEConsole();
     void LockUEConsole();
+
+    static void QueueAction(std::function<void()> action);
+    static void ProcessGameThreadQueue();
 
     enum class GameEvent : uint8_t {
         BeginFight,
@@ -86,6 +92,9 @@ private:
     uintptr_t oProcessEvent = NULL;
     std::unordered_map<uint64_t, std::function<void()>> hookMap;
     std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
+    
+    static std::queue<std::function<void()>> gameThreadQueue;
+    static std::mutex queueMutex;
     
     static constexpr size_t HOOK_MAP_RESERVE_SIZE = 64;
     
