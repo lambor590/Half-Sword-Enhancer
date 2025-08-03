@@ -43,6 +43,7 @@ void Gui::Setup() {
     MenuManager::Get().AddSection<NPCSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<GuiSection>(MenuTab::Settings);
+    MenuManager::Get().AddSection<GraphicsSection>(MenuTab::Settings);
 }
 
 void Gui::Render() {
