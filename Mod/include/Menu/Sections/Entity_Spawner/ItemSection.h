@@ -431,7 +431,7 @@ private:
         spawnTransform.Translation.Y += forward.Y * spawnDistanceForward;
         spawnTransform.Translation.Z += spawnDistanceUp;
         spawnTransform.Scale3D = {spawnScale, spawnScale, spawnScale};
-        Spawner::QueueSpawnActor(world, className, spawnTransform, nullptr, snapToGround);
+        Spawner::SpawnActor(world, className, spawnTransform, nullptr, snapToGround);
     }
 
 public:
