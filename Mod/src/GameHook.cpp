@@ -1,8 +1,11 @@
 #include "Hooks/GameHook.h"
-#include "Utils/Spawner.h"
 #include "ConfigManager.h"
+#include "Menu/Sections/Settings/GraphicsSection.h"
 
 static GameHook* hookInstance = &GameHook::Get();
+
+std::queue<std::function<void()>> GameHook::gameThreadQueue;
+std::mutex GameHook::queueMutex;
 
 namespace {
     constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
@@ -59,12 +62,14 @@ void GameHook::Hook()
     MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&hookInstance->oProcessEvent);
 
     RegisterEvent(GameEvent::OnTick, &hookInstance, []() {
-        Spawner::ProcessSpawnQueue();
+        GameHook::ProcessGameThreadQueue();
     });
 
     if (ConfigManager::Get().GetBool("UE", "console_enabled", false)) {
         UnlockUEConsole();
     }
+
+    GraphicsSection::ApplyOnStartup();
 
     logger.Log("ProcessEvent hooked successfully!");
 }
@@ -96,7 +101,6 @@ void GameHook::UnlockUEConsole() {
     SDK::UInputSettings* inputSettings = SDK::UInputSettings::GetDefaultObj();
     if (inputSettings && inputSettings->ConsoleKeys.Num() > 0) {
         inputSettings->ConsoleKeys[0].KeyName = SDK::UKismetStringLibrary::Conv_StringToName(SDK::FString(L"F2"));
-        logger.Log("Console key changed to F2");
     }
 
     SDK::UGameViewportClient* viewport = engine->GameViewport;
@@ -134,4 +138,19 @@ void GameHook::LockUEConsole() {
     }
 
     logger.Log("UE Console locked");
+}
+
+void GameHook::QueueAction(std::function<void()> action) {
+    std::lock_guard<std::mutex> lock(queueMutex);
+    gameThreadQueue.push(std::move(action));
+}
+
+void GameHook::ProcessGameThreadQueue() {
+    std::lock_guard<std::mutex> lock(queueMutex);
+    
+    while (!gameThreadQueue.empty()) {
+        const auto& action = gameThreadQueue.front();
+        action();
+        gameThreadQueue.pop();
+    }
 }
