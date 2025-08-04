@@ -19,6 +19,7 @@
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Menu/Sections/Settings/GuiSection.h"
 #include "DefaultStyle.h"
+#include "Hooks/GameHook.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -38,7 +39,10 @@ public:
     void Render();
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
     static bool IsVisible() { return isVisible; }
-    static void ToggleVisibility() { isVisible = !isVisible; }
+    static void ToggleVisibility() { 
+        isVisible = !isVisible; 
+        GameHook::SetInputEnabled(!isVisible);
+    }
 
 private:
     static WNDPROC originalWndProc;
