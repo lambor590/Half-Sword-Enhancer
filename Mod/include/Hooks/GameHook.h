@@ -37,6 +37,8 @@ public:
     static void QueueAction(std::function<void()> action);
     static void ProcessGameThreadQueue();
 
+    static void SetInputEnabled(bool enabled);
+
     enum class GameEvent : uint8_t {
         BeginFight,
         InAbyss,
