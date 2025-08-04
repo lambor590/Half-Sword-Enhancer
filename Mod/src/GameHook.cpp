@@ -154,3 +154,10 @@ void GameHook::ProcessGameThreadQueue() {
         gameThreadQueue.pop();
     }
 }
+
+void GameHook::SetInputEnabled(bool enabled) {    
+    SDK::APlayerController* playerController = nullptr;
+    if (!ComponentValidator::Validate(playerController)) return;
+
+    playerController->SetIgnoreLookInput(!enabled);
+}
