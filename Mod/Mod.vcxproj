@@ -303,6 +303,7 @@
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\WorldSection.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\PlayerSection.h" />
+    <ClInclude Include="include\Menu\Sections\Settings\GraphicsSection.h" />
     <ClInclude Include="include\Menu\Sections\Loadout_Manager\LoadoutManagerSection.h" />
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h" />
     <ClInclude Include="include\NotificationManager.h" />
