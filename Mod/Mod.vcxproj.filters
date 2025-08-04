@@ -247,6 +247,9 @@
     <ClInclude Include="include\Utils\CommonHeaders.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Settings\GraphicsSection.h">
+      <Filter>Sections\Settings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Mod.rc">
