@@ -28,7 +28,7 @@ private:
     };
 
     static constexpr std::array<const char*, 5> qualityLevels = {
-        "Off", "Low", "Medium", "High", "Epic"
+        "Low", "Medium", "High", "Epic", "Cinematic"
     };
 
     struct ConsoleCommandInfo {
@@ -67,10 +67,6 @@ public:
         
         const SectionStyle::StyleRAII style;
         bool settingsChanged = false;
-
-        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "Note: Shadows and GI can be disabled with 'Off'/'Low' settings.");
-        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "Other settings may have no effect due to game limitations.");
-        ImGui::Spacing();
 
         if (ImGui::Checkbox("Apply on startup", &settings.applyOnStartup)) {
             settingsChanged = true;
