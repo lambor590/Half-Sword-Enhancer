@@ -2,6 +2,7 @@
 #include <vector>
 #include <array>
 #include <charconv>
+#include <fstream>
 #include <Windows.h>
 
 #include "../include/UpdateManager.h"
@@ -124,7 +125,84 @@ namespace hse {
     }
 
     std::expected<void, UpdateError> UpdateManager::UpdateLauncher(std::string_view downloadUrl) noexcept {
-        return std::unexpected(UpdateError::UpdateFailed);
+        try {
+            std::array<char, MAX_PATH> currentPath{};
+            if (!GetModuleFileNameA(nullptr, currentPath.data(), MAX_PATH)) {
+                Logger::error("Failed to get current executable path");
+                return std::unexpected(UpdateError::FileSystemError);
+            }
+
+            const std::string currentExePath{ currentPath.data() };
+            const auto appDataPath = getAppDataPath();
+            const auto tempPath = std::filesystem::path(appDataPath) / "HS_Enhancer_Launcher_Update.exe";
+            const auto batchPath = std::filesystem::path(appDataPath) / "HS_Enhancer_Update.bat";
+
+            Logger::info("Downloading launcher update...");
+            
+            DownloadConfig config{
+                .url = std::string(downloadUrl),
+                .outputPath = tempPath.string(),
+                .description = "Downloading launcher update",
+                .minFileSize = 50000
+            };
+
+            auto downloadResult = NetworkManager::Instance().DownloadFile(config);
+            if (!downloadResult) {
+                Logger::error("Failed to download launcher update");
+                return std::unexpected(UpdateError::NetworkError);
+            }
+
+            Logger::info("Creating update script...");
+            
+            std::ofstream batchFile(batchPath);
+            if (!batchFile) {
+                Logger::error("Failed to create update script");
+                return std::unexpected(UpdateError::FileSystemError);
+            }
+
+            batchFile << "@echo off\n";
+            batchFile << "echo Updating Half Sword Enhancer Launcher...\n";
+            batchFile << "timeout /t 2 /nobreak >nul\n";
+            batchFile << "move \"" << tempPath.string() << "\" \"" << currentExePath << "\"\n";
+            batchFile << "if exist \"" << currentExePath << "\" (\n";
+            batchFile << "    echo Update completed successfully!\n";
+            batchFile << "    echo Starting updated launcher...\n";
+            batchFile << "    start \"\" \"" << currentExePath << "\"\n";
+            batchFile << ") else (\n";
+            batchFile << "    echo Update failed! Please download manually.\n";
+            batchFile << "    pause\n";
+            batchFile << ")\n";
+            batchFile << "del \"" << batchPath.string() << "\"\n";
+            batchFile.close();
+
+            Logger::info("Launching update script and exiting...");
+            
+            STARTUPINFOA startupInfo{};
+            PROCESS_INFORMATION processInfo{};
+            startupInfo.cb = sizeof(startupInfo);
+            
+            std::string cmdLine = "cmd.exe /c \"" + batchPath.string() + "\"";
+            
+            if (!CreateProcessA(nullptr, cmdLine.data(), nullptr, nullptr, FALSE, 
+                              CREATE_NO_WINDOW, nullptr, nullptr, &startupInfo, &processInfo)) {
+                Logger::error("Failed to start update script");
+                return std::unexpected(UpdateError::UpdateFailed);
+            }
+
+            CloseHandle(processInfo.hProcess);
+            CloseHandle(processInfo.hThread);
+
+            Logger::info("Update script started successfully. Launcher will restart automatically.");
+            
+            ExitProcess(0);
+
+        } catch (const std::exception& e) {
+            Logger::error("Exception during launcher update: " + std::string(e.what()));
+            return std::unexpected(UpdateError::UpdateFailed);
+        } catch (...) {
+            Logger::error("Unknown error during launcher update");
+            return std::unexpected(UpdateError::UpdateFailed);
+        }
     }
 
     std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromExecutable() const noexcept {
