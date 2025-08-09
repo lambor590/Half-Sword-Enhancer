@@ -113,6 +113,18 @@ namespace hse {
             return std::unexpected(ProcessError::InjectionTimeout);
         }
 
+        DWORD exitCode;
+        if (!GetExitCodeThread(hThread, &exitCode)) {
+            hse::Logger::error("Failed to get thread exit code");
+            return std::unexpected(ProcessError::ThreadCreationFailed);
+        }
+
+        if (exitCode == 0) {
+            hse::Logger::error("LoadLibraryA failed - DLL was not loaded into the target process");
+            hse::Logger::error("Common causes: Antivirus blocking or corrupted DLL file");
+            return std::unexpected(ProcessError::DllLoadFailed);
+        }
+
         const auto endTime = std::chrono::steady_clock::now();
         const auto injectionTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
 
