@@ -16,7 +16,8 @@ namespace hse {
         DllPathWriteFailed = 5,
         ThreadCreationFailed = 6,
         InjectionTimeout = 7,
-        InvalidDllPath = 8
+        InvalidDllPath = 8,
+        DllLoadFailed = 9
     };
 
     using ProcessId = std::uint32_t;
