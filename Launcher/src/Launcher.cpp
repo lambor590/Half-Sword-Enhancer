@@ -217,7 +217,20 @@ bool HSELauncher::InjectMod() {
     hse::Logger::info("Game found, injecting mod...");
     auto injectionResult = processManager.InjectDLL(*processResult, modPath.string());
     if (!injectionResult) {
-        hse::logAndShowError("Mod injection failed", "Mod injection failed. Please try running as administrator or check your antivirus settings.");
+        std::string errorMsg = "Mod injection failed. ";
+        if (injectionResult.error() == hse::ProcessError::DllLoadFailed) {
+            errorMsg += "The DLL could not be loaded by the game process. This is usually caused by:\n\n"
+                       "- Antivirus software blocking the launcher\n"
+                       "- Corrupted mod file\n"
+                       "- Windows Defender real-time protection\n\n"
+                       "Try:\n"
+                       "1. Adding an antivirus exception for the launcher\n"
+                       "2. Running as administrator\n"
+                       "3. Temporarily disabling real-time protection";
+        } else {
+            errorMsg += "Please try running as administrator or check your antivirus settings.";
+        }
+        hse::logAndShowError("Mod injection failed", errorMsg);
         return false;
     }
 
