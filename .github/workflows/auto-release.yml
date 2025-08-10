@@ -123,6 +123,6 @@ jobs:
         files: |
           bin/HS_Enhancer_Launcher.exe
           bin/HS-Enhancer.dll
-        generate_release_notes: true
+        generate_release_notes: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
