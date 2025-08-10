@@ -1,0 +1,139 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'Launcher/resource/Launcher.rc'
+      - 'Mod/resource/Mod.rc'
+
+permissions:
+  contents: write
+
+jobs:
+  auto-release:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Extract version from RC files
+      id: extract_version
+      shell: pwsh
+      run: |
+        # Extract version from Launcher.rc
+        $launcherRc = Get-Content "Launcher/resource/Launcher.rc" -Raw -Encoding UTF8
+        if ($launcherRc -match 'FILEVERSION\s+(\d+),\s*(\d+),\s*(\d+),\s*(\d+)') {
+          $launcherVersion = "v$($matches[1]).$($matches[2]).$($matches[3])"
+          Write-Output "launcher_version=$launcherVersion" >> $env:GITHUB_OUTPUT
+          Write-Host "Launcher version: $launcherVersion"
+        }
+        
+        # Extract version from Mod.rc
+        $modRc = Get-Content "Mod/resource/Mod.rc" -Raw -Encoding UTF8
+        if ($modRc -match 'FILEVERSION\s+(\d+),\s*(\d+),\s*(\d+),\s*(\d+)') {
+          $modVersion = "v$($matches[1]).$($matches[2]).$($matches[3])"
+          Write-Output "mod_version=$modVersion" >> $env:GITHUB_OUTPUT
+          Write-Host "Mod version: $modVersion"
+        }
+        
+        # Determine which version to use (use the higher one)
+        $finalVersion = $launcherVersion
+        if ($modVersion -and $launcherVersion) {
+          $versions = @($launcherVersion, $modVersion) | Where-Object { $_ }
+          $finalVersion = ($versions | Sort-Object {[version]($_ -replace '^v', '')} | Select-Object -Last 1)
+        } elseif ($modVersion) {
+          $finalVersion = $modVersion
+        }
+        Write-Output "release_version=$finalVersion" >> $env:GITHUB_OUTPUT
+        Write-Host "Final release version: $finalVersion"
+
+    - name: Check if tag already exists
+      id: check_tag
+      shell: pwsh
+      run: |
+        $version = "${{ steps.extract_version.outputs.release_version }}"
+        $existingTag = git tag -l $version
+        if ($existingTag) {
+          Write-Host "Tag $version already exists"
+          Write-Output "tag_exists=true" >> $env:GITHUB_OUTPUT
+        } else {
+          Write-Host "Tag $version does not exist"
+          Write-Output "tag_exists=false" >> $env:GITHUB_OUTPUT
+        }
+
+    - name: Setup MSBuild
+      if: steps.check_tag.outputs.tag_exists == 'false'
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build Release
+      if: steps.check_tag.outputs.tag_exists == 'false'
+      shell: pwsh
+      run: |
+        MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration=Release /p:Platform=x64
+        MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration=Release /p:Platform=x64
+        
+        # Verify build outputs exist
+        if (!(Test-Path "bin/HS Enhancer Launcher.exe")) {
+          throw "Launcher build failed - HS Enhancer Launcher.exe not found"
+        }
+        if (!(Test-Path "bin/HS Enhancer.dll")) {
+          throw "Mod build failed - HS Enhancer.dll not found"
+        }
+        
+        # Rename files to match release naming convention
+        Copy-Item "bin/HS Enhancer Launcher.exe" "bin/HS_Enhancer_Launcher.exe"
+        Copy-Item "bin/HS Enhancer.dll" "bin/HS-Enhancer.dll"
+        
+        Write-Host "Build successful - files renamed for release"
+
+    - name: Extract changelog for version
+      if: steps.check_tag.outputs.tag_exists == 'false'
+      id: changelog
+      shell: pwsh
+      run: |
+        $version = "${{ steps.extract_version.outputs.release_version }}"
+        
+        if (Test-Path "CHANGELOG.md") {
+          $content = Get-Content "CHANGELOG.md" -Raw
+          
+          # Look for version section (## [vX.X.X] only - brackets required)
+          $pattern = "(?s)## \[$([regex]::Escape($version))\].*?\n(.*?)(?=\n## |\z)"
+          if ($content -match $pattern) {
+            $changelogContent = $matches[1].Trim()
+            # Escape special characters for GitHub Actions
+            $changelogContent = $changelogContent -replace '"', '\"'
+            $changelogContent = $changelogContent -replace "`n", "\n"
+            $changelogContent = $changelogContent -replace "`r", ""
+            Write-Output "changelog_content=$changelogContent" >> $env:GITHUB_OUTPUT
+            Write-Host "Changelog content extracted for $version"
+          } else {
+            $defaultContent = "Release $version - See commit history for details."
+            Write-Output "changelog_content=$defaultContent" >> $env:GITHUB_OUTPUT
+            Write-Host "No changelog section found for $version, using default content"
+          }
+        } else {
+          $defaultContent = "Release $version - See commit history for details."
+          Write-Output "changelog_content=$defaultContent" >> $env:GITHUB_OUTPUT
+          Write-Host "No CHANGELOG.md found, using default content"
+        }
+
+    - name: Create GitHub Release
+      if: steps.check_tag.outputs.tag_exists == 'false'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.extract_version.outputs.release_version }}
+        name: ${{ steps.extract_version.outputs.release_version }}
+        body: ${{ steps.changelog.outputs.changelog_content }}
+        draft: false
+        prerelease: true
+        files: |
+          bin/HS_Enhancer_Launcher.exe
+          bin/HS-Enhancer.dll
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
