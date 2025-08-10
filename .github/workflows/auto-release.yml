@@ -75,41 +75,16 @@ jobs:
       if: steps.check_tag.outputs.tag_exists == 'false'
       shell: pwsh
       run: |
-        Write-Host "Building Launcher..."
-        $launcherBuild = & MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration=Release /p:Platform=x64
-        if ($LASTEXITCODE -ne 0) {
-          Write-Host "Launcher build failed with exit code: $LASTEXITCODE"
-          Write-Host "Build output: $launcherBuild"
-          throw "Launcher build failed"
-        }
-        Write-Host "Launcher build completed successfully"
+        MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
         
-        Write-Host "Building Mod..."
-        $modBuild = & MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration=Release /p:Platform=x64
-        if ($LASTEXITCODE -ne 0) {
-          Write-Host "Mod build failed with exit code: $LASTEXITCODE"
-          Write-Host "Build output: $modBuild"
-          throw "Mod build failed"
-        }
-        Write-Host "Mod build completed successfully"
+        MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
         
-        # Verify build outputs exist and copy to centralized location
-        if (!(Test-Path "Launcher/bin/HS Enhancer Launcher.exe")) {
-          throw "Launcher build failed - Launcher/bin/HS Enhancer Launcher.exe not found"
-        }
-        Write-Host "Launcher executable found"
-        
-        if (!(Test-Path "Mod/bin/HS Enhancer.dll")) {
-          throw "Mod build failed - Mod/bin/HS Enhancer.dll not found"
-        }
-        Write-Host "Mod DLL found"
-        
-        # Create bin directory and copy files with release naming convention
-        New-Item -ItemType Directory -Force -Path "bin"
+        # Copy files with release naming convention
+        New-Item -ItemType Directory -Force -Path "bin" | Out-Null
         Copy-Item "Launcher/bin/HS Enhancer Launcher.exe" "bin/HS_Enhancer_Launcher.exe"
         Copy-Item "Mod/bin/HS Enhancer.dll" "bin/HS-Enhancer.dll"
-        
-        Write-Host "Build successful - files renamed for release"
 
     - name: Extract changelog for version
       if: steps.check_tag.outputs.tag_exists == 'false'
@@ -118,29 +93,23 @@ jobs:
       run: |
         $version = "${{ steps.extract_version.outputs.release_version }}"
         
+        $defaultContent = "Release $version - See commit history for details."
+        
         if (Test-Path "CHANGELOG.md") {
           $content = Get-Content "CHANGELOG.md" -Raw
-          
-          # Look for version section (## [vX.X.X] only - brackets required)
           $pattern = "(?s)## \[$([regex]::Escape($version))\].*?\n(.*?)(?=\n## |\z)"
           if ($content -match $pattern) {
             $changelogContent = $matches[1].Trim()
-            # Escape special characters for GitHub Actions
-            $changelogContent = $changelogContent -replace '"', '\"'
-            $changelogContent = $changelogContent -replace "`n", "\n"
-            $changelogContent = $changelogContent -replace "`r", ""
-            Write-Output "changelog_content=$changelogContent" >> $env:GITHUB_OUTPUT
-            Write-Host "Changelog content extracted for $version"
           } else {
-            $defaultContent = "Release $version - See commit history for details."
-            Write-Output "changelog_content=$defaultContent" >> $env:GITHUB_OUTPUT
-            Write-Host "No changelog section found for $version, using default content"
+            $changelogContent = $defaultContent
           }
         } else {
-          $defaultContent = "Release $version - See commit history for details."
-          Write-Output "changelog_content=$defaultContent" >> $env:GITHUB_OUTPUT
-          Write-Host "No CHANGELOG.md found, using default content"
+          $changelogContent = $defaultContent
         }
+        
+        Write-Output "changelog_content<<EOF" >> $env:GITHUB_OUTPUT
+        Write-Output $changelogContent >> $env:GITHUB_OUTPUT
+        Write-Output "EOF" >> $env:GITHUB_OUTPUT
 
     - name: Create GitHub Release
       if: steps.check_tag.outputs.tag_exists == 'false'
