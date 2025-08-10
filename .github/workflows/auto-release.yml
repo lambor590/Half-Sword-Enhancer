@@ -7,6 +7,7 @@ on:
     paths:
       - 'Launcher/resource/Launcher.rc'
       - 'Mod/resource/Mod.rc'
+  workflow_dispatch:
 
 permissions:
   contents: write
