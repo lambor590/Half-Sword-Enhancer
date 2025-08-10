@@ -74,20 +74,39 @@ jobs:
       if: steps.check_tag.outputs.tag_exists == 'false'
       shell: pwsh
       run: |
-        MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration=Release /p:Platform=x64
-        MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration=Release /p:Platform=x64
-        
-        # Verify build outputs exist
-        if (!(Test-Path "bin/HS Enhancer Launcher.exe")) {
-          throw "Launcher build failed - HS Enhancer Launcher.exe not found"
+        Write-Host "Building Launcher..."
+        $launcherBuild = & MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) {
+          Write-Host "Launcher build failed with exit code: $LASTEXITCODE"
+          Write-Host "Build output: $launcherBuild"
+          throw "Launcher build failed"
         }
-        if (!(Test-Path "bin/HS Enhancer.dll")) {
-          throw "Mod build failed - HS Enhancer.dll not found"
-        }
+        Write-Host "Launcher build completed successfully"
         
-        # Rename files to match release naming convention
-        Copy-Item "bin/HS Enhancer Launcher.exe" "bin/HS_Enhancer_Launcher.exe"
-        Copy-Item "bin/HS Enhancer.dll" "bin/HS-Enhancer.dll"
+        Write-Host "Building Mod..."
+        $modBuild = & MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) {
+          Write-Host "Mod build failed with exit code: $LASTEXITCODE"
+          Write-Host "Build output: $modBuild"
+          throw "Mod build failed"
+        }
+        Write-Host "Mod build completed successfully"
+        
+        # Verify build outputs exist and copy to centralized location
+        if (!(Test-Path "Launcher/bin/HS Enhancer Launcher.exe")) {
+          throw "Launcher build failed - Launcher/bin/HS Enhancer Launcher.exe not found"
+        }
+        Write-Host "Launcher executable found"
+        
+        if (!(Test-Path "Mod/bin/HS Enhancer.dll")) {
+          throw "Mod build failed - Mod/bin/HS Enhancer.dll not found"
+        }
+        Write-Host "Mod DLL found"
+        
+        # Create bin directory and copy files with release naming convention
+        New-Item -ItemType Directory -Force -Path "bin"
+        Copy-Item "Launcher/bin/HS Enhancer Launcher.exe" "bin/HS_Enhancer_Launcher.exe"
+        Copy-Item "Mod/bin/HS Enhancer.dll" "bin/HS-Enhancer.dll"
         
         Write-Host "Build successful - files renamed for release"
 
