@@ -1,0 +1,14 @@
+INSTALL
+
+1. Open the game folder:
+   Right-click the game in Steam -> Manage -> Browse Local Files
+
+2. Place "dwmapi.dll" and "HS Enhancer.dll" in:
+   <Game Folder>\HalfSwordUE5\Binaries\Win64
+
+
+UNINSTALL
+
+1. Delete the following files from the game directory:
+   - "dwmapi.dll"
+   - "HS Enhancer.dll"
