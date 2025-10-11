@@ -1,0 +1,202 @@
+name: Dev Pre-Release
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dev-build:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build Release
+      shell: pwsh
+      run: |
+        MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) { throw "Build failed" }
+
+        if (Test-Path "release_files") { Remove-Item -Recurse -Force "release_files" }
+        New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
+        Copy-Item "bin/HS Enhancer Launcher.exe" "release_files/HS_Enhancer_Launcher.exe"
+        Copy-Item "bin/HS Enhancer.dll" "release_files/HS-Enhancer.dll"
+
+    - name: Create manual installation ZIP
+      shell: pwsh
+      run: |
+        if (Test-Path "manual_install") { Remove-Item -Recurse -Force "manual_install" }
+        New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
+
+        Copy-Item "Manual_Install.txt" "manual_install/README.txt"
+
+        Copy-Item "bin/dwmapi.dll" "manual_install/dwmapi.dll"
+        Copy-Item "release_files/HS-Enhancer.dll" "manual_install/HS-Enhancer.dll"
+
+        Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HS_Enhancer.zip" -Force
+
+    - name: Generate changelog from commits
+      id: changelog
+      shell: pwsh
+      run: |
+        git fetch origin main:main
+
+        $repoName = "${{ github.repository }}"
+
+        $commitsFromMain = @(git log main..HEAD --pretty=format:"%H|%h|%s" --no-merges)
+        if ($commitsFromMain.Count -eq 0) {
+          $fullChangelog = "No new changes since main branch."
+        } else {
+          $commitList = ($commitsFromMain | ForEach-Object {
+            $fullSha, $shortSha, $message = $_ -split '\|', 3
+            $message = ($message -split "`n")[0].Trim()
+            "- $message ([$shortSha](https://github.com/$repoName/commit/$fullSha))"
+          }) -join "`n"
+          $fullChangelog = "## Changes since public release:`n`n$commitList"
+        }
+
+        $beforeSha = "${{ github.event.before }}"
+        $afterSha = "${{ github.event.after }}"
+
+        $isEmptyBefore = [string]::IsNullOrWhiteSpace($beforeSha) -or $beforeSha -match '^[0]+$'
+        $isEmptyAfter  = [string]::IsNullOrWhiteSpace($afterSha) -or $afterSha  -match '^[0]+$'
+        if ($isEmptyBefore -or $isEmptyAfter) {
+          $incrementalChangelog = "No new commits in this push."
+          $hasNewCommits = "false"
+        } else {
+          $commitsFromPush = @(git log "$beforeSha..$afterSha" --pretty=format:"- %s" --no-merges)
+          if ($commitsFromPush.Count -eq 0) {
+            $incrementalChangelog = "No new commits in this push."
+            $hasNewCommits = "false"
+          } else {
+            $incrementalList = $commitsFromPush -join "`n"
+            $incrementalChangelog = $incrementalList
+            $hasNewCommits = "true"
+          }
+        }
+
+        Write-Output "full_changelog<<EOF" >> $env:GITHUB_OUTPUT
+        Write-Output $fullChangelog >> $env:GITHUB_OUTPUT
+        Write-Output "EOF" >> $env:GITHUB_OUTPUT
+
+        Write-Output "incremental_changelog<<EOF" >> $env:GITHUB_OUTPUT
+        Write-Output $incrementalChangelog >> $env:GITHUB_OUTPUT
+        Write-Output "EOF" >> $env:GITHUB_OUTPUT
+
+        Write-Output "has_new_commits=$hasNewCommits" >> $env:GITHUB_OUTPUT
+
+    - name: Update or create beta pre-release
+      shell: pwsh
+      run: |
+        $body = @"
+        ⚠️ **This is a beta build for testing purposes.**
+
+        This build contains the latest changes from the development branch and may be unstable.
+
+        ${{ steps.changelog.outputs.full_changelog }}
+        "@
+
+        $bodyFile = "release_body.txt"
+        $body | Out-File -FilePath $bodyFile -Encoding utf8
+
+        $releaseExists = gh release view dev-latest 2>&1
+        if ($LASTEXITCODE -eq 0) {
+          Write-Host "Updating existing beta release..."
+
+          gh release edit dev-latest --notes-file $bodyFile
+
+          Write-Host "Uploading updated files..."
+          gh release upload dev-latest release_files/HS_Enhancer_Launcher.exe --clobber
+          gh release upload dev-latest release_files/HS-Enhancer.dll --clobber
+          gh release upload dev-latest release_files/HS_Enhancer.zip --clobber
+        } else {
+          Write-Host "Creating new beta release..."
+
+          gh release create dev-latest `
+            --title "Beta Build" `
+            --notes-file $bodyFile `
+            --prerelease `
+            release_files/HS_Enhancer_Launcher.exe `
+            release_files/HS-Enhancer.dll `
+            release_files/HS_Enhancer.zip
+        }
+
+        Remove-Item $bodyFile
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Send Discord notification
+      if: steps.changelog.outputs.has_new_commits == 'true'
+      shell: pwsh
+      run: |
+        $webhookUrl = "${{ secrets.DISCORD_WEBHOOK }}"
+
+        if ([string]::IsNullOrWhiteSpace($webhookUrl)) {
+          Write-Host "No Discord webhook configured, skipping notification"
+          exit 0
+        }
+
+        $repoName = "${{ github.repository }}"
+        $releaseUrl = "https://github.com/$repoName/releases/tag/dev-latest"
+
+        $commitList = "${{ steps.changelog.outputs.incremental_changelog }}"
+
+        if ([string]::IsNullOrWhiteSpace($commitList)) {
+          $commitList = "No changes"
+        }
+
+        if ($commitList.Length -gt 1024) {
+          $commitList = $commitList.Substring(0, 1020) + "..."
+        }
+
+        $webhookData = [PSCustomObject]@{
+          content = "<@&1426630164053360640> a new build has been released!"
+          embeds = @(
+            [PSCustomObject]@{
+              color = 16766720
+              fields = @(
+                [PSCustomObject]@{
+                  name = "Changelog since last beta"
+                  value = $commitList
+                  inline = $false
+                }
+              )
+              footer = [PSCustomObject]@{
+                text = "Beta Build - May be unstable"
+              }
+            }
+          )
+          components = @(
+            [PSCustomObject]@{
+              type = 1
+              components = @(
+                [PSCustomObject]@{
+                  type = 2
+                  style = 5
+                  label = "Download"
+                  url = $releaseUrl
+                }
+              )
+            }
+          )
+        }
+
+        $jsonPayload = $webhookData | ConvertTo-Json -Depth 10
+
+        try {
+          $response = Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $jsonPayload -ContentType "application/json; charset=utf-8"
+          Write-Host "Discord notification sent successfully"
+        } catch {
+          Write-Warning "Failed to send Discord notification: $_"
+        }

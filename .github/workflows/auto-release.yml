@@ -3,7 +3,7 @@ name: Auto Release
 on:
   push:
     branches:
-      - dev
+      - main
     paths:
       - 'Launcher/resource/Launcher.rc'
       - 'Mod/resource/Mod.rc'
@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   auto-release:
-    runs-on: windows-latest
+    runs-on: self-hosted
     
     steps:
     - name: Checkout repository
@@ -75,16 +75,25 @@ jobs:
       if: steps.check_tag.outputs.tag_exists == 'false'
       shell: pwsh
       run: |
-        MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration=Release /p:Platform=x64
-        if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
-        
-        MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration=Release /p:Platform=x64
-        if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
-        
-        # Copy files with release naming convention
-        New-Item -ItemType Directory -Force -Path "bin" | Out-Null
-        Copy-Item "Launcher/bin/HS Enhancer Launcher.exe" "bin/HS_Enhancer_Launcher.exe"
-        Copy-Item "Mod/bin/HS Enhancer.dll" "bin/HS-Enhancer.dll"
+        MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) { throw "Build failed" }
+
+        New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
+        Copy-Item "bin/HS Enhancer Launcher.exe" "release_files/HS_Enhancer_Launcher.exe"
+        Copy-Item "bin/HS Enhancer.dll" "release_files/HS-Enhancer.dll"
+
+    - name: Create manual installation ZIP
+      if: steps.check_tag.outputs.tag_exists == 'false'
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
+
+        Copy-Item "Manual_Install.txt" "manual_install/README.txt"
+
+        Copy-Item "bin/dwmapi.dll" "manual_install/dwmapi.dll"
+        Copy-Item "release_files/HS-Enhancer.dll" "manual_install/HS-Enhancer.dll"
+
+        Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HS_Enhancer.zip" -Force
 
     - name: Extract changelog for version
       if: steps.check_tag.outputs.tag_exists == 'false'
@@ -118,11 +127,12 @@ jobs:
         tag_name: ${{ steps.extract_version.outputs.release_version }}
         name: ${{ steps.extract_version.outputs.release_version }}
         body: ${{ steps.changelog.outputs.changelog_content }}
-        draft: false
-        prerelease: true
+        draft: true
+        prerelease: false
         files: |
-          bin/HS_Enhancer_Launcher.exe
-          bin/HS-Enhancer.dll
+          release_files/HS_Enhancer_Launcher.exe
+          release_files/HS-Enhancer.dll
+          release_files/HS_Enhancer.zip
         generate_release_notes: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
