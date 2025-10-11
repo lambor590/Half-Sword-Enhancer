@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   dev-build:
-    runs-on: windows-latest
+    runs-on: self-hosted
 
     steps:
     - name: Checkout repository
