@@ -44,48 +44,29 @@ jobs:
 
         Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HS_Enhancer.zip" -Force
 
-    - name: Get previous beta commit
-      id: previous_beta
-      shell: pwsh
-      run: |
-        $releaseExists = gh release view dev-latest --json targetCommitish 2>&1
-        if ($LASTEXITCODE -eq 0) {
-          $releaseInfo = gh release view dev-latest --json targetCommitish | ConvertFrom-Json
-          $previousSha = $releaseInfo.targetCommitish
-          Write-Host "Previous beta was at commit: $previousSha"
-          Write-Output "sha=$previousSha" >> $env:GITHUB_OUTPUT
-          Write-Output "exists=true" >> $env:GITHUB_OUTPUT
-        } else {
-          Write-Host "No previous beta found, using main branch as reference"
-          $mainSha = git rev-parse main
-          Write-Output "sha=$mainSha" >> $env:GITHUB_OUTPUT
-          Write-Output "exists=false" >> $env:GITHUB_OUTPUT
-        }
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Generate changelog from commits
       id: changelog
       shell: pwsh
       run: |
         git fetch origin main:main
 
-        $previousSha = "${{ steps.previous_beta.outputs.sha }}"
-
         $commitsFromMain = @(git log main..dev --pretty=format:"- %s" --no-merges)
         if ($commitsFromMain.Count -eq 0) {
           $fullChangelog = "No new changes since main branch."
         } else {
           $commitList = $commitsFromMain -join "`n"
-                $fullChangelog = "## Changes since public release:`n`n$commitList"
+          $fullChangelog = "## Changes since public release:`n`n$commitList"
         }
 
-        $commitsFromLastBeta = @(git log "$previousSha..HEAD" --pretty=format:"- %s" --no-merges)
-        if ($commitsFromLastBeta.Count -eq 0) {
-          $incrementalChangelog = "No new commits since last beta build."
+        $beforeSha = "${{ github.event.before }}"
+        $afterSha = "${{ github.event.after }}"
+
+        $commitsFromPush = @(git log "$beforeSha..$afterSha" --pretty=format:"- %s" --no-merges)
+        if ($commitsFromPush.Count -eq 0) {
+          $incrementalChangelog = "No new commits in this push."
           $hasNewCommits = "false"
         } else {
-          $incrementalList = $commitsFromLastBeta -join "`n"
+          $incrementalList = $commitsFromPush -join "`n"
           $incrementalChangelog = $incrementalList
           $hasNewCommits = "true"
         }
@@ -103,8 +84,6 @@ jobs:
     - name: Update or create beta pre-release
       shell: pwsh
       run: |
-        $betaExists = "${{ steps.previous_beta.outputs.exists }}"
-
         $body = @"
         ⚠️ **This is a beta build for testing purposes.**
 
@@ -116,7 +95,8 @@ jobs:
         $bodyFile = "release_body.txt"
         $body | Out-File -FilePath $bodyFile -Encoding utf8
 
-        if ($betaExists -eq "true") {
+        $releaseExists = gh release view dev-latest 2>&1
+        if ($LASTEXITCODE -eq 0) {
           Write-Host "Updating existing beta release..."
 
           Write-Host "Deleting old tag..."
