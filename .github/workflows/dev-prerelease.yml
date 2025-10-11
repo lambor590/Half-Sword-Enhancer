@@ -69,7 +69,9 @@ jobs:
         $beforeSha = "${{ github.event.before }}"
         $afterSha = "${{ github.event.after }}"
 
-        if ([string]::IsNullOrWhiteSpace($beforeSha) -or [string]::IsNullOrWhiteSpace($afterSha)) {
+        $isEmptyBefore = [string]::IsNullOrWhiteSpace($beforeSha) -or $beforeSha -match '^[0]+$'
+        $isEmptyAfter  = [string]::IsNullOrWhiteSpace($afterSha) -or $afterSha  -match '^[0]+$'
+        if ($isEmptyBefore -or $isEmptyAfter) {
           $incrementalChangelog = "No new commits in this push."
           $hasNewCommits = "false"
         } else {
