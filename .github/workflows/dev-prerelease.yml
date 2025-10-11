@@ -149,7 +149,6 @@ jobs:
           content = "<@&1426630164053360640> a new build has been released!"
           embeds = @(
             [PSCustomObject]@{
-              title = "HSE Beta Build"
               color = 16766720
               fields = @(
                 [PSCustomObject]@{
@@ -170,7 +169,7 @@ jobs:
                 [PSCustomObject]@{
                   type = 2
                   style = 5
-                  label = "Download Beta"
+                  label = "Download"
                   url = $releaseUrl
                 }
               )
