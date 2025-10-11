@@ -50,11 +50,16 @@ jobs:
       run: |
         git fetch origin main:main
 
-        $commitsFromMain = @(git log main..dev --pretty=format:"- %s" --no-merges)
+        $repoName = "${{ github.repository }}"
+
+        $commitsFromMain = @(git log main..dev --pretty=format:"%H|%h|%s" --no-merges)
         if ($commitsFromMain.Count -eq 0) {
           $fullChangelog = "No new changes since main branch."
         } else {
-          $commitList = $commitsFromMain -join "`n"
+          $commitList = ($commitsFromMain | ForEach-Object {
+            $fullSha, $shortSha, $message = $_ -split '\|', 3
+            "- $message ([$shortSha](https://github.com/$repoName/commit/$fullSha))"
+          }) -join "`n"
           $fullChangelog = "## Changes since public release:`n`n$commitList"
         }
 
