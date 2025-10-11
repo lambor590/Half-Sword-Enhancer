@@ -1,0 +1,99 @@
+name: Dev Pre-Release
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dev-build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build Release
+      shell: pwsh
+      run: |
+        MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
+
+        MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
+
+        MSBuild.exe "Proxy/Proxy.vcxproj" /p:Configuration=Release /p:Platform=x64
+        if ($LASTEXITCODE -ne 0) { throw "Proxy build failed" }
+
+        New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
+        Copy-Item "Launcher/bin/HS Enhancer Launcher.exe" "release_files/HS_Enhancer_Launcher.exe"
+        Copy-Item "Mod/bin/HS Enhancer.dll" "release_files/HS-Enhancer.dll"
+
+    - name: Create manual installation ZIP
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
+
+        Copy-Item "Manual_Install.txt" "manual_install/README.txt"
+
+        Copy-Item "bin/dwmapi.dll" "manual_install/dwmapi.dll"
+        Copy-Item "release_files/HS-Enhancer.dll" "manual_install/HS-Enhancer.dll"
+
+        Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HS_Enhancer.zip" -Force
+
+    - name: Generate changelog from commits
+      id: changelog
+      shell: pwsh
+      run: |
+        $commits = git log main..dev --pretty=format:"- %s" --no-merges
+
+        if ([string]::IsNullOrWhiteSpace($commits)) {
+          $changelogContent = "No new changes since main branch."
+        } else {
+          $changelogContent = "## Changes in dev branch:`n`n$commits"
+        }
+
+        Write-Output "changelog_content<<EOF" >> $env:GITHUB_OUTPUT
+        Write-Output $changelogContent >> $env:GITHUB_OUTPUT
+        Write-Output "EOF" >> $env:GITHUB_OUTPUT
+
+    - name: Delete existing pre-release
+      shell: pwsh
+      continue-on-error: true
+      run: |
+        gh release delete dev-latest --yes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Delete existing tag
+      shell: pwsh
+      continue-on-error: true
+      run: |
+        git push origin --delete dev-latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create dev pre-release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: dev-latest
+        name: Dev Build (Latest)
+        body: ${{ steps.changelog.outputs.changelog_content }}
+        draft: false
+        prerelease: true
+        files: |
+          release_files/HS_Enhancer_Launcher.exe
+          release_files/HS-Enhancer.dll
+          release_files/HS_Enhancer.zip
+        generate_release_notes: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
