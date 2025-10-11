@@ -58,6 +58,7 @@ jobs:
         } else {
           $commitList = ($commitsFromMain | ForEach-Object {
             $fullSha, $shortSha, $message = $_ -split '\|', 3
+            $message = ($message -split "`n")[0].Trim()
             "- $message ([$shortSha](https://github.com/$repoName/commit/$fullSha))"
           }) -join "`n"
           $fullChangelog = "## Changes since public release:`n`n$commitList"
