@@ -158,30 +158,30 @@ jobs:
         $commitList = "${{ steps.changelog.outputs.incremental_changelog }}"
         $timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
 
-        $payload = @{
+        $payload = [PSCustomObject]@{
           embeds = @(
-            @{
+            [PSCustomObject]@{
               title = "HSE Beta Build Updated"
               description = "A new beta build has been published with the latest development changes."
-              color = 5814786
+              color = 16766720
               fields = @(
-                @{
+                [PSCustomObject]@{
                   name = "Changes"
                   value = $commitList
                   inline = $false
                 }
               )
-              footer = @{
+              footer = [PSCustomObject]@{
                 text = "Beta Build"
               }
               timestamp = $timestamp
             }
           )
           components = @(
-            @{
+            [PSCustomObject]@{
               type = 1
               components = @(
-                @{
+                [PSCustomObject]@{
                   type = 2
                   style = 5
                   label = "Download"
@@ -190,10 +190,12 @@ jobs:
               )
             }
           )
-        } | ConvertTo-Json -Depth 10
+        }
+
+        $jsonPayload = $payload | ConvertTo-Json -Depth 10 -Compress
 
         try {
-          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $jsonPayload -ContentType "application/json; charset=utf-8"
           Write-Host "Discord notification sent successfully"
         } catch {
           Write-Warning "Failed to send Discord notification: $_"
