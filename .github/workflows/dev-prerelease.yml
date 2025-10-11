@@ -28,6 +28,7 @@ jobs:
         MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration=Release /p:Platform=x64
         if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
+        if (Test-Path "release_files") { Remove-Item -Recurse -Force "release_files" }
         New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
         Copy-Item "bin/HS Enhancer Launcher.exe" "release_files/HS_Enhancer_Launcher.exe"
         Copy-Item "bin/HS Enhancer.dll" "release_files/HS-Enhancer.dll"
@@ -35,6 +36,7 @@ jobs:
     - name: Create manual installation ZIP
       shell: pwsh
       run: |
+        if (Test-Path "manual_install") { Remove-Item -Recurse -Force "manual_install" }
         New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
 
         Copy-Item "Manual_Install.txt" "manual_install/README.txt"
