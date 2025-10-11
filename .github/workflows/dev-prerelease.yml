@@ -158,11 +158,11 @@ jobs:
         $commitList = "${{ steps.changelog.outputs.incremental_changelog }}"
 
         $webhookData = @{
-          content = "**A new beta build has been released!**"
+          content = "<@&1426630164053360640> a new beta build has been released!"
           embeds = @(
             @{
               title = "HSE Beta Build"
-              description = "Latest development changes"
+              description = "Latest development changes "
               color = 16766720
               fields = @(
                 @{
@@ -171,6 +171,9 @@ jobs:
                   inline = $false
                 }
               )
+              footer = @{
+                text = "Beta Build - May be unstable"
+              }
             }
           )
           components = @(
