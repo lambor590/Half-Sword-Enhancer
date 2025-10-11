@@ -54,7 +54,7 @@ jobs:
 
         $repoName = "${{ github.repository }}"
 
-        $commitsFromMain = @(git log main..dev --pretty=format:"%H|%h|%s" --no-merges)
+        $commitsFromMain = @(git log main..HEAD --pretty=format:"%H|%h|%s" --no-merges)
         if ($commitsFromMain.Count -eq 0) {
           $fullChangelog = "No new changes since main branch."
         } else {
