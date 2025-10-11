@@ -48,6 +48,8 @@ jobs:
       id: changelog
       shell: pwsh
       run: |
+        git fetch origin main:main
+
         $commits = git log main..dev --pretty=format:"- %s" --no-merges
 
         if ([string]::IsNullOrWhiteSpace($commits)) {
