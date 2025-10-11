@@ -77,7 +77,7 @@ jobs:
           $fullChangelog = "No new changes since main branch."
         } else {
           $commitList = $commitsFromMain -join "`n"
-          $fullChangelog = "## Changes in dev branch:`n`n$commitList"
+                $fullChangelog = "## Changes since public release:`n`n$commitList"
         }
 
         $commitsFromLastBeta = @(git log "$previousSha..HEAD" --pretty=format:"- %s" --no-merges)
@@ -170,11 +170,10 @@ jobs:
           embeds = @(
             @{
               title = "HSE Beta Build"
-              description = "Latest development changes "
               color = 16766720
               fields = @(
                 @{
-                  name = "Changelog"
+                  name = "Changelog since last beta"
                   value = $commitList
                   inline = $false
                 }
