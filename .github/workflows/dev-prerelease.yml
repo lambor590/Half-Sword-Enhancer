@@ -67,14 +67,19 @@ jobs:
         $beforeSha = "${{ github.event.before }}"
         $afterSha = "${{ github.event.after }}"
 
-        $commitsFromPush = @(git log "$beforeSha..$afterSha" --pretty=format:"- %s" --no-merges)
-        if ($commitsFromPush.Count -eq 0) {
+        if ([string]::IsNullOrWhiteSpace($beforeSha) -or [string]::IsNullOrWhiteSpace($afterSha)) {
           $incrementalChangelog = "No new commits in this push."
           $hasNewCommits = "false"
         } else {
-          $incrementalList = $commitsFromPush -join "`n"
-          $incrementalChangelog = $incrementalList
-          $hasNewCommits = "true"
+          $commitsFromPush = @(git log "$beforeSha..$afterSha" --pretty=format:"- %s" --no-merges)
+          if ($commitsFromPush.Count -eq 0) {
+            $incrementalChangelog = "No new commits in this push."
+            $hasNewCommits = "false"
+          } else {
+            $incrementalList = $commitsFromPush -join "`n"
+            $incrementalChangelog = $incrementalList
+            $hasNewCommits = "true"
+          }
         }
 
         Write-Output "full_changelog<<EOF" >> $env:GITHUB_OUTPUT
