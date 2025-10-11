@@ -119,6 +119,14 @@ jobs:
         if ($betaExists -eq "true") {
           Write-Host "Updating existing beta release..."
 
+          Write-Host "Deleting old tag..."
+          git tag -d dev-latest 2>&1 | Out-Null
+          git push origin --delete dev-latest 2>&1 | Out-Null
+
+          Write-Host "Creating new tag at current commit..."
+          git tag dev-latest
+          git push origin dev-latest
+
           gh release edit dev-latest --notes-file $bodyFile
 
           Write-Host "Uploading updated files..."
