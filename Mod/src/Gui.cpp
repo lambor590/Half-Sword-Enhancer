@@ -14,14 +14,9 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     if (KeybindManager::ProcessKeyEvent(msg, wParam))
         return true;
 
-    if (isVisible) {
-        ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
-
-        ImGuiIO& io = ImGui::GetIO();
-        if ((msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST && io.WantCaptureMouse) ||
-            (msg >= WM_KEYFIRST && msg <= WM_KEYLAST && io.WantCaptureKeyboard)) {
-            return true;
-        }
+    if (isVisible && (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam) || 
+        (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST && ImGui::GetIO().WantCaptureMouse))) {
+        return true;
     }
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
