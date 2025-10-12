@@ -61,7 +61,7 @@ void Gui::Render() {
     if (isVisible) {
         constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
         #ifdef DEV_VERSION
-            constexpr const char* windowTitle = "Half Sword Enhancer - Internal Build";
+            constexpr const char* windowTitle = "Half Sword Enhancer - Dev Build";
         #else
             constexpr const char* windowTitle = "Half Sword Enhancer";
         #endif

@@ -18,7 +18,7 @@ void HSELauncher::SetupConsole() {
     if (localVersionResult) {
         const auto versionStr = localVersionResult->ToString();
 #ifdef DEV_VERSION
-        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Internal Build " + versionStr).c_str());
+        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Dev Build " + versionStr).c_str());
 #else
         SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer " + versionStr).c_str());
 #endif
@@ -40,7 +40,7 @@ void HSELauncher::DisplayBanner() {
 #ifdef DEV_VERSION
     std::cout << R"(
         ______      __
-       / ____/___  / /_  ____ _____  ________  _____  [ INTERNAL BUILD ]
+       / ____/___  / /_  ____ _____  ________  _____  [ DEV BUILD ]
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
@@ -58,10 +58,10 @@ void HSELauncher::DisplayBanner() {
     SetConsoleTextAttribute(hConsole, CONSOLE_WHITE);
 
 #ifdef DEV_VERSION
-    hse::Logger::info("Made by The Ghost - Internal Build");
-    hse::Logger::warn("This is an internal development build for testing purposes.");
+    hse::Logger::info("Made by The Ghost - Dev Build");
+    hse::Logger::warn("This is a public development build for testing purposes.");
     hse::Logger::info("This build will automatically update to the final release when available.");
-    hse::Logger::info("Tip: You can drag & drop DLL files onto this launcher to install them!");
+    hse::Logger::info("Tip: You can drag & drop the mod DLL onto this launcher to install it!");
 #else
     hse::Logger::info("Made by The Ghost");
 #endif
