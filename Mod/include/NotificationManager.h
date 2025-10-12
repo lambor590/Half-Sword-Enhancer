@@ -54,7 +54,8 @@ public:
     
     static bool IsEnabled() noexcept { return s_enabled; }
     static void SetEnabled(bool enabled) noexcept;
-    
+    static bool HasNotifications() noexcept { return !s_notifications.empty(); }
+
     static float GetTime() noexcept;
     
 private:
