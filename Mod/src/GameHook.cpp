@@ -11,16 +11,7 @@ namespace {
     constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
     constexpr uint64_t FNV_PRIME = 1099511628211ULL;
 
-    constexpr uint64_t hash_string_impl(const char* str, size_t len) noexcept {
-        uint64_t hash = FNV_OFFSET_BASIS;
-        for (size_t i = 0; i < len; ++i) {
-            hash ^= static_cast<uint64_t>(static_cast<unsigned char>(str[i]));
-            hash *= FNV_PRIME;
-        }
-        return hash;
-    }
-
-    uint64_t hash_string_fast(const char* str) noexcept {
+    constexpr uint64_t hash_string_fast(const char* str) noexcept {
         uint64_t hash = FNV_OFFSET_BASIS;
         while (*str) {
             hash ^= static_cast<uint64_t>(static_cast<unsigned char>(*str++));
@@ -28,14 +19,37 @@ namespace {
         }
         return hash;
     }
+
+    struct alignas(64) FunctionHashCache {
+        std::unordered_map<void*, uint64_t> cache;
+
+        inline uint64_t GetOrComputeHash(SDK::UFunction* pFunc) noexcept {
+            void* funcPtr = static_cast<void*>(pFunc);
+
+            if (auto it = cache.find(funcPtr); it != cache.end()) [[likely]] {
+                return it->second;
+            }
+
+            const std::string& funcName = pFunc->GetName();
+            uint64_t hash = hash_string_fast(funcName.c_str());
+            cache.emplace(funcPtr, hash);
+
+            return hash;
+        }
+    };
+
+    static FunctionHashCache g_hashCache;
 }
 
-inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms)
+__forceinline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
 {
-    const std::string& funcName = pFunc->GetName();
-    uint64_t funcHash = hash_string_fast(funcName.c_str());
+    if (hookInstance->hookMap.empty()) [[likely]] {
+        return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
+    }
 
-    if (auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[likely]] {
+    uint64_t funcHash = g_hashCache.GetOrComputeHash(pFunc);
+
+    if (auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[unlikely]] {
         it->second();
     }
 
