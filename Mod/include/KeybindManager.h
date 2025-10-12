@@ -30,12 +30,20 @@ private:
     static int s_toggleGuiKey;
     static int s_unbindKey;
     static bool s_processingKeyEvent;
+    static bool s_waitingForRebind;
+    static int s_capturedKey;
+    static bool s_keyWasCaptured;
 
 public:
     static void Initialize() noexcept;
     static void RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept;
     static void UnregisterKeybind(int* keyPtr) noexcept;
     static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;
+    static bool ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept;
+    static void StartWaitingForRebind() noexcept;
+    static void CancelRebind() noexcept;
+    static bool IsValidKey(int key) noexcept;
+    static void ResetKeyStates() noexcept;
 
     static constexpr std::string_view GetKeyNameConstexpr(unsigned char index) noexcept {
         switch (index) {
