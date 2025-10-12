@@ -50,10 +50,6 @@ void Gui::Setup() {
 }
 
 void Gui::Render() {
-    ImGui_ImplWin32_NewFrame();
-    ImGui_ImplDX11_NewFrame();
-    ImGui::NewFrame();
-
     static bool previousVisibility = isVisible;
 
     if (previousVisibility != isVisible) {
@@ -62,12 +58,22 @@ void Gui::Render() {
         previousVisibility = isVisible;
     }
 
+    NotificationManager::Update();
+
+    const bool hasNotifications = NotificationManager::IsEnabled() && NotificationManager::HasNotifications();
+
+    if (!isVisible && !hasNotifications) [[likely]] {
+        return;
+    }
+
+    ImGui_ImplWin32_NewFrame();
+    ImGui_ImplDX11_NewFrame();
+    ImGui::NewFrame();
+
     if (!isVisible) {
         ImGuiIO& io = ImGui::GetIO();
         io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
     }
-
-    NotificationManager::Update();
 
     if (isVisible) {
         constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
