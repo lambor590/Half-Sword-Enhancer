@@ -15,11 +15,18 @@ bool KeybindManager::s_initialized = false;
 int KeybindManager::s_toggleGuiKey = VK_INSERT;
 int KeybindManager::s_unbindKey = VK_DELETE;
 bool KeybindManager::s_processingKeyEvent = false;
+bool KeybindManager::s_waitingForRebind = false;
+int KeybindManager::s_capturedKey = -1;
+bool KeybindManager::s_keyWasCaptured = false;
 
 void KeybindManager::Initialize() noexcept {
     if (!s_initialized) {
-        s_toggleGuiKey = g_ConfigManager.GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
-        s_unbindKey = g_ConfigManager.GetInt("Keybinds", "unbind_key", VK_DELETE);
+        int loadedToggleKey = g_ConfigManager.GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
+        int loadedUnbindKey = g_ConfigManager.GetInt("Keybinds", "unbind_key", VK_DELETE);
+
+        s_toggleGuiKey = IsValidKey(loadedToggleKey) ? loadedToggleKey : VK_INSERT;
+        s_unbindKey = IsValidKey(loadedUnbindKey) ? loadedUnbindKey : VK_DELETE;
+
         s_initialized = true;
     }
 }
@@ -116,34 +123,32 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
 }
 
 bool KeybindManager::HandleKeyPress(bool& waitingForKey, int& key) noexcept {
-    if (!waitingForKey) return false;
-    
-    static bool keyPressed[256] = { false };
-    static constexpr int relevantKeys[] = {
-        VK_ESCAPE, VK_F1, VK_F2, VK_F3, VK_F4, VK_F5, VK_F6, VK_F7, VK_F8, VK_F9, VK_F10, VK_F11, VK_F12,
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-        VK_SPACE, VK_RETURN, VK_TAB, VK_SHIFT, VK_CONTROL, VK_MENU,
-        VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_INSERT, VK_DELETE, VK_HOME, VK_END, VK_PRIOR, VK_NEXT,
-        VK_MBUTTON, VK_XBUTTON1, VK_XBUTTON2
-    };
-    
-    static constexpr size_t numRelevantKeys = sizeof(relevantKeys) / sizeof(relevantKeys[0]);
-    static bool asyncKeyStates[numRelevantKeys];
-    
-    for (size_t i = 0; i < numRelevantKeys; ++i) {
-        const int vKey = relevantKeys[i];
-        const bool isCurrentlyPressed = (GetAsyncKeyState(vKey) & 0x8000) != 0;
-        
-        if (isCurrentlyPressed && !asyncKeyStates[i]) {
-            asyncKeyStates[i] = true;
-        } else if (!isCurrentlyPressed && asyncKeyStates[i]) {
-            asyncKeyStates[i] = false;
-            key = (vKey == s_unbindKey) ? -1 : vKey;
-            waitingForKey = false;
-            return true;
-        }
+    if (!waitingForKey) {
+        return false;
     }
+
+    static bool previousWaitingState = false;
+
+    if (waitingForKey && !previousWaitingState) {
+        StartWaitingForRebind();
+        previousWaitingState = true;
+    }
+
+    if (s_keyWasCaptured) {
+        key = s_capturedKey;
+        waitingForKey = false;
+        previousWaitingState = false;
+
+        s_keyWasCaptured = false;
+        s_capturedKey = -1;
+
+        return true;
+    }
+
+    if (!waitingForKey) {
+        previousWaitingState = false;
+    }
+
     return false;
 }
 
@@ -227,12 +232,12 @@ int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) noexcept {
 
 void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
     if (s_processingKeyEvent) [[unlikely]] return;
-    
+
     auto it = s_bindings.find(keyPtr);
     if (it == s_bindings.end()) return;
-    
+
     int newKey = *keyPtr;
-    
+
     for (auto& [key, bindings] : s_keyToBindings) {
         if (bindings.contains(keyPtr)) {
             if (key == newKey) return;
@@ -243,8 +248,98 @@ void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
             break;
         }
     }
-    
+
     if (newKey != -1) {
         s_keyToBindings[newKey].insert(keyPtr);
     }
+}
+
+bool KeybindManager::IsValidKey(int key) noexcept {
+    if (key < 0 || key > 255) return false;
+
+    static constexpr int INVALID_KEYS[] = {
+        VK_LWIN, VK_RWIN,
+        VK_APPS,
+        0
+    };
+
+    for (int invalid : INVALID_KEYS) {
+        if (key == invalid) return false;
+    }
+
+    return true;
+}
+
+bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept {
+    if (!s_waitingForRebind) return false;
+
+    if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) {
+        int keyCode = static_cast<int>(wParam);
+
+        if (keyCode == VK_ESCAPE) {
+            CancelRebind();
+            s_capturedKey = -1;
+            s_keyWasCaptured = true;
+            return true;
+        }
+
+        if (keyCode == s_unbindKey) {
+            s_capturedKey = -1;
+            s_keyWasCaptured = true;
+            s_waitingForRebind = false;
+            return true;
+        }
+
+        if (IsValidKey(keyCode)) {
+            s_capturedKey = keyCode;
+            s_keyWasCaptured = true;
+            s_waitingForRebind = false;
+            return true;
+        }
+    }
+
+    if (msg == WM_MBUTTONDOWN || msg == WM_MBUTTONDBLCLK) {
+        s_capturedKey = VK_MBUTTON;
+        s_keyWasCaptured = true;
+        s_waitingForRebind = false;
+        return true;
+    }
+
+    if (msg == WM_XBUTTONDOWN || msg == WM_XBUTTONDBLCLK) {
+        s_capturedKey = (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? VK_XBUTTON1 : VK_XBUTTON2;
+        s_keyWasCaptured = true;
+        s_waitingForRebind = false;
+        return true;
+    }
+
+    return false;
+}
+
+void KeybindManager::StartWaitingForRebind() noexcept {
+    s_waitingForRebind = true;
+    s_capturedKey = -1;
+    s_keyWasCaptured = false;
+    ResetKeyStates();
+}
+
+void KeybindManager::CancelRebind() noexcept {
+    s_waitingForRebind = false;
+    s_capturedKey = -1;
+    s_keyWasCaptured = false;
+}
+
+void KeybindManager::ResetKeyStates() noexcept {
+    static constexpr int relevantKeys[] = {
+        VK_ESCAPE, VK_F1, VK_F2, VK_F3, VK_F4, VK_F5, VK_F6, VK_F7, VK_F8, VK_F9, VK_F10, VK_F11, VK_F12,
+        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+        VK_SPACE, VK_RETURN, VK_TAB, VK_SHIFT, VK_CONTROL, VK_MENU,
+        VK_UP, VK_DOWN, VK_LEFT, VK_RIGHT, VK_INSERT, VK_DELETE, VK_HOME, VK_END, VK_PRIOR, VK_NEXT,
+        VK_MBUTTON, VK_XBUTTON1, VK_XBUTTON2
+    };
+
+    static constexpr size_t numRelevantKeys = sizeof(relevantKeys) / sizeof(relevantKeys[0]);
+    static bool asyncKeyStates[numRelevantKeys] = { false };
+
+    std::fill(std::begin(asyncKeyStates), std::end(asyncKeyStates), false);
 } 
