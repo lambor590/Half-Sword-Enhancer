@@ -25,12 +25,12 @@ jobs:
     - name: Build Release
       shell: pwsh
       run: |
-        MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration=Release /p:Platform=x64
+        MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration="Release Dev" /p:Platform=x64
         if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
         if (Test-Path "release_files") { Remove-Item -Recurse -Force "release_files" }
         New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
-        Copy-Item "bin/HS Enhancer Launcher.exe" "release_files/HS_Enhancer_Launcher.exe"
+        Copy-Item "bin/HS Enhancer Launcher Dev.exe" "release_files/HS_Enhancer_Launcher.exe"
         Copy-Item "bin/HS Enhancer.dll" "release_files/HS-Enhancer.dll"
 
     - name: Create manual installation ZIP
@@ -96,11 +96,11 @@ jobs:
 
         Write-Output "has_new_commits=$hasNewCommits" >> $env:GITHUB_OUTPUT
 
-    - name: Update or create beta pre-release
+    - name: Update or create dev pre-release
       shell: pwsh
       run: |
         $body = @"
-        ⚠️ **This is a beta build for testing purposes.**
+        ⚠️ **This is a dev build for testing purposes.**
 
         This build contains the latest changes from the development branch and may be unstable.
 
@@ -112,7 +112,7 @@ jobs:
 
         $releaseExists = gh release view dev-latest 2>&1
         if ($LASTEXITCODE -eq 0) {
-          Write-Host "Updating existing beta release..."
+          Write-Host "Updating existing dev release..."
 
           gh release edit dev-latest --notes-file $bodyFile
 
@@ -121,10 +121,10 @@ jobs:
           gh release upload dev-latest release_files/HS-Enhancer.dll --clobber
           gh release upload dev-latest release_files/HS_Enhancer.zip --clobber
         } else {
-          Write-Host "Creating new beta release..."
+          Write-Host "Creating new dev release..."
 
           gh release create dev-latest `
-            --title "Beta Build" `
+            --title "Dev Build" `
             --notes-file $bodyFile `
             --prerelease `
             release_files/HS_Enhancer_Launcher.exe `
@@ -167,13 +167,13 @@ jobs:
               color = 16766720
               fields = @(
                 [PSCustomObject]@{
-                  name = "Changelog since last beta"
+                  name = "Changelog since last dev build"
                   value = $commitList
                   inline = $false
                 }
               )
               footer = [PSCustomObject]@{
-                text = "Beta Build - May be unstable"
+                text = "Dev Build - May be unstable"
               }
             }
           )
