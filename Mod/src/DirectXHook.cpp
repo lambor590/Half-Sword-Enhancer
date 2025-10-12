@@ -53,10 +53,10 @@ IDXGISwapChain* DirectXHook::CreateDummySwapChain()
     desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     desc.SampleDesc.Count = 1;
     desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    desc.BufferCount = 1;
+    desc.BufferCount = 2;
     desc.OutputWindow = dummyWindow;
     desc.Windowed = TRUE;
-    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
     IDXGISwapChain* swapChain;
     ID3D11Device* device;
