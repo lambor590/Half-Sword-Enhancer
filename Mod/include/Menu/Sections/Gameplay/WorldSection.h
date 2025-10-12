@@ -148,29 +148,32 @@ public:
             .WithParams(clearObjectsParams)
             .WithTooltip("Removes dropped weapons and armor")
             .Action([this]() {
-                constexpr float MIN_DISTANCE_FROM_WILLIES = 100.0f;
-                
-                auto clearObjectsOfType = [&](SDK::UClass* objectClass) {
-                    ActorUtils::ForEachObjectOfType<SDK::AActor>(world, [&](SDK::AActor* object) {
-                        if (!object->IsA(objectClass)) return;
-                        
-                        bool isWithinRadius = false;
-                        bool isFarFromAll = true;
-                        
-                        ActorUtils::ForEachWillie(world, nullptr, [&](SDK::AWillie_BP_C* willie) {
-                            float distance = willie->GetDistanceTo(object);
-                            if (distance <= clearObjectsRadius) isWithinRadius = true;
-                            if (distance <= MIN_DISTANCE_FROM_WILLIES) isFarFromAll = false;
-                        });
-                        
-                        if (isWithinRadius && isFarFromAll) {
-                            object->K2_DestroyActor();
-                        }
+                constexpr float MIN_DISTANCE_FROM_WILLIES = 120.0f;
+
+                auto shouldDestroy = [&](SDK::AActor* object) {
+                    bool isWithinRadius = false;
+                    bool isFarFromAll = true;
+
+                    ActorUtils::ForEachWillie(world, nullptr, [&](SDK::AWillie_BP_C* willie) {
+                        float distance = willie->GetDistanceTo(object);
+                        if (distance <= clearObjectsRadius) isWithinRadius = true;
+                        if (distance <= MIN_DISTANCE_FROM_WILLIES) isFarFromAll = false;
                     });
+
+                    return isWithinRadius && isFarFromAll;
                 };
-                
-                clearObjectsOfType(SDK::AModularWeaponBP_C::StaticClass());
-                clearObjectsOfType(SDK::ABP_Armor_Master_C::StaticClass());
+
+                ActorUtils::ForEachObjectOfType<SDK::AModularWeaponBP_C>(world, [&](SDK::AModularWeaponBP_C* weapon) {
+                    if (shouldDestroy(weapon)) {
+                        weapon->K2_DestroyActor();
+                    }
+                });
+
+                ActorUtils::ForEachObjectOfType<SDK::ABP_Armor_Master_C>(world, [&](SDK::ABP_Armor_Master_C* armor) {
+                    if (shouldDestroy(armor)) {
+                        armor->K2_DestroyActor();
+                    }
+                });
             }, player, world);
 
         Function("Toggle Game Paused")
