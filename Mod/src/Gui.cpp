@@ -51,6 +51,13 @@ void Gui::Render() {
     ImGui_ImplDX11_NewFrame();
     ImGui::NewFrame();
 
+    static bool previousVisibility = isVisible;
+
+    if (previousVisibility != isVisible) {
+        GameHook::SetInputEnabled(!isVisible);
+        previousVisibility = isVisible;
+    }
+
     if (!isVisible) {
         ImGuiIO& io = ImGui::GetIO();
         io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
@@ -65,7 +72,7 @@ void Gui::Render() {
         #else
             constexpr const char* windowTitle = "Half Sword Enhancer";
         #endif
-        
+
         if (ImGui::Begin(windowTitle, &isVisible, windowFlags)) {
             MenuManager::Get().RenderMenu();
         }
