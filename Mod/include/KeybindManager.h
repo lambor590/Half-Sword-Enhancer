@@ -6,6 +6,8 @@
 #include <unordered_set>
 #include <vector>
 #include <string_view>
+#include <atomic>
+#include <array>
 
 class ConfigManager;
 class IMenuFunction;
@@ -14,25 +16,51 @@ extern ConfigManager& g_ConfigManager;
 class KeybindManager {
 public:
     using Callback = std::function<void()>;
-    
-    static const char* s_keyNameTable[256];
 
 private:
     struct Binding {
-        int* keyPtr = nullptr;
         Callback callback;
+        int* keyPtr = nullptr;
         IMenuFunction* function = nullptr;
     };
-    
+
+    struct alignas(64) HotData {
+        std::unordered_map<int, std::unordered_set<int*>> keyToBindings;
+        int toggleGuiKey = VK_INSERT;
+        std::atomic<bool> processingKeyEvent{false};
+    };
+
+    struct ColdData {
+        int unbindKey = VK_DELETE;
+        bool waitingForRebind = false;
+        int capturedKey = -1;
+        bool keyWasCaptured = false;
+    };
+
+    struct Stats {
+        std::unordered_map<int, uint64_t> keyPressCounts;
+        uint64_t totalEvents = 0;
+
+        void RecordKeyPress(int key) noexcept {
+            keyPressCounts[key]++;
+            totalEvents++;
+        }
+    };
+
     static std::unordered_map<int*, Binding> s_bindings;
-    static std::unordered_map<int, std::unordered_set<int*>> s_keyToBindings;
+    static std::unordered_map<int*, int> s_ptrToCurrentKey;
     static bool s_initialized;
-    static int s_toggleGuiKey;
-    static int s_unbindKey;
-    static bool s_processingKeyEvent;
-    static bool s_waitingForRebind;
-    static int s_capturedKey;
-    static bool s_keyWasCaptured;
+
+    static HotData s_hotData;
+    static ColdData s_coldData;
+
+    static inline const std::array<bool, 256> s_validKeys = []() {
+        std::array<bool, 256> valid{};
+        for (size_t i = 0; i < 256; ++i) {
+            valid[i] = (i != 0 && i != VK_LWIN && i != VK_RWIN && i != VK_APPS);
+        }
+        return valid;
+    }();
 
 public:
     static void Initialize() noexcept;
@@ -157,15 +185,15 @@ public:
             default: return "Unknown";
         }
     }
-    
+
     static inline const char* GetKeyName(int vKey) noexcept {
         return GetKeyNameConstexpr(static_cast<unsigned char>(vKey)).data();
     }
 
     static bool ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept;
 
-    static int& GetToggleGuiKey() noexcept { return s_toggleGuiKey; }
-    static int& GetUnbindKey() noexcept { return s_unbindKey; }
+    static int& GetToggleGuiKey() noexcept { return s_hotData.toggleGuiKey; }
+    static int& GetUnbindKey() noexcept { return s_coldData.unbindKey; }
     static void SaveKeybinds() noexcept;
 
     static bool IsKeyBound(int key, int* excludeKeyPtr = nullptr) noexcept;
@@ -174,4 +202,8 @@ public:
     static std::vector<IMenuFunction*> GetAllBoundFunctions(int key, int* excludeKeyPtr = nullptr) noexcept;
     static int GetBindingCount(int key, int* excludeKeyPtr = nullptr) noexcept;
     static void UpdateBinding(int* keyPtr) noexcept;
+
+private:
+    static int ExtractKeyCode(UINT msg, WPARAM wParam) noexcept;
+    static constexpr bool IsRelevantMessage(UINT msg) noexcept;
 };
