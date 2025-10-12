@@ -92,13 +92,14 @@ private:
 
     Logger logger{ "GameHook" };
     uintptr_t oProcessEvent = NULL;
-    std::unordered_map<uint64_t, std::function<void()>> hookMap;
-    std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
-    
+
+    alignas(64) std::unordered_map<uint64_t, std::function<void()>> hookMap;
+    alignas(64) std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
+
     static std::queue<std::function<void()>> gameThreadQueue;
     static std::mutex queueMutex;
-    
+
     static constexpr size_t HOOK_MAP_RESERVE_SIZE = 64;
-    
-    friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms);
+
+    friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept;
 };
