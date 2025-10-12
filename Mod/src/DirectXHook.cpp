@@ -2,21 +2,21 @@
 #include "GlobalDefinitions.h"
 #include "MemoryUtils.h"
 
-static HRESULT __stdcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
+__forceinline static HRESULT __fastcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept
 {
     g_DirectXHook->renderer->OnPresent(pThis, syncInterval, flags);
     return ((Present)g_DirectXHook->presentReturnAddress)(pThis, syncInterval, flags);
 }
 
-static HRESULT __stdcall OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags)
+__forceinline static HRESULT __fastcall OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept
 {
     g_DirectXHook->renderer->OnResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
     return ((ResizeBuffers)g_DirectXHook->resizeBuffersReturnAddress)(pThis, bufferCount, width, height, newFormat, swapChainFlags);
 }
 
-static void __stdcall OnExecuteCommandLists(ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists)
+__forceinline static void __fastcall OnExecuteCommandLists(ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists) noexcept
 {
-    if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT)
+    if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT) [[likely]]
     {
         g_DirectXHook->renderer->SetCommandQueue(pThis);
     }
