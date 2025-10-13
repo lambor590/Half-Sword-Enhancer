@@ -14,12 +14,33 @@
 
 #include "Logger.h"
 
+namespace MemoryConstants {
+    constexpr int MASK_BYTES = 0xffff;
+    constexpr unsigned char NOP_INSTRUCTION = 0x90;
+    constexpr size_t MAX_ASM_BYTES = 30;
+    constexpr size_t MIN_CLEARANCE = 5;
+    constexpr size_t FAR_JUMP_SIZE = 14;
+    constexpr size_t NEAR_JUMP_SIZE = 5;
+    constexpr size_t TRAMPOLINE_BUFFER_SIZE = FAR_JUMP_SIZE * 3;
+    constexpr size_t PROTECTION_BUFFER = FAR_JUMP_SIZE;
+    constexpr size_t MEMORY_RANGE_32BIT = 0x7fffffff;
+    constexpr size_t ALLOCATION_INCREMENT = 65536;
+    constexpr int MAX_HOOK_FOLLOW_ATTEMPTS = 50;
+    constexpr size_t PREFETCH_DISTANCE = 64;
+
+    constexpr size_t ABS_JUMP_HEADER_SIZE = 6;
+    constexpr size_t ABS_JUMP_FULL_SIZE = 14;
+    constexpr size_t REL_JUMP_SIZE = 5;
+    constexpr size_t HOOK_DETECTION_SIZE = 6;
+    constexpr size_t FOLLOW_JUMP_BUFFER_SIZE = 7;
+}
+
 // Contains various memory manipulation functions related to hooking or modding
 namespace MemoryUtils
 {
     extern Logger logger;
-    static constexpr int maskBytes = 0xffff;
-    static constexpr unsigned char NOP_INSTRUCTION = 0x90;
+    static constexpr int maskBytes = MemoryConstants::MASK_BYTES;
+    static constexpr unsigned char NOP_INSTRUCTION = MemoryConstants::NOP_INSTRUCTION;
 
     struct HookInformation
     {
@@ -92,17 +113,16 @@ namespace MemoryUtils
 
     static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
     {
-        constexpr size_t range = 0x7fffffff;
-        constexpr size_t increment = 65536;
-        
-        uintptr_t lowerBound = origin > range ? origin - range : 0;
-        uintptr_t higherBound = origin + range;
+        using namespace MemoryConstants;
+
+        uintptr_t lowerBound = origin > MEMORY_RANGE_32BIT ? origin - MEMORY_RANGE_32BIT : 0;
+        uintptr_t higherBound = origin + MEMORY_RANGE_32BIT;
 
         SYSTEM_INFO si;
         GetSystemInfo(&si);
         size_t alignedSize = (numBytes + si.dwPageSize - 1) & ~(static_cast<unsigned long long>(si.dwPageSize) - 1);
 
-        for (uintptr_t i = lowerBound; i < higherBound; i += increment)
+        for (uintptr_t i = lowerBound; i < higherBound; i += ALLOCATION_INCREMENT)
         {
             if (uintptr_t addr = (uintptr_t)VirtualAlloc((void*)i, alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE))
             {
