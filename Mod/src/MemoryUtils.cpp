@@ -36,8 +36,8 @@ namespace MemoryUtils
 
     static bool IsAddressHooked(uintptr_t address)
     {
-        unsigned char buffer[6];
-        MemCopy((uintptr_t)buffer, address, 6);
+        unsigned char buffer[HOOK_DETECTION_SIZE];
+        MemCopy((uintptr_t)buffer, address, HOOK_DETECTION_SIZE);
         
         return buffer[0] == 0xe9 || 
                (buffer[0] == 0x48 && buffer[1] == 0xff && buffer[2] == 0x25) ||
@@ -47,8 +47,8 @@ namespace MemoryUtils
 
     static uintptr_t FollowJump(uintptr_t address)
     {
-        unsigned char buffer[7];
-        MemCopy((uintptr_t)buffer, address, 7);
+        unsigned char buffer[FOLLOW_JUMP_BUFFER_SIZE];
+        MemCopy((uintptr_t)buffer, address, FOLLOW_JUMP_BUFFER_SIZE);
         
         if (buffer[0] == 0xe9) {
             int32_t offset = *(int32_t*)(buffer + 1);
@@ -66,19 +66,18 @@ namespace MemoryUtils
 
     static size_t CalculateRequiredAsmClearance(uintptr_t address, size_t minimumClearance)
     {
-        constexpr size_t maxBytes = 30;
-        std::vector<uint8_t> buffer(maxBytes);
-        MemCopy((uintptr_t)buffer.data(), address, maxBytes);
+        std::vector<uint8_t> buffer(MAX_ASM_BYTES);
+        MemCopy((uintptr_t)buffer.data(), address, MAX_ASM_BYTES);
 
         unsigned char* bytes = buffer.data();
-        if (bytes[0] == 0xff && bytes[1] == 0x25 && 
+        if (bytes[0] == 0xff && bytes[1] == 0x25 &&
             bytes[2] == 0x00 && bytes[3] == 0x00 && bytes[4] == 0x00 && bytes[5] == 0x00) {
-            return 14;
+            return FAR_JUMP_SIZE;
         }
 
-        for (size_t byteCount = 0; byteCount < maxBytes;)
+        for (size_t byteCount = 0; byteCount < MAX_ASM_BYTES;)
         {
-            size_t instructionSize = nmd_x86_ldisasm(&buffer[byteCount], maxBytes - byteCount, NMD_X86_MODE_64);
+            size_t instructionSize = nmd_x86_ldisasm(&buffer[byteCount], MAX_ASM_BYTES - byteCount, NMD_X86_MODE_64);
             if (instructionSize <= 0) return minimumClearance;
             if (byteCount >= minimumClearance) return byteCount;
             byteCount += instructionSize;
@@ -86,46 +85,41 @@ namespace MemoryUtils
         return minimumClearance;
     }
 
-    static void PlaceJump(uintptr_t address, uintptr_t destination, bool absolute = false, size_t clearance = 5)
+    static void PlaceJump(uintptr_t address, uintptr_t destination, bool absolute = false, size_t clearance = MIN_CLEARANCE)
     {
         MemSet(address, NOP_INSTRUCTION, clearance);
-        
+
         if (absolute) {
-            unsigned char jump[6] = { 0xff, 0x25, 0x00, 0x00, 0x00, 0x00 };
-            MemCopy(address, (uintptr_t)jump, 6);
-            MemCopy(address + 6, (uintptr_t)&destination, 8);
+            unsigned char jump[ABS_JUMP_HEADER_SIZE] = { 0xff, 0x25, 0x00, 0x00, 0x00, 0x00 };
+            MemCopy(address, (uintptr_t)jump, ABS_JUMP_HEADER_SIZE);
+            MemCopy(address + ABS_JUMP_HEADER_SIZE, (uintptr_t)&destination, 8);
         } else {
-            unsigned char jump[5] = { 0xe9, 0x00, 0x00, 0x00, 0x00 };
-            MemCopy(address, (uintptr_t)jump, 5);
-            int32_t offset = -int32_t(address + 5 - destination);
+            unsigned char jump[REL_JUMP_SIZE] = { 0xe9, 0x00, 0x00, 0x00, 0x00 };
+            MemCopy(address, (uintptr_t)jump, REL_JUMP_SIZE);
+            int32_t offset = -int32_t(address + REL_JUMP_SIZE - destination);
             MemCopy(address + 1, (uintptr_t)&offset, 4);
         }
     }
 
     void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress)
     {
-        constexpr int maxAttempts = 50;
         int attempts = 0;
-        
-        while (IsAddressHooked(addressToHook) && attempts < maxAttempts) {
+
+        while (IsAddressHooked(addressToHook) && attempts < MAX_HOOK_FOLLOW_ATTEMPTS) {
             addressToHook = FollowJump(addressToHook);
             attempts++;
         }
 
-        constexpr size_t jumpSize = 5;
-        constexpr size_t farJumpSize = 14;
-        constexpr size_t protectionBuffer = farJumpSize;
-        
-        size_t clearance = CalculateRequiredAsmClearance(addressToHook, jumpSize);
-        size_t trampolineSize = farJumpSize * 3 + clearance + protectionBuffer;
+        size_t clearance = CalculateRequiredAsmClearance(addressToHook, NEAR_JUMP_SIZE);
+        size_t trampolineSize = TRAMPOLINE_BUFFER_SIZE + clearance + PROTECTION_BUFFER;
         
         uintptr_t trampoline = AllocateMemoryWithin32BitRange(trampolineSize, addressToHook);
         if (!trampoline) {
             logger.Log("Failed to allocate trampoline memory");
             return;
         }
-        
-        uintptr_t originalInstructions = trampoline + farJumpSize + protectionBuffer;
+
+        uintptr_t originalInstructions = trampoline + FAR_JUMP_SIZE + PROTECTION_BUFFER;
         MemCopy(originalInstructions, addressToHook, clearance);
 
         HookInformation hookInfo;
@@ -134,9 +128,9 @@ namespace MemoryUtils
         MemCopy((uintptr_t)hookInfo.originalBytes.data(), originalInstructions, clearance);
         InfoBufferForHookedAddresses[addressToHook] = hookInfo;
 
-        PlaceJump(trampoline + protectionBuffer, destinationAddress, true, farJumpSize);
-        PlaceJump(trampoline + trampolineSize - farJumpSize, addressToHook + clearance, true, farJumpSize);
-        
+        PlaceJump(trampoline + PROTECTION_BUFFER, destinationAddress, true, FAR_JUMP_SIZE);
+        PlaceJump(trampoline + trampolineSize - FAR_JUMP_SIZE, addressToHook + clearance, true, FAR_JUMP_SIZE);
+
         *returnAddress = originalInstructions;
         PlaceJump(addressToHook, trampoline, false, clearance);
     }
@@ -218,24 +212,24 @@ namespace MemoryUtils
     uintptr_t SigScanRegion(uint8_t* buffer, size_t regionSize, const uint16_t* pattern, size_t patternSize) noexcept
     {
         if (patternSize == 0 || regionSize < patternSize) return 0;
-        
+
         const uint16_t firstByte = pattern[0];
-        const bool firstByteWildcard = (firstByte == maskBytes);
+        const bool firstByteWildcard = (firstByte == MASK_BYTES);
         const size_t searchLimit = regionSize - patternSize + 1;
-        
+
         if (!firstByteWildcard) {
             for (size_t i = 0; i < searchLimit; ++i) {
                 if (buffer[i] == firstByte) {
-                    _mm_prefetch(reinterpret_cast<const char*>(buffer + i + 64), _MM_HINT_T0);
+                    _mm_prefetch(reinterpret_cast<const char*>(buffer + i + PREFETCH_DISTANCE), _MM_HINT_T0);
                     
                     bool match = true;
                     for (size_t j = 1; j < patternSize; ++j) {
-                        if (pattern[j] != maskBytes && pattern[j] != buffer[i + j]) {
+                        if (pattern[j] != MASK_BYTES && pattern[j] != buffer[i + j]) {
                             match = false;
                             break;
                         }
                     }
-                    
+
                     if (match) {
                         return reinterpret_cast<uintptr_t>(buffer + i);
                     }
@@ -243,11 +237,11 @@ namespace MemoryUtils
             }
         } else {
             for (size_t i = 0; i < searchLimit; ++i) {
-                _mm_prefetch(reinterpret_cast<const char*>(buffer + i + 64), _MM_HINT_T0);
-                
+                _mm_prefetch(reinterpret_cast<const char*>(buffer + i + PREFETCH_DISTANCE), _MM_HINT_T0);
+
                 bool found = true;
                 for (size_t j = 0; j < patternSize; ++j) {
-                    if (pattern[j] != maskBytes && pattern[j] != buffer[i + j]) {
+                    if (pattern[j] != MASK_BYTES && pattern[j] != buffer[i + j]) {
                         found = false;
                         break;
                     }
