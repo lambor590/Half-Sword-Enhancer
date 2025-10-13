@@ -1,6 +1,7 @@
 #include <queue>
 #include <mutex>
-#include <unordered_map>
+#include <array>
+#include <string_view>
 
 #include "Utils/Spawner.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -9,18 +10,30 @@
 
 namespace Spawner {
 
-    ActorType GetActorType(const std::string& classPath) {
-        static const std::unordered_map<std::string, ActorType> typeMap = {
+    namespace {
+        constexpr std::array<std::pair<std::string_view, ActorType>, 6> TYPE_MAP = {{
             {"Willie_BP", ActorType::Willie},
             {"ModularWeapon", ActorType::Weapon},
             {"Shield", ActorType::Shield},
             {"Dagger", ActorType::Tool},
             {"Tool", ActorType::Tool},
             {"Armor", ActorType::Armor}
-        };
+        }};
 
-        for (const auto& [key, type] : typeMap) {
-            if (classPath.find(key) != std::string::npos) {
+        constexpr std::array<std::pair<ActorType, float>, 6> OFFSET_MAP = {{
+            {ActorType::Willie, 100.0f},
+            {ActorType::Weapon, 30.0f},
+            {ActorType::Shield, 30.0f},
+            {ActorType::Tool, 15.0f},
+            {ActorType::Armor, 25.0f},
+            {ActorType::Unknown, 50.0f}
+        }};
+    }
+
+    ActorType GetActorType(const std::string& classPath) {
+        std::string_view pathView(classPath);
+        for (const auto& [key, type] : TYPE_MAP) {
+            if (pathView.find(key) != std::string_view::npos) {
                 return type;
             }
         }
@@ -28,18 +41,13 @@ namespace Spawner {
     }
 
     float GetGroundOffsetForType(ActorType type, const SDK::FVector& scale) {
-        static const std::unordered_map<ActorType, float> offsetMap = {
-            {ActorType::Willie, 100.0f},
-            {ActorType::Weapon, 30.0f},
-            {ActorType::Shield, 30.0f},
-            {ActorType::Tool, 15.0f},
-            {ActorType::Armor, 25.0f},
-            {ActorType::Unknown, 50.0f}
-        };
-
-        auto it = offsetMap.find(type);
-        float baseOffset = (it != offsetMap.end()) ? it->second : 50.0f;
-        
+        float baseOffset = 50.0f;
+        for (const auto& [actorType, offset] : OFFSET_MAP) {
+            if (actorType == type) {
+                baseOffset = offset;
+                break;
+            }
+        }
         return baseOffset * (static_cast<float>(scale.Z) * 1.2f);
     }
 
