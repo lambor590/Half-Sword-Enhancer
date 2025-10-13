@@ -54,7 +54,7 @@ private:
     static HotData s_hotData;
     static ColdData s_coldData;
 
-    static inline const std::array<bool, 256> s_validKeys = []() {
+    static inline const std::array<bool, 256> s_validKeys = []() constexpr {
         std::array<bool, 256> valid{};
         for (size_t i = 0; i < 256; ++i) {
             valid[i] = (i != 0 && i != VK_LWIN && i != VK_RWIN && i != VK_APPS);
