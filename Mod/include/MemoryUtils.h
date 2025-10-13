@@ -14,7 +14,10 @@
 
 #include "Logger.h"
 
-namespace MemoryConstants {
+namespace MemoryUtils
+{
+    extern Logger logger;
+
     constexpr int MASK_BYTES = 0xffff;
     constexpr unsigned char NOP_INSTRUCTION = 0x90;
     constexpr size_t MAX_ASM_BYTES = 30;
@@ -27,20 +30,13 @@ namespace MemoryConstants {
     constexpr size_t ALLOCATION_INCREMENT = 65536;
     constexpr int MAX_HOOK_FOLLOW_ATTEMPTS = 50;
     constexpr size_t PREFETCH_DISTANCE = 64;
-
     constexpr size_t ABS_JUMP_HEADER_SIZE = 6;
     constexpr size_t ABS_JUMP_FULL_SIZE = 14;
     constexpr size_t REL_JUMP_SIZE = 5;
     constexpr size_t HOOK_DETECTION_SIZE = 6;
     constexpr size_t FOLLOW_JUMP_BUFFER_SIZE = 7;
-}
 
-// Contains various memory manipulation functions related to hooking or modding
-namespace MemoryUtils
-{
-    extern Logger logger;
-    static constexpr int maskBytes = MemoryConstants::MASK_BYTES;
-    static constexpr unsigned char NOP_INSTRUCTION = MemoryConstants::NOP_INSTRUCTION;
+    static constexpr int maskBytes = MASK_BYTES;
 
     struct HookInformation
     {
@@ -113,8 +109,6 @@ namespace MemoryUtils
 
     static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
     {
-        using namespace MemoryConstants;
-
         uintptr_t lowerBound = origin > MEMORY_RANGE_32BIT ? origin - MEMORY_RANGE_32BIT : 0;
         uintptr_t higherBound = origin + MEMORY_RANGE_32BIT;
 
