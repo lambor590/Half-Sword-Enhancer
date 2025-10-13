@@ -28,8 +28,10 @@ public:
     void Unhook() const;
 
     void RegisterHook(const std::string& functionName, std::function<void()> callback);
+    void RegisterHook(uint64_t hash, std::function<void()> callback);
 
     void UnregisterHook(const std::string& functionName);
+    void UnregisterHook(uint64_t hash);
 
     void UnlockUEConsole();
     void LockUEConsole();
