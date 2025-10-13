@@ -2,6 +2,16 @@
 #include "GlobalDefinitions.h"
 #include "MemoryUtils.h"
 
+namespace DXHookConstants {
+    constexpr int VMT_PRESENT_OFFSET = 8;
+    constexpr int VMT_RESIZE_BUFFERS_OFFSET = 13;
+    constexpr int VMT_EXECUTE_COMMAND_LISTS_OFFSET = 10;
+    constexpr size_t PTR_SIZE = sizeof(size_t);
+
+    constexpr size_t VMT_PRESENT_BYTE_OFFSET = PTR_SIZE * VMT_PRESENT_OFFSET;
+    constexpr size_t VMT_RESIZE_BUFFERS_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS_OFFSET;
+}
+
 __forceinline static HRESULT __fastcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept
 {
     g_DirectXHook->renderer->OnPresent(pThis, syncInterval, flags);
@@ -88,16 +98,14 @@ void DirectXHook::HookSwapChain(
     uintptr_t* presentReturnAddress,
     uintptr_t* resizeBuffersReturnAddress)
 {
-    const int vmtPresentOffset = 8;
-    const int vmtResizeBuffersOffset = 13;
-    const size_t numBytes = sizeof(size_t);
+    using namespace DXHookConstants;
 
     uintptr_t vmtBaseAddress = (*(uintptr_t*)dummySwapChain);
-    uintptr_t vmtPresentIndex = (vmtBaseAddress + (numBytes * vmtPresentOffset));
-    uintptr_t vmtResizeBuffersIndex = (vmtBaseAddress + (numBytes * vmtResizeBuffersOffset));
+    uintptr_t vmtPresentIndex = vmtBaseAddress + VMT_PRESENT_BYTE_OFFSET;
+    uintptr_t vmtResizeBuffersIndex = vmtBaseAddress + VMT_RESIZE_BUFFERS_BYTE_OFFSET;
 
-    MemoryUtils::ToggleMemoryProtection(false, vmtPresentIndex, numBytes);
-    MemoryUtils::ToggleMemoryProtection(false, vmtResizeBuffersIndex, numBytes);
+    MemoryUtils::ToggleMemoryProtection(false, vmtPresentIndex, PTR_SIZE);
+    MemoryUtils::ToggleMemoryProtection(false, vmtResizeBuffersIndex, PTR_SIZE);
 
     uintptr_t presentAddress = (*(uintptr_t*)vmtPresentIndex);
     uintptr_t resizeBuffersAddress = (*(uintptr_t*)vmtResizeBuffersIndex);
@@ -105,8 +113,8 @@ void DirectXHook::HookSwapChain(
     MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, presentReturnAddress);
     MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, resizeBuffersReturnAddress);
 
-    MemoryUtils::ToggleMemoryProtection(true, vmtPresentIndex, numBytes);
-    MemoryUtils::ToggleMemoryProtection(true, vmtResizeBuffersIndex, numBytes);
+    MemoryUtils::ToggleMemoryProtection(true, vmtPresentIndex, PTR_SIZE);
+    MemoryUtils::ToggleMemoryProtection(true, vmtResizeBuffersIndex, PTR_SIZE);
 
     dummySwapChain->Release();
 }
@@ -119,7 +127,7 @@ void DirectXHook::HookCommandQueue(
     if (!dummyCommandQueue) return;
 
     uintptr_t* vTable = *(uintptr_t**)dummyCommandQueue;
-    size_t executeOffset = 10;
+    constexpr size_t executeOffset = DXHookConstants::VMT_EXECUTE_COMMAND_LISTS_OFFSET;
 
     uintptr_t executeAddr = vTable[executeOffset];
     executeCommandListsAddress = executeAddr;
