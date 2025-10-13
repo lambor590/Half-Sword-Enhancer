@@ -1,6 +1,7 @@
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
+#include "Utils/CompileTimeHash.h"
 
 static GameHook* hookInstance = &GameHook::Get();
 
@@ -8,18 +9,6 @@ std::queue<std::function<void()>> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
 
 namespace {
-    constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
-    constexpr uint64_t FNV_PRIME = 1099511628211ULL;
-
-    constexpr uint64_t hash_string_fast(const char* str) noexcept {
-        uint64_t hash = FNV_OFFSET_BASIS;
-        while (*str) {
-            hash ^= static_cast<uint64_t>(static_cast<unsigned char>(*str++));
-            hash *= FNV_PRIME;
-        }
-        return hash;
-    }
-
     struct alignas(64) FunctionHashCache {
         std::unordered_map<void*, uint64_t> cache;
 
@@ -31,7 +20,7 @@ namespace {
             }
 
             const std::string& funcName = pFunc->GetName();
-            uint64_t hash = hash_string_fast(funcName.c_str());
+            uint64_t hash = HS::Hash::FNV1A(funcName.c_str());
             cache.emplace(funcPtr, hash);
 
             return hash;
@@ -95,12 +84,20 @@ void GameHook::Unhook() const
 }
 
 void GameHook::RegisterHook(const std::string& functionName, std::function<void()> callback) {
-    uint64_t hash = hash_string_fast(functionName.c_str());
+    uint64_t hash = HS::Hash::FNV1A(functionName.c_str());
     hookMap.emplace(hash, std::move(callback));
 }
 
 void GameHook::UnregisterHook(const std::string& functionName) {
-    uint64_t hash = hash_string_fast(functionName.c_str());
+    uint64_t hash = HS::Hash::FNV1A(functionName.c_str());
+    hookMap.erase(hash);
+}
+
+void GameHook::RegisterHook(uint64_t hash, std::function<void()> callback) {
+    hookMap.emplace(hash, std::move(callback));
+}
+
+void GameHook::UnregisterHook(uint64_t hash) {
     hookMap.erase(hash);
 }
 
