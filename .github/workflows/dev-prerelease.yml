@@ -42,7 +42,7 @@ jobs:
         Copy-Item "Manual_Install.txt" "manual_install/README.txt"
 
         Copy-Item "bin/dwmapi.dll" "manual_install/dwmapi.dll"
-        Copy-Item "release_files/HS-Enhancer.dll" "manual_install/HS-Enhancer.dll"
+        Copy-Item "release_files/HS-Enhancer.dll" "manual_install/HS Enhancer.dll"
 
         Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HS_Enhancer.zip" -Force
 
