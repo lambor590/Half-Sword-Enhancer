@@ -18,7 +18,6 @@ namespace MemoryUtils
 {
     extern Logger logger;
 
-    constexpr int MASK_BYTES = 0xffff;
     constexpr unsigned char NOP_INSTRUCTION = 0x90;
     constexpr size_t MAX_ASM_BYTES = 30;
     constexpr size_t MIN_CLEARANCE = 5;
@@ -29,33 +28,21 @@ namespace MemoryUtils
     constexpr size_t MEMORY_RANGE_32BIT = 0x7fffffff;
     constexpr size_t ALLOCATION_INCREMENT = 65536;
     constexpr int MAX_HOOK_FOLLOW_ATTEMPTS = 50;
-    constexpr size_t PREFETCH_DISTANCE = 64;
     constexpr size_t ABS_JUMP_HEADER_SIZE = 6;
     constexpr size_t ABS_JUMP_FULL_SIZE = 14;
     constexpr size_t REL_JUMP_SIZE = 5;
     constexpr size_t HOOK_DETECTION_SIZE = 6;
     constexpr size_t FOLLOW_JUMP_BUFFER_SIZE = 7;
 
-    static constexpr int maskBytes = MASK_BYTES;
-
     struct HookInformation
     {
-        std::vector<unsigned char> originalBytes = { 0 };
+        std::array<uint8_t, 32> originalBytes{};
+        size_t originalBytesSize = 0;
         uintptr_t trampolineInstructionsAddress = 0;
     };
 
 
     extern std::unordered_map<uintptr_t, HookInformation> InfoBufferForHookedAddresses;
-    uintptr_t SigScanRegion(uint8_t* buffer, size_t regionSize, const uint16_t* pattern, size_t patternSize) noexcept;
-
-    constexpr uint64_t HashPattern(const std::vector<uint16_t>& pattern) noexcept {
-        uint64_t hash = 14695981039346656037ULL;
-        for (auto byte : pattern) {
-            hash ^= byte;
-            hash *= 1099511628211ULL;
-        }
-        return hash;
-    }
 
     void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size) noexcept;
 
@@ -103,9 +90,6 @@ namespace MemoryUtils
         logger.Log("Raised error: {}", error);
         MessageBoxA(NULL, error.data(), GetCurrentModuleName().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
     }
-
-    uintptr_t SigScanCached(const std::vector<uint16_t>& pattern) noexcept;
-    uintptr_t SigScan(const std::vector<uint16_t>& pattern) noexcept;
 
     static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
     {
