@@ -92,6 +92,104 @@ namespace MemoryUtils
         return address;
     }
 
+    static size_t GetInstructionLength(const uint8_t* code, size_t maxLength)
+    {
+        if (maxLength < 1) return 0;
+
+        size_t offset = 0;
+        bool hasRex = false;
+        bool operandSize16 = false;
+
+        while (offset < maxLength) {
+            uint8_t byte = code[offset];
+
+            if (byte >= 0x40 && byte <= 0x4F) {
+                hasRex = true;
+                offset++;
+            } else if (byte == 0x66) {
+                operandSize16 = true;
+                offset++;
+            } else if (byte == 0x67 || byte == 0xF0 || byte == 0xF2 || byte == 0xF3 ||
+                       byte == 0x26 || byte == 0x2E || byte == 0x36 || byte == 0x3E ||
+                       byte == 0x64 || byte == 0x65) {
+                offset++;
+            } else {
+                break;
+            }
+        }
+
+        if (offset >= maxLength) return 0;
+
+        uint8_t opcode = code[offset++];
+        bool hasModRM = false;
+        uint8_t immSize = 0;
+
+        if (opcode == 0x0F) {
+            if (offset >= maxLength) return 0;
+            opcode = code[offset++];
+
+            if (opcode >= 0x80 && opcode <= 0x8F) {
+                immSize = 4;
+            } else if ((opcode >= 0x10 && opcode <= 0x17) || (opcode >= 0x28 && opcode <= 0x2F) ||
+                       (opcode >= 0x40 && opcode <= 0x76) || opcode == 0xAE || opcode == 0xAF ||
+                       (opcode >= 0xB0 && opcode <= 0xB7) || (opcode >= 0xC2 && opcode <= 0xC6)) {
+                hasModRM = true;
+            }
+        } else {
+            if ((opcode >= 0x00 && opcode <= 0x03) || (opcode >= 0x08 && opcode <= 0x0B) ||
+                (opcode >= 0x10 && opcode <= 0x13) || (opcode >= 0x18 && opcode <= 0x1B) ||
+                (opcode >= 0x20 && opcode <= 0x23) || (opcode >= 0x28 && opcode <= 0x2B) ||
+                (opcode >= 0x30 && opcode <= 0x33) || (opcode >= 0x38 && opcode <= 0x3B) ||
+                (opcode >= 0x62 && opcode <= 0x63) || (opcode >= 0x69 && opcode <= 0x6B) ||
+                (opcode >= 0x80 && opcode <= 0x8F) || opcode == 0xC0 || opcode == 0xC1 ||
+                opcode == 0xC6 || opcode == 0xC7 || opcode == 0xD0 || opcode == 0xD1 ||
+                opcode == 0xD2 || opcode == 0xD3 || opcode == 0xF6 || opcode == 0xF7 ||
+                opcode == 0xFE || opcode == 0xFF) {
+                hasModRM = true;
+            }
+
+            if (opcode == 0x6A || opcode == 0x6B || opcode == 0xA8 || opcode == 0xEB ||
+                (opcode >= 0x70 && opcode <= 0x7F)) {
+                immSize = 1;
+            } else if (opcode == 0x80 || opcode == 0x82 || opcode == 0x83 || opcode == 0xC6) {
+                immSize = 1;
+            } else if (opcode == 0x81 || opcode == 0x69 || opcode == 0xC7) {
+                immSize = operandSize16 ? 2 : 4;
+            } else if (opcode == 0x68 || opcode == 0xE8 || opcode == 0xE9) {
+                immSize = 4;
+            } else if (opcode == 0xA0 || opcode == 0xA1 || opcode == 0xA2 || opcode == 0xA3) {
+                immSize = 8;
+            } else if (opcode >= 0xB0 && opcode <= 0xB7) {
+                immSize = 1;
+            } else if (opcode >= 0xB8 && opcode <= 0xBF) {
+                immSize = hasRex ? 8 : 4;
+            }
+        }
+
+        if (hasModRM) {
+            if (offset >= maxLength) return 0;
+            uint8_t modrm = code[offset++];
+            uint8_t mod = (modrm >> 6) & 0x03;
+            uint8_t rm = modrm & 0x07;
+
+            if (mod != 0x03 && rm == 0x04) {
+                if (offset >= maxLength) return 0;
+                offset++;
+            }
+
+            if (mod == 0x01) {
+                offset += 1;
+            } else if (mod == 0x02) {
+                offset += 4;
+            } else if (mod == 0x00 && rm == 0x05) {
+                offset += 4;
+            }
+        }
+
+        offset += immSize;
+        return offset;
+    }
+
     static size_t CalculateRequiredAsmClearance(uintptr_t address, size_t minimumClearance)
     {
         uint8_t buffer[MAX_ASM_BYTES];
@@ -104,7 +202,7 @@ namespace MemoryUtils
 
         for (size_t byteCount = 0; byteCount < MAX_ASM_BYTES;)
         {
-            size_t instructionSize = nmd_x86_ldisasm(&buffer[byteCount], MAX_ASM_BYTES - byteCount, NMD_X86_MODE_64);
+            size_t instructionSize = GetInstructionLength(&buffer[byteCount], MAX_ASM_BYTES - byteCount);
             if (instructionSize <= 0) return minimumClearance;
             if (byteCount >= minimumClearance) return byteCount;
             byteCount += instructionSize;

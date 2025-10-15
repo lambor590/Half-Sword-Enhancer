@@ -8,10 +8,6 @@
 #include <iomanip>
 #include <array>
 
-#define NMD_ASSEMBLY_IMPLEMENTATION
-#define NMD_ASSEMBLY_PRIVATE
-#include "nmd_assembly.h"
-
 #include "Logger.h"
 
 namespace MemoryUtils
