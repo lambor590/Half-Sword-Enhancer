@@ -68,8 +68,13 @@ public:
     void UnregisterEvent(GameEvent event, void* id) {
         uint8_t idx = static_cast<uint8_t>(event);
         auto& vec = eventCallbacks[idx];
-        vec.erase(std::remove_if(vec.begin(), vec.end(), 
-            [id](const auto& p) { return p.first == id; }), vec.end());
+        for (size_t i = 0; i < vec.size(); ++i) {
+            if (vec[i].first == id) {
+                vec[i] = std::move(vec.back());
+                vec.pop_back();
+                break;
+            }
+        }
         if (vec.empty()) {
             const char* funcName = GetEventFunctionName(event);
             UnregisterHook(funcName);
