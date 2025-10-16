@@ -104,17 +104,11 @@ void DirectXHook::HookSwapChain(
     uintptr_t vmtPresentIndex = vmtBaseAddress + VMT_PRESENT_BYTE_OFFSET;
     uintptr_t vmtResizeBuffersIndex = vmtBaseAddress + VMT_RESIZE_BUFFERS_BYTE_OFFSET;
 
-    MemoryUtils::ToggleMemoryProtection(false, vmtPresentIndex, PTR_SIZE);
-    MemoryUtils::ToggleMemoryProtection(false, vmtResizeBuffersIndex, PTR_SIZE);
-
     uintptr_t presentAddress = (*(uintptr_t*)vmtPresentIndex);
     uintptr_t resizeBuffersAddress = (*(uintptr_t*)vmtResizeBuffersIndex);
 
     MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, presentReturnAddress);
     MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, resizeBuffersReturnAddress);
-
-    MemoryUtils::ToggleMemoryProtection(true, vmtPresentIndex, PTR_SIZE);
-    MemoryUtils::ToggleMemoryProtection(true, vmtResizeBuffersIndex, PTR_SIZE);
 
     dummySwapChain->Release();
 }
@@ -132,9 +126,7 @@ void DirectXHook::HookCommandQueue(
     uintptr_t executeAddr = vTable[executeOffset];
     executeCommandListsAddress = executeAddr;
 
-    MemoryUtils::ToggleMemoryProtection(false, executeAddr, sizeof(void*));
     MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, executeCommandListsReturnAddress);
-    MemoryUtils::ToggleMemoryProtection(true, executeAddr, sizeof(void*));
 
     dummyCommandQueue->Release();
 }
