@@ -21,7 +21,7 @@ namespace {
 
             const std::string& funcName = pFunc->GetName();
             uint64_t hash = HS::Hash::FNV1A(funcName.c_str());
-            cache.emplace(funcPtr, hash);
+                cache.emplace(funcPtr, hash);
 
             return hash;
         }
@@ -32,10 +32,6 @@ namespace {
 
 __forceinline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
 {
-    if (hookInstance->hookMap.empty()) [[likely]] {
-        return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
-    }
-
     uint64_t funcHash = g_hashCache.GetOrComputeHash(pFunc);
 
     if (auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[unlikely]] {
