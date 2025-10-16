@@ -45,9 +45,7 @@ namespace MemoryUtils
     static inline void MemCopy(uintptr_t destination, uintptr_t source, size_t numBytes) noexcept
     {
         ToggleMemoryProtection(false, destination, numBytes);
-        ToggleMemoryProtection(false, source, numBytes);
         std::memcpy(reinterpret_cast<void*>(destination), reinterpret_cast<const void*>(source), numBytes);
-        ToggleMemoryProtection(true, source, numBytes);
         ToggleMemoryProtection(true, destination, numBytes);
     }
 
@@ -101,7 +99,7 @@ namespace MemoryUtils
             if (uintptr_t addr = (uintptr_t)VirtualAlloc((void*)i, alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE))
             {
                 if (addr >= lowerBound && addr <= higherBound) {
-                    MemSet(addr, NOP_INSTRUCTION, numBytes);
+                    std::memset(reinterpret_cast<void*>(addr), NOP_INSTRUCTION, numBytes);
                     return addr;
                 }
                 VirtualFree((void*)addr, 0, MEM_RELEASE);
@@ -116,12 +114,17 @@ namespace MemoryUtils
     static uintptr_t ReadPointerChain(const std::vector<uintptr_t>& pointerOffsets)
     {
         uintptr_t pointer = GetProcessBaseAddress(GetCurrentProcessId());
-        
+
         for (size_t i = 0; i < pointerOffsets.size(); i++)
         {
             pointer += pointerOffsets[i];
             if (i < pointerOffsets.size() - 1) {
-                MemCopy((uintptr_t)&pointer, pointer, sizeof(uintptr_t));
+                __try {
+                    pointer = *reinterpret_cast<uintptr_t*>(pointer);
+                }
+                __except (EXCEPTION_EXECUTE_HANDLER) {
+                    return 0;
+                }
             }
             if (pointer == 0) return 0;
         }
