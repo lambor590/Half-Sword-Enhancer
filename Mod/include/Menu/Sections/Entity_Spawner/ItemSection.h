@@ -522,6 +522,7 @@ public:
             ImGui::Spacing();
         }
 
+        ImGui::AlignTextToFramePadding();
         ImGui::Text("Search");
         ImGui::SameLine();
         bool searchChanged = ImGui::InputText("##ItemSearch", searchBuffer, sizeof(searchBuffer), ImGuiInputTextFlags_AutoSelectAll);
