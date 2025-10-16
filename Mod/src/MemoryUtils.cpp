@@ -212,20 +212,23 @@ namespace MemoryUtils
 
     static void PlaceJump(uintptr_t address, uintptr_t destination, bool absolute = false, size_t clearance = MIN_CLEARANCE)
     {
-        uint8_t buffer[32];
-        std::memset(buffer, NOP_INSTRUCTION, clearance);
+        ToggleMemoryProtection(false, address, clearance);
+
+        uint8_t* ptr = reinterpret_cast<uint8_t*>(address);
 
         if (absolute) {
             static constexpr uint8_t absJumpHeader[ABS_JUMP_HEADER_SIZE] = { 0xff, 0x25, 0x00, 0x00, 0x00, 0x00 };
-            std::memcpy(buffer, absJumpHeader, ABS_JUMP_HEADER_SIZE);
-            std::memcpy(buffer + ABS_JUMP_HEADER_SIZE, &destination, sizeof(destination));
+            std::memcpy(ptr, absJumpHeader, ABS_JUMP_HEADER_SIZE);
+            std::memcpy(ptr + ABS_JUMP_HEADER_SIZE, &destination, sizeof(destination));
+            std::memset(ptr + ABS_JUMP_FULL_SIZE, NOP_INSTRUCTION, clearance - ABS_JUMP_FULL_SIZE);
         } else {
-            buffer[0] = 0xe9;
+            ptr[0] = 0xe9;
             int32_t offset = -int32_t(address + REL_JUMP_SIZE - destination);
-            std::memcpy(buffer + 1, &offset, sizeof(offset));
+            std::memcpy(ptr + 1, &offset, sizeof(offset));
+            std::memset(ptr + REL_JUMP_SIZE, NOP_INSTRUCTION, clearance - REL_JUMP_SIZE);
         }
 
-        MemCopy(address, (uintptr_t)buffer, clearance);
+        ToggleMemoryProtection(true, address, clearance);
     }
 
     void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress)
