@@ -394,6 +394,10 @@ private:
     static inline uint8_t lastCategoryIndex = 255;
     static inline uint8_t lastWeaponSubcategoryIndex = 255;
 
+    static inline char searchBuffer[128] = "";
+    static inline std::vector<uint16_t> filteredIndices;
+    static inline bool searchActive = false;
+
     [[nodiscard]] __forceinline std::pair<const ItemInfo*, size_t> getCurrentItemArray() const noexcept {
         if (currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
             return {weaponArrays[currentWeaponSubcategoryIndex], weaponSizes[currentWeaponSubcategoryIndex]};
@@ -418,6 +422,62 @@ private:
             }
             lastCategoryIndex = currentCategoryIndex;
             lastWeaponSubcategoryIndex = currentWeaponSubcategoryIndex;
+        }
+    }
+
+    static const char* stristr(const char* haystack, const char* needle) {
+        if (!*needle) return haystack;
+        for (; *haystack; ++haystack) {
+            if (std::tolower(static_cast<unsigned char>(*haystack)) == std::tolower(static_cast<unsigned char>(*needle))) {
+                const char* h = haystack;
+                const char* n = needle;
+                while (*h && *n && std::tolower(static_cast<unsigned char>(*h)) == std::tolower(static_cast<unsigned char>(*n))) {
+                    ++h; ++n;
+                }
+                if (!*n) return haystack;
+            }
+        }
+        return nullptr;
+    }
+
+    __forceinline void updateFilteredItems() noexcept {
+        filteredIndices.clear();
+
+        if (searchBuffer[0] == '\0') {
+            searchActive = false;
+            return;
+        }
+
+        searchActive = true;
+
+        for (uint8_t catIdx = 0; catIdx < static_cast<uint8_t>(categories.size()); ++catIdx) {
+            if (catIdx == WEAPONS_INDEX) {
+                for (uint8_t subIdx = 0; subIdx < static_cast<uint8_t>(weaponSubcategories.size()); ++subIdx) {
+                    const auto* items = weaponArrays[subIdx];
+                    const size_t size = weaponSizes[subIdx];
+                    for (uint16_t i = 0; i < size; ++i) {
+                        if (stristr(items[i].displayName, searchBuffer)) {
+                            filteredIndices.push_back((catIdx << 12) | (subIdx << 8) | i);
+                        }
+                    }
+                }
+            } else if (catIdx == PROPS_INDEX) {
+                for (uint16_t i = 0; i < propItems.size(); ++i) {
+                    if (stristr(propItems[i].displayName, searchBuffer)) {
+                        filteredIndices.push_back((catIdx << 12) | i);
+                    }
+                }
+            } else {
+                const auto* items = armorArrays[catIdx];
+                const size_t size = armorSizes[catIdx];
+                if (items) {
+                    for (uint16_t i = 0; i < size; ++i) {
+                        if (stristr(items[i].displayName, searchBuffer)) {
+                            filteredIndices.push_back((catIdx << 12) | i);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -462,31 +522,87 @@ public:
             ImGui::Spacing();
         }
 
-        ImGui::Text("Category");
-        int catIndex = static_cast<int>(currentCategoryIndex);
-        if (ImGui::Combo("##CategorySelector", &catIndex, categories.data(), static_cast<int>(categories.size()))) [[unlikely]] {
-            currentCategoryIndex = static_cast<uint8_t>(catIndex);
-            currentItemIndex = 0;
-            if (currentCategoryIndex != WEAPONS_INDEX) [[likely]] {
-                currentWeaponSubcategoryIndex = 0;
-            }
+        ImGui::Text("Search");
+        ImGui::SameLine();
+        bool searchChanged = ImGui::InputText("##ItemSearch", searchBuffer, sizeof(searchBuffer), ImGuiInputTextFlags_AutoSelectAll);
+
+        if (searchChanged) {
+            updateFilteredItems();
         }
 
-        if (currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
-            ImGui::Text("Subcategory");
-            int subIndex = static_cast<int>(currentWeaponSubcategoryIndex);
-            if (ImGui::Combo("##SubcategorySelector", &subIndex, weaponSubcategories.data(), static_cast<int>(weaponSubcategories.size()))) [[unlikely]] {
-                currentWeaponSubcategoryIndex = static_cast<uint8_t>(subIndex);
+        if (searchActive && !filteredIndices.empty()) {
+            ImGui::Text("Found: %zu items", filteredIndices.size());
+            ImGui::Spacing();
+
+            if (ImGui::BeginCombo("##FilteredItems", "Select item...")) {
+                for (uint16_t packedIdx : filteredIndices) {
+                    uint8_t catIdx = (packedIdx >> 12) & 0xF;
+                    uint8_t subIdx = (packedIdx >> 8) & 0xF;
+                    uint16_t itmIdx = packedIdx & 0xFF;
+
+                    const ItemInfo* item = nullptr;
+                    if (catIdx == WEAPONS_INDEX) {
+                        item = &weaponArrays[subIdx][itmIdx];
+                    } else if (catIdx == PROPS_INDEX) {
+                        item = &propItems[itmIdx];
+                    } else {
+                        item = &armorArrays[catIdx][itmIdx];
+                    }
+
+                    if (item) {
+                        bool isSelected = (currentCategoryIndex == catIdx && currentItemIndex == itmIdx && (catIdx != WEAPONS_INDEX || currentWeaponSubcategoryIndex == subIdx));
+                        if (ImGui::Selectable(item->displayName, isSelected)) {
+                            currentCategoryIndex = catIdx;
+                            currentWeaponSubcategoryIndex = subIdx;
+                            currentItemIndex = itmIdx;
+                        }
+                        if (isSelected) {
+                            ImGui::SetItemDefaultFocus();
+                        }
+                    }
+                }
+                ImGui::EndCombo();
+            }
+
+            if (ImGui::Button("Clear Search")) {
+                searchBuffer[0] = '\0';
+                searchActive = false;
+            }
+
+        } else if (searchActive && filteredIndices.empty()) {
+            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No items found");
+            if (ImGui::Button("Clear Search")) {
+                searchBuffer[0] = '\0';
+                searchActive = false;
+            }
+
+        } else {
+            ImGui::Text("Category");
+            int catIndex = static_cast<int>(currentCategoryIndex);
+            if (ImGui::Combo("##CategorySelector", &catIndex, categories.data(), static_cast<int>(categories.size()))) [[unlikely]] {
+                currentCategoryIndex = static_cast<uint8_t>(catIndex);
                 currentItemIndex = 0;
+                if (currentCategoryIndex != WEAPONS_INDEX) [[likely]] {
+                    currentWeaponSubcategoryIndex = 0;
+                }
             }
-        }
 
-        updateItemNamesCache();
-        
-        ImGui::Text("Item");
-        int itemIndex = static_cast<int>(currentItemIndex);
-        if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
-            currentItemIndex = static_cast<uint16_t>(itemIndex);
+            if (currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
+                ImGui::Text("Subcategory");
+                int subIndex = static_cast<int>(currentWeaponSubcategoryIndex);
+                if (ImGui::Combo("##SubcategorySelector", &subIndex, weaponSubcategories.data(), static_cast<int>(weaponSubcategories.size()))) [[unlikely]] {
+                    currentWeaponSubcategoryIndex = static_cast<uint8_t>(subIndex);
+                    currentItemIndex = 0;
+                }
+            }
+
+            updateItemNamesCache();
+
+            ImGui::Text("Item");
+            int itemIndex = static_cast<int>(currentItemIndex);
+            if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
+                currentItemIndex = static_cast<uint16_t>(itemIndex);
+            }
         }
 
         ImGui::Spacing();
