@@ -10,20 +10,41 @@ std::mutex GameHook::queueMutex;
 
 namespace {
     struct alignas(64) FunctionHashCache {
-        std::unordered_map<void*, uint64_t> cache;
+        static constexpr size_t CACHE_SIZE = 256;
+        static constexpr size_t CACHE_MASK = CACHE_SIZE - 1;
+
+        struct Entry {
+            void* funcPtr = nullptr;
+            uint64_t hash = 0;
+        };
+
+        alignas(64) std::array<Entry, CACHE_SIZE> entries{};
 
         inline uint64_t GetOrComputeHash(SDK::UFunction* pFunc) noexcept {
             void* funcPtr = static_cast<void*>(pFunc);
+            const size_t index = (reinterpret_cast<uintptr_t>(funcPtr) >> 4) & CACHE_MASK;
 
-            if (auto it = cache.find(funcPtr); it != cache.end()) [[likely]] {
-                return it->second;
+            size_t probeIndex = index;
+            for (size_t i = 0; i < 8; ++i) {
+                Entry& entry = entries[probeIndex];
+
+                if (entry.funcPtr == funcPtr) [[likely]] {
+                    return entry.hash;
+                }
+
+                if (entry.funcPtr == nullptr) [[unlikely]] {
+                    std::string funcName = pFunc->GetName();
+                    uint64_t hash = HS::Hash::FNV1A(funcName.c_str());
+                    entry.funcPtr = funcPtr;
+                    entry.hash = hash;
+                    return hash;
+                }
+
+                probeIndex = (probeIndex + 1) & CACHE_MASK;
             }
 
-            const std::string& funcName = pFunc->GetName();
-            uint64_t hash = HS::Hash::FNV1A(funcName.c_str());
-                cache.emplace(funcPtr, hash);
-
-            return hash;
+            std::string funcName = pFunc->GetName();
+            return HS::Hash::FNV1A(funcName.c_str());
         }
     };
 
@@ -32,9 +53,9 @@ namespace {
 
 __forceinline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
 {
-    uint64_t funcHash = g_hashCache.GetOrComputeHash(pFunc);
+    const uint64_t funcHash = g_hashCache.GetOrComputeHash(pFunc);
 
-    if (auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[unlikely]] {
+    if (const auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[unlikely]] {
         it->second();
     }
 
@@ -153,12 +174,17 @@ void GameHook::QueueAction(std::function<void()> action) {
 }
 
 void GameHook::ProcessGameThreadQueue() {
-    std::lock_guard<std::mutex> lock(queueMutex);
-    
-    while (!gameThreadQueue.empty()) {
-        const auto& action = gameThreadQueue.front();
-        action();
-        gameThreadQueue.pop();
+    std::queue<std::function<void()>> localQueue;
+
+    {
+        std::lock_guard<std::mutex> lock(queueMutex);
+        if (gameThreadQueue.empty()) return;
+        localQueue.swap(gameThreadQueue);
+    }
+
+    while (!localQueue.empty()) {
+        localQueue.front()();
+        localQueue.pop();
     }
 }
 
