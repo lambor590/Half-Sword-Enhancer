@@ -11,19 +11,21 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     if (KeybindManager::ProcessRebindEvent(msg, wParam))
         return true;
 
-    if (isVisible) {
-        if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam)) {
+    if (!isVisible) [[likely]] {
+        if (KeybindManager::ProcessKeyEvent(msg, wParam))
             return true;
-        }
-
-        ImGuiIO& io = ImGui::GetIO();
-
-        if (io.WantCaptureMouse || io.WantTextInput) {
-            return true;
-        }
+        return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
     }
 
-    if (KeybindManager::ProcessKeyEvent(msg, wParam))
+    ImGuiIO& io = ImGui::GetIO();
+
+    if (!io.WantTextInput && KeybindManager::ProcessKeyEvent(msg, wParam))
+        return true;
+
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+        return true;
+
+    if (io.WantCaptureMouse || io.WantTextInput)
         return true;
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
