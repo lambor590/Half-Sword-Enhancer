@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <chrono>
 #include <vector>
 
@@ -49,8 +50,8 @@ public:
     static void Update() noexcept;
     static void Render() noexcept;
     
-    static void NotifyHookToggle(const std::string& functionName, bool enabled) noexcept;
-    static void NotifyOneTimeAction(const std::string& actionName) noexcept;
+    static void NotifyHookToggle(std::string_view functionName, bool enabled) noexcept;
+    static void NotifyOneTimeAction(std::string_view actionName) noexcept;
     
     static bool IsEnabled() noexcept { return s_enabled; }
     static void SetEnabled(bool enabled) noexcept;
