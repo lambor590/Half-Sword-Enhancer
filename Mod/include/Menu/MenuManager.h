@@ -19,11 +19,10 @@ enum class MenuTab : uint8_t {
 
 class MenuManager {
 private:
-    inline static MenuManager* instance = nullptr;
     static constexpr size_t TabCount = static_cast<size_t>(MenuTab::Count);
-    
+
     std::array<std::vector<std::unique_ptr<ICollapsibleSection>>, TabCount> sections;
-    
+
     static constexpr std::array<std::pair<MenuTab, const char*>, TabCount> tabOrder = {{
         {MenuTab::Gameplay, "Gameplay"},
         {MenuTab::Entity_Spawner, "Entity Spawner"},
@@ -31,10 +30,10 @@ private:
         {MenuTab::Post_Process_Settings, "Post Process"},
         {MenuTab::Settings, "Settings"}
     }};
-    
-    static constexpr ImGuiTabBarFlags tabBarFlags = 
+
+    static constexpr ImGuiTabBarFlags tabBarFlags =
         ImGuiTabBarFlags_FittingPolicyScroll | ImGuiTabBarFlags_Reorderable;
-    
+
     static constexpr const char* comingSoonText = "Coming Soon";
     static constexpr const char* mainTabBarId = "MainTabBar";
 
@@ -42,11 +41,12 @@ private:
 
 public:
     static MenuManager& Get() {
-        if (!instance) {
-            instance = new MenuManager();
-        }
-        return *instance;
+        static MenuManager instance;
+        return instance;
     }
+
+    MenuManager(const MenuManager&) = delete;
+    MenuManager& operator=(const MenuManager&) = delete;
 
     template<typename T>
     void AddSection(MenuTab tab) {
