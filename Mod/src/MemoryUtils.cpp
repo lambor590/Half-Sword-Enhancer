@@ -4,12 +4,13 @@
 
 #include "MemoryUtils.h"
 
-namespace MemoryUtils 
+namespace MemoryUtils
 {
     Logger logger{ "MemoryUtils" };
     std::unordered_map<uintptr_t, HookInformation> InfoBufferForHookedAddresses;
 
     static std::unordered_map<uintptr_t, DWORD> g_protectionHistory;
+    static constexpr size_t MAX_PROTECTION_HISTORY = 128;
 
     void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size) noexcept
     {
@@ -23,6 +24,10 @@ namespace MemoryUtils
             }
         } else {
             if (it == g_protectionHistory.end()) {
+                if (g_protectionHistory.size() >= MAX_PROTECTION_HISTORY) [[unlikely]] {
+                    g_protectionHistory.erase(g_protectionHistory.begin());
+                }
+
                 DWORD oldProtection;
                 VirtualProtect((void*)address, size, PAGE_EXECUTE_READWRITE, &oldProtection);
                 g_protectionHistory[address] = oldProtection;
