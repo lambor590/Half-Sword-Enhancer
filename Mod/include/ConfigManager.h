@@ -1,8 +1,10 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <filesystem>
 #include <chrono>
+#include <atomic>
 
 #include "../../ext/SimpleIni.h"
 
@@ -10,7 +12,7 @@ class ConfigManager {
 private:
     CSimpleIni ini;
     std::filesystem::path configPath;
-    mutable bool needsSave = false;
+    mutable std::atomic<bool> needsSave{false};
     mutable std::chrono::steady_clock::time_point lastSaveTime;
     static constexpr std::chrono::milliseconds SAVE_DELAY{500};
 
@@ -18,7 +20,7 @@ private:
 
 public:
     static std::filesystem::path GetAppDataPath();
-    
+
     static ConfigManager& Get() {
         static ConfigManager manager;
         return manager;
@@ -29,21 +31,21 @@ public:
     void LoadConfig();
     void FlushPendingSave();
 
-    int GetInt(const std::string& function, const std::string& param, int defaultValue);
-               
-    bool GetBool(const std::string& function, const std::string& param, bool defaultValue);
-                 
-    float GetFloat(const std::string& function, const std::string& param, float defaultValue);
-                   
-    std::string GetString(const std::string& function, const std::string& param, 
-                          const std::string& defaultValue);
+    int GetInt(std::string_view function, std::string_view param, int defaultValue);
 
-    void SetInt(const std::string& function, const std::string& param, int value);
-                
-    void SetBool(const std::string& function, const std::string& param, bool value);
-                 
-    void SetFloat(const std::string& function, const std::string& param, float value);
-                  
-    void SetString(const std::string& function, const std::string& param, 
-                   const std::string& value);
+    bool GetBool(std::string_view function, std::string_view param, bool defaultValue);
+
+    float GetFloat(std::string_view function, std::string_view param, float defaultValue);
+
+    std::string GetString(std::string_view function, std::string_view param,
+                          std::string_view defaultValue);
+
+    void SetInt(std::string_view function, std::string_view param, int value);
+
+    void SetBool(std::string_view function, std::string_view param, bool value);
+
+    void SetFloat(std::string_view function, std::string_view param, float value);
+
+    void SetString(std::string_view function, std::string_view param,
+                   std::string_view value);
 }; 
