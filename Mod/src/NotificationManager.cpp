@@ -148,7 +148,7 @@ void NotificationManager::AddNotification(std::string&& message, float duration)
     s_notifications.emplace_back(std::move(message), duration);
 }
 
-void NotificationManager::NotifyHookToggle(const std::string& functionName, bool enabled) noexcept {
+void NotificationManager::NotifyHookToggle(std::string_view functionName, bool enabled) noexcept {
     if (!s_enabled) [[unlikely]] return;
 
     const std::string_view prefix = enabled ? ENABLED_PREFIX : DISABLED_PREFIX;
@@ -161,7 +161,7 @@ void NotificationManager::NotifyHookToggle(const std::string& functionName, bool
     AddNotification(std::move(message));
 }
 
-void NotificationManager::NotifyOneTimeAction(const std::string& actionName) noexcept {
+void NotificationManager::NotifyOneTimeAction(std::string_view actionName) noexcept {
     if (!s_enabled) [[unlikely]] return;
 
     static constexpr float actionDuration = 2.0f;
