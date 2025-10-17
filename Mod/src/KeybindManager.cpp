@@ -112,26 +112,26 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
         return false;
     }
 
-    static thread_local std::vector<std::pair<Callback, IMenuFunction*>> s_callbackPool;
-    s_callbackPool.clear();
-    s_callbackPool.reserve(it->second.size());
+    static thread_local std::vector<Binding*> s_bindingCache;
+    s_bindingCache.clear();
+    s_bindingCache.reserve(it->second.size());
 
     for (int* keyPtr : it->second) {
         const auto bindingIt = s_bindings.find(keyPtr);
         if (bindingIt != s_bindings.end()) [[likely]] {
-            s_callbackPool.emplace_back(bindingIt->second.callback, bindingIt->second.function);
+            s_bindingCache.push_back(&bindingIt->second);
         }
     }
 
-    for (const auto& [callback, function] : s_callbackPool) {
-        callback();
+    for (const Binding* binding : s_bindingCache) {
+        binding->callback();
 
-        if (function) [[likely]] {
+        if (IMenuFunction* function = binding->function) [[likely]] {
             if (const auto name = function->GetName(); !name.empty()) [[likely]] {
                 if (auto* hookedFunc = dynamic_cast<HookedFunction*>(function)) [[likely]] {
-                    NotificationManager::NotifyHookToggle(std::string{name}, hookedFunc->LoadEnabledState());
+                    NotificationManager::NotifyHookToggle(name, hookedFunc->LoadEnabledState());
                 } else {
-                    NotificationManager::NotifyOneTimeAction(std::string{name});
+                    NotificationManager::NotifyOneTimeAction(name);
                 }
             }
         }
