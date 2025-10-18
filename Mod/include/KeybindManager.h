@@ -22,10 +22,11 @@ private:
         Callback callback;
         int* keyPtr = nullptr;
         IMenuFunction* function = nullptr;
+        int currentKey = -1;
     };
 
     struct alignas(64) HotData {
-        std::unordered_map<int, std::unordered_set<int*>> keyToBindings;
+        std::unordered_map<int, std::vector<Binding*>> keyToBindings;
         int toggleGuiKey = VK_INSERT;
         std::atomic<bool> processingKeyEvent{false};
     };
@@ -48,7 +49,6 @@ private:
     };
 
     static std::unordered_map<int*, Binding> s_bindings;
-    static std::unordered_map<int*, int> s_ptrToCurrentKey;
     static bool s_initialized;
 
     static HotData s_hotData;
@@ -71,7 +71,6 @@ public:
     static void StartWaitingForRebind() noexcept;
     static void CancelRebind() noexcept;
     static bool IsValidKey(int key) noexcept;
-    static void ResetKeyStates() noexcept;
 
     static constexpr std::string_view GetKeyNameConstexpr(unsigned char index) noexcept {
         switch (index) {
