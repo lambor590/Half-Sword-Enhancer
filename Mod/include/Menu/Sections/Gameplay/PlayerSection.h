@@ -63,9 +63,7 @@ public:
             .WithKey(&infiniteConsciousnessKey)
             .WithTooltip("Prevents you from losing consciousness, so you can't be knocked out")
             .Action([this]() {
-                player->Consciousness_Cap = GameConstants::DEFAULT_HEALTH;
-                player->Consciousness = GameConstants::DEFAULT_HEALTH;
-                player->Consciousness_2__Legs_ = GameConstants::DEFAULT_HEALTH;
+                ActorUtils::SetInfiniteConsciousness(player);
             }, player);
 
         Function("Enemy Infinite Consciousness")
@@ -73,11 +71,7 @@ public:
             .WithKey(&enemyInfiniteConsciousnessKey)
             .WithTooltip("Enemies can't be knocked out")
             .Action([this]() {
-                ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
-                    willie->Consciousness_Cap = GameConstants::DEFAULT_HEALTH;
-                    willie->Consciousness = GameConstants::DEFAULT_HEALTH;
-                    willie->Consciousness_2__Legs_ = GameConstants::DEFAULT_HEALTH;
-                });
+                ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
             }, player, world);
 
         Function("Save Loadout")
