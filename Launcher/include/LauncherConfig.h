@@ -5,7 +5,6 @@
 #include <expected>
 #include <mutex>
 #include <optional>
-#include <variant>
 
 #include "../../ext/SimpleIni.h"
 #include "Util.h"
@@ -18,8 +17,6 @@ namespace hse {
         WritePermissionDenied = 3,
         InvalidValue = 4
     };
-
-    using ConfigValue = std::variant<bool, int, std::string>;
 
     class LauncherConfig {
     public:
