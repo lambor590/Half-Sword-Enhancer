@@ -20,8 +20,6 @@ namespace hse {
         DllLoadFailed = 9
     };
 
-    using ProcessId = std::uint32_t;
-
     class ProcessHandle {
     public:
         explicit ProcessHandle(HANDLE handle = nullptr) noexcept : handle_(handle) {}
@@ -47,11 +45,6 @@ namespace hse {
         HANDLE handle_;
     };
 
-    struct InjectionResult {
-        ProcessId processId;
-        std::chrono::milliseconds injectionTime;
-    };
-
     class ProcessManager {
     public:
         static ProcessManager& Instance() noexcept {
@@ -59,9 +52,9 @@ namespace hse {
             return instance;
         }
 
-        [[nodiscard]] std::expected<ProcessId, ProcessError> LocateOrStartGame() noexcept;
-        [[nodiscard]] std::expected<InjectionResult, ProcessError> InjectDLL(
-            ProcessId processId,
+        [[nodiscard]] std::expected<DWORD, ProcessError> LocateOrStartGame() noexcept;
+        [[nodiscard]] std::expected<void, ProcessError> InjectDLL(
+            DWORD processId,
             std::string_view dllPath
         ) noexcept;
 
@@ -78,9 +71,9 @@ namespace hse {
         ProcessManager(ProcessManager&&) = delete;
         ProcessManager& operator=(ProcessManager&&) = delete;
 
-        [[nodiscard]] std::expected<ProcessId, ProcessError> FindGameProcess() const noexcept;
+        [[nodiscard]] std::expected<DWORD, ProcessError> FindGameProcess() const noexcept;
         [[nodiscard]] std::expected<void, ProcessError> StartGameViaStream() const noexcept;
-        [[nodiscard]] std::expected<ProcessHandle, ProcessError> OpenGameProcess(ProcessId pid) const noexcept;
+        [[nodiscard]] std::expected<ProcessHandle, ProcessError> OpenGameProcess(DWORD pid) const noexcept;
     };
 
 }
