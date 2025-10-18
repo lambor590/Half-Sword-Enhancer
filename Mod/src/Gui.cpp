@@ -67,7 +67,6 @@ void Gui::Render() {
 
     if (previousVisibility != isVisible) {
         GameHook::SetInputEnabled(!isVisible);
-        KeybindManager::ResetKeyStates();
         previousVisibility = isVisible;
     }
 
