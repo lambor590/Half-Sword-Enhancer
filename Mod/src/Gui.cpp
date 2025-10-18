@@ -17,7 +17,11 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
     }
 
-    ImGuiIO& io = ImGui::GetIO();
+    static thread_local ImGuiIO* cachedIO = nullptr;
+    if (!cachedIO) [[unlikely]] {
+        cachedIO = &ImGui::GetIO();
+    }
+    ImGuiIO& io = *cachedIO;
 
     if (!io.WantTextInput && KeybindManager::ProcessKeyEvent(msg, wParam))
         return true;
