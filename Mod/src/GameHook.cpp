@@ -10,41 +10,28 @@ std::mutex GameHook::queueMutex;
 
 namespace {
     struct alignas(64) FunctionHashCache {
-        static constexpr size_t CACHE_SIZE = 256;
-        static constexpr size_t CACHE_MASK = CACHE_SIZE - 1;
+        static constexpr size_t INITIAL_RESERVE = 512;
 
-        struct Entry {
-            void* funcPtr = nullptr;
-            uint64_t hash = 0;
-        };
+        std::unordered_map<void*, uint64_t> cache;
 
-        alignas(64) std::array<Entry, CACHE_SIZE> entries{};
+        FunctionHashCache() {
+            cache.reserve(INITIAL_RESERVE);
+        }
 
         inline uint64_t GetOrComputeHash(SDK::UFunction* pFunc) noexcept {
             void* funcPtr = static_cast<void*>(pFunc);
-            const size_t index = (reinterpret_cast<uintptr_t>(funcPtr) >> 4) & CACHE_MASK;
 
-            size_t probeIndex = index;
-            for (size_t i = 0; i < 8; ++i) {
-                Entry& entry = entries[probeIndex];
-
-                if (entry.funcPtr == funcPtr) [[likely]] {
-                    return entry.hash;
-                }
-
-                if (entry.funcPtr == nullptr) [[unlikely]] {
-                    std::string funcName = pFunc->GetName();
-                    uint64_t hash = HS::Hash::FNV1A(funcName.c_str());
-                    entry.funcPtr = funcPtr;
-                    entry.hash = hash;
-                    return hash;
-                }
-
-                probeIndex = (probeIndex + 1) & CACHE_MASK;
+            auto it = cache.find(funcPtr);
+            if (it != cache.end()) [[likely]] {
+                return it->second;
             }
 
             std::string funcName = pFunc->GetName();
-            return HS::Hash::FNV1A(funcName.c_str());
+            uint64_t hash = HS::Hash::FNV1A(funcName.c_str());
+
+            cache.emplace(funcPtr, hash);
+
+            return hash;
         }
     };
 
