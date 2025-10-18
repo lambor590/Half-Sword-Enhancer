@@ -511,11 +511,7 @@ public:
     void Render() override {
         if (!ImGui::CollapsingHeader(name.c_str())) [[unlikely]] return;
 
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10, 8));
-        ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 25.0f);
-        ImGui::Indent(10.0f);
-        ImGui::Spacing();
+        SectionStyle::StyleRAII style;
 
         for (auto& function : functions) {
             function->Render();
@@ -611,8 +607,5 @@ public:
             auto validatedSpawn = ValidateAndRun([this]() noexcept { SpawnSelectedItem(); }, player, world);
             validatedSpawn();
         }
-
-        ImGui::Unindent(10.0f);
-        ImGui::PopStyleVar(3);
     }
 }; 
