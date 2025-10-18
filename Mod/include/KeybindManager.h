@@ -38,16 +38,6 @@ private:
         bool keyWasCaptured = false;
     };
 
-    struct Stats {
-        std::unordered_map<int, uint64_t> keyPressCounts;
-        uint64_t totalEvents = 0;
-
-        void RecordKeyPress(int key) noexcept {
-            keyPressCounts[key]++;
-            totalEvents++;
-        }
-    };
-
     static std::unordered_map<int*, Binding> s_bindings;
     static bool s_initialized;
 
