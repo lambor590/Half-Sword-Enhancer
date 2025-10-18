@@ -7,7 +7,7 @@
 
 namespace hse {
 
-    std::expected<ProcessId, ProcessError> ProcessManager::LocateOrStartGame() noexcept {
+    std::expected<DWORD, ProcessError> ProcessManager::LocateOrStartGame() noexcept {
         auto processId = FindGameProcess();
         if (processId) {
             return *processId;
@@ -141,7 +141,7 @@ namespace hse {
             return std::unexpected(ProcessError::GameNotFound);
         }
 
-        return static_cast<ProcessId>(processId);
+        return processId;
     }
 
     std::expected<void, ProcessError> ProcessManager::StartGameViaStream() const noexcept {
