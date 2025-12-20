@@ -267,7 +267,7 @@ jobs:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
-          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          RUN_URL="<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
 
           jq -n --arg content "⚠️ **Dev Build Failed**"$'\n\n'"View logs: $RUN_URL" '{content: $content}' | \
             curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
