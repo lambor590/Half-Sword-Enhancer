@@ -12,13 +12,17 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   auto-release:
-    runs-on: self-hosted
-    
+    runs-on: windows-latest
+    timeout-minutes: 15
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
@@ -42,6 +46,11 @@ jobs:
           Write-Host "Mod version: $modVersion"
         }
         
+        # Validate versions were extracted
+        if (-not $launcherVersion -and -not $modVersion) {
+          throw "Failed to extract version from RC files"
+        }
+
         # Determine which version to use (use the higher one)
         $finalVersion = $launcherVersion
         if ($modVersion -and $launcherVersion) {
@@ -71,6 +80,13 @@ jobs:
       if: steps.check_tag.outputs.tag_exists == 'false'
       uses: microsoft/setup-msbuild@v2
 
+    - name: Cache NuGet packages
+      if: steps.check_tag.outputs.tag_exists == 'false'
+      uses: actions/cache@v5
+      with:
+        path: ~/.nuget/packages
+        key: nuget-${{ hashFiles('**/*.vcxproj') }}
+
     - name: Build Release
       if: steps.check_tag.outputs.tag_exists == 'false'
       shell: pwsh
@@ -79,8 +95,10 @@ jobs:
         if ($LASTEXITCODE -ne 0) { throw "Build failed" }
 
         New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
-        Copy-Item "bin/HS Enhancer Launcher.exe" "release_files/HS_Enhancer_Launcher.exe"
-        Copy-Item "bin/HS Enhancer.dll" "release_files/HS-Enhancer.dll"
+        Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/HSEnhancerLauncher.exe"
+        Copy-Item "bin/HSEnhancer.dll" "release_files/HSEnhancer.dll"
+
+        "### Build Complete ✅`nVersion: ${{ steps.extract_version.outputs.release_version }}" >> $env:GITHUB_STEP_SUMMARY
 
     - name: Create manual installation ZIP
       if: steps.check_tag.outputs.tag_exists == 'false'
@@ -91,9 +109,9 @@ jobs:
         Copy-Item "Manual_Install.txt" "manual_install/README.txt"
 
         Copy-Item "bin/dwmapi.dll" "manual_install/dwmapi.dll"
-        Copy-Item "release_files/HS-Enhancer.dll" "manual_install/HS-Enhancer.dll"
+        Copy-Item "release_files/HSEnhancer.dll" "manual_install/HSEnhancer.dll"
 
-        Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HS_Enhancer.zip" -Force
+        Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HSEnhancer.zip" -Force
 
     - name: Extract changelog for version
       if: steps.check_tag.outputs.tag_exists == 'false'
@@ -130,9 +148,9 @@ jobs:
         draft: true
         prerelease: false
         files: |
-          release_files/HS_Enhancer_Launcher.exe
-          release_files/HS-Enhancer.dll
-          release_files/HS_Enhancer.zip
+          release_files/HSEnhancerLauncher.exe
+          release_files/HSEnhancer.dll
+          release_files/HSEnhancer.zip
         generate_release_notes: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
