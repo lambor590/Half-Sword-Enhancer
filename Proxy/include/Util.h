@@ -13,13 +13,13 @@ static HMODULE LoadOriginalDLL()
 
 static bool LoadModDLL()
 {
-    HMODULE hModDLL = LoadLibraryA("HS Enhancer.dll");
+    HMODULE hModDLL = LoadLibraryA("HSEnhancer.dll");
     if (hModDLL) {
         return true;
     }
     MessageBoxA(NULL,
-        "Could not find 'HS Enhancer.dll'."
-        "\n\nPlease make sure the file is in the same folder as the game.",
+        "Could not find 'HSEnhancer.dll'."
+        "\n\nPlease make sure the file is named 'HSEnhancer.dll' and is in the same folder as the game.",
         "Half Sword Enhancer",
         MB_OK | MB_ICONINFORMATION);
     return false;
