@@ -49,9 +49,11 @@ namespace hse {
 
 #ifdef DEV_VERSION
     struct DevUpdateInfo {
+        std::optional<UpdateInfo> stableRelease;
+
         bool modUpdateAvailable = false;
         bool launcherUpdateAvailable = false;
-        std::string modTimestamp;               // ISO 8601: "2025-12-20T18:30:00Z"
+        std::string modTimestamp;
         std::string launcherTimestamp;
         std::string downloadUrlMod;
         std::string downloadUrlLauncher;
