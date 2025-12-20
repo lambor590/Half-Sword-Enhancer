@@ -87,7 +87,7 @@
     <SourcePath>$(ProjectDir)src</SourcePath>
     <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>HS Enhancer</TargetName>
+    <TargetName>HSEnhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
@@ -97,7 +97,7 @@
     <SourcePath>$(ProjectDir)src</SourcePath>
     <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>HS Enhancer</TargetName>
+    <TargetName>HSEnhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
@@ -107,7 +107,7 @@
     <SourcePath>$(ProjectDir)src</SourcePath>
     <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>HS Enhancer</TargetName>
+    <TargetName>HSEnhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
