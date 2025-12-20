@@ -140,6 +140,32 @@ bool HSELauncher::EnsureModExists() {
         hse::Logger::info("No mod found - downloading latest version");
     }
 
+#ifdef DEV_VERSION
+    if (!cachedDevInfo_) {
+        auto devUpdateResult = updateManager.CheckForDevUpdates();
+        if (!devUpdateResult) {
+            hse::logAndShowError("Failed to get dev release information", "Could not connect to update server. Please check your internet connection.");
+            return false;
+        }
+        cachedDevInfo_ = *devUpdateResult;
+    }
+
+    auto& devInfo = *cachedDevInfo_;
+    if (devInfo.downloadUrlMod.empty()) {
+        hse::logAndShowError("No dev mod available", "Could not find dev mod in the release.");
+        return false;
+    }
+
+    auto updateResult = updateManager.UpdateDevMod(devInfo.downloadUrlMod, devInfo.modTimestamp);
+    if (updateResult) {
+        hse::Logger::info("Dev mod download completed");
+        return true;
+    }
+    else {
+        hse::logAndShowError("Failed to download dev mod", "Failed to download dev mod files. Please check your internet connection and try again.");
+        return false;
+    }
+#else
     auto updateInfoResult = updateManager.CheckForUpdates();
     if (!updateInfoResult) {
         hse::logAndShowError("Failed to get remote version information", "Could not connect to update server. Please check your internet connection.");
@@ -161,6 +187,7 @@ bool HSELauncher::EnsureModExists() {
         hse::logAndShowError("Failed to download mod", "Failed to download mod files. Please check your internet connection and try again.");
         return false;
     }
+#endif
 }
 
 bool HSELauncher::PerformUpdatesIfNeeded() {
@@ -170,6 +197,57 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
     }
 
     hse::Logger::info("Checking for updates...");
+
+#ifdef DEV_VERSION
+    if (!cachedDevInfo_) {
+        auto devUpdateResult = updateManager.CheckForDevUpdates();
+        if (!devUpdateResult) {
+            hse::Logger::error("Failed to check for dev updates");
+            return true;
+        }
+        cachedDevInfo_ = *devUpdateResult;
+    }
+
+    auto& devInfo = *cachedDevInfo_;
+    if (!devInfo.modUpdateAvailable && !devInfo.launcherUpdateAvailable) {
+        hse::Logger::info("Dev build is up to date");
+        return true;
+    }
+
+    std::string message = "A new dev build is available!\n\n";
+    if (devInfo.modUpdateAvailable) {
+        message += "- Mod update available\n";
+    }
+    if (devInfo.launcherUpdateAvailable) {
+        message += "- Launcher update available\n";
+    }
+    message += "\nDo you want to download and install the update now?";
+
+    int result = MessageBoxA(nullptr, message.c_str(), "Dev Update Available", MB_YESNO | MB_ICONINFORMATION);
+
+    if (result != IDYES) {
+        hse::Logger::info("User declined dev update");
+        return true;
+    }
+
+    if (devInfo.modUpdateAvailable && !devInfo.downloadUrlMod.empty()) {
+        hse::Logger::info("Updating dev mod...");
+        auto modResult = updateManager.UpdateDevMod(devInfo.downloadUrlMod, devInfo.modTimestamp);
+        if (!modResult) {
+            hse::showError("Failed to update dev mod files.");
+        }
+    }
+
+    if (devInfo.launcherUpdateAvailable && !devInfo.downloadUrlLauncher.empty()) {
+        hse::Logger::info("Updating dev launcher...");
+        [[maybe_unused]] auto configResult = config.SetString("DevUpdate", "launcher_timestamp", devInfo.launcherTimestamp);
+        auto launcherResult = updateManager.UpdateLauncher(devInfo.downloadUrlLauncher);
+        return static_cast<bool>(launcherResult);
+    }
+
+    return true;
+
+#else
     auto updateInfoResult = updateManager.CheckForUpdates();
     if (!updateInfoResult) {
         hse::Logger::error("Failed to check for updates");
@@ -203,6 +281,7 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
     hse::Logger::info("Now updating launcher...");
     auto launcherUpdateResult = updateManager.UpdateLauncher(updateInfo.downloadUrlLauncher);
     return static_cast<bool>(launcherUpdateResult);
+#endif
 }
 
 bool HSELauncher::InjectMod() {
