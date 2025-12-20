@@ -1,8 +1,8 @@
 name: Dev Pre-Release
 
 on:
-  push:
-    branches: [dev]
+  pull_request:
+    branches: [main]
     paths: ['Mod/**', 'Launcher/**']
   workflow_dispatch:
 
@@ -115,7 +115,7 @@ jobs:
         if: needs.changelog.outputs.mod_changed == 'true'
         shell: pwsh
         run: |
-          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64
+          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143
           if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
           "### Mod Build ✅" >> $env:GITHUB_STEP_SUMMARY
 
@@ -123,7 +123,7 @@ jobs:
         if: needs.changelog.outputs.launcher_changed == 'true'
         shell: pwsh
         run: |
-          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64
+          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143
           if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
           "### Launcher Build ✅" >> $env:GITHUB_STEP_SUMMARY
 
