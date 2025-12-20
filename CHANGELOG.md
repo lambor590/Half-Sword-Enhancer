@@ -2,7 +2,7 @@
 
 ## [v0.5.1] - 2025-08-10
 
-### Added
+### Launcher
 - Enhanced DLL injection error handling
 - Implemented launcher auto-update functionality
 
@@ -50,13 +50,15 @@ Most of the changes are code base improvements.
 
 ## [v0.4.2] - 2025-06-04
 
+### Launcher
 * Reduced antivirus detections significantly
+
+### Mod
 * Even more memory optimizations
 
 ## [v0.4.1] - 2025-06-03
 
-# Update 0.4.1
-
+### Mod
 * Fixed DirectX 12 crashes in fullscreen mode
 * Removed `Adjust Body Tonus`
 * Added `Custom Body Tonus` instead
@@ -162,48 +164,45 @@ Features now persist across game sessions and fights.
 
 ## [v0.2.1] - 2025-04-04
 
-* Added support for the new Half Sword demo.
+### Launcher
+* Added support for the new Half Sword demo
+
+### Mod
+* Added support for the new Half Sword demo
 
 ## [v0.2.0] - 2025-03-27
 
-* Improved the launcher stability.
-* Reduced the program weight significantly.
-* Reduced antiviruses flagging the program as a malware even more.
+### Launcher
+* Improved the launcher stability
+* Reduced the program weight significantly
+* Reduced antiviruses flagging the program as malware even more
 
 ## [v0.1.1] - 2025-03-22
 
-* Minor fixes.
+### Launcher
+* Minor fixes
 
 ## [v0.1.0] - 2025-03-22
 
-* Initial release of the mod launcher.
+### Launcher
+* Initial release of the mod launcher
 
 ---
 
 ## Release Notes Template
 
-Para crear una nueva release, añade una sección siguiendo este formato:
+To create a new release, add a section following this format:
 
 ```markdown
 ## [vX.X.X] - YYYY-MM-DD
 
-### Added
-- Nueva funcionalidad añadida
+### Launcher
+- Launcher changes
 
-### Changed
-- Funcionalidad existente modificada
-
-### Fixed
-- Bugs corregidos
-
-### Removed
-- Funcionalidad eliminada
+### Mod
+- Mod changes
 ```
 
-### Categorías disponibles:
-- **Added**: Nueva funcionalidad
-- **Changed**: Cambios en funcionalidad existente  
-- **Deprecated**: Funcionalidad que será eliminada
-- **Removed**: Funcionalidad eliminada
-- **Fixed**: Corrección de bugs
-- **Security**: Cambios de seguridad
+### Notes:
+- **Omit empty sections**: If there are only changes in one component, only include that section
+- Subcategories can be used within each section if needed (Added, Fixed, Changed, etc.)
