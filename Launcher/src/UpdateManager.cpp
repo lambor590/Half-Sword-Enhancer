@@ -87,9 +87,9 @@ namespace hse {
         if (info.available) {
             const auto versionStr = info.remoteVersion.ToString();
             info.downloadUrlLauncher = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HS_Enhancer_Launcher.exe";
+                versionStr + "/HSEnhancerLauncher.exe";
             info.downloadUrlMod = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HS-Enhancer.dll";
+                versionStr + "/HSEnhancer.dll";
             hse::Logger::info("Update available: " + versionStr);
         }
 
@@ -100,7 +100,7 @@ namespace hse {
         try {
             const auto versionStr = version.ToString();
             const auto downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HS-Enhancer.dll";
+                versionStr + "/HSEnhancer.dll";
 
             const auto modPath = LauncherConfig::GetModFilePath();
 
