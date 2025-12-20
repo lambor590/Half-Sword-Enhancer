@@ -83,7 +83,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>HS Enhancer Launcher</TargetName>
+    <TargetName>HSEnhancerLauncher</TargetName>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src</SourcePath>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
@@ -91,7 +91,7 @@
     <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>HS Enhancer Launcher</TargetName>
+    <TargetName>HSEnhancerLauncher</TargetName>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src</SourcePath>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
@@ -99,7 +99,7 @@
     <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'">
-    <TargetName>HS Enhancer Launcher Dev</TargetName>
+    <TargetName>HSEnhancerLauncherDev</TargetName>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src</SourcePath>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
@@ -220,11 +220,11 @@
   </ItemDefinitionGroup>
   <!-- Conditional PropertyGroups for DevBuild -->
   <PropertyGroup Condition="'$(DevBuild)'=='true'">
-    <TargetName>HS Enhancer Launcher Dev</TargetName>
+    <TargetName>HSEnhancerLauncherDev</TargetName>
     <DefineConstants>DEV_VERSION</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(DevBuild)'!='true'">
-    <TargetName>HS Enhancer Launcher</TargetName>
+    <TargetName>HSEnhancerLauncher</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(DevBuild)'=='true'">
     <ClCompile>
