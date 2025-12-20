@@ -134,8 +134,8 @@ namespace hse {
 
             const std::string currentExePath{ currentPath.data() };
             const auto& appDataPath = getAppDataPath();
-            const auto tempPath = std::filesystem::path(appDataPath) / "HS_Enhancer_Launcher_Update.exe";
-            const auto batchPath = std::filesystem::path(appDataPath) / "HS_Enhancer_Update.bat";
+            const auto tempPath = std::filesystem::path(appDataPath) / "HSEnhancerLauncher_Update.exe";
+            const auto batchPath = std::filesystem::path(appDataPath) / "HSEnhancer_Update.bat";
 
             Logger::info("Downloading launcher update...");
             
