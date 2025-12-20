@@ -10,7 +10,7 @@
 namespace hse {
 
     constexpr const char* APP_FOLDER_NAME = "Half Sword Enhancer";
-    constexpr const char* DLL_FILENAME = "HS-Enhancer.dll";
+    constexpr const char* DLL_FILENAME = "HSEnhancer.dll";
 
     [[noreturn]] inline void fail(const std::string& msg) noexcept {
         MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);
