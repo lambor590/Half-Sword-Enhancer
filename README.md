@@ -27,7 +27,7 @@
 - **OS:** Built natively for Windows 10/11 (64-bit)
 - **Game:** Half Sword Demo or Playtest
 - **Linux/Steam Deck:** Supported via Proton — see [Linux Guide](Linux-Guide.md)
-- Microsoft Visual C++ Redistributable for Visual Studio (x64) — [Download](https://aka.ms/vc14/vc_redist.x64.exe) if not already installed by Steam.
+- Microsoft Visual C++ Redistributable for Visual Studio (x64) — [Download here](https://aka.ms/vc14/vc_redist.x64.exe)
 
 ## Installation
 
@@ -139,6 +139,7 @@ Spawn any NPC type with full customization.
 - Boss 1 through Boss 9 (including Baron)
 
 **Spawn Options:**
+
 | Option | Description |
 |--------|-------------|
 | Bodyguard | NPC joins your team |
@@ -247,7 +248,7 @@ Antivirus may block injection. Solutions:
 - `ue4ss.dll`
 - `dwmapi.dll` (if not from this mod)
 
-2. Missing Visual C++ Redistributable. Install from: [here](https://aka.ms/vc14/vc_redist.x64.exe)
+2. Missing Visual C++ Redistributable. [Download Visual C++ Redistributable (x64)](https://aka.ms/vc14/vc_redist.x64.exe)
 3. Check your antivirus.
 4. Verify game files via Steam.
 
