@@ -209,6 +209,29 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
     }
 
     auto& devInfo = *cachedDevInfo_;
+
+    if (devInfo.stableRelease && devInfo.stableRelease->available) {
+        auto& stable = *devInfo.stableRelease;
+        std::string message = "A stable release is available!\n\n"
+            "Current dev version: " + stable.currentVersion.ToString() + "\n"
+            "Stable release: " + stable.remoteVersion.ToString() + "\n\n"
+            "Do you want to update to the stable release?";
+
+        int result = MessageBoxA(nullptr, message.c_str(), "Stable Release Available", MB_YESNO | MB_ICONINFORMATION);
+
+        if (result == IDYES) {
+            hse::Logger::info("Updating to stable release...");
+            auto modResult = updateManager.UpdateMod(stable.remoteVersion);
+            if (!modResult) {
+                hse::showError("Failed to update mod files.");
+            }
+            auto launcherResult = updateManager.UpdateLauncher(stable.downloadUrlLauncher);
+            return static_cast<bool>(launcherResult);
+        }
+        hse::Logger::info("User declined stable release migration");
+        return true;
+    }
+
     if (!devInfo.modUpdateAvailable && !devInfo.launcherUpdateAvailable) {
         hse::Logger::info("Dev build is up to date");
         return true;
