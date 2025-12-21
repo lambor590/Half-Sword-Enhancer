@@ -2,12 +2,14 @@ name: Dev Pre-Release
 
 on:
   pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
     branches: [main]
     paths: ['Mod/**', 'Launcher/**']
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
   id-token: write
 
 concurrency:
@@ -57,31 +59,37 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
           prompt: |
             Generate changelogs for Half Sword Enhancer (C++ mod for Unreal Engine 5).
 
-            Read: commits.txt, changes.diff
+            **Input Files:**
+            1. commits.txt - Recent commit messages
+            2. changes.diff - Code diff (max 100KB)
 
-            Output valid JSON with changelog separated by component:
-
+            **Output Requirements:**
+            Return valid JSON with this exact structure:
             {
               "mod": "- Feature X\n- Bug fix Y",
-              "launcher": "- Update improvement\n- Fix Z"
+              "launcher": "- Update improvement"
             }
 
-            Rules:
-            - Only include components that have actual changes
-            - Each entry should be a bullet point starting with "- "
-            - Be concise, max 5 bullet points per component
-            - Focus on user-facing changes, skip internal refactors
-            - If a component has no changes, use empty string ""
-          claude_args: --model claude-sonnet-4-5-20250929
+            **Rules:**
+            1. Only include components with actual changes
+            2. Each entry starts with "- "
+            3. Be concise but complete - include all relevant changes
+            4. Focus on user-facing changes
+            5. Empty string "" for no changes
+          claude_args: |
+            --model claude-sonnet-4-5-20250929
+            --allowedTools "Read,Bash(cat:*),Bash(head:*)"
+            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"Changelog for Mod component"},"launcher":{"type":"string","description":"Changelog for Launcher component"}},"required":["mod","launcher"]}'
         continue-on-error: true
 
       - name: Process output
         id: process
         run: |
-          AI_OUTPUT='${{ steps.ai_changelog.outputs.result }}'
+          AI_OUTPUT='${{ steps.ai_changelog.outputs.structured_output }}'
 
           if echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
             MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
@@ -159,6 +167,12 @@ jobs:
     needs: [changelog, build]
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
+      LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
+      MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
+      LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
     steps:
       - uses: actions/download-artifact@v7
         with:
@@ -166,32 +180,21 @@ jobs:
           path: release_files/
 
       - name: Publish release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
-          LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
-          MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
-          LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
+        id: publish
         run: |
+          PREV_NOTES=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
+          {
+            echo "prev_notes<<EOF"
+            echo "$PREV_NOTES"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
           {
             echo "> [!WARNING]"
             echo "> **Development Build** — May contain bugs or incomplete features"
             echo ""
-
-            if [ "$MOD_CHANGED" == "true" ]; then
-              echo "## Mod"
-              echo ""
-              echo "$MOD_CHANGELOG"
-              echo ""
-            fi
-
-            if [ "$LAUNCHER_CHANGED" == "true" ]; then
-              echo "## Launcher"
-              echo ""
-              echo "$LAUNCHER_CHANGELOG"
-              echo ""
-            fi
-
+            [ "$MOD_CHANGED" == "true" ] && printf "## Mod\n\n%s\n\n" "$MOD_CHANGELOG"
+            [ "$LAUNCHER_CHANGED" == "true" ] && printf "## Launcher\n\n%s\n\n" "$LAUNCHER_CHANGELOG"
             echo "## Installation"
             echo ""
             echo "<details>"
@@ -211,49 +214,48 @@ jobs:
             echo "</details>"
           } > release_body.md
 
-          if ! gh release view dev-latest --repo "${{ github.repository }}" >/dev/null 2>&1; then
-            gh release create dev-latest \
-              --repo "${{ github.repository }}" \
-              --title "Dev Build" \
-              --notes-file release_body.md \
-              --prerelease
-          else
+          if gh release view dev-latest --repo "${{ github.repository }}" >/dev/null 2>&1; then
             gh release edit dev-latest --repo "${{ github.repository }}" --notes-file release_body.md
+          else
+            gh release create dev-latest --repo "${{ github.repository }}" --title "Dev Build" --notes-file release_body.md --prerelease
           fi
 
-          if [ "$MOD_CHANGED" == "true" ] && [ -f "release_files/HSEnhancer.dll" ]; then
-            gh release upload dev-latest release_files/HSEnhancer.dll --repo "${{ github.repository }}" --clobber
-            gh release upload dev-latest release_files/HSEnhancer.zip --repo "${{ github.repository }}" --clobber
-          fi
-
-          if [ "$LAUNCHER_CHANGED" == "true" ] && [ -f "release_files/HSEnhancerLauncher.exe" ]; then
+          [ "$MOD_CHANGED" == "true" ] && [ -f "release_files/HSEnhancer.dll" ] && \
+            gh release upload dev-latest release_files/HSEnhancer.dll release_files/HSEnhancer.zip --repo "${{ github.repository }}" --clobber
+          [ "$LAUNCHER_CHANGED" == "true" ] && [ -f "release_files/HSEnhancerLauncher.exe" ] && \
             gh release upload dev-latest release_files/HSEnhancerLauncher.exe --repo "${{ github.repository }}" --clobber
-          fi
+          true
 
       - name: Discord notification
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-          MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
-          LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
-          MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
-          LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
+          PREV_NOTES: ${{ steps.publish.outputs.prev_notes }}
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
 
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/dev-latest"
 
-          MESSAGE="## New Dev Build Available"$'\n\n'
+          filter_new() {
+            echo "$1" | while IFS= read -r line; do
+              [ -n "$line" ] && ! echo "$PREV_NOTES" | grep -qF "$line" && echo "$line"
+            done
+          }
+
+          MSG="## New Dev Build Available"$'\n\n'
+          HAS_NEW=false
 
           if [ "$MOD_CHANGED" == "true" ] && [ -n "$MOD_CHANGELOG" ]; then
-            MESSAGE+="### Mod"$'\n'"$MOD_CHANGELOG"$'\n\n'
+            NEW_MOD=$(filter_new "$MOD_CHANGELOG")
+            [ -n "$NEW_MOD" ] && MSG+="### Mod"$'\n'"$NEW_MOD"$'\n\n' && HAS_NEW=true
           fi
 
           if [ "$LAUNCHER_CHANGED" == "true" ] && [ -n "$LAUNCHER_CHANGELOG" ]; then
-            MESSAGE+="### Launcher"$'\n'"$LAUNCHER_CHANGELOG"$'\n\n'
+            NEW_LAUNCHER=$(filter_new "$LAUNCHER_CHANGELOG")
+            [ -n "$NEW_LAUNCHER" ] && MSG+="### Launcher"$'\n'"$NEW_LAUNCHER"$'\n\n' && HAS_NEW=true
           fi
 
-          jq -n \
-            --arg content "<@&1426630164053360640>"$'\n\n'"$MESSAGE" \
+          [ "$HAS_NEW" = true ] && jq -n \
+            --arg content "<@&1426630164053360640>"$'\n\n'"$MSG" \
             --arg url "$RELEASE_URL" \
             '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}]}' | \
             curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL?with_components=true"
