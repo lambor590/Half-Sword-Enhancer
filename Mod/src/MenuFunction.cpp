@@ -380,33 +380,16 @@ namespace {
     };
     
     thread_local TooltipState g_state;
-    
-    inline void ShowTooltipImpl(const char* text) noexcept {
-        if (!g_state.IsEnabled()) [[likely]] return;
-        
-        if (ImGui::IsItemHovered()) [[unlikely]] {
-            ImGui::BeginTooltip();
-            ImGui::TextColored(DefaultStyle::parchment, "%s", text);
-            ImGui::EndTooltip();
-        }
-    }
-}
-
-void TooltipHelper::ShowTooltip(const char* tooltip) {
-    if (!tooltip || !tooltip[0]) [[unlikely]] return;
-    ShowTooltipImpl(tooltip);
-}
-
-void TooltipHelper::ShowTooltip(const std::string& tooltip) {
-    if (tooltip.empty()) [[unlikely]] return;
-    ShowTooltipImpl(tooltip.c_str());
 }
 
 void TooltipHelper::ShowTooltip(std::string_view tooltip) {
     if (tooltip.empty()) [[unlikely]] return;
-    if (ImGui::IsItemHovered()) {
+    if (!g_state.IsEnabled()) [[likely]] return;
+
+    if (ImGui::IsItemHovered()) [[unlikely]] {
         ImGui::BeginTooltip();
-        ImGui::TextUnformatted(tooltip.data(), tooltip.data() + tooltip.size());
+        ImGui::TextColored(DefaultStyle::parchment, "%.*s",
+            static_cast<int>(tooltip.size()), tooltip.data());
         ImGui::EndTooltip();
     }
 }
