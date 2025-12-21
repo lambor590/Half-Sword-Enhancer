@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
     branches: [main]
-    paths: ['Mod/**', 'Launcher/**']
+    paths: ['Mod/**', 'Launcher/**', 'Proxy/**']
   workflow_dispatch:
 
 permissions:
@@ -23,6 +23,7 @@ jobs:
     outputs:
       mod_changed: ${{ steps.detect.outputs.mod_changed }}
       launcher_changed: ${{ steps.detect.outputs.launcher_changed }}
+      proxy_changed: ${{ steps.detect.outputs.proxy_changed }}
       mod_changelog: ${{ steps.process.outputs.mod_changelog }}
       launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
     steps:
@@ -40,13 +41,16 @@ jobs:
 
           MOD=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Mod/**' 2>/dev/null | wc -l)
           LAUNCHER=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Launcher/**' 2>/dev/null | wc -l)
+          PROXY=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Proxy/**' 2>/dev/null | wc -l)
 
           echo "mod_changed=$([[ $MOD -gt 0 ]] && echo true || echo false)" >> $GITHUB_OUTPUT
           echo "launcher_changed=$([[ $LAUNCHER -gt 0 ]] && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "proxy_changed=$([[ $PROXY -gt 0 ]] && echo true || echo false)" >> $GITHUB_OUTPUT
 
           echo "### Components" >> $GITHUB_STEP_SUMMARY
           echo "- Mod: $([[ $MOD -gt 0 ]] && echo '✅' || echo '⏭️')" >> $GITHUB_STEP_SUMMARY
           echo "- Launcher: $([[ $LAUNCHER -gt 0 ]] && echo '✅' || echo '⏭️')" >> $GITHUB_STEP_SUMMARY
+          echo "- Proxy: $([[ $PROXY -gt 0 ]] && echo '✅' || echo '⏭️')" >> $GITHUB_STEP_SUMMARY
 
       - name: Analyze commits
         id: analyze
@@ -121,7 +125,7 @@ jobs:
           key: nuget-${{ hashFiles('**/*.vcxproj') }}
 
       - name: Build Mod
-        if: needs.changelog.outputs.mod_changed == 'true'
+        if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.proxy_changed == 'true'
         shell: pwsh
         run: |
           MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
@@ -136,15 +140,24 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
           "### Launcher Build ✅" >> $env:GITHUB_STEP_SUMMARY
 
+      - name: Build Proxy
+        if: needs.changelog.outputs.proxy_changed == 'true'
+        shell: pwsh
+        run: |
+          MSBuild.exe "Proxy/Proxy.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
+          if ($LASTEXITCODE -ne 0) { throw "Proxy build failed" }
+          "### Proxy Build ✅" >> $env:GITHUB_STEP_SUMMARY
+
       - name: Package
         shell: pwsh
         env:
           MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
           LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
+          PROXY_CHANGED: ${{ needs.changelog.outputs.proxy_changed }}
         run: |
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
 
-          if ($env:MOD_CHANGED -eq "true") {
+          if ($env:MOD_CHANGED -eq "true" -or $env:PROXY_CHANGED -eq "true") {
             Copy-Item "bin/HSEnhancer.dll" "release_files/"
             New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
             Copy-Item "Manual_Install.txt" "manual_install/README.txt"
@@ -158,7 +171,7 @@ jobs:
           }
 
       - uses: actions/upload-artifact@v6
-        if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.launcher_changed == 'true'
+        if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.launcher_changed == 'true' || needs.changelog.outputs.proxy_changed == 'true'
         with:
           name: release-files
           path: release_files/
