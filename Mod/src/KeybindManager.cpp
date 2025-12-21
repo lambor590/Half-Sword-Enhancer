@@ -295,7 +295,7 @@ bool KeybindManager::ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept {
     if (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) {
         if (keyCode == VK_ESCAPE) {
             CancelRebind();
-            keyCode = -1;
+            return true;
         } else if (keyCode == s_coldData.unbindKey) {
             keyCode = -1;
         } else if (!IsValidKey(keyCode)) {
