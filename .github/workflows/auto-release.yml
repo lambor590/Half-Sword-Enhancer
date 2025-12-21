@@ -150,7 +150,7 @@ jobs:
       - uses: microsoft/setup-msbuild@v2
       - uses: actions/cache@v5
         with:
-          path: ~/.nuget/packages
+          path: ~\.nuget\packages
           key: nuget-${{ hashFiles('**/*.vcxproj') }}
 
       - name: Build and package
