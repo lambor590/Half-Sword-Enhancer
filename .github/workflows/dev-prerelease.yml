@@ -113,6 +113,11 @@ jobs:
           echo "| Proxy | $(date -d @$PROXY_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | $(date -d @$PROXY_ASSET_TS -Iseconds 2>/dev/null || echo N/A) | $PROXY_STALE |" >> $GITHUB_STEP_SUMMARY
           echo "| Shared (ext/) | $(date -d @$SHARED_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | - | - |" >> $GITHUB_STEP_SUMMARY
 
+      - name: Setup main branch reference
+        run: |
+          # Create a directory with main branch code for comparison
+          git worktree add main_branch origin/main
+
       - name: Analyze commits
         id: analyze
         env:
@@ -141,72 +146,89 @@ jobs:
           track_progress: true
           prompt: |
             Generate a changelog for Half Sword Enhancer, a mod for the game Half Sword.
-            The target audience is END USERS who are NOT programmers.
+            Target audience: END USERS who are NOT programmers.
 
-            **Component Change Status:**
+            ## AVAILABLE RESOURCES
+
+            **Component Status:**
             - Mod changed: ${{ steps.detect.outputs.mod_changed }}
             - Launcher changed: ${{ steps.detect.outputs.launcher_changed }}
 
-            **Input Files:**
-            1. commits.txt - Recent commit messages
-            2. mod_files.txt - Changed Mod files (only if Mod changed)
-            3. launcher_files.txt - Changed Launcher files (only if Launcher changed)
-            4. mod_changes.diff - Mod code diff (only if Mod changed)
-            5. launcher_changes.diff - Launcher code diff (only if Launcher changed)
+            **Files to analyze:**
+            - commits.txt - Commit messages
+            - mod_files.txt / launcher_files.txt - Changed file lists
+            - mod_changes.diff / launcher_changes.diff - Code diffs
 
-            **CRITICAL Rules:**
-            1. ONLY generate changelog for components marked as "true" above
-            2. Return empty string "" for components marked as "false"
-            3. ONLY include changes EXPLICITLY shown in the diff files
-            4. Do NOT invent features or fixes not visible in the code
-            5. If unsure about a change, omit it rather than guess
+            **For verification:**
+            - main_branch/ - Contains the CURRENT STABLE code (use to verify if something is truly "new")
 
-            **Output Requirements:**
+            ## VERIFICATION WORKFLOW (MANDATORY)
+
+            Before claiming ANY "new feature", you MUST:
+            1. Check if the feature ALREADY EXISTS in main_branch/
+            2. Use Glob/Grep to search main_branch/ for the functionality
+            3. Only call something "new" if it does NOT exist in main_branch/
+            4. If it exists but was modified, describe what CHANGED, not that it's "new"
+
+            Example:
+            - You see search functionality in ItemSection diff
+            - CHECK: `Grep "search" main_branch/Mod/` or read main_branch/Mod/.../ItemSection.h
+            - If found in main → NOT new, don't mention (or describe specific fix)
+            - If NOT found → "Added search to item spawner"
+
+            ## ANTI-HALLUCINATION RULES (CRITICAL)
+
+            1. **VERIFY before claiming "new"** - Always check main_branch/ first
+
+            2. **NEVER infer features from infrastructure code**
+               - Seeing manager/helper/utility code does NOT mean there's a user feature
+               - Only report if you can trace: USER ACTION → VISIBLE RESULT
+
+            3. **REAL HALLUCINATION EXAMPLES (never repeat these):**
+               ❌ Saw ProcessRebindEvent() → Wrote "You can now rebind hotkeys"
+                  (WRONG: Rebind code exists in main, no UI was added)
+               ❌ Saw FunctionHashCache → Wrote "Faster menu"
+                  (WRONG: Microsecond optimization, users won't notice)
+               ❌ Saw ConfigTransaction refactor → Wrote "Improved settings saving"
+                  (WRONG: Internal code cleanup, users see no difference)
+
+            ## WHAT TO INCLUDE
+
+            **Bug Fixes** (usually safe):
+            - Crash fixes, input fixes, error handling that prevents issues
+
+            **Improvements** (be careful):
+            - Only if users would NOTICE the difference
+
+            **New Features** (highest risk - verify against main_branch/):
+            - MUST confirm it doesn't exist in main_branch/
+            - MUST see complete user-facing implementation
+
+            ## WHAT TO EXCLUDE
+
+            - Refactoring, code reorganization
+            - Internal classes/structs/functions
+            - Preparation for future features
+            - Features that already exist in main
+            - Anything requiring guesswork
+
+            ## OUTPUT FORMAT
+
             Return valid JSON:
+            ```json
             {
-              "mod": "changelog text here",
-              "launcher": "changelog text here"
+              "mod": "changelog or empty string",
+              "launcher": "changelog or empty string"
             }
-
-            **Writing Style - USER-FRIENDLY:**
-            - Write for gamers, NOT programmers
-            - Use simple, clear language
-            - Focus on WHAT changed from the user's perspective
-            - Group changes by category with markdown headers
-
-            **Format Example:**
-            ```
-            ### New Features
-            - Added [feature name]
-
-            ### Bug Fixes
-            - Fixed [issue description]
-
-            ### Improvements
-            - Improved [aspect]
             ```
 
-            **AVOID these technical terms:**
-            - DirectX, swap chain, buffer, memory, cache
-            - Atomic, mutex, thread, async
-            - Refactor, optimize, inline
-            - Function names, class names, file names
-            - Any implementation details
-
-            **INCLUDE only:**
-            - New features users can see or interact with
-            - Bug fixes that affected gameplay or the menu
-            - Performance improvements users would notice
-            - Changes to controls, UI, or settings
-
-            **Rules:**
-            1. ONLY include changes visible in the provided files
-            2. Empty string "" for sections with no changes
-            3. When in doubt, OMIT the entry
-            4. Be CONCISE - quality over quantity
+            Use markdown headers: ## New Features, ## Bug Fixes, ## Improvements
+            Write for gamers, avoid technical terms.
+            Empty string "" for unchanged components or when nothing user-facing changed.
+            When in doubt, OMIT.
           claude_args: |
-            --model claude-opus-4-5-20251101
-            --allowedTools "Read,Bash(cat:*),Bash(head:*)"
+            --model claude-sonnet-4-5-20250929
+            --allowedTools "Read,Glob,Grep,Bash(cat:*),Bash(head:*),Bash(ls:*)"
             --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"User-friendly changelog for Mod"},"launcher":{"type":"string","description":"User-friendly changelog for Launcher"}},"required":["mod","launcher"]}'
         continue-on-error: true
 
@@ -231,6 +253,10 @@ jobs:
 
           { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
           { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
+
+      - name: Cleanup worktree
+        if: always()
+        run: git worktree remove main_branch --force 2>/dev/null || true
 
   build:
     needs: changelog
