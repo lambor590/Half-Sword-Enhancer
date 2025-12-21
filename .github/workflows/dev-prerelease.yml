@@ -116,9 +116,23 @@ jobs:
 
       - name: Analyze commits
         id: analyze
+        env:
+          MOD_CHANGED: ${{ steps.detect.outputs.mod_changed }}
+          LAUNCHER_CHANGED: ${{ steps.detect.outputs.launcher_changed }}
         run: |
           git log main..HEAD --pretty=format:"- %s" --no-merges > commits.txt
-          git diff main..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' | head -c 100000 > changes.diff
+
+          # Per-component file lists
+          [ "$MOD_CHANGED" == "true" ] && \
+            git diff main..HEAD --name-only -- 'Mod/**' ':!Mod/SDK/**' > mod_files.txt
+          [ "$LAUNCHER_CHANGED" == "true" ] && \
+            git diff main..HEAD --name-only -- 'Launcher/**' > launcher_files.txt
+
+          # Per-component diffs
+          [ "$MOD_CHANGED" == "true" ] && \
+            git diff main..HEAD -- 'Mod/**' 'ext/**' ':!Mod/SDK/**' > mod_changes.diff
+          [ "$LAUNCHER_CHANGED" == "true" ] && \
+            git diff main..HEAD -- 'Launcher/**' > launcher_changes.diff
 
       - name: Generate changelog
         id: ai_changelog
@@ -129,15 +143,23 @@ jobs:
           prompt: |
             Generate a changelog for Half Sword Enhancer, a mod for the game Half Sword.
 
+            **Component Change Status:**
+            - Mod changed: ${{ steps.detect.outputs.mod_changed }}
+            - Launcher changed: ${{ steps.detect.outputs.launcher_changed }}
+
             **Input Files:**
             1. commits.txt - Recent commit messages
-            2. changes.diff - Code diff (max 100KB)
+            2. mod_files.txt - Changed Mod files (only if Mod changed)
+            3. launcher_files.txt - Changed Launcher files (only if Launcher changed)
+            4. mod_changes.diff - Mod code diff (only if Mod changed)
+            5. launcher_changes.diff - Launcher code diff (only if Launcher changed)
 
-            **CRITICAL: Only include changes that are EXPLICITLY shown in the input files.**
-            - Do NOT invent features or fixes that don't appear in commits.txt or changes.diff
-            - Do NOT assume what a feature does beyond what the code shows
-            - If unsure about a change, omit it rather than guess
-            - Read the actual diff to understand what changed
+            **CRITICAL Rules:**
+            1. ONLY generate changelog for components marked as "true" above
+            2. Return empty string "" for components marked as "false"
+            3. ONLY include changes EXPLICITLY shown in the diff files
+            4. Do NOT invent features or fixes not visible in the code
+            5. If unsure about a change, omit it rather than guess
 
             **Output Requirements:**
             Return valid JSON with THREE sections:
@@ -340,9 +362,29 @@ jobs:
 
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/dev-latest"
 
-          filter_new() {
-            echo "$1" | while IFS= read -r line; do
-              [ -n "$line" ] && ! echo "$PREV_NOTES" | grep -qF -- "$line" && echo "$line"
+          # Extract section content (between ## Header and next ## or <details>)
+          extract_section() {
+            local section="$1"
+            echo "$PREV_NOTES" | awk -v s="## $section" '
+              $0 == s { f=1; next }
+              /^## / && f { exit }
+              /^<details>/ && f { exit }
+              f { print }
+            '
+          }
+
+          # Filter: only lines NOT in previous section
+          filter_new_section() {
+            local changelog="$1"
+            local section="$2"
+            local prev_section
+            prev_section=$(extract_section "$section")
+
+            echo "$changelog" | while IFS= read -r line; do
+              [ -z "$line" ] && continue
+              if [ -z "$prev_section" ] || ! echo "$prev_section" | grep -qF -- "$line"; then
+                echo "$line"
+              fi
             done
           }
 
@@ -350,12 +392,12 @@ jobs:
           HAS_NEW=false
 
           if [ "$MOD_CHANGED" == "true" ] && [ -n "$MOD_CHANGELOG" ]; then
-            NEW_MOD=$(filter_new "$MOD_CHANGELOG")
+            NEW_MOD=$(filter_new_section "$MOD_CHANGELOG" "Mod")
             [ -n "$NEW_MOD" ] && MSG+="## Mod"$'\n'"$NEW_MOD"$'\n\n' && HAS_NEW=true
           fi
 
           if [ "$LAUNCHER_CHANGED" == "true" ] && [ -n "$LAUNCHER_CHANGELOG" ]; then
-            NEW_LAUNCHER=$(filter_new "$LAUNCHER_CHANGELOG")
+            NEW_LAUNCHER=$(filter_new_section "$LAUNCHER_CHANGELOG" "Launcher")
             [ -n "$NEW_LAUNCHER" ] && MSG+="## Launcher"$'\n'"$NEW_LAUNCHER"$'\n\n' && HAS_NEW=true
           fi
 
