@@ -1,202 +1,276 @@
 name: Dev Pre-Release
 
 on:
-  push:
-    branches:
-      - dev
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+    branches: [main]
+    paths: ['Mod/**', 'Launcher/**']
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  dev-build:
-    runs-on: self-hosted
-
+  changelog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      mod_changed: ${{ steps.detect.outputs.mod_changed }}
+      launcher_changed: ${{ steps.detect.outputs.launcher_changed }}
+      mod_changelog: ${{ steps.process.outputs.mod_changelog }}
+      launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
+      - name: Detect changes
+        id: detect
+        run: |
+          git fetch origin main:main 2>/dev/null || true
 
-    - name: Build Release
-      shell: pwsh
-      run: |
-        MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration=Release /p:Platform=x64
-        if ($LASTEXITCODE -ne 0) { throw "Build failed" }
+          BEFORE="${{ github.event.before }}"
+          [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] && BEFORE="main"
 
-        if (Test-Path "release_files") { Remove-Item -Recurse -Force "release_files" }
-        New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
-        Copy-Item "bin/HS Enhancer Launcher.exe" "release_files/HS_Enhancer_Launcher.exe"
-        Copy-Item "bin/HS Enhancer.dll" "release_files/HS-Enhancer.dll"
+          MOD=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Mod/**' 2>/dev/null | wc -l)
+          LAUNCHER=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Launcher/**' 2>/dev/null | wc -l)
 
-    - name: Create manual installation ZIP
-      shell: pwsh
-      run: |
-        if (Test-Path "manual_install") { Remove-Item -Recurse -Force "manual_install" }
-        New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
+          echo "mod_changed=$([[ $MOD -gt 0 ]] && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "launcher_changed=$([[ $LAUNCHER -gt 0 ]] && echo true || echo false)" >> $GITHUB_OUTPUT
 
-        Copy-Item "Manual_Install.txt" "manual_install/README.txt"
+          echo "### Components" >> $GITHUB_STEP_SUMMARY
+          echo "- Mod: $([[ $MOD -gt 0 ]] && echo '✅' || echo '⏭️')" >> $GITHUB_STEP_SUMMARY
+          echo "- Launcher: $([[ $LAUNCHER -gt 0 ]] && echo '✅' || echo '⏭️')" >> $GITHUB_STEP_SUMMARY
 
-        Copy-Item "bin/dwmapi.dll" "manual_install/dwmapi.dll"
-        Copy-Item "release_files/HS-Enhancer.dll" "manual_install/HS-Enhancer.dll"
+      - name: Analyze commits
+        id: analyze
+        run: |
+          git log main..HEAD --pretty=format:"- %s" --no-merges > commits.txt
+          git diff main..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' | head -c 100000 > changes.diff
 
-        Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HS_Enhancer.zip" -Force
+      - name: Generate changelog
+        id: ai_changelog
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
+          prompt: |
+            Generate changelogs for Half Sword Enhancer (C++ mod for Unreal Engine 5).
 
-    - name: Generate changelog from commits
-      id: changelog
-      shell: pwsh
-      run: |
-        git fetch origin main:main
+            **Input Files:**
+            1. commits.txt - Recent commit messages
+            2. changes.diff - Code diff (max 100KB)
 
-        $repoName = "${{ github.repository }}"
+            **Output Requirements:**
+            Return valid JSON with this exact structure:
+            {
+              "mod": "- Feature X\n- Bug fix Y",
+              "launcher": "- Update improvement"
+            }
 
-        $commitsFromMain = @(git log main..HEAD --pretty=format:"%H|%h|%s" --no-merges)
-        if ($commitsFromMain.Count -eq 0) {
-          $fullChangelog = "No new changes since main branch."
-        } else {
-          $commitList = ($commitsFromMain | ForEach-Object {
-            $fullSha, $shortSha, $message = $_ -split '\|', 3
-            $message = ($message -split "`n")[0].Trim()
-            "- $message ([$shortSha](https://github.com/$repoName/commit/$fullSha))"
-          }) -join "`n"
-          $fullChangelog = "## Changes since public release:`n`n$commitList"
-        }
+            **Rules:**
+            1. Only include components with actual changes
+            2. Each entry starts with "- "
+            3. Be concise but complete - include all relevant changes
+            4. Focus on user-facing changes
+            5. Empty string "" for no changes
+          claude_args: |
+            --model claude-sonnet-4-5-20250929
+            --allowedTools "Read,Bash(cat:*),Bash(head:*)"
+            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"Changelog for Mod component"},"launcher":{"type":"string","description":"Changelog for Launcher component"}},"required":["mod","launcher"]}'
+        continue-on-error: true
 
-        $beforeSha = "${{ github.event.before }}"
-        $afterSha = "${{ github.event.after }}"
+      - name: Process output
+        id: process
+        run: |
+          AI_OUTPUT='${{ steps.ai_changelog.outputs.structured_output }}'
 
-        $isEmptyBefore = [string]::IsNullOrWhiteSpace($beforeSha) -or $beforeSha -match '^[0]+$'
-        $isEmptyAfter  = [string]::IsNullOrWhiteSpace($afterSha) -or $afterSha  -match '^[0]+$'
-        if ($isEmptyBefore -or $isEmptyAfter) {
-          $incrementalChangelog = "No new commits in this push."
-          $hasNewCommits = "false"
-        } else {
-          $commitsFromPush = @(git log "$beforeSha..$afterSha" --pretty=format:"- %s" --no-merges)
-          if ($commitsFromPush.Count -eq 0) {
-            $incrementalChangelog = "No new commits in this push."
-            $hasNewCommits = "false"
-          } else {
-            $incrementalList = $commitsFromPush -join "`n"
-            $incrementalChangelog = $incrementalList
-            $hasNewCommits = "true"
+          if echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
+            MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
+            LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
+          else
+            MOD_CL=""
+            LAUNCHER_CL=""
+          fi
+
+          # Fallback to commit messages if AI failed
+          [ -z "$MOD_CL" ] && [ "${{ steps.detect.outputs.mod_changed }}" == "true" ] && \
+            MOD_CL=$(head -5 commits.txt)
+          [ -z "$LAUNCHER_CL" ] && [ "${{ steps.detect.outputs.launcher_changed }}" == "true" ] && \
+            LAUNCHER_CL=$(head -5 commits.txt)
+
+          { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
+          { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
+
+  build:
+    needs: changelog
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: microsoft/setup-msbuild@v2
+      - uses: actions/cache@v5
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ hashFiles('**/*.vcxproj') }}
+
+      - name: Build Mod
+        if: needs.changelog.outputs.mod_changed == 'true'
+        shell: pwsh
+        run: |
+          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143
+          if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
+          "### Mod Build ✅" >> $env:GITHUB_STEP_SUMMARY
+
+      - name: Build Launcher
+        if: needs.changelog.outputs.launcher_changed == 'true'
+        shell: pwsh
+        run: |
+          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143
+          if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
+          "### Launcher Build ✅" >> $env:GITHUB_STEP_SUMMARY
+
+      - name: Package
+        shell: pwsh
+        env:
+          MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
+          LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
+        run: |
+          New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
+
+          if ($env:MOD_CHANGED -eq "true") {
+            Copy-Item "bin/HSEnhancer.dll" "release_files/"
+            New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
+            Copy-Item "Manual_Install.txt" "manual_install/README.txt"
+            Copy-Item "bin/dwmapi.dll" "manual_install/"
+            Copy-Item "bin/HSEnhancer.dll" "manual_install/"
+            Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HSEnhancer.zip" -Force
           }
-        }
 
-        Write-Output "full_changelog<<EOF" >> $env:GITHUB_OUTPUT
-        Write-Output $fullChangelog >> $env:GITHUB_OUTPUT
-        Write-Output "EOF" >> $env:GITHUB_OUTPUT
+          if ($env:LAUNCHER_CHANGED -eq "true") {
+            Copy-Item "bin/HSEnhancerLauncherDev.exe" "release_files/HSEnhancerLauncher.exe"
+          }
 
-        Write-Output "incremental_changelog<<EOF" >> $env:GITHUB_OUTPUT
-        Write-Output $incrementalChangelog >> $env:GITHUB_OUTPUT
-        Write-Output "EOF" >> $env:GITHUB_OUTPUT
+      - uses: actions/upload-artifact@v6
+        with:
+          name: release-files
+          path: release_files/
+          retention-days: 1
 
-        Write-Output "has_new_commits=$hasNewCommits" >> $env:GITHUB_OUTPUT
+  release:
+    needs: [changelog, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
+      LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
+      MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
+      LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          name: release-files
+          path: release_files/
 
-    - name: Update or create beta pre-release
-      shell: pwsh
-      run: |
-        $body = @"
-        ⚠️ **This is a beta build for testing purposes.**
+      - name: Publish release
+        id: publish
+        run: |
+          PREV_NOTES=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
+          {
+            echo "prev_notes<<EOF"
+            echo "$PREV_NOTES"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
-        This build contains the latest changes from the development branch and may be unstable.
+          {
+            echo "> [!WARNING]"
+            echo "> **Development Build** — May contain bugs or incomplete features"
+            echo ""
+            [ "$MOD_CHANGED" == "true" ] && printf "## Mod\n\n%s\n\n" "$MOD_CHANGELOG"
+            [ "$LAUNCHER_CHANGED" == "true" ] && printf "## Launcher\n\n%s\n\n" "$LAUNCHER_CHANGELOG"
+            echo "## Installation"
+            echo ""
+            echo "<details>"
+            echo "<summary><b>Quick Install (Recommended)</b></summary>"
+            echo ""
+            echo "1. Download \`HSEnhancer.dll\`"
+            echo "2. Drag onto the Launcher executable"
+            echo ""
+            echo "</details>"
+            echo ""
+            echo "<details>"
+            echo "<summary><b>Manual Install</b></summary>"
+            echo ""
+            echo "1. Download \`HSEnhancer.zip\`"
+            echo "2. Extract and follow instructions in README"
+            echo ""
+            echo "</details>"
+          } > release_body.md
 
-        ${{ steps.changelog.outputs.full_changelog }}
-        "@
+          if gh release view dev-latest --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release edit dev-latest --repo "${{ github.repository }}" --notes-file release_body.md
+          else
+            gh release create dev-latest --repo "${{ github.repository }}" --title "Dev Build" --notes-file release_body.md --prerelease
+          fi
 
-        $bodyFile = "release_body.txt"
-        $body | Out-File -FilePath $bodyFile -Encoding utf8
+          [ "$MOD_CHANGED" == "true" ] && [ -f "release_files/HSEnhancer.dll" ] && \
+            gh release upload dev-latest release_files/HSEnhancer.dll release_files/HSEnhancer.zip --repo "${{ github.repository }}" --clobber
+          [ "$LAUNCHER_CHANGED" == "true" ] && [ -f "release_files/HSEnhancerLauncher.exe" ] && \
+            gh release upload dev-latest release_files/HSEnhancerLauncher.exe --repo "${{ github.repository }}" --clobber
+          true
 
-        $releaseExists = gh release view dev-latest 2>&1
-        if ($LASTEXITCODE -eq 0) {
-          Write-Host "Updating existing beta release..."
+      - name: Discord notification
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+          PREV_NOTES: ${{ steps.publish.outputs.prev_notes }}
+        run: |
+          [ -z "$WEBHOOK_URL" ] && exit 0
 
-          gh release edit dev-latest --notes-file $bodyFile
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/dev-latest"
 
-          Write-Host "Uploading updated files..."
-          gh release upload dev-latest release_files/HS_Enhancer_Launcher.exe --clobber
-          gh release upload dev-latest release_files/HS-Enhancer.dll --clobber
-          gh release upload dev-latest release_files/HS_Enhancer.zip --clobber
-        } else {
-          Write-Host "Creating new beta release..."
+          filter_new() {
+            echo "$1" | while IFS= read -r line; do
+              [ -n "$line" ] && ! echo "$PREV_NOTES" | grep -qF "$line" && echo "$line"
+            done
+          }
 
-          gh release create dev-latest `
-            --title "Beta Build" `
-            --notes-file $bodyFile `
-            --prerelease `
-            release_files/HS_Enhancer_Launcher.exe `
-            release_files/HS-Enhancer.dll `
-            release_files/HS_Enhancer.zip
-        }
+          MSG="## New Dev Build Available"$'\n\n'
+          HAS_NEW=false
 
-        Remove-Item $bodyFile
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          if [ "$MOD_CHANGED" == "true" ] && [ -n "$MOD_CHANGELOG" ]; then
+            NEW_MOD=$(filter_new "$MOD_CHANGELOG")
+            [ -n "$NEW_MOD" ] && MSG+="### Mod"$'\n'"$NEW_MOD"$'\n\n' && HAS_NEW=true
+          fi
 
-    - name: Send Discord notification
-      if: steps.changelog.outputs.has_new_commits == 'true'
-      shell: pwsh
-      run: |
-        $webhookUrl = "${{ secrets.DISCORD_WEBHOOK }}"
+          if [ "$LAUNCHER_CHANGED" == "true" ] && [ -n "$LAUNCHER_CHANGELOG" ]; then
+            NEW_LAUNCHER=$(filter_new "$LAUNCHER_CHANGELOG")
+            [ -n "$NEW_LAUNCHER" ] && MSG+="### Launcher"$'\n'"$NEW_LAUNCHER"$'\n\n' && HAS_NEW=true
+          fi
 
-        if ([string]::IsNullOrWhiteSpace($webhookUrl)) {
-          Write-Host "No Discord webhook configured, skipping notification"
-          exit 0
-        }
+          [ "$HAS_NEW" = true ] && jq -n \
+            --arg content "<@&1426630164053360640>"$'\n\n'"$MSG" \
+            --arg url "$RELEASE_URL" \
+            '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}]}' | \
+            curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL?with_components=true"
 
-        $repoName = "${{ github.repository }}"
-        $releaseUrl = "https://github.com/$repoName/releases/tag/dev-latest"
+  notify-failure:
+    needs: [changelog, build, release]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord failure notification
+        env:
+          WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          [ -z "$WEBHOOK_URL" ] && exit 0
+          RUN_URL="<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
 
-        $commitList = "${{ steps.changelog.outputs.incremental_changelog }}"
-
-        if ([string]::IsNullOrWhiteSpace($commitList)) {
-          $commitList = "No changes"
-        }
-
-        if ($commitList.Length -gt 1024) {
-          $commitList = $commitList.Substring(0, 1020) + "..."
-        }
-
-        $webhookData = [PSCustomObject]@{
-          content = "<@&1426630164053360640> a new build has been released!"
-          embeds = @(
-            [PSCustomObject]@{
-              color = 16766720
-              fields = @(
-                [PSCustomObject]@{
-                  name = "Changelog since last beta"
-                  value = $commitList
-                  inline = $false
-                }
-              )
-              footer = [PSCustomObject]@{
-                text = "Beta Build - May be unstable"
-              }
-            }
-          )
-          components = @(
-            [PSCustomObject]@{
-              type = 1
-              components = @(
-                [PSCustomObject]@{
-                  type = 2
-                  style = 5
-                  label = "Download"
-                  url = $releaseUrl
-                }
-              )
-            }
-          )
-        }
-
-        $jsonPayload = $webhookData | ConvertTo-Json -Depth 10
-
-        try {
-          $response = Invoke-RestMethod -Uri $webhookUrl -Method Post -Body $jsonPayload -ContentType "application/json; charset=utf-8"
-          Write-Host "Discord notification sent successfully"
-        } catch {
-          Write-Warning "Failed to send Discord notification: $_"
-        }
+          jq -n --arg content "⚠️ **Dev Build Failed**"$'\n\n'"View logs: $RUN_URL" '{content: $content}' | \
+            curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
