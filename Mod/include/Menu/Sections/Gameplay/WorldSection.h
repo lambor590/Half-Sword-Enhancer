@@ -162,7 +162,7 @@ public:
                     bool withinRadius = false;
 
                     for (const auto& williePos : williePositions) {
-                        float distance = objPos.GetDistanceTo(williePos);
+                        float distance = static_cast<float>(objPos.GetDistanceTo(williePos));
                         if (distance <= MIN_DISTANCE_FROM_WILLIES) return false;
                         if (distance <= clearObjectsRadius) withinRadius = true;
                     }
