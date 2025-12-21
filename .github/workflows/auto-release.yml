@@ -33,7 +33,7 @@ jobs:
         id: extract
         run: |
           extract_version() {
-            grep -oP 'FILEVERSION\s+\K\d+,\s*\d+,\s*\d+' "$1" | tr -d ' ' | tr ',' '.'
+            iconv -f UTF-16LE -t UTF-8 "$1" 2>/dev/null | grep -oP 'FILEVERSION\s+\K\d+,\s*\d+,\s*\d+' | tr -d ' ' | tr ',' '.'
           }
 
           LAUNCHER_VER=$(extract_version "Launcher/resource/Launcher.rc" || echo "")
