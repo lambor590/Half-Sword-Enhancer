@@ -37,7 +37,9 @@ jobs:
         run: |
           # Function to get latest commit timestamp for a path
           get_latest_commit_ts() {
-            git log -1 --format=%ct -- "$1" 2>/dev/null || echo "0"
+            local ts
+            ts=$(git log -1 --format=%ct -- "$1" 2>/dev/null)
+            [[ -n "$ts" && "$ts" =~ ^[0-9]+$ ]] && echo "$ts" || echo "0"
           }
 
           # Function to get asset timestamp from dev-latest release
