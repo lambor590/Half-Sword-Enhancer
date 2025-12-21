@@ -4,6 +4,7 @@
 #include <array>
 #include <string_view>
 #include <span>
+#include <cctype>
 #include "Menu/ICollapsibleSection.h"
 #include "Utils/Spawner.h"
 #include "DefaultStyle.h"
