@@ -133,51 +133,39 @@ jobs:
             1. commits.txt - Recent commit messages
             2. changes.diff - Code diff (max 100KB)
 
+            **CRITICAL: Only include changes that are EXPLICITLY shown in the input files.**
+            - Do NOT invent features or fixes that don't appear in commits.txt or changes.diff
+            - Do NOT assume what a feature does beyond what the code shows
+            - If unsure about a change, omit it rather than guess
+            - Read the actual diff to understand what changed
+
             **Output Requirements:**
             Return valid JSON with THREE sections:
             {
-              "mod": "* User-facing change\n  * Explanation",
+              "mod": "* User-facing change",
               "launcher": "* User-facing change",
-              "technical": "* Internal change for developers"
+              "technical": "* Internal change"
             }
 
             **SECTION 1 & 2: mod / launcher (User-facing)**
-            Write for players. Use this format:
+            Format:
             - Main entries: `* ` prefix
-            - Sub-details: `  * ` (two spaces + asterisk)
+            - Sub-details: `  * ` (two spaces) - max 1 per entry, only if essential
             - Use backticks for feature names: `Clear Objects`, `Entity Spawner`
-            - Write from user perspective: "You can now...", "This allows you to..."
-            - Explain WHY changes matter
 
-            Example:
-            ```
-            * Added `Item Search` in Entity Spawner
-              * You can now filter items by name to find what you need faster
-            * Added `Rebind Hotkeys`
-              * You can now customize any hotkey in the settings menu
-            * Fixed keyboard not responding when menu is open
-            ```
+            **BE CONCISE:**
+            - One sub-bullet MAX per entry
+            - Don't explain obvious behavior
+            - No technical jargon (DirectX, swap chain, memory) - those go in technical section
 
             **SECTION 3: technical (Developer-facing)**
-            For programmers and curious users. Include:
-            - Performance optimizations (with technical detail)
-            - Code refactoring and cleanup
-            - Library/dependency changes
-            - Build system changes
-            - Architecture improvements
-
-            Use simple bullet format:
-            ```
-            * Replaced runtime hash maps with compile-time FNV-1a hashing for ProcessEvent
-            * Removed 10,000+ line nmd_assembly dependency (custom instruction decoder)
-            * Optimized memory protection toggling in hook installation
-            ```
+            For programmers. Simple bullets, one line each.
 
             **Rules:**
-            1. Empty string "" for sections with no changes
-            2. mod/launcher: Only user-visible changes
-            3. technical: Only internal/dev changes
-            4. Don't duplicate entries between sections
+            1. ONLY include changes visible in the provided files
+            2. Empty string "" for sections with no changes
+            3. When in doubt, OMIT the entry
+            4. CONCISE - fewer accurate entries is better than many guessed ones
           claude_args: |
             --model claude-sonnet-4-5-20250929
             --allowedTools "Read,Bash(cat:*),Bash(head:*)"
