@@ -114,7 +114,6 @@ public:
         ImGui::Text("NPC Type");
         TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
 
-        if (ImGui::Combo("##NPCTypeSelector", &npcTypeIndex, npcTypeNames, npcTypesCount)) [[unlikely]] {
-        }
+        ImGui::Combo("##NPCTypeSelector", &npcTypeIndex, npcTypeNames, npcTypesCount);
     }
 };
