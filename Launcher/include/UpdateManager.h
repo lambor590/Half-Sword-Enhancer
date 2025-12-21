@@ -70,7 +70,10 @@ namespace hse {
         [[nodiscard]] std::expected<Version, UpdateError> GetLocalVersion() noexcept;
         [[nodiscard]] std::expected<UpdateInfo, UpdateError> CheckForUpdates() noexcept;
         [[nodiscard]] std::expected<void, UpdateError> UpdateMod(const Version& version) noexcept;
-        [[nodiscard]] std::expected<void, UpdateError> UpdateLauncher(std::string_view downloadUrl) noexcept;
+        [[nodiscard]] std::expected<void, UpdateError> UpdateLauncher(
+            std::string_view downloadUrl,
+            std::string_view timestamp = {}
+        ) noexcept;
 
 #ifdef DEV_VERSION
         [[nodiscard]] std::expected<DevUpdateInfo, UpdateError> CheckForDevUpdates() noexcept;

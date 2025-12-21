@@ -118,7 +118,10 @@ namespace hse {
         }
     }
 
-    std::expected<void, UpdateError> UpdateManager::UpdateLauncher(std::string_view downloadUrl) noexcept {
+    std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
+        std::string_view downloadUrl,
+        std::string_view timestamp
+    ) noexcept {
         try {
             std::array<char, MAX_PATH> currentPath{};
             if (!GetModuleFileNameA(nullptr, currentPath.data(), MAX_PATH)) {
@@ -187,7 +190,11 @@ namespace hse {
             CloseHandle(processInfo.hThread);
 
             Logger::info("Update script started successfully. Launcher will restart automatically.");
-            
+
+            if (!timestamp.empty()) {
+                LauncherConfig::Instance().SetString("DevUpdate", "launcher_timestamp", timestamp);
+            }
+
             ExitProcess(0);
 
         } catch (const std::exception& e) {
