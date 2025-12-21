@@ -10,6 +10,8 @@ namespace ConfigUtils {
 
         ConfigTransaction(const ConfigTransaction&) = delete;
         ConfigTransaction& operator=(const ConfigTransaction&) = delete;
+        ConfigTransaction(ConfigTransaction&&) = delete;
+        ConfigTransaction& operator=(ConfigTransaction&&) = delete;
 
     public:
         explicit ConfigTransaction(bool shouldSave = true)
