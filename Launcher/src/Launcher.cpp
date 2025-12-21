@@ -263,8 +263,7 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
 
     if (devInfo.launcherUpdateAvailable && !devInfo.downloadUrlLauncher.empty()) {
         hse::Logger::info("Updating dev launcher...");
-        [[maybe_unused]] auto configResult = config.SetString("DevUpdate", "launcher_timestamp", devInfo.launcherTimestamp);
-        auto launcherResult = updateManager.UpdateLauncher(devInfo.downloadUrlLauncher);
+        auto launcherResult = updateManager.UpdateLauncher(devInfo.downloadUrlLauncher, devInfo.launcherTimestamp);
         return static_cast<bool>(launcherResult);
     }
 
