@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <functional>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -38,7 +39,7 @@ private:
         bool keyWasCaptured = false;
     };
 
-    static std::unordered_map<int*, Binding> s_bindings;
+    static std::map<int*, Binding> s_bindings;
     static bool s_initialized;
 
     static HotData s_hotData;
