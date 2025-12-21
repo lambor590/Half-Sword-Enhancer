@@ -100,9 +100,9 @@ jobs:
           fi
 
           # Fallback to commit messages if AI failed
-          [ -z "$MOD_CL" ] && [ "${{ steps.detect.outputs.mod_changed }}" == "true" ] && \
+          [ -z "$MOD_CL" ] && [ "${{ steps.detect.outputs.mod_changed }}" == "true" ] && [ -f commits.txt ] && \
             MOD_CL=$(head -5 commits.txt)
-          [ -z "$LAUNCHER_CL" ] && [ "${{ steps.detect.outputs.launcher_changed }}" == "true" ] && \
+          [ -z "$LAUNCHER_CL" ] && [ "${{ steps.detect.outputs.launcher_changed }}" == "true" ] && [ -f commits.txt ] && \
             LAUNCHER_CL=$(head -5 commits.txt)
 
           { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
