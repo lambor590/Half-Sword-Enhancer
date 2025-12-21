@@ -20,8 +20,6 @@
 
 class TooltipHelper {
 public:
-    static void ShowTooltip(const char* tooltip);
-    static void ShowTooltip(const std::string& tooltip);
     static void ShowTooltip(std::string_view tooltip);
     static void InvalidateCache();
 };
