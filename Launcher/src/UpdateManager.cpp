@@ -192,7 +192,7 @@ namespace hse {
             Logger::info("Update script started successfully. Launcher will restart automatically.");
 
             if (!timestamp.empty()) {
-                LauncherConfig::Instance().SetString("DevUpdate", "launcher_timestamp", timestamp);
+                (void)LauncherConfig::Instance().SetString("DevUpdate", "launcher_timestamp", timestamp);
             }
 
             ExitProcess(0);
