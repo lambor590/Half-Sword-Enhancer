@@ -4,6 +4,7 @@
 #include <expected>
 #include <chrono>
 #include <memory>
+#include <cstdint>
 #include <Windows.h>
 
 namespace hse {
