@@ -2,8 +2,7 @@ name: Auto Release
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - 'Launcher/resource/Launcher.rc'
       - 'Mod/resource/Mod.rc'
@@ -11,128 +10,199 @@ on:
 
 permissions:
   contents: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  auto-release:
-    runs-on: self-hosted
-    
+  version-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.extract.outputs.version }}
+      should_release: ${{ steps.check.outputs.should_release }}
+      prev_tag: ${{ steps.check.outputs.prev_tag }}
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
-    - name: Extract version from RC files
-      id: extract_version
-      shell: pwsh
-      run: |
-        # Extract version from Launcher.rc
-        $launcherRc = Get-Content "Launcher/resource/Launcher.rc" -Raw -Encoding UTF8
-        if ($launcherRc -match 'FILEVERSION\s+(\d+),\s*(\d+),\s*(\d+),\s*(\d+)') {
-          $launcherVersion = "v$($matches[1]).$($matches[2]).$($matches[3])"
-          Write-Output "launcher_version=$launcherVersion" >> $env:GITHUB_OUTPUT
-          Write-Host "Launcher version: $launcherVersion"
-        }
-        
-        # Extract version from Mod.rc
-        $modRc = Get-Content "Mod/resource/Mod.rc" -Raw -Encoding UTF8
-        if ($modRc -match 'FILEVERSION\s+(\d+),\s*(\d+),\s*(\d+),\s*(\d+)') {
-          $modVersion = "v$($matches[1]).$($matches[2]).$($matches[3])"
-          Write-Output "mod_version=$modVersion" >> $env:GITHUB_OUTPUT
-          Write-Host "Mod version: $modVersion"
-        }
-        
-        # Determine which version to use (use the higher one)
-        $finalVersion = $launcherVersion
-        if ($modVersion -and $launcherVersion) {
-          $versions = @($launcherVersion, $modVersion) | Where-Object { $_ }
-          $finalVersion = ($versions | Sort-Object {[version]($_ -replace '^v', '')} | Select-Object -Last 1)
-        } elseif ($modVersion) {
-          $finalVersion = $modVersion
-        }
-        Write-Output "release_version=$finalVersion" >> $env:GITHUB_OUTPUT
-        Write-Host "Final release version: $finalVersion"
-
-    - name: Check if tag already exists
-      id: check_tag
-      shell: pwsh
-      run: |
-        $version = "${{ steps.extract_version.outputs.release_version }}"
-        $existingTag = git tag -l $version
-        if ($existingTag) {
-          Write-Host "Tag $version already exists"
-          Write-Output "tag_exists=true" >> $env:GITHUB_OUTPUT
-        } else {
-          Write-Host "Tag $version does not exist"
-          Write-Output "tag_exists=false" >> $env:GITHUB_OUTPUT
-        }
-
-    - name: Setup MSBuild
-      if: steps.check_tag.outputs.tag_exists == 'false'
-      uses: microsoft/setup-msbuild@v2
-
-    - name: Build Release
-      if: steps.check_tag.outputs.tag_exists == 'false'
-      shell: pwsh
-      run: |
-        MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration=Release /p:Platform=x64
-        if ($LASTEXITCODE -ne 0) { throw "Build failed" }
-
-        New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
-        Copy-Item "bin/HS Enhancer Launcher.exe" "release_files/HS_Enhancer_Launcher.exe"
-        Copy-Item "bin/HS Enhancer.dll" "release_files/HS-Enhancer.dll"
-
-    - name: Create manual installation ZIP
-      if: steps.check_tag.outputs.tag_exists == 'false'
-      shell: pwsh
-      run: |
-        New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
-
-        Copy-Item "Manual_Install.txt" "manual_install/README.txt"
-
-        Copy-Item "bin/dwmapi.dll" "manual_install/dwmapi.dll"
-        Copy-Item "release_files/HS-Enhancer.dll" "manual_install/HS-Enhancer.dll"
-
-        Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HS_Enhancer.zip" -Force
-
-    - name: Extract changelog for version
-      if: steps.check_tag.outputs.tag_exists == 'false'
-      id: changelog
-      shell: pwsh
-      run: |
-        $version = "${{ steps.extract_version.outputs.release_version }}"
-        
-        $defaultContent = "Release $version - See commit history for details."
-        
-        if (Test-Path "CHANGELOG.md") {
-          $content = Get-Content "CHANGELOG.md" -Raw
-          $pattern = "(?s)## \[$([regex]::Escape($version))\].*?\n(.*?)(?=\n## |\z)"
-          if ($content -match $pattern) {
-            $changelogContent = $matches[1].Trim()
-          } else {
-            $changelogContent = $defaultContent
+      - name: Extract version
+        id: extract
+        run: |
+          extract_version() {
+            iconv -f UTF-16LE -t UTF-8 "$1" 2>/dev/null | grep -oP 'FILEVERSION\s+\K\d+,\s*\d+,\s*\d+' | tr -d ' ' | tr ',' '.'
           }
-        } else {
-          $changelogContent = $defaultContent
-        }
-        
-        Write-Output "changelog_content<<EOF" >> $env:GITHUB_OUTPUT
-        Write-Output $changelogContent >> $env:GITHUB_OUTPUT
-        Write-Output "EOF" >> $env:GITHUB_OUTPUT
 
-    - name: Create GitHub Release
-      if: steps.check_tag.outputs.tag_exists == 'false'
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ steps.extract_version.outputs.release_version }}
-        name: ${{ steps.extract_version.outputs.release_version }}
-        body: ${{ steps.changelog.outputs.changelog_content }}
-        draft: true
-        prerelease: false
-        files: |
-          release_files/HS_Enhancer_Launcher.exe
-          release_files/HS-Enhancer.dll
-          release_files/HS_Enhancer.zip
-        generate_release_notes: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LAUNCHER_VER=$(extract_version "Launcher/resource/Launcher.rc" || echo "")
+          MOD_VER=$(extract_version "Mod/resource/Mod.rc" || echo "")
+
+          if [ -z "$LAUNCHER_VER" ] && [ -z "$MOD_VER" ]; then
+            echo "::error::Failed to extract version from RC files"
+            exit 1
+          fi
+
+          VERSION=$(printf '%s\n%s' "$LAUNCHER_VER" "$MOD_VER" | sort -V | tail -1)
+          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+          echo "### Version: v$VERSION" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check tag exists
+        id: check
+        run: |
+          VERSION="${{ steps.extract.outputs.version }}"
+
+          if git tag -l "$VERSION" | grep -q .; then
+            echo "should_release=false" >> $GITHUB_OUTPUT
+            echo "Tag $VERSION already exists, skipping release" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "should_release=true" >> $GITHUB_OUTPUT
+            PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+            echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
+          fi
+
+  changelog:
+    needs: version-check
+    if: needs.version-check.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      mod_changelog: ${{ steps.process.outputs.mod_changelog }}
+      launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Analyze commits
+        env:
+          PREV_TAG: ${{ needs.version-check.outputs.prev_tag }}
+        run: |
+          if [ -n "$PREV_TAG" ]; then
+            git log "$PREV_TAG"..HEAD --pretty=format:"- %s" --no-merges > commits.txt
+            git diff "$PREV_TAG"..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' | head -c 100000 > changes.diff
+          else
+            git log --pretty=format:"- %s" --no-merges -20 > commits.txt
+            git diff HEAD~20..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' | head -c 100000 > changes.diff
+          fi
+
+      - name: Generate changelog
+        id: ai_changelog
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: true
+          prompt: |
+            Generate changelogs for Half Sword Enhancer (C++ mod for Unreal Engine 5).
+
+            **Input Files:**
+            1. commits.txt - Recent commit messages
+            2. changes.diff - Code diff (max 100KB)
+
+            **Output Requirements:**
+            Return valid JSON with this exact structure:
+            {
+              "mod": "- Feature X\n- Bug fix Y",
+              "launcher": "- Update improvement"
+            }
+
+            **Rules:**
+            1. Only include components with actual changes
+            2. Each entry starts with "- "
+            3. Be concise but complete - include all relevant changes
+            4. Focus on user-facing changes
+            5. Empty string "" for no changes
+          claude_args: |
+            --model claude-sonnet-4-5-20250929
+            --allowedTools "Read,Bash(cat:*),Bash(head:*)"
+            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"Changelog for Mod component"},"launcher":{"type":"string","description":"Changelog for Launcher component"}},"required":["mod","launcher"]}'
+        continue-on-error: true
+
+      - name: Process output
+        id: process
+        run: |
+          AI_OUTPUT='${{ steps.ai_changelog.outputs.structured_output }}'
+
+          if echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
+            MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
+            LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
+          else
+            MOD_CL=""
+            LAUNCHER_CL=""
+          fi
+
+          # Fallback to commit messages if AI failed
+          if [ -z "$MOD_CL" ] && [ -z "$LAUNCHER_CL" ]; then
+            MOD_CL=$(head -5 commits.txt)
+            LAUNCHER_CL=$(head -5 commits.txt)
+          fi
+
+          { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
+          { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
+
+  build:
+    needs: [version-check, changelog]
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: microsoft/setup-msbuild@v2
+      - uses: actions/cache@v5
+        with:
+          path: ~\.nuget\packages
+          key: nuget-${{ hashFiles('**/*.vcxproj') }}
+
+      - name: Build and package
+        shell: pwsh
+        run: |
+          MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration=Release /p:Platform=x64
+          if ($LASTEXITCODE -ne 0) { throw "Build failed" }
+
+          New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
+          Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/"
+          Copy-Item "bin/HSEnhancer.dll" "release_files/"
+
+          New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
+          Copy-Item "Manual_Install.txt" "manual_install/README.txt"
+          Copy-Item "bin/dwmapi.dll" "manual_install/"
+          Copy-Item "bin/HSEnhancer.dll" "manual_install/"
+          Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HSEnhancer.zip" -Force
+
+          "### Build Complete" >> $env:GITHUB_STEP_SUMMARY
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: release-files
+          path: release_files/
+          retention-days: 1
+
+  release:
+    needs: [version-check, changelog, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      VERSION: ${{ needs.version-check.outputs.version }}
+      MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
+      LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
+    steps:
+      - uses: actions/download-artifact@v7
+        with:
+          name: release-files
+          path: release_files/
+
+      - name: Create release
+        run: |
+          {
+            [ -n "$MOD_CHANGELOG" ] && printf "## Mod\n\n%s\n\n" "$MOD_CHANGELOG"
+            [ -n "$LAUNCHER_CHANGELOG" ] && printf "## Launcher\n\n%s\n\n" "$LAUNCHER_CHANGELOG"
+            echo "---"
+            echo "See [README](https://github.com/${{ github.repository }}/blob/main/README.md#installation) for installation instructions."
+          } > release_body.md
+
+          gh release create "$VERSION" \
+            --repo "${{ github.repository }}" \
+            --title "$VERSION" \
+            --notes-file release_body.md \
+            release_files/*
