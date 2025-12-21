@@ -177,16 +177,13 @@ jobs:
             **Format Example:**
             ```
             ### New Features
-            - Added search bar in the item spawner menu
-            - You can now rebind hotkeys from the settings
+            - Added [feature name]
 
             ### Bug Fixes
-            - Fixed menu not responding to keyboard input
-            - Fixed game controls staying disabled after closing the menu
+            - Fixed [issue description]
 
             ### Improvements
-            - Faster menu loading
-            - Better stability overall
+            - Improved [aspect]
             ```
 
             **AVOID these technical terms:**
