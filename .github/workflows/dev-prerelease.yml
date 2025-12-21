@@ -20,83 +20,69 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      mod_changed: ${{ steps.detect.outputs.mod_changed }}
-      launcher_changed: ${{ steps.detect.outputs.launcher_changed }}
+      mod_changed: ${{ steps.analyze.outputs.mod_changed }}
+      launcher_changed: ${{ steps.analyze.outputs.launcher_changed }}
       mod_changelog: ${{ steps.process.outputs.mod_changelog }}
       launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
-      current_commit: ${{ steps.detect.outputs.current_commit }}
+      current_commit: ${{ steps.analyze.outputs.current_commit }}
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Detect changes
-        id: detect
+      - name: Analyze changes
+        id: analyze
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Simple change detection using git diff against main
-          MOD_CHANGED=$(git diff --name-only origin/main..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' | grep -q . && echo true || echo false)
-          LAUNCHER_CHANGED=$(git diff --name-only origin/main..HEAD -- 'Launcher/**' 'ext/**' | grep -q . && echo true || echo false)
+          # Get last notified commit for incremental changelog
+          LAST_NOTIFIED=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null | \
+            grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
+
+          # Determine base reference for changelog (what's new since last notification)
+          if [ -n "$LAST_NOTIFIED" ] && git cat-file -e "$LAST_NOTIFIED" 2>/dev/null; then
+            BASE_REF="$LAST_NOTIFIED"
+          else
+            BASE_REF="origin/main"
+          fi
+
+          # Detect changes using unified BASE_REF
+          MOD_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' | grep -q . && echo true || echo false)
+          LAUNCHER_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Launcher/**' 'ext/**' | grep -q . && echo true || echo false)
 
           echo "mod_changed=$MOD_CHANGED" >> $GITHUB_OUTPUT
           echo "launcher_changed=$LAUNCHER_CHANGED" >> $GITHUB_OUTPUT
           echo "current_commit=${{ github.sha }}" >> $GITHUB_OUTPUT
 
-          # Extract last notified commit for changelog generation
-          LAST_NOTIFIED=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null | \
-            grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
-          echo "last_notified_commit=$LAST_NOTIFIED" >> $GITHUB_OUTPUT
+          # Generate component-specific diffs and commits
+          [ "$MOD_CHANGED" == "true" ] && {
+            git diff "$BASE_REF"..HEAD --name-only -- 'Mod/**' ':!Mod/SDK/**' > mod_files.txt
+            git diff "$BASE_REF"..HEAD -- 'Mod/**' 'ext/**' ':!Mod/SDK/**' > mod_changes.diff
+            git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Mod/**' 'Proxy/**' 'ext/**' > mod_commits.txt
+          }
+          [ "$LAUNCHER_CHANGED" == "true" ] && {
+            git diff "$BASE_REF"..HEAD --name-only -- 'Launcher/**' > launcher_files.txt
+            git diff "$BASE_REF"..HEAD -- 'Launcher/**' > launcher_changes.diff
+            git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Launcher/**' 'ext/**' > launcher_commits.txt
+          }
 
       - name: Setup main branch reference
         run: |
-          # Create a directory with main branch code for comparison
           git worktree add main_branch origin/main
-
-      - name: Analyze commits
-        id: analyze
-        env:
-          MOD_CHANGED: ${{ steps.detect.outputs.mod_changed }}
-          LAUNCHER_CHANGED: ${{ steps.detect.outputs.launcher_changed }}
-          LAST_NOTIFIED: ${{ steps.detect.outputs.last_notified_commit }}
-        run: |
-          # Use last notified commit as base if available, otherwise use main
-          if [ -n "$LAST_NOTIFIED" ] && git cat-file -e "$LAST_NOTIFIED" 2>/dev/null; then
-            BASE_REF="$LAST_NOTIFIED"
-          else
-            BASE_REF="main"
-          fi
-
-          git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges > commits.txt
-
-          # Per-component file lists (always compare against main for full context)
-          [ "$MOD_CHANGED" == "true" ] && \
-            git diff main..HEAD --name-only -- 'Mod/**' ':!Mod/SDK/**' > mod_files.txt
-          [ "$LAUNCHER_CHANGED" == "true" ] && \
-            git diff main..HEAD --name-only -- 'Launcher/**' > launcher_files.txt
-
-          # Per-component diffs (always compare against main for full context)
-          [ "$MOD_CHANGED" == "true" ] && \
-            git diff main..HEAD -- 'Mod/**' 'ext/**' ':!Mod/SDK/**' > mod_changes.diff
-          [ "$LAUNCHER_CHANGED" == "true" ] && \
-            git diff main..HEAD -- 'Launcher/**' > launcher_changes.diff
 
       - name: Generate changelog
         id: ai_changelog
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          track_progress: true
           prompt: |
-            Generate a changelog for Half Sword Enhancer (a game mod). Audience: gamers, NOT programmers.
+            Generate changelog for Half Sword Enhancer (game mod). Audience: gamers, NOT programmers.
 
-            **Status:** Mod changed: ${{ steps.detect.outputs.mod_changed }}, Launcher changed: ${{ steps.detect.outputs.launcher_changed }}
-
-            **Files:** commits.txt, mod_changes.diff, launcher_changes.diff
+            **Status:** Mod: ${{ steps.analyze.outputs.mod_changed }}, Launcher: ${{ steps.analyze.outputs.launcher_changed }}
+            **Files:** mod_changes.diff, launcher_changes.diff, mod_commits.txt, launcher_commits.txt
             **Verification:** main_branch/ contains stable code - check here before claiming anything is "new"
 
             ## CRITICAL RULES
-
             1. **Before claiming "new feature"**: Search main_branch/ first. If it exists there, it's NOT new.
             2. **Never infer features from internal code**: Managers, utilities, refactors = don't mention.
             3. **Only include user-visible changes**: crashes fixed, UI changes, new menu options.
@@ -108,13 +94,13 @@ jobs:
             ❌ Saw refactoring → "Improved X" (WRONG: internal change)
 
             ## OUTPUT
-            Return JSON: {"mod": "changelog or empty", "launcher": "changelog or empty"}
-            Use headers: ## New Features, ## Bug Fixes, ## Improvements
-            Empty string "" if no user-facing changes.
+            JSON: {"mod": "changelog or empty", "launcher": "changelog or empty"}
+            Headers: ## New Features, ## Bug Fixes, ## Improvements
+            Empty "" if no user-facing changes.
           claude_args: |
             --model claude-sonnet-4-5-20250929
             --allowedTools "Read,Glob,Grep,Bash(cat:*),Bash(head:*),Bash(ls:*)"
-            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"User-friendly changelog for Mod"},"launcher":{"type":"string","description":"User-friendly changelog for Launcher"}},"required":["mod","launcher"]}'
+            --json-schema '{"type":"object","properties":{"mod":{"type":"string"},"launcher":{"type":"string"}},"required":["mod","launcher"]}'
         continue-on-error: true
 
       - name: Process output
@@ -130,11 +116,9 @@ jobs:
             LAUNCHER_CL=""
           fi
 
-          # Fallback to commit messages if AI failed
-          [ -z "$MOD_CL" ] && [ "${{ steps.detect.outputs.mod_changed }}" == "true" ] && [ -f commits.txt ] && \
-            MOD_CL=$(head -5 commits.txt)
-          [ -z "$LAUNCHER_CL" ] && [ "${{ steps.detect.outputs.launcher_changed }}" == "true" ] && [ -f commits.txt ] && \
-            LAUNCHER_CL=$(head -5 commits.txt)
+          # Component-specific fallback
+          [ -z "$MOD_CL" ] && [ -f mod_commits.txt ] && MOD_CL=$(head -5 mod_commits.txt)
+          [ -z "$LAUNCHER_CL" ] && [ -f launcher_commits.txt ] && LAUNCHER_CL=$(head -5 launcher_commits.txt)
 
           { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
           { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
