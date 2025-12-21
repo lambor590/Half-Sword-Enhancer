@@ -7,7 +7,7 @@
 #include "NotificationManager.h"
 #include "Gui.h"
 
-std::unordered_map<int*, KeybindManager::Binding> KeybindManager::s_bindings;
+std::map<int*, KeybindManager::Binding> KeybindManager::s_bindings;
 bool KeybindManager::s_initialized = false;
 
 KeybindManager::HotData KeybindManager::s_hotData;
