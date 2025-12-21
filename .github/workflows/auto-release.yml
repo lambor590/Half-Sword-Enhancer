@@ -70,7 +70,6 @@ jobs:
     outputs:
       mod_changelog: ${{ steps.process.outputs.mod_changelog }}
       launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
-      technical_changelog: ${{ steps.process.outputs.technical_changelog }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -82,10 +81,10 @@ jobs:
         run: |
           if [ -n "$PREV_TAG" ]; then
             git log "$PREV_TAG"..HEAD --pretty=format:"- %s" --no-merges > commits.txt
-            git diff "$PREV_TAG"..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' | head -c 100000 > changes.diff
+            git diff "$PREV_TAG"..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' > changes.diff
           else
             git log --pretty=format:"- %s" --no-merges -20 > commits.txt
-            git diff HEAD~20..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' | head -c 100000 > changes.diff
+            git diff HEAD~20..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' > changes.diff
           fi
 
       - name: Generate changelog
@@ -96,10 +95,11 @@ jobs:
           track_progress: true
           prompt: |
             Generate a changelog for Half Sword Enhancer, a mod for the game Half Sword.
+            The target audience is END USERS who are NOT programmers.
 
             **Input Files:**
             1. commits.txt - Recent commit messages
-            2. changes.diff - Code diff (max 100KB)
+            2. changes.diff - Code diff
 
             **CRITICAL: Only include changes that are EXPLICITLY shown in the input files.**
             - Do NOT invent features or fixes that don't appear in commits.txt or changes.diff
@@ -108,36 +108,55 @@ jobs:
             - Read the actual diff to understand what changed
 
             **Output Requirements:**
-            Return valid JSON with THREE sections:
+            Return valid JSON:
             {
-              "mod": "* User-facing change",
-              "launcher": "* User-facing change",
-              "technical": "* Internal change"
+              "mod": "changelog text here",
+              "launcher": "changelog text here"
             }
 
-            **SECTION 1 & 2: mod / launcher (User-facing)**
-            Format:
-            - Main entries: `* ` prefix
-            - Sub-details: `  * ` (two spaces) - max 1 per entry, only if essential
-            - Use backticks for feature names: `Clear Objects`, `Entity Spawner`
+            **Writing Style - USER-FRIENDLY:**
+            - Write for gamers, NOT programmers
+            - Use simple, clear language
+            - Focus on WHAT changed from the user's perspective
+            - Group changes by category with markdown headers
 
-            **BE CONCISE:**
-            - One sub-bullet MAX per entry
-            - Don't explain obvious behavior
-            - No technical jargon (DirectX, swap chain, memory) - those go in technical section
+            **Format Example:**
+            ```
+            ### New Features
+            - Added search bar in the item spawner menu
+            - You can now rebind hotkeys from the settings
 
-            **SECTION 3: technical (Developer-facing)**
-            For programmers. Simple bullets, one line each.
+            ### Bug Fixes
+            - Fixed menu not responding to keyboard input
+            - Fixed game controls staying disabled after closing the menu
+
+            ### Improvements
+            - Faster menu loading
+            - Better stability overall
+            ```
+
+            **AVOID these technical terms:**
+            - DirectX, swap chain, buffer, memory, cache
+            - Atomic, mutex, thread, async
+            - Refactor, optimize, inline
+            - Function names, class names, file names
+            - Any implementation details
+
+            **INCLUDE only:**
+            - New features users can see or interact with
+            - Bug fixes that affected gameplay or the menu
+            - Performance improvements users would notice
+            - Changes to controls, UI, or settings
 
             **Rules:**
             1. ONLY include changes visible in the provided files
             2. Empty string "" for sections with no changes
             3. When in doubt, OMIT the entry
-            4. CONCISE - fewer accurate entries is better than many guessed ones
+            4. Be CONCISE - quality over quantity
           claude_args: |
-            --model claude-sonnet-4-5-20250929
+            --model claude-opus-4-5-20251101
             --allowedTools "Read,Bash(cat:*),Bash(head:*)"
-            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"Changelog for Mod component"},"launcher":{"type":"string","description":"Changelog for Launcher component"},"technical":{"type":"string","description":"Technical changes for developers"}},"required":["mod","launcher","technical"]}'
+            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"User-friendly changelog for Mod"},"launcher":{"type":"string","description":"User-friendly changelog for Launcher"}},"required":["mod","launcher"]}'
         continue-on-error: true
 
       - name: Process output
@@ -148,11 +167,9 @@ jobs:
           if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
             MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
             LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
-            TECH_CL=$(echo "$AI_OUTPUT" | jq -r '.technical // empty')
           else
             MOD_CL=""
             LAUNCHER_CL=""
-            TECH_CL=""
           fi
 
           # Fallback to commit messages if AI failed
@@ -163,7 +180,6 @@ jobs:
 
           { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
           { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
-          { echo "technical_changelog<<EOF"; echo "$TECH_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
 
   build:
     needs: [version-check, changelog]
@@ -206,7 +222,6 @@ jobs:
       VERSION: ${{ needs.version-check.outputs.version }}
       MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
       LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
-      TECHNICAL_CHANGELOG: ${{ needs.changelog.outputs.technical_changelog }}
     steps:
       - uses: actions/download-artifact@v7
         with:
@@ -218,15 +233,6 @@ jobs:
           {
             [ -n "$MOD_CHANGELOG" ] && printf "## Mod\n\n%s\n\n" "$MOD_CHANGELOG"
             [ -n "$LAUNCHER_CHANGELOG" ] && printf "## Launcher\n\n%s\n\n" "$LAUNCHER_CHANGELOG"
-            if [ -n "$TECHNICAL_CHANGELOG" ]; then
-              echo "<details>"
-              echo "<summary><b>Technical Details</b></summary>"
-              echo ""
-              echo "$TECHNICAL_CHANGELOG"
-              echo ""
-              echo "</details>"
-              echo ""
-            fi
             echo "---"
             echo "See [README](https://github.com/${{ github.repository }}/blob/main/README.md#installation) for installation instructions."
           } > release_body.md
