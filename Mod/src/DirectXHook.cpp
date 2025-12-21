@@ -68,9 +68,15 @@ IDXGISwapChain* DirectXHook::CreateDummySwapChain()
     desc.Windowed = TRUE;
     desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
-    IDXGISwapChain* swapChain;
-    ID3D11Device* device;
-    D3D11CreateDeviceAndSwapChain(0, D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0, D3D11_SDK_VERSION, &desc, &swapChain, &device, 0, 0);
+    IDXGISwapChain* swapChain = nullptr;
+    ID3D11Device* device = nullptr;
+    HRESULT hr = D3D11CreateDeviceAndSwapChain(0, D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0, D3D11_SDK_VERSION, &desc, &swapChain, &device, 0, 0);
+
+    if (FAILED(hr) || !swapChain) {
+        logger.Log("D3D11CreateDeviceAndSwapChain failed: 0x%X", hr);
+        if (device) device->Release();
+        return nullptr;
+    }
 
     if (device) device->Release();
     return swapChain;
