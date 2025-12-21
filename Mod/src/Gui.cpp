@@ -29,7 +29,7 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
         return true;
 
-    if (io.WantCaptureMouse || io.WantTextInput)
+    if (io.WantCaptureMouse || io.WantTextInput || io.WantCaptureKeyboard)
         return true;
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
