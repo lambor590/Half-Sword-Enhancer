@@ -8,6 +8,9 @@ namespace ConfigUtils {
         ConfigManager& config;
         bool shouldSave;
 
+        ConfigTransaction(const ConfigTransaction&) = delete;
+        ConfigTransaction& operator=(const ConfigTransaction&) = delete;
+
     public:
         explicit ConfigTransaction(bool shouldSave = true)
             : config(ConfigManager::Get()), shouldSave(shouldSave) {}
