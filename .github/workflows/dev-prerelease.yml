@@ -4,8 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
     branches: [main]
-    paths: ['Mod/**', 'Launcher/**', 'Proxy/**']
-  workflow_dispatch:
+    paths: ['Mod/**', 'Launcher/**', 'Proxy/**', 'ext/**']
 
 permissions:
   contents: write
@@ -33,24 +32,84 @@ jobs:
 
       - name: Detect changes
         id: detect
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git fetch origin main:main 2>/dev/null || true
+          # Function to get latest commit timestamp for a path
+          get_latest_commit_ts() {
+            git log -1 --format=%ct -- "$1" 2>/dev/null || echo "0"
+          }
 
+          # Function to get asset timestamp from dev-latest release
+          get_asset_ts() {
+            local asset_name="$1"
+            local ts=$(gh release view dev-latest --repo "${{ github.repository }}" --json assets \
+              -q ".assets[] | select(.name == \"$asset_name\") | .updatedAt" 2>/dev/null)
+            [ -n "$ts" ] && date -d "$ts" +%s 2>/dev/null || echo "0"
+          }
+
+          # Get latest commit timestamps per component
+          MOD_COMMIT_TS=$(get_latest_commit_ts "Mod/")
+          LAUNCHER_COMMIT_TS=$(get_latest_commit_ts "Launcher/")
+          PROXY_COMMIT_TS=$(get_latest_commit_ts "Proxy/")
+          SHARED_COMMIT_TS=$(get_latest_commit_ts "ext/")
+
+          # Get asset timestamps from dev-latest release
+          MOD_ASSET_TS=$(get_asset_ts "HSEnhancer.dll")
+          LAUNCHER_ASSET_TS=$(get_asset_ts "HSEnhancerLauncher.exe")
+          PROXY_ASSET_TS=$(get_asset_ts "HSEnhancer.zip")
+
+          # Determine what needs rebuild (commit newer than asset)
+          MOD_STALE=$([[ $MOD_COMMIT_TS -gt $MOD_ASSET_TS ]] && echo true || echo false)
+          LAUNCHER_STALE=$([[ $LAUNCHER_COMMIT_TS -gt $LAUNCHER_ASSET_TS ]] && echo true || echo false)
+          PROXY_STALE=$([[ $PROXY_COMMIT_TS -gt $PROXY_ASSET_TS ]] && echo true || echo false)
+
+          # Shared files (ext/) affect Mod and Launcher
+          if [[ $SHARED_COMMIT_TS -gt $MOD_ASSET_TS ]]; then
+            MOD_STALE=true
+          fi
+          if [[ $SHARED_COMMIT_TS -gt $LAUNCHER_ASSET_TS ]]; then
+            LAUNCHER_STALE=true
+          fi
+
+          # Coupling rule: Mod and Proxy always together
+          if [[ "$MOD_STALE" == "true" || "$PROXY_STALE" == "true" ]]; then
+            MOD_STALE=true
+            PROXY_STALE=true
+          fi
+
+          # Fallback to git diff for PRs (when valid before exists)
           BEFORE="${{ github.event.before }}"
-          [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] && BEFORE="main"
+          if [[ -n "$BEFORE" && "$BEFORE" != "0000000000000000000000000000000000000000" ]]; then
+            git fetch origin main:main 2>/dev/null || true
+            MOD_DIFF=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Mod/**' 2>/dev/null | wc -l)
+            LAUNCHER_DIFF=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Launcher/**' 2>/dev/null | wc -l)
+            PROXY_DIFF=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Proxy/**' 2>/dev/null | wc -l)
+            SHARED_DIFF=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'ext/**' 2>/dev/null | wc -l)
 
-          MOD=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Mod/**' 2>/dev/null | wc -l)
-          LAUNCHER=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Launcher/**' 2>/dev/null | wc -l)
-          PROXY=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Proxy/**' 2>/dev/null | wc -l)
+            [[ $MOD_DIFF -gt 0 || $SHARED_DIFF -gt 0 ]] && MOD_STALE=true
+            [[ $LAUNCHER_DIFF -gt 0 || $SHARED_DIFF -gt 0 ]] && LAUNCHER_STALE=true
+            [[ $PROXY_DIFF -gt 0 ]] && PROXY_STALE=true
 
-          echo "mod_changed=$([[ $MOD -gt 0 ]] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "launcher_changed=$([[ $LAUNCHER -gt 0 ]] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "proxy_changed=$([[ $PROXY -gt 0 ]] && echo true || echo false)" >> $GITHUB_OUTPUT
+            # Re-apply coupling rule
+            if [[ "$MOD_STALE" == "true" || "$PROXY_STALE" == "true" ]]; then
+              MOD_STALE=true
+              PROXY_STALE=true
+            fi
+          fi
 
-          echo "### Components" >> $GITHUB_STEP_SUMMARY
-          echo "- Mod: $([[ $MOD -gt 0 ]] && echo '✅' || echo '⏭️')" >> $GITHUB_STEP_SUMMARY
-          echo "- Launcher: $([[ $LAUNCHER -gt 0 ]] && echo '✅' || echo '⏭️')" >> $GITHUB_STEP_SUMMARY
-          echo "- Proxy: $([[ $PROXY -gt 0 ]] && echo '✅' || echo '⏭️')" >> $GITHUB_STEP_SUMMARY
+          echo "mod_changed=$MOD_STALE" >> $GITHUB_OUTPUT
+          echo "launcher_changed=$LAUNCHER_STALE" >> $GITHUB_OUTPUT
+          echo "proxy_changed=$PROXY_STALE" >> $GITHUB_OUTPUT
+
+          # Summary table
+          echo "### Change Detection" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Commit TS | Asset TS | Stale |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|-----------|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Mod | $(date -d @$MOD_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | $(date -d @$MOD_ASSET_TS -Iseconds 2>/dev/null || echo N/A) | $MOD_STALE |" >> $GITHUB_STEP_SUMMARY
+          echo "| Launcher | $(date -d @$LAUNCHER_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | $(date -d @$LAUNCHER_ASSET_TS -Iseconds 2>/dev/null || echo N/A) | $LAUNCHER_STALE |" >> $GITHUB_STEP_SUMMARY
+          echo "| Proxy | $(date -d @$PROXY_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | $(date -d @$PROXY_ASSET_TS -Iseconds 2>/dev/null || echo N/A) | $PROXY_STALE |" >> $GITHUB_STEP_SUMMARY
+          echo "| Shared (ext/) | $(date -d @$SHARED_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | - | - |" >> $GITHUB_STEP_SUMMARY
 
       - name: Analyze commits
         id: analyze
