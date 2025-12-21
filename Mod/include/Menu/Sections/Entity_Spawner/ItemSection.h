@@ -413,6 +413,18 @@ private:
         return (currentItemIndex < size && items) ? items[currentItemIndex].classPath : nullptr;
     }
 
+    [[nodiscard]] static const ItemInfo* getItemAt(uint8_t catIdx, uint8_t subIdx, uint16_t itmIdx) noexcept {
+        if (catIdx == WEAPONS_INDEX) {
+            return (subIdx < weaponSizes.size() && itmIdx < weaponSizes[subIdx])
+                ? &weaponArrays[subIdx][itmIdx] : nullptr;
+        }
+        if (catIdx == PROPS_INDEX) {
+            return (itmIdx < propItems.size()) ? &propItems[itmIdx] : nullptr;
+        }
+        return (catIdx < armorSizes.size() && itmIdx < armorSizes[catIdx])
+            ? &armorArrays[catIdx][itmIdx] : nullptr;
+    }
+
     __forceinline void updateItemNamesCache() noexcept {
         if (lastCategoryIndex != currentCategoryIndex || lastWeaponSubcategoryIndex != currentWeaponSubcategoryIndex) [[unlikely]] {
             const auto [items, size] = getCurrentItemArray();
@@ -537,14 +549,7 @@ public:
                     uint8_t subIdx = (packedIdx >> 8) & 0xF;
                     uint16_t itmIdx = packedIdx & 0xFF;
 
-                    const ItemInfo* item = nullptr;
-                    if (catIdx == WEAPONS_INDEX) {
-                        item = &weaponArrays[subIdx][itmIdx];
-                    } else if (catIdx == PROPS_INDEX) {
-                        item = &propItems[itmIdx];
-                    } else {
-                        item = &armorArrays[catIdx][itmIdx];
-                    }
+                    const ItemInfo* item = getItemAt(catIdx, subIdx, itmIdx);
 
                     if (item) {
                         bool isSelected = (currentCategoryIndex == catIdx && currentItemIndex == itmIdx && (catIdx != WEAPONS_INDEX || currentWeaponSubcategoryIndex == subIdx));
