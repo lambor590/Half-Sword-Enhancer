@@ -48,6 +48,10 @@ void DirectXHook::Hook()
 
     renderer->SetGetCommandQueueCallback(&GetCommandQueue);
     IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
+    if (!dummySwapChain) {
+        logger.Log("Failed to create dummy swap chain, hooking aborted");
+        return;
+    }
     HookSwapChain(dummySwapChain, (uintptr_t)&OnPresent, (uintptr_t)&OnResizeBuffers, &presentReturnAddress, &resizeBuffersReturnAddress);
 }
 
