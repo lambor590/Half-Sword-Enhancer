@@ -121,10 +121,10 @@ jobs:
 
       - name: Process output
         id: process
+        env:
+          AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
         run: |
-          AI_OUTPUT='${{ steps.ai_changelog.outputs.structured_output }}'
-
-          if echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
+          if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
             MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
             LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
           else
@@ -150,7 +150,7 @@ jobs:
       - uses: microsoft/setup-msbuild@v2
       - uses: actions/cache@v5
         with:
-          path: ~\.nuget\packages
+          path: ~/.nuget/packages
           key: nuget-${{ hashFiles('**/*.vcxproj') }}
 
       - name: Build and package
