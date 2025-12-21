@@ -88,10 +88,10 @@ jobs:
 
       - name: Process output
         id: process
+        env:
+          AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
         run: |
-          AI_OUTPUT='${{ steps.ai_changelog.outputs.structured_output }}'
-
-          if echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
+          if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
             MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
             LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
           else
@@ -100,9 +100,9 @@ jobs:
           fi
 
           # Fallback to commit messages if AI failed
-          [ -z "$MOD_CL" ] && [ "${{ steps.detect.outputs.mod_changed }}" == "true" ] && \
+          [ -z "$MOD_CL" ] && [ "${{ steps.detect.outputs.mod_changed }}" == "true" ] && [ -f commits.txt ] && \
             MOD_CL=$(head -5 commits.txt)
-          [ -z "$LAUNCHER_CL" ] && [ "${{ steps.detect.outputs.launcher_changed }}" == "true" ] && \
+          [ -z "$LAUNCHER_CL" ] && [ "${{ steps.detect.outputs.launcher_changed }}" == "true" ] && [ -f commits.txt ] && \
             LAUNCHER_CL=$(head -5 commits.txt)
 
           { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
@@ -158,6 +158,7 @@ jobs:
           }
 
       - uses: actions/upload-artifact@v6
+        if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.launcher_changed == 'true'
         with:
           name: release-files
           path: release_files/
