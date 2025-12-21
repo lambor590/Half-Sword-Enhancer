@@ -126,7 +126,7 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           track_progress: true
           prompt: |
-            Generate changelogs for Half Sword Enhancer (C++ mod for Unreal Engine 5).
+            Generate changelogs for Half Sword Enhancer, a C++ mod for the Unreal Engine 5 game Half Sword.
 
             **Input Files:**
             1. commits.txt - Recent commit messages
@@ -139,12 +139,37 @@ jobs:
               "launcher": "- Update improvement"
             }
 
+            **Writing Style:**
+            Write for gamers who mod their games but aren't programmers. Each entry should:
+            - Lead with the user benefit or observable change
+            - Include brief technical context in parentheses when helpful
+            - Be one line, concise but complete
+
+            Good examples:
+            - "Search items by name in Entity Spawner (new filter input)"
+            - "Rebind hotkeys through a new settings menu"
+            - "Fixed keyboard not responding when menu is open (input capture fix)"
+            - "Faster menu opening (reduced DirectX hook overhead)"
+            - "Fixed occasional crash when spawning many entities (memory management)"
+
+            Bad examples (too technical):
+            - "Implemented compile-time FNV-1a hashing for ProcessEvent hooks"
+            - "Refactored ConfigManager to use std::string_view"
+            - "Replaced TMap with constexpr std::array for actor lookups"
+
+            Bad examples (too vague):
+            - "Performance improvements"
+            - "Bug fixes"
+            - "Code cleanup"
+
             **Rules:**
-            1. Only include components with actual changes
+            1. Only include components (mod/launcher) with actual changes
             2. Each entry starts with "- "
-            3. Be concise but complete - include all relevant changes
-            4. Focus on user-facing changes
-            5. Empty string "" for no changes
+            3. Group related changes into single entries when logical
+            4. Omit purely internal refactors that don't affect users
+            5. Empty string "" for components with no user-facing changes
+            6. For launcher: focus on update system, injection, and startup behavior
+            7. For mod: focus on gameplay features, GUI, keybinds, and performance
           claude_args: |
             --model claude-sonnet-4-5-20250929
             --allowedTools "Read,Bash(cat:*),Bash(head:*)"
