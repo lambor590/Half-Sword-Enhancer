@@ -205,10 +205,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: microsoft/setup-msbuild@v2
-      - uses: actions/cache@v5
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ hashFiles('**/*.vcxproj') }}
 
       - name: Build Mod
         if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.proxy_changed == 'true'
@@ -357,8 +353,8 @@ jobs:
           [ "$HAS_NEW" = true ] && jq -n \
             --arg content "<@&1426630164053360640>"$'\n\n'"$MSG" \
             --arg url "$RELEASE_URL" \
-            '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}]}' | \
-            curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL?with_components=true"
+            '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}], with_components: true}' | \
+            curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
 
   notify-failure:
     needs: [changelog, build, release]
