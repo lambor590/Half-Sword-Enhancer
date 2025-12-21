@@ -25,6 +25,7 @@ jobs:
       proxy_changed: ${{ steps.detect.outputs.proxy_changed }}
       mod_changelog: ${{ steps.process.outputs.mod_changelog }}
       launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
+      technical_changelog: ${{ steps.process.outputs.technical_changelog }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -126,54 +127,61 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           track_progress: true
           prompt: |
-            Generate changelogs for Half Sword Enhancer, a C++ mod for the Unreal Engine 5 game Half Sword.
+            Generate a changelog for Half Sword Enhancer, a mod for the game Half Sword.
 
             **Input Files:**
             1. commits.txt - Recent commit messages
             2. changes.diff - Code diff (max 100KB)
 
             **Output Requirements:**
-            Return valid JSON with this exact structure:
+            Return valid JSON with THREE sections:
             {
-              "mod": "- Feature X\n- Bug fix Y",
-              "launcher": "- Update improvement"
+              "mod": "* User-facing change\n  * Explanation",
+              "launcher": "* User-facing change",
+              "technical": "* Internal change for developers"
             }
 
-            **Writing Style:**
-            Write for gamers who mod their games but aren't programmers. Each entry should:
-            - Lead with the user benefit or observable change
-            - Include brief technical context in parentheses when helpful
-            - Be one line, concise but complete
+            **SECTION 1 & 2: mod / launcher (User-facing)**
+            Write for players. Use this format:
+            - Main entries: `* ` prefix
+            - Sub-details: `  * ` (two spaces + asterisk)
+            - Use backticks for feature names: `Clear Objects`, `Entity Spawner`
+            - Write from user perspective: "You can now...", "This allows you to..."
+            - Explain WHY changes matter
 
-            Good examples:
-            - "Search items by name in Entity Spawner (new filter input)"
-            - "Rebind hotkeys through a new settings menu"
-            - "Fixed keyboard not responding when menu is open (input capture fix)"
-            - "Faster menu opening (reduced DirectX hook overhead)"
-            - "Fixed occasional crash when spawning many entities (memory management)"
+            Example:
+            ```
+            * Added `Item Search` in Entity Spawner
+              * You can now filter items by name to find what you need faster
+            * Added `Rebind Hotkeys`
+              * You can now customize any hotkey in the settings menu
+            * Fixed keyboard not responding when menu is open
+            ```
 
-            Bad examples (too technical):
-            - "Implemented compile-time FNV-1a hashing for ProcessEvent hooks"
-            - "Refactored ConfigManager to use std::string_view"
-            - "Replaced TMap with constexpr std::array for actor lookups"
+            **SECTION 3: technical (Developer-facing)**
+            For programmers and curious users. Include:
+            - Performance optimizations (with technical detail)
+            - Code refactoring and cleanup
+            - Library/dependency changes
+            - Build system changes
+            - Architecture improvements
 
-            Bad examples (too vague):
-            - "Performance improvements"
-            - "Bug fixes"
-            - "Code cleanup"
+            Use simple bullet format:
+            ```
+            * Replaced runtime hash maps with compile-time FNV-1a hashing for ProcessEvent
+            * Removed 10,000+ line nmd_assembly dependency (custom instruction decoder)
+            * Optimized memory protection toggling in hook installation
+            ```
 
             **Rules:**
-            1. Only include components (mod/launcher) with actual changes
-            2. Each entry starts with "- "
-            3. Group related changes into single entries when logical
-            4. Omit purely internal refactors that don't affect users
-            5. Empty string "" for components with no user-facing changes
-            6. For launcher: focus on update system, injection, and startup behavior
-            7. For mod: focus on gameplay features, GUI, keybinds, and performance
+            1. Empty string "" for sections with no changes
+            2. mod/launcher: Only user-visible changes
+            3. technical: Only internal/dev changes
+            4. Don't duplicate entries between sections
           claude_args: |
             --model claude-sonnet-4-5-20250929
             --allowedTools "Read,Bash(cat:*),Bash(head:*)"
-            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"Changelog for Mod component"},"launcher":{"type":"string","description":"Changelog for Launcher component"}},"required":["mod","launcher"]}'
+            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"Changelog for Mod component"},"launcher":{"type":"string","description":"Changelog for Launcher component"},"technical":{"type":"string","description":"Technical changes for developers"}},"required":["mod","launcher","technical"]}'
         continue-on-error: true
 
       - name: Process output
@@ -184,9 +192,11 @@ jobs:
           if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
             MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
             LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
+            TECH_CL=$(echo "$AI_OUTPUT" | jq -r '.technical // empty')
           else
             MOD_CL=""
             LAUNCHER_CL=""
+            TECH_CL=""
           fi
 
           # Fallback to commit messages if AI failed
@@ -197,6 +207,7 @@ jobs:
 
           { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
           { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
+          { echo "technical_changelog<<EOF"; echo "$TECH_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
 
   build:
     needs: changelog
@@ -269,6 +280,7 @@ jobs:
       LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
       MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
       LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
+      TECHNICAL_CHANGELOG: ${{ needs.changelog.outputs.technical_changelog }}
     steps:
       - uses: actions/download-artifact@v7
         with:
@@ -291,6 +303,15 @@ jobs:
             echo ""
             [ "$MOD_CHANGED" == "true" ] && printf "## Mod\n\n%s\n\n" "$MOD_CHANGELOG"
             [ "$LAUNCHER_CHANGED" == "true" ] && printf "## Launcher\n\n%s\n\n" "$LAUNCHER_CHANGELOG"
+            if [ -n "$TECHNICAL_CHANGELOG" ]; then
+              echo "<details>"
+              echo "<summary><b>Technical Details</b></summary>"
+              echo ""
+              echo "$TECHNICAL_CHANGELOG"
+              echo ""
+              echo "</details>"
+              echo ""
+            fi
             echo "## Installation"
             echo ""
             echo "<details>"
