@@ -150,17 +150,24 @@ public:
             .Action([this]() {
                 constexpr float MIN_DISTANCE_FROM_WILLIES = 120.0f;
 
-                auto shouldDestroy = [&](SDK::AActor* object) {
-                    bool isWithinRadius = false;
-                    bool isFarFromAll = true;
+                std::vector<SDK::FVector> williePositions;
+                ActorUtils::ForEachWillie(world, nullptr, [&](SDK::AWillie_BP_C* willie) {
+                    williePositions.push_back(willie->K2_GetActorLocation());
+                });
 
-                    ActorUtils::ForEachWillie(world, nullptr, [&](SDK::AWillie_BP_C* willie) {
-                        float distance = willie->GetDistanceTo(object);
-                        if (distance <= clearObjectsRadius) isWithinRadius = true;
-                        if (distance <= MIN_DISTANCE_FROM_WILLIES) isFarFromAll = false;
-                    });
+                auto shouldDestroy = [&](SDK::AActor* object) -> bool {
+                    if (williePositions.empty()) return false;
 
-                    return isWithinRadius && isFarFromAll;
+                    SDK::FVector objPos = object->K2_GetActorLocation();
+                    bool withinRadius = false;
+
+                    for (const auto& williePos : williePositions) {
+                        float distance = SDK::FVector::Dist(objPos, williePos);
+                        if (distance <= MIN_DISTANCE_FROM_WILLIES) return false;
+                        if (distance <= clearObjectsRadius) withinRadius = true;
+                    }
+
+                    return withinRadius;
                 };
 
                 ActorUtils::ForEachObjectOfType<SDK::AModularWeaponBP_C>(world, [&](SDK::AModularWeaponBP_C* weapon) {
