@@ -198,12 +198,25 @@ jobs:
 
       - name: Publish release
         run: |
+          # Extract existing changelogs from release body (accumulative)
+          EXISTING_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
+          EXISTING_MOD=$(echo "$EXISTING_BODY" | sed -n '/^## Mod$/,/^## /p' | tail -n +2 | sed '$d')
+          EXISTING_LAUNCHER=$(echo "$EXISTING_BODY" | sed -n '/^## Launcher$/,/^## /p' | tail -n +2 | sed '$d')
+
           {
             echo "> [!WARNING]"
             echo "> **Development Build** — May contain bugs or incomplete features"
             echo ""
-            [ "$MOD_CHANGED" == "true" ] && printf "## Mod\n\n%s\n\n" "$MOD_CHANGELOG"
-            [ "$LAUNCHER_CHANGED" == "true" ] && printf "## Launcher\n\n%s\n\n" "$LAUNCHER_CHANGELOG"
+            echo "## Mod"
+            echo ""
+            [ -n "$MOD_CHANGELOG" ] && printf "%s\n" "$MOD_CHANGELOG"
+            [ -n "$EXISTING_MOD" ] && printf "%s\n" "$EXISTING_MOD"
+            echo ""
+            echo "## Launcher"
+            echo ""
+            [ -n "$LAUNCHER_CHANGELOG" ] && printf "%s\n" "$LAUNCHER_CHANGELOG"
+            [ -n "$EXISTING_LAUNCHER" ] && printf "%s\n" "$EXISTING_LAUNCHER"
+            echo ""
             echo "## Installation"
             echo ""
             echo "<details>"
