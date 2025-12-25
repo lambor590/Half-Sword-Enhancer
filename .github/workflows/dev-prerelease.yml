@@ -22,8 +22,7 @@ jobs:
     outputs:
       mod_changed: ${{ steps.analyze.outputs.mod_changed }}
       launcher_changed: ${{ steps.analyze.outputs.launcher_changed }}
-      mod_changelog: ${{ steps.process.outputs.mod_changelog }}
-      launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
+      changelog: ${{ steps.process.outputs.changelog }}
       current_commit: ${{ steps.analyze.outputs.current_commit }}
     steps:
       - uses: actions/checkout@v6
@@ -54,17 +53,9 @@ jobs:
           echo "launcher_changed=$LAUNCHER_CHANGED" >> $GITHUB_OUTPUT
           echo "current_commit=${{ github.sha }}" >> $GITHUB_OUTPUT
 
-          # Generate component-specific diffs and commits
-          [ "$MOD_CHANGED" == "true" ] && {
-            git diff "$BASE_REF"..HEAD --name-only -- 'Mod/**' ':!Mod/SDK/**' > mod_files.txt
-            git diff "$BASE_REF"..HEAD -- 'Mod/**' 'ext/**' ':!Mod/SDK/**' > mod_changes.diff
-            git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Mod/**' 'Proxy/**' 'ext/**' > mod_commits.txt
-          }
-          [ "$LAUNCHER_CHANGED" == "true" ] && {
-            git diff "$BASE_REF"..HEAD --name-only -- 'Launcher/**' > launcher_files.txt
-            git diff "$BASE_REF"..HEAD -- 'Launcher/**' > launcher_changes.diff
-            git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Launcher/**' 'ext/**' > launcher_commits.txt
-          }
+          # Generate unified diff and commits (excluding SDK)
+          git diff "$BASE_REF"..HEAD -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > changes.diff
+          git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' > commits.txt
 
       - name: Setup main branch reference
         run: |
@@ -81,8 +72,8 @@ jobs:
             Audience: gamers who want to know what changed. Write like patch notes, not code documentation.
 
             ## Resources
-            - mod_changes.diff, launcher_changes.diff (diffs to analyze)
-            - mod_commits.txt, launcher_commits.txt (commit messages for context)
+            - changes.diff (code changes to analyze)
+            - commits.txt (commit messages for context)
             - main_branch/ (use this to verify if something is truly new vs already existed)
 
             ## Verification process
@@ -115,11 +106,11 @@ jobs:
             - Minor relevant changes
 
             Omit empty sections. Use subcategories in brackets when grouping related items.
-            Return empty string for components with no user-facing changes.
+            Return empty string if no user-facing changes.
           claude_args: |
             --model claude-opus-4-5-20251101
             --allowedTools "Read,Glob,Grep,Bash(cat:*),Bash(head:*),Bash(ls:*)"
-            --json-schema '{"type":"object","properties":{"mod":{"type":"string"},"launcher":{"type":"string"}},"required":["mod","launcher"]}'
+            --json-schema '{"type":"object","properties":{"changelog":{"type":"string"}},"required":["changelog"]}'
         continue-on-error: true
 
       - name: Process output
@@ -128,29 +119,20 @@ jobs:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
         run: |
           if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
-            MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
-            LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
+            CHANGELOG=$(echo "$AI_OUTPUT" | jq -r '.changelog // empty')
           else
-            MOD_CL=""
-            LAUNCHER_CL=""
+            CHANGELOG=""
           fi
 
-          # Component-specific fallback: process conventional commits to user-friendly format
-          if [ -z "$MOD_CL" ] && [ -f mod_commits.txt ]; then
-            MOD_CL=$(cat mod_commits.txt | head -10 | \
+          # Fallback: process conventional commits to user-friendly format
+          if [ -z "$CHANGELOG" ] && [ -f commits.txt ]; then
+            CHANGELOG=$(cat commits.txt | head -10 | \
               grep -E '^- (feat|fix|perf|refactor):' | head -5 | \
               sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /' || \
-              head -5 mod_commits.txt)
-          fi
-          if [ -z "$LAUNCHER_CL" ] && [ -f launcher_commits.txt ]; then
-            LAUNCHER_CL=$(cat launcher_commits.txt | head -10 | \
-              grep -E '^- (feat|fix|perf|refactor):' | head -5 | \
-              sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /' || \
-              head -5 launcher_commits.txt)
+              head -5 commits.txt)
           fi
 
-          { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
-          { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
+          { echo "changelog<<EOF"; echo "$CHANGELOG"; echo "EOF"; } >> $GITHUB_OUTPUT
 
       - name: Cleanup worktree
         if: always()
@@ -216,8 +198,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
       LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
-      MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
-      LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
+      CHANGELOG: ${{ needs.changelog.outputs.changelog }}
       CURRENT_COMMIT: ${{ needs.changelog.outputs.current_commit }}
     steps:
       - uses: actions/download-artifact@v7
@@ -227,24 +208,18 @@ jobs:
 
       - name: Publish release
         run: |
-          # Extract existing changelogs from release body (accumulative)
+          # Extract existing changelog from release body (accumulative)
           EXISTING_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
-          EXISTING_MOD=$(echo "$EXISTING_BODY" | sed -n '/^## Mod$/,/^## /p' | tail -n +2 | sed '$d')
-          EXISTING_LAUNCHER=$(echo "$EXISTING_BODY" | sed -n '/^## Launcher$/,/^## /p' | tail -n +2 | sed '$d')
+          EXISTING_CHANGELOG=$(echo "$EXISTING_BODY" | sed -n '/^## Changes$/,/^## Installation$/p' | tail -n +2 | sed '$d')
 
           {
             echo "> [!WARNING]"
             echo "> **Development Build** — May contain bugs or incomplete features"
             echo ""
-            echo "## Mod"
+            echo "## Changes"
             echo ""
-            [ -n "$MOD_CHANGELOG" ] && printf "%s\n" "$MOD_CHANGELOG"
-            [ -n "$EXISTING_MOD" ] && printf "%s\n" "$EXISTING_MOD"
-            echo ""
-            echo "## Launcher"
-            echo ""
-            [ -n "$LAUNCHER_CHANGELOG" ] && printf "%s\n" "$LAUNCHER_CHANGELOG"
-            [ -n "$EXISTING_LAUNCHER" ] && printf "%s\n" "$EXISTING_LAUNCHER"
+            [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
+            [ -n "$EXISTING_CHANGELOG" ] && printf "%s\n" "$EXISTING_CHANGELOG"
             echo ""
             echo "## Installation"
             echo ""
@@ -284,22 +259,15 @@ jobs:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
+          [ -z "$CHANGELOG" ] && exit 0
 
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/dev-latest"
 
-          # Build message from changelog (already contains only new changes based on commit tracking)
-          MSG=""
-          [ "$MOD_CHANGED" == "true" ] && [ -n "$MOD_CHANGELOG" ] && MSG+="## Mod"$'\n'"$MOD_CHANGELOG"$'\n\n'
-          [ "$LAUNCHER_CHANGED" == "true" ] && [ -n "$LAUNCHER_CHANGELOG" ] && MSG+="## Launcher"$'\n'"$LAUNCHER_CHANGELOG"$'\n\n'
-
-          # Only send notification if there's content
-          if [ -n "$MSG" ]; then
-            jq -n \
-              --arg content "<@&1426630164053360640>"$'\n'"# New Dev Build"$'\n\n'"$MSG" \
-              --arg url "$RELEASE_URL" \
-              '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}], with_components: true}' | \
-              curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
-          fi
+          jq -n \
+            --arg content "<@&1426630164053360640>"$'\n'"# New Dev Build"$'\n\n'"$CHANGELOG" \
+            --arg url "$RELEASE_URL" \
+            '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}], with_components: true}' | \
+            curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
 
       - name: Notify failure
         if: failure()
