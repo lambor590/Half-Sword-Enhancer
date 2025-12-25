@@ -76,29 +76,50 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            Generate changelog for Half Sword Enhancer (game mod). Audience: gamers, NOT programmers.
+            Generate changelog for Half Sword Enhancer mod. Audience: GAMERS, not programmers.
 
-            **Status:** Mod: ${{ steps.analyze.outputs.mod_changed }}, Launcher: ${{ steps.analyze.outputs.launcher_changed }}
-            **Files:** mod_changes.diff, launcher_changes.diff, mod_commits.txt, launcher_commits.txt
-            **Verification:** main_branch/ contains stable code - check here before claiming anything is "new"
+            ## FILES TO ANALYZE
+            - mod_changes.diff, launcher_changes.diff (code changes)
+            - mod_commits.txt, launcher_commits.txt (commit messages)
+            - main_branch/ (current stable code - verify here before claiming "new")
 
-            ## CRITICAL RULES
-            1. **Before claiming "new feature"**: Search main_branch/ first. If it exists there, it's NOT new.
-            2. **Never infer features from internal code**: Managers, utilities, refactors = don't mention.
-            3. **Only include user-visible changes**: crashes fixed, UI changes, new menu options.
-            4. **When in doubt, OMIT**.
+            ## RULES
+            1. BEFORE claiming "new feature": grep main_branch/ for the functionality
+               - Found similar code? → NOT new, maybe "improved" or omit entirely
+               - Not found? → Verify complete user-facing implementation exists
+            2. NEVER infer features from internal code (managers, utils, refactors)
+            3. Only include changes users would NOTICE
+            4. When in doubt, OMIT
 
-            ## EXAMPLES OF WHAT NOT TO DO
-            ❌ Saw ProcessRebindEvent() → "You can rebind hotkeys" (WRONG: no UI added)
-            ❌ Saw cache optimization → "Faster menu" (WRONG: imperceptible)
-            ❌ Saw refactoring → "Improved X" (WRONG: internal change)
+            ## FORMAT (no emojis, no markdown headers with ##)
+            Use this exact structure, omit empty sections:
+
+            New Features
+
+            [Descriptive Subcategory]
+            - Clear description for end users
+
+            ---
+            Bug Fixes
+
+            [Descriptive Subcategory]
+            - What was broken and how it's fixed
+
+            ---
+            Improvements
+
+            - Visible improvement description
+
+            ---
+            Other Changes
+
+            - Minor but relevant changes
 
             ## OUTPUT
-            JSON: {"mod": "changelog or empty", "launcher": "changelog or empty"}
-            Headers: ## New Features, ## Bug Fixes, ## Improvements
-            Empty "" if no user-facing changes.
+            JSON: {"mod": "changelog markdown or empty", "launcher": "changelog markdown or empty"}
+            Return "" for components with no user-facing changes.
           claude_args: |
-            --model claude-sonnet-4-5-20250929
+            --model claude-opus-4-5-20251101
             --allowedTools "Read,Glob,Grep,Bash(cat:*),Bash(head:*),Bash(ls:*)"
             --json-schema '{"type":"object","properties":{"mod":{"type":"string"},"launcher":{"type":"string"}},"required":["mod","launcher"]}'
         continue-on-error: true
@@ -116,9 +137,19 @@ jobs:
             LAUNCHER_CL=""
           fi
 
-          # Component-specific fallback
-          [ -z "$MOD_CL" ] && [ -f mod_commits.txt ] && MOD_CL=$(head -5 mod_commits.txt)
-          [ -z "$LAUNCHER_CL" ] && [ -f launcher_commits.txt ] && LAUNCHER_CL=$(head -5 launcher_commits.txt)
+          # Component-specific fallback: process conventional commits to user-friendly format
+          if [ -z "$MOD_CL" ] && [ -f mod_commits.txt ]; then
+            MOD_CL=$(cat mod_commits.txt | head -10 | \
+              grep -E '^- (feat|fix|perf|refactor):' | head -5 | \
+              sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /' || \
+              head -5 mod_commits.txt)
+          fi
+          if [ -z "$LAUNCHER_CL" ] && [ -f launcher_commits.txt ]; then
+            LAUNCHER_CL=$(cat launcher_commits.txt | head -10 | \
+              grep -E '^- (feat|fix|perf|refactor):' | head -5 | \
+              sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /' || \
+              head -5 launcher_commits.txt)
+          fi
 
           { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
           { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
