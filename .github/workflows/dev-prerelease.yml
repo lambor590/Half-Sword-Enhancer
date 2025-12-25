@@ -76,48 +76,46 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            Generate changelog for Half Sword Enhancer mod. Audience: GAMERS, not programmers.
+            Generate changelog for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
+            The mod adds an in-game menu (INSERT key) with spawn controls, equipment management, and gameplay tweaks.
+            Audience: gamers who want to know what changed. Write like patch notes, not code documentation.
 
-            ## FILES TO ANALYZE
-            - mod_changes.diff, launcher_changes.diff (code changes)
-            - mod_commits.txt, launcher_commits.txt (commit messages)
-            - main_branch/ (current stable code - verify here before claiming "new")
+            ## Resources
+            - mod_changes.diff, launcher_changes.diff (diffs to analyze)
+            - mod_commits.txt, launcher_commits.txt (commit messages for context)
+            - main_branch/ (use this to verify if something is truly new vs already existed)
 
-            ## RULES
-            1. BEFORE claiming "new feature": grep main_branch/ for the functionality
-               - Found similar code? → NOT new, maybe "improved" or omit entirely
-               - Not found? → Verify complete user-facing implementation exists
-            2. NEVER infer features from internal code (managers, utils, refactors)
-            3. Only include changes users would NOTICE
-            4. When in doubt, OMIT
+            ## Verification process
+            Before writing a changelog entry:
+            1. Search main_branch/ for the feature/fix (use Grep with relevant keywords)
+            2. If found in main_branch/ → not new, describe what changed or omit
+            3. If not found → verify complete implementation exists (UI, keybind, or visible effect)
+            4. Infrastructure code (managers, caches, refactors) without user-visible impact → omit
 
-            ## FORMAT (no emojis, no markdown headers with ##)
-            Use this exact structure, omit empty sections:
-
+            ## Format (no emojis, plain text headers)
             New Features
 
-            [Descriptive Subcategory]
-            - Clear description for end users
+            [Feature Name]
+            - What it does and how to use it
 
             ---
             Bug Fixes
 
-            [Descriptive Subcategory]
-            - What was broken and how it's fixed
+            [Area]
+            - What was broken and how it's fixed now
 
             ---
             Improvements
 
-            - Visible improvement description
+            - User-noticeable improvement
 
             ---
             Other Changes
 
-            - Minor but relevant changes
+            - Minor relevant changes
 
-            ## OUTPUT
-            JSON: {"mod": "changelog markdown or empty", "launcher": "changelog markdown or empty"}
-            Return "" for components with no user-facing changes.
+            Omit empty sections. Use subcategories in brackets when grouping related items.
+            Return empty string for components with no user-facing changes.
           claude_args: |
             --model claude-opus-4-5-20251101
             --allowedTools "Read,Glob,Grep,Bash(cat:*),Bash(head:*),Bash(ls:*)"
