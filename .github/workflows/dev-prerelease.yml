@@ -20,156 +20,106 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      mod_changed: ${{ steps.detect.outputs.mod_changed }}
-      launcher_changed: ${{ steps.detect.outputs.launcher_changed }}
-      proxy_changed: ${{ steps.detect.outputs.proxy_changed }}
+      mod_changed: ${{ steps.analyze.outputs.mod_changed }}
+      launcher_changed: ${{ steps.analyze.outputs.launcher_changed }}
       mod_changelog: ${{ steps.process.outputs.mod_changelog }}
       launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
-      technical_changelog: ${{ steps.process.outputs.technical_changelog }}
+      current_commit: ${{ steps.analyze.outputs.current_commit }}
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Detect changes
-        id: detect
+      - name: Analyze changes
+        id: analyze
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Function to get latest commit timestamp for a path
-          get_latest_commit_ts() {
-            local ts
-            ts=$(git log -1 --format=%ct -- "$1" 2>/dev/null)
-            [[ -n "$ts" && "$ts" =~ ^[0-9]+$ ]] && echo "$ts" || echo "0"
+          # Get last notified commit for incremental changelog
+          LAST_NOTIFIED=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null | \
+            grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
+
+          # Determine base reference for changelog (what's new since last notification)
+          if [ -n "$LAST_NOTIFIED" ] && git cat-file -e "$LAST_NOTIFIED" 2>/dev/null; then
+            BASE_REF="$LAST_NOTIFIED"
+          else
+            BASE_REF="origin/main"
+          fi
+
+          # Detect changes using unified BASE_REF
+          MOD_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' | grep -q . && echo true || echo false)
+          LAUNCHER_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Launcher/**' 'ext/**' | grep -q . && echo true || echo false)
+
+          echo "mod_changed=$MOD_CHANGED" >> $GITHUB_OUTPUT
+          echo "launcher_changed=$LAUNCHER_CHANGED" >> $GITHUB_OUTPUT
+          echo "current_commit=${{ github.sha }}" >> $GITHUB_OUTPUT
+
+          # Generate component-specific diffs and commits
+          [ "$MOD_CHANGED" == "true" ] && {
+            git diff "$BASE_REF"..HEAD --name-only -- 'Mod/**' ':!Mod/SDK/**' > mod_files.txt
+            git diff "$BASE_REF"..HEAD -- 'Mod/**' 'ext/**' ':!Mod/SDK/**' > mod_changes.diff
+            git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Mod/**' 'Proxy/**' 'ext/**' > mod_commits.txt
+          }
+          [ "$LAUNCHER_CHANGED" == "true" ] && {
+            git diff "$BASE_REF"..HEAD --name-only -- 'Launcher/**' > launcher_files.txt
+            git diff "$BASE_REF"..HEAD -- 'Launcher/**' > launcher_changes.diff
+            git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Launcher/**' 'ext/**' > launcher_commits.txt
           }
 
-          # Function to get asset timestamp from dev-latest release
-          get_asset_ts() {
-            local asset_name="$1"
-            local ts=$(gh release view dev-latest --repo "${{ github.repository }}" --json assets \
-              -q ".assets[] | select(.name == \"$asset_name\") | .updatedAt" 2>/dev/null)
-            [ -n "$ts" ] && date -d "$ts" +%s 2>/dev/null || echo "0"
-          }
-
-          # Get latest commit timestamps per component
-          MOD_COMMIT_TS=$(get_latest_commit_ts "Mod/")
-          LAUNCHER_COMMIT_TS=$(get_latest_commit_ts "Launcher/")
-          PROXY_COMMIT_TS=$(get_latest_commit_ts "Proxy/")
-          SHARED_COMMIT_TS=$(get_latest_commit_ts "ext/")
-
-          # Get asset timestamps from dev-latest release
-          MOD_ASSET_TS=$(get_asset_ts "HSEnhancer.dll")
-          LAUNCHER_ASSET_TS=$(get_asset_ts "HSEnhancerLauncher.exe")
-          PROXY_ASSET_TS=$(get_asset_ts "HSEnhancer.zip")
-
-          # Determine what needs rebuild (commit newer than asset)
-          MOD_STALE=$([[ $MOD_COMMIT_TS -gt $MOD_ASSET_TS ]] && echo true || echo false)
-          LAUNCHER_STALE=$([[ $LAUNCHER_COMMIT_TS -gt $LAUNCHER_ASSET_TS ]] && echo true || echo false)
-          PROXY_STALE=$([[ $PROXY_COMMIT_TS -gt $PROXY_ASSET_TS ]] && echo true || echo false)
-
-          # Shared files (ext/) affect Mod and Launcher
-          if [[ $SHARED_COMMIT_TS -gt $MOD_ASSET_TS ]]; then
-            MOD_STALE=true
-          fi
-          if [[ $SHARED_COMMIT_TS -gt $LAUNCHER_ASSET_TS ]]; then
-            LAUNCHER_STALE=true
-          fi
-
-          # Coupling rule: Mod and Proxy always together
-          if [[ "$MOD_STALE" == "true" || "$PROXY_STALE" == "true" ]]; then
-            MOD_STALE=true
-            PROXY_STALE=true
-          fi
-
-          # Fallback to git diff for PRs (when valid before exists)
-          BEFORE="${{ github.event.before }}"
-          if [[ -n "$BEFORE" && "$BEFORE" != "0000000000000000000000000000000000000000" ]]; then
-            git fetch origin main:main 2>/dev/null || true
-            MOD_DIFF=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Mod/**' 2>/dev/null | wc -l)
-            LAUNCHER_DIFF=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Launcher/**' 2>/dev/null | wc -l)
-            PROXY_DIFF=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'Proxy/**' 2>/dev/null | wc -l)
-            SHARED_DIFF=$(git diff --name-only "$BEFORE"..${{ github.sha }} -- 'ext/**' 2>/dev/null | wc -l)
-
-            [[ $MOD_DIFF -gt 0 || $SHARED_DIFF -gt 0 ]] && MOD_STALE=true
-            [[ $LAUNCHER_DIFF -gt 0 || $SHARED_DIFF -gt 0 ]] && LAUNCHER_STALE=true
-            [[ $PROXY_DIFF -gt 0 ]] && PROXY_STALE=true
-
-            # Re-apply coupling rule
-            if [[ "$MOD_STALE" == "true" || "$PROXY_STALE" == "true" ]]; then
-              MOD_STALE=true
-              PROXY_STALE=true
-            fi
-          fi
-
-          echo "mod_changed=$MOD_STALE" >> $GITHUB_OUTPUT
-          echo "launcher_changed=$LAUNCHER_STALE" >> $GITHUB_OUTPUT
-          echo "proxy_changed=$PROXY_STALE" >> $GITHUB_OUTPUT
-
-          # Summary table
-          echo "### Change Detection" >> $GITHUB_STEP_SUMMARY
-          echo "| Component | Commit TS | Asset TS | Stale |" >> $GITHUB_STEP_SUMMARY
-          echo "|-----------|-----------|----------|-------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Mod | $(date -d @$MOD_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | $(date -d @$MOD_ASSET_TS -Iseconds 2>/dev/null || echo N/A) | $MOD_STALE |" >> $GITHUB_STEP_SUMMARY
-          echo "| Launcher | $(date -d @$LAUNCHER_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | $(date -d @$LAUNCHER_ASSET_TS -Iseconds 2>/dev/null || echo N/A) | $LAUNCHER_STALE |" >> $GITHUB_STEP_SUMMARY
-          echo "| Proxy | $(date -d @$PROXY_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | $(date -d @$PROXY_ASSET_TS -Iseconds 2>/dev/null || echo N/A) | $PROXY_STALE |" >> $GITHUB_STEP_SUMMARY
-          echo "| Shared (ext/) | $(date -d @$SHARED_COMMIT_TS -Iseconds 2>/dev/null || echo N/A) | - | - |" >> $GITHUB_STEP_SUMMARY
-
-      - name: Analyze commits
-        id: analyze
+      - name: Setup main branch reference
         run: |
-          git log main..HEAD --pretty=format:"- %s" --no-merges > commits.txt
-          git diff main..HEAD -- '*.cpp' '*.h' '*.hpp' ':!Mod/SDK/**' | head -c 100000 > changes.diff
+          git worktree add main_branch origin/main
 
       - name: Generate changelog
         id: ai_changelog
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          track_progress: true
           prompt: |
-            Generate a changelog for Half Sword Enhancer, a mod for the game Half Sword.
+            Generate changelog for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
+            The mod adds an in-game menu (INSERT key) with spawn controls, equipment management, and gameplay tweaks.
+            Audience: gamers who want to know what changed. Write like patch notes, not code documentation.
 
-            **Input Files:**
-            1. commits.txt - Recent commit messages
-            2. changes.diff - Code diff (max 100KB)
+            ## Resources
+            - mod_changes.diff, launcher_changes.diff (diffs to analyze)
+            - mod_commits.txt, launcher_commits.txt (commit messages for context)
+            - main_branch/ (use this to verify if something is truly new vs already existed)
 
-            **CRITICAL: Only include changes that are EXPLICITLY shown in the input files.**
-            - Do NOT invent features or fixes that don't appear in commits.txt or changes.diff
-            - Do NOT assume what a feature does beyond what the code shows
-            - If unsure about a change, omit it rather than guess
-            - Read the actual diff to understand what changed
+            ## Verification process
+            Before writing a changelog entry:
+            1. Search main_branch/ for the feature/fix (use Grep with relevant keywords)
+            2. If found in main_branch/ → not new, describe what changed or omit
+            3. If not found → verify complete implementation exists (UI, keybind, or visible effect)
+            4. Infrastructure code (managers, caches, refactors) without user-visible impact → omit
 
-            **Output Requirements:**
-            Return valid JSON with THREE sections:
-            {
-              "mod": "* User-facing change",
-              "launcher": "* User-facing change",
-              "technical": "* Internal change"
-            }
+            ## Format (no emojis, plain text headers)
+            New Features
 
-            **SECTION 1 & 2: mod / launcher (User-facing)**
-            Format:
-            - Main entries: `* ` prefix
-            - Sub-details: `  * ` (two spaces) - max 1 per entry, only if essential
-            - Use backticks for feature names: `Clear Objects`, `Entity Spawner`
+            [Feature Name]
+            - What it does and how to use it
 
-            **BE CONCISE:**
-            - One sub-bullet MAX per entry
-            - Don't explain obvious behavior
-            - No technical jargon (DirectX, swap chain, memory) - those go in technical section
+            ---
+            Bug Fixes
 
-            **SECTION 3: technical (Developer-facing)**
-            For programmers. Simple bullets, one line each.
+            [Area]
+            - What was broken and how it's fixed now
 
-            **Rules:**
-            1. ONLY include changes visible in the provided files
-            2. Empty string "" for sections with no changes
-            3. When in doubt, OMIT the entry
-            4. CONCISE - fewer accurate entries is better than many guessed ones
+            ---
+            Improvements
+
+            - User-noticeable improvement
+
+            ---
+            Other Changes
+
+            - Minor relevant changes
+
+            Omit empty sections. Use subcategories in brackets when grouping related items.
+            Return empty string for components with no user-facing changes.
           claude_args: |
-            --model claude-sonnet-4-5-20250929
-            --allowedTools "Read,Bash(cat:*),Bash(head:*)"
-            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"Changelog for Mod component"},"launcher":{"type":"string","description":"Changelog for Launcher component"},"technical":{"type":"string","description":"Technical changes for developers"}},"required":["mod","launcher","technical"]}'
+            --model claude-opus-4-5-20251101
+            --allowedTools "Read,Glob,Grep,Bash(cat:*),Bash(head:*),Bash(ls:*)"
+            --json-schema '{"type":"object","properties":{"mod":{"type":"string"},"launcher":{"type":"string"}},"required":["mod","launcher"]}'
         continue-on-error: true
 
       - name: Process output
@@ -180,22 +130,31 @@ jobs:
           if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
             MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
             LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
-            TECH_CL=$(echo "$AI_OUTPUT" | jq -r '.technical // empty')
           else
             MOD_CL=""
             LAUNCHER_CL=""
-            TECH_CL=""
           fi
 
-          # Fallback to commit messages if AI failed
-          [ -z "$MOD_CL" ] && [ "${{ steps.detect.outputs.mod_changed }}" == "true" ] && [ -f commits.txt ] && \
-            MOD_CL=$(head -5 commits.txt)
-          [ -z "$LAUNCHER_CL" ] && [ "${{ steps.detect.outputs.launcher_changed }}" == "true" ] && [ -f commits.txt ] && \
-            LAUNCHER_CL=$(head -5 commits.txt)
+          # Component-specific fallback: process conventional commits to user-friendly format
+          if [ -z "$MOD_CL" ] && [ -f mod_commits.txt ]; then
+            MOD_CL=$(cat mod_commits.txt | head -10 | \
+              grep -E '^- (feat|fix|perf|refactor):' | head -5 | \
+              sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /' || \
+              head -5 mod_commits.txt)
+          fi
+          if [ -z "$LAUNCHER_CL" ] && [ -f launcher_commits.txt ]; then
+            LAUNCHER_CL=$(cat launcher_commits.txt | head -10 | \
+              grep -E '^- (feat|fix|perf|refactor):' | head -5 | \
+              sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /' || \
+              head -5 launcher_commits.txt)
+          fi
 
           { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
           { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
-          { echo "technical_changelog<<EOF"; echo "$TECH_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
+
+      - name: Cleanup worktree
+        if: always()
+        run: git worktree remove main_branch --force 2>/dev/null || true
 
   build:
     needs: changelog
@@ -205,13 +164,14 @@ jobs:
       - uses: actions/checkout@v6
       - uses: microsoft/setup-msbuild@v2
 
-      - name: Build Mod
-        if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.proxy_changed == 'true'
+      - name: Build Mod and Proxy
+        if: needs.changelog.outputs.mod_changed == 'true'
         shell: pwsh
         run: |
           MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
-          "### Mod Build ✅" >> $env:GITHUB_STEP_SUMMARY
+          MSBuild.exe "Proxy/Proxy.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
+          if ($LASTEXITCODE -ne 0) { throw "Proxy build failed" }
 
       - name: Build Launcher
         if: needs.changelog.outputs.launcher_changed == 'true'
@@ -219,26 +179,16 @@ jobs:
         run: |
           MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
-          "### Launcher Build ✅" >> $env:GITHUB_STEP_SUMMARY
-
-      - name: Build Proxy
-        if: needs.changelog.outputs.proxy_changed == 'true'
-        shell: pwsh
-        run: |
-          MSBuild.exe "Proxy/Proxy.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
-          if ($LASTEXITCODE -ne 0) { throw "Proxy build failed" }
-          "### Proxy Build ✅" >> $env:GITHUB_STEP_SUMMARY
 
       - name: Package
         shell: pwsh
         env:
           MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
           LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
-          PROXY_CHANGED: ${{ needs.changelog.outputs.proxy_changed }}
         run: |
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
 
-          if ($env:MOD_CHANGED -eq "true" -or $env:PROXY_CHANGED -eq "true") {
+          if ($env:MOD_CHANGED -eq "true") {
             Copy-Item "bin/HSEnhancer.dll" "release_files/"
             New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
             Copy-Item "Manual_Install.txt" "manual_install/README.txt"
@@ -252,7 +202,7 @@ jobs:
           }
 
       - uses: actions/upload-artifact@v6
-        if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.launcher_changed == 'true' || needs.changelog.outputs.proxy_changed == 'true'
+        if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.launcher_changed == 'true'
         with:
           name: release-files
           path: release_files/
@@ -268,7 +218,7 @@ jobs:
       LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
       MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
       LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
-      TECHNICAL_CHANGELOG: ${{ needs.changelog.outputs.technical_changelog }}
+      CURRENT_COMMIT: ${{ needs.changelog.outputs.current_commit }}
     steps:
       - uses: actions/download-artifact@v7
         with:
@@ -276,30 +226,26 @@ jobs:
           path: release_files/
 
       - name: Publish release
-        id: publish
         run: |
-          PREV_NOTES=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
-          {
-            echo "prev_notes<<EOF"
-            echo "$PREV_NOTES"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+          # Extract existing changelogs from release body (accumulative)
+          EXISTING_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
+          EXISTING_MOD=$(echo "$EXISTING_BODY" | sed -n '/^## Mod$/,/^## /p' | tail -n +2 | sed '$d')
+          EXISTING_LAUNCHER=$(echo "$EXISTING_BODY" | sed -n '/^## Launcher$/,/^## /p' | tail -n +2 | sed '$d')
 
           {
             echo "> [!WARNING]"
             echo "> **Development Build** — May contain bugs or incomplete features"
             echo ""
-            [ "$MOD_CHANGED" == "true" ] && printf "## Mod\n\n%s\n\n" "$MOD_CHANGELOG"
-            [ "$LAUNCHER_CHANGED" == "true" ] && printf "## Launcher\n\n%s\n\n" "$LAUNCHER_CHANGELOG"
-            if [ -n "$TECHNICAL_CHANGELOG" ]; then
-              echo "<details>"
-              echo "<summary><b>Technical Details</b></summary>"
-              echo ""
-              echo "$TECHNICAL_CHANGELOG"
-              echo ""
-              echo "</details>"
-              echo ""
-            fi
+            echo "## Mod"
+            echo ""
+            [ -n "$MOD_CHANGELOG" ] && printf "%s\n" "$MOD_CHANGELOG"
+            [ -n "$EXISTING_MOD" ] && printf "%s\n" "$EXISTING_MOD"
+            echo ""
+            echo "## Launcher"
+            echo ""
+            [ -n "$LAUNCHER_CHANGELOG" ] && printf "%s\n" "$LAUNCHER_CHANGELOG"
+            [ -n "$EXISTING_LAUNCHER" ] && printf "%s\n" "$EXISTING_LAUNCHER"
+            echo ""
             echo "## Installation"
             echo ""
             echo "<details>"
@@ -317,6 +263,8 @@ jobs:
             echo "2. Extract and follow instructions in README"
             echo ""
             echo "</details>"
+            echo ""
+            echo "<!-- LAST_NOTIFIED_COMMIT: $CURRENT_COMMIT -->"
           } > release_body.md
 
           if gh release view dev-latest --repo "${{ github.repository }}" >/dev/null 2>&1; then
@@ -334,48 +282,31 @@ jobs:
       - name: Discord notification
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-          PREV_NOTES: ${{ steps.publish.outputs.prev_notes }}
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
 
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/dev-latest"
 
-          filter_new() {
-            echo "$1" | while IFS= read -r line; do
-              [ -n "$line" ] && ! echo "$PREV_NOTES" | grep -qF -- "$line" && echo "$line"
-            done
-          }
+          # Build message from changelog (already contains only new changes based on commit tracking)
+          MSG=""
+          [ "$MOD_CHANGED" == "true" ] && [ -n "$MOD_CHANGELOG" ] && MSG+="## Mod"$'\n'"$MOD_CHANGELOG"$'\n\n'
+          [ "$LAUNCHER_CHANGED" == "true" ] && [ -n "$LAUNCHER_CHANGELOG" ] && MSG+="## Launcher"$'\n'"$LAUNCHER_CHANGELOG"$'\n\n'
 
-          MSG="# New Dev Build Available"$'\n\n'
-          HAS_NEW=false
-
-          if [ "$MOD_CHANGED" == "true" ] && [ -n "$MOD_CHANGELOG" ]; then
-            NEW_MOD=$(filter_new "$MOD_CHANGELOG")
-            [ -n "$NEW_MOD" ] && MSG+="## Mod"$'\n'"$NEW_MOD"$'\n\n' && HAS_NEW=true
+          # Only send notification if there's content
+          if [ -n "$MSG" ]; then
+            jq -n \
+              --arg content "<@&1426630164053360640>"$'\n'"# New Dev Build"$'\n\n'"$MSG" \
+              --arg url "$RELEASE_URL" \
+              '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}], with_components: true}' | \
+              curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
           fi
 
-          if [ "$LAUNCHER_CHANGED" == "true" ] && [ -n "$LAUNCHER_CHANGELOG" ]; then
-            NEW_LAUNCHER=$(filter_new "$LAUNCHER_CHANGELOG")
-            [ -n "$NEW_LAUNCHER" ] && MSG+="## Launcher"$'\n'"$NEW_LAUNCHER"$'\n\n' && HAS_NEW=true
-          fi
-
-          [ "$HAS_NEW" = true ] && jq -n \
-            --arg content "<@&1426630164053360640>"$'\n'"$MSG" \
-            --arg url "$RELEASE_URL" \
-            '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}], with_components: true}' | \
-            curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
-
-  notify-failure:
-    needs: [changelog, build, release]
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Discord failure notification
+      - name: Notify failure
+        if: failure()
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
-          RUN_URL="<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}>"
-
-          jq -n --arg content "⚠️ **Dev Build Failed**"$'\n\n'"View logs: $RUN_URL" '{content: $content}' | \
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          jq -n --arg content "⚠️ **Dev Build Failed**"$'\n\n'"View logs: <$RUN_URL>" '{content: $content}' | \
             curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
