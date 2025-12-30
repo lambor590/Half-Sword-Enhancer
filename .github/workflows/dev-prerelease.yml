@@ -126,10 +126,14 @@ jobs:
 
           # Fallback: process conventional commits to user-friendly format
           if [ -z "$CHANGELOG" ] && [ -f commits.txt ]; then
-            CHANGELOG=$(cat commits.txt | head -10 | \
+            CONVENTIONAL=$(head -10 commits.txt | \
               grep -E '^- (feat|fix|perf|refactor):' | head -5 | \
-              sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /' || \
-              head -5 commits.txt)
+              sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /')
+            if [ -n "$CONVENTIONAL" ]; then
+              CHANGELOG="$CONVENTIONAL"
+            else
+              CHANGELOG=$(head -5 commits.txt)
+            fi
           fi
 
           { echo "changelog<<EOF"; echo "$CHANGELOG"; echo "EOF"; } >> $GITHUB_OUTPUT
