@@ -55,7 +55,7 @@ jobs:
 
           # Generate unified diff and commits (excluding SDK)
           git diff "$BASE_REF"..HEAD -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > changes.diff
-          git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' > commits.txt
+          git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > commits.txt
 
       - name: Setup main branch reference
         run: |
@@ -208,7 +208,7 @@ jobs:
 
       - name: Publish release
         run: |
-          # Extract existing changelog from release body (accumulative)
+          # Extract existing changelog from release body (accumulated)
           EXISTING_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
           EXISTING_CHANGELOG=$(echo "$EXISTING_BODY" | sed -n '/^## Changes$/,/^## Installation$/p' | tail -n +2 | sed '$d')
 
