@@ -211,17 +211,14 @@ jobs:
         run: |
           # Extract existing changelog from release body (accumulated)
           EXISTING_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
-          EXISTING_CHANGELOG=$(echo "$EXISTING_BODY" | sed -n '/^## Changes$/,/^## Installation$/p' | tail -n +2 | sed '$d')
+          EXISTING_CHANGELOG=$(echo "$EXISTING_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
 
           {
             echo "> [!WARNING]"
             echo "> **Development Build** — May contain bugs or incomplete features"
             echo ""
-            echo "## Changes"
-            echo ""
             [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
             [ -n "$EXISTING_CHANGELOG" ] && printf "%s\n" "$EXISTING_CHANGELOG"
-            echo ""
             echo "## Installation"
             echo ""
             echo "<details>"
