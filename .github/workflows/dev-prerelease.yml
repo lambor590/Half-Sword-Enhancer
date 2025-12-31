@@ -97,41 +97,36 @@ jobs:
             <process>
             STEP 1 - COLLECT: Review commits above (format: `- hash: message`). List user-facing changes.
             STEP 2 - VERIFY: Use Grep to search changes.diff for `=== hash ===` to see the actual code.
-            STEP 3 - COMPARE: Use `git show origin/main:path` to check if feature existed before.
-            STEP 4 - CATEGORIZE: Assign each change to the correct section.
+            STEP 3 - COMPARE: Use `git show origin/main:path` to understand what specifically changed.
+              - If feature existed before: describe only what's new (not the whole feature)
+              - Example: "auto-update" existed → "dev-to-dev updates" is new → write about dev-to-dev only
+            STEP 4 - CATEGORIZE: Assign to one section only. Choose the most relevant.
 
-            IMPORTANT: Only include changes you verified exist in changes.diff. If you cannot find the code, do not include it.
-            Omit: infrastructure, refactors, or code without user-visible impact.
+            IMPORTANT: Only include changes verified in changes.diff. Omit infrastructure/refactors.
             </process>
 
             <categories>
             ## New Features
-            Features that did NOT exist in origin/main.
-            Example: "Added item search to filter by name" ✓
+            Completely new functionality. Use **bold subcategories** to group related items.
 
             ## Bug Fixes
-            ONLY crashes, errors, exceptions, or completely broken functionality.
-            Example: "Fixed crash when opening menu" ✓
-            Example: "Escape now cancels rebinding" ✗ (this is an Improvement - it wasn't broken, just missing)
+            ONLY crashes, errors, or completely broken functionality.
 
             ## Improvements
-            New capabilities added to existing features, or better UX that wasn't broken before.
-            Example: "Escape now cancels keybind rebinding" ✓
-            Example: "Faster object clearing with cached positions" ✓
-
-            ## Other Changes
-            Minor changes that don't fit above categories.
+            Enhancements to existing features, better UX, or performance gains.
             </categories>
 
             <writing_style>
-            Focus on USER IMPACT. One sentence per bullet. No implementation details.
-            Good: "Added search to filter items by name"
-            Bad: "Added InputText widget with 'Found: X items' counter"
+            Describe what the USER experiences, not how it's implemented.
+            Translate technical terms to user impact.
+            Bad: "Fixed DirectX swap chain creation failure"
+            Good: "Fixed rare startup crash on some graphics cards"
             </writing_style>
 
             <output>
-            - Use markdown ## headers. Blank line between sections. No emojis.
-            - If multiple commits affect the same feature, combine into one bullet.
+            - Use ## headers with **bold subcategories** when grouping 2+ related items
+            - Each change in one section only. Never duplicate across sections.
+            - Combine commits affecting the same feature into one bullet.
             - Omit empty sections. Return empty string if no user-facing changes.
             </output>
           claude_args: |
