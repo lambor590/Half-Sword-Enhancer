@@ -67,23 +67,35 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            Generate changelog for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
+            <context>
+            Generate a changelog for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
             The mod adds an in-game menu (INSERT key) with spawn controls, equipment management, and gameplay tweaks.
             Audience: gamers who want to know what changed. Write like patch notes, not code documentation.
+            </context>
 
-            ## Resources
-            - changes.diff (code changes to analyze)
-            - commits.txt (commit messages for context)
-            - main_branch/ (use this to verify if something is truly new vs already existed)
+            <resources>
+            - changes.diff: code changes to analyze
+            - commits.txt: commit messages for context
+            - main_branch/: previous version to compare against
+            </resources>
 
-            ## Verification process
-            Before writing a changelog entry:
-            1. Search main_branch/ for the feature/fix (use Grep with relevant keywords)
-            2. If found in main_branch/ → not new, describe what changed or omit
-            3. If not found → verify complete implementation exists (UI, keybind, or visible effect)
-            4. Infrastructure code (managers, caches, refactors) without user-visible impact → omit
+            <verification>
+            ALWAYS read and inspect the actual code before documenting any feature.
+            Do not speculate about functionality you have not verified in the source files.
+            This prevents documenting features that were only partially implemented or exist only as variable names.
 
-            ## Format (no emojis, markdown headers with #, blank line between sections)
+            For each potential changelog entry:
+            1. Search the codebase for the actual implementation (ImGui calls, keybinds, visible effects)
+            2. Compare with main_branch/ to determine if it's new or modified
+            3. When uncertain, use an Explore subagent to find specific UI code evidence
+            4. Only document what you can prove exists with code citations
+
+            Omit infrastructure changes, refactors, or code without user-visible impact.
+            </verification>
+
+            <format>
+            Use markdown headers with ##. Blank line between sections. No emojis.
+
             ## New Features
 
             **[Feature Name]**
@@ -102,11 +114,11 @@ jobs:
 
             - Minor relevant changes
 
-            Omit empty sections. Use bold bracketed subcategories when grouping related items.
-            Return empty string if no user-facing changes.
+            Omit empty sections. Return empty string if no user-facing changes.
+            </format>
           claude_args: |
             --model claude-opus-4-5-20251101
-            --allowedTools "Read,Glob,Grep,Bash(cat:*),Bash(head:*),Bash(ls:*)"
+            --allowedTools "Read,Glob,Grep,Task,Bash(cat:*),Bash(head:*),Bash(ls:*)"
             --json-schema '{"type":"object","properties":{"changelog":{"type":"string"}},"required":["changelog"]}'
         continue-on-error: true
 
