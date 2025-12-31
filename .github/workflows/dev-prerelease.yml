@@ -71,10 +71,11 @@ jobs:
             $LARGE_FILES > changes.diff
 
           # Export commits content for prompt injection
+          DELIM="COMMITS_$(uuidgen | tr -d '-')"
           {
-            echo "commits_content<<COMMITS_EOF"
-            cat commits.txt
-            echo "COMMITS_EOF"
+            echo "commits_content<<$DELIM"
+            cat commits.txt 2>/dev/null || true
+            echo "$DELIM"
           } >> $GITHUB_OUTPUT
 
       - name: Generate changelog
