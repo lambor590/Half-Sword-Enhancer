@@ -80,7 +80,7 @@ jobs:
             </resources>
 
             <process>
-            1. Review ALL commits and changes thoroughly - do not skip any user-facing changes
+            1. Review EVERY commit in commits.txt - do not skip any. List all user-facing changes even if they seem minor.
             2. For each change, verify it exists by inspecting the actual code
             3. BEFORE categorizing, search main_branch/ for the feature:
                - If feature exists in main_branch/ → it's an IMPROVEMENT, not a new feature
