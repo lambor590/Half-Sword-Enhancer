@@ -108,11 +108,14 @@ jobs:
             - What it does and how to use it
 
             ## Bug Fixes
+            Only for things that were BROKEN before (crashes, errors, wrong behavior).
+            If it worked as designed but now works better, it's an Improvement.
 
             **[Area]**
             - What was broken and how it's fixed now
 
             ## Improvements
+            New capabilities added to existing features, or better behavior that wasn't broken.
 
             - User-noticeable improvement
 
