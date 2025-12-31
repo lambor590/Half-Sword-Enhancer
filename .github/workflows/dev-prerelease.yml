@@ -34,6 +34,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Fetch all refs to ensure LAST_NOTIFIED_COMMIT is available
+          git fetch origin --quiet
+
           # Get last notified commit for incremental changelog
           LAST_NOTIFIED=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null | \
             grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
