@@ -56,9 +56,25 @@ jobs:
           echo "launcher_changed=$LAUNCHER_CHANGED" >> $GITHUB_OUTPUT
           echo "current_commit=${{ github.sha }}" >> $GITHUB_OUTPUT
 
-          # Generate unified diff and commits (excluding SDK)
-          git diff "$BASE_REF"..HEAD -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > changes.diff
-          git log "$BASE_REF"..HEAD --pretty=format:"- %s" --no-merges -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > commits.txt
+          # Generate commits with hash for correlation
+          git log "$BASE_REF"..HEAD --pretty=format:"- %h: %s" --no-merges \
+            -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > commits.txt
+
+          # Exclusions: SDK, config files, and files with >500 lines changed
+          STATIC_EXCLUDES=":(exclude)Mod/SDK/** :(exclude)*.vcxproj* :(exclude)*.rc :(exclude)*.filters"
+          LARGE_FILES=$(git diff "$BASE_REF"..HEAD --numstat -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' | \
+            awk '$1+$2 > 500 {print ":(exclude)" $3}' | tr '\n' ' ')
+
+          # Generate diff with hash markers for verification
+          eval "git log \"$BASE_REF\"..HEAD --no-merges --format=\"%n=== %h ===\" -p \
+            -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' $STATIC_EXCLUDES $LARGE_FILES" > changes.diff
+
+          # Export commits content for prompt injection
+          {
+            echo "commits_content<<COMMITS_EOF"
+            cat commits.txt
+            echo "COMMITS_EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: Setup main branch reference
         run: |
@@ -76,20 +92,23 @@ jobs:
             Audience: gamers. Write like patch notes, not code documentation.
             </context>
 
+            <commits>
+            ${{ steps.analyze.outputs.commits_content }}
+            </commits>
+
             <resources>
-            - changes.diff: code changes
-            - commits.txt: commit messages
+            - changes.diff: diff with `=== hash ===` markers (search by hash from commits above)
             - main_branch/: previous version for comparison
             </resources>
 
             <process>
-            STEP 1 - COLLECT: Read every commit in commits.txt. List ALL user-facing changes.
-            STEP 2 - VERIFY: For each change, inspect the actual code to confirm it exists.
-            STEP 3 - COMPARE: Search main_branch/ for each feature to determine if it's new or modified.
-            STEP 4 - CATEGORIZE: Assign each change to the correct section using the rules below.
+            STEP 1 - COLLECT: Review commits above (format: `- hash: message`). List user-facing changes.
+            STEP 2 - VERIFY: Use Grep to search changes.diff for `=== hash ===` to see the actual code.
+            STEP 3 - COMPARE: Search main_branch/ to determine if feature is new or modified.
+            STEP 4 - CATEGORIZE: Assign each change to the correct section.
 
-            When uncertain, use an Explore subagent to compare both versions.
-            Omit only: infrastructure, refactors, or code without user-visible impact.
+            IMPORTANT: Only include changes you verified exist in changes.diff. If you cannot find the code, do not include it.
+            Omit: infrastructure, refactors, or code without user-visible impact.
             </process>
 
             <categories>
@@ -118,8 +137,9 @@ jobs:
             </writing_style>
 
             <output>
-            Use markdown ## headers. Blank line between sections. No emojis.
-            Omit empty sections. Return empty string if no user-facing changes.
+            - Use markdown ## headers. Blank line between sections. No emojis.
+            - If multiple commits affect the same feature, combine into one bullet.
+            - Omit empty sections. Return empty string if no user-facing changes.
             </output>
           claude_args: |
             --model claude-opus-4-5-20251101
@@ -140,14 +160,11 @@ jobs:
 
           # Fallback: process conventional commits to user-friendly format
           if [ -z "$CHANGELOG" ] && [ -f commits.txt ]; then
-            CONVENTIONAL=$(head -10 commits.txt | \
-              grep -E '^- (feat|fix|perf|refactor):' | head -5 | \
-              sed -E 's/^- feat(\([^)]*\))?: /- Added: /; s/^- fix(\([^)]*\))?: /- Fixed: /; s/^- perf(\([^)]*\))?: /- Improved: /; s/^- refactor(\([^)]*\))?: /- /')
-            if [ -n "$CONVENTIONAL" ]; then
-              CHANGELOG="$CONVENTIONAL"
-            else
-              CHANGELOG=$(head -5 commits.txt)
-            fi
+            CHANGELOG=$(grep -E '^- [a-f0-9]+: (feat|fix|perf):' commits.txt | head -5 | \
+              sed -E 's/^- [a-f0-9]+: feat(\([^)]*\))?: /- Added: /;
+                      s/^- [a-f0-9]+: fix(\([^)]*\))?: /- Fixed: /;
+                      s/^- [a-f0-9]+: perf(\([^)]*\))?: /- Improved: /')
+            [ -z "$CHANGELOG" ] && CHANGELOG=$(head -5 commits.txt | sed 's/^- [a-f0-9]*: /- /')
           fi
 
           { echo "changelog<<EOF"; echo "$CHANGELOG"; echo "EOF"; } >> $GITHUB_OUTPUT
