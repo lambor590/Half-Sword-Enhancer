@@ -82,8 +82,10 @@ jobs:
             <process>
             1. Review ALL commits and changes thoroughly - do not skip any user-facing changes
             2. For each change, verify it exists by inspecting the actual code
-            3. Compare with main_branch/ to confirm what's new vs modified
-            4. When uncertain, use an Explore subagent to find evidence
+            3. BEFORE categorizing, search main_branch/ for the feature:
+               - If feature exists in main_branch/ → it's an IMPROVEMENT, not a new feature
+               - If feature does NOT exist in main_branch/ → it's a NEW FEATURE
+            4. When uncertain, use an Explore subagent to compare both versions
 
             Omit only: infrastructure changes, refactors, or code without user-visible impact.
             </process>
