@@ -60,14 +60,15 @@ jobs:
           git log "$BASE_REF"..HEAD --pretty=format:"- %h: %s" --no-merges \
             -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > commits.txt
 
-          # Exclusions: SDK, config files, and files with >500 lines changed
-          STATIC_EXCLUDES=":(exclude)Mod/SDK/** :(exclude)*.vcxproj* :(exclude)*.rc :(exclude)*.filters"
+          # Detect large files (>500 lines changed) for exclusion
           LARGE_FILES=$(git diff "$BASE_REF"..HEAD --numstat -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' | \
-            awk '$1+$2 > 500 {print ":(exclude)" $3}' | tr '\n' ' ')
+            awk '$1+$2 > 500 {print ":!" $3}')
 
-          # Generate diff with hash markers for verification
-          eval "git log \"$BASE_REF\"..HEAD --no-merges --format=\"%n=== %h ===\" -p \
-            -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' $STATIC_EXCLUDES $LARGE_FILES" > changes.diff
+          # Generate diff with hash markers
+          git log "$BASE_REF"..HEAD --no-merges --format=$'\\n=== %h ===' -p \
+            -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' \
+            ':!Mod/SDK/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
+            $LARGE_FILES > changes.diff
 
           # Export commits content for prompt injection
           {
@@ -75,10 +76,6 @@ jobs:
             cat commits.txt
             echo "COMMITS_EOF"
           } >> $GITHUB_OUTPUT
-
-      - name: Setup main branch reference
-        run: |
-          git worktree add main_branch origin/main
 
       - name: Generate changelog
         id: ai_changelog
@@ -98,13 +95,13 @@ jobs:
 
             <resources>
             - changes.diff: diff with `=== hash ===` markers (search by hash from commits above)
-            - main_branch/: previous version for comparison
+            - Use Bash with `git show origin/main:path/to/file` to see previous version
             </resources>
 
             <process>
             STEP 1 - COLLECT: Review commits above (format: `- hash: message`). List user-facing changes.
             STEP 2 - VERIFY: Use Grep to search changes.diff for `=== hash ===` to see the actual code.
-            STEP 3 - COMPARE: Search main_branch/ to determine if feature is new or modified.
+            STEP 3 - COMPARE: Use `git show origin/main:path` to check if feature existed before.
             STEP 4 - CATEGORIZE: Assign each change to the correct section.
 
             IMPORTANT: Only include changes you verified exist in changes.diff. If you cannot find the code, do not include it.
@@ -113,7 +110,7 @@ jobs:
 
             <categories>
             ## New Features
-            Features that did NOT exist in main_branch/.
+            Features that did NOT exist in origin/main.
             Example: "Added item search to filter by name" ✓
 
             ## Bug Fixes
@@ -168,10 +165,6 @@ jobs:
           fi
 
           { echo "changelog<<EOF"; echo "$CHANGELOG"; echo "EOF"; } >> $GITHUB_OUTPUT
-
-      - name: Cleanup worktree
-        if: always()
-        run: git worktree remove main_branch --force 2>/dev/null || true
 
   build:
     needs: changelog
