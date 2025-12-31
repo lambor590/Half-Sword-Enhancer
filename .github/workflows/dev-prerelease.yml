@@ -79,19 +79,23 @@ jobs:
             - main_branch/: previous version to compare against
             </resources>
 
-            <verification>
-            ALWAYS read and inspect the actual code before documenting any feature.
-            Do not speculate about functionality you have not verified in the source files.
-            This prevents documenting features that were only partially implemented or exist only as variable names.
+            <process>
+            1. Review ALL commits and changes thoroughly - do not skip any user-facing changes
+            2. For each change, verify it exists by inspecting the actual code
+            3. Compare with main_branch/ to confirm what's new vs modified
+            4. When uncertain, use an Explore subagent to find evidence
 
-            For each potential changelog entry:
-            1. Search the codebase for the actual implementation (ImGui calls, keybinds, visible effects)
-            2. Compare with main_branch/ to determine if it's new or modified
-            3. When uncertain, use an Explore subagent to find specific UI code evidence
-            4. Only document what you can prove exists with code citations
+            Omit only: infrastructure changes, refactors, or code without user-visible impact.
+            </process>
 
-            Omit infrastructure changes, refactors, or code without user-visible impact.
-            </verification>
+            <writing_style>
+            Focus on USER IMPACT, not implementation details.
+            - Good: "Added search to filter items by name"
+            - Bad: "Added search with InputText widget that shows 'Found: X items' counter"
+
+            Describe WHAT changed and HOW to use it. Skip internal mechanics.
+            Keep each bullet point concise - one sentence.
+            </writing_style>
 
             <format>
             Use markdown headers with ##. Blank line between sections. No emojis.
