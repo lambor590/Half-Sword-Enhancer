@@ -34,6 +34,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Fetch all refs to ensure LAST_NOTIFIED_COMMIT is available
+          git fetch origin --quiet
+
           # Get last notified commit for incremental changelog
           LAST_NOTIFIED=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null | \
             grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
@@ -70,61 +73,54 @@ jobs:
             <context>
             Generate a changelog for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
             The mod adds an in-game menu (INSERT key) with spawn controls, equipment management, and gameplay tweaks.
-            Audience: gamers who want to know what changed. Write like patch notes, not code documentation.
+            Audience: gamers. Write like patch notes, not code documentation.
             </context>
 
             <resources>
-            - changes.diff: code changes to analyze
-            - commits.txt: commit messages for context
-            - main_branch/: previous version to compare against
+            - changes.diff: code changes
+            - commits.txt: commit messages
+            - main_branch/: previous version for comparison
             </resources>
 
             <process>
-            1. Review EVERY commit in commits.txt - do not skip any. List all user-facing changes even if they seem minor.
-            2. For each change, verify it exists by inspecting the actual code
-            3. BEFORE categorizing, search main_branch/ for the feature:
-               - If feature exists in main_branch/ → it's an IMPROVEMENT, not a new feature
-               - If feature does NOT exist in main_branch/ → it's a NEW FEATURE
-            4. When uncertain, use an Explore subagent to compare both versions
+            STEP 1 - COLLECT: Read every commit in commits.txt. List ALL user-facing changes.
+            STEP 2 - VERIFY: For each change, inspect the actual code to confirm it exists.
+            STEP 3 - COMPARE: Search main_branch/ for each feature to determine if it's new or modified.
+            STEP 4 - CATEGORIZE: Assign each change to the correct section using the rules below.
 
-            Omit only: infrastructure changes, refactors, or code without user-visible impact.
+            When uncertain, use an Explore subagent to compare both versions.
+            Omit only: infrastructure, refactors, or code without user-visible impact.
             </process>
 
-            <writing_style>
-            Focus on USER IMPACT, not implementation details.
-            - Good: "Added search to filter items by name"
-            - Bad: "Added search with InputText widget that shows 'Found: X items' counter"
-
-            Describe WHAT changed and HOW to use it. Skip internal mechanics.
-            Keep each bullet point concise - one sentence.
-            </writing_style>
-
-            <format>
-            Use markdown headers with ##. Blank line between sections. No emojis.
-
+            <categories>
             ## New Features
-
-            **[Feature Name]**
-            - What it does and how to use it
+            Features that did NOT exist in main_branch/.
+            Example: "Added item search to filter by name" ✓
 
             ## Bug Fixes
-            Only for things that were BROKEN before (crashes, errors, wrong behavior).
-            If it worked as designed but now works better, it's an Improvement.
-
-            **[Area]**
-            - What was broken and how it's fixed now
+            ONLY crashes, errors, exceptions, or completely broken functionality.
+            Example: "Fixed crash when opening menu" ✓
+            Example: "Escape now cancels rebinding" ✗ (this is an Improvement - it wasn't broken, just missing)
 
             ## Improvements
-            New capabilities added to existing features, or better behavior that wasn't broken.
-
-            - User-noticeable improvement
+            New capabilities added to existing features, or better UX that wasn't broken before.
+            Example: "Escape now cancels keybind rebinding" ✓
+            Example: "Faster object clearing with cached positions" ✓
 
             ## Other Changes
+            Minor changes that don't fit above categories.
+            </categories>
 
-            - Minor relevant changes
+            <writing_style>
+            Focus on USER IMPACT. One sentence per bullet. No implementation details.
+            Good: "Added search to filter items by name"
+            Bad: "Added InputText widget with 'Found: X items' counter"
+            </writing_style>
 
+            <output>
+            Use markdown ## headers. Blank line between sections. No emojis.
             Omit empty sections. Return empty string if no user-facing changes.
-            </format>
+            </output>
           claude_args: |
             --model claude-opus-4-5-20251101
             --allowedTools "Read,Glob,Grep,Task,Bash(cat:*),Bash(head:*),Bash(ls:*)"
