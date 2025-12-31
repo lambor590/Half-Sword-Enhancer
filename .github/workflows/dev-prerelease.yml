@@ -83,29 +83,26 @@ jobs:
             3. If not found → verify complete implementation exists (UI, keybind, or visible effect)
             4. Infrastructure code (managers, caches, refactors) without user-visible impact → omit
 
-            ## Format (no emojis, plain text headers)
-            New Features
+            ## Format (no emojis, markdown headers with #, blank line between sections)
+            ## New Features
 
-            [Feature Name]
+            **[Feature Name]**
             - What it does and how to use it
 
-            ---
-            Bug Fixes
+            ## Bug Fixes
 
-            [Area]
+            **[Area]**
             - What was broken and how it's fixed now
 
-            ---
-            Improvements
+            ## Improvements
 
             - User-noticeable improvement
 
-            ---
-            Other Changes
+            ## Other Changes
 
             - Minor relevant changes
 
-            Omit empty sections. Use subcategories in brackets when grouping related items.
+            Omit empty sections. Use bold bracketed subcategories when grouping related items.
             Return empty string if no user-facing changes.
           claude_args: |
             --model claude-opus-4-5-20251101
