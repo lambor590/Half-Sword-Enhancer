@@ -67,8 +67,6 @@ jobs:
     if: needs.version-check.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    outputs:
-      changelog: ${{ steps.process.outputs.changelog }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -98,7 +96,9 @@ jobs:
           fi
 
           echo "has_dev_changelog=true" >> $GITHUB_OUTPUT
-          { echo "accumulated_changelog<<EOFACC"; echo "$ACCUMULATED_CHANGELOG"; echo "EOFACC"; } >> $GITHUB_OUTPUT
+
+          # Write to file for multiline content
+          echo "$ACCUMULATED_CHANGELOG" > accumulated_changelog.txt
 
       - name: Polish changelog
         id: ai_changelog
@@ -112,10 +112,10 @@ jobs:
             This changelog will be shown to all users downloading the stable version.
             </role>
 
-            <accumulated_dev_changelog>
-            This is the accumulated changelog from dev builds. It contains the raw history of changes:
-            ${{ steps.fetch_dev.outputs.accumulated_changelog }}
-            </accumulated_dev_changelog>
+            <instructions>
+            Read the file accumulated_changelog.txt which contains the accumulated changelog from dev builds.
+            Then consolidate it following the rules below.
+            </instructions>
 
             <consolidation_rules>
             AGGRESSIVELY CONSOLIDATE the accumulated changelog:
@@ -164,7 +164,6 @@ jobs:
         env:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
           HAS_DEV: ${{ steps.fetch_dev.outputs.has_dev_changelog }}
-          ACCUMULATED: ${{ steps.fetch_dev.outputs.accumulated_changelog }}
         run: |
           if [ "$HAS_DEV" != "true" ]; then
             echo "ERROR: dev-latest release is required for stable release"
@@ -178,7 +177,15 @@ jobs:
             exit 1
           fi
 
-          { echo "changelog<<EOF"; echo "$CHANGELOG"; echo "EOF"; } >> $GITHUB_OUTPUT
+          # Write to file for multiline content
+          echo "$CHANGELOG" > polished_changelog.txt
+
+      - name: Upload changelog artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: changelog-file
+          path: polished_changelog.txt
+          retention-days: 1
 
   build:
     needs: [version-check, changelog]
@@ -219,15 +226,21 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       VERSION: ${{ needs.version-check.outputs.version }}
-      CHANGELOG: ${{ needs.changelog.outputs.changelog }}
     steps:
       - uses: actions/download-artifact@v7
         with:
           name: release-files
           path: release_files/
 
+      - uses: actions/download-artifact@v7
+        with:
+          name: changelog-file
+          path: changelog_files/
+
       - name: Create release
         run: |
+          CHANGELOG=$(cat changelog_files/polished_changelog.txt 2>/dev/null || echo "")
+
           {
             [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
             echo "---"
