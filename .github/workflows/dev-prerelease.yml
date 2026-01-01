@@ -148,24 +148,27 @@ jobs:
             </categories>
 
             <subcategories>
-            Group changes by feature area using **bold subcategories**:
-            - **Spawner** - NPC/item spawning, clearing objects
-            - **Graphics** - Visual settings, render scale, quality options
-            - **Player** - Health, strength, abilities, body modifications
-            - **Controls** - Keybinds, menu toggle, input handling
-            - **Equipment** - Weapons, armor, loadout management
-            - **World** - Time, weather, environment manipulation
-            - **NPCs** - Enemy behavior, AI modifications
-            - **Launcher** - Auto-updates, installation, startup
+            Use inline [Category] prefix for each bullet. Available categories:
+            - [Spawner] - NPC/item spawning, clearing objects
+            - [Graphics] - Visual settings, render scale, quality options
+            - [Player] - Health, strength, abilities, body modifications
+            - [Controls] - Keybinds, menu toggle, input handling
+            - [Equipment] - Weapons, armor, loadout management
+            - [World] - Time, weather, environment manipulation
+            - [NPCs] - Enemy behavior, AI modifications
+            - [Launcher] - Auto-updates, installation, startup (ONLY Launcher/ folder changes)
+            - [Mod] - General mod functionality, initialization, DirectX hooks
+
+            Determine category from file paths in the diff:
+            - Mod/ folder → use appropriate category (Spawner, Graphics, Controls, etc.)
+            - Launcher/ folder → [Launcher]
+            - DirectX hooks, menu rendering, mod initialization → [Mod] or specific feature
 
             Format:
             ## New Features
-            **Spawner**
-            - Added option to spawn multiple NPCs at once
-            - Added `Snap to Ground` for placed items
-
-            **Graphics**
-            - Added individual quality sliders
+            - [Spawner] Added option to spawn multiple NPCs at once
+            - [Spawner] Added `Snap to Ground` for placed items
+            - [Graphics] Added individual quality sliders
             </subcategories>
 
             <writing_rules>
@@ -187,6 +190,15 @@ jobs:
                - SDK/API terms (UObject, FString, TArray)
 
             6. When uncertain if user-facing: include it (err on side of inclusion)
+
+            7. Each bullet describes ONE specific change. Don't merge multiple distinct features.
+               Bad: "Dev builds now check for updates and migrate to stable releases"
+               Good: "Dev builds now automatically update to newer dev versions"
+               (If stable migration is separate, make it a separate bullet)
+
+            8. Be specific. Avoid vague descriptions that could apply to multiple changes.
+               Bad: "Improved update system"
+               Good: "Dev builds now check for updates every 24 hours instead of on startup only"
             </writing_rules>
 
             <constraints>
@@ -200,28 +212,25 @@ jobs:
 
             <output_format>
             Return ONLY the changelog content (no explanations, no code blocks).
-            Use markdown with ## headers for sections and **bold** for subcategories.
+            Use markdown with ## headers for sections and [Category] inline prefixes.
 
             Example output:
             ## New Features
-            **Spawner**
-            - Added option to spawn multiple NPCs at once
-            - Added `Clear Radius` setting for selective object removal
-
-            **Graphics**
-            - Added `Render Scale` slider for performance tuning
+            - [Spawner] Added option to spawn multiple NPCs at once
+            - [Spawner] Added `Clear Radius` setting for selective object removal
+            - [Graphics] Added `Render Scale` slider for performance tuning
 
             ## Bug Fixes
-            **Controls**
-            - Fixed keybinds resetting after game restart
+            - [Controls] Fixed keybinds resetting after game restart
+            - [Mod] Fixed potential crash during initialization on some graphics cards
 
             ## Improvements
-            **Player**
-            - Strength multiplier now goes up to 10x
+            - [Player] Strength multiplier now goes up to 10x
+            - [World] `Clear Objects` now more accurately detects items near players
 
             ## Other Changes
             - Code optimization for faster menu rendering
-            - Updated internal spawn system architecture
+            - Internal spawn system improvements
             </output_format>
           claude_args: |
             --model claude-opus-4-5-20251101
