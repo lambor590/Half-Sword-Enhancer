@@ -64,11 +64,18 @@ jobs:
           LARGE_FILES=$(git diff "$BASE_REF"..HEAD --numstat -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' | \
             awk '$1+$2 > 500 {print ":!" $3}')
 
-          # Generate diff with hash markers
+          # Generate component-specific diffs (skip ext/ - rarely needs changelog entries)
           git log "$BASE_REF"..HEAD --no-merges --format=$'\\n=== %h ===' -p \
-            -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' \
-            ':!Mod/SDK/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
-            $LARGE_FILES > changes.diff
+            -- 'Mod/**' ':!Mod/SDK/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
+            $LARGE_FILES > mod.diff || true
+
+          git log "$BASE_REF"..HEAD --no-merges --format=$'\\n=== %h ===' -p \
+            -- 'Launcher/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
+            $LARGE_FILES > launcher.diff || true
+
+          git log "$BASE_REF"..HEAD --no-merges --format=$'\\n=== %h ===' -p \
+            -- 'Proxy/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
+            $LARGE_FILES > proxy.diff || true
 
           # Export commits as JSON string
           echo "commits_content=$(cat commits.txt 2>/dev/null | jq -Rs . || echo '""')" >> $GITHUB_OUTPUT
@@ -90,7 +97,9 @@ jobs:
             </commits>
 
             <resources>
-            - changes.diff: Diffs with `=== HASH ===` markers matching commit hashes above
+            - mod.diff: Mod project diffs with `=== HASH ===` markers
+            - launcher.diff: Launcher project diffs with `=== HASH ===` markers
+            - proxy.diff: Proxy project diffs with `=== HASH ===` markers
             - git show origin/main:PATH: Shows file content before these changes
             </resources>
 
@@ -109,28 +118,61 @@ jobs:
             Include if it affects: GUI elements, user settings, game features, error messages
 
             STEP 3 - VERIFY if NEW or IMPROVEMENT:
-            For each change you might classify as "New Feature", spawn a Task:
-            - subagent_type: "Explore"
-            - model: "sonnet"
+            For each potential "New Feature", spawn a Task with subagent_type: "Explore", model: "opus"
 
             Agent task prompt:
-            "Does origin/main have: [capability]?
-             Use: git show origin/main:path/to/file
-             Answer: EXISTED or NEW"
+            "Verify if users could already perform this action in origin/main:
+
+            USER ACTION: [describe what user CAN DO in the menu, not implementation]
+
+            VERIFICATION:
+            1. If the code path exists AND is reachable from UI → EXISTED
+            2. Search with MULTIPLE alternative keywords (not just the PR's naming)
+            3. Check if any implementation provides the same user capability
+
+            Run: git show origin/main:path/file | grep -iE 'term1|term2|term3'
+
+            DECISION:
+            - Found equivalent user-facing capability → EXISTED
+            - No way for users to do this action → NEW
+            - Uncertain → EXISTED (safer default)
+
+            Answer: EXISTED or NEW
+            Evidence: [cite specific file:function or 'no matching code found']"
 
             Classification:
-            - EXISTED → "Improvements" (even if implementation is completely new)
-            - NEW → "New Features"
-            - Default (if unsure) → "Improvements"
+            - EXISTED → Improvements (even if implementation is completely rewritten)
+            - NEW → New Features (ONLY if users couldn't do this before)
 
             When same feature has multiple commit types (feat + fix + perf):
             → Classify by most significant: if genuinely new, only New Feature
             → Fixes to a new feature are part of "Added X", not separate bullets
 
-            STEP 4 - SPLIT multi-category commits:
+            STEP 4 - MERGE MULTI-COMMIT FEATURES:
+            When multiple commits touch the same feature:
+            - Combine into ONE bullet for that feature
+            - Describe the net user-facing change
+            - Don't list each commit separately
+
             If one commit contains multiple distinct changes (e.g., "feat: add X and fix Y"),
             create separate bullets for each change in appropriate sections.
             </process>
+
+            <anti_patterns>
+            These patterns are NEVER "New Features":
+            - "refactored X" → Improvement or Other Changes
+            - "improved X" → Improvement
+            - "optimized X" → Improvement
+            - "fixed X" → Bug Fix
+            - "rewrote X" → Improvement (unless X didn't exist at all)
+            - "added option to existing feature" → Improvement
+            - "better UX for existing feature" → Improvement
+
+            Only classify as NEW when:
+            - The capability is fundamentally new (text search vs category browsing)
+            - Users had NO way to achieve this before
+            - The diff verifies no similar code existed in origin/main
+            </anti_patterns>
 
             <categories>
             ## New Features
@@ -143,9 +185,11 @@ jobs:
             Enhancements to EXISTING features: better UX, performance, new options.
 
             ## Other Changes
-            Internal improvements, refactoring, or changes that don't directly affect gameplay.
-            Each entry should be a complete descriptive sentence (not just keywords).
-            Example: "Refactored spawn system for better memory usage"
+            Internal improvements that indirectly benefit users. Frame in terms of user benefit:
+            - Bad: "Refactored keybind system"
+            - Good: "Refactored keybind system for improved responsiveness"
+            - Bad: "Optimized memory usage"
+            - Good: "Optimized memory usage for better performance on lower-end systems"
             </categories>
 
             <subcategories>
@@ -164,6 +208,12 @@ jobs:
             - Mod/ folder → use appropriate category (Spawner, Graphics, Controls, etc.)
             - Launcher/ folder → [Launcher]
             - DirectX hooks, menu rendering, mod initialization → [Mod] or specific feature
+
+            SUBCATEGORY VERIFICATION:
+            After assigning [Category], verify it matches the content:
+            - [Controls] must actually affect user input/keybinds
+            - [Spawner] must affect spawning/clearing entities
+            - If subcategory doesn't match content, use the correct one based on what the change DOES
 
             Format:
             ## New Features
@@ -207,7 +257,11 @@ jobs:
             - Use judgment to prioritize important changes over trivial ones
             - Each bullet: 1 sentence, optionally 1-2 sub-bullets
             - Omit empty sections entirely
-            - Don't duplicate the same change across sections
+            - DEDUPLICATION: If the same change spans multiple categories:
+              1. Merge into a single bullet describing both aspects
+              2. Place in section matching the MOST IMPACTFUL user benefit
+              3. Bug Fix if something was broken/crashing
+              4. Improvement if enhancing working feature
             - Tone: Neutral and informative (not casual, not telegraphic)
             </constraints>
 
