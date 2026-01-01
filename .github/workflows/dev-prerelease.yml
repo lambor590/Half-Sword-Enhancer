@@ -42,11 +42,15 @@ jobs:
             grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
 
           # Determine base reference for changelog (what's new since last notification)
-          if [ -n "$LAST_NOTIFIED" ] && git cat-file -e "$LAST_NOTIFIED" 2>/dev/null; then
+          echo "LAST_NOTIFIED: $LAST_NOTIFIED"
+          if [ -n "$LAST_NOTIFIED" ] && git merge-base --is-ancestor "$LAST_NOTIFIED" HEAD 2>/dev/null; then
             BASE_REF="$LAST_NOTIFIED"
+            echo "Using incremental changelog from $LAST_NOTIFIED"
           else
             BASE_REF="origin/main"
+            echo "Using full changelog from origin/main (LAST_NOTIFIED not found or not ancestor)"
           fi
+          echo "BASE_REF: $BASE_REF"
 
           # Detect changes using unified BASE_REF
           MOD_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' | grep -q . && echo true || echo false)
