@@ -108,10 +108,23 @@ jobs:
             Search for `=== HASH ===` (replace with actual commit hash)
             Include if it affects: GUI elements, user settings, game features, error messages
 
-            STEP 3 - DETERMINE if NEW or MODIFIED:
+            STEP 3 - DETERMINE if NEW or MODIFIED (CRITICAL):
+            Ask: "Could users already do this before these changes?"
+            - NO, this capability didn't exist → "New Features"
+            - YES, but now it works better/differently → "Improvements"
+
+            Use git show to verify:
             Run: git show origin/main:path/to/file 2>/dev/null || echo "NEW_FILE"
-            - NEW_FILE → completely new feature → "New Features"
-            - File exists → enhancement → "Improvements"
+            - If NEW_FILE and it's a new feature file → "New Features"
+            - If file exists, search for the specific functionality in the old version
+
+            DEFAULT TO "Improvements" when uncertain. Most changes enhance existing features.
+
+            Common mistakes to avoid:
+            - "feat: improve X" → Improvement, not New Feature
+            - Changing how keybinds/settings work → Improvement (feature existed)
+            - Adding a new option to existing menu → could be either, check context
+            - Entirely new menu section → New Feature
 
             STEP 4 - SPLIT multi-category commits:
             If one commit contains multiple distinct changes (e.g., "feat: add X and fix Y"),
