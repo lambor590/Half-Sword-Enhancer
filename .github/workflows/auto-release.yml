@@ -68,142 +68,117 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      mod_changelog: ${{ steps.process.outputs.mod_changelog }}
-      launcher_changelog: ${{ steps.process.outputs.launcher_changelog }}
+      changelog: ${{ steps.process.outputs.changelog }}
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Setup previous version reference
+      - name: Fetch dev changelog
+        id: fetch_dev
         env:
-          PREV_TAG: ${{ needs.version-check.outputs.prev_tag }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Create a directory with previous release code for comparison
-          if [ -n "$PREV_TAG" ]; then
-            git worktree add prev_release "$PREV_TAG"
+          # Fetch accumulated changelog from dev-latest release
+          DEV_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
+
+          if [ -z "$DEV_BODY" ]; then
+            echo "WARNING: No dev-latest release found. Cannot generate polished changelog."
+            echo "has_dev_changelog=false" >> $GITHUB_OUTPUT
+            exit 0
           fi
 
-      - name: Analyze commits
-        env:
-          PREV_TAG: ${{ needs.version-check.outputs.prev_tag }}
-        run: |
-          if [ -n "$PREV_TAG" ]; then
-            git log "$PREV_TAG"..HEAD --pretty=format:"- %s" --no-merges > commits.txt
-            git diff "$PREV_TAG"..HEAD -- 'Mod/**' 'Launcher/**' ':!Mod/SDK/**' > changes.diff
-          else
-            git log --pretty=format:"- %s" --no-merges -20 > commits.txt
-            git diff HEAD~20..HEAD -- 'Mod/**' 'Launcher/**' ':!Mod/SDK/**' > changes.diff
+          # Extract accumulated changelog (between warning and Installation)
+          ACCUMULATED_CHANGELOG=$(echo "$DEV_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
+
+          if [ -z "$ACCUMULATED_CHANGELOG" ]; then
+            echo "WARNING: No accumulated changelog found in dev-latest."
+            echo "has_dev_changelog=false" >> $GITHUB_OUTPUT
+            exit 0
           fi
 
-      - name: Generate changelog
+          echo "has_dev_changelog=true" >> $GITHUB_OUTPUT
+          { echo "accumulated_changelog<<EOFACC"; echo "$ACCUMULATED_CHANGELOG"; echo "EOFACC"; } >> $GITHUB_OUTPUT
+
+      - name: Polish changelog
         id: ai_changelog
+        if: steps.fetch_dev.outputs.has_dev_changelog == 'true'
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          track_progress: true
           prompt: |
-            Generate a changelog for Half Sword Enhancer, a mod for the game Half Sword.
-            Target audience: END USERS who are NOT programmers.
+            <role>
+            You are creating the FINAL POLISHED changelog for a STABLE RELEASE of Half Sword Enhancer.
+            This changelog will be shown to all users downloading the stable version.
+            </role>
 
-            ## AVAILABLE RESOURCES
+            <accumulated_dev_changelog>
+            This is the accumulated changelog from dev builds. It contains the raw history of changes:
+            ${{ steps.fetch_dev.outputs.accumulated_changelog }}
+            </accumulated_dev_changelog>
 
-            **Files to analyze:**
-            - commits.txt - Commit messages since last release
-            - changes.diff - Code diff since last release
+            <consolidation_rules>
+            AGGRESSIVELY CONSOLIDATE the accumulated changelog:
 
-            **For verification (if prev_release/ exists):**
-            - prev_release/ - Contains the PREVIOUS RELEASE code (use to verify if something is truly "new")
+            1. MERGE related entries into single features:
+               - "New: spawn multiplier" + "Improved: spawn multiplier UI" + "Fixed: spawn multiplier crash"
+               → "Added spawn multiplier with adjustable settings"
 
-            ## VERIFICATION WORKFLOW (MANDATORY)
+            2. REMOVE iteration history - only show the FINAL state:
+               - Don't mention "improved" or "fixed" if referring to something added in this release cycle
+               - The user doesn't care about dev build iterations
 
-            Before claiming ANY "new feature", you MUST:
-            1. Check if the feature ALREADY EXISTS in prev_release/ (if available)
-            2. Use Glob/Grep to search prev_release/ for the functionality
-            3. Only call something "new" if it does NOT exist in prev_release/
-            4. If it exists but was modified, describe what CHANGED, not that it's "new"
+            3. REMOVE duplicates and redundant entries
 
-            ## ANTI-HALLUCINATION RULES (CRITICAL)
+            4. REMOVE internal changes (category: Internal) unless they have significant user impact
 
-            1. **VERIFY before claiming "new"** - Always check prev_release/ first
+            5. GROUP by feature area, not by when changes were made
 
-            2. **NEVER infer features from infrastructure code**
-               - Seeing manager/helper/utility code does NOT mean there's a user feature
-               - Only report if you can trace: USER ACTION → VISIBLE RESULT
+            6. Keep descriptions CONCISE - one line per feature
+            </consolidation_rules>
 
-            3. **REAL HALLUCINATION EXAMPLES (never repeat these):**
-               ❌ Saw ProcessRebindEvent() → Wrote "You can now rebind hotkeys"
-                  (WRONG: Rebind code exists in previous release, no UI was added)
-               ❌ Saw FunctionHashCache → Wrote "Faster menu"
-                  (WRONG: Microsecond optimization, users won't notice)
-               ❌ Saw ConfigTransaction refactor → Wrote "Improved settings saving"
-                  (WRONG: Internal code cleanup, users see no difference)
+            <output_format>
+            Return a SINGLE polished changelog in markdown format.
+            Use these sections (omit if empty):
+            - ## New Features
+            - ## Bug Fixes
+            - ## Improvements
 
-            ## WHAT TO INCLUDE
+            Use [Category] prefixes: [Spawner], [Graphics], [Player], [Controls], [Equipment], [World], [NPCs], [Launcher], [Mod]
 
-            **Bug Fixes** (usually safe):
-            - Crash fixes, input fixes, error handling that prevents issues
+            Example:
+            ## New Features
+            - [Spawner] Added spawn multiplier with adjustable settings
+            - [Graphics] Added render scale slider for performance tuning
 
-            **Improvements** (be careful):
-            - Only if users would NOTICE the difference
-
-            **New Features** (highest risk - verify against prev_release/):
-            - MUST confirm it doesn't exist in prev_release/
-            - MUST see complete user-facing implementation
-
-            ## WHAT TO EXCLUDE
-
-            - Refactoring, code reorganization
-            - Internal classes/structs/functions
-            - Preparation for future features
-            - Features that already exist in previous release
-            - Anything requiring guesswork
-
-            ## OUTPUT FORMAT
-
-            Return valid JSON:
-            ```json
-            {
-              "mod": "changelog or empty string",
-              "launcher": "changelog or empty string"
-            }
-            ```
-
-            Use markdown headers: ## New Features, ## Bug Fixes, ## Improvements
-            Write for gamers, avoid technical terms.
-            Empty string "" for components with no user-facing changes.
-            When in doubt, OMIT.
+            ## Bug Fixes
+            - [Controls] Fixed keybinds not saving between sessions
+            </output_format>
           claude_args: |
-            --model claude-sonnet-4-5-20250929
-            --allowedTools "Read,Glob,Grep,Bash(cat:*),Bash(head:*),Bash(ls:*)"
-            --json-schema '{"type":"object","properties":{"mod":{"type":"string","description":"User-friendly changelog for Mod"},"launcher":{"type":"string","description":"User-friendly changelog for Launcher"}},"required":["mod","launcher"]}'
-        continue-on-error: true
+            --model claude-opus-4-5-20251101
+            --allowedTools "Read"
+            --json-schema '{"type":"object","properties":{"changelog":{"type":"string","description":"Polished, consolidated changelog for stable release"}},"required":["changelog"]}'
 
       - name: Process output
         id: process
         env:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
+          HAS_DEV: ${{ steps.fetch_dev.outputs.has_dev_changelog }}
+          ACCUMULATED: ${{ steps.fetch_dev.outputs.accumulated_changelog }}
         run: |
+          if [ "$HAS_DEV" != "true" ]; then
+            echo "ERROR: dev-latest release is required for stable release"
+            exit 1
+          fi
+
           if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
-            MOD_CL=$(echo "$AI_OUTPUT" | jq -r '.mod // empty')
-            LAUNCHER_CL=$(echo "$AI_OUTPUT" | jq -r '.launcher // empty')
+            CHANGELOG=$(echo "$AI_OUTPUT" | jq -r '.changelog // empty')
           else
-            MOD_CL=""
-            LAUNCHER_CL=""
+            echo "ERROR: AI output is empty or invalid"
+            exit 1
           fi
 
-          # Fallback to commit messages if AI failed
-          if [ -z "$MOD_CL" ] && [ -z "$LAUNCHER_CL" ]; then
-            MOD_CL=$(head -5 commits.txt)
-            LAUNCHER_CL=$(head -5 commits.txt)
-          fi
-
-          { echo "mod_changelog<<EOF"; echo "$MOD_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
-          { echo "launcher_changelog<<EOF"; echo "$LAUNCHER_CL"; echo "EOF"; } >> $GITHUB_OUTPUT
-
-      - name: Cleanup worktree
-        if: always()
-        run: git worktree remove prev_release --force 2>/dev/null || true
+          { echo "changelog<<EOF"; echo "$CHANGELOG"; echo "EOF"; } >> $GITHUB_OUTPUT
 
   build:
     needs: [version-check, changelog]
@@ -244,8 +219,7 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       VERSION: ${{ needs.version-check.outputs.version }}
-      MOD_CHANGELOG: ${{ needs.changelog.outputs.mod_changelog }}
-      LAUNCHER_CHANGELOG: ${{ needs.changelog.outputs.launcher_changelog }}
+      CHANGELOG: ${{ needs.changelog.outputs.changelog }}
     steps:
       - uses: actions/download-artifact@v7
         with:
@@ -255,8 +229,7 @@ jobs:
       - name: Create release
         run: |
           {
-            [ -n "$MOD_CHANGELOG" ] && printf "## Mod\n\n%s\n\n" "$MOD_CHANGELOG"
-            [ -n "$LAUNCHER_CHANGELOG" ] && printf "## Launcher\n\n%s\n\n" "$LAUNCHER_CHANGELOG"
+            [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
             echo "---"
             echo "See [README](https://github.com/${{ github.repository }}/blob/main/README.md#installation) for installation instructions."
           } > release_body.md
