@@ -23,9 +23,6 @@ jobs:
       build_mod: ${{ steps.analyze.outputs.build_mod }}
       build_launcher: ${{ steps.analyze.outputs.build_launcher }}
       has_changes: ${{ steps.analyze.outputs.has_changes }}
-      discord_changelog: ${{ steps.process.outputs.discord_changelog }}
-      github_changelog: ${{ steps.process.outputs.github_changelog }}
-      changelog_json: ${{ steps.process.outputs.changelog_json }}
       current_commit: ${{ steps.analyze.outputs.current_commit }}
     steps:
       - uses: actions/checkout@v6
@@ -106,7 +103,9 @@ jobs:
           # Export outputs as JSON strings
           echo "commits_content=$(cat commits.txt 2>/dev/null | jq -Rs . || echo '""')" >> $GITHUB_OUTPUT
           echo "prev_changelog_json=$(echo "$PREV_CHANGELOG_JSON" | jq -Rs . || echo '""')" >> $GITHUB_OUTPUT
-          { echo "existing_changelog<<EOFCHANGELOG"; echo "$EXISTING_CHANGELOG"; echo "EOFCHANGELOG"; } >> $GITHUB_OUTPUT
+
+          # Write existing changelog to file for multiline output
+          echo "$EXISTING_CHANGELOG" > existing_changelog.txt
 
       - name: Generate changelog
         id: ai_changelog
@@ -218,7 +217,6 @@ jobs:
         id: process
         env:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
-          EXISTING_CHANGELOG: ${{ steps.analyze.outputs.existing_changelog }}
         run: |
           # Validate AI output - workflow fails if invalid (no fallback per spec)
           if [ -z "$AI_OUTPUT" ] || ! echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
@@ -227,10 +225,8 @@ jobs:
             exit 1
           fi
 
-          # Store raw JSON for future context
-          echo "changelog_json<<EOFJSON" >> $GITHUB_OUTPUT
-          echo "$AI_OUTPUT" >> $GITHUB_OUTPUT
-          echo "EOFJSON" >> $GITHUB_OUTPUT
+          # Store raw JSON to file for future context
+          echo "$AI_OUTPUT" > changelog.json
 
           # Format changelog as markdown
           format_section() {
@@ -253,27 +249,35 @@ jobs:
 
           FORMATTED_CHANGELOG=$(cat changelog_formatted.md)
 
+          # Read existing changelog from file (written by analyze step)
+          EXISTING_CHANGELOG=""
+          [ -f existing_changelog.txt ] && EXISTING_CHANGELOG=$(cat existing_changelog.txt)
+
           # Discord changelog (truncate if >1800 chars to leave room for header)
           DISCORD_CHANGELOG="$FORMATTED_CHANGELOG"
           if [ ${#DISCORD_CHANGELOG} -gt 1800 ]; then
-            DISCORD_CHANGELOG="${DISCORD_CHANGELOG:0:1750}...
-
-[See full changelog on GitHub](https://github.com/${{ github.repository }}/releases/tag/dev-latest)"
+            TRUNCATED="${DISCORD_CHANGELOG:0:1750}..."
+            printf '%s\n\n[See full changelog on GitHub](https://github.com/${{ github.repository }}/releases/tag/dev-latest)' "$TRUNCATED" > discord_changelog.txt
+          else
+            echo "$DISCORD_CHANGELOG" > discord_changelog.txt
           fi
 
           # GitHub changelog (prepend to existing with separator)
           if [ -n "$EXISTING_CHANGELOG" ]; then
-            GITHUB_CHANGELOG="$FORMATTED_CHANGELOG
----
-
-$EXISTING_CHANGELOG"
+            printf '%s\n---\n\n%s' "$FORMATTED_CHANGELOG" "$EXISTING_CHANGELOG" > github_changelog.txt
           else
-            GITHUB_CHANGELOG="$FORMATTED_CHANGELOG"
+            echo "$FORMATTED_CHANGELOG" > github_changelog.txt
           fi
 
-          # Export outputs
-          { echo "discord_changelog<<EOFDISCORD"; echo "$DISCORD_CHANGELOG"; echo "EOFDISCORD"; } >> $GITHUB_OUTPUT
-          { echo "github_changelog<<EOFGITHUB"; echo "$GITHUB_CHANGELOG"; echo "EOFGITHUB"; } >> $GITHUB_OUTPUT
+      - name: Upload changelog artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: changelog-files
+          path: |
+            changelog.json
+            discord_changelog.txt
+            github_changelog.txt
+          retention-days: 1
 
   build:
     needs: changelog
@@ -337,9 +341,6 @@ $EXISTING_CHANGELOG"
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MOD_CHANGED: ${{ needs.changelog.outputs.build_mod }}
       LAUNCHER_CHANGED: ${{ needs.changelog.outputs.build_launcher }}
-      DISCORD_CHANGELOG: ${{ needs.changelog.outputs.discord_changelog }}
-      GITHUB_CHANGELOG: ${{ needs.changelog.outputs.github_changelog }}
-      CHANGELOG_JSON: ${{ needs.changelog.outputs.changelog_json }}
       CURRENT_COMMIT: ${{ needs.changelog.outputs.current_commit }}
     steps:
       - uses: actions/download-artifact@v7
@@ -347,8 +348,16 @@ $EXISTING_CHANGELOG"
           name: release-files
           path: release_files/
 
+      - uses: actions/download-artifact@v7
+        with:
+          name: changelog-files
+          path: changelog_files/
+
       - name: Publish release
         run: |
+          GITHUB_CHANGELOG=$(cat changelog_files/github_changelog.txt 2>/dev/null || echo "")
+          CHANGELOG_JSON=$(cat changelog_files/changelog.json 2>/dev/null || echo "{}")
+
           {
             echo "> [!WARNING]"
             echo "> **Development Build** — May contain bugs or incomplete features"
@@ -395,6 +404,8 @@ $EXISTING_CHANGELOG"
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
+
+          DISCORD_CHANGELOG=$(cat changelog_files/discord_changelog.txt 2>/dev/null || echo "")
           [ -z "$DISCORD_CHANGELOG" ] && exit 0
 
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/dev-latest"
