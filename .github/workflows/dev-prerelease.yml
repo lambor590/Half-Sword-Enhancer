@@ -109,23 +109,23 @@ jobs:
             Include if it affects: GUI elements, user settings, game features, error messages
 
             STEP 3 - VERIFY if NEW or IMPROVEMENT:
-            For each change you might classify as "New Feature", verify:
+            For each change you might classify as "New Feature", spawn a Task:
+            - subagent_type: "Explore"
+            - model: "sonnet"
 
-            Spawn a Task with subagent_type="Explore":
-            "Search origin/main branch for: [describe the CAPABILITY, not function names].
-             Did this capability exist before these changes?
-             Look for the concept, not specific code.
-             Return: YES_EXISTED or NO_NEW with brief explanation."
+            Agent task prompt:
+            "Does origin/main have: [capability]?
+             Use: git show origin/main:path/to/file
+             Answer: EXISTED or NEW"
 
             Classification:
-            - Agent returns YES_EXISTED → "Improvements" (even if implementation is new)
-            - Agent returns NO_NEW → "New Features"
-            - No verification done → DEFAULT to "Improvements"
+            - EXISTED → "Improvements" (even if implementation is completely new)
+            - NEW → "New Features"
+            - Default (if unsure) → "Improvements"
 
-            Examples of what to search for:
-            - "Can users rebind keys?" (not "StartWaitingForRebind")
-            - "Can dev builds check for updates?" (not "CheckForDevUpdates")
-            - "Can users search/filter items in spawner?" (not "searchBuffer")
+            When same feature has multiple commit types (feat + fix + perf):
+            → Classify by most significant: if genuinely new, only New Feature
+            → Fixes to a new feature are part of "Added X", not separate bullets
 
             STEP 4 - SPLIT multi-category commits:
             If one commit contains multiple distinct changes (e.g., "feat: add X and fix Y"),
@@ -144,7 +144,8 @@ jobs:
 
             ## Other Changes
             Internal improvements, refactoring, or changes that don't directly affect gameplay.
-            Include any change that doesn't fit above but was significant enough to mention.
+            Each entry should be a complete descriptive sentence (not just keywords).
+            Example: "Refactored spawn system for better memory usage"
             </categories>
 
             <subcategories>
@@ -202,8 +203,8 @@ jobs:
             </writing_rules>
 
             <constraints>
-            - Maximum 8 bullets total across New Features, Bug Fixes, Improvements
-            - "Other Changes" section has no limit but keep brief
+            - Include all significant user-facing changes (no artificial limit)
+            - Use judgment to prioritize important changes over trivial ones
             - Each bullet: 1 sentence, optionally 1-2 sub-bullets
             - Omit empty sections entirely
             - Don't duplicate the same change across sections
@@ -229,8 +230,8 @@ jobs:
             - [World] `Clear Objects` now more accurately detects items near players
 
             ## Other Changes
-            - Code optimization for faster menu rendering
-            - Internal spawn system improvements
+            - Refactored keybind processing for improved responsiveness
+            - Optimized memory usage in spawn system architecture
             </output_format>
           claude_args: |
             --model claude-opus-4-5-20251101
