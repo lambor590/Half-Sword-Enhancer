@@ -108,23 +108,24 @@ jobs:
             Search for `=== HASH ===` (replace with actual commit hash)
             Include if it affects: GUI elements, user settings, game features, error messages
 
-            STEP 3 - DETERMINE if NEW or MODIFIED (CRITICAL):
-            Ask: "Could users already do this before these changes?"
-            - NO, this capability didn't exist → "New Features"
-            - YES, but now it works better/differently → "Improvements"
+            STEP 3 - VERIFY if NEW or IMPROVEMENT:
+            For each change you might classify as "New Feature", verify:
 
-            Use git show to verify:
-            Run: git show origin/main:path/to/file 2>/dev/null || echo "NEW_FILE"
-            - If NEW_FILE and it's a new feature file → "New Features"
-            - If file exists, search for the specific functionality in the old version
+            Spawn a Task with subagent_type="Explore":
+            "Search origin/main branch for: [describe the CAPABILITY, not function names].
+             Did this capability exist before these changes?
+             Look for the concept, not specific code.
+             Return: YES_EXISTED or NO_NEW with brief explanation."
 
-            DEFAULT TO "Improvements" when uncertain. Most changes enhance existing features.
+            Classification:
+            - Agent returns YES_EXISTED → "Improvements" (even if implementation is new)
+            - Agent returns NO_NEW → "New Features"
+            - No verification done → DEFAULT to "Improvements"
 
-            Common mistakes to avoid:
-            - "feat: improve X" → Improvement, not New Feature
-            - Changing how keybinds/settings work → Improvement (feature existed)
-            - Adding a new option to existing menu → could be either, check context
-            - Entirely new menu section → New Feature
+            Examples of what to search for:
+            - "Can users rebind keys?" (not "StartWaitingForRebind")
+            - "Can dev builds check for updates?" (not "CheckForDevUpdates")
+            - "Can users search/filter items in spawner?" (not "searchBuffer")
 
             STEP 4 - SPLIT multi-category commits:
             If one commit contains multiple distinct changes (e.g., "feat: add X and fix Y"),
@@ -147,7 +148,7 @@ jobs:
             </categories>
 
             <subcategories>
-            ALWAYS group changes by feature area using **bold subcategories**:
+            Group changes by feature area using **bold subcategories**:
             - **Spawner** - NPC/item spawning, clearing objects
             - **Graphics** - Visual settings, render scale, quality options
             - **Player** - Health, strength, abilities, body modifications
@@ -168,24 +169,24 @@ jobs:
             </subcategories>
 
             <writing_rules>
-            1. TRANSLATE technical terms to user impact:
+            1. Translate technical terms to user impact:
                Bad: "Fixed SwapChain recreation failure in DirectXHook"
                Good: "Fixed rare crash when alt-tabbing in fullscreen"
 
-            2. DESCRIBE what the user experiences, not implementation:
+            2. Describe what the user experiences, not implementation:
                Bad: "Added SetInputEnabled method to GameHook"
                Good: "Camera no longer moves when menu is open"
 
-            3. USE backticks for feature/setting names: `Infinite Health`, `Spawn NPC`
+            3. Use backticks for feature/setting names: `Infinite Health`, `Spawn NPC`
 
-            4. COMBINE related commits into ONE bullet (unless they span categories)
+            4. Combine related commits into one bullet (unless they span categories)
 
-            5. NEVER include:
+            5. Don't include:
                - Technical class names (GameHook, DirectXHook, ProcessEvent)
                - Internal file paths (Mod/src/Gui.cpp)
                - SDK/API terms (UObject, FString, TArray)
 
-            6. When UNCERTAIN if user-facing: include it (err on side of inclusion)
+            6. When uncertain if user-facing: include it (err on side of inclusion)
             </writing_rules>
 
             <constraints>
@@ -193,7 +194,7 @@ jobs:
             - "Other Changes" section has no limit but keep brief
             - Each bullet: 1 sentence, optionally 1-2 sub-bullets
             - Omit empty sections entirely
-            - Never duplicate the same change across sections
+            - Don't duplicate the same change across sections
             - Tone: Neutral and informative (not casual, not telegraphic)
             </constraints>
 
