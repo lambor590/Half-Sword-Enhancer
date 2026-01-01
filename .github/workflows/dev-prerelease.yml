@@ -20,8 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      mod_changed: ${{ steps.analyze.outputs.mod_changed }}
-      launcher_changed: ${{ steps.analyze.outputs.launcher_changed }}
+      build_mod: ${{ steps.analyze.outputs.build_mod }}
+      build_launcher: ${{ steps.analyze.outputs.build_launcher }}
+      has_changes: ${{ steps.analyze.outputs.has_changes }}
       changelog: ${{ steps.process.outputs.changelog }}
       current_commit: ${{ steps.analyze.outputs.current_commit }}
     steps:
@@ -53,11 +54,18 @@ jobs:
           echo "BASE_REF: $BASE_REF"
 
           # Detect changes using unified BASE_REF
-          MOD_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' | grep -q . && echo true || echo false)
-          LAUNCHER_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Launcher/**' 'ext/**' | grep -q . && echo true || echo false)
+          MOD_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' | grep -q . && echo true || echo false)
+          LAUNCHER_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Launcher/**' | grep -q . && echo true || echo false)
+          EXT_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'ext/**' | grep -q . && echo true || echo false)
 
-          echo "mod_changed=$MOD_CHANGED" >> $GITHUB_OUTPUT
-          echo "launcher_changed=$LAUNCHER_CHANGED" >> $GITHUB_OUTPUT
+          # Pre-compute build triggers (ext/ triggers both)
+          BUILD_MOD=$([[ "$MOD_CHANGED" == "true" || "$EXT_CHANGED" == "true" ]] && echo true || echo false)
+          BUILD_LAUNCHER=$([[ "$LAUNCHER_CHANGED" == "true" || "$EXT_CHANGED" == "true" ]] && echo true || echo false)
+          HAS_CHANGES=$([[ "$BUILD_MOD" == "true" || "$BUILD_LAUNCHER" == "true" ]] && echo true || echo false)
+
+          echo "build_mod=$BUILD_MOD" >> $GITHUB_OUTPUT
+          echo "build_launcher=$BUILD_LAUNCHER" >> $GITHUB_OUTPUT
+          echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
           echo "current_commit=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
 
           # Generate commits with hash for correlation
@@ -86,6 +94,7 @@ jobs:
 
       - name: Generate changelog
         id: ai_changelog
+        if: steps.analyze.outputs.has_changes == 'true'
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -321,6 +330,7 @@ jobs:
 
   build:
     needs: changelog
+    if: needs.changelog.outputs.has_changes == 'true'
     runs-on: windows-latest
     timeout-minutes: 15
     steps:
@@ -328,7 +338,7 @@ jobs:
       - uses: microsoft/setup-msbuild@v2
 
       - name: Build Mod and Proxy
-        if: needs.changelog.outputs.mod_changed == 'true'
+        if: needs.changelog.outputs.build_mod == 'true'
         shell: pwsh
         run: |
           MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
@@ -337,7 +347,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Proxy build failed" }
 
       - name: Build Launcher
-        if: needs.changelog.outputs.launcher_changed == 'true'
+        if: needs.changelog.outputs.build_launcher == 'true'
         shell: pwsh
         run: |
           MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
@@ -346,8 +356,8 @@ jobs:
       - name: Package
         shell: pwsh
         env:
-          MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
-          LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
+          MOD_CHANGED: ${{ needs.changelog.outputs.build_mod }}
+          LAUNCHER_CHANGED: ${{ needs.changelog.outputs.build_launcher }}
         run: |
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
 
@@ -365,7 +375,7 @@ jobs:
           }
 
       - uses: actions/upload-artifact@v6
-        if: needs.changelog.outputs.mod_changed == 'true' || needs.changelog.outputs.launcher_changed == 'true'
+        if: needs.changelog.outputs.has_changes == 'true'
         with:
           name: release-files
           path: release_files/
@@ -373,12 +383,13 @@ jobs:
 
   release:
     needs: [changelog, build]
+    if: needs.changelog.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MOD_CHANGED: ${{ needs.changelog.outputs.mod_changed }}
-      LAUNCHER_CHANGED: ${{ needs.changelog.outputs.launcher_changed }}
+      MOD_CHANGED: ${{ needs.changelog.outputs.build_mod }}
+      LAUNCHER_CHANGED: ${{ needs.changelog.outputs.build_launcher }}
       CHANGELOG: ${{ needs.changelog.outputs.changelog }}
       CURRENT_COMMIT: ${{ needs.changelog.outputs.current_commit }}
     steps:
