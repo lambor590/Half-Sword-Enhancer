@@ -79,56 +79,136 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
-            <context>
-            Generate a changelog for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
+            <role>
+            Generate patch notes for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
             The mod adds an in-game menu (INSERT key) with spawn controls, equipment management, and gameplay tweaks.
-            Audience: gamers. Write like patch notes, not code documentation.
-            </context>
+            Write for gamers, not developers.
+            </role>
 
             <commits>
             ${{ fromJSON(steps.analyze.outputs.commits_content) }}
             </commits>
 
             <resources>
-            - changes.diff: diff with `=== hash ===` markers (search by hash from commits above)
-            - Use Bash with `git show origin/main:path/to/file` to see previous version
+            - changes.diff: Diffs with `=== HASH ===` markers matching commit hashes above
+            - git show origin/main:PATH: Shows file content before these changes
             </resources>
 
             <process>
-            STEP 1 - COLLECT: Review commits above (format: `- hash: message`). List user-facing changes.
-            STEP 2 - VERIFY: Use Grep to search changes.diff for `=== hash ===` to see the actual code.
-            STEP 3 - COMPARE: Use `git show origin/main:path` to understand what specifically changed.
-              - If feature existed before: describe only what's new (not the whole feature)
-              - Example: "auto-update" existed → "dev-to-dev updates" is new → write about dev-to-dev only
-            STEP 4 - CATEGORIZE: Assign to one section only. Choose the most relevant.
+            STEP 1 - CLASSIFY each commit:
+            By prefix:
+            - feat: → Likely user-facing (verify with diff)
+            - fix: → Check if user-visible bug or internal code
+            - perf: → Include only if users would notice
+            - refactor/style/chore/docs: → Usually internal, verify if behavior changes
 
-            IMPORTANT: Only include changes verified in changes.diff. Omit infrastructure/refactors.
+            No prefix? Analyze the diff content to determine classification.
+
+            STEP 2 - VERIFY by searching changes.diff:
+            Search for `=== HASH ===` (replace with actual commit hash)
+            Include if it affects: GUI elements, user settings, game features, error messages
+
+            STEP 3 - DETERMINE if NEW or MODIFIED:
+            Run: git show origin/main:path/to/file 2>/dev/null || echo "NEW_FILE"
+            - NEW_FILE → completely new feature → "New Features"
+            - File exists → enhancement → "Improvements"
+
+            STEP 4 - SPLIT multi-category commits:
+            If one commit contains multiple distinct changes (e.g., "feat: add X and fix Y"),
+            create separate bullets for each change in appropriate sections.
             </process>
 
             <categories>
             ## New Features
-            Completely new functionality. Use **bold subcategories** to group related items.
+            Completely NEW functionality that didn't exist before.
 
             ## Bug Fixes
-            ONLY crashes, errors, or completely broken functionality.
+            Something was BROKEN, CRASHING, or behaving INCORRECTLY.
 
             ## Improvements
-            Enhancements to existing features, better UX, or performance gains.
+            Enhancements to EXISTING features: better UX, performance, new options.
+
+            ## Other Changes
+            Internal improvements, refactoring, or changes that don't directly affect gameplay.
+            Include any change that doesn't fit above but was significant enough to mention.
             </categories>
 
-            <writing_style>
-            Describe what the USER experiences, not how it's implemented.
-            Translate technical terms to user impact.
-            Bad: "Fixed DirectX swap chain creation failure"
-            Good: "Fixed rare startup crash on some graphics cards"
-            </writing_style>
+            <subcategories>
+            ALWAYS group changes by feature area using **bold subcategories**:
+            - **Spawner** - NPC/item spawning, clearing objects
+            - **Graphics** - Visual settings, render scale, quality options
+            - **Player** - Health, strength, abilities, body modifications
+            - **Controls** - Keybinds, menu toggle, input handling
+            - **Equipment** - Weapons, armor, loadout management
+            - **World** - Time, weather, environment manipulation
+            - **NPCs** - Enemy behavior, AI modifications
+            - **Launcher** - Auto-updates, installation, startup
 
-            <output>
-            - Use ## headers with **bold subcategories** when grouping 2+ related items
-            - Each change in one section only. Never duplicate across sections.
-            - Combine commits affecting the same feature into one bullet.
-            - Omit empty sections. Return empty string if no user-facing changes.
-            </output>
+            Format:
+            ## New Features
+            **Spawner**
+            - Added option to spawn multiple NPCs at once
+            - Added `Snap to Ground` for placed items
+
+            **Graphics**
+            - Added individual quality sliders
+            </subcategories>
+
+            <writing_rules>
+            1. TRANSLATE technical terms to user impact:
+               Bad: "Fixed SwapChain recreation failure in DirectXHook"
+               Good: "Fixed rare crash when alt-tabbing in fullscreen"
+
+            2. DESCRIBE what the user experiences, not implementation:
+               Bad: "Added SetInputEnabled method to GameHook"
+               Good: "Camera no longer moves when menu is open"
+
+            3. USE backticks for feature/setting names: `Infinite Health`, `Spawn NPC`
+
+            4. COMBINE related commits into ONE bullet (unless they span categories)
+
+            5. NEVER include:
+               - Technical class names (GameHook, DirectXHook, ProcessEvent)
+               - Internal file paths (Mod/src/Gui.cpp)
+               - SDK/API terms (UObject, FString, TArray)
+
+            6. When UNCERTAIN if user-facing: include it (err on side of inclusion)
+            </writing_rules>
+
+            <constraints>
+            - Maximum 8 bullets total across New Features, Bug Fixes, Improvements
+            - "Other Changes" section has no limit but keep brief
+            - Each bullet: 1 sentence, optionally 1-2 sub-bullets
+            - Omit empty sections entirely
+            - Never duplicate the same change across sections
+            - Tone: Neutral and informative (not casual, not telegraphic)
+            </constraints>
+
+            <output_format>
+            Return ONLY the changelog content (no explanations, no code blocks).
+            Use markdown with ## headers for sections and **bold** for subcategories.
+
+            Example output:
+            ## New Features
+            **Spawner**
+            - Added option to spawn multiple NPCs at once
+            - Added `Clear Radius` setting for selective object removal
+
+            **Graphics**
+            - Added `Render Scale` slider for performance tuning
+
+            ## Bug Fixes
+            **Controls**
+            - Fixed keybinds resetting after game restart
+
+            ## Improvements
+            **Player**
+            - Strength multiplier now goes up to 10x
+
+            ## Other Changes
+            - Code optimization for faster menu rendering
+            - Updated internal spawn system architecture
+            </output_format>
           claude_args: |
             --model claude-opus-4-5-20251101
             --allowedTools "Read,Glob,Grep,Task,Bash(cat:*),Bash(head:*),Bash(ls:*),Bash(git show:*)"
