@@ -54,7 +54,7 @@ jobs:
 
           echo "mod_changed=$MOD_CHANGED" >> $GITHUB_OUTPUT
           echo "launcher_changed=$LAUNCHER_CHANGED" >> $GITHUB_OUTPUT
-          echo "current_commit=${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "current_commit=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
 
           # Generate commits with hash for correlation
           git log "$BASE_REF"..HEAD --pretty=format:"- %h: %s" --no-merges \
