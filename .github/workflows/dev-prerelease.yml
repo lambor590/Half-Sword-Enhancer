@@ -23,7 +23,6 @@ jobs:
       build_mod: ${{ steps.analyze.outputs.build_mod }}
       build_launcher: ${{ steps.analyze.outputs.build_launcher }}
       has_changes: ${{ steps.analyze.outputs.has_changes }}
-      changelog: ${{ steps.process.outputs.changelog }}
       current_commit: ${{ steps.analyze.outputs.current_commit }}
     steps:
       - uses: actions/checkout@v6
@@ -38,9 +37,17 @@ jobs:
           # Fetch all refs to ensure LAST_NOTIFIED_COMMIT is available
           git fetch origin --quiet
 
+          # Get release body for extracting context
+          RELEASE_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
+
           # Get last notified commit for incremental changelog
-          LAST_NOTIFIED=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null | \
-            grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
+          LAST_NOTIFIED=$(echo "$RELEASE_BODY" | grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
+
+          # Extract previous changelog JSON for classification context
+          PREV_CHANGELOG_JSON=$(echo "$RELEASE_BODY" | sed -n '/<!-- CHANGELOG_JSON_START -->/,/<!-- CHANGELOG_JSON_END -->/p' | sed '1d;$d' || echo "")
+
+          # Extract existing accumulated changelog (between warning and Installation)
+          EXISTING_CHANGELOG=$(echo "$RELEASE_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d' || echo "")
 
           # Determine base reference for changelog (what's new since last notification)
           echo "LAST_NOTIFIED: $LAST_NOTIFIED"
@@ -77,20 +84,28 @@ jobs:
             awk '$1+$2 > 500 {print ":!" $3}')
 
           # Generate component-specific diffs (skip ext/ - rarely needs changelog entries)
-          git log "$BASE_REF"..HEAD --no-merges --format=$'\\n=== %h ===' -p \
+          git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
             -- 'Mod/**' ':!Mod/SDK/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
             $LARGE_FILES > mod.diff || true
 
-          git log "$BASE_REF"..HEAD --no-merges --format=$'\\n=== %h ===' -p \
+          git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
             -- 'Launcher/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
             $LARGE_FILES > launcher.diff || true
 
-          git log "$BASE_REF"..HEAD --no-merges --format=$'\\n=== %h ===' -p \
+          git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
             -- 'Proxy/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
             $LARGE_FILES > proxy.diff || true
 
-          # Export commits as JSON string
+          # Generate reverse diff (main → current) to show what exists in main
+          # This helps classify: if code doesn't exist in main, it's NEW
+          git diff HEAD...origin/main --stat -- 'Mod/**' 'Launcher/**' 'Proxy/**' ':!Mod/SDK/**' ':!*.vcxproj*' > reverse_diff_summary.txt || true
+
+          # Export outputs as JSON strings
           echo "commits_content=$(cat commits.txt 2>/dev/null | jq -Rs . || echo '""')" >> $GITHUB_OUTPUT
+          echo "prev_changelog_json=$(echo "$PREV_CHANGELOG_JSON" | jq -Rs . || echo '""')" >> $GITHUB_OUTPUT
+
+          # Write existing changelog to file for multiline output
+          echo "$EXISTING_CHANGELOG" > existing_changelog.txt
 
       - name: Generate changelog
         id: ai_changelog
@@ -100,9 +115,9 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             <role>
-            Generate patch notes for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
+            Generate STRUCTURED patch notes for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
             The mod adds an in-game menu (INSERT key) with spawn controls, equipment management, and gameplay tweaks.
-            Write for gamers, not developers.
+            Write for gamers, not developers. Keep descriptions concise (Discord has 2000 char limit).
             </role>
 
             <commits>
@@ -113,220 +128,156 @@ jobs:
             - mod.diff: Mod project diffs with `=== HASH ===` markers
             - launcher.diff: Launcher project diffs with `=== HASH ===` markers
             - proxy.diff: Proxy project diffs with `=== HASH ===` markers
-            - git show origin/main:PATH: Shows file content before these changes
+            - reverse_diff_summary.txt: Shows what files exist in main (helps determine NEW vs IMPROVEMENT)
+            - git show origin/main:PATH: Shows file content in stable version
             </resources>
 
+            <previous_changelog_context>
+            Previous changelog entries already announced to users (use for classification):
+            ${{ fromJSON(steps.analyze.outputs.prev_changelog_json) }}
+            </previous_changelog_context>
+
+            <classification_logic>
+            HYBRID CLASSIFICATION using TWO contexts:
+
+            1. REVERSE DIFF CONTEXT (main state):
+               - Read reverse_diff_summary.txt to see what exists in main
+               - If code/feature DOESN'T EXIST in main → NEW FEATURE
+               - If code/feature EXISTS in main and is modified → IMPROVEMENT
+
+            2. PREVIOUS CHANGELOG CONTEXT (already announced):
+               - If something was announced as "New" in previous changelog AND this build improves it → IMPROVEMENT
+               - If something breaks (even if new in this PR) → BUG FIX (always)
+
+            PRIORITY: Bug Fix > based on diff analysis > based on previous changelog
+
+            IMPORTANT: Analyze the actual diff content, not just commit prefixes.
+            "feat: fix spawn crash" should be classified as BUG FIX based on content.
+            </classification_logic>
+
             <process>
-            STEP 1 - CLASSIFY each commit:
-            By prefix:
-            - feat: → Likely user-facing (verify with diff)
-            - fix: → Check if user-visible bug or internal code
-            - perf: → Include only if users would notice
-            - refactor/style/chore/docs: → Usually internal, verify if behavior changes
-
-            No prefix? Analyze the diff content to determine classification.
-
-            STEP 2 - VERIFY by searching changes.diff:
-            Search for `=== HASH ===` (replace with actual commit hash)
-            Include if it affects: GUI elements, user settings, game features, error messages
-
-            STEP 3 - VERIFY if NEW or IMPROVEMENT:
-            For each potential "New Feature", spawn a Task with subagent_type: "Explore", model: "opus"
-
-            Agent task prompt:
-            "Verify if users could already perform this action in origin/main:
-
-            USER ACTION: [describe what user CAN DO in the menu, not implementation]
-
-            VERIFICATION:
-            1. If the code path exists AND is reachable from UI → EXISTED
-            2. Search with MULTIPLE alternative keywords (not just the PR's naming)
-            3. Check if any implementation provides the same user capability
-
-            Run: git show origin/main:path/file | grep -iE 'term1|term2|term3'
-
-            DECISION:
-            - Found equivalent user-facing capability → EXISTED
-            - No way for users to do this action → NEW
-            - Uncertain → EXISTED (safer default)
-
-            Answer: EXISTED or NEW
-            Evidence: [cite specific file:function or 'no matching code found']"
-
-            Classification:
-            - EXISTED → Improvements (even if implementation is completely rewritten)
-            - NEW → New Features (ONLY if users couldn't do this before)
-
-            When same feature has multiple commit types (feat + fix + perf):
-            → Classify by most significant: if genuinely new, only New Feature
-            → Fixes to a new feature are part of "Added X", not separate bullets
-
-            STEP 4 - MERGE MULTI-COMMIT FEATURES:
-            When multiple commits touch the same feature:
-            - Combine into ONE bullet for that feature
-            - Describe the net user-facing change
-            - Don't list each commit separately
-
-            If one commit contains multiple distinct changes (e.g., "feat: add X and fix Y"),
-            create separate bullets for each change in appropriate sections.
+            1. Read the diffs to understand what actually changed
+            2. Check reverse_diff_summary.txt to see what exists in main
+            3. Check previous changelog to see what was already announced
+            4. Classify each change using hybrid logic above
+            5. Merge multi-commit features into single entries
+            6. Return structured JSON (not markdown)
             </process>
 
-            <anti_patterns>
-            These patterns are NEVER "New Features":
-            - "refactored X" → Improvement or Other Changes
-            - "improved X" → Improvement
-            - "optimized X" → Improvement
-            - "fixed X" → Bug Fix
-            - "rewrote X" → Improvement (unless X didn't exist at all)
-            - "added option to existing feature" → Improvement
-            - "better UX for existing feature" → Improvement
-
-            Only classify as NEW when:
-            - The capability is fundamentally new (text search vs category browsing)
-            - Users had NO way to achieve this before
-            - The diff verifies no similar code existed in origin/main
-            </anti_patterns>
-
-            <categories>
-            ## New Features
-            Completely NEW functionality that didn't exist before.
-
-            ## Bug Fixes
-            Something was BROKEN, CRASHING, or behaving INCORRECTLY.
-
-            ## Improvements
-            Enhancements to EXISTING features: better UX, performance, new options.
-
-            ## Other Changes
-            Internal improvements that indirectly benefit users. Frame in terms of user benefit:
-            - Bad: "Refactored keybind system"
-            - Good: "Refactored keybind system for improved responsiveness"
-            - Bad: "Optimized memory usage"
-            - Good: "Optimized memory usage for better performance on lower-end systems"
-            </categories>
-
-            <subcategories>
-            Use inline [Category] prefix for each bullet. Available categories:
-            - [Spawner] - NPC/item spawning, clearing objects
-            - [Graphics] - Visual settings, render scale, quality options
-            - [Player] - Health, strength, abilities, body modifications
-            - [Controls] - Keybinds, menu toggle, input handling
-            - [Equipment] - Weapons, armor, loadout management
-            - [World] - Time, weather, environment manipulation
-            - [NPCs] - Enemy behavior, AI modifications
-            - [Launcher] - Auto-updates, installation, startup (ONLY Launcher/ folder changes)
-            - [Mod] - General mod functionality, initialization, DirectX hooks
-
-            Determine category from file paths in the diff:
-            - Mod/ folder → use appropriate category (Spawner, Graphics, Controls, etc.)
-            - Launcher/ folder → [Launcher]
-            - DirectX hooks, menu rendering, mod initialization → [Mod] or specific feature
-
-            SUBCATEGORY VERIFICATION:
-            After assigning [Category], verify it matches the content:
-            - [Controls] must actually affect user input/keybinds
-            - [Spawner] must affect spawning/clearing entities
-            - If subcategory doesn't match content, use the correct one based on what the change DOES
-
-            Format:
-            ## New Features
-            - [Spawner] Added option to spawn multiple NPCs at once
-            - [Spawner] Added `Snap to Ground` for placed items
-            - [Graphics] Added individual quality sliders
-            </subcategories>
+            <categories_available>
+            - Spawner: NPC/item spawning, clearing objects
+            - Graphics: Visual settings, render scale, quality options
+            - Player: Health, strength, abilities, body modifications
+            - Controls: Keybinds, menu toggle, input handling
+            - Equipment: Weapons, armor, loadout management
+            - World: Time, weather, environment manipulation
+            - NPCs: Enemy behavior, AI modifications
+            - Launcher: Auto-updates, installation, startup
+            - Mod: General mod functionality, initialization
+            - Internal: Code changes with no direct user impact (refactors, optimizations)
+            </categories_available>
 
             <writing_rules>
-            1. Translate technical terms to user impact:
-               Bad: "Fixed SwapChain recreation failure in DirectXHook"
-               Good: "Fixed rare crash when alt-tabbing in fullscreen"
-
-            2. Describe what the user experiences, not implementation:
-               Bad: "Added SetInputEnabled method to GameHook"
-               Good: "Camera no longer moves when menu is open"
-
-            3. Use backticks for feature/setting names: `Infinite Health`, `Spawn NPC`
-
-            4. Combine related commits into one bullet (unless they span categories)
-
-            5. Don't include:
-               - Technical class names (GameHook, DirectXHook, ProcessEvent)
-               - Internal file paths (Mod/src/Gui.cpp)
-               - SDK/API terms (UObject, FString, TArray)
-
-            6. When uncertain if user-facing: include it (err on side of inclusion)
-
-            7. Each bullet describes ONE specific change. Don't merge multiple distinct features.
-               Bad: "Dev builds now check for updates and migrate to stable releases"
-               Good: "Dev builds now automatically update to newer dev versions"
-               (If stable migration is separate, make it a separate bullet)
-
-            8. Be specific. Avoid vague descriptions that could apply to multiple changes.
-               Bad: "Improved update system"
-               Good: "Dev builds now check for updates every 24 hours instead of on startup only"
+            1. User impact, not implementation: "Fixed crash when alt-tabbing" not "Fixed SwapChain recreation"
+            2. Use backticks for feature names: `Infinite Health`, `Spawn NPC`
+            3. One sentence per entry, be specific
+            4. No technical terms: avoid GameHook, ProcessEvent, UObject, etc.
+            5. Keep it CONCISE - Discord has 2000 character limit total
             </writing_rules>
 
-            <constraints>
-            - Include all significant user-facing changes (no artificial limit)
-            - Use judgment to prioritize important changes over trivial ones
-            - Each bullet: 1 sentence, optionally 1-2 sub-bullets
-            - Omit empty sections entirely
-            - DEDUPLICATION: If the same change spans multiple categories:
-              1. Merge into a single bullet describing both aspects
-              2. Place in section matching the MOST IMPACTFUL user benefit
-              3. Bug Fix if something was broken/crashing
-              4. Improvement if enhancing working feature
-            - Tone: Neutral and informative (not casual, not telegraphic)
-            </constraints>
+            <output_schema>
+            Return a JSON object with this EXACT structure:
+            {
+              "new_features": [
+                {"category": "Spawner", "description": "Added option to spawn multiple NPCs at once"}
+              ],
+              "improvements": [
+                {"category": "Controls", "description": "Menu now opens faster"}
+              ],
+              "bug_fixes": [
+                {"category": "Graphics", "description": "Fixed flickering in DirectX 12 mode"}
+              ],
+              "other_changes": [
+                {"category": "Internal", "description": "Code optimization for better performance"}
+              ]
+            }
 
-            <output_format>
-            Return ONLY the changelog content (no explanations, no code blocks).
-            Use markdown with ## headers for sections and [Category] inline prefixes.
-
-            Example output:
-            ## New Features
-            - [Spawner] Added option to spawn multiple NPCs at once
-            - [Spawner] Added `Clear Radius` setting for selective object removal
-            - [Graphics] Added `Render Scale` slider for performance tuning
-
-            ## Bug Fixes
-            - [Controls] Fixed keybinds resetting after game restart
-            - [Mod] Fixed potential crash during initialization on some graphics cards
-
-            ## Improvements
-            - [Player] Strength multiplier now goes up to 10x
-            - [World] `Clear Objects` now more accurately detects items near players
-
-            ## Other Changes
-            - Refactored keybind processing for improved responsiveness
-            - Optimized memory usage in spawn system architecture
-            </output_format>
+            RULES:
+            - Each array can be empty [] if no changes in that category
+            - "category" must be one of the categories_available above
+            - "description" should be user-friendly, concise text
+            - Omit arrays only if truly empty
+            </output_schema>
           claude_args: |
             --model claude-opus-4-5-20251101
             --allowedTools "Read,Glob,Grep,Task,Bash(cat:*),Bash(head:*),Bash(ls:*),Bash(git show:*)"
-            --json-schema '{"type":"object","properties":{"changelog":{"type":"string"}},"required":["changelog"]}'
-        continue-on-error: true
+            --json-schema '{"type":"object","properties":{"new_features":{"type":"array","items":{"type":"object","properties":{"category":{"type":"string"},"description":{"type":"string"}},"required":["category","description"]}},"improvements":{"type":"array","items":{"type":"object","properties":{"category":{"type":"string"},"description":{"type":"string"}},"required":["category","description"]}},"bug_fixes":{"type":"array","items":{"type":"object","properties":{"category":{"type":"string"},"description":{"type":"string"}},"required":["category","description"]}},"other_changes":{"type":"array","items":{"type":"object","properties":{"category":{"type":"string"},"description":{"type":"string"}},"required":["category","description"]}}},"required":["new_features","improvements","bug_fixes","other_changes"]}'
 
       - name: Process output
         id: process
         env:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
         run: |
-          if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
-            CHANGELOG=$(echo "$AI_OUTPUT" | jq -r '.changelog // empty')
+          # Validate AI output - workflow fails if invalid (no fallback per spec)
+          if [ -z "$AI_OUTPUT" ] || ! echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
+            echo "ERROR: AI output is empty or invalid JSON"
+            echo "$AI_OUTPUT"
+            exit 1
+          fi
+
+          # Store raw JSON to file for future context
+          echo "$AI_OUTPUT" > changelog.json
+
+          # Format changelog as markdown
+          format_section() {
+            local section_name="$1"
+            local json_key="$2"
+            local items=$(echo "$AI_OUTPUT" | jq -r ".$json_key // [] | .[] | \"- [\\(.category)] \\(.description)\"")
+            if [ -n "$items" ]; then
+              echo "## $section_name"
+              echo "$items"
+              echo ""
+            fi
+          }
+
+          {
+            format_section "New Features" "new_features"
+            format_section "Bug Fixes" "bug_fixes"
+            format_section "Improvements" "improvements"
+            format_section "Other Changes" "other_changes"
+          } > changelog_formatted.md
+
+          FORMATTED_CHANGELOG=$(cat changelog_formatted.md)
+
+          # Read existing changelog from file (written by analyze step)
+          EXISTING_CHANGELOG=""
+          [ -f existing_changelog.txt ] && EXISTING_CHANGELOG=$(cat existing_changelog.txt)
+
+          # Discord changelog (truncate if >1800 chars to leave room for header)
+          DISCORD_CHANGELOG="$FORMATTED_CHANGELOG"
+          if [ ${#DISCORD_CHANGELOG} -gt 1800 ]; then
+            TRUNCATED="${DISCORD_CHANGELOG:0:1750}..."
+            printf '%s\n\n[See full changelog on GitHub](https://github.com/${{ github.repository }}/releases/tag/dev-latest)' "$TRUNCATED" > discord_changelog.txt
           else
-            CHANGELOG=""
+            echo "$DISCORD_CHANGELOG" > discord_changelog.txt
           fi
 
-          # Fallback: process conventional commits to user-friendly format
-          if [ -z "$CHANGELOG" ] && [ -f commits.txt ]; then
-            CHANGELOG=$(grep -E '^- [a-f0-9]+: (feat|fix|perf):' commits.txt | head -5 | \
-              sed -E 's/^- [a-f0-9]+: feat(\([^)]*\))?: /- Added: /;
-                      s/^- [a-f0-9]+: fix(\([^)]*\))?: /- Fixed: /;
-                      s/^- [a-f0-9]+: perf(\([^)]*\))?: /- Improved: /')
-            [ -z "$CHANGELOG" ] && CHANGELOG=$(head -5 commits.txt | sed 's/^- [a-f0-9]*: /- /')
+          # GitHub changelog (prepend to existing with separator)
+          if [ -n "$EXISTING_CHANGELOG" ]; then
+            printf '%s\n---\n\n%s' "$FORMATTED_CHANGELOG" "$EXISTING_CHANGELOG" > github_changelog.txt
+          else
+            echo "$FORMATTED_CHANGELOG" > github_changelog.txt
           fi
 
-          { echo "changelog<<EOF"; echo "$CHANGELOG"; echo "EOF"; } >> $GITHUB_OUTPUT
+      - name: Upload changelog artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: changelog-files
+          path: |
+            changelog.json
+            discord_changelog.txt
+            github_changelog.txt
+          retention-days: 1
 
   build:
     needs: changelog
@@ -390,7 +341,6 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MOD_CHANGED: ${{ needs.changelog.outputs.build_mod }}
       LAUNCHER_CHANGED: ${{ needs.changelog.outputs.build_launcher }}
-      CHANGELOG: ${{ needs.changelog.outputs.changelog }}
       CURRENT_COMMIT: ${{ needs.changelog.outputs.current_commit }}
     steps:
       - uses: actions/download-artifact@v7
@@ -398,18 +348,21 @@ jobs:
           name: release-files
           path: release_files/
 
+      - uses: actions/download-artifact@v7
+        with:
+          name: changelog-files
+          path: changelog_files/
+
       - name: Publish release
         run: |
-          # Extract existing changelog from release body (accumulated)
-          EXISTING_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
-          EXISTING_CHANGELOG=$(echo "$EXISTING_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
+          GITHUB_CHANGELOG=$(cat changelog_files/github_changelog.txt 2>/dev/null || echo "")
+          CHANGELOG_JSON=$(cat changelog_files/changelog.json 2>/dev/null || echo "{}")
 
           {
             echo "> [!WARNING]"
             echo "> **Development Build** — May contain bugs or incomplete features"
             echo ""
-            [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
-            [ -n "$EXISTING_CHANGELOG" ] && printf "%s\n" "$EXISTING_CHANGELOG"
+            [ -n "$GITHUB_CHANGELOG" ] && printf "%s\n\n" "$GITHUB_CHANGELOG"
             echo "## Installation"
             echo ""
             echo "<details>"
@@ -429,6 +382,9 @@ jobs:
             echo "</details>"
             echo ""
             echo "<!-- LAST_NOTIFIED_COMMIT: $CURRENT_COMMIT -->"
+            echo "<!-- CHANGELOG_JSON_START -->"
+            echo "$CHANGELOG_JSON"
+            echo "<!-- CHANGELOG_JSON_END -->"
           } > release_body.md
 
           if gh release view dev-latest --repo "${{ github.repository }}" >/dev/null 2>&1; then
@@ -448,12 +404,14 @@ jobs:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
-          [ -z "$CHANGELOG" ] && exit 0
+
+          DISCORD_CHANGELOG=$(cat changelog_files/discord_changelog.txt 2>/dev/null || echo "")
+          [ -z "$DISCORD_CHANGELOG" ] && exit 0
 
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/dev-latest"
 
           jq -n \
-            --arg content "<@&1426630164053360640>"$'\n'"# New Dev Build"$'\n\n'"$CHANGELOG" \
+            --arg content "<@&1426630164053360640>"$'\n'"# New Dev Build"$'\n\n'"$DISCORD_CHANGELOG" \
             --arg url "$RELEASE_URL" \
             '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}], with_components: true}' | \
             curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
