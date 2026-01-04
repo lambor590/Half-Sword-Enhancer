@@ -35,11 +35,7 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
 }
 
-void Gui::Setup() {    
-    originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
-    logger.Log("WndProc hooked successfully");
-
-    ImGui::CreateContext();
+void Gui::Setup() {
     IMGUI_CHECKVERSION();
 
     ImGuiIO& io = ImGui::GetIO();
@@ -60,6 +56,9 @@ void Gui::Setup() {
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<GuiSection>(MenuTab::Settings);
     MenuManager::Get().AddSection<GraphicsSection>(MenuTab::Settings);
+
+    originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
+    logger.Log("WndProc hooked successfully");
 }
 
 void Gui::Render() {
