@@ -46,8 +46,8 @@ jobs:
             BASE_REF="origin/main"
           fi
 
-          BUILD_MOD=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' | grep -q . && echo true || echo false)
-          BUILD_LAUNCHER=$(git diff --name-only "$BASE_REF"..HEAD -- 'Launcher/**' 'ext/**' | grep -q . && echo true || echo false)
+          BUILD_MOD=$(git diff --quiet "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' && echo false || echo true)
+          BUILD_LAUNCHER=$(git diff --quiet "$BASE_REF"..HEAD -- 'Launcher/**' 'ext/**' && echo false || echo true)
           HAS_CHANGES=$([[ "$BUILD_MOD" == "true" || "$BUILD_LAUNCHER" == "true" ]] && echo true || echo false)
 
           echo "build_mod=$BUILD_MOD" >> $GITHUB_OUTPUT
@@ -130,47 +130,21 @@ jobs:
         env:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
         run: |
-          if [ -z "$AI_OUTPUT" ] || ! echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
-            echo "ERROR: Invalid AI output"; echo "$AI_OUTPUT"; exit 1
-          fi
+          echo "$AI_OUTPUT" | jq -e . > changelog.json || { echo "ERROR: Invalid AI output: $AI_OUTPUT"; exit 1; }
 
-          echo "$AI_OUTPUT" > changelog.json
+          fmt() { local i=$(jq -r ".$2 // [] | .[] | \"- [\\(.category)] \\(.description)\"" changelog.json); [ -n "$i" ] && printf "## %s\n%s\n\n" "$1" "$i"; }
+          { fmt "New Features" new_features; fmt "Bug Fixes" bug_fixes; fmt "Improvements" improvements; fmt "Other Changes" other_changes; } > changelog_formatted.md
 
-          format_section() {
-            local section_name="$1"
-            local json_key="$2"
-            local items=$(echo "$AI_OUTPUT" | jq -r ".$json_key // [] | .[] | \"- [\\(.category)] \\(.description)\"")
-            if [ -n "$items" ]; then
-              echo "## $section_name"
-              echo "$items"
-              echo ""
-            fi
-          }
+          FORMATTED=$(cat changelog_formatted.md)
+          EXISTING=$(cat existing_changelog.txt 2>/dev/null)
 
-          {
-            format_section "New Features" "new_features"
-            format_section "Bug Fixes" "bug_fixes"
-            format_section "Improvements" "improvements"
-            format_section "Other Changes" "other_changes"
-          } > changelog_formatted.md
+          [ ${#FORMATTED} -gt 1800 ] \
+            && printf '%s...\n\n[Full changelog](https://github.com/${{ github.repository }}/releases/tag/dev-latest)' "${FORMATTED:0:1750}" > discord_changelog.txt \
+            || echo "$FORMATTED" > discord_changelog.txt
 
-          FORMATTED_CHANGELOG=$(cat changelog_formatted.md)
-          EXISTING_CHANGELOG=""
-          [ -f existing_changelog.txt ] && EXISTING_CHANGELOG=$(cat existing_changelog.txt)
-
-          DISCORD_CHANGELOG="$FORMATTED_CHANGELOG"
-          if [ ${#DISCORD_CHANGELOG} -gt 1800 ]; then
-            TRUNCATED="${DISCORD_CHANGELOG:0:1750}..."
-            printf '%s\n\n[See full changelog on GitHub](https://github.com/${{ github.repository }}/releases/tag/dev-latest)' "$TRUNCATED" > discord_changelog.txt
-          else
-            echo "$DISCORD_CHANGELOG" > discord_changelog.txt
-          fi
-
-          if [ -n "$EXISTING_CHANGELOG" ]; then
-            printf '%s\n---\n\n%s' "$FORMATTED_CHANGELOG" "$EXISTING_CHANGELOG" > github_changelog.txt
-          else
-            echo "$FORMATTED_CHANGELOG" > github_changelog.txt
-          fi
+          [ -n "$EXISTING" ] \
+            && printf '%s\n---\n\n%s' "$FORMATTED" "$EXISTING" > github_changelog.txt \
+            || echo "$FORMATTED" > github_changelog.txt
 
       - name: Upload changelog artifacts
         if: steps.analyze.outputs.has_changes == 'true'
@@ -259,13 +233,14 @@ jobs:
 
       - name: Publish release
         run: |
-          GITHUB_CHANGELOG=$(cat changelog_files/github_changelog.txt 2>/dev/null || echo "")
+          REPO="${{ github.repository }}"
+          CHANGELOG=$(cat changelog_files/github_changelog.txt 2>/dev/null)
 
           {
             echo "> [!WARNING]"
             echo "> **Development Build** — May contain bugs or incomplete features"
             echo ""
-            [ -n "$GITHUB_CHANGELOG" ] && printf "%s\n\n" "$GITHUB_CHANGELOG"
+            [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
             echo "## Installation"
             echo ""
             echo "<details>"
@@ -287,34 +262,28 @@ jobs:
             echo "<!-- LAST_NOTIFIED_COMMIT: $CURRENT_COMMIT -->"
           } > release_body.md
 
-          if gh release view dev-latest --repo "${{ github.repository }}" >/dev/null 2>&1; then
-            gh release edit dev-latest --repo "${{ github.repository }}" --notes-file release_body.md
-          else
-            gh release create dev-latest --repo "${{ github.repository }}" --title "Dev Build" --notes-file release_body.md --prerelease
-          fi
+          gh release view dev-latest --repo "$REPO" &>/dev/null \
+            && gh release edit dev-latest --repo "$REPO" --notes-file release_body.md \
+            || gh release create dev-latest --repo "$REPO" --title "Dev Build" --notes-file release_body.md --prerelease
 
-          [ "$MOD_CHANGED" == "true" ] && [ -f "release_files/HSEnhancer.dll" ] && \
-            gh release upload dev-latest release_files/HSEnhancer.dll release_files/HSEnhancer.zip --repo "${{ github.repository }}" --clobber
-          [ "$LAUNCHER_CHANGED" == "true" ] && [ -f "release_files/HSEnhancerLauncher.exe" ] && \
-            gh release upload dev-latest release_files/HSEnhancerLauncher.exe --repo "${{ github.repository }}" --clobber
-          true
+          [ "$MOD_CHANGED" = true ] && [ -f release_files/HSEnhancer.dll ] && \
+            gh release upload dev-latest release_files/HSEnhancer.{dll,zip} --repo "$REPO" --clobber || true
+          [ "$LAUNCHER_CHANGED" = true ] && [ -f release_files/HSEnhancerLauncher.exe ] && \
+            gh release upload dev-latest release_files/HSEnhancerLauncher.exe --repo "$REPO" --clobber || true
 
       - name: Discord notification
         env:
           WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
+          CHANGELOG=$(cat changelog_files/discord_changelog.txt 2>/dev/null) && [ -n "$CHANGELOG" ] || exit 0
 
-          DISCORD_CHANGELOG=$(cat changelog_files/discord_changelog.txt 2>/dev/null || echo "")
-          [ -z "$DISCORD_CHANGELOG" ] && exit 0
+          jq -n --arg content "<@&1426630164053360640>
+          # New Dev Build
 
-          RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/dev-latest"
-
-          jq -n \
-            --arg content "<@&1426630164053360640>"$'\n'"# New Dev Build"$'\n\n'"$DISCORD_CHANGELOG" \
-            --arg url "$RELEASE_URL" \
-            '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}], with_components: true}' | \
-            curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
+          $CHANGELOG" --arg url "https://github.com/${{ github.repository }}/releases/tag/dev-latest" \
+            '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}]}' |
+          curl -sX POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
 
       - name: Notify failure
         if: failure()
