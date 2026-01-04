@@ -143,9 +143,8 @@ namespace hse {
         std::string_view defaultValue
     ) const noexcept {
         std::lock_guard lock(mutex_);
-        thread_local std::string temp_default;
-        temp_default.assign(defaultValue);
-        return std::string(ini_.GetValue(section.data(), key.data(), temp_default.c_str()));
+        std::string default_str(defaultValue);
+        return std::string(ini_.GetValue(section.data(), key.data(), default_str.c_str()));
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::SetBool(
@@ -185,9 +184,8 @@ namespace hse {
     ) noexcept {
         try {
             std::lock_guard lock(mutex_);
-            thread_local std::string temp_value;
-            temp_value.assign(value);
-            ini_.SetValue(section.data(), key.data(), temp_value.c_str());
+            std::string value_str(value);
+            ini_.SetValue(section.data(), key.data(), value_str.c_str());
             return SaveConfigUnlocked();
         }
         catch (...) {
