@@ -36,23 +36,16 @@ jobs:
         run: |
           git fetch origin --quiet
 
-          # Get release body for context
           RELEASE_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
-
-          # Get last notified commit (for incremental comparison)
           LAST_NOTIFIED=$(echo "$RELEASE_BODY" | grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
-
-          # Extract existing changelog (for GitHub accumulation)
           EXISTING_CHANGELOG=$(echo "$RELEASE_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d' || echo "")
 
-          # Determine base reference
           if [ -n "$LAST_NOTIFIED" ] && git merge-base --is-ancestor "$LAST_NOTIFIED" HEAD 2>/dev/null; then
             BASE_REF="$LAST_NOTIFIED"
           else
             BASE_REF="origin/main"
           fi
 
-          # Detect changes
           BUILD_MOD=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' | grep -q . && echo true || echo false)
           BUILD_LAUNCHER=$(git diff --name-only "$BASE_REF"..HEAD -- 'Launcher/**' 'ext/**' | grep -q . && echo true || echo false)
           HAS_CHANGES=$([[ "$BUILD_MOD" == "true" || "$BUILD_LAUNCHER" == "true" ]] && echo true || echo false)
@@ -62,11 +55,9 @@ jobs:
           echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
           echo "current_commit=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
 
-          # Generate commits list
           git log "$BASE_REF"..HEAD --pretty=format:"- %h: %s" --no-merges \
             -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > commits.txt
 
-          # Generate component-specific diffs
           git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
             -- 'Mod/**' ':!Mod/SDK/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' > mod.diff || true
 
@@ -135,20 +126,16 @@ jobs:
 
       - name: Process output
         id: process
+        if: steps.analyze.outputs.has_changes == 'true'
         env:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
         run: |
-          # Validate AI output - workflow fails if invalid (no fallback per spec)
           if [ -z "$AI_OUTPUT" ] || ! echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
-            echo "ERROR: AI output is empty or invalid JSON"
-            echo "$AI_OUTPUT"
-            exit 1
+            echo "ERROR: Invalid AI output"; echo "$AI_OUTPUT"; exit 1
           fi
 
-          # Store raw JSON to file for future context
           echo "$AI_OUTPUT" > changelog.json
 
-          # Format changelog as markdown
           format_section() {
             local section_name="$1"
             local json_key="$2"
@@ -168,12 +155,9 @@ jobs:
           } > changelog_formatted.md
 
           FORMATTED_CHANGELOG=$(cat changelog_formatted.md)
-
-          # Read existing changelog from file (written by analyze step)
           EXISTING_CHANGELOG=""
           [ -f existing_changelog.txt ] && EXISTING_CHANGELOG=$(cat existing_changelog.txt)
 
-          # Discord changelog (truncate if >1800 chars to leave room for header)
           DISCORD_CHANGELOG="$FORMATTED_CHANGELOG"
           if [ ${#DISCORD_CHANGELOG} -gt 1800 ]; then
             TRUNCATED="${DISCORD_CHANGELOG:0:1750}..."
@@ -182,7 +166,6 @@ jobs:
             echo "$DISCORD_CHANGELOG" > discord_changelog.txt
           fi
 
-          # GitHub changelog (prepend to existing with separator)
           if [ -n "$EXISTING_CHANGELOG" ]; then
             printf '%s\n---\n\n%s' "$FORMATTED_CHANGELOG" "$EXISTING_CHANGELOG" > github_changelog.txt
           else
@@ -190,6 +173,7 @@ jobs:
           fi
 
       - name: Upload changelog artifacts
+        if: steps.analyze.outputs.has_changes == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: changelog-files
