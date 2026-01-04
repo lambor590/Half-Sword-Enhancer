@@ -91,9 +91,9 @@ namespace hse {
 
     inline std::expected<void, ConfigError> LauncherConfig::SaveConfigUnlocked() noexcept {
         try {
-            if (!ini_.SaveFile(configPath_.string().c_str())) {
+            if (ini_.SaveFile(configPath_.string().c_str()) < 0) {
                 std::filesystem::create_directories(configPath_.parent_path());
-                if (!ini_.SaveFile(configPath_.string().c_str())) {
+                if (ini_.SaveFile(configPath_.string().c_str()) < 0) {
                     return std::unexpected(ConfigError::WritePermissionDenied);
                 }
             }
