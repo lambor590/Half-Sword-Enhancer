@@ -32,34 +32,22 @@ jobs:
       - name: Extract version
         id: extract
         run: |
-          extract_version() {
-            iconv -f UTF-16LE -t UTF-8 "$1" 2>/dev/null | grep -oP 'FILEVERSION\s+\K\d+,\s*\d+,\s*\d+' | tr -d ' ' | tr ',' '.'
-          }
-
-          LAUNCHER_VER=$(extract_version "Launcher/resource/Launcher.rc" || echo "")
-          MOD_VER=$(extract_version "Mod/resource/Mod.rc" || echo "")
-
-          if [ -z "$LAUNCHER_VER" ] && [ -z "$MOD_VER" ]; then
-            echo "::error::Failed to extract version from RC files"
-            exit 1
-          fi
-
-          VERSION=$(printf '%s\n%s' "$LAUNCHER_VER" "$MOD_VER" | sort -V | tail -1)
-          echo "version=v$VERSION" >> $GITHUB_OUTPUT
-          echo "### Version: v$VERSION" >> $GITHUB_STEP_SUMMARY
+          ver() { iconv -f UTF-16LE -t UTF-8 "$1" 2>/dev/null | grep -oP 'FILEVERSION\s+\K\d+,\s*\d+,\s*\d+' | tr -d ' ' | tr ',' '.'; }
+          VER=$(printf '%s\n%s' "$(ver Launcher/resource/Launcher.rc)" "$(ver Mod/resource/Mod.rc)" | sort -V | tail -1)
+          [ -z "$VER" ] && echo "::error::Failed to extract version" && exit 1
+          echo "version=v$VER" >> $GITHUB_OUTPUT
+          echo "### Version: v$VER" >> $GITHUB_STEP_SUMMARY
 
       - name: Check tag exists
         id: check
         run: |
           VERSION="${{ steps.extract.outputs.version }}"
-
-          if git tag -l "$VERSION" | grep -q .; then
+          if git rev-parse "$VERSION" &>/dev/null; then
             echo "should_release=false" >> $GITHUB_OUTPUT
-            echo "Tag $VERSION already exists, skipping release" >> $GITHUB_STEP_SUMMARY
+            echo "Tag $VERSION exists, skipping" >> $GITHUB_STEP_SUMMARY
           else
             echo "should_release=true" >> $GITHUB_OUTPUT
-            PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-            echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
+            echo "prev_tag=$(git describe --tags --abbrev=0 2>/dev/null)" >> $GITHUB_OUTPUT
           fi
 
   changelog:
@@ -77,28 +65,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Fetch accumulated changelog from dev-latest release
-          DEV_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
+          DEV_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null) || true
+          CHANGELOG=$(echo "$DEV_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
 
-          if [ -z "$DEV_BODY" ]; then
-            echo "WARNING: No dev-latest release found. Cannot generate polished changelog."
+          if [ -z "$CHANGELOG" ]; then
+            echo "WARNING: No dev changelog found"
             echo "has_dev_changelog=false" >> $GITHUB_OUTPUT
-            exit 0
+          else
+            echo "has_dev_changelog=true" >> $GITHUB_OUTPUT
+            echo "$CHANGELOG" > accumulated_changelog.txt
           fi
-
-          # Extract accumulated changelog (between warning and Installation)
-          ACCUMULATED_CHANGELOG=$(echo "$DEV_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
-
-          if [ -z "$ACCUMULATED_CHANGELOG" ]; then
-            echo "WARNING: No accumulated changelog found in dev-latest."
-            echo "has_dev_changelog=false" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-
-          echo "has_dev_changelog=true" >> $GITHUB_OUTPUT
-
-          # Write to file for multiline content
-          echo "$ACCUMULATED_CHANGELOG" > accumulated_changelog.txt
 
       - name: Polish changelog
         id: ai_changelog
@@ -147,20 +123,8 @@ jobs:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
           HAS_DEV: ${{ steps.fetch_dev.outputs.has_dev_changelog }}
         run: |
-          if [ "$HAS_DEV" != "true" ]; then
-            echo "ERROR: dev-latest release is required for stable release"
-            exit 1
-          fi
-
-          if [ -n "$AI_OUTPUT" ] && echo "$AI_OUTPUT" | jq -e . >/dev/null 2>&1; then
-            CHANGELOG=$(echo "$AI_OUTPUT" | jq -r '.changelog // empty')
-          else
-            echo "ERROR: AI output is empty or invalid"
-            exit 1
-          fi
-
-          # Write to file for multiline content
-          echo "$CHANGELOG" > polished_changelog.txt
+          [ "$HAS_DEV" != "true" ] && echo "ERROR: dev-latest required" && exit 1
+          echo "$AI_OUTPUT" | jq -e -r '.changelog' > polished_changelog.txt || { echo "ERROR: Invalid AI output"; exit 1; }
 
       - name: Upload changelog artifact
         uses: actions/upload-artifact@v6
@@ -221,16 +185,10 @@ jobs:
 
       - name: Create release
         run: |
-          CHANGELOG=$(cat changelog_files/polished_changelog.txt 2>/dev/null || echo "")
-
           {
-            [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
-            echo "---"
-            echo "See [README](https://github.com/${{ github.repository }}/blob/main/README.md#installation) for installation instructions."
+            cat changelog_files/polished_changelog.txt 2>/dev/null
+            echo -e "\n---"
+            echo "See [README](https://github.com/${{ github.repository }}#installation) for installation instructions."
           } > release_body.md
 
-          gh release create "$VERSION" \
-            --repo "${{ github.repository }}" \
-            --title "$VERSION" \
-            --notes-file release_body.md \
-            release_files/*
+          gh release create "$VERSION" --repo "${{ github.repository }}" --title "$VERSION" --notes-file release_body.md release_files/*
