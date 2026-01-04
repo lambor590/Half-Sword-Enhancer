@@ -77,7 +77,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Fetch accumulated changelog from dev-latest release
           DEV_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
 
           if [ -z "$DEV_BODY" ]; then
@@ -86,7 +85,6 @@ jobs:
             exit 0
           fi
 
-          # Extract accumulated changelog (between warning and Installation)
           ACCUMULATED_CHANGELOG=$(echo "$DEV_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
 
           if [ -z "$ACCUMULATED_CHANGELOG" ]; then
@@ -96,8 +94,6 @@ jobs:
           fi
 
           echo "has_dev_changelog=true" >> $GITHUB_OUTPUT
-
-          # Write to file for multiline content
           echo "$ACCUMULATED_CHANGELOG" > accumulated_changelog.txt
 
       - name: Polish changelog
@@ -159,7 +155,6 @@ jobs:
             exit 1
           fi
 
-          # Write to file for multiline content
           echo "$CHANGELOG" > polished_changelog.txt
 
       - name: Upload changelog artifact
