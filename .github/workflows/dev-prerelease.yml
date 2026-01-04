@@ -132,7 +132,7 @@ jobs:
         run: |
           echo "$AI_OUTPUT" | jq -e . > changelog.json || { echo "ERROR: Invalid AI output: $AI_OUTPUT"; exit 1; }
 
-          fmt() { local i=$(jq -r ".$2 // [] | .[] | \"- [\\(.category)] \\(.description)\"" changelog.json); [ -n "$i" ] && printf "## %s\n%s\n\n" "$1" "$i"; }
+          fmt() { local i=$(jq -r ".$2 // [] | .[] | \"- [\\(.category)] \\(.description)\"" changelog.json); [ -n "$i" ] && printf "## %s\n%s\n\n" "$1" "$i" || true; }
           { fmt "New Features" new_features; fmt "Bug Fixes" bug_fixes; fmt "Improvements" improvements; fmt "Other Changes" other_changes; } > changelog_formatted.md
 
           FORMATTED=$(cat changelog_formatted.md)
