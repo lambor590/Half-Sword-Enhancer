@@ -135,6 +135,7 @@ jobs:
 
       - name: Process output
         id: process
+        if: steps.analyze.outputs.has_changes == 'true'
         env:
           AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
         run: |
@@ -190,6 +191,7 @@ jobs:
           fi
 
       - name: Upload changelog artifacts
+        if: steps.analyze.outputs.has_changes == 'true'
         uses: actions/upload-artifact@v6
         with:
           name: changelog-files
