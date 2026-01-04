@@ -34,40 +34,27 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Fetch all refs to ensure LAST_NOTIFIED_COMMIT is available
           git fetch origin --quiet
 
-          # Get release body for extracting context
+          # Get release body for context
           RELEASE_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
 
-          # Get last notified commit for incremental changelog
+          # Get last notified commit (for incremental comparison)
           LAST_NOTIFIED=$(echo "$RELEASE_BODY" | grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
 
-          # Extract previous changelog JSON for classification context
-          PREV_CHANGELOG_JSON=$(echo "$RELEASE_BODY" | sed -n '/<!-- CHANGELOG_JSON_START -->/,/<!-- CHANGELOG_JSON_END -->/p' | sed '1d;$d' || echo "")
-
-          # Extract existing accumulated changelog (between warning and Installation)
+          # Extract existing changelog (for GitHub accumulation)
           EXISTING_CHANGELOG=$(echo "$RELEASE_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d' || echo "")
 
-          # Determine base reference for changelog (what's new since last notification)
-          echo "LAST_NOTIFIED: $LAST_NOTIFIED"
+          # Determine base reference
           if [ -n "$LAST_NOTIFIED" ] && git merge-base --is-ancestor "$LAST_NOTIFIED" HEAD 2>/dev/null; then
             BASE_REF="$LAST_NOTIFIED"
-            echo "Using incremental changelog from $LAST_NOTIFIED"
           else
             BASE_REF="origin/main"
-            echo "Using full changelog from origin/main (LAST_NOTIFIED not found or not ancestor)"
           fi
-          echo "BASE_REF: $BASE_REF"
 
-          # Detect changes using unified BASE_REF
-          MOD_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' | grep -q . && echo true || echo false)
-          LAUNCHER_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'Launcher/**' | grep -q . && echo true || echo false)
-          EXT_CHANGED=$(git diff --name-only "$BASE_REF"..HEAD -- 'ext/**' | grep -q . && echo true || echo false)
-
-          # Pre-compute build triggers (ext/ triggers both)
-          BUILD_MOD=$([[ "$MOD_CHANGED" == "true" || "$EXT_CHANGED" == "true" ]] && echo true || echo false)
-          BUILD_LAUNCHER=$([[ "$LAUNCHER_CHANGED" == "true" || "$EXT_CHANGED" == "true" ]] && echo true || echo false)
+          # Detect changes
+          BUILD_MOD=$(git diff --name-only "$BASE_REF"..HEAD -- 'Mod/**' 'Proxy/**' 'ext/**' | grep -q . && echo true || echo false)
+          BUILD_LAUNCHER=$(git diff --name-only "$BASE_REF"..HEAD -- 'Launcher/**' 'ext/**' | grep -q . && echo true || echo false)
           HAS_CHANGES=$([[ "$BUILD_MOD" == "true" || "$BUILD_LAUNCHER" == "true" ]] && echo true || echo false)
 
           echo "build_mod=$BUILD_MOD" >> $GITHUB_OUTPUT
@@ -75,36 +62,21 @@ jobs:
           echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
           echo "current_commit=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
 
-          # Generate commits with hash for correlation
+          # Generate commits list
           git log "$BASE_REF"..HEAD --pretty=format:"- %h: %s" --no-merges \
             -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > commits.txt
 
-          # Detect large files (>500 lines changed) for exclusion
-          LARGE_FILES=$(git diff "$BASE_REF"..HEAD --numstat -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' | \
-            awk '$1+$2 > 500 {print ":!" $3}')
-
-          # Generate component-specific diffs (skip ext/ - rarely needs changelog entries)
+          # Generate component-specific diffs
           git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
-            -- 'Mod/**' ':!Mod/SDK/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
-            $LARGE_FILES > mod.diff || true
+            -- 'Mod/**' ':!Mod/SDK/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' > mod.diff || true
 
           git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
-            -- 'Launcher/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
-            $LARGE_FILES > launcher.diff || true
+            -- 'Launcher/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' > launcher.diff || true
 
           git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
-            -- 'Proxy/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' \
-            $LARGE_FILES > proxy.diff || true
+            -- 'Proxy/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' > proxy.diff || true
 
-          # Generate reverse diff (main → current) to show what exists in main
-          # This helps classify: if code doesn't exist in main, it's NEW
-          git diff HEAD...origin/main --stat -- 'Mod/**' 'Launcher/**' 'Proxy/**' ':!Mod/SDK/**' ':!*.vcxproj*' > reverse_diff_summary.txt || true
-
-          # Export outputs as JSON strings
           echo "commits_content=$(cat commits.txt 2>/dev/null | jq -Rs . || echo '""')" >> $GITHUB_OUTPUT
-          echo "prev_changelog_json=$(echo "$PREV_CHANGELOG_JSON" | jq -Rs . || echo '""')" >> $GITHUB_OUTPUT
-
-          # Write existing changelog to file for multiline output
           echo "$EXISTING_CHANGELOG" > existing_changelog.txt
 
       - name: Generate changelog
@@ -115,9 +87,8 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             <role>
-            Generate STRUCTURED patch notes for Half Sword Enhancer, a mod for the medieval combat game Half Sword.
-            The mod adds an in-game menu (INSERT key) with spawn controls, equipment management, and gameplay tweaks.
-            Write for gamers, not developers. Keep descriptions concise (Discord has 2000 char limit).
+            Generate patch notes for Half Sword Enhancer mod. Write for gamers, not developers.
+            Be concise - Discord has 2000 char limit.
             </role>
 
             <commits>
@@ -125,92 +96,41 @@ jobs:
             </commits>
 
             <resources>
-            - mod.diff: Mod project diffs with `=== HASH ===` markers
-            - launcher.diff: Launcher project diffs with `=== HASH ===` markers
-            - proxy.diff: Proxy project diffs with `=== HASH ===` markers
-            - reverse_diff_summary.txt: Shows what files exist in main (helps determine NEW vs IMPROVEMENT)
-            - git show origin/main:PATH: Shows file content in stable version
+            Read these files for context:
+            - mod.diff: Changes in Mod/ project
+            - launcher.diff: Changes in Launcher/ project
+            - proxy.diff: Changes in Proxy/ project
             </resources>
 
-            <previous_changelog_context>
-            Previous changelog entries already announced to users (use for classification):
-            ${{ fromJSON(steps.analyze.outputs.prev_changelog_json) }}
-            </previous_changelog_context>
+            <classification>
+            - New feature: New functionality added (new files, new functions, new options)
+            - Improvement: Enhanced existing functionality
+            - Bug fix: Fixed something that was broken
+            - Other: Internal changes, refactors with no user impact
+            </classification>
 
-            <classification_logic>
-            HYBRID CLASSIFICATION using TWO contexts:
+            <categories>
+            Spawner, Graphics, Player, Controls, Equipment, World, NPCs, Launcher, Mod, Internal
+            </categories>
 
-            1. REVERSE DIFF CONTEXT (main state):
-               - Read reverse_diff_summary.txt to see what exists in main
-               - If code/feature DOESN'T EXIST in main → NEW FEATURE
-               - If code/feature EXISTS in main and is modified → IMPROVEMENT
-
-            2. PREVIOUS CHANGELOG CONTEXT (already announced):
-               - If something was announced as "New" in previous changelog AND this build improves it → IMPROVEMENT
-               - If something breaks (even if new in this PR) → BUG FIX (always)
-
-            PRIORITY: Bug Fix > based on diff analysis > based on previous changelog
-
-            IMPORTANT: Analyze the actual diff content, not just commit prefixes.
-            "feat: fix spawn crash" should be classified as BUG FIX based on content.
-            </classification_logic>
-
-            <process>
-            1. Read the diffs to understand what actually changed
-            2. Check reverse_diff_summary.txt to see what exists in main
-            3. Check previous changelog to see what was already announced
-            4. Classify each change using hybrid logic above
-            5. Merge multi-commit features into single entries
-            6. Return structured JSON (not markdown)
-            </process>
-
-            <categories_available>
-            - Spawner: NPC/item spawning, clearing objects
-            - Graphics: Visual settings, render scale, quality options
-            - Player: Health, strength, abilities, body modifications
-            - Controls: Keybinds, menu toggle, input handling
-            - Equipment: Weapons, armor, loadout management
-            - World: Time, weather, environment manipulation
-            - NPCs: Enemy behavior, AI modifications
-            - Launcher: Auto-updates, installation, startup
-            - Mod: General mod functionality, initialization
-            - Internal: Code changes with no direct user impact (refactors, optimizations)
-            </categories_available>
-
-            <writing_rules>
-            1. User impact, not implementation: "Fixed crash when alt-tabbing" not "Fixed SwapChain recreation"
-            2. Use backticks for feature names: `Infinite Health`, `Spawn NPC`
-            3. One sentence per entry, be specific
-            4. No technical terms: avoid GameHook, ProcessEvent, UObject, etc.
-            5. Keep it CONCISE - Discord has 2000 character limit total
-            </writing_rules>
+            <rules>
+            1. Describe user impact, not implementation details
+            2. Use backticks for feature names: `Infinite Health`
+            3. One sentence per entry
+            4. Merge multi-commit features into single entries
+            </rules>
 
             <output_schema>
-            Return a JSON object with this EXACT structure:
             {
-              "new_features": [
-                {"category": "Spawner", "description": "Added option to spawn multiple NPCs at once"}
-              ],
-              "improvements": [
-                {"category": "Controls", "description": "Menu now opens faster"}
-              ],
-              "bug_fixes": [
-                {"category": "Graphics", "description": "Fixed flickering in DirectX 12 mode"}
-              ],
-              "other_changes": [
-                {"category": "Internal", "description": "Code optimization for better performance"}
-              ]
+              "new_features": [{"category": "...", "description": "..."}],
+              "improvements": [{"category": "...", "description": "..."}],
+              "bug_fixes": [{"category": "...", "description": "..."}],
+              "other_changes": [{"category": "...", "description": "..."}]
             }
-
-            RULES:
-            - Each array can be empty [] if no changes in that category
-            - "category" must be one of the categories_available above
-            - "description" should be user-friendly, concise text
-            - Omit arrays only if truly empty
             </output_schema>
           claude_args: |
             --model claude-opus-4-5-20251101
-            --allowedTools "Read,Glob,Grep,Task,Bash(cat:*),Bash(head:*),Bash(ls:*),Bash(git show:*)"
+            --allowedTools "Read,Glob,Grep,Task,Bash(cat:*),Bash(head:*),Bash(ls:*)"
             --json-schema '{"type":"object","properties":{"new_features":{"type":"array","items":{"type":"object","properties":{"category":{"type":"string"},"description":{"type":"string"}},"required":["category","description"]}},"improvements":{"type":"array","items":{"type":"object","properties":{"category":{"type":"string"},"description":{"type":"string"}},"required":["category","description"]}},"bug_fixes":{"type":"array","items":{"type":"object","properties":{"category":{"type":"string"},"description":{"type":"string"}},"required":["category","description"]}},"other_changes":{"type":"array","items":{"type":"object","properties":{"category":{"type":"string"},"description":{"type":"string"}},"required":["category","description"]}}},"required":["new_features","improvements","bug_fixes","other_changes"]}'
 
       - name: Process output
@@ -356,7 +276,6 @@ jobs:
       - name: Publish release
         run: |
           GITHUB_CHANGELOG=$(cat changelog_files/github_changelog.txt 2>/dev/null || echo "")
-          CHANGELOG_JSON=$(cat changelog_files/changelog.json 2>/dev/null || echo "{}")
 
           {
             echo "> [!WARNING]"
@@ -382,9 +301,6 @@ jobs:
             echo "</details>"
             echo ""
             echo "<!-- LAST_NOTIFIED_COMMIT: $CURRENT_COMMIT -->"
-            echo "<!-- CHANGELOG_JSON_START -->"
-            echo "$CHANGELOG_JSON"
-            echo "<!-- CHANGELOG_JSON_END -->"
           } > release_body.md
 
           if gh release view dev-latest --repo "${{ github.repository }}" >/dev/null 2>&1; then
