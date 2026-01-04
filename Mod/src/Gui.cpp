@@ -26,10 +26,11 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     if (!io.WantTextInput && KeybindManager::ProcessKeyEvent(msg, wParam))
         return true;
 
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-        return true;
+    ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
 
-    if (io.WantCaptureMouse || io.WantTextInput || io.WantCaptureKeyboard)
+    if (io.WantCaptureMouse && (msg == WM_SETCURSOR || (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST)))
+        return true;
+    if ((io.WantTextInput || io.WantCaptureKeyboard) && msg >= WM_KEYFIRST && msg <= WM_KEYLAST)
         return true;
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
@@ -81,8 +82,10 @@ void Gui::Render() {
     ImGui_ImplDX11_NewFrame();
     ImGui::NewFrame();
 
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseDrawCursor = isVisible;
+
     if (!isVisible) {
-        ImGuiIO& io = ImGui::GetIO();
         io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
     }
 
