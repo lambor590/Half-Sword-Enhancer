@@ -191,4 +191,4 @@ jobs:
             echo "See [README](https://github.com/${{ github.repository }}#installation) for installation instructions."
           } > release_body.md
 
-          gh release create "$VERSION" --repo "${{ github.repository }}" --title "$VERSION" --notes-file release_body.md release_files/*
+          gh release create "$VERSION" --repo "${{ github.repository }}" --title "$VERSION" --draft --notes-file release_body.md release_files/*
