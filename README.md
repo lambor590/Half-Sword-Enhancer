@@ -291,4 +291,4 @@ This project has no open-source license.
 
 The source code is available for transparency purposes only. All rights reserved.
 
-&copy; 2025 The Ghost
+&copy; 2026 The Ghost
