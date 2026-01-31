@@ -1,6 +1,7 @@
 #include "Gui.h"
 #include "KeybindManager.h"
 #include "NotificationManager.h"
+#include "Version.h"
 
 WNDPROC Gui::originalWndProc = nullptr;
 bool Gui::isVisible = true;
@@ -92,9 +93,9 @@ void Gui::Render() {
     if (isVisible) {
         constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
         #ifdef DEV_VERSION
-            constexpr const char* windowTitle = "Half Sword Enhancer - Dev Build";
+            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Dev Build";
         #else
-            constexpr const char* windowTitle = "Half Sword Enhancer";
+            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION;
         #endif
 
         if (ImGui::Begin(windowTitle, &isVisible, windowFlags)) {
