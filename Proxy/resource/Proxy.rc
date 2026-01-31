@@ -24,7 +24,7 @@ BEGIN
             VALUE "FileDescription", "Half Sword Enhancer injector"
             VALUE "FileVersion", "1.0.0.0"
             VALUE "InternalName", "HSEnhancerProxy"
-            VALUE "LegalCopyright", "Copyright (C) 2025 The Ghost"
+            VALUE "LegalCopyright", "Copyright (C) 2026 The Ghost"
             VALUE "OriginalFilename", "HSEnhancerProxy.dll"
             VALUE "ProductName", "Half Sword Enhancer injector"
             VALUE "ProductVersion", "1.0.0.0"
