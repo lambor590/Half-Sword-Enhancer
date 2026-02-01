@@ -43,13 +43,6 @@ public:
                 ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
             }, player, world);
 
-        Function("Save Loadout")
-            .WithKey(&cfg.saveLoadoutKey)
-            .WithTooltip("Saves your current weapons and clothes for next fight. Only works in free mode.")
-            .Action([this]() {
-                player->Save_Loadout();
-            }, player);
-
         Function("Jump")
             .WithKey(&cfg.jumpKey)
             .WithParams({ Parameter("force", "Force", &cfg.jumpForce, 1000.0f, 10000.0f, "Controls how high you jump") })
