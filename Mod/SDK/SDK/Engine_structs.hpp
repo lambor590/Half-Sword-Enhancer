@@ -3643,7 +3643,7 @@ enum class ESoundWaveLoadingBehavior : uint8
 	LoadOnDemand                             = 3,
 	ForceInline                              = 4,
 	Uninitialized                            = 255,
-	ESoundWaveLoadingBehavior_MAX            = 256,
+	ESoundWaveLoadingBehavior_MAX            = 255,
 };
 
 // Enum Engine.EStereoLayerType
@@ -5112,7 +5112,7 @@ enum class ESkinCacheUsage : uint8
 	Auto                                     = 0,
 	Disabled                                 = 255,
 	Enabled                                  = 1,
-	ESkinCacheUsage_MAX                      = 256,
+	ESkinCacheUsage_MAX                      = 255,
 };
 
 // Enum Engine.ESkinCacheDefaultBehavior
@@ -5336,7 +5336,7 @@ enum class ETextureEncodeSpeedOverride : uint8
 	Final                                    = 0,
 	FinalIfAvailable                         = 1,
 	Fast                                     = 2,
-	ETextureEncodeSpeedOverride_MAX          = 256,
+	ETextureEncodeSpeedOverride_MAX          = 255,
 };
 
 // Enum Engine.ETextureRenderTargetFormat
@@ -6499,7 +6499,7 @@ enum class EStreamingSourcePriority : uint8
 	Low                                      = 192,
 	Lowest                                   = 255,
 	Default                                  = 128,
-	EStreamingSourcePriority_MAX             = 256,
+	EStreamingSourcePriority_MAX             = 255,
 };
 
 // Enum Engine.EDataLayerState
