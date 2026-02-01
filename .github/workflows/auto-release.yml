@@ -119,6 +119,10 @@ jobs:
           Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/"
           Copy-Item "bin/HSEnhancer.dll" "release_files/"
 
+          # TODO(v0.7.0): Remove old-name duplicates once v0.5.x launchers are phased out
+          Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/HS_Enhancer_Launcher.exe"
+          Copy-Item "bin/HSEnhancer.dll" "release_files/HS-Enhancer.dll"
+
           New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
           Copy-Item "Manual_Install.txt" "manual_install/README.txt"
           Copy-Item "bin/dwmapi.dll" "manual_install/"
