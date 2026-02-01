@@ -1,6 +1,7 @@
 #include "Gui.h"
 #include "KeybindManager.h"
 #include "NotificationManager.h"
+#include "Version.h"
 
 WNDPROC Gui::originalWndProc = nullptr;
 bool Gui::isVisible = true;
@@ -8,22 +9,35 @@ bool Gui::isVisible = true;
 Logger logger("Gui");
 
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (KeybindManager::ProcessKeyEvent(msg, wParam))
+    if (KeybindManager::ProcessRebindEvent(msg, wParam))
         return true;
 
-    if (isVisible && (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam) || 
-        (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST && ImGui::GetIO().WantCaptureMouse))) {
-        return true;
+    if (!isVisible) [[likely]] {
+        if (KeybindManager::ProcessKeyEvent(msg, wParam))
+            return true;
+        return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
     }
+
+    static thread_local ImGuiIO* cachedIO = nullptr;
+    if (!cachedIO) [[unlikely]] {
+        cachedIO = &ImGui::GetIO();
+    }
+    ImGuiIO& io = *cachedIO;
+
+    if (!io.WantTextInput && KeybindManager::ProcessKeyEvent(msg, wParam))
+        return true;
+
+    ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
+
+    if (io.WantCaptureMouse && (msg == WM_SETCURSOR || (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST)))
+        return true;
+    if ((io.WantTextInput || io.WantCaptureKeyboard) && msg >= WM_KEYFIRST && msg <= WM_KEYLAST)
+        return true;
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
 }
 
-void Gui::Setup() {    
-    originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
-    logger.Log("WndProc hooked successfully");
-
-    ImGui::CreateContext();
+void Gui::Setup() {
     IMGUI_CHECKVERSION();
 
     ImGuiIO& io = ImGui::GetIO();
@@ -44,28 +58,46 @@ void Gui::Setup() {
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<GuiSection>(MenuTab::Settings);
     MenuManager::Get().AddSection<GraphicsSection>(MenuTab::Settings);
+
+    originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
+    logger.Log("WndProc hooked successfully");
 }
 
 void Gui::Render() {
-    ImGui_ImplWin32_NewFrame();
-    ImGui_ImplDX11_NewFrame();
-    ImGui::NewFrame();
+    static bool previousVisibility = isVisible;
 
-    if (!isVisible) {
-        ImGuiIO& io = ImGui::GetIO();
-        io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
+    if (previousVisibility != isVisible) {
+        GameHook::SetInputEnabled(!isVisible);
+        previousVisibility = isVisible;
     }
 
     NotificationManager::Update();
 
+    const bool hasNotifications = NotificationManager::IsEnabled() && NotificationManager::HasNotifications();
+
+    if (!isVisible && !hasNotifications) [[likely]] {
+        return;
+    }
+
+    ImGui_ImplWin32_NewFrame();
+    ImGui_ImplDX11_NewFrame();
+    ImGui::NewFrame();
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.MouseDrawCursor = isVisible;
+
+    if (!isVisible) {
+        io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
+    }
+
     if (isVisible) {
         constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
         #ifdef DEV_VERSION
-            constexpr const char* windowTitle = "Half Sword Enhancer - Internal Build";
+            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Dev Build";
         #else
-            constexpr const char* windowTitle = "Half Sword Enhancer";
+            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION;
         #endif
-        
+
         if (ImGui::Begin(windowTitle, &isVisible, windowFlags)) {
             MenuManager::Get().RenderMenu();
         }

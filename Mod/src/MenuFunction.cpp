@@ -282,13 +282,14 @@ namespace {
                 snprintf(inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, "%.2f", *valuePtr);
             }
             
-            thread_local std::string inputId;
-            inputId.assign(param.id);
-            inputId.append(GuiConstants::INPUT_SUFFIX);
-            
+            thread_local char inputId[256];
+            snprintf(inputId, sizeof(inputId), "%.*s%.*s",
+                static_cast<int>(param.id.size()), param.id.data(),
+                static_cast<int>(GuiConstants::INPUT_SUFFIX.size()), GuiConstants::INPUT_SUFFIX.data());
+
             constexpr ImGuiInputTextFlags flags = ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue;
-            
-            if (ImGui::InputText(inputId.c_str(), inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, flags)) [[unlikely]] {
+
+            if (ImGui::InputText(inputId, inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, flags)) [[unlikely]] {
                 if constexpr (std::is_integral_v<T>) {
                     *valuePtr = static_cast<T>(atoi(inputBuffer));
                 } else {
@@ -379,33 +380,18 @@ namespace {
     };
     
     thread_local TooltipState g_state;
-    
-    inline void ShowTooltipImpl(const char* text) noexcept {
-        if (!g_state.IsEnabled()) [[likely]] return;
-        
-        if (ImGui::IsItemHovered()) [[unlikely]] {
-            ImGui::BeginTooltip();
-            ImGui::TextColored(DefaultStyle::parchment, "%s", text);
-            ImGui::EndTooltip();
-        }
-    }
-}
-
-void TooltipHelper::ShowTooltip(const char* tooltip) {
-    if (!tooltip || !tooltip[0]) [[unlikely]] return;
-    ShowTooltipImpl(tooltip);
-}
-
-void TooltipHelper::ShowTooltip(const std::string& tooltip) {
-    if (tooltip.empty()) [[unlikely]] return;
-    ShowTooltipImpl(tooltip.c_str());
 }
 
 void TooltipHelper::ShowTooltip(std::string_view tooltip) {
     if (tooltip.empty()) [[unlikely]] return;
-    thread_local std::string buffer;
-    buffer.assign(tooltip);
-    ShowTooltipImpl(buffer.c_str());
+    if (!g_state.IsEnabled()) [[likely]] return;
+
+    if (ImGui::IsItemHovered()) [[unlikely]] {
+        ImGui::BeginTooltip();
+        ImGui::TextColored(DefaultStyle::parchment, "%.*s",
+            static_cast<int>(tooltip.size()), tooltip.data());
+        ImGui::EndTooltip();
+    }
 }
 
 void TooltipHelper::InvalidateCache() {

@@ -110,15 +110,6 @@ jobs:
             3. One sentence per entry
             4. Merge multi-commit features into single entries
             </rules>
-
-            <output_schema>
-            {
-              "new_features": [{"category": "...", "description": "..."}],
-              "improvements": [{"category": "...", "description": "..."}],
-              "bug_fixes": [{"category": "...", "description": "..."}],
-              "other_changes": [{"category": "...", "description": "..."}]
-            }
-            </output_schema>
           claude_args: |
             --model claude-opus-4-5-20251101
             --allowedTools "Read,Glob,Grep,Task,Bash(cat:*),Bash(head:*),Bash(ls:*)"
@@ -166,20 +157,25 @@ jobs:
       - uses: actions/checkout@v6
       - uses: microsoft/setup-msbuild@v2
 
+      - name: Install VS 2026 Build Tools
+        shell: pwsh
+        run: |
+          choco install visualstudio2026buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --quiet --wait --norestart" -y --no-progress
+
       - name: Build Mod and Proxy
         if: needs.changelog.outputs.build_mod == 'true'
         shell: pwsh
         run: |
-          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
+          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
-          MSBuild.exe "Proxy/Proxy.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
+          MSBuild.exe "Proxy/Proxy.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Proxy build failed" }
 
       - name: Build Launcher
         if: needs.changelog.outputs.build_launcher == 'true'
         shell: pwsh
         run: |
-          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:PlatformToolset=v143 /p:SolutionDir="$PWD/"
+          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
 
       - name: Package

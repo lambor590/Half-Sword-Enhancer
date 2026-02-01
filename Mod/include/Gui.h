@@ -39,9 +39,8 @@ public:
     void Render();
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
     static bool IsVisible() { return isVisible; }
-    static void ToggleVisibility() { 
-        isVisible = !isVisible; 
-        GameHook::SetInputEnabled(!isVisible);
+    static void ToggleVisibility() {
+        isVisible = !isVisible;
     }
 
 private:

@@ -76,20 +76,14 @@ namespace hse {
         UpdateInfo info;
         info.currentVersion = *localVersionResult;
         info.remoteVersion = *remoteVersionResult;
-
-#ifdef DEV_VERSION
-        info.available = info.remoteVersion > info.currentVersion ||
-            info.remoteVersion == info.currentVersion;
-#else
         info.available = info.remoteVersion != info.currentVersion;
-#endif
 
         if (info.available) {
             const auto versionStr = info.remoteVersion.ToString();
             info.downloadUrlLauncher = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HS_Enhancer_Launcher.exe";
+                versionStr + "/HSEnhancerLauncher.exe";
             info.downloadUrlMod = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HS-Enhancer.dll";
+                versionStr + "/HSEnhancer.dll";
             hse::Logger::info("Update available: " + versionStr);
         }
 
@@ -100,7 +94,7 @@ namespace hse {
         try {
             const auto versionStr = version.ToString();
             const auto downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HS-Enhancer.dll";
+                versionStr + "/HSEnhancer.dll";
 
             const auto modPath = LauncherConfig::GetModFilePath();
 
@@ -124,7 +118,10 @@ namespace hse {
         }
     }
 
-    std::expected<void, UpdateError> UpdateManager::UpdateLauncher(std::string_view downloadUrl) noexcept {
+    std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
+        std::string_view downloadUrl,
+        std::string_view timestamp
+    ) noexcept {
         try {
             std::array<char, MAX_PATH> currentPath{};
             if (!GetModuleFileNameA(nullptr, currentPath.data(), MAX_PATH)) {
@@ -134,8 +131,8 @@ namespace hse {
 
             const std::string currentExePath{ currentPath.data() };
             const auto& appDataPath = getAppDataPath();
-            const auto tempPath = std::filesystem::path(appDataPath) / "HS_Enhancer_Launcher_Update.exe";
-            const auto batchPath = std::filesystem::path(appDataPath) / "HS_Enhancer_Update.bat";
+            const auto tempPath = std::filesystem::path(appDataPath) / "HSEnhancerLauncher_Update.exe";
+            const auto batchPath = std::filesystem::path(appDataPath) / "HSEnhancer_Update.bat";
 
             Logger::info("Downloading launcher update...");
             
@@ -193,7 +190,11 @@ namespace hse {
             CloseHandle(processInfo.hThread);
 
             Logger::info("Update script started successfully. Launcher will restart automatically.");
-            
+
+            if (!timestamp.empty()) {
+                (void)LauncherConfig::Instance().SetString("DevUpdate", "launcher_timestamp", timestamp);
+            }
+
             ExitProcess(0);
 
         } catch (const std::exception& e) {
@@ -269,5 +270,160 @@ namespace hse {
             return std::unexpected(UpdateError::VersionParsingFailed);
         }
     }
+
+#ifdef DEV_VERSION
+    std::expected<std::string_view, UpdateError> UpdateManager::ExtractAssetObject(
+        std::string_view json,
+        std::string_view assetName
+    ) const noexcept {
+        try {
+            const std::string searchPattern = "\"name\":\"" + std::string(assetName) + "\"";
+            const auto assetPos = json.find(searchPattern);
+            if (assetPos == std::string_view::npos) {
+                Logger::warn("Asset not found: " + std::string(assetName));
+                return std::unexpected(UpdateError::InvalidResponse);
+            }
+
+            const auto objectStart = json.rfind('{', assetPos);
+            if (objectStart == std::string_view::npos) {
+                return std::unexpected(UpdateError::InvalidResponse);
+            }
+
+            size_t braceCount = 1;
+            size_t objectEnd = objectStart + 1;
+            while (objectEnd < json.length() && braceCount > 0) {
+                if (json[objectEnd] == '{') braceCount++;
+                else if (json[objectEnd] == '}') braceCount--;
+                objectEnd++;
+            }
+
+            return json.substr(objectStart, objectEnd - objectStart);
+        }
+        catch (...) {
+            return std::unexpected(UpdateError::InvalidResponse);
+        }
+    }
+
+    std::expected<std::string, UpdateError> UpdateManager::ParseAssetField(
+        std::string_view assetObject,
+        std::string_view fieldName
+    ) const noexcept {
+        try {
+            const std::string fieldPrefix = "\"" + std::string(fieldName) + "\":\"";
+            const auto fieldPos = assetObject.find(fieldPrefix);
+            if (fieldPos == std::string_view::npos) {
+                return std::unexpected(UpdateError::InvalidResponse);
+            }
+
+            const auto startPos = fieldPos + fieldPrefix.length();
+            const auto endPos = assetObject.find('"', startPos);
+            if (endPos == std::string_view::npos) {
+                return std::unexpected(UpdateError::InvalidResponse);
+            }
+
+            return std::string(assetObject.substr(startPos, endPos - startPos));
+        }
+        catch (...) {
+            return std::unexpected(UpdateError::InvalidResponse);
+        }
+    }
+
+    std::expected<DevUpdateInfo, UpdateError> UpdateManager::CheckForDevUpdates() noexcept {
+        DevUpdateInfo info;
+
+        // === STEP 1: Check stable releases (priority) ===
+        auto stableResult = CheckForUpdates();
+        if (stableResult && stableResult->remoteVersion >= stableResult->currentVersion) {
+            info.stableRelease = *stableResult;
+            info.stableRelease->available = true;
+            Logger::info("Stable release " + stableResult->remoteVersion.ToString() + " available for migration");
+            return info;
+        }
+
+        // === STEP 2: Fallback to dev-latest (timestamp-based) ===
+        auto jsonResult = NetworkManager::Instance().DownloadToString(std::string(GITHUB_DEV_API_URL));
+        if (!jsonResult) {
+            Logger::error("Failed to fetch dev release info from GitHub");
+            return std::unexpected(UpdateError::NetworkError);
+        }
+
+        const auto& json = *jsonResult;
+
+        if (auto modAsset = ExtractAssetObject(json, "HSEnhancer.dll")) {
+            if (auto timestamp = ParseAssetField(*modAsset, "updated_at")) {
+                info.modTimestamp = *timestamp;
+            }
+            if (auto url = ParseAssetField(*modAsset, "browser_download_url")) {
+                info.downloadUrlMod = *url;
+            }
+        }
+
+        if (auto launcherAsset = ExtractAssetObject(json, "HSEnhancerLauncher.exe")) {
+            if (auto timestamp = ParseAssetField(*launcherAsset, "updated_at")) {
+                info.launcherTimestamp = *timestamp;
+            }
+            if (auto url = ParseAssetField(*launcherAsset, "browser_download_url")) {
+                info.downloadUrlLauncher = *url;
+            }
+        }
+
+        const std::string storedModTimestamp =
+            LauncherConfig::Instance().GetString("DevUpdate", "mod_timestamp", "").value_or("");
+        const std::string storedLauncherTimestamp =
+            LauncherConfig::Instance().GetString("DevUpdate", "launcher_timestamp", "").value_or("");
+
+        info.modUpdateAvailable = !info.modTimestamp.empty() &&
+            (storedModTimestamp.empty() || info.modTimestamp > storedModTimestamp);
+
+        info.launcherUpdateAvailable = !info.launcherTimestamp.empty() &&
+            (storedLauncherTimestamp.empty() || info.launcherTimestamp > storedLauncherTimestamp);
+
+        if (info.modUpdateAvailable) {
+            Logger::info("Dev mod update available. Timestamp: " + info.modTimestamp);
+        }
+
+        if (info.launcherUpdateAvailable) {
+            Logger::info("Dev launcher update available. Timestamp: " + info.launcherTimestamp);
+        }
+
+        if (!info.modUpdateAvailable && !info.launcherUpdateAvailable) {
+            Logger::info("Dev build is up to date");
+        }
+
+        return info;
+    }
+
+    std::expected<void, UpdateError> UpdateManager::UpdateDevMod(
+        std::string_view downloadUrl,
+        std::string_view timestamp
+    ) noexcept {
+        try {
+            const auto modPath = LauncherConfig::GetModFilePath();
+
+            DownloadConfig config{
+                .url = std::string(downloadUrl),
+                .outputPath = modPath.string(),
+                .description = "Downloading dev mod update",
+                .minFileSize = 30000
+            };
+
+            auto result = NetworkManager::Instance().DownloadFile(config);
+            if (!result) {
+                return std::unexpected(UpdateError::NetworkError);
+            }
+
+            auto configResult = LauncherConfig::Instance().SetString("DevUpdate", "mod_timestamp", timestamp);
+            if (!configResult) {
+                Logger::warn("Failed to save mod timestamp, update detection may not work correctly");
+            }
+
+            Logger::info("Dev mod updated successfully");
+            return {};
+        }
+        catch (...) {
+            return std::unexpected(UpdateError::UpdateFailed);
+        }
+    }
+#endif
 
 }

@@ -1,8 +1,8 @@
 .vs
 packages/
 bin/
-HS Enhancer.dll
 .claude
 CLAUDE.md
 *ps1
 Mod/SDK/Engine
+*.user

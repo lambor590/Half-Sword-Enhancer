@@ -3,6 +3,13 @@
 #include "imgui/imgui.h"
 #include <algorithm>
 #include <chrono>
+#include <string_view>
+
+namespace {
+    constexpr std::string_view ENABLED_PREFIX = "Enabled ";
+    constexpr std::string_view DISABLED_PREFIX = "Disabled ";
+    constexpr std::string_view EXECUTED_PREFIX = "Executed ";
+}
 
 std::vector<Notification> NotificationManager::s_notifications;
 bool NotificationManager::s_enabled = true;
@@ -141,22 +148,30 @@ void NotificationManager::AddNotification(std::string&& message, float duration)
     s_notifications.emplace_back(std::move(message), duration);
 }
 
-void NotificationManager::NotifyHookToggle(const std::string& functionName, bool enabled) noexcept {
+void NotificationManager::NotifyHookToggle(std::string_view functionName, bool enabled) noexcept {
     if (!s_enabled) [[unlikely]] return;
-    
-    static constexpr auto enabledStr = "Enabled ";
-    static constexpr auto disabledStr = "Disabled ";
 
-    AddNotification((enabled ? enabledStr : disabledStr) + functionName);
+    const std::string_view prefix = enabled ? ENABLED_PREFIX : DISABLED_PREFIX;
+
+    std::string message;
+    message.reserve(prefix.size() + functionName.size());
+    message.append(prefix);
+    message.append(functionName);
+
+    AddNotification(std::move(message));
 }
 
-void NotificationManager::NotifyOneTimeAction(const std::string& actionName) noexcept {
+void NotificationManager::NotifyOneTimeAction(std::string_view actionName) noexcept {
     if (!s_enabled) [[unlikely]] return;
-    
-    static constexpr auto executedStr = "Executed ";
+
     static constexpr float actionDuration = 2.0f;
 
-    AddNotification(executedStr + actionName, actionDuration);
+    std::string message;
+    message.reserve(EXECUTED_PREFIX.size() + actionName.size());
+    message.append(EXECUTED_PREFIX);
+    message.append(actionName);
+
+    AddNotification(std::move(message), actionDuration);
 }
 
 [[nodiscard]] constexpr float NotificationManager::CalculateAlpha(float elapsed, float duration) noexcept {

@@ -33,33 +33,33 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <DevBuild>true</DevBuild>
@@ -87,7 +87,7 @@
     <SourcePath>$(ProjectDir)src</SourcePath>
     <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>HS Enhancer</TargetName>
+    <TargetName>HSEnhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
@@ -97,7 +97,7 @@
     <SourcePath>$(ProjectDir)src</SourcePath>
     <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>HS Enhancer</TargetName>
+    <TargetName>HSEnhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
@@ -107,7 +107,7 @@
     <SourcePath>$(ProjectDir)src</SourcePath>
     <ExcludePath>$(ProjectDir)SDK\SDK;$(ExcludePath)</ExcludePath>
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>HS Enhancer</TargetName>
+    <TargetName>HSEnhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
@@ -188,7 +188,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <Optimization>MaxSpeed</Optimization>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
     </ClCompile>
@@ -224,7 +224,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <Optimization>MaxSpeed</Optimization>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
     </ClCompile>
@@ -299,6 +299,7 @@
     <ClInclude Include="include\Menu\ICollapsibleSection.h" />
     <ClInclude Include="include\Menu\IMenuFunction.h" />
     <ClInclude Include="include\Menu\MenuManager.h" />
+    <ClInclude Include="include\Menu\SectionConfig.h" />
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\ItemSection.h" />
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\WorldSection.h" />
