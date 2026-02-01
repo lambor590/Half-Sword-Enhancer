@@ -76,61 +76,18 @@ jobs:
             echo "$CHANGELOG" > accumulated_changelog.txt
           fi
 
-      - name: Polish changelog
-        id: ai_changelog
-        if: steps.fetch_dev.outputs.has_dev_changelog == 'true'
-        uses: anthropics/claude-code-action@v1
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          prompt: |
-            <role>
-            Create the changelog for a stable release of Half Sword Enhancer.
-            </role>
-
-            <task>
-            Read accumulated_changelog.txt (dev build changelog) and consolidate it.
-            </task>
-
-            <rules>
-            1. Merge related entries: "New X" + "Improved X UI" + "Fixed X crash" → "Added X"
-            2. If something is new and improved in the same cycle, only show as new
-            3. Remove duplicates and redundant entries
-            4. Remove [Internal] changes unless they have user impact
-            5. Group by feature area, one line per feature
-            </rules>
-
-            <format>
-            ## New Features
-            - [Category] Description
-
-            ## Bug Fixes
-            - [Category] Description
-
-            ## Improvements
-            - [Category] Description
-
-            Categories: Spawner, Graphics, Player, Controls, Equipment, World, NPCs, Launcher, Mod
-            Omit empty sections.
-            </format>
-          claude_args: |
-            --model claude-opus-4-5-20251101
-            --allowedTools "Read"
-            --json-schema '{"type":"object","properties":{"changelog":{"type":"string","description":"Polished changelog for stable release"}},"required":["changelog"]}'
-
-      - name: Process output
-        id: process
+      - name: Validate changelog
         env:
-          AI_OUTPUT: ${{ steps.ai_changelog.outputs.structured_output }}
           HAS_DEV: ${{ steps.fetch_dev.outputs.has_dev_changelog }}
         run: |
           [ "$HAS_DEV" != "true" ] && echo "ERROR: dev-latest required" && exit 1
-          echo "$AI_OUTPUT" | jq -e -r '.changelog' > polished_changelog.txt || { echo "ERROR: Invalid AI output"; exit 1; }
+          cp accumulated_changelog.txt changelog.txt
 
       - name: Upload changelog artifact
         uses: actions/upload-artifact@v6
         with:
           name: changelog-file
-          path: polished_changelog.txt
+          path: changelog.txt
           retention-days: 1
 
   build:
@@ -191,9 +148,35 @@ jobs:
       - name: Create release
         run: |
           {
-            cat changelog_files/polished_changelog.txt 2>/dev/null
+            cat changelog_files/changelog.txt 2>/dev/null
             echo -e "\n---"
             echo "See [README](https://github.com/${{ github.repository }}#installation) for installation instructions."
           } > release_body.md
 
           gh release create "$VERSION" --repo "${{ github.repository }}" --title "$VERSION" --draft --notes-file release_body.md release_files/*
+
+      - name: Reset dev changelog
+        run: |
+          gh release edit dev-latest --repo "${{ github.repository }}" --notes "$(cat <<'EOF'
+          > [!WARNING]
+          > **Development Build** — May contain bugs or incomplete features
+
+          *No changes since ${{ env.VERSION }}*
+
+          ## Installation
+
+          <details>
+          <summary><b>Quick Install (Recommended)</b></summary>
+
+          1. Download `HSEnhancer.dll`
+          2. Drag onto the Launcher executable
+          </details>
+
+          <details>
+          <summary><b>Manual Install</b></summary>
+
+          1. Download `HSEnhancer.zip`
+          2. Extract and follow instructions in README
+          </details>
+          EOF
+          )" || echo "WARNING: Could not reset dev-latest changelog"
