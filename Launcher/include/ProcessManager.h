@@ -61,7 +61,7 @@ namespace hse {
 
     private:
         static constexpr std::string_view GAME_WINDOW_CLASS = "UnrealWindow";
-        static constexpr std::string_view STEAM_GAME_URL = "steam://rungameid/2642680";
+        static constexpr std::string_view STEAM_GAME_URL = "steam://rungameid/2397300";
         static constexpr std::chrono::milliseconds INJECTION_TIMEOUT{ 10000 };
         static constexpr std::chrono::seconds MAX_GAME_WAIT_TIME{ 60 };
 
