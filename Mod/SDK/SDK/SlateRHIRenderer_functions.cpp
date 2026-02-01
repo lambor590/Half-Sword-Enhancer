@@ -17,34 +17,6 @@
 namespace SDK
 {
 
-// Function SlateRHIRenderer.SlateFXSubsystem.GetSlatePostProcessor
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// ESlatePostRT                            InPostBufferBit                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class USlateRHIPostBufferProcessor*     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-class USlateRHIPostBufferProcessor* USlateFXSubsystem::GetSlatePostProcessor(ESlatePostRT InPostBufferBit)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("SlateFXSubsystem", "GetSlatePostProcessor");
-
-	Params::SlateFXSubsystem_GetSlatePostProcessor Parms{};
-
-	Parms.InPostBufferBit = InPostBufferBit;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
 // Function SlateRHIRenderer.SlateRHIRendererSettings.GetMutableSlatePostSetting
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
@@ -87,6 +59,34 @@ const struct FSlatePostSettings USlateRHIRendererSettings::GetSlatePostSetting(E
 		Func = Class->GetFunction("SlateRHIRendererSettings", "GetSlatePostSetting");
 
 	Params::SlateRHIRendererSettings_GetSlatePostSetting Parms{};
+
+	Parms.InPostBufferBit = InPostBufferBit;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function SlateRHIRenderer.SlateFXSubsystem.GetSlatePostProcessor
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// ESlatePostRT                            InPostBufferBit                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class USlateRHIPostBufferProcessor*     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class USlateRHIPostBufferProcessor* USlateFXSubsystem::GetSlatePostProcessor(ESlatePostRT InPostBufferBit)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("SlateFXSubsystem", "GetSlatePostProcessor");
+
+	Params::SlateFXSubsystem_GetSlatePostProcessor Parms{};
 
 	Parms.InPostBufferBit = InPostBufferBit;
 

@@ -706,61 +706,6 @@ void UTypedElementListLibrary::Shrink(const struct FScriptTypedElementListProxy&
 }
 
 
-// Function TypedElementFramework.TypedElementRegistry.GetInstance
-// (Final, RequiredAPI, Native, Static, Public, BlueprintCallable, BlueprintPure)
-// Parameters:
-// class UTypedElementRegistry*            ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-class UTypedElementRegistry* UTypedElementRegistry::GetInstance()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("TypedElementRegistry", "GetInstance");
-
-	Params::TypedElementRegistry_GetInstance Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function TypedElementFramework.TypedElementRegistry.GetElementInterface
-// (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const TSubclassOf<class IInterface>     InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UObject*                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-class UObject* UTypedElementRegistry::GetElementInterface(const struct FScriptTypedElementHandle& InElementHandle, const TSubclassOf<class IInterface> InBaseInterfaceType) const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("TypedElementRegistry", "GetElementInterface");
-
-	Params::TypedElementRegistry_GetElementInterface Parms{};
-
-	Parms.InElementHandle = std::move(InElementHandle);
-	Parms.InBaseInterfaceType = InBaseInterfaceType;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
 // Function TypedElementFramework.TestTypedElementInterfaceA.GetDisplayName
 // (Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
@@ -870,6 +815,61 @@ bool ITestTypedElementInterfaceC::GetIsTested(const struct FScriptTypedElementHa
 	Func->FunctionFlags |= 0x400;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function TypedElementFramework.TypedElementRegistry.GetInstance
+// (Final, RequiredAPI, Native, Static, Public, BlueprintCallable, BlueprintPure)
+// Parameters:
+// class UTypedElementRegistry*            ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UTypedElementRegistry* UTypedElementRegistry::GetInstance()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("TypedElementRegistry", "GetInstance");
+
+	Params::TypedElementRegistry_GetInstance Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function TypedElementFramework.TypedElementRegistry.GetElementInterface
+// (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// const struct FScriptTypedElementHandle& InElementHandle                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// const TSubclassOf<class IInterface>     InBaseInterfaceType                                    (ConstParm, Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UObject*                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UObject* UTypedElementRegistry::GetElementInterface(const struct FScriptTypedElementHandle& InElementHandle, const TSubclassOf<class IInterface> InBaseInterfaceType) const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("TypedElementRegistry", "GetElementInterface");
+
+	Params::TypedElementRegistry_GetElementInterface Parms{};
+
+	Parms.InElementHandle = std::move(InElementHandle);
+	Parms.InBaseInterfaceType = InBaseInterfaceType;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 

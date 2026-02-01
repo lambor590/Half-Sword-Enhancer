@@ -1675,31 +1675,6 @@ bool UPaperTileMapComponent::OwnsTileMap() const
 }
 
 
-// Function Paper2D.PaperTerrainComponent.SetTerrainColor
-// (Final, Native, Public, HasDefaults, BlueprintCallable)
-// Parameters:
-// const struct FLinearColor&              NewColor                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UPaperTerrainComponent::SetTerrainColor(const struct FLinearColor& NewColor)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("PaperTerrainComponent", "SetTerrainColor");
-
-	Params::PaperTerrainComponent_SetTerrainColor Parms{};
-
-	Parms.NewColor = std::move(NewColor);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
 // Function Paper2D.TileMapBlueprintLibrary.BreakTile
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
@@ -1834,6 +1809,31 @@ struct FPaperTileInfo UTileMapBlueprintLibrary::MakeTile(int32 TileIndex, class 
 	Func->FunctionFlags = Flgs;
 
 	return Parms.ReturnValue;
+}
+
+
+// Function Paper2D.PaperTerrainComponent.SetTerrainColor
+// (Final, Native, Public, HasDefaults, BlueprintCallable)
+// Parameters:
+// const struct FLinearColor&              NewColor                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UPaperTerrainComponent::SetTerrainColor(const struct FLinearColor& NewColor)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("PaperTerrainComponent", "SetTerrainColor");
+
+	Params::PaperTerrainComponent_SetTerrainColor Parms{};
+
+	Parms.NewColor = std::move(NewColor);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
 }
 
 }

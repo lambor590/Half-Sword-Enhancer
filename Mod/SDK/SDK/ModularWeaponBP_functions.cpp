@@ -259,20 +259,6 @@ void AModularWeaponBP_C::Collision_Hit(class UPrimitiveComponent* Hit_Component,
 }
 
 
-// Function ModularWeaponBP.ModularWeaponBP_C.Event Enable Last Parent Collision
-// (BlueprintCallable, BlueprintEvent)
-
-void AModularWeaponBP_C::Event_Enable_Last_Parent_Collision()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Event Enable Last Parent Collision");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function ModularWeaponBP.ModularWeaponBP_C.ExecuteUbergraph_ModularWeaponBP
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -369,6 +355,20 @@ void AModularWeaponBP_C::Release_All_Jammed_Bones()
 }
 
 
+// Function ModularWeaponBP.ModularWeaponBP_C.ReSpawn Weapon Parts Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::ReSpawn_Weapon_Parts_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModularWeaponBP_C", "ReSpawn Weapon Parts Event");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function ModularWeaponBP.ModularWeaponBP_C.Set Up Module
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -401,6 +401,34 @@ void AModularWeaponBP_C::Set_Up_Module(class UStaticMeshComponent* Part, class U
 }
 
 
+// Function ModularWeaponBP.ModularWeaponBP_C.Set Weapon Damping Drop
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Set_Weapon_Damping_Drop()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModularWeaponBP_C", "Set Weapon Damping Drop");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function ModularWeaponBP.ModularWeaponBP_C.Set Weapon Damping Pick Up
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Set_Weapon_Damping_Pick_Up()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModularWeaponBP_C", "Set Weapon Damping Pick Up");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function ModularWeaponBP.ModularWeaponBP_C.Sheathed Mode
 // (BlueprintCallable, BlueprintEvent)
 
@@ -422,11 +450,12 @@ void AModularWeaponBP_C::Sheathed_Mode()
 // class UClass*                           InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class UClass*                           Sub_Module_I                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class UClass*                           Sub_Module_II                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// double                                  Custom_Mass_Scale                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class AModular_Weapon_Part_Master_C*    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash)
 // class AModular_Weapon_Part_Master_C**   Sub_Module_1                                           (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class AModular_Weapon_Part_Master_C**   Sub_Module_2                                           (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-class AModular_Weapon_Part_Master_C* AModularWeaponBP_C::Spawn_Module(const struct FVector& Scale, class UClass* InputPin, class UClass* Sub_Module_I, class UClass* Sub_Module_II, class AModular_Weapon_Part_Master_C** Sub_Module_1, class AModular_Weapon_Part_Master_C** Sub_Module_2)
+class AModular_Weapon_Part_Master_C* AModularWeaponBP_C::Spawn_Module(const struct FVector& Scale, class UClass* InputPin, class UClass* Sub_Module_I, class UClass* Sub_Module_II, double Custom_Mass_Scale, class AModular_Weapon_Part_Master_C** Sub_Module_1, class AModular_Weapon_Part_Master_C** Sub_Module_2)
 {
 	static class UFunction* Func = nullptr;
 
@@ -439,6 +468,7 @@ class AModular_Weapon_Part_Master_C* AModularWeaponBP_C::Spawn_Module(const stru
 	Parms.InputPin = InputPin;
 	Parms.Sub_Module_I = Sub_Module_I;
 	Parms.Sub_Module_II = Sub_Module_II;
+	Parms.Custom_Mass_Scale = Custom_Mass_Scale;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -461,6 +491,20 @@ void AModularWeaponBP_C::Temporary_Disable_Damage()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("ModularWeaponBP_C", "Temporary Disable Damage");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function ModularWeaponBP.ModularWeaponBP_C.Temporary High Collsion Threshold
+// (BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_C::Temporary_High_Collsion_Threshold()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModularWeaponBP_C", "Temporary High Collsion Threshold");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

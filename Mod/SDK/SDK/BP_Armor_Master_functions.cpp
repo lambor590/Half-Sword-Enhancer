@@ -17,6 +17,34 @@
 namespace SDK
 {
 
+// Function BP_Armor_Master.BP_Armor_Master_C.BndEvt__BP_Armor_Master_Armor Mesh Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// (HasOutParams, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+
+void ABP_Armor_Master_C::BndEvt__BP_Armor_Master_Armor_Mesh_Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Armor_Master_C", "BndEvt__BP_Armor_Master_Armor Mesh Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+
+	Params::BP_Armor_Master_C_BndEvt__BP_Armor_Master_Armor_Mesh_Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
+
+	Parms.HitComponent = HitComponent;
+	Parms.OtherActor = OtherActor;
+	Parms.OtherComp = OtherComp;
+	Parms.NormalImpulse = std::move(NormalImpulse);
+	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Armor_Master.BP_Armor_Master_C.BndEvt__BP_Armor_Master_Armor Mesh Static_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -45,34 +73,6 @@ void ABP_Armor_Master_C::BndEvt__BP_Armor_Master_Armor_Mesh_Static_K2Node_Compon
 }
 
 
-// Function BP_Armor_Master.BP_Armor_Master_C.BndEvt__BP_Armor_Master_Armor Mesh_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
-// (HasOutParams, BlueprintEvent)
-// Parameters:
-// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
-
-void ABP_Armor_Master_C::BndEvt__BP_Armor_Master_Armor_Mesh_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Master_C", "BndEvt__BP_Armor_Master_Armor Mesh_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
-
-	Params::BP_Armor_Master_C_BndEvt__BP_Armor_Master_Armor_Mesh_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
-
-	Parms.HitComponent = HitComponent;
-	Parms.OtherActor = OtherActor;
-	Parms.OtherComp = OtherComp;
-	Parms.NormalImpulse = std::move(NormalImpulse);
-	Parms.Hit = std::move(Hit);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function BP_Armor_Master.BP_Armor_Master_C.ExecuteUbergraph_BP_Armor_Master
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -90,6 +90,20 @@ void ABP_Armor_Master_C::ExecuteUbergraph_BP_Armor_Master(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Armor_Master.BP_Armor_Master_C.Recalculate Weight
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_Armor_Master_C::Recalculate_Weight()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Armor_Master_C", "Recalculate Weight");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

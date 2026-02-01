@@ -177,9 +177,9 @@ void UClothingSimulationInteractor::SetNumIterations(int32 NumIterations)
 // Function ClothingSystemRuntimeInterface.ClothingSimulationInteractor.SetNumSubsteps
 // (RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
-// int32                                   NumSubsteps                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   NumSubSteps                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UClothingSimulationInteractor::SetNumSubsteps(int32 NumSubsteps)
+void UClothingSimulationInteractor::SetNumSubsteps(int32 NumSubSteps)
 {
 	static class UFunction* Func = nullptr;
 
@@ -188,7 +188,7 @@ void UClothingSimulationInteractor::SetNumSubsteps(int32 NumSubsteps)
 
 	Params::ClothingSimulationInteractor_SetNumSubsteps Parms{};
 
-	Parms.NumSubsteps = NumSubsteps;
+	Parms.NumSubSteps = NumSubSteps;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;

@@ -91,12 +91,12 @@ void UIKRigComponent::SetIKRigGoal(const struct FIKRigGoal& Goal)
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // const class FName                       GoalName                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FVector&                   Position                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   position                                               (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FQuat&                     Rotation                                               (ConstParm, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const float                             PositionAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const float                             RotationAlpha                                          (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UIKRigComponent::SetIKRigGoalPositionAndRotation(const class FName GoalName, const struct FVector& Position, const struct FQuat& Rotation, const float PositionAlpha, const float RotationAlpha)
+void UIKRigComponent::SetIKRigGoalPositionAndRotation(const class FName GoalName, const struct FVector& position, const struct FQuat& Rotation, const float PositionAlpha, const float RotationAlpha)
 {
 	static class UFunction* Func = nullptr;
 
@@ -106,7 +106,7 @@ void UIKRigComponent::SetIKRigGoalPositionAndRotation(const class FName GoalName
 	Params::IKRigComponent_SetIKRigGoalPositionAndRotation Parms{};
 
 	Parms.GoalName = GoalName;
-	Parms.Position = std::move(Position);
+	Parms.position = std::move(position);
 	Parms.Rotation = std::move(Rotation);
 	Parms.PositionAlpha = PositionAlpha;
 	Parms.RotationAlpha = RotationAlpha;

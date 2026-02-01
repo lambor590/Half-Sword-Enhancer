@@ -287,19 +287,19 @@ void UUI_GoreSettings_C::ExecuteUbergraph_UI_GoreSettings(int32 EntryPoint)
 }
 
 
-// Function UI_GoreSettings.UI_GoreSettings_C.Get_BoneSnappingSlid_Value
+// Function UI_GoreSettings.UI_GoreSettings_C.Get Gore Value
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-float UUI_GoreSettings_C::Get_BoneSnappingSlid_Value()
+float UUI_GoreSettings_C::Get_Gore_Value()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "Get_BoneSnappingSlid_Value");
+		Func = Class->GetFunction("UI_GoreSettings_C", "Get Gore Value");
 
-	Params::UI_GoreSettings_C_Get_BoneSnappingSlid_Value Parms{};
+	Params::UI_GoreSettings_C_Get_Gore_Value Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -400,26 +400,6 @@ float UUI_GoreSettings_C::GetValue()
 		Func = Class->GetFunction("UI_GoreSettings_C", "GetValue");
 
 	Params::UI_GoreSettings_C_GetValue Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_GoreSettings.UI_GoreSettings_C.GetValue_0
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-float UUI_GoreSettings_C::GetValue_0()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GoreSettings_C", "GetValue_0");
-
-	Params::UI_GoreSettings_C_GetValue_0 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 

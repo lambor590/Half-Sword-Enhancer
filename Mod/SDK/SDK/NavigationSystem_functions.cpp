@@ -862,40 +862,6 @@ void UNavRelevantComponent::SetNavigationRelevancy(bool bRelevant)
 }
 
 
-// Function NavigationSystem.RecastNavMesh.K2_ReplaceAreaInTileBounds
-// (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
-// Parameters:
-// const struct FBox&                      Bounds                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-// TSubclassOf<class UNavArea>             OldArea                                                (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TSubclassOf<class UNavArea>             NewArea                                                (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReplaceLinks                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool ARecastNavMesh::K2_ReplaceAreaInTileBounds(const struct FBox& Bounds, TSubclassOf<class UNavArea> OldArea, TSubclassOf<class UNavArea> NewArea, bool ReplaceLinks)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("RecastNavMesh", "K2_ReplaceAreaInTileBounds");
-
-	Params::RecastNavMesh_K2_ReplaceAreaInTileBounds Parms{};
-
-	Parms.Bounds = std::move(Bounds);
-	Parms.OldArea = OldArea;
-	Parms.NewArea = NewArea;
-	Parms.ReplaceLinks = ReplaceLinks;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
 // Function NavigationSystem.NavModifierComponent.SetAreaClass
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
@@ -943,6 +909,40 @@ void ANavModifierVolume::SetAreaClass(TSubclassOf<class UNavArea> NewAreaClass)
 	UObject::ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
+}
+
+
+// Function NavigationSystem.RecastNavMesh.K2_ReplaceAreaInTileBounds
+// (Final, RequiredAPI, Native, Public, HasDefaults, BlueprintCallable)
+// Parameters:
+// const struct FBox&                      Bounds                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+// TSubclassOf<class UNavArea>             OldArea                                                (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TSubclassOf<class UNavArea>             NewArea                                                (Parm, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReplaceLinks                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool ARecastNavMesh::K2_ReplaceAreaInTileBounds(const struct FBox& Bounds, TSubclassOf<class UNavArea> OldArea, TSubclassOf<class UNavArea> NewArea, bool ReplaceLinks)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("RecastNavMesh", "K2_ReplaceAreaInTileBounds");
+
+	Params::RecastNavMesh_K2_ReplaceAreaInTileBounds Parms{};
+
+	Parms.Bounds = std::move(Bounds);
+	Parms.OldArea = OldArea;
+	Parms.NewArea = NewArea;
+	Parms.ReplaceLinks = ReplaceLinks;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
 }
 
 }

@@ -65,6 +65,26 @@ void AAI_BP_C::ExecuteUbergraph_AI_BP(int32 EntryPoint)
 }
 
 
+// Function AI_BP.AI_BP_C.Get Insulted
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class AWillie_BP_C*                     Other_Guy                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AAI_BP_C::Get_Insulted(class AWillie_BP_C* Other_Guy)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Get Insulted");
+
+	Params::AI_BP_C_Get_Insulted Parms{};
+
+	Parms.Other_Guy = Other_Guy;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function AI_BP.AI_BP_C.Minus Attack Intent
 // (BlueprintCallable, BlueprintEvent)
 
