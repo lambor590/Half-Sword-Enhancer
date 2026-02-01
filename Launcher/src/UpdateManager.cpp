@@ -386,10 +386,6 @@ namespace hse {
             Logger::info("Dev launcher update available. Timestamp: " + info.launcherTimestamp);
         }
 
-        if (!info.modUpdateAvailable && !info.launcherUpdateAvailable) {
-            Logger::info("Dev build is up to date");
-        }
-
         return info;
     }
 
