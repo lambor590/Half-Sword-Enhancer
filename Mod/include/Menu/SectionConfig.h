@@ -5,7 +5,6 @@
 namespace SectionConfig {
 
     struct PlayerConfig {
-        int saveLoadoutKey = 0x54; // T
         int infiniteStaminaKey = 0x49; // I
         int infiniteConsciousnessKey = -1;
         int enemyInfiniteConsciousnessKey = -1;
