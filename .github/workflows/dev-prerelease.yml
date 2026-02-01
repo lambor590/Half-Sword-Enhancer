@@ -151,16 +151,11 @@ jobs:
   build:
     needs: changelog
     if: needs.changelog.outputs.has_changes == 'true'
-    runs-on: windows-latest
+    runs-on: windows-2025
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
       - uses: microsoft/setup-msbuild@v2
-
-      - name: Install VS 2026 Build Tools
-        shell: pwsh
-        run: |
-          choco install visualstudio2026buildtools --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --quiet --wait --norestart" -y --no-progress
 
       - name: Build Mod and Proxy
         if: needs.changelog.outputs.build_mod == 'true'
