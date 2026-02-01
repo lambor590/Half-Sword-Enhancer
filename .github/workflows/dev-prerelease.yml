@@ -110,15 +110,6 @@ jobs:
             3. One sentence per entry
             4. Merge multi-commit features into single entries
             </rules>
-
-            <output_schema>
-            {
-              "new_features": [{"category": "...", "description": "..."}],
-              "improvements": [{"category": "...", "description": "..."}],
-              "bug_fixes": [{"category": "...", "description": "..."}],
-              "other_changes": [{"category": "...", "description": "..."}]
-            }
-            </output_schema>
           claude_args: |
             --model claude-opus-4-5-20251101
             --allowedTools "Read,Glob,Grep,Task,Bash(cat:*),Bash(head:*),Bash(ls:*)"
