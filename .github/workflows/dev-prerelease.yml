@@ -159,7 +159,7 @@ jobs:
       - name: Install VS 2026 Build Tools
         shell: pwsh
         run: |
-          Invoke-WebRequest -Uri "https://aka.ms/vs/18/release/vs_buildtools.exe" -OutFile vs_buildtools.exe
+          Invoke-WebRequest -Uri "https://aka.ms/vs/18/stable/vs_buildtools.exe" -OutFile vs_buildtools.exe
           Start-Process -Wait -FilePath .\vs_buildtools.exe -ArgumentList "--quiet","--wait","--norestart","--nocache","--add","Microsoft.VisualStudio.Workload.VCTools","--includeRecommended"
           if ($LASTEXITCODE -eq 3010) { Write-Host "Reboot requested - continuing"; $global:LASTEXITCODE = 0 }
           if ($LASTEXITCODE -ne 0) { throw "VS 2026 Build Tools installation failed (exit code $LASTEXITCODE)" }
