@@ -2244,68 +2244,6 @@ TArray<struct FKey> IEnhancedInputSubsystemInterface::QueryKeysMappedToAction(co
 }
 
 
-// Function EnhancedInput.InputModifier.GetVisualizationColor
-// (Native, Event, Public, HasDefaults, BlueprintEvent, Const)
-// Parameters:
-// const struct FInputActionValue&         SampleValue                                            (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// const struct FInputActionValue&         FinalValue                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-struct FLinearColor UInputModifier::GetVisualizationColor(const struct FInputActionValue& SampleValue, const struct FInputActionValue& FinalValue) const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("InputModifier", "GetVisualizationColor");
-
-	Params::InputModifier_GetVisualizationColor Parms{};
-
-	Parms.SampleValue = std::move(SampleValue);
-	Parms.FinalValue = std::move(FinalValue);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function EnhancedInput.InputModifier.ModifyRaw
-// (Native, Event, Public, BlueprintCallable, BlueprintEvent, BlueprintPure, Const)
-// Parameters:
-// const class UEnhancedPlayerInput*       PlayerInput                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FInputActionValue&         CurrentValue                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// float                                   DeltaTime                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FInputActionValue                ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
-
-struct FInputActionValue UInputModifier::ModifyRaw(const class UEnhancedPlayerInput* PlayerInput, const struct FInputActionValue& CurrentValue, float DeltaTime) const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("InputModifier", "ModifyRaw");
-
-	Params::InputModifier_ModifyRaw Parms{};
-
-	Parms.PlayerInput = PlayerInput;
-	Parms.CurrentValue = std::move(CurrentValue);
-	Parms.DeltaTime = DeltaTime;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
 // Function EnhancedInput.EnhancedInputWorldSubsystem.AddActorInputComponent
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
@@ -2482,6 +2420,68 @@ void UInputMappingContext::UnmapKey(const class UInputAction* Action, const stru
 	UObject::ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
+}
+
+
+// Function EnhancedInput.InputModifier.GetVisualizationColor
+// (Native, Event, Public, HasDefaults, BlueprintEvent, Const)
+// Parameters:
+// const struct FInputActionValue&         SampleValue                                            (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// const struct FInputActionValue&         FinalValue                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+struct FLinearColor UInputModifier::GetVisualizationColor(const struct FInputActionValue& SampleValue, const struct FInputActionValue& FinalValue) const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("InputModifier", "GetVisualizationColor");
+
+	Params::InputModifier_GetVisualizationColor Parms{};
+
+	Parms.SampleValue = std::move(SampleValue);
+	Parms.FinalValue = std::move(FinalValue);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function EnhancedInput.InputModifier.ModifyRaw
+// (Native, Event, Public, BlueprintCallable, BlueprintEvent, BlueprintPure, Const)
+// Parameters:
+// const class UEnhancedPlayerInput*       PlayerInput                                            (ConstParm, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FInputActionValue&         CurrentValue                                           (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// float                                   DeltaTime                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FInputActionValue                ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
+
+struct FInputActionValue UInputModifier::ModifyRaw(const class UEnhancedPlayerInput* PlayerInput, const struct FInputActionValue& CurrentValue, float DeltaTime) const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("InputModifier", "ModifyRaw");
+
+	Params::InputModifier_ModifyRaw Parms{};
+
+	Parms.PlayerInput = PlayerInput;
+	Parms.CurrentValue = std::move(CurrentValue);
+	Parms.DeltaTime = DeltaTime;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
 }
 
 

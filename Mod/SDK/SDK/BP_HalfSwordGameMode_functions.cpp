@@ -17,20 +17,6 @@
 namespace SDK
 {
 
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Abyss Starts
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::Abyss_Starts()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Abyss Starts");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Add Rank Points
 // (Public, BlueprintCallable, BlueprintEvent)
 
@@ -45,15 +31,15 @@ void ABP_HalfSwordGameMode_C::Add_Rank_Points()
 }
 
 
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Clear Save Game Event
+// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Clear Proxy Model Locations
 // (BlueprintCallable, BlueprintEvent)
 
-void ABP_HalfSwordGameMode_C::Clear_Save_Game_Event()
+void ABP_HalfSwordGameMode_C::Clear_Proxy_Model_Locations()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Clear Save Game Event");
+		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Clear Proxy Model Locations");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -93,90 +79,6 @@ void ABP_HalfSwordGameMode_C::ExecuteUbergraph_BP_HalfSwordGameMode(int32 EntryP
 }
 
 
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.GM CT
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::GM_CT()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "GM CT");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.GM Duel
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::GM_Duel()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "GM Duel");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.GM FFA
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::GM_FFA()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "GM FFA");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.GM OVA
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::GM_OVA()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "GM OVA");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.GM TDM
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::GM_TDM()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "GM TDM");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Load Game Event
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::Load_Game_Event()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Load Game Event");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Minus Enemy
 // (Public, BlueprintCallable, BlueprintEvent)
 
@@ -186,6 +88,20 @@ void ABP_HalfSwordGameMode_C::Minus_Enemy()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Minus Enemy");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Multiplayer Match Win Check
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_HalfSwordGameMode_C::Multiplayer_Match_Win_Check()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Multiplayer Match Win Check");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -236,34 +152,6 @@ void ABP_HalfSwordGameMode_C::ReceiveTick(float DeltaSeconds)
 	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Restart Music
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::Restart_Music()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Restart Music");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Save Game Event
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_HalfSwordGameMode_C::Save_Game_Event()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Save Game Event");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

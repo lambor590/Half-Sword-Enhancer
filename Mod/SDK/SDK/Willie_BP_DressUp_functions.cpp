@@ -70,5 +70,41 @@ void AWillie_BP_DressUp_C::ReceiveTick(float DeltaSeconds)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
+
+// Function Willie_BP_DressUp.Willie_BP_DressUp_C.Set Up Armor
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Clear_Previous                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    No_Check_Block__Kostyl__                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_DressUp_C::Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl__)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_DressUp_C", "Set Up Armor");
+
+	Params::Willie_BP_DressUp_C_Set_Up_Armor Parms{};
+
+	Parms.Clear_Previous = Clear_Previous;
+	Parms.No_Check_Block__Kostyl__ = No_Check_Block__Kostyl__;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP_DressUp.Willie_BP_DressUp_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_DressUp_C::UserConstructionScript()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_DressUp_C", "UserConstructionScript");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
 }
 

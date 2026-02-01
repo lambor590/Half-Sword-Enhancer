@@ -61,10 +61,11 @@ void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struc
 // class UPrimitiveComponent*              Hit_By_Component                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // bool                                    Stab_                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    Hit_Box                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// bool                                    Ignore_Invincibility                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Pain_Rate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Hit_Flesh                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double*                                 Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, bool Ignore_Invincibility, double* Damage_Out)
+void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double* Damage_Out)
 {
 	static class UFunction* Func = nullptr;
 
@@ -88,7 +89,8 @@ void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct
 	Parms.Hit_By_Component = Hit_By_Component;
 	Parms.Stab_ = Stab_;
 	Parms.Hit_Box = Hit_Box;
-	Parms.Ignore_Invincibility = Ignore_Invincibility;
+	Parms.Pain_Rate = Pain_Rate;
+	Parms.Hit_Flesh = Hit_Flesh;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 

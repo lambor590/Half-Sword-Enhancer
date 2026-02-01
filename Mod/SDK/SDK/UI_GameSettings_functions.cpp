@@ -191,23 +191,45 @@ void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_0_K2Node_ComponentBoun
 }
 
 
-// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
-// Parameters:
-// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_GameSettings_C::BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature");
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
 
-	Params::UI_GameSettings_C_BndEvt__UI_GameSettings_CheckBox_K2Node_ComponentBoundEvent_4_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.bIsChecked = bIsChecked;
 
-	UObject::ProcessEvent(Func, &Parms);
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GameSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GameSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -333,26 +355,6 @@ void UUI_GameSettings_C::ExecuteUbergraph_UI_GameSettings(int32 EntryPoint)
 }
 
 
-// Function UI_GameSettings.UI_GameSettings_C.Get_BoneSnappingSlid_Value
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-float UUI_GameSettings_C::Get_BoneSnappingSlid_Value()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "Get_BoneSnappingSlid_Value");
-
-	Params::UI_GameSettings_C_Get_BoneSnappingSlid_Value Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
 // Function UI_GameSettings.UI_GameSettings_C.Get_Slider_DamagePlayer_Value
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -406,26 +408,6 @@ ECheckBoxState UUI_GameSettings_C::GetCheckedState()
 		Func = Class->GetFunction("UI_GameSettings_C", "GetCheckedState");
 
 	Params::UI_GameSettings_C_GetCheckedState Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_GameSettings.UI_GameSettings_C.GetCheckedState_0
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-ECheckBoxState UUI_GameSettings_C::GetCheckedState_0()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_GameSettings_C", "GetCheckedState_0");
-
-	Params::UI_GameSettings_C_GetCheckedState_0 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 

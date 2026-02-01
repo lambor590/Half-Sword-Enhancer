@@ -8332,14 +8332,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::ComputeTriangleBa
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   VertexID                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // TArray<int32>*                          ElementIDs                                             (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // TArray<struct FVector2D>*               ElementUVs                                             (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // bool*                                   bHaveValidUVs                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::GetAllSplitUVsAtVertex(class UDynamicMesh* TargetMesh, int32 UVSetIndex, int32 VertexID, TArray<int32>* ElementIDs, TArray<struct FVector2D>* ElementUVs, bool* bHaveValidUVs)
+class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::GetAllSplitUVsAtVertex(class UDynamicMesh* TargetMesh, int32 UvSetIndex, int32 VertexID, TArray<int32>* ElementIDs, TArray<struct FVector2D>* ElementUVs, bool* bHaveValidUVs)
 {
 	static class UFunction* Func = nullptr;
 
@@ -8349,7 +8349,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::GetAllSplitUVsAtV
 	Params::GeometryScriptLibrary_MeshQueryFunctions_GetAllSplitUVsAtVertex Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.VertexID = VertexID;
 
 	auto Flgs = Func->FunctionFlags;
@@ -8820,14 +8820,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::GetInterpolatedTr
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   TriangleID                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector&                   BarycentricCoords                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bTriHasValidUVs                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D*                       InterpolatedUV                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::GetInterpolatedTriangleUV(class UDynamicMesh* TargetMesh, int32 UVSetIndex, int32 TriangleID, const struct FVector& BarycentricCoords, bool* bTriHasValidUVs, struct FVector2D* InterpolatedUV)
+class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::GetInterpolatedTriangleUV(class UDynamicMesh* TargetMesh, int32 UvSetIndex, int32 TriangleID, const struct FVector& BarycentricCoords, bool* bTriHasValidUVs, struct FVector2D* InterpolatedUV)
 {
 	static class UFunction* Func = nullptr;
 
@@ -8837,7 +8837,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::GetInterpolatedTr
 	Params::GeometryScriptLibrary_MeshQueryFunctions_GetInterpolatedTriangleUV Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.TriangleID = TriangleID;
 	Parms.BarycentricCoords = std::move(BarycentricCoords);
 
@@ -9517,14 +9517,14 @@ void UGeometryScriptLibrary_MeshQueryFunctions::GetTrianglePositions(class UDyna
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   TriangleID                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D*                       UV1                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D*                       UV2                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D*                       UV3                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bHaveValidUVs                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UGeometryScriptLibrary_MeshQueryFunctions::GetTriangleUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, int32 TriangleID, struct FVector2D* UV1, struct FVector2D* UV2, struct FVector2D* UV3, bool* bHaveValidUVs)
+void UGeometryScriptLibrary_MeshQueryFunctions::GetTriangleUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, int32 TriangleID, struct FVector2D* UV1, struct FVector2D* UV2, struct FVector2D* UV3, bool* bHaveValidUVs)
 {
 	static class UFunction* Func = nullptr;
 
@@ -9534,7 +9534,7 @@ void UGeometryScriptLibrary_MeshQueryFunctions::GetTriangleUVs(class UDynamicMes
 	Params::GeometryScriptLibrary_MeshQueryFunctions_GetTriangleUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.TriangleID = TriangleID;
 
 	auto Flgs = Func->FunctionFlags;
@@ -9608,12 +9608,12 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshQueryFunctions::GetTriangleVertex
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bIsValidUVSet                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bUVSetIsEmpty                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FBox2D                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
 
-struct FBox2D UGeometryScriptLibrary_MeshQueryFunctions::GetUVSetBoundingBox(class UDynamicMesh* TargetMesh, int32 UVSetIndex, bool* bIsValidUVSet, bool* bUVSetIsEmpty)
+struct FBox2D UGeometryScriptLibrary_MeshQueryFunctions::GetUVSetBoundingBox(class UDynamicMesh* TargetMesh, int32 UvSetIndex, bool* bIsValidUVSet, bool* bUVSetIsEmpty)
 {
 	static class UFunction* Func = nullptr;
 
@@ -9623,7 +9623,7 @@ struct FBox2D UGeometryScriptLibrary_MeshQueryFunctions::GetUVSetBoundingBox(cla
 	Params::GeometryScriptLibrary_MeshQueryFunctions_GetUVSetBoundingBox Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -11261,12 +11261,12 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshSimplifyFunctions::ApplySimplifyT
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   VertexCount                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   vertexcount                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptSimplifyMeshOptions&Options                                                (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshSimplifyFunctions::ApplySimplifyToVertexCount(class UDynamicMesh* TargetMesh, int32 VertexCount, const struct FGeometryScriptSimplifyMeshOptions& Options, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshSimplifyFunctions::ApplySimplifyToVertexCount(class UDynamicMesh* TargetMesh, int32 vertexcount, const struct FGeometryScriptSimplifyMeshOptions& Options, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -11276,7 +11276,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshSimplifyFunctions::ApplySimplifyT
 	Params::GeometryScriptLibrary_MeshSimplifyFunctions_ApplySimplifyToVertexCount Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.VertexCount = VertexCount;
+	Parms.vertexcount = vertexcount;
 	Parms.Options = std::move(Options);
 	Parms.Debug = Debug;
 
@@ -12018,14 +12018,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshTransformFunctions::TranslatePivo
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector2D&                 NewUVPosition                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32*                                  NewUVElementID                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bIsValidUVSet                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bDeferChangeNotifications                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AddUVElementToMesh(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FVector2D& NewUVPosition, int32* NewUVElementID, bool* bIsValidUVSet, bool bDeferChangeNotifications)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AddUVElementToMesh(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FVector2D& NewUVPosition, int32* NewUVElementID, bool* bIsValidUVSet, bool bDeferChangeNotifications)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12035,7 +12035,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AddUVElementToMesh(c
 	Params::GeometryScriptLibrary_MeshUVFunctions_AddUVElementToMesh Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.NewUVPosition = std::move(NewUVPosition);
 	Parms.bDeferChangeNotifications = bDeferChangeNotifications;
 
@@ -12060,12 +12060,12 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AddUVElementToMesh(c
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptPatchBuilderOptions&Options                                                (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AutoGeneratePatchBuilderMeshUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FGeometryScriptPatchBuilderOptions& Options, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AutoGeneratePatchBuilderMeshUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FGeometryScriptPatchBuilderOptions& Options, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12075,7 +12075,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AutoGeneratePatchBui
 	Params::GeometryScriptLibrary_MeshUVFunctions_AutoGeneratePatchBuilderMeshUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.Options = std::move(Options);
 	Parms.Debug = Debug;
 
@@ -12094,12 +12094,12 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AutoGeneratePatchBui
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptXAtlasOptions&Options                                                (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AutoGenerateXAtlasMeshUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FGeometryScriptXAtlasOptions& Options, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AutoGenerateXAtlasMeshUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FGeometryScriptXAtlasOptions& Options, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12109,7 +12109,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::AutoGenerateXAtlasMe
 	Params::GeometryScriptLibrary_MeshUVFunctions_AutoGenerateXAtlasMeshUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.Options = std::move(Options);
 	Parms.Debug = Debug;
 
@@ -12228,7 +12228,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::CopyMeshToMeshUVLaye
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     CopyFromMesh                                           (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*&                    CopyToUVMesh                                           (Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh**                    CopyToUVMeshOut                                        (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bInvalidTopology                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -12236,7 +12236,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::CopyMeshToMeshUVLaye
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::CopyMeshUVLayerToMesh(class UDynamicMesh* CopyFromMesh, int32 UVSetIndex, class UDynamicMesh*& CopyToUVMesh, class UDynamicMesh** CopyToUVMeshOut, bool* bInvalidTopology, bool* bIsValidUVSet, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::CopyMeshUVLayerToMesh(class UDynamicMesh* CopyFromMesh, int32 UvSetIndex, class UDynamicMesh*& CopyToUVMesh, class UDynamicMesh** CopyToUVMeshOut, bool* bInvalidTopology, bool* bIsValidUVSet, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12246,7 +12246,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::CopyMeshUVLayerToMes
 	Params::GeometryScriptLibrary_MeshUVFunctions_CopyMeshUVLayerToMesh Parms{};
 
 	Parms.CopyFromMesh = CopyFromMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.CopyToUVMesh = CopyToUVMesh;
 	Parms.Debug = Debug;
 
@@ -12310,7 +12310,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::CopyUVSet(class UDyn
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FGeometryScriptUVList*           UVList                                                 (Parm, OutParm, NativeAccessSpecifierPublic)
 // bool*                                   bIsValidUVSet                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bHasVertexIDGaps                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -12318,7 +12318,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::CopyUVSet(class UDyn
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshPerVertexUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, struct FGeometryScriptUVList* UVList, bool* bIsValidUVSet, bool* bHasVertexIDGaps, bool* bHasSplitUVs, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshPerVertexUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, struct FGeometryScriptUVList* UVList, bool* bIsValidUVSet, bool* bHasVertexIDGaps, bool* bHasSplitUVs, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12328,7 +12328,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshPerVertexUVs(
 	Params::GeometryScriptLibrary_MeshUVFunctions_GetMeshPerVertexUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.Debug = Debug;
 
 	auto Flgs = Func->FunctionFlags;
@@ -12358,13 +12358,13 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshPerVertexUVs(
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   TriangleID                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FIntVector*                      TriangleUVElements                                     (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bHaveValidUVs                                          (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshTriangleUVElementIDs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, int32 TriangleID, struct FIntVector* TriangleUVElements, bool* bHaveValidUVs)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshTriangleUVElementIDs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, int32 TriangleID, struct FIntVector* TriangleUVElements, bool* bHaveValidUVs)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12374,7 +12374,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshTriangleUVEle
 	Params::GeometryScriptLibrary_MeshUVFunctions_GetMeshTriangleUVElementIDs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.TriangleID = TriangleID;
 
 	auto Flgs = Func->FunctionFlags;
@@ -12398,13 +12398,13 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshTriangleUVEle
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ElementID                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector2D*                       UVPosition                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bIsValidElementID                                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVElementPosition(class UDynamicMesh* TargetMesh, int32 UVSetIndex, int32 ElementID, struct FVector2D* UVPosition, bool* bIsValidElementID)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVElementPosition(class UDynamicMesh* TargetMesh, int32 UvSetIndex, int32 ElementID, struct FVector2D* UVPosition, bool* bIsValidElementID)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12414,7 +12414,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVElementPosi
 	Params::GeometryScriptLibrary_MeshUVFunctions_GetMeshUVElementPosition Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.ElementID = ElementID;
 
 	auto Flgs = Func->FunctionFlags;
@@ -12438,7 +12438,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVElementPosi
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptMeshSelection&Selection                                              (Parm, NativeAccessSpecifierPublic)
 // double*                                 MeshArea                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // double*                                 UVArea                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -12450,7 +12450,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVElementPosi
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVSizeInfo(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FGeometryScriptMeshSelection& Selection, double* MeshArea, double* UVArea, struct FBox* MeshBounds, struct FBox2D* UVBounds, bool* bIsValidUVSet, bool* bFoundUnsetUVs, bool bOnlyIncludeValidUVTris, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVSizeInfo(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FGeometryScriptMeshSelection& Selection, double* MeshArea, double* UVArea, struct FBox* MeshBounds, struct FBox2D* UVBounds, bool* bIsValidUVSet, bool* bFoundUnsetUVs, bool bOnlyIncludeValidUVTris, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12460,7 +12460,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVSizeInfo(cl
 	Params::GeometryScriptLibrary_MeshUVFunctions_GetMeshUVSizeInfo Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.Selection = std::move(Selection);
 	Parms.bOnlyIncludeValidUVTris = bOnlyIncludeValidUVTris;
 	Parms.Debug = Debug;
@@ -12498,13 +12498,13 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::GetMeshUVSizeInfo(cl
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptRecomputeUVsOptions&Options                                                (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptMeshSelection&Selection                                              (Parm, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RecomputeMeshUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FGeometryScriptRecomputeUVsOptions& Options, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RecomputeMeshUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FGeometryScriptRecomputeUVsOptions& Options, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12514,7 +12514,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RecomputeMeshUVs(cla
 	Params::GeometryScriptLibrary_MeshUVFunctions_RecomputeMeshUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.Options = std::move(Options);
 	Parms.Selection = std::move(Selection);
 	Parms.Debug = Debug;
@@ -12534,12 +12534,12 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RecomputeMeshUVs(cla
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptRepackUVsOptions&RepackOptions                                          (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RepackMeshUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FGeometryScriptRepackUVsOptions& RepackOptions, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RepackMeshUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FGeometryScriptRepackUVsOptions& RepackOptions, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12549,7 +12549,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RepackMeshUVs(class 
 	Params::GeometryScriptLibrary_MeshUVFunctions_RepackMeshUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.RepackOptions = std::move(RepackOptions);
 	Parms.Debug = Debug;
 
@@ -12568,14 +12568,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RepackMeshUVs(class 
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   RotationAngle                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector2D&                 RotationOrigin                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptMeshSelection&Selection                                              (Parm, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RotateMeshUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, float RotationAngle, const struct FVector2D& RotationOrigin, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RotateMeshUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, float RotationAngle, const struct FVector2D& RotationOrigin, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12585,7 +12585,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RotateMeshUVs(class 
 	Params::GeometryScriptLibrary_MeshUVFunctions_RotateMeshUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.RotationAngle = RotationAngle;
 	Parms.RotationOrigin = std::move(RotationOrigin);
 	Parms.Selection = std::move(Selection);
@@ -12606,14 +12606,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::RotateMeshUVs(class 
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector2D&                 Scale                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector2D&                 ScaleOrigin                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptMeshSelection&Selection                                              (Parm, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::ScaleMeshUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FVector2D& Scale, const struct FVector2D& ScaleOrigin, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::ScaleMeshUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FVector2D& Scale, const struct FVector2D& ScaleOrigin, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12623,7 +12623,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::ScaleMeshUVs(class U
 	Params::GeometryScriptLibrary_MeshUVFunctions_ScaleMeshUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.Scale = std::move(Scale);
 	Parms.ScaleOrigin = std::move(ScaleOrigin);
 	Parms.Selection = std::move(Selection);
@@ -12644,14 +12644,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::ScaleMeshUVs(class U
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   TriangleID                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FIntVector&                TriangleUVElements                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bIsValidTriangle                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bDeferChangeNotifications                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshTriangleUVElementIDs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, int32 TriangleID, const struct FIntVector& TriangleUVElements, bool* bIsValidTriangle, bool bDeferChangeNotifications)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshTriangleUVElementIDs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, int32 TriangleID, const struct FIntVector& TriangleUVElements, bool* bIsValidTriangle, bool bDeferChangeNotifications)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12661,7 +12661,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshTriangleUVEle
 	Params::GeometryScriptLibrary_MeshUVFunctions_SetMeshTriangleUVElementIDs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.TriangleID = TriangleID;
 	Parms.TriangleUVElements = std::move(TriangleUVElements);
 	Parms.bDeferChangeNotifications = bDeferChangeNotifications;
@@ -12684,14 +12684,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshTriangleUVEle
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   TriangleID                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptUVTriangle& UVs                                                    (Parm, NoDestructor, NativeAccessSpecifierPublic)
 // bool*                                   bIsValidTriangle                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bDeferChangeNotifications                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshTriangleUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, int32 TriangleID, const struct FGeometryScriptUVTriangle& UVs, bool* bIsValidTriangle, bool bDeferChangeNotifications)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshTriangleUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, int32 TriangleID, const struct FGeometryScriptUVTriangle& UVs, bool* bIsValidTriangle, bool bDeferChangeNotifications)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12701,7 +12701,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshTriangleUVs(c
 	Params::GeometryScriptLibrary_MeshUVFunctions_SetMeshTriangleUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.TriangleID = TriangleID;
 	Parms.UVs = std::move(UVs);
 	Parms.bDeferChangeNotifications = bDeferChangeNotifications;
@@ -12724,14 +12724,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshTriangleUVs(c
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ElementID                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector2D&                 NewUVPosition                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bIsValidElementID                                      (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    bDeferChangeNotifications                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVElementPosition(class UDynamicMesh* TargetMesh, int32 UVSetIndex, int32 ElementID, const struct FVector2D& NewUVPosition, bool* bIsValidElementID, bool bDeferChangeNotifications)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVElementPosition(class UDynamicMesh* TargetMesh, int32 UvSetIndex, int32 ElementID, const struct FVector2D& NewUVPosition, bool* bIsValidElementID, bool bDeferChangeNotifications)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12741,7 +12741,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVElementPosi
 	Params::GeometryScriptLibrary_MeshUVFunctions_SetMeshUVElementPosition Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.ElementID = ElementID;
 	Parms.NewUVPosition = std::move(NewUVPosition);
 	Parms.bDeferChangeNotifications = bDeferChangeNotifications;
@@ -12764,14 +12764,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVElementPosi
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FTransform&                BoxTransform                                           (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptMeshSelection&Selection                                              (Parm, NativeAccessSpecifierPublic)
 // int32                                   MinIslandTriCount                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromBoxProjection(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FTransform& BoxTransform, const struct FGeometryScriptMeshSelection& Selection, int32 MinIslandTriCount, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromBoxProjection(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FTransform& BoxTransform, const struct FGeometryScriptMeshSelection& Selection, int32 MinIslandTriCount, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12781,7 +12781,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromBoxPro
 	Params::GeometryScriptLibrary_MeshUVFunctions_SetMeshUVsFromBoxProjection Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.BoxTransform = std::move(BoxTransform);
 	Parms.Selection = std::move(Selection);
 	Parms.MinIslandTriCount = MinIslandTriCount;
@@ -12802,14 +12802,14 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromBoxPro
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FTransform&                CylinderTransform                                      (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptMeshSelection&Selection                                              (Parm, NativeAccessSpecifierPublic)
 // float                                   SplitAngle                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromCylinderProjection(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FTransform& CylinderTransform, const struct FGeometryScriptMeshSelection& Selection, float SplitAngle, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromCylinderProjection(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FTransform& CylinderTransform, const struct FGeometryScriptMeshSelection& Selection, float SplitAngle, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12819,7 +12819,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromCylind
 	Params::GeometryScriptLibrary_MeshUVFunctions_SetMeshUVsFromCylinderProjection Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.CylinderTransform = std::move(CylinderTransform);
 	Parms.Selection = std::move(Selection);
 	Parms.SplitAngle = SplitAngle;
@@ -12840,13 +12840,13 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromCylind
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FTransform&                PlaneTransform                                         (Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptMeshSelection&Selection                                              (Parm, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromPlanarProjection(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FTransform& PlaneTransform, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromPlanarProjection(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FTransform& PlaneTransform, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12856,7 +12856,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetMeshUVsFromPlanar
 	Params::GeometryScriptLibrary_MeshUVFunctions_SetMeshUVsFromPlanarProjection Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.PlaneTransform = std::move(PlaneTransform);
 	Parms.Selection = std::move(Selection);
 	Parms.Debug = Debug;
@@ -12908,13 +12908,13 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::SetNumUVSets(class U
 // (Final, Native, Static, Public, HasDefaults, BlueprintCallable)
 // Parameters:
 // class UDynamicMesh*                     TargetMesh                                             (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   UVSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   UvSetIndex                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector2D&                 Translation                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FGeometryScriptMeshSelection&Selection                                              (Parm, NativeAccessSpecifierPublic)
 // class UGeometryScriptDebug*             Debug                                                  (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class UDynamicMesh*                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::TranslateMeshUVs(class UDynamicMesh* TargetMesh, int32 UVSetIndex, const struct FVector2D& Translation, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
+class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::TranslateMeshUVs(class UDynamicMesh* TargetMesh, int32 UvSetIndex, const struct FVector2D& Translation, const struct FGeometryScriptMeshSelection& Selection, class UGeometryScriptDebug* Debug)
 {
 	static class UFunction* Func = nullptr;
 
@@ -12924,7 +12924,7 @@ class UDynamicMesh* UGeometryScriptLibrary_MeshUVFunctions::TranslateMeshUVs(cla
 	Params::GeometryScriptLibrary_MeshUVFunctions_TranslateMeshUVs Parms{};
 
 	Parms.TargetMesh = TargetMesh;
-	Parms.UVSetIndex = UVSetIndex;
+	Parms.UvSetIndex = UvSetIndex;
 	Parms.Translation = std::move(Translation);
 	Parms.Selection = std::move(Selection);
 	Parms.Debug = Debug;
@@ -13540,10 +13540,10 @@ void UGeometryScriptLibrary_PointSetSamplingFunctions::UnflattenPoints(const TAr
 // (Final, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // struct FGeometryScriptSimplePolygon&    Polygon                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// const struct FVector2D&                 Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-int32 UGeometryScriptLibrary_SimplePolygonFunctions::AddPolygonVertex(struct FGeometryScriptSimplePolygon& Polygon, const struct FVector2D& Position)
+int32 UGeometryScriptLibrary_SimplePolygonFunctions::AddPolygonVertex(struct FGeometryScriptSimplePolygon& Polygon, const struct FVector2D& position)
 {
 	static class UFunction* Func = nullptr;
 
@@ -13553,7 +13553,7 @@ int32 UGeometryScriptLibrary_SimplePolygonFunctions::AddPolygonVertex(struct FGe
 	Params::GeometryScriptLibrary_SimplePolygonFunctions_AddPolygonVertex Parms{};
 
 	Parms.Polygon = std::move(Polygon);
-	Parms.Position = std::move(Position);
+	Parms.position = std::move(position);
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -13898,10 +13898,10 @@ int32 UGeometryScriptLibrary_SimplePolygonFunctions::GetPolygonVertexCount(const
 // Parameters:
 // struct FGeometryScriptSimplePolygon&    Polygon                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // int32                                   VertexIndex                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FVector2D&                 Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector2D&                 position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool*                                   bPolygonIsEmpty                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UGeometryScriptLibrary_SimplePolygonFunctions::SetPolygonVertex(struct FGeometryScriptSimplePolygon& Polygon, int32 VertexIndex, const struct FVector2D& Position, bool* bPolygonIsEmpty)
+void UGeometryScriptLibrary_SimplePolygonFunctions::SetPolygonVertex(struct FGeometryScriptSimplePolygon& Polygon, int32 VertexIndex, const struct FVector2D& position, bool* bPolygonIsEmpty)
 {
 	static class UFunction* Func = nullptr;
 
@@ -13912,7 +13912,7 @@ void UGeometryScriptLibrary_SimplePolygonFunctions::SetPolygonVertex(struct FGeo
 
 	Parms.Polygon = std::move(Polygon);
 	Parms.VertexIndex = VertexIndex;
-	Parms.Position = std::move(Position);
+	Parms.position = std::move(position);
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;

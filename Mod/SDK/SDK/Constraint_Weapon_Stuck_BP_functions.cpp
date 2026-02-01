@@ -121,6 +121,26 @@ void AConstraint_Weapon_Stuck_BP_C::Check_Dismember_2()
 }
 
 
+// Function Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C.Dismemberment Check
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Damage                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AConstraint_Weapon_Stuck_BP_C::Dismemberment_Check(double Damage)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "Dismemberment Check");
+
+	Params::Constraint_Weapon_Stuck_BP_C_Dismemberment_Check Parms{};
+
+	Parms.Damage = Damage;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C.ExecuteUbergraph_Constraint_Weapon_Stuck_BP
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -136,26 +156,6 @@ void AConstraint_Weapon_Stuck_BP_C::ExecuteUbergraph_Constraint_Weapon_Stuck_BP(
 	Params::Constraint_Weapon_Stuck_BP_C_ExecuteUbergraph_Constraint_Weapon_Stuck_BP Parms{};
 
 	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Constraint_Weapon_Stuck_BP.Constraint_Weapon_Stuck_BP_C.NewFunction
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Damage                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AConstraint_Weapon_Stuck_BP_C::NewFunction(double Damage)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Constraint_Weapon_Stuck_BP_C", "NewFunction");
-
-	Params::Constraint_Weapon_Stuck_BP_C_NewFunction Parms{};
-
-	Parms.Damage = Damage;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

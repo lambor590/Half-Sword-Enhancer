@@ -323,26 +323,6 @@ class FText UUI_Pause_Eng_C::Get_ProgressLostText_Text()
 }
 
 
-// Function UI_Pause_Eng.UI_Pause_Eng_C.Get_ProgressLostText_Visibility
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-ESlateVisibility UUI_Pause_Eng_C::Get_ProgressLostText_Visibility()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Pause_Eng_C", "Get_ProgressLostText_Visibility");
-
-	Params::UI_Pause_Eng_C_Get_ProgressLostText_Visibility Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
 // Function UI_Pause_Eng.UI_Pause_Eng_C.GetLastOpenedWidget
 // (Public, BlueprintCallable, BlueprintEvent)
 
@@ -354,6 +334,46 @@ void UUI_Pause_Eng_C::GetLastOpenedWidget()
 		Func = Class->GetFunction("UI_Pause_Eng_C", "GetLastOpenedWidget");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Pause_Eng.UI_Pause_Eng_C.GetText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Pause_Eng_C::GetText()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Pause_Eng_C", "GetText");
+
+	Params::UI_Pause_Eng_C_GetText Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Pause_Eng.UI_Pause_Eng_C.GetText_0
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Pause_Eng_C::GetText_0()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Pause_Eng_C", "GetText_0");
+
+	Params::UI_Pause_Eng_C_GetText_0 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
 }
 
 
