@@ -18,7 +18,7 @@ void HSELauncher::SetupConsole() {
     if (localVersionResult) {
         const auto versionStr = localVersionResult->ToString();
 #ifdef DEV_VERSION
-        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Internal Build " + versionStr).c_str());
+        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Dev Build " + versionStr).c_str());
 #else
         SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer " + versionStr).c_str());
 #endif
@@ -40,7 +40,7 @@ void HSELauncher::DisplayBanner() {
 #ifdef DEV_VERSION
     std::cout << R"(
         ______      __
-       / ____/___  / /_  ____ _____  ________  _____  [ INTERNAL BUILD ]
+       / ____/___  / /_  ____ _____  ________  _____  [ DEV BUILD ]
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
@@ -58,10 +58,10 @@ void HSELauncher::DisplayBanner() {
     SetConsoleTextAttribute(hConsole, CONSOLE_WHITE);
 
 #ifdef DEV_VERSION
-    hse::Logger::info("Made by The Ghost - Internal Build");
-    hse::Logger::warn("This is an internal development build for testing purposes.");
+    hse::Logger::info("Made by The Ghost - Dev Build");
+    hse::Logger::warn("This is a public development build for testing purposes.");
     hse::Logger::info("This build will automatically update to the final release when available.");
-    hse::Logger::info("Tip: You can drag & drop DLL files onto this launcher to install them!");
+    hse::Logger::info("Tip: You can drag & drop the mod DLL onto this launcher to install it!");
 #else
     hse::Logger::info("Made by The Ghost");
 #endif
@@ -140,6 +140,32 @@ bool HSELauncher::EnsureModExists() {
         hse::Logger::info("No mod found - downloading latest version");
     }
 
+#ifdef DEV_VERSION
+    if (!cachedDevInfo_) {
+        auto devUpdateResult = updateManager.CheckForDevUpdates();
+        if (!devUpdateResult) {
+            hse::logAndShowError("Failed to get dev release information", "Could not connect to update server. Please check your internet connection.");
+            return false;
+        }
+        cachedDevInfo_ = *devUpdateResult;
+    }
+
+    auto& devInfo = *cachedDevInfo_;
+    if (devInfo.downloadUrlMod.empty()) {
+        hse::logAndShowError("No dev mod available", "Could not find dev mod in the release.");
+        return false;
+    }
+
+    auto updateResult = updateManager.UpdateDevMod(devInfo.downloadUrlMod, devInfo.modTimestamp);
+    if (updateResult) {
+        hse::Logger::info("Dev mod download completed");
+        return true;
+    }
+    else {
+        hse::logAndShowError("Failed to download dev mod", "Failed to download dev mod files. Please check your internet connection and try again.");
+        return false;
+    }
+#else
     auto updateInfoResult = updateManager.CheckForUpdates();
     if (!updateInfoResult) {
         hse::logAndShowError("Failed to get remote version information", "Could not connect to update server. Please check your internet connection.");
@@ -161,6 +187,7 @@ bool HSELauncher::EnsureModExists() {
         hse::logAndShowError("Failed to download mod", "Failed to download mod files. Please check your internet connection and try again.");
         return false;
     }
+#endif
 }
 
 bool HSELauncher::PerformUpdatesIfNeeded() {
@@ -170,6 +197,79 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
     }
 
     hse::Logger::info("Checking for updates...");
+
+#ifdef DEV_VERSION
+    if (!cachedDevInfo_) {
+        auto devUpdateResult = updateManager.CheckForDevUpdates();
+        if (!devUpdateResult) {
+            hse::Logger::error("Failed to check for dev updates");
+            return true;
+        }
+        cachedDevInfo_ = *devUpdateResult;
+    }
+
+    auto& devInfo = *cachedDevInfo_;
+
+    if (devInfo.stableRelease && devInfo.stableRelease->available) {
+        auto& stable = *devInfo.stableRelease;
+        std::string message = "A stable release is available!\n\n"
+            "Current dev version: " + stable.currentVersion.ToString() + "\n"
+            "Stable release: " + stable.remoteVersion.ToString() + "\n\n"
+            "Do you want to update to the stable release?";
+
+        int result = MessageBoxA(nullptr, message.c_str(), "Stable Release Available", MB_YESNO | MB_ICONINFORMATION);
+
+        if (result == IDYES) {
+            hse::Logger::info("Updating to stable release...");
+            auto modResult = updateManager.UpdateMod(stable.remoteVersion);
+            if (!modResult) {
+                hse::showError("Failed to update mod files.");
+            }
+            auto launcherResult = updateManager.UpdateLauncher(stable.downloadUrlLauncher);
+            return static_cast<bool>(launcherResult);
+        }
+        hse::Logger::info("User declined stable release migration");
+        return true;
+    }
+
+    if (!devInfo.modUpdateAvailable && !devInfo.launcherUpdateAvailable) {
+        hse::Logger::info("Dev build is up to date");
+        return true;
+    }
+
+    std::string message = "A new dev build is available!\n\n";
+    if (devInfo.modUpdateAvailable) {
+        message += "- Mod update available\n";
+    }
+    if (devInfo.launcherUpdateAvailable) {
+        message += "- Launcher update available\n";
+    }
+    message += "\nDo you want to download and install the update now?";
+
+    int result = MessageBoxA(nullptr, message.c_str(), "Dev Update Available", MB_YESNO | MB_ICONINFORMATION);
+
+    if (result != IDYES) {
+        hse::Logger::info("User declined dev update");
+        return true;
+    }
+
+    if (devInfo.modUpdateAvailable && !devInfo.downloadUrlMod.empty()) {
+        hse::Logger::info("Updating dev mod...");
+        auto modResult = updateManager.UpdateDevMod(devInfo.downloadUrlMod, devInfo.modTimestamp);
+        if (!modResult) {
+            hse::showError("Failed to update dev mod files.");
+        }
+    }
+
+    if (devInfo.launcherUpdateAvailable && !devInfo.downloadUrlLauncher.empty()) {
+        hse::Logger::info("Updating dev launcher...");
+        auto launcherResult = updateManager.UpdateLauncher(devInfo.downloadUrlLauncher, devInfo.launcherTimestamp);
+        return static_cast<bool>(launcherResult);
+    }
+
+    return true;
+
+#else
     auto updateInfoResult = updateManager.CheckForUpdates();
     if (!updateInfoResult) {
         hse::Logger::error("Failed to check for updates");
@@ -203,6 +303,7 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
     hse::Logger::info("Now updating launcher...");
     auto launcherUpdateResult = updateManager.UpdateLauncher(updateInfo.downloadUrlLauncher);
     return static_cast<bool>(launcherUpdateResult);
+#endif
 }
 
 bool HSELauncher::InjectMod() {

@@ -5,7 +5,6 @@
 #include <expected>
 #include <mutex>
 #include <optional>
-#include <variant>
 
 #include "../../ext/SimpleIni.h"
 #include "Util.h"
@@ -18,8 +17,6 @@ namespace hse {
         WritePermissionDenied = 3,
         InvalidValue = 4
     };
-
-    using ConfigValue = std::variant<bool, int, std::string>;
 
     class LauncherConfig {
     public:
@@ -94,9 +91,9 @@ namespace hse {
 
     inline std::expected<void, ConfigError> LauncherConfig::SaveConfigUnlocked() noexcept {
         try {
-            if (!ini_.SaveFile(configPath_.string().c_str())) {
+            if (ini_.SaveFile(configPath_.string().c_str()) < 0) {
                 std::filesystem::create_directories(configPath_.parent_path());
-                if (!ini_.SaveFile(configPath_.string().c_str())) {
+                if (ini_.SaveFile(configPath_.string().c_str()) < 0) {
                     return std::unexpected(ConfigError::WritePermissionDenied);
                 }
             }
@@ -146,9 +143,8 @@ namespace hse {
         std::string_view defaultValue
     ) const noexcept {
         std::lock_guard lock(mutex_);
-        thread_local std::string temp_default;
-        temp_default.assign(defaultValue);
-        return std::string(ini_.GetValue(section.data(), key.data(), temp_default.c_str()));
+        std::string default_str(defaultValue);
+        return std::string(ini_.GetValue(section.data(), key.data(), default_str.c_str()));
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::SetBool(
@@ -188,9 +184,8 @@ namespace hse {
     ) noexcept {
         try {
             std::lock_guard lock(mutex_);
-            thread_local std::string temp_value;
-            temp_value.assign(value);
-            ini_.SetValue(section.data(), key.data(), temp_value.c_str());
+            std::string value_str(value);
+            ini_.SetValue(section.data(), key.data(), value_str.c_str());
             return SaveConfigUnlocked();
         }
         catch (...) {

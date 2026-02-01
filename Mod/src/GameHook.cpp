@@ -1,6 +1,7 @@
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
+#include "Utils/CompileTimeHash.h"
 
 static GameHook* hookInstance = &GameHook::Get();
 
@@ -8,34 +9,40 @@ std::queue<std::function<void()>> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
 
 namespace {
-    constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
-    constexpr uint64_t FNV_PRIME = 1099511628211ULL;
+    struct alignas(64) FunctionHashCache {
+        static constexpr size_t INITIAL_RESERVE = 512;
 
-    constexpr uint64_t hash_string_impl(const char* str, size_t len) noexcept {
-        uint64_t hash = FNV_OFFSET_BASIS;
-        for (size_t i = 0; i < len; ++i) {
-            hash ^= static_cast<uint64_t>(static_cast<unsigned char>(str[i]));
-            hash *= FNV_PRIME;
-        }
-        return hash;
-    }
+        std::unordered_map<void*, uint64_t> cache;
 
-    uint64_t hash_string_fast(const char* str) noexcept {
-        uint64_t hash = FNV_OFFSET_BASIS;
-        while (*str) {
-            hash ^= static_cast<uint64_t>(static_cast<unsigned char>(*str++));
-            hash *= FNV_PRIME;
+        FunctionHashCache() {
+            cache.reserve(INITIAL_RESERVE);
         }
-        return hash;
-    }
+
+        inline uint64_t GetOrComputeHash(SDK::UFunction* pFunc) noexcept {
+            void* funcPtr = static_cast<void*>(pFunc);
+
+            auto it = cache.find(funcPtr);
+            if (it != cache.end()) [[likely]] {
+                return it->second;
+            }
+
+            std::string funcName = pFunc->GetName();
+            uint64_t hash = HS::Hash::FNV1A(funcName.c_str());
+
+            cache.emplace(funcPtr, hash);
+
+            return hash;
+        }
+    };
+
+    static FunctionHashCache g_hashCache;
 }
 
-inline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms)
+__forceinline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
 {
-    const std::string& funcName = pFunc->GetName();
-    uint64_t funcHash = hash_string_fast(funcName.c_str());
+    const uint64_t funcHash = g_hashCache.GetOrComputeHash(pFunc);
 
-    if (auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[likely]] {
+    if (const auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[unlikely]] {
         it->second();
     }
 
@@ -81,12 +88,20 @@ void GameHook::Unhook() const
 }
 
 void GameHook::RegisterHook(const std::string& functionName, std::function<void()> callback) {
-    uint64_t hash = hash_string_fast(functionName.c_str());
+    uint64_t hash = HS::Hash::FNV1A(functionName.c_str());
     hookMap.emplace(hash, std::move(callback));
 }
 
 void GameHook::UnregisterHook(const std::string& functionName) {
-    uint64_t hash = hash_string_fast(functionName.c_str());
+    uint64_t hash = HS::Hash::FNV1A(functionName.c_str());
+    hookMap.erase(hash);
+}
+
+void GameHook::RegisterHook(uint64_t hash, std::function<void()> callback) {
+    hookMap.emplace(hash, std::move(callback));
+}
+
+void GameHook::UnregisterHook(uint64_t hash) {
     hookMap.erase(hash);
 }
 
@@ -146,12 +161,17 @@ void GameHook::QueueAction(std::function<void()> action) {
 }
 
 void GameHook::ProcessGameThreadQueue() {
-    std::lock_guard<std::mutex> lock(queueMutex);
-    
-    while (!gameThreadQueue.empty()) {
-        const auto& action = gameThreadQueue.front();
-        action();
-        gameThreadQueue.pop();
+    std::queue<std::function<void()>> localQueue;
+
+    {
+        std::lock_guard<std::mutex> lock(queueMutex);
+        if (gameThreadQueue.empty()) return;
+        localQueue.swap(gameThreadQueue);
+    }
+
+    while (!localQueue.empty()) {
+        localQueue.front()();
+        localQueue.pop();
     }
 }
 

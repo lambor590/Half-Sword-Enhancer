@@ -7,7 +7,7 @@
 
 namespace hse {
 
-    std::expected<ProcessId, ProcessError> ProcessManager::LocateOrStartGame() noexcept {
+    std::expected<DWORD, ProcessError> ProcessManager::LocateOrStartGame() noexcept {
         auto processId = FindGameProcess();
         if (processId) {
             return *processId;
@@ -33,11 +33,10 @@ namespace hse {
         return std::unexpected(ProcessError::GameNotFound);
     }
 
-    std::expected<InjectionResult, ProcessError> ProcessManager::InjectDLL(
-        ProcessId processId,
+    std::expected<void, ProcessError> ProcessManager::InjectDLL(
+        DWORD processId,
         std::string_view dllPath
     ) noexcept {
-        const auto startTime = std::chrono::steady_clock::now();
 
         if (dllPath.empty()) {
             return std::unexpected(ProcessError::InvalidDllPath);
@@ -125,14 +124,11 @@ namespace hse {
             return std::unexpected(ProcessError::DllLoadFailed);
         }
 
-        const auto endTime = std::chrono::steady_clock::now();
-        const auto injectionTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-
         hse::Logger::info("DLL injection completed successfully");
-        return InjectionResult{ processId, injectionTime };
+        return {};
     }
 
-    std::expected<ProcessId, ProcessError> ProcessManager::FindGameProcess() const noexcept {
+    std::expected<DWORD, ProcessError> ProcessManager::FindGameProcess() const noexcept {
         const HWND gameWindow = FindWindowA(GAME_WINDOW_CLASS.data(), nullptr);
         if (!gameWindow) {
             return std::unexpected(ProcessError::GameNotFound);
@@ -145,7 +141,7 @@ namespace hse {
             return std::unexpected(ProcessError::GameNotFound);
         }
 
-        return static_cast<ProcessId>(processId);
+        return processId;
     }
 
     std::expected<void, ProcessError> ProcessManager::StartGameViaStream() const noexcept {
@@ -165,7 +161,7 @@ namespace hse {
         return {};
     }
 
-    std::expected<ProcessHandle, ProcessError> ProcessManager::OpenGameProcess(ProcessId pid) const noexcept {
+    std::expected<ProcessHandle, ProcessError> ProcessManager::OpenGameProcess(DWORD pid) const noexcept {
         HANDLE handle = OpenProcess(
             PROCESS_CREATE_THREAD | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_QUERY_INFORMATION,
             FALSE,

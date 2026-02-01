@@ -4,7 +4,9 @@
 #include <array>
 #include <string_view>
 #include <span>
+#include <cctype>
 #include "Menu/ICollapsibleSection.h"
+#include "Menu/SectionConfig.h"
 #include "Utils/Spawner.h"
 #include "DefaultStyle.h"
 
@@ -31,20 +33,13 @@ using ItemArray = std::array<ItemInfo, N>;
 
 class ItemSection : public CollapsibleSection {
 private:
-    static inline int spawnItemKey = -1;
-    static inline float spawnDistanceForward = 150.0f;
-    static inline float spawnDistanceUp = 50.0f;
-    static inline float spawnScale = 1.0f;
-    static inline bool snapToGround = true;
-    static inline uint8_t currentCategoryIndex = 0;
-    static inline uint8_t currentWeaponSubcategoryIndex = 0;
-    static inline uint16_t currentItemIndex = 0;
+    SectionConfig::ItemConfig& cfg = SectionConfig::item;
 
     static constexpr uint8_t WEAPONS_INDEX = 0;
     static constexpr uint8_t PROPS_INDEX = 10;
 
     static constexpr std::array categories{
-        "Weapons", "Helmets", "Body Armor", "Arms", "Legs", 
+        "Weapons", "Helmets", "Body Armor", "Arms", "Legs",
         "Hands", "Feet", "Neck", "Shoulders", "Waist", "Props"
     };
 
@@ -336,10 +331,6 @@ private:
         {"Table", PROP_PATH("/Blueprints/BP_Container_Table_001.BP_Container_Table_001_C")}
     }};
 
-    template<typename T>
-    using WeaponArray = std::array<T, 8>;
-    using ArmorArray = std::array<const ItemInfo*, 11>;
-
     static constexpr std::array<const ItemInfo*, 8> weaponArrays{{
         swordItems.data(),
         maceItems.data(),
@@ -362,7 +353,7 @@ private:
         improvisedItems.size()
     }};
 
-    static constexpr ArmorArray armorArrays{{
+    static constexpr std::array<const ItemInfo*, 11> armorArrays{{
         nullptr,
         helmetItems.data(),
         bodyArmorItems.data(),
@@ -394,55 +385,127 @@ private:
     static inline uint8_t lastCategoryIndex = 255;
     static inline uint8_t lastWeaponSubcategoryIndex = 255;
 
-    [[nodiscard]] __forceinline std::pair<const ItemInfo*, size_t> getCurrentItemArray() const noexcept {
-        if (currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
-            return {weaponArrays[currentWeaponSubcategoryIndex], weaponSizes[currentWeaponSubcategoryIndex]};
-        } else if (currentCategoryIndex == PROPS_INDEX) [[likely]] {
+    static inline char searchBuffer[128] = "";
+    static inline std::vector<uint16_t> filteredIndices;
+    static inline bool searchActive = false;
+
+    [[nodiscard]] std::pair<const ItemInfo*, size_t> getCurrentItemArray() const noexcept {
+        if (cfg.currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
+            return {weaponArrays[cfg.currentWeaponSubcategoryIndex], weaponSizes[cfg.currentWeaponSubcategoryIndex]};
+        } else if (cfg.currentCategoryIndex == PROPS_INDEX) [[likely]] {
             return {propItems.data(), propItems.size()};
         } else [[unlikely]] {
-            return {armorArrays[currentCategoryIndex], armorSizes[currentCategoryIndex]};
+            return {armorArrays[cfg.currentCategoryIndex], armorSizes[cfg.currentCategoryIndex]};
         }
     }
 
-    [[nodiscard]] __forceinline const char* getSelectedClassName() const noexcept {
+    [[nodiscard]] const char* getSelectedClassName() const noexcept {
         const auto [items, size] = getCurrentItemArray();
-        return (currentItemIndex < size && items) ? items[currentItemIndex].classPath : nullptr;
+        return (cfg.currentItemIndex < size && items) ? items[cfg.currentItemIndex].classPath : nullptr;
     }
 
-    __forceinline void updateItemNamesCache() noexcept {
-        if (lastCategoryIndex != currentCategoryIndex || lastWeaponSubcategoryIndex != currentWeaponSubcategoryIndex) [[unlikely]] {
+    [[nodiscard]] static const ItemInfo* getItemAt(uint8_t catIdx, uint8_t subIdx, uint16_t itmIdx) noexcept {
+        if (catIdx == WEAPONS_INDEX) {
+            return (subIdx < weaponSizes.size() && itmIdx < weaponSizes[subIdx])
+                ? &weaponArrays[subIdx][itmIdx] : nullptr;
+        }
+        if (catIdx == PROPS_INDEX) {
+            return (itmIdx < propItems.size()) ? &propItems[itmIdx] : nullptr;
+        }
+        return (catIdx < armorSizes.size() && itmIdx < armorSizes[catIdx])
+            ? &armorArrays[catIdx][itmIdx] : nullptr;
+    }
+
+    void updateItemNamesCache() noexcept {
+        if (lastCategoryIndex != cfg.currentCategoryIndex || lastWeaponSubcategoryIndex != cfg.currentWeaponSubcategoryIndex) [[unlikely]] {
             const auto [items, size] = getCurrentItemArray();
             cachedItemNames.resize(size);
             for (size_t i = 0; i < size; ++i) {
                 cachedItemNames[i] = items[i].displayName;
             }
-            lastCategoryIndex = currentCategoryIndex;
-            lastWeaponSubcategoryIndex = currentWeaponSubcategoryIndex;
+            lastCategoryIndex = cfg.currentCategoryIndex;
+            lastWeaponSubcategoryIndex = cfg.currentWeaponSubcategoryIndex;
         }
     }
 
-    __forceinline void SpawnSelectedItem() const noexcept {
+    static const char* stristr(const char* haystack, const char* needle) {
+        if (!*needle) return haystack;
+        for (; *haystack; ++haystack) {
+            if (std::tolower(static_cast<unsigned char>(*haystack)) == std::tolower(static_cast<unsigned char>(*needle))) {
+                const char* h = haystack;
+                const char* n = needle;
+                while (*h && *n && std::tolower(static_cast<unsigned char>(*h)) == std::tolower(static_cast<unsigned char>(*n))) {
+                    ++h; ++n;
+                }
+                if (!*n) return haystack;
+            }
+        }
+        return nullptr;
+    }
+
+    void updateFilteredItems() noexcept {
+        filteredIndices.clear();
+
+        if (searchBuffer[0] == '\0') {
+            searchActive = false;
+            return;
+        }
+
+        searchActive = true;
+
+        for (uint8_t catIdx = 0; catIdx < static_cast<uint8_t>(categories.size()); ++catIdx) {
+            if (catIdx == WEAPONS_INDEX) {
+                for (uint8_t subIdx = 0; subIdx < static_cast<uint8_t>(weaponSubcategories.size()); ++subIdx) {
+                    const auto* items = weaponArrays[subIdx];
+                    const size_t size = weaponSizes[subIdx];
+                    for (uint16_t i = 0; i < size; ++i) {
+                        if (stristr(items[i].displayName, searchBuffer)) {
+                            filteredIndices.push_back((catIdx << 12) | (subIdx << 8) | i);
+                        }
+                    }
+                }
+            } else if (catIdx == PROPS_INDEX) {
+                for (uint16_t i = 0; i < propItems.size(); ++i) {
+                    if (stristr(propItems[i].displayName, searchBuffer)) {
+                        filteredIndices.push_back((catIdx << 12) | i);
+                    }
+                }
+            } else {
+                const auto* items = armorArrays[catIdx];
+                const size_t size = armorSizes[catIdx];
+                if (items) {
+                    for (uint16_t i = 0; i < size; ++i) {
+                        if (stristr(items[i].displayName, searchBuffer)) {
+                            filteredIndices.push_back((catIdx << 12) | i);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void SpawnSelectedItem() const noexcept {
         const char* className = getSelectedClassName();
         if (!className) [[unlikely]] return;
 
         auto spawnTransform = player->GetTransform();
         const auto forward = player->GetActorForwardVector();
-        spawnTransform.Translation.X += forward.X * spawnDistanceForward;
-        spawnTransform.Translation.Y += forward.Y * spawnDistanceForward;
-        spawnTransform.Translation.Z += spawnDistanceUp;
-        spawnTransform.Scale3D = {spawnScale, spawnScale, spawnScale};
-        Spawner::SpawnActor(world, className, spawnTransform, nullptr, snapToGround);
+        spawnTransform.Translation.X += forward.X * cfg.spawnDistanceForward;
+        spawnTransform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
+        spawnTransform.Translation.Z += cfg.spawnDistanceUp;
+        spawnTransform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
+        Spawner::SpawnActor(world, className, spawnTransform, nullptr, cfg.snapToGround);
     }
 
 public:
     ItemSection() : CollapsibleSection("Item") {
         Function("Spawn Item")
-            .WithKey(&spawnItemKey)
+            .WithKey(&cfg.spawnItemKey)
             .WithParams({
-                Parameter("snap_to_ground", "Snap to Ground", &snapToGround, "Automatically adjust height to touch the ground"),
-                Parameter("distance_forward", "Forward Distance", &spawnDistanceForward, 50.0f, 300.0f, "How far in front the item appears"),
-                Parameter("distance_up", "Up Distance", &spawnDistanceUp, 0.0f, 200.0f, "Height offset for spawn position"),
-                Parameter("scale", "Scale", &spawnScale, 0.1f, 5.0f, "Size multiplier for the spawned item")
+                Parameter("snap_to_ground", "Snap to Ground", &cfg.snapToGround, "Automatically adjust height to touch the ground"),
+                Parameter("distance_forward", "Forward Distance", &cfg.spawnDistanceForward, 50.0f, 300.0f, "How far in front the item appears"),
+                Parameter("distance_up", "Up Distance", &cfg.spawnDistanceUp, 0.0f, 200.0f, "Height offset for spawn position"),
+                Parameter("scale", "Scale", &cfg.spawnScale, 0.1f, 5.0f, "Size multiplier for the spawned item")
             })
             .WithTooltip("Spawns the selected item with configurable position and size")
             .Action([this]() { SpawnSelectedItem(); }, player, world);
@@ -451,42 +514,88 @@ public:
     void Render() override {
         if (!ImGui::CollapsingHeader(name.c_str())) [[unlikely]] return;
 
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8, 6));
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(10, 8));
-        ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, 25.0f);
-        ImGui::Indent(10.0f);
-        ImGui::Spacing();
+        SectionStyle::StyleRAII style;
 
         for (auto& function : functions) {
             function->Render();
             ImGui::Spacing();
         }
 
-        ImGui::Text("Category");
-        int catIndex = static_cast<int>(currentCategoryIndex);
-        if (ImGui::Combo("##CategorySelector", &catIndex, categories.data(), static_cast<int>(categories.size()))) [[unlikely]] {
-            currentCategoryIndex = static_cast<uint8_t>(catIndex);
-            currentItemIndex = 0;
-            if (currentCategoryIndex != WEAPONS_INDEX) [[likely]] {
-                currentWeaponSubcategoryIndex = 0;
-            }
+        ImGui::AlignTextToFramePadding();
+        ImGui::Text("Search");
+        ImGui::SameLine();
+        bool searchChanged = ImGui::InputText("##ItemSearch", searchBuffer, sizeof(searchBuffer), ImGuiInputTextFlags_AutoSelectAll);
+
+        if (searchChanged) {
+            updateFilteredItems();
         }
 
-        if (currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
-            ImGui::Text("Subcategory");
-            int subIndex = static_cast<int>(currentWeaponSubcategoryIndex);
-            if (ImGui::Combo("##SubcategorySelector", &subIndex, weaponSubcategories.data(), static_cast<int>(weaponSubcategories.size()))) [[unlikely]] {
-                currentWeaponSubcategoryIndex = static_cast<uint8_t>(subIndex);
-                currentItemIndex = 0;
-            }
-        }
+        if (searchActive && !filteredIndices.empty()) {
+            ImGui::Text("Found: %zu items", filteredIndices.size());
+            ImGui::Spacing();
 
-        updateItemNamesCache();
-        
-        ImGui::Text("Item");
-        int itemIndex = static_cast<int>(currentItemIndex);
-        if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
-            currentItemIndex = static_cast<uint16_t>(itemIndex);
+            if (ImGui::BeginCombo("##FilteredItems", "Select item...")) {
+                for (uint16_t packedIdx : filteredIndices) {
+                    uint8_t catIdx = (packedIdx >> 12) & 0xF;
+                    uint8_t subIdx = (packedIdx >> 8) & 0xF;
+                    uint16_t itmIdx = packedIdx & 0xFF;
+
+                    const ItemInfo* item = getItemAt(catIdx, subIdx, itmIdx);
+
+                    if (item) {
+                        bool isSelected = (cfg.currentCategoryIndex == catIdx && cfg.currentItemIndex == itmIdx && (catIdx != WEAPONS_INDEX || cfg.currentWeaponSubcategoryIndex == subIdx));
+                        if (ImGui::Selectable(item->displayName, isSelected)) {
+                            cfg.currentCategoryIndex = catIdx;
+                            cfg.currentWeaponSubcategoryIndex = subIdx;
+                            cfg.currentItemIndex = itmIdx;
+                        }
+                        if (isSelected) {
+                            ImGui::SetItemDefaultFocus();
+                        }
+                    }
+                }
+                ImGui::EndCombo();
+            }
+
+            if (ImGui::Button("Clear Search")) {
+                searchBuffer[0] = '\0';
+                searchActive = false;
+            }
+
+        } else if (searchActive && filteredIndices.empty()) {
+            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No items found");
+            if (ImGui::Button("Clear Search")) {
+                searchBuffer[0] = '\0';
+                searchActive = false;
+            }
+
+        } else {
+            ImGui::Text("Category");
+            int catIndex = static_cast<int>(cfg.currentCategoryIndex);
+            if (ImGui::Combo("##CategorySelector", &catIndex, categories.data(), static_cast<int>(categories.size()))) [[unlikely]] {
+                cfg.currentCategoryIndex = static_cast<uint8_t>(catIndex);
+                cfg.currentItemIndex = 0;
+                if (cfg.currentCategoryIndex != WEAPONS_INDEX) [[likely]] {
+                    cfg.currentWeaponSubcategoryIndex = 0;
+                }
+            }
+
+            if (cfg.currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
+                ImGui::Text("Subcategory");
+                int subIndex = static_cast<int>(cfg.currentWeaponSubcategoryIndex);
+                if (ImGui::Combo("##SubcategorySelector", &subIndex, weaponSubcategories.data(), static_cast<int>(weaponSubcategories.size()))) [[unlikely]] {
+                    cfg.currentWeaponSubcategoryIndex = static_cast<uint8_t>(subIndex);
+                    cfg.currentItemIndex = 0;
+                }
+            }
+
+            updateItemNamesCache();
+
+            ImGui::Text("Item");
+            int itemIndex = static_cast<int>(cfg.currentItemIndex);
+            if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
+                cfg.currentItemIndex = static_cast<uint16_t>(itemIndex);
+            }
         }
 
         ImGui::Spacing();
@@ -494,8 +603,5 @@ public:
             auto validatedSpawn = ValidateAndRun([this]() noexcept { SpawnSelectedItem(); }, player, world);
             validatedSpawn();
         }
-
-        ImGui::Unindent(10.0f);
-        ImGui::PopStyleVar(3);
     }
-}; 
+};

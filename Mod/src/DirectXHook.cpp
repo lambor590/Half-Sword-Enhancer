@@ -2,21 +2,31 @@
 #include "GlobalDefinitions.h"
 #include "MemoryUtils.h"
 
-static HRESULT __stdcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags)
+namespace DXHookConstants {
+    constexpr int VMT_PRESENT_OFFSET = 8;
+    constexpr int VMT_RESIZE_BUFFERS_OFFSET = 13;
+    constexpr int VMT_EXECUTE_COMMAND_LISTS_OFFSET = 10;
+    constexpr size_t PTR_SIZE = sizeof(size_t);
+
+    constexpr size_t VMT_PRESENT_BYTE_OFFSET = PTR_SIZE * VMT_PRESENT_OFFSET;
+    constexpr size_t VMT_RESIZE_BUFFERS_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS_OFFSET;
+}
+
+__forceinline static HRESULT __fastcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept
 {
     g_DirectXHook->renderer->OnPresent(pThis, syncInterval, flags);
     return ((Present)g_DirectXHook->presentReturnAddress)(pThis, syncInterval, flags);
 }
 
-static HRESULT __stdcall OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags)
+__forceinline static HRESULT __fastcall OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept
 {
     g_DirectXHook->renderer->OnResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
     return ((ResizeBuffers)g_DirectXHook->resizeBuffersReturnAddress)(pThis, bufferCount, width, height, newFormat, swapChainFlags);
 }
 
-static void __stdcall OnExecuteCommandLists(ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists)
+__forceinline static void __fastcall OnExecuteCommandLists(ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists) noexcept
 {
-    if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT)
+    if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT) [[likely]]
     {
         g_DirectXHook->renderer->SetCommandQueue(pThis);
     }
@@ -38,6 +48,10 @@ void DirectXHook::Hook()
 
     renderer->SetGetCommandQueueCallback(&GetCommandQueue);
     IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
+    if (!dummySwapChain) {
+        logger.Log("Failed to create dummy swap chain, hooking aborted");
+        return;
+    }
     HookSwapChain(dummySwapChain, (uintptr_t)&OnPresent, (uintptr_t)&OnResizeBuffers, &presentReturnAddress, &resizeBuffersReturnAddress);
 }
 
@@ -53,14 +67,20 @@ IDXGISwapChain* DirectXHook::CreateDummySwapChain()
     desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     desc.SampleDesc.Count = 1;
     desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    desc.BufferCount = 1;
+    desc.BufferCount = 2;
     desc.OutputWindow = dummyWindow;
     desc.Windowed = TRUE;
-    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
-    IDXGISwapChain* swapChain;
-    ID3D11Device* device;
-    D3D11CreateDeviceAndSwapChain(0, D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0, D3D11_SDK_VERSION, &desc, &swapChain, &device, 0, 0);
+    IDXGISwapChain* swapChain = nullptr;
+    ID3D11Device* device = nullptr;
+    HRESULT hr = D3D11CreateDeviceAndSwapChain(0, D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0, D3D11_SDK_VERSION, &desc, &swapChain, &device, 0, 0);
+
+    if (FAILED(hr) || !swapChain) {
+        logger.Log("D3D11CreateDeviceAndSwapChain failed: 0x%X", hr);
+        if (device) device->Release();
+        return nullptr;
+    }
 
     if (device) device->Release();
     return swapChain;
@@ -88,25 +108,17 @@ void DirectXHook::HookSwapChain(
     uintptr_t* presentReturnAddress,
     uintptr_t* resizeBuffersReturnAddress)
 {
-    const int vmtPresentOffset = 8;
-    const int vmtResizeBuffersOffset = 13;
-    const size_t numBytes = sizeof(size_t);
+    using namespace DXHookConstants;
 
     uintptr_t vmtBaseAddress = (*(uintptr_t*)dummySwapChain);
-    uintptr_t vmtPresentIndex = (vmtBaseAddress + (numBytes * vmtPresentOffset));
-    uintptr_t vmtResizeBuffersIndex = (vmtBaseAddress + (numBytes * vmtResizeBuffersOffset));
-
-    MemoryUtils::ToggleMemoryProtection(false, vmtPresentIndex, numBytes);
-    MemoryUtils::ToggleMemoryProtection(false, vmtResizeBuffersIndex, numBytes);
+    uintptr_t vmtPresentIndex = vmtBaseAddress + VMT_PRESENT_BYTE_OFFSET;
+    uintptr_t vmtResizeBuffersIndex = vmtBaseAddress + VMT_RESIZE_BUFFERS_BYTE_OFFSET;
 
     uintptr_t presentAddress = (*(uintptr_t*)vmtPresentIndex);
     uintptr_t resizeBuffersAddress = (*(uintptr_t*)vmtResizeBuffersIndex);
 
     MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, presentReturnAddress);
     MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, resizeBuffersReturnAddress);
-
-    MemoryUtils::ToggleMemoryProtection(true, vmtPresentIndex, numBytes);
-    MemoryUtils::ToggleMemoryProtection(true, vmtResizeBuffersIndex, numBytes);
 
     dummySwapChain->Release();
 }
@@ -119,14 +131,12 @@ void DirectXHook::HookCommandQueue(
     if (!dummyCommandQueue) return;
 
     uintptr_t* vTable = *(uintptr_t**)dummyCommandQueue;
-    size_t executeOffset = 10;
+    constexpr size_t executeOffset = DXHookConstants::VMT_EXECUTE_COMMAND_LISTS_OFFSET;
 
     uintptr_t executeAddr = vTable[executeOffset];
     executeCommandListsAddress = executeAddr;
 
-    MemoryUtils::ToggleMemoryProtection(false, executeAddr, sizeof(void*));
     MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, executeCommandListsReturnAddress);
-    MemoryUtils::ToggleMemoryProtection(true, executeAddr, sizeof(void*));
 
     dummyCommandQueue->Release();
 }

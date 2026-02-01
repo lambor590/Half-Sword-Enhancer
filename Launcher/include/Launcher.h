@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <optional>
 #include <Windows.h>
 
 #include "UpdateManager.h"
@@ -16,6 +17,10 @@ class HSELauncher {
     hse::UpdateManager& updateManager;
     hse::ProcessManager& processManager;
     hse::LauncherConfig& config;
+
+#ifdef DEV_VERSION
+    std::optional<hse::DevUpdateInfo> cachedDevInfo_;
+#endif
 
     void DisplayBanner();
     void SetupConsole();

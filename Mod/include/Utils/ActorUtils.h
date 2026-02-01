@@ -25,6 +25,12 @@ namespace ActorUtils {
         ForEachWillieInRadius(world, player, GameConstants::MAX_DISTANCE, std::forward<Func>(func));
     }
 
+    inline void SetInfiniteConsciousness(SDK::AWillie_BP_C* willie) noexcept {
+        willie->Consciousness_Cap = GameConstants::DEFAULT_HEALTH;
+        willie->Consciousness = GameConstants::DEFAULT_HEALTH;
+        willie->Consciousness_2__Legs_ = GameConstants::DEFAULT_HEALTH;
+    }
+
     inline void ApplyNoPainEffect(SDK::AWillie_BP_C* willie) noexcept {
         willie->Health = GameConstants::DEFAULT_HEALTH;
         willie->Neck_Health = GameConstants::DEFAULT_HEALTH;
@@ -36,7 +42,7 @@ namespace ActorUtils {
         willie->Leg_R_Health = GameConstants::DEFAULT_HEALTH;
         willie->Leg_L_Health = GameConstants::DEFAULT_HEALTH;
         willie->Head_Health__Crush_ = GameConstants::DEFAULT_HEALTH;
-        
+
         willie->Pain_Lower_Body = GameConstants::DEFAULT_PAIN;
         willie->Pain_Upper_Body = GameConstants::DEFAULT_PAIN;
         willie->Pain_Neck = GameConstants::DEFAULT_PAIN;

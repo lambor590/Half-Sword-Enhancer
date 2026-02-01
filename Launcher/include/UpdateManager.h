@@ -47,6 +47,19 @@ namespace hse {
         std::string downloadUrlMod;
     };
 
+#ifdef DEV_VERSION
+    struct DevUpdateInfo {
+        std::optional<UpdateInfo> stableRelease;
+
+        bool modUpdateAvailable = false;
+        bool launcherUpdateAvailable = false;
+        std::string modTimestamp;
+        std::string launcherTimestamp;
+        std::string downloadUrlMod;
+        std::string downloadUrlLauncher;
+    };
+#endif
+
     class UpdateManager {
     public:
         static UpdateManager& Instance() noexcept {
@@ -57,11 +70,27 @@ namespace hse {
         [[nodiscard]] std::expected<Version, UpdateError> GetLocalVersion() noexcept;
         [[nodiscard]] std::expected<UpdateInfo, UpdateError> CheckForUpdates() noexcept;
         [[nodiscard]] std::expected<void, UpdateError> UpdateMod(const Version& version) noexcept;
-        [[nodiscard]] std::expected<void, UpdateError> UpdateLauncher(std::string_view downloadUrl) noexcept;
+        [[nodiscard]] std::expected<void, UpdateError> UpdateLauncher(
+            std::string_view downloadUrl,
+            std::string_view timestamp = {}
+        ) noexcept;
+
+#ifdef DEV_VERSION
+        [[nodiscard]] std::expected<DevUpdateInfo, UpdateError> CheckForDevUpdates() noexcept;
+        [[nodiscard]] std::expected<void, UpdateError> UpdateDevMod(
+            std::string_view downloadUrl,
+            std::string_view timestamp
+        ) noexcept;
+#endif
 
     private:
         static constexpr std::string_view GITHUB_API_URL =
             "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/latest";
+
+#ifdef DEV_VERSION
+        static constexpr std::string_view GITHUB_DEV_API_URL =
+            "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/tags/dev-latest";
+#endif
 
         mutable std::mutex mutex_;
         std::optional<Version> cachedLocalVersion_;
@@ -76,6 +105,18 @@ namespace hse {
         [[nodiscard]] std::expected<Version, UpdateError> ExtractVersionFromExecutable() const noexcept;
         [[nodiscard]] std::expected<std::string, UpdateError> FetchGitHubReleaseInfo() const noexcept;
         [[nodiscard]] std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json) const noexcept;
+
+#ifdef DEV_VERSION
+        [[nodiscard]] std::expected<std::string_view, UpdateError> ExtractAssetObject(
+            std::string_view json,
+            std::string_view assetName
+        ) const noexcept;
+
+        [[nodiscard]] std::expected<std::string, UpdateError> ParseAssetField(
+            std::string_view assetObject,
+            std::string_view fieldName
+        ) const noexcept;
+#endif
     };
 
 }
