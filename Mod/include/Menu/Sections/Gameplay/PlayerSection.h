@@ -8,7 +8,6 @@
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
 #include "SDK/AIModule_classes.hpp"
-#include "SDK/Willie_BP_NoBrain_classes.hpp"
 #include "Hooks/GameHook.h"
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
@@ -199,10 +198,8 @@ public:
 
                     if (!nearest) [[unlikely]] return;
 
-                    if (!nearest->IsA(SDK::AWillie_BP_NoBrain_C::StaticClass())) [[likely]] {
-                        prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
-                        prevAIController->SetActorTickEnabled(false);
-                    }
+                    prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
+                    prevAIController->SetActorTickEnabled(false);
                     controller->Possess(nearest);
                     nearest->Player = true;
                     possessedWillie = nearest;
