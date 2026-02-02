@@ -8,7 +8,6 @@
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/Spawner.h"
-#include "SDK/Arena_Cutting_Map_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "Utils/GameConstants.h"
@@ -90,11 +89,10 @@ public:
 
         Function("Clear Blood")
             .WithKey(&cfg.clearBloodKey)
-            .WithParams({ Parameter("amount", "Amount", &cfg.clearBloodAmount, 0.0f, 1.0f, "How much blood to remove (0.0 = none, 1.0 = all)") })
-            .WithTooltip("Removes blood decals from the arena with configurable intensity. Only works in the arena.")
+            .WithTooltip("Removes blood decals, emitters, and surface blood from the world")
             .Action([this]() {
-                static_cast<SDK::AArena_Cutting_Map_C*>(world->PersistentLevel->LevelScriptActor)->Clean_Blood(cfg.clearBloodAmount);
-            }, world);
+                // WIP
+            });
 
         Function("Clear Objects")
             .WithKey(&cfg.clearObjectsKey)
