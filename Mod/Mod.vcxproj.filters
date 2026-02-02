@@ -119,12 +119,6 @@
     <ClCompile Include="SDK\SDK\AIModule_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SDK\SDK\Willie_BP_NoBrain_functions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SDK\SDK\Arena_Cutting_Map_functions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DefaultStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -147,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDK\SDK\SG_PlayerProgression_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\SDK\Niagara_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
