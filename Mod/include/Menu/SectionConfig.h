@@ -50,7 +50,6 @@ namespace SectionConfig {
         float toggleEnemyAIRadius = 1000.0f;
         bool destroyDeadOnly = true;
         bool destroyDisintegrate = true;
-        float clearBloodAmount = 0.1f;
         float clearObjectsRadius = 1000.0f;
     };
 
