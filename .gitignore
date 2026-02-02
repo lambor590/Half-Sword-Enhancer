@@ -3,6 +3,5 @@ packages/
 bin/
 .claude
 CLAUDE.md
-*ps1
 Mod/SDK/Engine
 *.user
