@@ -6,30 +6,30 @@
 * https://github.com/Encryqed/Dumper-7
 */
 
-// Package: BP_Prop_Light_Candle_Lantern_A_001
+// Package: BP_Prop_Light_Candle_Stand_001
 
 #include "Basic.hpp"
 
-#include "BP_Prop_Light_Candle_Lantern_A_001_classes.hpp"
-#include "BP_Prop_Light_Candle_Lantern_A_001_parameters.hpp"
+#include "BP_Prop_Light_Candle_Stand_001_classes.hpp"
+#include "BP_Prop_Light_Candle_Stand_001_parameters.hpp"
 
 
 namespace SDK
 {
 
-// Function BP_Prop_Light_Candle_Lantern_A_001.BP_Prop_Light_Candle_Lantern_A_001_C.ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001
+// Function BP_Prop_Light_Candle_Stand_001.BP_Prop_Light_Candle_Stand_001_C.ExecuteUbergraph_BP_Prop_Light_Candle_Stand_001
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Prop_Light_Candle_Lantern_A_001_C::ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001(int32 EntryPoint)
+void ABP_Prop_Light_Candle_Stand_001_C::ExecuteUbergraph_BP_Prop_Light_Candle_Stand_001(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Candle_Lantern_A_001_C", "ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001");
+		Func = Class->GetFunction("BP_Prop_Light_Candle_Stand_001_C", "ExecuteUbergraph_BP_Prop_Light_Candle_Stand_001");
 
-	Params::BP_Prop_Light_Candle_Lantern_A_001_C_ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001 Parms{};
+	Params::BP_Prop_Light_Candle_Stand_001_C_ExecuteUbergraph_BP_Prop_Light_Candle_Stand_001 Parms{};
 
 	Parms.EntryPoint = EntryPoint;
 
@@ -37,7 +37,7 @@ void ABP_Prop_Light_Candle_Lantern_A_001_C::ExecuteUbergraph_BP_Prop_Light_Candl
 }
 
 
-// Function BP_Prop_Light_Candle_Lantern_A_001.BP_Prop_Light_Candle_Lantern_A_001_C.BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// Function BP_Prop_Light_Candle_Stand_001.BP_Prop_Light_Candle_Stand_001_C.BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
 // class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
@@ -46,14 +46,14 @@ void ABP_Prop_Light_Candle_Lantern_A_001_C::ExecuteUbergraph_BP_Prop_Light_Candl
 // const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 
-void ABP_Prop_Light_Candle_Lantern_A_001_C::BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+void ABP_Prop_Light_Candle_Stand_001_C::BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Candle_Lantern_A_001_C", "BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
+		Func = Class->GetFunction("BP_Prop_Light_Candle_Stand_001_C", "BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature");
 
-	Params::BP_Prop_Light_Candle_Lantern_A_001_C_BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
+	Params::BP_Prop_Light_Candle_Stand_001_C_BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature Parms{};
 
 	Parms.HitComponent = HitComponent;
 	Parms.OtherActor = OtherActor;

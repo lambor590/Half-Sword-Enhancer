@@ -90546,21 +90546,21 @@ struct FVector UKismetMathLibrary::ProjectPointOnToPlane(const struct FVector& P
 }
 
 
-// Function Engine.KismetMathLibrary.ProjectVectorOnToPlane
+// Function Engine.KismetMathLibrary.ProjectVectorOntoPlane
 // (Final, RequiredAPI, Native, Static, Public, HasDefaults, BlueprintCallable, BlueprintPure)
 // Parameters:
 // const struct FVector&                   V                                                      (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FVector&                   PlaneNormal                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-struct FVector UKismetMathLibrary::ProjectVectorOnToPlane(const struct FVector& V, const struct FVector& PlaneNormal)
+struct FVector UKismetMathLibrary::ProjectVectorOntoPlane(const struct FVector& V, const struct FVector& PlaneNormal)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("KismetMathLibrary", "ProjectVectorOnToPlane");
+		Func = StaticClass()->GetFunction("KismetMathLibrary", "ProjectVectorOntoPlane");
 
-	Params::KismetMathLibrary_ProjectVectorOnToPlane Parms{};
+	Params::KismetMathLibrary_ProjectVectorOntoPlane Parms{};
 
 	Parms.V = std::move(V);
 	Parms.PlaneNormal = std::move(PlaneNormal);

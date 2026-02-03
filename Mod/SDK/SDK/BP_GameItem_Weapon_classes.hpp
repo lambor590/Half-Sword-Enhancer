@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "BP_GameItem_classes.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "BP_GameItem_classes.hpp"
 
 
 namespace SDK

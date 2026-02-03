@@ -12,10 +12,10 @@
 
 #include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "Str_ArmorProtection_structs.hpp"
-#include "BP_Armor_Master_classes.hpp"
 #include "HideBodyPart_Enum_structs.hpp"
+#include "BP_Armor_Master_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_DismembermentPart_structs.hpp"
 
 
@@ -61,8 +61,8 @@ public:
 
 public:
 	void ExecuteUbergraph_BP_Armor_Modular_Core_Master(int32 EntryPoint);
-	void ReceiveBeginPlay();
 	void Set_Up_Module();
+	void ReceiveBeginPlay();
 	void UserConstructionScript();
 
 public:

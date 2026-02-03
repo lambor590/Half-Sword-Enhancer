@@ -87,6 +87,34 @@ void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_2_K2Node_Compone
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_3_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_3_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_3_K2Node_ComponentBoundEvent_29_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_3_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_3_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_3_K2Node_ComponentBoundEvent_30_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_Bevor_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
 
@@ -1291,6 +1319,26 @@ ESlateVisibility UUI_Tavern_Inventory_C::Get_Button_Standart_Visibility()
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.Get_Button_Vambrace_bIsEnabled
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+bool UUI_Tavern_Inventory_C::Get_Button_Vambrace_bIsEnabled()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "Get_Button_Vambrace_bIsEnabled");
+
+	Params::UI_Tavern_Inventory_C_Get_Button_Vambrace_bIsEnabled Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.Get_Button_Vambrace_Visibility
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -2244,6 +2292,26 @@ ESlateVisibility UUI_Tavern_Inventory_C::GetVisibility_5()
 		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetVisibility_5");
 
 	Params::UI_Tavern_Inventory_C_GetVisibility_5 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetVisibility_6
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Tavern_Inventory_C::GetVisibility_6()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetVisibility_6");
+
+	Params::UI_Tavern_Inventory_C_GetVisibility_6 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 

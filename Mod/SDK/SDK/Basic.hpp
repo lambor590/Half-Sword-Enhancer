@@ -787,7 +787,7 @@ inline bool operator&(EEnumClass Left, EEnumClass Right)																								
 	return (((std::underlying_type<EEnumClass>::type)(Left) & (std::underlying_type<EEnumClass>::type)(Right)) == (std::underlying_type<EEnumClass>::type)(Right));		\
 }																																										
 
-enum class EObjectFlags : uint32
+enum class EObjectFlags : int32
 {
 	NoFlags							= 0x00000000,
 

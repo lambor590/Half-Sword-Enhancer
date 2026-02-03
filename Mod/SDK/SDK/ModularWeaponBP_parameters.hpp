@@ -11,12 +11,12 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_structs.hpp"
-#include "PhysicsCore_structs.hpp"
-#include "Enum_Weapon_Material_Type_structs.hpp"
-#include "Enum_MaterialQuality_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Engine_structs.hpp"
+#include "Enum_Weapon_Material_Type_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_MaterialQuality_structs.hpp"
+#include "PhysicsCore_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 
 
 namespace SDK::Params
