@@ -194,8 +194,6 @@ jobs:
 
           if ($env:MOD_CHANGED -eq "true") {
             Copy-Item "bin/HSEnhancer.dll" "release_files/"
-            # TODO(v0.7.0): Remove old-name duplicate once v0.5.x launchers are phased out
-            Copy-Item "bin/HSEnhancer.dll" "release_files/HS-Enhancer.dll"
             New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
             Copy-Item "Manual_Install.txt" "manual_install/README.txt"
             Copy-Item "bin/dwmapi.dll" "manual_install/"
@@ -205,8 +203,6 @@ jobs:
 
           if ($env:LAUNCHER_CHANGED -eq "true") {
             Copy-Item "bin/HSEnhancerLauncherDev.exe" "release_files/HSEnhancerLauncher.exe"
-            # TODO(v0.7.0): Remove old-name duplicate once v0.5.x launchers are phased out
-            Copy-Item "bin/HSEnhancerLauncherDev.exe" "release_files/HS_Enhancer_Launcher.exe"
           }
 
       - uses: actions/upload-artifact@v6
@@ -276,12 +272,6 @@ jobs:
             gh release upload dev-latest release_files/HSEnhancer.{dll,zip} --repo "$REPO" --clobber || true
           [ "$LAUNCHER_CHANGED" = true ] && [ -f release_files/HSEnhancerLauncher.exe ] && \
             gh release upload dev-latest release_files/HSEnhancerLauncher.exe --repo "$REPO" --clobber || true
-
-          # TODO(v0.7.0): Remove old-name uploads once v0.5.x launchers are phased out
-          [ "$MOD_CHANGED" = true ] && [ -f "release_files/HS-Enhancer.dll" ] && \
-            gh release upload dev-latest "release_files/HS-Enhancer.dll" --repo "$REPO" --clobber || true
-          [ "$LAUNCHER_CHANGED" = true ] && [ -f "release_files/HS_Enhancer_Launcher.exe" ] && \
-            gh release upload dev-latest "release_files/HS_Enhancer_Launcher.exe" --repo "$REPO" --clobber || true
 
       - name: Discord notification
         env:
