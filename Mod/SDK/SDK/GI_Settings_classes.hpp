@@ -10,12 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Character1_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "ScreenResolution_Enum_structs.hpp"
-#include "Enum_DayTime_structs.hpp"
 #include "Str_Inventory_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
+#include "StreamlineReflexBlueprint_structs.hpp"
+#include "Enum_DayTime_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
@@ -28,17 +29,16 @@
 #include "Str_Character_Body_Condition_structs.hpp"
 #include "Enum_PlayMode_structs.hpp"
 #include "Enum_PlayerPlayCondition_structs.hpp"
-#include "StreamlineReflexBlueprint_structs.hpp"
 #include "Str_CurrentlyForgedWeapon_structs.hpp"
-#include "Enum_Sides_RightLeft_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
+#include "Enum_Sides_RightLeft_structs.hpp"
 
 
 namespace SDK
 {
 
 // BlueprintGeneratedClass GI_Settings.GI_Settings_C
-// 0x0C90 (0x0E50 - 0x01C0)
+// 0x0C98 (0x0E58 - 0x01C0)
 class UGI_Settings_C final : public UGameInstance
 {
 public:
@@ -200,19 +200,22 @@ public:
 	uint8                                         Pad_C82[0x2];                                      // 0x0C82(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         Abyss_Score;                                       // 0x0C84(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	TArray<struct FStr_Passport_Character1>       Nemesis_Opponents;                                 // 0x0C88(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	int32                                         DLSsFGIndex;                                       // 0x0C98(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_C9C[0x4];                                      // 0x0C9C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<struct FInputActionKeyMapping>         KeyBinds;                                          // 0x0CA0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	EStreamlineReflexMode                         ReflexMode;                                        // 0x0CB0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_CB1[0x3];                                      // 0x0CB1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         Baron_Defeated_Times;                              // 0x0CB4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          First_Start_Intro_Played;                          // 0x0CB8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          First_Start_Tutorial_Played;                       // 0x0CB9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Currently_Customized_Weapon_Testing;               // 0x0CBA(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_CBB[0x5];                                      // 0x0CBB(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_CurrentlyForgedWeapon             Currently_Customized_Weapon_Forge;                 // 0x0CC0(0x0088)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Weapon1                  Forged_Weapon_Passport;                            // 0x0D48(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	bool                                          First_Start_Innkeeper_Greeted;                     // 0x0E48(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	TArray<struct FInputActionKeyMapping>         KeyBinds;                                          // 0x0C98(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	EStreamlineReflexMode                         ReflexMode;                                        // 0x0CA8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_CA9[0x3];                                      // 0x0CA9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Baron_Defeated_Times;                              // 0x0CAC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          First_Start_Intro_Played;                          // 0x0CB0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          First_Start_Tutorial_Played;                       // 0x0CB1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Currently_Customized_Weapon_Testing;               // 0x0CB2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_CB3[0x5];                                      // 0x0CB3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_CurrentlyForgedWeapon             Currently_Customized_Weapon_Forge;                 // 0x0CB8(0x0088)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Weapon1                  Forged_Weapon_Passport;                            // 0x0D40(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          First_Start_Innkeeper_Greeted;                     // 0x0E40(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E41[0x3];                                      // 0x0E41(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         LandscapeQ;                                        // 0x0E44(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         LightingQ;                                         // 0x0E48(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         ShadingQ;                                          // 0x0E4C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         DLSsFGIndex;                                       // 0x0E50(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Check_Insured_Items();

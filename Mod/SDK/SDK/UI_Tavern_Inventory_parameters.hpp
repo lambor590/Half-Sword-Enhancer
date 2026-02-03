@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Str_Inventory_structs.hpp"
 #include "UMG_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
@@ -1189,6 +1189,23 @@ public:
 	ESlateVisibility                              K2Node_Select_Default_1;                           // 0x00B4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.Get_Button_Vambrace_bIsEnabled
+// 0x00B8 (0x00B8 - 0x0000)
+struct UI_Tavern_Inventory_C_Get_Button_Vambrace_bIsEnabled final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              Temp_byte_Variable;                                // 0x0001(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              Temp_byte_Variable_1;                              // 0x0002(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3[0x5];                                        // 0x0003(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_Passport_Armor1                   CallFunc_Map_Find_Value;                           // 0x0008(0x00A8)(HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Find_ReturnValue;                     // 0x00B0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Find_Value_1;                         // 0x00B1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Map_Find_ReturnValue_1;                   // 0x00B2(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x00B3(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BooleanOR_ReturnValue;                    // 0x00B4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.Get_Button_Vambrace_Visibility
 // 0x00B8 (0x00B8 - 0x0000)
 struct UI_Tavern_Inventory_C_Get_Button_Vambrace_Visibility final
@@ -2021,6 +2038,18 @@ public:
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetVisibility_5
 // 0x0005 (0x0005 - 0x0000)
 struct UI_Tavern_Inventory_C_GetVisibility_5 final
+{
+public:
+	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Temp_bool_Variable;                                // 0x0001(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable;                                // 0x0002(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              Temp_byte_Variable_1;                              // 0x0003(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESlateVisibility                              K2Node_Select_Default;                             // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetVisibility_6
+// 0x0005 (0x0005 - 0x0000)
+struct UI_Tavern_Inventory_C_GetVisibility_6 final
 {
 public:
 	ESlateVisibility                              ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)

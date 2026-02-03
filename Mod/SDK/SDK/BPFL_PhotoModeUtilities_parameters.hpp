@@ -11,9 +11,9 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_structs.hpp"
-#include "E_ScreenshotMethod_structs.hpp"
 #include "UMG_structs.hpp"
 #include "S_PhotosData_structs.hpp"
+#include "E_ScreenshotMethod_structs.hpp"
 #include "E_SaveSort_structs.hpp"
 
 

@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "AIModule_structs.hpp"
-#include "AI_Strafe_Enum_structs.hpp"
-#include "Engine_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "AI_AttackStage_Enum_structs.hpp"
-#include "MeleeCombatRange_Enum_structs.hpp"
 #include "AI_CombatBehavior_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "AIModule_structs.hpp"
+#include "Engine_structs.hpp"
+#include "MeleeCombatRange_Enum_structs.hpp"
+#include "AI_Strafe_Enum_structs.hpp"
 
 
 namespace SDK::Params

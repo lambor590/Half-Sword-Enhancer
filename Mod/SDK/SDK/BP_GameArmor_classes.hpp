@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "BP_GameItem_classes.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "BP_GameItem_classes.hpp"
 
 
 namespace SDK

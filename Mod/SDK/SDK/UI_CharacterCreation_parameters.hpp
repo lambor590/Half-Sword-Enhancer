@@ -15,8 +15,8 @@
 #include "SlateCore_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Enum_WeaponType_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
+#include "Enum_WeaponType_structs.hpp"
 #include "Str_SubPassport_Equipment_structs.hpp"
 
 

@@ -28898,7 +28898,7 @@ public:
 	static float PerlinNoise1D(const float Value);
 	static bool PointsAreCoplanar(const TArray<struct FVector>& Points, float Tolerance);
 	static struct FVector ProjectPointOnToPlane(const struct FVector& Point, const struct FVector& PlaneBase, const struct FVector& PlaneNormal);
-	static struct FVector ProjectVectorOnToPlane(const struct FVector& V, const struct FVector& PlaneNormal);
+	static struct FVector ProjectVectorOntoPlane(const struct FVector& V, const struct FVector& PlaneNormal);
 	static struct FVector ProjectVectorOnToVector(const struct FVector& V, const struct FVector& Target);
 	static float Quat_AngularDistance(const struct FQuat& A, const struct FQuat& B);
 	static void Quat_EnforceShortestArcWith(struct FQuat& A, const struct FQuat& B);

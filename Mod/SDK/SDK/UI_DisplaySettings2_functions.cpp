@@ -199,6 +199,34 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_FoliageUp_K2Node_Compon
 }
 
 
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.BndEvt__UI_DisplaySettings2_LandscapeDown_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LandscapeDown_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_LandscapeDown_K2Node_ComponentBoundEvent_52_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.BndEvt__UI_DisplaySettings2_LandscapeUp_K2Node_ComponentBoundEvent_53_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LandscapeUp_K2Node_ComponentBoundEvent_53_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_LandscapeUp_K2Node_ComponentBoundEvent_53_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_DisplaySettings2.UI_DisplaySettings2_C.BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_47_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
 
@@ -236,6 +264,34 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_Language_Button_K2Node_
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_Language_Button_K2Node_ComponentBoundEvent_49_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.BndEvt__UI_DisplaySettings2_LightingDown_K2Node_ComponentBoundEvent_54_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LightingDown_K2Node_ComponentBoundEvent_54_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_LightingDown_K2Node_ComponentBoundEvent_54_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.BndEvt__UI_DisplaySettings2_LightingUp_K2Node_ComponentBoundEvent_55_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_LightingUp_K2Node_ComponentBoundEvent_55_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_LightingUp_K2Node_ComponentBoundEvent_55_OnButtonClickedEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -292,6 +348,34 @@ void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ReflexUp_K2Node_Compone
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ReflexUp_K2Node_ComponentBoundEvent_46_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.BndEvt__UI_DisplaySettings2_ShadingDown_K2Node_ComponentBoundEvent_50_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadingDown_K2Node_ComponentBoundEvent_50_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ShadingDown_K2Node_ComponentBoundEvent_50_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.BndEvt__UI_DisplaySettings2_ShadingUp_K2Node_ComponentBoundEvent_51_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_DisplaySettings2_C::BndEvt__UI_DisplaySettings2_ShadingUp_K2Node_ComponentBoundEvent_51_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "BndEvt__UI_DisplaySettings2_ShadingUp_K2Node_ComponentBoundEvent_51_OnButtonClickedEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -763,6 +847,26 @@ void UUI_DisplaySettings2_C::ExecuteUbergraph_UI_DisplaySettings2(int32 EntryPoi
 }
 
 
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.Get Landscape Options
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_DisplaySettings2_C::Get_Landscape_Options()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get Landscape Options");
+
+	Params::UI_DisplaySettings2_C_Get_Landscape_Options Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_DisplaySettings2.UI_DisplaySettings2_C.Get Reflex Options
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -776,6 +880,26 @@ class FText UUI_DisplaySettings2_C::Get_Reflex_Options()
 		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get Reflex Options");
 
 	Params::UI_DisplaySettings2_C_Get_Reflex_Options Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.Get Shading Options
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_DisplaySettings2_C::Get_Shading_Options()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "Get Shading Options");
+
+	Params::UI_DisplaySettings2_C_Get_Shading_Options Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -1137,6 +1261,26 @@ class FText UUI_DisplaySettings2_C::GetShadowOptions()
 }
 
 
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.GetText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_DisplaySettings2_C::GetText()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "GetText");
+
+	Params::UI_DisplaySettings2_C_GetText Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_DisplaySettings2.UI_DisplaySettings2_C.GetTextureOptions
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -1210,6 +1354,31 @@ void UUI_DisplaySettings2_C::LoadScalabilitySettingsFromSGSettings()
 		Func = Class->GetFunction("UI_DisplaySettings2_C", "LoadScalabilitySettingsFromSGSettings");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_DisplaySettings2.UI_DisplaySettings2_C.NewFunction
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// int32&                                  SettingToChange                                        (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool&                                   IsDown                                                 (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_DisplaySettings2_C::NewFunction(int32& SettingToChange, bool& IsDown)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_DisplaySettings2_C", "NewFunction");
+
+	Params::UI_DisplaySettings2_C_NewFunction Parms{};
+
+	Parms.SettingToChange = SettingToChange;
+	Parms.IsDown = IsDown;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	SettingToChange = Parms.SettingToChange;
+	IsDown = Parms.IsDown;
 }
 
 
