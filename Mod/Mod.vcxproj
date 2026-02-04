@@ -262,7 +262,6 @@
     <ClCompile Include="SDK\SDK\ModularWeaponBP_functions.cpp" />
     <ClCompile Include="SDK\SDK\Niagara_functions.cpp" />
     <ClCompile Include="SDK\SDK\SG_PlayerProgression_functions.cpp" />
-    <ClCompile Include="src\CollapsibleSection.cpp" />
     <ClCompile Include="src\ComponentValidator.cpp" />
     <ClCompile Include="src\ConfigManager.cpp" />
     <ClCompile Include="src\Globals.cpp" />
