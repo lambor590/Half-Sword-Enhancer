@@ -47,8 +47,8 @@ namespace hse {
         std::string downloadUrlMod;
     };
 
-#ifdef DEV_VERSION
-    struct DevUpdateInfo {
+#ifdef BETA_VERSION
+    struct BetaUpdateInfo {
         std::optional<UpdateInfo> stableRelease;
 
         bool modUpdateAvailable = false;
@@ -75,9 +75,9 @@ namespace hse {
             std::string_view timestamp = {}
         ) noexcept;
 
-#ifdef DEV_VERSION
-        [[nodiscard]] std::expected<DevUpdateInfo, UpdateError> CheckForDevUpdates() noexcept;
-        [[nodiscard]] std::expected<void, UpdateError> UpdateDevMod(
+#ifdef BETA_VERSION
+        [[nodiscard]] std::expected<BetaUpdateInfo, UpdateError> CheckForBetaUpdates() noexcept;
+        [[nodiscard]] std::expected<void, UpdateError> UpdateBetaMod(
             std::string_view downloadUrl,
             std::string_view timestamp
         ) noexcept;
@@ -87,9 +87,9 @@ namespace hse {
         static constexpr std::string_view GITHUB_API_URL =
             "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/latest";
 
-#ifdef DEV_VERSION
-        static constexpr std::string_view GITHUB_DEV_API_URL =
-            "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/tags/dev-latest";
+#ifdef BETA_VERSION
+        static constexpr std::string_view GITHUB_BETA_API_URL =
+            "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/tags/beta-latest";
 #endif
 
         mutable std::mutex mutex_;
@@ -106,7 +106,7 @@ namespace hse {
         [[nodiscard]] std::expected<std::string, UpdateError> FetchGitHubReleaseInfo() const noexcept;
         [[nodiscard]] std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json) const noexcept;
 
-#ifdef DEV_VERSION
+#ifdef BETA_VERSION
         [[nodiscard]] std::expected<std::string_view, UpdateError> ExtractAssetObject(
             std::string_view json,
             std::string_view assetName

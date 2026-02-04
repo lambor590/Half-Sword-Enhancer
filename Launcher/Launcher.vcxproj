@@ -17,8 +17,8 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release Dev|x64">
-      <Configuration>Release Dev</Configuration>
+    <ProjectConfiguration Include="Release Beta|x64">
+      <Configuration>Release Beta</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -56,13 +56,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <DevBuild>true</DevBuild>
+    <BetaBuild>true</BetaBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -98,14 +98,14 @@
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'">
-    <TargetName>HSEnhancerLauncherDev</TargetName>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'">
+    <TargetName>HSEnhancerLauncherBeta</TargetName>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src</SourcePath>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
-    <DevBuild>true</DevBuild>
+    <BetaBuild>true</BetaBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -185,13 +185,13 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Dev|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>DEV_VERSION;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BETA_VERSION;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -218,17 +218,17 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
-  <!-- Conditional PropertyGroups for DevBuild -->
-  <PropertyGroup Condition="'$(DevBuild)'=='true'">
-    <TargetName>HSEnhancerLauncherDev</TargetName>
-    <DefineConstants>DEV_VERSION</DefineConstants>
+  <!-- Conditional PropertyGroups for BetaBuild -->
+  <PropertyGroup Condition="'$(BetaBuild)'=='true'">
+    <TargetName>HSEnhancerLauncherBeta</TargetName>
+    <DefineConstants>BETA_VERSION</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(DevBuild)'!='true'">
+  <PropertyGroup Condition="'$(BetaBuild)'!='true'">
     <TargetName>HSEnhancerLauncher</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(DevBuild)'=='true'">
+  <ItemDefinitionGroup Condition="'$(BetaBuild)'=='true'">
     <ClCompile>
-      <PreprocessorDefinitions>DEV_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BETA_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
