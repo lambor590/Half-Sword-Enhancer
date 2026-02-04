@@ -192,7 +192,7 @@ namespace hse {
             Logger::info("Update script started successfully. Launcher will restart automatically.");
 
             if (!timestamp.empty()) {
-                (void)LauncherConfig::Instance().SetString("DevUpdate", "launcher_timestamp", timestamp);
+                (void)LauncherConfig::Instance().SetString("BetaUpdate", "launcher_timestamp", timestamp);
             }
 
             ExitProcess(0);
@@ -271,7 +271,7 @@ namespace hse {
         }
     }
 
-#ifdef DEV_VERSION
+#ifdef BETA_VERSION
     std::expected<std::string_view, UpdateError> UpdateManager::ExtractAssetObject(
         std::string_view json,
         std::string_view assetName
@@ -328,8 +328,8 @@ namespace hse {
         }
     }
 
-    std::expected<DevUpdateInfo, UpdateError> UpdateManager::CheckForDevUpdates() noexcept {
-        DevUpdateInfo info;
+    std::expected<BetaUpdateInfo, UpdateError> UpdateManager::CheckForBetaUpdates() noexcept {
+        BetaUpdateInfo info;
 
         // === STEP 1: Check stable releases (priority) ===
         auto stableResult = CheckForUpdates();
@@ -340,10 +340,10 @@ namespace hse {
             return info;
         }
 
-        // === STEP 2: Fallback to dev-latest (timestamp-based) ===
-        auto jsonResult = NetworkManager::Instance().DownloadToString(std::string(GITHUB_DEV_API_URL));
+        // === STEP 2: Fallback to beta-latest (timestamp-based) ===
+        auto jsonResult = NetworkManager::Instance().DownloadToString(std::string(GITHUB_BETA_API_URL));
         if (!jsonResult) {
-            Logger::error("Failed to fetch dev release info from GitHub");
+            Logger::error("Failed to fetch beta release info from GitHub");
             return std::unexpected(UpdateError::NetworkError);
         }
 
@@ -368,9 +368,9 @@ namespace hse {
         }
 
         const std::string storedModTimestamp =
-            LauncherConfig::Instance().GetString("DevUpdate", "mod_timestamp", "").value_or("");
+            LauncherConfig::Instance().GetString("BetaUpdate", "mod_timestamp", "").value_or("");
         const std::string storedLauncherTimestamp =
-            LauncherConfig::Instance().GetString("DevUpdate", "launcher_timestamp", "").value_or("");
+            LauncherConfig::Instance().GetString("BetaUpdate", "launcher_timestamp", "").value_or("");
 
         info.modUpdateAvailable = !info.modTimestamp.empty() &&
             (storedModTimestamp.empty() || info.modTimestamp > storedModTimestamp);
@@ -379,17 +379,17 @@ namespace hse {
             (storedLauncherTimestamp.empty() || info.launcherTimestamp > storedLauncherTimestamp);
 
         if (info.modUpdateAvailable) {
-            Logger::info("Dev mod update available. Timestamp: " + info.modTimestamp);
+            Logger::info("Beta mod update available. Timestamp: " + info.modTimestamp);
         }
 
         if (info.launcherUpdateAvailable) {
-            Logger::info("Dev launcher update available. Timestamp: " + info.launcherTimestamp);
+            Logger::info("Beta launcher update available. Timestamp: " + info.launcherTimestamp);
         }
 
         return info;
     }
 
-    std::expected<void, UpdateError> UpdateManager::UpdateDevMod(
+    std::expected<void, UpdateError> UpdateManager::UpdateBetaMod(
         std::string_view downloadUrl,
         std::string_view timestamp
     ) noexcept {
@@ -399,7 +399,7 @@ namespace hse {
             DownloadConfig config{
                 .url = std::string(downloadUrl),
                 .outputPath = modPath.string(),
-                .description = "Downloading dev mod update",
+                .description = "Downloading beta mod update",
                 .minFileSize = 30000
             };
 
@@ -408,12 +408,12 @@ namespace hse {
                 return std::unexpected(UpdateError::NetworkError);
             }
 
-            auto configResult = LauncherConfig::Instance().SetString("DevUpdate", "mod_timestamp", timestamp);
+            auto configResult = LauncherConfig::Instance().SetString("BetaUpdate", "mod_timestamp", timestamp);
             if (!configResult) {
                 Logger::warn("Failed to save mod timestamp, update detection may not work correctly");
             }
 
-            Logger::info("Dev mod updated successfully");
+            Logger::info("Beta mod updated successfully");
             return {};
         }
         catch (...) {

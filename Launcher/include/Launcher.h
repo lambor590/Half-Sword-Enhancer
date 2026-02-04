@@ -18,8 +18,8 @@ class HSELauncher {
     hse::ProcessManager& processManager;
     hse::LauncherConfig& config;
 
-#ifdef DEV_VERSION
-    std::optional<hse::DevUpdateInfo> cachedDevInfo_;
+#ifdef BETA_VERSION
+    std::optional<hse::BetaUpdateInfo> cachedBetaInfo_;
 #endif
 
     void DisplayBanner();

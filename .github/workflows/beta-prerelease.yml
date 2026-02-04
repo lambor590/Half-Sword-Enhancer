@@ -1,4 +1,4 @@
-name: Dev Pre-Release
+name: Beta Pre-Release
 
 on:
   pull_request:
@@ -36,7 +36,7 @@ jobs:
         run: |
           git fetch origin --quiet
 
-          RELEASE_BODY=$(gh release view dev-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
+          RELEASE_BODY=$(gh release view beta-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null || echo "")
           LAST_NOTIFIED=$(echo "$RELEASE_BODY" | grep -oP '<!-- LAST_NOTIFIED_COMMIT: \K[a-f0-9]+(?= -->)' || echo "")
           EXISTING_CHANGELOG=$(echo "$RELEASE_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d' || echo "")
 
@@ -130,7 +130,7 @@ jobs:
           EXISTING=$(cat existing_changelog.txt 2>/dev/null)
 
           [ ${#FORMATTED} -gt 1800 ] \
-            && printf '%s...\n\n[Full changelog](https://github.com/${{ github.repository }}/releases/tag/dev-latest)' "${FORMATTED:0:1750}" > discord_changelog.txt \
+            && printf '%s...\n\n[Full changelog](https://github.com/${{ github.repository }}/releases/tag/beta-latest)' "${FORMATTED:0:1750}" > discord_changelog.txt \
             || echo "$FORMATTED" > discord_changelog.txt
 
           [ -n "$EXISTING" ] \
@@ -172,7 +172,7 @@ jobs:
         if: needs.changelog.outputs.build_mod == 'true'
         shell: pwsh
         run: |
-          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:SolutionDir="$PWD/"
+          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Beta" /p:Platform=x64 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
           MSBuild.exe "Proxy/Proxy.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Proxy build failed" }
@@ -181,7 +181,7 @@ jobs:
         if: needs.changelog.outputs.build_launcher == 'true'
         shell: pwsh
         run: |
-          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Dev" /p:Platform=x64 /p:SolutionDir="$PWD/"
+          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Beta" /p:Platform=x64 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
 
       - name: Package
@@ -202,7 +202,7 @@ jobs:
           }
 
           if ($env:LAUNCHER_CHANGED -eq "true") {
-            Copy-Item "bin/HSEnhancerLauncherDev.exe" "release_files/HSEnhancerLauncher.exe"
+            Copy-Item "bin/HSEnhancerLauncherBeta.exe" "release_files/HSEnhancerLauncher.exe"
           }
 
       - uses: actions/upload-artifact@v6
@@ -240,7 +240,7 @@ jobs:
 
           {
             echo "> [!WARNING]"
-            echo "> **Development Build** — May contain bugs or incomplete features"
+            echo "> **Beta Build** — May contain bugs or incomplete features"
             echo ""
             [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
             echo "## Installation"
@@ -264,14 +264,22 @@ jobs:
             echo "<!-- LAST_NOTIFIED_COMMIT: $CURRENT_COMMIT -->"
           } > release_body.md
 
-          gh release view dev-latest --repo "$REPO" &>/dev/null \
-            && gh release edit dev-latest --repo "$REPO" --notes-file release_body.md \
-            || gh release create dev-latest --repo "$REPO" --title "Dev Build" --notes-file release_body.md --prerelease
+          gh release view beta-latest --repo "$REPO" &>/dev/null \
+            && gh release edit beta-latest --repo "$REPO" --notes-file release_body.md \
+            || gh release create beta-latest --repo "$REPO" --title "Beta Build" --notes-file release_body.md --prerelease
 
           [ "$MOD_CHANGED" = true ] && [ -f release_files/HSEnhancer.dll ] && \
-            gh release upload dev-latest release_files/HSEnhancer.{dll,zip} --repo "$REPO" --clobber || true
+            gh release upload beta-latest release_files/HSEnhancer.{dll,zip} --repo "$REPO" --clobber || true
           [ "$LAUNCHER_CHANGED" = true ] && [ -f release_files/HSEnhancerLauncher.exe ] && \
-            gh release upload dev-latest release_files/HSEnhancerLauncher.exe --repo "$REPO" --clobber || true
+            gh release upload beta-latest release_files/HSEnhancerLauncher.exe --repo "$REPO" --clobber || true
+
+          # TODO(v0.7.0): Remove dev-latest migration once all users have transitioned to beta-latest
+          if gh release view dev-latest --repo "$REPO" &>/dev/null; then
+            [ "$MOD_CHANGED" = true ] && [ -f release_files/HSEnhancer.dll ] && \
+              gh release upload dev-latest release_files/HSEnhancer.{dll,zip} --repo "$REPO" --clobber || true
+            [ "$LAUNCHER_CHANGED" = true ] && [ -f release_files/HSEnhancerLauncher.exe ] && \
+              gh release upload dev-latest release_files/HSEnhancerLauncher.exe --repo "$REPO" --clobber || true
+          fi
 
       - name: Discord notification
         env:
@@ -281,9 +289,9 @@ jobs:
           CHANGELOG=$(cat changelog_files/discord_changelog.txt 2>/dev/null) && [ -n "$CHANGELOG" ] || exit 0
 
           jq -n --arg content "<@&1426630164053360640>
-          # New Dev Build
+          # New Beta Build
 
-          $CHANGELOG" --arg url "https://github.com/${{ github.repository }}/releases/tag/dev-latest" \
+          $CHANGELOG" --arg url "https://github.com/${{ github.repository }}/releases/tag/beta-latest" \
             '{content: $content, components: [{type: 1, components: [{type: 2, style: 5, label: "Download", url: $url}]}]}' |
           curl -sX POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
 
@@ -294,5 +302,5 @@ jobs:
         run: |
           [ -z "$WEBHOOK_URL" ] && exit 0
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          jq -n --arg content "⚠️ **Dev Build Failed**"$'\n\n'"View logs: <$RUN_URL>" '{content: $content}' | \
+          jq -n --arg content "⚠️ **Beta Build Failed**"$'\n\n'"View logs: <$RUN_URL>" '{content: $content}' | \
             curl -s -X POST -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
