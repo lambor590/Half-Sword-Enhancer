@@ -31,46 +31,44 @@ class GuiSection : public CollapsibleSection {
 public:
     GuiSection() : CollapsibleSection(GUI_SECTION_NAME), notificationsEnabled(NotificationManager::IsEnabled()) {}
 
-    void Render() override {
-        if (!ImGui::CollapsingHeader(name.c_str())) [[likely]] return;
-        
+    void RenderContent() override {
         const SectionStyle::StyleRAII style;
-        
+
         bool changed = RenderKeybind(TOGGLE_GUI_LABEL, TOGGLE_TOOLTIP, waitingForToggleKey, KeybindManager::GetToggleGuiKey());
-        
+
         ImGui::Spacing();
-        
+
         changed |= RenderKeybind(UNBIND_LABEL, UNBIND_TOOLTIP, waitingForUnbindKey, KeybindManager::GetUnbindKey());
-        
+
         ImGui::Spacing();
         ImGui::Separator();
         ImGui::Spacing();
-        
+
         if (GuiUtils::CheckboxWithTooltip(NOTIFICATIONS_LABEL, &notificationsEnabled, NOTIFICATIONS_TOOLTIP)) {
             NotificationManager::SetEnabled(notificationsEnabled);
         }
-        
+
         ImGui::Spacing();
-        
+
         if (GuiUtils::CheckboxWithConfig(TOOLTIPS_LABEL, "GUI", "tooltips_enabled", true, TOOLTIPS_TOOLTIP)) {
             TooltipHelper::InvalidateCache();
         }
-        
+
         ImGui::Spacing();
-        
+
         static bool ueConsoleEnabled = ConfigManager::Get().GetBool("UE", "console_enabled", false);
         if (GuiUtils::CheckboxWithTooltip(UE_CONSOLE_LABEL, &ueConsoleEnabled, UE_CONSOLE_TOOLTIP)) {
             ConfigUtils::BatchUpdate([&](ConfigUtils::ConfigTransaction& config) {
                 config.SetBool("UE", "console_enabled", ueConsoleEnabled);
             });
-            
+
             if (ueConsoleEnabled) {
                 GameHook::Get().UnlockUEConsole();
             } else {
                 GameHook::Get().LockUEConsole();
             }
         }
-        
+
         if (changed) [[unlikely]] KeybindManager::SaveKeybinds();
     }
 

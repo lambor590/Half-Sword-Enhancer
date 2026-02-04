@@ -62,9 +62,7 @@ public:
         LoadSettings();
     }
 
-    void Render() override {
-        if (!ImGui::CollapsingHeader(name.c_str())) [[likely]] return;
-        
+    void RenderContent() override {
         const SectionStyle::StyleRAII style;
         bool settingsChanged = false;
 
