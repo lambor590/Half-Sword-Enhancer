@@ -25,8 +25,8 @@ private:
     static float s_currentTime;
     
     static constexpr size_t MAX_NOTIFICATIONS = 5;
-    static constexpr float NOTIFICATION_WIDTH = 320.0f;
-    static constexpr float NOTIFICATION_HEIGHT = 60.0f;
+    static constexpr float NOTIFICATION_WIDTH = 230.0f;
+    static constexpr float NOTIFICATION_HEIGHT = 40.0f;
     static constexpr float PADDING = 8.0f;
     static constexpr float FADE_IN_DURATION = 0.25f;
     static constexpr float FADE_OUT_DURATION = 0.4f;
