@@ -98,9 +98,6 @@
     <ClCompile Include="src\ConfigManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CollapsibleSection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
