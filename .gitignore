@@ -5,3 +5,4 @@ bin/
 CLAUDE.md
 Mod/SDK/Engine
 *.user
+.vscode
