@@ -47,7 +47,7 @@ void Gui::Setup() {
 
     DefaultStyle::ApplyGlobalStyle();
 
-    ImGui::SetNextWindowSize(ImVec2(699, 389), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(640, 389), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(544, 331), ImGuiCond_Once, ImVec2(0.5f, 0.5f));
 
     NotificationManager::Initialize();

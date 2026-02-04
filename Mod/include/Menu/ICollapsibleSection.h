@@ -44,7 +44,7 @@ protected:
 
 public:
     virtual ~ICollapsibleSection() = default;
-    virtual void Render() = 0;
+    virtual void RenderContent() = 0;
     virtual const std::string& GetName() const noexcept = 0;
 };
 
@@ -63,8 +63,18 @@ protected:
 
 public:
     explicit CollapsibleSection(std::string name) noexcept : name(std::move(name)) {}
-    
-    void Render() override;
+
+    void RenderContent() override {
+        const SectionStyle::StyleRAII style;
+        const size_t count = functions.size();
+        for (size_t i = 0; i < count; ++i) {
+            functions[i]->Render();
+            if (i + 1 < count) {
+                ImGui::Spacing();
+            }
+        }
+    }
+
     const std::string& GetName() const noexcept override { return name; }
     
     void AddFunction(std::unique_ptr<IMenuFunction> function) {

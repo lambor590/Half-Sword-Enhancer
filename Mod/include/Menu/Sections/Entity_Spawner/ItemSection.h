@@ -390,13 +390,13 @@ private:
     static inline bool searchActive = false;
 
     [[nodiscard]] std::pair<const ItemInfo*, size_t> getCurrentItemArray() const noexcept {
-        if (cfg.currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
+        if (cfg.currentCategoryIndex == WEAPONS_INDEX) {
             return {weaponArrays[cfg.currentWeaponSubcategoryIndex], weaponSizes[cfg.currentWeaponSubcategoryIndex]};
-        } else if (cfg.currentCategoryIndex == PROPS_INDEX) [[likely]] {
-            return {propItems.data(), propItems.size()};
-        } else [[unlikely]] {
-            return {armorArrays[cfg.currentCategoryIndex], armorSizes[cfg.currentCategoryIndex]};
         }
+        if (cfg.currentCategoryIndex == PROPS_INDEX) {
+            return {propItems.data(), propItems.size()};
+        }
+        return {armorArrays[cfg.currentCategoryIndex], armorSizes[cfg.currentCategoryIndex]};
     }
 
     [[nodiscard]] const char* getSelectedClassName() const noexcept {
@@ -511,9 +511,7 @@ public:
             .Action([this]() { SpawnSelectedItem(); }, player, world);
     }
 
-    void Render() override {
-        if (!ImGui::CollapsingHeader(name.c_str())) [[unlikely]] return;
-
+    void RenderContent() override {
         SectionStyle::StyleRAII style;
 
         for (auto& function : functions) {
