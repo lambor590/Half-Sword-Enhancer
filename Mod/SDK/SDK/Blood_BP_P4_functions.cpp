@@ -341,6 +341,36 @@ void ABlood_BP_P4_C::SpawnDecalFallback(const struct FVector& ImpactPoint, const
 }
 
 
+// Function Blood_BP_P4.Blood_BP_P4_C.SpawnDecalVelocitySplatter
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   ImpactPoint                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   ImpactNormal                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UPrimitiveComponent*&             HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, InstancedReference, ReferenceParm, NoDestructor, HasGetValueTypeHash)
+// double                                  Size_0                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Velocity_0                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABlood_BP_P4_C::SpawnDecalVelocitySplatter(const struct FVector& ImpactPoint, const struct FVector& ImpactNormal, class UPrimitiveComponent*& HitComponent, double Size_0, const struct FVector& Velocity_0)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Blood_BP_P4_C", "SpawnDecalVelocitySplatter");
+
+	Params::Blood_BP_P4_C_SpawnDecalVelocitySplatter Parms{};
+
+	Parms.ImpactPoint = std::move(ImpactPoint);
+	Parms.ImpactNormal = std::move(ImpactNormal);
+	Parms.HitComponent = HitComponent;
+	Parms.Size_0 = Size_0;
+	Parms.Velocity_0 = std::move(Velocity_0);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	HitComponent = Parms.HitComponent;
+}
+
+
 // Function Blood_BP_P4.Blood_BP_P4_C.UserConstructionScript
 // (Event, Public, BlueprintCallable, BlueprintEvent)
 

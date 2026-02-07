@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_ArmingSword_T1.ModularWeaponBP_ArmingSword_T1_C
-// 0x0000 (0x0BB8 - 0x0BB8)
+// 0x0000 (0x0BC0 - 0x0BC0)
 class AModularWeaponBP_ArmingSword_T1_C final : public AModularWeaponBP_C
 {
 public:

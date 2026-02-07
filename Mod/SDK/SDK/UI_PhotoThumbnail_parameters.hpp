@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "UMG_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "S_PhotosData_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
 namespace SDK::Params

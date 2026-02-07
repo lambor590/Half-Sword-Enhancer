@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_Polearm_Low_Tier.ModularWeaponBP_Polearm_Low_Tier_C
-// 0x0000 (0x0BB8 - 0x0BB8)
+// 0x0000 (0x0BC0 - 0x0BC0)
 class AModularWeaponBP_Polearm_Low_Tier_C final : public AModularWeaponBP_C
 {
 public:

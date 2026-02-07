@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_Falchion_Long_T3.ModularWeaponBP_Falchion_Long_T3_C
-// 0x0000 (0x0BB8 - 0x0BB8)
+// 0x0000 (0x0BC0 - 0x0BC0)
 class AModularWeaponBP_Falchion_Long_T3_C final : public AModularWeaponBP_C
 {
 public:

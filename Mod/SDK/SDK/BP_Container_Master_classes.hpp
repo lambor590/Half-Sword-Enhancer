@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
+#include "Str_Passport_Armor1_structs.hpp"
+#include "Enum_WeaponType_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
-#include "Enum_WeaponType_structs.hpp"
 
 
 namespace SDK

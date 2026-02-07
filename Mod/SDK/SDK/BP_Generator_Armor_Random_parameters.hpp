@@ -11,10 +11,10 @@
 #include "Basic.hpp"
 
 #include "Enum_Ranks_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Str_Medieval_Color_Swatches_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
+#include "Str_Medieval_Color_Swatches_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
 namespace SDK::Params

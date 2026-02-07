@@ -22,9 +22,9 @@ namespace SDK
 // Parameters:
 // class UDecalComponent*                  Decal                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // const struct FAttached_Transform_Str&   Attach_Param                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, ContainsInstancedReference, HasGetValueTypeHash)
-// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul)
+void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -38,8 +38,8 @@ void IBPI_Living_Thing_C::Attach_Decal(class UDecalComponent* Decal, const struc
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
-	if (Nul != nullptr)
-		*Nul = Parms.Nul;
+	if (nul != nullptr)
+		*nul = Parms.nul;
 }
 
 

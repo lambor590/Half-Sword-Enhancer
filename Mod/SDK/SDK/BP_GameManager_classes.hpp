@@ -13,6 +13,7 @@
 #include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 
 
@@ -20,7 +21,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_GameManager.BP_GameManager_C
-// 0x0028 (0x02B8 - 0x0290)
+// 0x0038 (0x02C8 - 0x0290)
 class ABP_GameManager_C final : public AActor
 {
 public:
@@ -30,6 +31,8 @@ public:
 	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x02A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	bool                                          Tourney_Spawned_Today;                             // 0x02B0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Nemesis_Combat_Event_Spawned;                      // 0x02B1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_2B2[0x6];                                      // 0x02B2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<struct FStr_Passport_Character1>       Nemesis_Opponents_to_Purge;                        // 0x02B8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
 
 public:
 	void Create_Pre_Made_Weapon(const struct FStr_Passport_Weapon1& Str_Passport_Weapon, struct FStr_Passport_Weapon1* Weapon_Passport);

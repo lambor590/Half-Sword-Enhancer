@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_Hafted_Mid_Tier_Short.ModularWeaponBP_Hafted_Mid_Tier_Short_C
-// 0x0000 (0x0BB8 - 0x0BB8)
+// 0x0000 (0x0BC0 - 0x0BC0)
 class AModularWeaponBP_Hafted_Mid_Tier_Short_C final : public AModularWeaponBP_C
 {
 public:

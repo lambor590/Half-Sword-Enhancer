@@ -20,7 +20,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Blood_BP_P4.Blood_BP_P4_C
-// 0x01D8 (0x0468 - 0x0290)
+// 0x0200 (0x0490 - 0x0290)
 class ABlood_BP_P4_C final : public AActor
 {
 public:
@@ -73,6 +73,13 @@ public:
 	class FName                                   Hit_Bone_Name;                                     // 0x0440(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                Block_Decals_In_This_Location;                     // 0x0448(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Trail;                                             // 0x0460(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	uint8                                         Pad_461[0x7];                                      // 0x0461(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        DecalLife;                                         // 0x0468(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Max_Decal_Spawn;                                   // 0x0470(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          HighVelocity;                                      // 0x0478(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_479[0x7];                                      // 0x0479(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        VelocityDecalSize;                                 // 0x0480(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Hit_wall_;                                         // 0x0488(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
@@ -91,6 +98,7 @@ public:
 	void ReceiveTick(float DeltaSeconds);
 	void RTDraw(TArray<struct FBasicParticleData>& Data);
 	void SpawnDecalFallback(const struct FVector& ImpactPoint, const struct FVector& ImpactNormal, class UPrimitiveComponent*& HitComponent, double Size_0);
+	void SpawnDecalVelocitySplatter(const struct FVector& ImpactPoint, const struct FVector& ImpactNormal, class UPrimitiveComponent*& HitComponent, double Size_0, const struct FVector& Velocity_0);
 	void UserConstructionScript();
 
 public:

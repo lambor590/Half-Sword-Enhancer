@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_LongSword_T2.ModularWeaponBP_LongSword_T2_C
-// 0x0000 (0x0BB8 - 0x0BB8)
+// 0x0000 (0x0BC0 - 0x0BC0)
 class AModularWeaponBP_LongSword_T2_C final : public AModularWeaponBP_C
 {
 public:

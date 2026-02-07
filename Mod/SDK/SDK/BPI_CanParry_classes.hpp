@@ -21,7 +21,7 @@ namespace SDK
 class IBPI_CanParry_C final
 {
 public:
-	void Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* Nul);
+	void Send_Threat_Location_R(const struct FVector& Threat_Location, const struct FVector& Offset, bool Immediate, bool* nul);
 
 public:
 	static class UClass* StaticClass()
