@@ -1727,9 +1727,9 @@ void UUI_PhotoMode_C::OnDestruct()
 // Function UI_PhotoMode.UI_PhotoMode_C.OnFreeCameraStart
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class BP_FreeCamera_0::ABP_FreeCamera_C*FreeCameraReference                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class BP_FreeCamera::ABP_FreeCamera_C*  FreeCameraReference                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void UUI_PhotoMode_C::OnFreeCameraStart(class BP_FreeCamera_0::ABP_FreeCamera_C* FreeCameraReference)
+void UUI_PhotoMode_C::OnFreeCameraStart(class BP_FreeCamera::ABP_FreeCamera_C* FreeCameraReference)
 {
 	static class UFunction* Func = nullptr;
 

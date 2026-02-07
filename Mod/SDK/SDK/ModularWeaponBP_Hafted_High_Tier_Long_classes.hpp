@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP_Hafted_High_Tier_Long.ModularWeaponBP_Hafted_High_Tier_Long_C
-// 0x0000 (0x0BB8 - 0x0BB8)
+// 0x0000 (0x0BC0 - 0x0BC0)
 class AModularWeaponBP_Hafted_High_Tier_Long_C final : public AModularWeaponBP_C
 {
 public:

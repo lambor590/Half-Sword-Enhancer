@@ -21,7 +21,7 @@ namespace SDK
 class IBPI_Fencing_C final
 {
 public:
-	void StopThatBlade(double Power, bool* Nul);
+	void StopThatBlade(double Power, bool* nul);
 
 public:
 	static class UClass* StaticClass()

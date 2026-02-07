@@ -37,20 +37,6 @@ void AModularWeaponBP_Customizable_C::ExecuteUbergraph_ModularWeaponBP_Customiza
 }
 
 
-// Function ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C.Refresh Weapon
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void AModularWeaponBP_Customizable_C::Refresh_Weapon()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_Customizable_C", "Refresh Weapon");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C.ReceiveTick
 // (Event, Public, BlueprintEvent)
 // Parameters:
@@ -68,6 +54,20 @@ void AModularWeaponBP_Customizable_C::ReceiveTick(float DeltaSeconds)
 	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C.Refresh Weapon
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AModularWeaponBP_Customizable_C::Refresh_Weapon()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModularWeaponBP_Customizable_C", "Refresh Weapon");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

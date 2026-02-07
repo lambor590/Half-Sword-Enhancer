@@ -18,16 +18,16 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C
-// 0x0030 (0x0BE8 - 0x0BB8)
+// 0x0030 (0x0BF0 - 0x0BC0)
 class ABP_Weapon_Ranged_Weapon_Master_C : public AModularWeaponBP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Weapon_Ranged_Weapon_Master_C;   // 0x0BB8(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class UStaticMeshComponent*                   Hand_Representation;                               // 0x0BC0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Bolt_Representation;                               // 0x0BC8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class ABP_Weapon_Ranged_Projectle_Master_C*   Loaded_Ammo;                                       // 0x0BD0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
-	class UPhysicsHandleComponent*                Bolt_Representation_Handle;                        // 0x0BD8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class UPhysicsConstraintComponent*            Bolt_Hand_Constraint;                              // 0x0BE0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Weapon_Ranged_Weapon_Master_C;   // 0x0BC0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class UStaticMeshComponent*                   Hand_Representation;                               // 0x0BC8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Bolt_Representation;                               // 0x0BD0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class ABP_Weapon_Ranged_Projectle_Master_C*   Loaded_Ammo;                                       // 0x0BD8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UPhysicsHandleComponent*                Bolt_Representation_Handle;                        // 0x0BE0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class UPhysicsConstraintComponent*            Bolt_Hand_Constraint;                              // 0x0BE8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Master(int32 EntryPoint);

@@ -18,14 +18,14 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass Shield_Buckler.Shield_Buckler_C
-// 0x0020 (0x0BD8 - 0x0BB8)
+// 0x0020 (0x0BE0 - 0x0BC0)
 class AShield_Buckler_C final : public AModularWeaponBP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_Shield_Buckler_C;                   // 0x0BB8(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class USceneComponent*                        Base1_0;                                           // 0x0BC0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Tip1;                                              // 0x0BC8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Buckler;                                           // 0x0BD0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	struct FPointerToUberGraphFrame               UberGraphFrame_Shield_Buckler_C;                   // 0x0BC0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class USceneComponent*                        Base1_0;                                           // 0x0BC8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0BD0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Buckler;                                           // 0x0BD8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);

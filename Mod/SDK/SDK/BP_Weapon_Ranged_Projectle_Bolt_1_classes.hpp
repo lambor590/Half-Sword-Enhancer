@@ -17,7 +17,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_Weapon_Ranged_Projectle_Bolt_1.BP_Weapon_Ranged_Projectle_Bolt_1_C
-// 0x0000 (0x0BE0 - 0x0BE0)
+// 0x0000 (0x0BE8 - 0x0BE8)
 class ABP_Weapon_Ranged_Projectle_Bolt_1_C final : public ABP_Weapon_Ranged_Projectle_Master_C
 {
 public:

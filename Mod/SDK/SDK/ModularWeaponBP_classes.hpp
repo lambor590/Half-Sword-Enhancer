@@ -10,17 +10,17 @@
 
 #include "Basic.hpp"
 
+#include "GripType_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "PhysicsCore_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
-#include "PhysicsCore_structs.hpp"
-#include "GripType_Enum_structs.hpp"
-#include "CoreUObject_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
 #include "SwitchGrip_Type_Enum_structs.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
@@ -30,7 +30,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass ModularWeaponBP.ModularWeaponBP_C
-// 0x0928 (0x0BB8 - 0x0290)
+// 0x0930 (0x0BC0 - 0x0290)
 class AModularWeaponBP_C : public AActor
 {
 public:
@@ -247,6 +247,7 @@ public:
 	bool                                          High_Collision_Threshold;                          // 0x0BB2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Flail_Strike;                                      // 0x0BB3(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Hit_Ground_Times;                                  // 0x0BB4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Amount_Of_Hits_Per_Moment;                         // 0x0BB8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);

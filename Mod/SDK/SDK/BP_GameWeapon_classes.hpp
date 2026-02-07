@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "BP_GameItem_classes.hpp"
-#include "CoreUObject_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
 namespace SDK
