@@ -324,4 +324,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <PropertyGroup>
+    <HalfSwordBinDir Condition="'$(HalfSwordBinDir)'==''">C:\Program Files (x86)\Steam\steamapps\common\Half Sword\HalfswordUE5\Binaries\Win64</HalfSwordBinDir>
+  </PropertyGroup>
+  <Target Name="InstallToGame" AfterTargets="Build" Condition="Exists('$(HalfSwordBinDir)')">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(HalfSwordBinDir)" />
+    <Message Text="Installed $(TargetFileName) to game directory" Importance="high" />
+  </Target>
 </Project>
