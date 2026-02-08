@@ -169,9 +169,6 @@
     <ClInclude Include="include\Render\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GameInstances.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>

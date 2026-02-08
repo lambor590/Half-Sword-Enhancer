@@ -7,7 +7,7 @@
 
 #include "imgui/imgui.h"
 #include "Menu/IMenuFunction.h"
-#include "GameInstances.h"
+#include "ComponentValidator.h"
 #include "Hooks/GameHook.h"
 
 namespace SectionStyle {
@@ -35,8 +35,6 @@ namespace SectionStyle {
 
 class ICollapsibleSection {
 protected:
-    GameInstances& instances = GameInstances::Get();
-
     SDK::UWorld* world = nullptr;
     SDK::APlayerController* controller = nullptr;
     SDK::AWillie_BP_C* player = nullptr;
@@ -53,14 +51,6 @@ protected:
     std::string name;
     std::vector<std::unique_ptr<IMenuFunction>> functions;
     
-    template<typename... Components>
-    std::function<void()> ValidateAndRun(const std::function<void()>& callback, Components*&... components) {
-        return [this, callback, &components...]() {
-            bool valid = (... && instances.ValidateComponent(components));
-            if (valid) callback();
-        };
-    }
-
 public:
     explicit CollapsibleSection(std::string name) noexcept : name(std::move(name)) {}
 
@@ -88,28 +78,34 @@ public:
         int* keyPtr = nullptr;
         std::vector<GameHook::GameEvent> eventTypes;
         bool toggleable = false;
+        bool runOnGameThread = false;
         std::vector<Parameter> params;
 
-        FunctionBuilder&& WithKey(int* key) && noexcept { 
-            keyPtr = key; 
-            return std::move(*this); 
+        FunctionBuilder&& WithKey(int* key) && noexcept {
+            keyPtr = key;
+            return std::move(*this);
         }
-        
+
         FunctionBuilder&& OnEvent(GameHook::GameEvent evt) && {
             eventTypes.emplace_back(evt);
             return std::move(*this);
         }
-        
-        FunctionBuilder&& Toggle(bool t = true) && noexcept { 
-            toggleable = t; 
-            return std::move(*this); 
+
+        FunctionBuilder&& Toggle(bool t = true) && noexcept {
+            toggleable = t;
+            return std::move(*this);
         }
-        
-        FunctionBuilder&& WithParams(std::initializer_list<Parameter> p) && noexcept { 
+
+        FunctionBuilder&& GameThread() && noexcept {
+            runOnGameThread = true;
+            return std::move(*this);
+        }
+
+        FunctionBuilder&& WithParams(std::initializer_list<Parameter> p) && noexcept {
             params.assign(p);
-            return std::move(*this); 
+            return std::move(*this);
         }
-        
+
         FunctionBuilder&& WithTooltip(std::string_view tip) && noexcept {
             tooltip = tip;
             return std::move(*this);
@@ -118,7 +114,7 @@ public:
         template<typename Callback, typename... Components>
         void Action(Callback&& callback, Components*&... comps) && {
             auto validatedCb = [this, callback = std::forward<Callback>(callback), &comps...](bool active) {
-                if (!(... && section->instances.ValidateComponent(comps))) return;
+                if (!(... && ComponentValidator::Validate(comps))) return;
                 if constexpr (std::is_invocable_v<Callback>) {
                     callback();
                 } else {
@@ -126,17 +122,26 @@ public:
                 }
             };
 
+            std::function<void(bool)> finalCb;
+            if (runOnGameThread) {
+                finalCb = [validatedCb = std::move(validatedCb)](bool active) {
+                    GameHook::QueueAction([validatedCb, active]() { validatedCb(active); });
+                };
+            } else {
+                finalCb = std::move(validatedCb);
+            }
+
             std::unique_ptr<IMenuFunction> fn;
             if (eventTypes.empty()) {
                 fn = std::make_unique<KeybindFunction>(
-                    std::move(name), keyPtr, std::move(validatedCb), toggleable, std::move(tooltip)
+                    std::move(name), keyPtr, std::move(finalCb), toggleable, std::move(tooltip)
                 );
             } else {
                 fn = std::make_unique<HookedFunction>(
-                    std::move(name), std::move(eventTypes), std::move(validatedCb), keyPtr, toggleable, std::move(tooltip)
+                    std::move(name), std::move(eventTypes), std::move(finalCb), keyPtr, toggleable, std::move(tooltip)
                 );
             }
-            
+
             for (const auto& param : params) {
                 fn->AddParameter(param);
             }
