@@ -173,16 +173,20 @@ void KeybindManager::SaveKeybinds() noexcept {
     g_ConfigManager.SaveConfig();
 }
 
+const std::vector<KeybindManager::Binding*>* KeybindManager::FindBindings(int key) noexcept {
+    auto it = s_hotData.keyToBindings.find(key);
+    return (it != s_hotData.keyToBindings.end()) ? &it->second : nullptr;
+}
+
 bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
-    const auto it = s_hotData.keyToBindings.find(key);
-    if (it == s_hotData.keyToBindings.end()) [[likely]] return false;
+    auto* bindings = FindBindings(key);
+    if (!bindings) [[likely]] return false;
 
-    if (!excludeKeyPtr) return !it->second.empty();
+    if (!excludeKeyPtr) return !bindings->empty();
 
-    const auto& vec = it->second;
-    bool hasExcluded = std::find_if(vec.begin(), vec.end(),
-        [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != vec.end();
-    return vec.size() > (hasExcluded ? 1 : 0);
+    bool hasExcluded = std::find_if(bindings->begin(), bindings->end(),
+        [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != bindings->end();
+    return bindings->size() > (hasExcluded ? 1 : 0);
 }
 
 void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
@@ -206,10 +210,10 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
 }
 
 IMenuFunction* KeybindManager::GetBoundFunction(int key, int* excludeKeyPtr) noexcept {
-    const auto it = s_hotData.keyToBindings.find(key);
-    if (it == s_hotData.keyToBindings.end()) [[likely]] return nullptr;
+    auto* bindings = FindBindings(key);
+    if (!bindings) [[likely]] return nullptr;
 
-    for (const Binding* binding : it->second) {
+    for (const Binding* binding : *bindings) {
         if (binding->keyPtr != excludeKeyPtr) {
             return binding->function;
         }
@@ -218,13 +222,13 @@ IMenuFunction* KeybindManager::GetBoundFunction(int key, int* excludeKeyPtr) noe
 }
 
 std::vector<IMenuFunction*> KeybindManager::GetAllBoundFunctions(int key, int* excludeKeyPtr) noexcept {
-    const auto it = s_hotData.keyToBindings.find(key);
-    if (it == s_hotData.keyToBindings.end()) [[likely]] return {};
+    auto* bindings = FindBindings(key);
+    if (!bindings) [[likely]] return {};
 
     std::vector<IMenuFunction*> functions;
-    functions.reserve(it->second.size());
+    functions.reserve(bindings->size());
 
-    for (const Binding* binding : it->second) {
+    for (const Binding* binding : *bindings) {
         if (binding->keyPtr != excludeKeyPtr && binding->function) {
             functions.push_back(binding->function);
         }
@@ -233,15 +237,14 @@ std::vector<IMenuFunction*> KeybindManager::GetAllBoundFunctions(int key, int* e
 }
 
 int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) noexcept {
-    const auto it = s_hotData.keyToBindings.find(key);
-    if (it == s_hotData.keyToBindings.end()) [[likely]] return 0;
+    auto* bindings = FindBindings(key);
+    if (!bindings) [[likely]] return 0;
 
-    if (!excludeKeyPtr) return static_cast<int>(it->second.size());
+    if (!excludeKeyPtr) return static_cast<int>(bindings->size());
 
-    const auto& vec = it->second;
-    bool hasExcluded = std::find_if(vec.begin(), vec.end(),
-        [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != vec.end();
-    return static_cast<int>(vec.size() - (hasExcluded ? 1 : 0));
+    bool hasExcluded = std::find_if(bindings->begin(), bindings->end(),
+        [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != bindings->end();
+    return static_cast<int>(bindings->size() - (hasExcluded ? 1 : 0));
 }
 
 void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
