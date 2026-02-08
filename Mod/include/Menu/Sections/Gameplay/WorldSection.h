@@ -12,6 +12,11 @@
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
+#include "SDK/Blood_BP_P4_classes.hpp"
+#include "SDK/Blood_BP_PT_classes.hpp"
+#include "SDK/RunningBlood_BP_classes.hpp"
+#include "SDK/BP_MeshBloodSim_classes.hpp"
+#include "SDK/HSComputeShaders_classes.hpp"
 
 class WorldSection : public CollapsibleSection {
 private:
@@ -91,8 +96,57 @@ public:
             .WithKey(&cfg.clearBloodKey)
             .WithTooltip("Removes blood decals, emitters, and surface blood from the world")
             .Action([this]() {
-                // WIP
-            });
+                const SDK::FLinearColor clearColor{0.0f, 0.0f, 0.0f, 0.0f};
+                const SDK::FLinearColor defaultVertexColor{1.0f, 1.0f, 1.0f, 1.0f};
+
+                ActorUtils::ForEachWillie(world, nullptr, [](SDK::AWillie_BP_C* willie) {
+                    willie->Reset_Blood_Bleed();
+                    willie->Reset_Blood_Splash();
+                    willie->Reset_Trail_Blood(0.0f);
+                    willie->BloodyFoot_R = 0;
+                    willie->BloodyFoot_L = 0;
+                    willie->Mesh->ClearVertexColorOverride(0);
+                    if (willie->CharacterMesh_Head)
+                        willie->CharacterMesh_Head->ClearVertexColorOverride(0);
+                });
+
+                ActorUtils::ForEachObjectOfType<SDK::ABP_MeshBloodSim_C>(world, [this, &clearColor, &defaultVertexColor](SDK::ABP_MeshBloodSim_C* sim) {
+                    if (sim->MainRenderTarget)
+                        SDK::UKismetRenderingLibrary::ClearRenderTarget2D(world, sim->MainRenderTarget, clearColor);
+                    if (sim->MeshToSimOn)
+                        SDK::UMeshVertexPainterKismetLibrary::PaintVerticesSingleColor(sim->MeshToSimOn, defaultVertexColor, false);
+                    sim->RemainingSimulationTime = 0.0;
+                });
+
+                ActorUtils::ForEachObjectOfType<SDK::ACSBloodSimActor>(world, [this, &clearColor, &defaultVertexColor](SDK::ACSBloodSimActor* sim) {
+                    if (sim->CurrentWrite)
+                        SDK::UKismetRenderingLibrary::ClearRenderTarget2D(world, sim->CurrentWrite, clearColor);
+                    if (sim->CurrentRead)
+                        SDK::UKismetRenderingLibrary::ClearRenderTarget2D(world, sim->CurrentRead, clearColor);
+                    if (sim->BoundMesh)
+                        SDK::UMeshVertexPainterKismetLibrary::PaintVerticesSingleColor(sim->BoundMesh, defaultVertexColor, false);
+                });
+
+                ActorUtils::ForEachObjectOfType<SDK::ABlood_BP_P4_C>(world, [](SDK::ABlood_BP_P4_C* blood) {
+                    blood->K2_DestroyActor();
+                });
+
+                ActorUtils::ForEachObjectOfType<SDK::ABlood_BP_PT_C>(world, [](SDK::ABlood_BP_PT_C* blood) {
+                    blood->K2_DestroyActor();
+                });
+
+                ActorUtils::ForEachObjectOfType<SDK::ADecalActor>(world, [](SDK::ADecalActor* decal) {
+                    decal->K2_DestroyActor();
+                });
+
+                ActorUtils::ForEachObjectOfType<SDK::ARunningBlood_BP_C>(world, [](SDK::ARunningBlood_BP_C* blood) {
+                    blood->K2_DestroyActor();
+                });
+
+                ActorUtils::ForEachObjectOfType<SDK::AHSWoundsController>(world, [](SDK::AHSWoundsController* wounds) {
+                    wounds->K2_DestroyActor();
+                });
+            }, world);
 
         Function("Clear Objects")
             .WithKey(&cfg.clearObjectsKey)
