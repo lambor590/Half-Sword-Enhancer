@@ -167,19 +167,21 @@ public:
             .WithKey(&cfg.possessWillieKey)
             .WithTooltip("Take control of the closest NPC")
             .Action([this]() {
-                static SDK::AAIController* prevAIController = nullptr;
-                static SDK::APawn* originalPawn = nullptr;
-                static SDK::AWillie_BP_C* possessedWillie = nullptr;
+                static struct {
+                    SDK::AAIController* prevController = nullptr;
+                    SDK::APawn* originalPawn = nullptr;
+                    SDK::AWillie_BP_C* possessed = nullptr;
+
+                    void Reset() { prevController = nullptr; originalPawn = nullptr; possessed = nullptr; }
+                } state;
 
                 SDK::APawn* currentPawn = controller->K2_GetPawn();
-                if (possessedWillie && currentPawn != possessedWillie) [[unlikely]] {
-                    prevAIController = nullptr;
-                    originalPawn = nullptr;
-                    possessedWillie = nullptr;
+                if (state.possessed && currentPawn != state.possessed) [[unlikely]] {
+                    state.Reset();
                 }
 
-                if (!possessedWillie) [[likely]] {
-                    originalPawn = currentPawn;
+                if (!state.possessed) [[likely]] {
+                    state.originalPawn = currentPawn;
                     SDK::AWillie_BP_C* nearest = nullptr;
                     float minDist = GameConstants::MAX_DISTANCE;
 
@@ -194,23 +196,21 @@ public:
                     if (!nearest) [[unlikely]] return;
 
                     if (nearest->IsA(SDK::AWillie_BP_C::StaticClass())) [[likely]] {
-                        prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
-                        prevAIController->SetActorTickEnabled(false);
+                        state.prevController = static_cast<SDK::AAIController*>(nearest->GetController());
+                        state.prevController->SetActorTickEnabled(false);
                     }
                     controller->Possess(nearest);
                     nearest->Player = true;
-                    possessedWillie = nearest;
+                    state.possessed = nearest;
                 } else {
                     auto* williePawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
-                    controller->Possess(originalPawn);
+                    controller->Possess(state.originalPawn);
                     williePawn->Player = false;
-                    if (prevAIController) [[likely]] {
-                        prevAIController->Possess(williePawn);
-                        prevAIController->SetActorTickEnabled(true);
-                        prevAIController = nullptr;
+                    if (state.prevController) [[likely]] {
+                        state.prevController->Possess(williePawn);
+                        state.prevController->SetActorTickEnabled(true);
                     }
-                    possessedWillie = nullptr;
-                    originalPawn = nullptr;
+                    state.Reset();
                 }
             }, player, controller, world);
     }

@@ -194,6 +194,7 @@ public:
     static void UpdateBinding(int* keyPtr) noexcept;
 
 private:
+    static const std::vector<Binding*>* FindBindings(int key) noexcept;
     static int ExtractKeyCode(UINT msg, WPARAM wParam) noexcept;
     static constexpr bool IsRelevantMessage(UINT msg) noexcept;
 };
