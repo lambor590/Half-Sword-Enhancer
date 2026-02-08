@@ -45,6 +45,7 @@ public:
                 Parameter("radius", "Radius", &cfg.killAllEnemiesRadius, 50.0f, 5000.0f),
                 Parameter("snapNeck", "Snap Neck", &cfg.snapNeckEnemies, "Just another way to kill enemies")
             })
+            .GameThread()
             .Action([this]() {
                 ActorUtils::ForEachWillieInRadius(world, player, cfg.killAllEnemiesRadius, [this](SDK::AWillie_BP_C* willie) {
                     if (cfg.snapNeckEnemies) {
@@ -58,6 +59,7 @@ public:
         Function("Toggle Enemy AI")
             .WithKey(&cfg.toggleEnemyAIKey)
             .WithParams({ Parameter("radius", "Radius", &cfg.toggleEnemyAIRadius, 50.0f, 5000.0f) })
+            .GameThread()
             .Action([this]() {
                 bool newTickEnabled = false;
                 bool computed = false;
@@ -80,6 +82,7 @@ public:
                 Parameter("disintegrate", "Disintegrate", &cfg.destroyDisintegrate, "Use disintegration effect instead of instant removal")
             })
             .WithTooltip("Removes all NPCs from the world")
+            .GameThread()
             .Action([this]() {
                 ActorUtils::ForEachWillie(world, player, [this](SDK::AWillie_BP_C* willie) {
                     if (!cfg.destroyDeadOnly || willie->Health <= GameConstants::MIN_HEALTH) {
@@ -95,6 +98,7 @@ public:
         Function("Clear Blood")
             .WithKey(&cfg.clearBloodKey)
             .WithTooltip("Removes blood decals, emitters, and surface blood from the world")
+            .GameThread()
             .Action([this]() {
                 const SDK::FLinearColor clearColor{0.0f, 0.0f, 0.0f, 0.0f};
                 const SDK::FLinearColor defaultVertexColor{1.0f, 1.0f, 1.0f, 1.0f};
@@ -110,7 +114,7 @@ public:
                         willie->CharacterMesh_Head->ClearVertexColorOverride(0);
                 });
 
-                ActorUtils::ForEachObjectOfType<SDK::ABP_MeshBloodSim_C>(world, [this, &clearColor, &defaultVertexColor](SDK::ABP_MeshBloodSim_C* sim) {
+                ActorUtils::ForEachObjectOfType<SDK::ABP_MeshBloodSim_C>(world, [this, clearColor, defaultVertexColor](SDK::ABP_MeshBloodSim_C* sim) {
                     if (sim->MainRenderTarget)
                         SDK::UKismetRenderingLibrary::ClearRenderTarget2D(world, sim->MainRenderTarget, clearColor);
                     if (sim->MeshToSimOn)
@@ -118,7 +122,7 @@ public:
                     sim->RemainingSimulationTime = 0.0;
                 });
 
-                ActorUtils::ForEachObjectOfType<SDK::ACSBloodSimActor>(world, [this, &clearColor, &defaultVertexColor](SDK::ACSBloodSimActor* sim) {
+                ActorUtils::ForEachObjectOfType<SDK::ACSBloodSimActor>(world, [this, clearColor, defaultVertexColor](SDK::ACSBloodSimActor* sim) {
                     if (sim->CurrentWrite)
                         SDK::UKismetRenderingLibrary::ClearRenderTarget2D(world, sim->CurrentWrite, clearColor);
                     if (sim->CurrentRead)
@@ -152,6 +156,7 @@ public:
             .WithKey(&cfg.clearObjectsKey)
             .WithParams({ Parameter("radius", "Radius", &cfg.clearObjectsRadius, 50.0f, 5000.0f) })
             .WithTooltip("Removes dropped weapons and armor")
+            .GameThread()
             .Action([this]() {
                 constexpr double MIN_DISTANCE_SQ = 120.0 * 120.0;
 
