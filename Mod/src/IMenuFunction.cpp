@@ -9,7 +9,7 @@
 #include "KeybindManager.h"
 
 HookedFunction::~HookedFunction() {
-    if (!isEnabled) return;
+    if (!isEnabled || !g_GameHook->IsHooked()) return;
     for (const auto evt : eventTypes) {
         g_GameHook->UnregisterEvent(evt, this);
     }
@@ -38,7 +38,9 @@ void HookedFunction::SetEnabled(bool enabled) {
         }
     }
     
-    if (executeOnToggle) callback(isEnabled);
+    if (executeOnToggle) {
+        GameHook::QueueAction([this, enabled = isEnabled]() { callback(enabled); });
+    }
     g_ConfigManager.SaveConfig();
 }
 
@@ -93,23 +95,16 @@ void KeybindFunction::LoadConfig() {
 
 void KeybindFunction::UpdateKey() {
     if (prevKey == *key) return;
-    
+
     KeybindManager::UpdateBinding(key);
-    
-    if (toggleable) {
-        if (isEnabled) {
-            KeybindManager::UnregisterKeybind(key);
-            if (*key != -1) {
-                KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
-            }
-        }
-    } else {
+
+    if (!toggleable || isEnabled) {
         KeybindManager::UnregisterKeybind(key);
         if (*key != -1) {
-            KeybindManager::RegisterKeybind(key, [this]() { callback(true); }, this);
+            KeybindManager::RegisterKeybind(key, [this]() { callback(toggleable ? isEnabled : true); }, this);
         }
     }
-    
+
     prevKey = *key;
     SaveConfig("key", *key);
     g_ConfigManager.SaveConfig();
