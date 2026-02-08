@@ -1,7 +1,5 @@
 #pragma once
 
-#include <queue>
-#include <mutex>
 #include <functional>
 
 #include "SDK/CoreUObject_classes.hpp"
@@ -15,14 +13,6 @@ namespace Spawner {
         Tool,
         Armor,
         Unknown
-    };
-
-    struct SpawnRequest {
-        const SDK::UWorld* world;
-        std::string classPath;
-        SDK::FTransform transform;
-        std::function<void(SDK::AActor*)> callback;
-        bool snapToGround;
     };
 
     ActorType GetActorType(const std::string& classPath);
