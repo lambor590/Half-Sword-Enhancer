@@ -68,9 +68,19 @@ void GameHook::Hook()
 
     MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&hookInstance->oProcessEvent);
 
-    RegisterEvent(GameEvent::OnTick, &hookInstance, []() {
+    // Direct registration before ProcessEvent is active - no race possible
+    uint8_t tickIdx = static_cast<uint8_t>(GameEvent::OnTick);
+    eventCallbacks[tickIdx].emplace_back(static_cast<void*>(&hookInstance), []() {
         GameHook::ProcessGameThreadQueue();
     });
+    RegisterHook(GetEventFunctionName(GameEvent::OnTick), [this]() {
+        auto& callbacks = eventCallbacks[static_cast<uint8_t>(GameEvent::OnTick)];
+        for (auto& pair : callbacks) {
+            pair.second();
+        }
+    });
+
+    hooked = true;
 
     if (ConfigManager::Get().GetBool("UE", "console_enabled", false)) {
         UnlockUEConsole();
@@ -81,20 +91,21 @@ void GameHook::Hook()
     logger.Log("ProcessEvent hooked successfully!");
 }
 
-void GameHook::Unhook() const
+void GameHook::Unhook()
 {
+    hooked = false;
     MemoryUtils::Unhook(oProcessEvent);
+    hookMap.clear();
+    for (auto& vec : eventCallbacks) vec.clear();
     logger.Log("ProcessEvent unhooked successfully!");
 }
 
 void GameHook::RegisterHook(const std::string& functionName, std::function<void()> callback) {
-    uint64_t hash = HS::Hash::FNV1A(functionName.c_str());
-    hookMap.emplace(hash, std::move(callback));
+    RegisterHook(HS::Hash::FNV1A(functionName.c_str()), std::move(callback));
 }
 
 void GameHook::UnregisterHook(const std::string& functionName) {
-    uint64_t hash = HS::Hash::FNV1A(functionName.c_str());
-    hookMap.erase(hash);
+    UnregisterHook(HS::Hash::FNV1A(functionName.c_str()));
 }
 
 void GameHook::RegisterHook(uint64_t hash, std::function<void()> callback) {

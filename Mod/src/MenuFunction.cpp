@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include <string>
 #include <algorithm>
 
@@ -73,34 +72,19 @@ namespace {
 
 static void RenderKeyButton(const char* id, bool& waitingForKey, int key, int& pendingOriginalKey) {
     const char* keyText = waitingForKey ? GuiConstants::PRESS_KEY_TEXT.data() : KeybindManager::GetKeyName(key);
-    const bool disabled = IsKeyUnbound(key);
-    
-    if (disabled) [[unlikely]] {
-        const ButtonStyleRAII style(true);
-        
-        const float textWidth = ImGui::CalcTextSize(keyText).x;
-        ImGui::SetNextItemWidth(textWidth + GuiConstants::BUTTON_WIDTH_PADDING);
-        ImGui::PushID(id);
-        
-        if (ImGui::Button(keyText)) {
-            waitingForKey = true;
-            pendingOriginalKey = key;
-        }
-        
-        ImGui::PopID();
-    } else {
-        const float textWidth = ImGui::CalcTextSize(keyText).x;
-        ImGui::SetNextItemWidth(textWidth + GuiConstants::BUTTON_WIDTH_PADDING);
-        ImGui::PushID(id);
-        
-        if (ImGui::Button(keyText)) {
-            waitingForKey = true;
-            pendingOriginalKey = key;
-        }
-        
-        ImGui::PopID();
+    const ButtonStyleRAII style(IsKeyUnbound(key));
+
+    const float textWidth = ImGui::CalcTextSize(keyText).x;
+    ImGui::SetNextItemWidth(textWidth + GuiConstants::BUTTON_WIDTH_PADDING);
+    ImGui::PushID(id);
+
+    if (ImGui::Button(keyText)) {
+        waitingForKey = true;
+        pendingOriginalKey = key;
     }
-    
+
+    ImGui::PopID();
+
     if (ImGui::IsItemHovered()) [[unlikely]] {
         ImGui::BeginTooltip();
         ImGui::TextColored(DefaultStyle::parchment, GuiConstants::CHANGE_KEYBIND_TEXT.data());
@@ -361,7 +345,7 @@ void Parameter::SaveBool(const Parameter& param, const IMenuFunction* func) noex
 }
 
 namespace {
-    struct alignas(32) TooltipState {
+    struct TooltipState {
         bool enabled = true;
         uint8_t counter = 0;
         

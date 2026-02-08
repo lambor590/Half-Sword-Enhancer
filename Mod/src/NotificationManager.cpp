@@ -109,9 +109,10 @@ void NotificationManager::Render() noexcept {
             const ImVec2 textSize = ImGui::CalcTextSize(notification.message.c_str());
             const float notifWidth = (std::max)(textSize.x + TEXT_PADDING * 2.0f, MIN_NOTIFICATION_WIDTH);
 
-            const ImVec4 bgColor(NOTIFICATION_BG.x, NOTIFICATION_BG.y, NOTIFICATION_BG.z, NOTIFICATION_BG.w * alpha);
-            const ImVec4 borderColor(NOTIFICATION_BORDER.x, NOTIFICATION_BORDER.y, NOTIFICATION_BORDER.z, NOTIFICATION_BORDER.w * alpha);
-            const ImVec4 textColor(NOTIFICATION_TEXT.x, NOTIFICATION_TEXT.y, NOTIFICATION_TEXT.z, NOTIFICATION_TEXT.w * alpha);
+            auto withAlpha = [alpha](const ImVec4& c) { return ImVec4(c.x, c.y, c.z, c.w * alpha); };
+            const ImVec4 bgColor = withAlpha(NOTIFICATION_BG);
+            const ImVec4 borderColor = withAlpha(NOTIFICATION_BORDER);
+            const ImVec4 textColor = withAlpha(NOTIFICATION_TEXT);
 
             ImGui::PushStyleColor(ImGuiCol_ChildBg, bgColor);
             ImGui::PushStyleColor(ImGuiCol_Border, borderColor);

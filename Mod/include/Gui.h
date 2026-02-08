@@ -12,12 +12,6 @@
 #include "Logger.h"
 #include "Menu/MenuManager.h"
 #include "GlobalDefinitions.h"
-#include "Menu/Sections/Gameplay/PlayerSection.h"
-#include "Menu/Sections/Gameplay/WorldSection.h"
-#include "Menu/Sections/Entity_Spawner/NPCSection.h"
-#include "Menu/Sections/Entity_Spawner/ItemSection.h"
-#include "Menu/Sections/Settings/GraphicsSection.h"
-#include "Menu/Sections/Settings/GuiSection.h"
 #include "DefaultStyle.h"
 #include "Hooks/GameHook.h"
 
