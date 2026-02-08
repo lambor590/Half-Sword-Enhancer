@@ -1,10 +1,5 @@
 #pragma once
 
-#include <string>
-#include <memory>
-#include <functional>
-#include <vector>
-
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
 #include "SDK/AIModule_classes.hpp"
@@ -198,8 +193,10 @@ public:
 
                     if (!nearest) [[unlikely]] return;
 
-                    prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
-                    prevAIController->SetActorTickEnabled(false);
+                    if (nearest->IsA(SDK::AWillie_BP_C::StaticClass())) [[likely]] {
+                        prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
+                        prevAIController->SetActorTickEnabled(false);
+                    }
                     controller->Possess(nearest);
                     nearest->Player = true;
                     possessedWillie = nearest;
