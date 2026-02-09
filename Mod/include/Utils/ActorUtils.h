@@ -2,6 +2,7 @@
 
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Engine_classes.hpp"
+#include "SDK/BP_Constraint_Bite_classes.hpp"
 #include "Utils/GameConstants.h"
 
 namespace ActorUtils {
@@ -91,6 +92,44 @@ namespace ActorUtils {
                 }
             }
         }
+    }
+
+    inline SDK::ABP_Constraint_Bite_C* SpawnBiteConstraint(
+        SDK::UWorld* world, SDK::AWillie_BP_C* biter, SDK::AWillie_BP_C* target)
+    {
+        SDK::FTransform transform{};
+        transform.Rotation = SDK::FQuat{ 0.0, 0.0, 0.0, 1.0 };
+        transform.Translation = biter->K2_GetActorLocation();
+        transform.Scale3D = { 1.0, 1.0, 1.0 };
+
+        auto* biteActor = static_cast<SDK::ABP_Constraint_Bite_C*>(
+            SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+                world, SDK::ABP_Constraint_Bite_C::StaticClass(), transform,
+                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime));
+        if (!biteActor) return nullptr;
+
+        biteActor->Bitten_Actor = target;
+        biteActor->Bitten_Component = target->Mesh;
+        biteActor->Bitten_Bone = SDK::BasicFilesImpleUtils::StringToName(L"head");
+        biteActor->Bitter_Component = biter->Mesh;
+
+        SDK::UGameplayStatics::FinishSpawningActor(
+            biteActor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+
+        biter->Bite_Damage_Actor = biteActor;
+        biter->Biting = true;
+        biter->Is_Zombie_ = true;
+        return biteActor;
+    }
+
+    inline void ReleaseBite(SDK::AWillie_BP_C* willie) {
+        if (willie->Bite_Damage_Actor) {
+            willie->Bite_Damage_Actor->K2_DestroyActor();
+            willie->Bite_Damage_Actor = nullptr;
+        }
+        willie->Biting = false;
+        willie->Is_Zombie_ = false;
     }
 
     template<typename ObjectClass, typename Func>
