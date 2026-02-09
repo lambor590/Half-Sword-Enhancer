@@ -77,6 +77,22 @@ namespace ActorUtils {
         willie->Pain_Stumble_Delayed = SDK::FVector{};
     }
 
+    template<typename ComponentClass, typename Func>
+    void ForEachComponentOfType(SDK::UWorld* world, Func&& func) {
+        SDK::TArray<SDK::AActor*> actors;
+        SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AActor::StaticClass(), &actors);
+
+        for (auto* actor : actors) {
+            if (!actor) continue;
+            SDK::TArray<SDK::UActorComponent*> components = actor->K2_GetComponentsByClass(ComponentClass::StaticClass());
+            for (auto* component : components) {
+                if (auto* typed = static_cast<ComponentClass*>(component)) {
+                    func(typed);
+                }
+            }
+        }
+    }
+
     template<typename ObjectClass, typename Func>
     void ForEachObjectOfType(SDK::UWorld* world, Func&& func) {
         SDK::TArray<SDK::AActor*> objects;
