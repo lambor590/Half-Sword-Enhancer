@@ -9,7 +9,6 @@
 
 #define WEAPON_PATH(s) "/Game/Assets/Weapons/Blueprints/Built_Weapons" s
 #define ARMOR_PATH(s) "/Game/Assets/Armor/Blueprints/Built_Armor" s
-#define MODULAR_ARMOR_PATH(s) "/Game/Assets/Armor/Blueprints/Modular_Armor" s
 #define PROP_PATH(s) "/Game/Assets/Props" s
 #define TRAP_PATH(s) "/Game/Assets/Traps/Blueprints" s
 
@@ -27,22 +26,17 @@ private:
     SectionConfig::ItemConfig& cfg = SectionConfig::item;
 
     static constexpr uint8_t WEAPONS_INDEX = 0;
-    static constexpr uint8_t MODULAR_ARMOR_INDEX = 10;
-    static constexpr uint8_t PROPS_INDEX = 11;
+    static constexpr uint8_t PROPS_INDEX = 10;
 
     static constexpr std::array categories{
         "Weapons", "Helmets", "Body Armor", "Arms", "Legs",
         "Hands", "Feet", "Neck", "Shoulders", "Waist",
-        "Modular Armor", "Props"
+        "Props"
     };
 
     static constexpr std::array weaponSubcategories{
         "Swords", "Maces", "Axes", "Polearms", "Daggers", "Baurnwehr", "Flails",
         "Tools", "Shields", "Improvised", "Ranged", "Treasure", "Unique"
-    };
-
-    static constexpr std::array modularArmorSubcategories{
-        "Head", "Chest", "Body", "Arms", "Legs", "Hands", "Feet", "Neck", "Shoulders", "Waist"
     };
 
     static constexpr ItemArray<19> swordItems{{
@@ -362,148 +356,6 @@ private:
         {"Foulds T3", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T3.BP_Armor_Waist_Foulds_T3_C")}
     }};
 
-    static constexpr ItemArray<30> modularHeadItems{{
-        {"Armet", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Armet.BP_Modular_Head_Armet_C")},
-        {"Armet Baron", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Armet_Baron.BP_Modular_Head_Armet_Baron_C")},
-        {"Barbute 1", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Barbute_1.BP_Modular_Head_Barbute_1_C")},
-        {"Barbute B 001", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Barbute_B_001.BP_Modular_Head_Barbute_B_001_C")},
-        {"Cap 1", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Cap_1.BP_Modular_Head_Cap_1_C")},
-        {"Cap 2", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Cap_2.BP_Modular_Head_Cap_2_C")},
-        {"Cap 3", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Cap_3.BP_Modular_Head_Cap_3_C")},
-        {"Cap 4", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Cap_4.BP_Modular_Head_Cap_4_C")},
-        {"Eisenhut AA 001", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Eisenhut_AA_001.BP_Modular_Head_Eisenhut_AA_001_C")},
-        {"Eisenhut AB 001", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Eisenhut_AB_001.BP_Modular_Head_Eisenhut_AB_001_C")},
-        {"Eisenhut B 002", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Eisenhut_B_002.BP_Modular_Head_Eisenhut_B_002_C")},
-        {"Eisenhut G 002", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Eisenhut_G_002.BP_Modular_Head_Eisenhut_G_002_C")},
-        {"Hat 1", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Hat_1.BP_Modular_Head_Hat_1_C")},
-        {"Hat 2", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Hat_2.BP_Modular_Head_Hat_2_C")},
-        {"Hat 3", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Hat_3.BP_Modular_Head_Hat_3_C")},
-        {"Hat 4", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Hat_4.BP_Modular_Head_Hat_4_C")},
-        {"Kettle Helm 1", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_KettleHelm_1.BP_Modular_Head_KettleHelm_1_C")},
-        {"Kettle Helm 2", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_KettleHelm_2.BP_Modular_Head_KettleHelm_2_C")},
-        {"Kettle Helm 3", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_KettleHelm_3.BP_Modular_Head_KettleHelm_3_C")},
-        {"Kettle Helm 4", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_KettleHelm_4.BP_Modular_Head_KettleHelm_4_C")},
-        {"Kettle Helm 5", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_KettleHelm_5.BP_Modular_Head_KettleHelm_5_C")},
-        {"Kettle Helm F 004", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_KettleHelm_F_004.BP_Modular_Head_KettleHelm_F_004_C")},
-        {"Kettle Helm G 004", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_KettleHelm_G_004.BP_Modular_Head_KettleHelm_G_004_C")},
-        {"Sallet 1", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Sallet_1.BP_Modular_Head_Sallet_1_C")},
-        {"Sallet 2", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Sallet_2.BP_Modular_Head_Sallet_2_C")},
-        {"Sallet 3", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Sallet_3.BP_Modular_Head_Sallet_3_C")},
-        {"Sallet 4", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Sallet_4.BP_Modular_Head_Sallet_4_C")},
-        {"Sallet Open A 001", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Sallet_Open_A_001.BP_Modular_Head_Sallet_Open_A_001_C")},
-        {"Sallet Open A 002", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Sallet_Open_A_002.BP_Modular_Head_Sallet_Open_A_002_C")},
-        {"Sallet Open A 003", MODULAR_ARMOR_PATH("/Head/BP_Modular_Head_Sallet_Open_A_003.BP_Modular_Head_Sallet_Open_A_003_C")}
-    }};
-
-    static constexpr ItemArray<16> modularChestItems{{
-        {"Breastplate 1", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Breastplate_1.BP_Modular_Chest_Breastplate_1_C")},
-        {"Breastplate 2", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Breastplate_2.BP_Modular_Chest_Breastplate_2_C")},
-        {"Breastplate 3", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Breastplate_3.BP_Modular_Chest_Breastplate_3_C")},
-        {"Breastplate 4", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Breastplate_4.BP_Modular_Chest_Breastplate_4_C")},
-        {"Breastplate 5", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Breastplate_5.BP_Modular_Chest_Breastplate_5_C")},
-        {"Breastplate 6", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Breastplate_6.BP_Modular_Chest_Breastplate_6_C")},
-        {"Breastplate 10", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Breastplate_10.BP_Modular_Chest_Breastplate_10_C")},
-        {"Breastplate 18", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Breastplate_18.BP_Modular_Chest_Breastplate_18_C")},
-        {"Cuirass 1", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Cuirass_1.BP_Modular_Chest_Cuirass_1_C")},
-        {"Cuirass 2", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Cuirass_2.BP_Modular_Chest_Cuirass_2_C")},
-        {"Cuirass Baron", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Cuirass_Baron.BP_Modular_Chest_Cuirass_Baron_C")},
-        {"Cuirass Brust 1", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Cuirass_Brust_1.BP_Modular_Chest_Cuirass_Brust_1_C")},
-        {"Cuirass Brust 2", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Cuirass_Brust_2.BP_Modular_Chest_Cuirass_Brust_2_C")},
-        {"Cuirass Gothic 5", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Cuirass_Gothic_5.BP_Modular_Chest_Cuirass_Gothic_5_C")},
-        {"Cuirass Gothic 6", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Cuirass_Gothic_6.BP_Modular_Chest_Cuirass_Gothic_6_C")},
-        {"Jack 1", MODULAR_ARMOR_PATH("/Chest/BP_Modular_Chest_Jack_1.BP_Modular_Chest_Jack_1_C")}
-    }};
-
-    static constexpr ItemArray<9> modularBodyItems{{
-        {"Doublet 1", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Doublet_1.BP_Modular_Body_Doublet_1_C")},
-        {"Doublet 2", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Doublet_2.BP_Modular_Body_Doublet_2_C")},
-        {"Doublet 3", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Doublet_3.BP_Modular_Body_Doublet_3_C")},
-        {"Doublet Arming", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Doublet_Arming.BP_Modular_Body_Doublet_Arming_C")},
-        {"Doublet Arming 2", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Doublet_Arming_2.BP_Modular_Body_Doublet_Arming_2_C")},
-        {"Hauberk 1", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Hauberk_1.BP_Modular_Body_Hauberk_1_C")},
-        {"Shirt 1", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Shirt_1.BP_Modular_Body_Shirt_1_C")},
-        {"Tabard 1", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Tabard_1.BP_Modular_Body_Tabard_1_C")},
-        {"Tunic 1", MODULAR_ARMOR_PATH("/Body/BP_Modular_Body_Tunic_1.BP_Modular_Body_Tunic_1_C")}
-    }};
-
-    static constexpr ItemArray<11> modularArmsItems{{
-        {"Harness 001", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Harness_001.BP_Modular_Arms_Harness_001_C")},
-        {"Harness 002", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Harness_002.BP_Modular_Arms_Harness_002_C")},
-        {"Harness 003", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Harness_003.BP_Modular_Arms_Harness_003_C")},
-        {"Vambrace 1", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Vambrace_1.BP_Modular_Arms_Vambrace_1_C")},
-        {"Vambrace 2", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Vambrace_2.BP_Modular_Arms_Vambrace_2_C")},
-        {"Vambrace 3", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Vambrace_3.BP_Modular_Arms_Vambrace_3_C")},
-        {"Vambrace 4", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Vambrace_4.BP_Modular_Arms_Vambrace_4_C")},
-        {"Vambrace 5", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Vambrace_5.BP_Modular_Arms_Vambrace_5_C")},
-        {"Vambrace 6", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Vambrace_6.BP_Modular_Arms_Vambrace_6_C")},
-        {"Vambrace 7", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Vambrace_7.BP_Modular_Arms_Vambrace_7_C")},
-        {"Vambrace Baron", MODULAR_ARMOR_PATH("/Arms/BP_Modular_Arms_Vambrace_Baron.BP_Modular_Arms_Vambrace_Baron_C")}
-    }};
-
-    static constexpr ItemArray<12> modularLegsItems{{
-        {"Cuisse 1", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Cuisse_1.BP_Modular_Legs_Cuisse_1_C")},
-        {"Cuisse 2", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Cuisse_2.BP_Modular_Legs_Cuisse_2_C")},
-        {"Cuisse 3", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Cuisse_3.BP_Modular_Legs_Cuisse_3_C")},
-        {"Cuisse 4", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Cuisse_4.BP_Modular_Legs_Cuisse_4_C")},
-        {"Cuisse Baron", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Cuisse_Baron.BP_Modular_Legs_Cuisse_Baron_C")},
-        {"Greaves", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Greaves.BP_Modular_Legs_Greaves_C")},
-        {"Greaves Baron", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Greaves_Baron.BP_Modular_Legs_Greaves_Baron_C")},
-        {"Poleyn 1", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Poleyn_1.BP_Modular_Legs_Poleyn_1_C")},
-        {"Hosen 1", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Hosen_1.BP_Modular_Legs_Hosen_1_C")},
-        {"Hosen 2", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Hosen_2.BP_Modular_Legs_Hosen_2_C")},
-        {"Hosen 3", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Hosen_3.BP_Modular_Legs_Hosen_3_C")},
-        {"Trousers 1", MODULAR_ARMOR_PATH("/Legs/BP_Modular_Legs_Trousers_1.BP_Modular_Legs_Trousers_1_C")}
-    }};
-
-    static constexpr ItemArray<6> modularHandsItems{{
-        {"Gauntlets 1", MODULAR_ARMOR_PATH("/Hands/BP_Modular_Hands_Gauntlets_1.BP_Modular_Hands_Gauntlets_1_C")},
-        {"Gauntlets 4", MODULAR_ARMOR_PATH("/Hands/BP_Modular_Hands_Gauntlets_4.BP_Modular_Hands_Gauntlets_4_C")},
-        {"Gauntlets 10", MODULAR_ARMOR_PATH("/Hands/BP_Modular_Hands_Gauntlets_10.BP_Modular_Hands_Gauntlets_10_C")},
-        {"Gauntlets Baron", MODULAR_ARMOR_PATH("/Hands/BP_Modular_Hands_Gauntlets_Baron.BP_Modular_Hands_Gauntlets_Baron_C")},
-        {"Half Gauntlets 1", MODULAR_ARMOR_PATH("/Hands/BP_Modular_Hands_HalfGauntlets_1.BP_Modular_Hands_HalfGauntlets_1_C")},
-        {"Half Gauntlets 2", MODULAR_ARMOR_PATH("/Hands/BP_Modular_Hands_HalfGauntlets_2.BP_Modular_Hands_HalfGauntlets_2_C")}
-    }};
-
-    static constexpr ItemArray<3> modularFeetItems{{
-        {"Shoes 1", MODULAR_ARMOR_PATH("/Feet/BP_Modular_Feet_Shoes_1.BP_Modular_Feet_Shoes_1_C")},
-        {"Shoes 2", MODULAR_ARMOR_PATH("/Feet/BP_Modular_Feet_Shoes_2.BP_Modular_Feet_Shoes_2_C")},
-        {"Shoes 3", MODULAR_ARMOR_PATH("/Feet/BP_Modular_Feet_Shoes_3.BP_Modular_Feet_Shoes_3_C")}
-    }};
-
-    static constexpr ItemArray<12> modularNeckItems{{
-        {"Bevor 1", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_1.BP_Modular_Neck_Bevor_1_C")},
-        {"Bevor 2", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_2.BP_Modular_Neck_Bevor_2_C")},
-        {"Bevor 15", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_15.BP_Modular_Neck_Bevor_15_C")},
-        {"Bevor 16", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_16.BP_Modular_Neck_Bevor_16_C")},
-        {"Bevor 17", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_17.BP_Modular_Neck_Bevor_17_C")},
-        {"Bevor 18", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_18.BP_Modular_Neck_Bevor_18_C")},
-        {"Bevor 19", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_19.BP_Modular_Neck_Bevor_19_C")},
-        {"Bevor 20", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_20.BP_Modular_Neck_Bevor_20_C")},
-        {"Bevor 21", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_21.BP_Modular_Neck_Bevor_21_C")},
-        {"Bevor 22", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Bevor_22.BP_Modular_Neck_Bevor_22_C")},
-        {"Standart 1", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Standart_1.BP_Modular_Neck_Standart_1_C")},
-        {"Standart Baron", MODULAR_ARMOR_PATH("/Neck/BP_Modular_Neck_Standart_Baron.BP_Modular_Neck_Standart_Baron_C")}
-    }};
-
-    static constexpr ItemArray<11> modularShouldersItems{{
-        {"Pauldron 1", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Pauldron_1.BP_Modular_Shoulders_Pauldron_1_C")},
-        {"Spaulder 2", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_2.BP_Modular_Shoulders_Spaulder_2_C")},
-        {"Spaulder 3", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_3.BP_Modular_Shoulders_Spaulder_3_C")},
-        {"Spaulder 4", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_4.BP_Modular_Shoulders_Spaulder_4_C")},
-        {"Spaulder 5", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_5.BP_Modular_Shoulders_Spaulder_5_C")},
-        {"Spaulder 6", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_6.BP_Modular_Shoulders_Spaulder_6_C")},
-        {"Spaulder 7", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_7.BP_Modular_Shoulders_Spaulder_7_C")},
-        {"Spaulder 8", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_8.BP_Modular_Shoulders_Spaulder_8_C")},
-        {"Spaulder A", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_A.BP_Modular_Shoulders_Spaulder_A_C")},
-        {"Spaulder Baron", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_Baron.BP_Modular_Shoulders_Spaulder_Baron_C")},
-        {"Spaulder Baron 2", MODULAR_ARMOR_PATH("/Shoulders/BP_Modular_Shoulders_Spaulder_Baron_2.BP_Modular_Shoulders_Spaulder_Baron_2_C")}
-    }};
-
-    static constexpr ItemArray<2> modularWaistItems{{
-        {"Mail Foulds 1", MODULAR_ARMOR_PATH("/Waist/BP_Modular_Waist_MailFoulds_1.BP_Modular_Waist_MailFoulds_1_C")},
-        {"Mail Foulds Baron", MODULAR_ARMOR_PATH("/Waist/BP_Modular_Waist_MailFoulds_Baron.BP_Modular_Waist_MailFoulds_Baron_C")}
-    }};
-
     static constexpr ItemArray<37> propItems{{
         {"Basket", PROP_PATH("/Blueprints/BP_Container_Basket_001.BP_Container_Basket_001_C")},
         {"Candle", PROP_PATH("/Candle/Blueprints/BP_Candle.BP_Candle_C")},
@@ -576,7 +428,7 @@ private:
         uniqueWeaponItems.size()
     }};
 
-    static constexpr std::array<const ItemInfo*, 12> armorArrays{{
+    static constexpr std::array<const ItemInfo*, 11> armorArrays{{
         nullptr,                // Weapons (index 0)
         helmetItems.data(),
         bodyArmorItems.data(),
@@ -587,11 +439,10 @@ private:
         neckItems.data(),
         shoulderItems.data(),
         waistItems.data(),
-        nullptr,                // Modular Armor (index 10)
-        nullptr                 // Props (index 11)
+        nullptr                 // Props (index 10)
     }};
 
-    static constexpr std::array<size_t, 12> armorSizes{{
+    static constexpr std::array<size_t, 11> armorSizes{{
         0,
         helmetItems.size(),
         bodyArmorItems.size(),
@@ -602,34 +453,7 @@ private:
         neckItems.size(),
         shoulderItems.size(),
         waistItems.size(),
-        0,
         0
-    }};
-
-    static constexpr std::array<const ItemInfo*, 10> modularArmorArrays{{
-        modularHeadItems.data(),
-        modularChestItems.data(),
-        modularBodyItems.data(),
-        modularArmsItems.data(),
-        modularLegsItems.data(),
-        modularHandsItems.data(),
-        modularFeetItems.data(),
-        modularNeckItems.data(),
-        modularShouldersItems.data(),
-        modularWaistItems.data()
-    }};
-
-    static constexpr std::array<size_t, 10> modularArmorSizes{{
-        modularHeadItems.size(),
-        modularChestItems.size(),
-        modularBodyItems.size(),
-        modularArmsItems.size(),
-        modularLegsItems.size(),
-        modularHandsItems.size(),
-        modularFeetItems.size(),
-        modularNeckItems.size(),
-        modularShouldersItems.size(),
-        modularWaistItems.size()
     }};
 
     static inline std::vector<const char*> cachedItemNames;
@@ -643,9 +467,6 @@ private:
     [[nodiscard]] std::pair<const ItemInfo*, size_t> getCurrentItemArray() const noexcept {
         if (cfg.currentCategoryIndex == WEAPONS_INDEX) {
             return {weaponArrays[cfg.currentWeaponSubcategoryIndex], weaponSizes[cfg.currentWeaponSubcategoryIndex]};
-        }
-        if (cfg.currentCategoryIndex == MODULAR_ARMOR_INDEX) {
-            return {modularArmorArrays[cfg.currentModularArmorSubcategoryIndex], modularArmorSizes[cfg.currentModularArmorSubcategoryIndex]};
         }
         if (cfg.currentCategoryIndex == PROPS_INDEX) {
             return {propItems.data(), propItems.size()};
@@ -663,10 +484,6 @@ private:
             return (subIdx < weaponSizes.size() && itmIdx < weaponSizes[subIdx])
                 ? &weaponArrays[subIdx][itmIdx] : nullptr;
         }
-        if (catIdx == MODULAR_ARMOR_INDEX) {
-            return (subIdx < modularArmorSizes.size() && itmIdx < modularArmorSizes[subIdx])
-                ? &modularArmorArrays[subIdx][itmIdx] : nullptr;
-        }
         if (catIdx == PROPS_INDEX) {
             return (itmIdx < propItems.size()) ? &propItems[itmIdx] : nullptr;
         }
@@ -675,9 +492,7 @@ private:
     }
 
     void updateItemNamesCache() noexcept {
-        uint8_t currentSub = (cfg.currentCategoryIndex == WEAPONS_INDEX) ? cfg.currentWeaponSubcategoryIndex
-                           : (cfg.currentCategoryIndex == MODULAR_ARMOR_INDEX) ? cfg.currentModularArmorSubcategoryIndex
-                           : 0;
+        uint8_t currentSub = (cfg.currentCategoryIndex == WEAPONS_INDEX) ? cfg.currentWeaponSubcategoryIndex : 0;
         if (lastCategoryIndex != cfg.currentCategoryIndex || lastSubcategoryIndex != currentSub) [[unlikely]] {
             const auto [items, size] = getCurrentItemArray();
             cachedItemNames.resize(size);
@@ -719,16 +534,6 @@ private:
                 for (uint8_t subIdx = 0; subIdx < static_cast<uint8_t>(weaponSubcategories.size()); ++subIdx) {
                     const auto* items = weaponArrays[subIdx];
                     const size_t size = weaponSizes[subIdx];
-                    for (uint16_t i = 0; i < size; ++i) {
-                        if (stristr(items[i].displayName, searchBuffer)) {
-                            filteredIndices.push_back((catIdx << 12) | (subIdx << 8) | i);
-                        }
-                    }
-                }
-            } else if (catIdx == MODULAR_ARMOR_INDEX) {
-                for (uint8_t subIdx = 0; subIdx < static_cast<uint8_t>(modularArmorSubcategories.size()); ++subIdx) {
-                    const auto* items = modularArmorArrays[subIdx];
-                    const size_t size = modularArmorSizes[subIdx];
                     for (uint16_t i = 0; i < size; ++i) {
                         if (stristr(items[i].displayName, searchBuffer)) {
                             filteredIndices.push_back((catIdx << 12) | (subIdx << 8) | i);
@@ -813,12 +618,10 @@ public:
 
                     if (item) {
                         bool isSelected = (cfg.currentCategoryIndex == catIdx && cfg.currentItemIndex == itmIdx &&
-                            (catIdx != WEAPONS_INDEX || cfg.currentWeaponSubcategoryIndex == subIdx) &&
-                            (catIdx != MODULAR_ARMOR_INDEX || cfg.currentModularArmorSubcategoryIndex == subIdx));
+                            (catIdx != WEAPONS_INDEX || cfg.currentWeaponSubcategoryIndex == subIdx));
                         if (ImGui::Selectable(item->displayName, isSelected)) {
                             cfg.currentCategoryIndex = catIdx;
                             if (catIdx == WEAPONS_INDEX) cfg.currentWeaponSubcategoryIndex = subIdx;
-                            if (catIdx == MODULAR_ARMOR_INDEX) cfg.currentModularArmorSubcategoryIndex = subIdx;
                             cfg.currentItemIndex = itmIdx;
                         }
                         if (isSelected) {
@@ -850,9 +653,6 @@ public:
                 if (cfg.currentCategoryIndex != WEAPONS_INDEX) [[likely]] {
                     cfg.currentWeaponSubcategoryIndex = 0;
                 }
-                if (cfg.currentCategoryIndex != MODULAR_ARMOR_INDEX) {
-                    cfg.currentModularArmorSubcategoryIndex = 0;
-                }
             }
 
             if (cfg.currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
@@ -860,15 +660,6 @@ public:
                 int subIndex = static_cast<int>(cfg.currentWeaponSubcategoryIndex);
                 if (ImGui::Combo("##SubcategorySelector", &subIndex, weaponSubcategories.data(), static_cast<int>(weaponSubcategories.size()))) [[unlikely]] {
                     cfg.currentWeaponSubcategoryIndex = static_cast<uint8_t>(subIndex);
-                    cfg.currentItemIndex = 0;
-                }
-            }
-
-            if (cfg.currentCategoryIndex == MODULAR_ARMOR_INDEX) {
-                ImGui::Text("Subcategory");
-                int subIndex = static_cast<int>(cfg.currentModularArmorSubcategoryIndex);
-                if (ImGui::Combo("##ModularArmorSubcategorySelector", &subIndex, modularArmorSubcategories.data(), static_cast<int>(modularArmorSubcategories.size()))) [[unlikely]] {
-                    cfg.currentModularArmorSubcategoryIndex = static_cast<uint8_t>(subIndex);
                     cfg.currentItemIndex = 0;
                 }
             }

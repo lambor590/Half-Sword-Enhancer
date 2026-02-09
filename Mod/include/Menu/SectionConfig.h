@@ -78,7 +78,6 @@ namespace SectionConfig {
 
         uint8_t currentCategoryIndex = 0;
         uint8_t currentWeaponSubcategoryIndex = 0;
-        uint8_t currentModularArmorSubcategoryIndex = 0;
         uint16_t currentItemIndex = 0;
     };
 
