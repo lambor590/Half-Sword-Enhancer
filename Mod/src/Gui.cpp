@@ -97,17 +97,21 @@ void Gui::Render() {
     }
 
     if (isVisible) {
-        constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
+        constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse
+            | ImGuiWindowFlags_NoScrollbar
+            | ImGuiWindowFlags_NoScrollWithMouse;
         #ifdef BETA_VERSION
             constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Beta Build";
         #else
             constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION;
         #endif
 
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(2, 2));
         if (ImGui::Begin(windowTitle, &isVisible, windowFlags)) {
             MenuManager::Get().RenderMenu();
         }
         ImGui::End();
+        ImGui::PopStyleVar();
     }
 
     NotificationManager::Render();
