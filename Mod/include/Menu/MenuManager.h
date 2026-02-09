@@ -60,16 +60,15 @@ private:
 
     MenuManager() = default;
 
-    static bool matchesSearch(std::string_view text, const char* needle) noexcept {
-        size_t needleLen = std::strlen(needle);
+    static bool matchesSearch(std::string_view text, const char* lowerNeedle, size_t needleLen) noexcept {
         if (needleLen == 0) return true;
         if (needleLen > text.size()) return false;
 
         for (size_t i = 0; i <= text.size() - needleLen; ++i) {
             bool match = true;
             for (size_t j = 0; j < needleLen; ++j) {
-                if (std::tolower(static_cast<unsigned char>(text[i + j])) !=
-                    std::tolower(static_cast<unsigned char>(needle[j]))) {
+                if (static_cast<char>(std::tolower(static_cast<unsigned char>(text[i + j]))) !=
+                    lowerNeedle[j]) {
                     match = false;
                     break;
                 }
@@ -89,16 +88,23 @@ private:
 
         searchActive = true;
 
+        char lowerNeedle[sizeof(searchBuffer)];
+        size_t needleLen = 0;
+        for (; searchBuffer[needleLen] != '\0'; ++needleLen) {
+            lowerNeedle[needleLen] = static_cast<char>(
+                std::tolower(static_cast<unsigned char>(searchBuffer[needleLen])));
+        }
+
         for (auto& [tab, label] : tabOrder) {
             auto& sects = sections[static_cast<size_t>(tab)];
             for (auto& section : sects) {
-                if (matchesSearch(section->GetName(), searchBuffer)) {
+                if (matchesSearch(section->GetName(), lowerNeedle, needleLen)) {
                     searchResults.push_back({tab, section.get(), {}});
                     continue;
                 }
 
                 for (auto& fn : section->GetFunctions()) {
-                    if (matchesSearch(fn->GetName(), searchBuffer)) {
+                    if (matchesSearch(fn->GetName(), lowerNeedle, needleLen)) {
                         searchResults.push_back({tab, section.get(), fn->GetName()});
                     }
                 }
@@ -150,6 +156,9 @@ private:
         }
 
         MenuTab currentTab = static_cast<MenuTab>(255);
+        std::string funcDisplay;
+        funcDisplay.reserve(64);
+        bool shouldClearSearch = false;
 
         for (auto& result : searchResults) {
             if (result.tab != currentTab) {
@@ -166,24 +175,18 @@ private:
                 }
                 currentTab = result.tab;
 
-                const char* label = "";
-                for (auto& [t, l] : tabOrder) {
-                    if (t == result.tab) { label = l; break; }
-                }
                 ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::textDisabled);
-                ImGui::TextUnformatted(label);
+                ImGui::TextUnformatted(tabOrder[static_cast<size_t>(result.tab)].second);
                 ImGui::PopStyleColor();
             }
 
             ImGui::Indent(SECTION_INDENT);
 
             const char* displayText;
-            std::string funcDisplay;
-
             if (result.functionName.empty()) {
                 displayText = result.section->GetName().c_str();
             } else {
-                funcDisplay.reserve(result.section->GetName().size() + 3 + result.functionName.size());
+                funcDisplay.clear();
                 funcDisplay.append(result.section->GetName());
                 funcDisplay.append(" > ");
                 funcDisplay.append(result.functionName);
@@ -195,9 +198,7 @@ private:
             if (ImGui::Selectable(displayText, isSelected)) {
                 selectedSection = result.section;
                 openCategory = result.tab;
-                searchBuffer[0] = '\0';
-                searchActive = false;
-                searchResults.clear();
+                shouldClearSearch = true;
             }
             ImGui::PopStyleColor();
 
@@ -212,6 +213,14 @@ private:
             }
 
             ImGui::Unindent(SECTION_INDENT);
+
+            if (shouldClearSearch) break;
+        }
+
+        if (shouldClearSearch) {
+            searchBuffer[0] = '\0';
+            searchActive = false;
+            searchResults.clear();
         }
     }
 
