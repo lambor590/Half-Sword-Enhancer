@@ -2,10 +2,12 @@
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <vector>
 #include <memory>
 #include <utility>
 #include <string>
+#include <string_view>
 
 #include "ICollapsibleSection.h"
 #include "DefaultStyle.h"
@@ -38,6 +40,16 @@ private:
     float sidebarWidth = 140.0f;
     bool sidebarVisible = true;
 
+    char searchBuffer[128] = "";
+    bool searchActive = false;
+
+    struct SearchResult {
+        MenuTab tab;
+        ICollapsibleSection* section;
+        std::string_view functionName;
+    };
+    std::vector<SearchResult> searchResults;
+
     static constexpr float SIDEBAR_MIN_WIDTH = 60.0f;
     static constexpr float SPLITTER_THICKNESS = 4.0f;
     static constexpr float SECTION_INDENT = 14.0f;
@@ -47,6 +59,161 @@ private:
     static constexpr float ARROW_INDENT = 8.0f;
 
     MenuManager() = default;
+
+    static bool matchesSearch(std::string_view text, const char* needle) noexcept {
+        size_t needleLen = std::strlen(needle);
+        if (needleLen == 0) return true;
+        if (needleLen > text.size()) return false;
+
+        for (size_t i = 0; i <= text.size() - needleLen; ++i) {
+            bool match = true;
+            for (size_t j = 0; j < needleLen; ++j) {
+                if (std::tolower(static_cast<unsigned char>(text[i + j])) !=
+                    std::tolower(static_cast<unsigned char>(needle[j]))) {
+                    match = false;
+                    break;
+                }
+            }
+            if (match) return true;
+        }
+        return false;
+    }
+
+    void UpdateSearchResults() noexcept {
+        searchResults.clear();
+
+        if (searchBuffer[0] == '\0') {
+            searchActive = false;
+            return;
+        }
+
+        searchActive = true;
+
+        for (auto& [tab, label] : tabOrder) {
+            auto& sects = sections[static_cast<size_t>(tab)];
+            for (auto& section : sects) {
+                if (matchesSearch(section->GetName(), searchBuffer)) {
+                    searchResults.push_back({tab, section.get(), {}});
+                    continue;
+                }
+
+                for (auto& fn : section->GetFunctions()) {
+                    if (matchesSearch(fn->GetName(), searchBuffer)) {
+                        searchResults.push_back({tab, section.get(), fn->GetName()});
+                    }
+                }
+            }
+        }
+    }
+
+    void RenderSearchBar() {
+        float availWidth = ImGui::GetContentRegionAvail().x;
+        bool hasText = searchBuffer[0] != '\0';
+        float clearBtnWidth = hasText ? ImGui::CalcTextSize("X").x + 8.0f : 0.0f;
+        float inputWidth = availWidth - (hasText ? clearBtnWidth + 4.0f : 0.0f);
+
+        ImGui::SetNextItemWidth(inputWidth);
+        if (ImGui::InputTextWithHint("##GlobalSearch", "Search...", searchBuffer, sizeof(searchBuffer))) {
+            UpdateSearchResults();
+        }
+
+        if (hasText) {
+            ImGui::SameLine(0, 4.0f);
+            ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::transparent);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.71f, 0.57f, 0.25f, 0.12f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.71f, 0.57f, 0.25f, 0.25f));
+            if (ImGui::Button("X##ClearSearch")) {
+                searchBuffer[0] = '\0';
+                searchActive = false;
+                searchResults.clear();
+            }
+            ImGui::PopStyleColor(3);
+        }
+
+        ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
+        ImDrawList* dl = ImGui::GetWindowDrawList();
+        ImVec2 pos = ImGui::GetCursorScreenPos();
+        float w = ImGui::GetContentRegionAvail().x;
+        dl->AddLine(pos, ImVec2(pos.x + w, pos.y),
+            ImGui::ColorConvertFloat4ToU32(ImVec4(
+                DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y,
+                DefaultStyle::mediumWood.z, 0.35f)), 1.0f);
+        ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
+    }
+
+    void RenderSearchResults() {
+        if (searchResults.empty()) {
+            ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::textDisabled);
+            ImGui::TextUnformatted("No results");
+            ImGui::PopStyleColor();
+            return;
+        }
+
+        MenuTab currentTab = static_cast<MenuTab>(255);
+
+        for (auto& result : searchResults) {
+            if (result.tab != currentTab) {
+                if (currentTab != static_cast<MenuTab>(255)) {
+                    ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
+                    ImDrawList* dl = ImGui::GetWindowDrawList();
+                    ImVec2 pos = ImGui::GetCursorScreenPos();
+                    float w = ImGui::GetContentRegionAvail().x;
+                    dl->AddLine(pos, ImVec2(pos.x + w, pos.y),
+                        ImGui::ColorConvertFloat4ToU32(ImVec4(
+                            DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y,
+                            DefaultStyle::mediumWood.z, 0.35f)), 1.0f);
+                    ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
+                }
+                currentTab = result.tab;
+
+                const char* label = "";
+                for (auto& [t, l] : tabOrder) {
+                    if (t == result.tab) { label = l; break; }
+                }
+                ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::textDisabled);
+                ImGui::TextUnformatted(label);
+                ImGui::PopStyleColor();
+            }
+
+            ImGui::Indent(SECTION_INDENT);
+
+            const char* displayText;
+            std::string funcDisplay;
+
+            if (result.functionName.empty()) {
+                displayText = result.section->GetName().c_str();
+            } else {
+                funcDisplay.reserve(result.section->GetName().size() + 3 + result.functionName.size());
+                funcDisplay.append(result.section->GetName());
+                funcDisplay.append(" > ");
+                funcDisplay.append(result.functionName);
+                displayText = funcDisplay.c_str();
+            }
+
+            bool isSelected = selectedSection == result.section;
+            ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.71f, 0.57f, 0.25f, 0.18f));
+            if (ImGui::Selectable(displayText, isSelected)) {
+                selectedSection = result.section;
+                openCategory = result.tab;
+                searchBuffer[0] = '\0';
+                searchActive = false;
+                searchResults.clear();
+            }
+            ImGui::PopStyleColor();
+
+            if (isSelected) {
+                auto mn = ImGui::GetItemRectMin();
+                auto mx = ImGui::GetItemRectMax();
+                ImGui::GetWindowDrawList()->AddRectFilled(
+                    ImVec2(mn.x - 5, mn.y + 1),
+                    ImVec2(mn.x - 2, mx.y - 1),
+                    ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass),
+                    1.0f);
+            }
+
+            ImGui::Unindent(SECTION_INDENT);
+        }
+    }
 
     void RenderSplitter() {
         ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::darkLeather);
@@ -142,9 +309,15 @@ private:
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
         ImGui::BeginChild("nav_sidebar", ImVec2(sidebarWidth, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_AlwaysUseWindowPadding);
 
+        RenderSearchBar();
+
         ImGui::PushStyleColor(ImGuiCol_Header, DefaultStyle::transparent);
         ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.71f, 0.57f, 0.25f, 0.12f));
         ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0.71f, 0.57f, 0.25f, 0.25f));
+
+        if (searchActive) {
+            RenderSearchResults();
+        } else {
 
         bool firstVisible = true;
         for (auto& [tab, label] : tabOrder) {
@@ -213,6 +386,8 @@ private:
                 ImGui::PopStyleColor();
                 ImGui::Unindent(SECTION_INDENT);
             }
+        }
+
         }
 
         ImGui::PopStyleColor(3);
