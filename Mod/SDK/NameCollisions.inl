@@ -9,22 +9,20 @@
 // FORWARD DECLARATIONS
 
 
-namespace BP_FreeCamera_0 { class ABP_FreeCamera_C; }
+namespace BP_Armor_Legs_Panties_0 { class ABP_Armor_Legs_Panties_C; }
 
 namespace BP_FreeCamera { class ABP_FreeCamera_C; }
 
+namespace BP_Armor_Legs_Panties { class ABP_Armor_Legs_Panties_C; }
 
-namespace ABP_CopyPose2
-{
-	struct FAnimBlueprintGeneratedMutableData;
-	struct FAnimBlueprintGeneratedConstantData;
-}
+namespace BP_FreeCamera_0 { class ABP_FreeCamera_C; }
 
-namespace ABP_CopyPose
-{
-	struct FAnimBlueprintGeneratedMutableData;
-	struct FAnimBlueprintGeneratedConstantData;
-}
+namespace ABP_CopyPose { struct FAnimBlueprintGeneratedConstantData; }
+
+namespace ABP_CopyPose2 { struct FAnimBlueprintGeneratedConstantData; }
+
+namespace ABP_CopyPose1 { struct FAnimBlueprintGeneratedConstantData; }
+
 
 namespace ABP_Parts
 {
@@ -32,13 +30,13 @@ namespace ABP_Parts
 	struct FAnimBlueprintGeneratedConstantData;
 }
 
-namespace ABP_Willie
+namespace ABP_Crossbow
 {
-	struct FAnimBlueprintGeneratedMutableData;
 	struct FAnimBlueprintGeneratedConstantData;
+	struct FAnimBlueprintGeneratedMutableData;
 }
 
-namespace ABP_CopyPose1
+namespace ABP_Willie
 {
 	struct FAnimBlueprintGeneratedConstantData;
 	struct FAnimBlueprintGeneratedMutableData;

@@ -15,7 +15,7 @@ namespace SDK
 {
 
 // UserDefinedEnum GripType_Enum.GripType_Enum
-// NumValues: 0x0011
+// NumValues: 0x0013
 enum class EGripType_Enum : uint8
 {
 	NewEnumerator0                           = 0,
@@ -34,7 +34,9 @@ enum class EGripType_Enum : uint8
 	NewEnumerator4                           = 13,
 	NewEnumerator9                           = 14,
 	NewEnumerator5                           = 15,
-	GripType_MAX                             = 16,
+	NewEnumerator16                          = 16,
+	NewEnumerator17                          = 17,
+	GripType_MAX                             = 18,
 };
 
 }

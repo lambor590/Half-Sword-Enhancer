@@ -26,7 +26,7 @@ void DefaultStyle::ApplyGlobalStyle() {
     style.TabBorderSize = 1.0f;
     style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
     style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
-    style.SelectableTextAlign = ImVec2(0.5f, 0.5f);
+    style.SelectableTextAlign = ImVec2(0.0f, 0.5f);
     style.DisplayWindowPadding = ImVec2(18, 18);
     style.DisplaySafeAreaPadding = ImVec2(3, 3);
     style.IndentSpacing = 25.0f;

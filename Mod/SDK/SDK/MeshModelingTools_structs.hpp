@@ -190,6 +190,28 @@ enum class EEditMeshPolygonsToolSelectionMode : uint8
 	EEditMeshPolygonsToolSelectionMode_MAX   = 6,
 };
 
+// Enum MeshModelingTools.EUVProjectionToolActions
+// NumValues: 0x0005
+enum class EUVProjectionToolActions : uint8
+{
+	NoAction                                 = 0,
+	AutoFit                                  = 1,
+	AutoFitAlign                             = 2,
+	Reset                                    = 3,
+	EUVProjectionToolActions_MAX             = 4,
+};
+
+// Enum MeshModelingTools.EUVProjectionToolInitializationMode
+// NumValues: 0x0005
+enum class EUVProjectionToolInitializationMode : uint32
+{
+	Default                                  = 0,
+	UsePrevious                              = 1,
+	AutoFit                                  = 2,
+	AutoFitAlign                             = 3,
+	EUVProjectionToolInitializationMode_MAX  = 4,
+};
+
 // Enum MeshModelingTools.ESetMeshMaterialMode
 // NumValues: 0x0004
 enum class ESetMeshMaterialMode : uint8
@@ -336,28 +358,6 @@ enum class EEdgeLoopInsertionMode : uint32
 	Retriangulate                            = 0,
 	PlaneCut                                 = 1,
 	EEdgeLoopInsertionMode_MAX               = 2,
-};
-
-// Enum MeshModelingTools.EUVProjectionToolActions
-// NumValues: 0x0005
-enum class EUVProjectionToolActions : uint8
-{
-	NoAction                                 = 0,
-	AutoFit                                  = 1,
-	AutoFitAlign                             = 2,
-	Reset                                    = 3,
-	EUVProjectionToolActions_MAX             = 4,
-};
-
-// Enum MeshModelingTools.EUVProjectionToolInitializationMode
-// NumValues: 0x0005
-enum class EUVProjectionToolInitializationMode : uint32
-{
-	Default                                  = 0,
-	UsePrevious                              = 1,
-	AutoFit                                  = 2,
-	AutoFitAlign                             = 3,
-	EUVProjectionToolInitializationMode_MAX  = 4,
 };
 
 }

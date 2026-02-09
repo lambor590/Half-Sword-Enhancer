@@ -6,6 +6,7 @@
 
 #include "Menu/ICollapsibleSection.h"
 #include "Utils/ConfigUtils.h"
+#include "Utils/GuiUtils.h"
 #include "ComponentValidator.h"
 #include "SDK/Engine_classes.hpp"
 #include "Hooks/GameHook.h"
@@ -62,9 +63,7 @@ public:
         LoadSettings();
     }
 
-    void Render() override {
-        if (!ImGui::CollapsingHeader(name.c_str())) [[likely]] return;
-        
+    void RenderContent() override {
         const SectionStyle::StyleRAII style;
         bool settingsChanged = false;
 
@@ -72,9 +71,9 @@ public:
             settingsChanged = true;
         }
         if (ImGui::IsItemHovered()) {
-            ImGui::BeginTooltip();
+            GuiUtils::BeginStyledTooltip();
             ImGui::Text("Apply these settings when the mod is initialized");
-            ImGui::EndTooltip();
+            GuiUtils::EndStyledTooltip();
         }
 
         ImGui::Spacing();

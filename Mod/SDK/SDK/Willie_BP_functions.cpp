@@ -59,26 +59,6 @@ void AWillie_BP_C::Add_Vertex_Paint_Blood(const struct FVector& Location, class 
 }
 
 
-// Function Willie_BP.Willie_BP_C.Adjust Interp Speed to FPS
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AWillie_BP_C::Adjust_Interp_Speed_to_FPS()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Adjust Interp Speed to FPS");
-
-	Params::Willie_BP_C_Adjust_Interp_Speed_to_FPS Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
 // Function Willie_BP.Willie_BP_C.AI  Unstuck Jammed Weapons
 // (BlueprintCallable, BlueprintEvent)
 
@@ -127,6 +107,20 @@ void AWillie_BP_C::Apply_Settings(double FOV)
 }
 
 
+// Function Willie_BP.Willie_BP_C.Apply Vertex Paint on New Armor Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Apply_Vertex_Paint_on_New_Armor_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Apply Vertex Paint on New Armor Event");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Assign L Weapon Slot
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
@@ -155,14 +149,34 @@ void AWillie_BP_C::Assign_R_Weapon_Slot()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Attach Bolt Quiver
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class ABP_Quiver_Master_C*              InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Attach_Bolt_Quiver(class ABP_Quiver_Master_C* InputPin)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Attach Bolt Quiver");
+
+	Params::Willie_BP_C_Attach_Bolt_Quiver Parms{};
+
+	Parms.InputPin = InputPin;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Attach Decal
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class UDecalComponent*                  Decal                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // const struct FAttached_Transform_Str&   Attach_Param                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, ContainsInstancedReference, HasGetValueTypeHash)
-// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul)
+void AWillie_BP_C::Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -176,8 +190,22 @@ void AWillie_BP_C::Attach_Decal(class UDecalComponent* Decal, const struct FAtta
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	if (Nul != nullptr)
-		*Nul = Parms.Nul;
+	if (nul != nullptr)
+		*nul = Parms.nul;
+}
+
+
+// Function Willie_BP.Willie_BP_C.Attach Empty Quiver
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Attach_Empty_Quiver()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Attach Empty Quiver");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -190,6 +218,20 @@ void AWillie_BP_C::Attach_L_Hand_To_Offhand_Position()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Attach L Hand To Offhand Position");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Bite Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Bite_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Bite Event");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -277,31 +319,17 @@ void AWillie_BP_C::BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent
 }
 
 
-// Function Willie_BP.Willie_BP_C.BndEvt__Willie_BP_Gut_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
-// (HasOutParams, BlueprintEvent)
-// Parameters:
-// class UPrimitiveComponent*              HitComponent                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class UPrimitiveComponent*              OtherComp                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   NormalImpulse                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FHitResult&                Hit                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+// Function Willie_BP.Willie_BP_C.Body Skill Up
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::BndEvt__Willie_BP_Gut_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit)
+void AWillie_BP_C::Body_Skill_Up()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "BndEvt__Willie_BP_Gut_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature");
+		Func = Class->GetFunction("Willie_BP_C", "Body Skill Up");
 
-	Params::Willie_BP_C_BndEvt__Willie_BP_Gut_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature Parms{};
-
-	Parms.HitComponent = HitComponent;
-	Parms.OtherActor = OtherActor;
-	Parms.OtherComp = OtherComp;
-	Parms.NormalImpulse = std::move(NormalImpulse);
-	Parms.Hit = std::move(Hit);
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -311,9 +339,9 @@ void AWillie_BP_C::BndEvt__Willie_BP_Gut_K2Node_ComponentBoundEvent_1_ComponentH
 // class UBoxComponent*                    Box                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class FName                             Hit_Bone                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Hit_Primitive_Component                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul)
+void AWillie_BP_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -328,28 +356,8 @@ void AWillie_BP_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bo
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	if (Nul != nullptr)
-		*Nul = Parms.Nul;
-}
-
-
-// Function Willie_BP.Willie_BP_C.BOXX2
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// Enum_DismembermentPart                  Index_0                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AWillie_BP_C::BOXX2(Enum_DismembermentPart Index_0)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "BOXX2");
-
-	Params::Willie_BP_C_BOXX2 Parms{};
-
-	Parms.Index_0 = Index_0;
-
-	UObject::ProcessEvent(Func, &Parms);
+	if (nul != nullptr)
+		*nul = Parms.nul;
 }
 
 
@@ -398,6 +406,34 @@ void AWillie_BP_C::Break_Arm_R()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Break Arm R");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Break Back
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Break_Back()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Break Back");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Break Head
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Break_Head()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Break Head");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -460,6 +496,20 @@ void AWillie_BP_C::Break_R_Constraint()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Break R Constraint");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Break Sheath Constraint
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Break_Sheath_Constraint()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Break Sheath Constraint");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -615,46 +665,6 @@ void AWillie_BP_C::Check_Scabbard_Unsheath_State_R(class UPhysicsConstraintCompo
 }
 
 
-// Function Willie_BP.Willie_BP_C.Clamp Rotator
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FRotator&                  InRot                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
-// double                                  MinAngleDegrees_X                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  MaxAngleDegrees_X                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  MinAngleDegrees_Y                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  MaxAngleDegrees_Y                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  MinAngleDegrees_Z                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  MaxAngleDegrees_Z                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator*                        Return_Clamped                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
-// struct FRotator*                        Return_Free                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
-
-void AWillie_BP_C::Clamp_Rotator(const struct FRotator& InRot, double MinAngleDegrees_X, double MaxAngleDegrees_X, double MinAngleDegrees_Y, double MaxAngleDegrees_Y, double MinAngleDegrees_Z, double MaxAngleDegrees_Z, struct FRotator* Return_Clamped, struct FRotator* Return_Free)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Clamp Rotator");
-
-	Params::Willie_BP_C_Clamp_Rotator Parms{};
-
-	Parms.InRot = std::move(InRot);
-	Parms.MinAngleDegrees_X = MinAngleDegrees_X;
-	Parms.MaxAngleDegrees_X = MaxAngleDegrees_X;
-	Parms.MinAngleDegrees_Y = MinAngleDegrees_Y;
-	Parms.MaxAngleDegrees_Y = MaxAngleDegrees_Y;
-	Parms.MinAngleDegrees_Z = MinAngleDegrees_Z;
-	Parms.MaxAngleDegrees_Z = MaxAngleDegrees_Z;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Return_Clamped != nullptr)
-		*Return_Clamped = std::move(Parms.Return_Clamped);
-
-	if (Return_Free != nullptr)
-		*Return_Free = std::move(Parms.Return_Free);
-}
-
-
 // Function Willie_BP.Willie_BP_C.Control Physical Animation Str
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -735,28 +745,6 @@ class USceneComponent* AWillie_BP_C::Current_Offhand_Position_Scene()
 }
 
 
-// Function Willie_BP.Willie_BP_C.CustomEvent
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// Enum_DismembermentPart                  InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class UPhysicsConstraintComponent*      Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-
-void AWillie_BP_C::CustomEvent(Enum_DismembermentPart InputPin, class UPhysicsConstraintComponent* Target)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "CustomEvent");
-
-	Params::Willie_BP_C_CustomEvent Parms{};
-
-	Parms.InputPin = InputPin;
-	Parms.Target = Target;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function Willie_BP.Willie_BP_C.Damage Rate
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -787,7 +775,7 @@ double AWillie_BP_C::Damage_Rate()
 // const struct FVector&                   Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   Hit_Velocity                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   Hit_Impulse                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Cutting_Power                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Cutting_Power_0                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Stab_Rate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Rigidity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // int32                                   Blunt_Destruction_Int                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -795,7 +783,6 @@ double AWillie_BP_C::Damage_Rate()
 // bool                                    Damage_Parent_Bone_                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Kick_Power                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    Hit_Box                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// bool                                    Ignore_Invincibility                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // EPhysicalSurface*                       Hit_Surface                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double*                                 Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double*                                 Cutting_Rate_Out                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -803,7 +790,7 @@ double AWillie_BP_C::Damage_Rate()
 // double*                                 Material_Density_Out                                   (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool*                                   Lower_Threshold_Out                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, bool Ignore_Invincibility, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out)
+void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power_0, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out)
 {
 	static class UFunction* Func = nullptr;
 
@@ -819,7 +806,7 @@ void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_
 	Parms.Normal = std::move(Normal);
 	Parms.Hit_Velocity = std::move(Hit_Velocity);
 	Parms.Hit_Impulse = std::move(Hit_Impulse);
-	Parms.Cutting_Power = Cutting_Power;
+	Parms.Cutting_Power_0 = Cutting_Power_0;
 	Parms.Stab_Rate = Stab_Rate;
 	Parms.Rigidity = Rigidity;
 	Parms.Blunt_Destruction_Int = Blunt_Destruction_Int;
@@ -827,7 +814,6 @@ void AWillie_BP_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_
 	Parms.Damage_Parent_Bone_ = Damage_Parent_Bone_;
 	Parms.Kick_Power = Kick_Power;
 	Parms.Hit_Box = Hit_Box;
-	Parms.Ignore_Invincibility = Ignore_Invincibility;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -888,6 +874,20 @@ void AWillie_BP_C::Death_Timeline__UpdateFunc()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Death Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Destroy Hair
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Destroy_Hair()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Destroy Hair");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -981,9 +981,8 @@ void AWillie_BP_C::Dismember_Cut(class FName bone, const struct FVector& Locatio
 // class UBoxComponent*                    VP_Box_Collision_1                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    VP_Box_Collision_2                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Dismember_Weapon                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class USkeletalMeshComponent**          Spawned_Limb_Local1                                    (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Dismember_Function_Delayed(class USkeletalMeshComponent* Master_Mesh, Enum_DismembermentPart Dismembered_Part, class UPrimitiveComponent* Attach_Marker, TArray<class UPrimitiveComponent*>& Overlapped_Markers, class UBoxComponent* VP_Box_Collision_1, class UBoxComponent* VP_Box_Collision_2, class UPrimitiveComponent* Dismember_Weapon, class USkeletalMeshComponent** Spawned_Limb_Local1)
+void AWillie_BP_C::Dismember_Function_Delayed(class USkeletalMeshComponent* Master_Mesh, Enum_DismembermentPart Dismembered_Part, class UPrimitiveComponent* Attach_Marker, TArray<class UPrimitiveComponent*>& Overlapped_Markers, class UBoxComponent* VP_Box_Collision_1, class UBoxComponent* VP_Box_Collision_2, class UPrimitiveComponent* Dismember_Weapon)
 {
 	static class UFunction* Func = nullptr;
 
@@ -1003,9 +1002,6 @@ void AWillie_BP_C::Dismember_Function_Delayed(class USkeletalMeshComponent* Mast
 	UObject::ProcessEvent(Func, &Parms);
 
 	Overlapped_Markers = std::move(Parms.Overlapped_Markers);
-
-	if (Spawned_Limb_Local1 != nullptr)
-		*Spawned_Limb_Local1 = Parms.Spawned_Limb_Local1;
 }
 
 
@@ -1040,6 +1036,28 @@ void AWillie_BP_C::Dismember_Function_Initiate(class USkeletalMeshComponent* Mas
 	UObject::ProcessEvent(Func, &Parms);
 
 	Overlapped_Markers = std::move(Parms.Overlapped_Markers);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Dismemberment Finish Event
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// Enum_DismembermentPart                  InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UPhysicsConstraintComponent*      Target                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Dismemberment_Finish_Event(Enum_DismembermentPart InputPin, class UPhysicsConstraintComponent* Target)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Dismemberment Finish Event");
+
+	Params::Willie_BP_C_Dismemberment_Finish_Event Parms{};
+
+	Parms.InputPin = InputPin;
+	Parms.Target = Target;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -1161,6 +1179,62 @@ void AWillie_BP_C::Event_Clear_Sheathed_Weapon_Slots()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Event Grab Crossbow String
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Grab_Crossbow_String()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Event Grab Crossbow String");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Lose Match
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Lose_Match()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Event Lose Match");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Release Crossbow String
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Release_Crossbow_String()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Event Release Crossbow String");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Event Set Physics Substep Time
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Set_Physics_Substep_Time()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Event Set Physics Substep Time");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Event Slide Right Hand Along Shaft
 // (BlueprintCallable, BlueprintEvent)
 
@@ -1170,20 +1244,6 @@ void AWillie_BP_C::Event_Slide_Right_Hand_Along_Shaft()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Event Slide Right Hand Along Shaft");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Event Versus Lost
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Event_Versus_Lost()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Event Versus Lost");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1206,20 +1266,6 @@ void AWillie_BP_C::ExecuteUbergraph_Willie_BP(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Explode Head
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Explode_Head()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Explode Head");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -1279,6 +1325,54 @@ void AWillie_BP_C::Feet_Rotation_and_Normal()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Find Ass Touching Ground Loc NOW
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Find_Ass_Touching_Ground_Loc_NOW()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Find Ass Touching Ground Loc NOW");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Find Hit Armor
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Hit_Component_0                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// class FName                             Hit_Bone                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FStr_Passport_Armor1*            Armor_Passport                                         (Parm, OutParm, HasGetValueTypeHash)
+// bool*                                   Armor_Found                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Find_Hit_Armor(class UPrimitiveComponent* Hit_Component_0, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, struct FStr_Passport_Armor1* Armor_Passport, bool* Armor_Found)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Find Hit Armor");
+
+	Params::Willie_BP_C_Find_Hit_Armor Parms{};
+
+	Parms.Hit_Component_0 = Hit_Component_0;
+	Parms.Hit_Bone = Hit_Bone;
+	Parms.Location = std::move(Location);
+	Parms.Normal = std::move(Normal);
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Armor_Passport != nullptr)
+		*Armor_Passport = std::move(Parms.Armor_Passport);
+
+	if (Armor_Found != nullptr)
+		*Armor_Found = Parms.Armor_Found;
+}
+
+
 // Function Willie_BP.Willie_BP_C.Find Node Time Begin
 // (Public, BlueprintCallable, BlueprintEvent)
 
@@ -1330,56 +1424,15 @@ double AWillie_BP_C::Find_Sheath_Length(class AModularWeaponBP_C* InputPin)
 }
 
 
-// Function Willie_BP.Willie_BP_C.Find Thrusting Location
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// EGripType_Enum                          Grip_Typr                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Thrust_Position                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Y_0                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FVector AWillie_BP_C::Find_Thrusting_Location(EGripType_Enum Grip_Typr, double Thrust_Position, double Y_0)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Find Thrusting Location");
-
-	Params::Willie_BP_C_Find_Thrusting_Location Parms{};
-
-	Parms.Grip_Typr = Grip_Typr;
-	Parms.Thrust_Position = Thrust_Position;
-	Parms.Y_0 = Y_0;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Willie_BP.Willie_BP_C.Force Fall Down Event
+// Function Willie_BP.Willie_BP_C.Force Finish Match
 // (BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::Force_Fall_Down_Event()
+void AWillie_BP_C::Force_Finish_Match()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Force Fall Down Event");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Force FPP
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Force_FPP()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Force FPP");
+		Func = Class->GetFunction("Willie_BP_C", "Force Finish Match");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1408,19 +1461,20 @@ void AWillie_BP_C::Force_TPP()
 // const struct FVector&                   Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class FName                             bone                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Raw_Damage                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Cutting_Power                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Cutting_Power_0                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Inside                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Damaged_Mesh                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // int32                                   Dism_Blunt                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Lower_Threshold                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Shockwave                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Hit_By_Component                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// bool                                    Stab_                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Stab__0                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UBoxComponent*                    Hit_Box                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// bool                                    Ignore_Invincibility                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Pain_Rate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Hit_Flesh                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double*                                 Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab_, class UBoxComponent* Hit_Box, bool Ignore_Invincibility, double* Damage_Out)
+void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power_0, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab__0, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double* Damage_Out)
 {
 	static class UFunction* Func = nullptr;
 
@@ -1435,16 +1489,17 @@ void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVecto
 	Parms.Normal = std::move(Normal);
 	Parms.bone = bone;
 	Parms.Raw_Damage = Raw_Damage;
-	Parms.Cutting_Power = Cutting_Power;
+	Parms.Cutting_Power_0 = Cutting_Power_0;
 	Parms.Inside = Inside;
 	Parms.Damaged_Mesh = Damaged_Mesh;
 	Parms.Dism_Blunt = Dism_Blunt;
 	Parms.Lower_Threshold = Lower_Threshold;
 	Parms.Shockwave = Shockwave;
 	Parms.Hit_By_Component = Hit_By_Component;
-	Parms.Stab_ = Stab_;
+	Parms.Stab__0 = Stab__0;
 	Parms.Hit_Box = Hit_Box;
-	Parms.Ignore_Invincibility = Ignore_Invincibility;
+	Parms.Pain_Rate = Pain_Rate;
+	Parms.Hit_Flesh = Hit_Flesh;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -1453,87 +1508,145 @@ void AWillie_BP_C::Get_Damage(const struct FVector& Impulse, const struct FVecto
 }
 
 
-// Function Willie_BP.Willie_BP_C.Get Damage_0
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
+// Function Willie_BP.Willie_BP_C.Get Insulted
+// (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// const struct FVector&                   Impulse                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   Velocity                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   Normal                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class FName                             bone                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Raw_Damage                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Cutting_Power                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Inside                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class UPrimitiveComponent*              Damaged_Mesh                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// int32                                   Dism_Blunt                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Lower_Threshold                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Shockwave                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class UPrimitiveComponent*              Hit_By_Component                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// double*                                 Damage_Out                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Other_Guy_Weight                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Other_Guy_Protection                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Other_Guy_Armed                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AWillie_BP_C*                     Other_Guy                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Get_Damage_0(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, double* Damage_Out)
+void AWillie_BP_C::Get_Insulted(double Other_Guy_Weight, double Other_Guy_Protection, bool Other_Guy_Armed, class AWillie_BP_C* Other_Guy)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Get Damage_0");
+		Func = Class->GetFunction("Willie_BP_C", "Get Insulted");
 
-	Params::Willie_BP_C_Get_Damage_0 Parms{};
+	Params::Willie_BP_C_Get_Insulted Parms{};
 
-	Parms.Impulse = std::move(Impulse);
-	Parms.Velocity = std::move(Velocity);
-	Parms.Location = std::move(Location);
-	Parms.Normal = std::move(Normal);
-	Parms.bone = bone;
-	Parms.Raw_Damage = Raw_Damage;
-	Parms.Cutting_Power = Cutting_Power;
-	Parms.Inside = Inside;
-	Parms.Damaged_Mesh = Damaged_Mesh;
-	Parms.Dism_Blunt = Dism_Blunt;
-	Parms.Lower_Threshold = Lower_Threshold;
-	Parms.Shockwave = Shockwave;
-	Parms.Hit_By_Component = Hit_By_Component;
+	Parms.Other_Guy_Weight = Other_Guy_Weight;
+	Parms.Other_Guy_Protection = Other_Guy_Protection;
+	Parms.Other_Guy_Armed = Other_Guy_Armed;
+	Parms.Other_Guy = Other_Guy;
 
 	UObject::ProcessEvent(Func, &Parms);
-
-	if (Damage_Out != nullptr)
-		*Damage_Out = Parms.Damage_Out;
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_C_K2Node_InputKeyEvent_2
+// Function Willie_BP.Willie_BP_C.Get Up, Pal
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class AWillie_BP_C*                     Pal                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Get_Up__Pal(class AWillie_BP_C* Pal)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Get Up, Pal");
+
+	Params::Willie_BP_C_Get_Up__Pal Parms{};
+
+	Parms.Pal = Pal;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Grab Specific Object L H
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Grab_Component_L_0                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NewLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Grab_Specific_Object_L_H(class UPrimitiveComponent* Grab_Component_L_0, const struct FVector& NewLocation)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Grab Specific Object L H");
+
+	Params::Willie_BP_C_Grab_Specific_Object_L_H Parms{};
+
+	Parms.Grab_Component_L_0 = Grab_Component_L_0;
+	Parms.NewLocation = std::move(NewLocation);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Grab Specific Object R H
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UPrimitiveComponent*              Grab_Component_R_0                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   NewLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Grab_Specific_Object_R_H(class UPrimitiveComponent* Grab_Component_R_0, const struct FVector& NewLocation)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Grab Specific Object R H");
+
+	Params::Willie_BP_C_Grab_Specific_Object_R_H Parms{};
+
+	Parms.Grab_Component_R_0 = Grab_Component_R_0;
+	Parms.NewLocation = std::move(NewLocation);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Helmet Muffle Voice
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Helmet_Muffle_Voice()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Helmet Muffle Voice");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_B_K2Node_InputDebugKeyEvent_0
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FInputActionValue&         ActionValue                                            (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
 
-void AWillie_BP_C::InpActEvt_C_K2Node_InputKeyEvent_2(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_B_K2Node_InputDebugKeyEvent_0(const struct FKey& Key, const struct FInputActionValue& ActionValue)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_C_K2Node_InputKeyEvent_2");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_B_K2Node_InputDebugKeyEvent_0");
 
-	Params::Willie_BP_C_InpActEvt_C_K2Node_InputKeyEvent_2 Parms{};
+	Params::Willie_BP_C_InpActEvt_B_K2Node_InputDebugKeyEvent_0 Parms{};
 
 	Parms.Key = std::move(Key);
+	Parms.ActionValue = std::move(ActionValue);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_CapsLock_K2Node_InputKeyEvent_7
+// Function Willie_BP.Willie_BP_C.InpActEvt_CapsLock_K2Node_InputKeyEvent_2
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_CapsLock_K2Node_InputKeyEvent_7(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_CapsLock_K2Node_InputKeyEvent_2(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_CapsLock_K2Node_InputKeyEvent_7");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_CapsLock_K2Node_InputKeyEvent_2");
 
-	Params::Willie_BP_C_InpActEvt_CapsLock_K2Node_InputKeyEvent_7 Parms{};
+	Params::Willie_BP_C_InpActEvt_CapsLock_K2Node_InputKeyEvent_2 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1641,66 +1754,6 @@ void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_5(const struct F
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_G_K2Node_InputKeyEvent_5
-// (BlueprintEvent)
-// Parameters:
-// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpActEvt_G_K2Node_InputKeyEvent_5(const struct FKey& Key)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_G_K2Node_InputKeyEvent_5");
-
-	Params::Willie_BP_C_InpActEvt_G_K2Node_InputKeyEvent_5 Parms{};
-
-	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP.Willie_BP_C.InpActEvt_G_K2Node_InputKeyEvent_6
-// (BlueprintEvent)
-// Parameters:
-// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpActEvt_G_K2Node_InputKeyEvent_6(const struct FKey& Key)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_G_K2Node_InputKeyEvent_6");
-
-	Params::Willie_BP_C_InpActEvt_G_K2Node_InputKeyEvent_6 Parms{};
-
-	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP.Willie_BP_C.InpActEvt_Grab Left_K2Node_InputActionEvent_16
-// (BlueprintEvent)
-// Parameters:
-// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_16(const struct FKey& Key)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Left_K2Node_InputActionEvent_16");
-
-	Params::Willie_BP_C_InpActEvt_Grab_Left_K2Node_InputActionEvent_16 Parms{};
-
-	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function Willie_BP.Willie_BP_C.InpActEvt_Grab Left_K2Node_InputActionEvent_17
 // (BlueprintEvent)
 // Parameters:
@@ -1721,19 +1774,19 @@ void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_17(const struct F
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Grab Right_K2Node_InputActionEvent_18
+// Function Willie_BP.Willie_BP_C.InpActEvt_Grab Left_K2Node_InputActionEvent_18
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_18(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Grab_Left_K2Node_InputActionEvent_18(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Right_K2Node_InputActionEvent_18");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Left_K2Node_InputActionEvent_18");
 
-	Params::Willie_BP_C_InpActEvt_Grab_Right_K2Node_InputActionEvent_18 Parms{};
+	Params::Willie_BP_C_InpActEvt_Grab_Left_K2Node_InputActionEvent_18 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1761,6 +1814,66 @@ void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_19(const struct 
 }
 
 
+// Function Willie_BP.Willie_BP_C.InpActEvt_Grab Right_K2Node_InputActionEvent_20
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Grab_Right_K2Node_InputActionEvent_20(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Grab Right_K2Node_InputActionEvent_20");
+
+	Params::Willie_BP_C_InpActEvt_Grab_Right_K2Node_InputActionEvent_20 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_H_K2Node_InputKeyEvent_3
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_H_K2Node_InputKeyEvent_3(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_H_K2Node_InputKeyEvent_3");
+
+	Params::Willie_BP_C_InpActEvt_H_K2Node_InputKeyEvent_3 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Inventory_K2Node_InputActionEvent_32
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Inventory_K2Node_InputActionEvent_32(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Inventory_K2Node_InputActionEvent_32");
+
+	Params::Willie_BP_C_InpActEvt_Inventory_K2Node_InputActionEvent_32 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Willie_BP.Willie_BP_C.InpActEvt_Jump_K2Node_InputActionEvent_14
 // (BlueprintEvent)
 // Parameters:
@@ -1781,65 +1894,203 @@ void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_14(const struct FKey& 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_K_K2Node_InputDebugKeyEvent_1
+// Function Willie_BP.Willie_BP_C.InpActEvt_Jump_K2Node_InputActionEvent_15
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-// const struct FInputActionValue&         ActionValue                                            (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
 
-void AWillie_BP_C::InpActEvt_K_K2Node_InputDebugKeyEvent_1(const struct FKey& Key, const struct FInputActionValue& ActionValue)
+void AWillie_BP_C::InpActEvt_Jump_K2Node_InputActionEvent_15(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_K_K2Node_InputDebugKeyEvent_1");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Jump_K2Node_InputActionEvent_15");
 
-	Params::Willie_BP_C_InpActEvt_K_K2Node_InputDebugKeyEvent_1 Parms{};
+	Params::Willie_BP_C_InpActEvt_Jump_K2Node_InputActionEvent_15 Parms{};
 
 	Parms.Key = std::move(Key);
-	Parms.ActionValue = std::move(ActionValue);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_L_K2Node_InputDebugKeyEvent_0
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Back_K2Node_InputActionEvent_25
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-// const struct FInputActionValue&         ActionValue                                            (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
 
-void AWillie_BP_C::InpActEvt_L_K2Node_InputDebugKeyEvent_0(const struct FKey& Key, const struct FInputActionValue& ActionValue)
+void AWillie_BP_C::InpActEvt_Key_Back_K2Node_InputActionEvent_25(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_L_K2Node_InputDebugKeyEvent_0");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Back_K2Node_InputActionEvent_25");
 
-	Params::Willie_BP_C_InpActEvt_L_K2Node_InputDebugKeyEvent_0 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Back_K2Node_InputActionEvent_25 Parms{};
 
 	Parms.Key = std::move(Key);
-	Parms.ActionValue = std::move(ActionValue);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_P_K2Node_InputKeyEvent_3
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Back_K2Node_InputActionEvent_26
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_P_K2Node_InputKeyEvent_3(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Key_Back_K2Node_InputActionEvent_26(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_P_K2Node_InputKeyEvent_3");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Back_K2Node_InputActionEvent_26");
 
-	Params::Willie_BP_C_InpActEvt_P_K2Node_InputKeyEvent_3 Parms{};
+	Params::Willie_BP_C_InpActEvt_Key_Back_K2Node_InputActionEvent_26 Parms{};
 
 	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Forward_K2Node_InputActionEvent_23
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Key_Forward_K2Node_InputActionEvent_23(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Forward_K2Node_InputActionEvent_23");
+
+	Params::Willie_BP_C_InpActEvt_Key_Forward_K2Node_InputActionEvent_23 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Forward_K2Node_InputActionEvent_24
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Key_Forward_K2Node_InputActionEvent_24(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Forward_K2Node_InputActionEvent_24");
+
+	Params::Willie_BP_C_InpActEvt_Key_Forward_K2Node_InputActionEvent_24 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Left_K2Node_InputActionEvent_29
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Key_Left_K2Node_InputActionEvent_29(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Left_K2Node_InputActionEvent_29");
+
+	Params::Willie_BP_C_InpActEvt_Key_Left_K2Node_InputActionEvent_29 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Left_K2Node_InputActionEvent_30
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Key_Left_K2Node_InputActionEvent_30(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Left_K2Node_InputActionEvent_30");
+
+	Params::Willie_BP_C_InpActEvt_Key_Left_K2Node_InputActionEvent_30 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Right_K2Node_InputActionEvent_27
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Key_Right_K2Node_InputActionEvent_27(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Right_K2Node_InputActionEvent_27");
+
+	Params::Willie_BP_C_InpActEvt_Key_Right_K2Node_InputActionEvent_27 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Key Right_K2Node_InputActionEvent_28
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Key_Right_K2Node_InputActionEvent_28(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Key Right_K2Node_InputActionEvent_28");
+
+	Params::Willie_BP_C_InpActEvt_Key_Right_K2Node_InputActionEvent_28 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_N_K2Node_InputDebugKeyEvent_1
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FInputActionValue&         ActionValue                                            (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor)
+
+void AWillie_BP_C::InpActEvt_N_K2Node_InputDebugKeyEvent_1(const struct FKey& Key, const struct FInputActionValue& ActionValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_N_K2Node_InputDebugKeyEvent_1");
+
+	Params::Willie_BP_C_InpActEvt_N_K2Node_InputDebugKeyEvent_1 Parms{};
+
+	Parms.Key = std::move(Key);
+	Parms.ActionValue = std::move(ActionValue);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -1865,19 +2116,19 @@ void AWillie_BP_C::InpActEvt_Pause_K2Node_InputActionEvent_1(const struct FKey& 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_R_K2Node_InputKeyEvent_4
+// Function Willie_BP.Willie_BP_C.InpActEvt_PhotoMode_K2Node_InputActionEvent_31
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_R_K2Node_InputKeyEvent_4(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_PhotoMode_K2Node_InputActionEvent_31(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_R_K2Node_InputKeyEvent_4");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_PhotoMode_K2Node_InputActionEvent_31");
 
-	Params::Willie_BP_C_InpActEvt_R_K2Node_InputKeyEvent_4 Parms{};
+	Params::Willie_BP_C_InpActEvt_PhotoMode_K2Node_InputActionEvent_31 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1965,26 +2216,6 @@ void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_3(const struct FKey& Ke
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_S_K2Node_InputKeyEvent_9
-// (BlueprintEvent)
-// Parameters:
-// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpActEvt_S_K2Node_InputKeyEvent_9(const struct FKey& Key)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_S_K2Node_InputKeyEvent_9");
-
-	Params::Willie_BP_C_InpActEvt_S_K2Node_InputKeyEvent_9 Parms{};
-
-	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function Willie_BP.Willie_BP_C.InpActEvt_SloMo_K2Node_InputActionEvent_6
 // (BlueprintEvent)
 // Parameters:
@@ -2005,19 +2236,59 @@ void AWillie_BP_C::InpActEvt_SloMo_K2Node_InputActionEvent_6(const struct FKey& 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Swap Hands_K2Node_InputActionEvent_15
+// Function Willie_BP.Willie_BP_C.InpActEvt_Swap Hands_K2Node_InputActionEvent_16
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_15(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Swap_Hands_K2Node_InputActionEvent_16(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Swap Hands_K2Node_InputActionEvent_15");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Swap Hands_K2Node_InputActionEvent_16");
 
-	Params::Willie_BP_C_InpActEvt_Swap_Hands_K2Node_InputActionEvent_15 Parms{};
+	Params::Willie_BP_C_InpActEvt_Swap_Hands_K2Node_InputActionEvent_16 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Talk_K2Node_InputActionEvent_21
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Talk_K2Node_InputActionEvent_21(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Talk_K2Node_InputActionEvent_21");
+
+	Params::Willie_BP_C_InpActEvt_Talk_K2Node_InputActionEvent_21 Parms{};
+
+	Parms.Key = std::move(Key);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.InpActEvt_Talk_K2Node_InputActionEvent_22
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::InpActEvt_Talk_K2Node_InputActionEvent_22(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Talk_K2Node_InputActionEvent_22");
+
+	Params::Willie_BP_C_InpActEvt_Talk_K2Node_InputActionEvent_22 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2120,66 +2391,6 @@ void AWillie_BP_C::InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_13(const
 	Params::Willie_BP_C_InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_13 Parms{};
 
 	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP.Willie_BP_C.InpActEvt_Y_K2Node_InputKeyEvent_8
-// (BlueprintEvent)
-// Parameters:
-// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpActEvt_Y_K2Node_InputKeyEvent_8(const struct FKey& Key)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Y_K2Node_InputKeyEvent_8");
-
-	Params::Willie_BP_C_InpActEvt_Y_K2Node_InputKeyEvent_8 Parms{};
-
-	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP.Willie_BP_C.InpAxisEvt_Key Forward_K2Node_InputAxisEvent_4
-// (BlueprintEvent)
-// Parameters:
-// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpAxisEvt_Key_Forward_K2Node_InputAxisEvent_4(float AxisValue)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpAxisEvt_Key Forward_K2Node_InputAxisEvent_4");
-
-	Params::Willie_BP_C_InpAxisEvt_Key_Forward_K2Node_InputAxisEvent_4 Parms{};
-
-	Parms.AxisValue = AxisValue;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP.Willie_BP_C.InpAxisEvt_Key Right_K2Node_InputAxisEvent_5
-// (BlueprintEvent)
-// Parameters:
-// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AWillie_BP_C::InpAxisEvt_Key_Right_K2Node_InputAxisEvent_5(float AxisValue)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpAxisEvt_Key Right_K2Node_InputAxisEvent_5");
-
-	Params::Willie_BP_C_InpAxisEvt_Key_Right_K2Node_InputAxisEvent_5 Parms{};
-
-	Parms.AxisValue = AxisValue;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -2531,48 +2742,6 @@ void AWillie_BP_C::L_Step_Timeline__UpdateFunc()
 }
 
 
-// Function Willie_BP.Willie_BP_C.Load Save
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Load_Save()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Load Save");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Load Save Give Up
-// (BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Load_Save_Give_Up()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Load Save Give Up");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Move L Hand To Not Awkward Position
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Move_L_Hand_To_Not_Awkward_Position()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Move L Hand To Not Awkward Position");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function Willie_BP.Willie_BP_C.Muscle Motor
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -2648,12 +2817,13 @@ void AWillie_BP_C::Paint_Blood_Splash(const struct FVector& Location, class FNam
 
 
 // Function Willie_BP.Willie_BP_C.Pick Up Armor
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // class USceneComponent*                  Picked_Armor                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class ABP_Armor_Master_C*               Armor_Actor                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Picked_Up                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Pick_Up_Armor(class USceneComponent* Picked_Armor, class ABP_Armor_Master_C* Armor_Actor)
+void AWillie_BP_C::Pick_Up_Armor(class USceneComponent* Picked_Armor, class ABP_Armor_Master_C* Armor_Actor, bool* Picked_Up)
 {
 	static class UFunction* Func = nullptr;
 
@@ -2666,6 +2836,9 @@ void AWillie_BP_C::Pick_Up_Armor(class USceneComponent* Picked_Armor, class ABP_
 	Parms.Armor_Actor = Armor_Actor;
 
 	UObject::ProcessEvent(Func, &Parms);
+
+	if (Picked_Up != nullptr)
+		*Picked_Up = Parms.Picked_Up;
 }
 
 
@@ -2694,26 +2867,6 @@ void AWillie_BP_C::Pick_Up_Right_Event()
 		Func = Class->GetFunction("Willie_BP_C", "Pick Up Right Event");
 
 	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Pickup Weapon Sound
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class AModularWeaponBP_C*               InputPin                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void AWillie_BP_C::Pickup_Weapon_Sound(class AModularWeaponBP_C* InputPin)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Pickup Weapon Sound");
-
-	Params::Willie_BP_C_Pickup_Weapon_Sound Parms{};
-
-	Parms.InputPin = InputPin;
-
-	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -2945,13 +3098,11 @@ void AWillie_BP_C::Release_Offhand()
 // Function Willie_BP.Willie_BP_C.Remove Armor
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class UClass*                           Class_0                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // const struct FTransform&                SpawnTransform                                         (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const EArmorSlots_Enum&                 Key                                                    (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Use_Spawn_Transform                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class ABP_Armor_Master_C**              Dropped_Armor                                          (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// const EArmorSlots_Enum&                 Slot                                                   (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class ABP_Armor_Modular_Core_Master_C** Spawned_Armor1                                         (Parm, OutParm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Remove_Armor(class UClass* Class_0, const struct FTransform& SpawnTransform, const EArmorSlots_Enum& Key, bool Use_Spawn_Transform, class ABP_Armor_Master_C** Dropped_Armor)
+void AWillie_BP_C::Remove_Armor(const struct FTransform& SpawnTransform, const EArmorSlots_Enum& Slot, class ABP_Armor_Modular_Core_Master_C** Spawned_Armor1)
 {
 	static class UFunction* Func = nullptr;
 
@@ -2960,15 +3111,13 @@ void AWillie_BP_C::Remove_Armor(class UClass* Class_0, const struct FTransform& 
 
 	Params::Willie_BP_C_Remove_Armor Parms{};
 
-	Parms.Class_0 = Class_0;
 	Parms.SpawnTransform = std::move(SpawnTransform);
-	Parms.Key = Key;
-	Parms.Use_Spawn_Transform = Use_Spawn_Transform;
+	Parms.Slot = Slot;
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	if (Dropped_Armor != nullptr)
-		*Dropped_Armor = Parms.Dropped_Armor;
+	if (Spawned_Armor1 != nullptr)
+		*Spawned_Armor1 = Parms.Spawned_Armor1;
 }
 
 
@@ -3037,6 +3186,20 @@ void AWillie_BP_C::Reset_Body_Hit_Sound()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Reset Body Hit Sound");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Reset Character
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Reset_Character()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Reset Character");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3174,15 +3337,29 @@ void AWillie_BP_C::Reset_Trail_Blood(float Duration)
 }
 
 
-// Function Willie_BP.Willie_BP_C.Save Loadout
+// Function Willie_BP.Willie_BP_C.RT DRAW EVENT
 // (BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::Save_Loadout()
+void AWillie_BP_C::RT_DRAW_EVENT()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Save Loadout");
+		Func = Class->GetFunction("Willie_BP_C", "RT DRAW EVENT");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Send My Regards to Dress Up Darling
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Send_My_Regards_to_Dress_Up_Darling()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Send My Regards to Dress Up Darling");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3194,9 +3371,9 @@ void AWillie_BP_C::Save_Loadout()
 // const struct FVector&                   Threat_Location_0                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   Offset                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Immediate                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Send_Threat_Location_R(const struct FVector& Threat_Location_0, const struct FVector& Offset, bool Immediate, bool* Nul)
+void AWillie_BP_C::Send_Threat_Location_R(const struct FVector& Threat_Location_0, const struct FVector& Offset, bool Immediate, bool* nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -3211,110 +3388,22 @@ void AWillie_BP_C::Send_Threat_Location_R(const struct FVector& Threat_Location_
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	if (Nul != nullptr)
-		*Nul = Parms.Nul;
+	if (nul != nullptr)
+		*nul = Parms.nul;
 }
 
 
-// Function Willie_BP.Willie_BP_C.Set Arm Aim Location
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Control_Rate                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class USceneComponent*                  Aim_Scene                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// class USceneComponent*                  Shoulder_Scene                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// const struct FRotator&                  Aim_Roataion                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
-// const struct FVector&                   Default_Arm_Position                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// EGripType_Enum                          Grip                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  A                                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function Willie_BP.Willie_BP_C.Set Character Height
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::Set_Arm_Aim_Location(double Control_Rate, class USceneComponent* Aim_Scene, class USceneComponent* Shoulder_Scene, const struct FRotator& Aim_Roataion, const struct FVector& Default_Arm_Position, EGripType_Enum Grip, double A, struct FVector* Result)
+void AWillie_BP_C::Set_Character_Height()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Arm Aim Location");
+		Func = Class->GetFunction("Willie_BP_C", "Set Character Height");
 
-	Params::Willie_BP_C_Set_Arm_Aim_Location Parms{};
-
-	Parms.Control_Rate = Control_Rate;
-	Parms.Aim_Scene = Aim_Scene;
-	Parms.Shoulder_Scene = Shoulder_Scene;
-	Parms.Aim_Roataion = std::move(Aim_Roataion);
-	Parms.Default_Arm_Position = std::move(Default_Arm_Position);
-	Parms.Grip = Grip;
-	Parms.A = A;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Result != nullptr)
-		*Result = std::move(Parms.Result);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Set Arm Aim Rotation
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class USceneComponent*                  Shoulder_Scene                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// double                                  Y_0                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  X_0                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Guarding_                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Control_Rate                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FRotator&                  Aim_ROtation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
-// class FName                             Hand_Socket_Name                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator*                        Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
-
-void AWillie_BP_C::Set_Arm_Aim_Rotation(class USceneComponent* Shoulder_Scene, double Y_0, double X_0, bool Guarding_, double Control_Rate, const struct FRotator& Aim_ROtation, class FName Hand_Socket_Name, struct FRotator* Result)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Arm Aim Rotation");
-
-	Params::Willie_BP_C_Set_Arm_Aim_Rotation Parms{};
-
-	Parms.Shoulder_Scene = Shoulder_Scene;
-	Parms.Y_0 = Y_0;
-	Parms.X_0 = X_0;
-	Parms.Guarding_ = Guarding_;
-	Parms.Control_Rate = Control_Rate;
-	Parms.Aim_ROtation = std::move(Aim_ROtation);
-	Parms.Hand_Socket_Name = Hand_Socket_Name;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Result != nullptr)
-		*Result = std::move(Parms.Result);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Set Arm IK Relative Rotation
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  Control_Rate                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// float                                   Wrist_Direction                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class USceneComponent*                  Shoulder_Scene                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// EGripType_Enum                          Grip_Type                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FRotator*                        Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
-
-void AWillie_BP_C::Set_Arm_IK_Relative_Rotation(double Control_Rate, float Wrist_Direction, class USceneComponent* Shoulder_Scene, EGripType_Enum Grip_Type, struct FRotator* Result)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Arm IK Relative Rotation");
-
-	Params::Willie_BP_C_Set_Arm_IK_Relative_Rotation Parms{};
-
-	Parms.Control_Rate = Control_Rate;
-	Parms.Wrist_Direction = Wrist_Direction;
-	Parms.Shoulder_Scene = Shoulder_Scene;
-	Parms.Grip_Type = Grip_Type;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Result != nullptr)
-		*Result = std::move(Parms.Result);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -3340,29 +3429,27 @@ void AWillie_BP_C::Set_Pain_Location(class FName BoneName, const struct FVector&
 }
 
 
-// Function Willie_BP.Willie_BP_C.Set Shoulder Rotation
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function Willie_BP.Willie_BP_C.Set Physics LOD Int
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  Control_Rate                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FRotator&                  Aim_ROtation                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
-// struct FRotator*                        Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// const class AActor*                     OtherActor                                             (ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// int32*                                  Out_LOD                                                (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Set_Shoulder_Rotation(double Control_Rate, const struct FRotator& Aim_ROtation, struct FRotator* Result)
+void AWillie_BP_C::Set_Physics_LOD_Int(const class AActor* OtherActor, int32* Out_LOD)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Shoulder Rotation");
+		Func = Class->GetFunction("Willie_BP_C", "Set Physics LOD Int");
 
-	Params::Willie_BP_C_Set_Shoulder_Rotation Parms{};
+	Params::Willie_BP_C_Set_Physics_LOD_Int Parms{};
 
-	Parms.Control_Rate = Control_Rate;
-	Parms.Aim_ROtation = std::move(Aim_ROtation);
+	Parms.OtherActor = OtherActor;
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	if (Result != nullptr)
-		*Result = std::move(Parms.Result);
+	if (Out_LOD != nullptr)
+		*Out_LOD = Parms.Out_LOD;
 }
 
 
@@ -3370,11 +3457,9 @@ void AWillie_BP_C::Set_Shoulder_Rotation(double Control_Rate, const struct FRota
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // bool                                    Clear_Previous                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Load_Saved_Armor                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    Save_Armor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FStr_Loadout_Equipment&    Load_Armor                                             (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// bool                                    No_Check_Block__Kostyl__                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool Load_Saved_Armor, bool Save_Armor, const struct FStr_Loadout_Equipment& Load_Armor)
+void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl__)
 {
 	static class UFunction* Func = nullptr;
 
@@ -3384,9 +3469,7 @@ void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool Load_Saved_Armor, bool
 	Params::Willie_BP_C_Set_Up_Armor Parms{};
 
 	Parms.Clear_Previous = Clear_Previous;
-	Parms.Load_Saved_Armor = Load_Saved_Armor;
-	Parms.Save_Armor = Save_Armor;
-	Parms.Load_Armor = std::move(Load_Armor);
+	Parms.No_Check_Block__Kostyl__ = No_Check_Block__Kostyl__;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -3399,9 +3482,9 @@ void AWillie_BP_C::Set_Up_Armor(bool Clear_Previous, bool Load_Saved_Armor, bool
 // class AModularWeaponBP_C*               Weapon_L_0                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // bool                                    Dropped_With_no_Damage                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Destroy_Previous                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FStr_WeaponParts&          Str_Weapon_Parts                                       (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FStr_Passport_Weapon1&     Weapon_Passport                                        (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_L_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_WeaponParts& Str_Weapon_Parts)
+void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_L_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_Passport_Weapon1& Weapon_Passport)
 {
 	static class UFunction* Func = nullptr;
 
@@ -3414,7 +3497,31 @@ void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AMo
 	Parms.Weapon_L_0 = Weapon_L_0;
 	Parms.Dropped_With_no_Damage = Dropped_With_no_Damage;
 	Parms.Destroy_Previous = Destroy_Previous;
-	Parms.Str_Weapon_Parts = std::move(Str_Weapon_Parts);
+	Parms.Weapon_Passport = std::move(Weapon_Passport);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Set Up Proxy Collisions
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UStaticMesh*                      Collision_Mesh                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// const struct FStr_ArmorProtection&      Protection_Str                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FStr_Passport_Armor1&      Current_Armor_Passport                                 (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void AWillie_BP_C::Set_Up_Proxy_Collisions(class UStaticMesh* Collision_Mesh, const struct FStr_ArmorProtection& Protection_Str, const struct FStr_Passport_Armor1& Current_Armor_Passport)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Set Up Proxy Collisions");
+
+	Params::Willie_BP_C_Set_Up_Proxy_Collisions Parms{};
+
+	Parms.Collision_Mesh = Collision_Mesh;
+	Parms.Protection_Str = std::move(Protection_Str);
+	Parms.Current_Armor_Passport = std::move(Current_Armor_Passport);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -3427,9 +3534,9 @@ void AWillie_BP_C::Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AMo
 // class AModularWeaponBP_C*               Weapon_R_0                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // bool                                    Dropped_With_no_Damage                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Destroy_Previous                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FStr_WeaponParts&          Str_Weapon_Parts                                       (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+// const struct FStr_Passport_Weapon1&     Str_Weapon_Passport                                    (BlueprintVisible, BlueprintReadOnly, Parm, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Set_Up_Right_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_R_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_WeaponParts& Str_Weapon_Parts)
+void AWillie_BP_C::Set_Up_Right_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_R_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_Passport_Weapon1& Str_Weapon_Passport)
 {
 	static class UFunction* Func = nullptr;
 
@@ -3442,59 +3549,9 @@ void AWillie_BP_C::Set_Up_Right_Hand_Weapon(class UClass* Weapon_Class, class AM
 	Parms.Weapon_R_0 = Weapon_R_0;
 	Parms.Dropped_With_no_Damage = Dropped_With_no_Damage;
 	Parms.Destroy_Previous = Destroy_Previous;
-	Parms.Str_Weapon_Parts = std::move(Str_Weapon_Parts);
+	Parms.Str_Weapon_Passport = std::move(Str_Weapon_Passport);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Set X
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class USceneComponent*                  Shoulder_Scene                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// double                                  X_Offset                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AWillie_BP_C::Set_X(class USceneComponent* Shoulder_Scene, double X_Offset)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set X");
-
-	Params::Willie_BP_C_Set_X Parms{};
-
-	Parms.Shoulder_Scene = Shoulder_Scene;
-	Parms.X_Offset = X_Offset;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Willie_BP.Willie_BP_C.Set Y
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class USceneComponent*                  Shoulder_Scene                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// double                                  Y_Offset                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-double AWillie_BP_C::Set_Y(class USceneComponent* Shoulder_Scene, double Y_Offset)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Set Y");
-
-	Params::Willie_BP_C_Set_Y Parms{};
-
-	Parms.Shoulder_Scene = Shoulder_Scene;
-	Parms.Y_Offset = Y_Offset;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
 }
 
 
@@ -3507,6 +3564,34 @@ void AWillie_BP_C::Setup_Character_Event()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Setup Character Event");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Setup FootIK Placement
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Setup_FootIK_Placement()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Setup FootIK Placement");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Setup Simulated Bones Array
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Setup_Simulated_Bones_Array()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Setup Simulated Bones Array");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3658,57 +3743,15 @@ void AWillie_BP_C::Spawn_Blood(const struct FTransform& Transform, double Spawn_
 }
 
 
-// Function Willie_BP.Willie_BP_C.Spawn Limb No Mesh Merge
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// EWillie_Bones_Enum                      NewLocalVar1                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class USkeletalMeshComponent*           Affected_Mesh                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// int32                                   Dism_Level1                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// class USkeletalMeshComponent**          Spawned_Limb_Local1                                    (Parm, OutParm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-
-void AWillie_BP_C::Spawn_Limb_No_Mesh_Merge(EWillie_Bones_Enum NewLocalVar1, class USkeletalMeshComponent* Affected_Mesh, int32 Dism_Level1, class USkeletalMeshComponent** Spawned_Limb_Local1)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Spawn Limb No Mesh Merge");
-
-	Params::Willie_BP_C_Spawn_Limb_No_Mesh_Merge Parms{};
-
-	Parms.NewLocalVar1 = NewLocalVar1;
-	Parms.Affected_Mesh = Affected_Mesh;
-	Parms.Dism_Level1 = Dism_Level1;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Spawned_Limb_Local1 != nullptr)
-		*Spawned_Limb_Local1 = Parms.Spawned_Limb_Local1;
-}
-
-
-// Function Willie_BP.Willie_BP_C.Spill Guts
+// Function Willie_BP.Willie_BP_C.Start Up First Person Event
 // (BlueprintCallable, BlueprintEvent)
 
-void AWillie_BP_C::Spill_Guts()
+void AWillie_BP_C::Start_Up_First_Person_Event()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Spill Guts");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Willie_BP.Willie_BP_C.Stop Detached Blood Emitters
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void AWillie_BP_C::Stop_Detached_Blood_Emitters()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "Stop Detached Blood Emitters");
+		Func = Class->GetFunction("Willie_BP_C", "Start Up First Person Event");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -3718,9 +3761,9 @@ void AWillie_BP_C::Stop_Detached_Blood_Emitters()
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // double                                  Power                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::StopThatBlade(double Power, bool* Nul)
+void AWillie_BP_C::StopThatBlade(double Power, bool* nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -3733,8 +3776,32 @@ void AWillie_BP_C::StopThatBlade(double Power, bool* Nul)
 
 	UObject::ProcessEvent(Func, &Parms);
 
-	if (Nul != nullptr)
-		*Nul = Parms.Nul;
+	if (nul != nullptr)
+		*nul = Parms.nul;
+}
+
+
+// Function Willie_BP.Willie_BP_C.Strip Armor From Bone
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class FName                             In_Bone                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AWillie_BP_C*                     Stripped_Willie                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// bool                                    Right_Hand_Strip                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWillie_BP_C::Strip_Armor_From_Bone(class FName In_Bone, class AWillie_BP_C* Stripped_Willie, bool Right_Hand_Strip)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Strip Armor From Bone");
+
+	Params::Willie_BP_C_Strip_Armor_From_Bone Parms{};
+
+	Parms.In_Bone = In_Bone;
+	Parms.Stripped_Willie = Stripped_Willie;
+	Parms.Right_Hand_Strip = Right_Hand_Strip;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -3808,6 +3875,118 @@ void AWillie_BP_C::Timeline_0__UpdateFunc()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Timeline_10__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_10__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_10__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_10__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_10__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_10__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_11__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_11__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_11__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_11__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_11__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_11__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_12__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_12__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_12__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_12__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_12__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_12__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_13__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_13__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_13__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_13__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_13__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_13__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Timeline_1__FinishedFunc
 // (BlueprintEvent)
 
@@ -3859,6 +4038,34 @@ void AWillie_BP_C::Timeline_2__UpdateFunc()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Timeline_2__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_3__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_3__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_3__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_3__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_3__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_3__UpdateFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4004,6 +4211,34 @@ void AWillie_BP_C::Timeline_8__UpdateFunc()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Timeline_9__FinishedFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_9__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_9__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Timeline_9__UpdateFunc
+// (BlueprintEvent)
+
+void AWillie_BP_C::Timeline_9__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Timeline_9__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Timeline__FinishedFunc
 // (BlueprintEvent)
 
@@ -4041,6 +4276,20 @@ void AWillie_BP_C::Toggle_Invert()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Toggle Invert");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Un Bite Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Un_Bite_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Un Bite Event");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -4212,6 +4461,20 @@ void AWillie_BP_C::Velocity_Calculator_V(const struct FVector& Current_Location,
 }
 
 
+// Function Willie_BP.Willie_BP_C.VO Bark
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::VO_Bark()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "VO Bark");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.VO Curse
 // (BlueprintCallable, BlueprintEvent)
 
@@ -4323,6 +4586,20 @@ void AWillie_BP_C::Weapon_HIt(class UPrimitiveComponent* Hit_Component_0, const 
 	Parms.Weapon = Weapon;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Willie_BP.Willie_BP_C.Weapon Skill Up
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Weapon_Skill_Up()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Weapon Skill Up");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

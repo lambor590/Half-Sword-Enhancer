@@ -32,7 +32,7 @@ void UUI_WinScreen_C::Construct()
 
 
 // Function UI_WinScreen.UI_WinScreen_C.ExecuteUbergraph_UI_WinScreen
-// (Final, UbergraphFunction)
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 

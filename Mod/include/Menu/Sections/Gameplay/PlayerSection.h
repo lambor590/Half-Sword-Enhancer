@@ -1,14 +1,8 @@
 #pragma once
 
-#include <string>
-#include <memory>
-#include <functional>
-#include <vector>
-
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
 #include "SDK/AIModule_classes.hpp"
-#include "SDK/Willie_BP_NoBrain_classes.hpp"
 #include "Hooks/GameHook.h"
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
@@ -42,13 +36,6 @@ public:
             .Action([this]() {
                 ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
             }, player, world);
-
-        Function("Save Loadout")
-            .WithKey(&cfg.saveLoadoutKey)
-            .WithTooltip("Saves your current weapons and clothes for next fight. Only works in free mode.")
-            .Action([this]() {
-                player->Save_Loadout();
-            }, player);
 
         Function("Jump")
             .WithKey(&cfg.jumpKey)
@@ -176,23 +163,58 @@ public:
                 player->Mesh->AddImpulse(forwardVector * cfg.dashForce, SDK::FName(), true);
             }, player);
 
+        Function("Bite Attack")
+            .WithKey(&cfg.biteAttackKey)
+            .GameThread()
+            .WithParams({ Parameter("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target") })
+            .WithTooltip("Bite the nearest enemy like a zombie")
+            .Action([this]() {
+                if (!player->Biting) {
+                    auto* nearest = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
+                    if (!nearest) return;
+                    ActorUtils::SpawnBiteConstraint(world, player, nearest);
+                } else {
+                    ActorUtils::ReleaseBite(player);
+                }
+            }, player, world);
+
+        Function("Enemy Bite")
+            .WithKey(&cfg.enemyBiteKey)
+            .GameThread()
+            .WithParams({ Parameter("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target") })
+            .WithTooltip("Make the nearest enemy bite another enemy")
+            .Action([this]() {
+                auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
+                if (!biter) return;
+
+                if (!biter->Biting) {
+                    auto* target = ActorUtils::FindNearestWillie(world, player, biter, cfg.biteRange, biter);
+                    if (!target) return;
+                    ActorUtils::SpawnBiteConstraint(world, biter, target);
+                } else {
+                    ActorUtils::ReleaseBite(biter);
+                }
+            }, player, world);
+
         Function("Possess Nearest Willie")
             .WithKey(&cfg.possessWillieKey)
             .WithTooltip("Take control of the closest NPC")
             .Action([this]() {
-                static SDK::AAIController* prevAIController = nullptr;
-                static SDK::APawn* originalPawn = nullptr;
-                static SDK::AWillie_BP_C* possessedWillie = nullptr;
+                static struct {
+                    SDK::AAIController* prevController = nullptr;
+                    SDK::APawn* originalPawn = nullptr;
+                    SDK::AWillie_BP_C* possessed = nullptr;
+
+                    void Reset() { prevController = nullptr; originalPawn = nullptr; possessed = nullptr; }
+                } state;
 
                 SDK::APawn* currentPawn = controller->K2_GetPawn();
-                if (possessedWillie && currentPawn != possessedWillie) [[unlikely]] {
-                    prevAIController = nullptr;
-                    originalPawn = nullptr;
-                    possessedWillie = nullptr;
+                if (state.possessed && currentPawn != state.possessed) [[unlikely]] {
+                    state.Reset();
                 }
 
-                if (!possessedWillie) [[likely]] {
-                    originalPawn = currentPawn;
+                if (!state.possessed) [[likely]] {
+                    state.originalPawn = currentPawn;
                     SDK::AWillie_BP_C* nearest = nullptr;
                     float minDist = GameConstants::MAX_DISTANCE;
 
@@ -206,24 +228,22 @@ public:
 
                     if (!nearest) [[unlikely]] return;
 
-                    if (!nearest->IsA(SDK::AWillie_BP_NoBrain_C::StaticClass())) [[likely]] {
-                        prevAIController = static_cast<SDK::AAIController*>(nearest->GetController());
-                        prevAIController->SetActorTickEnabled(false);
+                    if (nearest->IsA(SDK::AWillie_BP_C::StaticClass())) [[likely]] {
+                        state.prevController = static_cast<SDK::AAIController*>(nearest->GetController());
+                        state.prevController->SetActorTickEnabled(false);
                     }
                     controller->Possess(nearest);
                     nearest->Player = true;
-                    possessedWillie = nearest;
+                    state.possessed = nearest;
                 } else {
                     auto* williePawn = static_cast<SDK::AWillie_BP_C*>(currentPawn);
-                    controller->Possess(originalPawn);
+                    controller->Possess(state.originalPawn);
                     williePawn->Player = false;
-                    if (prevAIController) [[likely]] {
-                        prevAIController->Possess(williePawn);
-                        prevAIController->SetActorTickEnabled(true);
-                        prevAIController = nullptr;
+                    if (state.prevController) [[likely]] {
+                        state.prevController->Possess(williePawn);
+                        state.prevController->SetActorTickEnabled(true);
                     }
-                    possessedWillie = nullptr;
-                    originalPawn = nullptr;
+                    state.Reset();
                 }
             }, player, controller, world);
     }

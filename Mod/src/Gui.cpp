@@ -1,4 +1,10 @@
 #include "Gui.h"
+#include "Menu/Sections/Gameplay/PlayerSection.h"
+#include "Menu/Sections/Gameplay/WorldSection.h"
+#include "Menu/Sections/Entity_Spawner/NPCSection.h"
+#include "Menu/Sections/Entity_Spawner/ItemSection.h"
+#include "Menu/Sections/Settings/GraphicsSection.h"
+#include "Menu/Sections/Settings/GuiSection.h"
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Version.h"
@@ -47,7 +53,7 @@ void Gui::Setup() {
 
     DefaultStyle::ApplyGlobalStyle();
 
-    ImGui::SetNextWindowSize(ImVec2(699, 389), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(640, 389), ImGuiCond_Once);
     ImGui::SetNextWindowPos(ImVec2(544, 331), ImGuiCond_Once, ImVec2(0.5f, 0.5f));
 
     NotificationManager::Initialize();
@@ -91,17 +97,21 @@ void Gui::Render() {
     }
 
     if (isVisible) {
-        constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
-        #ifdef DEV_VERSION
-            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Dev Build";
+        constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse
+            | ImGuiWindowFlags_NoScrollbar
+            | ImGuiWindowFlags_NoScrollWithMouse;
+        #ifdef BETA_VERSION
+            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Beta Build";
         #else
             constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION;
         #endif
 
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(2, 2));
         if (ImGui::Begin(windowTitle, &isVisible, windowFlags)) {
             MenuManager::Get().RenderMenu();
         }
         ImGui::End();
+        ImGui::PopStyleVar();
     }
 
     NotificationManager::Render();

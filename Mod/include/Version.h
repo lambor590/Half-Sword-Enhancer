@@ -2,7 +2,7 @@
 
 #define HSE_VERSION_MAJOR 0
 #define HSE_VERSION_MINOR 5
-#define HSE_VERSION_PATCH 2
+#define HSE_VERSION_PATCH 3
 #define HSE_VERSION_BUILD 0
 
 #define HSE_STR_EXPAND(x) #x

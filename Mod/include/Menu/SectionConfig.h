@@ -5,7 +5,6 @@
 namespace SectionConfig {
 
     struct PlayerConfig {
-        int saveLoadoutKey = 0x54; // T
         int infiniteStaminaKey = 0x49; // I
         int infiniteConsciousnessKey = -1;
         int enemyInfiniteConsciousnessKey = -1;
@@ -22,6 +21,8 @@ namespace SectionConfig {
         int playerStrengthKey = -1;
         int bodyTonusKey = -1;
         int dashKey = -1;
+        int biteAttackKey = -1;
+        int enemyBiteKey = -1;
 
         float jumpForce = 5000.0f;
         float playerRunMultiplier = 1.0f;
@@ -32,6 +33,7 @@ namespace SectionConfig {
         float bodyTonusAllBodyMultiplier = 1.0f;
         bool bodyTonusNoBodyWeakening = false;
         float dashForce = 7000.0f;
+        float biteRange = 300.0f;
     };
 
     struct WorldConfig {
@@ -51,7 +53,6 @@ namespace SectionConfig {
         float toggleEnemyAIRadius = 1000.0f;
         bool destroyDeadOnly = true;
         bool destroyDisintegrate = true;
-        float clearBloodAmount = 0.1f;
         float clearObjectsRadius = 1000.0f;
     };
 

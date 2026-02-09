@@ -4,17 +4,30 @@
 #include "ConfigManager.h"
 
 namespace GuiUtils {
+    inline constexpr ImVec2 kTooltipPadding{8.0f, 6.0f};
+    inline constexpr ImVec2 kPopupPadding{10.0f, 8.0f};
+
+    inline void BeginStyledTooltip() {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, kTooltipPadding);
+        ImGui::BeginTooltip();
+    }
+
+    inline void EndStyledTooltip() {
+        ImGui::EndTooltip();
+        ImGui::PopStyleVar();
+    }
+
     inline bool CheckboxWithTooltip(const char* label, bool* value, const char* tooltip) {
         bool changed = ImGui::Checkbox(label, value);
         if (ImGui::IsItemHovered()) {
-            ImGui::BeginTooltip();
+            BeginStyledTooltip();
             ImGui::Text("%s", tooltip);
-            ImGui::EndTooltip();
+            EndStyledTooltip();
         }
         return changed;
     }
-    
-    inline bool CheckboxWithConfig(const char* label, const char* section, const char* key, 
+
+    inline bool CheckboxWithConfig(const char* label, const char* section, const char* key,
                                    bool defaultValue, const char* tooltip = nullptr) {
         static bool value = ConfigManager::Get().GetBool(section, key, defaultValue);
         bool changed = ImGui::Checkbox(label, &value);
@@ -22,46 +35,11 @@ namespace GuiUtils {
             ConfigManager::Get().SetBool(section, key, value);
         }
         if (tooltip && ImGui::IsItemHovered()) {
-            ImGui::BeginTooltip();
+            BeginStyledTooltip();
             ImGui::Text("%s", tooltip);
-            ImGui::EndTooltip();
+            EndStyledTooltip();
         }
         return changed;
     }
-    
-    template<typename T>
-    inline bool SliderWithTooltip(const char* label, T* value, T min, T max, const char* tooltip, const char* format = nullptr) {
-        bool changed;
-        if constexpr (std::is_same_v<T, float>) {
-            changed = ImGui::SliderFloat(label, value, min, max, format);
-        } else if constexpr (std::is_same_v<T, int>) {
-            changed = ImGui::SliderInt(label, value, min, max, format);
-        }
-        
-        if (tooltip && ImGui::IsItemHovered()) {
-            ImGui::BeginTooltip();
-            ImGui::Text("%s", tooltip);
-            ImGui::EndTooltip();
-        }
-        return changed;
-    }
-    
-    inline void TextWithTooltip(const char* text, const char* tooltip) {
-        ImGui::Text("%s", text);
-        if (tooltip && ImGui::IsItemHovered()) {
-            ImGui::BeginTooltip();
-            ImGui::Text("%s", tooltip);
-            ImGui::EndTooltip();
-        }
-    }
-    
-    inline bool ButtonWithTooltip(const char* label, const char* tooltip) {
-        bool clicked = ImGui::Button(label);
-        if (tooltip && ImGui::IsItemHovered()) {
-            ImGui::BeginTooltip();
-            ImGui::Text("%s", tooltip);
-            ImGui::EndTooltip();
-        }
-        return clicked;
-    }
+
 }

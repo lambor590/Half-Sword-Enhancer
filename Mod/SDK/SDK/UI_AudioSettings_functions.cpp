@@ -143,6 +143,48 @@ void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Button_K2Node_ComponentBoundE
 }
 
 
+// Function UI_AudioSettings.UI_AudioSettings_C.BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_15_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_AudioSettings.UI_AudioSettings_C.BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_16_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_AudioSettings.UI_AudioSettings_C.BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_AudioSettings_C::BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_AudioSettings_C", "BndEvt__UI_AudioSettings_Language_Button_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_AudioSettings.UI_AudioSettings_C.BndEvt__UI_AudioSettings_SliderVOice_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature
 // (BlueprintEvent)
 // Parameters:

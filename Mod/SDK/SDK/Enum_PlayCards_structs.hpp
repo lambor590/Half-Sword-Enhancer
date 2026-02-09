@@ -15,7 +15,7 @@ namespace SDK
 {
 
 // UserDefinedEnum Enum_PlayCards.Enum_PlayCards
-// NumValues: 0x000C
+// NumValues: 0x000B
 enum class Enum_PlayCards : uint8
 {
 	NewEnumerator0                           = 0,
@@ -28,8 +28,7 @@ enum class Enum_PlayCards : uint8
 	NewEnumerator7                           = 7,
 	NewEnumerator8                           = 8,
 	NewEnumerator9                           = 9,
-	NewEnumerator10                          = 10,
-	Enum_MAX                                 = 11,
+	Enum_MAX                                 = 10,
 };
 
 }

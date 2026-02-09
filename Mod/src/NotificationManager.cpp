@@ -57,39 +57,39 @@ void NotificationManager::Update() noexcept {
 
 void NotificationManager::Render() noexcept {
     if (!s_enabled || s_notifications.empty()) [[unlikely]] return;
-    
-    static size_t lastVisibleCount = 0;
-    static float lastCheckTime = 0.0f;
-    
-    if (s_currentTime - lastCheckTime >= CHECK_INTERVAL) [[unlikely]] {
-        lastVisibleCount = 0;
-        for (const auto& notification : s_notifications) {
-            const float elapsed = s_currentTime - notification.startTime;
-            if (CalculateAlpha(elapsed, notification.duration) > 0.0f) [[likely]] {
-                ++lastVisibleCount;
-            }
+
+    size_t visibleCount = 0;
+    float maxWidth = MIN_NOTIFICATION_WIDTH;
+
+    for (const auto& notification : s_notifications) {
+        const float elapsed = s_currentTime - notification.startTime;
+        if (CalculateAlpha(elapsed, notification.duration) > 0.0f) {
+            ++visibleCount;
+            const ImVec2 textSize = ImGui::CalcTextSize(notification.message.c_str());
+            const float notifWidth = textSize.x + TEXT_PADDING * 2.0f;
+            if (notifWidth > maxWidth) maxWidth = notifWidth;
         }
-        lastCheckTime = s_currentTime;
     }
-    
-    if (lastVisibleCount == 0) [[unlikely]] return;
-    
+
+    if (visibleCount == 0) [[unlikely]] return;
+
     const ImGuiViewport* viewport = ImGui::GetMainViewport();
+    const float containerWidth = maxWidth;
     const ImVec2 containerPos{
-        viewport->Pos.x + viewport->Size.x - NOTIFICATION_WIDTH - PADDING,
+        viewport->Pos.x + viewport->Size.x - containerWidth - PADDING,
         viewport->Pos.y + PADDING
     };
-    
-    static constexpr ImGuiWindowFlags containerFlags = 
-        ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs | 
-        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | 
+
+    static constexpr ImGuiWindowFlags containerFlags =
+        ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
+        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |
         ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
-    static constexpr ImGuiWindowFlags childFlags = ImGuiWindowFlags_NoScrollbar | 
+    static constexpr ImGuiWindowFlags childFlags = ImGuiWindowFlags_NoScrollbar |
         ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
-    
+
     ImGui::SetNextWindowPos(containerPos);
-    ImGui::SetNextWindowSize(ImVec2(NOTIFICATION_WIDTH, HEIGHT_PLUS_PADDING * lastVisibleCount - PADDING));
-    
+    ImGui::SetNextWindowSize(ImVec2(containerWidth, HEIGHT_PLUS_PADDING * visibleCount - PADDING));
+
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
@@ -97,43 +97,43 @@ void NotificationManager::Render() noexcept {
     ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 6.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 1.5f);
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-    
+
     if (ImGui::Begin("##notifications_container", nullptr, containerFlags)) [[likely]] {
         for (int i = static_cast<int>(s_notifications.size()) - 1; i >= 0; --i) {
             const auto& notification = s_notifications[i];
             const float elapsed = s_currentTime - notification.startTime;
             const float alpha = CalculateAlpha(elapsed, notification.duration);
-            
+
             if (alpha <= 0.0f) [[unlikely]] continue;
-            
-            const float slideAlpha = elapsed < FADE_IN_DURATION ? elapsed * INV_FADE_IN : 1.0f;
-            const float slideOffset = (1.0f - slideAlpha) * SLIDE_DISTANCE;
-            
-            const ImVec4 bgColor(NOTIFICATION_BG.x, NOTIFICATION_BG.y, NOTIFICATION_BG.z, NOTIFICATION_BG.w * alpha);
-            const ImVec4 borderColor(NOTIFICATION_BORDER.x, NOTIFICATION_BORDER.y, NOTIFICATION_BORDER.z, NOTIFICATION_BORDER.w * alpha);
-            const ImVec4 textColor(NOTIFICATION_TEXT.x, NOTIFICATION_TEXT.y, NOTIFICATION_TEXT.z, NOTIFICATION_TEXT.w * alpha);
-            
+
+            const ImVec2 textSize = ImGui::CalcTextSize(notification.message.c_str());
+            const float notifWidth = (std::max)(textSize.x + TEXT_PADDING * 2.0f, MIN_NOTIFICATION_WIDTH);
+
+            auto withAlpha = [alpha](const ImVec4& c) { return ImVec4(c.x, c.y, c.z, c.w * alpha); };
+            const ImVec4 bgColor = withAlpha(NOTIFICATION_BG);
+            const ImVec4 borderColor = withAlpha(NOTIFICATION_BORDER);
+            const ImVec4 textColor = withAlpha(NOTIFICATION_TEXT);
+
             ImGui::PushStyleColor(ImGuiCol_ChildBg, bgColor);
             ImGui::PushStyleColor(ImGuiCol_Border, borderColor);
             ImGui::PushStyleColor(ImGuiCol_Text, textColor);
-            
-            ImGui::SetCursorPosX(slideOffset);
-            
+
+            ImGui::SetCursorPosX(containerWidth - notifWidth);
+
             ImGui::PushID(i);
-            if (ImGui::BeginChild("##notification", ImVec2(NOTIFICATION_WIDTH - slideOffset, NOTIFICATION_HEIGHT), true, childFlags)) [[likely]] {
-                ImGui::SetCursorPos(ImVec2(TEXT_PADDING, TEXT_PADDING));
-                ImGui::PushTextWrapPos(TEXT_WRAP_WIDTH - slideOffset);
-                ImGui::TextWrapped("%s", notification.message.c_str());
-                ImGui::PopTextWrapPos();
+            if (ImGui::BeginChild("##notification", ImVec2(notifWidth, NOTIFICATION_HEIGHT), true, childFlags)) [[likely]] {
+                const float textY = (NOTIFICATION_HEIGHT - textSize.y) * 0.5f;
+                ImGui::SetCursorPos(ImVec2(TEXT_PADDING, textY));
+                ImGui::TextUnformatted(notification.message.c_str(), notification.message.c_str() + notification.message.size());
             }
             ImGui::EndChild();
             ImGui::PopID();
-            
+
             ImGui::PopStyleColor(3);
         }
     }
     ImGui::End();
-    
+
     ImGui::PopStyleColor(1);
     ImGui::PopStyleVar(6);
 }

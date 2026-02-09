@@ -828,9 +828,9 @@ void UMeshDescriptionBase::SetPolygonVertexInstances(const struct FPolygonID& Po
 // (Final, RequiredAPI, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // const struct FVertexID&                 VertexID                                               (Parm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FVector&                   Position                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   position                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UMeshDescriptionBase::SetVertexPosition(const struct FVertexID& VertexID, const struct FVector& Position)
+void UMeshDescriptionBase::SetVertexPosition(const struct FVertexID& VertexID, const struct FVector& position)
 {
 	static class UFunction* Func = nullptr;
 
@@ -840,7 +840,7 @@ void UMeshDescriptionBase::SetVertexPosition(const struct FVertexID& VertexID, c
 	Params::MeshDescriptionBase_SetVertexPosition Parms{};
 
 	Parms.VertexID = std::move(VertexID);
-	Parms.Position = std::move(Position);
+	Parms.position = std::move(position);
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;

@@ -59,6 +59,62 @@ void UCreditWid_C::BndEvt__CreditWid_BackButton_K2Node_ComponentBoundEvent_3_OnB
 }
 
 
+// Function CreditWid.CreditWid_C.BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UCreditWid_C::BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function CreditWid.CreditWid_C.BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UCreditWid_C::BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_Button_0_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function CreditWid.CreditWid_C.BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UCreditWid_C::BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function CreditWid.CreditWid_C.BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UCreditWid_C::BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "BndEvt__CreditWid_Button_K2Node_ComponentBoundEvent_5_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function CreditWid.CreditWid_C.ExecuteUbergraph_CreditWid
 // (Final, UbergraphFunction)
 // Parameters:
@@ -79,6 +135,26 @@ void UCreditWid_C::ExecuteUbergraph_CreditWid(int32 EntryPoint)
 }
 
 
+// Function CreditWid.CreditWid_C.GetBrush
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// struct FSlateBrush                      ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+struct FSlateBrush UCreditWid_C::GetBrush()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "GetBrush");
+
+	Params::CreditWid_C_GetBrush Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function CreditWid.CreditWid_C.GetLastOpenedWidget
 // (Public, BlueprintCallable, BlueprintEvent)
 
@@ -90,6 +166,66 @@ void UCreditWid_C::GetLastOpenedWidget()
 		Func = Class->GetFunction("CreditWid_C", "GetLastOpenedWidget");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function CreditWid.CreditWid_C.GetVisibility_0
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UCreditWid_C::GetVisibility_0()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "GetVisibility_0");
+
+	Params::CreditWid_C_GetVisibility_0 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function CreditWid.CreditWid_C.GetVisibility_1
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UCreditWid_C::GetVisibility_1()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "GetVisibility_1");
+
+	Params::CreditWid_C_GetVisibility_1 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function CreditWid.CreditWid_C.PreConstruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// bool                                    IsDesignTime                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UCreditWid_C::PreConstruct(bool IsDesignTime)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("CreditWid_C", "PreConstruct");
+
+	Params::CreditWid_C_PreConstruct Parms{};
+
+	Parms.IsDesignTime = IsDesignTime;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

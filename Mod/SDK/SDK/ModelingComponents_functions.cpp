@@ -55,6 +55,118 @@ void UMeshTopologySelectionMechanicProperties::SelectAll()
 }
 
 
+// Function ModelingComponents.ModelingObjectsCreationAPI.CreateMaterialObject
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FCreateMaterialObjectParams&CreateMaterialParams                                   (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FCreateMaterialObjectResult      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
+
+struct FCreateMaterialObjectResult UModelingObjectsCreationAPI::CreateMaterialObject(const struct FCreateMaterialObjectParams& CreateMaterialParams)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModelingObjectsCreationAPI", "CreateMaterialObject");
+
+	Params::ModelingObjectsCreationAPI_CreateMaterialObject Parms{};
+
+	Parms.CreateMaterialParams = std::move(CreateMaterialParams);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ModelingComponents.ModelingObjectsCreationAPI.CreateMeshObject
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FCreateMeshObjectParams&   CreateMeshParams                                       (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
+// struct FCreateMeshObjectResult          ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
+
+struct FCreateMeshObjectResult UModelingObjectsCreationAPI::CreateMeshObject(const struct FCreateMeshObjectParams& CreateMeshParams)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModelingObjectsCreationAPI", "CreateMeshObject");
+
+	Params::ModelingObjectsCreationAPI_CreateMeshObject Parms{};
+
+	Parms.CreateMeshParams = std::move(CreateMeshParams);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ModelingComponents.ModelingObjectsCreationAPI.CreateNewActor
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FCreateActorParams&        CreateActorParams                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FCreateActorResult               ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
+
+struct FCreateActorResult UModelingObjectsCreationAPI::CreateNewActor(const struct FCreateActorParams& CreateActorParams)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModelingObjectsCreationAPI", "CreateNewActor");
+
+	Params::ModelingObjectsCreationAPI_CreateNewActor Parms{};
+
+	Parms.CreateActorParams = std::move(CreateActorParams);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function ModelingComponents.ModelingObjectsCreationAPI.CreateTextureObject
+// (Native, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const struct FCreateTextureObjectParams&CreateTexParams                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FCreateTextureObjectResult       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
+
+struct FCreateTextureObjectResult UModelingObjectsCreationAPI::CreateTextureObject(const struct FCreateTextureObjectParams& CreateTexParams)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ModelingObjectsCreationAPI", "CreateTextureObject");
+
+	Params::ModelingObjectsCreationAPI_CreateTextureObject Parms{};
+
+	Parms.CreateTexParams = std::move(CreateTexParams);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function ModelingComponents.OctreeDynamicMeshComponent.SetDynamicMesh
 // (Final, Native, Public, BlueprintCallable)
 // Parameters:
@@ -642,118 +754,6 @@ class APreviewGeometryActor* UPreviewGeometry::GetActor() const
 		Func = Class->GetFunction("PreviewGeometry", "GetActor");
 
 	Params::PreviewGeometry_GetActor Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ModelingComponents.ModelingObjectsCreationAPI.CreateMaterialObject
-// (Native, Public, HasOutParams, BlueprintCallable)
-// Parameters:
-// const struct FCreateMaterialObjectParams&CreateMaterialParams                                   (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FCreateMaterialObjectResult      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
-
-struct FCreateMaterialObjectResult UModelingObjectsCreationAPI::CreateMaterialObject(const struct FCreateMaterialObjectParams& CreateMaterialParams)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModelingObjectsCreationAPI", "CreateMaterialObject");
-
-	Params::ModelingObjectsCreationAPI_CreateMaterialObject Parms{};
-
-	Parms.CreateMaterialParams = std::move(CreateMaterialParams);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ModelingComponents.ModelingObjectsCreationAPI.CreateMeshObject
-// (Native, Public, HasOutParams, BlueprintCallable)
-// Parameters:
-// const struct FCreateMeshObjectParams&   CreateMeshParams                                       (ConstParm, Parm, OutParm, ReferenceParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
-// struct FCreateMeshObjectResult          ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, ContainsInstancedReference, NativeAccessSpecifierPublic)
-
-struct FCreateMeshObjectResult UModelingObjectsCreationAPI::CreateMeshObject(const struct FCreateMeshObjectParams& CreateMeshParams)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModelingObjectsCreationAPI", "CreateMeshObject");
-
-	Params::ModelingObjectsCreationAPI_CreateMeshObject Parms{};
-
-	Parms.CreateMeshParams = std::move(CreateMeshParams);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ModelingComponents.ModelingObjectsCreationAPI.CreateNewActor
-// (Native, Public, HasOutParams, BlueprintCallable)
-// Parameters:
-// const struct FCreateActorParams&        CreateActorParams                                      (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FCreateActorResult               ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
-
-struct FCreateActorResult UModelingObjectsCreationAPI::CreateNewActor(const struct FCreateActorParams& CreateActorParams)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModelingObjectsCreationAPI", "CreateNewActor");
-
-	Params::ModelingObjectsCreationAPI_CreateNewActor Parms{};
-
-	Parms.CreateActorParams = std::move(CreateActorParams);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function ModelingComponents.ModelingObjectsCreationAPI.CreateTextureObject
-// (Native, Public, HasOutParams, BlueprintCallable)
-// Parameters:
-// const struct FCreateTextureObjectParams&CreateTexParams                                        (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FCreateTextureObjectResult       ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
-
-struct FCreateTextureObjectResult UModelingObjectsCreationAPI::CreateTextureObject(const struct FCreateTextureObjectParams& CreateTexParams)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModelingObjectsCreationAPI", "CreateTextureObject");
-
-	Params::ModelingObjectsCreationAPI_CreateTextureObject Parms{};
-
-	Parms.CreateTexParams = std::move(CreateTexParams);
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;

@@ -1,18 +1,10 @@
 #pragma once
 
-#include <string>
-#include <memory>
-#include <functional>
-#include <vector>
-
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/Spawner.h"
-#include "DefaultStyle.h"
 
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
-#define BOSSES_PATH(s) WILLIE_PATH("/Unique/Bosses") s
-
 struct NPCTypeInfo {
     const char* displayName;
     const char* className;
@@ -27,22 +19,13 @@ private:
     static constexpr NPCTypeInfo npcTypes[] = {
         { "Regular", WILLIE_PATH("/Willie_BP.Willie_BP_C") },
         { "No Brain", WILLIE_PATH("/Willie_BP_NoBrain.Willie_BP_NoBrain_C") },
-        { "Boss 1", BOSSES_PATH("/Willie_BP_Boss_1.Willie_BP_Boss_1_C") },
-        { "Boss 2", BOSSES_PATH("/Willie_BP_Boss_2.Willie_BP_Boss_2_C") },
-        { "Boss 3", BOSSES_PATH("/Willie_BP_Boss_3.Willie_BP_Boss_3_C") },
-        { "Boss 4", BOSSES_PATH("/Willie_BP_Boss_4.Willie_BP_Boss_4_C") },
-        { "Boss 5", BOSSES_PATH("/Willie_BP_Boss_5.Willie_BP_Boss_5_C") },
-        { "Boss 6", BOSSES_PATH("/Willie_BP_Boss_6.Willie_BP_Boss_6_C") },
-        { "Boss 7", BOSSES_PATH("/Willie_BP_Boss_7.Willie_BP_Boss_7_C") },
-        { "Boss 8", BOSSES_PATH("/Willie_BP_Boss_8.Willie_BP_Boss_8_C") },
-        { "Boss 9 (Baron)", BOSSES_PATH("/Willie_BP_Boss_9_BARON.Willie_BP_Boss_9_BARON_C") }
+        { "Zombie", WILLIE_PATH("/Willie_BP_Zombie.Willie_BP_Zombie_C") },
+        { "DressUp", WILLIE_PATH("/Willie_BP_DressUp.Willie_BP_DressUp_C") },
+        { "Torso", WILLIE_PATH("/Willie_Torso_BP.Willie_Torso_BP_C") },
+        { "Falcon Boss", WILLIE_PATH("/Unique/Willie_BP_FalconBoss.Willie_BP_FalconBoss_C") },
+        { "Grim Reaper", WILLIE_PATH("/Unique/Willie_BP_GrimReaper.Willie_BP_GrimReaper_C") }
     };
     static constexpr int npcTypesCount = sizeof(npcTypes) / sizeof(npcTypes[0]);
-
-    static constexpr const char* npcTypeNames[] = {
-        "Regular", "No Brain", "Boss 1", "Boss 2", "Boss 3",
-        "Boss 4", "Boss 5", "Boss 6", "Boss 7", "Boss 8", "Boss 9 (Baron)"
-    };
 
     const char* getNPCClassName() const noexcept {
         if (cfg.npcTypeIndex >= 0 && cfg.npcTypeIndex < npcTypesCount) [[likely]] {
@@ -84,9 +67,7 @@ public:
             }, player, world);
     }
 
-    void Render() override {
-        if (!ImGui::CollapsingHeader(name.c_str())) [[likely]] return;
-
+    void RenderContent() override {
         const SectionStyle::StyleRAII style;
 
         for (auto& function : functions) {
@@ -97,6 +78,9 @@ public:
         ImGui::Text("NPC Type");
         TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
 
-        ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex, npcTypeNames, npcTypesCount);
+        ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex,
+            [](void* data, int idx) -> const char* {
+                return static_cast<const NPCTypeInfo*>(data)[idx].displayName;
+            }, (void*)npcTypes, npcTypesCount);
     }
 };

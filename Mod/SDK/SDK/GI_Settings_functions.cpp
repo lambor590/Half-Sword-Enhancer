@@ -17,8 +17,50 @@
 namespace SDK
 {
 
+// Function GI_Settings.GI_Settings_C.Check Insured Items
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Check_Insured_Items()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Check Insured Items");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Clear Equipment Pool
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Clear_Equipment_Pool()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Clear Equipment Pool");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Event Generate Random Combat Events
+// (BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Event_Generate_Random_Combat_Events()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Event Generate Random Combat Events");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function GI_Settings.GI_Settings_C.ExecuteUbergraph_GI_Settings
-// (Final, UbergraphFunction)
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
@@ -34,6 +76,62 @@ void UGI_Settings_C::ExecuteUbergraph_GI_Settings(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Generate Mercenaries
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Generate_Mercenaries()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Generate Mercenaries");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Load Game
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Load_Game()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Load Game");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.LoadKeyMappings
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::LoadKeyMappings()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "LoadKeyMappings");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Override Player Character Equipment
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Override_Player_Character_Equipment()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Override Player Character Equipment");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -61,6 +159,76 @@ void UGI_Settings_C::Play_Music(class USoundBase* Sound, float VolumeMultiplier,
 }
 
 
+// Function GI_Settings.GI_Settings_C.Refresh NPCs Event
+// (BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Refresh_NPCs_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Refresh NPCs Event");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Renew Merchant
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Renew_Merchant()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Renew Merchant");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Reset Player Character
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Reset_Player_Character()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Reset Player Character");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Save Game
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Save_Game()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Save Game");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Save Key Mappings
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Save_Key_Mappings()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Save Key Mappings");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function GI_Settings.GI_Settings_C.Save Settings
 // (BlueprintCallable, BlueprintEvent)
 
@@ -75,43 +243,15 @@ void UGI_Settings_C::Save_Settings()
 }
 
 
-// Function GI_Settings.GI_Settings_C.Set Foe Equipment
-// (BlueprintCallable, BlueprintEvent)
+// Function GI_Settings.GI_Settings_C.Set Up Free Mode Inventory
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void UGI_Settings_C::Set_Foe_Equipment()
+void UGI_Settings_C::Set_Up_Free_Mode_Inventory()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Set Foe Equipment");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function GI_Settings.GI_Settings_C.Set Player Equipment
-// (BlueprintCallable, BlueprintEvent)
-
-void UGI_Settings_C::Set_Player_Equipment()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Set Player Equipment");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function GI_Settings.GI_Settings_C.Set Team Equipment
-// (BlueprintCallable, BlueprintEvent)
-
-void UGI_Settings_C::Set_Team_Equipment()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("GI_Settings_C", "Set Team Equipment");
+		Func = Class->GetFunction("GI_Settings_C", "Set Up Free Mode Inventory");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -142,6 +282,26 @@ void UGI_Settings_C::Set_Up_Sound_Volume()
 		Func = Class->GetFunction("GI_Settings_C", "Set Up Sound Volume");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Skip Time Event
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Price                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UGI_Settings_C::Skip_Time_Event(double Price)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Skip Time Event");
+
+	Params::GI_Settings_C_Skip_Time_Event Parms{};
+
+	Parms.Price = Price;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

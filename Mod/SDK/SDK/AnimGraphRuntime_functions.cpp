@@ -1406,14 +1406,14 @@ float UKismetAnimationLibrary::CalculateDirection(const struct FVector& Velocity
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, HasDefaults, BlueprintCallable)
 // Parameters:
 // float                                   DeltaSeconds                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FVector&                   Position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FVector&                   position                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FPositionHistory&                History                                                (Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 // int32                                   NumberOfSamples                                        (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   VelocityMin                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   VelocityMax                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-float UKismetAnimationLibrary::K2_CalculateVelocityFromPositionHistory(float DeltaSeconds, const struct FVector& Position, struct FPositionHistory& History, int32 NumberOfSamples, float VelocityMin, float VelocityMax)
+float UKismetAnimationLibrary::K2_CalculateVelocityFromPositionHistory(float DeltaSeconds, const struct FVector& position, struct FPositionHistory& History, int32 NumberOfSamples, float VelocityMin, float VelocityMax)
 {
 	static class UFunction* Func = nullptr;
 
@@ -1423,7 +1423,7 @@ float UKismetAnimationLibrary::K2_CalculateVelocityFromPositionHistory(float Del
 	Params::KismetAnimationLibrary_K2_CalculateVelocityFromPositionHistory Parms{};
 
 	Parms.DeltaSeconds = DeltaSeconds;
-	Parms.Position = std::move(Position);
+	Parms.position = std::move(position);
 	Parms.History = std::move(History);
 	Parms.NumberOfSamples = NumberOfSamples;
 	Parms.VelocityMin = VelocityMin;
@@ -2751,10 +2751,10 @@ class UAnimSequenceBase* USequenceEvaluatorLibrary::GetSequence(const struct FSe
 // (Final, RequiredAPI, Native, Static, Public, HasOutParams, BlueprintCallable)
 // Parameters:
 // const struct FSequenceEvaluatorReference&SequenceEvaluator                                      (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
-// int32                                   Frame                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   frame                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // struct FSequenceEvaluatorReference      ReturnValue                                            (Parm, OutParm, ReturnParm, NoDestructor, NativeAccessSpecifierPublic)
 
-struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::SetExplicitFrame(const struct FSequenceEvaluatorReference& SequenceEvaluator, int32 Frame)
+struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::SetExplicitFrame(const struct FSequenceEvaluatorReference& SequenceEvaluator, int32 frame)
 {
 	static class UFunction* Func = nullptr;
 
@@ -2764,7 +2764,7 @@ struct FSequenceEvaluatorReference USequenceEvaluatorLibrary::SetExplicitFrame(c
 	Params::SequenceEvaluatorLibrary_SetExplicitFrame Parms{};
 
 	Parms.SequenceEvaluator = std::move(SequenceEvaluator);
-	Parms.Frame = Frame;
+	Parms.frame = frame;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;

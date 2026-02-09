@@ -17,8 +17,8 @@ void HSELauncher::SetupConsole() {
     auto localVersionResult = updateManager.GetLocalVersion();
     if (localVersionResult) {
         const auto versionStr = localVersionResult->ToString();
-#ifdef DEV_VERSION
-        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Dev Build " + versionStr).c_str());
+#ifdef BETA_VERSION
+        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Beta Build" + versionStr).c_str());
 #else
         SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer " + versionStr).c_str());
 #endif
@@ -37,10 +37,10 @@ void HSELauncher::DisplayBanner() {
     )";
     SetConsoleTextAttribute(hConsole, CONSOLE_YELLOW);
 
-#ifdef DEV_VERSION
+#ifdef BETA_VERSION
     std::cout << R"(
         ______      __
-       / ____/___  / /_  ____ _____  ________  _____  [ DEV BUILD ]
+       / ____/___  / /_  ____ _____  ________  _____  [ BETA BUILD ]
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
@@ -57,9 +57,9 @@ void HSELauncher::DisplayBanner() {
 
     SetConsoleTextAttribute(hConsole, CONSOLE_WHITE);
 
-#ifdef DEV_VERSION
-    hse::Logger::info("Made by The Ghost - Dev Build");
-    hse::Logger::warn("This is a public development build for testing purposes.");
+#ifdef BETA_VERSION
+    hse::Logger::info("Made by The Ghost - Beta Build");
+    hse::Logger::warn("This is a public beta build for testing purposes.");
     hse::Logger::info("This build will automatically update to the final release when available.");
     hse::Logger::info("Tip: You can drag & drop the mod DLL onto this launcher to install it!");
 #else
@@ -126,7 +126,7 @@ bool HSELauncher::AskForUpdatePreference() {
 bool HSELauncher::EnsureModExists() {
     const auto modPath = hse::LauncherConfig::GetModFilePath();
 
-#ifndef DEV_VERSION
+#ifndef BETA_VERSION
     if (config.IsFirstRun()) {
         hse::Logger::info("First run detected - downloading latest mod version");
     }
@@ -140,29 +140,29 @@ bool HSELauncher::EnsureModExists() {
         hse::Logger::info("No mod found - downloading latest version");
     }
 
-#ifdef DEV_VERSION
-    if (!cachedDevInfo_) {
-        auto devUpdateResult = updateManager.CheckForDevUpdates();
-        if (!devUpdateResult) {
-            hse::logAndShowError("Failed to get dev release information", "Could not connect to update server. Please check your internet connection.");
+#ifdef BETA_VERSION
+    if (!cachedBetaInfo_) {
+        auto betaUpdateResult = updateManager.CheckForBetaUpdates();
+        if (!betaUpdateResult) {
+            hse::logAndShowError("Failed to get beta release information", "Could not connect to update server. Please check your internet connection.");
             return false;
         }
-        cachedDevInfo_ = *devUpdateResult;
+        cachedBetaInfo_ = *betaUpdateResult;
     }
 
-    auto& devInfo = *cachedDevInfo_;
-    if (devInfo.downloadUrlMod.empty()) {
-        hse::logAndShowError("No dev mod available", "Could not find dev mod in the release.");
+    auto& betaInfo = *cachedBetaInfo_;
+    if (betaInfo.downloadUrlMod.empty()) {
+        hse::logAndShowError("No beta mod available", "Could not find beta mod in the release.");
         return false;
     }
 
-    auto updateResult = updateManager.UpdateDevMod(devInfo.downloadUrlMod, devInfo.modTimestamp);
+    auto updateResult = updateManager.UpdateBetaMod(betaInfo.downloadUrlMod, betaInfo.modTimestamp);
     if (updateResult) {
-        hse::Logger::info("Dev mod download completed");
+        hse::Logger::info("Beta mod download completed");
         return true;
     }
     else {
-        hse::logAndShowError("Failed to download dev mod", "Failed to download dev mod files. Please check your internet connection and try again.");
+        hse::logAndShowError("Failed to download beta mod", "Failed to download beta mod files. Please check your internet connection and try again.");
         return false;
     }
 #else
@@ -198,22 +198,22 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
 
     hse::Logger::info("Checking for updates...");
 
-#ifdef DEV_VERSION
-    if (!cachedDevInfo_) {
-        auto devUpdateResult = updateManager.CheckForDevUpdates();
-        if (!devUpdateResult) {
-            hse::Logger::error("Failed to check for dev updates");
+#ifdef BETA_VERSION
+    if (!cachedBetaInfo_) {
+        auto betaUpdateResult = updateManager.CheckForBetaUpdates();
+        if (!betaUpdateResult) {
+            hse::Logger::error("Failed to check for beta updates");
             return true;
         }
-        cachedDevInfo_ = *devUpdateResult;
+        cachedBetaInfo_ = *betaUpdateResult;
     }
 
-    auto& devInfo = *cachedDevInfo_;
+    auto& betaInfo = *cachedBetaInfo_;
 
-    if (devInfo.stableRelease && devInfo.stableRelease->available) {
-        auto& stable = *devInfo.stableRelease;
+    if (betaInfo.stableRelease && betaInfo.stableRelease->available) {
+        auto& stable = *betaInfo.stableRelease;
         std::string message = "A stable release is available!\n\n"
-            "Current dev version: " + stable.currentVersion.ToString() + "\n"
+            "Current beta version: " + stable.currentVersion.ToString() + "\n"
             "Stable release: " + stable.remoteVersion.ToString() + "\n\n"
             "Do you want to update to the stable release?";
 
@@ -232,38 +232,38 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
         return true;
     }
 
-    if (!devInfo.modUpdateAvailable && !devInfo.launcherUpdateAvailable) {
-        hse::Logger::info("Dev build is up to date");
+    if (!betaInfo.modUpdateAvailable && !betaInfo.launcherUpdateAvailable) {
+        hse::Logger::info("Beta build is up to date");
         return true;
     }
 
-    std::string message = "A new dev build is available!\n\n";
-    if (devInfo.modUpdateAvailable) {
+    std::string message = "A new beta build is available!\n\n";
+    if (betaInfo.modUpdateAvailable) {
         message += "- Mod update available\n";
     }
-    if (devInfo.launcherUpdateAvailable) {
+    if (betaInfo.launcherUpdateAvailable) {
         message += "- Launcher update available\n";
     }
     message += "\nDo you want to download and install the update now?";
 
-    int result = MessageBoxA(nullptr, message.c_str(), "Dev Update Available", MB_YESNO | MB_ICONINFORMATION);
+    int result = MessageBoxA(nullptr, message.c_str(), "Beta Update Available", MB_YESNO | MB_ICONINFORMATION);
 
     if (result != IDYES) {
-        hse::Logger::info("User declined dev update");
+        hse::Logger::info("User declined beta update");
         return true;
     }
 
-    if (devInfo.modUpdateAvailable && !devInfo.downloadUrlMod.empty()) {
-        hse::Logger::info("Updating dev mod...");
-        auto modResult = updateManager.UpdateDevMod(devInfo.downloadUrlMod, devInfo.modTimestamp);
+    if (betaInfo.modUpdateAvailable && !betaInfo.downloadUrlMod.empty()) {
+        hse::Logger::info("Updating beta mod...");
+        auto modResult = updateManager.UpdateBetaMod(betaInfo.downloadUrlMod, betaInfo.modTimestamp);
         if (!modResult) {
-            hse::showError("Failed to update dev mod files.");
+            hse::showError("Failed to update beta mod files.");
         }
     }
 
-    if (devInfo.launcherUpdateAvailable && !devInfo.downloadUrlLauncher.empty()) {
-        hse::Logger::info("Updating dev launcher...");
-        auto launcherResult = updateManager.UpdateLauncher(devInfo.downloadUrlLauncher, devInfo.launcherTimestamp);
+    if (betaInfo.launcherUpdateAvailable && !betaInfo.downloadUrlLauncher.empty()) {
+        hse::Logger::info("Updating beta launcher...");
+        auto launcherResult = updateManager.UpdateLauncher(betaInfo.downloadUrlLauncher, betaInfo.launcherTimestamp);
         return static_cast<bool>(launcherResult);
     }
 

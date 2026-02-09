@@ -74,7 +74,6 @@ Press **INSERT** to toggle the mod interface (customizable in Settings).
 | Z | Toggle Slow Motion |
 | J | Jump |
 | N | Spawn NPC |
-| T | Save Loadout |
 | P | Speed Multiplier |
 | L | Toggle Custom Gravity |
 
@@ -112,7 +111,6 @@ All keybinds can be customized or unbound in the mod interface.
 | **Infinite Stamina** | Keeps stamina full | — |
 | **Infinite Consciousness** | Prevents knockout | — |
 | **Enemy Infinite Consciousness** | Enemies can't be knocked out | — |
-| **Save Loadout** | Save current equipment | Works in free mode |
 | **Jump** | Launch into the air | Force: 1000-10000 |
 | **Speed Multiplier** | Move faster | Run/Walk: 1x-100x |
 | **Strength Multiplier** | Enhanced physical abilities | Strength, Grab Force, Hands Rigidity: 1x-10x |
@@ -226,9 +224,6 @@ Control individual graphics settings (useful since the game lacks this option).
 Certain armor combinations crash when hitting the ground with high force. This is a game bug.
 
 ### Known Limitations
-
-#### Save Loadout
-Uses a native game function that only works in free mode, not gauntlet.
 
 #### Height Limit
 An invisible trigger marks anyone who touches it as the loser. This is a game mechanic.

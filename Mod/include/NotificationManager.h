@@ -25,17 +25,14 @@ private:
     static float s_currentTime;
     
     static constexpr size_t MAX_NOTIFICATIONS = 5;
-    static constexpr float NOTIFICATION_WIDTH = 320.0f;
-    static constexpr float NOTIFICATION_HEIGHT = 60.0f;
+    static constexpr float MIN_NOTIFICATION_WIDTH = 80.0f;
+    static constexpr float NOTIFICATION_HEIGHT = 40.0f;
     static constexpr float PADDING = 8.0f;
     static constexpr float FADE_IN_DURATION = 0.25f;
     static constexpr float FADE_OUT_DURATION = 0.4f;
     static constexpr float INV_FADE_IN = 1.0f / FADE_IN_DURATION;
     static constexpr float INV_FADE_OUT = 1.0f / FADE_OUT_DURATION;
-    static constexpr float CHECK_INTERVAL = 0.1f;
-    static constexpr float SLIDE_DISTANCE = 20.0f;
     static constexpr float TEXT_PADDING = 16.0f;
-    static constexpr float TEXT_WRAP_WIDTH = NOTIFICATION_WIDTH - (TEXT_PADDING * 2.0f);
     static constexpr float HEIGHT_PLUS_PADDING = NOTIFICATION_HEIGHT + PADDING;
     
     static constexpr ImVec4 NOTIFICATION_BG = ImVec4(0.12f, 0.09f, 0.06f, 0.95f);

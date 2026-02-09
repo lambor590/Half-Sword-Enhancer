@@ -25,13 +25,7 @@ public:
     }
 
     void Hook();
-    void Unhook() const;
-
-    void RegisterHook(const std::string& functionName, std::function<void()> callback);
-    void RegisterHook(uint64_t hash, std::function<void()> callback);
-
-    void UnregisterHook(const std::string& functionName);
-    void UnregisterHook(uint64_t hash);
+    void Unhook();
 
     void UnlockUEConsole();
     void LockUEConsole();
@@ -41,6 +35,8 @@ public:
 
     static void SetInputEnabled(bool enabled);
 
+    bool IsHooked() const noexcept { return hooked; }
+
     enum class GameEvent : uint8_t {
         BeginFight,
         InAbyss,
@@ -49,36 +45,40 @@ public:
     };
 
     void RegisterEvent(GameEvent event, void* id, std::function<void()> callback) {
-        uint8_t idx = static_cast<uint8_t>(event);
-        auto& vec = eventCallbacks[idx];
-        bool first = vec.empty();
-        vec.emplace_back(id, std::move(callback));
-        if (first) {
-            const char* funcName = GetEventFunctionName(event);
-            RegisterHook(funcName, [this, event]() {
-                uint8_t eventIdx = static_cast<uint8_t>(event);
-                auto& callbacks = eventCallbacks[eventIdx];
-                for (auto& pair : callbacks) {
-                    pair.second();
-                }
-            });
-        }
+        QueueAction([this, event, id, cb = std::move(callback)]() mutable {
+            uint8_t idx = static_cast<uint8_t>(event);
+            auto& vec = eventCallbacks[idx];
+            bool first = vec.empty();
+            vec.emplace_back(id, std::move(cb));
+            if (first) {
+                const char* funcName = GetEventFunctionName(event);
+                RegisterHook(funcName, [this, event]() {
+                    uint8_t eventIdx = static_cast<uint8_t>(event);
+                    auto& callbacks = eventCallbacks[eventIdx];
+                    for (auto& pair : callbacks) {
+                        pair.second();
+                    }
+                });
+            }
+        });
     }
 
     void UnregisterEvent(GameEvent event, void* id) {
-        uint8_t idx = static_cast<uint8_t>(event);
-        auto& vec = eventCallbacks[idx];
-        for (size_t i = 0; i < vec.size(); ++i) {
-            if (vec[i].first == id) {
-                vec[i] = std::move(vec.back());
-                vec.pop_back();
-                break;
+        QueueAction([this, event, id]() {
+            uint8_t idx = static_cast<uint8_t>(event);
+            auto& vec = eventCallbacks[idx];
+            for (size_t i = 0; i < vec.size(); ++i) {
+                if (vec[i].first == id) {
+                    vec[i] = std::move(vec.back());
+                    vec.pop_back();
+                    break;
+                }
             }
-        }
-        if (vec.empty()) {
-            const char* funcName = GetEventFunctionName(event);
-            UnregisterHook(funcName);
-        }
+            if (vec.empty()) {
+                const char* funcName = GetEventFunctionName(event);
+                UnregisterHook(funcName);
+            }
+        });
     }
 
     static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
@@ -96,9 +96,14 @@ public:
     GameHook& operator=(const GameHook&) = delete;
 
 private:
+    void RegisterHook(const std::string& functionName, std::function<void()> callback);
+    void RegisterHook(uint64_t hash, std::function<void()> callback);
+    void UnregisterHook(const std::string& functionName);
+    void UnregisterHook(uint64_t hash);
 
     Logger logger{ "GameHook" };
     uintptr_t oProcessEvent = NULL;
+    bool hooked = false;
 
     alignas(64) std::unordered_map<uint64_t, std::function<void()>> hookMap;
     alignas(64) std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;

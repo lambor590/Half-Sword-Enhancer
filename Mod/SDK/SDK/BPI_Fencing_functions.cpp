@@ -21,9 +21,9 @@ namespace SDK
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // double                                  Power                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_Fencing_C::StopThatBlade(double Power, bool* Nul)
+void IBPI_Fencing_C::StopThatBlade(double Power, bool* nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -36,8 +36,8 @@ void IBPI_Fencing_C::StopThatBlade(double Power, bool* Nul)
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
-	if (Nul != nullptr)
-		*Nul = Parms.Nul;
+	if (nul != nullptr)
+		*nul = Parms.nul;
 }
 
 }
