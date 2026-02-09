@@ -139,6 +139,10 @@ public:
                     blood->K2_DestroyActor();
                 });
 
+                ActorUtils::ForEachComponentOfType<SDK::UDecalComponent>(world, [](SDK::UDecalComponent* decal) {
+                    decal->K2_DestroyComponent(decal);
+                });
+
                 ActorUtils::ForEachObjectOfType<SDK::ADecalActor>(world, [](SDK::ADecalActor* decal) {
                     decal->K2_DestroyActor();
                 });
