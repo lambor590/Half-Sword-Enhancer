@@ -86,9 +86,11 @@ static void RenderKeyButton(const char* id, bool& waitingForKey, int key, int& p
     ImGui::PopID();
 
     if (ImGui::IsItemHovered()) [[unlikely]] {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
         ImGui::BeginTooltip();
         ImGui::TextColored(DefaultStyle::parchment, GuiConstants::CHANGE_KEYBIND_TEXT.data());
         ImGui::EndTooltip();
+        ImGui::PopStyleVar();
     }
 }
 
@@ -106,9 +108,11 @@ static bool RenderParametersButton(const char* buttonId, const std::string& name
     const bool clicked = ImGui::Button(buttonId);
     
     if (ImGui::IsItemHovered()) {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
         ImGui::BeginTooltip();
         ImGui::Text(GuiConstants::CONFIGURE_TEXT.data(), name.c_str());
         ImGui::EndTooltip();
+        ImGui::PopStyleVar();
     }
     return clicked;
 }
@@ -371,10 +375,12 @@ void TooltipHelper::ShowTooltip(std::string_view tooltip) {
     if (!g_state.IsEnabled()) [[likely]] return;
 
     if (ImGui::IsItemHovered()) [[unlikely]] {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
         ImGui::BeginTooltip();
         ImGui::TextColored(DefaultStyle::parchment, "%.*s",
             static_cast<int>(tooltip.size()), tooltip.data());
         ImGui::EndTooltip();
+        ImGui::PopStyleVar();
     }
 }
 
