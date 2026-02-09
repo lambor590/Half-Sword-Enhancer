@@ -7,9 +7,11 @@ namespace GuiUtils {
     inline bool CheckboxWithTooltip(const char* label, bool* value, const char* tooltip) {
         bool changed = ImGui::Checkbox(label, value);
         if (ImGui::IsItemHovered()) {
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
             ImGui::BeginTooltip();
             ImGui::Text("%s", tooltip);
             ImGui::EndTooltip();
+            ImGui::PopStyleVar();
         }
         return changed;
     }
@@ -22,9 +24,11 @@ namespace GuiUtils {
             ConfigManager::Get().SetBool(section, key, value);
         }
         if (tooltip && ImGui::IsItemHovered()) {
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
             ImGui::BeginTooltip();
             ImGui::Text("%s", tooltip);
             ImGui::EndTooltip();
+            ImGui::PopStyleVar();
         }
         return changed;
     }

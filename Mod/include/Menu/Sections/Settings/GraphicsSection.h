@@ -70,9 +70,11 @@ public:
             settingsChanged = true;
         }
         if (ImGui::IsItemHovered()) {
+            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
             ImGui::BeginTooltip();
             ImGui::Text("Apply these settings when the mod is initialized");
             ImGui::EndTooltip();
+            ImGui::PopStyleVar();
         }
 
         ImGui::Spacing();
