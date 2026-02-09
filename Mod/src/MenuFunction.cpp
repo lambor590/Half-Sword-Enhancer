@@ -8,6 +8,7 @@
 #include "GlobalDefinitions.h"
 #include "ConfigManager.h"
 #include "KeybindManager.h"
+#include "Utils/GuiUtils.h"
 
 namespace GuiConstants {
     constexpr ImVec4 DISABLED_BUTTON_COLOR{0.18f, 0.13f, 0.09f, 0.50f};
@@ -86,11 +87,9 @@ static void RenderKeyButton(const char* id, bool& waitingForKey, int key, int& p
     ImGui::PopID();
 
     if (ImGui::IsItemHovered()) [[unlikely]] {
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
-        ImGui::BeginTooltip();
+        GuiUtils::BeginStyledTooltip();
         ImGui::TextColored(DefaultStyle::parchment, GuiConstants::CHANGE_KEYBIND_TEXT.data());
-        ImGui::EndTooltip();
-        ImGui::PopStyleVar();
+        GuiUtils::EndStyledTooltip();
     }
 }
 
@@ -108,11 +107,9 @@ static bool RenderParametersButton(const char* buttonId, const std::string& name
     const bool clicked = ImGui::Button(buttonId);
     
     if (ImGui::IsItemHovered()) {
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
-        ImGui::BeginTooltip();
+        GuiUtils::BeginStyledTooltip();
         ImGui::Text(GuiConstants::CONFIGURE_TEXT.data(), name.c_str());
-        ImGui::EndTooltip();
-        ImGui::PopStyleVar();
+        GuiUtils::EndStyledTooltip();
     }
     return clicked;
 }
@@ -141,7 +138,7 @@ void KeyFunction<Derived>::Render() {
             ImGui::OpenPopup(GetPopupId());
         }
         
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 8));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::kPopupPadding);
         if (ImGui::BeginPopup(GetPopupId())) {
             RenderParameters();
             ImGui::EndPopup();
@@ -172,7 +169,7 @@ void KeyFunction<Derived>::Render() {
     }
 
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, GuiConstants::MODAL_DIM_COLOR);
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 8));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::kPopupPadding);
     if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar)) {
         if (cachedBindingCount == 1) {
             std::string conflictName{GuiConstants::UNKNOWN_TEXT};
@@ -379,12 +376,10 @@ void TooltipHelper::ShowTooltip(std::string_view tooltip) {
     if (!g_state.IsEnabled()) [[likely]] return;
 
     if (ImGui::IsItemHovered()) [[unlikely]] {
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
-        ImGui::BeginTooltip();
+        GuiUtils::BeginStyledTooltip();
         ImGui::TextColored(DefaultStyle::parchment, "%.*s",
             static_cast<int>(tooltip.size()), tooltip.data());
-        ImGui::EndTooltip();
-        ImGui::PopStyleVar();
+        GuiUtils::EndStyledTooltip();
     }
 }
 
