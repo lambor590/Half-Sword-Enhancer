@@ -170,12 +170,7 @@ public:
             .WithTooltip("Bite the nearest enemy like a zombie")
             .Action([this]() {
                 if (!player->Biting) {
-                    SDK::AWillie_BP_C* nearest = nullptr;
-                    float nearestDist = cfg.biteRange;
-                    ActorUtils::ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
-                        float dist = player->GetDistanceTo(willie);
-                        if (dist < nearestDist) { nearestDist = dist; nearest = willie; }
-                    });
+                    auto* nearest = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
                     if (!nearest) return;
                     ActorUtils::SpawnBiteConstraint(world, player, nearest);
                 } else {
@@ -189,22 +184,11 @@ public:
             .WithParams({ Parameter("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target") })
             .WithTooltip("Make the nearest enemy bite another enemy")
             .Action([this]() {
-                SDK::AWillie_BP_C* biter = nullptr;
-                float biterDist = cfg.biteRange;
-                ActorUtils::ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
-                    float dist = player->GetDistanceTo(willie);
-                    if (dist < biterDist) { biterDist = dist; biter = willie; }
-                });
+                auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
                 if (!biter) return;
 
                 if (!biter->Biting) {
-                    SDK::AWillie_BP_C* target = nullptr;
-                    float targetDist = cfg.biteRange;
-                    ActorUtils::ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
-                        if (willie == biter) return;
-                        float dist = biter->GetDistanceTo(willie);
-                        if (dist < targetDist) { targetDist = dist; target = willie; }
-                    });
+                    auto* target = ActorUtils::FindNearestWillie(world, player, biter, cfg.biteRange, biter);
                     if (!target) return;
                     ActorUtils::SpawnBiteConstraint(world, biter, target);
                 } else {
