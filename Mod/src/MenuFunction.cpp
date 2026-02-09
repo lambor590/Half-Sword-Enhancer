@@ -141,6 +141,7 @@ void KeyFunction<Derived>::Render() {
             ImGui::OpenPopup(GetPopupId());
         }
         
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 8));
         if (ImGui::BeginPopup(GetPopupId())) {
             RenderParameters();
             ImGui::EndPopup();
@@ -149,6 +150,7 @@ void KeyFunction<Derived>::Render() {
             SaveParameters();
             popupWasOpen = false;
         }
+        ImGui::PopStyleVar();
     }
 
     if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
@@ -170,7 +172,8 @@ void KeyFunction<Derived>::Render() {
     }
 
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, GuiConstants::MODAL_DIM_COLOR);
-    if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 8));
+    if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar)) {
         if (cachedBindingCount == 1) {
             std::string conflictName{GuiConstants::UNKNOWN_TEXT};
             if (!cachedBoundFunctions.empty() && cachedBoundFunctions[0] && !cachedBoundFunctions[0]->GetName().empty()) {
@@ -224,6 +227,7 @@ void KeyFunction<Derived>::Render() {
         }
         ImGui::EndPopup();
     }
+    ImGui::PopStyleVar();
     ImGui::PopStyleColor();
 }
 
