@@ -44,6 +44,11 @@ public:
     virtual ~ICollapsibleSection() = default;
     virtual void RenderContent() = 0;
     virtual const std::string& GetName() const noexcept = 0;
+
+    virtual const std::vector<std::unique_ptr<IMenuFunction>>& GetFunctions() const noexcept {
+        static const std::vector<std::unique_ptr<IMenuFunction>> empty;
+        return empty;
+    }
 };
 
 class CollapsibleSection : public ICollapsibleSection {
@@ -66,7 +71,11 @@ public:
     }
 
     const std::string& GetName() const noexcept override { return name; }
-    
+
+    const std::vector<std::unique_ptr<IMenuFunction>>& GetFunctions() const noexcept override {
+        return functions;
+    }
+
     void AddFunction(std::unique_ptr<IMenuFunction> function) {
         functions.emplace_back(std::move(function));
     }
