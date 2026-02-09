@@ -4,19 +4,30 @@
 #include "ConfigManager.h"
 
 namespace GuiUtils {
+    inline constexpr ImVec2 kTooltipPadding{8.0f, 6.0f};
+    inline constexpr ImVec2 kPopupPadding{10.0f, 8.0f};
+
+    inline void BeginStyledTooltip() {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, kTooltipPadding);
+        ImGui::BeginTooltip();
+    }
+
+    inline void EndStyledTooltip() {
+        ImGui::EndTooltip();
+        ImGui::PopStyleVar();
+    }
+
     inline bool CheckboxWithTooltip(const char* label, bool* value, const char* tooltip) {
         bool changed = ImGui::Checkbox(label, value);
         if (ImGui::IsItemHovered()) {
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
-            ImGui::BeginTooltip();
+            BeginStyledTooltip();
             ImGui::Text("%s", tooltip);
-            ImGui::EndTooltip();
-            ImGui::PopStyleVar();
+            EndStyledTooltip();
         }
         return changed;
     }
-    
-    inline bool CheckboxWithConfig(const char* label, const char* section, const char* key, 
+
+    inline bool CheckboxWithConfig(const char* label, const char* section, const char* key,
                                    bool defaultValue, const char* tooltip = nullptr) {
         static bool value = ConfigManager::Get().GetBool(section, key, defaultValue);
         bool changed = ImGui::Checkbox(label, &value);
@@ -24,11 +35,9 @@ namespace GuiUtils {
             ConfigManager::Get().SetBool(section, key, value);
         }
         if (tooltip && ImGui::IsItemHovered()) {
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
-            ImGui::BeginTooltip();
+            BeginStyledTooltip();
             ImGui::Text("%s", tooltip);
-            ImGui::EndTooltip();
-            ImGui::PopStyleVar();
+            EndStyledTooltip();
         }
         return changed;
     }
