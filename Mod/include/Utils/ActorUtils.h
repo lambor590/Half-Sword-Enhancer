@@ -94,8 +94,22 @@ namespace ActorUtils {
         }
     }
 
+    inline SDK::AWillie_BP_C* FindNearestWillie(
+        SDK::UWorld* world, SDK::AWillie_BP_C* player, SDK::AActor* origin,
+        float maxRange, SDK::AWillie_BP_C* additionalExclude = nullptr) noexcept
+    {
+        SDK::AWillie_BP_C* nearest = nullptr;
+        float nearestDist = maxRange;
+        ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
+            if (willie == additionalExclude) return;
+            float dist = origin->GetDistanceTo(willie);
+            if (dist < nearestDist) { nearestDist = dist; nearest = willie; }
+        });
+        return nearest;
+    }
+
     inline SDK::ABP_Constraint_Bite_C* SpawnBiteConstraint(
-        SDK::UWorld* world, SDK::AWillie_BP_C* biter, SDK::AWillie_BP_C* target)
+        SDK::UWorld* world, SDK::AWillie_BP_C* biter, SDK::AWillie_BP_C* target) noexcept
     {
         SDK::FTransform transform{};
         transform.Rotation = SDK::FQuat{ 0.0, 0.0, 0.0, 1.0 };
@@ -107,11 +121,13 @@ namespace ActorUtils {
                 world, SDK::ABP_Constraint_Bite_C::StaticClass(), transform,
                 SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
                 nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime));
-        if (!biteActor) return nullptr;
+        if (!biteActor) [[unlikely]] return nullptr;
+
+        static const SDK::FName headBone = SDK::BasicFilesImpleUtils::StringToName(L"head");
 
         biteActor->Bitten_Actor = target;
         biteActor->Bitten_Component = target->Mesh;
-        biteActor->Bitten_Bone = SDK::BasicFilesImpleUtils::StringToName(L"head");
+        biteActor->Bitten_Bone = headBone;
         biteActor->Bitter_Component = biter->Mesh;
 
         SDK::UGameplayStatics::FinishSpawningActor(
@@ -123,11 +139,11 @@ namespace ActorUtils {
         return biteActor;
     }
 
-    inline void ReleaseBite(SDK::AWillie_BP_C* willie) {
+    inline void ReleaseBite(SDK::AWillie_BP_C* willie) noexcept {
         if (willie->Bite_Damage_Actor) {
             willie->Bite_Damage_Actor->K2_DestroyActor();
-            willie->Bite_Damage_Actor = nullptr;
         }
+        willie->Bite_Damage_Actor = nullptr;
         willie->Biting = false;
         willie->Is_Zombie_ = false;
     }
