@@ -84,11 +84,9 @@ private:
         ImGui::SameLine();
         ImGui::Text(label);
         if (ImGui::IsItemHovered()) [[unlikely]] {
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
-            ImGui::BeginTooltip();
+            GuiUtils::BeginStyledTooltip();
             ImGui::Text(tooltip);
-            ImGui::EndTooltip();
-            ImGui::PopStyleVar();
+            GuiUtils::EndStyledTooltip();
         }
         
         return KeybindManager::HandleKeyPress(waitingForKey, key);
