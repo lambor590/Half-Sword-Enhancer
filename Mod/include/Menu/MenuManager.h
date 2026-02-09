@@ -40,7 +40,11 @@ private:
 
     static constexpr float SIDEBAR_MIN_WIDTH = 60.0f;
     static constexpr float SPLITTER_THICKNESS = 4.0f;
-    static constexpr float SECTION_INDENT = 8.0f;
+    static constexpr float SECTION_INDENT = 14.0f;
+    static constexpr float SIDEBAR_HPAD = 10.0f;
+    static constexpr float CATEGORY_VGAP = 4.0f;
+    static constexpr float ARROW_SIZE = 4.0f;
+    static constexpr float ARROW_INDENT = 8.0f;
 
     MenuManager() = default;
 
@@ -120,33 +124,75 @@ public:
 private:
     void RenderSidebar() {
         const auto& style = ImGui::GetStyle();
-        ImVec2 contentStart = ImGui::GetCursorScreenPos();
+        ImVec2 winPos = ImGui::GetWindowPos();
+        float bgTop = winPos.y + ImGui::GetFrameHeight();
+        float bgBottom = winPos.y + ImGui::GetWindowHeight() - style.WindowBorderSize;
+        float bgLeft = winPos.x + style.WindowBorderSize;
+
         ImGui::GetWindowDrawList()->AddRectFilled(
-            ImVec2(contentStart.x - style.WindowPadding.x, contentStart.y - style.WindowPadding.y),
-            ImVec2(contentStart.x + sidebarWidth, ImGui::GetWindowPos().y + ImGui::GetWindowHeight() - style.WindowBorderSize),
+            ImVec2(bgLeft, bgTop),
+            ImVec2(bgLeft + sidebarWidth + style.WindowPadding.x, bgBottom),
             ImGui::ColorConvertFloat4ToU32(DefaultStyle::darkInk),
             style.WindowRounding,
             ImDrawFlags_RoundCornersBottomLeft
         );
 
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(4, 4));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(SIDEBAR_HPAD, 6));
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 4));
-        ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2(2, 4));
-        ImGui::BeginChild("nav_sidebar", ImVec2(sidebarWidth, 0), ImGuiChildFlags_AlwaysUseWindowPadding);
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
+        ImGui::BeginChild("nav_sidebar", ImVec2(sidebarWidth, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_AlwaysUseWindowPadding);
 
         ImGui::PushStyleColor(ImGuiCol_Header, DefaultStyle::transparent);
         ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.71f, 0.57f, 0.25f, 0.12f));
         ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0.71f, 0.57f, 0.25f, 0.25f));
 
+        bool firstVisible = true;
         for (auto& [tab, label] : tabOrder) {
             auto& sects = sections[static_cast<size_t>(tab)];
             if (sects.empty()) continue;
 
-            ImGui::SetNextItemOpen(tab == openCategory);
-            ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::textDisabled);
-            if (ImGui::TreeNodeEx(label, ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanAvailWidth)) {
-                ImGui::PopStyleColor();
+            if (!firstVisible) {
+                ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
+                ImDrawList* dl = ImGui::GetWindowDrawList();
+                ImVec2 pos = ImGui::GetCursorScreenPos();
+                float w = ImGui::GetContentRegionAvail().x;
+                dl->AddLine(pos, ImVec2(pos.x + w, pos.y),
+                    ImGui::ColorConvertFloat4ToU32(ImVec4(
+                        DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y,
+                        DefaultStyle::mediumWood.z, 0.35f)), 1.0f);
+                ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
+            }
+            firstVisible = false;
+
+            ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::parchmentDark);
+            ImGui::Indent(ARROW_INDENT);
+            if (ImGui::Selectable(label, tab == openCategory)) {
                 openCategory = tab;
+            }
+            ImGui::Unindent(ARROW_INDENT);
+            ImGui::PopStyleColor();
+
+            {
+                auto min = ImGui::GetItemRectMin();
+                auto max = ImGui::GetItemRectMax();
+                float midY = (min.y + max.y) * 0.5f;
+                float ax = min.x - ARROW_INDENT * 0.6f;
+                ImU32 col = ImGui::ColorConvertFloat4ToU32(DefaultStyle::textDisabled);
+                ImDrawList* dl = ImGui::GetWindowDrawList();
+                if (tab == openCategory) {
+                    dl->AddTriangleFilled(
+                        ImVec2(ax - ARROW_SIZE, midY - ARROW_SIZE * 0.5f),
+                        ImVec2(ax + ARROW_SIZE, midY - ARROW_SIZE * 0.5f),
+                        ImVec2(ax, midY + ARROW_SIZE * 0.5f), col);
+                } else {
+                    dl->AddTriangleFilled(
+                        ImVec2(ax - ARROW_SIZE * 0.5f, midY - ARROW_SIZE),
+                        ImVec2(ax + ARROW_SIZE * 0.5f, midY),
+                        ImVec2(ax - ARROW_SIZE * 0.5f, midY + ARROW_SIZE), col);
+                }
+            }
+
+            if (tab == openCategory) {
                 ImGui::Indent(SECTION_INDENT);
                 ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.71f, 0.57f, 0.25f, 0.18f));
                 for (auto& section : sects) {
@@ -155,20 +201,17 @@ private:
                         selectedSection = section.get();
                     }
                     if (isSelected) {
-                        auto min = ImGui::GetItemRectMin();
-                        auto max = ImGui::GetItemRectMax();
+                        auto mn = ImGui::GetItemRectMin();
+                        auto mx = ImGui::GetItemRectMax();
                         ImGui::GetWindowDrawList()->AddRectFilled(
-                            ImVec2(min.x - SECTION_INDENT + 2, min.y + 1),
-                            ImVec2(min.x - SECTION_INDENT + 4, max.y - 1),
+                            ImVec2(mn.x - 5, mn.y + 1),
+                            ImVec2(mn.x - 2, mx.y - 1),
                             ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass),
-                            1.0f
-                        );
+                            1.0f);
                     }
                 }
                 ImGui::PopStyleColor();
                 ImGui::Unindent(SECTION_INDENT);
-            } else {
-                ImGui::PopStyleColor();
             }
         }
 
