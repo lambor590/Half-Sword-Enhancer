@@ -6,6 +6,7 @@
 
 #include "Menu/ICollapsibleSection.h"
 #include "Utils/ConfigUtils.h"
+#include "Utils/GuiUtils.h"
 #include "ComponentValidator.h"
 #include "SDK/Engine_classes.hpp"
 #include "Hooks/GameHook.h"
@@ -70,11 +71,9 @@ public:
             settingsChanged = true;
         }
         if (ImGui::IsItemHovered()) {
-            ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 6));
-            ImGui::BeginTooltip();
+            GuiUtils::BeginStyledTooltip();
             ImGui::Text("Apply these settings when the mod is initialized");
-            ImGui::EndTooltip();
-            ImGui::PopStyleVar();
+            GuiUtils::EndStyledTooltip();
         }
 
         ImGui::Spacing();
