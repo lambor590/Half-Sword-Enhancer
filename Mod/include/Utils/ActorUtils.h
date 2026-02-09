@@ -42,6 +42,10 @@ namespace ActorUtils {
         willie->Leg_R_Health = GameConstants::DEFAULT_HEALTH;
         willie->Leg_L_Health = GameConstants::DEFAULT_HEALTH;
         willie->Head_Health__Crush_ = GameConstants::DEFAULT_HEALTH;
+        willie->Back_Health = GameConstants::DEFAULT_HEALTH;
+
+        willie->Back_Broken = false;
+        willie->Head_Broken = false;
 
         willie->Pain_Lower_Body = GameConstants::DEFAULT_PAIN;
         willie->Pain_Upper_Body = GameConstants::DEFAULT_PAIN;
@@ -60,6 +64,17 @@ namespace ActorUtils {
         willie->Pain_Shock_Rate = GameConstants::DEFAULT_PAIN;
         willie->Pain_Shock_Interp = GameConstants::DEFAULT_PAIN;
         willie->Sustained_Damage = GameConstants::DEFAULT_PAIN;
+        willie->Ball_Pain = GameConstants::DEFAULT_PAIN;
+        willie->Liver_Pain = GameConstants::DEFAULT_PAIN;
+        willie->Last_Pain = GameConstants::DEFAULT_PAIN;
+
+        willie->Voice_Pain = false;
+
+        willie->PainFlinchDirection_Current = SDK::FRotator{};
+        willie->PainFlinchDirection_Latest = SDK::FRotator{};
+        willie->Pain_Wound_Direction = SDK::FRotator{};
+        willie->Pain_Stumble_Immediate = SDK::FVector{};
+        willie->Pain_Stumble_Delayed = SDK::FVector{};
     }
 
     template<typename ObjectClass, typename Func>
