@@ -7,7 +7,7 @@ static HMODULE LoadOriginalDLL()
     char systemPath[MAX_PATH];
     GetSystemDirectoryA(systemPath, MAX_PATH);
     char originalDllPath[MAX_PATH];
-    wsprintfA(originalDllPath, "%s\\dwmapi.dll", systemPath);
+    wsprintfA(originalDllPath, "%s\\winmm.dll", systemPath);
     return LoadLibraryA(originalDllPath);
 }
 
