@@ -6,6 +6,7 @@
 #include <cstdio>
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
+#include "Hooks/GameHook.h"
 #include "Utils/Spawner.h"
 #include "Utils/EquipmentGenerator.h"
 
@@ -470,6 +471,11 @@ private:
         0x1EC,  // Messer: 2,3,5,6,7,8
     }};
 
+    static constexpr std::array<uint16_t, 15> VALID_ARMOR_TIER_MASKS = {{
+        0x0FE, 0x0F8, 0x0F0, 0x0F0, 0x0E0, 0x0F0, 0x0C0,
+        0x0F8, 0x0F0, 0x0E0, 0x0FF, 0x0C0, 0x0F8, 0x0FE, 0x0FF,
+    }};
+
     static int NearestValidTier(uint16_t mask, int tier) noexcept {
         if (mask & (1 << tier)) return tier;
         for (int d = 1; d <= 8; ++d) {
@@ -751,8 +757,26 @@ public:
                     }
                 }
             } else if (cfg.currentCategoryIndex == RANDOM_ARMOR_INDEX) {
-                ImGui::Text("Tier");
-                ImGui::SliderInt("##TierSlider", &cfg.spawnTier, 0, 8, "Tier %d");
+                if (cfg.currentItemIndex < VALID_ARMOR_TIER_MASKS.size()) {
+                    uint16_t mask = VALID_ARMOR_TIER_MASKS[cfg.currentItemIndex];
+                    cfg.spawnTier = NearestValidTier(mask, cfg.spawnTier);
+
+                    char preview[16];
+                    std::snprintf(preview, sizeof(preview), "Tier %d", cfg.spawnTier);
+                    ImGui::Text("Tier");
+                    if (ImGui::BeginCombo("##ArmorTierCombo", preview)) {
+                        for (int t = 0; t <= 8; ++t) {
+                            if (!(mask & (1 << t))) continue;
+                            char label[16];
+                            std::snprintf(label, sizeof(label), "Tier %d", t);
+                            if (ImGui::Selectable(label, t == cfg.spawnTier))
+                                cfg.spawnTier = t;
+                            if (t == cfg.spawnTier)
+                                ImGui::SetItemDefaultFocus();
+                        }
+                        ImGui::EndCombo();
+                    }
+                }
             }
         }
 
@@ -762,5 +786,6 @@ public:
                 SpawnSelectedItem();
             }
         }
+
     }
 };
