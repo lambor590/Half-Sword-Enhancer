@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <queue>
 #include <mutex>
 #include <functional>
@@ -92,6 +93,11 @@ public:
     }
     
 
+    struct HookEntry {
+        uint64_t nameHash = 0;
+        std::function<void()> callback;
+    };
+
     GameHook(const GameHook&) = delete;
     GameHook& operator=(const GameHook&) = delete;
 
@@ -103,15 +109,17 @@ private:
 
     Logger logger{ "GameHook" };
     uintptr_t oProcessEvent = NULL;
+    uintptr_t processEventAddress = 0;
     bool hooked = false;
 
-    alignas(64) std::unordered_map<uint64_t, std::function<void()>> hookMap;
+    static constexpr size_t MAX_HOOKS = 16;
+    alignas(64) std::array<HookEntry, MAX_HOOKS> hooks{};
+    uint8_t hookCount = 0;
+
     alignas(64) std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
 
     static std::queue<std::function<void()>> gameThreadQueue;
     static std::mutex queueMutex;
-
-    static constexpr size_t HOOK_MAP_RESERVE_SIZE = 64;
 
     friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept;
 };

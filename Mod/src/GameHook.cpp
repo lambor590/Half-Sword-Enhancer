@@ -2,6 +2,10 @@
 #include "ConfigManager.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Utils/CompileTimeHash.h"
+#include "Utils/GameBuildInfo.h"
+
+#include <intrin.h>
+#include <cstring>
 
 static GameHook* hookInstance = &GameHook::Get();
 
@@ -9,41 +13,126 @@ std::queue<std::function<void()>> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
 
 namespace {
-    struct alignas(64) FunctionHashCache {
-        static constexpr size_t INITIAL_RESERVE = 512;
 
-        std::unordered_map<void*, uint64_t> cache;
+    // Fibonacci hash: multiply by golden ratio constant, then shift to extract
+    // high bits. This spreads clustered pointers (from pool allocators) across
+    // the full table range. UFunction pointers from UE5's allocator tend to
+    // differ only in low bits; a multiplicative hash uses ALL bits of the
+    // pointer, yielding near-perfect distribution.
+    __forceinline size_t FibonacciHash(uintptr_t key) noexcept {
+        constexpr uint64_t PHI64 = 0x9E3779B97F4A7C15ULL;
+        return static_cast<size_t>((key * PHI64) >> 52);
+    }
 
-        FunctionHashCache() {
-            cache.reserve(INITIAL_RESERVE);
+    struct ProcessEventCache {
+        static constexpr size_t TABLE_SIZE = 4096;
+        static constexpr size_t TABLE_MASK = TABLE_SIZE - 1;
+        static constexpr size_t MAX_PROBES = 8;
+        static constexpr int8_t EMPTY = -2;
+        static constexpr int8_t NOT_HOOKED = -1;
+
+        struct alignas(16) Slot {
+            void* key;
+            int8_t hookIdx;
+        };
+
+        static_assert(sizeof(Slot) == 16);
+
+        alignas(64) Slot slots[TABLE_SIZE];
+
+        ProcessEventCache() { Clear(); }
+
+        void Clear() noexcept {
+            // Each slot is 16 bytes: 8 bytes key (zeroed = nullptr) + 1 byte
+            // hookIdx + 7 padding. We need hookIdx = EMPTY (-2 = 0xFE).
+            // Byte 8 of each 16-byte slot must be 0xFE, rest zero.
+            // memset to zero first, then set each hookIdx.
+            // With 4096 slots at 16 bytes = 64KB, memset is fast (uses
+            // rep stosb / AVX on MSVC). The hookIdx loop touches each cache
+            // line once sequentially -- hardware prefetcher handles this.
+            std::memset(slots, 0, sizeof(slots));
+            for (size_t i = 0; i < TABLE_SIZE; ++i) {
+                slots[i].hookIdx = EMPTY;
+            }
         }
 
-        inline uint64_t GetOrComputeHash(SDK::UFunction* pFunc) noexcept {
-            void* funcPtr = static_cast<void*>(pFunc);
+        __forceinline int8_t Lookup(void* funcPtr) const noexcept {
+            const uintptr_t raw = reinterpret_cast<uintptr_t>(funcPtr);
+            const size_t idx = FibonacciHash(raw);
 
-            auto it = cache.find(funcPtr);
-            if (it != cache.end()) [[likely]] {
-                return it->second;
+            // Prefetch the second cache line we might touch (idx+4 slots ahead).
+            // The first cache line will be demand-loaded; the second is speculative.
+            _mm_prefetch(reinterpret_cast<const char*>(&slots[(idx + 4) & TABLE_MASK]), _MM_HINT_T0);
+
+            // Unrolled first probe: the most likely hit. With Fibonacci hashing and
+            // < 75% load factor, first-probe hits are ~75-90% of lookups.
+            {
+                const auto& s = slots[idx & TABLE_MASK];
+                if (s.key == funcPtr) [[likely]] return s.hookIdx;
+                if (s.hookIdx == EMPTY) return EMPTY;
             }
 
-            std::string funcName = pFunc->GetName();
-            uint64_t hash = HS::Hash::FNV1A(funcName.c_str());
+            // Probes 1-7: linear scan. The compiler will unroll this for
+            // MAX_PROBES=7 remaining iterations.
+            for (size_t i = 1; i < MAX_PROBES; ++i) {
+                const auto& s = slots[(idx + i) & TABLE_MASK];
+                if (s.key == funcPtr) return s.hookIdx;
+                if (s.hookIdx == EMPTY) return EMPTY;
+            }
+            return EMPTY;
+        }
 
-            cache.emplace(funcPtr, hash);
-
-            return hash;
+        void Insert(void* funcPtr, int8_t hookIdx) noexcept {
+            const size_t idx = FibonacciHash(reinterpret_cast<uintptr_t>(funcPtr));
+            for (size_t i = 0; i < MAX_PROBES; ++i) {
+                auto& s = slots[(idx + i) & TABLE_MASK];
+                if (s.hookIdx == EMPTY || s.key == funcPtr) {
+                    s.key = funcPtr;
+                    s.hookIdx = hookIdx;
+                    return;
+                }
+            }
+            slots[idx & TABLE_MASK] = { funcPtr, hookIdx };
         }
     };
 
-    static FunctionHashCache g_hashCache;
+    static ProcessEventCache g_peCache;
 }
 
-__forceinline static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
+// Slow path: resolve a UFunction we haven't seen before. Marked noinline
+// so the fast path in OnProcessEvent stays compact (fewer registers spilled,
+// smaller icache footprint, better branch prediction).
+__declspec(noinline) static int8_t ResolveAndCache(
+    void* funcPtr,
+    SDK::UFunction* pFunc,
+    const GameHook::HookEntry* hookArray,
+    uint8_t hookCount) noexcept
 {
-    const uint64_t funcHash = g_hashCache.GetOrComputeHash(pFunc);
+    std::string funcName = pFunc->GetName();
+    uint64_t nameHash = HS::Hash::FNV1A(funcName.c_str());
 
-    if (const auto it = hookInstance->hookMap.find(funcHash); it != hookInstance->hookMap.end()) [[unlikely]] {
-        it->second();
+    int8_t resolved = ProcessEventCache::NOT_HOOKED;
+    for (uint8_t i = 0; i < hookCount; ++i) {
+        if (hookArray[i].nameHash == nameHash) {
+            resolved = static_cast<int8_t>(i);
+            break;
+        }
+    }
+    g_peCache.Insert(funcPtr, resolved);
+    return resolved;
+}
+
+static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
+{
+    void* funcPtr = static_cast<void*>(pFunc);
+    int8_t idx = g_peCache.Lookup(funcPtr);
+
+    if (idx == ProcessEventCache::EMPTY) [[unlikely]] {
+        idx = ResolveAndCache(funcPtr, pFunc, hookInstance->hooks.data(), hookInstance->hookCount);
+    }
+
+    if (idx >= 0) [[unlikely]] {
+        hookInstance->hooks[idx].callback();
     }
 
     return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
@@ -53,18 +142,8 @@ void GameHook::Hook()
 {
     logger.Log("Hooking ProcessEvent");
 
-    hookMap.reserve(HOOK_MAP_RESERVE_SIZE);
-
-    SDK::UObject* pObject = SDK::BasicFilesImpleUtils::GetObjectByIndex(0);
-
-    while (!pObject) {
-        logger.Log("Could not get an instance of UObject. Retrying...");
-        pObject = SDK::BasicFilesImpleUtils::GetObjectByIndex(0);
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-
-    uintptr_t* vtable = *reinterpret_cast<uintptr_t**>(pObject);
-    oProcessEvent = vtable[SDK::Offsets::ProcessEventIdx];
+    processEventAddress = SDK::InSDKUtils::GetImageBase() + SDK::Offsets::ProcessEvent;
+    oProcessEvent = processEventAddress;
 
     MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&hookInstance->oProcessEvent);
 
@@ -88,14 +167,20 @@ void GameHook::Hook()
 
     GraphicsSection::ApplyOnStartup();
 
+    GameHook::QueueAction([]() {
+        GameBuildInfo::Query();
+    });
+
     logger.Log("ProcessEvent hooked successfully!");
 }
 
 void GameHook::Unhook()
 {
     hooked = false;
-    MemoryUtils::Unhook(oProcessEvent);
-    hookMap.clear();
+    MemoryUtils::Unhook(processEventAddress);
+    for (uint8_t i = 0; i < hookCount; ++i) hooks[i] = {};
+    hookCount = 0;
+    g_peCache.Clear();
     for (auto& vec : eventCallbacks) vec.clear();
     logger.Log("ProcessEvent unhooked successfully!");
 }
@@ -109,11 +194,28 @@ void GameHook::UnregisterHook(const std::string& functionName) {
 }
 
 void GameHook::RegisterHook(uint64_t hash, std::function<void()> callback) {
-    hookMap.emplace(hash, std::move(callback));
+    for (uint8_t i = 0; i < hookCount; ++i) {
+        if (hooks[i].nameHash == hash) {
+            hooks[i].callback = std::move(callback);
+            g_peCache.Clear();
+            return;
+        }
+    }
+    if (hookCount < MAX_HOOKS) {
+        hooks[hookCount++] = { hash, std::move(callback) };
+        g_peCache.Clear();
+    }
 }
 
 void GameHook::UnregisterHook(uint64_t hash) {
-    hookMap.erase(hash);
+    for (uint8_t i = 0; i < hookCount; ++i) {
+        if (hooks[i].nameHash == hash) {
+            hooks[i] = std::move(hooks[--hookCount]);
+            hooks[hookCount] = {};
+            g_peCache.Clear();
+            return;
+        }
+    }
 }
 
 void GameHook::UnlockUEConsole() {
