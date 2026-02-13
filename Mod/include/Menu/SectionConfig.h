@@ -75,6 +75,7 @@ namespace SectionConfig {
         float spawnDistanceUp = 50.0f;
         float spawnScale = 1.0f;
         bool snapToGround = true;
+        int spawnTier = 4;
 
         uint8_t currentCategoryIndex = 0;
         uint8_t currentWeaponSubcategoryIndex = 0;

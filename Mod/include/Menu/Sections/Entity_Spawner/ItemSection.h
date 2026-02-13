@@ -6,6 +6,7 @@
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/Spawner.h"
+#include "Utils/EquipmentGenerator.h"
 
 #define WEAPON_PATH(s) "/Game/Assets/Weapons/Blueprints/Built_Weapons" s
 #define ARMOR_PATH(s) "/Game/Assets/Armor/Blueprints/Built_Armor" s
@@ -13,9 +14,14 @@
 #define TRAP_PATH(s) "/Game/Assets/Traps/Blueprints" s
 
 struct ItemInfo {
-    constexpr ItemInfo(const char* name, const char* path) : displayName(name), classPath(path) {}
     const char* displayName;
     const char* classPath;
+    CustomizableWeapon customizable;
+
+    constexpr ItemInfo(const char* name, const char* path)
+        : displayName(name), classPath(path), customizable(CustomizableWeapon::None) {}
+    constexpr ItemInfo(const char* name, CustomizableWeapon type)
+        : displayName(name), classPath(nullptr), customizable(type) {}
 };
 
 template<size_t N>
@@ -26,91 +32,83 @@ private:
     SectionConfig::ItemConfig& cfg = SectionConfig::item;
 
     static constexpr uint8_t WEAPONS_INDEX = 0;
-    static constexpr uint8_t PROPS_INDEX = 10;
+    static constexpr uint8_t RANDOM_ARMOR_INDEX = 10;
+    static constexpr uint8_t PROPS_INDEX = 11;
 
     static constexpr std::array categories{
         "Weapons", "Helmets", "Body Armor", "Arms", "Legs",
         "Hands", "Feet", "Neck", "Shoulders", "Waist",
-        "Props"
+        "Random Armor", "Props"
     };
 
+    struct ArmorSlotInfo {
+        const char* displayName;
+        int slotEnum;
+    };
+
+    static constexpr std::array<ArmorSlotInfo, 15> randomArmorSlots{{
+        {"Head", 0}, {"Hands", 1}, {"Neck (Bevor)", 4}, {"Neck (Standard)", 5},
+        {"Arms", 6}, {"Shoulders", 7}, {"Tabard", 8}, {"Chest (Plate)", 9},
+        {"Hauberk", 10}, {"Cuisses", 11}, {"Body (Clothing)", 12},
+        {"Waist", 13}, {"Legs (Greaves)", 14}, {"Feet", 15}, {"Hosen", 16}
+    }};
+
     static constexpr std::array weaponSubcategories{
-        "Swords", "Maces", "Axes", "Polearms", "Daggers", "Baurnwehr", "Flails",
+        "Swords", "Maces", "Hafted", "Polearms", "Pollaxes", "Casted", "Messer",
+        "Axes", "Daggers", "Baurnwehr", "Flails",
         "Tools", "Shields", "Improvised", "Ranged", "Treasure", "Unique"
     };
 
-    static constexpr ItemArray<19> swordItems{{
-        {"Long Sword T1", WEAPON_PATH("/ModularWeaponBP_LongSword_T1.ModularWeaponBP_LongSword_T1_C")},
-        {"Long Sword T2", WEAPON_PATH("/ModularWeaponBP_LongSword_T2.ModularWeaponBP_LongSword_T2_C")},
-        {"Long Sword T3", WEAPON_PATH("/ModularWeaponBP_LongSword_T3.ModularWeaponBP_LongSword_T3_C")},
-        {"Arming Sword", WEAPON_PATH("/ModularWeaponBP_ArmingSword.ModularWeaponBP_ArmingSword_C")},
-        {"Arming Sword T1", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T1.ModularWeaponBP_ArmingSword_T1_C")},
-        {"Arming Sword T2", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T2.ModularWeaponBP_ArmingSword_T2_C")},
-        {"Arming Sword T3", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T3.ModularWeaponBP_ArmingSword_T3_C")},
-        {"Bastard Sword T1", WEAPON_PATH("/ModularWeaponBP_BastardSword_T1.ModularWeaponBP_BastardSword_T1_C")},
-        {"Bastard Sword T2", WEAPON_PATH("/ModularWeaponBP_BastardSword_T2.ModularWeaponBP_BastardSword_T2_C")},
-        {"Bastard Sword T3", WEAPON_PATH("/ModularWeaponBP_BastardSword_T3.ModularWeaponBP_BastardSword_T3_C")},
-        {"Great Sword", WEAPON_PATH("/ModularWeaponBP_GreatSword.ModularWeaponBP_GreatSword_C")},
-        {"Short Falchion", WEAPON_PATH("/ModularWeaponBP_Falchion_Short.ModularWeaponBP_Falchion_Short_C")},
-        {"Short Falchion T1", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T1.ModularWeaponBP_Falchion_Short_T1_C")},
-        {"Short Falchion T2", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T2.ModularWeaponBP_Falchion_Short_T2_C")},
-        {"Short Falchion T3", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T3.ModularWeaponBP_Falchion_Short_T3_C")},
-        {"Long Falchion", WEAPON_PATH("/ModularWeaponBP_Falchion_Long.ModularWeaponBP_Falchion_Long_C")},
-        {"Long Falchion T1", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T1.ModularWeaponBP_Falchion_Long_T1_C")},
-        {"Long Falchion T2", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T2.ModularWeaponBP_Falchion_Long_T2_C")},
-        {"Long Falchion T3", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T3.ModularWeaponBP_Falchion_Long_T3_C")}
+    // --- Customizable weapon subcategories ---
+
+    static constexpr ItemArray<3> swordItems{{
+        {"Arming Sword", CustomizableWeapon::SwordArming},
+        {"Short Sword", CustomizableWeapon::SwordShort},
+        {"Long Sword", CustomizableWeapon::SwordLong},
     }};
 
-    static constexpr ItemArray<8> maceItems{{
-        {"Short Low Tier Mace", WEAPON_PATH("/Tiers/ModularWeaponBP_Mace_Low_Tier_Short.ModularWeaponBP_Mace_Low_Tier_Short_C")},
-        {"Long Low Tier Mace", WEAPON_PATH("/Tiers/ModularWeaponBP_Mace_Low_Tier_Long.ModularWeaponBP_Mace_Low_Tier_Long_C")},
-        {"Short Mid Tier Mace", WEAPON_PATH("/Tiers/ModularWeaponBP_Mace_Mid_Tier_Short.ModularWeaponBP_Mace_Mid_Tier_Short_C")},
-        {"Average Mid Tier Mace", WEAPON_PATH("/Tiers/ModularWeaponBP_Mace_Mid_Tier_Avg.ModularWeaponBP_Mace_Mid_Tier_Avg_C")},
-        {"Long Mid Tier Mace", WEAPON_PATH("/Tiers/ModularWeaponBP_Mace_Mid_Tier_Long.ModularWeaponBP_Mace_Mid_Tier_Long_C")},
-        {"Short High Tier Mace", WEAPON_PATH("/Tiers/ModularWeaponBP_Mace_High_Tier_Short.ModularWeaponBP_Mace_High_Tier_Short_C")},
-        {"Average High Tier Mace", WEAPON_PATH("/Tiers/ModularWeaponBP_Mace_High_Tier_Avg.ModularWeaponBP_Mace_High_Tier_Avg_C")},
-        {"Long High Tier Mace", WEAPON_PATH("/Tiers/ModularWeaponBP_Mace_High_Tier_Long.ModularWeaponBP_Mace_High_Tier_Long_C")}
+    static constexpr ItemArray<3> maceItems{{
+        {"Short Mace", CustomizableWeapon::MaceShort},
+        {"Mace", CustomizableWeapon::Mace},
+        {"Long Mace", CustomizableWeapon::MaceLong},
     }};
+
+    static constexpr ItemArray<3> haftedItems{{
+        {"Short Hafted", CustomizableWeapon::HaftedShort},
+        {"Hafted", CustomizableWeapon::Hafted},
+        {"Long Hafted", CustomizableWeapon::HaftedLong},
+    }};
+
+    static constexpr ItemArray<3> polearmItems{{
+        {"Short Polearm", CustomizableWeapon::PolearmShort},
+        {"Polearm", CustomizableWeapon::Polearm},
+        {"Long Polearm", CustomizableWeapon::PolearmLong},
+    }};
+
+    static constexpr ItemArray<3> pollaxeItems{{
+        {"Short Pollaxe", CustomizableWeapon::PollaxeShort},
+        {"Pollaxe", CustomizableWeapon::Pollaxe},
+        {"Long Pollaxe", CustomizableWeapon::PollaxeLong},
+    }};
+
+    static constexpr ItemArray<3> castedItems{{
+        {"Short Casted", CustomizableWeapon::CastedShort},
+        {"Casted", CustomizableWeapon::Casted},
+        {"Long Casted", CustomizableWeapon::CastedLong},
+    }};
+
+    static constexpr ItemArray<1> messerItems{{
+        {"Messer", CustomizableWeapon::Messer},
+    }};
+
+    // --- Legacy weapon subcategories (direct class paths) ---
 
     static constexpr ItemArray<2> axeItems{{
         {"Axe", WEAPON_PATH("/Reforged/ModularWeaponBP_Axe.ModularWeaponBP_Axe_C")},
         {"Two-Handed Axe", WEAPON_PATH("/Reforged/ModularWeaponBP_Axe2H.ModularWeaponBP_Axe2H_C")}
     }};
 
-    static constexpr ItemArray<26> polearmItems{{
-        {"Spear A", WEAPON_PATH("/Reforged/ModularWeaponBP_Spear_A.ModularWeaponBP_Spear_A_C")},
-        {"Spear B", WEAPON_PATH("/Reforged/ModularWeaponBP_Spear_B.ModularWeaponBP_Spear_B_C")},
-        {"Spear C", WEAPON_PATH("/Reforged/ModularWeaponBP_Spear_C.ModularWeaponBP_Spear_C_C")},
-        {"Spear D", WEAPON_PATH("/Reforged/ModularWeaponBP_Spear_D.ModularWeaponBP_Spear_D_C")},
-        {"Halberd A", WEAPON_PATH("/Reforged/ModularWeaponBP_Halberd_A.ModularWeaponBP_Halberd_A_C")},
-        {"Halberd B", WEAPON_PATH("/Reforged/ModularWeaponBP_Halberd_B.ModularWeaponBP_Halberd_B_C")},
-        {"Halberd C", WEAPON_PATH("/Reforged/ModularWeaponBP_Halberd_C.ModularWeaponBP_Halberd_C_C")},
-        {"Halberd D", WEAPON_PATH("/Reforged/ModularWeaponBP_Halberd_D.ModularWeaponBP_Halberd_D_C")},
-        {"Billhook A", WEAPON_PATH("/Reforged/ModularWeaponBP_Billhook_A.ModularWeaponBP_Billhook_A_C")},
-        {"Billhook B", WEAPON_PATH("/Reforged/ModularWeaponBP_Billhook_B.ModularWeaponBP_Billhook_B_C")},
-        {"Billhook C", WEAPON_PATH("/Reforged/ModularWeaponBP_Billhook_C.ModularWeaponBP_Billhook_C_C")},
-        {"Billhook D", WEAPON_PATH("/Reforged/ModularWeaponBP_Billhook_D.ModularWeaponBP_Billhook_D_C")},
-        {"War Staff A", WEAPON_PATH("/Reforged/ModularWeaponBP_WarStaff_A.ModularWeaponBP_WarStaff_A_C")},
-        {"War Staff B", WEAPON_PATH("/Reforged/ModularWeaponBP_WarStaff_B.ModularWeaponBP_WarStaff_B_C")},
-        {"Staff", WEAPON_PATH("/Reforged/ModularWeaponBP_Staff.ModularWeaponBP_Staff_C")},
-        {"High Tier Polearm", WEAPON_PATH("/Tiers/ModularWeaponBP_Polearm_High_Tier.ModularWeaponBP_Polearm_High_Tier_C")},
-        {"Mid Tier Polearm", WEAPON_PATH("/Tiers/ModularWeaponBP_Polearm_Mid_Tier.ModularWeaponBP_Polearm_Mid_Tier_C")},
-        {"Low Tier Polearm", WEAPON_PATH("/Tiers/ModularWeaponBP_Polearm_Low_Tier.ModularWeaponBP_Polearm_Low_Tier_C")},
-        {"Short Hafted Low Tier", WEAPON_PATH("/Tiers/ModularWeaponBP_Hafted_Low_Tier_Short.ModularWeaponBP_Hafted_Low_Tier_Short_C")},
-        {"Long Hafted Low Tier", WEAPON_PATH("/Tiers/ModularWeaponBP_Hafted_Low_Tier_Long.ModularWeaponBP_Hafted_Low_Tier_Long_C")},
-        {"Short Hafted Mid Tier", WEAPON_PATH("/Tiers/ModularWeaponBP_Hafted_Mid_Tier_Short.ModularWeaponBP_Hafted_Mid_Tier_Short_C")},
-        {"Average Hafted Mid Tier", WEAPON_PATH("/Tiers/ModularWeaponBP_Hafted_Mid_Tier_Avg.ModularWeaponBP_Hafted_Mid_Tier_Avg_C")},
-        {"Long Hafted Mid Tier", WEAPON_PATH("/Tiers/ModularWeaponBP_Hafted_Mid_Tier_Long.ModularWeaponBP_Hafted_Mid_Tier_Long_C")},
-        {"Short Hafted High Tier", WEAPON_PATH("/Tiers/ModularWeaponBP_Hafted_High_Tier_Short.ModularWeaponBP_Hafted_High_Tier_Short_C")},
-        {"Average Hafted High Tier", WEAPON_PATH("/Tiers/ModularWeaponBP_Hafted_High_Tier_Avg.ModularWeaponBP_Hafted_High_Tier_Avg_C")},
-        {"Long Hafted High Tier", WEAPON_PATH("/Tiers/ModularWeaponBP_Hafted_High_Tier_Long.ModularWeaponBP_Hafted_High_Tier_Long_C")}
-    }};
-
-    static constexpr ItemArray<7> daggerItems{{
-        {"Dagger", WEAPON_PATH("/ModularWeaponBP_Dagger.ModularWeaponBP_Dagger_C")},
-        {"Dagger T1", WEAPON_PATH("/ModularWeaponBP_Dagger_T1.ModularWeaponBP_Dagger_T1_C")},
-        {"Dagger T2", WEAPON_PATH("/ModularWeaponBP_Dagger_T2.ModularWeaponBP_Dagger_T2_C")},
-        {"Dagger T3", WEAPON_PATH("/ModularWeaponBP_Dagger_T3.ModularWeaponBP_Dagger_T3_C")},
+    static constexpr ItemArray<3> daggerItems{{
         {"Rondel", WEAPON_PATH("/Reforged/ModularWeaponBP_Rondel.ModularWeaponBP_Rondel_C")},
         {"Rondel Gold", WEAPON_PATH("/Reforged/ModularWeaponBP_Rondel_Gold.ModularWeaponBP_Rondel_Gold_C")},
         {"Dagger Rondel", WEAPON_PATH("/Reforged/ModularWeaponBP_DaggerRondel.ModularWeaponBP_DaggerRondel_C")}
@@ -207,6 +205,8 @@ private:
     static constexpr ItemArray<1> uniqueWeaponItems{{
         {"Baron Beak", WEAPON_PATH("/Unique/ModularWeaponBP_BaronBeak.ModularWeaponBP_BaronBeak_C")}
     }};
+
+    // --- Armor items ---
 
     static constexpr ItemArray<42> helmetItems{{
         {"Armet", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Armet_001.BP_Armor_Head_Armet_001_C")},
@@ -356,6 +356,8 @@ private:
         {"Foulds T3", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T3.BP_Armor_Waist_Foulds_T3_C")}
     }};
 
+    // --- Props ---
+
     static constexpr ItemArray<37> propItems{{
         {"Basket", PROP_PATH("/Blueprints/BP_Container_Basket_001.BP_Container_Basket_001_C")},
         {"Candle", PROP_PATH("/Candle/Blueprints/BP_Candle.BP_Candle_C")},
@@ -396,39 +398,25 @@ private:
         {"Trap Kettle", TRAP_PATH("/Trap_Kettle_BP.Trap_Kettle_BP_C")}
     }};
 
-    static constexpr std::array<const ItemInfo*, 13> weaponArrays{{
-        swordItems.data(),
-        maceItems.data(),
-        axeItems.data(),
-        polearmItems.data(),
-        daggerItems.data(),
-        baurnwehrItems.data(),
-        flailItems.data(),
-        toolItems.data(),
-        shieldItems.data(),
-        improvisedItems.data(),
-        rangedItems.data(),
-        treasureItems.data(),
-        uniqueWeaponItems.data()
+    // --- Index arrays ---
+
+    static constexpr std::array<const ItemInfo*, 17> weaponArrays{{
+        swordItems.data(), maceItems.data(), haftedItems.data(),
+        polearmItems.data(), pollaxeItems.data(), castedItems.data(), messerItems.data(),
+        axeItems.data(), daggerItems.data(), baurnwehrItems.data(), flailItems.data(),
+        toolItems.data(), shieldItems.data(), improvisedItems.data(),
+        rangedItems.data(), treasureItems.data(), uniqueWeaponItems.data()
     }};
 
-    static constexpr std::array<size_t, 13> weaponSizes{{
-        swordItems.size(),
-        maceItems.size(),
-        axeItems.size(),
-        polearmItems.size(),
-        daggerItems.size(),
-        baurnwehrItems.size(),
-        flailItems.size(),
-        toolItems.size(),
-        shieldItems.size(),
-        improvisedItems.size(),
-        rangedItems.size(),
-        treasureItems.size(),
-        uniqueWeaponItems.size()
+    static constexpr std::array<size_t, 17> weaponSizes{{
+        swordItems.size(), maceItems.size(), haftedItems.size(),
+        polearmItems.size(), pollaxeItems.size(), castedItems.size(), messerItems.size(),
+        axeItems.size(), daggerItems.size(), baurnwehrItems.size(), flailItems.size(),
+        toolItems.size(), shieldItems.size(), improvisedItems.size(),
+        rangedItems.size(), treasureItems.size(), uniqueWeaponItems.size()
     }};
 
-    static constexpr std::array<const ItemInfo*, 11> armorArrays{{
+    static constexpr std::array<const ItemInfo*, 12> armorArrays{{
         nullptr,                // Weapons (index 0)
         helmetItems.data(),
         bodyArmorItems.data(),
@@ -439,10 +427,11 @@ private:
         neckItems.data(),
         shoulderItems.data(),
         waistItems.data(),
-        nullptr                 // Props (index 10)
+        nullptr,                // Random Armor (index 10)
+        nullptr                 // Props (index 11)
     }};
 
-    static constexpr std::array<size_t, 11> armorSizes{{
+    static constexpr std::array<size_t, 12> armorSizes{{
         0,
         helmetItems.size(),
         bodyArmorItems.size(),
@@ -453,6 +442,7 @@ private:
         neckItems.size(),
         shoulderItems.size(),
         waistItems.size(),
+        0,
         0
     }};
 
@@ -465,18 +455,13 @@ private:
     static inline bool searchActive = false;
 
     [[nodiscard]] std::pair<const ItemInfo*, size_t> getCurrentItemArray() const noexcept {
-        if (cfg.currentCategoryIndex == WEAPONS_INDEX) {
+        if (cfg.currentCategoryIndex == WEAPONS_INDEX)
             return {weaponArrays[cfg.currentWeaponSubcategoryIndex], weaponSizes[cfg.currentWeaponSubcategoryIndex]};
-        }
-        if (cfg.currentCategoryIndex == PROPS_INDEX) {
+        if (cfg.currentCategoryIndex == RANDOM_ARMOR_INDEX)
+            return {nullptr, 0};
+        if (cfg.currentCategoryIndex == PROPS_INDEX)
             return {propItems.data(), propItems.size()};
-        }
         return {armorArrays[cfg.currentCategoryIndex], armorSizes[cfg.currentCategoryIndex]};
-    }
-
-    [[nodiscard]] const char* getSelectedClassName() const noexcept {
-        const auto [items, size] = getCurrentItemArray();
-        return (cfg.currentItemIndex < size && items) ? items[cfg.currentItemIndex].classPath : nullptr;
     }
 
     [[nodiscard]] static const ItemInfo* getItemAt(uint8_t catIdx, uint8_t subIdx, uint16_t itmIdx) noexcept {
@@ -484,6 +469,7 @@ private:
             return (subIdx < weaponSizes.size() && itmIdx < weaponSizes[subIdx])
                 ? &weaponArrays[subIdx][itmIdx] : nullptr;
         }
+        if (catIdx == RANDOM_ARMOR_INDEX) return nullptr;
         if (catIdx == PROPS_INDEX) {
             return (itmIdx < propItems.size()) ? &propItems[itmIdx] : nullptr;
         }
@@ -540,6 +526,8 @@ private:
                         }
                     }
                 }
+            } else if (catIdx == RANDOM_ARMOR_INDEX) {
+                continue;
             } else if (catIdx == PROPS_INDEX) {
                 for (uint16_t i = 0; i < propItems.size(); ++i) {
                     if (stristr(propItems[i].displayName, searchBuffer)) {
@@ -561,16 +549,37 @@ private:
     }
 
     void SpawnSelectedItem() const noexcept {
-        const char* className = getSelectedClassName();
-        if (!className) [[unlikely]] return;
-
         auto spawnTransform = player->GetTransform();
         const auto forward = player->GetActorForwardVector();
         spawnTransform.Translation.X += forward.X * cfg.spawnDistanceForward;
         spawnTransform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
         spawnTransform.Translation.Z += cfg.spawnDistanceUp;
         spawnTransform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
-        Spawner::SpawnActor(world, className, spawnTransform, nullptr, cfg.snapToGround);
+
+        if (cfg.currentCategoryIndex == RANDOM_ARMOR_INDEX) {
+            if (cfg.currentItemIndex >= randomArmorSlots.size()) return;
+            auto slot = static_cast<SDK::EArmorSlots_Enum>(randomArmorSlots[cfg.currentItemIndex].slotEnum);
+            auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
+            bool snap = cfg.snapToGround;
+            auto transform = spawnTransform;
+            GameHook::QueueAction([this, slot, tier, transform, snap]() {
+                EquipmentGenerator::Init(world);
+                auto passport = EquipmentGenerator::GenerateArmor(tier, slot, 0.5);
+                if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
+                    Spawner::SpawnArmorFromPassport(world, passport, transform, snap);
+            });
+            return;
+        }
+
+        const auto [items, size] = getCurrentItemArray();
+        if (cfg.currentItemIndex >= size || !items) return;
+        const auto& item = items[cfg.currentItemIndex];
+
+        if (item.customizable != CustomizableWeapon::None) {
+            Spawner::SpawnCustomizableWeapon(world, item.customizable, spawnTransform, cfg.snapToGround, cfg.spawnTier);
+        } else if (item.classPath) {
+            Spawner::SpawnActor(world, item.classPath, spawnTransform, nullptr, cfg.snapToGround, cfg.spawnTier);
+        }
     }
 
 public:
@@ -664,12 +673,28 @@ public:
                 }
             }
 
-            updateItemNamesCache();
+            if (cfg.currentCategoryIndex == RANDOM_ARMOR_INDEX) {
+                ImGui::Text("Armor Slot");
+                int slotIndex = static_cast<int>(cfg.currentItemIndex);
+                if (ImGui::Combo("##ArmorSlotSelector", &slotIndex,
+                    [](void* data, int idx) -> const char* {
+                        return static_cast<const ArmorSlotInfo*>(data)[idx].displayName;
+                    }, (void*)randomArmorSlots.data(), static_cast<int>(randomArmorSlots.size()))) {
+                    cfg.currentItemIndex = static_cast<uint16_t>(slotIndex);
+                }
+            } else {
+                updateItemNamesCache();
 
-            ImGui::Text("Item");
-            int itemIndex = static_cast<int>(cfg.currentItemIndex);
-            if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
-                cfg.currentItemIndex = static_cast<uint16_t>(itemIndex);
+                ImGui::Text("Item");
+                int itemIndex = static_cast<int>(cfg.currentItemIndex);
+                if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
+                    cfg.currentItemIndex = static_cast<uint16_t>(itemIndex);
+                }
+            }
+
+            if (cfg.currentCategoryIndex != PROPS_INDEX) {
+                ImGui::Text("Tier");
+                ImGui::SliderInt("##TierSlider", &cfg.spawnTier, 0, 8, "Tier %d");
             }
         }
 
