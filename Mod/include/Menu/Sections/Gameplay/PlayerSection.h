@@ -166,17 +166,10 @@ public:
         Function("Bite Attack")
             .WithKey(&cfg.biteAttackKey)
             .GameThread()
-            .WithParams({ Parameter("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target") })
             .WithTooltip("Bite the nearest enemy like a zombie")
             .Action([this]() {
-                if (!player->Biting) {
-                    auto* nearest = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
-                    if (!nearest) return;
-                    ActorUtils::SpawnBiteConstraint(world, player, nearest);
-                } else {
-                    ActorUtils::ReleaseBite(player);
-                }
-            }, player, world);
+                if (!player->Biting) player->Bite_Event();
+            }, player);
 
         Function("Enemy Bite")
             .WithKey(&cfg.enemyBiteKey)
@@ -187,13 +180,7 @@ public:
                 auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
                 if (!biter) return;
 
-                if (!biter->Biting) {
-                    auto* target = ActorUtils::FindNearestWillie(world, player, biter, cfg.biteRange, biter);
-                    if (!target) return;
-                    ActorUtils::SpawnBiteConstraint(world, biter, target);
-                } else {
-                    ActorUtils::ReleaseBite(biter);
-                }
+                if (!biter->Biting) biter->Bite_Event();
             }, player, world);
 
         Function("Possess Nearest Willie")
