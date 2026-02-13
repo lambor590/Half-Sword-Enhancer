@@ -3,12 +3,12 @@ HOW TO INSTALL
 1. Open the game folder:
    Right-click the game in Steam -> Manage -> Browse Local Files
 
-2. Place "dwmapi.dll" and "HSEnhancer.dll" in:
+2. Place "winmm.dll" and "HSEnhancer.dll" in:
    <Game Folder>\HalfSwordUE5\Binaries\Win64
 
 
 HOW TO UNINSTALL
 
 1. Delete the files you placed in the installation steps:
-   - "dwmapi.dll"
+   - "winmm.dll"
    - "HSEnhancer.dll"

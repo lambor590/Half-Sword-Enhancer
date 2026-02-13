@@ -125,7 +125,7 @@ jobs:
 
           New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
           Copy-Item "Manual_Install.txt" "manual_install/README.txt"
-          Copy-Item "bin/dwmapi.dll" "manual_install/"
+          Copy-Item "bin/winmm.dll" "manual_install/"
           Copy-Item "bin/HSEnhancer.dll" "manual_install/"
           Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HSEnhancer.zip" -Force
 

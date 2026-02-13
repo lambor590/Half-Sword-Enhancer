@@ -241,7 +241,7 @@ Antivirus may block injection. Solutions:
 #### Fatal Error on Boot
 1. Conflict with other mods. Remove from `<Game>\HalfSwordUE5\Binaries\Win64`:
 - `ue4ss.dll`
-- `dwmapi.dll` (if not from this mod)
+- `winmm.dll` (if not from this mod)
 
 2. Missing Visual C++ Redistributable. [Download Visual C++ Redistributable (x64)](https://aka.ms/vc14/vc_redist.x64.exe)
 3. Check your antivirus.
