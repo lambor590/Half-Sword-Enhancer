@@ -256,6 +256,10 @@ namespace Spawner {
         });
     }
 
+    SDK::UClass* LoadClass(const std::string& classPath) {
+        return LoadActorClass(classPath);
+    }
+
     void SpawnCustomizableWeapon(const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround, int tier) {
         GameHook::QueueAction([world, type, transform, snapToGround, tier]() {
             SDK::FTransform finalTransform = transform;
