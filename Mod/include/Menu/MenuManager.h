@@ -95,8 +95,9 @@ private:
                 std::tolower(static_cast<unsigned char>(searchBuffer[needleLen])));
         }
 
-        for (auto& [tab, label] : tabOrder) {
-            auto& sects = sections[static_cast<size_t>(tab)];
+        for (size_t i = 0; i < TabCount; ++i) {
+            const auto& [tab, label] = tabOrder[i];
+            auto& sects = sections[i];
             for (auto& section : sects) {
                 if (matchesSearch(section->GetName(), lowerNeedle, needleLen)) {
                     searchResults.push_back({tab, section.get(), {}});
@@ -329,8 +330,9 @@ private:
         } else {
 
         bool firstVisible = true;
-        for (auto& [tab, label] : tabOrder) {
-            auto& sects = sections[static_cast<size_t>(tab)];
+        for (size_t i = 0; i < TabCount; ++i) {
+            const auto& [tab, label] = tabOrder[i];
+            auto& sects = sections[i];
             if (sects.empty()) continue;
 
             if (!firstVisible) {
