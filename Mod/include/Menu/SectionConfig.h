@@ -66,6 +66,9 @@ namespace SectionConfig {
         bool snapToGround = true;
         int npcTeam = 0;
         int npcTypeIndex = 0;
+        int npcNationality = 0;
+        int npcTier = 4;
+        bool npcMercenary = false;
     };
 
     struct ItemConfig {
