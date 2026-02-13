@@ -236,18 +236,64 @@ namespace MemoryUtils
         ToggleMemoryProtection(true, address, clearance);
     }
 
+    static size_t GetExistingHookJumpSize(uintptr_t address)
+    {
+        uint8_t buffer[FAR_JUMP_SIZE + 1];
+        if (!SafeReadMemoryArray(address, buffer)) return 0;
+
+        if (buffer[0] == 0xe9)
+            return REL_JUMP_SIZE;
+
+        if (buffer[0] == 0xff && buffer[1] == 0x25 &&
+            buffer[2] == 0x00 && buffer[3] == 0x00 &&
+            buffer[4] == 0x00 && buffer[5] == 0x00)
+            return FAR_JUMP_SIZE;
+
+        if (buffer[0] == 0x48 && buffer[1] == 0xff && buffer[2] == 0x25) {
+            int32_t disp = *reinterpret_cast<int32_t*>(buffer + 3);
+            return (disp == 0) ? 15 : 7;
+        }
+
+        return 0;
+    }
+
     void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress)
     {
-        int attempts = 0;
+        if (IsAddressHooked(addressToHook)) {
+            uintptr_t existingTarget = FollowJump(addressToHook);
 
-        while (IsAddressHooked(addressToHook) && attempts < MAX_HOOK_FOLLOW_ATTEMPTS) {
-            addressToHook = FollowJump(addressToHook);
-            attempts++;
+            if (existingTarget != addressToHook) {
+                logger.Log("Existing hook at %p -> %p, chaining", (void*)addressToHook, (void*)existingTarget);
+
+                size_t clearance = GetExistingHookJumpSize(addressToHook);
+                if (clearance < NEAR_JUMP_SIZE) clearance = NEAR_JUMP_SIZE;
+
+                size_t trampolineSize = FAR_JUMP_SIZE + PROTECTION_BUFFER;
+                uintptr_t trampoline = AllocateMemoryWithin32BitRange(trampolineSize, addressToHook);
+                if (!trampoline) {
+                    logger.Log("Failed to allocate trampoline for chained hook");
+                    return;
+                }
+
+                HookInformation hookInfo;
+                hookInfo.originalBytesSize = clearance;
+                hookInfo.trampolineInstructionsAddress = 0;
+                hookInfo.trampolineBase = trampoline;
+                MemCopy((uintptr_t)hookInfo.originalBytes.data(), addressToHook, clearance);
+                InfoBufferForHookedAddresses[addressToHook] = hookInfo;
+
+                PlaceJump(trampoline, destinationAddress, true, FAR_JUMP_SIZE);
+                *returnAddress = existingTarget;
+                PlaceJump(addressToHook, trampoline, false, clearance);
+
+                logger.Log("Hook chain installed: %p -> detour -> %p", (void*)addressToHook, (void*)existingTarget);
+                return;
+            }
         }
 
         size_t clearance = CalculateRequiredAsmClearance(addressToHook, NEAR_JUMP_SIZE);
         size_t trampolineSize = TRAMPOLINE_BUFFER_SIZE + clearance + PROTECTION_BUFFER;
-        
+
         uintptr_t trampoline = AllocateMemoryWithin32BitRange(trampolineSize, addressToHook);
         if (!trampoline) {
             logger.Log("Failed to allocate trampoline memory");
@@ -260,6 +306,7 @@ namespace MemoryUtils
         HookInformation hookInfo;
         hookInfo.originalBytesSize = clearance;
         hookInfo.trampolineInstructionsAddress = originalInstructions;
+        hookInfo.trampolineBase = trampoline;
         MemCopy((uintptr_t)hookInfo.originalBytes.data(), originalInstructions, clearance);
         InfoBufferForHookedAddresses[addressToHook] = hookInfo;
 
@@ -273,11 +320,28 @@ namespace MemoryUtils
     void Unhook(uintptr_t hookedAddress)
     {
         auto it = InfoBufferForHookedAddresses.find(hookedAddress);
-        if (it != InfoBufferForHookedAddresses.end()) {
-            auto& hookInfo = it->second;
-            MemCopy(hookedAddress, (uintptr_t)hookInfo.originalBytes.data(), hookInfo.originalBytesSize);
-            InfoBufferForHookedAddresses.erase(it);
+        if (it == InfoBufferForHookedAddresses.end()) return;
+
+        auto& hookInfo = it->second;
+
+        uint8_t firstByte = 0;
+        if (SafeReadMemory(hookedAddress, firstByte) && firstByte == 0xE9) {
+            int32_t jumpOffset = 0;
+            if (SafeReadMemory(hookedAddress + 1, jumpOffset)) {
+                uintptr_t jumpTarget = hookedAddress + REL_JUMP_SIZE + jumpOffset;
+                uintptr_t trampBase = hookInfo.trampolineBase;
+
+                bool isOurHook = trampBase != 0
+                              && (jumpTarget >= trampBase)
+                              && (jumpTarget <= trampBase + TRAMPOLINE_BUFFER_SIZE * 2);
+
+                if (isOurHook) {
+                    MemCopy(hookedAddress, (uintptr_t)hookInfo.originalBytes.data(), hookInfo.originalBytesSize);
+                }
+            }
         }
+
+        InfoBufferForHookedAddresses.erase(it);
     }
 
     uintptr_t GetProcessBaseAddress(DWORD processId) noexcept

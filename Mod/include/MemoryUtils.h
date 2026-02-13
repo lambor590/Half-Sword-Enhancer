@@ -35,6 +35,7 @@ namespace MemoryUtils
         std::array<uint8_t, 32> originalBytes{};
         size_t originalBytesSize = 0;
         uintptr_t trampolineInstructionsAddress = 0;
+        uintptr_t trampolineBase = 0;
     };
 
 
