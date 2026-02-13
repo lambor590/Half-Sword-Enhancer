@@ -8,11 +8,54 @@
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Version.h"
+#include "Utils/GameBuildInfo.h"
 
 WNDPROC Gui::originalWndProc = nullptr;
 bool Gui::isVisible = true;
 
 Logger logger("Gui");
+
+namespace {
+    bool s_showMismatchPopup = false;
+    bool s_mismatchDismissed = false;
+    bool s_popupOpened = false;
+
+    void RenderMismatchPopup() {
+        if (!s_mismatchDismissed && !s_showMismatchPopup &&
+            GameBuildInfo::Get().mismatchDetected.load(std::memory_order_relaxed)) {
+            s_showMismatchPopup = true;
+            s_popupOpened = false;
+        }
+
+        if (!s_showMismatchPopup) return;
+
+        if (!s_popupOpened) {
+            ImGui::OpenPopup("##version_mismatch");
+            s_popupOpened = true;
+        }
+
+        ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(20.0f, 16.0f));
+        if (ImGui::BeginPopupModal("##version_mismatch", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar)) {
+            auto& info = GameBuildInfo::Get();
+            ImGui::Text("Game version mismatch detected");
+            ImGui::Spacing();
+            ImGui::Text("Expected: %s", HSE_TARGET_BUILD);
+            ImGui::Text("Detected: %s", info.buildVersion.c_str());
+            ImGui::Spacing();
+            ImGui::Text("The mod may not work correctly with this game version.");
+            ImGui::Spacing();
+            if (ImGui::Button("OK", ImVec2(120, 0))) {
+                ImGui::CloseCurrentPopup();
+                s_showMismatchPopup = false;
+                s_mismatchDismissed = true;
+            }
+            ImGui::EndPopup();
+        }
+        ImGui::PopStyleVar();
+        ImGui::PopStyleColor();
+    }
+}
 
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     if (KeybindManager::ProcessRebindEvent(msg, wParam))
@@ -81,7 +124,7 @@ void Gui::Render() {
 
     const bool hasNotifications = NotificationManager::IsEnabled() && NotificationManager::HasNotifications();
 
-    if (!isVisible && !hasNotifications) [[likely]] {
+    if (!isVisible && !hasNotifications && !s_showMismatchPopup) [[likely]] {
         return;
     }
 
@@ -113,6 +156,8 @@ void Gui::Render() {
         ImGui::End();
         ImGui::PopStyleVar();
     }
+
+    RenderMismatchPopup();
 
     NotificationManager::Render();
 
