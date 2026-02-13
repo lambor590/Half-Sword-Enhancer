@@ -200,8 +200,6 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d3d11.lib;d3d12.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <OptimizeReferences>true</OptimizeReferences>
-      <StripPrivateSymbols>true</StripPrivateSymbols>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'">
@@ -232,12 +230,9 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>d3d11.lib;d3d12.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <OptimizeReferences>true</OptimizeReferences>
-      <StripPrivateSymbols>true</StripPrivateSymbols>
     </Link>
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(BetaBuild)'=='true'">
@@ -247,6 +242,9 @@
     <ClCompile>
       <PreprocessorDefinitions>BETA_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <GenerateDebugInformation Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'">false</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\backends\imgui_impl_dx11.cpp" />
@@ -258,6 +256,8 @@
     <ClCompile Include="SDK\SDK\AIModule_functions.cpp" />
     <ClCompile Include="SDK\SDK\AI_BP_functions.cpp" />
     <ClCompile Include="SDK\SDK\BP_Armor_Master_functions.cpp" />
+    <ClCompile Include="SDK\SDK\BP_Generator_Armor_Random_functions.cpp" />
+    <ClCompile Include="SDK\SDK\BP_Generator_Characters_Random_functions.cpp" />
     <ClCompile Include="SDK\SDK\BP_Generator_Weapons_Random_functions.cpp" />
     <ClCompile Include="SDK\SDK\GI_Settings_functions.cpp" />
     <ClCompile Include="SDK\SDK\ModularWeaponBP_functions.cpp" />
@@ -282,6 +282,8 @@
     <ClCompile Include="src\GameHook.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Spawner.cpp" />
+    <ClCompile Include="src\EquipmentGenerator.cpp" />
+    <ClCompile Include="src\GameBuildInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ComponentValidator.h" />
@@ -317,6 +319,7 @@
     <ClInclude Include="include\Utils\ConfigUtils.h" />
     <ClInclude Include="include\Utils\GuiUtils.h" />
     <ClInclude Include="include\Utils\CommonHeaders.h" />
+    <ClInclude Include="include\Utils\GameBuildInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Mod.rc" />

@@ -110,6 +110,12 @@
     <ClCompile Include="src\Spawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\EquipmentGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameBuildInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SDK\SDK\AI_BP_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -131,6 +137,12 @@
     <ClCompile Include="SDK\SDK\ModularWeaponBP_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SDK\SDK\BP_Generator_Armor_Random_functions.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\SDK\BP_Generator_Characters_Random_functions.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
     <ClCompile Include="SDK\SDK\BP_Armor_Master_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -141,6 +153,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDK\SDK\Niagara_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\SDK\BP_Generator_Weapons_Random_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -236,6 +251,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\CommonHeaders.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\GameBuildInfo.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Settings\GraphicsSection.h">
