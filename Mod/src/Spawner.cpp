@@ -3,11 +3,12 @@
 #include <unordered_map>
 
 #include "Utils/Spawner.h"
+#include "Utils/EquipmentGenerator.h"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
-#include "SDK/Modular_Weapon_Grip_classes.hpp"
-#include "SDK/Weapon_Sword_Grip_Master_classes.hpp"
+#include "SDK/ModularWeaponBP_Customizable_classes.hpp"
+#include "SDK/BP_Armor_Master_classes.hpp"
 #include "Hooks/GameHook.h"
 
 namespace Spawner {
@@ -15,8 +16,9 @@ namespace Spawner {
     namespace {
         std::unordered_map<std::string, SDK::UClass*> classCache;
 
-        constexpr std::array<std::pair<std::string_view, ActorType>, 11> TYPE_MAP = {{
+        constexpr std::array<std::pair<std::string_view, ActorType>, 12> TYPE_MAP = {{
             {"Willie_BP", ActorType::Willie},
+            {"Customizable", ActorType::Weapon},
             {"ModularWeapon", ActorType::Weapon},
             {"BP_Weapon_Reforged", ActorType::Weapon},
             {"BP_Weapon_Ranged", ActorType::Weapon},
@@ -70,68 +72,47 @@ namespace Spawner {
         return loaded;
     }
 
-    static SDK::FStr_Passport_Weapon1 BuildPassportFromCDO(SDK::UClass* actorClass,
-        SDK::AModularWeaponBP_C* weaponCDO, SDK::AModular_Weapon_Grip_C* gripCDO) {
-
-        SDK::FStr_Passport_Weapon1 passport{};
-        passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC = actorClass;
-        passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4 = weaponCDO->Grip_Module;
-
-        if (gripCDO) {
-            if (gripCDO->Array_Head.Num() > 0)
-                passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 = gripCDO->Array_Head[0];
-            else if (gripCDO->Module_Head)
-                passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 = gripCDO->Module_Head;
-
-            if (gripCDO->Array_Guard.Num() > 0)
-                passport.GuardModule_13_6DD2B06245505E53B529D090333012F0 = gripCDO->Array_Guard[0];
-            else if (gripCDO->Module_Guard)
-                passport.GuardModule_13_6DD2B06245505E53B529D090333012F0 = gripCDO->Module_Guard;
-
-            if (gripCDO->Array_Pommel.Num() > 0)
-                passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6 = gripCDO->Array_Pommel[0];
-            else if (gripCDO->Module_Pommel)
-                passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6 = gripCDO->Module_Pommel;
-
-            if (!passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139
-                && gripCDO->IsA(SDK::AWeapon_Sword_Grip_Master_C::StaticClass())) {
-                auto* swordGrip = static_cast<SDK::AWeapon_Sword_Grip_Master_C*>(gripCDO);
-                if (swordGrip->Blades_1.Num() > 0)
-                    passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 = swordGrip->Blades_1[0];
-                else if (swordGrip->Blades_2.Num() > 0)
-                    passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 = swordGrip->Blades_2[0];
-                else if (swordGrip->Blades_3.Num() > 0)
-                    passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 = swordGrip->Blades_3[0];
-            }
-        }
-
-        passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D = weaponCDO->Sub_Module_1_Class;
-        passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9 = weaponCDO->Sub_Module_2_Class;
-
-        passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = weaponCDO->Head_Size;
-        passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = weaponCDO->Guard_Size;
-        passport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF = weaponCDO->Grip_Size;
-        passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E = weaponCDO->Pommel_Size;
-
-        passport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7 = weaponCDO->Custom_Mass_Scale_Head;
-        passport.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927 = weaponCDO->Custom_Mass_Scale_Guard;
-        passport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 = weaponCDO->Custom_Mass_Scale_Grip;
-        passport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 = weaponCDO->Custom_Mass_Scale_Pommel;
-
-        return passport;
-    }
-
-    static SDK::AActor* SpawnModularWeapon(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform) {
-        auto* weaponCDO = static_cast<SDK::AModularWeaponBP_C*>(actorClass->ClassDefaultObject);
-        if (!weaponCDO || !weaponCDO->Grip_Module) return nullptr;
-
-        auto* gripCDO = static_cast<SDK::AModular_Weapon_Grip_C*>(
-            weaponCDO->Grip_Module->ClassDefaultObject);
-
-        auto passport = BuildPassportFromCDO(actorClass, weaponCDO, gripCDO);
+    static SDK::AActor* SpawnModularWeapon(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform, SDK::Enum_Ranks tier) {
+        EquipmentGenerator::Init(world);
+        auto passport = EquipmentGenerator::GenerateSpecificWeapon(actorClass, tier);
 
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
             world, actorClass, transform,
+            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        if (!actor) return nullptr;
+
+        auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+        weapon->Weapon_Passport = passport;
+
+        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+
+        return actor;
+    }
+
+    static SDK::AActor* SpawnModularArmor(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform) {
+        SDK::FStr_Passport_Armor1 passport{};
+        passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = actorClass;
+
+        auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+            world, actorClass, transform,
+            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        if (!actor) return nullptr;
+
+        auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
+        armor->Armor_Passport = passport;
+
+        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        return actor;
+    }
+
+    static SDK::AActor* SpawnWeaponWithPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform) {
+        SDK::UClass* weaponClass = passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC;
+        if (!weaponClass) return nullptr;
+
+        auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+            world, weaponClass, transform,
             SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
             nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
         if (!actor) return nullptr;
@@ -197,10 +178,11 @@ namespace Spawner {
 
     void ClearCache() {
         classCache.clear();
+        EquipmentGenerator::ClearCache();
     }
 
-    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround) {
-        GameHook::QueueAction([world, className, transform, callback, snapToGround]() {
+    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround, int tier) {
+        GameHook::QueueAction([world, className, transform, callback, snapToGround, tier]() {
             SDK::FTransform finalTransform = transform;
             ActorType actorType = GetActorType(className);
 
@@ -214,7 +196,9 @@ namespace Spawner {
             SDK::AActor* spawnedActor = nullptr;
 
             if (actorType == ActorType::Weapon) {
-                spawnedActor = SpawnModularWeapon(world, actorClass, finalTransform);
+                spawnedActor = SpawnModularWeapon(world, actorClass, finalTransform, static_cast<SDK::Enum_Ranks>(tier));
+            } else if (actorType == ActorType::Armor) {
+                spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
             }
 
             if (!spawnedActor) {
@@ -224,6 +208,75 @@ namespace Spawner {
             if (callback) {
                 callback(spawnedActor);
             }
+        });
+    }
+
+    void SpawnWeaponFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround) {
+        GameHook::QueueAction([world, passport, transform, snapToGround]() {
+            SDK::FTransform finalTransform = transform;
+
+            if (snapToGround) {
+                float groundOffset = GetGroundOffsetForType(ActorType::Weapon, transform.Scale3D);
+                SDK::FVector groundPosition = GetGroundPosition(world, transform.Translation, groundOffset);
+                finalTransform.Translation = groundPosition;
+            }
+
+            SpawnWeaponWithPassport(world, passport, finalTransform);
+        });
+    }
+
+    static SDK::AActor* SpawnArmorWithPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform) {
+        SDK::UClass* armorClass = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
+        if (!armorClass) return nullptr;
+
+        auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+            world, armorClass, transform,
+            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        if (!actor) return nullptr;
+
+        auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
+        armor->Armor_Passport = passport;
+
+        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        return actor;
+    }
+
+    void SpawnArmorFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform, bool snapToGround) {
+        GameHook::QueueAction([world, passport, transform, snapToGround]() {
+            SDK::FTransform finalTransform = transform;
+
+            if (snapToGround) {
+                float groundOffset = GetGroundOffsetForType(ActorType::Armor, transform.Scale3D);
+                SDK::FVector groundPosition = GetGroundPosition(world, transform.Translation, groundOffset);
+                finalTransform.Translation = groundPosition;
+            }
+
+            SpawnArmorWithPassport(world, passport, finalTransform);
+        });
+    }
+
+    void SpawnCustomizableWeapon(const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround, int tier) {
+        GameHook::QueueAction([world, type, transform, snapToGround, tier]() {
+            SDK::FTransform finalTransform = transform;
+
+            if (snapToGround) {
+                float groundOffset = GetGroundOffsetForType(ActorType::Weapon, transform.Scale3D);
+                finalTransform.Translation = GetGroundPosition(world, transform.Translation, groundOffset);
+            }
+
+            EquipmentGenerator::Init(world);
+            auto passport = EquipmentGenerator::GenerateCustomizableWeapon(type, static_cast<SDK::Enum_Ranks>(tier));
+
+            SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();
+            auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+                world, weaponClass, finalTransform,
+                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            if (!actor) return;
+
+            static_cast<SDK::AModularWeaponBP_Customizable_C*>(actor)->Weapon_Passport = passport;
+            SDK::UGameplayStatics::FinishSpawningActor(actor, finalTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
         });
     }
 
