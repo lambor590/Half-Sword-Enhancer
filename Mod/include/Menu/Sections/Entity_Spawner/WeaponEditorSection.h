@@ -896,33 +896,6 @@ private:
             }
         }
 
-        if (ImGui::Button("Export to File", ImVec2(halfWidth, 0))) {
-            auto path = WeaponPresetSerializer::ShowSaveFileDialog();
-            if (path) {
-                auto data = BuildPresetData();
-                if (data.name.empty())
-                    data.name = "Exported Preset";
-                if (WeaponPresetSerializer::SaveToFile(*path, weaponPassport, data))
-                    SetStatus("Exported to file");
-                else
-                    SetStatus("Error exporting file");
-            }
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Import from File", ImVec2(halfWidth, 0))) {
-            auto path = WeaponPresetSerializer::ShowOpenFileDialog();
-            if (path) {
-                auto result = WeaponPresetSerializer::LoadFromFile(*path);
-                if (result.success) {
-                    ApplyPresetData(result);
-                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    SetStatus("Imported: " + result.name);
-                } else {
-                    SetStatus("Error: " + result.error);
-                }
-            }
-        }
-
         ImGui::PopID();
     }
 

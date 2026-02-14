@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <filesystem>
-#include <optional>
 #include <cstdio>
 #include <cstring>
 
@@ -456,44 +455,5 @@ public:
         auto dir = GetPresetsDirectory();
         auto filename = SanitizeFilename(name) + ".ini";
         return SaveToFile(dir / filename, passport, data);
-    }
-
-    static std::optional<std::string> ShowSaveFileDialog() {
-        char filename[MAX_PATH] = "";
-        OPENFILENAMEA ofn = {};
-        ofn.lStructSize = sizeof(ofn);
-        ofn.hwndOwner = (HWND)ImGui::GetMainViewport()->PlatformHandleRaw;
-        ofn.lpstrFilter = "Weapon Presets (*.ini)\0*.ini\0All Files\0*.*\0";
-        ofn.lpstrFile = filename;
-        ofn.nMaxFile = MAX_PATH;
-        ofn.lpstrDefExt = "ini";
-        ofn.Flags = OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
-        ofn.lpstrTitle = "Export Weapon Preset";
-
-        auto dir = GetPresetsDirectory().string();
-        ofn.lpstrInitialDir = dir.c_str();
-
-        if (GetSaveFileNameA(&ofn))
-            return std::string(filename);
-        return std::nullopt;
-    }
-
-    static std::optional<std::string> ShowOpenFileDialog() {
-        char filename[MAX_PATH] = "";
-        OPENFILENAMEA ofn = {};
-        ofn.lStructSize = sizeof(ofn);
-        ofn.hwndOwner = (HWND)ImGui::GetMainViewport()->PlatformHandleRaw;
-        ofn.lpstrFilter = "Weapon Presets (*.ini)\0*.ini\0All Files\0*.*\0";
-        ofn.lpstrFile = filename;
-        ofn.nMaxFile = MAX_PATH;
-        ofn.Flags = OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
-        ofn.lpstrTitle = "Import Weapon Preset";
-
-        auto dir = GetPresetsDirectory().string();
-        ofn.lpstrInitialDir = dir.c_str();
-
-        if (GetOpenFileNameA(&ofn))
-            return std::string(filename);
-        return std::nullopt;
     }
 };
