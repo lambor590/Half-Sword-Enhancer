@@ -85,9 +85,20 @@ namespace SectionConfig {
         uint16_t currentItemIndex = 0;
     };
 
+    struct WeaponEditorConfig {
+        int weaponType = 1;
+        int weaponTier = 4;
+        float spawnDistanceForward = 150.0f;
+        float spawnDistanceUp = 50.0f;
+        float spawnScale = 1.0f;
+        bool snapToGround = true;
+        int spawnKey = -1;
+    };
+
     inline PlayerConfig player;
     inline WorldConfig world;
     inline NPCConfig npc;
     inline ItemConfig item;
+    inline WeaponEditorConfig weaponEditor;
 
 }

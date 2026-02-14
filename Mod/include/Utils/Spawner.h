@@ -27,6 +27,7 @@ namespace Spawner {
     void SpawnCustomizableWeapon(const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround = false, int tier = 4);
     void SpawnWeaponFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround = false);
     void SpawnArmorFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform, bool snapToGround = false);
+    void SpawnCustomizableFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround = false, std::function<void(SDK::AActor*)> callback = nullptr);
 
     SDK::UClass* LoadClass(const std::string& classPath);
 }

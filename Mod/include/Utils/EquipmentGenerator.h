@@ -12,6 +12,7 @@ namespace EquipmentGenerator {
 
     void Init(const SDK::UWorld* world);
     void ClearCache();
+    SDK::UClass* GetCustomizableModulesClass(CustomizableWeapon type);
 
     SDK::FStr_Passport_Weapon1 GenerateWeapon(SDK::Enum_WeaponType type, SDK::Enum_Ranks tier);
     SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(SDK::UClass* weaponClass, SDK::Enum_Ranks tier);

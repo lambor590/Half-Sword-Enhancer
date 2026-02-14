@@ -260,6 +260,29 @@ namespace Spawner {
         return LoadActorClass(classPath);
     }
 
+    void SpawnCustomizableFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround, std::function<void(SDK::AActor*)> callback) {
+        GameHook::QueueAction([world, passport, transform, snapToGround, callback]() {
+            SDK::FTransform finalTransform = transform;
+
+            if (snapToGround) {
+                float groundOffset = GetGroundOffsetForType(ActorType::Weapon, transform.Scale3D);
+                finalTransform.Translation = GetGroundPosition(world, transform.Translation, groundOffset);
+            }
+
+            SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();
+            auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+                world, weaponClass, finalTransform,
+                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            if (!actor) return;
+
+            static_cast<SDK::AModularWeaponBP_Customizable_C*>(actor)->Weapon_Passport = passport;
+            SDK::UGameplayStatics::FinishSpawningActor(actor, finalTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+
+            if (callback) callback(actor);
+        });
+    }
+
     void SpawnCustomizableWeapon(const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround, int tier) {
         GameHook::QueueAction([world, type, transform, snapToGround, tier]() {
             SDK::FTransform finalTransform = transform;

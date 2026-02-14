@@ -97,7 +97,7 @@ namespace EquipmentGenerator {
         return output;
     }
 
-    static SDK::UClass* GetCustomizableModulesClass(CustomizableWeapon type) {
+    SDK::UClass* GetCustomizableModulesClass(CustomizableWeapon type) {
         switch (type) {
             case CustomizableWeapon::SwordArming:  return SDK::UBP_GameWeapon_Customizable_Sword_Arming_C::StaticClass();
             case CustomizableWeapon::SwordShort:   return SDK::UBP_GameWeapon_Customizable_Sword_Short_C::StaticClass();
