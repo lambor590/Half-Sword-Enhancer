@@ -45,8 +45,6 @@ private:
     bool weaponGenerated = false;
     bool weaponGenerationPending = false;
 
-    // Runtime property overrides
-
     struct RuntimeOverride {
         bool enabled = false;
         double value = 0.0;
@@ -90,8 +88,6 @@ private:
     SDK::FStr_Passport_Weapon1 lastPreviewedPassport{};
     WeaponRuntimeProps lastPreviewedProps{};
 
-    // Global Module Pool
-
     struct GlobalModuleEntry {
         SDK::UClass* cls;
         std::string name;
@@ -105,7 +101,6 @@ private:
 
     char moduleFilters[6][64] = {};
 
-    // Preset state
     char presetNameBuf[128] = {};
     std::vector<PresetListEntry> presetList;
     bool presetListDirty = true;
@@ -149,8 +144,6 @@ private:
         globalModules.populated = true;
     }
 
-    // Random helpers
-
     static int RandomInt(int min, int max) {
         static thread_local std::mt19937 rng{std::random_device{}()};
         std::uniform_int_distribution<int> dist(min, max);
@@ -165,8 +158,6 @@ private:
         if (count == 0) return 4;
         return validTiers[RandomInt(0, count - 1)];
     }
-
-    // Passport creation
 
     void CreateBlankWeaponPassport() {
         weaponPassport = {};
@@ -336,8 +327,6 @@ private:
         Spawner::SpawnCustomizableFromPassport(world, weaponPassport, spawnTransform, cfg.snapToGround, callback);
     }
 
-    // UI helpers
-
     static bool MatchesFilter(const std::string& name, const char* filter) {
         if (!filter[0]) return true;
         auto toLower = [](char c) { return static_cast<char>(std::tolower(static_cast<unsigned char>(c))); };
@@ -487,8 +476,6 @@ private:
         RenderMassDrag(massId, mass);
     }
 
-    // Runtime property UI helpers
-
     static void RenderOverrideDrag(const char* label, RuntimeOverride& ovr, float speed = 0.1f, float min = 0.0f, float max = 0.0f) {
         ImGui::PushID(label);
         ImGui::Checkbox("##en", &ovr.enabled);
@@ -520,8 +507,6 @@ private:
         if (!ovr.enabled) ImGui::EndDisabled();
         ImGui::PopID();
     }
-
-    // Tab renderers
 
     void RenderGenerationControls() {
         ImGui::PushID("gen");
@@ -746,8 +731,6 @@ private:
         ImGui::PopID();
     }
 
-    // Preset helpers
-
     WeaponPresetData BuildPresetData() const {
         WeaponPresetData d;
         d.name = presetNameBuf;
@@ -816,7 +799,6 @@ private:
     void RenderPresetsTab() {
         ImGui::PushID("presets");
 
-        // Status message with auto-cleanup (3 seconds)
         if (!statusMessage.empty()) {
             if (ImGui::GetTime() - statusMessageTime > 3.0)
                 statusMessage.clear();
@@ -824,7 +806,6 @@ private:
                 ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "%s", statusMessage.c_str());
         }
 
-        // Save section
         ImGui::TextDisabled("Save");
         float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
@@ -847,7 +828,6 @@ private:
         ImGui::Separator();
         ImGui::Spacing();
 
-        // Preset list
         ImGui::TextDisabled("Presets");
         if (presetListDirty)
             RefreshPresetList();
@@ -891,7 +871,6 @@ private:
         ImGui::Separator();
         ImGui::Spacing();
 
-        // Share section
         ImGui::TextDisabled("Share");
         float halfWidth = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
         if (ImGui::Button("Copy to Clipboard", ImVec2(halfWidth, 0))) {

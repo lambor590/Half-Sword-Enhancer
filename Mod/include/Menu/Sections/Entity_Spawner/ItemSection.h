@@ -62,8 +62,6 @@ private:
         "Tools", "Shields", "Improvised", "Ranged", "Treasure", "Unique"
     };
 
-    // --- Customizable weapon subcategories ---
-
     static constexpr ItemArray<3> swordItems{{
         {"Arming Sword", CustomizableWeapon::SwordArming},
         {"Short Sword", CustomizableWeapon::SwordShort},
@@ -103,8 +101,6 @@ private:
     static constexpr ItemArray<1> messerItems{{
         {"Messer", CustomizableWeapon::Messer},
     }};
-
-    // --- Legacy weapon subcategories (direct class paths) ---
 
     static constexpr ItemArray<2> axeItems{{
         {"Axe", WEAPON_PATH("/Reforged/ModularWeaponBP_Axe.ModularWeaponBP_Axe_C")},
@@ -208,8 +204,6 @@ private:
     static constexpr ItemArray<1> uniqueWeaponItems{{
         {"Baron Beak", WEAPON_PATH("/Unique/ModularWeaponBP_BaronBeak.ModularWeaponBP_BaronBeak_C")}
     }};
-
-    // --- Armor items ---
 
     static constexpr ItemArray<42> helmetItems{{
         {"Armet", ARMOR_PATH("/Metal/Head/BP_Armor_Head_Armet_001.BP_Armor_Head_Armet_001_C")},
@@ -359,8 +353,6 @@ private:
         {"Foulds T3", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T3.BP_Armor_Waist_Foulds_T3_C")}
     }};
 
-    // --- Props ---
-
     static constexpr ItemArray<37> propItems{{
         {"Basket", PROP_PATH("/Blueprints/BP_Container_Basket_001.BP_Container_Basket_001_C")},
         {"Candle", PROP_PATH("/Candle/Blueprints/BP_Candle.BP_Candle_C")},
@@ -400,8 +392,6 @@ private:
         {"Trap", TRAP_PATH("/Trap_BP.Trap_BP_C")},
         {"Trap Kettle", TRAP_PATH("/Trap_Kettle_BP.Trap_Kettle_BP_C")}
     }};
-
-    // --- Index arrays ---
 
     static constexpr std::array<const ItemInfo*, 17> weaponArrays{{
         swordItems.data(), maceItems.data(), haftedItems.data(),

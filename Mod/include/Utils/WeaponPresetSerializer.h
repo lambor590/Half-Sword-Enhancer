@@ -7,12 +7,9 @@
 #include <cstdio>
 #include <cstring>
 
-#include "../../ext/SimpleIni.h"
 #include "ConfigManager.h"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
-#include <Windows.h>
-#include <commdlg.h>
 
 struct WeaponPresetData {
     SDK::FStr_Passport_Weapon1 passport{};
@@ -43,8 +40,6 @@ struct PresetListEntry {
 class WeaponPresetSerializer {
 private:
     static constexpr const char* CLIPBOARD_PREFIX = "HSE:";
-
-    // --- Base64 ---
 
     static std::string Base64Encode(const std::string& input) {
         static constexpr const char TABLE[] =
@@ -90,8 +85,6 @@ private:
         return out;
     }
 
-    // --- UClass* serialization ---
-
     static std::string ClassToString(SDK::UClass* cls) {
         return cls ? cls->GetName() : "";
     }
@@ -100,8 +93,6 @@ private:
         if (name.empty()) return nullptr;
         return SDK::UObject::FindClassFast(name);
     }
-
-    // --- INI helpers ---
 
     static std::string VecToString(const SDK::FVector& v) {
         char buf[96];
@@ -163,8 +154,6 @@ private:
         value = val != 0;
     }
 
-    // --- Default checks for minimal mode ---
-
     static bool IsDefaultVec(const SDK::FVector& v) {
         return std::abs(v.X - 1.0) < 1e-4 && std::abs(v.Y - 1.0) < 1e-4 && std::abs(v.Z - 1.0) < 1e-4;
     }
@@ -180,8 +169,6 @@ private:
 
     static constexpr SDK::FLinearColor DEFAULT_WOOD_COLOR = {0.4f, 0.26f, 0.13f, 1.0f};
     static constexpr SDK::FLinearColor DEFAULT_LEATHER_COLOR = {0.3f, 0.18f, 0.08f, 1.0f};
-
-    // --- Filename sanitization ---
 
     static std::string SanitizeFilename(const std::string& name) {
         std::string result;
@@ -214,7 +201,6 @@ public:
                 ini.SetValue(section, key, val.c_str());
         };
 
-        // Passport
         setIfNotDefault("Passport", "weaponClass", ClassToString(passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC), "");
         setIfNotDefault("Passport", "headModule", ClassToString(passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139), "");
         setIfNotDefault("Passport", "guardModule", ClassToString(passport.GuardModule_13_6DD2B06245505E53B529D090333012F0), "");
@@ -262,7 +248,6 @@ public:
         if (!minimalMode || std::abs(passport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5 - 100.0) > 0.01)
             ini.SetValue("Passport", "price", std::to_string(passport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5).c_str());
 
-        // Runtime overrides
         const auto& rp = data.runtimeProps;
         auto setOvr = [&](const char* key, bool enabled, double val) {
             if (!minimalMode || enabled)
@@ -353,7 +338,6 @@ public:
         p.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 = static_cast<SDK::Enum_Ranks>(std::atoi(ini.GetValue("Passport", "tier", "4")));
         p.Price_60_83FE5A624EA188485BBE4E9C8606AEE5 = std::atof(ini.GetValue("Passport", "price", "100.0"));
 
-        // Runtime overrides
         auto& rp = result.runtimeProps;
         ParseDoubleOverride(ini.GetValue("Overrides", "rigidity", ""), rp.rigidity.enabled, rp.rigidity.value);
         ParseDoubleOverride(ini.GetValue("Overrides", "edgeSharpness", ""), rp.edgeSharpness.enabled, rp.edgeSharpness.value);
@@ -380,8 +364,6 @@ public:
         return result;
     }
 
-    // --- Clipboard ---
-
     static std::string EncodeForClipboard(const SDK::FStr_Passport_Weapon1& passport,
         const WeaponPresetData& data)
     {
@@ -403,8 +385,6 @@ public:
         }
         return DeserializeFromIni(decoded);
     }
-
-    // --- File operations ---
 
     static std::filesystem::path GetPresetsDirectory() {
         auto dir = ConfigManager::GetAppDataPath() / "weapon_presets";
@@ -478,13 +458,11 @@ public:
         return SaveToFile(dir / filename, passport, data);
     }
 
-    // --- Win32 file dialogs ---
-
     static std::optional<std::string> ShowSaveFileDialog() {
         char filename[MAX_PATH] = "";
         OPENFILENAMEA ofn = {};
         ofn.lStructSize = sizeof(ofn);
-        ofn.hwndOwner = nullptr;
+        ofn.hwndOwner = (HWND)ImGui::GetMainViewport()->PlatformHandleRaw;
         ofn.lpstrFilter = "Weapon Presets (*.ini)\0*.ini\0All Files\0*.*\0";
         ofn.lpstrFile = filename;
         ofn.nMaxFile = MAX_PATH;
@@ -504,7 +482,7 @@ public:
         char filename[MAX_PATH] = "";
         OPENFILENAMEA ofn = {};
         ofn.lStructSize = sizeof(ofn);
-        ofn.hwndOwner = nullptr;
+        ofn.hwndOwner = (HWND)ImGui::GetMainViewport()->PlatformHandleRaw;
         ofn.lpstrFilter = "Weapon Presets (*.ini)\0*.ini\0All Files\0*.*\0";
         ofn.lpstrFile = filename;
         ofn.nMaxFile = MAX_PATH;
