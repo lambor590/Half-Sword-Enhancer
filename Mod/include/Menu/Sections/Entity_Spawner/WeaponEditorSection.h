@@ -399,10 +399,12 @@ private:
     }
 
     static void RenderColorEditor(const char* label, SDK::FLinearColor& color) {
+        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
         float col[4] = {color.R, color.G, color.B, color.A};
         if (ImGui::ColorEdit4(label, col)) {
             color.R = col[0]; color.G = col[1]; color.B = col[2]; color.A = col[3];
         }
+        ImGui::PopItemWidth();
     }
 
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f) {
@@ -419,9 +421,11 @@ private:
     }
 
     static void RenderPriceDrag(const char* label, double& price, float speed = 1.0f) {
+        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
         float val = static_cast<float>(price);
         if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.1f"))
             price = val;
+        ImGui::PopItemWidth();
     }
 
     static void RenderFreeTierCombo(const char* label, int& tier) {
