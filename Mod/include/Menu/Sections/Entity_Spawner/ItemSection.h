@@ -9,6 +9,7 @@
 #include "Hooks/GameHook.h"
 #include "Utils/Spawner.h"
 #include "Utils/EquipmentGenerator.h"
+#include "Utils/TierValidation.h"
 
 #define WEAPON_PATH(s) "/Game/Assets/Weapons/Blueprints/Built_Weapons" s
 #define ARMOR_PATH(s) "/Game/Assets/Armor/Blueprints/Built_Armor" s
@@ -448,43 +449,6 @@ private:
         0
     }};
 
-    static constexpr std::array<uint16_t, 20> VALID_TIER_MASKS = {{
-        0x000,  // None
-        0x1EC,  // SwordArming: 2,3,5,6,7,8
-        0x1FC,  // SwordShort: 2,3,4,5,6,7,8
-        0x1CC,  // SwordLong: 2,3,6,7,8
-        0x1F4,  // MaceShort: 2,4,5,6,7,8
-        0x1E8,  // Mace: 3,5,6,7,8
-        0x1F8,  // MaceLong: 3,4,5,6,7,8
-        0x1FC,  // HaftedShort: 2,3,4,5,6,7,8
-        0x1CC,  // Hafted: 2,3,6,7,8
-        0x1EC,  // HaftedLong: 2,3,5,6,7,8
-        0x1FC,  // PolearmShort: 2,3,4,5,6,7,8
-        0x1F0,  // Polearm: 4,5,6,7,8
-        0x1F0,  // PolearmLong: 4,5,6,7,8
-        0x1FC,  // PollaxeShort: 2,3,4,5,6,7,8
-        0x1EC,  // Pollaxe: 2,3,5,6,7,8
-        0x1D4,  // PollaxeLong: 2,4,6,7,8
-        0x1FC,  // CastedShort: 2,3,4,5,6,7,8
-        0x1F4,  // Casted: 2,4,5,6,7,8
-        0x1F8,  // CastedLong: 3,4,5,6,7,8
-        0x1EC,  // Messer: 2,3,5,6,7,8
-    }};
-
-    static constexpr std::array<uint16_t, 15> VALID_ARMOR_TIER_MASKS = {{
-        0x0FE, 0x0F8, 0x0F0, 0x0F0, 0x0E0, 0x0F0, 0x0C0,
-        0x0F8, 0x0F0, 0x0E0, 0x0FF, 0x0C0, 0x0F8, 0x0FE, 0x0FF,
-    }};
-
-    static int NearestValidTier(uint16_t mask, int tier) noexcept {
-        if (mask & (1 << tier)) return tier;
-        for (int d = 1; d <= 8; ++d) {
-            if (tier + d <= 8 && (mask & (1 << (tier + d)))) return tier + d;
-            if (tier - d >= 0 && (mask & (1 << (tier - d)))) return tier - d;
-        }
-        return 4;
-    }
-
     static inline std::vector<const char*> cachedItemNames;
     static inline uint8_t lastCategoryIndex = 255;
     static inline uint8_t lastSubcategoryIndex = 255;
@@ -736,8 +700,8 @@ public:
                 if (cfg.currentItemIndex < weaponSizes[sub]) {
                     const auto& currentItem = weaponArrays[sub][cfg.currentItemIndex];
                     if (currentItem.customizable != CustomizableWeapon::None) {
-                        uint16_t mask = VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)];
-                        cfg.spawnTier = NearestValidTier(mask, cfg.spawnTier);
+                        uint16_t mask = TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)];
+                        cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
 
                         char preview[16];
                         std::snprintf(preview, sizeof(preview), "Tier %d", cfg.spawnTier);
@@ -757,9 +721,9 @@ public:
                     }
                 }
             } else if (cfg.currentCategoryIndex == RANDOM_ARMOR_INDEX) {
-                if (cfg.currentItemIndex < VALID_ARMOR_TIER_MASKS.size()) {
-                    uint16_t mask = VALID_ARMOR_TIER_MASKS[cfg.currentItemIndex];
-                    cfg.spawnTier = NearestValidTier(mask, cfg.spawnTier);
+                if (cfg.currentItemIndex < TierValidation::VALID_ARMOR_TIER_MASKS.size()) {
+                    uint16_t mask = TierValidation::VALID_ARMOR_TIER_MASKS[cfg.currentItemIndex];
+                    cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
 
                     char preview[16];
                     std::snprintf(preview, sizeof(preview), "Tier %d", cfg.spawnTier);
