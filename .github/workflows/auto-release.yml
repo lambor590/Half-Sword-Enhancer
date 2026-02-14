@@ -60,27 +60,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fetch beta changelog
-        id: fetch_beta
+      - name: Fetch experimental changelog
+        id: fetch_experimental
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          BETA_BODY=$(gh release view beta-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null) || true
-          CHANGELOG=$(echo "$BETA_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
+          EXPERIMENTAL_BODY=$(gh release view experimental-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null) || true
+          CHANGELOG=$(echo "$EXPERIMENTAL_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
 
           if [ -z "$CHANGELOG" ]; then
-            echo "WARNING: No beta changelog found"
-            echo "has_beta_changelog=false" >> $GITHUB_OUTPUT
+            echo "WARNING: No experimental changelog found"
+            echo "has_experimental_changelog=false" >> $GITHUB_OUTPUT
           else
-            echo "has_beta_changelog=true" >> $GITHUB_OUTPUT
+            echo "has_experimental_changelog=true" >> $GITHUB_OUTPUT
             echo "$CHANGELOG" > accumulated_changelog.txt
           fi
 
       - name: Validate changelog
         env:
-          HAS_BETA: ${{ steps.fetch_beta.outputs.has_beta_changelog }}
+          HAS_EXPERIMENTAL: ${{ steps.fetch_experimental.outputs.has_experimental_changelog }}
         run: |
-          [ "$HAS_BETA" != "true" ] && echo "ERROR: beta-latest required" && exit 1
+          [ "$HAS_EXPERIMENTAL" != "true" ] && echo "ERROR: experimental-latest required" && exit 1
           cp accumulated_changelog.txt changelog.txt
 
       - name: Upload changelog artifact
@@ -165,11 +165,11 @@ jobs:
 
           gh release create "$VERSION" --repo "${{ github.repository }}" --title "$VERSION" --draft --notes-file release_body.md release_files/*
 
-      - name: Reset beta changelog
+      - name: Reset experimental changelog
         run: |
-          gh release edit beta-latest --repo "${{ github.repository }}" --notes "$(cat <<'EOF'
+          gh release edit experimental-latest --repo "${{ github.repository }}" --notes "$(cat <<'EOF'
           > [!WARNING]
-          > **Beta Build** — May contain bugs or incomplete features
+          > **Experimental Build** — May contain bugs or incomplete features
 
           *No changes since ${{ env.VERSION }}*
 
@@ -189,4 +189,4 @@ jobs:
           2. Extract and follow instructions in README
           </details>
           EOF
-          )" || echo "WARNING: Could not reset beta-latest changelog"
+          )" || echo "WARNING: Could not reset experimental-latest changelog"
