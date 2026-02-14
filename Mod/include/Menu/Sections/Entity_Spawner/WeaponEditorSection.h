@@ -402,14 +402,12 @@ private:
         char sizeId[32];
         std::snprintf(sizeId, sizeof(sizeId), "##size_%s", label);
         RenderVectorDrag(sizeId, size);
-        TooltipHelper::ShowTooltip("XYZ dimensions (1.0 = default)");
 
         ImGui::SameLine();
         ImGui::SetNextItemWidth(massWidth);
         char massId[32];
         std::snprintf(massId, sizeof(massId), "##mass_%s", label);
         RenderMassDrag(massId, mass);
-        TooltipHelper::ShowTooltip("Weight multiplier (1.0 = default)");
     }
 
     // Runtime property UI helpers
@@ -458,13 +456,11 @@ private:
         int typeIdx = cfg.weaponType - 1;
         if (ImGui::Combo("##Type", &typeIdx, WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT))
             cfg.weaponType = typeIdx + 1;
-        TooltipHelper::ShowTooltip("Weapon family determines available modules and valid tiers");
 
         ImGui::SameLine();
         uint16_t weaponMask = TierValidation::VALID_TIER_MASKS[cfg.weaponType];
         ImGui::SetNextItemWidth(avail * 0.38f - spacing * 0.5f);
         RenderValidatedTierCombo("##GenTier", cfg.weaponTier, weaponMask);
-        TooltipHelper::ShowTooltip("Only valid tiers for this weapon type are shown");
 
         ImGui::Spacing();
         if (ImGui::Button("New")) {
@@ -473,24 +469,20 @@ private:
                 CreateBlankWeaponPassport();
             });
         }
-        TooltipHelper::ShowTooltip("Create a blank passport with default values");
         ImGui::SameLine();
         if (ImGui::Button("Generate")) {
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
                 GenerateWeaponPassport();
         }
-        TooltipHelper::ShowTooltip("Generate using selected type and tier");
         ImGui::SameLine();
         if (ImGui::Button("Randomize")) {
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
                 RandomizeWeaponPassport();
         }
-        TooltipHelper::ShowTooltip("Pick random type and valid tier, then generate");
         if (weaponGenerated) {
             ImGui::SameLine();
             if (ImGui::Button("Reset"))
                 CreateBlankWeaponPassport();
-            TooltipHelper::ShowTooltip("Reset to blank defaults");
         }
 
         if (weaponGenerationPending) {
@@ -513,30 +505,24 @@ private:
         RenderFilteredModuleCombo("Head",
             weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139,
             globalModules.heads, moduleFilters[0]);
-        TooltipHelper::ShowTooltip("Blade or striking head of the weapon");
         RenderFilteredModuleCombo("Guard",
             weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0,
             globalModules.guards, moduleFilters[1]);
-        TooltipHelper::ShowTooltip("Crossguard or hand protection");
         RenderFilteredModuleCombo("Grip",
             weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4,
             globalModules.grips, moduleFilters[2]);
-        TooltipHelper::ShowTooltip("Handle section of the weapon");
         RenderFilteredModuleCombo("Pommel",
             weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6,
             globalModules.pommels, moduleFilters[3]);
-        TooltipHelper::ShowTooltip("End cap that balances the weapon");
         if (!globalModules.subMods1.empty()) {
             RenderFilteredModuleCombo("Sub-Mod 1",
                 weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D,
                 globalModules.subMods1, moduleFilters[4]);
-            TooltipHelper::ShowTooltip("Optional head attachment (spike, hook, etc.)");
         }
         if (!globalModules.subMods2.empty()) {
             RenderFilteredModuleCombo("Sub-Mod 2",
                 weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9,
                 globalModules.subMods2, moduleFilters[5]);
-            TooltipHelper::ShowTooltip("Secondary head attachment");
         }
 
         ImGui::PopID();
@@ -545,7 +531,13 @@ private:
     void RenderGeometryTab() {
         ImGui::PushID("geometry");
 
-        ImGui::TextDisabled("Size (XYZ)                     Mass");
+        float headerAvail = ImGui::GetContentRegionAvail().x;
+        ImGui::AlignTextToFramePadding();
+        ImGui::Dummy(ImVec2(0, 0));
+        ImGui::SameLine(65.0f);
+        ImGui::TextDisabled("Size (XYZ)");
+        ImGui::SameLine(headerAvail - 70.0f + ImGui::GetStyle().ItemSpacing.x);
+        ImGui::TextDisabled("Mass");
         RenderSizeMassRow("Head",
             weaponPassport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57,
             weaponPassport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7);
@@ -570,7 +562,6 @@ private:
             weaponPassport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 = 1.0;
             weaponPassport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 = 1.0;
         }
-        TooltipHelper::ShowTooltip("Reset all sizes and masses to default (1.0)");
 
         ImGui::PopID();
     }
@@ -580,22 +571,16 @@ private:
 
         ImGui::TextDisabled("Metal");
         RenderMaterialCombo("Steel", weaponPassport.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36);
-        TooltipHelper::ShowTooltip("Primary steel material for blade and metal parts");
         RenderMaterialCombo("Colored", weaponPassport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2);
-        TooltipHelper::ShowTooltip("Secondary metal finish for accents and details");
 
         ImGui::Spacing();
         ImGui::TextDisabled("Organic");
         RenderMaterialCombo("Wood", weaponPassport.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A);
-        TooltipHelper::ShowTooltip("Wood material for handle and wooden parts");
         RenderColorEditor("Wood Color", weaponPassport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743);
-        TooltipHelper::ShowTooltip("Tint applied to wooden parts");
 
         ImGui::Spacing();
         RenderMaterialCombo("Leather", weaponPassport.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB);
-        TooltipHelper::ShowTooltip("Leather material for grip wrapping");
         RenderColorEditor("Leather Color", weaponPassport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638);
-        TooltipHelper::ShowTooltip("Tint applied to leather parts");
 
         ImGui::PopID();
     }
