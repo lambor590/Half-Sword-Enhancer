@@ -15,10 +15,9 @@
 #include "Utils/CustomizableWeapon.h"
 #include "Utils/TierValidation.h"
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
-#include "SDK/Str_Passport_Weapon1_structs.hpp"
-#include "SDK/Enum_MaterialLayer_structs.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
+#include "Utils/WeaponPresetSerializer.h"
 
 class WeaponEditorSection : public CollapsibleSection {
 private:
@@ -105,6 +104,13 @@ private:
     } globalModules;
 
     char moduleFilters[6][64] = {};
+
+    // Preset state
+    char presetNameBuf[128] = {};
+    std::vector<PresetListEntry> presetList;
+    bool presetListDirty = true;
+    std::string statusMessage;
+    double statusMessageTime = 0.0;
 
     static bool ContainsClass(const std::vector<GlobalModuleEntry>& vec, SDK::UClass* cls) {
         for (const auto& e : vec)
@@ -736,6 +742,207 @@ private:
         ImGui::PopID();
     }
 
+    // Preset helpers
+
+    WeaponPresetData BuildPresetData() const {
+        WeaponPresetData d;
+        d.name = presetNameBuf;
+        d.passport = weaponPassport;
+        auto& dst = d.runtimeProps;
+        const auto& src = runtimeProps;
+        dst.rigidity       = {src.rigidity.enabled, src.rigidity.value};
+        dst.edgeSharpness  = {src.edgeSharpness.enabled, src.edgeSharpness.value};
+        dst.rawDamage      = {src.rawDamage.enabled, src.rawDamage.value};
+        dst.cuttingRate    = {src.cuttingRate.enabled, src.cuttingRate.value};
+        dst.stabRate       = {src.stabRate.enabled, src.stabRate.value};
+        dst.defRating      = {src.defRating.enabled, src.defRating.value};
+        dst.gripRate       = {src.gripRate.enabled, src.gripRate.value};
+        dst.drawCutRate    = {src.drawCutRate.enabled, src.drawCutRate.value};
+        dst.tipSharpness   = {src.tipSharpness.enabled, src.tipSharpness.value};
+        dst.kickPower      = {src.kickPower.enabled, src.kickPower.value};
+        dst.matDensity     = {src.matDensity.enabled, src.matDensity.value};
+        dst.dismemberSharp = {src.dismemberSharp.enabled, src.dismemberSharp.value};
+        dst.dismemberBlunt = {src.dismemberBlunt.enabled, src.dismemberBlunt.value};
+        dst.doubleEdged    = {src.doubleEdged.enabled, src.doubleEdged.value};
+        dst.piercing       = {src.piercing.enabled, src.piercing.value};
+        dst.noStab         = {src.noStab.enabled, src.noStab.value};
+        dst.staminaBurnR   = {src.staminaBurnR.enabled, src.staminaBurnR.value};
+        dst.staminaBurnL   = {src.staminaBurnL.enabled, src.staminaBurnL.value};
+        dst.staminaBurn2H  = {src.staminaBurn2H.enabled, src.staminaBurn2H.value};
+        dst.staminaBurn2HAlt = {src.staminaBurn2HAlt.enabled, src.staminaBurn2HAlt.value};
+        return d;
+    }
+
+    void ApplyPresetData(const WeaponPresetData& d) {
+        weaponPassport = d.passport;
+        const auto& src = d.runtimeProps;
+        runtimeProps.rigidity       = {src.rigidity.enabled, src.rigidity.value};
+        runtimeProps.edgeSharpness  = {src.edgeSharpness.enabled, src.edgeSharpness.value};
+        runtimeProps.rawDamage      = {src.rawDamage.enabled, src.rawDamage.value};
+        runtimeProps.cuttingRate    = {src.cuttingRate.enabled, src.cuttingRate.value};
+        runtimeProps.stabRate       = {src.stabRate.enabled, src.stabRate.value};
+        runtimeProps.defRating      = {src.defRating.enabled, src.defRating.value};
+        runtimeProps.gripRate       = {src.gripRate.enabled, src.gripRate.value};
+        runtimeProps.drawCutRate    = {src.drawCutRate.enabled, src.drawCutRate.value};
+        runtimeProps.tipSharpness   = {src.tipSharpness.enabled, src.tipSharpness.value};
+        runtimeProps.kickPower      = {src.kickPower.enabled, src.kickPower.value};
+        runtimeProps.matDensity     = {src.matDensity.enabled, src.matDensity.value};
+        runtimeProps.dismemberSharp = {src.dismemberSharp.enabled, src.dismemberSharp.value};
+        runtimeProps.dismemberBlunt = {src.dismemberBlunt.enabled, src.dismemberBlunt.value};
+        runtimeProps.doubleEdged    = {src.doubleEdged.enabled, src.doubleEdged.value};
+        runtimeProps.piercing       = {src.piercing.enabled, src.piercing.value};
+        runtimeProps.noStab         = {src.noStab.enabled, src.noStab.value};
+        runtimeProps.staminaBurnR   = {src.staminaBurnR.enabled, src.staminaBurnR.value};
+        runtimeProps.staminaBurnL   = {src.staminaBurnL.enabled, src.staminaBurnL.value};
+        runtimeProps.staminaBurn2H  = {src.staminaBurn2H.enabled, src.staminaBurn2H.value};
+        runtimeProps.staminaBurn2HAlt = {src.staminaBurn2HAlt.enabled, src.staminaBurn2HAlt.value};
+        weaponGenerated = true;
+    }
+
+    void SetStatus(const std::string& msg) {
+        statusMessage = msg;
+        statusMessageTime = ImGui::GetTime();
+    }
+
+    void RefreshPresetList() {
+        presetList = WeaponPresetSerializer::ListPresets();
+        presetListDirty = false;
+    }
+
+    void RenderPresetsTab() {
+        ImGui::PushID("presets");
+
+        // Status message with auto-cleanup (3 seconds)
+        if (!statusMessage.empty()) {
+            if (ImGui::GetTime() - statusMessageTime > 3.0)
+                statusMessage.clear();
+            else
+                ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "%s", statusMessage.c_str());
+        }
+
+        // Save section
+        ImGui::TextDisabled("Save");
+        float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
+        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
+        ImGui::InputTextWithHint("##PresetName", "Preset name...", presetNameBuf, sizeof(presetNameBuf));
+        ImGui::SameLine();
+        bool canSave = presetNameBuf[0] != '\0';
+        if (!canSave) ImGui::BeginDisabled();
+        if (ImGui::Button("Save")) {
+            auto data = BuildPresetData();
+            if (WeaponPresetSerializer::SavePresetByName(presetNameBuf, weaponPassport, data)) {
+                SetStatus("Saved: " + std::string(presetNameBuf));
+                presetListDirty = true;
+            } else {
+                SetStatus("Error saving preset");
+            }
+        }
+        if (!canSave) ImGui::EndDisabled();
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        // Preset list
+        ImGui::TextDisabled("Presets");
+        if (presetListDirty)
+            RefreshPresetList();
+
+        if (presetList.empty()) {
+            ImGui::TextDisabled("No saved presets");
+        } else {
+            for (size_t i = 0; i < presetList.size(); ++i) {
+                ImGui::PushID(static_cast<int>(i));
+                float loadW = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2;
+                float delW = ImGui::CalcTextSize("Del").x + ImGui::GetStyle().FramePadding.x * 2;
+                float spacing = ImGui::GetStyle().ItemSpacing.x;
+                float textW = ImGui::GetContentRegionAvail().x - loadW - delW - spacing * 2;
+
+                ImGui::AlignTextToFramePadding();
+                ImGui::TextUnformatted(presetList[i].name.c_str());
+                if (textW > 0) {
+                    ImGui::SameLine(textW);
+                }
+                if (ImGui::Button("Load")) {
+                    auto result = WeaponPresetSerializer::LoadFromFile(presetList[i].path);
+                    if (result.success) {
+                        ApplyPresetData(result);
+                        strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
+                        SetStatus("Loaded: " + result.name);
+                    } else {
+                        SetStatus("Error: " + result.error);
+                    }
+                }
+                ImGui::SameLine();
+                if (ImGui::Button("Del")) {
+                    WeaponPresetSerializer::DeletePreset(presetList[i].path);
+                    SetStatus("Deleted: " + presetList[i].name);
+                    presetListDirty = true;
+                }
+                ImGui::PopID();
+            }
+        }
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        // Share section
+        ImGui::TextDisabled("Share");
+        float halfWidth = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
+        if (ImGui::Button("Copy to Clipboard", ImVec2(halfWidth, 0))) {
+            auto data = BuildPresetData();
+            std::string encoded = WeaponPresetSerializer::EncodeForClipboard(weaponPassport, data);
+            ImGui::SetClipboardText(encoded.c_str());
+            SetStatus("Copied to clipboard");
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Paste from Clipboard", ImVec2(halfWidth, 0))) {
+            const char* clip = ImGui::GetClipboardText();
+            if (clip && clip[0]) {
+                auto result = WeaponPresetSerializer::DecodeFromClipboard(clip);
+                if (result.success) {
+                    ApplyPresetData(result);
+                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
+                    SetStatus("Pasted: " + result.name);
+                } else {
+                    SetStatus("Error: " + result.error);
+                }
+            } else {
+                SetStatus("Clipboard is empty");
+            }
+        }
+
+        if (ImGui::Button("Export to File", ImVec2(halfWidth, 0))) {
+            auto path = WeaponPresetSerializer::ShowSaveFileDialog();
+            if (path) {
+                auto data = BuildPresetData();
+                if (data.name.empty())
+                    data.name = "Exported Preset";
+                if (WeaponPresetSerializer::SaveToFile(*path, weaponPassport, data))
+                    SetStatus("Exported to file");
+                else
+                    SetStatus("Error exporting file");
+            }
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Import from File", ImVec2(halfWidth, 0))) {
+            auto path = WeaponPresetSerializer::ShowOpenFileDialog();
+            if (path) {
+                auto result = WeaponPresetSerializer::LoadFromFile(*path);
+                if (result.success) {
+                    ApplyPresetData(result);
+                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
+                    SetStatus("Imported: " + result.name);
+                } else {
+                    SetStatus("Error: " + result.error);
+                }
+            }
+        }
+
+        ImGui::PopID();
+    }
+
     void RenderSpawnFooter() {
         ImGui::Spacing();
         ImGui::Separator();
@@ -789,6 +996,7 @@ public:
                 if (ImGui::BeginTabItem("Geometry"))    { RenderGeometryTab();   ImGui::EndTabItem(); }
                 if (ImGui::BeginTabItem("Appearance"))  { RenderAppearanceTab(); ImGui::EndTabItem(); }
                 if (ImGui::BeginTabItem("Stats"))       { RenderStatsTab();      ImGui::EndTabItem(); }
+                if (ImGui::BeginTabItem("Presets"))     { RenderPresetsTab();    ImGui::EndTabItem(); }
                 ImGui::EndTabBar();
             }
         }
