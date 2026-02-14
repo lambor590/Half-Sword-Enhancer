@@ -151,6 +151,7 @@ void Gui::Render() {
             constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION;
         #endif
 
+        ImGui::SetNextWindowSizeConstraints(ImVec2(400, 300), ImVec2(FLT_MAX, FLT_MAX));
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(2, 2));
         if (ImGui::Begin(windowTitle, &isVisible, windowFlags)) {
             MenuManager::Get().RenderMenu();
