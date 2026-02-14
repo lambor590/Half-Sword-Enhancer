@@ -170,7 +170,7 @@ void KeyFunction<Derived>::Render() {
 
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, GuiConstants::MODAL_DIM_COLOR);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::kPopupPadding);
-    if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar)) {
+    if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings)) {
         if (cachedBindingCount == 1) {
             std::string conflictName{GuiConstants::UNKNOWN_TEXT};
             if (!cachedBoundFunctions.empty() && cachedBoundFunctions[0] && !cachedBoundFunctions[0]->GetName().empty()) {

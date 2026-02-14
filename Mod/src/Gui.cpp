@@ -37,7 +37,7 @@ namespace {
 
         ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(20.0f, 16.0f));
-        if (ImGui::BeginPopupModal("##version_mismatch", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar)) {
+        if (ImGui::BeginPopupModal("##version_mismatch", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings)) {
             auto& info = GameBuildInfo::Get();
             ImGui::Text("Game version mismatch detected");
             ImGui::Spacing();
