@@ -93,6 +93,7 @@ namespace SectionConfig {
         float spawnScale = 1.0f;
         bool snapToGround = true;
         int spawnKey = -1;
+        bool livePreview = false;
     };
 
     inline PlayerConfig player;

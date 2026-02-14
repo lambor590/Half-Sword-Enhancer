@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
+#include <cstring>
 #include <random>
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
@@ -17,6 +18,7 @@
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 #include "SDK/Enum_MaterialLayer_structs.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
+#include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 
 class WeaponEditorSection : public CollapsibleSection {
 private:
@@ -83,6 +85,11 @@ private:
         RuntimeOverride staminaBurn2H;
         RuntimeOverride staminaBurn2HAlt;
     } runtimeProps;
+
+    SDK::AActor* previewActor = nullptr;
+    double lastChangeTime = 0.0;
+    SDK::FStr_Passport_Weapon1 lastPreviewedPassport{};
+    WeaponRuntimeProps lastPreviewedProps{};
 
     // Global Module Pool
 
@@ -244,8 +251,68 @@ private:
                runtimeProps.staminaBurn2H.enabled || runtimeProps.staminaBurn2HAlt.enabled;
     }
 
+    void DestroyPreview() {
+        if (!previewActor) return;
+        SDK::AActor* actor = previewActor;
+        previewActor = nullptr;
+        GameHook::QueueAction([actor]() {
+            if (actor) actor->K2_DestroyActor();
+        });
+    }
+
+    void SpawnPreview() {
+        DestroyPreview();
+        if (!weaponGenerated) return;
+        if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+
+        lastPreviewedPassport = weaponPassport;
+        lastPreviewedProps = runtimeProps;
+
+        auto spawnTransform = player->GetTransform();
+        const auto forward = player->GetActorForwardVector();
+        spawnTransform.Translation.X += forward.X * cfg.spawnDistanceForward;
+        spawnTransform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
+        spawnTransform.Translation.Z += cfg.spawnDistanceUp;
+        spawnTransform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
+
+        auto props = runtimeProps;
+        bool hasOverrides = HasAnyRuntimeOverride();
+
+        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, spawnTransform, cfg.snapToGround,
+            [this, props, hasOverrides](SDK::AActor* actor) {
+                if (!cfg.livePreview) {
+                    actor->K2_DestroyActor();
+                    return;
+                }
+                auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+                weapon->Simulates_Physics = false;
+                weapon->Turn_Off_Collision();
+                actor->SetActorEnableCollision(false);
+                if (hasOverrides) ApplyRuntimeProps(actor, props);
+                previewActor = actor;
+            });
+    }
+
+    void UpdatePreview() {
+        static constexpr double REFRESH_COOLDOWN = 0.2;
+
+        bool needsUpdate = std::memcmp(&weaponPassport, &lastPreviewedPassport, sizeof(SDK::FStr_Passport_Weapon1)) != 0
+                        || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(WeaponRuntimeProps)) != 0;
+
+        if (!needsUpdate) return;
+        if (previewActor && (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN)) return;
+
+        lastChangeTime = ImGui::GetTime();
+        SpawnPreview();
+    }
+
     void SpawnFromPassport() {
         if (!weaponGenerated) return;
+
+        if (cfg.livePreview) {
+            cfg.livePreview = false;
+            DestroyPreview();
+        }
 
         auto spawnTransform = player->GetTransform();
         const auto forward = player->GetActorForwardVector();
@@ -690,7 +757,8 @@ public:
                 Parameter("snap_to_ground", "Snap to Ground", &cfg.snapToGround, "Snap spawned weapon to the ground"),
                 Parameter("distance_forward", "Forward Distance", &cfg.spawnDistanceForward, 50.0f, 300.0f, "Spawn distance in front of player"),
                 Parameter("distance_up", "Up Distance", &cfg.spawnDistanceUp, 0.0f, 200.0f, "Spawn height offset"),
-                Parameter("scale", "Scale", &cfg.spawnScale, 0.1f, 5.0f, "Size multiplier")
+                Parameter("scale", "Scale", &cfg.spawnScale, 0.1f, 5.0f, "Size multiplier"),
+                Parameter("live_preview", "Live Preview", &cfg.livePreview, "Auto-spawn preview weapon as you edit")
             })
             .WithTooltip("Spawns the currently edited weapon with runtime overrides applied")
             .Action([this]() { SpawnFromPassport(); }, player, world);
@@ -698,6 +766,9 @@ public:
 
     void RenderContent() override {
         SectionStyle::StyleRAII style;
+
+        if (previewActor && (!player || !world))
+            previewActor = nullptr;
 
         for (auto& function : functions) {
             function->Render();
@@ -707,6 +778,11 @@ public:
         RenderGenerationControls();
 
         if (weaponGenerated) {
+            if (ImGui::Checkbox("Live Preview", &cfg.livePreview)) {
+                if (!cfg.livePreview)
+                    DestroyPreview();
+            }
+
             ImGui::Spacing();
             if (ImGui::BeginTabBar("##WeaponEditorTabs")) {
                 if (ImGui::BeginTabItem("Modules"))    { RenderModulesTab();    ImGui::EndTabItem(); }
@@ -718,5 +794,8 @@ public:
         }
 
         RenderSpawnFooter();
+
+        if (cfg.livePreview && weaponGenerated)
+            UpdatePreview();
     }
 };
