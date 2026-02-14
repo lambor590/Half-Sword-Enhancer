@@ -16,11 +16,12 @@ namespace Spawner {
     namespace {
         std::unordered_map<std::string, SDK::UClass*> classCache;
 
-        constexpr std::array<std::pair<std::string_view, ActorType>, 12> TYPE_MAP = {{
+        constexpr std::array<std::pair<std::string_view, ActorType>, 13> TYPE_MAP = {{
             {"Willie_BP", ActorType::Willie},
             {"Customizable", ActorType::Weapon},
             {"ModularWeapon", ActorType::Weapon},
             {"BP_Weapon_Reforged", ActorType::Weapon},
+            {"Projectle", ActorType::Unknown},
             {"BP_Weapon_Ranged", ActorType::Weapon},
             {"BP_Weapon_Treasure", ActorType::Weapon},
             {"BP_Weapon_Improv", ActorType::Weapon},
