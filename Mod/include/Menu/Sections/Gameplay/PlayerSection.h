@@ -217,7 +217,9 @@ public:
 
                     if (nearest->IsA(SDK::AWillie_BP_C::StaticClass())) [[likely]] {
                         state.prevController = static_cast<SDK::AAIController*>(nearest->GetController());
-                        state.prevController->SetActorTickEnabled(false);
+                        if (state.prevController) [[likely]] {
+                            state.prevController->SetActorTickEnabled(false);
+                        }
                     }
                     controller->Possess(nearest);
                     nearest->Player = true;
