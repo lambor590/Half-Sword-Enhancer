@@ -17,8 +17,8 @@ void HSELauncher::SetupConsole() {
     auto localVersionResult = updateManager.GetLocalVersion();
     if (localVersionResult) {
         const auto versionStr = localVersionResult->ToString();
-#ifdef BETA_VERSION
-        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Beta Build" + versionStr).c_str());
+#ifdef EXPERIMENTAL_VERSION
+        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Experimental Build" + versionStr).c_str());
 #else
         SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer " + versionStr).c_str());
 #endif
@@ -37,10 +37,10 @@ void HSELauncher::DisplayBanner() {
     )";
     SetConsoleTextAttribute(hConsole, CONSOLE_YELLOW);
 
-#ifdef BETA_VERSION
+#ifdef EXPERIMENTAL_VERSION
     std::cout << R"(
         ______      __
-       / ____/___  / /_  ____ _____  ________  _____  [ BETA BUILD ]
+       / ____/___  / /_  ____ _____  ________  _____  [ EXPERIMENTAL BUILD ]
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
@@ -57,9 +57,9 @@ void HSELauncher::DisplayBanner() {
 
     SetConsoleTextAttribute(hConsole, CONSOLE_WHITE);
 
-#ifdef BETA_VERSION
-    hse::Logger::info("Made by The Ghost - Beta Build");
-    hse::Logger::warn("This is a public beta build for testing purposes.");
+#ifdef EXPERIMENTAL_VERSION
+    hse::Logger::info("Made by The Ghost - Experimental Build");
+    hse::Logger::warn("This is a public experimental build for testing purposes.");
     hse::Logger::info("This build will automatically update to the final release when available.");
     hse::Logger::info("Tip: You can drag & drop the mod DLL onto this launcher to install it!");
 #else
@@ -126,7 +126,7 @@ bool HSELauncher::AskForUpdatePreference() {
 bool HSELauncher::EnsureModExists() {
     const auto modPath = hse::LauncherConfig::GetModFilePath();
 
-#ifndef BETA_VERSION
+#ifndef EXPERIMENTAL_VERSION
     if (config.IsFirstRun()) {
         hse::Logger::info("First run detected - downloading latest mod version");
     }
@@ -140,29 +140,29 @@ bool HSELauncher::EnsureModExists() {
         hse::Logger::info("No mod found - downloading latest version");
     }
 
-#ifdef BETA_VERSION
-    if (!cachedBetaInfo_) {
-        auto betaUpdateResult = updateManager.CheckForBetaUpdates();
-        if (!betaUpdateResult) {
-            hse::logAndShowError("Failed to get beta release information", "Could not connect to update server. Please check your internet connection.");
+#ifdef EXPERIMENTAL_VERSION
+    if (!cachedExperimentalInfo_) {
+        auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
+        if (!experimentalUpdateResult) {
+            hse::logAndShowError("Failed to get experimental release information", "Could not connect to update server. Please check your internet connection.");
             return false;
         }
-        cachedBetaInfo_ = *betaUpdateResult;
+        cachedExperimentalInfo_ = *experimentalUpdateResult;
     }
 
-    auto& betaInfo = *cachedBetaInfo_;
-    if (betaInfo.downloadUrlMod.empty()) {
-        hse::logAndShowError("No beta mod available", "Could not find beta mod in the release.");
+    auto& experimentalInfo = *cachedExperimentalInfo_;
+    if (experimentalInfo.downloadUrlMod.empty()) {
+        hse::logAndShowError("No experimental mod available", "Could not find experimental mod in the release.");
         return false;
     }
 
-    auto updateResult = updateManager.UpdateBetaMod(betaInfo.downloadUrlMod, betaInfo.modTimestamp);
+    auto updateResult = updateManager.UpdateExperimentalMod(experimentalInfo.downloadUrlMod, experimentalInfo.modTimestamp);
     if (updateResult) {
-        hse::Logger::info("Beta mod download completed");
+        hse::Logger::info("Experimental mod download completed");
         return true;
     }
     else {
-        hse::logAndShowError("Failed to download beta mod", "Failed to download beta mod files. Please check your internet connection and try again.");
+        hse::logAndShowError("Failed to download experimental mod", "Failed to download experimental mod files. Please check your internet connection and try again.");
         return false;
     }
 #else
@@ -198,22 +198,22 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
 
     hse::Logger::info("Checking for updates...");
 
-#ifdef BETA_VERSION
-    if (!cachedBetaInfo_) {
-        auto betaUpdateResult = updateManager.CheckForBetaUpdates();
-        if (!betaUpdateResult) {
-            hse::Logger::error("Failed to check for beta updates");
+#ifdef EXPERIMENTAL_VERSION
+    if (!cachedExperimentalInfo_) {
+        auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
+        if (!experimentalUpdateResult) {
+            hse::Logger::error("Failed to check for experimental updates");
             return true;
         }
-        cachedBetaInfo_ = *betaUpdateResult;
+        cachedExperimentalInfo_ = *experimentalUpdateResult;
     }
 
-    auto& betaInfo = *cachedBetaInfo_;
+    auto& experimentalInfo = *cachedExperimentalInfo_;
 
-    if (betaInfo.stableRelease && betaInfo.stableRelease->available) {
-        auto& stable = *betaInfo.stableRelease;
+    if (experimentalInfo.stableRelease && experimentalInfo.stableRelease->available) {
+        auto& stable = *experimentalInfo.stableRelease;
         std::string message = "A stable release is available!\n\n"
-            "Current beta version: " + stable.currentVersion.ToString() + "\n"
+            "Current experimental version: " + stable.currentVersion.ToString() + "\n"
             "Stable release: " + stable.remoteVersion.ToString() + "\n\n"
             "Do you want to update to the stable release?";
 
@@ -232,38 +232,38 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
         return true;
     }
 
-    if (!betaInfo.modUpdateAvailable && !betaInfo.launcherUpdateAvailable) {
-        hse::Logger::info("Beta build is up to date");
+    if (!experimentalInfo.modUpdateAvailable && !experimentalInfo.launcherUpdateAvailable) {
+        hse::Logger::info("Experimental build is up to date");
         return true;
     }
 
-    std::string message = "A new beta build is available!\n\n";
-    if (betaInfo.modUpdateAvailable) {
+    std::string message = "A new experimental build is available!\n\n";
+    if (experimentalInfo.modUpdateAvailable) {
         message += "- Mod update available\n";
     }
-    if (betaInfo.launcherUpdateAvailable) {
+    if (experimentalInfo.launcherUpdateAvailable) {
         message += "- Launcher update available\n";
     }
     message += "\nDo you want to download and install the update now?";
 
-    int result = MessageBoxA(nullptr, message.c_str(), "Beta Update Available", MB_YESNO | MB_ICONINFORMATION);
+    int result = MessageBoxA(nullptr, message.c_str(), "Experimental Update Available", MB_YESNO | MB_ICONINFORMATION);
 
     if (result != IDYES) {
-        hse::Logger::info("User declined beta update");
+        hse::Logger::info("User declined experimental update");
         return true;
     }
 
-    if (betaInfo.modUpdateAvailable && !betaInfo.downloadUrlMod.empty()) {
-        hse::Logger::info("Updating beta mod...");
-        auto modResult = updateManager.UpdateBetaMod(betaInfo.downloadUrlMod, betaInfo.modTimestamp);
+    if (experimentalInfo.modUpdateAvailable && !experimentalInfo.downloadUrlMod.empty()) {
+        hse::Logger::info("Updating experimental mod...");
+        auto modResult = updateManager.UpdateExperimentalMod(experimentalInfo.downloadUrlMod, experimentalInfo.modTimestamp);
         if (!modResult) {
-            hse::showError("Failed to update beta mod files.");
+            hse::showError("Failed to update experimental mod files.");
         }
     }
 
-    if (betaInfo.launcherUpdateAvailable && !betaInfo.downloadUrlLauncher.empty()) {
-        hse::Logger::info("Updating beta launcher...");
-        auto launcherResult = updateManager.UpdateLauncher(betaInfo.downloadUrlLauncher, betaInfo.launcherTimestamp);
+    if (experimentalInfo.launcherUpdateAvailable && !experimentalInfo.downloadUrlLauncher.empty()) {
+        hse::Logger::info("Updating experimental launcher...");
+        auto launcherResult = updateManager.UpdateLauncher(experimentalInfo.downloadUrlLauncher, experimentalInfo.launcherTimestamp);
         return static_cast<bool>(launcherResult);
     }
 
