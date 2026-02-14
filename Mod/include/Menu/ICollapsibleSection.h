@@ -14,18 +14,16 @@ namespace SectionStyle {
     constexpr ImVec2 framePadding{8, 6};
     constexpr ImVec2 itemSpacing{10, 8};
     constexpr float indentSpacing = 25.0f;
-    constexpr float indentAmount = 10.0f;
-    
+
     struct StyleRAII {
         StyleRAII() noexcept {
             ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, framePadding);
             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, itemSpacing);
             ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, indentSpacing);
-            ImGui::Indent(indentAmount);
-            ImGui::Spacing();
+            ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.25f);
         }
         ~StyleRAII() noexcept {
-            ImGui::Unindent(indentAmount);
+            ImGui::PopItemWidth();
             ImGui::PopStyleVar(3);
         }
         StyleRAII(const StyleRAII&) = delete;

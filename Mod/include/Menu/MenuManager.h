@@ -291,11 +291,13 @@ public:
         RenderSplitter();
         ImGui::SameLine(0, 0);
 
-        ImGui::BeginChild("content_panel", ImVec2(0, 0), false);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 8));
+        ImGui::BeginChild("content_panel", ImVec2(0, 0), ImGuiChildFlags_AlwaysUseWindowPadding);
         if (selectedSection) {
             selectedSection->RenderContent();
         }
         ImGui::EndChild();
+        ImGui::PopStyleVar();
     }
 
 private:
