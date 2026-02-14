@@ -17,8 +17,8 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release Beta|x64">
-      <Configuration>Release Beta</Configuration>
+    <ProjectConfiguration Include="Release Experimental|x64">
+      <Configuration>Release Experimental</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
@@ -56,13 +56,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Experimental|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <BetaBuild>true</BetaBuild>
+    <ExperimentalBuild>true</ExperimentalBuild>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -98,14 +98,14 @@
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'">
-    <TargetName>HSEnhancerLauncherBeta</TargetName>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Experimental|x64'">
+    <TargetName>HSEnhancerLauncherExperimental</TargetName>
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src</SourcePath>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(SolutionDir)ext;$(ExternalIncludePath)</ExternalIncludePath>
-    <BetaBuild>true</BetaBuild>
+    <ExperimentalBuild>true</ExperimentalBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -185,13 +185,13 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Beta|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Experimental|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>BETA_VERSION;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EXPERIMENTAL_VERSION;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -218,17 +218,17 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
     </Link>
   </ItemDefinitionGroup>
-  <!-- Conditional PropertyGroups for BetaBuild -->
-  <PropertyGroup Condition="'$(BetaBuild)'=='true'">
-    <TargetName>HSEnhancerLauncherBeta</TargetName>
-    <DefineConstants>BETA_VERSION</DefineConstants>
+  <!-- Conditional PropertyGroups for ExperimentalBuild -->
+  <PropertyGroup Condition="'$(ExperimentalBuild)'=='true'">
+    <TargetName>HSEnhancerLauncherExperimental</TargetName>
+    <DefineConstants>EXPERIMENTAL_VERSION</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(BetaBuild)'!='true'">
+  <PropertyGroup Condition="'$(ExperimentalBuild)'!='true'">
     <TargetName>HSEnhancerLauncher</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(BetaBuild)'=='true'">
+  <ItemDefinitionGroup Condition="'$(ExperimentalBuild)'=='true'">
     <ClCompile>
-      <PreprocessorDefinitions>BETA_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>EXPERIMENTAL_VERSION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
