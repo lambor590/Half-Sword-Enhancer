@@ -145,8 +145,8 @@ void Gui::Render() {
         constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse
             | ImGuiWindowFlags_NoScrollbar
             | ImGuiWindowFlags_NoScrollWithMouse;
-        #ifdef BETA_VERSION
-            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Beta Build";
+        #ifdef EXPERIMENTAL_VERSION
+            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Experimental Build";
         #else
             constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION;
         #endif

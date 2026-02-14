@@ -24,8 +24,8 @@ static void OpenDebugTerminal() noexcept
     if (CheckTerminalFile()) {
         AllocConsole();
         freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-        #ifdef BETA_VERSION
-            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer - Beta Build");
+        #ifdef EXPERIMENTAL_VERSION
+            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer - Experimental Build");
         #else
             SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
         #endif
@@ -71,9 +71,9 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept
     case DLL_PROCESS_ATTACH:
         DisableThreadLibraryCalls(module);
         OpenDebugTerminal();
-        #ifdef BETA_VERSION
-            logger.Log("Half Sword Enhancer - Beta Build initializing...");
-            logger.Log("This is a public beta build for testing purposes.");
+        #ifdef EXPERIMENTAL_VERSION
+            logger.Log("Half Sword Enhancer - Experimental Build initializing...");
+            logger.Log("This is a public experimental build for testing purposes.");
         #else
             logger.Log("Half Sword Enhancer initializing...");
         #endif
