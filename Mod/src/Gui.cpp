@@ -146,9 +146,9 @@ void Gui::Render() {
             | ImGuiWindowFlags_NoScrollbar
             | ImGuiWindowFlags_NoScrollWithMouse;
         #ifdef EXPERIMENTAL_VERSION
-            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Experimental Build";
+            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION " - Experimental Build###HSEMain";
         #else
-            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION;
+            constexpr const char* windowTitle = "Half Sword Enhancer v" HSE_VERSION "###HSEMain";
         #endif
 
         ImGui::SetNextWindowSizeConstraints(ImVec2(400, 300), ImVec2(FLT_MAX, FLT_MAX));
