@@ -265,6 +265,9 @@
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\WeaponEditorSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Utils\WeaponPresetSerializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Mod.rc">
