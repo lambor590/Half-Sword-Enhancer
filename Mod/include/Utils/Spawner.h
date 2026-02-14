@@ -15,6 +15,7 @@ namespace Spawner {
         Shield,
         Tool,
         Armor,
+        Projectile,
         Unknown
     };
 
