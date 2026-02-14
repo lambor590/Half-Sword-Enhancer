@@ -1,8 +1,8 @@
 #pragma once
 
 #define HSE_VERSION_MAJOR 0
-#define HSE_VERSION_MINOR 5
-#define HSE_VERSION_PATCH 4
+#define HSE_VERSION_MINOR 6
+#define HSE_VERSION_PATCH 0
 #define HSE_VERSION_BUILD 0
 
 #define HSE_STR_EXPAND(x) #x
