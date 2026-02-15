@@ -12,8 +12,9 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) n
     }
 
     if (!state.guiReady) UNLIKELY return;
+    if (!Gui::NeedsRendering()) LIKELY return;
 
-    (this->*renderFunc)();
+    (this->*state.renderFunc)();
 }
 
 void Renderer::OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept
@@ -100,14 +101,14 @@ bool Renderer::InitD3DResources(IDXGISwapChain* swapChain) noexcept
 
     if (SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D11Device), (void**)&d3d11Device))) LIKELY {
         state.isD3D12 = false;
-        renderFunc = &Renderer::RenderFrameD3D11;
+        state.renderFunc = &Renderer::RenderFrameD3D11;
         logger.Log("Initializing D3D11 renderer");
         return InitD3D11();
     }
 
     if (SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D12Device), (void**)&d3d12Device))) UNLIKELY {
         state.isD3D12 = true;
-        renderFunc = &Renderer::RenderFrameD3D12;
+        state.renderFunc = &Renderer::RenderFrameD3D12;
         logger.Log("Initializing D3D12 renderer");
         return InitD3D12();
     }
@@ -279,5 +280,4 @@ void Renderer::Cleanup() noexcept
     }
 
     state = {};
-    renderFunc = nullptr;
 }

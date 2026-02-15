@@ -12,7 +12,7 @@
 #include "Utils/GameBuildInfo.h"
 
 WNDPROC Gui::originalWndProc = nullptr;
-bool Gui::isVisible = true;
+std::atomic<bool> Gui::isVisible = true;
 
 Logger logger("Gui");
 
@@ -114,19 +114,36 @@ void Gui::Setup() {
     logger.Log("WndProc hooked successfully");
 }
 
-void Gui::Render() {
-    static bool previousVisibility = isVisible;
-
-    if (previousVisibility != isVisible) {
-        GameHook::SetInputEnabled(!isVisible);
-        previousVisibility = isVisible;
+bool Gui::NeedsRendering() noexcept {
+    if (isVisible.load(std::memory_order_relaxed)) [[unlikely]] {
+        NotificationManager::Update();
+        return true;
     }
 
-    NotificationManager::Update();
-
     const bool hasNotifications = NotificationManager::IsEnabled() && NotificationManager::HasNotifications();
+    if (hasNotifications) [[unlikely]] {
+        NotificationManager::Update();
+        return true;
+    }
 
-    if (!isVisible && !hasNotifications && !s_showMismatchPopup) [[likely]] {
+    if (s_showMismatchPopup) [[unlikely]] return true;
+    if (!s_mismatchDismissed && GameBuildInfo::Get().mismatchDetected.load(std::memory_order_relaxed)) [[unlikely]]
+        return true;
+
+    return false;
+}
+
+void Gui::Render() {
+    const bool visible = isVisible.load(std::memory_order_relaxed);
+    static bool previousVisibility = visible;
+
+    if (previousVisibility != visible) {
+        GameHook::SetInputEnabled(!visible);
+        previousVisibility = visible;
+    }
+
+    if (!visible && !s_showMismatchPopup &&
+        !(NotificationManager::IsEnabled() && NotificationManager::HasNotifications())) [[unlikely]] {
         return;
     }
 
@@ -135,13 +152,9 @@ void Gui::Render() {
     ImGui::NewFrame();
 
     ImGuiIO& io = ImGui::GetIO();
-    io.MouseDrawCursor = isVisible;
+    io.MouseDrawCursor = visible;
 
-    if (!isVisible) {
-        io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
-    }
-
-    if (isVisible) {
+    if (visible) {
         constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse
             | ImGuiWindowFlags_NoScrollbar
             | ImGuiWindowFlags_NoScrollWithMouse;
@@ -153,11 +166,15 @@ void Gui::Render() {
 
         ImGui::SetNextWindowSizeConstraints(ImVec2(400, 300), ImVec2(FLT_MAX, FLT_MAX));
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(2, 2));
-        if (ImGui::Begin(windowTitle, &isVisible, windowFlags)) {
+        bool showWindow = true;
+        if (ImGui::Begin(windowTitle, &showWindow, windowFlags)) {
             MenuManager::Get().RenderMenu();
         }
         ImGui::End();
         ImGui::PopStyleVar();
+        if (!showWindow) isVisible.store(false, std::memory_order_relaxed);
+    } else {
+        io.WantCaptureMouse = io.WantCaptureKeyboard = io.WantTextInput = false;
     }
 
     RenderMismatchPopup();

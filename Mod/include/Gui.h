@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <memory>
 #include <Windows.h>
 #include <unordered_map>
@@ -32,12 +33,13 @@ public:
     void Setup();
     void Render();
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-    static bool IsVisible() { return isVisible; }
-    static void ToggleVisibility() {
-        isVisible = !isVisible;
+    static bool IsVisible() noexcept { return isVisible.load(std::memory_order_relaxed); }
+    static void ToggleVisibility() noexcept {
+        isVisible.store(!isVisible.load(std::memory_order_relaxed), std::memory_order_relaxed);
     }
+    static bool NeedsRendering() noexcept;
 
 private:
     static WNDPROC originalWndProc;
-    static bool isVisible;
+    static std::atomic<bool> isVisible;
 };

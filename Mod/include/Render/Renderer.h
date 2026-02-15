@@ -40,9 +40,10 @@ private:
     Logger logger{ "Renderer" };
     
     CACHE_ALIGN struct {
-        bool isD3D12 = false;
+        void (Renderer::*renderFunc)() noexcept = nullptr;
         bool needsInit = true;
         bool guiReady = false;
+        bool isD3D12 = false;
         uint8_t bufferIndex = 0;
         uint8_t bufferCount = 0;
     } state;
@@ -71,8 +72,6 @@ private:
     
     UINT64 fenceValue = 0;
     HANDLE fenceEvent = nullptr;
-    
-    void (Renderer::*renderFunc)() noexcept = nullptr;
 
     void (*commandQueueCallback)() = nullptr;
 

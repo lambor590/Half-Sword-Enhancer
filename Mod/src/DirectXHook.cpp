@@ -60,7 +60,8 @@ IDXGISwapChain* DirectXHook::CreateDummySwapChain()
     static HWND dummyWindow = []() {
         WNDCLASSEX wc{ sizeof(WNDCLASSEX), CS_CLASSDC, DefWindowProc, 0, 0, GetModuleHandle(0), 0, 0, 0, 0, TEXT("DX"), 0 };
         RegisterClassEx(&wc);
-        return CreateWindow(wc.lpszClassName, 0, 0, 0, 0, 1, 1, 0, 0, wc.hInstance, 0);
+        return CreateWindowEx(WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,
+            wc.lpszClassName, nullptr, 0, 0, 0, 1, 1, nullptr, nullptr, wc.hInstance, nullptr);
         }();
 
     DXGI_SWAP_CHAIN_DESC desc{};
