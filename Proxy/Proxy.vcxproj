@@ -54,6 +54,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -156,6 +157,7 @@
       <EnableUAC>false</EnableUAC>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <ImportLibrary>NULL</ImportLibrary>
+      <ModuleDefinitionFile>src\winmm.def</ModuleDefinitionFile>
       <AdditionalOptions>/NOEXP /NOIMPLIB %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -170,7 +172,14 @@
   <ItemGroup>
     <ResourceCompile Include="resource\Proxy.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="src\trampolines.asm" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\winmm.def" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>

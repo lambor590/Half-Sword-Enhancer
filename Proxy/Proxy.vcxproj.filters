@@ -35,4 +35,14 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <MASM Include="src\trampolines.asm">
+      <Filter>Source Files</Filter>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\winmm.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>
