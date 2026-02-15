@@ -108,11 +108,19 @@ namespace SectionConfig {
         bool livePreview = false;
     };
 
+    struct EquipmentManagerConfig {
+        bool livePreview = true;
+        int applyKey = -1;
+        int randomizeKey = -1;
+        int generateTier = 4;
+    };
+
     inline PlayerConfig player;
     inline WorldConfig world;
     inline NPCConfig npc;
     inline ItemConfig item;
     inline WeaponEditorConfig weaponEditor;
     inline ArmorEditorConfig armorEditor;
+    inline EquipmentManagerConfig equipmentManager;
 
 }

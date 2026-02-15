@@ -17,7 +17,7 @@ struct ArmorPresetData {
         RuntimeOverride protectionBlunt, protectionCut, protectionStab;
         RuntimeOverride materialDensity, massScale;
         RuntimeOverride handsRigidity, strapPower, aiInvincibilityRate, price;
-        BoolOverride dynamicColor, fixedColor, metal, simulatesPhysics, pickUp;
+        BoolOverride pickUp;
     } runtimeProps{};
 
     struct {
@@ -118,10 +118,6 @@ public:
         setOvr("strapPower", rp.strapPower.enabled, rp.strapPower.value);
         setOvr("aiInvincibilityRate", rp.aiInvincibilityRate.enabled, rp.aiInvincibilityRate.value);
         setOvr("price", rp.price.enabled, rp.price.value);
-        setOvrBool("dynamicColor", rp.dynamicColor.enabled, rp.dynamicColor.value);
-        setOvrBool("fixedColor", rp.fixedColor.enabled, rp.fixedColor.value);
-        setOvrBool("metal", rp.metal.enabled, rp.metal.value);
-        setOvrBool("simulatesPhysics", rp.simulatesPhysics.enabled, rp.simulatesPhysics.value);
         setOvrBool("pickUp", rp.pickUp.enabled, rp.pickUp.value);
 
         const auto& rc = data.runtimeColors;
@@ -193,10 +189,6 @@ public:
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "strapPower", ""), rp.strapPower.enabled, rp.strapPower.value);
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "aiInvincibilityRate", ""), rp.aiInvincibilityRate.enabled, rp.aiInvincibilityRate.value);
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "price", ""), rp.price.enabled, rp.price.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "dynamicColor", ""), rp.dynamicColor.enabled, rp.dynamicColor.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "fixedColor", ""), rp.fixedColor.enabled, rp.fixedColor.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "metal", ""), rp.metal.enabled, rp.metal.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "simulatesPhysics", ""), rp.simulatesPhysics.enabled, rp.simulatesPhysics.value);
         PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "pickUp", ""), rp.pickUp.enabled, rp.pickUp.value);
 
         auto& rc = result.runtimeColors;
