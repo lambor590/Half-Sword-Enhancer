@@ -708,11 +708,13 @@ private:
     }};
 
     static inline std::vector<const char*> cachedItemNames;
+    static inline float cachedItemNamesWidth = 0;
     static inline uint8_t lastCategoryIndex = 255;
     static inline uint8_t lastSubcategoryIndex = 255;
 
     static inline char searchBuffer[128] = "";
     static inline std::vector<uint32_t> filteredIndices;
+    static inline float cachedFilteredWidth = 0;
     static inline bool searchActive = false;
 
     [[nodiscard]] std::pair<const ItemInfo*, size_t> getCurrentItemArray() const noexcept {
@@ -748,6 +750,7 @@ private:
             for (size_t i = 0; i < size; ++i) {
                 cachedItemNames[i] = items[i].displayName;
             }
+            cachedItemNamesWidth = GuiUtils::CalcComboWidth(cachedItemNames.data(), static_cast<int>(cachedItemNames.size()));
             lastCategoryIndex = cfg.currentCategoryIndex;
             lastSubcategoryIndex = currentSub;
         }
@@ -768,8 +771,9 @@ private:
         return nullptr;
     }
 
-    void updateFilteredItems() noexcept {
+    void updateFilteredItems() {
         filteredIndices.clear();
+        cachedFilteredWidth = 0;
 
         if (searchBuffer[0] == '\0') {
             searchActive = false;
@@ -778,6 +782,7 @@ private:
 
         searchActive = true;
 
+        float maxW = 0;
         for (uint8_t catIdx = 0; catIdx < static_cast<uint8_t>(categories.size()); ++catIdx) {
             if (catIdx == WEAPONS_INDEX) {
                 for (uint8_t subIdx = 0; subIdx < static_cast<uint8_t>(weaponSubcategories.size()); ++subIdx) {
@@ -786,6 +791,8 @@ private:
                     for (uint16_t i = 0; i < size; ++i) {
                         if (stristr(items[i].displayName, searchBuffer)) {
                             filteredIndices.push_back((catIdx << 16) | (subIdx << 8) | i);
+                            float w = ImGui::CalcTextSize(items[i].displayName).x;
+                            if (w > maxW) maxW = w;
                         }
                     }
                 }
@@ -795,6 +802,8 @@ private:
                 for (uint16_t i = 0; i < propItems.size(); ++i) {
                     if (stristr(propItems[i].displayName, searchBuffer)) {
                         filteredIndices.push_back((catIdx << 16) | i);
+                        float w = ImGui::CalcTextSize(propItems[i].displayName).x;
+                        if (w > maxW) maxW = w;
                     }
                 }
             } else {
@@ -804,11 +813,14 @@ private:
                     for (uint16_t i = 0; i < size; ++i) {
                         if (stristr(items[i].displayName, searchBuffer)) {
                             filteredIndices.push_back((catIdx << 16) | i);
+                            float w = ImGui::CalcTextSize(items[i].displayName).x;
+                            if (w > maxW) maxW = w;
                         }
                     }
                 }
             }
         }
+        cachedFilteredWidth = GuiUtils::ComboWidthFromText(maxW);
     }
 
     void SpawnSelectedItem() const noexcept {
@@ -880,15 +892,7 @@ public:
             ImGui::Text("Found: %zu items", filteredIndices.size());
             ImGui::Spacing();
 
-            float maxFilteredW = 0;
-            for (uint32_t pi : filteredIndices) {
-                const ItemInfo* fi = getItemAt((pi >> 16) & 0xFF, (pi >> 8) & 0xFF, pi & 0xFF);
-                if (fi) {
-                    float w = ImGui::CalcTextSize(fi->displayName).x;
-                    if (w > maxFilteredW) maxFilteredW = w;
-                }
-            }
-            ImGui::SetNextItemWidth(maxFilteredW + ImGui::GetFrameHeight() + ImGui::GetStyle().FramePadding.x * 2);
+            ImGui::SetNextItemWidth(cachedFilteredWidth);
             if (ImGui::BeginCombo("##FilteredItems", "Select item...")) {
                 for (uint32_t packedIdx : filteredIndices) {
                     uint8_t catIdx = (packedIdx >> 16) & 0xFF;
@@ -930,7 +934,8 @@ public:
         } else {
             ImGui::Text("Category");
             int catIndex = static_cast<int>(cfg.currentCategoryIndex);
-            ImGui::SetNextItemWidth(GuiUtils::CalcComboWidth(categories.data(), static_cast<int>(categories.size())));
+            static float categoryComboW = GuiUtils::CalcComboWidth(categories.data(), static_cast<int>(categories.size()));
+            ImGui::SetNextItemWidth(categoryComboW);
             if (ImGui::Combo("##CategorySelector", &catIndex, categories.data(), static_cast<int>(categories.size()))) [[unlikely]] {
                 cfg.currentCategoryIndex = static_cast<uint8_t>(catIndex);
                 cfg.currentItemIndex = 0;
@@ -942,7 +947,8 @@ public:
             if (cfg.currentCategoryIndex == WEAPONS_INDEX) [[likely]] {
                 ImGui::Text("Subcategory");
                 int subIndex = static_cast<int>(cfg.currentWeaponSubcategoryIndex);
-                ImGui::SetNextItemWidth(GuiUtils::CalcComboWidth(weaponSubcategories.data(), static_cast<int>(weaponSubcategories.size())));
+                static float subcatComboW = GuiUtils::CalcComboWidth(weaponSubcategories.data(), static_cast<int>(weaponSubcategories.size()));
+                ImGui::SetNextItemWidth(subcatComboW);
                 if (ImGui::Combo("##SubcategorySelector", &subIndex, weaponSubcategories.data(), static_cast<int>(weaponSubcategories.size()))) [[unlikely]] {
                     cfg.currentWeaponSubcategoryIndex = static_cast<uint8_t>(subIndex);
                     cfg.currentItemIndex = 0;
@@ -955,7 +961,8 @@ public:
                 auto armorSlotGetter = [](void* data, int idx) -> const char* {
                     return static_cast<const ArmorSlotInfo*>(data)[idx].displayName;
                 };
-                ImGui::SetNextItemWidth(GuiUtils::CalcComboWidth(armorSlotGetter, (void*)randomArmorSlots.data(), static_cast<int>(randomArmorSlots.size())));
+                static float armorSlotComboW = GuiUtils::CalcComboWidth(armorSlotGetter, (void*)randomArmorSlots.data(), static_cast<int>(randomArmorSlots.size()));
+                ImGui::SetNextItemWidth(armorSlotComboW);
                 if (ImGui::Combo("##ArmorSlotSelector", &slotIndex,
                     armorSlotGetter, (void*)randomArmorSlots.data(), static_cast<int>(randomArmorSlots.size()))) {
                     cfg.currentItemIndex = static_cast<uint16_t>(slotIndex);
@@ -965,7 +972,7 @@ public:
 
                 ImGui::Text("Item");
                 int itemIndex = static_cast<int>(cfg.currentItemIndex);
-                ImGui::SetNextItemWidth(GuiUtils::CalcComboWidth(cachedItemNames.data(), static_cast<int>(cachedItemNames.size())));
+                ImGui::SetNextItemWidth(cachedItemNamesWidth);
                 if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
                     cfg.currentItemIndex = static_cast<uint16_t>(itemIndex);
                 }
@@ -982,7 +989,8 @@ public:
                         char preview[16];
                         std::snprintf(preview, sizeof(preview), "Tier %d", cfg.spawnTier);
                         ImGui::Text("Tier");
-                        ImGui::SetNextItemWidth(ImGui::CalcTextSize("Tier 8").x + ImGui::GetFrameHeight() + ImGui::GetStyle().FramePadding.x * 2);
+                        static float tierComboW = GuiUtils::CalcComboWidth("Tier 8");
+                        ImGui::SetNextItemWidth(tierComboW);
                         if (ImGui::BeginCombo("##TierCombo", preview)) {
                             for (int t = 0; t <= 8; ++t) {
                                 if (!(mask & (1 << t))) continue;
@@ -1005,7 +1013,8 @@ public:
                     char preview[16];
                     std::snprintf(preview, sizeof(preview), "Tier %d", cfg.spawnTier);
                     ImGui::Text("Tier");
-                    ImGui::SetNextItemWidth(ImGui::CalcTextSize("Tier 8").x + ImGui::GetFrameHeight() + ImGui::GetStyle().FramePadding.x * 2);
+                    static float armorTierComboW = GuiUtils::CalcComboWidth("Tier 8");
+                    ImGui::SetNextItemWidth(armorTierComboW);
                     if (ImGui::BeginCombo("##ArmorTierCombo", preview)) {
                         for (int t = 0; t <= 8; ++t) {
                             if (!(mask & (1 << t))) continue;

@@ -5,6 +5,7 @@
 #include "Utils/Spawner.h"
 #include "Utils/EquipmentGenerator.h"
 #include "SDK/Willie_BP_classes.hpp"
+#include "Utils/GuiUtils.h"
 
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
 struct NPCTypeInfo {
@@ -96,13 +97,18 @@ public:
 
         ImGui::Text("NPC Type");
         TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
+        auto npcGetter = [](void* data, int idx) -> const char* {
+            return static_cast<const NPCTypeInfo*>(data)[idx].displayName;
+        };
+        static float npcTypeComboW = GuiUtils::CalcComboWidth(npcGetter, (void*)npcTypes, npcTypesCount);
+        ImGui::SetNextItemWidth(npcTypeComboW);
         ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex,
-            [](void* data, int idx) -> const char* {
-                return static_cast<const NPCTypeInfo*>(data)[idx].displayName;
-            }, (void*)npcTypes, npcTypesCount);
+            npcGetter, (void*)npcTypes, npcTypesCount);
 
         ImGui::Spacing();
         ImGui::Text("Nationality");
+        static float nationalityComboW = GuiUtils::CalcComboWidth(nationalityNames, nationalityCount);
+        ImGui::SetNextItemWidth(nationalityComboW);
         ImGui::Combo("##NationalitySelector", &cfg.npcNationality,
             nationalityNames, nationalityCount);
 

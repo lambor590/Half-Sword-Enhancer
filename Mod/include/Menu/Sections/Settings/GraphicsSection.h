@@ -84,8 +84,10 @@ public:
 
         ImGui::Spacing();
 
+        static float qualityComboW = GuiUtils::CalcComboWidth(qualityLevels.data(), static_cast<int>(qualityLevels.size()));
         for (const auto& combo : qualityCombos) {
             int currentValue = settings.*combo.memberPtr;
+            ImGui::SetNextItemWidth(qualityComboW);
             if (ImGui::Combo(combo.label, &currentValue, qualityLevels.data(), static_cast<int>(qualityLevels.size()))) {
                 settings.*combo.memberPtr = currentValue;
                 settingsChanged = true;
