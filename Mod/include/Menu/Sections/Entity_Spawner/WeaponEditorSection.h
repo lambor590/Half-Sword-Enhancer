@@ -1,11 +1,12 @@
 #pragma once
 
-#include <array>
 #include <vector>
 #include <string>
 #include <cstdio>
 #include <cstring>
 #include <random>
+#include <atomic>
+#include <unordered_set>
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
 #include "Hooks/GameHook.h"
@@ -42,12 +43,9 @@ private:
     };
 
     SDK::FStr_Passport_Weapon1 weaponPassport{};
-    bool weaponGenerated = false;
     bool weaponGenerationPending = false;
+    bool modulePoolQueued = false;
 
-    using RuntimeOverride = WeaponPresetData::RuntimeOverride;
-    using BoolOverride = WeaponPresetData::BoolOverride;
-    using IntOverride = WeaponPresetData::IntOverride;
     using WeaponRuntimeProps = decltype(WeaponPresetData::runtimeProps);
 
     WeaponRuntimeProps runtimeProps{};
@@ -66,7 +64,7 @@ private:
     struct GlobalModulePool {
         std::vector<GlobalModuleEntry> heads, guards, grips, pommels, subMods1, subMods2;
         float cachedWidths[6] = {};
-        bool populated = false;
+        std::atomic<bool> populated{false};
     } globalModules;
 
     char moduleFilters[6][64] = {};
@@ -77,24 +75,20 @@ private:
     std::string statusMessage;
     double statusMessageTime = 0.0;
 
-    static bool ContainsClass(const std::vector<GlobalModuleEntry>& vec, SDK::UClass* cls) {
-        for (const auto& e : vec)
-            if (e.cls == cls) return true;
-        return false;
-    }
-
     static void CollectEntries(std::vector<GlobalModuleEntry>& out,
+        std::unordered_set<SDK::UClass*>& seen,
         const SDK::TArray<SDK::UClass*>& arr, const char* sourceType)
     {
         for (int i = 0; i < arr.Num(); ++i) {
-            if (arr[i] && !ContainsClass(out, arr[i]))
+            if (arr[i] && seen.insert(arr[i]).second)
                 out.push_back({arr[i], arr[i]->GetName(), sourceType});
         }
     }
 
     void PopulateGlobalModulePool() {
-        if (globalModules.populated) return;
+        if (globalModules.populated.load(std::memory_order_acquire)) return;
 
+        std::unordered_set<SDK::UClass*> seen[6];
         for (int i = 1; i <= WEAPON_TYPE_COUNT; ++i) {
             auto type = static_cast<CustomizableWeapon>(i);
             SDK::UClass* masterClass = EquipmentGenerator::GetCustomizableModulesClass(type);
@@ -104,14 +98,14 @@ private:
                 masterClass->ClassDefaultObject);
             const char* typeName = WEAPON_TYPE_NAMES[i - 1];
 
-            CollectEntries(globalModules.heads, cdo->Module_Heads_Array, typeName);
-            CollectEntries(globalModules.guards, cdo->Module_Guards_Array, typeName);
-            CollectEntries(globalModules.grips, cdo->Module_Grips_Array, typeName);
-            CollectEntries(globalModules.pommels, cdo->Module_Pommels_Array, typeName);
-            CollectEntries(globalModules.subMods1, cdo->Head_Sub_Module_1_Array, typeName);
-            CollectEntries(globalModules.subMods2, cdo->Head_Sub_Module_2_Array, typeName);
+            CollectEntries(globalModules.heads, seen[0], cdo->Module_Heads_Array, typeName);
+            CollectEntries(globalModules.guards, seen[1], cdo->Module_Guards_Array, typeName);
+            CollectEntries(globalModules.grips, seen[2], cdo->Module_Grips_Array, typeName);
+            CollectEntries(globalModules.pommels, seen[3], cdo->Module_Pommels_Array, typeName);
+            CollectEntries(globalModules.subMods1, seen[4], cdo->Head_Sub_Module_1_Array, typeName);
+            CollectEntries(globalModules.subMods2, seen[5], cdo->Head_Sub_Module_2_Array, typeName);
         }
-        globalModules.populated = true;
+        globalModules.populated.store(true, std::memory_order_release);
     }
 
     static int RandomInt(int min, int max) {
@@ -143,7 +137,6 @@ private:
         weaponPassport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638 = {0.3f, 0.18f, 0.08f, 1.0f};
         weaponPassport.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 = static_cast<SDK::Enum_Ranks>(4);
         weaponPassport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5 = 100.0;
-        weaponGenerated = true;
     }
 
     void QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier) {
@@ -152,7 +145,6 @@ private:
             EquipmentGenerator::Init(world);
             weaponPassport = EquipmentGenerator::GenerateCustomizableWeapon(type, tier);
             PopulateGlobalModulePool();
-            weaponGenerated = true;
             weaponGenerationPending = false;
         });
     }
@@ -230,7 +222,6 @@ private:
 
     void SpawnPreview() {
         DestroyPreview();
-        if (!weaponGenerated) return;
         if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
 
         lastPreviewedPassport = weaponPassport;
@@ -268,8 +259,6 @@ private:
     }
 
     void SpawnFromPassport() {
-        if (!weaponGenerated) return;
-
         if (cfg.livePreview) {
             cfg.livePreview = false;
             DestroyPreview();
@@ -282,27 +271,6 @@ private:
         }
 
         Spawner::SpawnCustomizableFromPassport(world, weaponPassport, BuildSpawnTransform(), cfg.snapToGround, callback);
-    }
-
-    static constexpr auto LOWER_TABLE = [] {
-        std::array<char, 256> t{};
-        for (int i = 0; i < 256; ++i) t[i] = static_cast<char>(i);
-        for (int i = 'A'; i <= 'Z'; ++i) t[i] = static_cast<char>(i + 32);
-        return t;
-    }();
-
-    static bool MatchesFilter(const char* name, size_t nameLen, const char* filter, size_t filterLen) {
-        if (filterLen == 0) return true;
-        if (filterLen > nameLen) return false;
-        for (size_t i = 0; i <= nameLen - filterLen; ++i) {
-            size_t j = 0;
-            while (j < filterLen &&
-                   LOWER_TABLE[static_cast<unsigned char>(name[i + j])] ==
-                   LOWER_TABLE[static_cast<unsigned char>(filter[j])])
-                ++j;
-            if (j == filterLen) return true;
-        }
-        return false;
     }
 
     static void RenderFilteredModuleCombo(const char* label,
@@ -337,7 +305,7 @@ private:
         if (hasFilter) {
             int visible = 0;
             for (const auto& e : options)
-                if (MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
+                if (GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
             ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(options.size()));
         }
 
@@ -348,7 +316,7 @@ private:
 
         char display[128];
         for (const auto& e : options) {
-            if (hasFilter && !MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen))
+            if (hasFilter && !GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen))
                 continue;
             std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
             if (ImGui::Selectable(display, e.cls == current))
@@ -397,50 +365,20 @@ private:
             mass = val;
     }
 
-    static void RenderPriceDrag(const char* label, double& price, float speed = 1.0f) {
-        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
-        float val = static_cast<float>(price);
-        if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.1f"))
-            price = val;
-        ImGui::PopItemWidth();
-    }
-
-    static constexpr const char* TIER_LABELS[] = {
-        "Tier 0", "Tier 1", "Tier 2", "Tier 3", "Tier 4",
-        "Tier 5", "Tier 6", "Tier 7", "Tier 8"
-    };
-
-    static float CachedTierComboWidth() {
-        static float w = GuiUtils::CalcComboWidth(TIER_LABELS, 9);
-        return w;
-    }
-
-    static void RenderFreeTierCombo(const char* label, int& tier) {
-        ImGui::SetNextItemWidth(CachedTierComboWidth());
-        if (ImGui::BeginCombo(label, TIER_LABELS[tier])) {
-            for (int t = 0; t <= 8; ++t) {
-                if (ImGui::Selectable(TIER_LABELS[t], t == tier))
-                    tier = t;
-                if (t == tier) ImGui::SetItemDefaultFocus();
-            }
-            ImGui::EndCombo();
-        }
-    }
-
     static void RenderFreeTierCombo(const char* label, SDK::Enum_Ranks& tier) {
         int val = static_cast<int>(tier);
-        RenderFreeTierCombo(label, val);
+        GuiUtils::RenderFreeTierCombo(label, val);
         tier = static_cast<SDK::Enum_Ranks>(val);
     }
 
     static void RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask) {
         tier = TierValidation::NearestValidTier(validMask, tier);
 
-        ImGui::SetNextItemWidth(CachedTierComboWidth());
-        if (ImGui::BeginCombo(label, TIER_LABELS[tier])) {
+        ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
+        if (ImGui::BeginCombo(label, GuiUtils::TIER_LABELS[tier])) {
             for (int t = 0; t <= 8; ++t) {
                 if (!(validMask & (1 << t))) continue;
-                if (ImGui::Selectable(TIER_LABELS[t], t == tier))
+                if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == tier))
                     tier = t;
                 if (t == tier) ImGui::SetItemDefaultFocus();
             }
@@ -468,38 +406,6 @@ private:
         RenderMassDrag(massId, mass);
     }
 
-    static void RenderOverrideDrag(const char* label, RuntimeOverride& ovr, float speed = 0.1f, float min = 0.0f, float max = 0.0f) {
-        ImGui::PushID(label);
-        ImGui::Checkbox("##en", &ovr.enabled);
-        ImGui::SameLine();
-        if (!ovr.enabled) ImGui::BeginDisabled();
-        float val = static_cast<float>(ovr.value);
-        if (ImGui::DragFloat(label, &val, speed, min, max, "%.3f"))
-            ovr.value = val;
-        if (!ovr.enabled) ImGui::EndDisabled();
-        ImGui::PopID();
-    }
-
-    static void RenderOverrideInt(const char* label, IntOverride& ovr, int min = 0, int max = 10) {
-        ImGui::PushID(label);
-        ImGui::Checkbox("##en", &ovr.enabled);
-        ImGui::SameLine();
-        if (!ovr.enabled) ImGui::BeginDisabled();
-        ImGui::SliderInt(label, &ovr.value, min, max);
-        if (!ovr.enabled) ImGui::EndDisabled();
-        ImGui::PopID();
-    }
-
-    static void RenderOverrideBool(const char* label, BoolOverride& ovr) {
-        ImGui::PushID(label);
-        ImGui::Checkbox("##en", &ovr.enabled);
-        ImGui::SameLine();
-        if (!ovr.enabled) ImGui::BeginDisabled();
-        ImGui::Checkbox(label, &ovr.value);
-        if (!ovr.enabled) ImGui::EndDisabled();
-        ImGui::PopID();
-    }
-
     void RenderGenerationControls() {
         ImGui::PushID("gen");
 
@@ -514,13 +420,6 @@ private:
         RenderValidatedTierCombo("##GenTier", cfg.weaponTier, weaponMask);
 
         ImGui::Spacing();
-        if (ImGui::Button("New")) {
-            GameHook::QueueAction([this]() {
-                PopulateGlobalModulePool();
-                CreateBlankWeaponPassport();
-            });
-        }
-        ImGui::SameLine();
         if (ImGui::Button("Generate")) {
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
                 GenerateWeaponPassport();
@@ -530,11 +429,9 @@ private:
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
                 RandomizeWeaponPassport();
         }
-        if (weaponGenerated) {
-            ImGui::SameLine();
-            if (ImGui::Button("Reset"))
-                CreateBlankWeaponPassport();
-        }
+        ImGui::SameLine();
+        if (ImGui::Button("Reset"))
+            CreateBlankWeaponPassport();
 
         if (weaponGenerationPending) {
             ImGui::SameLine();
@@ -547,7 +444,7 @@ private:
     void RenderModulesTab() {
         ImGui::PushID("modules");
 
-        if (!globalModules.populated) {
+        if (!globalModules.populated.load(std::memory_order_acquire)) {
             ImGui::TextDisabled("Module pool not loaded yet");
             ImGui::PopID();
             return;
@@ -642,7 +539,7 @@ private:
         ImGui::TextDisabled("Passport");
         RenderFreeTierCombo("Tier", weaponPassport.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461);
         TooltipHelper::ShowTooltip("Stored tier value in the passport, independent of generation tier");
-        RenderPriceDrag("Price", weaponPassport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5);
+        GuiUtils::RenderPriceDrag("Price", weaponPassport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5);
         TooltipHelper::ShowTooltip("Weapon price value stored in the passport");
 
         ImGui::Spacing();
@@ -658,61 +555,61 @@ private:
 
         ImGui::Spacing();
         if (ImGui::TreeNodeEx("Combat", ImGuiTreeNodeFlags_DefaultOpen)) {
-            RenderOverrideDrag("Rigidity", runtimeProps.rigidity, 0.1f);
+            GuiUtils::RenderOverrideDrag("Rigidity", runtimeProps.rigidity, 0.1f);
             TooltipHelper::ShowTooltip("Structural stiffness - affects impact resistance and damage transfer");
-            RenderOverrideDrag("Edge Sharpness", runtimeProps.edgeSharpness, 0.1f);
+            GuiUtils::RenderOverrideDrag("Edge Sharpness", runtimeProps.edgeSharpness, 0.1f);
             TooltipHelper::ShowTooltip("Cutting edge quality - determines slashing effectiveness");
-            RenderOverrideDrag("Raw Damage", runtimeProps.rawDamage, 0.1f);
+            GuiUtils::RenderOverrideDrag("Raw Damage", runtimeProps.rawDamage, 0.1f);
             TooltipHelper::ShowTooltip("Base damage multiplier before other modifiers");
-            RenderOverrideDrag("Cutting Rate", runtimeProps.cuttingRate, 0.01f);
+            GuiUtils::RenderOverrideDrag("Cutting Rate", runtimeProps.cuttingRate, 0.01f);
             TooltipHelper::ShowTooltip("Slashing damage multiplier for cutting attacks");
-            RenderOverrideDrag("Stab Rate", runtimeProps.stabRate, 0.01f);
+            GuiUtils::RenderOverrideDrag("Stab Rate", runtimeProps.stabRate, 0.01f);
             TooltipHelper::ShowTooltip("Thrusting damage multiplier for stab attacks");
-            RenderOverrideDrag("Def Rating", runtimeProps.defRating, 0.01f);
+            GuiUtils::RenderOverrideDrag("Def Rating", runtimeProps.defRating, 0.01f);
             TooltipHelper::ShowTooltip("Defensive effectiveness when blocking or parrying");
-            RenderOverrideDrag("Grip Rate", runtimeProps.gripRate, 0.01f);
+            GuiUtils::RenderOverrideDrag("Grip Rate", runtimeProps.gripRate, 0.01f);
             TooltipHelper::ShowTooltip("Weapon handling and control precision");
-            RenderOverrideDrag("Draw Cut Rate", runtimeProps.drawCutRate, 0.01f);
+            GuiUtils::RenderOverrideDrag("Draw Cut Rate", runtimeProps.drawCutRate, 0.01f);
             TooltipHelper::ShowTooltip("Damage bonus for drawing/slicing motions");
-            RenderOverrideDrag("Tip Sharpness", runtimeProps.tipSharpness, 0.1f);
+            GuiUtils::RenderOverrideDrag("Tip Sharpness", runtimeProps.tipSharpness, 0.1f);
             TooltipHelper::ShowTooltip("Point sharpness - affects piercing on thrust attacks");
-            RenderOverrideDrag("Kick Power", runtimeProps.kickPower, 0.1f);
+            GuiUtils::RenderOverrideDrag("Kick Power", runtimeProps.kickPower, 0.1f);
             TooltipHelper::ShowTooltip("Knockback force applied on impact");
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("Physics")) {
-            RenderOverrideDrag("Mat Density", runtimeProps.matDensity, 0.1f);
+            GuiUtils::RenderOverrideDrag("Mat Density", runtimeProps.matDensity, 0.1f);
             TooltipHelper::ShowTooltip("Material density - affects momentum and swing weight");
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("Dismemberment")) {
-            RenderOverrideInt("Sharp Level", runtimeProps.dismemberSharp, 0, 10);
+            GuiUtils::RenderOverrideInt("Sharp Level", runtimeProps.dismemberSharp, 0, 10);
             TooltipHelper::ShowTooltip("Sharp dismemberment threshold (higher = easier to sever)");
-            RenderOverrideInt("Blunt Level", runtimeProps.dismemberBlunt, 0, 10);
+            GuiUtils::RenderOverrideInt("Blunt Level", runtimeProps.dismemberBlunt, 0, 10);
             TooltipHelper::ShowTooltip("Blunt dismemberment threshold (higher = easier to crush)");
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("Toggles")) {
-            RenderOverrideBool("Double Edged", runtimeProps.doubleEdged);
+            GuiUtils::RenderOverrideBool("Double Edged", runtimeProps.doubleEdged);
             TooltipHelper::ShowTooltip("Both edges can cut (swords vs single-edge weapons)");
-            RenderOverrideBool("Piercing", runtimeProps.piercing);
+            GuiUtils::RenderOverrideBool("Piercing", runtimeProps.piercing);
             TooltipHelper::ShowTooltip("Weapon can pierce through armor");
-            RenderOverrideBool("No Stab", runtimeProps.noStab);
+            GuiUtils::RenderOverrideBool("No Stab", runtimeProps.noStab);
             TooltipHelper::ShowTooltip("Disables thrust attacks (for blunt weapons)");
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("Stamina")) {
-            RenderOverrideDrag("R Hand Burn", runtimeProps.staminaBurnR, 0.01f);
+            GuiUtils::RenderOverrideDrag("R Hand Burn", runtimeProps.staminaBurnR, 0.01f);
             TooltipHelper::ShowTooltip("Stamina drain rate when wielding in right hand");
-            RenderOverrideDrag("L Hand Burn", runtimeProps.staminaBurnL, 0.01f);
+            GuiUtils::RenderOverrideDrag("L Hand Burn", runtimeProps.staminaBurnL, 0.01f);
             TooltipHelper::ShowTooltip("Stamina drain rate when wielding in left hand");
-            RenderOverrideDrag("2H Burn", runtimeProps.staminaBurn2H, 0.01f);
+            GuiUtils::RenderOverrideDrag("2H Burn", runtimeProps.staminaBurn2H, 0.01f);
             TooltipHelper::ShowTooltip("Stamina drain rate for two-handed default grip");
-            RenderOverrideDrag("2H Alt Burn", runtimeProps.staminaBurn2HAlt, 0.01f);
+            GuiUtils::RenderOverrideDrag("2H Alt Burn", runtimeProps.staminaBurn2HAlt, 0.01f);
             TooltipHelper::ShowTooltip("Stamina drain for alternate two-handed grip (half-sword, mordschlag)");
             ImGui::TreePop();
         }
@@ -731,7 +628,6 @@ private:
     void ApplyPresetData(const WeaponPresetData& d) {
         weaponPassport = d.passport;
         runtimeProps = d.runtimeProps;
-        weaponGenerated = true;
     }
 
     void SetStatus(std::string msg) {
@@ -855,16 +751,16 @@ private:
         ImGui::Separator();
         ImGui::Spacing();
 
-        if (!weaponGenerated) ImGui::BeginDisabled();
         if (ImGui::Button("Spawn Weapon", ImVec2(-1, 0))) {
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
                 SpawnFromPassport();
         }
-        if (!weaponGenerated) ImGui::EndDisabled();
     }
 
 public:
     WeaponEditorSection() : CollapsibleSection("Weapon Editor") {
+        CreateBlankWeaponPassport();
+
         Function("Spawn Weapon")
             .WithKey(&cfg.spawnKey)
             .WithParams({
@@ -891,26 +787,29 @@ public:
 
         RenderGenerationControls();
 
-        if (weaponGenerated) {
-            if (ImGui::Checkbox("Live Preview", &cfg.livePreview)) {
-                if (!cfg.livePreview)
-                    DestroyPreview();
-            }
+        if (!globalModules.populated.load(std::memory_order_acquire) && !modulePoolQueued) {
+            modulePoolQueued = true;
+            GameHook::QueueAction([this]() { PopulateGlobalModulePool(); });
+        }
 
-            ImGui::Spacing();
-            if (ImGui::BeginTabBar("##WeaponEditorTabs")) {
-                if (ImGui::BeginTabItem("Modules"))    { RenderModulesTab();    ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Geometry"))    { RenderGeometryTab();   ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Appearance"))  { RenderAppearanceTab(); ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Stats"))       { RenderStatsTab();      ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Presets"))     { RenderPresetsTab();    ImGui::EndTabItem(); }
-                ImGui::EndTabBar();
-            }
+        if (ImGui::Checkbox("Live Preview", &cfg.livePreview)) {
+            if (!cfg.livePreview)
+                DestroyPreview();
+        }
+
+        ImGui::Spacing();
+        if (ImGui::BeginTabBar("##WeaponEditorTabs")) {
+            if (ImGui::BeginTabItem("Modules"))    { RenderModulesTab();    ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Geometry"))    { RenderGeometryTab();   ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Appearance"))  { RenderAppearanceTab(); ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Stats"))       { RenderStatsTab();      ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Presets"))     { RenderPresetsTab();    ImGui::EndTabItem(); }
+            ImGui::EndTabBar();
         }
 
         RenderSpawnFooter();
 
-        if (cfg.livePreview && weaponGenerated)
+        if (cfg.livePreview)
             UpdatePreview();
     }
 };

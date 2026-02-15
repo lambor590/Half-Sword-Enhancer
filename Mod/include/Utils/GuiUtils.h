@@ -1,7 +1,14 @@
 #pragma once
 
+#include <array>
+#include <cstring>
+
 #include "imgui/imgui.h"
 #include "ConfigManager.h"
+
+struct RuntimeOverride { bool enabled = false; double value = 0.0; };
+struct BoolOverride    { bool enabled = false; bool value = false; };
+struct IntOverride     { bool enabled = false; int value = 0; };
 
 namespace GuiUtils {
     inline constexpr ImVec2 kTooltipPadding{8.0f, 6.0f};
@@ -66,6 +73,90 @@ namespace GuiUtils {
             EndStyledTooltip();
         }
         return changed;
+    }
+
+    inline constexpr auto LOWER_TABLE = [] {
+        std::array<char, 256> t{};
+        for (int i = 0; i < 256; ++i) t[i] = static_cast<char>(i);
+        for (int i = 'A'; i <= 'Z'; ++i) t[i] = static_cast<char>(i + 32);
+        return t;
+    }();
+
+    inline bool MatchesFilter(const char* name, size_t nameLen, const char* filter, size_t filterLen) {
+        if (filterLen == 0) return true;
+        if (filterLen > nameLen) return false;
+        for (size_t i = 0; i <= nameLen - filterLen; ++i) {
+            size_t j = 0;
+            while (j < filterLen &&
+                   LOWER_TABLE[static_cast<unsigned char>(name[i + j])] ==
+                   LOWER_TABLE[static_cast<unsigned char>(filter[j])])
+                ++j;
+            if (j == filterLen) return true;
+        }
+        return false;
+    }
+
+    inline constexpr const char* TIER_LABELS[] = {
+        "Tier 0", "Tier 1", "Tier 2", "Tier 3", "Tier 4",
+        "Tier 5", "Tier 6", "Tier 7", "Tier 8"
+    };
+
+    inline float CachedTierComboWidth() {
+        static float w = CalcComboWidth(TIER_LABELS, 9);
+        return w;
+    }
+
+    inline void RenderFreeTierCombo(const char* label, int& tier) {
+        ImGui::SetNextItemWidth(CachedTierComboWidth());
+        if (ImGui::BeginCombo(label, TIER_LABELS[tier])) {
+            for (int t = 0; t <= 8; ++t) {
+                if (ImGui::Selectable(TIER_LABELS[t], t == tier))
+                    tier = t;
+                if (t == tier) ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+    }
+
+    inline void RenderPriceDrag(const char* label, double& price, float speed = 1.0f) {
+        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
+        float val = static_cast<float>(price);
+        if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.1f"))
+            price = val;
+        ImGui::PopItemWidth();
+    }
+
+    inline void RenderOverrideDrag(const char* label, RuntimeOverride& ovr,
+                                   float speed = 0.1f, float min = 0.0f, float max = 0.0f) {
+        ImGui::PushID(label);
+        ImGui::Checkbox("##en", &ovr.enabled);
+        ImGui::SameLine();
+        if (!ovr.enabled) ImGui::BeginDisabled();
+        float val = static_cast<float>(ovr.value);
+        if (ImGui::DragFloat(label, &val, speed, min, max, "%.3f"))
+            ovr.value = val;
+        if (!ovr.enabled) ImGui::EndDisabled();
+        ImGui::PopID();
+    }
+
+    inline void RenderOverrideInt(const char* label, IntOverride& ovr, int min = 0, int max = 10) {
+        ImGui::PushID(label);
+        ImGui::Checkbox("##en", &ovr.enabled);
+        ImGui::SameLine();
+        if (!ovr.enabled) ImGui::BeginDisabled();
+        ImGui::SliderInt(label, &ovr.value, min, max);
+        if (!ovr.enabled) ImGui::EndDisabled();
+        ImGui::PopID();
+    }
+
+    inline void RenderOverrideBool(const char* label, BoolOverride& ovr) {
+        ImGui::PushID(label);
+        ImGui::Checkbox("##en", &ovr.enabled);
+        ImGui::SameLine();
+        if (!ovr.enabled) ImGui::BeginDisabled();
+        ImGui::Checkbox(label, &ovr.value);
+        if (!ovr.enabled) ImGui::EndDisabled();
+        ImGui::PopID();
     }
 
 }

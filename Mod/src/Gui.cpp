@@ -4,6 +4,7 @@
 #include "Menu/Sections/Entity_Spawner/NPCSection.h"
 #include "Menu/Sections/Entity_Spawner/ItemSection.h"
 #include "Menu/Sections/Entity_Spawner/WeaponEditorSection.h"
+#include "Menu/Sections/Entity_Spawner/ArmorEditorSection.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Menu/Sections/Settings/GuiSection.h"
 #include "KeybindManager.h"
@@ -107,6 +108,7 @@ void Gui::Setup() {
     MenuManager::Get().AddSection<NPCSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<WeaponEditorSection>(MenuTab::Entity_Spawner);
+    MenuManager::Get().AddSection<ArmorEditorSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<GuiSection>(MenuTab::Settings);
     MenuManager::Get().AddSection<GraphicsSection>(MenuTab::Settings);
 
