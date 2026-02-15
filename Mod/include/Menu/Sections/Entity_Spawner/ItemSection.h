@@ -625,6 +625,8 @@ public:
                             cfg.currentCategoryIndex = catIdx;
                             if (catIdx == WEAPONS_INDEX) cfg.currentWeaponSubcategoryIndex = subIdx;
                             cfg.currentItemIndex = itmIdx;
+                            searchBuffer[0] = '\0';
+                            searchActive = false;
                         }
                         if (isSelected) {
                             ImGui::SetItemDefaultFocus();
