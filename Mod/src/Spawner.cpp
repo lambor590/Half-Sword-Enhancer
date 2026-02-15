@@ -126,15 +126,14 @@ namespace Spawner {
         return actor;
     }
 
-    static SDK::AActor* SpawnActorInternal(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform) {
-        SDK::AActor* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            world,
-            actorClass,
-            transform,
+    static SDK::AActor* DeferredSpawn(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> preFinishCallback = nullptr) {
+        auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+            world, actorClass, transform,
             SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr,
-            SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
-        );
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        if (!actor) return nullptr;
+
+        if (preFinishCallback) preFinishCallback(actor);
 
         SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
         return actor;
@@ -183,7 +182,7 @@ namespace Spawner {
     }
 
     void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround, int tier) {
-        GameHook::QueueAction([world, className, transform, callback, snapToGround, tier]() {
+        GameHook::QueueAction([world, className, transform, callback = std::move(callback), snapToGround, tier]() {
             SDK::FTransform finalTransform = transform;
             ActorType actorType = GetActorType(className);
 
@@ -200,15 +199,14 @@ namespace Spawner {
                 spawnedActor = SpawnModularWeapon(world, actorClass, finalTransform, static_cast<SDK::Enum_Ranks>(tier));
             } else if (actorType == ActorType::Armor) {
                 spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
+            } else if (actorType == ActorType::Willie) {
+                DeferredSpawn(world, actorClass, finalTransform, callback);
+                return;
+            } else {
+                spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             }
 
-            if (!spawnedActor) {
-                spawnedActor = SpawnActorInternal(world, actorClass, finalTransform);
-            }
-
-            if (callback) {
-                callback(spawnedActor);
-            }
+            if (callback) callback(spawnedActor);
         });
     }
 
@@ -243,8 +241,8 @@ namespace Spawner {
         return actor;
     }
 
-    void SpawnArmorFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform, bool snapToGround) {
-        GameHook::QueueAction([world, passport, transform, snapToGround]() {
+    void SpawnArmorFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform, bool snapToGround, std::function<void(SDK::AActor*)> callback) {
+        GameHook::QueueAction([world, passport, transform, snapToGround, callback = std::move(callback)]() {
             SDK::FTransform finalTransform = transform;
 
             if (snapToGround) {
@@ -253,7 +251,8 @@ namespace Spawner {
                 finalTransform.Translation = groundPosition;
             }
 
-            SpawnArmorWithPassport(world, passport, finalTransform);
+            SDK::AActor* actor = SpawnArmorWithPassport(world, passport, finalTransform);
+            if (callback && actor) callback(actor);
         });
     }
 
@@ -262,7 +261,7 @@ namespace Spawner {
     }
 
     void SpawnCustomizableFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround, std::function<void(SDK::AActor*)> callback) {
-        GameHook::QueueAction([world, passport, transform, snapToGround, callback]() {
+        GameHook::QueueAction([world, passport, transform, snapToGround, callback = std::move(callback)]() {
             SDK::FTransform finalTransform = transform;
 
             if (snapToGround) {
