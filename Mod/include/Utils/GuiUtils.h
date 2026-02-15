@@ -27,6 +27,24 @@ namespace GuiUtils {
         return changed;
     }
 
+    inline float CalcComboWidth(const char* const* items, int count) {
+        float maxW = 0;
+        for (int i = 0; i < count; ++i) {
+            float w = ImGui::CalcTextSize(items[i]).x;
+            if (w > maxW) maxW = w;
+        }
+        return maxW + ImGui::GetFrameHeight() + ImGui::GetStyle().FramePadding.x * 2;
+    }
+
+    inline float CalcComboWidth(const char* (*getter)(void* data, int idx), void* data, int count) {
+        float maxW = 0;
+        for (int i = 0; i < count; ++i) {
+            float w = ImGui::CalcTextSize(getter(data, i)).x;
+            if (w > maxW) maxW = w;
+        }
+        return maxW + ImGui::GetFrameHeight() + ImGui::GetStyle().FramePadding.x * 2;
+    }
+
     inline bool CheckboxWithConfig(const char* label, const char* section, const char* key,
                                    bool defaultValue, const char* tooltip = nullptr) {
         static bool value = ConfigManager::Get().GetBool(section, key, defaultValue);
