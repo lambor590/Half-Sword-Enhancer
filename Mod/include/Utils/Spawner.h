@@ -23,7 +23,7 @@ namespace Spawner {
     void ClearCache();
 
     SDK::FVector GetGroundPosition(const SDK::UWorld* world, SDK::FVector position, float groundOffset = 50.0f, float traceDistance = 1000.0f);
-    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback = nullptr, bool snapToGround = false, int tier = 4);
+    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback = nullptr, bool snapToGround = false, int tier = 4, std::function<void(SDK::AActor*)> postSpawnCallback = nullptr);
     void SpawnCustomizableWeapon(const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround = false, int tier = 4);
     void SpawnWeaponFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround = false);
     void SpawnArmorFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform, bool snapToGround = false, std::function<void(SDK::AActor*)> callback = nullptr);

@@ -220,7 +220,7 @@
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\ItemSection.h">
       <Filter>Sections\Entity Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h">
+    <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCEditorSection.h">
       <Filter>Sections\Entity Spawner</Filter>
     </ClInclude>
     <ClInclude Include="resource\resource.h">
@@ -268,13 +268,13 @@
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\ArmorEditorSection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Utils\WeaponPresetSerializer.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="include\Utils\PresetUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\NPCPresetSerializer.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

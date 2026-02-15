@@ -103,6 +103,7 @@ namespace Spawner {
 
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
         armor->Armor_Passport = passport;
+        armor->World_Transform = transform;
 
         SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
         return actor;
@@ -181,8 +182,8 @@ namespace Spawner {
         EquipmentGenerator::ClearCache();
     }
 
-    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround, int tier) {
-        GameHook::QueueAction([world, className, transform, callback = std::move(callback), snapToGround, tier]() {
+    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround, int tier, std::function<void(SDK::AActor*)> postSpawnCallback) {
+        GameHook::QueueAction([world, className, transform, callback = std::move(callback), snapToGround, tier, postSpawnCallback = std::move(postSpawnCallback)]() {
             SDK::FTransform finalTransform = transform;
             ActorType actorType = GetActorType(className);
 
@@ -200,7 +201,8 @@ namespace Spawner {
             } else if (actorType == ActorType::Armor) {
                 spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Willie) {
-                DeferredSpawn(world, actorClass, finalTransform, callback);
+                SDK::AActor* actor = DeferredSpawn(world, actorClass, finalTransform, callback);
+                if (actor && postSpawnCallback) postSpawnCallback(actor);
                 return;
             } else {
                 spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
@@ -236,6 +238,7 @@ namespace Spawner {
 
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
         armor->Armor_Passport = passport;
+        armor->World_Transform = transform;
 
         SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
         return actor;

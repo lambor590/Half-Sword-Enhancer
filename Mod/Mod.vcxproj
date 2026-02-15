@@ -301,7 +301,7 @@
     <ClInclude Include="include\Menu\MenuManager.h" />
     <ClInclude Include="include\Menu\SectionConfig.h" />
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\ItemSection.h" />
-    <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCSection.h" />
+    <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\WeaponEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Entity_Spawner\ArmorEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Gameplay\WorldSection.h" />
@@ -324,6 +324,7 @@
     <ClInclude Include="include\Utils\GameBuildInfo.h" />
     <ClInclude Include="include\Utils\PresetUtils.h" />
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h" />
+    <ClInclude Include="include\Utils\NPCPresetSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Mod.rc" />
