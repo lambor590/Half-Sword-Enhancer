@@ -27,7 +27,9 @@ public:
     void OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept override;
     
     __forceinline void SetCommandQueue(ID3D12CommandQueue* commandQueue) noexcept override {
-        this->commandQueue = commandQueue;
+        if (this->commandQueue.Get() != commandQueue) UNLIKELY {
+            this->commandQueue = commandQueue;
+        }
     }
     
     void SetGetCommandQueueCallback(void (*callback)()) noexcept override {

@@ -58,32 +58,49 @@ void DirectXHook::Hook()
 IDXGISwapChain* DirectXHook::CreateDummySwapChain()
 {
     static HWND dummyWindow = []() {
-        WNDCLASSEX wc{ sizeof(WNDCLASSEX), CS_CLASSDC, DefWindowProc, 0, 0, GetModuleHandle(0), 0, 0, 0, 0, TEXT("DX"), 0 };
+        WNDCLASSEX wc{ sizeof(WNDCLASSEX), CS_CLASSDC, DefWindowProc, 0, 0,
+                       GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, TEXT("DX"), nullptr };
         RegisterClassEx(&wc);
-        return CreateWindowEx(WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW,
-            wc.lpszClassName, nullptr, 0, 0, 0, 1, 1, nullptr, nullptr, wc.hInstance, nullptr);
-        }();
+        return CreateWindowEx(0, wc.lpszClassName, nullptr, WS_POPUP,
+                              0, 0, 1, 1, nullptr, nullptr, wc.hInstance, nullptr);
+    }();
+
+    if (!dummyWindow) {
+        logger.Log("Failed to create dummy window (error: %lu)", GetLastError());
+        return nullptr;
+    }
 
     DXGI_SWAP_CHAIN_DESC desc{};
     desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     desc.SampleDesc.Count = 1;
     desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    desc.BufferCount = 2;
+    desc.BufferCount = 1;
     desc.OutputWindow = dummyWindow;
     desc.Windowed = TRUE;
-    desc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+    desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+
+    const D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
 
     IDXGISwapChain* swapChain = nullptr;
     ID3D11Device* device = nullptr;
-    HRESULT hr = D3D11CreateDeviceAndSwapChain(0, D3D_DRIVER_TYPE_HARDWARE, 0, 0, 0, 0, D3D11_SDK_VERSION, &desc, &swapChain, &device, 0, 0);
 
-    if (FAILED(hr) || !swapChain) {
-        logger.Log("D3D11CreateDeviceAndSwapChain failed: 0x%X", hr);
-        if (device) device->Release();
-        return nullptr;
+    HRESULT hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0,
+        &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChain, &device, nullptr, nullptr);
+
+    if (FAILED(hr)) {
+        logger.Log("Hardware device failed (0x%08X), falling back to WARP", hr);
+        if (device) { device->Release(); device = nullptr; }
+        hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_WARP, nullptr, 0,
+            &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChain, &device, nullptr, nullptr);
     }
 
     if (device) device->Release();
+
+    if (FAILED(hr) || !swapChain) {
+        logger.Log("D3D11CreateDeviceAndSwapChain failed: 0x%08X", hr);
+        return nullptr;
+    }
+
     return swapChain;
 }
 
