@@ -11,6 +11,7 @@
 #include "Utils/EquipmentGenerator.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
+#include "SDK/Engine_classes.hpp"
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/GuiUtils.h"
 
@@ -27,7 +28,6 @@ private:
     static constexpr int ARMOR_SLOT_COUNT = sizeof(ARMOR_SLOTS) / sizeof(ARMOR_SLOTS[0]);
 
     SDK::FStr_Passport_Armor1 armorPassport{};
-    bool armorGenerated = false;
     bool armorGenerationPending = false;
 
     SDK::UClass* cachedCoreClass = nullptr;
@@ -64,6 +64,26 @@ private:
     bool presetListDirty = true;
     std::string statusMessage;
     double statusMessageTime = 0.0;
+
+    struct ScalarParamEntry {
+        SDK::FName fname;
+        std::string name;
+        float defaultValue;
+        float value;
+        bool enabled = false;
+    };
+
+    struct VectorParamEntry {
+        SDK::FName fname;
+        std::string name;
+        SDK::FLinearColor defaultValue;
+        SDK::FLinearColor value;
+        bool enabled = false;
+    };
+
+    std::vector<ScalarParamEntry> materialScalars;
+    std::vector<VectorParamEntry> materialVectors;
+    SDK::UClass* materialDiscoveredForCore = nullptr;
 
     static int RandomInt(int min, int max) {
         static thread_local std::mt19937 rng{std::random_device{}()};
@@ -107,7 +127,7 @@ private:
         armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = {0.5f, 0.5f, 0.5f, 1.0f};
         armorPassport.Tier_50_E497AE434B01B84C559DEE8A863BB42E = static_cast<SDK::Enum_Ranks>(4);
         armorPassport.Price_27_8E3ADD54484EFC4A59FE9381485AC192 = 50.0;
-        armorGenerated = true;
+        materialDiscoveredForCore = nullptr;
     }
 
     void QueueGeneration(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, double moduleChance) {
@@ -116,7 +136,6 @@ private:
             EquipmentGenerator::Init(world);
             armorPassport = EquipmentGenerator::GenerateArmor(tier, slot, moduleChance);
             PopulateModulePoolForCurrentCore();
-            armorGenerated = true;
             armorGenerationPending = false;
         });
     }
@@ -148,10 +167,6 @@ private:
         if (props.strapPower.enabled)          armor->Strap_Power__Helmet_ = props.strapPower.value;
         if (props.aiInvincibilityRate.enabled) armor->AI_Invinvcibility_Rate = props.aiInvincibilityRate.value;
         if (props.price.enabled)               armor->Price = props.price.value;
-        if (props.dynamicColor.enabled)        armor->Dynamic_Color = props.dynamicColor.value;
-        if (props.fixedColor.enabled)          armor->Fixed_Color = props.fixedColor.value;
-        if (props.metal.enabled)               armor->Metal_ = props.metal.value;
-        if (props.simulatesPhysics.enabled)    armor->Simulates_Physics = props.simulatesPhysics.value;
         if (props.pickUp.enabled)              armor->Pick_Up = props.pickUp.value;
 
         if (colors.enabled) {
@@ -166,10 +181,67 @@ private:
                runtimeProps.protectionStab.enabled || runtimeProps.materialDensity.enabled ||
                runtimeProps.massScale.enabled || runtimeProps.handsRigidity.enabled ||
                runtimeProps.strapPower.enabled || runtimeProps.aiInvincibilityRate.enabled ||
-               runtimeProps.price.enabled || runtimeProps.dynamicColor.enabled ||
-               runtimeProps.fixedColor.enabled || runtimeProps.metal.enabled ||
-               runtimeProps.simulatesPhysics.enabled || runtimeProps.pickUp.enabled ||
+               runtimeProps.price.enabled || runtimeProps.pickUp.enabled ||
                runtimeColors.enabled;
+    }
+
+    void DiscoverMaterialParams(SDK::ABP_Armor_Master_C* armor) {
+        SDK::UClass* core = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
+        if (core == materialDiscoveredForCore) return;
+        materialDiscoveredForCore = core;
+        materialScalars.clear();
+        materialVectors.clear();
+
+        auto* mid = armor->Dynamic_Material;
+        if (!mid) return;
+
+        auto* matInst = static_cast<SDK::UMaterialInstance*>(mid);
+
+        for (int i = 0; i < matInst->ScalarParameterValues.Num(); ++i) {
+            auto& param = matInst->ScalarParameterValues[i];
+            ScalarParamEntry entry;
+            entry.fname = param.ParameterInfo.Name;
+            entry.name = param.ParameterInfo.Name.ToString();
+            entry.defaultValue = param.ParameterValue;
+            entry.value = param.ParameterValue;
+            materialScalars.push_back(std::move(entry));
+        }
+
+        for (int i = 0; i < matInst->VectorParameterValues.Num(); ++i) {
+            auto& param = matInst->VectorParameterValues[i];
+            VectorParamEntry entry;
+            entry.fname = param.ParameterInfo.Name;
+            entry.name = param.ParameterInfo.Name.ToString();
+            entry.defaultValue = param.ParameterValue;
+            entry.value = param.ParameterValue;
+            materialVectors.push_back(std::move(entry));
+        }
+    }
+
+    void ApplyMaterialOverrides(SDK::ABP_Armor_Master_C* armor) {
+        auto* mid = armor->Dynamic_Material;
+        if (!mid) return;
+
+        for (const auto& s : materialScalars) {
+            if (s.enabled)
+                mid->SetScalarParameterValue(s.fname, s.value);
+        }
+        for (const auto& v : materialVectors) {
+            if (v.enabled)
+                mid->SetVectorParameterValue(v.fname, v.value);
+        }
+    }
+
+    bool HasAnyMaterialOverride() const {
+        for (const auto& s : materialScalars) if (s.enabled) return true;
+        for (const auto& v : materialVectors) if (v.enabled) return true;
+        return false;
+    }
+
+    void ApplyMaterialToPreview() {
+        if (!previewActor) return;
+        auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(previewActor);
+        ApplyMaterialOverrides(armor);
     }
 
     void DestroyPreview() {
@@ -193,7 +265,6 @@ private:
 
     void SpawnPreview() {
         DestroyPreview();
-        if (!armorGenerated) return;
         if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
         if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
 
@@ -205,16 +276,26 @@ private:
         auto colors = runtimeColors;
         bool hasOverrides = HasAnyOverride();
 
+        bool hasMaterialOverrides = HasAnyMaterialOverride();
+
         Spawner::SpawnArmorFromPassport(world, armorPassport, BuildSpawnTransform(), cfg.snapToGround,
-            [this, props, colors, hasOverrides](SDK::AActor* actor) {
+            [this, props, colors, hasOverrides, hasMaterialOverrides](SDK::AActor* actor) {
                 if (!cfg.livePreview) {
                     actor->K2_DestroyActor();
                     return;
                 }
                 auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
                 armor->Simulates_Physics = false;
+                if (armor->Armor_Mesh_Static)
+                    armor->Armor_Mesh_Static->SetSimulatePhysics(false);
+                if (armor->Armor_Mesh_Skeletal)
+                    armor->Armor_Mesh_Skeletal->SetAllBodiesSimulatePhysics(false);
+                if (armor->Armor_Mesh_Primitive)
+                    armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props, colors);
+                DiscoverMaterialParams(armor);
+                if (hasMaterialOverrides) ApplyMaterialOverrides(armor);
                 previewActor = actor;
             });
     }
@@ -246,7 +327,6 @@ private:
     }
 
     void SpawnFromPassport() {
-        if (!armorGenerated) return;
         if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
 
         if (cfg.livePreview) {
@@ -255,10 +335,27 @@ private:
         }
 
         std::function<void(SDK::AActor*)> callback = nullptr;
-        if (HasAnyOverride()) {
+        bool hasOverrides = HasAnyOverride();
+        bool hasMaterialOverrides = HasAnyMaterialOverride();
+
+        if (hasOverrides || hasMaterialOverrides) {
             auto props = runtimeProps;
             auto colors = runtimeColors;
-            callback = [props, colors](SDK::AActor* actor) { ApplyRuntimeProps(actor, props, colors); };
+            auto scalars = materialScalars;
+            auto vectors = materialVectors;
+            callback = [props, colors, hasOverrides, hasMaterialOverrides, scalars, vectors](SDK::AActor* actor) {
+                if (hasOverrides) ApplyRuntimeProps(actor, props, colors);
+                if (hasMaterialOverrides) {
+                    auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
+                    auto* mid = armor->Dynamic_Material;
+                    if (mid) {
+                        for (const auto& s : scalars)
+                            if (s.enabled) mid->SetScalarParameterValue(s.fname, s.value);
+                        for (const auto& v : vectors)
+                            if (v.enabled) mid->SetVectorParameterValue(v.fname, v.value);
+                    }
+                }
+            };
         }
 
         Spawner::SpawnArmorFromPassport(world, armorPassport, BuildSpawnTransform(), cfg.snapToGround, callback);
@@ -363,9 +460,6 @@ private:
         TooltipHelper::ShowTooltip("Probability of generating modular armor vs built armor");
 
         ImGui::Spacing();
-        if (ImGui::Button("New"))
-            CreateBlankArmorPassport();
-        ImGui::SameLine();
         if (ImGui::Button("Generate")) {
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
                 GenerateArmorPassport();
@@ -375,18 +469,16 @@ private:
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
                 RandomizeArmorPassport();
         }
-        if (armorGenerated) {
-            ImGui::SameLine();
-            if (ImGui::Button("Reset"))
-                CreateBlankArmorPassport();
-        }
+        ImGui::SameLine();
+        if (ImGui::Button("Reset"))
+            CreateBlankArmorPassport();
 
         if (armorGenerationPending) {
             ImGui::SameLine();
             ImGui::TextDisabled("Generating...");
         }
 
-        if (armorGenerated && armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) {
+        if (armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) {
             SDK::UClass* core = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
             if (core != cachedCoreClass) {
                 cachedCoreClass = core;
@@ -510,14 +602,6 @@ private:
         }
 
         if (ImGui::TreeNode("Toggles")) {
-            GuiUtils::RenderOverrideBool("Dynamic Color", runtimeProps.dynamicColor);
-            TooltipHelper::ShowTooltip("Enable dynamic material coloring on this armor");
-            GuiUtils::RenderOverrideBool("Fixed Color", runtimeProps.fixedColor);
-            TooltipHelper::ShowTooltip("Lock colors to prevent dynamic changes");
-            GuiUtils::RenderOverrideBool("Metal", runtimeProps.metal);
-            TooltipHelper::ShowTooltip("Mark armor as metallic (affects sound and visuals)");
-            GuiUtils::RenderOverrideBool("Simulates Physics", runtimeProps.simulatesPhysics);
-            TooltipHelper::ShowTooltip("Enable physics simulation on the armor mesh");
             GuiUtils::RenderOverrideBool("Pick Up", runtimeProps.pickUp);
             TooltipHelper::ShowTooltip("Allow picking up this armor piece from the ground");
             ImGui::TreePop();
@@ -539,7 +623,6 @@ private:
         armorPassport = d.passport;
         runtimeProps = d.runtimeProps;
         runtimeColors = d.runtimeColors;
-        armorGenerated = true;
         armorModules = {};
     }
 
@@ -551,6 +634,79 @@ private:
     void RefreshPresetList() {
         presetList = ArmorPresetSerializer::ListPresets();
         presetListDirty = false;
+    }
+
+    void RenderMaterialTab() {
+        ImGui::PushID("material");
+
+        if (materialScalars.empty() && materialVectors.empty()) {
+            ImGui::TextDisabled("Generate armor and enable Live Preview to discover material parameters");
+            ImGui::PopID();
+            return;
+        }
+
+        if (ImGui::Button("Reset Material")) {
+            for (auto& s : materialScalars) { s.enabled = false; s.value = s.defaultValue; }
+            for (auto& v : materialVectors) { v.enabled = false; v.value = v.defaultValue; }
+            if (previewActor) {
+                auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(previewActor);
+                auto* mid = armor->Dynamic_Material;
+                if (mid) {
+                    for (const auto& s : materialScalars)
+                        mid->SetScalarParameterValue(s.fname, s.defaultValue);
+                    for (const auto& v : materialVectors)
+                        mid->SetVectorParameterValue(v.fname, v.defaultValue);
+                }
+            }
+        }
+
+        bool changed = false;
+
+        if (!materialVectors.empty()) {
+            ImGui::Spacing();
+            ImGui::TextDisabled("Colors");
+            for (auto& v : materialVectors) {
+                ImGui::PushID(v.name.c_str());
+                bool wasEnabled = v.enabled;
+                ImGui::Checkbox("##en", &v.enabled);
+                ImGui::SameLine();
+                if (!v.enabled) ImGui::BeginDisabled();
+                float col[4] = {v.value.R, v.value.G, v.value.B, v.value.A};
+                ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
+                if (ImGui::ColorEdit4(v.name.c_str(), col)) {
+                    v.value = {col[0], col[1], col[2], col[3]};
+                    changed = true;
+                }
+                ImGui::PopItemWidth();
+                if (!v.enabled) ImGui::EndDisabled();
+                if (wasEnabled != v.enabled) changed = true;
+                ImGui::PopID();
+            }
+        }
+
+        if (!materialScalars.empty()) {
+            ImGui::Spacing();
+            ImGui::TextDisabled("Properties");
+            for (auto& s : materialScalars) {
+                ImGui::PushID(s.name.c_str());
+                bool wasEnabled = s.enabled;
+                ImGui::Checkbox("##en", &s.enabled);
+                ImGui::SameLine();
+                if (!s.enabled) ImGui::BeginDisabled();
+                ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
+                if (ImGui::DragFloat(s.name.c_str(), &s.value, 0.01f))
+                    changed = true;
+                ImGui::PopItemWidth();
+                if (!s.enabled) ImGui::EndDisabled();
+                if (wasEnabled != s.enabled) changed = true;
+                ImGui::PopID();
+            }
+        }
+
+        if (changed && previewActor)
+            ApplyMaterialToPreview();
+
+        ImGui::PopID();
     }
 
     void RenderPresetsTab() {
@@ -664,7 +820,7 @@ private:
         ImGui::Separator();
         ImGui::Spacing();
 
-        bool canSpawn = armorGenerated && armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
+        bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
         if (!canSpawn) ImGui::BeginDisabled();
         if (ImGui::Button("Spawn Armor", ImVec2(-1, 0))) {
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
@@ -675,6 +831,8 @@ private:
 
 public:
     ArmorEditorSection() : CollapsibleSection("Armor Editor") {
+        CreateBlankArmorPassport();
+
         Function("Spawn Armor")
             .WithKey(&cfg.spawnKey)
             .WithParams({
@@ -701,25 +859,24 @@ public:
 
         RenderGenerationControls();
 
-        if (armorGenerated) {
-            if (ImGui::Checkbox("Live Preview", &cfg.livePreview)) {
-                if (!cfg.livePreview)
-                    DestroyPreview();
-            }
+        if (ImGui::Checkbox("Live Preview", &cfg.livePreview)) {
+            if (!cfg.livePreview)
+                DestroyPreview();
+        }
 
-            ImGui::Spacing();
-            if (ImGui::BeginTabBar("##ArmorEditorTabs")) {
-                if (ImGui::BeginTabItem("Modules"))  { RenderModulesTab();  ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Colors"))    { RenderColorsTab();   ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Stats"))     { RenderStatsTab();    ImGui::EndTabItem(); }
-                if (ImGui::BeginTabItem("Presets"))   { RenderPresetsTab();  ImGui::EndTabItem(); }
-                ImGui::EndTabBar();
-            }
+        ImGui::Spacing();
+        if (ImGui::BeginTabBar("##ArmorEditorTabs")) {
+            if (ImGui::BeginTabItem("Modules"))  { RenderModulesTab();  ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Colors"))    { RenderColorsTab();   ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Stats"))     { RenderStatsTab();    ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Material"))  { RenderMaterialTab(); ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Presets"))   { RenderPresetsTab();  ImGui::EndTabItem(); }
+            ImGui::EndTabBar();
         }
 
         RenderSpawnFooter();
 
-        if (cfg.livePreview && armorGenerated)
+        if (cfg.livePreview)
             UpdatePreview();
     }
 };
