@@ -37,14 +37,14 @@ private:
     SectionConfig::ItemConfig& cfg = SectionConfig::item;
 
     static constexpr uint8_t WEAPONS_INDEX = 0;
-    static constexpr uint8_t MODULAR_ARMOR_INDEX = 10;
-    static constexpr uint8_t ARMOR_MODULES_INDEX = 11;
-    static constexpr uint8_t RANDOM_ARMOR_INDEX = 12;
-    static constexpr uint8_t PROPS_INDEX = 13;
+    static constexpr uint8_t MODULAR_ARMOR_INDEX = 9;
+    static constexpr uint8_t ARMOR_MODULES_INDEX = 10;
+    static constexpr uint8_t RANDOM_ARMOR_INDEX = 11;
+    static constexpr uint8_t PROPS_INDEX = 12;
 
     static constexpr std::array categories{
         "Weapons", "Helmets", "Body Armor", "Arms", "Legs",
-        "Hands", "Feet", "Neck", "Shoulders", "Waist",
+        "Hands", "Feet", "Neck", "Shoulders",
         "Modular Armor", "Armor Modules",
         "Random Armor", "Props"
     };
@@ -62,42 +62,24 @@ private:
     }};
 
     static constexpr std::array weaponSubcategories{
-        "Swords", "Bastard Swords", "Falchions",
+        "Swords", "Falchions",
         "Maces", "Hafted", "Polearms", "Pollaxes", "Casted", "Messer",
         "Axes", "Daggers", "Baurnwehr", "Flails",
         "Billhooks", "Halberds", "Spears", "Staves",
         "Tools", "Shields", "Improvised", "Ranged", "Treasure", "Unique"
     };
 
-    static constexpr ItemArray<11> swordItems{{
+    static constexpr ItemArray<5> swordItems{{
         {"Arming Sword", CustomizableWeapon::SwordArming},
         {"Short Sword", CustomizableWeapon::SwordShort},
         {"Long Sword", CustomizableWeapon::SwordLong},
         {"Great Sword", WEAPON_PATH("/ModularWeaponBP_GreatSword.ModularWeaponBP_GreatSword_C")},
         {"Arming Sword (Pre-built)", WEAPON_PATH("/ModularWeaponBP_ArmingSword.ModularWeaponBP_ArmingSword_C")},
-        {"Arming Sword T1", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T1.ModularWeaponBP_ArmingSword_T1_C")},
-        {"Arming Sword T2", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T2.ModularWeaponBP_ArmingSword_T2_C")},
-        {"Arming Sword T3", WEAPON_PATH("/ModularWeaponBP_ArmingSword_T3.ModularWeaponBP_ArmingSword_T3_C")},
-        {"Long Sword T1", WEAPON_PATH("/ModularWeaponBP_LongSword_T1.ModularWeaponBP_LongSword_T1_C")},
-        {"Long Sword T2", WEAPON_PATH("/ModularWeaponBP_LongSword_T2.ModularWeaponBP_LongSword_T2_C")},
-        {"Long Sword T3", WEAPON_PATH("/ModularWeaponBP_LongSword_T3.ModularWeaponBP_LongSword_T3_C")},
     }};
 
-    static constexpr ItemArray<3> bastardSwordItems{{
-        {"Bastard Sword T1", WEAPON_PATH("/ModularWeaponBP_BastardSword_T1.ModularWeaponBP_BastardSword_T1_C")},
-        {"Bastard Sword T2", WEAPON_PATH("/ModularWeaponBP_BastardSword_T2.ModularWeaponBP_BastardSword_T2_C")},
-        {"Bastard Sword T3", WEAPON_PATH("/ModularWeaponBP_BastardSword_T3.ModularWeaponBP_BastardSword_T3_C")},
-    }};
-
-    static constexpr ItemArray<8> falchionItems{{
+    static constexpr ItemArray<2> falchionItems{{
         {"Falchion Long", WEAPON_PATH("/ModularWeaponBP_Falchion_Long.ModularWeaponBP_Falchion_Long_C")},
-        {"Falchion Long T1", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T1.ModularWeaponBP_Falchion_Long_T1_C")},
-        {"Falchion Long T2", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T2.ModularWeaponBP_Falchion_Long_T2_C")},
-        {"Falchion Long T3", WEAPON_PATH("/ModularWeaponBP_Falchion_Long_T3.ModularWeaponBP_Falchion_Long_T3_C")},
         {"Falchion Short", WEAPON_PATH("/ModularWeaponBP_Falchion_Short.ModularWeaponBP_Falchion_Short_C")},
-        {"Falchion Short T1", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T1.ModularWeaponBP_Falchion_Short_T1_C")},
-        {"Falchion Short T2", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T2.ModularWeaponBP_Falchion_Short_T2_C")},
-        {"Falchion Short T3", WEAPON_PATH("/ModularWeaponBP_Falchion_Short_T3.ModularWeaponBP_Falchion_Short_T3_C")},
     }};
 
     static constexpr ItemArray<3> maceItems{{
@@ -139,14 +121,11 @@ private:
         {"Two-Handed Axe", WEAPON_PATH("/Reforged/ModularWeaponBP_Axe2H.ModularWeaponBP_Axe2H_C")}
     }};
 
-    static constexpr ItemArray<7> daggerItems{{
+    static constexpr ItemArray<4> daggerItems{{
         {"Rondel", WEAPON_PATH("/Reforged/ModularWeaponBP_Rondel.ModularWeaponBP_Rondel_C")},
         {"Rondel Gold", WEAPON_PATH("/Reforged/ModularWeaponBP_Rondel_Gold.ModularWeaponBP_Rondel_Gold_C")},
         {"Dagger Rondel", WEAPON_PATH("/Reforged/ModularWeaponBP_DaggerRondel.ModularWeaponBP_DaggerRondel_C")},
-        {"Dagger", WEAPON_PATH("/ModularWeaponBP_Dagger.ModularWeaponBP_Dagger_C")},
-        {"Dagger T1", WEAPON_PATH("/ModularWeaponBP_Dagger_T1.ModularWeaponBP_Dagger_T1_C")},
-        {"Dagger T2", WEAPON_PATH("/ModularWeaponBP_Dagger_T2.ModularWeaponBP_Dagger_T2_C")},
-        {"Dagger T3", WEAPON_PATH("/ModularWeaponBP_Dagger_T3.ModularWeaponBP_Dagger_T3_C")}
+        {"Dagger", WEAPON_PATH("/ModularWeaponBP_Dagger.ModularWeaponBP_Dagger_C")}
     }};
 
     static constexpr ItemArray<7> baurnwehrItems{{
@@ -316,30 +295,13 @@ private:
         {"Gnome Hat B", ARMOR_PATH("/Cloth/Hats/BP_Armor_Head_Hat_Gnome_B.BP_Armor_Head_Hat_Gnome_B_C")}
     }};
 
-    static constexpr ItemArray<29> bodyArmorItems{{
+    static constexpr ItemArray<12> bodyArmorItems{{
         {"Cuirass A", ARMOR_PATH("/Metal/BP_Armor_Body_Cuirass_A.BP_Armor_Body_Cuirass_A_C")},
         {"Cuirass B", ARMOR_PATH("/Metal/BP_Armor_Body_Cuirass_B.BP_Armor_Body_Cuirass_B_C")},
         {"Cuirass Faulds", ARMOR_PATH("/Metal/BP_Armor_Body_Cuirass_Faulds.BP_Armor_Body_Cuirass_Faulds_C")},
         {"Cuirass Plackard", ARMOR_PATH("/Metal/BP_Armor_Body_Cuirass_Plackard.BP_Armor_Body_Cuirass_Plackard_C")},
         {"Cuirass Tassets", ARMOR_PATH("/Metal/BP_Armor_Body_Cuirass_Tassets.BP_Armor_Body_Cuirass_Tassets_C")},
-        {"Cuirass A T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_A_T2.BP_Armor_Body_Cuirass_A_T2_C")},
-        {"Cuirass B T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_B_T1.BP_Armor_Body_Cuirass_B_T1_C")},
-        {"Cuirass B T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_B_T2.BP_Armor_Body_Cuirass_B_T2_C")},
-        {"Cuirass C T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T1.BP_Armor_Body_Cuirass_C_T1_C")},
-        {"Cuirass C T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T2.BP_Armor_Body_Cuirass_C_T2_C")},
-        {"Cuirass C T3", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T3.BP_Armor_Body_Cuirass_C_T3_C")},
-        {"Cuirass C T3 B", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T3_B.BP_Armor_Body_Cuirass_C_T3_B_C")},
-        {"Cuirass C T3 Gold", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Cuirass_C_T3_G.BP_Armor_Body_Cuirass_C_T3_G_C")},
-        {"Breastplate A T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Brestplate_A_T1.BP_Armor_Body_Brestplate_A_T1_C")},
-        {"Breastplate A T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C")},
-        {"Breastplate B T1", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Brestplate_B_T1.BP_Armor_Body_Brestplate_B_T1_C")},
-        {"Breastplate B T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Brestplate_B_T2.BP_Armor_Body_Brestplate_B_T2_C")},
-        {"Plackard T2", ARMOR_PATH("/Metal/Chest/BP_Armor_Body_Plackard_T2.BP_Armor_Body_Plackard_T2_C")},
-        {"Gambeson A T1", ARMOR_PATH("/BP_Armor_Body_Gambeson_A_T1.BP_Armor_Body_Gambeson_A_T1_C")},
-        {"Gambeson A T2", ARMOR_PATH("/BP_Armor_Body_Gambeson_A_T2.BP_Armor_Body_Gambeson_A_T2_C")},
         {"Gambeson A Blue", ARMOR_PATH("/Unique/BP_Armor_Gambeson_A_Blue.BP_Armor_Gambeson_A_Blue_C")},
-        {"Gambeson B T1", ARMOR_PATH("/BP_Armor_Body_Gambeson_B_T1.BP_Armor_Body_Gambeson_B_T1_C")},
-        {"Gambeson B T2", ARMOR_PATH("/BP_Armor_Body_Gambeson_B_T2.BP_Armor_Body_Gambeson_B_T2_C")},
         {"Doublet", ARMOR_PATH("/Cloth/BP_Armor_Body_Doublet.BP_Armor_Body_Doublet_C")},
         {"Arming Doublet", ARMOR_PATH("/Cloth/BP_Armor_Body_Doublet_Arming.BP_Armor_Body_Doublet_Arming_C")},
         {"Arming Doublet Black", ARMOR_PATH("/Unique/BP_Armor_Doublet_Black.BP_Armor_Doublet_Black_C")},
@@ -348,30 +310,16 @@ private:
         {"Shirt B", ARMOR_PATH("/Cloth/BP_Armor_Body_Shirt_B.BP_Armor_Body_Shirt_B_C")}
     }};
 
-    static constexpr ItemArray<13> armItems{{
+    static constexpr ItemArray<3> armItems{{
         {"Couter L", ARMOR_PATH("/Metal/BP_Armor_Arms_Couter_L.BP_Armor_Arms_Couter_L_C")},
         {"Couter R", ARMOR_PATH("/Metal/BP_Armor_Arms_Couter_R.BP_Armor_Arms_Couter_R_C")},
-        {"Vambrace A", ARMOR_PATH("/Metal/BP_Armor_Arms_Vambrace_A.BP_Armor_Arms_Vambrace_A_C")},
-        {"Vambrace A T2", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Vambrace_A_T2.BP_Armor_Arms_Vambrace_A_T2_C")},
-        {"Vambrace A T3", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Vambrace_A_T3.BP_Armor_Arms_Vambrace_A_T3_C")},
-        {"Vambrace B T2", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Vambrace_B_T2.BP_Armor_Arms_Vambrace_B_T2_C")},
-        {"Vambrace B T3", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Vambrace_B_T3.BP_Armor_Arms_Vambrace_B_T3_C")},
-        {"Vambrace C T2", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Vambrace_C_T2.BP_Armor_Arms_Vambrace_C_T2_C")},
-        {"Vambrace C T3", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Vambrace_C_T3.BP_Armor_Arms_Vambrace_C_T3_C")},
-        {"Vambrace C T3 B", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Vambrace_C_T3_B.BP_Armor_Arms_Vambrace_C_T3_B_C")},
-        {"Vambrace C T3 Gold", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Vambrace_C_T3_G.BP_Armor_Arms_Vambrace_C_T3_G_C")},
-        {"Chains T1", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Chains_T1.BP_Armor_Arms_Chains_T1_C")},
-        {"Chains T2", ARMOR_PATH("/Metal/Arms/BP_Armor_Arms_Chains_T2.BP_Armor_Arms_Chains_T2_C")}
+        {"Vambrace A", ARMOR_PATH("/Metal/BP_Armor_Arms_Vambrace_A.BP_Armor_Arms_Vambrace_A_C")}
     }};
 
-    static constexpr ItemArray<18> legItems{{
+    static constexpr ItemArray<14> legItems{{
         {"Cuisse A", ARMOR_PATH("/Metal/BP_Armor_Legs_Cuisse_A.BP_Armor_Legs_Cuisse_A_C")},
-        {"Cuisse A T2", ARMOR_PATH("/Metal/Legs/BP_Armor_Legs_Cuisse_A_T2.BP_Armor_Legs_Cuisse_A_T2_C")},
-        {"Cuisse A T3", ARMOR_PATH("/Metal/Legs/BP_Armor_Legs_Cuisse_A_T3.BP_Armor_Legs_Cuisse_A_T3_C")},
         {"Cuisse B", ARMOR_PATH("/Metal/Legs/BP_Armor_Legs_Cuisse_B.BP_Armor_Legs_Cuisse_B_C")},
         {"Cuisse G", ARMOR_PATH("/Metal/Legs/BP_Armor_Legs_Cuisse_G.BP_Armor_Legs_Cuisse_G_C")},
-        {"Greaves T2", ARMOR_PATH("/Metal/Legs/BP_Armor_Legs_Greaves_T2.BP_Armor_Legs_Greaves_T2_C")},
-        {"Greaves T3", ARMOR_PATH("/Metal/Legs/BP_Armor_Legs_Greaves_T3.BP_Armor_Legs_Greaves_T3_C")},
         {"Hosen A", ARMOR_PATH("/Cloth/BP_Armor_Legs_Hosen_A.BP_Armor_Legs_Hosen_A_C")},
         {"Hosen B", ARMOR_PATH("/Cloth/BP_Armor_Legs_Hosen_B.BP_Armor_Legs_Hosen_B_C")},
         {"Hosen C", ARMOR_PATH("/Cloth/BP_Armor_Legs_Hosen_C.BP_Armor_Legs_Hosen_C_C")},
@@ -385,15 +333,8 @@ private:
         {"Panties", ARMOR_PATH("/Cloth/BP_Armor_Legs_Panties.BP_Armor_Legs_Panties_C")}
     }};
 
-    static constexpr ItemArray<8> handItems{{
-        {"Gauntlets", ARMOR_PATH("/Metal/BP_Armor_Hands_Gauntlets.BP_Armor_Hands_Gauntlets_C")},
-        {"Gauntlets T1", ARMOR_PATH("/Metal/Hands/BP_Armor_Hands_Gauntlets_T1.BP_Armor_Hands_Gauntlets_T1_C")},
-        {"Gauntlets T2", ARMOR_PATH("/Metal/Hands/BP_Armor_Hands_Gauntlets_T2.BP_Armor_Hands_Gauntlets_T2_C")},
-        {"Gauntlets T3", ARMOR_PATH("/Metal/Hands/BP_Armor_Hands_Gauntlets_T3.BP_Armor_Hands_Gauntlets_T3_C")},
-        {"Gauntlets T3 Gold", ARMOR_PATH("/Metal/Hands/BP_Armor_Hands_Gauntlets_T3_G.BP_Armor_Hands_Gauntlets_T3_G_C")},
-        {"Gauntlets T3B", ARMOR_PATH("/Metal/Hands/BP_Armor_Hands_Gauntlets_T3B.BP_Armor_Hands_Gauntlets_T3B_C")},
-        {"Half Gauntlets T1", ARMOR_PATH("/Metal/Hands/BP_Armor_Hands_HalfGauntlets_T1.BP_Armor_Hands_HalfGauntlets_T1_C")},
-        {"Half Gauntlets T2", ARMOR_PATH("/Metal/Hands/BP_Armor_Hands_HalfGauntlets_T2.BP_Armor_Hands_HalfGauntlets_T2_C")}
+    static constexpr ItemArray<1> handItems{{
+        {"Gauntlets", ARMOR_PATH("/Metal/BP_Armor_Hands_Gauntlets.BP_Armor_Hands_Gauntlets_C")}
     }};
 
     static constexpr ItemArray<6> feetItems{{
@@ -405,29 +346,14 @@ private:
         {"Sabatons AB", ARMOR_PATH("/Metal/Feet/BP_Armor_Feet_Sabbatons_AB.BP_Armor_Feet_Sabbatons_AB_C")}
     }};
 
-    static constexpr ItemArray<6> neckItems{{
-        {"Bevor", ARMOR_PATH("/Metal/BP_Armor_Neck_Bevor.BP_Armor_Neck_Bevor_C")},
-        {"Standard T1", ARMOR_PATH("/Mail/BP_Armor_Neck_Standard_T1.BP_Armor_Neck_Standard_T1_C")},
-        {"Standard T2", ARMOR_PATH("/Mail/BP_Armor_Neck_Standard_T2.BP_Armor_Neck_Standard_T2_C")},
-        {"Standard T3", ARMOR_PATH("/Mail/BP_Armor_Neck_Standard_T3.BP_Armor_Neck_Standard_T3_C")},
-        {"Bevor T2", ARMOR_PATH("/Metal/Neck/BP_Armor_Neck_Bevor_T2.BP_Armor_Neck_Bevor_T2_C")},
-        {"Bevor T3", ARMOR_PATH("/Metal/Neck/BP_Armor_Neck_Bevor_T3.BP_Armor_Neck_Bevor_T3_C")}
+    static constexpr ItemArray<1> neckItems{{
+        {"Bevor", ARMOR_PATH("/Metal/BP_Armor_Neck_Bevor.BP_Armor_Neck_Bevor_C")}
     }};
 
-    static constexpr ItemArray<7> shoulderItems{{
-        {"Spaulder A T2", ARMOR_PATH("/Metal/Shoulders/BP_Armor_Shoulders_Spaulder_A_T2.BP_Armor_Shoulders_Spaulder_A_T2_C")},
-        {"Spaulder A T3", ARMOR_PATH("/Metal/Shoulders/BP_Armor_Shoulders_Spaulder_A_T3.BP_Armor_Shoulders_Spaulder_A_T3_C")},
-        {"Spaulder B T2", ARMOR_PATH("/Metal/Shoulders/BP_Armor_Shoulders_Spaulder_B_T2.BP_Armor_Shoulders_Spaulder_B_T2_C")},
-        {"Spaulder B T3", ARMOR_PATH("/Metal/Shoulders/BP_Armor_Shoulders_Spaulder_B_T3.BP_Armor_Shoulders_Spaulder_B_T3_C")},
+    static constexpr ItemArray<3> shoulderItems{{
         {"Pauldron C", ARMOR_PATH("/Metal/Shoulders/BP_Armor_Shoulders_Pauldron_C.BP_Armor_Shoulders_Pauldron_C_C")},
         {"Pauldron C Gold", ARMOR_PATH("/Metal/Shoulders/BP_Armor_Shoulders_Pauldron_C_G.BP_Armor_Shoulders_Pauldron_C_G_C")},
         {"Pauldron C B", ARMOR_PATH("/Metal/Shoulders/BP_Armor_Shoulders_Pauldron_C_B.BP_Armor_Shoulders_Pauldron_C_B_C")}
-    }};
-
-    static constexpr ItemArray<3> waistItems{{
-        {"Foulds T1", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T1.BP_Armor_Waist_Foulds_T1_C")},
-        {"Foulds T2", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T2.BP_Armor_Waist_Foulds_T2_C")},
-        {"Foulds T3", ARMOR_PATH("/Mail/BP_Armor_Waist_Foulds_T3.BP_Armor_Waist_Foulds_T3_C")}
     }};
 
     static constexpr ItemArray<121> modularArmorCoreItems{{
@@ -655,8 +581,8 @@ private:
         {"Trap Kettle", TRAP_PATH("/Trap_Kettle_BP.Trap_Kettle_BP_C")}
     }};
 
-    static constexpr std::array<const ItemInfo*, 23> weaponArrays{{
-        swordItems.data(), bastardSwordItems.data(), falchionItems.data(),
+    static constexpr std::array<const ItemInfo*, 22> weaponArrays{{
+        swordItems.data(), falchionItems.data(),
         maceItems.data(), haftedItems.data(), polearmItems.data(), pollaxeItems.data(), castedItems.data(), messerItems.data(),
         axeItems.data(), daggerItems.data(), baurnwehrItems.data(), flailItems.data(),
         billhookItems.data(), halberdItems.data(), spearItems.data(), staffItems.data(),
@@ -664,8 +590,8 @@ private:
         rangedItems.data(), treasureItems.data(), uniqueWeaponItems.data()
     }};
 
-    static constexpr std::array<size_t, 23> weaponSizes{{
-        swordItems.size(), bastardSwordItems.size(), falchionItems.size(),
+    static constexpr std::array<size_t, 22> weaponSizes{{
+        swordItems.size(), falchionItems.size(),
         maceItems.size(), haftedItems.size(), polearmItems.size(), pollaxeItems.size(), castedItems.size(), messerItems.size(),
         axeItems.size(), daggerItems.size(), baurnwehrItems.size(), flailItems.size(),
         billhookItems.size(), halberdItems.size(), spearItems.size(), staffItems.size(),
@@ -673,7 +599,7 @@ private:
         rangedItems.size(), treasureItems.size(), uniqueWeaponItems.size()
     }};
 
-    static constexpr std::array<const ItemInfo*, 14> armorArrays{{
+    static constexpr std::array<const ItemInfo*, 13> armorArrays{{
         nullptr,                        // Weapons (index 0)
         helmetItems.data(),
         bodyArmorItems.data(),
@@ -683,14 +609,13 @@ private:
         feetItems.data(),
         neckItems.data(),
         shoulderItems.data(),
-        waistItems.data(),
-        modularArmorCoreItems.data(),   // Modular Armor (index 10)
-        armorModuleItems.data(),        // Armor Modules (index 11)
-        nullptr,                        // Random Armor (index 12)
-        nullptr                         // Props (index 13)
+        modularArmorCoreItems.data(),   // Modular Armor (index 9)
+        armorModuleItems.data(),        // Armor Modules (index 10)
+        nullptr,                        // Random Armor (index 11)
+        nullptr                         // Props (index 12)
     }};
 
-    static constexpr std::array<size_t, 14> armorSizes{{
+    static constexpr std::array<size_t, 13> armorSizes{{
         0,
         helmetItems.size(),
         bodyArmorItems.size(),
@@ -700,7 +625,6 @@ private:
         feetItems.size(),
         neckItems.size(),
         shoulderItems.size(),
-        waistItems.size(),
         modularArmorCoreItems.size(),
         armorModuleItems.size(),
         0,
