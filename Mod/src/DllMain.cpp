@@ -1,5 +1,4 @@
 #include <Windows.h>
-#include <fstream>
 #include <future>
 
 #include "Logger.h"
@@ -14,23 +13,14 @@ static Logger logger{ "DllMain" };
 static Renderer renderer;
 static DirectXHook dxHook(&renderer);
 
-static inline bool CheckTerminalFile() noexcept {
-    std::fstream terminalFile("enhancer_enable_terminal.txt", std::fstream::in);
-    return terminalFile.is_open();
-}
-
+#ifdef EXPERIMENTAL_VERSION
 static void OpenDebugTerminal() noexcept
 {
-    if (CheckTerminalFile()) {
-        AllocConsole();
-        freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-        #ifdef EXPERIMENTAL_VERSION
-            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer - Experimental Build");
-        #else
-            SetWindowText(GetConsoleWindow(), "Half Sword Enhancer");
-        #endif
-    }
+    AllocConsole();
+    freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+    SetWindowText(GetConsoleWindow(), "Half Sword Enhancer - Experimental Build");
 }
+#endif
 
 static DWORD WINAPI DXHookThread(LPVOID) noexcept
 {
@@ -70,8 +60,8 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept
     switch (reason) {
     case DLL_PROCESS_ATTACH:
         DisableThreadLibraryCalls(module);
-        OpenDebugTerminal();
         #ifdef EXPERIMENTAL_VERSION
+            OpenDebugTerminal();
             logger.Log("Half Sword Enhancer - Experimental Build initializing...");
             logger.Log("This is a public experimental build for testing purposes.");
         #else
