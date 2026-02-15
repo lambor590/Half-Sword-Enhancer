@@ -96,10 +96,23 @@ namespace SectionConfig {
         bool livePreview = false;
     };
 
+    struct ArmorEditorConfig {
+        int armorSlotIndex = 0;
+        int armorTier = 4;
+        float moduleChance = 0.5f;
+        float spawnDistanceForward = 150.0f;
+        float spawnDistanceUp = 50.0f;
+        float spawnScale = 1.0f;
+        bool snapToGround = true;
+        int spawnKey = -1;
+        bool livePreview = false;
+    };
+
     inline PlayerConfig player;
     inline WorldConfig world;
     inline NPCConfig npc;
     inline ItemConfig item;
     inline WeaponEditorConfig weaponEditor;
+    inline ArmorEditorConfig armorEditor;
 
 }
