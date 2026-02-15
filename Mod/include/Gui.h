@@ -1,10 +1,7 @@
 #pragma once
 
 #include <atomic>
-#include <memory>
 #include <Windows.h>
-#include <unordered_map>
-#include <functional>
 
 #include "Render/IRenderCallback.h"
 #include "imgui/imgui.h"
@@ -14,9 +11,9 @@
 #include "Menu/MenuManager.h"
 #include "GlobalDefinitions.h"
 #include "DefaultStyle.h"
-#include "Hooks/GameHook.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandlerEx(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, ImGuiIO& io);
 
 class Gui : public IRenderCallback {
 private:

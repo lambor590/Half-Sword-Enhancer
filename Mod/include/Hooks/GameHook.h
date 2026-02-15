@@ -34,8 +34,6 @@ public:
     static void QueueAction(std::function<void()> action);
     static void ProcessGameThreadQueue();
 
-    static void SetInputEnabled(bool enabled);
-
     bool IsHooked() const noexcept { return hooked; }
 
     enum class GameEvent : uint8_t {

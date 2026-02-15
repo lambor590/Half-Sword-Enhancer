@@ -1,7 +1,7 @@
 #include "Gui.h"
 #include "Menu/Sections/Gameplay/PlayerSection.h"
 #include "Menu/Sections/Gameplay/WorldSection.h"
-#include "Menu/Sections/Entity_Spawner/NPCSection.h"
+#include "Menu/Sections/Entity_Spawner/NPCEditorSection.h"
 #include "Menu/Sections/Entity_Spawner/ItemSection.h"
 #include "Menu/Sections/Entity_Spawner/WeaponEditorSection.h"
 #include "Menu/Sections/Entity_Spawner/ArmorEditorSection.h"
@@ -69,6 +69,9 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
     }
 
+    if (msg == WM_INPUT) [[likely]]
+        return true;
+
     static thread_local ImGuiIO* cachedIO = nullptr;
     if (!cachedIO) [[unlikely]] {
         cachedIO = &ImGui::GetIO();
@@ -78,7 +81,7 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     if (!io.WantTextInput && KeybindManager::ProcessKeyEvent(msg, wParam))
         return true;
 
-    ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
+    ImGui_ImplWin32_WndProcHandlerEx(hWnd, msg, wParam, lParam, io);
 
     if (io.WantCaptureMouse && (msg == WM_SETCURSOR || (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST)))
         return true;
@@ -105,7 +108,7 @@ void Gui::Setup() {
 
     MenuManager::Get().AddSection<PlayerSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<WorldSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<NPCSection>(MenuTab::Entity_Spawner);
+    MenuManager::Get().AddSection<NPCEditorSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<WeaponEditorSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<ArmorEditorSection>(MenuTab::Entity_Spawner);
@@ -137,17 +140,6 @@ bool Gui::NeedsRendering() noexcept {
 
 void Gui::Render() {
     const bool visible = isVisible.load(std::memory_order_relaxed);
-    static bool previousVisibility = visible;
-
-    if (previousVisibility != visible) {
-        GameHook::SetInputEnabled(!visible);
-        previousVisibility = visible;
-    }
-
-    if (!visible && !s_showMismatchPopup &&
-        !(NotificationManager::IsEnabled() && NotificationManager::HasNotifications())) [[unlikely]] {
-        return;
-    }
 
     ImGui_ImplWin32_NewFrame();
     ImGui_ImplDX11_NewFrame();
