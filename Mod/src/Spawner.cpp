@@ -21,7 +21,7 @@ namespace Spawner {
             {"Customizable", ActorType::Weapon},
             {"ModularWeapon", ActorType::Weapon},
             {"BP_Weapon_Reforged", ActorType::Weapon},
-            {"Projectle", ActorType::Projectile},
+            {"Projectle", ActorType::Unknown},
             {"BP_Weapon_Ranged", ActorType::Weapon},
             {"BP_Weapon_Treasure", ActorType::Weapon},
             {"BP_Weapon_Improv", ActorType::Weapon},
@@ -32,13 +32,12 @@ namespace Spawner {
             {"Armor", ActorType::Armor}
         }};
 
-        constexpr std::array<float, 7> GROUND_OFFSETS = {{
+        constexpr std::array<float, 6> GROUND_OFFSETS = {{
             50.0f,  // Willie
             5.0f,   // Weapon
             5.0f,   // Shield
             3.0f,   // Tool
             5.0f,   // Armor
-            5.0f,   // Projectile
             10.0f   // Unknown
         }};
     }
@@ -127,22 +126,6 @@ namespace Spawner {
         return actor;
     }
 
-    static SDK::AActor* SpawnProjectile(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform) {
-        auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            world, actorClass, transform,
-            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
-        if (!actor) return nullptr;
-
-        auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
-        SDK::FStr_Passport_Weapon1 passport{};
-        passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC = actorClass;
-        weapon->Weapon_Passport = passport;
-
-        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
-        return actor;
-    }
-
     static SDK::AActor* SpawnActorInternal(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform) {
         SDK::AActor* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
             world,
@@ -217,8 +200,6 @@ namespace Spawner {
                 spawnedActor = SpawnModularWeapon(world, actorClass, finalTransform, static_cast<SDK::Enum_Ranks>(tier));
             } else if (actorType == ActorType::Armor) {
                 spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
-            } else if (actorType == ActorType::Projectile) {
-                spawnedActor = SpawnProjectile(world, actorClass, finalTransform);
             }
 
             if (!spawnedActor) {
