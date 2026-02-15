@@ -18,7 +18,7 @@ void HSELauncher::SetupConsole() {
     if (localVersionResult) {
         const auto versionStr = localVersionResult->ToString();
 #ifdef EXPERIMENTAL_VERSION
-        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Experimental Build" + versionStr).c_str());
+        SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer - Experimental Build " + versionStr).c_str());
 #else
         SetWindowTextA(GetConsoleWindow(), ("Half Sword Enhancer " + versionStr).c_str());
 #endif
