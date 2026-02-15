@@ -1,9 +1,8 @@
 #pragma once
 
+#include <array>
 #include <vector>
 #include <string>
-#include <algorithm>
-#include <cctype>
 #include <cstdio>
 #include <cstring>
 #include <random>
@@ -45,43 +44,12 @@ private:
     bool weaponGenerated = false;
     bool weaponGenerationPending = false;
 
-    struct RuntimeOverride {
-        bool enabled = false;
-        double value = 0.0;
-    };
+    using RuntimeOverride = WeaponPresetData::RuntimeOverride;
+    using BoolOverride = WeaponPresetData::BoolOverride;
+    using IntOverride = WeaponPresetData::IntOverride;
+    using WeaponRuntimeProps = decltype(WeaponPresetData::runtimeProps);
 
-    struct BoolOverride {
-        bool enabled = false;
-        bool value = false;
-    };
-
-    struct IntOverride {
-        bool enabled = false;
-        int value = 0;
-    };
-
-    struct WeaponRuntimeProps {
-        RuntimeOverride rigidity;
-        RuntimeOverride edgeSharpness;
-        RuntimeOverride rawDamage;
-        RuntimeOverride cuttingRate;
-        RuntimeOverride stabRate;
-        RuntimeOverride defRating;
-        RuntimeOverride gripRate;
-        RuntimeOverride drawCutRate;
-        RuntimeOverride tipSharpness;
-        RuntimeOverride kickPower;
-        RuntimeOverride matDensity;
-        IntOverride dismemberSharp;
-        IntOverride dismemberBlunt;
-        BoolOverride doubleEdged;
-        BoolOverride piercing;
-        BoolOverride noStab;
-        RuntimeOverride staminaBurnR;
-        RuntimeOverride staminaBurnL;
-        RuntimeOverride staminaBurn2H;
-        RuntimeOverride staminaBurn2HAlt;
-    } runtimeProps;
+    WeaponRuntimeProps runtimeProps{};
 
     SDK::AActor* previewActor = nullptr;
     double lastChangeTime = 0.0;
@@ -176,9 +144,7 @@ private:
         weaponGenerated = true;
     }
 
-    void GenerateWeaponPassport() {
-        auto type = static_cast<CustomizableWeapon>(cfg.weaponType);
-        auto tier = static_cast<SDK::Enum_Ranks>(cfg.weaponTier);
+    void QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier) {
         weaponGenerationPending = true;
         GameHook::QueueAction([this, type, tier]() {
             EquipmentGenerator::Init(world);
@@ -189,24 +155,17 @@ private:
         });
     }
 
+    void GenerateWeaponPassport() {
+        QueueGeneration(
+            static_cast<CustomizableWeapon>(cfg.weaponType),
+            static_cast<SDK::Enum_Ranks>(cfg.weaponTier));
+    }
+
     void RandomizeWeaponPassport() {
-        int randomType = RandomInt(1, WEAPON_TYPE_COUNT);
-        uint16_t mask = TierValidation::VALID_TIER_MASKS[randomType];
-        int randomTier = RandomValidTier(mask);
-
-        cfg.weaponType = randomType;
-        cfg.weaponTier = randomTier;
-
-        auto type = static_cast<CustomizableWeapon>(randomType);
-        auto tier = static_cast<SDK::Enum_Ranks>(randomTier);
-        weaponGenerationPending = true;
-        GameHook::QueueAction([this, type, tier]() {
-            EquipmentGenerator::Init(world);
-            weaponPassport = EquipmentGenerator::GenerateCustomizableWeapon(type, tier);
-            PopulateGlobalModulePool();
-            weaponGenerated = true;
-            weaponGenerationPending = false;
-        });
+        cfg.weaponType = RandomInt(1, WEAPON_TYPE_COUNT);
+        uint16_t mask = TierValidation::VALID_TIER_MASKS[cfg.weaponType];
+        cfg.weaponTier = RandomValidTier(mask);
+        GenerateWeaponPassport();
     }
 
     static void ApplyRuntimeProps(SDK::AActor* actor, const WeaponRuntimeProps& props) {
@@ -257,6 +216,16 @@ private:
         });
     }
 
+    SDK::FTransform BuildSpawnTransform() const {
+        auto transform = player->GetTransform();
+        const auto forward = player->GetActorForwardVector();
+        transform.Translation.X += forward.X * cfg.spawnDistanceForward;
+        transform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
+        transform.Translation.Z += cfg.spawnDistanceUp;
+        transform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
+        return transform;
+    }
+
     void SpawnPreview() {
         DestroyPreview();
         if (!weaponGenerated) return;
@@ -265,17 +234,10 @@ private:
         lastPreviewedPassport = weaponPassport;
         lastPreviewedProps = runtimeProps;
 
-        auto spawnTransform = player->GetTransform();
-        const auto forward = player->GetActorForwardVector();
-        spawnTransform.Translation.X += forward.X * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Z += cfg.spawnDistanceUp;
-        spawnTransform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
-
         auto props = runtimeProps;
         bool hasOverrides = HasAnyRuntimeOverride();
 
-        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, spawnTransform, cfg.snapToGround,
+        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, BuildSpawnTransform(), cfg.snapToGround,
             [this, props, hasOverrides](SDK::AActor* actor) {
                 if (!cfg.livePreview) {
                     actor->K2_DestroyActor();
@@ -311,31 +273,34 @@ private:
             DestroyPreview();
         }
 
-        auto spawnTransform = player->GetTransform();
-        const auto forward = player->GetActorForwardVector();
-        spawnTransform.Translation.X += forward.X * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Z += cfg.spawnDistanceUp;
-        spawnTransform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
-
         std::function<void(SDK::AActor*)> callback = nullptr;
         if (HasAnyRuntimeOverride()) {
             auto props = runtimeProps;
             callback = [props](SDK::AActor* actor) { ApplyRuntimeProps(actor, props); };
         }
 
-        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, spawnTransform, cfg.snapToGround, callback);
+        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, BuildSpawnTransform(), cfg.snapToGround, callback);
     }
 
-    static bool MatchesFilter(const std::string& name, const char* filter) {
-        if (!filter[0]) return true;
-        auto toLower = [](char c) { return static_cast<char>(std::tolower(static_cast<unsigned char>(c))); };
-        std::string lowerName(name.size(), '\0');
-        std::transform(name.begin(), name.end(), lowerName.begin(), toLower);
-        std::string lowerFilter;
-        for (const char* p = filter; *p; ++p)
-            lowerFilter += toLower(*p);
-        return lowerName.find(lowerFilter) != std::string::npos;
+    static constexpr auto LOWER_TABLE = [] {
+        std::array<char, 256> t{};
+        for (int i = 0; i < 256; ++i) t[i] = static_cast<char>(i);
+        for (int i = 'A'; i <= 'Z'; ++i) t[i] = static_cast<char>(i + 32);
+        return t;
+    }();
+
+    static bool MatchesFilter(const char* name, size_t nameLen, const char* filter, size_t filterLen) {
+        if (filterLen == 0) return true;
+        if (filterLen > nameLen) return false;
+        for (size_t i = 0; i <= nameLen - filterLen; ++i) {
+            size_t j = 0;
+            while (j < filterLen &&
+                   LOWER_TABLE[static_cast<unsigned char>(name[i + j])] ==
+                   LOWER_TABLE[static_cast<unsigned char>(filter[j])])
+                ++j;
+            if (j == filterLen) return true;
+        }
+        return false;
     }
 
     static void RenderFilteredModuleCombo(const char* label,
@@ -346,32 +311,36 @@ private:
         for (const auto& e : options)
             if (e.cls == current) { preview = e.name.c_str(); break; }
 
-        if (ImGui::BeginCombo(label, preview)) {
-            ImGui::SetNextItemWidth(-1);
-            ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
+        if (!ImGui::BeginCombo(label, preview)) return;
 
-            if (filterBuf[0]) {
-                int visible = 0, total = static_cast<int>(options.size());
-                for (const auto& e : options)
-                    if (MatchesFilter(e.name, filterBuf)) ++visible;
-                ImGui::TextDisabled("Showing %d of %d", visible, total);
-            }
+        ImGui::SetNextItemWidth(-1);
+        ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
 
-            ImGui::Separator();
+        const size_t filterLen = std::strlen(filterBuf);
+        const bool hasFilter = filterLen > 0;
 
-            if (allowNone && ImGui::Selectable("None", current == nullptr))
-                current = nullptr;
-
-            char display[128];
-            for (const auto& e : options) {
-                if (!MatchesFilter(e.name, filterBuf)) continue;
-                std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
-                if (ImGui::Selectable(display, e.cls == current))
-                    current = e.cls;
-                if (e.cls == current) ImGui::SetItemDefaultFocus();
-            }
-            ImGui::EndCombo();
+        if (hasFilter) {
+            int visible = 0;
+            for (const auto& e : options)
+                if (MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
+            ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(options.size()));
         }
+
+        ImGui::Separator();
+
+        if (allowNone && ImGui::Selectable("None", current == nullptr))
+            current = nullptr;
+
+        char display[128];
+        for (const auto& e : options) {
+            if (hasFilter && !MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen))
+                continue;
+            std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
+            if (ImGui::Selectable(display, e.cls == current))
+                current = e.cls;
+            if (e.cls == current) ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
     }
 
     static void RenderMaterialCombo(const char* label, SDK::Enum_MaterialLayer& mat) {
@@ -417,14 +386,15 @@ private:
         ImGui::PopItemWidth();
     }
 
+    static constexpr const char* TIER_LABELS[] = {
+        "Tier 0", "Tier 1", "Tier 2", "Tier 3", "Tier 4",
+        "Tier 5", "Tier 6", "Tier 7", "Tier 8"
+    };
+
     static void RenderFreeTierCombo(const char* label, int& tier) {
-        char preview[16];
-        std::snprintf(preview, sizeof(preview), "Tier %d", tier);
-        if (ImGui::BeginCombo(label, preview)) {
+        if (ImGui::BeginCombo(label, TIER_LABELS[tier])) {
             for (int t = 0; t <= 8; ++t) {
-                char lbl[16];
-                std::snprintf(lbl, sizeof(lbl), "Tier %d", t);
-                if (ImGui::Selectable(lbl, t == tier))
+                if (ImGui::Selectable(TIER_LABELS[t], t == tier))
                     tier = t;
                 if (t == tier) ImGui::SetItemDefaultFocus();
             }
@@ -441,14 +411,10 @@ private:
     static void RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask) {
         tier = TierValidation::NearestValidTier(validMask, tier);
 
-        char preview[16];
-        std::snprintf(preview, sizeof(preview), "Tier %d", tier);
-        if (ImGui::BeginCombo(label, preview)) {
+        if (ImGui::BeginCombo(label, TIER_LABELS[tier])) {
             for (int t = 0; t <= 8; ++t) {
                 if (!(validMask & (1 << t))) continue;
-                char lbl[16];
-                std::snprintf(lbl, sizeof(lbl), "Tier %d", t);
-                if (ImGui::Selectable(lbl, t == tier))
+                if (ImGui::Selectable(TIER_LABELS[t], t == tier))
                     tier = t;
                 if (t == tier) ImGui::SetItemDefaultFocus();
             }
@@ -735,59 +701,18 @@ private:
         WeaponPresetData d;
         d.name = presetNameBuf;
         d.passport = weaponPassport;
-        auto& dst = d.runtimeProps;
-        const auto& src = runtimeProps;
-        dst.rigidity       = {src.rigidity.enabled, src.rigidity.value};
-        dst.edgeSharpness  = {src.edgeSharpness.enabled, src.edgeSharpness.value};
-        dst.rawDamage      = {src.rawDamage.enabled, src.rawDamage.value};
-        dst.cuttingRate    = {src.cuttingRate.enabled, src.cuttingRate.value};
-        dst.stabRate       = {src.stabRate.enabled, src.stabRate.value};
-        dst.defRating      = {src.defRating.enabled, src.defRating.value};
-        dst.gripRate       = {src.gripRate.enabled, src.gripRate.value};
-        dst.drawCutRate    = {src.drawCutRate.enabled, src.drawCutRate.value};
-        dst.tipSharpness   = {src.tipSharpness.enabled, src.tipSharpness.value};
-        dst.kickPower      = {src.kickPower.enabled, src.kickPower.value};
-        dst.matDensity     = {src.matDensity.enabled, src.matDensity.value};
-        dst.dismemberSharp = {src.dismemberSharp.enabled, src.dismemberSharp.value};
-        dst.dismemberBlunt = {src.dismemberBlunt.enabled, src.dismemberBlunt.value};
-        dst.doubleEdged    = {src.doubleEdged.enabled, src.doubleEdged.value};
-        dst.piercing       = {src.piercing.enabled, src.piercing.value};
-        dst.noStab         = {src.noStab.enabled, src.noStab.value};
-        dst.staminaBurnR   = {src.staminaBurnR.enabled, src.staminaBurnR.value};
-        dst.staminaBurnL   = {src.staminaBurnL.enabled, src.staminaBurnL.value};
-        dst.staminaBurn2H  = {src.staminaBurn2H.enabled, src.staminaBurn2H.value};
-        dst.staminaBurn2HAlt = {src.staminaBurn2HAlt.enabled, src.staminaBurn2HAlt.value};
+        d.runtimeProps = runtimeProps;
         return d;
     }
 
     void ApplyPresetData(const WeaponPresetData& d) {
         weaponPassport = d.passport;
-        const auto& src = d.runtimeProps;
-        runtimeProps.rigidity       = {src.rigidity.enabled, src.rigidity.value};
-        runtimeProps.edgeSharpness  = {src.edgeSharpness.enabled, src.edgeSharpness.value};
-        runtimeProps.rawDamage      = {src.rawDamage.enabled, src.rawDamage.value};
-        runtimeProps.cuttingRate    = {src.cuttingRate.enabled, src.cuttingRate.value};
-        runtimeProps.stabRate       = {src.stabRate.enabled, src.stabRate.value};
-        runtimeProps.defRating      = {src.defRating.enabled, src.defRating.value};
-        runtimeProps.gripRate       = {src.gripRate.enabled, src.gripRate.value};
-        runtimeProps.drawCutRate    = {src.drawCutRate.enabled, src.drawCutRate.value};
-        runtimeProps.tipSharpness   = {src.tipSharpness.enabled, src.tipSharpness.value};
-        runtimeProps.kickPower      = {src.kickPower.enabled, src.kickPower.value};
-        runtimeProps.matDensity     = {src.matDensity.enabled, src.matDensity.value};
-        runtimeProps.dismemberSharp = {src.dismemberSharp.enabled, src.dismemberSharp.value};
-        runtimeProps.dismemberBlunt = {src.dismemberBlunt.enabled, src.dismemberBlunt.value};
-        runtimeProps.doubleEdged    = {src.doubleEdged.enabled, src.doubleEdged.value};
-        runtimeProps.piercing       = {src.piercing.enabled, src.piercing.value};
-        runtimeProps.noStab         = {src.noStab.enabled, src.noStab.value};
-        runtimeProps.staminaBurnR   = {src.staminaBurnR.enabled, src.staminaBurnR.value};
-        runtimeProps.staminaBurnL   = {src.staminaBurnL.enabled, src.staminaBurnL.value};
-        runtimeProps.staminaBurn2H  = {src.staminaBurn2H.enabled, src.staminaBurn2H.value};
-        runtimeProps.staminaBurn2HAlt = {src.staminaBurn2HAlt.enabled, src.staminaBurn2HAlt.value};
+        runtimeProps = d.runtimeProps;
         weaponGenerated = true;
     }
 
-    void SetStatus(const std::string& msg) {
-        statusMessage = msg;
+    void SetStatus(std::string msg) {
+        statusMessage = std::move(msg);
         statusMessageTime = ImGui::GetTime();
     }
 
@@ -835,12 +760,15 @@ private:
         if (presetList.empty()) {
             ImGui::TextDisabled("No saved presets");
         } else {
+            const float framePadX2 = ImGui::GetStyle().FramePadding.x * 2;
+            const float loadW = ImGui::CalcTextSize("Load").x + framePadX2;
+            const float delW = ImGui::CalcTextSize("Del").x + framePadX2;
+            const float spacing = ImGui::GetStyle().ItemSpacing.x;
+            const float buttonsWidth = loadW + delW + spacing * 2;
+
             for (size_t i = 0; i < presetList.size(); ++i) {
                 ImGui::PushID(static_cast<int>(i));
-                float loadW = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2;
-                float delW = ImGui::CalcTextSize("Del").x + ImGui::GetStyle().FramePadding.x * 2;
-                float spacing = ImGui::GetStyle().ItemSpacing.x;
-                float textW = ImGui::GetContentRegionAvail().x - loadW - delW - spacing * 2;
+                float textW = ImGui::GetContentRegionAvail().x - buttonsWidth;
 
                 ImGui::AlignTextToFramePadding();
                 ImGui::TextUnformatted(presetList[i].name.c_str());
