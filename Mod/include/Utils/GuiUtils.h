@@ -85,8 +85,11 @@ namespace GuiUtils {
     inline bool MatchesFilter(const char* name, size_t nameLen, const char* filter, size_t filterLen) {
         if (filterLen == 0) return true;
         if (filterLen > nameLen) return false;
-        for (size_t i = 0; i <= nameLen - filterLen; ++i) {
-            size_t j = 0;
+        const char firstLower = LOWER_TABLE[static_cast<unsigned char>(filter[0])];
+        const size_t limit = nameLen - filterLen;
+        for (size_t i = 0; i <= limit; ++i) {
+            if (LOWER_TABLE[static_cast<unsigned char>(name[i])] != firstLower) continue;
+            size_t j = 1;
             while (j < filterLen &&
                    LOWER_TABLE[static_cast<unsigned char>(name[i + j])] ==
                    LOWER_TABLE[static_cast<unsigned char>(filter[j])])
