@@ -9,6 +9,13 @@
 #include "Utils/GuiUtils.h"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
+struct MeshOverridePreset {
+    bool enabled = false;
+    std::string meshName;
+    SDK::FVector scale = {1.0, 1.0, 1.0};
+    SDK::FRotator rotation = {0.0, 0.0, 0.0};
+};
+
 struct WeaponPresetData {
     SDK::FStr_Passport_Weapon1 passport{};
 
@@ -19,6 +26,9 @@ struct WeaponPresetData {
         BoolOverride doubleEdged, piercing, noStab;
         RuntimeOverride staminaBurnR, staminaBurnL, staminaBurn2H, staminaBurn2HAlt;
     } runtimeProps{};
+
+    static constexpr int MODULE_SLOT_COUNT = 4;
+    MeshOverridePreset meshPresets[MODULE_SLOT_COUNT];
 
     std::string name;
     bool success = false;
@@ -140,6 +150,23 @@ public:
         setOvr("staminaBurn2H", rp.staminaBurn2H.enabled, rp.staminaBurn2H.value);
         setOvr("staminaBurn2HAlt", rp.staminaBurn2HAlt.enabled, rp.staminaBurn2HAlt.value);
 
+        static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
+        for (int slot = 0; slot < WeaponPresetData::MODULE_SLOT_COUNT; ++slot) {
+            const auto& mp = data.meshPresets[slot];
+            if (!minimalMode || mp.enabled) {
+                std::string val = (mp.enabled ? "1," : "0,") + mp.meshName;
+                ini.SetValue("MeshOverrides", MESH_KEYS[slot], val.c_str());
+            }
+            if (mp.enabled) {
+                std::string scaleKey = std::string(MESH_KEYS[slot]) + "_scale";
+                std::string rotKey = std::string(MESH_KEYS[slot]) + "_rot";
+                if (!minimalMode || !IsDefaultVec(mp.scale))
+                    ini.SetValue("MeshOverrides", scaleKey.c_str(), PresetUtils::VecToString(mp.scale).c_str());
+                if (!minimalMode || (std::abs(mp.rotation.Pitch) > 1e-4 || std::abs(mp.rotation.Yaw) > 1e-4 || std::abs(mp.rotation.Roll) > 1e-4))
+                    ini.SetValue("MeshOverrides", rotKey.c_str(), PresetUtils::RotToString(mp.rotation).c_str());
+            }
+        }
+
         std::string output;
         ini.Save(output);
         return output;
@@ -216,6 +243,20 @@ public:
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurnL", ""), rp.staminaBurnL.enabled, rp.staminaBurnL.value);
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurn2H", ""), rp.staminaBurn2H.enabled, rp.staminaBurn2H.value);
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurn2HAlt", ""), rp.staminaBurn2HAlt.enabled, rp.staminaBurn2HAlt.value);
+
+        static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
+        for (int slot = 0; slot < WeaponPresetData::MODULE_SLOT_COUNT; ++slot) {
+            const char* val = ini.GetValue("MeshOverrides", MESH_KEYS[slot], "");
+            if (!val || std::strlen(val) < 2) continue;
+            result.meshPresets[slot].enabled = (val[0] == '1');
+            if (std::strlen(val) > 2)
+                result.meshPresets[slot].meshName = val + 2;
+
+            std::string scaleKey = std::string(MESH_KEYS[slot]) + "_scale";
+            std::string rotKey = std::string(MESH_KEYS[slot]) + "_rot";
+            result.meshPresets[slot].scale = PresetUtils::StringToVec(ini.GetValue("MeshOverrides", scaleKey.c_str(), nullptr));
+            result.meshPresets[slot].rotation = PresetUtils::StringToRot(ini.GetValue("MeshOverrides", rotKey.c_str(), nullptr));
+        }
 
         result.success = true;
         return result;
