@@ -35,18 +35,24 @@ static DWORD WINAPI GameHookThread(LPVOID) noexcept
     return 0;
 }
 
+extern "C" __declspec(dllexport) void HSE_Initialize() noexcept
+{
+    CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
+    CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
+}
+
 static void Cleanup() noexcept
 {
     logger.Log("Cleaning up resources...");
     std::promise<void> cleanupPromise;
     auto cleanupFuture = cleanupPromise.get_future();
-    
+
     std::thread cleanupThread([&cleanupPromise]() noexcept {
         renderer.Cleanup();
         GameHook::Get().Unhook();
         cleanupPromise.set_value();
     });
-    
+
     if (cleanupFuture.wait_for(std::chrono::seconds(5)) == std::future_status::timeout) {
         logger.Log("Cleanup timed out, terminating forcefully");
         cleanupThread.detach();
@@ -68,13 +74,20 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept
             logger.Log("Half Sword Enhancer initializing...");
         #endif
         KeybindManager::Initialize();
-        CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
-        CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
+
+        {
+            HANDLE hMutex = OpenMutexA(SYNCHRONIZE, FALSE, "HSEnhancerProxyInit");
+            if (hMutex) {
+                CloseHandle(hMutex);
+            } else {
+                HSE_Initialize();
+            }
+        }
         break;
     case DLL_PROCESS_DETACH:
         Cleanup();
         break;
     }
-    
+
     return TRUE;
 }
