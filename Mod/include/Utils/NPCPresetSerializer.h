@@ -16,6 +16,7 @@ struct NPCOverrides {
     IntOverride faceType;
     IntOverride eyeColor;
     RuntimeOverride hairLength;
+    RuntimeOverride hairColor;
 
     RuntimeOverride damageRate;
     RuntimeOverride limbDamageRate;
@@ -53,15 +54,11 @@ struct NPCPresetData {
     bool mercenary = false;
 
     NPCOverrides overrides{};
-
-    bool hairColorEnabled = false;
-    SDK::FLinearColor hairColor = {0.3f, 0.2f, 0.1f, 1.0f};
 };
 
 class NPCPresetSerializer {
 private:
     static constexpr const char* CLIPBOARD_PREFIX = "HSEN:";
-    static constexpr SDK::FLinearColor DEFAULT_HAIR_COLOR = {0.3f, 0.2f, 0.1f, 1.0f};
 
 public:
     static std::string SerializeToIni(const NPCPresetData& data, bool minimalMode = false) {
@@ -100,11 +97,7 @@ public:
         setOvrInt("Physical", "faceType", o.faceType.enabled, o.faceType.value);
         setOvrInt("Physical", "eyeColor", o.eyeColor.enabled, o.eyeColor.value);
         setOvr("Physical", "hairLength", o.hairLength.enabled, o.hairLength.value);
-
-        if (!minimalMode || data.hairColorEnabled)
-            ini.SetValue("Physical", "hairColor",
-                (std::string(data.hairColorEnabled ? "1," : "0,") +
-                 PresetUtils::ColorToString(data.hairColor)).c_str());
+        setOvr("Physical", "hairColor", o.hairColor.enabled, o.hairColor.value);
 
         setOvr("Combat", "damageRate", o.damageRate.enabled, o.damageRate.value);
         setOvr("Combat", "limbDamageRate", o.limbDamageRate.enabled, o.limbDamageRate.value);
@@ -165,16 +158,7 @@ public:
         PresetUtils::ParseIntOverride(ini.GetValue("Physical", "faceType", ""), o.faceType.enabled, o.faceType.value);
         PresetUtils::ParseIntOverride(ini.GetValue("Physical", "eyeColor", ""), o.eyeColor.enabled, o.eyeColor.value);
         PresetUtils::ParseDoubleOverride(ini.GetValue("Physical", "hairLength", ""), o.hairLength.enabled, o.hairLength.value);
-
-        const char* hairColorStr = ini.GetValue("Physical", "hairColor", "");
-        if (hairColorStr && hairColorStr[0]) {
-            int en = 0;
-            float r, g, b, a;
-            if (sscanf_s(hairColorStr, "%d,%f,%f,%f,%f", &en, &r, &g, &b, &a) == 5) {
-                result.hairColorEnabled = en != 0;
-                result.hairColor = {r, g, b, a};
-            }
-        }
+        PresetUtils::ParseDoubleOverride(ini.GetValue("Physical", "hairColor", ""), o.hairColor.enabled, o.hairColor.value);
 
         PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "damageRate", ""), o.damageRate.enabled, o.damageRate.value);
         PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "limbDamageRate", ""), o.limbDamageRate.enabled, o.limbDamageRate.value);
