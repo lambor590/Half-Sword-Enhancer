@@ -39,8 +39,6 @@ private:
     static constexpr int nationalityCount = 7;
 
     NPCOverrides overrides{};
-    bool hairColorEnabled = false;
-    SDK::FLinearColor hairColor = {0.3f, 0.2f, 0.1f, 1.0f};
 
     char presetNameBuf[128] = {};
     std::vector<PresetListEntry> presetList;
@@ -57,7 +55,7 @@ private:
     bool HasAnyOverride() const {
         return overrides.heightRate.enabled || overrides.muscleRate.enabled ||
                overrides.scaleMutationInhibitor.enabled || overrides.faceType.enabled ||
-               overrides.eyeColor.enabled || overrides.hairLength.enabled || hairColorEnabled ||
+               overrides.eyeColor.enabled || overrides.hairLength.enabled || overrides.hairColor.enabled ||
                overrides.damageRate.enabled || overrides.limbDamageRate.enabled ||
                overrides.dismemberThreshold.enabled || overrides.regenRate.enabled ||
                overrides.aiInvincibility.enabled || overrides.aiArmorInvincibility.enabled ||
@@ -74,9 +72,14 @@ private:
                overrides.legRHealth.enabled || overrides.legLHealth.enabled;
     }
 
+    static SDK::FLinearColor MelaninToColor(float melanin) {
+        float m = std::clamp(melanin, 0.0f, 1.0f);
+        float inv = 1.0f - m;
+        return { inv * inv, inv * inv * inv, inv * inv * inv * inv, 1.0f };
+    }
+
     static void ApplyPassportOverrides(SDK::FStr_Passport_Character1& passport,
-                                       const NPCOverrides& ovr,
-                                       bool hcEnabled, const SDK::FLinearColor& hc)
+                                       const NPCOverrides& ovr)
     {
         if (ovr.heightRate.enabled)
             passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = ovr.heightRate.value;
@@ -90,8 +93,8 @@ private:
             passport.EyeColor_46_826504294B0D51C1343D848E8B1AB4C6 = ovr.eyeColor.value;
         if (ovr.hairLength.enabled)
             passport.HairLength_41_9295B3CF41DF9BED0FEDB9AE02E7FC16 = ovr.hairLength.value;
-        if (hcEnabled)
-            passport.HairColor_38_CBDC51B043E6816A062799A9A96EB232 = hc;
+        if (ovr.hairColor.enabled)
+            passport.HairColor_38_CBDC51B043E6816A062799A9A96EB232 = MelaninToColor(static_cast<float>(ovr.hairColor.value));
     }
 
     static void ApplyPropertyOverrides(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
@@ -141,8 +144,6 @@ private:
         bool bodyguard = cfg.bodyguard;
         int team = cfg.npcTeam;
         auto ovr = overrides;
-        bool hcEnabled = hairColorEnabled;
-        auto hc = hairColor;
         bool hasOverrides = HasAnyOverride();
 
         SDK::FTransform spawnTransform = player->GetTransform();
@@ -150,7 +151,7 @@ private:
         spawnTransform.Translation.Z += cfg.spawnDistanceUp;
         spawnTransform.Scale3D = SDK::FVector(cfg.spawnScale, cfg.spawnScale, cfg.spawnScale);
 
-        auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hcEnabled, hc, hasOverrides](SDK::AActor* actor) {
+        auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides](SDK::AActor* actor) {
             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
             if (!npc) return;
 
@@ -164,7 +165,7 @@ private:
             EquipmentGenerator::Init(world);
             auto passport = EquipmentGenerator::GenerateCharacter(
                 npc->Class, nationality, tier, mercenary);
-            ApplyPassportOverrides(passport, ovr, hcEnabled, hc);
+            ApplyPassportOverrides(passport, ovr);
             npc->Character_Passport = passport;
 
             if (hasOverrides)
@@ -178,6 +179,10 @@ private:
                 if (!npc) return;
                 ApplyPropertyOverrides(npc, ovr);
                 npc->Set_Character_Height();
+                if (ovr.hairColor.enabled && npc->Hair_Mat) {
+                    auto melaninName = SDK::BasicFilesImpleUtils::StringToName(L"Melanin");
+                    npc->Hair_Mat->SetScalarParameterValue(melaninName, static_cast<float>(ovr.hairColor.value));
+                }
             };
         }
 
@@ -192,8 +197,6 @@ private:
         d.tier = cfg.npcTier;
         d.mercenary = cfg.npcMercenary;
         d.overrides = overrides;
-        d.hairColorEnabled = hairColorEnabled;
-        d.hairColor = hairColor;
         return d;
     }
 
@@ -203,8 +206,6 @@ private:
         cfg.npcTier = std::clamp(d.tier, 0, 8);
         cfg.npcMercenary = d.mercenary;
         overrides = d.overrides;
-        hairColorEnabled = d.hairColorEnabled;
-        hairColor = d.hairColor;
     }
 
     void SetStatus(std::string msg) {
@@ -236,19 +237,8 @@ private:
         TooltipHelper::ShowTooltip("Eye color index");
         GuiUtils::RenderOverrideDrag("Hair Length", overrides.hairLength, 0.01f, 0.0f, 1.0f);
         TooltipHelper::ShowTooltip("Hair length (0 = bald, 1 = maximum)");
-
-        ImGui::PushID("hairColor");
-        ImGui::Checkbox("##en", &hairColorEnabled);
-        ImGui::SameLine();
-        if (!hairColorEnabled) ImGui::BeginDisabled();
-        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
-        float col[4] = {hairColor.R, hairColor.G, hairColor.B, hairColor.A};
-        if (ImGui::ColorEdit4("Hair Color", col)) {
-            hairColor.R = col[0]; hairColor.G = col[1]; hairColor.B = col[2]; hairColor.A = col[3];
-        }
-        ImGui::PopItemWidth();
-        if (!hairColorEnabled) ImGui::EndDisabled();
-        ImGui::PopID();
+        GuiUtils::RenderOverrideDrag("Hair Color", overrides.hairColor, 0.01f, 0.0f, 1.0f);
+        TooltipHelper::ShowTooltip("Hair melanin (0 = blonde, 0.5 = brown, 1 = black)");
 
         ImGui::PopID();
     }
@@ -486,8 +476,6 @@ public:
         ImGui::Spacing();
         if (ImGui::Button("Reset All Overrides")) {
             overrides = {};
-            hairColorEnabled = false;
-            hairColor = {0.3f, 0.2f, 0.1f, 1.0f};
         }
         TooltipHelper::ShowTooltip("Disable all NPC property overrides");
 
