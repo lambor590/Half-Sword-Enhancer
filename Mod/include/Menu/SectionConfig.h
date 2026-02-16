@@ -94,6 +94,8 @@ namespace SectionConfig {
         bool snapToGround = true;
         int spawnKey = -1;
         bool livePreview = false;
+        bool autoRotate = false;
+        float rotationSpeed = 45.0f;
     };
 
     struct ArmorEditorConfig {
@@ -106,6 +108,8 @@ namespace SectionConfig {
         bool snapToGround = true;
         int spawnKey = -1;
         bool livePreview = false;
+        bool autoRotate = false;
+        float rotationSpeed = 45.0f;
     };
 
     struct EquipmentManagerConfig {

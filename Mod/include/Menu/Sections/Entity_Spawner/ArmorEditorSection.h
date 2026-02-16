@@ -40,6 +40,7 @@ private:
 
     SDK::AActor* previewActor = nullptr;
     double lastChangeTime = 0.0;
+    double previewYaw = 0.0;
     SDK::FStr_Passport_Armor1 lastPreviewedPassport{};
     ArmorRuntimeProps lastPreviewedProps{};
     ArmorRuntimeColors lastPreviewedColors{};
@@ -212,6 +213,8 @@ private:
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props, colors);
                 previewActor = actor;
+                if (cfg.autoRotate)
+                    actor->K2_SetActorRotation(SDK::FRotator{0.0, previewYaw, 0.0}, true);
             });
     }
 
@@ -239,6 +242,20 @@ private:
 
         lastChangeTime = ImGui::GetTime();
         SpawnPreview();
+    }
+
+    void RotatePreview() {
+        if (!previewActor || !cfg.autoRotate) return;
+
+        previewYaw += cfg.rotationSpeed * static_cast<double>(ImGui::GetIO().DeltaTime);
+        if (previewYaw >= 360.0) previewYaw -= 360.0;
+        if (previewYaw < 0.0) previewYaw += 360.0;
+
+        double yaw = previewYaw;
+        SDK::AActor* actor = previewActor;
+        GameHook::QueueAction([actor, yaw]() {
+            if (actor) actor->K2_SetActorRotation(SDK::FRotator{0.0, yaw, 0.0}, true);
+        });
     }
 
     void SpawnFromPassport() {
@@ -692,6 +709,14 @@ public:
             if (!cfg.livePreview)
                 DestroyPreview();
         }
+        if (cfg.livePreview) {
+            ImGui::SameLine();
+            ImGui::Checkbox("Auto-Rotate", &cfg.autoRotate);
+            if (cfg.autoRotate) {
+                ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.4f);
+                ImGui::SliderFloat("Rotation Speed", &cfg.rotationSpeed, -360.0f, 360.0f, "%.0f deg/s");
+            }
+        }
 
         ImGui::Spacing();
         if (ImGui::BeginTabBar("##ArmorEditorTabs")) {
@@ -704,7 +729,9 @@ public:
 
         RenderSpawnFooter();
 
-        if (cfg.livePreview)
+        if (cfg.livePreview) {
             UpdatePreview();
+            RotatePreview();
+        }
     }
 };

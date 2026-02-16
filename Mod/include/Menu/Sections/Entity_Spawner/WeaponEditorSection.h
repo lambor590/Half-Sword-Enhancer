@@ -19,6 +19,7 @@
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 #include "Utils/WeaponPresetSerializer.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/GlobalModulePool.h"
 
 class WeaponEditorSection : public CollapsibleSection {
 private:
@@ -52,20 +53,9 @@ private:
 
     SDK::AActor* previewActor = nullptr;
     double lastChangeTime = 0.0;
+    double previewYaw = 0.0;
     SDK::FStr_Passport_Weapon1 lastPreviewedPassport{};
     WeaponRuntimeProps lastPreviewedProps{};
-
-    struct GlobalModuleEntry {
-        SDK::UClass* cls;
-        std::string name;
-        const char* sourceType;
-    };
-
-    struct GlobalModulePool {
-        std::vector<GlobalModuleEntry> heads, guards, grips, pommels, subMods1, subMods2;
-        float cachedWidths[6] = {};
-        std::atomic<bool> populated{false};
-    } globalModules;
 
     char moduleFilters[6][64] = {};
 
@@ -75,37 +65,105 @@ private:
     std::string statusMessage;
     double statusMessageTime = 0.0;
 
-    static void CollectEntries(std::vector<GlobalModuleEntry>& out,
-        std::unordered_set<SDK::UClass*>& seen,
-        const SDK::TArray<SDK::UClass*>& arr, const char* sourceType)
+    enum class WeaponModuleSlot : int { Head = 0, Guard, Grip, Pommel, Count };
+    static constexpr int MODULE_SLOT_COUNT = static_cast<int>(WeaponModuleSlot::Count);
+    static constexpr const char* MODULE_SLOT_NAMES[] = {"Head", "Guard", "Grip", "Pommel"};
+
+    struct MeshPoolEntry {
+        SDK::UStaticMesh* mesh;
+        std::string name;
+        const char* category;
+    };
+
+    struct MeshOverride {
+        bool enabled = false;
+        SDK::UStaticMesh* mesh = nullptr;
+        int poolIndex = -1;
+        SDK::FVector scale = {1.0, 1.0, 1.0};
+        SDK::FRotator rotation = {0.0, 0.0, 0.0};
+    };
+
+    std::vector<MeshPoolEntry> meshPool;
+    std::unordered_set<SDK::UStaticMesh*> meshSeen;
+    bool meshScanQueued = false;
+    float meshComboWidth = 0.0f;
+    char meshFilters[MODULE_SLOT_COUNT][64] = {};
+    struct MeshSnapshot {
+        MeshOverride slots[MODULE_SLOT_COUNT];
+    };
+
+    MeshOverride meshOverrides[MODULE_SLOT_COUNT];
+
+    GlobalModulePool& globalModules = GlobalModulePool::Get();
+
+    void PopulateGlobalModulePool() {
+        globalModules.Populate();
+    }
+
+    static const char* ExtractCategory(const std::string& fullName) {
+        if (fullName.find("/Weapons/") != std::string::npos) return "Weapon";
+        if (fullName.find("/Armor/") != std::string::npos) return "Armor";
+        if (fullName.find("/Props/") != std::string::npos) return "Prop";
+        if (fullName.find("/Environments/") != std::string::npos) return "Env";
+        if (fullName.find("/Clothing/") != std::string::npos) return "Cloth";
+        if (fullName.find("/Character/") != std::string::npos) return "Char";
+        if (fullName.find("/Traps/") != std::string::npos) return "Trap";
+        if (fullName.find("/Effects/") != std::string::npos) return "FX";
+        return "Other";
+    }
+
+    void CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapon) {
+        SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
+        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+            if (!comps[i]) continue;
+            auto* mesh = comps[i]->StaticMesh;
+            if (!mesh || !meshSeen.insert(mesh).second) continue;
+            meshPool.push_back({mesh, mesh->GetName(), ExtractCategory(mesh->GetFullName())});
+        }
+        meshComboWidth = 0.0f;
+    }
+
+    void ScanAllStaticMeshes() {
+        auto* meshClass = SDK::UStaticMesh::StaticClass();
+        int count = SDK::UObject::GObjects->Num();
+        for (int i = 0; i < count; ++i) {
+            auto* obj = SDK::UObject::GObjects->GetByIndex(i);
+            if (!obj || !obj->IsA(meshClass)) continue;
+            auto* mesh = static_cast<SDK::UStaticMesh*>(obj);
+            if (!meshSeen.insert(mesh).second) continue;
+            meshPool.push_back({mesh, mesh->GetName(), ExtractCategory(mesh->GetFullName())});
+        }
+        meshComboWidth = 0.0f;
+    }
+
+    bool HasAnyMeshOverride() const {
+        for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
+            if (meshOverrides[i].enabled && meshOverrides[i].mesh) return true;
+        return false;
+    }
+
+    static void ApplyMeshOverrides(SDK::AModularWeaponBP_C* weapon,
+        const MeshSnapshot& snap)
     {
-        for (int i = 0; i < arr.Num(); ++i) {
-            if (arr[i] && seen.insert(arr[i]).second)
-                out.push_back({arr[i], arr[i]->GetName(), sourceType});
+        SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
+        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+            if (!snap.slots[i].enabled || !snap.slots[i].mesh || !comps[i]) continue;
+            comps[i]->SetStaticMesh(snap.slots[i].mesh);
+            comps[i]->SetRelativeScale3D(snap.slots[i].scale);
+            comps[i]->K2_SetRelativeRotation(snap.slots[i].rotation, false, nullptr, true);
         }
     }
 
-    void PopulateGlobalModulePool() {
-        if (globalModules.populated.load(std::memory_order_acquire)) return;
+    MeshSnapshot BuildMeshSnapshot() const {
+        MeshSnapshot snap;
+        std::copy(std::begin(meshOverrides), std::end(meshOverrides), snap.slots);
+        return snap;
+    }
 
-        std::unordered_set<SDK::UClass*> seen[6];
-        for (int i = 1; i <= WEAPON_TYPE_COUNT; ++i) {
-            auto type = static_cast<CustomizableWeapon>(i);
-            SDK::UClass* masterClass = EquipmentGenerator::GetCustomizableModulesClass(type);
-            if (!masterClass || !masterClass->ClassDefaultObject) continue;
-
-            auto* cdo = reinterpret_cast<SDK::UBP_GameWeapon_Customizable_Master_C*>(
-                masterClass->ClassDefaultObject);
-            const char* typeName = WEAPON_TYPE_NAMES[i - 1];
-
-            CollectEntries(globalModules.heads, seen[0], cdo->Module_Heads_Array, typeName);
-            CollectEntries(globalModules.guards, seen[1], cdo->Module_Guards_Array, typeName);
-            CollectEntries(globalModules.grips, seen[2], cdo->Module_Grips_Array, typeName);
-            CollectEntries(globalModules.pommels, seen[3], cdo->Module_Pommels_Array, typeName);
-            CollectEntries(globalModules.subMods1, seen[4], cdo->Head_Sub_Module_1_Array, typeName);
-            CollectEntries(globalModules.subMods2, seen[5], cdo->Head_Sub_Module_2_Array, typeName);
-        }
-        globalModules.populated.store(true, std::memory_order_release);
+    void ApplyMeshToPreview() {
+        if (!previewActor) return;
+        auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(previewActor);
+        ApplyMeshOverrides(weapon, BuildMeshSnapshot());
     }
 
     static int RandomInt(int min, int max) {
@@ -229,19 +287,25 @@ private:
 
         auto props = runtimeProps;
         bool hasOverrides = HasAnyRuntimeOverride();
+        bool hasMesh = HasAnyMeshOverride();
+        auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
         Spawner::SpawnCustomizableFromPassport(world, weaponPassport, BuildSpawnTransform(), cfg.snapToGround,
-            [this, props, hasOverrides](SDK::AActor* actor) {
+            [this, props, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
+                auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+                CollectMeshesFromWeapon(weapon);
                 if (!cfg.livePreview) {
                     actor->K2_DestroyActor();
                     return;
                 }
-                auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
                 weapon->Simulates_Physics = false;
                 weapon->Turn_Off_Collision();
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props);
+                if (hasMesh) ApplyMeshOverrides(weapon, meshSnap);
                 previewActor = actor;
+                if (cfg.autoRotate)
+                    actor->K2_SetActorRotation(SDK::FRotator{0.0, previewYaw, 0.0}, true);
             });
     }
 
@@ -258,17 +322,38 @@ private:
         SpawnPreview();
     }
 
+    void RotatePreview() {
+        if (!previewActor || !cfg.autoRotate) return;
+
+        previewYaw += cfg.rotationSpeed * static_cast<double>(ImGui::GetIO().DeltaTime);
+        if (previewYaw >= 360.0) previewYaw -= 360.0;
+        if (previewYaw < 0.0) previewYaw += 360.0;
+
+        double yaw = previewYaw;
+        SDK::AActor* actor = previewActor;
+        GameHook::QueueAction([actor, yaw]() {
+            if (actor) actor->K2_SetActorRotation(SDK::FRotator{0.0, yaw, 0.0}, true);
+        });
+    }
+
     void SpawnFromPassport() {
         if (cfg.livePreview) {
             cfg.livePreview = false;
             DestroyPreview();
         }
 
-        std::function<void(SDK::AActor*)> callback = nullptr;
-        if (HasAnyRuntimeOverride()) {
-            auto props = runtimeProps;
-            callback = [props](SDK::AActor* actor) { ApplyRuntimeProps(actor, props); };
-        }
+        bool hasOverrides = HasAnyRuntimeOverride();
+        bool hasMesh = HasAnyMeshOverride();
+
+        auto props = runtimeProps;
+        auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
+
+        auto callback = [this, props, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
+            auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+            CollectMeshesFromWeapon(weapon);
+            if (hasOverrides) ApplyRuntimeProps(actor, props);
+            if (hasMesh) ApplyMeshOverrides(weapon, meshSnap);
+        };
 
         Spawner::SpawnCustomizableFromPassport(world, weaponPassport, BuildSpawnTransform(), cfg.snapToGround, callback);
     }
@@ -533,6 +618,108 @@ private:
         ImGui::PopID();
     }
 
+    void RenderMeshCombo(int slotIdx) {
+        if (meshPool.empty()) return;
+
+        if (meshComboWidth == 0.0f) {
+            float maxW = 0;
+            for (const auto& e : meshPool) {
+                char buf[128];
+                std::snprintf(buf, sizeof(buf), "%-36s [%s]", e.name.c_str(), e.category);
+                float w = ImGui::CalcTextSize(buf).x;
+                if (w > maxW) maxW = w;
+            }
+            meshComboWidth = GuiUtils::ComboWidthFromText(maxW);
+        }
+
+        auto& ovr = meshOverrides[slotIdx];
+        ImGui::Checkbox("##meshEn", &ovr.enabled);
+        ImGui::SameLine();
+        if (!ovr.enabled) ImGui::BeginDisabled();
+
+        const char* preview = (ovr.poolIndex >= 0 && ovr.poolIndex < static_cast<int>(meshPool.size()))
+            ? meshPool[ovr.poolIndex].name.c_str() : "None";
+
+        ImGui::SetNextItemWidth(meshComboWidth);
+        if (ImGui::BeginCombo("Mesh", preview)) {
+            ImGui::SetNextItemWidth(-1);
+            ImGui::InputTextWithHint("##mf", "Search meshes...", meshFilters[slotIdx], 64);
+
+            const size_t filterLen = std::strlen(meshFilters[slotIdx]);
+            const bool hasFilter = filterLen > 0;
+
+            if (hasFilter) {
+                int visible = 0;
+                for (const auto& e : meshPool)
+                    if (GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), meshFilters[slotIdx], filterLen)) ++visible;
+                ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(meshPool.size()));
+            }
+            ImGui::Separator();
+
+            if (ImGui::Selectable("None", ovr.poolIndex < 0)) {
+                ovr.poolIndex = -1;
+                ovr.mesh = nullptr;
+            }
+
+            char display[128];
+            for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
+                if (hasFilter && !GuiUtils::MatchesFilter(meshPool[i].name.c_str(), meshPool[i].name.size(),
+                    meshFilters[slotIdx], filterLen)) continue;
+                std::snprintf(display, sizeof(display), "%-36s [%s]", meshPool[i].name.c_str(), meshPool[i].category);
+                if (ImGui::Selectable(display, ovr.poolIndex == i)) {
+                    ovr.poolIndex = i;
+                    ovr.mesh = meshPool[i].mesh;
+                    if (previewActor) {
+                        GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
+                    }
+                }
+                if (ovr.poolIndex == i) ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+
+        if (!ovr.enabled) ImGui::EndDisabled();
+    }
+
+    void RenderMeshTab() {
+        ImGui::PushID("mesh");
+
+        if (meshPool.empty() && !meshScanQueued) {
+            meshScanQueued = true;
+            GameHook::QueueAction([this]() { ScanAllStaticMeshes(); });
+        }
+
+        if (meshPool.empty()) {
+            ImGui::TextDisabled("Scanning all static meshes...");
+            ImGui::PopID();
+            return;
+        }
+
+        if (ImGui::Button("Refresh")) {
+            GameHook::QueueAction([this]() { ScanAllStaticMeshes(); });
+        }
+        ImGui::SameLine();
+        ImGui::TextDisabled("(%d meshes)", static_cast<int>(meshPool.size()));
+        ImGui::SameLine();
+        if (ImGui::Button("Reset All Meshes")) {
+            for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
+                meshOverrides[i] = {};
+            std::memset(meshFilters, 0, sizeof(meshFilters));
+        }
+
+        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+            ImGuiTreeNodeFlags flags = (i == 0) ? ImGuiTreeNodeFlags_DefaultOpen : 0;
+            if (!ImGui::TreeNodeEx(MODULE_SLOT_NAMES[i], flags)) continue;
+
+            ImGui::PushID(i);
+            RenderMeshCombo(i);
+            ImGui::PopID();
+            ImGui::TreePop();
+        }
+
+        ImGui::PopID();
+    }
+
     void RenderStatsTab() {
         ImGui::PushID("stats");
 
@@ -622,12 +809,44 @@ private:
         d.name = presetNameBuf;
         d.passport = weaponPassport;
         d.runtimeProps = runtimeProps;
+
+        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+            d.meshPresets[i].enabled = meshOverrides[i].enabled;
+            if (meshOverrides[i].enabled && meshOverrides[i].mesh)
+                d.meshPresets[i].meshName = meshOverrides[i].mesh->GetName();
+        }
+
         return d;
     }
 
     void ApplyPresetData(const WeaponPresetData& d) {
         weaponPassport = d.passport;
         runtimeProps = d.runtimeProps;
+
+        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
+            meshOverrides[i].enabled = d.meshPresets[i].enabled;
+            meshOverrides[i].mesh = nullptr;
+            meshOverrides[i].poolIndex = -1;
+            if (d.meshPresets[i].enabled && !d.meshPresets[i].meshName.empty()) {
+                for (int j = 0; j < static_cast<int>(meshPool.size()); ++j) {
+                    if (meshPool[j].name == d.meshPresets[i].meshName) {
+                        meshOverrides[i].poolIndex = j;
+                        meshOverrides[i].mesh = meshPool[j].mesh;
+                        break;
+                    }
+                }
+                if (!meshOverrides[i].mesh) {
+                    auto* found = SDK::UObject::FindObjectFast<SDK::UStaticMesh>(d.meshPresets[i].meshName);
+                    if (found) {
+                        meshSeen.insert(found);
+                        meshPool.push_back({found, d.meshPresets[i].meshName, ExtractCategory(found->GetFullName())});
+                        meshOverrides[i].poolIndex = static_cast<int>(meshPool.size()) - 1;
+                        meshOverrides[i].mesh = found;
+                        meshComboWidth = 0.0f;
+                    }
+                }
+            }
+        }
     }
 
     void SetStatus(std::string msg) {
@@ -796,12 +1015,21 @@ public:
             if (!cfg.livePreview)
                 DestroyPreview();
         }
+        if (cfg.livePreview) {
+            ImGui::SameLine();
+            ImGui::Checkbox("Auto-Rotate", &cfg.autoRotate);
+            if (cfg.autoRotate) {
+                ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.4f);
+                ImGui::SliderFloat("Rotation Speed", &cfg.rotationSpeed, -360.0f, 360.0f, "%.0f deg/s");
+            }
+        }
 
         ImGui::Spacing();
         if (ImGui::BeginTabBar("##WeaponEditorTabs")) {
             if (ImGui::BeginTabItem("Modules"))    { RenderModulesTab();    ImGui::EndTabItem(); }
             if (ImGui::BeginTabItem("Geometry"))    { RenderGeometryTab();   ImGui::EndTabItem(); }
             if (ImGui::BeginTabItem("Appearance"))  { RenderAppearanceTab(); ImGui::EndTabItem(); }
+            if (ImGui::BeginTabItem("Mesh"))        { RenderMeshTab();       ImGui::EndTabItem(); }
             if (ImGui::BeginTabItem("Stats"))       { RenderStatsTab();      ImGui::EndTabItem(); }
             if (ImGui::BeginTabItem("Presets"))     { RenderPresetsTab();    ImGui::EndTabItem(); }
             ImGui::EndTabBar();
@@ -809,7 +1037,9 @@ public:
 
         RenderSpawnFooter();
 
-        if (cfg.livePreview)
+        if (cfg.livePreview) {
             UpdatePreview();
+            RotatePreview();
+        }
     }
 };
