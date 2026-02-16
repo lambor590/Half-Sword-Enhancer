@@ -11,7 +11,6 @@
 #include "Utils/EquipmentGenerator.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
-#include "SDK/Engine_classes.hpp"
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/GuiUtils.h"
 
@@ -65,26 +64,6 @@ private:
     std::string statusMessage;
     double statusMessageTime = 0.0;
 
-    struct ScalarParamEntry {
-        SDK::FName fname;
-        std::string name;
-        float defaultValue;
-        float value;
-        bool enabled = false;
-    };
-
-    struct VectorParamEntry {
-        SDK::FName fname;
-        std::string name;
-        SDK::FLinearColor defaultValue;
-        SDK::FLinearColor value;
-        bool enabled = false;
-    };
-
-    std::vector<ScalarParamEntry> materialScalars;
-    std::vector<VectorParamEntry> materialVectors;
-    SDK::UClass* materialDiscoveredForCore = nullptr;
-
     static int RandomInt(int min, int max) {
         static thread_local std::mt19937 rng{std::random_device{}()};
         std::uniform_int_distribution<int> dist(min, max);
@@ -127,7 +106,6 @@ private:
         armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = {0.5f, 0.5f, 0.5f, 1.0f};
         armorPassport.Tier_50_E497AE434B01B84C559DEE8A863BB42E = static_cast<SDK::Enum_Ranks>(4);
         armorPassport.Price_27_8E3ADD54484EFC4A59FE9381485AC192 = 50.0;
-        materialDiscoveredForCore = nullptr;
     }
 
     void QueueGeneration(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, double moduleChance) {
@@ -185,65 +163,6 @@ private:
                runtimeColors.enabled;
     }
 
-    void DiscoverMaterialParams(SDK::ABP_Armor_Master_C* armor) {
-        SDK::UClass* core = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
-        if (core == materialDiscoveredForCore) return;
-        materialDiscoveredForCore = core;
-        materialScalars.clear();
-        materialVectors.clear();
-
-        auto* mid = armor->Dynamic_Material;
-        if (!mid) return;
-
-        auto* matInst = static_cast<SDK::UMaterialInstance*>(mid);
-
-        for (int i = 0; i < matInst->ScalarParameterValues.Num(); ++i) {
-            auto& param = matInst->ScalarParameterValues[i];
-            ScalarParamEntry entry;
-            entry.fname = param.ParameterInfo.Name;
-            entry.name = param.ParameterInfo.Name.ToString();
-            entry.defaultValue = param.ParameterValue;
-            entry.value = param.ParameterValue;
-            materialScalars.push_back(std::move(entry));
-        }
-
-        for (int i = 0; i < matInst->VectorParameterValues.Num(); ++i) {
-            auto& param = matInst->VectorParameterValues[i];
-            VectorParamEntry entry;
-            entry.fname = param.ParameterInfo.Name;
-            entry.name = param.ParameterInfo.Name.ToString();
-            entry.defaultValue = param.ParameterValue;
-            entry.value = param.ParameterValue;
-            materialVectors.push_back(std::move(entry));
-        }
-    }
-
-    void ApplyMaterialOverrides(SDK::ABP_Armor_Master_C* armor) {
-        auto* mid = armor->Dynamic_Material;
-        if (!mid) return;
-
-        for (const auto& s : materialScalars) {
-            if (s.enabled)
-                mid->SetScalarParameterValue(s.fname, s.value);
-        }
-        for (const auto& v : materialVectors) {
-            if (v.enabled)
-                mid->SetVectorParameterValue(v.fname, v.value);
-        }
-    }
-
-    bool HasAnyMaterialOverride() const {
-        for (const auto& s : materialScalars) if (s.enabled) return true;
-        for (const auto& v : materialVectors) if (v.enabled) return true;
-        return false;
-    }
-
-    void ApplyMaterialToPreview() {
-        if (!previewActor) return;
-        auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(previewActor);
-        ApplyMaterialOverrides(armor);
-    }
-
     void DestroyPreview() {
         if (!previewActor) return;
         SDK::AActor* actor = previewActor;
@@ -276,10 +195,8 @@ private:
         auto colors = runtimeColors;
         bool hasOverrides = HasAnyOverride();
 
-        bool hasMaterialOverrides = HasAnyMaterialOverride();
-
         Spawner::SpawnArmorFromPassport(world, armorPassport, BuildSpawnTransform(), cfg.snapToGround,
-            [this, props, colors, hasOverrides, hasMaterialOverrides](SDK::AActor* actor) {
+            [this, props, colors, hasOverrides](SDK::AActor* actor) {
                 if (!cfg.livePreview) {
                     actor->K2_DestroyActor();
                     return;
@@ -294,8 +211,6 @@ private:
                     armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props, colors);
-                DiscoverMaterialParams(armor);
-                if (hasMaterialOverrides) ApplyMaterialOverrides(armor);
                 previewActor = actor;
             });
     }
@@ -336,25 +251,12 @@ private:
 
         std::function<void(SDK::AActor*)> callback = nullptr;
         bool hasOverrides = HasAnyOverride();
-        bool hasMaterialOverrides = HasAnyMaterialOverride();
 
-        if (hasOverrides || hasMaterialOverrides) {
+        if (hasOverrides) {
             auto props = runtimeProps;
             auto colors = runtimeColors;
-            auto scalars = materialScalars;
-            auto vectors = materialVectors;
-            callback = [props, colors, hasOverrides, hasMaterialOverrides, scalars, vectors](SDK::AActor* actor) {
-                if (hasOverrides) ApplyRuntimeProps(actor, props, colors);
-                if (hasMaterialOverrides) {
-                    auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
-                    auto* mid = armor->Dynamic_Material;
-                    if (mid) {
-                        for (const auto& s : scalars)
-                            if (s.enabled) mid->SetScalarParameterValue(s.fname, s.value);
-                        for (const auto& v : vectors)
-                            if (v.enabled) mid->SetVectorParameterValue(v.fname, v.value);
-                    }
-                }
+            callback = [props, colors](SDK::AActor* actor) {
+                ApplyRuntimeProps(actor, props, colors);
             };
         }
 
@@ -636,79 +538,6 @@ private:
         presetListDirty = false;
     }
 
-    void RenderMaterialTab() {
-        ImGui::PushID("material");
-
-        if (materialScalars.empty() && materialVectors.empty()) {
-            ImGui::TextDisabled("Generate armor and enable Live Preview to discover material parameters");
-            ImGui::PopID();
-            return;
-        }
-
-        if (ImGui::Button("Reset Material")) {
-            for (auto& s : materialScalars) { s.enabled = false; s.value = s.defaultValue; }
-            for (auto& v : materialVectors) { v.enabled = false; v.value = v.defaultValue; }
-            if (previewActor) {
-                auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(previewActor);
-                auto* mid = armor->Dynamic_Material;
-                if (mid) {
-                    for (const auto& s : materialScalars)
-                        mid->SetScalarParameterValue(s.fname, s.defaultValue);
-                    for (const auto& v : materialVectors)
-                        mid->SetVectorParameterValue(v.fname, v.defaultValue);
-                }
-            }
-        }
-
-        bool changed = false;
-
-        if (!materialVectors.empty()) {
-            ImGui::Spacing();
-            ImGui::TextDisabled("Colors");
-            for (auto& v : materialVectors) {
-                ImGui::PushID(v.name.c_str());
-                bool wasEnabled = v.enabled;
-                ImGui::Checkbox("##en", &v.enabled);
-                ImGui::SameLine();
-                if (!v.enabled) ImGui::BeginDisabled();
-                float col[4] = {v.value.R, v.value.G, v.value.B, v.value.A};
-                ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
-                if (ImGui::ColorEdit4(v.name.c_str(), col)) {
-                    v.value = {col[0], col[1], col[2], col[3]};
-                    changed = true;
-                }
-                ImGui::PopItemWidth();
-                if (!v.enabled) ImGui::EndDisabled();
-                if (wasEnabled != v.enabled) changed = true;
-                ImGui::PopID();
-            }
-        }
-
-        if (!materialScalars.empty()) {
-            ImGui::Spacing();
-            ImGui::TextDisabled("Properties");
-            for (auto& s : materialScalars) {
-                ImGui::PushID(s.name.c_str());
-                bool wasEnabled = s.enabled;
-                ImGui::Checkbox("##en", &s.enabled);
-                ImGui::SameLine();
-                if (!s.enabled) ImGui::BeginDisabled();
-                ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
-                if (ImGui::DragFloat(s.name.c_str(), &s.value, 0.01f))
-                    changed = true;
-                ImGui::PopItemWidth();
-                if (!s.enabled) ImGui::EndDisabled();
-                if (wasEnabled != s.enabled) changed = true;
-                ImGui::PopID();
-            }
-        }
-
-        if (changed && previewActor)
-            ApplyMaterialToPreview();
-
-        ImGui::PopID();
-    }
-
     void RenderPresetsTab() {
         ImGui::PushID("presets");
 
@@ -869,7 +698,6 @@ public:
             if (ImGui::BeginTabItem("Modules"))  { RenderModulesTab();  ImGui::EndTabItem(); }
             if (ImGui::BeginTabItem("Colors"))    { RenderColorsTab();   ImGui::EndTabItem(); }
             if (ImGui::BeginTabItem("Stats"))     { RenderStatsTab();    ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Material"))  { RenderMaterialTab(); ImGui::EndTabItem(); }
             if (ImGui::BeginTabItem("Presets"))   { RenderPresetsTab();  ImGui::EndTabItem(); }
             ImGui::EndTabBar();
         }
