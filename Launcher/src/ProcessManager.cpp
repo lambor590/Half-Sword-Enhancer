@@ -78,21 +78,11 @@ namespace hse {
             return std::unexpected(ProcessError::DllPathWriteFailed);
         }
 
-        HMODULE kernel32 = GetModuleHandleA("kernel32.dll");
-        if (!kernel32) {
-            return std::unexpected(ProcessError::ThreadCreationFailed);
-        }
-
-        FARPROC loadLibraryAddr = GetProcAddress(kernel32, "LoadLibraryA");
-        if (!loadLibraryAddr) {
-            return std::unexpected(ProcessError::ThreadCreationFailed);
-        }
-
         HANDLE hThread = CreateRemoteThread(
             processHandle->get(),
             nullptr,
             0,
-            reinterpret_cast<LPTHREAD_START_ROUTINE>(loadLibraryAddr),
+            reinterpret_cast<LPTHREAD_START_ROUTINE>(&LoadLibraryA),
             remotePath,
             0,
             nullptr

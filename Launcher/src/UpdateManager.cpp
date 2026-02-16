@@ -180,8 +180,8 @@ namespace hse {
             
             std::string cmdLine = "cmd.exe /c \"" + batchPath.string() + "\"";
             
-            if (!CreateProcessA(nullptr, cmdLine.data(), nullptr, nullptr, FALSE, 
-                              CREATE_NO_WINDOW, nullptr, nullptr, &startupInfo, &processInfo)) {
+            if (!CreateProcessA(nullptr, cmdLine.data(), nullptr, nullptr, FALSE,
+                              0, nullptr, nullptr, &startupInfo, &processInfo)) {
                 Logger::error("Failed to start update script");
                 return std::unexpected(UpdateError::UpdateFailed);
             }
