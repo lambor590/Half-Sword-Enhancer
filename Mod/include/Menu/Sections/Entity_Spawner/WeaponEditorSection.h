@@ -15,6 +15,7 @@
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/CustomizableWeapon.h"
 #include "Utils/TierValidation.h"
+#include "Utils/BlueprintRegistry.h"
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
@@ -99,7 +100,7 @@ private:
     };
 
     MeshOverride meshOverrides[MODULE_SLOT_COUNT];
-    SDK::AActor* skeletalPreviewActors[MODULE_SLOT_COUNT] = {};
+    SDK::USkeletalMeshComponent* skeletalPreviewComps[MODULE_SLOT_COUNT] = {};
 
     GlobalModulePool& globalModules = GlobalModulePool::Get();
 
@@ -262,51 +263,52 @@ private:
     }
 
     void ApplyMeshOverrides(SDK::AModularWeaponBP_C* weapon,
-        const MeshSnapshot& snap, SDK::AActor** outSkeletalActors = nullptr)
+        const MeshSnapshot& snap, SDK::USkeletalMeshComponent** outSkeletalComps = nullptr)
     {
         SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             if (!comps[i]) continue;
+            const auto& slot = snap.slots[i];
 
-            if (!snap.slots[i].enabled || !snap.slots[i].mesh) {
+            if (!slot.enabled || !slot.mesh) {
                 comps[i]->SetVisibility(true, true);
                 continue;
             }
 
-            if (snap.slots[i].meshType == MeshType::Static) {
+            if (slot.meshType == MeshType::Static) {
                 comps[i]->SetVisibility(true, true);
-                comps[i]->SetStaticMesh(static_cast<SDK::UStaticMesh*>(snap.slots[i].mesh));
-                comps[i]->SetRelativeScale3D(snap.slots[i].scale);
-                comps[i]->K2_SetRelativeRotation(snap.slots[i].rotation, false, nullptr, true);
-                comps[i]->K2_SetRelativeLocation(snap.slots[i].offset, false, nullptr, true);
-            } else {
-                comps[i]->SetVisibility(false, true);
-
-                auto transform = weapon->GetTransform();
-                auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-                    world, SDK::ASkeletalMeshActor::StaticClass(), transform,
-                    SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-                    nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
-                if (!actor) continue;
-
-                auto* skelActor = static_cast<SDK::ASkeletalMeshActor*>(actor);
-                skelActor->SkeletalMeshComponent->SetSkeletalMeshAsset(
-                    static_cast<SDK::USkeletalMesh*>(snap.slots[i].mesh));
-
-                SDK::UGameplayStatics::FinishSpawningActor(actor, transform,
-                    SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
-
-                actor->K2_AttachToComponent(comps[i], SDK::FName(),
-                    SDK::EAttachmentRule::SnapToTarget,
-                    SDK::EAttachmentRule::SnapToTarget,
-                    SDK::EAttachmentRule::SnapToTarget, false);
-
-                actor->SetActorRelativeScale3D(snap.slots[i].scale);
-                actor->K2_SetActorRelativeRotation(snap.slots[i].rotation, false, nullptr, true);
-                actor->K2_SetActorRelativeLocation(snap.slots[i].offset, false, nullptr, true);
-
-                if (outSkeletalActors) outSkeletalActors[i] = actor;
+                comps[i]->SetStaticMesh(static_cast<SDK::UStaticMesh*>(slot.mesh));
+                comps[i]->SetRelativeScale3D(slot.scale);
+                comps[i]->K2_SetRelativeRotation(slot.rotation, false, nullptr, true);
+                comps[i]->K2_SetRelativeLocation(slot.offset, false, nullptr, true);
+                continue;
             }
+
+            comps[i]->SetVisibility(false, true);
+
+            auto* added = weapon->AddComponentByClass(
+                SDK::USkeletalMeshComponent::StaticClass(),
+                false, SDK::FTransform{}, false);
+            if (!added) continue;
+
+            auto* skelComp = static_cast<SDK::USkeletalMeshComponent*>(added);
+            skelComp->SetSkeletalMeshAsset(static_cast<SDK::USkeletalMesh*>(slot.mesh));
+            skelComp->SetAnimationMode(SDK::EAnimationMode::AnimationCustomMode, false);
+            skelComp->SetRenderStatic(true);
+            skelComp->SetSimulatePhysics(false);
+            skelComp->SetEnableGravity(false);
+            skelComp->SetComponentTickEnabled(false);
+
+            skelComp->K2_AttachToComponent(comps[i], SDK::FName(),
+                SDK::EAttachmentRule::SnapToTarget,
+                SDK::EAttachmentRule::SnapToTarget,
+                SDK::EAttachmentRule::SnapToTarget, false);
+
+            skelComp->SetRelativeScale3D(slot.scale);
+            skelComp->K2_SetRelativeRotation(slot.rotation, false, nullptr, true);
+            skelComp->K2_SetRelativeLocation(slot.offset, false, nullptr, true);
+
+            if (outSkeletalComps) outSkeletalComps[i] = skelComp;
         }
     }
 
@@ -319,13 +321,13 @@ private:
     void ApplyMeshToPreview() {
         if (!previewActor) return;
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
-            if (skeletalPreviewActors[i]) {
-                skeletalPreviewActors[i]->K2_DestroyActor();
-                skeletalPreviewActors[i] = nullptr;
+            if (skeletalPreviewComps[i]) {
+                skeletalPreviewComps[i]->K2_DestroyComponent(skeletalPreviewComps[i]);
+                skeletalPreviewComps[i] = nullptr;
             }
         }
         auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(previewActor);
-        ApplyMeshOverrides(weapon, BuildMeshSnapshot(), skeletalPreviewActors);
+        ApplyMeshOverrides(weapon, BuildMeshSnapshot(), skeletalPreviewComps);
     }
 
     static int RandomInt(int min, int max) {
@@ -431,13 +433,8 @@ private:
     }
 
     void DestroyPreview() {
-        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
-            if (skeletalPreviewActors[i]) {
-                auto* a = skeletalPreviewActors[i];
-                skeletalPreviewActors[i] = nullptr;
-                GameHook::QueueAction([a]() { if (a) a->K2_DestroyActor(); });
-            }
-        }
+        for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
+            skeletalPreviewComps[i] = nullptr;
         if (!previewActor) return;
         SDK::AActor* actor = previewActor;
         previewActor = nullptr;
@@ -480,7 +477,7 @@ private:
                 weapon->Turn_Off_Collision();
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props);
-                if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewActors);
+                if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
                 previewActor = actor;
                 if (cfg.autoRotate)
                     actor->K2_SetActorRotation(SDK::FRotator{0.0, previewYaw, 0.0}, true);
@@ -670,6 +667,7 @@ private:
     }
 
     void RenderGenerationControls() {
+        BlueprintRegistry::Get().EnsureTiersScanned();
         ImGui::PushID("gen");
 
         static float weaponTypeComboW = GuiUtils::CalcComboWidth(WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT);
