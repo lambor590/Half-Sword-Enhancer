@@ -109,8 +109,8 @@ void Gui::Setup() {
 
     MenuManager::Get().AddSection<PlayerSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<WorldSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<NPCEditorSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
+    MenuManager::Get().AddSection<NPCEditorSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<WeaponEditorSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<ArmorEditorSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<EquipmentManagerSection>(MenuTab::Loadout_Manager);

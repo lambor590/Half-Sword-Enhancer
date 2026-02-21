@@ -195,187 +195,147 @@ public:
         }
 
         size_t registryCatCount = reg.GetCategoryCount();
-        size_t totalCatCount = registryCatCount + 1; // +1 for Random Armor
 
-        // Search
-        ImGui::AlignTextToFramePadding();
-        ImGui::Text("Search");
-        ImGui::SameLine();
-        bool searchChanged = ImGui::InputText("##ItemSearch", searchBuffer, sizeof(searchBuffer), ImGuiInputTextFlags_AutoSelectAll);
-        if (searchChanged) updateFilteredItems();
+        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+        ImGui::InputTextWithHint("##ItemSearch", "Search items...", searchBuffer, sizeof(searchBuffer));
 
-        if (searchActive && !filteredIndices.empty()) {
-            ImGui::Text("Found: %zu items", filteredIndices.size());
-            ImGui::Spacing();
+        float treeHeight = ImGui::GetContentRegionAvail().y - ImGui::GetFrameHeightWithSpacing() * 3 - ImGui::GetStyle().ItemSpacing.y * 4;
+        if (treeHeight < 100.0f) treeHeight = 100.0f;
+        ImGui::BeginChild("##ItemTree", ImVec2(0, treeHeight), ImGuiChildFlags_Borders);
 
-            ImGui::SetNextItemWidth(cachedFilteredWidth);
-            if (ImGui::BeginCombo("##FilteredItems", "Select item...")) {
-                auto& allItems = reg.GetAllItems();
-                for (uint16_t itemIdx : filteredIndices) {
-                    if (itemIdx >= allItems.size()) continue;
-                    auto& item = allItems[itemIdx];
-                    if (ImGui::Selectable(item.displayName.c_str(), false)) {
-                        // Find the category/subcategory for this item
-                        for (size_t ci = 0; ci < registryCatCount; ++ci) {
-                            auto& cat = reg.GetCategory(ci);
-                            for (size_t si = 0; si < cat.subcategories.size(); ++si) {
-                                auto& sub = cat.subcategories[si];
-                                for (size_t ii = 0; ii < sub.itemIndices.size(); ++ii) {
-                                    if (sub.itemIndices[ii] == itemIdx) {
-                                        cfg.currentCategoryIndex = static_cast<uint8_t>(ci);
-                                        cfg.currentSubcategoryIndex = static_cast<uint8_t>(si);
-                                        cfg.currentItemIndex = static_cast<uint16_t>(ii);
-                                        searchBuffer[0] = '\0';
-                                        searchActive = false;
-                                        goto found;
-                                    }
-                                }
-                            }
+        const size_t filterLen = std::strlen(searchBuffer);
+        const bool hasFilter = filterLen > 0;
+
+        auto isItemVisible = [&](uint16_t globalIdx) -> bool {
+            if (!hasFilter) return true;
+            auto& item = reg.GetItem(globalIdx);
+            return GuiUtils::MatchesFilter(item.displayName.c_str(), item.displayName.size(), searchBuffer, filterLen);
+        };
+
+        auto hasVisibleItems = [&](const BlueprintRegistry::SubcategoryData& sub) -> bool {
+            if (!hasFilter) return !sub.itemIndices.empty();
+            for (auto idx : sub.itemIndices)
+                if (isItemVisible(idx)) return true;
+            return false;
+        };
+
+        auto hasCategoryVisible = [&](size_t ci) -> bool {
+            if (!hasFilter) return true;
+            auto& cat = reg.GetCategory(ci);
+            for (auto& sub : cat.subcategories)
+                if (hasVisibleItems(sub)) return true;
+            return false;
+        };
+
+        auto isSelectedCurrent = [&](uint8_t ci, uint8_t si, uint16_t ii) -> bool {
+            return cfg.currentCategoryIndex == ci && cfg.currentSubcategoryIndex == si && cfg.currentItemIndex == ii;
+        };
+
+        for (size_t ci = 0; ci < registryCatCount; ++ci) {
+            if (!hasCategoryVisible(ci)) continue;
+            auto& cat = reg.GetCategory(ci);
+
+            if (!ImGui::TreeNodeEx(cat.name.c_str(), ImGuiTreeNodeFlags_DefaultOpen)) continue;
+
+            for (size_t si = 0; si < cat.subcategories.size(); ++si) {
+                auto& sub = cat.subcategories[si];
+                if (!hasVisibleItems(sub)) continue;
+
+                bool skipSubNode = (cat.subcategories.size() == 1);
+                bool subOpen = skipSubNode || ImGui::TreeNodeEx(sub.name.c_str(), hasFilter ? ImGuiTreeNodeFlags_DefaultOpen : 0);
+
+                if (subOpen) {
+                    for (size_t ii = 0; ii < sub.itemIndices.size(); ++ii) {
+                        if (!isItemVisible(sub.itemIndices[ii])) continue;
+                        auto& item = reg.GetItem(sub.itemIndices[ii]);
+
+                        ImGuiTreeNodeFlags leafFlags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+                        if (isSelectedCurrent(static_cast<uint8_t>(ci), static_cast<uint8_t>(si), static_cast<uint16_t>(ii)))
+                            leafFlags |= ImGuiTreeNodeFlags_Selected;
+
+                        ImGui::TreeNodeEx(item.displayName.c_str(), leafFlags);
+                        if (ImGui::IsItemClicked()) {
+                            cfg.currentCategoryIndex = static_cast<uint8_t>(ci);
+                            cfg.currentSubcategoryIndex = static_cast<uint8_t>(si);
+                            cfg.currentItemIndex = static_cast<uint16_t>(ii);
                         }
-                        found:;
+                    }
+                    if (!skipSubNode) ImGui::TreePop();
+                }
+            }
+            ImGui::TreePop();
+        }
+
+        {
+            bool armorVisible = !hasFilter;
+            if (hasFilter) {
+                for (const auto& slot : randomArmorSlots) {
+                    if (GuiUtils::MatchesFilter(slot.displayName, std::strlen(slot.displayName), searchBuffer, filterLen)) {
+                        armorVisible = true;
+                        break;
                     }
                 }
-                ImGui::EndCombo();
             }
 
-            if (ImGui::Button("Clear Search")) {
-                searchBuffer[0] = '\0';
-                searchActive = false;
+            if (armorVisible && ImGui::TreeNodeEx("Random Armor", ImGuiTreeNodeFlags_DefaultOpen)) {
+                for (size_t i = 0; i < randomArmorSlots.size(); ++i) {
+                    if (hasFilter && !GuiUtils::MatchesFilter(randomArmorSlots[i].displayName,
+                        std::strlen(randomArmorSlots[i].displayName), searchBuffer, filterLen))
+                        continue;
+
+                    ImGuiTreeNodeFlags leafFlags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+                    bool isRandom = IsRandomArmorCategory() && cfg.currentItemIndex == static_cast<uint16_t>(i);
+                    if (isRandom) leafFlags |= ImGuiTreeNodeFlags_Selected;
+
+                    ImGui::TreeNodeEx(randomArmorSlots[i].displayName, leafFlags);
+                    if (ImGui::IsItemClicked()) {
+                        cfg.currentCategoryIndex = static_cast<uint8_t>(registryCatCount);
+                        cfg.currentItemIndex = static_cast<uint16_t>(i);
+                    }
+                }
+                ImGui::TreePop();
             }
+        }
 
-        } else if (searchActive && filteredIndices.empty()) {
-            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.5f, 1.0f), "No items found");
-            if (ImGui::Button("Clear Search")) {
-                searchBuffer[0] = '\0';
-                searchActive = false;
-            }
+        ImGui::EndChild();
 
-        } else {
-            // Category combo
-            ImGui::Text("Category");
+        {
+            bool showTier = false;
+            uint16_t tierMask = 0;
 
-            auto categoryGetter = [](void* data, int idx) -> const char* {
-                auto* reg = static_cast<BlueprintRegistry*>(data);
-                size_t regCount = reg->GetCategoryCount();
-                if (static_cast<size_t>(idx) < regCount) return reg->GetCategory(idx).name.c_str();
-                if (static_cast<size_t>(idx) == regCount) return "Random Armor";
-                return "???";
-            };
-
-            int catIndex = static_cast<int>(cfg.currentCategoryIndex);
-            float categoryComboW = GuiUtils::CalcComboWidth(categoryGetter, &reg, static_cast<int>(totalCatCount));
-            ImGui::SetNextItemWidth(categoryComboW);
-            if (ImGui::Combo("##CategorySelector", &catIndex, categoryGetter, &reg, static_cast<int>(totalCatCount))) [[unlikely]] {
-                cfg.currentCategoryIndex = static_cast<uint8_t>(catIndex);
-                cfg.currentSubcategoryIndex = 0;
-                cfg.currentItemIndex = 0;
-            }
-
-            // Random Armor
             if (IsRandomArmorCategory()) {
-                ImGui::Text("Armor Slot");
-                int slotIndex = static_cast<int>(cfg.currentItemIndex);
-                auto armorSlotGetter = [](void* data, int idx) -> const char* {
-                    return static_cast<const ArmorSlotInfo*>(data)[idx].displayName;
-                };
-                float armorSlotComboW = GuiUtils::CalcComboWidth(armorSlotGetter, (void*)randomArmorSlots.data(), static_cast<int>(randomArmorSlots.size()));
-                ImGui::SetNextItemWidth(armorSlotComboW);
-                if (ImGui::Combo("##ArmorSlotSelector", &slotIndex,
-                    armorSlotGetter, (void*)randomArmorSlots.data(), static_cast<int>(randomArmorSlots.size()))) {
-                    cfg.currentItemIndex = static_cast<uint16_t>(slotIndex);
-                }
-
                 if (cfg.currentItemIndex < TierValidation::VALID_ARMOR_TIER_MASKS.size()) {
-                    uint16_t mask = TierValidation::VALID_ARMOR_TIER_MASKS[cfg.currentItemIndex];
-                    cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
-
-                    char preview[16];
-                    std::snprintf(preview, sizeof(preview), "Tier %d", cfg.spawnTier);
-                    ImGui::Text("Tier");
-                    float armorTierComboW = GuiUtils::CalcComboWidth("Tier 8");
-                    ImGui::SetNextItemWidth(armorTierComboW);
-                    if (ImGui::BeginCombo("##ArmorTierCombo", preview)) {
-                        for (int t = 0; t <= 8; ++t) {
-                            if (!(mask & (1 << t))) continue;
-                            char label[16];
-                            std::snprintf(label, sizeof(label), "Tier %d", t);
-                            if (ImGui::Selectable(label, t == cfg.spawnTier))
-                                cfg.spawnTier = t;
-                            if (t == cfg.spawnTier)
-                                ImGui::SetItemDefaultFocus();
-                        }
-                        ImGui::EndCombo();
-                    }
+                    tierMask = TierValidation::VALID_ARMOR_TIER_MASKS[cfg.currentItemIndex];
+                    showTier = true;
                 }
-
-            } else if (cfg.currentCategoryIndex < registryCatCount) {
-                auto& cat = reg.GetCategory(cfg.currentCategoryIndex);
-
-                // Subcategory combo (only if more than one subcategory)
-                if (cat.subcategories.size() > 1) {
-                    ImGui::Text("Subcategory");
-                    int subIndex = static_cast<int>(cfg.currentSubcategoryIndex);
-                    if (subIndex >= static_cast<int>(cat.subcategories.size()))
-                        subIndex = 0;
-
-                    auto subGetter = [](void* data, int idx) -> const char* {
-                        auto* cat = static_cast<const BlueprintRegistry::CategoryData*>(data);
-                        return cat->subcategories[idx].name.c_str();
-                    };
-                    float subcatComboW = GuiUtils::CalcComboWidth(subGetter, (void*)&cat, static_cast<int>(cat.subcategories.size()));
-                    ImGui::SetNextItemWidth(subcatComboW);
-                    if (ImGui::Combo("##SubcategorySelector", &subIndex, subGetter, (void*)&cat, static_cast<int>(cat.subcategories.size()))) [[unlikely]] {
-                        cfg.currentSubcategoryIndex = static_cast<uint8_t>(subIndex);
-                        cfg.currentItemIndex = 0;
-                    }
-                }
-
-                // Item combo
-                updateItemNamesCache();
-
-                if (!cachedItemNames.empty()) {
-                    ImGui::Text("Item");
-                    int itemIndex = static_cast<int>(cfg.currentItemIndex);
-                    if (itemIndex >= static_cast<int>(cachedItemNames.size()))
-                        itemIndex = 0;
-                    ImGui::SetNextItemWidth(cachedItemNamesWidth);
-                    if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
-                        cfg.currentItemIndex = static_cast<uint16_t>(itemIndex);
-                    }
-                }
-
-                // Tier selector for customizable weapons
+            } else {
                 auto* sub = GetCurrentSubcategory();
                 if (sub && cfg.currentItemIndex < sub->itemIndices.size()) {
                     auto& currentItem = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
                     if (currentItem.customizable != CustomizableWeapon::None) {
-                        uint16_t mask = TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)];
-                        cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
-
-                        char preview[16];
-                        std::snprintf(preview, sizeof(preview), "Tier %d", cfg.spawnTier);
-                        ImGui::Text("Tier");
-                        float tierComboW = GuiUtils::CalcComboWidth("Tier 8");
-                        ImGui::SetNextItemWidth(tierComboW);
-                        if (ImGui::BeginCombo("##TierCombo", preview)) {
-                            for (int t = 0; t <= 8; ++t) {
-                                if (!(mask & (1 << t))) continue;
-                                char label[16];
-                                std::snprintf(label, sizeof(label), "Tier %d", t);
-                                if (ImGui::Selectable(label, t == cfg.spawnTier))
-                                    cfg.spawnTier = t;
-                                if (t == cfg.spawnTier)
-                                    ImGui::SetItemDefaultFocus();
-                            }
-                            ImGui::EndCombo();
-                        }
+                        tierMask = TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)];
+                        showTier = true;
                     }
+                }
+            }
+
+            if (showTier) {
+                cfg.spawnTier = TierValidation::NearestValidTier(tierMask, cfg.spawnTier);
+                ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
+                if (ImGui::BeginCombo("##TierCombo", GuiUtils::TIER_LABELS[cfg.spawnTier])) {
+                    for (int t = 0; t <= 8; ++t) {
+                        if (!(tierMask & (1 << t))) continue;
+                        if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier))
+                            cfg.spawnTier = t;
+                        if (t == cfg.spawnTier)
+                            ImGui::SetItemDefaultFocus();
+                    }
+                    ImGui::EndCombo();
                 }
             }
         }
 
-        ImGui::Spacing();
-        if (ImGui::Button("Spawn Item")) [[unlikely]] {
+        if (ImGui::Button("Spawn Item", ImVec2(-1, 0))) {
             if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world)) {
                 SpawnSelectedItem();
             }

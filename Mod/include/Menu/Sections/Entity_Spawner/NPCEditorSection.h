@@ -41,11 +41,12 @@ private:
     NPCOverrides overrides{};
 
     char presetNameBuf[128] = {};
-    std::vector<PresetListEntry> presetList;
+    PresetUtils::PresetTreeNode presetTree;
     bool presetListDirty = true;
     std::string statusMessage;
     double statusMessageTime = 0.0;
     bool statusIsError = false;
+    int activeTab = 0;
 
     const char* getNPCClassName() const noexcept {
         if (cfg.npcTypeIndex >= 0 && cfg.npcTypeIndex < npcTypesCount) [[likely]]
@@ -223,8 +224,8 @@ private:
         statusIsError = isError;
     }
 
-    void RefreshPresetList() {
-        presetList = NPCPresetSerializer::ListPresets();
+    void RefreshPresetTree() {
+        presetTree = NPCPresetSerializer::ListPresetsTree();
         presetListDirty = false;
     }
 
@@ -339,7 +340,7 @@ private:
         ImGui::TextDisabled("Save");
         float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##PresetName", "Preset name...", presetNameBuf, sizeof(presetNameBuf));
+        ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
         ImGui::SameLine();
         bool canSave = presetNameBuf[0] != '\0';
         if (!canSave) ImGui::BeginDisabled();
@@ -360,49 +361,29 @@ private:
 
         ImGui::TextDisabled("Presets");
         if (presetListDirty)
-            RefreshPresetList();
+            RefreshPresetTree();
 
-        if (presetList.empty()) {
+        if (presetTree.presets.empty() && presetTree.children.empty()) {
             ImGui::TextDisabled("No saved presets");
         } else {
-            int visibleRows = (std::min)(static_cast<int>(presetList.size()), 8);
-            float listHeight = ImGui::GetTextLineHeightWithSpacing() * visibleRows + ImGui::GetStyle().FramePadding.y * 2;
-            ImGui::BeginChild("##presetList", ImVec2(0, listHeight), ImGuiChildFlags_Borders);
-
-            const float framePadX2 = ImGui::GetStyle().FramePadding.x * 2;
-            const float loadW = ImGui::CalcTextSize("Load").x + framePadX2;
-            const float delW = ImGui::CalcTextSize("Del").x + framePadX2;
-            const float spacing = ImGui::GetStyle().ItemSpacing.x;
-            const float buttonsWidth = loadW + delW + spacing * 2;
-
-            for (size_t i = 0; i < presetList.size(); ++i) {
-                ImGui::PushID(static_cast<int>(i));
-                float textW = ImGui::GetContentRegionAvail().x - buttonsWidth;
-
-                ImGui::AlignTextToFramePadding();
-                ImGui::TextUnformatted(presetList[i].name.c_str());
-                if (textW > 0)
-                    ImGui::SameLine(textW);
-                if (ImGui::Button("Load")) {
-                    auto result = NPCPresetSerializer::LoadFromFile(presetList[i].path);
-                    if (result.success) {
-                        ApplyPresetData(result);
-                        strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                        SetStatus("Loaded: " + result.name);
-                    } else {
-                        SetStatus("Error: " + result.error, true);
-                    }
-                }
-                ImGui::SameLine();
-                if (ImGui::Button("Del")) {
-                    NPCPresetSerializer::DeletePreset(presetList[i].path);
-                    SetStatus("Deleted: " + presetList[i].name);
-                    presetListDirty = true;
-                }
-                ImGui::PopID();
-            }
-
+            ImGui::BeginChild("##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders);
+            auto action = GuiUtils::RenderPresetTree(presetTree);
             ImGui::EndChild();
+
+            if (action.type == GuiUtils::PresetTreeAction::Load) {
+                auto result = NPCPresetSerializer::LoadFromFile(action.path);
+                if (result.success) {
+                    ApplyPresetData(result);
+                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
+                    SetStatus("Loaded: " + result.name);
+                } else {
+                    SetStatus("Error: " + result.error, true);
+                }
+            } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
+                NPCPresetSerializer::DeletePreset(action.path);
+                PresetUtils::CleanEmptyDirectories(NPCPresetSerializer::GetPresetsDirectory());
+                presetListDirty = true;
+            }
         }
 
         ImGui::Spacing();
@@ -417,6 +398,8 @@ private:
     }
 
 public:
+    const char* GetGroup() const noexcept override { return "Editors"; }
+
     NPCEditorSection() : CollapsibleSection("NPC Editor") {
         Function("Spawn NPC")
             .WithKey(&cfg.spawnEnemyKey)
@@ -482,13 +465,14 @@ public:
         }
 
         ImGui::Spacing();
-        if (ImGui::BeginTabBar("##NPCEditorTabs")) {
-            if (ImGui::BeginTabItem("Physical"))       { RenderPhysicalTab();       ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Combat"))          { RenderCombatTab();          ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Behavior"))        { RenderBehaviorTab();        ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Body Condition"))  { RenderBodyConditionTab();   ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Presets"))         { RenderPresetsTab();         ImGui::EndTabItem(); }
-            ImGui::EndTabBar();
+        static constexpr const char* NPC_TAB_LABELS[] = {"Physical", "Combat", "Behavior", "Body Condition", "Presets"};
+        GuiUtils::RenderFullWidthTabs("##NPCEditorTabs", activeTab, NPC_TAB_LABELS, 5);
+        switch (activeTab) {
+            case 0: RenderPhysicalTab();       break;
+            case 1: RenderCombatTab();          break;
+            case 2: RenderBehaviorTab();        break;
+            case 3: RenderBodyConditionTab();   break;
+            case 4: RenderPresetsTab();         break;
         }
     }
 };

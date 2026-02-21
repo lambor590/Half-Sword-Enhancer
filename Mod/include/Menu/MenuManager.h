@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cctype>
+#include <cstring>
 #include <vector>
 #include <memory>
 #include <utility>
@@ -381,7 +382,33 @@ private:
             if (tab == openCategory) {
                 ImGui::Indent(SECTION_INDENT);
                 ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.71f, 0.57f, 0.25f, 0.18f));
+
+                const char* currentGroup = nullptr;
+                bool groupOpen = false;
+
+                auto groupsEqual = [](const char* a, const char* b) {
+                    if (a == b) return true;
+                    if (!a || !b) return false;
+                    return std::strcmp(a, b) == 0;
+                };
+
                 for (auto& section : sects) {
+                    const char* group = section->GetGroup();
+
+                    if (!groupsEqual(group, currentGroup)) {
+                        if (currentGroup && groupOpen) {
+                            ImGui::TreePop();
+                        }
+                        currentGroup = group;
+                        if (group) {
+                            groupOpen = ImGui::TreeNodeEx(group, ImGuiTreeNodeFlags_DefaultOpen);
+                        } else {
+                            groupOpen = false;
+                        }
+                    }
+
+                    if (group && !groupOpen) continue;
+
                     bool isSelected = selectedSection == section.get();
                     if (ImGui::Selectable(section->GetName().c_str(), isSelected)) {
                         selectedSection = section.get();
@@ -396,6 +423,11 @@ private:
                             1.0f);
                     }
                 }
+
+                if (currentGroup && groupOpen) {
+                    ImGui::TreePop();
+                }
+
                 ImGui::PopStyleColor();
                 ImGui::Unindent(SECTION_INDENT);
             }

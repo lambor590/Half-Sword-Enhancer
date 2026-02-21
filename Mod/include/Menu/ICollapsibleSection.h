@@ -47,6 +47,8 @@ public:
         static const std::vector<std::unique_ptr<IMenuFunction>> empty;
         return empty;
     }
+
+    virtual const char* GetGroup() const noexcept { return nullptr; }
 };
 
 class CollapsibleSection : public ICollapsibleSection {
