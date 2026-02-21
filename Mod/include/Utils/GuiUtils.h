@@ -129,9 +129,21 @@ namespace GuiUtils {
         ImGui::PopItemWidth();
     }
 
+    inline void RenderOverrideIndicator(bool active) {
+        if (!active) return;
+        auto* drawList = ImGui::GetWindowDrawList();
+        ImVec2 pos = ImGui::GetCursorScreenPos();
+        float radius = 3.0f;
+        float yCenter = pos.y + ImGui::GetFrameHeight() * 0.5f;
+        drawList->AddCircleFilled(ImVec2(pos.x + radius, yCenter), radius, IM_COL32(209, 171, 89, 255));
+        ImGui::Dummy(ImVec2(radius * 2 + 2.0f, 0));
+        ImGui::SameLine(0, 0);
+    }
+
     inline void RenderOverrideDrag(const char* label, RuntimeOverride& ovr,
                                    float speed = 0.1f, float min = 0.0f, float max = 0.0f) {
         ImGui::PushID(label);
+        RenderOverrideIndicator(ovr.enabled);
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
@@ -144,6 +156,7 @@ namespace GuiUtils {
 
     inline void RenderOverrideInt(const char* label, IntOverride& ovr, int min = 0, int max = 10) {
         ImGui::PushID(label);
+        RenderOverrideIndicator(ovr.enabled);
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
@@ -153,12 +166,17 @@ namespace GuiUtils {
     }
 
     inline void RenderOverrideBool(const char* label, BoolOverride& ovr) {
+        static constexpr const char* TRISTATE[] = { "Default", "No", "Yes" };
+        static float tristateW = CalcComboWidth(TRISTATE, 3);
+
+        int current = ovr.enabled ? (ovr.value ? 2 : 1) : 0;
         ImGui::PushID(label);
-        ImGui::Checkbox("##en", &ovr.enabled);
-        ImGui::SameLine();
-        if (!ovr.enabled) ImGui::BeginDisabled();
-        ImGui::Checkbox(label, &ovr.value);
-        if (!ovr.enabled) ImGui::EndDisabled();
+        RenderOverrideIndicator(ovr.enabled);
+        ImGui::SetNextItemWidth(tristateW);
+        if (ImGui::Combo(label, &current, TRISTATE, 3)) {
+            ovr.enabled = (current != 0);
+            ovr.value = (current == 2);
+        }
         ImGui::PopID();
     }
 

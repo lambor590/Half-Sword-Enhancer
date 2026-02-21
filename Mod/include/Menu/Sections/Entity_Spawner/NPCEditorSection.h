@@ -45,6 +45,7 @@ private:
     bool presetListDirty = true;
     std::string statusMessage;
     double statusMessageTime = 0.0;
+    bool statusIsError = false;
 
     const char* getNPCClassName() const noexcept {
         if (cfg.npcTypeIndex >= 0 && cfg.npcTypeIndex < npcTypesCount) [[likely]]
@@ -52,24 +53,37 @@ private:
         return npcTypes[0].className;
     }
 
-    bool HasAnyOverride() const {
-        return overrides.heightRate.enabled || overrides.muscleRate.enabled ||
-               overrides.scaleMutationInhibitor.enabled || overrides.faceType.enabled ||
-               overrides.eyeColor.enabled || overrides.hairLength.enabled || overrides.hairColor.enabled ||
-               overrides.damageRate.enabled || overrides.limbDamageRate.enabled ||
-               overrides.dismemberThreshold.enabled || overrides.regenRate.enabled ||
-               overrides.aiInvincibility.enabled || overrides.aiArmorInvincibility.enabled ||
-               overrides.bodySkill.enabled || overrides.fearless.enabled ||
-               overrides.startKneeled.enabled || overrides.spawnInPants.enabled ||
-               overrides.clearSpawnArea.enabled || overrides.drunk.enabled ||
-               overrides.boltsInQuiver.enabled || HasAnyBodyConditionOverride();
+    int CountActiveOverrides() const {
+        const bool flags[] = {
+            overrides.heightRate.enabled, overrides.muscleRate.enabled,
+            overrides.scaleMutationInhibitor.enabled, overrides.faceType.enabled,
+            overrides.eyeColor.enabled, overrides.hairLength.enabled, overrides.hairColor.enabled,
+            overrides.damageRate.enabled, overrides.limbDamageRate.enabled,
+            overrides.dismemberThreshold.enabled, overrides.regenRate.enabled,
+            overrides.aiInvincibility.enabled, overrides.aiArmorInvincibility.enabled,
+            overrides.bodySkill.enabled, overrides.fearless.enabled,
+            overrides.startKneeled.enabled, overrides.spawnInPants.enabled,
+            overrides.clearSpawnArea.enabled, overrides.drunk.enabled,
+            overrides.boltsInQuiver.enabled,
+            overrides.headHealth.enabled, overrides.neckHealth.enabled,
+            overrides.armRHealth.enabled, overrides.armLHealth.enabled,
+            overrides.bodyUpperHealth.enabled, overrides.bodyLowerHealth.enabled,
+            overrides.legRHealth.enabled, overrides.legLHealth.enabled
+        };
+        int count = 0;
+        for (bool f : flags) count += f;
+        return count;
     }
 
-    bool HasAnyBodyConditionOverride() const {
-        return overrides.headHealth.enabled || overrides.neckHealth.enabled ||
-               overrides.armRHealth.enabled || overrides.armLHealth.enabled ||
-               overrides.bodyUpperHealth.enabled || overrides.bodyLowerHealth.enabled ||
-               overrides.legRHealth.enabled || overrides.legLHealth.enabled;
+    bool HasAnyOverride() const {
+        return CountActiveOverrides() > 0;
+    }
+
+    static bool HasAnyBodyConditionOverride(const NPCOverrides& ovr) {
+        return ovr.headHealth.enabled || ovr.neckHealth.enabled ||
+               ovr.armRHealth.enabled || ovr.armLHealth.enabled ||
+               ovr.bodyUpperHealth.enabled || ovr.bodyLowerHealth.enabled ||
+               ovr.legRHealth.enabled || ovr.legLHealth.enabled;
     }
 
     static SDK::FLinearColor MelaninToColor(float melanin) {
@@ -117,12 +131,7 @@ private:
         if (ovr.drunk.enabled)                npc->Drunk = ovr.drunk.value;
         if (ovr.boltsInQuiver.enabled)        npc->Bolts_in_Quiver = ovr.boltsInQuiver.value;
 
-        bool hasBodyCond = ovr.headHealth.enabled || ovr.neckHealth.enabled ||
-                           ovr.armRHealth.enabled || ovr.armLHealth.enabled ||
-                           ovr.bodyUpperHealth.enabled || ovr.bodyLowerHealth.enabled ||
-                           ovr.legRHealth.enabled || ovr.legLHealth.enabled;
-
-        if (hasBodyCond) {
+        if (HasAnyBodyConditionOverride(ovr)) {
             SDK::FStr_Character_Body_Condition condition{};
             if (ovr.headHealth.enabled)      condition.HeadHealth_2_61859BB444171EF8952E0FA5DD8628EE = ovr.headHealth.value;
             if (ovr.neckHealth.enabled)      condition.NeckHealth_4_C658DC6A4BD1988C40F1A5B3C4F8F4EE = ovr.neckHealth.value;
@@ -208,9 +217,10 @@ private:
         overrides = d.overrides;
     }
 
-    void SetStatus(std::string msg) {
+    void SetStatus(std::string msg, bool isError = false) {
         statusMessage = std::move(msg);
         statusMessageTime = ImGui::GetTime();
+        statusIsError = isError;
     }
 
     void RefreshPresetList() {
@@ -326,13 +336,6 @@ private:
     void RenderPresetsTab() {
         ImGui::PushID("presets");
 
-        if (!statusMessage.empty()) {
-            if (ImGui::GetTime() - statusMessageTime > 3.0)
-                statusMessage.clear();
-            else
-                ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "%s", statusMessage.c_str());
-        }
-
         ImGui::TextDisabled("Save");
         float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
@@ -346,7 +349,7 @@ private:
                 SetStatus("Saved: " + std::string(presetNameBuf));
                 presetListDirty = true;
             } else {
-                SetStatus("Error saving preset");
+                SetStatus("Error saving preset", true);
             }
         }
         if (!canSave) ImGui::EndDisabled();
@@ -362,6 +365,10 @@ private:
         if (presetList.empty()) {
             ImGui::TextDisabled("No saved presets");
         } else {
+            int visibleRows = std::min(static_cast<int>(presetList.size()), 8);
+            float listHeight = ImGui::GetTextLineHeightWithSpacing() * visibleRows + ImGui::GetStyle().FramePadding.y * 2;
+            ImGui::BeginChild("##presetList", ImVec2(0, listHeight), ImGuiChildFlags_Borders);
+
             const float framePadX2 = ImGui::GetStyle().FramePadding.x * 2;
             const float loadW = ImGui::CalcTextSize("Load").x + framePadX2;
             const float delW = ImGui::CalcTextSize("Del").x + framePadX2;
@@ -383,7 +390,7 @@ private:
                         strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                         SetStatus("Loaded: " + result.name);
                     } else {
-                        SetStatus("Error: " + result.error);
+                        SetStatus("Error: " + result.error, true);
                     }
                 }
                 ImGui::SameLine();
@@ -394,6 +401,8 @@ private:
                 }
                 ImGui::PopID();
             }
+
+            ImGui::EndChild();
         }
 
         ImGui::Spacing();
@@ -418,10 +427,10 @@ private:
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                     SetStatus("Pasted: " + result.name);
                 } else {
-                    SetStatus("Error: " + result.error);
+                    SetStatus("Error: " + result.error, true);
                 }
             } else {
-                SetStatus("Clipboard is empty");
+                SetStatus("Clipboard is empty", true);
             }
         }
 
@@ -478,6 +487,20 @@ public:
             overrides = {};
         }
         TooltipHelper::ShowTooltip("Disable all NPC property overrides");
+        int activeCount = CountActiveOverrides();
+        if (activeCount > 0) {
+            ImGui::SameLine();
+            ImGui::TextDisabled("(%d active)", activeCount);
+        }
+
+        if (!statusMessage.empty()) {
+            if (ImGui::GetTime() - statusMessageTime > 3.0)
+                statusMessage.clear();
+            else {
+                auto color = statusIsError ? ImVec4(1.0f, 0.4f, 0.4f, 1.0f) : ImVec4(0.4f, 1.0f, 0.4f, 1.0f);
+                ImGui::TextColored(color, "%s", statusMessage.c_str());
+            }
+        }
 
         ImGui::Spacing();
         if (ImGui::BeginTabBar("##NPCEditorTabs")) {

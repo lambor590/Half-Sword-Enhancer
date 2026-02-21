@@ -64,6 +64,7 @@ private:
     bool presetListDirty = true;
     std::string statusMessage;
     double statusMessageTime = 0.0;
+    bool statusIsError = false;
 
     static int RandomInt(int min, int max) {
         static thread_local std::mt19937 rng{std::random_device{}()};
@@ -155,13 +156,22 @@ private:
         }
     }
 
+    int CountActiveOverrides() const {
+        const bool flags[] = {
+            runtimeProps.protectionBlunt.enabled, runtimeProps.protectionCut.enabled,
+            runtimeProps.protectionStab.enabled, runtimeProps.materialDensity.enabled,
+            runtimeProps.massScale.enabled, runtimeProps.handsRigidity.enabled,
+            runtimeProps.strapPower.enabled, runtimeProps.aiInvincibilityRate.enabled,
+            runtimeProps.price.enabled, runtimeProps.pickUp.enabled,
+            runtimeColors.enabled
+        };
+        int count = 0;
+        for (bool f : flags) count += f;
+        return count;
+    }
+
     bool HasAnyOverride() const {
-        return runtimeProps.protectionBlunt.enabled || runtimeProps.protectionCut.enabled ||
-               runtimeProps.protectionStab.enabled || runtimeProps.materialDensity.enabled ||
-               runtimeProps.massScale.enabled || runtimeProps.handsRigidity.enabled ||
-               runtimeProps.strapPower.enabled || runtimeProps.aiInvincibilityRate.enabled ||
-               runtimeProps.price.enabled || runtimeProps.pickUp.enabled ||
-               runtimeColors.enabled;
+        return CountActiveOverrides() > 0;
     }
 
     void DestroyPreview() {
@@ -488,6 +498,11 @@ private:
         if (ImGui::Button("Reset All Overrides"))
             runtimeProps = {};
         TooltipHelper::ShowTooltip("Disable all runtime overrides");
+        int activeCount = CountActiveOverrides();
+        if (activeCount > 0) {
+            ImGui::SameLine();
+            ImGui::TextDisabled("(%d active)", activeCount);
+        }
 
         ImGui::Spacing();
         if (ImGui::TreeNodeEx("Protection", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -545,9 +560,10 @@ private:
         armorModules = {};
     }
 
-    void SetStatus(std::string msg) {
+    void SetStatus(std::string msg, bool isError = false) {
         statusMessage = std::move(msg);
         statusMessageTime = ImGui::GetTime();
+        statusIsError = isError;
     }
 
     void RefreshPresetList() {
@@ -557,13 +573,6 @@ private:
 
     void RenderPresetsTab() {
         ImGui::PushID("presets");
-
-        if (!statusMessage.empty()) {
-            if (ImGui::GetTime() - statusMessageTime > 3.0)
-                statusMessage.clear();
-            else
-                ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "%s", statusMessage.c_str());
-        }
 
         ImGui::TextDisabled("Save");
         float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
@@ -578,7 +587,7 @@ private:
                 SetStatus("Saved: " + std::string(presetNameBuf));
                 presetListDirty = true;
             } else {
-                SetStatus("Error saving preset");
+                SetStatus("Error saving preset", true);
             }
         }
         if (!canSave) ImGui::EndDisabled();
@@ -594,6 +603,10 @@ private:
         if (presetList.empty()) {
             ImGui::TextDisabled("No saved presets");
         } else {
+            int visibleRows = std::min(static_cast<int>(presetList.size()), 8);
+            float listHeight = ImGui::GetTextLineHeightWithSpacing() * visibleRows + ImGui::GetStyle().FramePadding.y * 2;
+            ImGui::BeginChild("##presetList", ImVec2(0, listHeight), ImGuiChildFlags_Borders);
+
             const float framePadX2 = ImGui::GetStyle().FramePadding.x * 2;
             const float loadW = ImGui::CalcTextSize("Load").x + framePadX2;
             const float delW = ImGui::CalcTextSize("Del").x + framePadX2;
@@ -606,9 +619,8 @@ private:
 
                 ImGui::AlignTextToFramePadding();
                 ImGui::TextUnformatted(presetList[i].name.c_str());
-                if (textW > 0) {
+                if (textW > 0)
                     ImGui::SameLine(textW);
-                }
                 if (ImGui::Button("Load")) {
                     auto result = ArmorPresetSerializer::LoadFromFile(presetList[i].path);
                     if (result.success) {
@@ -616,7 +628,7 @@ private:
                         strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                         SetStatus("Loaded: " + result.name);
                     } else {
-                        SetStatus("Error: " + result.error);
+                        SetStatus("Error: " + result.error, true);
                     }
                 }
                 ImGui::SameLine();
@@ -627,6 +639,8 @@ private:
                 }
                 ImGui::PopID();
             }
+
+            ImGui::EndChild();
         }
 
         ImGui::Spacing();
@@ -651,10 +665,10 @@ private:
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                     SetStatus("Pasted: " + result.name);
                 } else {
-                    SetStatus("Error: " + result.error);
+                    SetStatus("Error: " + result.error, true);
                 }
             } else {
-                SetStatus("Clipboard is empty");
+                SetStatus("Clipboard is empty", true);
             }
         }
 
@@ -705,16 +719,26 @@ public:
 
         RenderGenerationControls();
 
-        if (ImGui::Checkbox("Live Preview", &cfg.livePreview)) {
+        if (GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.livePreview, "Auto-spawn a preview armor that updates as you edit")) {
             if (!cfg.livePreview)
                 DestroyPreview();
         }
         if (cfg.livePreview) {
             ImGui::SameLine();
-            ImGui::Checkbox("Auto-Rotate", &cfg.autoRotate);
+            GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.autoRotate, "Continuously rotate the preview armor");
             if (cfg.autoRotate) {
                 ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.4f);
                 ImGui::SliderFloat("Rotation Speed", &cfg.rotationSpeed, -360.0f, 360.0f, "%.0f deg/s");
+                TooltipHelper::ShowTooltip("Rotation speed in degrees/second. Negative values reverse direction");
+            }
+        }
+
+        if (!statusMessage.empty()) {
+            if (ImGui::GetTime() - statusMessageTime > 3.0)
+                statusMessage.clear();
+            else {
+                auto color = statusIsError ? ImVec4(1.0f, 0.4f, 0.4f, 1.0f) : ImVec4(0.4f, 1.0f, 0.4f, 1.0f);
+                ImGui::TextColored(color, "%s", statusMessage.c_str());
             }
         }
 
