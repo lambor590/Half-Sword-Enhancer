@@ -20,13 +20,6 @@ struct ArmorPresetData {
         BoolOverride pickUp;
     } runtimeProps{};
 
-    struct {
-        bool enabled = false;
-        SDK::FLinearColor c1{1.f, 1.f, 1.f, 1.f};
-        SDK::FLinearColor c2{1.f, 1.f, 1.f, 1.f};
-        SDK::FLinearColor c3{1.f, 1.f, 1.f, 1.f};
-    } runtimeColors{};
-
     std::string name;
     bool success = false;
     std::string error;
@@ -35,8 +28,6 @@ struct ArmorPresetData {
 class ArmorPresetSerializer {
 private:
     static constexpr SDK::FLinearColor DEFAULT_FABRIC_COLOR = {0.5f, 0.5f, 0.5f, 1.0f};
-    static constexpr SDK::FLinearColor DEFAULT_RUNTIME_COLOR = {1.f, 1.f, 1.f, 1.f};
-
     static bool IsDefaultColor(const SDK::FLinearColor& c, const SDK::FLinearColor& def) {
         return std::abs(c.R - def.R) < 1e-3f && std::abs(c.G - def.G) < 1e-3f
             && std::abs(c.B - def.B) < 1e-3f && std::abs(c.A - def.A) < 1e-3f;
@@ -119,17 +110,6 @@ public:
         setOvr("price", rp.price.enabled, rp.price.value);
         setOvrBool("pickUp", rp.pickUp.enabled, rp.pickUp.value);
 
-        const auto& rc = data.runtimeColors;
-        if (!minimalMode || rc.enabled) {
-            ini.SetValue("Colors", "enabled", rc.enabled ? "1" : "0");
-            if (!minimalMode || !IsDefaultColor(rc.c1, DEFAULT_RUNTIME_COLOR))
-                ini.SetValue("Colors", "c1", PresetUtils::ColorToString(rc.c1).c_str());
-            if (!minimalMode || !IsDefaultColor(rc.c2, DEFAULT_RUNTIME_COLOR))
-                ini.SetValue("Colors", "c2", PresetUtils::ColorToString(rc.c2).c_str());
-            if (!minimalMode || !IsDefaultColor(rc.c3, DEFAULT_RUNTIME_COLOR))
-                ini.SetValue("Colors", "c3", PresetUtils::ColorToString(rc.c3).c_str());
-        }
-
         std::string output;
         ini.Save(output);
         return output;
@@ -189,12 +169,6 @@ public:
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "aiInvincibilityRate", ""), rp.aiInvincibilityRate.enabled, rp.aiInvincibilityRate.value);
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "price", ""), rp.price.enabled, rp.price.value);
         PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "pickUp", ""), rp.pickUp.enabled, rp.pickUp.value);
-
-        auto& rc = result.runtimeColors;
-        rc.enabled = std::atoi(ini.GetValue("Colors", "enabled", "0")) != 0;
-        rc.c1 = PresetUtils::StringToColor(ini.GetValue("Colors", "c1", nullptr), DEFAULT_RUNTIME_COLOR);
-        rc.c2 = PresetUtils::StringToColor(ini.GetValue("Colors", "c2", nullptr), DEFAULT_RUNTIME_COLOR);
-        rc.c3 = PresetUtils::StringToColor(ini.GetValue("Colors", "c3", nullptr), DEFAULT_RUNTIME_COLOR);
 
         result.success = true;
         return result;
