@@ -227,12 +227,11 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
 
     if (assetName.find("BP_GameWeapon_") == 0) return {"Weapons", "Customizable"};
 
-    // Mod content - extract mod folder name
     if (path.find("/Game/") == 0 && path.size() > 6) {
         size_t start = 6;
         size_t end = path.find('/', start);
-        if (end != std::string::npos)
-            return {"Mods", path.substr(start, end - start)};
+        if (end != std::string::npos && path.compare(start, 4, "Mod_") == 0)
+            return {"Mods", path.substr(start + 4, end - start - 4)};
     }
 
     return {"Other", "General"};
