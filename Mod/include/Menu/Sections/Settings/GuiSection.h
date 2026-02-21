@@ -50,7 +50,9 @@ public:
 
         ImGui::Spacing();
 
-        if (GuiUtils::CheckboxWithConfig(TOOLTIPS_LABEL, "GUI", "tooltips_enabled", true, TOOLTIPS_TOOLTIP)) {
+        static bool tooltipsEnabled = ConfigManager::Get().GetBool("GUI", "tooltips_enabled", true);
+        if (GuiUtils::CheckboxWithTooltip(TOOLTIPS_LABEL, &tooltipsEnabled, TOOLTIPS_TOOLTIP)) {
+            ConfigManager::Get().SetBool("GUI", "tooltips_enabled", tooltipsEnabled);
             TooltipHelper::InvalidateCache();
         }
 

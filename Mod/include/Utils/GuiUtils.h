@@ -60,20 +60,6 @@ namespace GuiUtils {
         return ComboWidthFromText(maxW);
     }
 
-    inline bool CheckboxWithConfig(const char* label, const char* section, const char* key,
-                                   bool defaultValue, const char* tooltip = nullptr) {
-        static bool value = ConfigManager::Get().GetBool(section, key, defaultValue);
-        bool changed = ImGui::Checkbox(label, &value);
-        if (changed) {
-            ConfigManager::Get().SetBool(section, key, value);
-        }
-        if (tooltip && ImGui::IsItemHovered()) {
-            BeginStyledTooltip();
-            ImGui::Text("%s", tooltip);
-            EndStyledTooltip();
-        }
-        return changed;
-    }
 
     inline constexpr auto LOWER_TABLE = [] {
         std::array<char, 256> t{};
