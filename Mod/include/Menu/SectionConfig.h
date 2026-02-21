@@ -23,6 +23,7 @@ namespace SectionConfig {
         int dashKey = -1;
         int biteAttackKey = -1;
         int enemyBiteKey = -1;
+        int enemyDrunkKey = -1;
 
         float jumpForce = 5000.0f;
         float playerRunMultiplier = 1.0f;
@@ -34,6 +35,7 @@ namespace SectionConfig {
         bool bodyTonusNoBodyWeakening = false;
         float dashForce = 7000.0f;
         float biteRange = 300.0f;
+        float enemyDrunkLevel = 1.0f;
     };
 
     struct WorldConfig {

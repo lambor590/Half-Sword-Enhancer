@@ -113,6 +113,21 @@ public:
                 });
             }, player, world);
 
+        Function("Drunk Enemies")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&cfg.enemyDrunkKey)
+            .Toggle()
+            .WithParams({
+                Parameter("drunk_level", "Drunk Level", &cfg.enemyDrunkLevel, 0.0f, 1.0f,
+                          "How drunk the enemies are (0 = sober, 1 = fully drunk)")
+            })
+            .WithTooltip("Makes all enemies stumble around drunk")
+            .Action([this](bool active) {
+                ActorUtils::ForEachWillie(world, player, [this, active](SDK::AWillie_BP_C* willie) {
+                    willie->Drunk = active ? static_cast<double>(cfg.enemyDrunkLevel) : 0.0;
+                });
+            }, player, world);
+
         Function("No Kick Cooldown")
             .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&cfg.noKickCooldownKey)
