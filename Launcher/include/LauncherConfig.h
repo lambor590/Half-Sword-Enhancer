@@ -4,7 +4,6 @@
 #include <filesystem>
 #include <expected>
 #include <mutex>
-#include <optional>
 
 #include "../../ext/SimpleIni.h"
 #include "Util.h"
@@ -32,6 +31,12 @@ namespace hse {
         [[nodiscard]] bool IsModDownloaded() const noexcept;
         [[nodiscard]] static std::filesystem::path GetModFilePath() noexcept;
         [[nodiscard]] bool IsFirstRun() const noexcept { return isFirstRun_; }
+
+        [[nodiscard]] GameMode GetGameMode() const noexcept;
+        [[nodiscard]] std::expected<void, ConfigError> SetGameMode(GameMode mode) noexcept;
+        [[nodiscard]] bool HasGameModeSetting() const noexcept;
+        [[nodiscard]] static std::filesystem::path GetCacheDir() noexcept;
+        [[nodiscard]] static std::filesystem::path GetCachedModPath(GameMode mode) noexcept;
 
         [[nodiscard]] std::expected<bool, ConfigError> GetBool(
             std::string_view section,

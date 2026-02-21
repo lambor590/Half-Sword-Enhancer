@@ -4,13 +4,27 @@
 #include <ShlObj.h>
 #include <filesystem>
 #include <string>
+#include <cstdint>
 
 #include "Logger.h"
 
 namespace hse {
 
+    enum class GameMode : std::uint8_t { Demo, FullGame };
+
+    constexpr const char* GameModeName(GameMode mode) noexcept {
+        return (mode == GameMode::Demo) ? "Demo" : "Full Game";
+    }
+
+    constexpr const char* SteamUrl(GameMode mode) noexcept {
+        return (mode == GameMode::Demo)
+            ? "steam://rungameid/2642680"
+            : "steam://rungameid/2397300";
+    }
+
     constexpr const char* APP_FOLDER_NAME = "Half Sword Enhancer";
     constexpr const char* DLL_FILENAME = "HSEnhancer.dll";
+    constexpr const char* CACHE_FOLDER_NAME = "cache";
 
     [[noreturn]] inline void fail(const std::string& msg) noexcept {
         MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);

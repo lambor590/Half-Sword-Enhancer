@@ -5,6 +5,7 @@
 #include <optional>
 #include <compare>
 #include <mutex>
+#include <filesystem>
 
 namespace hse {
 
@@ -70,6 +71,11 @@ namespace hse {
         [[nodiscard]] std::expected<Version, UpdateError> GetLocalVersion() noexcept;
         [[nodiscard]] std::expected<UpdateInfo, UpdateError> CheckForUpdates() noexcept;
         [[nodiscard]] std::expected<void, UpdateError> UpdateMod(const Version& version) noexcept;
+        [[nodiscard]] std::expected<void, UpdateError> DownloadModToPath(
+            std::string_view downloadUrl,
+            const std::filesystem::path& outputPath,
+            std::uint32_t minFileSize = 300000
+        ) noexcept;
         [[nodiscard]] std::expected<void, UpdateError> UpdateLauncher(
             std::string_view downloadUrl,
             std::string_view timestamp = {}
@@ -82,6 +88,9 @@ namespace hse {
             std::string_view timestamp
         ) noexcept;
 #endif
+
+        static constexpr std::string_view DEMO_MOD_DOWNLOAD_URL =
+            "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v0.5.2/HSEnhancer.dll";
 
     private:
         static constexpr std::string_view GITHUB_API_URL =

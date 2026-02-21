@@ -7,14 +7,14 @@
 
 namespace hse {
 
-    std::expected<DWORD, ProcessError> ProcessManager::LocateOrStartGame() noexcept {
+    std::expected<DWORD, ProcessError> ProcessManager::LocateOrStartGame(std::string_view steamUrl) noexcept {
         auto processId = FindGameProcess();
         if (processId) {
             return *processId;
         }
 
         hse::Logger::info("Starting Half Sword...");
-        auto startResult = StartGameViaStream();
+        auto startResult = StartGameViaSteam(steamUrl);
         if (!startResult) {
             return std::unexpected(startResult.error());
         }
@@ -134,11 +134,11 @@ namespace hse {
         return processId;
     }
 
-    std::expected<void, ProcessError> ProcessManager::StartGameViaStream() const noexcept {
+    std::expected<void, ProcessError> ProcessManager::StartGameViaSteam(std::string_view steamUrl) const noexcept {
         const HINSTANCE result = ShellExecuteA(
             nullptr,
             "open",
-            STEAM_GAME_URL.data(),
+            steamUrl.data(),
             nullptr,
             nullptr,
             SW_SHOW

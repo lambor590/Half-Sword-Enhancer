@@ -4,8 +4,6 @@
 #include <chrono>
 
 #include "../include/Launcher.h"
-#include "../include/Logger.h"
-#include "../include/Util.h"
 
 HSELauncher::HSELauncher()
     : updateManager(hse::UpdateManager::Instance()),
@@ -68,22 +66,28 @@ void HSELauncher::DisplayBanner() {
 }
 
 bool HSELauncher::HandleDraggedDLL(int argc, char* argv[]) {
-    if (argc < 2) return false;
-    std::string droppedFile = argv[1];
-    if (droppedFile.length() < 4 || droppedFile.substr(droppedFile.length() - 4) != ".dll") return false;
+    std::string droppedFile;
+    for (int i = 1; i < argc; ++i) {
+        std::string arg(argv[i]);
+        if (arg.ends_with(".dll")) {
+            droppedFile = arg;
+            break;
+        }
+    }
+    if (droppedFile.empty()) return false;
+
     if (!std::filesystem::exists(droppedFile)) {
         hse::logAndShowError("Dropped file does not exist: " + droppedFile, "The dropped file does not exist.");
         return false;
     }
 
-    const auto targetPath = hse::LauncherConfig::GetModFilePath();
+    const auto cachePath = hse::LauncherConfig::GetCachedModPath(currentGameMode_);
     try {
-        if (std::filesystem::exists(targetPath)) {
-            std::filesystem::remove(targetPath);
-            hse::Logger::info("Removed existing mod DLL");
-        }
-        std::filesystem::copy_file(droppedFile, targetPath.string());
-        hse::Logger::info("Successfully installed mod DLL from: " + droppedFile);
+        std::filesystem::copy_file(droppedFile, cachePath, std::filesystem::copy_options::overwrite_existing);
+        hse::Logger::info("Successfully installed mod DLL to cache from: " + droppedFile);
+
+        if (!CopyToActive(cachePath)) return false;
+
         MessageBoxA(nullptr, ("Mod DLL successfully installed!\n\nFile: " + std::filesystem::path(droppedFile).filename().string()).c_str(), "Mod Installed", MB_OK | MB_ICONINFORMATION);
         return true;
     }
@@ -123,24 +127,62 @@ bool HSELauncher::AskForUpdatePreference() {
     return enableUpdates;
 }
 
+void HSELauncher::SelectGameMode(int argc, char* argv[]) {
+#ifdef EXPERIMENTAL_VERSION
+    currentGameMode_ = hse::GameMode::FullGame;
+    return;
+#else
+    for (int i = 1; i < argc; ++i) {
+        std::string_view arg(argv[i]);
+        if (arg == "--demo" || arg == "--full") {
+            currentGameMode_ = (arg == "--demo") ? hse::GameMode::Demo : hse::GameMode::FullGame;
+            hse::Logger::info("Using %s mode (override via %.*s)", hse::GameModeName(currentGameMode_), static_cast<int>(arg.size()), arg.data());
+            return;
+        }
+    }
+
+    if (config.HasGameModeSetting()) {
+        currentGameMode_ = config.GetGameMode();
+    }
+    else {
+        int result = MessageBoxA(nullptr,
+            "Do you want to play the Demo instead of the full game?\n\n"
+            "YES = Half Sword Demo\n"
+            "NO = Half Sword (Full Game)\n\n"
+            "You can change this later using --demo or --full arguments.",
+            "Game Mode", MB_YESNO | MB_ICONQUESTION);
+        currentGameMode_ = (result == IDYES) ? hse::GameMode::Demo : hse::GameMode::FullGame;
+        [[maybe_unused]] auto _ = config.SetGameMode(currentGameMode_);
+    }
+
+    hse::Logger::info("Game mode: %s", hse::GameModeName(currentGameMode_));
+#endif
+}
+
+bool HSELauncher::CopyToActive(const std::filesystem::path& cachePath) {
+    try {
+        const auto activePath = hse::LauncherConfig::GetModFilePath();
+        std::filesystem::copy_file(cachePath, activePath, std::filesystem::copy_options::overwrite_existing);
+        return true;
+    }
+    catch (const std::exception& e) {
+        hse::logAndShowError("Failed to activate mod from cache: " + std::string(e.what()),
+            "Failed to activate mod. Please try again.");
+        return false;
+    }
+}
+
 bool HSELauncher::EnsureModExists() {
+#ifdef EXPERIMENTAL_VERSION
     const auto modPath = hse::LauncherConfig::GetModFilePath();
 
-#ifndef EXPERIMENTAL_VERSION
-    if (config.IsFirstRun()) {
-        hse::Logger::info("First run detected - downloading latest mod version");
-    }
-    else
-#endif
     if (std::filesystem::exists(modPath)) {
         hse::Logger::info("Mod DLL found at: " + modPath.string());
         return true;
     }
-    else {
-        hse::Logger::info("No mod found - downloading latest version");
-    }
 
-#ifdef EXPERIMENTAL_VERSION
+    hse::Logger::info("No mod found - downloading latest version");
+
     if (!cachedExperimentalInfo_) {
         auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
         if (!experimentalUpdateResult) {
@@ -161,11 +203,30 @@ bool HSELauncher::EnsureModExists() {
         hse::Logger::info("Experimental mod download completed");
         return true;
     }
-    else {
-        hse::logAndShowError("Failed to download experimental mod", "Failed to download experimental mod files. Please check your internet connection and try again.");
-        return false;
-    }
+
+    hse::logAndShowError("Failed to download experimental mod", "Failed to download experimental mod files. Please check your internet connection and try again.");
+    return false;
 #else
+    const auto cachePath = hse::LauncherConfig::GetCachedModPath(currentGameMode_);
+
+    if (std::filesystem::exists(cachePath)) {
+        hse::Logger::info("Cached mod found for %s, activating...", hse::GameModeName(currentGameMode_));
+        return CopyToActive(cachePath);
+    }
+
+    hse::Logger::info("No cached mod found - downloading...");
+
+    if (currentGameMode_ == hse::GameMode::Demo) {
+        auto result = updateManager.DownloadModToPath(
+            hse::UpdateManager::DEMO_MOD_DOWNLOAD_URL, cachePath);
+        if (!result) {
+            hse::logAndShowError("Failed to download demo mod", "Failed to download demo mod (v0.5.2). Please check your internet connection.");
+            return false;
+        }
+        hse::Logger::info("Demo mod downloaded (v0.5.2)");
+        return CopyToActive(cachePath);
+    }
+
     auto updateInfoResult = updateManager.CheckForUpdates();
     if (!updateInfoResult) {
         hse::logAndShowError("Failed to get remote version information", "Could not connect to update server. Please check your internet connection.");
@@ -178,15 +239,13 @@ bool HSELauncher::EnsureModExists() {
         return false;
     }
 
-    auto updateResult = updateManager.UpdateMod(updateInfo.remoteVersion);
-    if (updateResult) {
-        hse::Logger::info("Mod download completed (version: " + updateInfo.remoteVersion.ToString() + ")");
-        return true;
-    }
-    else {
-        hse::logAndShowError("Failed to download mod", "Failed to download mod files. Please check your internet connection and try again.");
+    auto result = updateManager.UpdateMod(updateInfo.remoteVersion);
+    if (!result) {
+        hse::logAndShowError("Failed to download mod", "Failed to download mod files. Please check your internet connection.");
         return false;
     }
+    hse::Logger::info("Mod downloaded (version: " + updateInfo.remoteVersion.ToString() + ")");
+    return true;
 #endif
 }
 
@@ -282,6 +341,24 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
         return true;
     }
 
+    if (currentGameMode_ == hse::GameMode::Demo) {
+        hse::Logger::info("Demo mode - skipping mod update, checking launcher only");
+        if (!updateInfo.downloadUrlLauncher.empty()) {
+            std::string message = "A new launcher version is available!\n\n"
+                "Current version: " + updateInfo.currentVersion.ToString() + "\n"
+                "New version: " + updateInfo.remoteVersion.ToString() + "\n\n"
+                "Do you want to update the launcher now?\n"
+                "(The Demo mod will not be changed)";
+            int result = MessageBoxA(nullptr, message.c_str(), "Launcher Update Available", MB_YESNO | MB_ICONINFORMATION);
+            if (result == IDYES) {
+                hse::Logger::info("Updating launcher...");
+                auto launcherUpdateResult = updateManager.UpdateLauncher(updateInfo.downloadUrlLauncher);
+                return static_cast<bool>(launcherUpdateResult);
+            }
+        }
+        return true;
+    }
+
     std::string message = "A new version of Half Sword Enhancer is available!\n\n"
         "Current version: " + updateInfo.currentVersion.ToString() + "\n"
         "New version: " + updateInfo.remoteVersion.ToString() + "\n\n"
@@ -309,7 +386,9 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
 bool HSELauncher::InjectMod() {
     const auto modPath = hse::LauncherConfig::GetModFilePath();
     hse::Logger::info("Starting mod injection process...");
-    auto processResult = processManager.LocateOrStartGame();
+    hse::Logger::warn("Make sure only the selected game is running. Close the other version if open.");
+
+    auto processResult = processManager.LocateOrStartGame(hse::SteamUrl(currentGameMode_));
     if (!processResult) {
         hse::logAndShowError("Could not find or start the game", "Could not find Half Sword window. Please make sure the game starts correctly.");
         return false;
@@ -349,8 +428,9 @@ int HSELauncher::Run(int argc, char* argv[]) {
     try {
         SetupConsole();
         DisplayBanner();
-        if (HandleDraggedDLL(argc, argv)) hse::Logger::info("Mod DLL installed successfully. Now starting injection...");
         if (config.IsFirstRun()) ShowFirstRunInstructions();
+        SelectGameMode(argc, argv);
+        if (HandleDraggedDLL(argc, argv)) hse::Logger::info("Mod DLL installed successfully. Now starting injection...");
         if (!PerformUpdatesIfNeeded()) {
             ShowExitMessage(false);
             return 1;

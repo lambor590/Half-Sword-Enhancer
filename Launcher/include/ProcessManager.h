@@ -53,7 +53,7 @@ namespace hse {
             return instance;
         }
 
-        [[nodiscard]] std::expected<DWORD, ProcessError> LocateOrStartGame() noexcept;
+        [[nodiscard]] std::expected<DWORD, ProcessError> LocateOrStartGame(std::string_view steamUrl) noexcept;
         [[nodiscard]] std::expected<void, ProcessError> InjectDLL(
             DWORD processId,
             std::string_view dllPath
@@ -61,7 +61,6 @@ namespace hse {
 
     private:
         static constexpr std::string_view GAME_WINDOW_CLASS = "UnrealWindow";
-        static constexpr std::string_view STEAM_GAME_URL = "steam://rungameid/2397300";
         static constexpr std::chrono::milliseconds INJECTION_TIMEOUT{ 10000 };
         static constexpr std::chrono::seconds MAX_GAME_WAIT_TIME{ 60 };
 
@@ -73,7 +72,7 @@ namespace hse {
         ProcessManager& operator=(ProcessManager&&) = delete;
 
         [[nodiscard]] std::expected<DWORD, ProcessError> FindGameProcess() const noexcept;
-        [[nodiscard]] std::expected<void, ProcessError> StartGameViaStream() const noexcept;
+        [[nodiscard]] std::expected<void, ProcessError> StartGameViaSteam(std::string_view steamUrl) const noexcept;
         [[nodiscard]] std::expected<ProcessHandle, ProcessError> OpenGameProcess(DWORD pid) const noexcept;
     };
 

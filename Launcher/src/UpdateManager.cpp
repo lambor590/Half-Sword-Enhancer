@@ -90,25 +90,53 @@ namespace hse {
         return info;
     }
 
+    std::expected<void, UpdateError> UpdateManager::DownloadModToPath(
+        std::string_view downloadUrl,
+        const std::filesystem::path& outputPath,
+        std::uint32_t minFileSize
+    ) noexcept {
+        try {
+            const auto tempPath = outputPath.string() + ".tmp";
+
+            DownloadConfig config{
+                .url = std::string(downloadUrl),
+                .outputPath = tempPath,
+                .description = "Downloading mod",
+                .minFileSize = minFileSize
+            };
+
+            auto result = NetworkManager::Instance().DownloadFile(config);
+            if (!result) {
+                std::filesystem::remove(tempPath);
+                return std::unexpected(UpdateError::NetworkError);
+            }
+
+            try {
+                std::filesystem::rename(tempPath, outputPath);
+            }
+            catch (...) {
+                std::filesystem::remove(tempPath);
+                return std::unexpected(UpdateError::FileSystemError);
+            }
+            return {};
+        }
+        catch (...) {
+            return std::unexpected(UpdateError::UpdateFailed);
+        }
+    }
+
     std::expected<void, UpdateError> UpdateManager::UpdateMod(const Version& version) noexcept {
         try {
             const auto versionStr = version.ToString();
             const auto downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
                 versionStr + "/HSEnhancer.dll";
 
-            const auto modPath = LauncherConfig::GetModFilePath();
+            const auto cachePath = LauncherConfig::GetCachedModPath(GameMode::FullGame);
+            auto result = DownloadModToPath(downloadUrl, cachePath);
+            if (!result) return result;
 
-            DownloadConfig config{
-                .url = downloadUrl,
-                .outputPath = modPath.string(),
-                .description = "Downloading mod update",
-                .minFileSize = 300000
-            };
-
-            auto result = NetworkManager::Instance().DownloadFile(config);
-            if (!result) {
-                return std::unexpected(UpdateError::NetworkError);
-            }
+            const auto activePath = LauncherConfig::GetModFilePath();
+            std::filesystem::copy_file(cachePath, activePath, std::filesystem::copy_options::overwrite_existing);
 
             hse::Logger::info("Mod updated successfully");
             return {};
