@@ -228,15 +228,20 @@ private:
         auto* staticClass = SDK::UStaticMesh::StaticClass();
         auto* skeletalClass = SDK::USkeletalMesh::StaticClass();
         int count = SDK::UObject::GObjects->Num();
+
+        meshPool.reserve(2048);
+        meshSeen.reserve(4096);
+
         for (int i = 0; i < count; ++i) {
             auto* obj = SDK::UObject::GObjects->GetByIndex(i);
-            if (!obj || obj->IsDefaultObject()) continue;
+            if (!obj) continue;
 
             MeshType type;
-            if (obj->IsA(staticClass)) type = MeshType::Static;
-            else if (obj->IsA(skeletalClass)) type = MeshType::Skeletal;
+            if (obj->Class == staticClass) type = MeshType::Static;
+            else if (obj->Class == skeletalClass) type = MeshType::Skeletal;
             else continue;
 
+            if (obj->IsDefaultObject()) continue;
             if (!meshSeen.insert(obj).second) continue;
 
             std::string name = obj->GetName();
