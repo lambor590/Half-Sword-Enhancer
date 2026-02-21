@@ -61,7 +61,6 @@ namespace GuiUtils {
         return ComboWidthFromText(maxW);
     }
 
-
     inline constexpr auto LOWER_TABLE = [] {
         std::array<char, 256> t{};
         for (int i = 0; i < 256; ++i) t[i] = static_cast<char>(i);
@@ -167,59 +166,84 @@ namespace GuiUtils {
         ImGui::PopID();
     }
 
-    inline constexpr float MAX_TAB_WIDTH = 200.0f;
-    inline constexpr float TAB_HEIGHT_PAD = 6.0f;
-    inline constexpr float TAB_ROUNDING = 4.0f;
+    inline constexpr float UNDERLINE_TAB_HPAD = 12.0f;
+    inline constexpr float UNDERLINE_TAB_VPAD = 4.0f;
+    inline constexpr float UNDERLINE_THICKNESS = 2.0f;
+    inline constexpr float UNDERLINE_GAP = 6.0f;
+    inline constexpr float TAB_SPACING = 4.0f;
 
-    inline void RenderFullWidthTabs(const char* id, int& activeTab,
+    inline void RenderUnderlineTabs(const char* id, int& activeTab,
         const char* const* labels, int count)
     {
         ImGui::PushID(id);
-
-        float availWidth = ImGui::GetContentRegionAvail().x;
-        float tabWidth = (std::min)(availWidth / count, MAX_TAB_WIDTH);
-        float totalWidth = tabWidth * count;
-        float startX = ImGui::GetCursorPosX();
-        if (totalWidth < availWidth)
-            startX += (availWidth - totalWidth) * 0.5f;
-
-        float textHeight = ImGui::GetTextLineHeight();
-        float tabHeight = textHeight + TAB_HEIGHT_PAD * 2;
-        ImVec2 cursor = ImGui::GetCursorScreenPos();
         ImDrawList* dl = ImGui::GetWindowDrawList();
+        ImVec2 cursor = ImGui::GetCursorScreenPos();
+        float textH = ImGui::GetTextLineHeight();
+        float rowH = textH + UNDERLINE_TAB_VPAD * 2;
+        float availWidth = ImGui::GetContentRegionAvail().x;
 
         static const ImU32 activeCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass);
-        static const ImU32 inactiveCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::darkWood);
-        static const ImU32 activeText = ImGui::ColorConvertFloat4ToU32(DefaultStyle::darkInk);
-        static const ImU32 inactiveText = ImGui::ColorConvertFloat4ToU32(DefaultStyle::parchment);
+        static const ImU32 inactiveCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::textDisabled);
+        static const ImU32 hoverCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::parchmentDark);
+        static const ImU32 baselineCol = ImGui::ColorConvertFloat4ToU32(
+            ImVec4(DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y,
+                   DefaultStyle::mediumWood.z, 0.35f));
 
+        float x = cursor.x;
         for (int i = 0; i < count; ++i) {
-            float x = cursor.x + startX - ImGui::GetCursorPosX() + tabWidth * i;
-            ImVec2 pMin(x, cursor.y);
-            ImVec2 pMax(x + tabWidth - 1.0f, cursor.y + tabHeight);
-
-            bool isActive = (i == activeTab);
-            dl->AddRectFilled(pMin, pMax,
-                isActive ? activeCol : inactiveCol,
-                TAB_ROUNDING, ImDrawFlags_RoundCornersTop);
-
             ImVec2 textSize = ImGui::CalcTextSize(labels[i]);
-            ImVec2 textPos(
-                x + (tabWidth - 1.0f - textSize.x) * 0.5f,
-                cursor.y + (tabHeight - textSize.y) * 0.5f);
-            dl->AddText(textPos, isActive ? activeText : inactiveText, labels[i]);
+            float tabW = textSize.x + UNDERLINE_TAB_HPAD * 2;
 
             char btnId[32];
             std::snprintf(btnId, sizeof(btnId), "##tab%d", i);
-            ImGui::SetCursorScreenPos(pMin);
-            if (ImGui::InvisibleButton(btnId, ImVec2(tabWidth - 1.0f, tabHeight)))
+            ImGui::SetCursorScreenPos(ImVec2(x, cursor.y));
+            if (ImGui::InvisibleButton(btnId, ImVec2(tabW, rowH)))
                 activeTab = i;
-            if (i < count - 1) ImGui::SameLine(0, 1.0f);
+            bool hovered = ImGui::IsItemHovered();
+            if (i < count - 1) ImGui::SameLine(0, TAB_SPACING);
+
+            bool isActive = (i == activeTab);
+            ImU32 textCol = isActive ? activeCol : (hovered ? hoverCol : inactiveCol);
+            ImVec2 textPos(x + UNDERLINE_TAB_HPAD, cursor.y + UNDERLINE_TAB_VPAD);
+            dl->AddText(textPos, textCol, labels[i]);
+
+            if (isActive) {
+                float lineY = cursor.y + rowH;
+                dl->AddLine(ImVec2(x, lineY), ImVec2(x + tabW, lineY),
+                            activeCol, UNDERLINE_THICKNESS);
+            }
+
+            x += tabW + TAB_SPACING;
         }
 
-        ImGui::SetCursorScreenPos(ImVec2(cursor.x, cursor.y + tabHeight + 2.0f));
+        float baselineY = cursor.y + rowH + 1.0f;
+        dl->AddLine(ImVec2(cursor.x, baselineY),
+                    ImVec2(cursor.x + availWidth, baselineY),
+                    baselineCol, 1.0f);
+
+        ImGui::SetCursorScreenPos(ImVec2(cursor.x, baselineY + UNDERLINE_GAP));
         ImGui::PopID();
     }
+
+    struct StatusMessage {
+        std::string text;
+        double time = 0.0;
+        bool isError = false;
+
+        void Set(std::string msg, bool error = false) {
+            text = std::move(msg);
+            time = ImGui::GetTime();
+            isError = error;
+        }
+
+        void Render() {
+            if (text.empty()) return;
+            if (ImGui::GetTime() - time > 3.0) { text.clear(); return; }
+            ImVec4 color = isError ? ImVec4(1.0f, 0.4f, 0.4f, 1.0f)
+                                   : ImVec4(0.4f, 1.0f, 0.4f, 1.0f);
+            ImGui::TextColored(color, "%s", text.c_str());
+        }
+    };
 
     struct PresetTreeAction {
         enum Type { None, Load, Delete } type = None;
@@ -230,7 +254,7 @@ namespace GuiUtils {
         PresetTreeAction action;
         static const float loadW = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2;
         static const float delW = ImGui::CalcTextSize("Del").x + ImGui::GetStyle().FramePadding.x * 2;
-        const float buttonsWidth = loadW + delW + ImGui::GetStyle().ItemSpacing.x * 2;
+        static const float buttonsWidth = loadW + delW + ImGui::GetStyle().ItemSpacing.x * 2;
 
         for (const auto& child : node.children) {
             if (ImGui::TreeNode(child.name.c_str())) {

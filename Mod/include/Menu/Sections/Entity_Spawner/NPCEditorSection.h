@@ -43,9 +43,7 @@ private:
     char presetNameBuf[128] = {};
     PresetUtils::PresetTreeNode presetTree;
     bool presetListDirty = true;
-    std::string statusMessage;
-    double statusMessageTime = 0.0;
-    bool statusIsError = false;
+    GuiUtils::StatusMessage status;
     int activeTab = 0;
 
     const char* getNPCClassName() const noexcept {
@@ -74,10 +72,6 @@ private:
         int count = 0;
         for (bool f : flags) count += f;
         return count;
-    }
-
-    bool HasAnyOverride() const {
-        return CountActiveOverrides() > 0;
     }
 
     static bool HasAnyBodyConditionOverride(const NPCOverrides& ovr) {
@@ -154,7 +148,7 @@ private:
         bool bodyguard = cfg.bodyguard;
         int team = cfg.npcTeam;
         auto ovr = overrides;
-        bool hasOverrides = HasAnyOverride();
+        bool hasOverrides = CountActiveOverrides() > 0;
 
         SDK::FTransform spawnTransform = player->GetTransform();
         spawnTransform.Translation += player->GetActorForwardVector() * cfg.spawnDistanceForward;
@@ -218,12 +212,6 @@ private:
         overrides = d.overrides;
     }
 
-    void SetStatus(std::string msg, bool isError = false) {
-        statusMessage = std::move(msg);
-        statusMessageTime = ImGui::GetTime();
-        statusIsError = isError;
-    }
-
     void RefreshPresetTree() {
         presetTree = NPCPresetSerializer::ListPresetsTree();
         presetListDirty = false;
@@ -232,7 +220,7 @@ private:
     void RenderPhysicalTab() {
         ImGui::PushID("physical");
 
-        ImGui::TextDisabled("Body");
+        ImGui::SeparatorText("Body");
         GuiUtils::RenderOverrideDrag("Height Rate", overrides.heightRate, 0.01f, 0.1f, 3.0f);
         TooltipHelper::ShowTooltip("Character height multiplier (1.0 = normal)");
         GuiUtils::RenderOverrideDrag("Muscle Rate", overrides.muscleRate, 0.01f, 0.1f, 3.0f);
@@ -240,8 +228,7 @@ private:
         GuiUtils::RenderOverrideDrag("Scale Mutation Inhibitor", overrides.scaleMutationInhibitor, 0.01f);
         TooltipHelper::ShowTooltip("Controls how much random scale variation is suppressed");
 
-        ImGui::Spacing();
-        ImGui::TextDisabled("Appearance");
+        ImGui::SeparatorText("Appearance");
         GuiUtils::RenderOverrideInt("Face Type", overrides.faceType, 0, 20);
         TooltipHelper::ShowTooltip("Face mesh index");
         GuiUtils::RenderOverrideInt("Eye Color", overrides.eyeColor, 0, 10);
@@ -257,7 +244,7 @@ private:
     void RenderCombatTab() {
         ImGui::PushID("combat");
 
-        ImGui::TextDisabled("Damage");
+        ImGui::SeparatorText("Damage");
         GuiUtils::RenderOverrideDrag("Damage Rate", overrides.damageRate, 0.1f);
         TooltipHelper::ShowTooltip("Additional damage multiplier dealt by this NPC");
         GuiUtils::RenderOverrideDrag("Limb Damage Rate", overrides.limbDamageRate, 0.1f);
@@ -265,8 +252,7 @@ private:
         GuiUtils::RenderOverrideDrag("Dismember Threshold", overrides.dismemberThreshold, 0.1f);
         TooltipHelper::ShowTooltip("Health threshold below which dismemberment can occur");
 
-        ImGui::Spacing();
-        ImGui::TextDisabled("Defense");
+        ImGui::SeparatorText("Defense");
         GuiUtils::RenderOverrideDrag("Regen Rate", overrides.regenRate, 0.01f);
         TooltipHelper::ShowTooltip("Health regeneration rate per tick");
         GuiUtils::RenderOverrideDrag("AI Invincibility", overrides.aiInvincibility, 0.01f);
@@ -274,8 +260,7 @@ private:
         GuiUtils::RenderOverrideDrag("AI Armor Invincibility", overrides.aiArmorInvincibility, 0.01f);
         TooltipHelper::ShowTooltip("Rate at which AI armor ignores damage");
 
-        ImGui::Spacing();
-        ImGui::TextDisabled("Skill");
+        ImGui::SeparatorText("Skill");
         GuiUtils::RenderOverrideDrag("Body Skill", overrides.bodySkill, 0.1f);
         TooltipHelper::ShowTooltip("Overall combat skill level affecting movement and reactions");
 
@@ -306,7 +291,7 @@ private:
     void RenderBodyConditionTab() {
         ImGui::PushID("bodycond");
 
-        ImGui::TextDisabled("Starting Health Per Limb");
+        ImGui::SeparatorText("Starting Health Per Limb");
         TooltipHelper::ShowTooltip("Override starting health for each body part (0 = default game value)");
 
         if (ImGui::Button("Reset All")) {
@@ -322,14 +307,28 @@ private:
         TooltipHelper::ShowTooltip("Disable all body condition overrides");
 
         ImGui::Spacing();
-        GuiUtils::RenderOverrideDrag("Head", overrides.headHealth, 0.1f);
-        GuiUtils::RenderOverrideDrag("Neck", overrides.neckHealth, 0.1f);
-        GuiUtils::RenderOverrideDrag("Right Arm", overrides.armRHealth, 0.1f);
-        GuiUtils::RenderOverrideDrag("Left Arm", overrides.armLHealth, 0.1f);
-        GuiUtils::RenderOverrideDrag("Upper Body", overrides.bodyUpperHealth, 0.1f);
-        GuiUtils::RenderOverrideDrag("Lower Body", overrides.bodyLowerHealth, 0.1f);
-        GuiUtils::RenderOverrideDrag("Right Leg", overrides.legRHealth, 0.1f);
-        GuiUtils::RenderOverrideDrag("Left Leg", overrides.legLHealth, 0.1f);
+        if (ImGui::BeginTable("##bodyparts", 2, ImGuiTableFlags_None)) {
+            ImGui::TableNextColumn();
+            GuiUtils::RenderOverrideDrag("Head", overrides.headHealth, 0.1f);
+            ImGui::TableNextColumn();
+            GuiUtils::RenderOverrideDrag("Neck", overrides.neckHealth, 0.1f);
+
+            ImGui::TableNextColumn();
+            GuiUtils::RenderOverrideDrag("Right Arm", overrides.armRHealth, 0.1f);
+            ImGui::TableNextColumn();
+            GuiUtils::RenderOverrideDrag("Left Arm", overrides.armLHealth, 0.1f);
+
+            ImGui::TableNextColumn();
+            GuiUtils::RenderOverrideDrag("Upper Body", overrides.bodyUpperHealth, 0.1f);
+            ImGui::TableNextColumn();
+            GuiUtils::RenderOverrideDrag("Lower Body", overrides.bodyLowerHealth, 0.1f);
+
+            ImGui::TableNextColumn();
+            GuiUtils::RenderOverrideDrag("Right Leg", overrides.legRHealth, 0.1f);
+            ImGui::TableNextColumn();
+            GuiUtils::RenderOverrideDrag("Left Leg", overrides.legLHealth, 0.1f);
+            ImGui::EndTable();
+        }
 
         ImGui::PopID();
     }
@@ -337,8 +336,8 @@ private:
     void RenderPresetsTab() {
         ImGui::PushID("presets");
 
-        ImGui::TextDisabled("Save");
-        float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
+        ImGui::SeparatorText("Save");
+        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
         ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
         ImGui::SameLine();
@@ -347,19 +346,15 @@ private:
         if (ImGui::Button("Save")) {
             auto data = BuildPresetData();
             if (NPCPresetSerializer::SavePresetByName(presetNameBuf, data)) {
-                SetStatus("Saved: " + std::string(presetNameBuf));
+                status.Set("Saved: " + std::string(presetNameBuf));
                 presetListDirty = true;
             } else {
-                SetStatus("Error saving preset", true);
+                status.Set("Error saving preset", true);
             }
         }
         if (!canSave) ImGui::EndDisabled();
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::TextDisabled("Presets");
+        ImGui::SeparatorText("Presets");
         if (presetListDirty)
             RefreshPresetTree();
 
@@ -375,9 +370,9 @@ private:
                 if (result.success) {
                     ApplyPresetData(result);
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    SetStatus("Loaded: " + result.name);
+                    status.Set("Loaded: " + result.name);
                 } else {
-                    SetStatus("Error: " + result.error, true);
+                    status.Set("Error: " + result.error, true);
                 }
             } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
                 NPCPresetSerializer::DeletePreset(action.path);
@@ -387,9 +382,6 @@ private:
         }
 
         ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
         if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
             PresetUtils::OpenInExplorer(NPCPresetSerializer::GetPresetsDirectory());
         }
@@ -424,24 +416,23 @@ public:
             ImGui::Spacing();
         }
 
-        ImGui::Text("NPC Type");
-        TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
         auto npcGetter = [](void* data, int idx) -> const char* {
             return static_cast<const NPCTypeInfo*>(data)[idx].displayName;
         };
         static float npcTypeComboW = GuiUtils::CalcComboWidth(npcGetter, (void*)npcTypes, npcTypesCount);
+        static float nationalityComboW = GuiUtils::CalcComboWidth(nationalityNames, nationalityCount);
+        float spacing = ImGui::GetStyle().ItemSpacing.x;
+
         ImGui::SetNextItemWidth(npcTypeComboW);
         ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex,
             npcGetter, (void*)npcTypes, npcTypesCount);
-
-        ImGui::Spacing();
-        ImGui::Text("Nationality");
-        static float nationalityComboW = GuiUtils::CalcComboWidth(nationalityNames, nationalityCount);
+        TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
+        ImGui::SameLine();
         ImGui::SetNextItemWidth(nationalityComboW);
         ImGui::Combo("##NationalitySelector", &cfg.npcNationality,
             nationalityNames, nationalityCount);
-
-        ImGui::Text("Equipment Tier");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
         ImGui::SliderInt("##NPCTierSlider", &cfg.npcTier, 0, 8, "Tier %d");
 
         ImGui::Spacing();
@@ -454,19 +445,14 @@ public:
             ImGui::SameLine();
             ImGui::TextDisabled("(%d active)", activeCount);
         }
-
-        if (!statusMessage.empty()) {
-            if (ImGui::GetTime() - statusMessageTime > 3.0)
-                statusMessage.clear();
-            else {
-                auto color = statusIsError ? ImVec4(1.0f, 0.4f, 0.4f, 1.0f) : ImVec4(0.4f, 1.0f, 0.4f, 1.0f);
-                ImGui::TextColored(color, "%s", statusMessage.c_str());
-            }
-        }
+        ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.5f);
+        status.Render();
 
         ImGui::Spacing();
+        ImGui::BeginChild("##npc_scroll", ImVec2(0, 0));
+
         static constexpr const char* NPC_TAB_LABELS[] = {"Physical", "Combat", "Behavior", "Body Condition", "Presets"};
-        GuiUtils::RenderFullWidthTabs("##NPCEditorTabs", activeTab, NPC_TAB_LABELS, 5);
+        GuiUtils::RenderUnderlineTabs("##NPCEditorTabs", activeTab, NPC_TAB_LABELS, 5);
         switch (activeTab) {
             case 0: RenderPhysicalTab();       break;
             case 1: RenderCombatTab();          break;
@@ -474,5 +460,7 @@ public:
             case 3: RenderBodyConditionTab();   break;
             case 4: RenderPresetsTab();         break;
         }
+
+        ImGui::EndChild();
     }
 };

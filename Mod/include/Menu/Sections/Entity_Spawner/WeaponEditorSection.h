@@ -64,9 +64,7 @@ private:
     char presetNameBuf[128] = {};
     PresetUtils::PresetTreeNode presetTree;
     bool presetListDirty = true;
-    std::string statusMessage;
-    double statusMessageTime = 0.0;
-    bool statusIsError = false;
+    GuiUtils::StatusMessage status;
     int activeTab = 0;
 
     enum class WeaponModuleSlot : int { Head = 0, Guard, Grip, Pommel, Count };
@@ -94,6 +92,9 @@ private:
     std::unordered_set<SDK::UObject*> meshSeen;
     bool meshScanQueued = false;
     float meshComboWidth = 0.0f;
+    int cachedSmCount = 0;
+    int cachedSkCount = 0;
+    size_t lastCountedPoolSize = 0;
     char meshFilters[MODULE_SLOT_COUNT][64] = {};
     char assetPathBuf[256] = {};
     struct MeshSnapshot {
@@ -103,11 +104,16 @@ private:
     MeshOverride meshOverrides[MODULE_SLOT_COUNT];
     SDK::USkeletalMeshComponent* skeletalPreviewComps[MODULE_SLOT_COUNT] = {};
 
-    GlobalModulePool& globalModules = GlobalModulePool::Get();
-
-    void PopulateGlobalModulePool() {
-        globalModules.Populate();
+    void UpdateMeshCounts() {
+        if (meshPool.size() == lastCountedPoolSize) return;
+        cachedSmCount = 0;
+        cachedSkCount = 0;
+        for (const auto& e : meshPool)
+            (e.type == MeshType::Skeletal ? cachedSkCount : cachedSmCount)++;
+        lastCountedPoolSize = meshPool.size();
     }
+
+    GlobalModulePool& globalModules = GlobalModulePool::Get();
 
     static const char* ExtractCategory(const std::string& fullName) {
         if (fullName.find("/Weapons/") != std::string::npos) return "Weapon";
@@ -298,12 +304,21 @@ private:
             if (!added) continue;
 
             auto* skelComp = static_cast<SDK::USkeletalMeshComponent*>(added);
-            skelComp->SetSkeletalMeshAsset(static_cast<SDK::USkeletalMesh*>(slot.mesh));
+            auto* skelMesh = static_cast<SDK::USkeletalMesh*>(slot.mesh);
+            skelComp->SetSkeletalMeshAsset(skelMesh);
             skelComp->SetAnimationMode(SDK::EAnimationMode::AnimationCustomMode, false);
             skelComp->SetRenderStatic(true);
+
+            auto* physAsset = skelMesh->GetPhysicsAsset();
+            if (physAsset)
+                skelComp->SetPhysicsAsset(physAsset, true);
+
+            skelComp->SetCollisionProfileName(comps[i]->GetCollisionProfileName(), true);
+            skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::QueryAndPhysics);
             skelComp->SetSimulatePhysics(false);
             skelComp->SetEnableGravity(false);
             skelComp->SetComponentTickEnabled(false);
+            comps[i]->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
 
             skelComp->K2_AttachToComponent(comps[i], SDK::FName(),
                 SDK::EAttachmentRule::SnapToTarget,
@@ -372,7 +387,7 @@ private:
         GameHook::QueueAction([this, type, tier]() {
             EquipmentGenerator::Init(world);
             weaponPassport = EquipmentGenerator::GenerateCustomizableWeapon(type, tier);
-            PopulateGlobalModulePool();
+            globalModules.Populate();
             weaponGenerationPending = false;
         });
     }
@@ -414,10 +429,6 @@ private:
         if (props.staminaBurnL.enabled)    weapon->L_Hand_Stamina_Burn_Rate = props.staminaBurnL.value;
         if (props.staminaBurn2H.enabled)   weapon->TwoH_Default_Stamina_Burn_Rate = props.staminaBurn2H.value;
         if (props.staminaBurn2HAlt.enabled) weapon->TwoH_Alt_Stamina_Burn_Rate = props.staminaBurn2HAlt.value;
-    }
-
-    bool HasAnyRuntimeOverride() const {
-        return CountActiveOverrides() > 0;
     }
 
     int CountActiveOverrides() const {
@@ -467,7 +478,7 @@ private:
         lastPreviewedProps = runtimeProps;
 
         auto props = runtimeProps;
-        bool hasOverrides = HasAnyRuntimeOverride();
+        bool hasOverrides = CountActiveOverrides() > 0;
         bool hasMesh = HasAnyMeshOverride();
         auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
@@ -523,7 +534,7 @@ private:
             DestroyPreview();
         }
 
-        bool hasOverrides = HasAnyRuntimeOverride();
+        bool hasOverrides = CountActiveOverrides() > 0;
         bool hasMesh = HasAnyMeshOverride();
 
         auto props = runtimeProps;
@@ -797,14 +808,13 @@ private:
     void RenderAppearanceTab() {
         ImGui::PushID("appearance");
 
-        ImGui::TextDisabled("Metal");
+        ImGui::SeparatorText("Metal");
         RenderMaterialCombo("Steel", weaponPassport.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36);
         TooltipHelper::ShowTooltip("Primary metal surface finish");
         RenderMaterialCombo("Colored", weaponPassport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2);
         TooltipHelper::ShowTooltip("Secondary metallic accent layer");
 
-        ImGui::Spacing();
-        ImGui::TextDisabled("Organic");
+        ImGui::SeparatorText("Organic");
         RenderMaterialCombo("Wood", weaponPassport.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A);
         TooltipHelper::ShowTooltip("Wood grain pattern for handle and wooden parts");
         RenderColorEditor("Wood Color", weaponPassport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743);
@@ -947,14 +957,13 @@ private:
             meshPool.clear();
             meshSeen.clear();
             meshComboWidth = 0.0f;
+            meshScanQueued = false;
             GameHook::QueueAction([this]() { ScanAllMeshes(); });
         }
         TooltipHelper::ShowTooltip("Rescan all loaded meshes from memory. Custom-loaded assets will need to be reloaded");
         ImGui::SameLine();
-        int smCount = 0, skCount = 0;
-        for (const auto& e : meshPool)
-            (e.type == MeshType::Skeletal ? skCount : smCount)++;
-        ImGui::TextDisabled("(%d SM, %d SK)", smCount, skCount);
+        UpdateMeshCounts();
+        ImGui::TextDisabled("(%d SM, %d SK)", cachedSmCount, cachedSkCount);
         ImGui::SameLine();
         if (ImGui::Button("Reset All Meshes")) {
             for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
@@ -963,7 +972,8 @@ private:
         }
         TooltipHelper::ShowTooltip("Clear all mesh overrides and restore original weapon meshes");
 
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize("Load").x - ImGui::GetStyle().FramePadding.x * 2 - ImGui::GetStyle().ItemSpacing.x);
+        static float loadBtnW = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2 + ImGui::GetStyle().ItemSpacing.x;
+        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - loadBtnW);
         ImGui::InputTextWithHint("##assetPath", "Asset path (e.g. Assets/Animals/Horse_001/SkeletalMeshes/SK_Animal_Horse_002)", assetPathBuf, sizeof(assetPathBuf));
         TooltipHelper::ShowTooltip("Full or partial UE asset path. Prefix /Game/ and suffix .AssetName are added automatically if missing");
         ImGui::SameLine();
@@ -971,8 +981,8 @@ private:
             auto pathCopy = std::string(assetPathBuf);
             GameHook::QueueAction([this, pathCopy]() {
                 auto* result = LoadAssetByPath(pathCopy.c_str());
-                if (result) SetStatus("Loaded: " + std::string(result->GetName()));
-                else SetStatus("Failed to load asset", true);
+                if (result) status.Set("Loaded: " + std::string(result->GetName()));
+                else status.Set("Failed to load asset", true);
             });
         }
         TooltipHelper::ShowTooltip("Force-load an asset from disk into memory");
@@ -993,17 +1003,13 @@ private:
     void RenderStatsTab() {
         ImGui::PushID("stats");
 
-        ImGui::TextDisabled("Passport");
+        ImGui::SeparatorText("Passport");
         RenderFreeTierCombo("Tier", weaponPassport.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461);
         TooltipHelper::ShowTooltip("Stored tier value in the passport, independent of generation tier");
         GuiUtils::RenderPriceDrag("Price", weaponPassport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5);
         TooltipHelper::ShowTooltip("Weapon price value stored in the passport");
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::TextDisabled("Runtime Overrides");
+        ImGui::SeparatorText("Runtime Overrides");
         TooltipHelper::ShowTooltip("Override weapon stats after spawning. Enable each to apply its value.");
 
         if (ImGui::Button("Reset All Overrides"))
@@ -1175,12 +1181,6 @@ private:
         }
     }
 
-    void SetStatus(std::string msg, bool isError = false) {
-        statusMessage = std::move(msg);
-        statusMessageTime = ImGui::GetTime();
-        statusIsError = isError;
-    }
-
     void RefreshPresetTree() {
         presetTree = WeaponPresetSerializer::ListPresetsTree();
         presetListDirty = false;
@@ -1189,8 +1189,8 @@ private:
     void RenderPresetsTab() {
         ImGui::PushID("presets");
 
-        ImGui::TextDisabled("Save");
-        float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
+        ImGui::SeparatorText("Save");
+        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
         ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
         ImGui::SameLine();
@@ -1199,20 +1199,16 @@ private:
         if (ImGui::Button("Save")) {
             auto data = BuildPresetData();
             if (WeaponPresetSerializer::SavePresetByName(presetNameBuf, weaponPassport, data)) {
-                SetStatus("Saved: " + std::string(presetNameBuf));
+                status.Set("Saved: " + std::string(presetNameBuf));
                 presetListDirty = true;
             } else {
-                SetStatus("Error saving preset", true);
+                status.Set("Error saving preset", true);
             }
         }
         TooltipHelper::ShowTooltip("Save current weapon configuration as a named preset");
         if (!canSave) ImGui::EndDisabled();
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::TextDisabled("Presets");
+        ImGui::SeparatorText("Presets");
         if (presetListDirty)
             RefreshPresetTree();
 
@@ -1229,9 +1225,9 @@ private:
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                     std::string loadedName = std::move(result.name);
                     ApplyPresetData(std::move(result));
-                    SetStatus("Loaded: " + loadedName);
+                    status.Set("Loaded: " + loadedName);
                 } else {
-                    SetStatus("Error: " + result.error, true);
+                    status.Set("Error: " + result.error, true);
                 }
             } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
                 WeaponPresetSerializer::DeletePreset(action.path);
@@ -1241,9 +1237,6 @@ private:
         }
 
         ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
         if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
             PresetUtils::OpenInExplorer(WeaponPresetSerializer::GetPresetsDirectory());
         }
@@ -1252,10 +1245,6 @@ private:
     }
 
     void RenderSpawnFooter() {
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
         bool canSpawn = ComponentValidator::Validate(player) && ComponentValidator::Validate(world);
         if (!canSpawn) ImGui::BeginDisabled();
         if (ImGui::Button("Spawn Weapon", ImVec2(-1, 0)))
@@ -1298,7 +1287,7 @@ public:
 
         if (!globalModules.populated.load(std::memory_order_acquire) && !modulePoolQueued) {
             modulePoolQueued = true;
-            GameHook::QueueAction([this]() { PopulateGlobalModulePool(); });
+            GameHook::QueueAction([this]() { globalModules.Populate(); });
         }
 
         if (GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.livePreview, "Auto-spawn a preview weapon that updates as you edit")) {
@@ -1315,18 +1304,16 @@ public:
             }
         }
 
-        if (!statusMessage.empty()) {
-            if (ImGui::GetTime() - statusMessageTime > 3.0)
-                statusMessage.clear();
-            else {
-                auto color = statusIsError ? ImVec4(1.0f, 0.4f, 0.4f, 1.0f) : ImVec4(0.4f, 1.0f, 0.4f, 1.0f);
-                ImGui::TextColored(color, "%s", statusMessage.c_str());
-            }
-        }
+        status.Render();
 
-        ImGui::Spacing();
+        float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
+        float scrollH = ImGui::GetContentRegionAvail().y - footerH;
+        if (scrollH < 100.0f) scrollH = 100.0f;
+
+        ImGui::BeginChild("##weapon_scroll", ImVec2(0, scrollH));
+
         static constexpr const char* WE_TAB_LABELS[] = {"Modules", "Geometry", "Appearance", "Mesh", "Stats", "Presets"};
-        GuiUtils::RenderFullWidthTabs("##WeaponEditorTabs", activeTab, WE_TAB_LABELS, 6);
+        GuiUtils::RenderUnderlineTabs("##WeaponEditorTabs", activeTab, WE_TAB_LABELS, 6);
         switch (activeTab) {
             case 0: RenderModulesTab();    break;
             case 1: RenderGeometryTab();   break;
@@ -1335,6 +1322,8 @@ public:
             case 4: RenderStatsTab();      break;
             case 5: RenderPresetsTab();    break;
         }
+
+        ImGui::EndChild();
 
         RenderSpawnFooter();
 

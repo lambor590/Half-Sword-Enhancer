@@ -61,14 +61,8 @@ private:
     char presetNameBuf[128] = {};
     PresetUtils::PresetTreeNode presetTree;
     bool presetListDirty = true;
-    std::string statusMessage;
-    double statusMessageTime = 0.0;
+    GuiUtils::StatusMessage status;
     int activeTab = 0;
-
-    void SetStatus(std::string msg) {
-        statusMessage = std::move(msg);
-        statusMessageTime = ImGui::GetTime();
-    }
 
     void RefreshPresetTree() {
         presetTree = LoadoutPresetSerializer::ListPresetsTree();
@@ -700,15 +694,10 @@ private:
     void RenderPresetsTab() {
         ImGui::PushID("presets");
 
-        if (!statusMessage.empty()) {
-            if (ImGui::GetTime() - statusMessageTime > 3.0)
-                statusMessage.clear();
-            else
-                ImGui::TextColored(ImVec4(0.4f, 1.0f, 0.4f, 1.0f), "%s", statusMessage.c_str());
-        }
+        status.Render();
 
-        ImGui::TextDisabled("Save");
-        float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
+        ImGui::SeparatorText("Save");
+        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
         ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
         ImGui::SameLine();
@@ -718,19 +707,15 @@ private:
             auto data = BuildPresetFromPlayer();
             data.name = presetNameBuf;
             if (LoadoutPresetSerializer::SavePresetByName(data)) {
-                SetStatus("Saved: " + std::string(presetNameBuf));
+                status.Set("Saved: " + std::string(presetNameBuf));
                 presetListDirty = true;
             } else {
-                SetStatus("Error saving preset");
+                status.Set("Error saving preset", true);
             }
         }
         if (!canSave) ImGui::EndDisabled();
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::TextDisabled("Presets");
+        ImGui::SeparatorText("Presets");
         if (presetListDirty)
             RefreshPresetTree();
 
@@ -747,9 +732,9 @@ private:
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                     std::string loadedName = std::move(result.name);
                     ApplyLoadoutPreset(std::move(result));
-                    SetStatus("Loaded: " + loadedName);
+                    status.Set("Loaded: " + loadedName);
                 } else {
-                    SetStatus("Error: " + result.error);
+                    status.Set("Error: " + result.error, true);
                 }
             } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
                 PresetUtils::DeletePreset(action.path);
@@ -759,9 +744,6 @@ private:
         }
 
         ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
         if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
             PresetUtils::OpenInExplorer(LoadoutPresetSerializer::GetPresetsDir());
         }
@@ -818,7 +800,7 @@ public:
 
         ImGui::Spacing();
         static constexpr const char* EQ_TAB_LABELS[] = {"Armor", "Weapons", "Presets"};
-        GuiUtils::RenderFullWidthTabs("##EquipmentTabs", activeTab, EQ_TAB_LABELS, 3);
+        GuiUtils::RenderUnderlineTabs("##EquipmentTabs", activeTab, EQ_TAB_LABELS, 3);
         switch (activeTab) {
             case 0: RenderArmorTab();   break;
             case 1: RenderWeaponsTab(); break;

@@ -56,9 +56,7 @@ private:
     char presetNameBuf[128] = {};
     PresetUtils::PresetTreeNode presetTree;
     bool presetListDirty = true;
-    std::string statusMessage;
-    double statusMessageTime = 0.0;
-    bool statusIsError = false;
+    GuiUtils::StatusMessage status;
     int activeTab = 0;
 
     static int RandomInt(int min, int max) {
@@ -157,10 +155,6 @@ private:
         return count;
     }
 
-    bool HasAnyOverride() const {
-        return CountActiveOverrides() > 0;
-    }
-
     void DestroyPreview() {
         if (!previewActor) return;
         SDK::AActor* actor = previewActor;
@@ -189,7 +183,7 @@ private:
         lastPreviewedProps = runtimeProps;
 
         auto props = runtimeProps;
-        bool hasOverrides = HasAnyOverride();
+        bool hasOverrides = CountActiveOverrides() > 0;
 
         Spawner::SpawnArmorFromPassport(world, armorPassport, BuildSpawnTransform(), cfg.snapToGround,
             [this, props, hasOverrides](SDK::AActor* actor) {
@@ -261,7 +255,7 @@ private:
         }
 
         std::function<void(SDK::AActor*)> callback = nullptr;
-        bool hasOverrides = HasAnyOverride();
+        bool hasOverrides = CountActiveOverrides() > 0;
 
         if (hasOverrides) {
             auto props = runtimeProps;
@@ -431,7 +425,7 @@ private:
     void RenderColorsTab() {
         ImGui::PushID("colors");
 
-        ImGui::TextDisabled("Passport Fabric Colors");
+        ImGui::SeparatorText("Passport Fabric Colors");
         RenderColorEditor("Fabric Color 1",
             armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393);
         RenderColorEditor("Fabric Color 2",
@@ -443,17 +437,13 @@ private:
     void RenderStatsTab() {
         ImGui::PushID("stats");
 
-        ImGui::TextDisabled("Passport");
+        ImGui::SeparatorText("Passport");
         RenderFreeTierCombo("Tier", armorPassport.Tier_50_E497AE434B01B84C559DEE8A863BB42E);
         TooltipHelper::ShowTooltip("Stored tier value in the passport");
         GuiUtils::RenderPriceDrag("Price", armorPassport.Price_27_8E3ADD54484EFC4A59FE9381485AC192);
         TooltipHelper::ShowTooltip("Armor price value stored in the passport");
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::TextDisabled("Runtime Overrides");
+        ImGui::SeparatorText("Runtime Overrides");
         TooltipHelper::ShowTooltip("Override armor stats after spawning. Enable each to apply its value.");
 
         if (ImGui::Button("Reset All Overrides"))
@@ -525,12 +515,6 @@ private:
         }
     }
 
-    void SetStatus(std::string msg, bool isError = false) {
-        statusMessage = std::move(msg);
-        statusMessageTime = ImGui::GetTime();
-        statusIsError = isError;
-    }
-
     void RefreshPresetTree() {
         presetTree = ArmorPresetSerializer::ListPresetsTree();
         presetListDirty = false;
@@ -539,8 +523,8 @@ private:
     void RenderPresetsTab() {
         ImGui::PushID("presets");
 
-        ImGui::TextDisabled("Save");
-        float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
+        ImGui::SeparatorText("Save");
+        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
         ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
         ImGui::SameLine();
@@ -549,19 +533,15 @@ private:
         if (ImGui::Button("Save")) {
             auto data = BuildPresetData();
             if (ArmorPresetSerializer::SavePresetByName(presetNameBuf, armorPassport, data)) {
-                SetStatus("Saved: " + std::string(presetNameBuf));
+                status.Set("Saved: " + std::string(presetNameBuf));
                 presetListDirty = true;
             } else {
-                SetStatus("Error saving preset", true);
+                status.Set("Error saving preset", true);
             }
         }
         if (!canSave) ImGui::EndDisabled();
 
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::TextDisabled("Presets");
+        ImGui::SeparatorText("Presets");
         if (presetListDirty)
             RefreshPresetTree();
 
@@ -578,9 +558,9 @@ private:
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                     std::string loadedName = std::move(result.name);
                     ApplyPresetData(std::move(result));
-                    SetStatus("Loaded: " + loadedName);
+                    status.Set("Loaded: " + loadedName);
                 } else {
-                    SetStatus("Error: " + result.error, true);
+                    status.Set("Error: " + result.error, true);
                 }
             } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
                 ArmorPresetSerializer::DeletePreset(action.path);
@@ -590,9 +570,6 @@ private:
         }
 
         ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
         if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
             PresetUtils::OpenInExplorer(ArmorPresetSerializer::GetPresetsDirectory());
         }
@@ -601,10 +578,6 @@ private:
     }
 
     void RenderSpawnFooter() {
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
         bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
         if (!canSpawn) ImGui::BeginDisabled();
         if (ImGui::Button("Spawn Armor", ImVec2(-1, 0))) {
@@ -660,24 +633,24 @@ public:
             }
         }
 
-        if (!statusMessage.empty()) {
-            if (ImGui::GetTime() - statusMessageTime > 3.0)
-                statusMessage.clear();
-            else {
-                auto color = statusIsError ? ImVec4(1.0f, 0.4f, 0.4f, 1.0f) : ImVec4(0.4f, 1.0f, 0.4f, 1.0f);
-                ImGui::TextColored(color, "%s", statusMessage.c_str());
-            }
-        }
+        status.Render();
 
-        ImGui::Spacing();
+        float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
+        float scrollH = ImGui::GetContentRegionAvail().y - footerH;
+        if (scrollH < 100.0f) scrollH = 100.0f;
+
+        ImGui::BeginChild("##armor_scroll", ImVec2(0, scrollH));
+
         static constexpr const char* AE_TAB_LABELS[] = {"Modules", "Colors", "Stats", "Presets"};
-        GuiUtils::RenderFullWidthTabs("##ArmorEditorTabs", activeTab, AE_TAB_LABELS, 4);
+        GuiUtils::RenderUnderlineTabs("##ArmorEditorTabs", activeTab, AE_TAB_LABELS, 4);
         switch (activeTab) {
             case 0: RenderModulesTab();  break;
             case 1: RenderColorsTab();   break;
             case 2: RenderStatsTab();    break;
             case 3: RenderPresetsTab();  break;
         }
+
+        ImGui::EndChild();
 
         RenderSpawnFooter();
 
