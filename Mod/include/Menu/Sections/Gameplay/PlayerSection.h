@@ -179,23 +179,27 @@ public:
             }, player);
 
         Function("Bite Attack")
+            .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&cfg.biteAttackKey)
+            .Toggle()
             .GameThread()
             .WithTooltip("Bite the nearest enemy like a zombie")
-            .Action([this]() {
-                if (!player->Biting) player->Bite_Event();
+            .Action([this](bool active) {
+                if (active && !player->Biting) player->Bite_Event();
             }, player);
 
         Function("Enemy Bite")
+            .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&cfg.enemyBiteKey)
+            .Toggle()
             .GameThread()
             .WithParams({ Parameter("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target") })
             .WithTooltip("Make the nearest enemy bite another enemy")
-            .Action([this]() {
+            .Action([this](bool active) {
                 auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
                 if (!biter) return;
 
-                if (!biter->Biting) biter->Bite_Event();
+                if (active && !biter->Biting) biter->Bite_Event();
             }, player, world);
 
         Function("Possess Nearest Willie")
