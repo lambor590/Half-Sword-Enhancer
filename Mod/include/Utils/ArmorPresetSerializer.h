@@ -6,7 +6,7 @@
 #include <cstring>
 
 #include "Utils/PresetUtils.h"
-#include "Utils/GuiUtils.h"
+#include "Utils/OverrideTypes.h"
 #include "SDK/Str_Passport_Armor1_structs.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
 
@@ -19,6 +19,8 @@ struct ArmorPresetData {
         RuntimeOverride handsRigidity, strapPower, aiInvincibilityRate, price;
         BoolOverride pickUp;
     } runtimeProps{};
+
+    std::string armorCorePath;
 
     std::string name;
     bool success = false;
@@ -43,12 +45,12 @@ public:
         ini.SetValue("Preset", "name", data.name.c_str());
         ini.SetValue("Preset", "version", "1");
 
-        auto setIfNotDefault = [&](const char* section, const char* key, const std::string& val, const char* def) {
-            if (!minimalMode || val != def)
-                ini.SetValue(section, key, val.c_str());
-        };
-
-        setIfNotDefault("Passport", "armorCore", PresetUtils::ClassToString(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43), "");
+        auto armorCoreNP = PresetUtils::ClassToNameAndPath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+        if (!minimalMode || !armorCoreNP.name.empty()) {
+            ini.SetValue("Passport", "armorCore", armorCoreNP.name.c_str());
+            if (!armorCoreNP.path.empty())
+                ini.SetValue("Passport", "armorCorePath", armorCoreNP.path.c_str());
+        }
 
         if (!minimalMode || passport.ID_54_C6BBB1A64A3828B5AB1D8E804EC7C8F7 != 0)
             ini.SetValue("Passport", "id", std::to_string(passport.ID_54_C6BBB1A64A3828B5AB1D8E804EC7C8F7).c_str());
@@ -136,7 +138,7 @@ public:
         auto& p = result.passport;
         p = {};
 
-        p.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = PresetUtils::StringToClass(ini.GetValue("Passport", "armorCore", ""));
+        result.armorCorePath = ini.GetValue("Passport", "armorCorePath", "");
         p.ID_54_C6BBB1A64A3828B5AB1D8E804EC7C8F7 = std::atoi(ini.GetValue("Passport", "id", "0"));
         p.CoreRemoved_12_5CFF8F6D4A05C15812594CAF6771C66B = std::atoi(ini.GetValue("Passport", "coreRemoved", "0")) != 0;
 
@@ -198,6 +200,10 @@ public:
         return PresetUtils::ListPresetsInDir(GetPresetsDirectory());
     }
 
+    static PresetUtils::PresetTreeNode ListPresetsTree() {
+        return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
+    }
+
     static bool DeletePreset(const std::filesystem::path& path) {
         return PresetUtils::DeletePreset(path);
     }
@@ -205,8 +211,10 @@ public:
     static bool SavePresetByName(const std::string& name,
         const SDK::FStr_Passport_Armor1& passport, const ArmorPresetData& data)
     {
+        auto [folder, filename] = PresetUtils::SanitizePresetPath(name);
         auto dir = GetPresetsDirectory();
-        auto filename = PresetUtils::SanitizeFilename(name) + ".ini";
-        return SaveToFile(dir / filename, passport, data);
+        if (!folder.empty()) dir /= folder;
+        PresetUtils::EnsureDirectory(dir);
+        return SaveToFile(dir / (filename + ".ini"), passport, data);
     }
 };

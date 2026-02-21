@@ -54,11 +54,12 @@ private:
     char moduleFilters[3][64] = {};
 
     char presetNameBuf[128] = {};
-    std::vector<PresetListEntry> presetList;
+    PresetUtils::PresetTreeNode presetTree;
     bool presetListDirty = true;
     std::string statusMessage;
     double statusMessageTime = 0.0;
     bool statusIsError = false;
+    int activeTab = 0;
 
     static int RandomInt(int min, int max) {
         static thread_local std::mt19937 rng{std::random_device{}()};
@@ -512,10 +513,16 @@ private:
         return d;
     }
 
-    void ApplyPresetData(const ArmorPresetData& d) {
+    void ApplyPresetData(ArmorPresetData d) {
         armorPassport = d.passport;
         runtimeProps = d.runtimeProps;
         armorModules = {};
+
+        if (!d.armorCorePath.empty()) {
+            GameHook::QueueAction([this, path = std::move(d.armorCorePath)]() {
+                armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(path);
+            });
+        }
     }
 
     void SetStatus(std::string msg, bool isError = false) {
@@ -524,8 +531,8 @@ private:
         statusIsError = isError;
     }
 
-    void RefreshPresetList() {
-        presetList = ArmorPresetSerializer::ListPresets();
+    void RefreshPresetTree() {
+        presetTree = ArmorPresetSerializer::ListPresetsTree();
         presetListDirty = false;
     }
 
@@ -535,7 +542,7 @@ private:
         ImGui::TextDisabled("Save");
         float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##PresetName", "Preset name...", presetNameBuf, sizeof(presetNameBuf));
+        ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
         ImGui::SameLine();
         bool canSave = presetNameBuf[0] != '\0';
         if (!canSave) ImGui::BeginDisabled();
@@ -556,49 +563,30 @@ private:
 
         ImGui::TextDisabled("Presets");
         if (presetListDirty)
-            RefreshPresetList();
+            RefreshPresetTree();
 
-        if (presetList.empty()) {
+        if (presetTree.presets.empty() && presetTree.children.empty()) {
             ImGui::TextDisabled("No saved presets");
         } else {
-            int visibleRows = (std::min)(static_cast<int>(presetList.size()), 8);
-            float listHeight = ImGui::GetTextLineHeightWithSpacing() * visibleRows + ImGui::GetStyle().FramePadding.y * 2;
-            ImGui::BeginChild("##presetList", ImVec2(0, listHeight), ImGuiChildFlags_Borders);
-
-            const float framePadX2 = ImGui::GetStyle().FramePadding.x * 2;
-            const float loadW = ImGui::CalcTextSize("Load").x + framePadX2;
-            const float delW = ImGui::CalcTextSize("Del").x + framePadX2;
-            const float spacing = ImGui::GetStyle().ItemSpacing.x;
-            const float buttonsWidth = loadW + delW + spacing * 2;
-
-            for (size_t i = 0; i < presetList.size(); ++i) {
-                ImGui::PushID(static_cast<int>(i));
-                float textW = ImGui::GetContentRegionAvail().x - buttonsWidth;
-
-                ImGui::AlignTextToFramePadding();
-                ImGui::TextUnformatted(presetList[i].name.c_str());
-                if (textW > 0)
-                    ImGui::SameLine(textW);
-                if (ImGui::Button("Load")) {
-                    auto result = ArmorPresetSerializer::LoadFromFile(presetList[i].path);
-                    if (result.success) {
-                        ApplyPresetData(result);
-                        strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                        SetStatus("Loaded: " + result.name);
-                    } else {
-                        SetStatus("Error: " + result.error, true);
-                    }
-                }
-                ImGui::SameLine();
-                if (ImGui::Button("Del")) {
-                    ArmorPresetSerializer::DeletePreset(presetList[i].path);
-                    SetStatus("Deleted: " + presetList[i].name);
-                    presetListDirty = true;
-                }
-                ImGui::PopID();
-            }
-
+            ImGui::BeginChild("##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders);
+            auto action = GuiUtils::RenderPresetTree(presetTree);
             ImGui::EndChild();
+
+            if (action.type == GuiUtils::PresetTreeAction::Load) {
+                auto result = ArmorPresetSerializer::LoadFromFile(action.path);
+                if (result.success) {
+                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
+                    std::string loadedName = std::move(result.name);
+                    ApplyPresetData(std::move(result));
+                    SetStatus("Loaded: " + loadedName);
+                } else {
+                    SetStatus("Error: " + result.error, true);
+                }
+            } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
+                ArmorPresetSerializer::DeletePreset(action.path);
+                PresetUtils::CleanEmptyDirectories(ArmorPresetSerializer::GetPresetsDirectory());
+                presetListDirty = true;
+            }
         }
 
         ImGui::Spacing();
@@ -627,6 +615,8 @@ private:
     }
 
 public:
+    const char* GetGroup() const noexcept override { return "Editors"; }
+
     ArmorEditorSection() : CollapsibleSection("Armor Editor") {
         CreateBlankArmorPassport();
 
@@ -680,12 +670,13 @@ public:
         }
 
         ImGui::Spacing();
-        if (ImGui::BeginTabBar("##ArmorEditorTabs")) {
-            if (ImGui::BeginTabItem("Modules"))  { RenderModulesTab();  ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Colors"))    { RenderColorsTab();   ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Stats"))     { RenderStatsTab();    ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Presets"))   { RenderPresetsTab();  ImGui::EndTabItem(); }
-            ImGui::EndTabBar();
+        static constexpr const char* AE_TAB_LABELS[] = {"Modules", "Colors", "Stats", "Presets"};
+        GuiUtils::RenderFullWidthTabs("##ArmorEditorTabs", activeTab, AE_TAB_LABELS, 4);
+        switch (activeTab) {
+            case 0: RenderModulesTab();  break;
+            case 1: RenderColorsTab();   break;
+            case 2: RenderStatsTab();    break;
+            case 3: RenderPresetsTab();  break;
         }
 
         RenderSpawnFooter();

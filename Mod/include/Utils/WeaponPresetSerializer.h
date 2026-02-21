@@ -6,7 +6,7 @@
 #include <cstring>
 
 #include "Utils/PresetUtils.h"
-#include "Utils/GuiUtils.h"
+#include "Utils/OverrideTypes.h"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
 enum class MeshType : uint8_t { Static, Skeletal };
@@ -34,6 +34,12 @@ struct WeaponPresetData {
 
     static constexpr int MODULE_SLOT_COUNT = 4;
     MeshOverridePreset meshPresets[MODULE_SLOT_COUNT];
+
+    struct {
+        std::string weaponClass;
+        std::string headModule, guardModule, gripModule, pommelModule;
+        std::string subModule1, subModule2;
+    } classPaths{};
 
     std::string name;
     bool success = false;
@@ -67,18 +73,22 @@ public:
         ini.SetValue("Preset", "name", data.name.c_str());
         ini.SetValue("Preset", "version", "1");
 
-        auto setIfNotDefault = [&](const char* section, const char* key, const std::string& val, const char* def) {
-            if (!minimalMode || val != def)
-                ini.SetValue(section, key, val.c_str());
+        auto setClassWithPath = [&](const char* nameKey, const char* pathKey, SDK::UClass* cls) {
+            auto np = PresetUtils::ClassToNameAndPath(cls);
+            if (!minimalMode || !np.name.empty()) {
+                ini.SetValue("Passport", nameKey, np.name.c_str());
+                if (!np.path.empty())
+                    ini.SetValue("Passport", pathKey, np.path.c_str());
+            }
         };
 
-        setIfNotDefault("Passport", "weaponClass", PresetUtils::ClassToString(passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC), "");
-        setIfNotDefault("Passport", "headModule", PresetUtils::ClassToString(passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139), "");
-        setIfNotDefault("Passport", "guardModule", PresetUtils::ClassToString(passport.GuardModule_13_6DD2B06245505E53B529D090333012F0), "");
-        setIfNotDefault("Passport", "gripModule", PresetUtils::ClassToString(passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4), "");
-        setIfNotDefault("Passport", "pommelModule", PresetUtils::ClassToString(passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6), "");
-        setIfNotDefault("Passport", "subModule1", PresetUtils::ClassToString(passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D), "");
-        setIfNotDefault("Passport", "subModule2", PresetUtils::ClassToString(passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9), "");
+        setClassWithPath("weaponClass", "weaponClassPath", passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC);
+        setClassWithPath("headModule", "headModulePath", passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139);
+        setClassWithPath("guardModule", "guardModulePath", passport.GuardModule_13_6DD2B06245505E53B529D090333012F0);
+        setClassWithPath("gripModule", "gripModulePath", passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4);
+        setClassWithPath("pommelModule", "pommelModulePath", passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6);
+        setClassWithPath("subModule1", "subModule1Path", passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D);
+        setClassWithPath("subModule2", "subModule2Path", passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9);
 
         if (!minimalMode || !IsDefaultVec(passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57))
             ini.SetValue("Passport", "headSize", PresetUtils::VecToString(passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57).c_str());
@@ -199,13 +209,17 @@ public:
         auto& p = result.passport;
         p = {};
 
-        p.WeaponClass_54_B478ECF7499977809745A3973AD678EC = PresetUtils::StringToClass(ini.GetValue("Passport", "weaponClass", ""));
-        p.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 = PresetUtils::StringToClass(ini.GetValue("Passport", "headModule", ""));
-        p.GuardModule_13_6DD2B06245505E53B529D090333012F0 = PresetUtils::StringToClass(ini.GetValue("Passport", "guardModule", ""));
-        p.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4 = PresetUtils::StringToClass(ini.GetValue("Passport", "gripModule", ""));
-        p.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6 = PresetUtils::StringToClass(ini.GetValue("Passport", "pommelModule", ""));
-        p.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D = PresetUtils::StringToClass(ini.GetValue("Passport", "subModule1", ""));
-        p.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9 = PresetUtils::StringToClass(ini.GetValue("Passport", "subModule2", ""));
+        auto readPath = [&](const char* key) -> std::string {
+            return ini.GetValue("Passport", key, "");
+        };
+
+        result.classPaths.weaponClass = readPath("weaponClassPath");
+        result.classPaths.headModule = readPath("headModulePath");
+        result.classPaths.guardModule = readPath("guardModulePath");
+        result.classPaths.gripModule = readPath("gripModulePath");
+        result.classPaths.pommelModule = readPath("pommelModulePath");
+        result.classPaths.subModule1 = readPath("subModule1Path");
+        result.classPaths.subModule2 = readPath("subModule2Path");
 
         p.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = PresetUtils::StringToVec(ini.GetValue("Passport", "headSize", nullptr));
         p.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = PresetUtils::StringToVec(ini.GetValue("Passport", "guardSize", nullptr));
@@ -287,14 +301,14 @@ public:
                 mp.scale = PresetUtils::StringToVec(val.c_str() + scaleStart + 1);
                 continue;
             }
-            mp.scale = PresetUtils::StringToVec(val.substr(scaleStart + 1, pScaleEnd - scaleStart - 1).c_str());
+            mp.scale = PresetUtils::StringToVec(val.c_str() + scaleStart + 1);
 
             size_t pRotEnd = val.find('|', pScaleEnd + 1);
             if (pRotEnd == std::string::npos) {
                 mp.rotation = PresetUtils::StringToRot(val.c_str() + pScaleEnd + 1);
                 continue;
             }
-            mp.rotation = PresetUtils::StringToRot(val.substr(pScaleEnd + 1, pRotEnd - pScaleEnd - 1).c_str());
+            mp.rotation = PresetUtils::StringToRot(val.c_str() + pScaleEnd + 1);
 
             mp.offset = PresetUtils::StringToVec(val.c_str() + pRotEnd + 1, {0.0, 0.0, 0.0});
 
@@ -331,6 +345,10 @@ public:
         return PresetUtils::ListPresetsInDir(GetPresetsDirectory());
     }
 
+    static PresetUtils::PresetTreeNode ListPresetsTree() {
+        return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
+    }
+
     static bool DeletePreset(const std::filesystem::path& path) {
         return PresetUtils::DeletePreset(path);
     }
@@ -338,8 +356,10 @@ public:
     static bool SavePresetByName(const std::string& name,
         const SDK::FStr_Passport_Weapon1& passport, const WeaponPresetData& data)
     {
+        auto [folder, filename] = PresetUtils::SanitizePresetPath(name);
         auto dir = GetPresetsDirectory();
-        auto filename = PresetUtils::SanitizeFilename(name) + ".ini";
-        return SaveToFile(dir / filename, passport, data);
+        if (!folder.empty()) dir /= folder;
+        PresetUtils::EnsureDirectory(dir);
+        return SaveToFile(dir / (filename + ".ini"), passport, data);
     }
 };

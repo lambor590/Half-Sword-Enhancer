@@ -28,6 +28,32 @@ namespace PresetUtils {
         return cls ? cls->GetName() : "";
     }
 
+    inline std::string ClassToPath(SDK::UClass* cls) {
+        if (!cls) return "";
+        std::string fullName = cls->GetFullName();
+        size_t sp = fullName.find(' ');
+        if (sp == std::string::npos) return "";
+        fullName.erase(0, sp + 1);
+        return fullName;
+    }
+
+    struct ClassNameAndPath {
+        std::string name;
+        std::string path;
+    };
+
+    inline ClassNameAndPath ClassToNameAndPath(SDK::UClass* cls) {
+        if (!cls) return {};
+        std::string fullName = cls->GetFullName();
+        size_t sp = fullName.find(' ');
+        if (sp == std::string::npos) return {std::move(fullName), {}};
+        size_t lastDot = fullName.rfind('.');
+        size_t nameStart = (lastDot != std::string::npos) ? lastDot + 1 : sp + 1;
+        std::string name(fullName, nameStart);
+        fullName.erase(0, sp + 1);
+        return {std::move(name), std::move(fullName)};
+    }
+
     inline SDK::UClass* StringToClass(const std::string& name) {
         if (name.empty()) return nullptr;
         return SDK::UObject::FindClassFast(name);
@@ -130,7 +156,7 @@ namespace PresetUtils {
 
     inline bool SaveStringToFile(const std::filesystem::path& path, const std::string& content) {
         FILE* f = nullptr;
-        if (fopen_s(&f, path.string().c_str(), "w") != 0 || !f)
+        if (fopen_s(&f, path.string().c_str(), "wb") != 0 || !f)
             return false;
         std::fwrite(content.data(), 1, content.size(), f);
         std::fclose(f);
@@ -176,6 +202,73 @@ namespace PresetUtils {
     inline bool DeletePreset(const std::filesystem::path& path) {
         std::error_code ec;
         return std::filesystem::remove(path, ec);
+    }
+
+    inline void CleanEmptyDirectories(const std::filesystem::path& dir) {
+        std::error_code ec;
+        if (!std::filesystem::exists(dir, ec)) return;
+        for (auto it = std::filesystem::directory_iterator(dir, ec); it != std::filesystem::directory_iterator(); ++it) {
+            if (it->is_directory())
+                CleanEmptyDirectories(it->path());
+        }
+        if (std::filesystem::is_empty(dir, ec))
+            std::filesystem::remove(dir, ec);
+    }
+
+    inline std::pair<std::string, std::string> SanitizePresetPath(const std::string& input) {
+        std::string normalized = input;
+        for (char& c : normalized)
+            if (c == '\\') c = '/';
+
+        size_t lastSlash = normalized.rfind('/');
+        if (lastSlash == std::string::npos)
+            return {"", SanitizeFilename(normalized)};
+
+        std::string folder = normalized.substr(0, lastSlash);
+        std::string filename = normalized.substr(lastSlash + 1);
+
+        std::string cleanFolder;
+        cleanFolder.reserve(folder.size());
+        for (char c : folder) {
+            if (c == '/') {
+                cleanFolder += '/';
+            } else if (c == '<' || c == '>' || c == ':' || c == '"' ||
+                       c == '|' || c == '?' || c == '*' || c < 32) {
+                cleanFolder += '_';
+            } else {
+                cleanFolder += c;
+            }
+        }
+
+        return {cleanFolder, SanitizeFilename(filename)};
+    }
+
+    struct PresetTreeNode {
+        std::string name;
+        std::vector<PresetTreeNode> children;
+        std::vector<PresetListEntry> presets;
+    };
+
+    inline PresetTreeNode ListPresetsRecursive(const std::filesystem::path& rootDir) {
+        PresetTreeNode root;
+        root.name = rootDir.filename().string();
+        std::error_code ec;
+        if (!std::filesystem::exists(rootDir, ec)) return root;
+
+        for (const auto& entry : std::filesystem::directory_iterator(rootDir, ec)) {
+            if (entry.is_directory()) {
+                auto child = ListPresetsRecursive(entry.path());
+                if (!child.presets.empty() || !child.children.empty())
+                    root.children.push_back(std::move(child));
+            } else if (entry.is_regular_file() && entry.path().extension() == ".ini") {
+                CSimpleIniA ini;
+                if (ini.LoadFile(entry.path().string().c_str()) < 0) continue;
+                const char* name = ini.GetValue("Preset", "name", nullptr);
+                if (!name) continue;
+                root.presets.push_back({name, entry.path().filename().string(), entry.path()});
+            }
+        }
+        return root;
     }
 
 }

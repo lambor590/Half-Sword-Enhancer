@@ -62,11 +62,12 @@ private:
     char moduleFilters[6][64] = {};
 
     char presetNameBuf[128] = {};
-    std::vector<PresetListEntry> presetList;
+    PresetUtils::PresetTreeNode presetTree;
     bool presetListDirty = true;
     std::string statusMessage;
     double statusMessageTime = 0.0;
     bool statusIsError = false;
+    int activeTab = 0;
 
     enum class WeaponModuleSlot : int { Head = 0, Guard, Grip, Pommel, Count };
     static constexpr int MODULE_SLOT_COUNT = static_cast<int>(WeaponModuleSlot::Count);
@@ -1099,9 +1100,23 @@ private:
         return d;
     }
 
-    void ApplyPresetData(const WeaponPresetData& d) {
+    void ApplyPresetData(WeaponPresetData d) {
         weaponPassport = d.passport;
         runtimeProps = d.runtimeProps;
+
+        GameHook::QueueAction([this, paths = std::move(d.classPaths)]() {
+            auto load = [](SDK::UClass*& target, const std::string& path) {
+                if (!path.empty())
+                    target = Spawner::LoadClass(path);
+            };
+            load(weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC, paths.weaponClass);
+            load(weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, paths.headModule);
+            load(weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, paths.guardModule);
+            load(weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, paths.gripModule);
+            load(weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, paths.pommelModule);
+            load(weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, paths.subModule1);
+            load(weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, paths.subModule2);
+        });
 
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             meshOverrides[i].enabled = d.meshPresets[i].enabled;
@@ -1127,7 +1142,7 @@ private:
                         found = SDK::UObject::FindObjectFast<SDK::UStaticMesh>(d.meshPresets[i].meshName);
                     if (found) {
                         meshSeen.insert(found);
-                        meshPool.push_back({found, d.meshPresets[i].meshName,
+                        meshPool.push_back({found, std::move(d.meshPresets[i].meshName),
                             ExtractCategory(found->GetFullName()), d.meshPresets[i].meshType});
                         meshOverrides[i].poolIndex = static_cast<int>(meshPool.size()) - 1;
                         meshOverrides[i].mesh = found;
@@ -1141,10 +1156,10 @@ private:
         std::vector<PendingMeshLoad> pending;
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             if (meshOverrides[i].enabled && !meshOverrides[i].mesh && !d.meshPresets[i].meshPath.empty())
-                pending.push_back({i, d.meshPresets[i].meshPath});
+                pending.push_back({i, std::move(d.meshPresets[i].meshPath)});
         }
         if (!pending.empty()) {
-            GameHook::QueueAction([this, pending]() {
+            GameHook::QueueAction([this, pending = std::move(pending)]() {
                 for (const auto& pl : pending) {
                     auto* loaded = LoadAssetByPath(pl.path.c_str());
                     if (!loaded) continue;
@@ -1166,8 +1181,8 @@ private:
         statusIsError = isError;
     }
 
-    void RefreshPresetList() {
-        presetList = WeaponPresetSerializer::ListPresets();
+    void RefreshPresetTree() {
+        presetTree = WeaponPresetSerializer::ListPresetsTree();
         presetListDirty = false;
     }
 
@@ -1177,7 +1192,7 @@ private:
         ImGui::TextDisabled("Save");
         float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##PresetName", "Preset name...", presetNameBuf, sizeof(presetNameBuf));
+        ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
         ImGui::SameLine();
         bool canSave = presetNameBuf[0] != '\0';
         if (!canSave) ImGui::BeginDisabled();
@@ -1199,49 +1214,30 @@ private:
 
         ImGui::TextDisabled("Presets");
         if (presetListDirty)
-            RefreshPresetList();
+            RefreshPresetTree();
 
-        if (presetList.empty()) {
+        if (presetTree.presets.empty() && presetTree.children.empty()) {
             ImGui::TextDisabled("No saved presets");
         } else {
-            int visibleRows = (std::min)(static_cast<int>(presetList.size()), 8);
-            float listHeight = ImGui::GetTextLineHeightWithSpacing() * visibleRows + ImGui::GetStyle().FramePadding.y * 2;
-            ImGui::BeginChild("##presetList", ImVec2(0, listHeight), ImGuiChildFlags_Borders);
-
-            const float framePadX2 = ImGui::GetStyle().FramePadding.x * 2;
-            const float loadW = ImGui::CalcTextSize("Load").x + framePadX2;
-            const float delW = ImGui::CalcTextSize("Del").x + framePadX2;
-            const float spacing = ImGui::GetStyle().ItemSpacing.x;
-            const float buttonsWidth = loadW + delW + spacing * 2;
-
-            for (size_t i = 0; i < presetList.size(); ++i) {
-                ImGui::PushID(static_cast<int>(i));
-                float textW = ImGui::GetContentRegionAvail().x - buttonsWidth;
-
-                ImGui::AlignTextToFramePadding();
-                ImGui::TextUnformatted(presetList[i].name.c_str());
-                if (textW > 0)
-                    ImGui::SameLine(textW);
-                if (ImGui::Button("Load")) {
-                    auto result = WeaponPresetSerializer::LoadFromFile(presetList[i].path);
-                    if (result.success) {
-                        ApplyPresetData(result);
-                        strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                        SetStatus("Loaded: " + result.name);
-                    } else {
-                        SetStatus("Error: " + result.error, true);
-                    }
-                }
-                ImGui::SameLine();
-                if (ImGui::Button("Del")) {
-                    WeaponPresetSerializer::DeletePreset(presetList[i].path);
-                    SetStatus("Deleted: " + presetList[i].name);
-                    presetListDirty = true;
-                }
-                ImGui::PopID();
-            }
-
+            ImGui::BeginChild("##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders);
+            auto action = GuiUtils::RenderPresetTree(presetTree);
             ImGui::EndChild();
+
+            if (action.type == GuiUtils::PresetTreeAction::Load) {
+                auto result = WeaponPresetSerializer::LoadFromFile(action.path);
+                if (result.success) {
+                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
+                    std::string loadedName = std::move(result.name);
+                    ApplyPresetData(std::move(result));
+                    SetStatus("Loaded: " + loadedName);
+                } else {
+                    SetStatus("Error: " + result.error, true);
+                }
+            } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
+                WeaponPresetSerializer::DeletePreset(action.path);
+                PresetUtils::CleanEmptyDirectories(WeaponPresetSerializer::GetPresetsDirectory());
+                presetListDirty = true;
+            }
         }
 
         ImGui::Spacing();
@@ -1269,6 +1265,8 @@ private:
     }
 
 public:
+    const char* GetGroup() const noexcept override { return "Editors"; }
+
     WeaponEditorSection() : CollapsibleSection("Weapon Editor") {
         CreateBlankWeaponPassport();
 
@@ -1327,14 +1325,15 @@ public:
         }
 
         ImGui::Spacing();
-        if (ImGui::BeginTabBar("##WeaponEditorTabs")) {
-            if (ImGui::BeginTabItem("Modules"))    { RenderModulesTab();    ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Geometry"))    { RenderGeometryTab();   ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Appearance"))  { RenderAppearanceTab(); ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Mesh"))        { RenderMeshTab();       ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Stats"))       { RenderStatsTab();      ImGui::EndTabItem(); }
-            if (ImGui::BeginTabItem("Presets"))     { RenderPresetsTab();    ImGui::EndTabItem(); }
-            ImGui::EndTabBar();
+        static constexpr const char* WE_TAB_LABELS[] = {"Modules", "Geometry", "Appearance", "Mesh", "Stats", "Presets"};
+        GuiUtils::RenderFullWidthTabs("##WeaponEditorTabs", activeTab, WE_TAB_LABELS, 6);
+        switch (activeTab) {
+            case 0: RenderModulesTab();    break;
+            case 1: RenderGeometryTab();   break;
+            case 2: RenderAppearanceTab(); break;
+            case 3: RenderMeshTab();       break;
+            case 4: RenderStatsTab();      break;
+            case 5: RenderPresetsTab();    break;
         }
 
         RenderSpawnFooter();
