@@ -6,7 +6,7 @@
 #include <cstring>
 
 #include "Utils/PresetUtils.h"
-#include "Utils/GuiUtils.h"
+#include "Utils/OverrideTypes.h"
 
 struct NPCOverrides {
     RuntimeOverride heightRate;
@@ -209,13 +209,19 @@ public:
         return PresetUtils::ListPresetsInDir(GetPresetsDirectory());
     }
 
+    static PresetUtils::PresetTreeNode ListPresetsTree() {
+        return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
+    }
+
     static bool DeletePreset(const std::filesystem::path& path) {
         return PresetUtils::DeletePreset(path);
     }
 
     static bool SavePresetByName(const std::string& name, const NPCPresetData& data) {
+        auto [folder, filename] = PresetUtils::SanitizePresetPath(name);
         auto dir = GetPresetsDirectory();
-        auto filename = PresetUtils::SanitizeFilename(name) + ".ini";
-        return SaveToFile(dir / filename, data);
+        if (!folder.empty()) dir /= folder;
+        PresetUtils::EnsureDirectory(dir);
+        return SaveToFile(dir / (filename + ".ini"), data);
     }
 };

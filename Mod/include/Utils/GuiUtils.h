@@ -2,13 +2,14 @@
 
 #include <array>
 #include <cstring>
+#include <filesystem>
+#include <vector>
 
 #include "imgui/imgui.h"
 #include "ConfigManager.h"
-
-struct RuntimeOverride { bool enabled = false; double value = 0.0; };
-struct BoolOverride    { bool enabled = false; bool value = false; };
-struct IntOverride     { bool enabled = false; int value = 0; };
+#include "DefaultStyle.h"
+#include "Utils/PresetUtils.h"
+#include "Utils/OverrideTypes.h"
 
 namespace GuiUtils {
     inline constexpr ImVec2 kTooltipPadding{8.0f, 6.0f};
@@ -164,6 +165,99 @@ namespace GuiUtils {
             ovr.value = (current == 2);
         }
         ImGui::PopID();
+    }
+
+    inline constexpr float MAX_TAB_WIDTH = 200.0f;
+    inline constexpr float TAB_HEIGHT_PAD = 6.0f;
+    inline constexpr float TAB_ROUNDING = 4.0f;
+
+    inline void RenderFullWidthTabs(const char* id, int& activeTab,
+        const char* const* labels, int count)
+    {
+        ImGui::PushID(id);
+
+        float availWidth = ImGui::GetContentRegionAvail().x;
+        float tabWidth = (std::min)(availWidth / count, MAX_TAB_WIDTH);
+        float totalWidth = tabWidth * count;
+        float startX = ImGui::GetCursorPosX();
+        if (totalWidth < availWidth)
+            startX += (availWidth - totalWidth) * 0.5f;
+
+        float textHeight = ImGui::GetTextLineHeight();
+        float tabHeight = textHeight + TAB_HEIGHT_PAD * 2;
+        ImVec2 cursor = ImGui::GetCursorScreenPos();
+        ImDrawList* dl = ImGui::GetWindowDrawList();
+
+        static const ImU32 activeCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass);
+        static const ImU32 inactiveCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::darkWood);
+        static const ImU32 activeText = ImGui::ColorConvertFloat4ToU32(DefaultStyle::darkInk);
+        static const ImU32 inactiveText = ImGui::ColorConvertFloat4ToU32(DefaultStyle::parchment);
+
+        for (int i = 0; i < count; ++i) {
+            float x = cursor.x + startX - ImGui::GetCursorPosX() + tabWidth * i;
+            ImVec2 pMin(x, cursor.y);
+            ImVec2 pMax(x + tabWidth - 1.0f, cursor.y + tabHeight);
+
+            bool isActive = (i == activeTab);
+            dl->AddRectFilled(pMin, pMax,
+                isActive ? activeCol : inactiveCol,
+                TAB_ROUNDING, ImDrawFlags_RoundCornersTop);
+
+            ImVec2 textSize = ImGui::CalcTextSize(labels[i]);
+            ImVec2 textPos(
+                x + (tabWidth - 1.0f - textSize.x) * 0.5f,
+                cursor.y + (tabHeight - textSize.y) * 0.5f);
+            dl->AddText(textPos, isActive ? activeText : inactiveText, labels[i]);
+
+            char btnId[32];
+            std::snprintf(btnId, sizeof(btnId), "##tab%d", i);
+            ImGui::SetCursorScreenPos(pMin);
+            if (ImGui::InvisibleButton(btnId, ImVec2(tabWidth - 1.0f, tabHeight)))
+                activeTab = i;
+            if (i < count - 1) ImGui::SameLine(0, 1.0f);
+        }
+
+        ImGui::SetCursorScreenPos(ImVec2(cursor.x, cursor.y + tabHeight + 2.0f));
+        ImGui::PopID();
+    }
+
+    struct PresetTreeAction {
+        enum Type { None, Load, Delete } type = None;
+        std::filesystem::path path;
+    };
+
+    inline PresetTreeAction RenderPresetTree(const PresetUtils::PresetTreeNode& node) {
+        PresetTreeAction action;
+        static const float loadW = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2;
+        static const float delW = ImGui::CalcTextSize("Del").x + ImGui::GetStyle().FramePadding.x * 2;
+        const float buttonsWidth = loadW + delW + ImGui::GetStyle().ItemSpacing.x * 2;
+
+        for (const auto& child : node.children) {
+            if (ImGui::TreeNode(child.name.c_str())) {
+                auto childAction = RenderPresetTree(child);
+                if (childAction.type != PresetTreeAction::None)
+                    action = std::move(childAction);
+                ImGui::TreePop();
+            }
+        }
+
+        for (size_t i = 0; i < node.presets.size(); ++i) {
+            ImGui::PushID(static_cast<int>(i));
+            float textW = ImGui::GetContentRegionAvail().x - buttonsWidth;
+
+            ImGui::AlignTextToFramePadding();
+            ImGui::TextUnformatted(node.presets[i].name.c_str());
+            if (textW > 0)
+                ImGui::SameLine(textW);
+            if (ImGui::Button("Load"))
+                action = {PresetTreeAction::Load, node.presets[i].path};
+            ImGui::SameLine();
+            if (ImGui::Button("Del"))
+                action = {PresetTreeAction::Delete, node.presets[i].path};
+            ImGui::PopID();
+        }
+
+        return action;
     }
 
 }
