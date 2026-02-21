@@ -286,7 +286,6 @@ void BlueprintRegistry::EnsureTiersScanned() {
 void BlueprintRegistry::ScanWeaponTiers() {
     SDK::AWillie_BP_C* player;
     if (!ComponentValidator::Validate(player)) {
-        g_logger.Log("Weapon tier scan: player not available, will retry");
         tierScanDone = false;
         return;
     }
