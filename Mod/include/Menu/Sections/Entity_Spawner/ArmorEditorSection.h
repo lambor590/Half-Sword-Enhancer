@@ -603,7 +603,7 @@ private:
         if (presetList.empty()) {
             ImGui::TextDisabled("No saved presets");
         } else {
-            int visibleRows = std::min(static_cast<int>(presetList.size()), 8);
+            int visibleRows = (std::min)(static_cast<int>(presetList.size()), 8);
             float listHeight = ImGui::GetTextLineHeightWithSpacing() * visibleRows + ImGui::GetStyle().FramePadding.y * 2;
             ImGui::BeginChild("##presetList", ImVec2(0, listHeight), ImGuiChildFlags_Borders);
 
