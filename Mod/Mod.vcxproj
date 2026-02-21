@@ -284,6 +284,8 @@
     <ClCompile Include="src\Spawner.cpp" />
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
+    <ClCompile Include="src\BlueprintRegistry.cpp" />
+    <ClCompile Include="SDK\SDK\AssetRegistry_functions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ComponentValidator.h" />
@@ -325,6 +327,7 @@
     <ClInclude Include="include\Utils\PresetUtils.h" />
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h" />
     <ClInclude Include="include\Utils\NPCPresetSerializer.h" />
+    <ClInclude Include="include\Utils\BlueprintRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Mod.rc" />

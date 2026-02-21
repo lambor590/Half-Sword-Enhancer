@@ -83,7 +83,7 @@ namespace SectionConfig {
         int spawnTier = 4;
 
         uint8_t currentCategoryIndex = 0;
-        uint8_t currentWeaponSubcategoryIndex = 0;
+        uint8_t currentSubcategoryIndex = 0;
         uint16_t currentItemIndex = 0;
     };
 

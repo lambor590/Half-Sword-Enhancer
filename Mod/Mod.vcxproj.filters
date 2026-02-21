@@ -116,6 +116,12 @@
     <ClCompile Include="src\GameBuildInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\BlueprintRegistry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDK\SDK\AssetRegistry_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SDK\SDK\AI_BP_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -275,6 +281,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\NPCPresetSerializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\BlueprintRegistry.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
