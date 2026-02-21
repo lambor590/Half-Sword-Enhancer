@@ -59,44 +59,6 @@ namespace MemoryUtils
         }
     }
 
-    static bool IsAddressHooked(uintptr_t address)
-    {
-        uint8_t buffer[HOOK_DETECTION_SIZE];
-        if (!SafeReadMemoryArray(address, buffer)) return false;
-
-        if (buffer[0] == 0xe9) return true;
-        if (buffer[0] == 0x48 && buffer[1] == 0xff && buffer[2] == 0x25) return true;
-        if (buffer[0] == 0xff && buffer[1] == 0x25) {
-            return buffer[2] == 0x00 && buffer[3] == 0x00 && buffer[4] == 0x00 && buffer[5] == 0x00;
-        }
-        return false;
-    }
-
-    static uintptr_t FollowJump(uintptr_t address)
-    {
-        uint8_t buffer[FOLLOW_JUMP_BUFFER_SIZE];
-        if (!SafeReadMemoryArray(address, buffer)) return address;
-
-        if (buffer[0] == 0xe9) {
-            return address + 5 + *reinterpret_cast<int32_t*>(buffer + 1);
-        }
-
-        if (buffer[0] == 0x48 && buffer[1] == 0xff && buffer[2] == 0x25) {
-            uintptr_t targetAddr = address + 7 + *reinterpret_cast<int32_t*>(buffer + 3);
-            uintptr_t result;
-            if (!SafeReadMemory(targetAddr, result)) return address;
-            return result;
-        }
-
-        if (buffer[0] == 0xff && buffer[1] == 0x25) {
-            uintptr_t result;
-            if (!SafeReadMemory(address + 6, result)) return address;
-            return result;
-        }
-
-        return address;
-    }
-
     static size_t GetInstructionLength(const uint8_t* code, size_t maxLength)
     {
         if (maxLength < 1) return 0;
@@ -208,7 +170,7 @@ namespace MemoryUtils
         for (size_t byteCount = 0; byteCount < MAX_ASM_BYTES;)
         {
             size_t instructionSize = GetInstructionLength(&buffer[byteCount], MAX_ASM_BYTES - byteCount);
-            if (instructionSize <= 0) return minimumClearance;
+            if (instructionSize == 0) return minimumClearance;
             if (byteCount >= minimumClearance) return byteCount;
             byteCount += instructionSize;
         }
@@ -228,7 +190,8 @@ namespace MemoryUtils
             std::memset(ptr + ABS_JUMP_FULL_SIZE, NOP_INSTRUCTION, clearance - ABS_JUMP_FULL_SIZE);
         } else {
             ptr[0] = 0xe9;
-            int32_t offset = -int32_t(address + REL_JUMP_SIZE - destination);
+            int64_t rel64 = static_cast<int64_t>(destination) - static_cast<int64_t>(address + REL_JUMP_SIZE);
+            int32_t offset = static_cast<int32_t>(rel64);
             std::memcpy(ptr + 1, &offset, sizeof(offset));
             std::memset(ptr + REL_JUMP_SIZE, NOP_INSTRUCTION, clearance - REL_JUMP_SIZE);
         }
@@ -236,61 +199,39 @@ namespace MemoryUtils
         ToggleMemoryProtection(true, address, clearance);
     }
 
-    static size_t GetExistingHookJumpSize(uintptr_t address)
+    static void FixupRelativeOffsets(uintptr_t trampolineAddr, uintptr_t originalAddr, size_t size)
     {
-        uint8_t buffer[FAR_JUMP_SIZE + 1];
-        if (!SafeReadMemoryArray(address, buffer)) return 0;
+        uint8_t* code = reinterpret_cast<uint8_t*>(trampolineAddr);
 
-        if (buffer[0] == 0xe9)
-            return REL_JUMP_SIZE;
+        for (size_t pos = 0; pos < size;) {
+            if (pos + FAR_JUMP_SIZE <= size &&
+                code[pos] == 0xFF && code[pos + 1] == 0x25 &&
+                code[pos + 2] == 0x00 && code[pos + 3] == 0x00 &&
+                code[pos + 4] == 0x00 && code[pos + 5] == 0x00) {
+                pos += FAR_JUMP_SIZE;
+                continue;
+            }
 
-        if (buffer[0] == 0xff && buffer[1] == 0x25 &&
-            buffer[2] == 0x00 && buffer[3] == 0x00 &&
-            buffer[4] == 0x00 && buffer[5] == 0x00)
-            return FAR_JUMP_SIZE;
+            size_t instrLen = GetInstructionLength(code + pos, size - pos);
+            if (instrLen == 0) break;
 
-        if (buffer[0] == 0x48 && buffer[1] == 0xff && buffer[2] == 0x25) {
-            int32_t disp = *reinterpret_cast<int32_t*>(buffer + 3);
-            return (disp == 0) ? 15 : 7;
+            if ((code[pos] == 0xE9 || code[pos] == 0xE8) && instrLen == 5) {
+                int32_t* rel = reinterpret_cast<int32_t*>(code + pos + 1);
+                uintptr_t target = (originalAddr + pos + 5) + static_cast<int64_t>(*rel);
+                int64_t newRel = static_cast<int64_t>(target) - static_cast<int64_t>(trampolineAddr + pos + 5);
+                if (newRel >= INT32_MIN && newRel <= INT32_MAX) {
+                    *rel = static_cast<int32_t>(newRel);
+                } else {
+                    logger.Log("Relative offset fixup out of 32-bit range at trampoline+{:#x}", pos);
+                }
+            }
+
+            pos += instrLen;
         }
-
-        return 0;
     }
 
     void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress)
     {
-        if (IsAddressHooked(addressToHook)) {
-            uintptr_t existingTarget = FollowJump(addressToHook);
-
-            if (existingTarget != addressToHook) {
-                logger.Log("Existing hook at %p -> %p, chaining", (void*)addressToHook, (void*)existingTarget);
-
-                size_t clearance = GetExistingHookJumpSize(addressToHook);
-                if (clearance < NEAR_JUMP_SIZE) clearance = NEAR_JUMP_SIZE;
-
-                size_t trampolineSize = FAR_JUMP_SIZE + PROTECTION_BUFFER;
-                uintptr_t trampoline = AllocateMemoryWithin32BitRange(trampolineSize, addressToHook);
-                if (!trampoline) {
-                    logger.Log("Failed to allocate trampoline for chained hook");
-                    return;
-                }
-
-                HookInformation hookInfo;
-                hookInfo.originalBytesSize = clearance;
-                hookInfo.trampolineInstructionsAddress = 0;
-                hookInfo.trampolineBase = trampoline;
-                MemCopy((uintptr_t)hookInfo.originalBytes.data(), addressToHook, clearance);
-                InfoBufferForHookedAddresses[addressToHook] = hookInfo;
-
-                PlaceJump(trampoline, destinationAddress, true, FAR_JUMP_SIZE);
-                *returnAddress = existingTarget;
-                PlaceJump(addressToHook, trampoline, false, clearance);
-
-                logger.Log("Hook chain installed: %p -> detour -> %p", (void*)addressToHook, (void*)existingTarget);
-                return;
-            }
-        }
-
         size_t clearance = CalculateRequiredAsmClearance(addressToHook, NEAR_JUMP_SIZE);
         size_t trampolineSize = TRAMPOLINE_BUFFER_SIZE + clearance + PROTECTION_BUFFER;
 
@@ -313,7 +254,15 @@ namespace MemoryUtils
         PlaceJump(trampoline + PROTECTION_BUFFER, destinationAddress, true, FAR_JUMP_SIZE);
         PlaceJump(trampoline + trampolineSize - FAR_JUMP_SIZE, addressToHook + clearance, true, FAR_JUMP_SIZE);
 
-        *returnAddress = originalInstructions;
+        uint8_t firstByte = *reinterpret_cast<uint8_t*>(originalInstructions);
+        if (firstByte == 0xE9) {
+            int32_t rel = *reinterpret_cast<int32_t*>(originalInstructions + 1);
+            *returnAddress = (addressToHook + REL_JUMP_SIZE) + static_cast<int64_t>(rel);
+        } else {
+            FixupRelativeOffsets(originalInstructions, addressToHook, clearance);
+            *returnAddress = originalInstructions;
+        }
+
         PlaceJump(addressToHook, trampoline, false, clearance);
     }
 
@@ -339,6 +288,10 @@ namespace MemoryUtils
                     MemCopy(hookedAddress, (uintptr_t)hookInfo.originalBytes.data(), hookInfo.originalBytesSize);
                 }
             }
+        }
+
+        if (hookInfo.trampolineBase) {
+            VirtualFree(reinterpret_cast<void*>(hookInfo.trampolineBase), 0, MEM_RELEASE);
         }
 
         InfoBufferForHookedAddresses.erase(it);
