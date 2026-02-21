@@ -708,12 +708,6 @@ private:
         if (weaponGenerationPending) {
             ImGui::SameLine();
             ImGui::TextDisabled("Generating...");
-        } else if (weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC) {
-            auto className = PresetUtils::ClassToString(weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC);
-            if (!className.empty()) {
-                ImGui::SameLine();
-                ImGui::TextDisabled("(%s)", className.c_str());
-            }
         }
 
         ImGui::PopID();
