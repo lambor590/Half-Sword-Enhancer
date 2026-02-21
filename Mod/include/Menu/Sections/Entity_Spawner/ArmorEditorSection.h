@@ -29,21 +29,15 @@ private:
     SDK::FStr_Passport_Armor1 armorPassport{};
     bool armorGenerationPending = false;
 
-    SDK::UClass* cachedCoreClass = nullptr;
-    std::string cachedCoreName;
-
     using ArmorRuntimeProps = decltype(ArmorPresetData::runtimeProps);
-    using ArmorRuntimeColors = decltype(ArmorPresetData::runtimeColors);
 
     ArmorRuntimeProps runtimeProps{};
-    ArmorRuntimeColors runtimeColors{};
 
     SDK::AActor* previewActor = nullptr;
     double lastChangeTime = 0.0;
     double previewYaw = 0.0;
     SDK::FStr_Passport_Armor1 lastPreviewedPassport{};
     ArmorRuntimeProps lastPreviewedProps{};
-    ArmorRuntimeColors lastPreviewedColors{};
 
     struct ModuleEntry {
         SDK::UClass* cls;
@@ -133,8 +127,7 @@ private:
         GenerateArmorPassport();
     }
 
-    static void ApplyRuntimeProps(SDK::AActor* actor, const ArmorRuntimeProps& props,
-                                  const ArmorRuntimeColors& colors) {
+    static void ApplyRuntimeProps(SDK::AActor* actor, const ArmorRuntimeProps& props) {
         if (!actor) return;
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
 
@@ -148,12 +141,6 @@ private:
         if (props.aiInvincibilityRate.enabled) armor->AI_Invinvcibility_Rate = props.aiInvincibilityRate.value;
         if (props.price.enabled)               armor->Price = props.price.value;
         if (props.pickUp.enabled)              armor->Pick_Up = props.pickUp.value;
-
-        if (colors.enabled) {
-            armor->C_1 = colors.c1;
-            armor->C_2 = colors.c2;
-            armor->C_3 = colors.c3;
-        }
     }
 
     int CountActiveOverrides() const {
@@ -162,8 +149,7 @@ private:
             runtimeProps.protectionStab.enabled, runtimeProps.materialDensity.enabled,
             runtimeProps.massScale.enabled, runtimeProps.handsRigidity.enabled,
             runtimeProps.strapPower.enabled, runtimeProps.aiInvincibilityRate.enabled,
-            runtimeProps.price.enabled, runtimeProps.pickUp.enabled,
-            runtimeColors.enabled
+            runtimeProps.price.enabled, runtimeProps.pickUp.enabled
         };
         int count = 0;
         for (bool f : flags) count += f;
@@ -200,14 +186,12 @@ private:
 
         lastPreviewedPassport = armorPassport;
         lastPreviewedProps = runtimeProps;
-        lastPreviewedColors = runtimeColors;
 
         auto props = runtimeProps;
-        auto colors = runtimeColors;
         bool hasOverrides = HasAnyOverride();
 
         Spawner::SpawnArmorFromPassport(world, armorPassport, BuildSpawnTransform(), cfg.snapToGround,
-            [this, props, colors, hasOverrides](SDK::AActor* actor) {
+            [this, props, hasOverrides](SDK::AActor* actor) {
                 if (!cfg.livePreview) {
                     actor->K2_DestroyActor();
                     return;
@@ -221,7 +205,7 @@ private:
                 if (armor->Armor_Mesh_Primitive)
                     armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
                 actor->SetActorEnableCollision(false);
-                if (hasOverrides) ApplyRuntimeProps(actor, props, colors);
+                if (hasOverrides) ApplyRuntimeProps(actor, props);
                 previewActor = actor;
                 if (cfg.autoRotate)
                     actor->K2_SetActorRotation(SDK::FRotator{0.0, previewYaw, 0.0}, true);
@@ -244,8 +228,7 @@ private:
         static constexpr double REFRESH_COOLDOWN = 0.2;
 
         bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport)
-                        || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(ArmorRuntimeProps)) != 0
-                        || std::memcmp(&runtimeColors, &lastPreviewedColors, sizeof(ArmorRuntimeColors)) != 0;
+                        || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(ArmorRuntimeProps)) != 0;
 
         if (!needsUpdate) return;
         if (previewActor && (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN)) return;
@@ -281,9 +264,8 @@ private:
 
         if (hasOverrides) {
             auto props = runtimeProps;
-            auto colors = runtimeColors;
-            callback = [props, colors](SDK::AActor* actor) {
-                ApplyRuntimeProps(actor, props, colors);
+            callback = [props](SDK::AActor* actor) {
+                ApplyRuntimeProps(actor, props);
             };
         }
 
@@ -407,15 +389,6 @@ private:
             ImGui::TextDisabled("Generating...");
         }
 
-        if (armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) {
-            SDK::UClass* core = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
-            if (core != cachedCoreClass) {
-                cachedCoreClass = core;
-                cachedCoreName = core->GetName();
-            }
-            ImGui::TextDisabled("Core: %s", cachedCoreName.c_str());
-        }
-
         ImGui::PopID();
     }
 
@@ -462,19 +435,6 @@ private:
             armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393);
         RenderColorEditor("Fabric Color 2",
             armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C);
-
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Spacing();
-
-        ImGui::TextDisabled("Runtime Colors");
-        TooltipHelper::ShowTooltip("Applied to the armor actor after spawning (C_1, C_2, C_3)");
-        ImGui::Checkbox("Enable Runtime Colors", &runtimeColors.enabled);
-        if (!runtimeColors.enabled) ImGui::BeginDisabled();
-        RenderColorEditor("Color 1 (C_1)", runtimeColors.c1);
-        RenderColorEditor("Color 2 (C_2)", runtimeColors.c2);
-        RenderColorEditor("Color 3 (C_3)", runtimeColors.c3);
-        if (!runtimeColors.enabled) ImGui::EndDisabled();
 
         ImGui::PopID();
     }
@@ -549,14 +509,12 @@ private:
         d.name = presetNameBuf;
         d.passport = armorPassport;
         d.runtimeProps = runtimeProps;
-        d.runtimeColors = runtimeColors;
         return d;
     }
 
     void ApplyPresetData(const ArmorPresetData& d) {
         armorPassport = d.passport;
         runtimeProps = d.runtimeProps;
-        runtimeColors = d.runtimeColors;
         armorModules = {};
     }
 
