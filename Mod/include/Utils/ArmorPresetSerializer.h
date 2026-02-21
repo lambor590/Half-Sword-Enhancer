@@ -34,7 +34,6 @@ struct ArmorPresetData {
 
 class ArmorPresetSerializer {
 private:
-    static constexpr const char* CLIPBOARD_PREFIX = "HSA:";
     static constexpr SDK::FLinearColor DEFAULT_FABRIC_COLOR = {0.5f, 0.5f, 0.5f, 1.0f};
     static constexpr SDK::FLinearColor DEFAULT_RUNTIME_COLOR = {1.f, 1.f, 1.f, 1.f};
 
@@ -199,29 +198,6 @@ public:
 
         result.success = true;
         return result;
-    }
-
-    static std::string EncodeForClipboard(const SDK::FStr_Passport_Armor1& passport,
-        const ArmorPresetData& data)
-    {
-        std::string ini = SerializeToIni(passport, data, true);
-        return std::string(CLIPBOARD_PREFIX) + PresetUtils::Base64Encode(ini);
-    }
-
-    static ArmorPresetData DecodeFromClipboard(const std::string& clipboardText) {
-        ArmorPresetData result;
-        static constexpr size_t PREFIX_LEN = 4;
-        if (clipboardText.size() < PREFIX_LEN || std::memcmp(clipboardText.data(), CLIPBOARD_PREFIX, PREFIX_LEN) != 0) {
-            result.error = "Invalid clipboard data (missing HSA: prefix)";
-            return result;
-        }
-        std::string decoded = PresetUtils::Base64Decode(
-            clipboardText.data() + PREFIX_LEN, clipboardText.size() - PREFIX_LEN);
-        if (decoded.empty()) {
-            result.error = "Failed to decode base64 data";
-            return result;
-        }
-        return DeserializeFromIni(decoded);
     }
 
     static std::filesystem::path GetPresetsDirectory() {

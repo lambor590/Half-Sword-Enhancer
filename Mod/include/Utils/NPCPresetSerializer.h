@@ -58,7 +58,6 @@ struct NPCPresetData {
 
 class NPCPresetSerializer {
 private:
-    static constexpr const char* CLIPBOARD_PREFIX = "HSEN:";
 
 public:
     static std::string SerializeToIni(const NPCPresetData& data, bool minimalMode = false) {
@@ -186,27 +185,6 @@ public:
 
         result.success = true;
         return result;
-    }
-
-    static std::string EncodeForClipboard(const NPCPresetData& data) {
-        std::string ini = SerializeToIni(data, true);
-        return std::string(CLIPBOARD_PREFIX) + PresetUtils::Base64Encode(ini);
-    }
-
-    static NPCPresetData DecodeFromClipboard(const std::string& clipboardText) {
-        NPCPresetData result;
-        static constexpr size_t PREFIX_LEN = 5;
-        if (clipboardText.size() < PREFIX_LEN || std::memcmp(clipboardText.data(), CLIPBOARD_PREFIX, PREFIX_LEN) != 0) {
-            result.error = "Invalid clipboard data (missing HSEN: prefix)";
-            return result;
-        }
-        std::string decoded = PresetUtils::Base64Decode(
-            clipboardText.data() + PREFIX_LEN, clipboardText.size() - PREFIX_LEN);
-        if (decoded.empty()) {
-            result.error = "Failed to decode base64 data";
-            return result;
-        }
-        return DeserializeFromIni(decoded);
     }
 
     static std::filesystem::path GetPresetsDirectory() {

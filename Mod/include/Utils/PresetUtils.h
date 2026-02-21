@@ -4,7 +4,8 @@
 #include <vector>
 #include <filesystem>
 #include <cstdio>
-#include <cstdint>
+#include <Windows.h>
+#include <shellapi.h>
 
 #include "ConfigManager.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -17,53 +18,10 @@ struct PresetListEntry {
 
 namespace PresetUtils {
 
-    inline std::string Base64Encode(const std::string& input) {
-        static constexpr const char TABLE[] =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-        std::string out;
-        out.reserve(((input.size() + 2) / 3) * 4);
-        const auto* data = reinterpret_cast<const unsigned char*>(input.data());
-        size_t len = input.size();
-        for (size_t i = 0; i < len; i += 3) {
-            uint32_t n = static_cast<uint32_t>(data[i]) << 16;
-            if (i + 1 < len) n |= static_cast<uint32_t>(data[i + 1]) << 8;
-            if (i + 2 < len) n |= static_cast<uint32_t>(data[i + 2]);
-            out += TABLE[(n >> 18) & 0x3F];
-            out += TABLE[(n >> 12) & 0x3F];
-            out += (i + 1 < len) ? TABLE[(n >> 6) & 0x3F] : '=';
-            out += (i + 2 < len) ? TABLE[n & 0x3F] : '=';
-        }
-        return out;
-    }
-
-    inline std::string Base64Decode(const char* data, size_t len) {
-        static constexpr unsigned char DTABLE[] = {
-            64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,64,
-            64,64,64,64,64,64,64,64,64,64,64,62,64,64,64,63,52,53,54,55,56,57,58,59,60,61,64,64,64,65,64,64,
-            64, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,64,64,64,64,64,
-            64,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,64,64,64,64,64
-        };
-        std::string out;
-        out.reserve((len / 4) * 3);
-        uint32_t buf = 0;
-        int bits = 0;
-        for (size_t i = 0; i < len; ++i) {
-            char c = data[i];
-            if (c == '=' || c == '\n' || c == '\r' || c == ' ') continue;
-            unsigned char idx = (static_cast<unsigned char>(c) < 128) ? DTABLE[static_cast<unsigned char>(c)] : 64;
-            if (idx == 64) continue;
-            buf = (buf << 6) | idx;
-            bits += 6;
-            if (bits >= 8) {
-                bits -= 8;
-                out += static_cast<char>((buf >> bits) & 0xFF);
-            }
-        }
-        return out;
-    }
-
-    inline std::string Base64Decode(const std::string& input) {
-        return Base64Decode(input.data(), input.size());
+    inline void OpenInExplorer(const std::filesystem::path& dir) {
+        std::error_code ec;
+        std::filesystem::create_directories(dir, ec);
+        ShellExecuteW(NULL, L"open", dir.wstring().c_str(), NULL, NULL, SW_SHOWDEFAULT);
     }
 
     inline std::string ClassToString(SDK::UClass* cls) {
@@ -86,6 +44,19 @@ namespace PresetUtils {
         SDK::FVector v = def;
         sscanf_s(str, "%lf,%lf,%lf", &v.X, &v.Y, &v.Z);
         return v;
+    }
+
+    inline std::string RotToString(const SDK::FRotator& r) {
+        char buf[96];
+        std::snprintf(buf, sizeof(buf), "%.6g,%.6g,%.6g", r.Pitch, r.Yaw, r.Roll);
+        return buf;
+    }
+
+    inline SDK::FRotator StringToRot(const char* str, SDK::FRotator def = {0.0, 0.0, 0.0}) {
+        if (!str || !str[0]) return def;
+        SDK::FRotator r = def;
+        sscanf_s(str, "%lf,%lf,%lf", &r.Pitch, &r.Yaw, &r.Roll);
+        return r;
     }
 
     inline std::string ColorToString(const SDK::FLinearColor& c) {

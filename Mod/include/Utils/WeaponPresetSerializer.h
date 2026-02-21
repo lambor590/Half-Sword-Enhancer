@@ -9,11 +9,16 @@
 #include "Utils/GuiUtils.h"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
+enum class MeshType : uint8_t { Static, Skeletal };
+
 struct MeshOverridePreset {
     bool enabled = false;
     std::string meshName;
+    std::string meshPath;
+    MeshType meshType = MeshType::Static;
     SDK::FVector scale = {1.0, 1.0, 1.0};
     SDK::FRotator rotation = {0.0, 0.0, 0.0};
+    SDK::FVector offset = {0.0, 0.0, 0.0};
 };
 
 struct WeaponPresetData {
@@ -37,10 +42,9 @@ struct WeaponPresetData {
 
 class WeaponPresetSerializer {
 private:
-    static constexpr const char* CLIPBOARD_PREFIX = "HSE:";
 
-    static bool IsDefaultVec(const SDK::FVector& v) {
-        return std::abs(v.X - 1.0) < 1e-4 && std::abs(v.Y - 1.0) < 1e-4 && std::abs(v.Z - 1.0) < 1e-4;
+    static bool IsDefaultVec(const SDK::FVector& v, const SDK::FVector& def = {1.0, 1.0, 1.0}) {
+        return std::abs(v.X - def.X) < 1e-4 && std::abs(v.Y - def.Y) < 1e-4 && std::abs(v.Z - def.Z) < 1e-4;
     }
 
     static bool IsDefaultMass(double m) { return std::abs(m - 1.0) < 1e-4; }
@@ -151,19 +155,21 @@ public:
         setOvr("staminaBurn2HAlt", rp.staminaBurn2HAlt.enabled, rp.staminaBurn2HAlt.value);
 
         static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
+        static constexpr const char* MESH_PATH_KEYS[] = {"headPath", "guardPath", "gripPath", "pommelPath"};
         for (int slot = 0; slot < WeaponPresetData::MODULE_SLOT_COUNT; ++slot) {
             const auto& mp = data.meshPresets[slot];
             if (!minimalMode || mp.enabled) {
-                std::string val = (mp.enabled ? "1," : "0,") + mp.meshName;
-                ini.SetValue("MeshOverrides", MESH_KEYS[slot], val.c_str());
-            }
-            if (mp.enabled) {
-                std::string scaleKey = std::string(MESH_KEYS[slot]) + "_scale";
-                std::string rotKey = std::string(MESH_KEYS[slot]) + "_rot";
-                if (!minimalMode || !IsDefaultVec(mp.scale))
-                    ini.SetValue("MeshOverrides", scaleKey.c_str(), PresetUtils::VecToString(mp.scale).c_str());
-                if (!minimalMode || (std::abs(mp.rotation.Pitch) > 1e-4 || std::abs(mp.rotation.Yaw) > 1e-4 || std::abs(mp.rotation.Roll) > 1e-4))
-                    ini.SetValue("MeshOverrides", rotKey.c_str(), PresetUtils::RotToString(mp.rotation).c_str());
+                char buf[512];
+                std::snprintf(buf, sizeof(buf), "%d|%s|%d|%s|%s|%s",
+                    mp.enabled ? 1 : 0,
+                    mp.meshName.c_str(),
+                    static_cast<int>(mp.meshType),
+                    PresetUtils::VecToString(mp.scale).c_str(),
+                    PresetUtils::RotToString(mp.rotation).c_str(),
+                    PresetUtils::VecToString(mp.offset).c_str());
+                ini.SetValue("MeshOverrides", MESH_KEYS[slot], buf);
+                if (!mp.meshPath.empty())
+                    ini.SetValue("MeshOverrides", MESH_PATH_KEYS[slot], mp.meshPath.c_str());
             }
         }
 
@@ -245,44 +251,60 @@ public:
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurn2HAlt", ""), rp.staminaBurn2HAlt.enabled, rp.staminaBurn2HAlt.value);
 
         static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
+        static constexpr const char* MESH_PATH_KEYS[] = {"headPath", "guardPath", "gripPath", "pommelPath"};
         for (int slot = 0; slot < WeaponPresetData::MODULE_SLOT_COUNT; ++slot) {
-            const char* val = ini.GetValue("MeshOverrides", MESH_KEYS[slot], "");
-            if (!val || std::strlen(val) < 2) continue;
-            result.meshPresets[slot].enabled = (val[0] == '1');
-            if (std::strlen(val) > 2)
-                result.meshPresets[slot].meshName = val + 2;
+            const char* raw = ini.GetValue("MeshOverrides", MESH_KEYS[slot], "");
+            if (!raw || !raw[0]) continue;
 
-            std::string scaleKey = std::string(MESH_KEYS[slot]) + "_scale";
-            std::string rotKey = std::string(MESH_KEYS[slot]) + "_rot";
-            result.meshPresets[slot].scale = PresetUtils::StringToVec(ini.GetValue("MeshOverrides", scaleKey.c_str(), nullptr));
-            result.meshPresets[slot].rotation = PresetUtils::StringToRot(ini.GetValue("MeshOverrides", rotKey.c_str(), nullptr));
+            std::string val(raw);
+            auto& mp = result.meshPresets[slot];
+
+            size_t p1 = val.find('|');
+            if (p1 == std::string::npos) continue;
+            mp.enabled = (val[0] == '1');
+
+            size_t p2 = val.find('|', p1 + 1);
+            if (p2 == std::string::npos) { mp.meshName = val.substr(p1 + 1); continue; }
+            mp.meshName = val.substr(p1 + 1, p2 - p1 - 1);
+
+            size_t p3 = val.find('|', p2 + 1);
+            std::string field3 = (p3 != std::string::npos)
+                ? val.substr(p2 + 1, p3 - p2 - 1) : val.substr(p2 + 1);
+
+            size_t scaleStart;
+            if (field3.find(',') == std::string::npos && field3.length() <= 1) {
+                mp.meshType = (field3 == "1") ? MeshType::Skeletal : MeshType::Static;
+                scaleStart = p3;
+            } else {
+                mp.meshType = MeshType::Static;
+                scaleStart = p2;
+            }
+
+            if (scaleStart == std::string::npos) continue;
+
+            size_t pScaleEnd = val.find('|', scaleStart + 1);
+            if (pScaleEnd == std::string::npos) {
+                mp.scale = PresetUtils::StringToVec(val.c_str() + scaleStart + 1);
+                continue;
+            }
+            mp.scale = PresetUtils::StringToVec(val.substr(scaleStart + 1, pScaleEnd - scaleStart - 1).c_str());
+
+            size_t pRotEnd = val.find('|', pScaleEnd + 1);
+            if (pRotEnd == std::string::npos) {
+                mp.rotation = PresetUtils::StringToRot(val.c_str() + pScaleEnd + 1);
+                continue;
+            }
+            mp.rotation = PresetUtils::StringToRot(val.substr(pScaleEnd + 1, pRotEnd - pScaleEnd - 1).c_str());
+
+            mp.offset = PresetUtils::StringToVec(val.c_str() + pRotEnd + 1, {0.0, 0.0, 0.0});
+
+            const char* pathVal = ini.GetValue("MeshOverrides", MESH_PATH_KEYS[slot], "");
+            if (pathVal && pathVal[0])
+                mp.meshPath = pathVal;
         }
 
         result.success = true;
         return result;
-    }
-
-    static std::string EncodeForClipboard(const SDK::FStr_Passport_Weapon1& passport,
-        const WeaponPresetData& data)
-    {
-        std::string ini = SerializeToIni(passport, data, true);
-        return std::string(CLIPBOARD_PREFIX) + PresetUtils::Base64Encode(ini);
-    }
-
-    static WeaponPresetData DecodeFromClipboard(const std::string& clipboardText) {
-        WeaponPresetData result;
-        static constexpr size_t PREFIX_LEN = 4;
-        if (clipboardText.size() < PREFIX_LEN || std::memcmp(clipboardText.data(), CLIPBOARD_PREFIX, PREFIX_LEN) != 0) {
-            result.error = "Invalid clipboard data (missing HSE: prefix)";
-            return result;
-        }
-        std::string decoded = PresetUtils::Base64Decode(
-            clipboardText.data() + PREFIX_LEN, clipboardText.size() - PREFIX_LEN);
-        if (decoded.empty()) {
-            result.error = "Failed to decode base64 data";
-            return result;
-        }
-        return DeserializeFromIni(decoded);
     }
 
     static std::filesystem::path GetPresetsDirectory() {

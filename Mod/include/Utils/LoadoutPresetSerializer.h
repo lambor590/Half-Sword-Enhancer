@@ -42,7 +42,6 @@ struct LoadoutPresetData {
 
 class LoadoutPresetSerializer {
 private:
-    static constexpr const char* CLIPBOARD_PREFIX = "HSL:";
 
     static constexpr const char* WEAPON_SLOT_KEYS[] = {
         "HandR", "HandL", "SlotR1", "SlotR2", "SlotL1", "SlotL2", "Back"
@@ -258,19 +257,6 @@ public:
 
         data.success = true;
         return data;
-    }
-
-    static std::string EncodeForClipboard(const LoadoutPresetData& data) {
-        return CLIPBOARD_PREFIX + PresetUtils::Base64Encode(SerializeToIni(data));
-    }
-
-    static LoadoutPresetData DecodeFromClipboard(const std::string& encoded) {
-        LoadoutPresetData data;
-        if (encoded.size() < 4 || encoded.substr(0, 4) != CLIPBOARD_PREFIX) {
-            data.error = "Invalid clipboard format (expected HSL: prefix)";
-            return data;
-        }
-        return DeserializeFromIni(PresetUtils::Base64Decode(encoded.substr(4)));
     }
 
     static std::filesystem::path GetPresetsDir() {

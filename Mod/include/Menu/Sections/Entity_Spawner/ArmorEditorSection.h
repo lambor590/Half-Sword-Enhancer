@@ -647,29 +647,8 @@ private:
         ImGui::Separator();
         ImGui::Spacing();
 
-        ImGui::TextDisabled("Share");
-        float halfWidth = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
-        if (ImGui::Button("Copy to Clipboard", ImVec2(halfWidth, 0))) {
-            auto data = BuildPresetData();
-            std::string encoded = ArmorPresetSerializer::EncodeForClipboard(armorPassport, data);
-            ImGui::SetClipboardText(encoded.c_str());
-            SetStatus("Copied to clipboard");
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Paste from Clipboard", ImVec2(halfWidth, 0))) {
-            const char* clip = ImGui::GetClipboardText();
-            if (clip && clip[0]) {
-                auto result = ArmorPresetSerializer::DecodeFromClipboard(clip);
-                if (result.success) {
-                    ApplyPresetData(result);
-                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    SetStatus("Pasted: " + result.name);
-                } else {
-                    SetStatus("Error: " + result.error, true);
-                }
-            } else {
-                SetStatus("Clipboard is empty", true);
-            }
+        if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
+            PresetUtils::OpenInExplorer(ArmorPresetSerializer::GetPresetsDirectory());
         }
 
         ImGui::PopID();

@@ -732,33 +732,8 @@ private:
         ImGui::Separator();
         ImGui::Spacing();
 
-        ImGui::TextDisabled("Share");
-        float halfWidth = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
-        bool playerValid = ComponentValidator::Validate(player);
-        if (!playerValid) ImGui::BeginDisabled();
-        if (ImGui::Button("Copy to Clipboard", ImVec2(halfWidth, 0))) {
-            auto data = BuildPresetFromPlayer();
-            data.name = presetNameBuf[0] ? presetNameBuf : "Shared Loadout";
-            std::string encoded = LoadoutPresetSerializer::EncodeForClipboard(data);
-            ImGui::SetClipboardText(encoded.c_str());
-            SetStatus("Copied to clipboard");
-        }
-        if (!playerValid) ImGui::EndDisabled();
-        ImGui::SameLine();
-        if (ImGui::Button("Paste from Clipboard", ImVec2(halfWidth, 0))) {
-            const char* clip = ImGui::GetClipboardText();
-            if (clip && clip[0]) {
-                auto result = LoadoutPresetSerializer::DecodeFromClipboard(clip);
-                if (result.success) {
-                    ApplyLoadoutPreset(result);
-                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    SetStatus("Pasted: " + result.name);
-                } else {
-                    SetStatus("Error: " + result.error);
-                }
-            } else {
-                SetStatus("Clipboard is empty");
-            }
+        if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
+            PresetUtils::OpenInExplorer(LoadoutPresetSerializer::GetPresetsDir());
         }
 
         ImGui::PopID();
