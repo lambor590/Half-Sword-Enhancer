@@ -3,9 +3,7 @@
 #include <Windows.h>
 #include <vector>
 #include <Psapi.h>
-#include <sstream>
 #include <unordered_map>
-#include <iomanip>
 #include <array>
 
 #include "Logger.h"
@@ -23,12 +21,9 @@ namespace MemoryUtils
     constexpr size_t PROTECTION_BUFFER = FAR_JUMP_SIZE;
     constexpr size_t MEMORY_RANGE_32BIT = 0x7fffffff;
     constexpr size_t ALLOCATION_INCREMENT = 65536;
-    constexpr int MAX_HOOK_FOLLOW_ATTEMPTS = 50;
     constexpr size_t ABS_JUMP_HEADER_SIZE = 6;
     constexpr size_t ABS_JUMP_FULL_SIZE = 14;
     constexpr size_t REL_JUMP_SIZE = 5;
-    constexpr size_t HOOK_DETECTION_SIZE = 6;
-    constexpr size_t FOLLOW_JUMP_BUFFER_SIZE = 7;
 
     struct HookInformation
     {
@@ -37,7 +32,6 @@ namespace MemoryUtils
         uintptr_t trampolineInstructionsAddress = 0;
         uintptr_t trampolineBase = 0;
     };
-
 
     extern std::unordered_map<uintptr_t, HookInformation> InfoBufferForHookedAddresses;
 
@@ -83,13 +77,16 @@ namespace MemoryUtils
     static inline void ShowErrorPopup(std::string_view error) noexcept
     {
         logger.Log("Raised error: {}", error);
-        MessageBoxA(NULL, error.data(), GetCurrentModuleName().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+        std::string errorStr(error);
+        MessageBoxA(NULL, errorStr.c_str(), GetCurrentModuleName().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
     }
 
     static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
     {
         uintptr_t lowerBound = origin > MEMORY_RANGE_32BIT ? origin - MEMORY_RANGE_32BIT : 0;
-        uintptr_t higherBound = origin + MEMORY_RANGE_32BIT;
+        uintptr_t higherBound = (origin <= UINTPTR_MAX - MEMORY_RANGE_32BIT)
+                              ? origin + MEMORY_RANGE_32BIT
+                              : UINTPTR_MAX;
 
         SYSTEM_INFO si;
         GetSystemInfo(&si);
@@ -114,7 +111,8 @@ namespace MemoryUtils
 
     static uintptr_t ReadPointerChain(const std::vector<uintptr_t>& pointerOffsets)
     {
-        uintptr_t pointer = GetProcessBaseAddress(GetCurrentProcessId());
+        uintptr_t pointer = reinterpret_cast<uintptr_t>(GetModuleHandleA(NULL));
+        if (!pointer) return 0;
 
         for (size_t i = 0; i < pointerOffsets.size(); i++)
         {
