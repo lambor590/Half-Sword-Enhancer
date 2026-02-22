@@ -197,10 +197,7 @@ namespace Spawner {
             }
 
             SDK::UClass* actorClass = LoadActorClass(className);
-            if (!actorClass) {
-                if (callback) callback(nullptr);
-                return;
-            }
+            if (!actorClass) return;
             SDK::AActor* spawnedActor = nullptr;
 
             if (actorType == ActorType::Weapon) {
@@ -272,10 +269,7 @@ namespace Spawner {
 
     void SpawnCustomizableFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround, std::function<void(SDK::AActor*)> callback) {
         GameHook::QueueAction([world, passport, transform, snapToGround, callback = std::move(callback)]() {
-            if (!EquipmentGenerator::IsPassportValid(passport)) {
-                if (callback) callback(nullptr);
-                return;
-            }
+            if (!EquipmentGenerator::IsPassportValid(passport)) return;
 
             SDK::FTransform finalTransform = transform;
 
