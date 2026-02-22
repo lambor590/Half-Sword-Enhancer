@@ -74,8 +74,11 @@ namespace Spawner {
     }
 
     static SDK::AActor* SpawnModularWeapon(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform, SDK::Enum_Ranks tier) {
+        if (!actorClass) return nullptr;
+
         EquipmentGenerator::Init(world);
         auto passport = EquipmentGenerator::GenerateSpecificWeapon(actorClass, tier);
+        if (!EquipmentGenerator::IsPassportValid(passport)) return nullptr;
 
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
             world, actorClass, transform,
@@ -194,6 +197,10 @@ namespace Spawner {
             }
 
             SDK::UClass* actorClass = LoadActorClass(className);
+            if (!actorClass) {
+                if (callback) callback(nullptr);
+                return;
+            }
             SDK::AActor* spawnedActor = nullptr;
 
             if (actorType == ActorType::Weapon) {
@@ -265,6 +272,11 @@ namespace Spawner {
 
     void SpawnCustomizableFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround, std::function<void(SDK::AActor*)> callback) {
         GameHook::QueueAction([world, passport, transform, snapToGround, callback = std::move(callback)]() {
+            if (!EquipmentGenerator::IsPassportValid(passport)) {
+                if (callback) callback(nullptr);
+                return;
+            }
+
             SDK::FTransform finalTransform = transform;
 
             if (snapToGround) {
@@ -297,6 +309,7 @@ namespace Spawner {
 
             EquipmentGenerator::Init(world);
             auto passport = EquipmentGenerator::GenerateCustomizableWeapon(type, static_cast<SDK::Enum_Ranks>(tier));
+            if (!EquipmentGenerator::IsPassportValid(passport)) return;
 
             SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();
             auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(

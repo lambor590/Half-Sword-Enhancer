@@ -23,6 +23,8 @@
 namespace EquipmentGenerator {
 
     namespace {
+        constexpr int MAX_ATTEMPTS = 3;
+
         const SDK::UWorld* cachedWorld = nullptr;
         SDK::ABP_Generator_Weapons_Random_C* weaponGenerator = nullptr;
         SDK::ABP_Generator_Armor_Random_C* armorGenerator = nullptr;
@@ -80,9 +82,12 @@ namespace EquipmentGenerator {
     SDK::FStr_Passport_Weapon1 GenerateWeapon(SDK::Enum_WeaponType type, SDK::Enum_Ranks tier) {
         SDK::FStr_Passport_Weapon1 output{};
         auto* gen = GetWeaponGenerator();
-        if (gen) {
-            SDK::FStr_Passport_Weapon1 emptyPassport{};
+        if (!gen) return output;
+
+        SDK::FStr_Passport_Weapon1 emptyPassport{};
+        for (int i = 0; i < MAX_ATTEMPTS; ++i) {
             gen->Generate_Weapon(type, tier, false, nullptr, emptyPassport, &output);
+            if (IsPassportValid(output)) return output;
         }
         return output;
     }
@@ -90,9 +95,12 @@ namespace EquipmentGenerator {
     SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(SDK::UClass* weaponClass, SDK::Enum_Ranks tier) {
         SDK::FStr_Passport_Weapon1 output{};
         auto* gen = GetWeaponGenerator();
-        if (gen) {
-            SDK::FStr_Passport_Weapon1 emptyPassport{};
+        if (!gen) return output;
+
+        SDK::FStr_Passport_Weapon1 emptyPassport{};
+        for (int i = 0; i < MAX_ATTEMPTS; ++i) {
             gen->Generate_Weapon(SDK::Enum_WeaponType::NewEnumerator0, tier, true, weaponClass, emptyPassport, &output);
+            if (IsPassportValid(output)) return output;
         }
         return output;
     }
@@ -129,7 +137,10 @@ namespace EquipmentGenerator {
 
         gen->Customizable_Modules = GetCustomizableModulesClass(type);
         SDK::FStr_Passport_Weapon1 emptyPassport{};
-        gen->Generate_Weapon(SDK::Enum_WeaponType::NewEnumerator0, tier, false, nullptr, emptyPassport, &output);
+        for (int i = 0; i < MAX_ATTEMPTS; ++i) {
+            gen->Generate_Weapon(SDK::Enum_WeaponType::NewEnumerator0, tier, false, nullptr, emptyPassport, &output);
+            if (IsPassportValid(output)) return output;
+        }
         return output;
     }
 
