@@ -13,7 +13,6 @@ enum class MeshType : uint8_t { Static, Skeletal };
 
 struct MeshOverridePreset {
     bool enabled = false;
-    std::string meshName;
     std::string meshPath;
     MeshType meshType = MeshType::Static;
     SDK::FVector scale = {1.0, 1.0, 1.0};
@@ -73,22 +72,19 @@ public:
         ini.SetValue("Preset", "name", data.name.c_str());
         ini.SetValue("Preset", "version", "1");
 
-        auto setClassWithPath = [&](const char* nameKey, const char* pathKey, SDK::UClass* cls) {
-            auto np = PresetUtils::ClassToNameAndPath(cls);
-            if (!minimalMode || !np.name.empty()) {
-                ini.SetValue("Passport", nameKey, np.name.c_str());
-                if (!np.path.empty())
-                    ini.SetValue("Passport", pathKey, np.path.c_str());
-            }
+        auto setClass = [&](const char* key, SDK::UClass* cls) {
+            auto path = PresetUtils::ClassToPath(cls);
+            if (!minimalMode || !path.empty())
+                ini.SetValue("Passport", key, path.c_str());
         };
 
-        setClassWithPath("weaponClass", "weaponClassPath", passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC);
-        setClassWithPath("headModule", "headModulePath", passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139);
-        setClassWithPath("guardModule", "guardModulePath", passport.GuardModule_13_6DD2B06245505E53B529D090333012F0);
-        setClassWithPath("gripModule", "gripModulePath", passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4);
-        setClassWithPath("pommelModule", "pommelModulePath", passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6);
-        setClassWithPath("subModule1", "subModule1Path", passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D);
-        setClassWithPath("subModule2", "subModule2Path", passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9);
+        setClass("weaponClass", passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC);
+        setClass("headModule", passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139);
+        setClass("guardModule", passport.GuardModule_13_6DD2B06245505E53B529D090333012F0);
+        setClass("gripModule", passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4);
+        setClass("pommelModule", passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6);
+        setClass("subModule1", passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D);
+        setClass("subModule2", passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9);
 
         if (!minimalMode || !IsDefaultVec(passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57))
             ini.SetValue("Passport", "headSize", PresetUtils::VecToString(passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57).c_str());
@@ -165,21 +161,18 @@ public:
         setOvr("staminaBurn2HAlt", rp.staminaBurn2HAlt.enabled, rp.staminaBurn2HAlt.value);
 
         static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
-        static constexpr const char* MESH_PATH_KEYS[] = {"headPath", "guardPath", "gripPath", "pommelPath"};
         for (int slot = 0; slot < WeaponPresetData::MODULE_SLOT_COUNT; ++slot) {
             const auto& mp = data.meshPresets[slot];
             if (!minimalMode || mp.enabled) {
                 char buf[512];
                 std::snprintf(buf, sizeof(buf), "%d|%s|%d|%s|%s|%s",
                     mp.enabled ? 1 : 0,
-                    mp.meshName.c_str(),
+                    mp.meshPath.c_str(),
                     static_cast<int>(mp.meshType),
                     PresetUtils::VecToString(mp.scale).c_str(),
                     PresetUtils::RotToString(mp.rotation).c_str(),
                     PresetUtils::VecToString(mp.offset).c_str());
                 ini.SetValue("MeshOverrides", MESH_KEYS[slot], buf);
-                if (!mp.meshPath.empty())
-                    ini.SetValue("MeshOverrides", MESH_PATH_KEYS[slot], mp.meshPath.c_str());
             }
         }
 
@@ -209,17 +202,13 @@ public:
         auto& p = result.passport;
         p = {};
 
-        auto readPath = [&](const char* key) -> std::string {
-            return ini.GetValue("Passport", key, "");
-        };
-
-        result.classPaths.weaponClass = readPath("weaponClassPath");
-        result.classPaths.headModule = readPath("headModulePath");
-        result.classPaths.guardModule = readPath("guardModulePath");
-        result.classPaths.gripModule = readPath("gripModulePath");
-        result.classPaths.pommelModule = readPath("pommelModulePath");
-        result.classPaths.subModule1 = readPath("subModule1Path");
-        result.classPaths.subModule2 = readPath("subModule2Path");
+        result.classPaths.weaponClass = ini.GetValue("Passport", "weaponClass", "");
+        result.classPaths.headModule = ini.GetValue("Passport", "headModule", "");
+        result.classPaths.guardModule = ini.GetValue("Passport", "guardModule", "");
+        result.classPaths.gripModule = ini.GetValue("Passport", "gripModule", "");
+        result.classPaths.pommelModule = ini.GetValue("Passport", "pommelModule", "");
+        result.classPaths.subModule1 = ini.GetValue("Passport", "subModule1", "");
+        result.classPaths.subModule2 = ini.GetValue("Passport", "subModule2", "");
 
         p.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = PresetUtils::StringToVec(ini.GetValue("Passport", "headSize", nullptr));
         p.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = PresetUtils::StringToVec(ini.GetValue("Passport", "guardSize", nullptr));
@@ -265,7 +254,6 @@ public:
         PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurn2HAlt", ""), rp.staminaBurn2HAlt.enabled, rp.staminaBurn2HAlt.value);
 
         static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
-        static constexpr const char* MESH_PATH_KEYS[] = {"headPath", "guardPath", "gripPath", "pommelPath"};
         for (int slot = 0; slot < WeaponPresetData::MODULE_SLOT_COUNT; ++slot) {
             const char* raw = ini.GetValue("MeshOverrides", MESH_KEYS[slot], "");
             if (!raw || !raw[0]) continue;
@@ -278,8 +266,8 @@ public:
             mp.enabled = (val[0] == '1');
 
             size_t p2 = val.find('|', p1 + 1);
-            if (p2 == std::string::npos) { mp.meshName = val.substr(p1 + 1); continue; }
-            mp.meshName = val.substr(p1 + 1, p2 - p1 - 1);
+            if (p2 == std::string::npos) { mp.meshPath = val.substr(p1 + 1); continue; }
+            mp.meshPath = val.substr(p1 + 1, p2 - p1 - 1);
 
             size_t p3 = val.find('|', p2 + 1);
             std::string field3 = (p3 != std::string::npos)
@@ -311,10 +299,6 @@ public:
             mp.rotation = PresetUtils::StringToRot(val.c_str() + pScaleEnd + 1);
 
             mp.offset = PresetUtils::StringToVec(val.c_str() + pRotEnd + 1, {0.0, 0.0, 0.0});
-
-            const char* pathVal = ini.GetValue("MeshOverrides", MESH_PATH_KEYS[slot], "");
-            if (pathVal && pathVal[0])
-                mp.meshPath = pathVal;
         }
 
         result.success = true;

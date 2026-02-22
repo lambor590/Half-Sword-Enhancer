@@ -380,7 +380,7 @@ private:
                 it->Value().ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3 = nullptr;
 
             for (const auto& sd : data.armorSlots) {
-                SDK::UClass* cls = sd.armorClassPath.empty() ? nullptr : Spawner::LoadClass(sd.armorClassPath);
+                SDK::UClass* cls = sd.armorClass.empty() ? nullptr : Spawner::LoadClass(sd.armorClass);
                 if (!cls) continue;
 
                 for (auto it = begin(equipArmorMap); it != end(equipArmorMap); ++it) {
@@ -412,13 +412,13 @@ private:
                 auto load = [](SDK::UClass*& target, const std::string& path) {
                     target = path.empty() ? nullptr : Spawner::LoadClass(path);
                 };
-                load(slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, wd.weaponClassPath);
-                load(slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867, wd.gripModulePath);
-                load(slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F, wd.headModulePath);
-                load(slot.GuardModule_21_774015784EB0300D2671C894D57ED144, wd.guardModulePath);
-                load(slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984, wd.pommelModulePath);
-                load(slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0, wd.subModule1Path);
-                load(slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980, wd.subModule2Path);
+                load(slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, wd.weaponClass);
+                load(slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867, wd.gripModule);
+                load(slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F, wd.headModule);
+                load(slot.GuardModule_21_774015784EB0300D2671C894D57ED144, wd.guardModule);
+                load(slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984, wd.pommelModule);
+                load(slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0, wd.subModule1);
+                load(slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980, wd.subModule2);
                 slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA = wd.headSize;
                 slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D = wd.guardSize;
                 slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 = wd.pommelSize;
@@ -443,9 +443,7 @@ private:
 
             LoadoutPresetData::ArmorSlotData slotData;
             slotData.slot = it->Key();
-            auto np = PresetUtils::ClassToNameAndPath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
-            slotData.armorClass = std::move(np.name);
-            slotData.armorClassPath = std::move(np.path);
+            slotData.armorClass = PresetUtils::ClassToPath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
             slotData.color1 = passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393;
             slotData.color2 = passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C;
             data.armorSlots.push_back(std::move(slotData));

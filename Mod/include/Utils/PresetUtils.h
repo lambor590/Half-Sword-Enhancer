@@ -9,6 +9,7 @@
 
 #include "ConfigManager.h"
 #include "SDK/CoreUObject_classes.hpp"
+#include "SDK/Engine_classes.hpp"
 
 struct PresetListEntry {
     std::string name;
@@ -24,39 +25,20 @@ namespace PresetUtils {
         ShellExecuteW(NULL, L"open", dir.wstring().c_str(), NULL, NULL, SW_SHOWDEFAULT);
     }
 
-    inline std::string ClassToString(SDK::UClass* cls) {
-        return cls ? cls->GetName() : "";
+    inline std::string StripClassPrefix(const std::string& fullName) {
+        size_t sp = fullName.find(' ');
+        if (sp == std::string::npos) return "";
+        return fullName.substr(sp + 1);
     }
 
     inline std::string ClassToPath(SDK::UClass* cls) {
         if (!cls) return "";
-        std::string fullName = cls->GetFullName();
-        size_t sp = fullName.find(' ');
-        if (sp == std::string::npos) return "";
-        fullName.erase(0, sp + 1);
-        return fullName;
+        return StripClassPrefix(cls->GetFullName());
     }
 
-    struct ClassNameAndPath {
-        std::string name;
-        std::string path;
-    };
-
-    inline ClassNameAndPath ClassToNameAndPath(SDK::UClass* cls) {
-        if (!cls) return {};
-        std::string fullName = cls->GetFullName();
-        size_t sp = fullName.find(' ');
-        if (sp == std::string::npos) return {std::move(fullName), {}};
-        size_t lastDot = fullName.rfind('.');
-        size_t nameStart = (lastDot != std::string::npos) ? lastDot + 1 : sp + 1;
-        std::string name(fullName, nameStart);
-        fullName.erase(0, sp + 1);
-        return {std::move(name), std::move(fullName)};
-    }
-
-    inline SDK::UClass* StringToClass(const std::string& name) {
-        if (name.empty()) return nullptr;
-        return SDK::UObject::FindClassFast(name);
+    inline std::string ObjectToAbsolutePath(const SDK::UObject* obj) {
+        if (!obj) return "";
+        return StripClassPrefix(obj->GetFullName());
     }
 
     inline std::string VecToString(const SDK::FVector& v) {

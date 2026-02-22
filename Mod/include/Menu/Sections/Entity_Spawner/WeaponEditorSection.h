@@ -74,6 +74,7 @@ private:
     struct MeshPoolEntry {
         SDK::UObject* mesh;
         std::string name;
+        std::string path;
         const char* category;
         MeshType type;
     };
@@ -102,10 +103,6 @@ private:
     SDK::USkeletalMeshComponent* skeletalPreviewComps[MODULE_SLOT_COUNT] = {};
 
     GlobalModulePool& globalModules = GlobalModulePool::Get();
-
-    void PopulateGlobalModulePool() {
-        globalModules.Populate();
-    }
 
     static const char* ExtractCategory(const std::string& fullName) {
         if (fullName.find("/Weapons/") != std::string::npos) return "Weapon";
@@ -176,15 +173,12 @@ private:
             if (!comps[i]) continue;
             auto* mesh = comps[i]->StaticMesh;
             if (!mesh || !meshSeen.insert(mesh).second) continue;
-            meshPool.push_back({mesh, mesh->GetName(), ExtractCategory(mesh->GetFullName()), MeshType::Static});
+            std::string fullName = mesh->GetFullName();
+            meshPool.push_back({mesh, mesh->GetName(),
+                PresetUtils::StripClassPrefix(fullName),
+                ExtractCategory(fullName), MeshType::Static});
         }
         meshComboWidth = 0.0f;
-    }
-
-    static std::string ExtractAssetPath(const std::string& fullName) {
-        size_t spacePos = fullName.find(' ');
-        if (spacePos == std::string::npos) return "";
-        return fullName.substr(spacePos + 1);
     }
 
     SDK::UObject* LoadAssetByPath(const char* pathStr) {
@@ -217,7 +211,10 @@ private:
         else return nullptr;
 
         if (meshSeen.insert(loaded).second) {
-            meshPool.push_back({loaded, loaded->GetName(), ExtractCategory(loaded->GetFullName()), type});
+            std::string fullName = loaded->GetFullName();
+            meshPool.push_back({loaded, loaded->GetName(),
+                PresetUtils::StripClassPrefix(fullName),
+                ExtractCategory(fullName), type});
             meshComboWidth = 0.0f;
         }
         return loaded;
@@ -255,7 +252,9 @@ private:
                 if (IsSkeletalMeshInvalid(static_cast<SDK::USkeletalMesh*>(obj))) continue;
             }
 
-            meshPool.push_back({obj, std::move(name), ExtractCategory(fullName), type});
+            meshPool.push_back({obj, std::move(name),
+                PresetUtils::StripClassPrefix(fullName),
+                ExtractCategory(fullName), type});
         }
         meshComboWidth = 0.0f;
     }
@@ -267,7 +266,8 @@ private:
     }
 
     void ApplyMeshOverrides(SDK::AModularWeaponBP_C* weapon,
-        const MeshSnapshot& snap, SDK::USkeletalMeshComponent** outSkeletalComps = nullptr)
+        const MeshSnapshot& snap, SDK::USkeletalMeshComponent** outSkeletalComps = nullptr,
+        bool enableSkeletalCollision = false)
     {
         SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
@@ -292,30 +292,43 @@ private:
 
             auto* added = weapon->AddComponentByClass(
                 SDK::USkeletalMeshComponent::StaticClass(),
-                true, SDK::FTransform{}, true);
+                false, SDK::FTransform{}, false);
             if (!added) continue;
 
             auto* skelComp = static_cast<SDK::USkeletalMeshComponent*>(added);
             skelComp->SetSkeletalMeshAsset(static_cast<SDK::USkeletalMesh*>(slot.mesh));
             skelComp->SetAnimationMode(SDK::EAnimationMode::AnimationCustomMode, false);
+            skelComp->SetRenderStatic(true);
             skelComp->SetSimulatePhysics(false);
             skelComp->SetEnableGravity(false);
             skelComp->SetComponentTickEnabled(false);
-            skelComp->SetCollisionProfileName(comps[i]->GetCollisionProfileName(), true);
-            skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::QueryAndPhysics);
 
-            weapon->FinishAddComponent(skelComp, true, SDK::FTransform{});
+            bool weld = true;
+            if (enableSkeletalCollision) {
+                auto* physAsset = static_cast<SDK::USkeletalMesh*>(slot.mesh)->GetPhysicsAsset();
+                if (physAsset) {
+                    comps[i]->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
+                    skelComp->SetPhysicsAsset(physAsset, true);
+                    skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::QueryAndPhysics);
+                    skelComp->SetCollisionProfileName(comps[i]->GetCollisionProfileName(), true);
+                    skelComp->SetSimulatePhysics(false);
+                    skelComp->SetEnableGravity(false);
+                    weld = false;
+                } else {
+                    skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
+                }
+            } else {
+                skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
+            }
 
             skelComp->K2_AttachToComponent(comps[i], SDK::FName(),
                 SDK::EAttachmentRule::SnapToTarget,
                 SDK::EAttachmentRule::SnapToTarget,
-                SDK::EAttachmentRule::SnapToTarget, false);
+                SDK::EAttachmentRule::SnapToTarget, weld);
 
             skelComp->SetRelativeScale3D(slot.scale);
             skelComp->K2_SetRelativeRotation(slot.rotation, false, nullptr, true);
             skelComp->K2_SetRelativeLocation(slot.offset, false, nullptr, true);
-
-            comps[i]->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
 
             if (outSkeletalComps) outSkeletalComps[i] = skelComp;
         }
@@ -377,7 +390,7 @@ private:
             weaponPassport = EquipmentGenerator::GenerateCustomizableWeapon(type, tier);
             if (!EquipmentGenerator::IsPassportValid(weaponPassport))
                 SetStatus("Generation failed for this type/tier", true);
-            PopulateGlobalModulePool();
+            globalModules.Populate();
             weaponGenerationPending = false;
         });
     }
@@ -419,10 +432,6 @@ private:
         if (props.staminaBurnL.enabled)    weapon->L_Hand_Stamina_Burn_Rate = props.staminaBurnL.value;
         if (props.staminaBurn2H.enabled)   weapon->TwoH_Default_Stamina_Burn_Rate = props.staminaBurn2H.value;
         if (props.staminaBurn2HAlt.enabled) weapon->TwoH_Alt_Stamina_Burn_Rate = props.staminaBurn2HAlt.value;
-    }
-
-    bool HasAnyRuntimeOverride() const {
-        return CountActiveOverrides() > 0;
     }
 
     int CountActiveOverrides() const {
@@ -472,7 +481,7 @@ private:
         lastPreviewedProps = runtimeProps;
 
         auto props = runtimeProps;
-        bool hasOverrides = HasAnyRuntimeOverride();
+        bool hasOverrides = CountActiveOverrides() > 0;
         bool hasMesh = HasAnyMeshOverride();
         auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
@@ -528,7 +537,7 @@ private:
             DestroyPreview();
         }
 
-        bool hasOverrides = HasAnyRuntimeOverride();
+        bool hasOverrides = CountActiveOverrides() > 0;
         bool hasMesh = HasAnyMeshOverride();
 
         auto props = runtimeProps;
@@ -538,7 +547,7 @@ private:
             auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
             CollectMeshesFromWeapon(weapon);
             if (hasOverrides) ApplyRuntimeProps(actor, props);
-            if (hasMesh) ApplyMeshOverrides(weapon, meshSnap);
+            if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, nullptr, true);
         };
 
         Spawner::SpawnCustomizableFromPassport(world, weaponPassport, BuildSpawnTransform(), cfg.snapToGround, callback);
@@ -1088,10 +1097,9 @@ private:
 
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             d.meshPresets[i].enabled = meshOverrides[i].enabled;
-            if (meshOverrides[i].enabled && meshOverrides[i].mesh) {
-                d.meshPresets[i].meshName = meshOverrides[i].mesh->GetName();
-                d.meshPresets[i].meshPath = ExtractAssetPath(meshOverrides[i].mesh->GetFullName());
-            }
+            if (meshOverrides[i].enabled && meshOverrides[i].poolIndex >= 0
+                && meshOverrides[i].poolIndex < static_cast<int>(meshPool.size()))
+                d.meshPresets[i].meshPath = meshPool[meshOverrides[i].poolIndex].path;
             d.meshPresets[i].meshType = meshOverrides[i].meshType;
             d.meshPresets[i].scale = meshOverrides[i].scale;
             d.meshPresets[i].rotation = meshOverrides[i].rotation;
@@ -1119,6 +1127,9 @@ private:
             load(weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, paths.subModule2);
         });
 
+        struct PendingMeshLoad { int slot; std::string path; MeshType meshType; };
+        std::vector<PendingMeshLoad> pending;
+
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             meshOverrides[i].enabled = d.meshPresets[i].enabled;
             meshOverrides[i].mesh = nullptr;
@@ -1127,38 +1138,23 @@ private:
             meshOverrides[i].scale = d.meshPresets[i].scale;
             meshOverrides[i].rotation = d.meshPresets[i].rotation;
             meshOverrides[i].offset = d.meshPresets[i].offset;
-            if (d.meshPresets[i].enabled && !d.meshPresets[i].meshName.empty()) {
-                for (int j = 0; j < static_cast<int>(meshPool.size()); ++j) {
-                    if (meshPool[j].name == d.meshPresets[i].meshName) {
-                        meshOverrides[i].poolIndex = j;
-                        meshOverrides[i].mesh = meshPool[j].mesh;
-                        break;
-                    }
-                }
-                if (!meshOverrides[i].mesh) {
-                    SDK::UObject* found = nullptr;
-                    if (d.meshPresets[i].meshType == MeshType::Skeletal)
-                        found = SDK::UObject::FindObjectFast<SDK::USkeletalMesh>(d.meshPresets[i].meshName);
-                    else
-                        found = SDK::UObject::FindObjectFast<SDK::UStaticMesh>(d.meshPresets[i].meshName);
-                    if (found) {
-                        meshSeen.insert(found);
-                        meshPool.push_back({found, std::move(d.meshPresets[i].meshName),
-                            ExtractCategory(found->GetFullName()), d.meshPresets[i].meshType});
-                        meshOverrides[i].poolIndex = static_cast<int>(meshPool.size()) - 1;
-                        meshOverrides[i].mesh = found;
-                        meshComboWidth = 0.0f;
-                    }
+
+            if (!d.meshPresets[i].enabled || d.meshPresets[i].meshPath.empty())
+                continue;
+
+            bool found = false;
+            for (int j = 0; j < static_cast<int>(meshPool.size()); ++j) {
+                if (meshPool[j].path == d.meshPresets[i].meshPath) {
+                    meshOverrides[i].poolIndex = j;
+                    meshOverrides[i].mesh = meshPool[j].mesh;
+                    found = true;
+                    break;
                 }
             }
+            if (!found)
+                pending.push_back({i, std::move(d.meshPresets[i].meshPath), d.meshPresets[i].meshType});
         }
 
-        struct PendingMeshLoad { int slot; std::string path; };
-        std::vector<PendingMeshLoad> pending;
-        for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
-            if (meshOverrides[i].enabled && !meshOverrides[i].mesh && !d.meshPresets[i].meshPath.empty())
-                pending.push_back({i, std::move(d.meshPresets[i].meshPath)});
-        }
         if (!pending.empty()) {
             GameHook::QueueAction([this, pending = std::move(pending)]() {
                 for (const auto& pl : pending) {
@@ -1287,7 +1283,7 @@ public:
 
         if (!globalModules.populated.load(std::memory_order_acquire) && !modulePoolQueued) {
             modulePoolQueued = true;
-            GameHook::QueueAction([this]() { PopulateGlobalModulePool(); });
+            GameHook::QueueAction([this]() { globalModules.Populate(); });
         }
 
         if (GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.livePreview, "Auto-spawn a preview weapon that updates as you edit")) {

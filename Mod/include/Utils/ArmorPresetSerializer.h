@@ -45,12 +45,9 @@ public:
         ini.SetValue("Preset", "name", data.name.c_str());
         ini.SetValue("Preset", "version", "1");
 
-        auto armorCoreNP = PresetUtils::ClassToNameAndPath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
-        if (!minimalMode || !armorCoreNP.name.empty()) {
-            ini.SetValue("Passport", "armorCore", armorCoreNP.name.c_str());
-            if (!armorCoreNP.path.empty())
-                ini.SetValue("Passport", "armorCorePath", armorCoreNP.path.c_str());
-        }
+        auto armorCorePath = PresetUtils::ClassToPath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+        if (!minimalMode || !armorCorePath.empty())
+            ini.SetValue("Passport", "armorCore", armorCorePath.c_str());
 
         if (!minimalMode || passport.ID_54_C6BBB1A64A3828B5AB1D8E804EC7C8F7 != 0)
             ini.SetValue("Passport", "id", std::to_string(passport.ID_54_C6BBB1A64A3828B5AB1D8E804EC7C8F7).c_str());
@@ -138,7 +135,7 @@ public:
         auto& p = result.passport;
         p = {};
 
-        result.armorCorePath = ini.GetValue("Passport", "armorCorePath", "");
+        result.armorCorePath = ini.GetValue("Passport", "armorCore", "");
         p.ID_54_C6BBB1A64A3828B5AB1D8E804EC7C8F7 = std::atoi(ini.GetValue("Passport", "id", "0"));
         p.CoreRemoved_12_5CFF8F6D4A05C15812594CAF6771C66B = std::atoi(ini.GetValue("Passport", "coreRemoved", "0")) != 0;
 

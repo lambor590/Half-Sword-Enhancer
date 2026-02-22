@@ -14,7 +14,6 @@ struct LoadoutPresetData {
     struct ArmorSlotData {
         SDK::EArmorSlots_Enum slot{};
         std::string armorClass;
-        std::string armorClassPath;
         SDK::FLinearColor color1{0.5f, 0.5f, 0.5f, 1.0f};
         SDK::FLinearColor color2{0.5f, 0.5f, 0.5f, 1.0f};
         SDK::FLinearColor color3{0.5f, 0.5f, 0.5f, 1.0f};
@@ -22,19 +21,12 @@ struct LoadoutPresetData {
 
     struct WeaponSlotData {
         std::string weaponClass;
-        std::string weaponClassPath;
         std::string gripModule;
-        std::string gripModulePath;
         std::string headModule;
-        std::string headModulePath;
         std::string guardModule;
-        std::string guardModulePath;
         std::string pommelModule;
-        std::string pommelModulePath;
         std::string subModule1;
-        std::string subModule1Path;
         std::string subModule2;
-        std::string subModule2Path;
         SDK::FVector headSize{1.0, 1.0, 1.0};
         SDK::FVector guardSize{1.0, 1.0, 1.0};
         SDK::FVector pommelSize{1.0, 1.0, 1.0};
@@ -91,18 +83,13 @@ private:
 
 public:
     static void ReadWeaponSlot(const SDK::FStr_WeaponParts& wp, LoadoutPresetData::WeaponSlotData& out) {
-        auto extract = [](SDK::UClass* cls, std::string& name, std::string& path) {
-            auto np = PresetUtils::ClassToNameAndPath(cls);
-            name = std::move(np.name);
-            path = std::move(np.path);
-        };
-        extract(wp.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, out.weaponClass, out.weaponClassPath);
-        extract(wp.GripModule_38_15B14C3F4E9701389A9B35A3B0909867, out.gripModule, out.gripModulePath);
-        extract(wp.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F, out.headModule, out.headModulePath);
-        extract(wp.GuardModule_21_774015784EB0300D2671C894D57ED144, out.guardModule, out.guardModulePath);
-        extract(wp.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984, out.pommelModule, out.pommelModulePath);
-        extract(wp.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0, out.subModule1, out.subModule1Path);
-        extract(wp.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980, out.subModule2, out.subModule2Path);
+        out.weaponClass = PresetUtils::ClassToPath(wp.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066);
+        out.gripModule = PresetUtils::ClassToPath(wp.GripModule_38_15B14C3F4E9701389A9B35A3B0909867);
+        out.headModule = PresetUtils::ClassToPath(wp.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F);
+        out.guardModule = PresetUtils::ClassToPath(wp.GuardModule_21_774015784EB0300D2671C894D57ED144);
+        out.pommelModule = PresetUtils::ClassToPath(wp.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984);
+        out.subModule1 = PresetUtils::ClassToPath(wp.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0);
+        out.subModule2 = PresetUtils::ClassToPath(wp.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980);
         out.headSize = wp.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA;
         out.guardSize = wp.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D;
         out.pommelSize = wp.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524;
@@ -121,9 +108,7 @@ public:
 
             LoadoutPresetData::ArmorSlotData slotData;
             slotData.slot = it->Key();
-            auto np = PresetUtils::ClassToNameAndPath(elem.ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3);
-            slotData.armorClass = std::move(np.name);
-            slotData.armorClassPath = std::move(np.path);
+            slotData.armorClass = PresetUtils::ClassToPath(elem.ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3);
             slotData.color1 = elem.Color1_5_5527FC7C442DCF594A4DA5BA8D94351F;
             slotData.color2 = elem.Color2_7_1FF790D94C8CD95FF2D76183E7102E1B;
             slotData.color3 = elem.Color3_9_D8B5A08742A87F5492F8138A4F686141;
@@ -148,8 +133,6 @@ public:
             char section[64];
             std::snprintf(section, sizeof(section), "Armor.%s", ArmorSlotToKey(slot.slot));
             ini.SetValue(section, "class", slot.armorClass.c_str());
-            if (!slot.armorClassPath.empty())
-                ini.SetValue(section, "classPath", slot.armorClassPath.c_str());
             ini.SetValue(section, "color1", PresetUtils::ColorToString(slot.color1).c_str());
             ini.SetValue(section, "color2", PresetUtils::ColorToString(slot.color2).c_str());
             ini.SetValue(section, "color3", PresetUtils::ColorToString(slot.color3).c_str());
@@ -162,19 +145,12 @@ public:
             char section[64];
             std::snprintf(section, sizeof(section), "Weapon.%s", WEAPON_SLOT_KEYS[i]);
             ini.SetValue(section, "class", wp.weaponClass.c_str());
-            if (!wp.weaponClassPath.empty()) ini.SetValue(section, "classPath", wp.weaponClassPath.c_str());
-            if (!wp.gripModule.empty())      ini.SetValue(section, "gripModule", wp.gripModule.c_str());
-            if (!wp.gripModulePath.empty())  ini.SetValue(section, "gripModulePath", wp.gripModulePath.c_str());
-            if (!wp.headModule.empty())      ini.SetValue(section, "headModule", wp.headModule.c_str());
-            if (!wp.headModulePath.empty())  ini.SetValue(section, "headModulePath", wp.headModulePath.c_str());
-            if (!wp.guardModule.empty())     ini.SetValue(section, "guardModule", wp.guardModule.c_str());
-            if (!wp.guardModulePath.empty()) ini.SetValue(section, "guardModulePath", wp.guardModulePath.c_str());
-            if (!wp.pommelModule.empty())    ini.SetValue(section, "pommelModule", wp.pommelModule.c_str());
-            if (!wp.pommelModulePath.empty())ini.SetValue(section, "pommelModulePath", wp.pommelModulePath.c_str());
-            if (!wp.subModule1.empty())      ini.SetValue(section, "subModule1", wp.subModule1.c_str());
-            if (!wp.subModule1Path.empty())  ini.SetValue(section, "subModule1Path", wp.subModule1Path.c_str());
-            if (!wp.subModule2.empty())      ini.SetValue(section, "subModule2", wp.subModule2.c_str());
-            if (!wp.subModule2Path.empty())  ini.SetValue(section, "subModule2Path", wp.subModule2Path.c_str());
+            if (!wp.gripModule.empty())   ini.SetValue(section, "gripModule", wp.gripModule.c_str());
+            if (!wp.headModule.empty())   ini.SetValue(section, "headModule", wp.headModule.c_str());
+            if (!wp.guardModule.empty())  ini.SetValue(section, "guardModule", wp.guardModule.c_str());
+            if (!wp.pommelModule.empty()) ini.SetValue(section, "pommelModule", wp.pommelModule.c_str());
+            if (!wp.subModule1.empty())   ini.SetValue(section, "subModule1", wp.subModule1.c_str());
+            if (!wp.subModule2.empty())   ini.SetValue(section, "subModule2", wp.subModule2.c_str());
             ini.SetValue(section, "headSize", PresetUtils::VecToString(wp.headSize).c_str());
             ini.SetValue(section, "guardSize", PresetUtils::VecToString(wp.guardSize).c_str());
             ini.SetValue(section, "pommelSize", PresetUtils::VecToString(wp.pommelSize).c_str());
@@ -201,12 +177,11 @@ public:
             char section[64];
             std::snprintf(section, sizeof(section), "Armor.%s", ARMOR_SLOT_NAMES[slotIdx]);
             const char* cls = ini.GetValue(section, "class", nullptr);
-            if (!cls) continue;
+            if (!cls || !cls[0]) continue;
 
             LoadoutPresetData::ArmorSlotData slotData;
             slotData.slot = static_cast<SDK::EArmorSlots_Enum>(slotIdx);
             slotData.armorClass = cls;
-            slotData.armorClassPath = ini.GetValue(section, "classPath", "");
             slotData.color1 = PresetUtils::StringToColor(ini.GetValue(section, "color1", ""), {0.5f, 0.5f, 0.5f, 1.0f});
             slotData.color2 = PresetUtils::StringToColor(ini.GetValue(section, "color2", ""), {0.5f, 0.5f, 0.5f, 1.0f});
             slotData.color3 = PresetUtils::StringToColor(ini.GetValue(section, "color3", ""), {0.5f, 0.5f, 0.5f, 1.0f});
@@ -217,23 +192,16 @@ public:
             char section[64];
             std::snprintf(section, sizeof(section), "Weapon.%s", WEAPON_SLOT_KEYS[i]);
             const char* cls = ini.GetValue(section, "class", nullptr);
-            if (!cls) continue;
+            if (!cls || !cls[0]) continue;
 
             auto& wp = data.weaponSlots[i];
             wp.weaponClass = cls;
-            wp.weaponClassPath = ini.GetValue(section, "classPath", "");
             wp.gripModule = ini.GetValue(section, "gripModule", "");
-            wp.gripModulePath = ini.GetValue(section, "gripModulePath", "");
             wp.headModule = ini.GetValue(section, "headModule", "");
-            wp.headModulePath = ini.GetValue(section, "headModulePath", "");
             wp.guardModule = ini.GetValue(section, "guardModule", "");
-            wp.guardModulePath = ini.GetValue(section, "guardModulePath", "");
             wp.pommelModule = ini.GetValue(section, "pommelModule", "");
-            wp.pommelModulePath = ini.GetValue(section, "pommelModulePath", "");
             wp.subModule1 = ini.GetValue(section, "subModule1", "");
-            wp.subModule1Path = ini.GetValue(section, "subModule1Path", "");
             wp.subModule2 = ini.GetValue(section, "subModule2", "");
-            wp.subModule2Path = ini.GetValue(section, "subModule2Path", "");
             wp.headSize = PresetUtils::StringToVec(ini.GetValue(section, "headSize", ""));
             wp.guardSize = PresetUtils::StringToVec(ini.GetValue(section, "guardSize", ""));
             wp.pommelSize = PresetUtils::StringToVec(ini.GetValue(section, "pommelSize", ""));
