@@ -9,7 +9,6 @@
 
 #include "ConfigManager.h"
 #include "SDK/CoreUObject_classes.hpp"
-#include "SDK/Engine_classes.hpp"
 
 struct PresetListEntry {
     std::string name;
@@ -25,20 +24,20 @@ namespace PresetUtils {
         ShellExecuteW(NULL, L"open", dir.wstring().c_str(), NULL, NULL, SW_SHOWDEFAULT);
     }
 
-    inline std::string StripClassPrefix(const std::string& fullName) {
-        size_t sp = fullName.find(' ');
-        if (sp == std::string::npos) return "";
-        return fullName.substr(sp + 1);
+    inline std::string ObjectToAbsolutePath(const SDK::UObject* obj) {
+        if (!obj) return "";
+        std::string result = obj->GetName();
+        for (auto* outer = obj->Outer; outer; outer = outer->Outer) {
+            if (!outer->Outer)
+                result = outer->Name.GetRawString() + "." + result;
+            else
+                result = outer->GetName() + "." + result;
+        }
+        return result;
     }
 
     inline std::string ClassToPath(SDK::UClass* cls) {
-        if (!cls) return "";
-        return StripClassPrefix(cls->GetFullName());
-    }
-
-    inline std::string ObjectToAbsolutePath(const SDK::UObject* obj) {
-        if (!obj) return "";
-        return StripClassPrefix(obj->GetFullName());
+        return ObjectToAbsolutePath(cls);
     }
 
     inline std::string VecToString(const SDK::FVector& v) {

@@ -175,7 +175,7 @@ private:
             if (!mesh || !meshSeen.insert(mesh).second) continue;
             std::string fullName = mesh->GetFullName();
             meshPool.push_back({mesh, mesh->GetName(),
-                PresetUtils::StripClassPrefix(fullName),
+                PresetUtils::ObjectToAbsolutePath(mesh),
                 ExtractCategory(fullName), MeshType::Static});
         }
         meshComboWidth = 0.0f;
@@ -213,7 +213,7 @@ private:
         if (meshSeen.insert(loaded).second) {
             std::string fullName = loaded->GetFullName();
             meshPool.push_back({loaded, loaded->GetName(),
-                PresetUtils::StripClassPrefix(fullName),
+                PresetUtils::ObjectToAbsolutePath(loaded),
                 ExtractCategory(fullName), type});
             meshComboWidth = 0.0f;
         }
@@ -253,7 +253,7 @@ private:
             }
 
             meshPool.push_back({obj, std::move(name),
-                PresetUtils::StripClassPrefix(fullName),
+                PresetUtils::ObjectToAbsolutePath(obj),
                 ExtractCategory(fullName), type});
         }
         meshComboWidth = 0.0f;
@@ -290,41 +290,37 @@ private:
 
             comps[i]->SetVisibility(false, true);
 
+            auto* skMesh = static_cast<SDK::USkeletalMesh*>(slot.mesh);
+
             auto* added = weapon->AddComponentByClass(
                 SDK::USkeletalMeshComponent::StaticClass(),
                 false, SDK::FTransform{}, false);
             if (!added) continue;
 
             auto* skelComp = static_cast<SDK::USkeletalMeshComponent*>(added);
-            skelComp->SetSkeletalMeshAsset(static_cast<SDK::USkeletalMesh*>(slot.mesh));
+            skelComp->SetSkeletalMeshAsset(skMesh);
             skelComp->SetAnimationMode(SDK::EAnimationMode::AnimationCustomMode, false);
             skelComp->SetRenderStatic(true);
             skelComp->SetSimulatePhysics(false);
             skelComp->SetEnableGravity(false);
             skelComp->SetComponentTickEnabled(false);
+            skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
 
-            bool weld = true;
             if (enableSkeletalCollision) {
-                auto* physAsset = static_cast<SDK::USkeletalMesh*>(slot.mesh)->GetPhysicsAsset();
-                if (physAsset) {
-                    comps[i]->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
-                    skelComp->SetPhysicsAsset(physAsset, true);
-                    skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::QueryAndPhysics);
-                    skelComp->SetCollisionProfileName(comps[i]->GetCollisionProfileName(), true);
-                    skelComp->SetSimulatePhysics(false);
-                    skelComp->SetEnableGravity(false);
-                    weld = false;
-                } else {
-                    skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
-                }
-            } else {
-                skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
+                comps[i]->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
+                auto* raw = reinterpret_cast<uint8*>(skelComp);
+                raw[0x025A] |= (1 << 2);
+                raw[0x0A50] |= (1 << 6);
+                skelComp->SetCollisionProfileName(comps[i]->GetCollisionProfileName(), true);
+                skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::QueryAndPhysics);
+                skelComp->SetSimulatePhysics(false);
+                skelComp->SetEnableGravity(false);
             }
 
             skelComp->K2_AttachToComponent(comps[i], SDK::FName(),
                 SDK::EAttachmentRule::SnapToTarget,
                 SDK::EAttachmentRule::SnapToTarget,
-                SDK::EAttachmentRule::SnapToTarget, weld);
+                SDK::EAttachmentRule::SnapToTarget, true);
 
             skelComp->SetRelativeScale3D(slot.scale);
             skelComp->K2_SetRelativeRotation(slot.rotation, false, nullptr, true);
