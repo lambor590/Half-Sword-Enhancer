@@ -8,6 +8,8 @@
 #include "../../ext/SimpleIni.h"
 #include "Util.h"
 
+namespace hse { class Version; }
+
 namespace hse {
 
     enum class ConfigError : std::uint8_t {
@@ -28,15 +30,21 @@ namespace hse {
         [[nodiscard]] std::expected<void, ConfigError> SetCheckForUpdates(bool enabled) noexcept;
 
         [[nodiscard]] bool HasCheckForUpdatesSetting() const noexcept;
-        [[nodiscard]] bool IsModDownloaded() const noexcept;
-        [[nodiscard]] static std::filesystem::path GetModFilePath() noexcept;
         [[nodiscard]] bool IsFirstRun() const noexcept { return isFirstRun_; }
 
         [[nodiscard]] GameMode GetGameMode() const noexcept;
         [[nodiscard]] std::expected<void, ConfigError> SetGameMode(GameMode mode) noexcept;
         [[nodiscard]] bool HasGameModeSetting() const noexcept;
+
         [[nodiscard]] static std::filesystem::path GetCacheDir() noexcept;
-        [[nodiscard]] static std::filesystem::path GetCachedModPath(GameMode mode) noexcept;
+        [[nodiscard]] static std::filesystem::path GetCustomDllPath() noexcept;
+        [[nodiscard]] static std::filesystem::path GetOfficialDllPath(GameMode mode, const Version& version) noexcept;
+        [[nodiscard]] static std::filesystem::path GetExperimentalDllPath(std::string_view sanitizedTimestamp) noexcept;
+        [[nodiscard]] static std::filesystem::path GetLegacyModFilePath() noexcept;
+
+        [[nodiscard]] std::filesystem::path ResolveModPath(GameMode mode) const noexcept;
+        [[nodiscard]] DllSource GetDllSource() const noexcept;
+        [[nodiscard]] std::expected<void, ConfigError> SetDllSource(DllSource source) noexcept;
 
         [[nodiscard]] std::expected<bool, ConfigError> GetBool(
             std::string_view section,

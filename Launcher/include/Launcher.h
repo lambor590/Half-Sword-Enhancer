@@ -19,6 +19,7 @@ class HSELauncher {
     hse::ProcessManager& processManager;
     hse::LauncherConfig& config;
     hse::GameMode currentGameMode_ = hse::GameMode::FullGame;
+    bool cliDllOverride_ = false;
 
 #ifdef EXPERIMENTAL_VERSION
     std::optional<hse::ExperimentalUpdateInfo> cachedExperimentalInfo_;
@@ -30,7 +31,9 @@ class HSELauncher {
     void ShowFirstRunInstructions();
     bool AskForUpdatePreference();
     void SelectGameMode(int argc, char* argv[]);
-    bool CopyToActive(const std::filesystem::path& cachePath);
+    void ParseDllArguments(int argc, char* argv[]);
+    void MigrateLegacyDll();
+    void ShowDllSelectionMenu();
     bool EnsureModExists();
     bool PerformUpdatesIfNeeded();
     bool InjectMod();

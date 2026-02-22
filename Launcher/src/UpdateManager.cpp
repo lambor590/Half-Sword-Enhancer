@@ -1,7 +1,7 @@
-#include <sstream>
 #include <vector>
 #include <array>
 #include <charconv>
+#include <cstdio>
 #include <fstream>
 #include <Windows.h>
 
@@ -16,30 +16,31 @@ namespace hse {
     Version::Version(std::string_view versionString) noexcept {
         if (versionString.empty() || versionString == "0.0.0") return;
 
-        std::string cleanVersion{ versionString };
-        if (!cleanVersion.empty() && cleanVersion[0] == 'v') {
-            cleanVersion = cleanVersion.substr(1);
+        if (versionString.front() == 'v') {
+            versionString.remove_prefix(1);
         }
 
-        std::array<std::uint16_t*, 3> components{ &major_, &minor_, &patch_ };
-        size_t start = 0;
+        std::uint16_t* components[] = { &major_, &minor_, &patch_ };
 
-        for (size_t i = 0; i < 3; ++i) {
-            const auto dotPos = cleanVersion.find('.', start);
-            const auto end = (dotPos != std::string::npos) ? dotPos : cleanVersion.length();
-
-            if (start < end) {
-                const auto segment = cleanVersion.substr(start, end - start);
-                std::from_chars(segment.data(), segment.data() + segment.size(), *components[i]);
-            }
-
-            if (dotPos == std::string::npos) break;
-            start = dotPos + 1;
+        for (size_t i = 0; i < 3 && !versionString.empty(); ++i) {
+            const auto dotPos = versionString.find('.');
+            const auto segEnd = (dotPos != std::string_view::npos) ? dotPos : versionString.size();
+            std::from_chars(versionString.data(), versionString.data() + segEnd, *components[i]);
+            if (dotPos == std::string_view::npos) break;
+            versionString.remove_prefix(dotPos + 1);
         }
     }
 
     std::string Version::ToString() const {
-        return std::to_string(major_) + "." + std::to_string(minor_) + "." + std::to_string(patch_);
+        char buf[18];
+        const auto len = std::snprintf(buf, sizeof(buf), "%u.%u.%u", major_, minor_, patch_);
+        return std::string(buf, static_cast<size_t>(len));
+    }
+
+    std::string Version::ToCompactString() const {
+        char buf[16];
+        const auto len = std::snprintf(buf, sizeof(buf), "%u%u%u", major_, minor_, patch_);
+        return std::string(buf, static_cast<size_t>(len));
     }
 
     std::expected<Version, UpdateError> UpdateManager::GetLocalVersion() noexcept {
@@ -80,10 +81,18 @@ namespace hse {
 
         if (info.available) {
             const auto versionStr = info.remoteVersion.ToString();
-            info.downloadUrlLauncher = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HSEnhancerLauncher.exe";
-            info.downloadUrlMod = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HSEnhancer.dll";
+            constexpr std::string_view baseUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v";
+
+            info.downloadUrlLauncher.reserve(baseUrl.size() + versionStr.size() + 24);
+            info.downloadUrlLauncher.append(baseUrl);
+            info.downloadUrlLauncher.append(versionStr);
+            info.downloadUrlLauncher.append("/HSEnhancerLauncher.exe");
+
+            info.downloadUrlMod.reserve(baseUrl.size() + versionStr.size() + 16);
+            info.downloadUrlMod.append(baseUrl);
+            info.downloadUrlMod.append(versionStr);
+            info.downloadUrlMod.append("/HSEnhancer.dll");
+
             hse::Logger::info("Update available: " + versionStr);
         }
 
@@ -128,15 +137,18 @@ namespace hse {
     std::expected<void, UpdateError> UpdateManager::UpdateMod(const Version& version) noexcept {
         try {
             const auto versionStr = version.ToString();
-            const auto downloadUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v" +
-                versionStr + "/HSEnhancer.dll";
+            std::string downloadUrl;
+            downloadUrl.reserve(80 + versionStr.size());
+            downloadUrl.append("https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v");
+            downloadUrl.append(versionStr);
+            downloadUrl.append("/HSEnhancer.dll");
 
-            const auto cachePath = LauncherConfig::GetCachedModPath(GameMode::FullGame);
+            const auto cachePath = LauncherConfig::GetOfficialDllPath(GameMode::FullGame, version);
             auto result = DownloadModToPath(downloadUrl, cachePath);
             if (!result) return result;
 
-            const auto activePath = LauncherConfig::GetModFilePath();
-            std::filesystem::copy_file(cachePath, activePath, std::filesystem::copy_options::overwrite_existing);
+            (void)LauncherConfig::Instance().SetString("DLL", "official_version", versionStr);
+            CleanupOldVersions(GameMode::FullGame, version);
 
             hse::Logger::info("Mod updated successfully");
             return {};
@@ -144,6 +156,32 @@ namespace hse {
         catch (...) {
             return std::unexpected(UpdateError::UpdateFailed);
         }
+    }
+
+    void UpdateManager::CleanupCachedDlls(std::string_view prefix, std::string_view keepFilename) noexcept {
+        try {
+            for (const auto& entry : std::filesystem::directory_iterator(LauncherConfig::GetCacheDir())) {
+                if (!entry.is_regular_file()) continue;
+                const auto& path = entry.path();
+                const auto filename = path.filename().string();
+                if (filename != keepFilename && filename.starts_with(prefix) && filename.ends_with(".dll")) {
+                    std::filesystem::remove(path);
+                    Logger::info("Cleaned up old version: " + filename);
+                }
+            }
+        }
+        catch (...) {}
+    }
+
+    void UpdateManager::CleanupOldVersions(GameMode mode, const Version& keepVersion) noexcept {
+        const std::string_view prefix = (mode == GameMode::Demo) ? "HSEnhancer_demo_v" : "HSEnhancer_v";
+        const auto compact = keepVersion.ToCompactString();
+        std::string keepFilename;
+        keepFilename.reserve(prefix.size() + compact.size() + 4);
+        keepFilename.append(prefix);
+        keepFilename.append(compact);
+        keepFilename.append(".dll");
+        CleanupCachedDlls(prefix, keepFilename);
     }
 
     std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
@@ -185,19 +223,32 @@ namespace hse {
                 return std::unexpected(UpdateError::FileSystemError);
             }
 
-            batchFile << "@echo off\n";
-            batchFile << "echo Updating Half Sword Enhancer Launcher...\n";
-            batchFile << "timeout /t 2 /nobreak >nul\n";
-            batchFile << "move \"" << tempPath.string() << "\" \"" << currentExePath << "\"\n";
-            batchFile << "if exist \"" << currentExePath << "\" (\n";
-            batchFile << "    echo Update completed successfully!\n";
-            batchFile << "    echo Starting updated launcher...\n";
-            batchFile << "    start \"\" \"" << currentExePath << "\"\n";
-            batchFile << ") else (\n";
-            batchFile << "    echo Update failed! Please download manually.\n";
-            batchFile << "    pause\n";
-            batchFile << ")\n";
-            batchFile << "del \"" << batchPath.string() << "\"\n";
+            const auto tempStr = tempPath.string();
+            const auto batchStr = batchPath.string();
+
+            std::string script;
+            script.reserve(512);
+            script.append("@echo off\n"
+                "echo Updating Half Sword Enhancer Launcher...\n"
+                "timeout /t 2 /nobreak >nul\n"
+                "move \"");
+            script.append(tempStr);
+            script.append("\" \"");
+            script.append(currentExePath);
+            script.append("\"\nif exist \"");
+            script.append(currentExePath);
+            script.append("\" (\n"
+                "    echo Update completed successfully!\n"
+                "    echo Starting updated launcher...\n"
+                "    start \"\" \"");
+            script.append(currentExePath);
+            script.append("\"\n) else (\n"
+                "    echo Update failed! Please download manually.\n"
+                "    pause\n)\ndel \"");
+            script.append(batchStr);
+            script.append("\"\n");
+
+            batchFile.write(script.data(), static_cast<std::streamsize>(script.size()));
             batchFile.close();
 
             Logger::info("Launching update script and exiting...");
@@ -255,11 +306,11 @@ namespace hse {
                 return std::unexpected(UpdateError::VersionParsingFailed);
             }
 
-            const auto major = static_cast<std::uint16_t>(HIWORD(fileInfo->dwFileVersionMS));
-            const auto minor = static_cast<std::uint16_t>(LOWORD(fileInfo->dwFileVersionMS));
-            const auto patch = static_cast<std::uint16_t>(HIWORD(fileInfo->dwFileVersionLS));
-
-            return Version(std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch));
+            return Version(
+                static_cast<std::uint16_t>(HIWORD(fileInfo->dwFileVersionMS)),
+                static_cast<std::uint16_t>(LOWORD(fileInfo->dwFileVersionMS)),
+                static_cast<std::uint16_t>(HIWORD(fileInfo->dwFileVersionLS))
+            );
         }
         catch (...) {
             return std::unexpected(UpdateError::VersionParsingFailed);
@@ -305,7 +356,12 @@ namespace hse {
         std::string_view assetName
     ) const noexcept {
         try {
-            const std::string searchPattern = "\"name\":\"" + std::string(assetName) + "\"";
+            constexpr std::string_view patternPrefix = "\"name\":\"";
+            std::string searchPattern;
+            searchPattern.reserve(patternPrefix.size() + assetName.size() + 1);
+            searchPattern.append(patternPrefix);
+            searchPattern.append(assetName);
+            searchPattern.push_back('"');
             const auto assetPos = json.find(searchPattern);
             if (assetPos == std::string_view::npos) {
                 Logger::warn("Asset not found: " + std::string(assetName));
@@ -337,7 +393,11 @@ namespace hse {
         std::string_view fieldName
     ) const noexcept {
         try {
-            const std::string fieldPrefix = "\"" + std::string(fieldName) + "\":\"";
+            std::string fieldPrefix;
+            fieldPrefix.reserve(fieldName.size() + 4);
+            fieldPrefix.push_back('"');
+            fieldPrefix.append(fieldName);
+            fieldPrefix.append("\":\"");
             const auto fieldPos = assetObject.find(fieldPrefix);
             if (fieldPos == std::string_view::npos) {
                 return std::unexpected(UpdateError::InvalidResponse);
@@ -422,16 +482,10 @@ namespace hse {
         std::string_view timestamp
     ) noexcept {
         try {
-            const auto modPath = LauncherConfig::GetModFilePath();
+            const auto sanitized = SanitizeTimestamp(timestamp);
+            const auto cachePath = LauncherConfig::GetExperimentalDllPath(sanitized);
 
-            DownloadConfig config{
-                .url = std::string(downloadUrl),
-                .outputPath = modPath.string(),
-                .description = "Downloading experimental mod update",
-                .minFileSize = 30000
-            };
-
-            auto result = NetworkManager::Instance().DownloadFile(config);
+            auto result = DownloadModToPath(downloadUrl, cachePath, 30000);
             if (!result) {
                 return std::unexpected(UpdateError::NetworkError);
             }
@@ -441,12 +495,24 @@ namespace hse {
                 Logger::warn("Failed to save mod timestamp, update detection may not work correctly");
             }
 
+            CleanupOldExperimentalVersions(sanitized);
+
             Logger::info("Experimental mod updated successfully");
             return {};
         }
         catch (...) {
             return std::unexpected(UpdateError::UpdateFailed);
         }
+    }
+
+    void UpdateManager::CleanupOldExperimentalVersions(std::string_view keepTimestamp) noexcept {
+        constexpr std::string_view prefix = "HSEnhancer_exp_";
+        std::string keepFilename;
+        keepFilename.reserve(prefix.size() + keepTimestamp.size() + 4);
+        keepFilename.append(prefix);
+        keepFilename.append(keepTimestamp);
+        keepFilename.append(".dll");
+        CleanupCachedDlls(prefix, keepFilename);
     }
 #endif
 

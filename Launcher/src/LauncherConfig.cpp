@@ -1,4 +1,5 @@
 #include "../include/LauncherConfig.h"
+#include "../include/UpdateManager.h"
 
 namespace hse {
 
@@ -30,14 +31,6 @@ namespace hse {
         return ini_.KeyExists("Launcher", "check_for_updates");
     }
 
-    bool LauncherConfig::IsModDownloaded() const noexcept {
-        return std::filesystem::exists(GetModFilePath());
-    }
-
-    std::filesystem::path LauncherConfig::GetModFilePath() noexcept {
-        return std::filesystem::path(hse::getAppDataPath()) / hse::DLL_FILENAME;
-    }
-
     GameMode LauncherConfig::GetGameMode() const noexcept {
         std::lock_guard lock(mutex_);
         const char* val = ini_.GetValue("Launcher", "game_mode", "full");
@@ -63,9 +56,74 @@ namespace hse {
         return dir;
     }
 
-    std::filesystem::path LauncherConfig::GetCachedModPath(GameMode mode) noexcept {
-        const char* filename = (mode == GameMode::Demo) ? "HSEnhancer_demo.dll" : "HSEnhancer_full.dll";
+    std::filesystem::path LauncherConfig::GetCustomDllPath() noexcept {
+        return GetCacheDir() / hse::CUSTOM_DLL_FILENAME;
+    }
+
+    std::filesystem::path LauncherConfig::GetOfficialDllPath(GameMode mode, const Version& version) noexcept {
+        const auto compact = version.ToCompactString();
+        const std::string_view prefix = (mode == GameMode::Demo) ? "HSEnhancer_demo_v" : "HSEnhancer_v";
+        std::string filename;
+        filename.reserve(prefix.size() + compact.size() + 4);
+        filename.append(prefix);
+        filename.append(compact);
+        filename.append(".dll");
         return GetCacheDir() / filename;
+    }
+
+    std::filesystem::path LauncherConfig::GetExperimentalDllPath(std::string_view sanitizedTimestamp) noexcept {
+        constexpr std::string_view prefix = "HSEnhancer_exp_";
+        std::string filename;
+        filename.reserve(prefix.size() + sanitizedTimestamp.size() + 4);
+        filename.append(prefix);
+        filename.append(sanitizedTimestamp);
+        filename.append(".dll");
+        return GetCacheDir() / filename;
+    }
+
+    std::filesystem::path LauncherConfig::GetLegacyModFilePath() noexcept {
+        return std::filesystem::path(hse::getAppDataPath()) / hse::LEGACY_DLL_FILENAME;
+    }
+
+    std::filesystem::path LauncherConfig::ResolveModPath([[maybe_unused]] GameMode mode) const noexcept {
+        try {
+            if (GetDllSource() == DllSource::Custom) {
+                auto customPath = GetCustomDllPath();
+                if (std::filesystem::exists(customPath))
+                    return customPath;
+            }
+
+#ifdef EXPERIMENTAL_VERSION
+            auto timestamp = GetString("ExperimentalUpdate", "mod_timestamp", "").value_or("");
+            if (!timestamp.empty()) {
+                auto expPath = GetExperimentalDllPath(hse::SanitizeTimestamp(timestamp));
+                if (std::filesystem::exists(expPath))
+                    return expPath;
+            }
+#else
+            auto versionKey = (mode == GameMode::Demo) ? "official_demo_version" : "official_version";
+            auto versionStr = GetString("DLL", versionKey, "").value_or("");
+            if (!versionStr.empty()) {
+                Version version(versionStr);
+                if (version.IsValid()) {
+                    auto officialPath = GetOfficialDllPath(mode, version);
+                    if (std::filesystem::exists(officialPath))
+                        return officialPath;
+                }
+            }
+#endif
+        }
+        catch (...) {}
+        return {};
+    }
+
+    DllSource LauncherConfig::GetDllSource() const noexcept {
+        auto result = GetBool("DLL", "use_custom", false);
+        return result.value_or(false) ? DllSource::Custom : DllSource::Official;
+    }
+
+    std::expected<void, ConfigError> LauncherConfig::SetDllSource(DllSource source) noexcept {
+        return SetBool("DLL", "use_custom", source == DllSource::Custom);
     }
 
     std::expected<void, ConfigError> LauncherConfig::SaveConfig() noexcept {

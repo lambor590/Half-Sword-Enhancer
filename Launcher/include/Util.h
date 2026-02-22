@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <ShlObj.h>
+#include <algorithm>
 #include <filesystem>
 #include <string>
 #include <cstdint>
@@ -22,9 +23,18 @@ namespace hse {
             : "steam://rungameid/2397300";
     }
 
+    enum class DllSource : std::uint8_t { Official, Custom };
+
     constexpr const char* APP_FOLDER_NAME = "Half Sword Enhancer";
-    constexpr const char* DLL_FILENAME = "HSEnhancer.dll";
     constexpr const char* CACHE_FOLDER_NAME = "cache";
+    constexpr const char* CUSTOM_DLL_FILENAME = "HSEnhancer_custom.dll";
+    constexpr const char* LEGACY_DLL_FILENAME = "HSEnhancer.dll";
+
+    [[nodiscard]] inline std::string SanitizeTimestamp(std::string_view timestamp) {
+        std::string result(timestamp);
+        std::ranges::replace(result, ':', '-');
+        return result;
+    }
 
     [[noreturn]] inline void fail(const std::string& msg) noexcept {
         MessageBoxA(nullptr, msg.c_str(), "Error", MB_ICONERROR);

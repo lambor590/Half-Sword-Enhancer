@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <thread>
 #include <chrono>
+#include <conio.h>
 
 #include "../include/Launcher.h"
 
@@ -66,9 +67,9 @@ void HSELauncher::DisplayBanner() {
 }
 
 bool HSELauncher::HandleDraggedDLL(int argc, char* argv[]) {
-    std::string droppedFile;
+    std::string_view droppedFile;
     for (int i = 1; i < argc; ++i) {
-        std::string arg(argv[i]);
+        std::string_view arg(argv[i]);
         if (arg.ends_with(".dll")) {
             droppedFile = arg;
             break;
@@ -77,22 +78,29 @@ bool HSELauncher::HandleDraggedDLL(int argc, char* argv[]) {
     if (droppedFile.empty()) return false;
 
     if (!std::filesystem::exists(droppedFile)) {
-        hse::logAndShowError("Dropped file does not exist: " + droppedFile, "The dropped file does not exist.");
+        hse::logAndShowError("Dropped file does not exist: " + std::string(droppedFile), "The dropped file does not exist.");
         return false;
     }
 
-    const auto cachePath = hse::LauncherConfig::GetCachedModPath(currentGameMode_);
+    const auto customPath = hse::LauncherConfig::GetCustomDllPath();
     try {
-        std::filesystem::copy_file(droppedFile, cachePath, std::filesystem::copy_options::overwrite_existing);
-        hse::Logger::info("Successfully installed mod DLL to cache from: " + droppedFile);
+        std::filesystem::copy_file(droppedFile, customPath, std::filesystem::copy_options::overwrite_existing);
+        (void)config.SetDllSource(hse::DllSource::Custom);
 
-        if (!CopyToActive(cachePath)) return false;
+        const auto originalName = std::filesystem::path(droppedFile).filename().string();
+        hse::Logger::info("Custom DLL installed from: " + originalName);
 
-        MessageBoxA(nullptr, ("Mod DLL successfully installed!\n\nFile: " + std::filesystem::path(droppedFile).filename().string()).c_str(), "Mod Installed", MB_OK | MB_ICONINFORMATION);
+        MessageBoxA(nullptr,
+            ("Custom DLL installed!\n\n"
+            "File: " + originalName + "\n\n"
+            "The launcher will use this custom DLL for injection.\n"
+            "Use --official or the selection menu to switch back.").c_str(),
+            "Custom DLL Installed", MB_OK | MB_ICONINFORMATION);
         return true;
     }
     catch (const std::exception& e) {
-        hse::logAndShowError("Failed to install dropped DLL: " + std::string(e.what()), "Failed to install the mod DLL: " + std::string(e.what()));
+        const std::string what(e.what());
+        hse::logAndShowError("Failed to install custom DLL: " + what, "Failed to install the custom DLL: " + what);
         return false;
     }
 }
@@ -159,30 +167,105 @@ void HSELauncher::SelectGameMode(int argc, char* argv[]) {
 #endif
 }
 
-bool HSELauncher::CopyToActive(const std::filesystem::path& cachePath) {
-    try {
-        const auto activePath = hse::LauncherConfig::GetModFilePath();
-        std::filesystem::copy_file(cachePath, activePath, std::filesystem::copy_options::overwrite_existing);
-        return true;
-    }
-    catch (const std::exception& e) {
-        hse::logAndShowError("Failed to activate mod from cache: " + std::string(e.what()),
-            "Failed to activate mod. Please try again.");
-        return false;
+void HSELauncher::ParseDllArguments(int argc, char* argv[]) {
+    for (int i = 1; i < argc; ++i) {
+        std::string_view arg(argv[i]);
+        if (arg == "--custom") {
+            (void)config.SetDllSource(hse::DllSource::Custom);
+            cliDllOverride_ = true;
+            hse::Logger::info("Using custom DLL (--custom)");
+            return;
+        }
+        if (arg == "--official") {
+            (void)config.SetDllSource(hse::DllSource::Official);
+            cliDllOverride_ = true;
+            hse::Logger::info("Using official DLL (--official)");
+            return;
+        }
     }
 }
 
-bool HSELauncher::EnsureModExists() {
-#ifdef EXPERIMENTAL_VERSION
-    const auto modPath = hse::LauncherConfig::GetModFilePath();
+void HSELauncher::MigrateLegacyDll() {
+    const auto legacyPath = hse::LauncherConfig::GetLegacyModFilePath();
+    if (!std::filesystem::exists(legacyPath)) return;
 
-    if (std::filesystem::exists(modPath)) {
-        hse::Logger::info("Mod DLL found at: " + modPath.string());
+    hse::Logger::info("Migrating legacy DLL to new cache system...");
+
+    try {
+        auto versionResult = updateManager.GetLocalVersion();
+        const hse::Version version = versionResult.value_or(hse::Version("0.0.0"));
+
+        auto newPath = hse::LauncherConfig::GetOfficialDllPath(hse::GameMode::FullGame, version);
+        std::filesystem::copy_file(legacyPath, newPath, std::filesystem::copy_options::overwrite_existing);
+        std::filesystem::remove(legacyPath);
+        (void)config.SetString("DLL", "official_version", version.ToString());
+
+        hse::Logger::info("Migrated legacy DLL to: " + newPath.filename().string());
+    }
+    catch (const std::exception& e) {
+        hse::Logger::error("Migration failed: " + std::string(e.what()));
+    }
+
+    try {
+        const auto cacheDir = hse::LauncherConfig::GetCacheDir();
+        for (const char* oldFile : { "HSEnhancer_full.dll", "HSEnhancer_demo.dll" }) {
+            auto oldPath = cacheDir / oldFile;
+            if (std::filesystem::exists(oldPath)) {
+                std::filesystem::remove(oldPath);
+                hse::Logger::info("Removed legacy cache file: " + std::string(oldFile));
+            }
+        }
+    }
+    catch (...) {}
+}
+
+void HSELauncher::ShowDllSelectionMenu() {
+    if (cliDllOverride_) return;
+    if (!std::filesystem::exists(hse::LauncherConfig::GetCustomDllPath())) return;
+
+    const bool usingCustom = config.GetDllSource() == hse::DllSource::Custom;
+    hse::Logger::info("DLL Selection:");
+    hse::Logger::info("  Currently using: %s", usingCustom ? "Custom DLL" : "Official DLL");
+    hse::Logger::info("  [1] Official  [2] Custom  [Enter] Keep current (3s timeout)");
+
+    const auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(3);
+    while (std::chrono::steady_clock::now() < deadline) {
+        if (_kbhit()) {
+            switch (_getch()) {
+            case '1':
+                (void)config.SetDllSource(hse::DllSource::Official);
+                hse::Logger::info("  Selected: Official DLL");
+                return;
+            case '2':
+                (void)config.SetDllSource(hse::DllSource::Custom);
+                hse::Logger::info("  Selected: Custom DLL");
+                return;
+            case '\r': case '\n':
+                hse::Logger::info("  Keeping current selection");
+                return;
+            }
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+    hse::Logger::info("  Keeping current selection (timeout)");
+}
+
+bool HSELauncher::EnsureModExists() {
+    if (config.GetDllSource() == hse::DllSource::Custom &&
+        !std::filesystem::exists(hse::LauncherConfig::GetCustomDllPath())) {
+        hse::Logger::warn("Custom DLL not found, falling back to official");
+        (void)config.SetDllSource(hse::DllSource::Official);
+    }
+
+    const auto modPath = config.ResolveModPath(currentGameMode_);
+    if (!modPath.empty()) {
+        hse::Logger::info("Mod DLL ready: " + modPath.filename().string());
         return true;
     }
 
-    hse::Logger::info("No mod found - downloading latest version");
+    hse::Logger::info("No mod found - downloading...");
 
+#ifdef EXPERIMENTAL_VERSION
     if (!cachedExperimentalInfo_) {
         auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
         if (!experimentalUpdateResult) {
@@ -207,24 +290,17 @@ bool HSELauncher::EnsureModExists() {
     hse::logAndShowError("Failed to download experimental mod", "Failed to download experimental mod files. Please check your internet connection and try again.");
     return false;
 #else
-    const auto cachePath = hse::LauncherConfig::GetCachedModPath(currentGameMode_);
-
-    if (std::filesystem::exists(cachePath)) {
-        hse::Logger::info("Cached mod found for %s, activating...", hse::GameModeName(currentGameMode_));
-        return CopyToActive(cachePath);
-    }
-
-    hse::Logger::info("No cached mod found - downloading...");
-
     if (currentGameMode_ == hse::GameMode::Demo) {
-        auto result = updateManager.DownloadModToPath(
-            hse::UpdateManager::DEMO_MOD_DOWNLOAD_URL, cachePath);
+        hse::Version demoVersion("0.5.2");
+        auto demoPath = hse::LauncherConfig::GetOfficialDllPath(hse::GameMode::Demo, demoVersion);
+        auto result = updateManager.DownloadModToPath(hse::UpdateManager::DEMO_MOD_DOWNLOAD_URL, demoPath);
         if (!result) {
             hse::logAndShowError("Failed to download demo mod", "Failed to download demo mod (v0.5.2). Please check your internet connection.");
             return false;
         }
+        (void)config.SetString("DLL", "official_demo_version", "0.5.2");
         hse::Logger::info("Demo mod downloaded (v0.5.2)");
-        return CopyToActive(cachePath);
+        return true;
     }
 
     auto updateInfoResult = updateManager.CheckForUpdates();
@@ -359,6 +435,39 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
         return true;
     }
 
+    const bool usingCustom = config.GetDllSource() == hse::DllSource::Custom;
+
+    if (usingCustom) {
+        const auto remoteVer = updateInfo.remoteVersion.ToString();
+        hse::Logger::info("Update available (v" + remoteVer + "), downloading to cache...");
+        auto modUpdateResult = updateManager.UpdateMod(updateInfo.remoteVersion);
+        if (!modUpdateResult) {
+            hse::Logger::error("Failed to download mod update to cache");
+        }
+        else {
+            std::string message = "A new official version (v" + remoteVer + ") has been downloaded.\n\n"
+                "You are currently using a custom DLL.\n\n"
+                "Would you like to switch to the updated official version?\n\n"
+                "YES = Switch to official v" + remoteVer + "\n"
+                "NO = Keep using custom DLL";
+            int result = MessageBoxA(nullptr, message.c_str(), "Official Update Available", MB_YESNO | MB_ICONQUESTION);
+            if (result == IDYES) {
+                (void)config.SetDllSource(hse::DllSource::Official);
+                hse::Logger::info("Switched to official DLL v" + remoteVer);
+            }
+            else {
+                hse::Logger::info("User staying on custom DLL, official v" + remoteVer + " cached");
+            }
+        }
+
+        if (!updateInfo.downloadUrlLauncher.empty()) {
+            hse::Logger::info("Updating launcher...");
+            auto launcherUpdateResult = updateManager.UpdateLauncher(updateInfo.downloadUrlLauncher);
+            return static_cast<bool>(launcherUpdateResult);
+        }
+        return true;
+    }
+
     std::string message = "A new version of Half Sword Enhancer is available!\n\n"
         "Current version: " + updateInfo.currentVersion.ToString() + "\n"
         "New version: " + updateInfo.remoteVersion.ToString() + "\n\n"
@@ -384,7 +493,7 @@ bool HSELauncher::PerformUpdatesIfNeeded() {
 }
 
 bool HSELauncher::InjectMod() {
-    const auto modPath = hse::LauncherConfig::GetModFilePath();
+    const auto modPath = config.ResolveModPath(currentGameMode_);
     hse::Logger::info("Starting mod injection process...");
     hse::Logger::warn("Make sure only the selected game is running. Close the other version if open.");
 
@@ -430,7 +539,10 @@ int HSELauncher::Run(int argc, char* argv[]) {
         DisplayBanner();
         if (config.IsFirstRun()) ShowFirstRunInstructions();
         SelectGameMode(argc, argv);
-        if (HandleDraggedDLL(argc, argv)) hse::Logger::info("Mod DLL installed successfully. Now starting injection...");
+        ParseDllArguments(argc, argv);
+        MigrateLegacyDll();
+        if (HandleDraggedDLL(argc, argv)) hse::Logger::info("Custom DLL installed. Now starting injection...");
+        ShowDllSelectionMenu();
         if (!PerformUpdatesIfNeeded()) {
             ShowExitMessage(false);
             return 1;
@@ -444,8 +556,9 @@ int HSELauncher::Run(int argc, char* argv[]) {
         return success ? 0 : 1;
     }
     catch (const std::exception& e) {
-        hse::Logger::error("Fatal error: " + std::string(e.what()));
-        hse::showError("A fatal error occurred: " + std::string(e.what()));
+        const std::string what(e.what());
+        hse::Logger::error("Fatal error: " + what);
+        hse::showError("A fatal error occurred: " + what);
         ShowExitMessage(false);
         return 1;
     }

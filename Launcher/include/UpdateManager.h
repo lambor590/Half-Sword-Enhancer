@@ -20,12 +20,15 @@ namespace hse {
     class Version {
     public:
         constexpr Version() noexcept = default;
+        constexpr Version(std::uint16_t major, std::uint16_t minor, std::uint16_t patch) noexcept
+            : major_(major), minor_(minor), patch_(patch) {}
         explicit Version(std::string_view versionString) noexcept;
 
         constexpr auto operator<=>(const Version&) const noexcept = default;
         constexpr bool operator==(const Version&) const noexcept = default;
 
         [[nodiscard]] std::string ToString() const;
+        [[nodiscard]] std::string ToCompactString() const;
         [[nodiscard]] constexpr bool IsValid() const noexcept {
             return major_ > 0 || minor_ > 0 || patch_ > 0;
         }
@@ -81,12 +84,16 @@ namespace hse {
             std::string_view timestamp = {}
         ) noexcept;
 
+        void CleanupOldVersions(GameMode mode, const Version& keepVersion) noexcept;
+
 #ifdef EXPERIMENTAL_VERSION
         [[nodiscard]] std::expected<ExperimentalUpdateInfo, UpdateError> CheckForExperimentalUpdates() noexcept;
         [[nodiscard]] std::expected<void, UpdateError> UpdateExperimentalMod(
             std::string_view downloadUrl,
             std::string_view timestamp
         ) noexcept;
+
+        void CleanupOldExperimentalVersions(std::string_view keepTimestamp) noexcept;
 #endif
 
         static constexpr std::string_view DEMO_MOD_DOWNLOAD_URL =
@@ -114,6 +121,7 @@ namespace hse {
         [[nodiscard]] std::expected<Version, UpdateError> ExtractVersionFromExecutable() const noexcept;
         [[nodiscard]] std::expected<std::string, UpdateError> FetchGitHubReleaseInfo() const noexcept;
         [[nodiscard]] std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json) const noexcept;
+        void CleanupCachedDlls(std::string_view prefix, std::string_view keepFilename) noexcept;
 
 #ifdef EXPERIMENTAL_VERSION
         [[nodiscard]] std::expected<std::string_view, UpdateError> ExtractAssetObject(
