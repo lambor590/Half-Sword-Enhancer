@@ -5,7 +5,6 @@
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
-#include <random>
 #include <atomic>
 #include <unordered_set>
 #include "Menu/ICollapsibleSection.h"
@@ -38,12 +37,7 @@ private:
     };
     static constexpr int WEAPON_TYPE_COUNT = 19;
 
-    static constexpr const char* MATERIAL_LAYER_NAMES[] = {
-        "Brushed Steel 1", "Brushed Steel 2", "Brushed Steel 3", "Steel",
-        "Iron", "Gilded", "Copper", "Brass",
-        "Bronze", "Gold", "Leather", "Turned Leather 1",
-        "Turned Leather 2", "Turned Leather 3", "Wood", "Old Wood",
-    };
+    static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
 
     SDK::FStr_Passport_Weapon1 weaponPassport{};
     bool weaponGenerationPending = false;
@@ -308,7 +302,7 @@ private:
 
             if (enableSkeletalCollision) {
                 comps[i]->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
-                auto* raw = reinterpret_cast<uint8*>(skelComp);
+                auto* raw = reinterpret_cast<uint8_t*>(skelComp);
                 raw[0x025A] |= (1 << 2);
                 raw[0x0A50] |= (1 << 6);
                 skelComp->SetCollisionProfileName(comps[i]->GetCollisionProfileName(), true);
@@ -320,7 +314,7 @@ private:
             skelComp->K2_AttachToComponent(comps[i], SDK::FName(),
                 SDK::EAttachmentRule::SnapToTarget,
                 SDK::EAttachmentRule::SnapToTarget,
-                SDK::EAttachmentRule::SnapToTarget, true);
+                SDK::EAttachmentRule::SnapToTarget, !enableSkeletalCollision);
 
             skelComp->SetRelativeScale3D(slot.scale);
             skelComp->K2_SetRelativeRotation(slot.rotation, false, nullptr, true);
@@ -348,19 +342,13 @@ private:
         ApplyMeshOverrides(weapon, BuildMeshSnapshot(), skeletalPreviewComps);
     }
 
-    static int RandomInt(int min, int max) {
-        static thread_local std::mt19937 rng{std::random_device{}()};
-        std::uniform_int_distribution<int> dist(min, max);
-        return dist(rng);
-    }
-
     static int RandomValidTier(uint16_t mask) {
         int validTiers[9];
         int count = 0;
         for (int t = 0; t <= 8; ++t)
             if (mask & (1 << t)) validTiers[count++] = t;
         if (count == 0) return 4;
-        return validTiers[RandomInt(0, count - 1)];
+        return validTiers[GameConstants::RandomInt(0, count - 1)];
     }
 
     void CreateBlankWeaponPassport() {
@@ -398,7 +386,7 @@ private:
     }
 
     void RandomizeWeaponPassport() {
-        cfg.weaponType = RandomInt(1, WEAPON_TYPE_COUNT);
+        cfg.weaponType = GameConstants::RandomInt(1, WEAPON_TYPE_COUNT);
         uint16_t mask = TierValidation::VALID_TIER_MASKS[cfg.weaponType];
         cfg.weaponTier = RandomValidTier(mask);
         GenerateWeaponPassport();
@@ -459,16 +447,6 @@ private:
         });
     }
 
-    SDK::FTransform BuildSpawnTransform() const {
-        auto transform = player->GetTransform();
-        const auto forward = player->GetActorForwardVector();
-        transform.Translation.X += forward.X * cfg.spawnDistanceForward;
-        transform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
-        transform.Translation.Z += cfg.spawnDistanceUp;
-        transform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
-        return transform;
-    }
-
     void SpawnPreview() {
         DestroyPreview();
         if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
@@ -481,7 +459,7 @@ private:
         bool hasMesh = HasAnyMeshOverride();
         auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
-        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, BuildSpawnTransform(), cfg.snapToGround,
+        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale), cfg.snapToGround,
             [this, props, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
                 auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
                 CollectMeshesFromWeapon(weapon);
@@ -546,7 +524,7 @@ private:
             if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, nullptr, true);
         };
 
-        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, BuildSpawnTransform(), cfg.snapToGround, callback);
+        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale), cfg.snapToGround, callback);
     }
 
     static void RenderFilteredModuleCombo(const char* label,
@@ -602,32 +580,6 @@ private:
         ImGui::EndCombo();
     }
 
-    static void RenderMaterialCombo(const char* label, SDK::Enum_MaterialLayer& mat) {
-        static float materialComboW = 0;
-        if (materialComboW == 0) materialComboW = GuiUtils::CalcComboWidth(MATERIAL_LAYER_NAMES, 16);
-
-        int val = static_cast<int>(mat);
-        const char* preview = (val >= 0 && val < 16) ? MATERIAL_LAYER_NAMES[val] : "Unknown";
-        ImGui::SetNextItemWidth(materialComboW);
-        if (ImGui::BeginCombo(label, preview)) {
-            for (int i = 0; i < 16; ++i) {
-                if (ImGui::Selectable(MATERIAL_LAYER_NAMES[i], val == i))
-                    mat = static_cast<SDK::Enum_MaterialLayer>(i);
-                if (val == i) ImGui::SetItemDefaultFocus();
-            }
-            ImGui::EndCombo();
-        }
-    }
-
-    static void RenderColorEditor(const char* label, SDK::FLinearColor& color) {
-        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
-        float col[4] = {color.R, color.G, color.B, color.A};
-        if (ImGui::ColorEdit4(label, col)) {
-            color.R = col[0]; color.G = col[1]; color.B = col[2]; color.A = col[3];
-        }
-        ImGui::PopItemWidth();
-    }
-
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f) {
         float v[3] = {static_cast<float>(vec.X), static_cast<float>(vec.Y), static_cast<float>(vec.Z)};
         if (ImGui::DragFloat3(label, v, speed, 0.01f, 10.0f, "%.3f")) {
@@ -639,12 +591,6 @@ private:
         float val = static_cast<float>(mass);
         if (ImGui::DragFloat(label, &val, speed, 0.01f, 100.0f, "%.3f"))
             mass = val;
-    }
-
-    static void RenderFreeTierCombo(const char* label, SDK::Enum_Ranks& tier) {
-        int val = static_cast<int>(tier);
-        GuiUtils::RenderFreeTierCombo(label, val);
-        tier = static_cast<SDK::Enum_Ranks>(val);
     }
 
     static void RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask) {
@@ -808,21 +754,21 @@ private:
         ImGui::PushID("appearance");
 
         ImGui::SeparatorText("Metal");
-        RenderMaterialCombo("Steel", weaponPassport.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36);
+        GuiUtils::RenderMaterialCombo("Steel", weaponPassport.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36);
         TooltipHelper::ShowTooltip("Primary metal surface finish");
-        RenderMaterialCombo("Colored", weaponPassport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2);
+        GuiUtils::RenderMaterialCombo("Colored", weaponPassport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2);
         TooltipHelper::ShowTooltip("Secondary metallic accent layer");
 
         ImGui::SeparatorText("Organic");
-        RenderMaterialCombo("Wood", weaponPassport.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A);
+        GuiUtils::RenderMaterialCombo("Wood", weaponPassport.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A);
         TooltipHelper::ShowTooltip("Wood grain pattern for handle and wooden parts");
-        RenderColorEditor("Wood Color", weaponPassport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743);
+        GuiUtils::RenderColorEditor("Wood Color", weaponPassport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743);
         TooltipHelper::ShowTooltip("Tint color applied to wooden surfaces");
 
         ImGui::Spacing();
-        RenderMaterialCombo("Leather", weaponPassport.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB);
+        GuiUtils::RenderMaterialCombo("Leather", weaponPassport.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB);
         TooltipHelper::ShowTooltip("Leather wrap style for grip sections");
-        RenderColorEditor("Leather Color", weaponPassport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638);
+        GuiUtils::RenderColorEditor("Leather Color", weaponPassport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638);
         TooltipHelper::ShowTooltip("Tint color applied to leather wrapping");
 
         ImGui::Spacing();
@@ -1004,7 +950,7 @@ private:
         ImGui::PushID("stats");
 
         ImGui::SeparatorText("Passport");
-        RenderFreeTierCombo("Tier", weaponPassport.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461);
+        GuiUtils::RenderFreeTierCombo("Tier", weaponPassport.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461);
         TooltipHelper::ShowTooltip("Stored tier value in the passport, independent of generation tier");
         GuiUtils::RenderPriceDrag("Price", weaponPassport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5);
         TooltipHelper::ShowTooltip("Weapon price value stored in the passport");
@@ -1179,39 +1125,20 @@ private:
 
     void RenderPresetsTab() {
         ImGui::PushID("presets");
-
-        ImGui::SeparatorText("Save");
-        float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
-        ImGui::SameLine();
-        bool canSave = presetNameBuf[0] != '\0';
-        if (!canSave) ImGui::BeginDisabled();
-        if (ImGui::Button("Save")) {
-            auto data = BuildPresetData();
-            if (WeaponPresetSerializer::SavePresetByName(presetNameBuf, weaponPassport, data)) {
-                SetStatus("Saved: " + std::string(presetNameBuf));
-                presetListDirty = true;
-            } else {
-                SetStatus("Error saving preset", true);
-            }
-        }
-        TooltipHelper::ShowTooltip("Save current weapon configuration as a named preset");
-        if (!canSave) ImGui::EndDisabled();
-
-        ImGui::SeparatorText("Presets");
-        if (presetListDirty)
-            RefreshPresetTree();
-
-        if (presetTree.presets.empty() && presetTree.children.empty()) {
-            ImGui::TextDisabled("No saved presets");
-        } else {
-            ImGui::BeginChild("##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders);
-            auto action = GuiUtils::RenderPresetTree(presetTree);
-            ImGui::EndChild();
-
-            if (action.type == GuiUtils::PresetTreeAction::Load) {
-                auto result = WeaponPresetSerializer::LoadFromFile(action.path);
+        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status};
+        GuiUtils::RenderPresetPanel(panelState, WeaponPresetSerializer::GetPresetsDirectory(),
+            [this]() { RefreshPresetTree(); },
+            [this](const char* name) {
+                auto data = BuildPresetData();
+                if (WeaponPresetSerializer::SavePresetByName(name, weaponPassport, data)) {
+                    SetStatus("Saved: " + std::string(name));
+                    presetListDirty = true;
+                } else {
+                    SetStatus("Error saving preset", true);
+                }
+            },
+            [this](const std::filesystem::path& path) {
+                auto result = WeaponPresetSerializer::LoadFromFile(path);
                 if (result.success) {
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                     std::string loadedName = std::move(result.name);
@@ -1220,19 +1147,12 @@ private:
                 } else {
                     SetStatus("Error: " + result.error, true);
                 }
-            } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
-                WeaponPresetSerializer::DeletePreset(action.path);
+            },
+            [this](const std::filesystem::path& path) {
+                WeaponPresetSerializer::DeletePreset(path);
                 PresetUtils::CleanEmptyDirectories(WeaponPresetSerializer::GetPresetsDirectory());
                 presetListDirty = true;
-            }
-        }
-
-        ImGui::Spacing();
-
-        if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
-            PresetUtils::OpenInExplorer(WeaponPresetSerializer::GetPresetsDirectory());
-        }
-
+            });
         ImGui::PopID();
     }
 

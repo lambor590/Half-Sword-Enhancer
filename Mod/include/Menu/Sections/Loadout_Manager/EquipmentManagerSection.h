@@ -27,24 +27,14 @@ class EquipmentManagerSection : public CollapsibleSection {
 private:
     SectionConfig::EquipmentManagerConfig& cfg = SectionConfig::equipmentManager;
 
-    static constexpr struct { const char* name; int slotEnum; } ARMOR_SLOTS[] = {
-        {"Head", 0}, {"Hands", 1}, {"Neck (Bevor)", 4}, {"Neck (Standard)", 5},
-        {"Arms", 6}, {"Shoulders", 7}, {"Tabard", 8}, {"Chest (Plate)", 9},
-        {"Hauberk", 10}, {"Cuisses", 11}, {"Body (Clothing)", 12},
-        {"Waist", 13}, {"Legs (Greaves)", 14}, {"Feet", 15}, {"Hosen", 16}
-    };
-    static constexpr int ARMOR_SLOT_COUNT = sizeof(ARMOR_SLOTS) / sizeof(ARMOR_SLOTS[0]);
+    static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
+    static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;
 
     static constexpr const char* WEAPON_SLOT_NAMES[] = {
         "Right Hand", "Left Hand", "Slot R1", "Slot R2", "Slot L1", "Slot L2", "Back"
     };
 
-    static constexpr const char* MATERIAL_LAYER_NAMES[] = {
-        "Brushed Steel 1", "Brushed Steel 2", "Brushed Steel 3", "Steel",
-        "Iron", "Gilded", "Copper", "Brass",
-        "Bronze", "Gold", "Leather", "Turned Leather 1",
-        "Turned Leather 2", "Turned Leather 3", "Wood", "Old Wood",
-    };
+    static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
 
     GlobalModulePool& modulePool = GlobalModulePool::Get();
     bool modulePoolQueued = false;
@@ -166,20 +156,6 @@ private:
             if (e.cls == current) ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
-    }
-
-    static void RenderMaterialCombo(const char* label, SDK::Enum_MaterialLayer& mat) {
-        int val = static_cast<int>(mat);
-        const char* preview = (val >= 0 && val < 16) ? MATERIAL_LAYER_NAMES[val] : "Unknown";
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
-        if (ImGui::BeginCombo(label, preview)) {
-            for (int i = 0; i < 16; ++i) {
-                if (ImGui::Selectable(MATERIAL_LAYER_NAMES[i], val == i))
-                    mat = static_cast<SDK::Enum_MaterialLayer>(i);
-                if (val == i) ImGui::SetItemDefaultFocus();
-            }
-            ImGui::EndCombo();
-        }
     }
 
     static void RenderVectorDrag(const char* label, SDK::FVector& vec) {
@@ -443,7 +419,7 @@ private:
 
             LoadoutPresetData::ArmorSlotData slotData;
             slotData.slot = it->Key();
-            slotData.armorClass = PresetUtils::ClassToPath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+            slotData.armorClass = PresetUtils::ObjectToAbsolutePath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
             slotData.color1 = passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393;
             slotData.color2 = passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C;
             data.armorSlots.push_back(std::move(slotData));
@@ -595,7 +571,7 @@ private:
                 case SDK::Enum_Weapon_Material_Type::NewEnumerator3: label = "Leather##mat"; break;
                 default: continue;
             }
-            RenderMaterialCombo(label, it->Value());
+            GuiUtils::RenderMaterialCombo(label, it->Value());
         }
 
         auto& colorMap = slot.MemberVar_44_45_FF627FBE4FE882E7D295BFA0BB6716C0;

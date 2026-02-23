@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include <cstring>
-#include <random>
 #include "Menu/ICollapsibleSection.h"
 #include "Menu/SectionConfig.h"
 #include "Hooks/GameHook.h"
@@ -18,13 +17,8 @@ class ArmorEditorSection : public CollapsibleSection {
 private:
     SectionConfig::ArmorEditorConfig& cfg = SectionConfig::armorEditor;
 
-    static constexpr struct { const char* name; int slotEnum; } ARMOR_SLOTS[] = {
-        {"Head", 0}, {"Hands", 1}, {"Neck (Bevor)", 4}, {"Neck (Standard)", 5},
-        {"Arms", 6}, {"Shoulders", 7}, {"Tabard", 8}, {"Chest (Plate)", 9},
-        {"Hauberk", 10}, {"Cuisses", 11}, {"Body (Clothing)", 12},
-        {"Waist", 13}, {"Legs (Greaves)", 14}, {"Feet", 15}, {"Hosen", 16}
-    };
-    static constexpr int ARMOR_SLOT_COUNT = sizeof(ARMOR_SLOTS) / sizeof(ARMOR_SLOTS[0]);
+    static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
+    static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;
 
     SDK::FStr_Passport_Armor1 armorPassport{};
     bool armorGenerationPending = false;
@@ -58,12 +52,6 @@ private:
     bool presetListDirty = true;
     GuiUtils::StatusMessage status;
     int activeTab = 0;
-
-    static int RandomInt(int min, int max) {
-        static thread_local std::mt19937 rng{std::random_device{}()};
-        std::uniform_int_distribution<int> dist(min, max);
-        return dist(rng);
-    }
 
     bool IsModularCore() const {
         SDK::UClass* coreClass = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
@@ -121,8 +109,8 @@ private:
     }
 
     void RandomizeArmorPassport() {
-        cfg.armorSlotIndex = RandomInt(0, ARMOR_SLOT_COUNT - 1);
-        cfg.armorTier = RandomInt(0, 8);
+        cfg.armorSlotIndex = GameConstants::RandomInt(0, ARMOR_SLOT_COUNT - 1);
+        cfg.armorTier = GameConstants::RandomInt(0, 8);
         GenerateArmorPassport();
     }
 
@@ -164,16 +152,6 @@ private:
         });
     }
 
-    SDK::FTransform BuildSpawnTransform() const {
-        auto transform = player->GetTransform();
-        const auto forward = player->GetActorForwardVector();
-        transform.Translation.X += forward.X * cfg.spawnDistanceForward;
-        transform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
-        transform.Translation.Z += cfg.spawnDistanceUp;
-        transform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
-        return transform;
-    }
-
     void SpawnPreview() {
         DestroyPreview();
         if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
@@ -185,7 +163,7 @@ private:
         auto props = runtimeProps;
         bool hasOverrides = CountActiveOverrides() > 0;
 
-        Spawner::SpawnArmorFromPassport(world, armorPassport, BuildSpawnTransform(), cfg.snapToGround,
+        Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale), cfg.snapToGround,
             [this, props, hasOverrides](SDK::AActor* actor) {
                 if (!cfg.livePreview) {
                     actor->K2_DestroyActor();
@@ -264,7 +242,7 @@ private:
             };
         }
 
-        Spawner::SpawnArmorFromPassport(world, armorPassport, BuildSpawnTransform(), cfg.snapToGround, callback);
+        Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale), cfg.snapToGround, callback);
     }
 
     void RenderModuleIndexCombo(const char* label, int32_t& moduleIndex,
@@ -318,21 +296,6 @@ private:
             if (selected) ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
-    }
-
-    static void RenderColorEditor(const char* label, SDK::FLinearColor& color) {
-        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
-        float col[4] = {color.R, color.G, color.B, color.A};
-        if (ImGui::ColorEdit4(label, col)) {
-            color.R = col[0]; color.G = col[1]; color.B = col[2]; color.A = col[3];
-        }
-        ImGui::PopItemWidth();
-    }
-
-    static void RenderFreeTierCombo(const char* label, SDK::Enum_Ranks& tier) {
-        int val = static_cast<int>(tier);
-        GuiUtils::RenderFreeTierCombo(label, val);
-        tier = static_cast<SDK::Enum_Ranks>(val);
     }
 
     void RenderGenerationControls() {
@@ -426,9 +389,9 @@ private:
         ImGui::PushID("colors");
 
         ImGui::SeparatorText("Passport Fabric Colors");
-        RenderColorEditor("Fabric Color 1",
+        GuiUtils::RenderColorEditor("Fabric Color 1",
             armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393);
-        RenderColorEditor("Fabric Color 2",
+        GuiUtils::RenderColorEditor("Fabric Color 2",
             armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C);
 
         ImGui::PopID();
@@ -438,7 +401,7 @@ private:
         ImGui::PushID("stats");
 
         ImGui::SeparatorText("Passport");
-        RenderFreeTierCombo("Tier", armorPassport.Tier_50_E497AE434B01B84C559DEE8A863BB42E);
+        GuiUtils::RenderFreeTierCombo("Tier", armorPassport.Tier_50_E497AE434B01B84C559DEE8A863BB42E);
         TooltipHelper::ShowTooltip("Stored tier value in the passport");
         GuiUtils::RenderPriceDrag("Price", armorPassport.Price_27_8E3ADD54484EFC4A59FE9381485AC192);
         TooltipHelper::ShowTooltip("Armor price value stored in the passport");
@@ -522,38 +485,20 @@ private:
 
     void RenderPresetsTab() {
         ImGui::PushID("presets");
-
-        ImGui::SeparatorText("Save");
-        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
-        ImGui::SameLine();
-        bool canSave = presetNameBuf[0] != '\0';
-        if (!canSave) ImGui::BeginDisabled();
-        if (ImGui::Button("Save")) {
-            auto data = BuildPresetData();
-            if (ArmorPresetSerializer::SavePresetByName(presetNameBuf, armorPassport, data)) {
-                status.Set("Saved: " + std::string(presetNameBuf));
-                presetListDirty = true;
-            } else {
-                status.Set("Error saving preset", true);
-            }
-        }
-        if (!canSave) ImGui::EndDisabled();
-
-        ImGui::SeparatorText("Presets");
-        if (presetListDirty)
-            RefreshPresetTree();
-
-        if (presetTree.presets.empty() && presetTree.children.empty()) {
-            ImGui::TextDisabled("No saved presets");
-        } else {
-            ImGui::BeginChild("##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders);
-            auto action = GuiUtils::RenderPresetTree(presetTree);
-            ImGui::EndChild();
-
-            if (action.type == GuiUtils::PresetTreeAction::Load) {
-                auto result = ArmorPresetSerializer::LoadFromFile(action.path);
+        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status};
+        GuiUtils::RenderPresetPanel(panelState, ArmorPresetSerializer::GetPresetsDirectory(),
+            [this]() { RefreshPresetTree(); },
+            [this](const char* name) {
+                auto data = BuildPresetData();
+                if (ArmorPresetSerializer::SavePresetByName(name, armorPassport, data)) {
+                    status.Set("Saved: " + std::string(name));
+                    presetListDirty = true;
+                } else {
+                    status.Set("Error saving preset", true);
+                }
+            },
+            [this](const std::filesystem::path& path) {
+                auto result = ArmorPresetSerializer::LoadFromFile(path);
                 if (result.success) {
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                     std::string loadedName = std::move(result.name);
@@ -562,18 +507,12 @@ private:
                 } else {
                     status.Set("Error: " + result.error, true);
                 }
-            } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
-                ArmorPresetSerializer::DeletePreset(action.path);
+            },
+            [this](const std::filesystem::path& path) {
+                ArmorPresetSerializer::DeletePreset(path);
                 PresetUtils::CleanEmptyDirectories(ArmorPresetSerializer::GetPresetsDirectory());
                 presetListDirty = true;
-            }
-        }
-
-        ImGui::Spacing();
-        if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
-            PresetUtils::OpenInExplorer(ArmorPresetSerializer::GetPresetsDirectory());
-        }
-
+            });
         ImGui::PopID();
     }
 

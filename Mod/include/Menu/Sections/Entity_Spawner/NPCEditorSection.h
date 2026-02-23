@@ -11,13 +11,13 @@
 
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
 
-struct NPCTypeInfo {
-    const char* displayName;
-    const char* className;
-};
-
 class NPCEditorSection : public CollapsibleSection {
 private:
+    struct NPCTypeInfo {
+        const char* displayName;
+        const char* className;
+    };
+
     static constexpr int SPECIAL_TEAM_ID = 1337;
 
     SectionConfig::NPCConfig& cfg = SectionConfig::npc;
@@ -31,6 +31,7 @@ private:
         { "Falcon Boss", WILLIE_PATH("/Unique/Willie_BP_FalconBoss.Willie_BP_FalconBoss_C") },
         { "Grim Reaper", WILLIE_PATH("/Unique/Willie_BP_GrimReaper.Willie_BP_GrimReaper_C") }
     };
+#undef WILLIE_PATH
     static constexpr int npcTypesCount = sizeof(npcTypes) / sizeof(npcTypes[0]);
 
     static constexpr const char* nationalityNames[] = {
@@ -153,7 +154,10 @@ private:
         SDK::FTransform spawnTransform = player->GetTransform();
         spawnTransform.Translation += player->GetActorForwardVector() * cfg.spawnDistanceForward;
         spawnTransform.Translation.Z += cfg.spawnDistanceUp;
-        spawnTransform.Scale3D = SDK::FVector(cfg.spawnScale, cfg.spawnScale, cfg.spawnScale);
+        double spawnScale = cfg.spawnScale;
+        if (ovr.heightRate.enabled)
+            spawnScale = 0.875 + ovr.heightRate.value * 0.125;
+        spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
 
         auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides](SDK::AActor* actor) {
             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
@@ -181,8 +185,6 @@ private:
             postCallback = [ovr](SDK::AActor* actor) {
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                 if (!npc) return;
-                ApplyPropertyOverrides(npc, ovr);
-                npc->Set_Character_Height();
                 if (ovr.hairColor.enabled && npc->Hair_Mat) {
                     auto melaninName = SDK::BasicFilesImpleUtils::StringToName(L"Melanin");
                     npc->Hair_Mat->SetScalarParameterValue(melaninName, static_cast<float>(ovr.hairColor.value));
@@ -335,38 +337,20 @@ private:
 
     void RenderPresetsTab() {
         ImGui::PushID("presets");
-
-        ImGui::SeparatorText("Save");
-        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
-        ImGui::SameLine();
-        bool canSave = presetNameBuf[0] != '\0';
-        if (!canSave) ImGui::BeginDisabled();
-        if (ImGui::Button("Save")) {
-            auto data = BuildPresetData();
-            if (NPCPresetSerializer::SavePresetByName(presetNameBuf, data)) {
-                status.Set("Saved: " + std::string(presetNameBuf));
-                presetListDirty = true;
-            } else {
-                status.Set("Error saving preset", true);
-            }
-        }
-        if (!canSave) ImGui::EndDisabled();
-
-        ImGui::SeparatorText("Presets");
-        if (presetListDirty)
-            RefreshPresetTree();
-
-        if (presetTree.presets.empty() && presetTree.children.empty()) {
-            ImGui::TextDisabled("No saved presets");
-        } else {
-            ImGui::BeginChild("##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders);
-            auto action = GuiUtils::RenderPresetTree(presetTree);
-            ImGui::EndChild();
-
-            if (action.type == GuiUtils::PresetTreeAction::Load) {
-                auto result = NPCPresetSerializer::LoadFromFile(action.path);
+        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status};
+        GuiUtils::RenderPresetPanel(panelState, NPCPresetSerializer::GetPresetsDirectory(),
+            [this]() { RefreshPresetTree(); },
+            [this](const char* name) {
+                auto data = BuildPresetData();
+                if (NPCPresetSerializer::SavePresetByName(name, data)) {
+                    status.Set("Saved: " + std::string(name));
+                    presetListDirty = true;
+                } else {
+                    status.Set("Error saving preset", true);
+                }
+            },
+            [this](const std::filesystem::path& path) {
+                auto result = NPCPresetSerializer::LoadFromFile(path);
                 if (result.success) {
                     ApplyPresetData(result);
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
@@ -374,18 +358,12 @@ private:
                 } else {
                     status.Set("Error: " + result.error, true);
                 }
-            } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
-                NPCPresetSerializer::DeletePreset(action.path);
+            },
+            [this](const std::filesystem::path& path) {
+                NPCPresetSerializer::DeletePreset(path);
                 PresetUtils::CleanEmptyDirectories(NPCPresetSerializer::GetPresetsDirectory());
                 presetListDirty = true;
-            }
-        }
-
-        ImGui::Spacing();
-        if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
-            PresetUtils::OpenInExplorer(NPCPresetSerializer::GetPresetsDirectory());
-        }
-
+            });
         ImGui::PopID();
     }
 
