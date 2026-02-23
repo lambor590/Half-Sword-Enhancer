@@ -256,9 +256,6 @@
     <ClInclude Include="include\Utils\GuiUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="include\Utils\CommonHeaders.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="include\Utils\GameBuildInfo.h">
       <Filter>Utils</Filter>
     </ClInclude>

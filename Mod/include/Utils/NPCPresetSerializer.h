@@ -205,10 +205,6 @@ public:
         return DeserializeFromIni(content);
     }
 
-    static std::vector<PresetListEntry> ListPresets() {
-        return PresetUtils::ListPresetsInDir(GetPresetsDirectory());
-    }
-
     static PresetUtils::PresetTreeNode ListPresetsTree() {
         return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
     }

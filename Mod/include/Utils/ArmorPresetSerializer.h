@@ -45,7 +45,7 @@ public:
         ini.SetValue("Preset", "name", data.name.c_str());
         ini.SetValue("Preset", "version", "1");
 
-        auto armorCorePath = PresetUtils::ClassToPath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+        auto armorCorePath = PresetUtils::ObjectToAbsolutePath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
         if (!minimalMode || !armorCorePath.empty())
             ini.SetValue("Passport", "armorCore", armorCorePath.c_str());
 
@@ -191,10 +191,6 @@ public:
             return result;
         }
         return DeserializeFromIni(content);
-    }
-
-    static std::vector<PresetListEntry> ListPresets() {
-        return PresetUtils::ListPresetsInDir(GetPresetsDirectory());
     }
 
     static PresetUtils::PresetTreeNode ListPresetsTree() {

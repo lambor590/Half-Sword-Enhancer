@@ -322,7 +322,6 @@
     <ClInclude Include="include\Utils\ActorUtils.h" />
     <ClInclude Include="include\Utils\ConfigUtils.h" />
     <ClInclude Include="include\Utils\GuiUtils.h" />
-    <ClInclude Include="include\Utils\CommonHeaders.h" />
     <ClInclude Include="include\Utils\GameBuildInfo.h" />
     <ClInclude Include="include\Utils\PresetUtils.h" />
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h" />

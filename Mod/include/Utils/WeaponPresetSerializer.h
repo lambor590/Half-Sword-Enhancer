@@ -73,7 +73,7 @@ public:
         ini.SetValue("Preset", "version", "1");
 
         auto setClass = [&](const char* key, SDK::UClass* cls) {
-            auto path = PresetUtils::ClassToPath(cls);
+            auto path = PresetUtils::ObjectToAbsolutePath(cls);
             if (!minimalMode || !path.empty())
                 ini.SetValue("Passport", key, path.c_str());
         };
@@ -323,10 +323,6 @@ public:
             return result;
         }
         return DeserializeFromIni(content);
-    }
-
-    static std::vector<PresetListEntry> ListPresets() {
-        return PresetUtils::ListPresetsInDir(GetPresetsDirectory());
     }
 
     static PresetUtils::PresetTreeNode ListPresetsTree() {

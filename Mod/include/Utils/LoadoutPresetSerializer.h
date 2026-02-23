@@ -83,13 +83,13 @@ private:
 
 public:
     static void ReadWeaponSlot(const SDK::FStr_WeaponParts& wp, LoadoutPresetData::WeaponSlotData& out) {
-        out.weaponClass = PresetUtils::ClassToPath(wp.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066);
-        out.gripModule = PresetUtils::ClassToPath(wp.GripModule_38_15B14C3F4E9701389A9B35A3B0909867);
-        out.headModule = PresetUtils::ClassToPath(wp.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F);
-        out.guardModule = PresetUtils::ClassToPath(wp.GuardModule_21_774015784EB0300D2671C894D57ED144);
-        out.pommelModule = PresetUtils::ClassToPath(wp.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984);
-        out.subModule1 = PresetUtils::ClassToPath(wp.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0);
-        out.subModule2 = PresetUtils::ClassToPath(wp.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980);
+        out.weaponClass = PresetUtils::ObjectToAbsolutePath(wp.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066);
+        out.gripModule = PresetUtils::ObjectToAbsolutePath(wp.GripModule_38_15B14C3F4E9701389A9B35A3B0909867);
+        out.headModule = PresetUtils::ObjectToAbsolutePath(wp.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F);
+        out.guardModule = PresetUtils::ObjectToAbsolutePath(wp.GuardModule_21_774015784EB0300D2671C894D57ED144);
+        out.pommelModule = PresetUtils::ObjectToAbsolutePath(wp.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984);
+        out.subModule1 = PresetUtils::ObjectToAbsolutePath(wp.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0);
+        out.subModule2 = PresetUtils::ObjectToAbsolutePath(wp.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980);
         out.headSize = wp.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA;
         out.guardSize = wp.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D;
         out.pommelSize = wp.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524;
@@ -108,7 +108,7 @@ public:
 
             LoadoutPresetData::ArmorSlotData slotData;
             slotData.slot = it->Key();
-            slotData.armorClass = PresetUtils::ClassToPath(elem.ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3);
+            slotData.armorClass = PresetUtils::ObjectToAbsolutePath(elem.ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3);
             slotData.color1 = elem.Color1_5_5527FC7C442DCF594A4DA5BA8D94351F;
             slotData.color2 = elem.Color2_7_1FF790D94C8CD95FF2D76183E7102E1B;
             slotData.color3 = elem.Color3_9_D8B5A08742A87F5492F8138A4F686141;
@@ -237,10 +237,6 @@ public:
         if (!folder.empty()) dir /= folder;
         PresetUtils::EnsureDirectory(dir);
         return SaveToFile(dir / (filename + ".ini"), data);
-    }
-
-    static std::vector<PresetListEntry> ListPresets() {
-        return PresetUtils::ListPresetsInDir(GetPresetsDir());
     }
 
     static PresetUtils::PresetTreeNode ListPresetsTree() {
