@@ -1,6 +1,7 @@
 #include "Gui.h"
 #include "Menu/Sections/Gameplay/PlayerSection.h"
 #include "Menu/Sections/Gameplay/WorldSection.h"
+#include "Menu/Sections/Gameplay/MapLoaderSection.h"
 #include "Menu/Sections/Entity_Spawner/NPCEditorSection.h"
 #include "Menu/Sections/Entity_Spawner/ItemSection.h"
 #include "Menu/Sections/Entity_Spawner/WeaponEditorSection.h"
@@ -109,6 +110,7 @@ void Gui::Setup() {
 
     MenuManager::Get().AddSection<PlayerSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<WorldSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<MapLoaderSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<NPCEditorSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<WeaponEditorSection>(MenuTab::Entity_Spawner);
