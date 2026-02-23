@@ -36,10 +36,6 @@ namespace PresetUtils {
         return result;
     }
 
-    inline std::string ClassToPath(SDK::UClass* cls) {
-        return ObjectToAbsolutePath(cls);
-    }
-
     inline std::string VecToString(const SDK::FVector& v) {
         char buf[96];
         std::snprintf(buf, sizeof(buf), "%.6g,%.6g,%.6g", v.X, v.Y, v.Z);
@@ -155,29 +151,6 @@ namespace PresetUtils {
         std::fread(content.data(), 1, size, f);
         std::fclose(f);
         return content;
-    }
-
-    inline std::vector<PresetListEntry> ListPresetsInDir(const std::filesystem::path& dir) {
-        std::vector<PresetListEntry> entries;
-        std::error_code ec;
-        if (!std::filesystem::exists(dir, ec)) return entries;
-
-        for (const auto& entry : std::filesystem::directory_iterator(dir, ec)) {
-            if (!entry.is_regular_file()) continue;
-            if (entry.path().extension() != ".ini") continue;
-
-            CSimpleIniA ini;
-            if (ini.LoadFile(entry.path().string().c_str()) < 0) continue;
-            const char* name = ini.GetValue("Preset", "name", nullptr);
-            if (!name) continue;
-
-            entries.push_back({
-                name,
-                entry.path().filename().string(),
-                entry.path()
-            });
-        }
-        return entries;
     }
 
     inline bool DeletePreset(const std::filesystem::path& path) {

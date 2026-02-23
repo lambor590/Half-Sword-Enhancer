@@ -8,6 +8,8 @@
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 #include "SDK/Str_Passport_Armor1_structs.hpp"
 
+namespace SDK { class AWillie_BP_C; }
+
 namespace Spawner {
     enum class ActorType {
         Willie,
@@ -30,4 +32,6 @@ namespace Spawner {
     void SpawnCustomizableFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround = false, std::function<void(SDK::AActor*)> callback = nullptr);
 
     SDK::UClass* LoadClass(const std::string& classPath);
+
+    SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale);
 }

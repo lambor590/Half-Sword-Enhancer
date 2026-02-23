@@ -9,6 +9,7 @@
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
+#include "SDK/Willie_BP_classes.hpp"
 #include "Hooks/GameHook.h"
 
 namespace Spawner {
@@ -180,6 +181,11 @@ namespace Spawner {
         return groundLevel;
     }
 
+    static void ApplySnapToGround(const SDK::UWorld* world, SDK::FTransform& transform, ActorType type) {
+        float groundOffset = GetGroundOffsetForType(type, transform.Scale3D);
+        transform.Translation = GetGroundPosition(world, transform.Translation, groundOffset);
+    }
+
     void ClearCache() {
         classCache.clear();
         EquipmentGenerator::ClearCache();
@@ -190,11 +196,8 @@ namespace Spawner {
             SDK::FTransform finalTransform = transform;
             ActorType actorType = GetActorType(className);
 
-            if (snapToGround) {
-                float groundOffset = GetGroundOffsetForType(actorType, transform.Scale3D);
-                SDK::FVector groundPosition = GetGroundPosition(world, transform.Translation, groundOffset);
-                finalTransform.Translation = groundPosition;
-            }
+            if (snapToGround)
+                ApplySnapToGround(world, finalTransform, actorType);
 
             SDK::UClass* actorClass = LoadActorClass(className);
             if (!actorClass) return;
@@ -220,11 +223,8 @@ namespace Spawner {
         GameHook::QueueAction([world, passport, transform, snapToGround]() {
             SDK::FTransform finalTransform = transform;
 
-            if (snapToGround) {
-                float groundOffset = GetGroundOffsetForType(ActorType::Weapon, transform.Scale3D);
-                SDK::FVector groundPosition = GetGroundPosition(world, transform.Translation, groundOffset);
-                finalTransform.Translation = groundPosition;
-            }
+            if (snapToGround)
+                ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
             SpawnWeaponWithPassport(world, passport, finalTransform);
         });
@@ -252,11 +252,8 @@ namespace Spawner {
         GameHook::QueueAction([world, passport, transform, snapToGround, callback = std::move(callback)]() {
             SDK::FTransform finalTransform = transform;
 
-            if (snapToGround) {
-                float groundOffset = GetGroundOffsetForType(ActorType::Armor, transform.Scale3D);
-                SDK::FVector groundPosition = GetGroundPosition(world, transform.Translation, groundOffset);
-                finalTransform.Translation = groundPosition;
-            }
+            if (snapToGround)
+                ApplySnapToGround(world, finalTransform, ActorType::Armor);
 
             SDK::AActor* actor = SpawnArmorWithPassport(world, passport, finalTransform);
             if (callback && actor) callback(actor);
@@ -273,10 +270,8 @@ namespace Spawner {
 
             SDK::FTransform finalTransform = transform;
 
-            if (snapToGround) {
-                float groundOffset = GetGroundOffsetForType(ActorType::Weapon, transform.Scale3D);
-                finalTransform.Translation = GetGroundPosition(world, transform.Translation, groundOffset);
-            }
+            if (snapToGround)
+                ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
             SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();
             auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
@@ -296,10 +291,8 @@ namespace Spawner {
         GameHook::QueueAction([world, type, transform, snapToGround, tier]() {
             SDK::FTransform finalTransform = transform;
 
-            if (snapToGround) {
-                float groundOffset = GetGroundOffsetForType(ActorType::Weapon, transform.Scale3D);
-                finalTransform.Translation = GetGroundPosition(world, transform.Translation, groundOffset);
-            }
+            if (snapToGround)
+                ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
             EquipmentGenerator::Init(world);
             auto passport = EquipmentGenerator::GenerateCustomizableWeapon(type, static_cast<SDK::Enum_Ranks>(tier));
@@ -315,6 +308,16 @@ namespace Spawner {
             static_cast<SDK::AModularWeaponBP_Customizable_C*>(actor)->Weapon_Passport = passport;
             SDK::UGameplayStatics::FinishSpawningActor(actor, finalTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
         });
+    }
+
+    SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale) {
+        auto transform = player->GetTransform();
+        const auto forward = player->GetActorForwardVector();
+        transform.Translation.X += forward.X * distanceForward;
+        transform.Translation.Y += forward.Y * distanceForward;
+        transform.Translation.Z += distanceUp;
+        transform.Scale3D = {scale, scale, scale};
+        return transform;
     }
 
 }

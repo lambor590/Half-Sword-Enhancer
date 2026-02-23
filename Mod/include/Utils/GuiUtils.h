@@ -3,6 +3,7 @@
 #include <array>
 #include <cstring>
 #include <filesystem>
+#include <functional>
 #include <vector>
 
 #include "imgui/imgui.h"
@@ -10,6 +11,9 @@
 #include "DefaultStyle.h"
 #include "Utils/PresetUtils.h"
 #include "Utils/OverrideTypes.h"
+#include "Utils/GameConstants.h"
+#include "SDK/Enum_Ranks_structs.hpp"
+#include "SDK/Enum_MaterialLayer_structs.hpp"
 
 namespace GuiUtils {
     inline constexpr ImVec2 kTooltipPadding{8.0f, 6.0f};
@@ -115,21 +119,9 @@ namespace GuiUtils {
         ImGui::PopItemWidth();
     }
 
-    inline void RenderOverrideIndicator(bool active) {
-        if (!active) return;
-        auto* drawList = ImGui::GetWindowDrawList();
-        ImVec2 pos = ImGui::GetCursorScreenPos();
-        float radius = 3.0f;
-        float yCenter = pos.y + ImGui::GetFrameHeight() * 0.5f;
-        drawList->AddCircleFilled(ImVec2(pos.x + radius, yCenter), radius, IM_COL32(209, 171, 89, 255));
-        ImGui::Dummy(ImVec2(radius * 2 + 2.0f, 0));
-        ImGui::SameLine(0, 0);
-    }
-
     inline void RenderOverrideDrag(const char* label, RuntimeOverride& ovr,
                                    float speed = 0.1f, float min = 0.0f, float max = 0.0f) {
         ImGui::PushID(label);
-        RenderOverrideIndicator(ovr.enabled);
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
@@ -142,7 +134,6 @@ namespace GuiUtils {
 
     inline void RenderOverrideInt(const char* label, IntOverride& ovr, int min = 0, int max = 10) {
         ImGui::PushID(label);
-        RenderOverrideIndicator(ovr.enabled);
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
@@ -157,7 +148,6 @@ namespace GuiUtils {
 
         int current = ovr.enabled ? (ovr.value ? 2 : 1) : 0;
         ImGui::PushID(label);
-        RenderOverrideIndicator(ovr.enabled);
         ImGui::SetNextItemWidth(tristateW);
         if (ImGui::Combo(label, &current, TRISTATE, 3)) {
             ovr.enabled = (current != 0);
@@ -245,6 +235,36 @@ namespace GuiUtils {
         }
     };
 
+    inline void RenderColorEditor(const char* label, SDK::FLinearColor& color) {
+        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
+        float col[4] = {color.R, color.G, color.B, color.A};
+        if (ImGui::ColorEdit4(label, col))
+            color = {col[0], col[1], col[2], col[3]};
+        ImGui::PopItemWidth();
+    }
+
+    inline void RenderFreeTierCombo(const char* label, SDK::Enum_Ranks& tier) {
+        int val = static_cast<int>(tier);
+        RenderFreeTierCombo(label, val);
+        tier = static_cast<SDK::Enum_Ranks>(val);
+    }
+
+    inline void RenderMaterialCombo(const char* label, SDK::Enum_MaterialLayer& mat) {
+        static float materialComboW = CalcComboWidth(GameConstants::MATERIAL_LAYER_NAMES, GameConstants::MATERIAL_LAYER_COUNT);
+
+        int val = static_cast<int>(mat);
+        const char* preview = (val >= 0 && val < GameConstants::MATERIAL_LAYER_COUNT) ? GameConstants::MATERIAL_LAYER_NAMES[val] : "Unknown";
+        ImGui::SetNextItemWidth(materialComboW);
+        if (ImGui::BeginCombo(label, preview)) {
+            for (int i = 0; i < GameConstants::MATERIAL_LAYER_COUNT; ++i) {
+                if (ImGui::Selectable(GameConstants::MATERIAL_LAYER_NAMES[i], val == i))
+                    mat = static_cast<SDK::Enum_MaterialLayer>(i);
+                if (val == i) ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+    }
+
     struct PresetTreeAction {
         enum Type { None, Load, Delete } type = None;
         std::filesystem::path path;
@@ -282,6 +302,58 @@ namespace GuiUtils {
         }
 
         return action;
+    }
+
+    struct PresetPanelState {
+        char* nameBuf;
+        size_t nameBufSize;
+        bool& listDirty;
+        PresetUtils::PresetTreeNode& tree;
+        StatusMessage& status;
+    };
+
+    using PresetCallback = std::function<void()>;
+    using PresetNameCallback = std::function<void(const char*)>;
+    using PresetPathCallback = std::function<void(const std::filesystem::path&)>;
+
+    inline void RenderPresetPanel(PresetPanelState& state,
+        const std::filesystem::path& presetsDir,
+        PresetCallback refreshTree,
+        PresetNameCallback onSave,
+        PresetPathCallback onLoad,
+        PresetPathCallback onDelete)
+    {
+        ImGui::SeparatorText("Save");
+        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
+        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
+        ImGui::InputTextWithHint("##PresetName", "folder/name...", state.nameBuf, state.nameBufSize);
+        ImGui::SameLine();
+        bool canSave = state.nameBuf[0] != '\0';
+        if (!canSave) ImGui::BeginDisabled();
+        if (ImGui::Button("Save"))
+            onSave(state.nameBuf);
+        if (!canSave) ImGui::EndDisabled();
+
+        ImGui::SeparatorText("Presets");
+        if (state.listDirty)
+            refreshTree();
+
+        if (state.tree.presets.empty() && state.tree.children.empty()) {
+            ImGui::TextDisabled("No saved presets");
+        } else {
+            ImGui::BeginChild("##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders);
+            auto action = RenderPresetTree(state.tree);
+            ImGui::EndChild();
+
+            if (action.type == PresetTreeAction::Load)
+                onLoad(action.path);
+            else if (action.type == PresetTreeAction::Delete)
+                onDelete(action.path);
+        }
+
+        ImGui::Spacing();
+        if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0)))
+            PresetUtils::OpenInExplorer(presetsDir);
     }
 
 }
