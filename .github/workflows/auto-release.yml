@@ -24,6 +24,7 @@ jobs:
       version: ${{ steps.extract.outputs.version }}
       should_release: ${{ steps.check.outputs.should_release }}
       prev_tag: ${{ steps.check.outputs.prev_tag }}
+      proxy_changed: ${{ steps.check.outputs.proxy_changed }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -47,7 +48,14 @@ jobs:
             echo "Tag $VERSION exists, skipping" >> $GITHUB_STEP_SUMMARY
           else
             echo "should_release=true" >> $GITHUB_OUTPUT
-            echo "prev_tag=$(git describe --tags --abbrev=0 2>/dev/null)" >> $GITHUB_OUTPUT
+            PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null)
+            echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
+            if [ -n "$PREV_TAG" ]; then
+              PROXY_CHANGED=$(git diff --quiet "$PREV_TAG"..HEAD -- 'Proxy/**' && echo false || echo true)
+            else
+              PROXY_CHANGED=true
+            fi
+            echo "proxy_changed=$PROXY_CHANGED" >> $GITHUB_OUTPUT
           fi
 
   changelog:
@@ -111,6 +119,8 @@ jobs:
 
       - name: Build and package
         shell: pwsh
+        env:
+          PROXY_CHANGED: ${{ needs.version-check.outputs.proxy_changed }}
         run: |
           MSBuild.exe "Half Sword Enhancer.sln" /p:Configuration=Release /p:Platform=x64
           if ($LASTEXITCODE -ne 0) { throw "Build failed" }
@@ -118,7 +128,9 @@ jobs:
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
           Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/"
           Copy-Item "bin/HSEnhancer.dll" "release_files/"
-          Copy-Item "bin/winmm.dll" "release_files/"
+          if ($env:PROXY_CHANGED -eq "true") {
+            Copy-Item "bin/winmm.dll" "release_files/"
+          }
 
           New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
           Copy-Item "Manual_Install.txt" "manual_install/README.txt"
