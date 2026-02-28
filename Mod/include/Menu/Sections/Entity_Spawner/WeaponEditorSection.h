@@ -582,14 +582,14 @@ private:
 
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f) {
         float v[3] = {static_cast<float>(vec.X), static_cast<float>(vec.Y), static_cast<float>(vec.Z)};
-        if (ImGui::DragFloat3(label, v, speed, 0.01f, 10.0f, "%.3f")) {
+        if (ImGui::DragFloat3(label, v, speed, 0.0f, 0.0f, "%.3f")) {
             vec.X = v[0]; vec.Y = v[1]; vec.Z = v[2];
         }
     }
 
     static void RenderMassDrag(const char* label, double& mass, float speed = 0.01f) {
         float val = static_cast<float>(mass);
-        if (ImGui::DragFloat(label, &val, speed, 0.01f, 100.0f, "%.3f"))
+        if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f"))
             mass = val;
     }
 
@@ -853,7 +853,7 @@ private:
         if (ovr.mesh) {
             float s[3] = {static_cast<float>(ovr.scale.X), static_cast<float>(ovr.scale.Y), static_cast<float>(ovr.scale.Z)};
             ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
-            if (ImGui::DragFloat3("Scale", s, 0.01f, 0.01f, 10.0f, "%.2f")) {
+            if (ImGui::DragFloat3("Scale", s, 0.01f, 0.0f, 0.0f, "%.2f")) {
                 ovr.scale = {s[0], s[1], s[2]};
                 if (previewActor) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
             }
@@ -867,7 +867,7 @@ private:
 
             float o[3] = {static_cast<float>(ovr.offset.X), static_cast<float>(ovr.offset.Y), static_cast<float>(ovr.offset.Z)};
             ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
-            if (ImGui::DragFloat3("Offset", o, 0.1f, -500.0f, 500.0f, "%.1f")) {
+            if (ImGui::DragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f")) {
                 ovr.offset = {o[0], o[1], o[2]};
                 if (previewActor) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
             }
@@ -999,9 +999,9 @@ private:
         }
 
         if (ImGui::TreeNode("Dismemberment")) {
-            GuiUtils::RenderOverrideInt("Sharp Level", runtimeProps.dismemberSharp, 0, 10);
+            GuiUtils::RenderOverrideInt("Sharp Level", runtimeProps.dismemberSharp);
             TooltipHelper::ShowTooltip("Sharp dismemberment threshold (higher = easier to sever)");
-            GuiUtils::RenderOverrideInt("Blunt Level", runtimeProps.dismemberBlunt, 0, 10);
+            GuiUtils::RenderOverrideInt("Blunt Level", runtimeProps.dismemberBlunt);
             TooltipHelper::ShowTooltip("Blunt dismemberment threshold (higher = easier to crush)");
             ImGui::TreePop();
         }
@@ -1211,7 +1211,7 @@ public:
             GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.autoRotate, "Continuously rotate the preview weapon");
             if (cfg.autoRotate) {
                 ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.4f);
-                ImGui::SliderFloat("Rotation Speed", &cfg.rotationSpeed, -360.0f, 360.0f, "%.0f deg/s");
+                ImGui::DragFloat("Rotation Speed", &cfg.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
                 TooltipHelper::ShowTooltip("Rotation speed in degrees/second. Negative values reverse direction");
             }
         }

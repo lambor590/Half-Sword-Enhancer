@@ -120,24 +120,24 @@ namespace GuiUtils {
     }
 
     inline void RenderOverrideDrag(const char* label, RuntimeOverride& ovr,
-                                   float speed = 0.1f, float min = 0.0f, float max = 0.0f) {
+                                   float speed = 0.1f) {
         ImGui::PushID(label);
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
         float val = static_cast<float>(ovr.value);
-        if (ImGui::DragFloat(label, &val, speed, min, max, "%.3f"))
+        if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f"))
             ovr.value = val;
         if (!ovr.enabled) ImGui::EndDisabled();
         ImGui::PopID();
     }
 
-    inline void RenderOverrideInt(const char* label, IntOverride& ovr, int min = 0, int max = 10) {
+    inline void RenderOverrideInt(const char* label, IntOverride& ovr, float speed = 0.1f) {
         ImGui::PushID(label);
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
-        ImGui::SliderInt(label, &ovr.value, min, max);
+        ImGui::DragInt(label, &ovr.value, speed, 0, 0);
         if (!ovr.enabled) ImGui::EndDisabled();
         ImGui::PopID();
     }

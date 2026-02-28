@@ -293,9 +293,9 @@ private:
         ImGui::PushID("physical");
 
         ImGui::SeparatorText("Body");
-        GuiUtils::RenderOverrideDrag("Height Rate", overrides.heightRate, 0.01f, 0.1f, 3.0f);
+        GuiUtils::RenderOverrideDrag("Height Rate", overrides.heightRate, 0.01f);
         TooltipHelper::ShowTooltip("Character height multiplier (1.0 = normal)");
-        GuiUtils::RenderOverrideDrag("Muscle Rate", overrides.muscleRate, 0.01f, 0.1f, 3.0f);
+        GuiUtils::RenderOverrideDrag("Muscle Rate", overrides.muscleRate, 0.01f);
         TooltipHelper::ShowTooltip("Character muscle/bulk multiplier (1.0 = normal)");
         GuiUtils::RenderOverrideDrag("Scale Mutation Inhibitor", overrides.scaleMutationInhibitor, 0.01f);
         TooltipHelper::ShowTooltip("Controls how much random scale variation is suppressed");
@@ -352,19 +352,19 @@ private:
 
         if (ImGui::BeginTable("##tonusparts", 2, ImGuiTableFlags_None)) {
             ImGui::TableNextColumn();
-            GuiUtils::RenderOverrideDrag("Head##t", overrides.headTonus, 0.01f, 0.0f, 1.0f);
+            GuiUtils::RenderOverrideDrag("Head##t", overrides.headTonus, 0.01f);
             ImGui::TableNextColumn();
             ImGui::Dummy(ImVec2(0, 0));
 
             ImGui::TableNextColumn();
-            GuiUtils::RenderOverrideDrag("Right Arm##t", overrides.armRTonus, 0.01f, 0.0f, 1.0f);
+            GuiUtils::RenderOverrideDrag("Right Arm##t", overrides.armRTonus, 0.01f);
             ImGui::TableNextColumn();
-            GuiUtils::RenderOverrideDrag("Left Arm##t", overrides.armLTonus, 0.01f, 0.0f, 1.0f);
+            GuiUtils::RenderOverrideDrag("Left Arm##t", overrides.armLTonus, 0.01f);
 
             ImGui::TableNextColumn();
-            GuiUtils::RenderOverrideDrag("Right Leg##t", overrides.legRTonus, 0.01f, 0.0f, 1.0f);
+            GuiUtils::RenderOverrideDrag("Right Leg##t", overrides.legRTonus, 0.01f);
             ImGui::TableNextColumn();
-            GuiUtils::RenderOverrideDrag("Left Leg##t", overrides.legLTonus, 0.01f, 0.0f, 1.0f);
+            GuiUtils::RenderOverrideDrag("Left Leg##t", overrides.legLTonus, 0.01f);
             ImGui::EndTable();
         }
 
@@ -478,7 +478,7 @@ private:
         ImGui::SeparatorText("State");
         GuiUtils::RenderOverrideDrag("Exhaustion", overrides.exhaustion, 0.1f);
         TooltipHelper::ShowTooltip("Physical exhaustion level");
-        GuiUtils::RenderOverrideDrag("Drunk", overrides.drunk, 0.01f, 0.0f, 1.0f);
+        GuiUtils::RenderOverrideDrag("Drunk", overrides.drunk, 0.01f);
         TooltipHelper::ShowTooltip("Drunkenness level (0 = sober, 1 = fully drunk)");
         GuiUtils::RenderOverrideDrag("Fear", overrides.fear, 0.1f);
         TooltipHelper::ShowTooltip("Fear level");

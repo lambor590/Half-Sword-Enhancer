@@ -223,21 +223,21 @@ private:
         ImGui::PushID("physical");
 
         ImGui::SeparatorText("Body");
-        GuiUtils::RenderOverrideDrag("Height Rate", overrides.heightRate, 0.01f, 0.1f, 3.0f);
+        GuiUtils::RenderOverrideDrag("Height Rate", overrides.heightRate, 0.01f);
         TooltipHelper::ShowTooltip("Character height multiplier (1.0 = normal)");
-        GuiUtils::RenderOverrideDrag("Muscle Rate", overrides.muscleRate, 0.01f, 0.1f, 3.0f);
+        GuiUtils::RenderOverrideDrag("Muscle Rate", overrides.muscleRate, 0.01f);
         TooltipHelper::ShowTooltip("Character muscle/bulk multiplier (1.0 = normal)");
         GuiUtils::RenderOverrideDrag("Scale Mutation Inhibitor", overrides.scaleMutationInhibitor, 0.01f);
         TooltipHelper::ShowTooltip("Controls how much random scale variation is suppressed");
 
         ImGui::SeparatorText("Appearance");
-        GuiUtils::RenderOverrideInt("Face Type", overrides.faceType, 0, 20);
+        GuiUtils::RenderOverrideInt("Face Type", overrides.faceType);
         TooltipHelper::ShowTooltip("Face mesh index");
-        GuiUtils::RenderOverrideInt("Eye Color", overrides.eyeColor, 0, 10);
+        GuiUtils::RenderOverrideInt("Eye Color", overrides.eyeColor);
         TooltipHelper::ShowTooltip("Eye color index");
-        GuiUtils::RenderOverrideDrag("Hair Length", overrides.hairLength, 0.01f, 0.0f, 1.0f);
+        GuiUtils::RenderOverrideDrag("Hair Length", overrides.hairLength, 0.01f);
         TooltipHelper::ShowTooltip("Hair length (0 = bald, 1 = maximum)");
-        GuiUtils::RenderOverrideDrag("Hair Color", overrides.hairColor, 0.01f, 0.0f, 1.0f);
+        GuiUtils::RenderOverrideDrag("Hair Color", overrides.hairColor, 0.01f);
         TooltipHelper::ShowTooltip("Hair melanin (0 = blonde, 0.5 = brown, 1 = black)");
 
         ImGui::PopID();
@@ -282,9 +282,9 @@ private:
         TooltipHelper::ShowTooltip("Clear objects around spawn point before spawning");
 
         ImGui::Spacing();
-        GuiUtils::RenderOverrideDrag("Drunk", overrides.drunk, 0.01f, 0.0f, 1.0f);
+        GuiUtils::RenderOverrideDrag("Drunk", overrides.drunk, 0.01f);
         TooltipHelper::ShowTooltip("Drunkenness level (0 = sober, 1 = fully drunk)");
-        GuiUtils::RenderOverrideInt("Bolts in Quiver", overrides.boltsInQuiver, 0, 50);
+        GuiUtils::RenderOverrideInt("Bolts in Quiver", overrides.boltsInQuiver);
         TooltipHelper::ShowTooltip("Number of crossbow bolts the NPC carries");
 
         ImGui::PopID();
@@ -411,7 +411,7 @@ public:
             nationalityNames, nationalityCount);
         ImGui::SameLine();
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-        ImGui::SliderInt("##NPCTierSlider", &cfg.npcTier, 0, 8, "Tier %d");
+        ImGui::DragInt("##NPCTierSlider", &cfg.npcTier, 0.1f, 0, 0, "Tier %d");
 
         ImGui::Spacing();
         if (ImGui::Button("Reset All Overrides")) {

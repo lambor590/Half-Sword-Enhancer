@@ -160,7 +160,7 @@ private:
 
     static void RenderVectorDrag(const char* label, SDK::FVector& vec) {
         float v[3] = {static_cast<float>(vec.X), static_cast<float>(vec.Y), static_cast<float>(vec.Z)};
-        if (ImGui::DragFloat3(label, v, 0.01f, 0.01f, 10.0f, "%.3f")) {
+        if (ImGui::DragFloat3(label, v, 0.01f, 0.0f, 0.0f, "%.3f")) {
             vec.X = v[0]; vec.Y = v[1]; vec.Z = v[2];
         }
     }

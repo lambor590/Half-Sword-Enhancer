@@ -325,7 +325,7 @@ private:
         GuiUtils::RenderFreeTierCombo("##GenTier", cfg.armorTier);
 
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.5f);
-        ImGui::SliderFloat("Module Chance", &cfg.moduleChance, 0.0f, 1.0f, "%.2f");
+        ImGui::DragFloat("Module Chance", &cfg.moduleChance, 0.01f, 0.0f, 0.0f, "%.2f");
         TooltipHelper::ShowTooltip("Probability of generating modular armor vs built armor");
 
         ImGui::Spacing();
@@ -567,7 +567,7 @@ public:
             GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.autoRotate, "Continuously rotate the preview armor");
             if (cfg.autoRotate) {
                 ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.4f);
-                ImGui::SliderFloat("Rotation Speed", &cfg.rotationSpeed, -360.0f, 360.0f, "%.0f deg/s");
+                ImGui::DragFloat("Rotation Speed", &cfg.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
                 TooltipHelper::ShowTooltip("Rotation speed in degrees/second. Negative values reverse direction");
             }
         }

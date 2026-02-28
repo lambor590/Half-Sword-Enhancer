@@ -291,9 +291,9 @@ namespace {
             
             const SliderStyleRAII sliderStyle;
             if constexpr (std::is_integral_v<T>) {
-                ImGui::SliderInt(param.id.c_str(), valuePtr, param.minValue.intMin, param.maxValue.intMax);
+                ImGui::DragInt(param.id.c_str(), valuePtr, 1.0f, 0, 0);
             } else {
-                ImGui::SliderFloat(param.id.c_str(), valuePtr, param.minValue.floatMin, param.maxValue.floatMax, "%.2f");
+                ImGui::DragFloat(param.id.c_str(), valuePtr, 0.01f, 0.0f, 0.0f, "%.2f");
             }
         }
         
