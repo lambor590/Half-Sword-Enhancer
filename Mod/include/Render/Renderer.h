@@ -82,13 +82,13 @@ private:
     
     __forceinline void RenderFrameD3D11() noexcept;
     __forceinline void RenderFrameD3D12() noexcept;
-    __forceinline bool SignalAndWait() noexcept;
+    bool SignalAndWait() noexcept;
     
     bool InitD3DResources(IDXGISwapChain* swapChain) noexcept;
     bool InitD3D11() noexcept;
     bool InitD3D12() noexcept;
     void ReleaseResources() noexcept;
-    __forceinline void InitOrReinitImGui() noexcept;
+    void InitOrReinitImGui() noexcept;
     
     __forceinline void SetViewportIfDirty() noexcept {
         if (window.viewportDirty) UNLIKELY {

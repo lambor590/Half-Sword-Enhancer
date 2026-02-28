@@ -22,9 +22,10 @@ void Renderer::OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT wid
     if (state.isD3D12) LIKELY {
         if (d3d11Context) {
             d3d11Context->ClearState();
-            d3d11Context->OMSetRenderTargets(0, nullptr, nullptr);
             d3d11Context->Flush();
         }
+        if (fence && commandQueue)
+            SignalAndWait();
         for (auto& wrappedBuffer : d3d11WrappedBackBuffers) wrappedBuffer.Reset();
         for (auto& rtv : d3d11RenderTargetViews) rtv.Reset();
     }
@@ -60,7 +61,6 @@ __forceinline void Renderer::RenderFrameImpl() noexcept
 
         d3d11On12Device->ReleaseWrappedResources(&wrappedBuffer, 1);
         d3d11Context->Flush();
-        SignalAndWait();
     } else {
         ID3D11RenderTargetView* const __restrict renderTarget = d3d11RenderTargetViews[0].Get();
         d3d11Context->OMSetRenderTargets(1, &renderTarget, nullptr);
@@ -80,7 +80,7 @@ __forceinline void Renderer::RenderFrameD3D12() noexcept
     RenderFrameImpl<true>();
 }
 
-__forceinline void Renderer::InitOrReinitImGui() noexcept {
+void Renderer::InitOrReinitImGui() noexcept {
     if (!state.guiReady) {
         ImGui::CreateContext();
         ImGui_ImplWin32_Init(window.handle);
@@ -214,7 +214,7 @@ bool Renderer::InitD3D12() noexcept
     return true;
 }
 
-__forceinline bool Renderer::SignalAndWait() noexcept
+bool Renderer::SignalAndWait() noexcept
 {
     ID3D12CommandQueue* const __restrict cmdQueue = commandQueue.Get();
     ID3D12Fence* const __restrict fencePtr = fence.Get();
@@ -251,11 +251,18 @@ void Renderer::ReleaseResources() noexcept
 
 void Renderer::Cleanup() noexcept
 {
-    ReleaseResources();
+    if (d3d11Context) LIKELY {
+        d3d11Context->ClearState();
+        d3d11Context->Flush();
+    }
 
     if (state.isD3D12 && fence && commandQueue) LIKELY {
-        commandQueue->Signal(fence.Get(), fenceValue + 1);
+        SignalAndWait();
     }
+
+    for (auto& rtv : d3d11RenderTargetViews) rtv.Reset();
+    for (auto& buf : d3d11WrappedBackBuffers) buf.Reset();
+    for (auto& rt : d3d12RenderTargets) rt.Reset();
 
     d3d11Context.Reset();
     d3d11Device.Reset();
