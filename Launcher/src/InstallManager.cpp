@@ -26,13 +26,16 @@ namespace hse {
     ) noexcept {
         try {
             std::error_code ec;
-            std::filesystem::copy_file(
-                sourcePath / PROXY_FILENAME, gameBinPath / PROXY_FILENAME,
-                std::filesystem::copy_options::overwrite_existing, ec
-            );
-            if (ec) {
-                Logger::error("Failed to copy proxy: %s", ec.message().c_str());
-                return std::unexpected(InstallError::CopyFailed);
+            const auto sourceProxy = sourcePath / PROXY_FILENAME;
+            if (std::filesystem::exists(sourceProxy)) {
+                std::filesystem::copy_file(
+                    sourceProxy, gameBinPath / PROXY_FILENAME,
+                    std::filesystem::copy_options::overwrite_existing, ec
+                );
+                if (ec) {
+                    Logger::error("Failed to copy proxy: %s", ec.message().c_str());
+                    return std::unexpected(InstallError::CopyFailed);
+                }
             }
 
             std::filesystem::copy_file(
@@ -42,11 +45,6 @@ namespace hse {
             if (ec) {
                 Logger::error("Failed to copy mod: %s", ec.message().c_str());
                 return std::unexpected(InstallError::CopyFailed);
-            }
-
-            if (!VerifyInstallation(gameBinPath)) {
-                Logger::error("Post-install verification failed");
-                return std::unexpected(InstallError::VerificationFailed);
             }
 
             Logger::info("Files installed successfully");
@@ -60,12 +58,6 @@ namespace hse {
             Logger::error("Unknown error during installation");
             return std::unexpected(InstallError::CopyFailed);
         }
-    }
-
-    bool InstallManager::VerifyInstallation(
-        const std::filesystem::path& gameBinPath
-    ) const noexcept {
-        return CheckInstallation(gameBinPath).fullyInstalled();
     }
 
     std::expected<bool, InstallError> InstallManager::TestWritePermissions(

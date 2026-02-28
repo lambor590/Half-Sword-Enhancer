@@ -243,7 +243,7 @@ bool HSELauncher::CheckAndInstallMod() {
     auto status = installManager.CheckInstallation(gameBinPath_);
 
 #ifdef EXPERIMENTAL_VERSION
-    if (!status.fullyInstalled()) {
+    if (!status.modInstalled) {
         hse::Logger::info("Mod not installed. Downloading experimental build...");
 
         if (!cachedExperimentalInfo_) {
@@ -328,7 +328,7 @@ bool HSELauncher::CheckAndInstallMod() {
 
     auto& updateInfo = *cachedUpdateInfo_;
 
-    if (!status.fullyInstalled()) {
+    if (!status.modInstalled) {
         hse::Logger::info("Mod not installed. Downloading...");
 
         if (!updateInfo.remoteVersion.IsValid()) {

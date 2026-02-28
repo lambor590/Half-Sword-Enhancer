@@ -10,7 +10,6 @@ namespace hse {
         FileNotFound,
         CopyFailed,
         PermissionDenied,
-        VerificationFailed,
         InvalidPath
     };
 
@@ -42,10 +41,6 @@ namespace hse {
 
     private:
         InstallManager() = default;
-
-        [[nodiscard]] bool VerifyInstallation(
-            const std::filesystem::path& gameBinPath
-        ) const noexcept;
     };
 
 }

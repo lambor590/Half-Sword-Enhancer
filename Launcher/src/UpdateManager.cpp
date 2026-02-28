@@ -122,7 +122,6 @@ namespace hse {
             const auto tempDir = std::filesystem::path(getAppDataPath()) / TEMP_FOLDER;
             std::filesystem::create_directories(tempDir);
 
-            Logger::info("Downloading mod...");
             auto modResult = DownloadModToPath(modUrl, tempDir / MOD_FILENAME, modMinSize);
             if (!modResult) {
                 std::filesystem::remove_all(tempDir);
@@ -130,11 +129,9 @@ namespace hse {
             }
 
             if (!proxyUrl.empty()) {
-                Logger::info("Downloading proxy...");
                 auto proxyResult = DownloadModToPath(proxyUrl, tempDir / PROXY_FILENAME, 10000);
                 if (!proxyResult) {
-                    std::filesystem::remove_all(tempDir);
-                    return proxyResult;
+                    Logger::warn("Proxy not available in this release, skipping");
                 }
             }
 
@@ -158,8 +155,8 @@ namespace hse {
     ) noexcept {
         const auto versionStr = version.ToString();
         auto result = DownloadToTempAndInstall(
-            BuildReleaseUrl(versionStr, "HSEnhancer.dll"),
-            BuildReleaseUrl(versionStr, "winmm.dll"),
+            BuildReleaseUrl(versionStr, MOD_FILENAME),
+            BuildReleaseUrl(versionStr, PROXY_FILENAME),
             gameBinPath
         );
         if (result) {
