@@ -78,7 +78,7 @@ public:
 
         ImGui::Spacing();
 
-        if (ImGui::DragInt("Render Scale (%)", &settings.renderScale, 1.0f, 0, 0)) {
+        if (ImGui::DragInt("Render Scale (%)", &settings.renderScale, 1.0f, 1, 0)) {
             settingsChanged = true;
         }
 

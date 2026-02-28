@@ -410,8 +410,8 @@ public:
         ImGui::Combo("##NationalitySelector", &cfg.npcNationality,
             nationalityNames, nationalityCount);
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-        ImGui::DragInt("##NPCTierSlider", &cfg.npcTier, 0.1f, 0, 0, "Tier %d");
+        ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
+        ImGui::DragInt("##NPCTierSlider", &cfg.npcTier, 0.1f, 0, 8, "Tier %d");
 
         ImGui::Spacing();
         if (ImGui::Button("Reset All Overrides")) {
