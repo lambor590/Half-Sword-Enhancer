@@ -25,6 +25,11 @@ namespace ActorUtils {
         ForEachWillieInRadius(world, player, GameConstants::MAX_DISTANCE, std::forward<Func>(func));
     }
 
+    inline void ApplyBiteState(SDK::AWillie_BP_C* willie, bool active) noexcept {
+        if (active && !willie->Biting) willie->Bite_Event();
+        else if (!active && willie->Biting) willie->Un_Bite_Event();
+    }
+
     inline void SetInfiniteConsciousness(SDK::AWillie_BP_C* willie) noexcept {
         willie->Consciousness_Cap = GameConstants::DEFAULT_HEALTH;
         willie->Consciousness = GameConstants::DEFAULT_HEALTH;

@@ -185,7 +185,7 @@ public:
             .GameThread()
             .WithTooltip("Bite the nearest enemy like a zombie")
             .Action([this](bool active) {
-                if (active && !player->Biting) player->Bite_Event();
+                ActorUtils::ApplyBiteState(player, active);
             }, player);
 
         Function("Enemy Bite")
@@ -196,10 +196,27 @@ public:
             .WithParams({ Parameter("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target") })
             .WithTooltip("Make the nearest enemy bite another enemy")
             .Action([this](bool active) {
-                auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
-                if (!biter) return;
+                if (active) {
+                    auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
+                    if (biter) ActorUtils::ApplyBiteState(biter, true);
+                } else {
+                    ActorUtils::ForEachWillieInRadius(world, player, cfg.biteRange, [](SDK::AWillie_BP_C* willie) {
+                        ActorUtils::ApplyBiteState(willie, false);
+                    });
+                }
+            }, player, world);
 
-                if (active && !biter->Biting) biter->Bite_Event();
+        Function("Enemy Bite All")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&cfg.enemyBiteAllKey)
+            .Toggle()
+            .GameThread()
+            .WithParams({ Parameter("range", "Range", &cfg.biteAllRange, 50.0f, 2000.0f, "Detection range for mass bite") })
+            .WithTooltip("Make all enemies within range bite each other")
+            .Action([this](bool active) {
+                ActorUtils::ForEachWillieInRadius(world, player, cfg.biteAllRange, [active](SDK::AWillie_BP_C* willie) {
+                    ActorUtils::ApplyBiteState(willie, active);
+                });
             }, player, world);
 
         Function("Possess Nearest Willie")
