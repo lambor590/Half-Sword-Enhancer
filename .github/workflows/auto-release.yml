@@ -66,7 +66,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           EXPERIMENTAL_BODY=$(gh release view experimental-latest --repo "${{ github.repository }}" --json body -q '.body' 2>/dev/null) || true
-          CHANGELOG=$(echo "$EXPERIMENTAL_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation$/p' | tail -n +4 | sed '$d')
+          CHANGELOG=$(echo "$EXPERIMENTAL_BODY" | sed -n '/^> \[!WARNING\]/,/^## Installation/p' | tail -n +4 | sed '$d')
 
           if [ -z "$CHANGELOG" ]; then
             echo "WARNING: No experimental changelog found"
@@ -118,10 +118,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
           Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/"
           Copy-Item "bin/HSEnhancer.dll" "release_files/"
-
-          # TODO(v0.7.0): Remove old-name duplicates once v0.5.x launchers are phased out
-          Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/HS_Enhancer_Launcher.exe"
-          Copy-Item "bin/HSEnhancer.dll" "release_files/HS-Enhancer.dll"
+          Copy-Item "bin/winmm.dll" "release_files/"
 
           New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
           Copy-Item "Manual_Install.txt" "manual_install/README.txt"
@@ -175,18 +172,6 @@ jobs:
 
           ## Installation
 
-          <details>
-          <summary><b>Quick Install (Recommended)</b></summary>
-
-          1. Download `HSEnhancer.dll`
-          2. Drag onto the Launcher executable
-          </details>
-
-          <details>
-          <summary><b>Manual Install</b></summary>
-
-          1. Download `HSEnhancer.zip`
-          2. Extract and follow instructions in README
-          </details>
+          Download and run `HSEnhancerLauncher.exe` — it will automatically install and update the mod.
           EOF
           )" || echo "WARNING: Could not reset experimental-latest changelog"

@@ -194,6 +194,7 @@ jobs:
 
           if ($env:MOD_CHANGED -eq "true") {
             Copy-Item "bin/HSEnhancer.dll" "release_files/"
+            Copy-Item "bin/winmm.dll" "release_files/"
             New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
             Copy-Item "Manual_Install.txt" "manual_install/README.txt"
             Copy-Item "bin/winmm.dll" "manual_install/"
@@ -245,21 +246,7 @@ jobs:
             [ -n "$CHANGELOG" ] && printf "%s\n\n" "$CHANGELOG"
             echo "## Installation"
             echo ""
-            echo "<details>"
-            echo "<summary><b>Quick Install (Recommended)</b></summary>"
-            echo ""
-            echo "1. Download \`HSEnhancer.dll\`"
-            echo "2. Drag onto the Launcher executable"
-            echo ""
-            echo "</details>"
-            echo ""
-            echo "<details>"
-            echo "<summary><b>Manual Install</b></summary>"
-            echo ""
-            echo "1. Download \`HSEnhancer.zip\`"
-            echo "2. Extract and follow instructions in README"
-            echo ""
-            echo "</details>"
+            echo "Download and run \`HSEnhancerLauncher.exe\` — it will automatically install and update the mod."
             echo ""
             echo "<!-- LAST_NOTIFIED_COMMIT: $CURRENT_COMMIT -->"
           } > release_body.md
@@ -269,14 +256,14 @@ jobs:
             || gh release create experimental-latest --repo "$REPO" --title "Experimental Build" --notes-file release_body.md --prerelease
 
           [ "$MOD_CHANGED" = true ] && [ -f release_files/HSEnhancer.dll ] && \
-            gh release upload experimental-latest release_files/HSEnhancer.{dll,zip} --repo "$REPO" --clobber || true
+            gh release upload experimental-latest release_files/HSEnhancer.dll release_files/winmm.dll release_files/HSEnhancer.zip --repo "$REPO" --clobber || true
           [ "$LAUNCHER_CHANGED" = true ] && [ -f release_files/HSEnhancerLauncher.exe ] && \
             gh release upload experimental-latest release_files/HSEnhancerLauncher.exe --repo "$REPO" --clobber || true
 
           # TODO(v0.7.0): Remove dev-latest migration once all users have transitioned to experimental-latest
           if gh release view dev-latest --repo "$REPO" &>/dev/null; then
             [ "$MOD_CHANGED" = true ] && [ -f release_files/HSEnhancer.dll ] && \
-              gh release upload dev-latest release_files/HSEnhancer.{dll,zip} --repo "$REPO" --clobber || true
+              gh release upload dev-latest release_files/HSEnhancer.dll release_files/winmm.dll release_files/HSEnhancer.zip --repo "$REPO" --clobber || true
             [ "$LAUNCHER_CHANGED" = true ] && [ -f release_files/HSEnhancerLauncher.exe ] && \
               gh release upload dev-latest release_files/HSEnhancerLauncher.exe --repo "$REPO" --clobber || true
           fi
