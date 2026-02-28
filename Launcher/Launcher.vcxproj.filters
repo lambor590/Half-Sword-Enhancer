@@ -24,7 +24,10 @@
     <ClCompile Include="src\UpdateManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProcessManager.cpp">
+    <ClCompile Include="src\SteamLocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InstallManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Launcher.cpp">
@@ -53,7 +56,10 @@
     <ClInclude Include="include\UpdateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ProcessManager.h">
+    <ClInclude Include="include\SteamLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InstallManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Launcher.h">

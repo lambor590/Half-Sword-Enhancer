@@ -7,6 +7,7 @@
 
 #include "../include/UpdateManager.h"
 #include "../include/NetworkManager.h"
+#include "../include/InstallManager.h"
 #include "../include/LauncherConfig.h"
 #include "../include/Logger.h"
 #include "../include/Util.h"
@@ -41,6 +42,17 @@ namespace hse {
         char buf[16];
         const auto len = std::snprintf(buf, sizeof(buf), "%u%u%u", major_, minor_, patch_);
         return std::string(buf, static_cast<size_t>(len));
+    }
+
+    std::string UpdateManager::BuildReleaseUrl(std::string_view version, std::string_view filename) {
+        constexpr std::string_view base = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v";
+        std::string url;
+        url.reserve(base.size() + version.size() + 1 + filename.size());
+        url.append(base);
+        url.append(version);
+        url.push_back('/');
+        url.append(filename);
+        return url;
     }
 
     std::expected<Version, UpdateError> UpdateManager::GetLocalVersion() noexcept {
@@ -81,22 +93,79 @@ namespace hse {
 
         if (info.available) {
             const auto versionStr = info.remoteVersion.ToString();
-            constexpr std::string_view baseUrl = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v";
-
-            info.downloadUrlLauncher.reserve(baseUrl.size() + versionStr.size() + 24);
-            info.downloadUrlLauncher.append(baseUrl);
-            info.downloadUrlLauncher.append(versionStr);
-            info.downloadUrlLauncher.append("/HSEnhancerLauncher.exe");
-
-            info.downloadUrlMod.reserve(baseUrl.size() + versionStr.size() + 16);
-            info.downloadUrlMod.append(baseUrl);
-            info.downloadUrlMod.append(versionStr);
-            info.downloadUrlMod.append("/HSEnhancer.dll");
-
-            hse::Logger::info("Update available: " + versionStr);
+            info.downloadUrlLauncher = BuildReleaseUrl(versionStr, "HSEnhancerLauncher.exe");
+            info.downloadUrlMod = BuildReleaseUrl(versionStr, "HSEnhancer.dll");
+            info.downloadUrlProxy = BuildReleaseUrl(versionStr, "winmm.dll");
+            hse::Logger::info("Update available: %s", versionStr.c_str());
         }
 
         return info;
+    }
+
+    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(
+        const std::filesystem::path& gameBinPath
+    ) noexcept {
+        const auto dllPath = gameBinPath / MOD_FILENAME;
+        if (!std::filesystem::exists(dllPath)) {
+            return std::unexpected(UpdateError::FileSystemError);
+        }
+        return ExtractVersionFromFile(dllPath);
+    }
+
+    std::expected<void, UpdateError> UpdateManager::DownloadToTempAndInstall(
+        std::string_view modUrl,
+        std::string_view proxyUrl,
+        const std::filesystem::path& gameBinPath,
+        std::uint32_t modMinSize
+    ) noexcept {
+        try {
+            const auto tempDir = std::filesystem::path(getAppDataPath()) / TEMP_FOLDER;
+            std::filesystem::create_directories(tempDir);
+
+            Logger::info("Downloading mod...");
+            auto modResult = DownloadModToPath(modUrl, tempDir / MOD_FILENAME, modMinSize);
+            if (!modResult) {
+                std::filesystem::remove_all(tempDir);
+                return modResult;
+            }
+
+            if (!proxyUrl.empty()) {
+                Logger::info("Downloading proxy...");
+                auto proxyResult = DownloadModToPath(proxyUrl, tempDir / PROXY_FILENAME, 10000);
+                if (!proxyResult) {
+                    std::filesystem::remove_all(tempDir);
+                    return proxyResult;
+                }
+            }
+
+            auto installResult = InstallManager::Instance().InstallFiles(tempDir, gameBinPath);
+            std::filesystem::remove_all(tempDir);
+
+            if (!installResult) {
+                return std::unexpected(UpdateError::FileSystemError);
+            }
+
+            return {};
+        }
+        catch (...) {
+            return std::unexpected(UpdateError::UpdateFailed);
+        }
+    }
+
+    std::expected<void, UpdateError> UpdateManager::DownloadAndInstallMod(
+        const Version& version,
+        const std::filesystem::path& gameBinPath
+    ) noexcept {
+        const auto versionStr = version.ToString();
+        auto result = DownloadToTempAndInstall(
+            BuildReleaseUrl(versionStr, "HSEnhancer.dll"),
+            BuildReleaseUrl(versionStr, "winmm.dll"),
+            gameBinPath
+        );
+        if (result) {
+            Logger::info("Mod installed successfully (v%s)", versionStr.c_str());
+        }
+        return result;
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadModToPath(
@@ -134,56 +203,6 @@ namespace hse {
         }
     }
 
-    std::expected<void, UpdateError> UpdateManager::UpdateMod(const Version& version) noexcept {
-        try {
-            const auto versionStr = version.ToString();
-            std::string downloadUrl;
-            downloadUrl.reserve(80 + versionStr.size());
-            downloadUrl.append("https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v");
-            downloadUrl.append(versionStr);
-            downloadUrl.append("/HSEnhancer.dll");
-
-            const auto cachePath = LauncherConfig::GetOfficialDllPath(GameMode::FullGame, version);
-            auto result = DownloadModToPath(downloadUrl, cachePath);
-            if (!result) return result;
-
-            (void)LauncherConfig::Instance().SetString("DLL", "official_version", versionStr);
-            CleanupOldVersions(GameMode::FullGame, version);
-
-            hse::Logger::info("Mod updated successfully");
-            return {};
-        }
-        catch (...) {
-            return std::unexpected(UpdateError::UpdateFailed);
-        }
-    }
-
-    void UpdateManager::CleanupCachedDlls(std::string_view prefix, std::string_view keepFilename) noexcept {
-        try {
-            for (const auto& entry : std::filesystem::directory_iterator(LauncherConfig::GetCacheDir())) {
-                if (!entry.is_regular_file()) continue;
-                const auto& path = entry.path();
-                const auto filename = path.filename().string();
-                if (filename != keepFilename && filename.starts_with(prefix) && filename.ends_with(".dll")) {
-                    std::filesystem::remove(path);
-                    Logger::info("Cleaned up old version: " + filename);
-                }
-            }
-        }
-        catch (...) {}
-    }
-
-    void UpdateManager::CleanupOldVersions(GameMode mode, const Version& keepVersion) noexcept {
-        const std::string_view prefix = (mode == GameMode::Demo) ? "HSEnhancer_demo_v" : "HSEnhancer_v";
-        const auto compact = keepVersion.ToCompactString();
-        std::string keepFilename;
-        keepFilename.reserve(prefix.size() + compact.size() + 4);
-        keepFilename.append(prefix);
-        keepFilename.append(compact);
-        keepFilename.append(".dll");
-        CleanupCachedDlls(prefix, keepFilename);
-    }
-
     std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
         std::string_view downloadUrl,
         std::string_view timestamp
@@ -201,7 +220,7 @@ namespace hse {
             const auto batchPath = std::filesystem::path(appDataPath) / "HSEnhancer_Update.bat";
 
             Logger::info("Downloading launcher update...");
-            
+
             DownloadConfig config{
                 .url = std::string(downloadUrl),
                 .outputPath = tempPath.string(),
@@ -216,7 +235,7 @@ namespace hse {
             }
 
             Logger::info("Creating update script...");
-            
+
             std::ofstream batchFile(batchPath);
             if (!batchFile) {
                 Logger::error("Failed to create update script");
@@ -252,13 +271,13 @@ namespace hse {
             batchFile.close();
 
             Logger::info("Launching update script and exiting...");
-            
+
             STARTUPINFOA startupInfo{};
             PROCESS_INFORMATION processInfo{};
             startupInfo.cb = sizeof(startupInfo);
-            
-            std::string cmdLine = "cmd.exe /c \"" + batchPath.string() + "\"";
-            
+
+            std::string cmdLine = "cmd.exe /c \"" + batchStr + "\"";
+
             if (!CreateProcessA(nullptr, cmdLine.data(), nullptr, nullptr, FALSE,
                               0, nullptr, nullptr, &startupInfo, &processInfo)) {
                 Logger::error("Failed to start update script");
@@ -277,7 +296,7 @@ namespace hse {
             ExitProcess(0);
 
         } catch (const std::exception& e) {
-            Logger::error("Exception during launcher update: " + std::string(e.what()));
+            Logger::error("Exception during launcher update: %s", e.what());
             return std::unexpected(UpdateError::UpdateFailed);
         } catch (...) {
             Logger::error("Unknown error during launcher update");
@@ -292,7 +311,19 @@ namespace hse {
                 return std::unexpected(UpdateError::FileSystemError);
             }
 
-            const DWORD verSize = GetFileVersionInfoSizeA(filePath.data(), nullptr);
+            return ExtractVersionFromFile(filePath.data());
+        }
+        catch (...) {
+            return std::unexpected(UpdateError::VersionParsingFailed);
+        }
+    }
+
+    std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromFile(
+        const std::filesystem::path& filePath
+    ) noexcept {
+        try {
+            const auto pathStr = filePath.string();
+            const DWORD verSize = GetFileVersionInfoSizeA(pathStr.c_str(), nullptr);
             if (verSize == 0) {
                 return std::unexpected(UpdateError::VersionParsingFailed);
             }
@@ -301,7 +332,7 @@ namespace hse {
             VS_FIXEDFILEINFO* fileInfo = nullptr;
             UINT size = 0;
 
-            if (!GetFileVersionInfoA(filePath.data(), 0, verSize, verData.data()) ||
+            if (!GetFileVersionInfoA(pathStr.c_str(), 0, verSize, verData.data()) ||
                 !VerQueryValueA(verData.data(), "\\", reinterpret_cast<void**>(&fileInfo), &size)) {
                 return std::unexpected(UpdateError::VersionParsingFailed);
             }
@@ -322,8 +353,8 @@ namespace hse {
         if (!result) {
             return std::unexpected(UpdateError::NetworkError);
         }
-        
-        return *result;
+
+        return std::move(*result);
     }
 
     std::expected<Version, UpdateError> UpdateManager::ParseVersionFromJson(std::string_view json) const noexcept {
@@ -364,7 +395,7 @@ namespace hse {
             searchPattern.push_back('"');
             const auto assetPos = json.find(searchPattern);
             if (assetPos == std::string_view::npos) {
-                Logger::warn("Asset not found: " + std::string(assetName));
+                Logger::warn("Asset not found: %s", std::string(assetName).c_str());
                 return std::unexpected(UpdateError::InvalidResponse);
             }
 
@@ -419,20 +450,18 @@ namespace hse {
     std::expected<ExperimentalUpdateInfo, UpdateError> UpdateManager::CheckForExperimentalUpdates() noexcept {
         ExperimentalUpdateInfo info;
 
-        // === STEP 1: Check stable releases (priority) ===
         auto stableResult = CheckForUpdates();
         if (stableResult && stableResult->remoteVersion >= stableResult->currentVersion) {
             info.stableRelease = *stableResult;
             info.stableRelease->available = true;
-            Logger::info("Stable release " + stableResult->remoteVersion.ToString() + " available for migration");
+            Logger::info("Stable release %s available for migration", stableResult->remoteVersion.ToString().c_str());
             return info;
         }
 
-        // === STEP 2: Fallback to experimental-latest (timestamp-based) ===
         auto jsonResult = NetworkManager::Instance().DownloadToString(std::string(GITHUB_EXPERIMENTAL_API_URL));
         if (!jsonResult) {
-            Logger::error("Failed to fetch experimental release info from GitHub");
-            return std::unexpected(UpdateError::NetworkError);
+            Logger::warn("No experimental release found, using stable releases only");
+            return info;
         }
 
         const auto& json = *jsonResult;
@@ -443,6 +472,12 @@ namespace hse {
             }
             if (auto url = ParseAssetField(*modAsset, "browser_download_url")) {
                 info.downloadUrlMod = *url;
+            }
+        }
+
+        if (auto proxyAsset = ExtractAssetObject(json, "winmm.dll")) {
+            if (auto url = ParseAssetField(*proxyAsset, "browser_download_url")) {
+                info.downloadUrlProxy = *url;
             }
         }
 
@@ -467,52 +502,30 @@ namespace hse {
             (storedLauncherTimestamp.empty() || info.launcherTimestamp > storedLauncherTimestamp);
 
         if (info.modUpdateAvailable) {
-            Logger::info("Experimental mod update available. Timestamp: " + info.modTimestamp);
+            Logger::info("Experimental mod update available. Timestamp: %s", info.modTimestamp.c_str());
         }
 
         if (info.launcherUpdateAvailable) {
-            Logger::info("Experimental launcher update available. Timestamp: " + info.launcherTimestamp);
+            Logger::info("Experimental launcher update available. Timestamp: %s", info.launcherTimestamp.c_str());
         }
 
         return info;
     }
 
-    std::expected<void, UpdateError> UpdateManager::UpdateExperimentalMod(
-        std::string_view downloadUrl,
-        std::string_view timestamp
+    std::expected<void, UpdateError> UpdateManager::DownloadAndInstallExperimentalMod(
+        const ExperimentalUpdateInfo& info,
+        const std::filesystem::path& gameBinPath
     ) noexcept {
-        try {
-            const auto sanitized = SanitizeTimestamp(timestamp);
-            const auto cachePath = LauncherConfig::GetExperimentalDllPath(sanitized);
+        auto result = DownloadToTempAndInstall(info.downloadUrlMod, info.downloadUrlProxy, gameBinPath, 30000);
+        if (!result) return result;
 
-            auto result = DownloadModToPath(downloadUrl, cachePath, 30000);
-            if (!result) {
-                return std::unexpected(UpdateError::NetworkError);
-            }
-
-            auto configResult = LauncherConfig::Instance().SetString("ExperimentalUpdate", "mod_timestamp", timestamp);
-            if (!configResult) {
-                Logger::warn("Failed to save mod timestamp, update detection may not work correctly");
-            }
-
-            CleanupOldExperimentalVersions(sanitized);
-
-            Logger::info("Experimental mod updated successfully");
-            return {};
+        auto configResult = LauncherConfig::Instance().SetString("ExperimentalUpdate", "mod_timestamp", info.modTimestamp);
+        if (!configResult) {
+            Logger::warn("Failed to save mod timestamp, update detection may not work correctly");
         }
-        catch (...) {
-            return std::unexpected(UpdateError::UpdateFailed);
-        }
-    }
 
-    void UpdateManager::CleanupOldExperimentalVersions(std::string_view keepTimestamp) noexcept {
-        constexpr std::string_view prefix = "HSEnhancer_exp_";
-        std::string keepFilename;
-        keepFilename.reserve(prefix.size() + keepTimestamp.size() + 4);
-        keepFilename.append(prefix);
-        keepFilename.append(keepTimestamp);
-        keepFilename.append(".dll");
-        CleanupCachedDlls(prefix, keepFilename);
+        Logger::info("Experimental mod installed successfully");
+        return {};
     }
 #endif
 

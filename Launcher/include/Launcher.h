@@ -2,10 +2,12 @@
 
 #include <string>
 #include <optional>
+#include <filesystem>
 #include <Windows.h>
 
 #include "UpdateManager.h"
-#include "ProcessManager.h"
+#include "SteamLocator.h"
+#include "InstallManager.h"
 #include "LauncherConfig.h"
 #include "Util.h"
 
@@ -16,27 +18,29 @@ class HSELauncher {
     static constexpr int CONSOLE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
 
     hse::UpdateManager& updateManager;
-    hse::ProcessManager& processManager;
+    hse::SteamLocator& steamLocator;
+    hse::InstallManager& installManager;
     hse::LauncherConfig& config;
-    hse::GameMode currentGameMode_ = hse::GameMode::FullGame;
-    bool cliDllOverride_ = false;
+
+    std::filesystem::path gameBinPath_;
+    hse::GameEdition gameEdition_ = hse::GameEdition::FullGame;
 
 #ifdef EXPERIMENTAL_VERSION
     std::optional<hse::ExperimentalUpdateInfo> cachedExperimentalInfo_;
+#else
+    std::optional<hse::UpdateInfo> cachedUpdateInfo_;
 #endif
 
     void DisplayBanner();
     void SetupConsole();
-    bool HandleDraggedDLL(int argc, char* argv[]);
     void ShowFirstRunInstructions();
     bool AskForUpdatePreference();
-    void SelectGameMode(int argc, char* argv[]);
-    void ParseDllArguments(int argc, char* argv[]);
-    void MigrateLegacyDll();
-    void ShowDllSelectionMenu();
-    bool EnsureModExists();
-    bool PerformUpdatesIfNeeded();
-    bool InjectMod();
+    bool PerformSelfUpdate();
+    bool LocateGame();
+    std::string AskManualPath();
+    bool CheckAndInstallMod();
+    bool DownloadAndInstall(const hse::Version& version);
+    void OfferGameLaunch();
     void ShowExitMessage(bool success);
 
 public:

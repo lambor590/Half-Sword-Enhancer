@@ -49,6 +49,7 @@ namespace hse {
         Version remoteVersion;
         std::string downloadUrlLauncher;
         std::string downloadUrlMod;
+        std::string downloadUrlProxy;
     };
 
 #ifdef EXPERIMENTAL_VERSION
@@ -60,6 +61,7 @@ namespace hse {
         std::string modTimestamp;
         std::string launcherTimestamp;
         std::string downloadUrlMod;
+        std::string downloadUrlProxy;
         std::string downloadUrlLauncher;
     };
 #endif
@@ -73,7 +75,13 @@ namespace hse {
 
         [[nodiscard]] std::expected<Version, UpdateError> GetLocalVersion() noexcept;
         [[nodiscard]] std::expected<UpdateInfo, UpdateError> CheckForUpdates() noexcept;
-        [[nodiscard]] std::expected<void, UpdateError> UpdateMod(const Version& version) noexcept;
+        [[nodiscard]] std::expected<Version, UpdateError> GetInstalledModVersion(
+            const std::filesystem::path& gameBinPath
+        ) noexcept;
+        [[nodiscard]] std::expected<void, UpdateError> DownloadAndInstallMod(
+            const Version& version,
+            const std::filesystem::path& gameBinPath
+        ) noexcept;
         [[nodiscard]] std::expected<void, UpdateError> DownloadModToPath(
             std::string_view downloadUrl,
             const std::filesystem::path& outputPath,
@@ -84,24 +92,18 @@ namespace hse {
             std::string_view timestamp = {}
         ) noexcept;
 
-        void CleanupOldVersions(GameMode mode, const Version& keepVersion) noexcept;
-
 #ifdef EXPERIMENTAL_VERSION
         [[nodiscard]] std::expected<ExperimentalUpdateInfo, UpdateError> CheckForExperimentalUpdates() noexcept;
-        [[nodiscard]] std::expected<void, UpdateError> UpdateExperimentalMod(
-            std::string_view downloadUrl,
-            std::string_view timestamp
+        [[nodiscard]] std::expected<void, UpdateError> DownloadAndInstallExperimentalMod(
+            const ExperimentalUpdateInfo& info,
+            const std::filesystem::path& gameBinPath
         ) noexcept;
-
-        void CleanupOldExperimentalVersions(std::string_view keepTimestamp) noexcept;
 #endif
-
-        static constexpr std::string_view DEMO_MOD_DOWNLOAD_URL =
-            "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v0.5.2/HSEnhancer.dll";
 
     private:
         static constexpr std::string_view GITHUB_API_URL =
             "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/latest";
+        static constexpr std::string_view TEMP_FOLDER = "temp";
 
 #ifdef EXPERIMENTAL_VERSION
         static constexpr std::string_view GITHUB_EXPERIMENTAL_API_URL =
@@ -118,10 +120,19 @@ namespace hse {
         UpdateManager(UpdateManager&&) = delete;
         UpdateManager& operator=(UpdateManager&&) = delete;
 
+        [[nodiscard]] static std::string BuildReleaseUrl(std::string_view version, std::string_view filename);
+        [[nodiscard]] std::expected<void, UpdateError> DownloadToTempAndInstall(
+            std::string_view modUrl,
+            std::string_view proxyUrl,
+            const std::filesystem::path& gameBinPath,
+            std::uint32_t modMinSize = 300000
+        ) noexcept;
         [[nodiscard]] std::expected<Version, UpdateError> ExtractVersionFromExecutable() const noexcept;
+        [[nodiscard]] static std::expected<Version, UpdateError> ExtractVersionFromFile(
+            const std::filesystem::path& filePath
+        ) noexcept;
         [[nodiscard]] std::expected<std::string, UpdateError> FetchGitHubReleaseInfo() const noexcept;
         [[nodiscard]] std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json) const noexcept;
-        void CleanupCachedDlls(std::string_view prefix, std::string_view keepFilename) noexcept;
 
 #ifdef EXPERIMENTAL_VERSION
         [[nodiscard]] std::expected<std::string_view, UpdateError> ExtractAssetObject(

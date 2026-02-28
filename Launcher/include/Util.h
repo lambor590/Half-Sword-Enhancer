@@ -2,7 +2,6 @@
 
 #include <Windows.h>
 #include <ShlObj.h>
-#include <algorithm>
 #include <filesystem>
 #include <string>
 #include <cstdint>
@@ -11,29 +10,24 @@
 
 namespace hse {
 
-    enum class GameMode : std::uint8_t { Demo, FullGame };
+    enum class GameEdition : std::uint8_t { FullGame, Demo };
 
-    constexpr const char* GameModeName(GameMode mode) noexcept {
-        return (mode == GameMode::Demo) ? "Demo" : "Full Game";
+    constexpr const char* GameEditionName(GameEdition edition) noexcept {
+        return (edition == GameEdition::Demo) ? "Demo" : "Full Game";
     }
 
-    constexpr const char* SteamUrl(GameMode mode) noexcept {
-        return (mode == GameMode::Demo)
+    constexpr const char* SteamUrl(GameEdition edition) noexcept {
+        return (edition == GameEdition::Demo)
             ? "steam://rungameid/2642680"
             : "steam://rungameid/2397300";
     }
 
-    enum class DllSource : std::uint8_t { Official, Custom };
-
     constexpr const char* APP_FOLDER_NAME = "Half Sword Enhancer";
-    constexpr const char* CACHE_FOLDER_NAME = "cache";
-    constexpr const char* CUSTOM_DLL_FILENAME = "HSEnhancer_custom.dll";
-    constexpr const char* LEGACY_DLL_FILENAME = "HSEnhancer.dll";
+    constexpr const char* MOD_FILENAME = "HSEnhancer.dll";
+    constexpr const char* PROXY_FILENAME = "winmm.dll";
 
-    [[nodiscard]] inline std::string SanitizeTimestamp(std::string_view timestamp) {
-        std::string result(timestamp);
-        std::ranges::replace(result, ':', '-');
-        return result;
+    [[nodiscard]] inline bool IsGameRunning() noexcept {
+        return FindWindowA("UnrealWindow", nullptr) != nullptr;
     }
 
     [[noreturn]] inline void fail(const std::string& msg) noexcept {
@@ -64,7 +58,7 @@ namespace hse {
                 std::filesystem::create_directories(fullPath);
             }
             catch (const std::filesystem::filesystem_error& e) {
-                fail((std::string("Failed to create directory in AppData: ") + e.what()).c_str());
+                fail(std::string("Failed to create directory in AppData: ") + e.what());
             }
         }
 
