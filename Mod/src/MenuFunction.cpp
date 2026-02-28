@@ -20,9 +20,7 @@ namespace GuiConstants {
     constexpr float BUTTON_WIDTH_PADDING = 28.0f;
     constexpr float PARAMETER_BUTTON_OFFSET = 95.0f;
     constexpr float ITEM_WIDTH_160 = 160.0f;
-    constexpr float ITEM_WIDTH_65 = 65.0f;
     constexpr float FRAME_BORDER_SIZE = 1.0f;
-    constexpr size_t INPUT_BUFFER_SIZE = 16;
     
     constexpr std::string_view PRESS_KEY_TEXT = "Press a key...";
     constexpr std::string_view CONFIGURE_TEXT = "Configure %s";
@@ -34,7 +32,6 @@ namespace GuiConstants {
     constexpr std::string_view UNKNOWN_TEXT = "Unknown";
     constexpr std::string_view KEY_CONFLICT_FORMAT = "Key %s is already bound to %s. What do you want to do?";
     constexpr std::string_view KEY_MULTI_CONFLICT_FORMAT = "Key %s is already bound to %d functions. What do you want to do?";
-    constexpr std::string_view INPUT_SUFFIX = "_input";
 }
 
 namespace {
@@ -261,34 +258,6 @@ namespace {
         if constexpr (std::is_same_v<T, bool>) {
             ImGui::Checkbox(param.id.c_str(), valuePtr);
         } else {
-            ImGui::PushItemWidth(GuiConstants::ITEM_WIDTH_65);
-            
-            char inputBuffer[GuiConstants::INPUT_BUFFER_SIZE];
-            
-            if constexpr (std::is_integral_v<T>) {
-                snprintf(inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, "%d", *valuePtr);
-            } else {
-                snprintf(inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, "%.2f", *valuePtr);
-            }
-            
-            thread_local char inputId[256];
-            snprintf(inputId, sizeof(inputId), "%.*s%.*s",
-                static_cast<int>(param.id.size()), param.id.data(),
-                static_cast<int>(GuiConstants::INPUT_SUFFIX.size()), GuiConstants::INPUT_SUFFIX.data());
-
-            constexpr ImGuiInputTextFlags flags = ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue;
-
-            if (ImGui::InputText(inputId, inputBuffer, GuiConstants::INPUT_BUFFER_SIZE, flags)) [[unlikely]] {
-                if constexpr (std::is_integral_v<T>) {
-                    *valuePtr = static_cast<T>(atoi(inputBuffer));
-                } else {
-                    *valuePtr = static_cast<T>(atof(inputBuffer));
-                }
-            }
-            
-            ImGui::PopItemWidth();
-            ImGui::SameLine();
-            
             const SliderStyleRAII sliderStyle;
             if constexpr (std::is_integral_v<T>) {
                 ImGui::DragInt(param.id.c_str(), valuePtr, 1.0f, 0, 0);
