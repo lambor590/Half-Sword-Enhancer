@@ -20,39 +20,36 @@ private:
     int activeTab = 0;
 
     int CountActiveOverrides() const {
-        int count = 0;
-        const RuntimeOverride* runtimeFields[] = {
-            &overrides.heightRate, &overrides.muscleRate, &overrides.scaleMutationInhibitor,
-            &overrides.health, &overrides.headHealth, &overrides.neckHealth,
-            &overrides.armRHealth, &overrides.armLHealth,
-            &overrides.bodyUpperHealth, &overrides.bodyLowerHealth,
-            &overrides.legRHealth, &overrides.legLHealth,
-            &overrides.backHealth, &overrides.consciousness, &overrides.regenRate,
-            &overrides.allBodyTonus, &overrides.headTonus,
-            &overrides.armRTonus, &overrides.armLTonus,
-            &overrides.legRTonus, &overrides.legLTonus,
-            &overrides.musclePower, &overrides.orientationStrength,
-            &overrides.angularStrength, &overrides.hitRigidity,
-            &overrides.runningSpeedRate, &overrides.walkSpeedRateRun,
-            &overrides.jumpRate, &overrides.dodgeRate, &overrides.crawlRate,
-            &overrides.getUpRate, &overrides.fallenRate,
-            &overrides.damageRate, &overrides.limbDamageRate, &overrides.dismemberThreshold,
-            &overrides.stamina, &overrides.staminaBurnSwingR, &overrides.staminaBurnSwingL,
-            &overrides.staminaBurnDodge, &overrides.grabForceR, &overrides.grabForceL,
-            &overrides.handsRigidity, &overrides.bodySkill, &overrides.weaponSkill,
-            &overrides.exhaustion, &overrides.drunk, &overrides.fear
-        };
-        for (auto* f : runtimeFields) count += f->enabled;
-
-        const BoolOverride* boolFields[] = {
-            &overrides.skillThrust, &overrides.skillParry, &overrides.skillAltGrip,
-            &overrides.skillAltStance, &overrides.skillRotate,
-            &overrides.skillCrouch, &overrides.skillDodge, &overrides.skillKick,
-            &overrides.skillSlomo, &overrides.invulnerable, &overrides.fearless
-        };
-        for (auto* f : boolFields) count += f->enabled;
-
-        return count;
+        return overrides.heightRate.enabled + overrides.muscleRate.enabled
+            + overrides.scaleMutationInhibitor.enabled
+            + overrides.health.enabled + overrides.headHealth.enabled
+            + overrides.neckHealth.enabled + overrides.armRHealth.enabled
+            + overrides.armLHealth.enabled + overrides.bodyUpperHealth.enabled
+            + overrides.bodyLowerHealth.enabled + overrides.legRHealth.enabled
+            + overrides.legLHealth.enabled + overrides.backHealth.enabled
+            + overrides.consciousness.enabled + overrides.regenRate.enabled
+            + overrides.allBodyTonus.enabled + overrides.headTonus.enabled
+            + overrides.armRTonus.enabled + overrides.armLTonus.enabled
+            + overrides.legRTonus.enabled + overrides.legLTonus.enabled
+            + overrides.musclePower.enabled + overrides.orientationStrength.enabled
+            + overrides.angularStrength.enabled + overrides.hitRigidity.enabled
+            + overrides.runningSpeedRate.enabled + overrides.walkSpeedRateRun.enabled
+            + overrides.jumpRate.enabled + overrides.dodgeRate.enabled
+            + overrides.crawlRate.enabled + overrides.getUpRate.enabled
+            + overrides.fallenRate.enabled + overrides.damageRate.enabled
+            + overrides.limbDamageRate.enabled + overrides.dismemberThreshold.enabled
+            + overrides.stamina.enabled + overrides.staminaBurnSwingR.enabled
+            + overrides.staminaBurnSwingL.enabled + overrides.staminaBurnDodge.enabled
+            + overrides.grabForceR.enabled + overrides.grabForceL.enabled
+            + overrides.handsRigidity.enabled + overrides.bodySkill.enabled
+            + overrides.weaponSkill.enabled + overrides.skillThrust.enabled
+            + overrides.skillParry.enabled + overrides.skillAltGrip.enabled
+            + overrides.skillAltStance.enabled + overrides.skillRotate.enabled
+            + overrides.skillCrouch.enabled + overrides.skillDodge.enabled
+            + overrides.skillKick.enabled + overrides.skillSlomo.enabled
+            + overrides.exhaustion.enabled + overrides.drunk.enabled
+            + overrides.fear.enabled + overrides.invulnerable.enabled
+            + overrides.fearless.enabled;
     }
 
     static void ApplyActiveOverrides(SDK::AWillie_BP_C* p, PlayerEditorOverrides& ovr) {
@@ -216,77 +213,28 @@ private:
         presetListDirty = false;
     }
 
-    static void ReplaceWillieReferences(SDK::UWorld* w, SDK::AWillie_BP_C* oldW, SDK::AWillie_BP_C* newW) {
-        static Logger log("WillieReplace");
-        SDK::TArray<SDK::AActor*> actors;
-        SDK::UGameplayStatics::GetAllActorsOfClass(w, SDK::AActor::StaticClass(), &actors);
+    void ClonePlayer() {
+        if (!player || !world) return;
+        auto passport = player->Character_Passport;
+        if (overrides.heightRate.enabled)
+            passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = overrides.heightRate.value;
+        if (overrides.muscleRate.enabled)
+            passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = overrides.muscleRate.value;
 
-        uintptr_t oldPtr = reinterpret_cast<uintptr_t>(oldW);
-        int totalRefs = 0;
+        double heightRate = passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B;
+        double muscleRate = passport.Weight_23_65E4C6534D14653F96EB739F159E58CD;
+        float spawnScale = static_cast<float>(0.875 + heightRate * 0.125);
 
-        for (auto* actor : actors) {
-            if (actor == newW || actor == oldW) continue;
-
-            auto* base = reinterpret_cast<uint8_t*>(actor);
-            std::string className = actor->Class->GetName();
-            size_t scanSize = static_cast<size_t>(actor->Class->Size);
-            if (scanSize == 0 || scanSize > 0x10000) continue;
-
-            for (size_t off = 0; off < scanSize; off += sizeof(void*)) {
-                auto* slot = reinterpret_cast<uintptr_t*>(base + off);
-                if (*slot == oldPtr) {
-                    log.Log("  %s + 0x%04X -> replaced", className.c_str(), static_cast<unsigned>(off));
-                    *slot = reinterpret_cast<uintptr_t>(newW);
-                    totalRefs++;
-                }
-            }
-        }
-        log.Log("Total references replaced: %d", totalRefs);
-    }
-
-    void RecreatePlayerWithHeight(double newHeightRate) {
-        if (!player || !controller || !world) return;
-
-        auto currentTransform = player->GetTransform();
-        auto currentPassport = player->Character_Passport;
-        auto currentEquipment = player->Load_Equipment;
-        int teamInt = player->Team_Int;
-        auto* willieClass = player->Class;
-        auto* oldPlayer = player;
-
-        currentPassport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = newHeightRate;
-
-        double scale = 0.875 + newHeightRate * 0.125;
-        currentTransform.Scale3D = SDK::FVector(scale, scale, scale);
-
-        auto* w = world;
-        auto* c = controller;
-        GameHook::QueueAction([willieClass, currentTransform, currentPassport, currentEquipment, teamInt, newHeightRate, oldPlayer, w, c]() {
-            if (!w || !c) return;
-            auto* newActor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-                w, willieClass, currentTransform,
-                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
-            if (!newActor) return;
-
-            auto* newWillie = static_cast<SDK::AWillie_BP_C*>(newActor);
-            newWillie->Character_Passport = currentPassport;
-            newWillie->Height_Rate = newHeightRate;
-            newWillie->Muscle_Rate = currentPassport.Weight_23_65E4C6534D14653F96EB739F159E58CD;
-            newWillie->Load_Equipment = currentEquipment;
-            newWillie->Player = true;
-            newWillie->Team_Int = teamInt;
-
-            SDK::UGameplayStatics::FinishSpawningActor(newActor, currentTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
-
-            c->Possess(newWillie);
-            newWillie->Set_Up_Armor(true, false);
-
-            ReplaceWillieReferences(w, oldPlayer, newWillie);
-
-            oldPlayer->Player = false;
-            oldPlayer->Disintegrate_and_drop_armor(false);
-        });
+        Spawner::SpawnActor(world,
+            "/Game/Character/Blueprints/Willie_BP.Willie_BP_C",
+            Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale),
+            [passport, heightRate, muscleRate](SDK::AActor* actor) {
+                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                npc->Character_Passport = passport;
+                npc->Height_Rate = heightRate;
+                npc->Muscle_Rate = muscleRate;
+                npc->Team_Int = 1;
+            });
     }
 
     void RenderPhysicalTab() {
@@ -294,7 +242,7 @@ private:
 
         ImGui::SeparatorText("Body");
         GuiUtils::RenderOverrideDrag("Height Rate", overrides.heightRate, 0.01f);
-        TooltipHelper::ShowTooltip("Character height multiplier (1.0 = normal)");
+        TooltipHelper::ShowTooltip("Character height multiplier (1.0 = normal). Only takes effect at spawn");
         GuiUtils::RenderOverrideDrag("Muscle Rate", overrides.muscleRate, 0.01f);
         TooltipHelper::ShowTooltip("Character muscle/bulk multiplier (1.0 = normal)");
         GuiUtils::RenderOverrideDrag("Scale Mutation Inhibitor", overrides.scaleMutationInhibitor, 0.01f);
@@ -337,6 +285,7 @@ private:
             GuiUtils::RenderOverrideDrag("Left Leg##h", overrides.legLHealth, 1.0f);
             ImGui::EndTable();
         }
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::cellPadding.y);
         GuiUtils::RenderOverrideDrag("Back", overrides.backHealth, 1.0f);
         TooltipHelper::ShowTooltip("Back health");
 
@@ -350,6 +299,7 @@ private:
         GuiUtils::RenderOverrideDrag("All Body Tonus", overrides.allBodyTonus, 1.0f);
         TooltipHelper::ShowTooltip("Master body muscle tension (100 = normal)");
 
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::cellPadding.y);
         if (ImGui::BeginTable("##tonusparts", 2, ImGuiTableFlags_None)) {
             ImGui::TableNextColumn();
             GuiUtils::RenderOverrideDrag("Head##t", overrides.headTonus, 0.01f);
@@ -557,15 +507,13 @@ public:
         }
         TooltipHelper::ShowTooltip("Disable all property overrides");
         ImGui::SameLine();
-        if (ImGui::Button("Apply Height")) {
-            if (player && overrides.heightRate.enabled) {
-                RecreatePlayerWithHeight(overrides.heightRate.value);
-                status.Set("Recreating player...");
-            } else {
-                status.Set("Enable Height Rate override first", true);
+        if (ImGui::Button("Clone Player")) {
+            if (player && world) {
+                ClonePlayer();
+                status.Set("Player cloned");
             }
         }
-        TooltipHelper::ShowTooltip("Respawns the player character at the specified height (one-shot, preserves equipment)");
+        TooltipHelper::ShowTooltip("Spawns a clone of the player with the current physical overrides");
 
         int activeCount = CountActiveOverrides();
         if (activeCount > 0) {

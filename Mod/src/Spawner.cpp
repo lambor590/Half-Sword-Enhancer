@@ -324,7 +324,6 @@ namespace Spawner {
         });
     }
 
-
     SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale) {
         auto transform = player->GetTransform();
         const auto forward = player->GetActorForwardVector();

@@ -9,6 +9,7 @@
 #include "Utils/TierValidation.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/BlueprintRegistry.h"
+#include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
 class ItemSection : public CollapsibleSection {
 private:
@@ -32,6 +33,68 @@ private:
     static inline bool searchActive = false;
 
     static inline char customPathBuffer[256] = "";
+
+    struct ModuleEntry { SDK::UClass* cls; std::string name; };
+    struct {
+        std::vector<ModuleEntry> slots[3];
+        float cachedWidths[3] = {};
+        int32_t selected[3] = {};
+        SDK::UClass* populatedFor = nullptr;
+    } armorModules;
+
+    void PopulateModulesForCore(SDK::UClass* coreClass) {
+        if (coreClass == armorModules.populatedFor) return;
+        armorModules = {};
+        armorModules.populatedFor = coreClass;
+        if (!coreClass || !coreClass->ClassDefaultObject) return;
+        if (!coreClass->ClassDefaultObject->IsA(SDK::ABP_Armor_Modular_Core_Master_C::StaticClass())) return;
+
+        auto* cdo = static_cast<SDK::ABP_Armor_Modular_Core_Master_C*>(coreClass->ClassDefaultObject);
+        auto collect = [](std::vector<ModuleEntry>& out, const SDK::TArray<SDK::UClass*>& arr) {
+            out.reserve(arr.Num());
+            for (int i = 0; i < arr.Num(); ++i)
+                if (arr[i]) out.push_back({arr[i], arr[i]->GetName()});
+        };
+        collect(armorModules.slots[0], cdo->Available_Modules_1);
+        collect(armorModules.slots[1], cdo->Available_Modules_2);
+        collect(armorModules.slots[2], cdo->Available_Modules_3);
+    }
+
+    void RenderModuleCombo(const char* label, int slot) {
+        auto& modules = armorModules.slots[slot];
+        if (modules.empty()) return;
+
+        const char* preview = (armorModules.selected[slot] > 0 && armorModules.selected[slot] <= static_cast<int32_t>(modules.size()))
+            ? modules[armorModules.selected[slot] - 1].name.c_str() : "None";
+
+        if (armorModules.cachedWidths[slot] == 0.0f) {
+            float maxW = 0;
+            for (const auto& e : modules) {
+                float w = ImGui::CalcTextSize(e.name.c_str()).x;
+                if (w > maxW) maxW = w;
+            }
+            armorModules.cachedWidths[slot] = GuiUtils::ComboWidthFromText(maxW);
+        }
+
+        ImGui::SetNextItemWidth(armorModules.cachedWidths[slot]);
+        if (!ImGui::BeginCombo(label, preview)) return;
+
+        if (ImGui::Selectable("None", armorModules.selected[slot] <= 0))
+            armorModules.selected[slot] = 0;
+        for (int i = 0; i < static_cast<int>(modules.size()); ++i) {
+            bool sel = (armorModules.selected[slot] == i + 1);
+            if (ImGui::Selectable(modules[i].name.c_str(), sel))
+                armorModules.selected[slot] = i + 1;
+            if (sel) ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
+    }
+
+    bool IsCurrentItemModularArmor(const BlueprintEntry& item) const {
+        if (item.classPath.empty()) return false;
+        return Spawner::GetActorType(item.classPath) == Spawner::ActorType::Armor
+            && item.classPath.find("Modular_Core") != std::string::npos;
+    }
 
     static inline std::vector<const char*> cachedItemNames;
     static inline float cachedItemNamesWidth = 0;
@@ -136,6 +199,16 @@ private:
 
         if (item.customizable != CustomizableWeapon::None) {
             Spawner::SpawnCustomizableWeapon(world, item.customizable, spawnTransform, cfg.snapToGround, cfg.spawnTier);
+        } else if (IsCurrentItemModularArmor(item)) {
+            auto* coreClass = Spawner::LoadClass(item.classPath);
+            if (coreClass) {
+                SDK::FStr_Passport_Armor1 passport{};
+                passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = coreClass;
+                passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = armorModules.selected[0];
+                passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = armorModules.selected[1];
+                passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = armorModules.selected[2];
+                Spawner::SpawnArmorFromPassport(world, passport, spawnTransform, cfg.snapToGround);
+            }
         } else if (!item.classPath.empty()) {
             Spawner::SpawnActor(world, item.classPath, spawnTransform, nullptr, cfg.snapToGround, cfg.spawnTier);
         }
@@ -361,6 +434,16 @@ public:
                                     ImGui::SetItemDefaultFocus();
                             }
                             ImGui::EndCombo();
+                        }
+                    }
+
+                    if (IsCurrentItemModularArmor(currentItem)) {
+                        auto* coreClass = Spawner::LoadClass(currentItem.classPath);
+                        if (coreClass) {
+                            PopulateModulesForCore(coreClass);
+                            RenderModuleCombo("Module 1##m1", 0);
+                            RenderModuleCombo("Module 2##m2", 1);
+                            RenderModuleCombo("Module 3##m3", 2);
                         }
                     }
                 }

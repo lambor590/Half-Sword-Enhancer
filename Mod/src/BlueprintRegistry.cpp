@@ -1,3 +1,4 @@
+#include <string_view>
 #include <unordered_set>
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/TierValidation.h"
@@ -10,23 +11,15 @@
 
 static Logger g_logger("BlueprintRegistry");
 
-static const char* VALID_ASSET_PREFIXES[] = {
-    "BP_GameWeapon_",
-    "BP_Weapon_",
-    "BP_Armor_",
-    "BP_Container_",
-    "BP_Prop_",
-    "BP_Fence_",
-    "BP_Quiver_",
-    "BP_Candle",
-    "Shield_",
-    "Chain_BP",
-    "Trap_",
+static constexpr std::string_view VALID_ASSET_PREFIXES[] = {
+    "BP_GameWeapon_", "BP_Weapon_", "BP_Armor_", "BP_Container_",
+    "BP_Prop_", "BP_Fence_", "BP_Quiver_", "BP_Candle",
+    "Shield_", "Chain_BP", "Trap_",
 };
 
 static bool HasValidAssetPrefix(const std::string& assetName) {
-    for (const char* prefix : VALID_ASSET_PREFIXES) {
-        if (assetName.compare(0, std::strlen(prefix), prefix) == 0)
+    for (auto prefix : VALID_ASSET_PREFIXES) {
+        if (assetName.compare(0, prefix.size(), prefix.data()) == 0)
             return true;
     }
     return false;
@@ -75,12 +68,11 @@ void BlueprintRegistry::PerformScan() {
                 auto& asset = results[i];
 
                 std::string packagePath = asset.PackagePath.GetRawString();
+                if (packagePath.find("/Game/") != 0)
+                    continue;
+
                 std::string packageName = asset.PackageName.GetRawString();
                 std::string assetName = asset.AssetName.ToString();
-
-                if (packagePath.find("/Game/") != 0) {
-                    continue;
-                }
 
                 if (packagePath.find("/Game/Maps") == 0 ||
                     packagePath.find("/Game/UI") == 0 ||
@@ -180,7 +172,7 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
     // Modular Armor
     if (path.find("/Modular_Armor") != std::string::npos) {
         if (assetName.find("Module_") != std::string::npos)
-            return {"Armor Modules", "General"};
+            return {};
         if (assetName.find("_Head_") != std::string::npos) return {"Modular Armor", "Head"};
         if (assetName.find("_Body_") != std::string::npos || assetName.find("_Chest_") != std::string::npos)
             return {"Modular Armor", "Body"};
@@ -226,7 +218,7 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
 std::string BlueprintRegistry::CleanDisplayName(const std::string& assetName) {
     std::string name = assetName;
 
-    static const char* prefixes[] = {
+    static constexpr std::string_view prefixes[] = {
         "BP_GameWeapon_Customizable_", "BP_GameWeapon_",
         "BP_Weapon_Reforged_", "BP_Weapon_Tool_", "BP_Weapon_Improv_",
         "BP_Weapon_Ranged_Weapon_", "BP_Weapon_Ranged_Projectle_",
@@ -244,10 +236,9 @@ std::string BlueprintRegistry::CleanDisplayName(const std::string& assetName) {
         "BP_", "Shield_"
     };
 
-    for (const char* prefix : prefixes) {
-        size_t len = std::strlen(prefix);
-        if (name.size() > len && name.compare(0, len, prefix) == 0) {
-            name = name.substr(len);
+    for (auto prefix : prefixes) {
+        if (name.size() > prefix.size() && name.compare(0, prefix.size(), prefix.data()) == 0) {
+            name = name.substr(prefix.size());
             break;
         }
     }
@@ -256,7 +247,9 @@ std::string BlueprintRegistry::CleanDisplayName(const std::string& assetName) {
         if (c == '_') c = ' ';
     }
 
-    while (!name.empty() && name.front() == ' ') name.erase(name.begin());
+    auto start = name.find_first_not_of(' ');
+    if (start == std::string::npos) { name.clear(); }
+    else if (start > 0) name.erase(0, start);
     while (!name.empty() && name.back() == ' ') name.pop_back();
 
     if (name.empty()) name = assetName;
@@ -361,7 +354,7 @@ void BlueprintRegistry::InjectCustomPaths() {
 
 void BlueprintRegistry::SortCategories() {
     static const char* CATEGORY_ORDER[] = {
-        "Weapons", "Modular Armor", "Armor Modules", "Props"
+        "Weapons", "Modular Armor", "Props"
     };
     static constexpr size_t ORDER_COUNT = sizeof(CATEGORY_ORDER) / sizeof(CATEGORY_ORDER[0]);
 
