@@ -222,8 +222,10 @@ namespace Spawner {
                     spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
                 else
                     spawnedActor = DeferredSpawn(world, actorClass, finalTransform,
-                        [&finalTransform](SDK::AActor* actor) {
-                            static_cast<SDK::ABP_Armor_Master_C*>(actor)->World_Transform = finalTransform;
+                        [actorClass, &finalTransform](SDK::AActor* actor) {
+                            auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
+                            armor->World_Transform = finalTransform;
+                            armor->Armor_Passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = actorClass;
                         });
             } else if (actorType == ActorType::Willie) {
                 SDK::AActor* actor = DeferredSpawn(world, actorClass, finalTransform, callback);
