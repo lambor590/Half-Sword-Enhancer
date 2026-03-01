@@ -52,8 +52,7 @@ public:
     enum class GameEvent : uint8_t {
         BeginFight,
         InAbyss,
-        OffLedge,
-        OnTick
+        OffLedge
     };
 
     void RegisterEvent(GameEvent event, void* id, std::function<void()> callback) {
@@ -96,9 +95,8 @@ public:
     static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
         constexpr const char* EventNames[] = {
             "ExecuteUbergraph_UI_BeginFight",
-            "ExecuteUbergraph_Abyss_Map_Open_Intermediate", 
-            "OnWalkingOffLedge",
-            "ReceiveTick"
+            "ExecuteUbergraph_Abyss_Map_Open_Intermediate",
+            "OnWalkingOffLedge"
         };
         return EventNames[static_cast<uint8_t>(event)];
     }
@@ -127,10 +125,11 @@ private:
     alignas(64) std::array<HookEntry, MAX_HOOKS> hooks{};
     uint8_t hookCount = 0;
 
-    alignas(64) std::array<std::vector<std::pair<void*, std::function<void()>>>, 4> eventCallbacks;
+    alignas(64) std::array<std::vector<std::pair<void*, std::function<void()>>>, 3> eventCallbacks;
 
     static std::queue<std::function<void()>> gameThreadQueue;
     static std::mutex queueMutex;
+    static std::atomic<bool> hasQueuedActions;
 
     friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept;
 };

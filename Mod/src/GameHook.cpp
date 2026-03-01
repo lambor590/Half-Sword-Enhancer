@@ -11,6 +11,7 @@ static GameHook* hookInstance = &GameHook::Get();
 
 std::queue<std::function<void()>> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
+std::atomic<bool> GameHook::hasQueuedActions{false};
 
 namespace {
 
@@ -124,6 +125,10 @@ __declspec(noinline) static int8_t ResolveAndCache(
 
 static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
 {
+    if (GameHook::hasQueuedActions.load(std::memory_order_relaxed)) [[unlikely]] {
+        GameHook::ProcessGameThreadQueue();
+    }
+
     void* funcPtr = static_cast<void*>(pFunc);
     int8_t idx = g_peCache.Lookup(funcPtr);
 
@@ -146,18 +151,6 @@ void GameHook::Hook()
     oProcessEvent = processEventAddress;
 
     MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&hookInstance->oProcessEvent);
-
-    // Direct registration before ProcessEvent is active - no race possible
-    uint8_t tickIdx = static_cast<uint8_t>(GameEvent::OnTick);
-    eventCallbacks[tickIdx].emplace_back(static_cast<void*>(&hookInstance), []() {
-        GameHook::ProcessGameThreadQueue();
-    });
-    RegisterHook(GetEventFunctionName(GameEvent::OnTick), [this]() {
-        auto& callbacks = eventCallbacks[static_cast<uint8_t>(GameEvent::OnTick)];
-        for (auto& pair : callbacks) {
-            pair.second();
-        }
-    });
 
     hooked = true;
 
@@ -271,6 +264,7 @@ void GameHook::LockUEConsole() {
 void GameHook::QueueAction(std::function<void()> action) {
     std::lock_guard<std::mutex> lock(queueMutex);
     gameThreadQueue.push(std::move(action));
+    hasQueuedActions.store(true, std::memory_order_release);
 }
 
 void GameHook::ProcessGameThreadQueue() {
@@ -280,6 +274,7 @@ void GameHook::ProcessGameThreadQueue() {
         std::lock_guard<std::mutex> lock(queueMutex);
         if (gameThreadQueue.empty()) return;
         localQueue.swap(gameThreadQueue);
+        hasQueuedActions.store(false, std::memory_order_release);
     }
 
     while (!localQueue.empty()) {
