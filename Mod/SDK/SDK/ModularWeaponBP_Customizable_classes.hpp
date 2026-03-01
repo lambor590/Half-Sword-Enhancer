@@ -26,8 +26,8 @@ public:
 
 public:
 	void ExecuteUbergraph_ModularWeaponBP_Customizable(int32 EntryPoint);
-	void ReceiveTick(float DeltaSeconds);
 	void Refresh_Weapon();
+	void ReceiveTick(float DeltaSeconds);
 
 public:
 	static class UClass* StaticClass()

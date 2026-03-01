@@ -12,8 +12,8 @@
 
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
-#include "Enum_Sides_RightLeft_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_Sides_RightLeft_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"

@@ -13,8 +13,8 @@
 #include "UMG_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "SlateCore_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 
 
 namespace SDK::Params
@@ -187,10 +187,10 @@ public:
 	class ABP_Armor_Modular_Core_Master_C*        CallFunc_FinishSpawningActor_ReturnValue_2;        // 0x0630(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_5;           // 0x0638(0x00A8)(HasGetValueTypeHash)
 	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1_6;           // 0x06E0(0x00A8)(HasGetValueTypeHash)
-	TArray<class BP_FreeCamera_0::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_1; // 0x0788(0x0010)(ReferenceParm)
+	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_1;  // 0x0788(0x0010)(ReferenceParm)
 	EArmorSlots_Enum                              Temp_byte_Variable_1;                              // 0x0798(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_799[0x7];                                      // 0x0799(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_Array_Get_Item_1;                         // 0x07A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item_1;                         // 0x07A0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x07A8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	struct FStr_Passport_Armor1                   CallFunc_Array_Get_Item_2;                         // 0x07B0(0x00A8)(HasGetValueTypeHash)
 	int32                                         CallFunc_Array_Length_ReturnValue_3;               // 0x0858(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)

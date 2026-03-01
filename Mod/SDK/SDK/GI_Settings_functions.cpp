@@ -216,7 +216,7 @@ void UGI_Settings_C::Save_Game()
 
 
 // Function GI_Settings.GI_Settings_C.Save Key Mappings
-// (Public, BlueprintCallable, BlueprintEvent)
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
 void UGI_Settings_C::Save_Key_Mappings()
 {

@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "ArmorSlots_Enum_structs.hpp"
 #include "SlateCore_structs.hpp"
-#include "Str_Inventory_structs.hpp"
-#include "UMG_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
+#include "UMG_structs.hpp"
+#include "Str_Inventory_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
 
@@ -63,10 +63,10 @@ public:
 	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0038(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_39[0x7];                                       // 0x0039(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class BP_FreeCamera_0::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors;  // 0x0040(0x0010)(ReferenceParm)
+	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors;    // 0x0040(0x0010)(ReferenceParm)
 	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x0050(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_51[0x7];                                       // 0x0051(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_Array_Get_Item;                           // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item;                           // 0x0058(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x0060(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_61[0x7];                                       // 0x0061(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)

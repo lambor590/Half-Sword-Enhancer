@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Sides_RightLeft_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "Enum_WeaponType_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "Str_SubPassport_Equipment_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_Sides_RightLeft_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 
 
@@ -158,9 +158,9 @@ public:
 	TArray<class AWillie_BP_DressUp_C*>           CallFunc_GetAllActorsOfClassWithTag_OutActors;     // 0x00C8(0x0010)(ReferenceParm)
 	double                                        Temp_real_Variable_4;                              // 0x00D8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class AWillie_BP_DressUp_C*                   CallFunc_Array_Get_Item;                           // 0x00E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	TArray<class BP_FreeCamera_0::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_1; // 0x00E8(0x0010)(ReferenceParm)
+	TArray<class BP_FreeCamera::ABP_FreeCamera_C*> CallFunc_GetAllActorsOfClassWithTag_OutActors_1;  // 0x00E8(0x0010)(ReferenceParm)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x00F8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class BP_FreeCamera_0::ABP_FreeCamera_C*      CallFunc_Array_Get_Item_1;                         // 0x0100(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class BP_FreeCamera::ABP_FreeCamera_C*        CallFunc_Array_Get_Item_1;                         // 0x0100(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UGameInstance*                          CallFunc_GetGameInstance_ReturnValue;              // 0x0108(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UGI_Settings_C*                         K2Node_DynamicCast_AsGI_Settings;                  // 0x0110(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0118(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)

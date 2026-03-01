@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "SlateRHIRenderer_structs.hpp"
 #include "SlateCore_structs.hpp"
+#include "SlateRHIRenderer_structs.hpp"
 
 
 namespace SDK::Params

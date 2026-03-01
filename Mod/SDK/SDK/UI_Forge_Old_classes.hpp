@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Enum_Weapon_Customization_Type_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 
 
 namespace SDK

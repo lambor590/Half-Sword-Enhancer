@@ -24,7 +24,7 @@ struct BPI_Living_Thing_C_Attach_Decal final
 public:
 	class UDecalComponent*                        Decal;                                             // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	struct FAttached_Transform_Str                Attach_Param;                                      // 0x0008(0x0068)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, ContainsInstancedReference, HasGetValueTypeHash)
-	bool                                          nul;                                               // 0x0070(0x0001)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Nul;                                               // 0x0070(0x0001)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function BPI_Living_Thing.BPI_Living_Thing_C.Get Damage

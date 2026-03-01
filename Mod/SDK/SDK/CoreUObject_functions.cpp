@@ -165,13 +165,8 @@ bool UStruct::IsSubclassOf(const UStruct* Base) const
 	if (!Base)
 		return false;
 
-	for (const UStruct* Struct = this; Struct; Struct = Struct->SuperStruct)
-	{
-		if (Struct == Base)
-			return true;
-	}
-
-	return false;
+	const int32 NumParentStructBasesInChainMinusOne = Base->BaseChain.NumStructBasesInChainMinusOne;
+	return NumParentStructBasesInChainMinusOne <= BaseChain.NumStructBasesInChainMinusOne && BaseChain.StructBaseChainArray[NumParentStructBasesInChainMinusOne] == &Base->BaseChain;
 }
 
 

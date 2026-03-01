@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
 #include "SlateCore_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 
 
 namespace SDK

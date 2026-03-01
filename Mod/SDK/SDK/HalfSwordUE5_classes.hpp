@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "Engine_classes.hpp"
-#include "CoreUObject_structs.hpp"
 #include "HalfSwordUE5_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
 namespace SDK

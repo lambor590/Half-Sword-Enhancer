@@ -23,9 +23,9 @@ namespace SDK
 // class UBoxComponent*                    Box                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 // class FName                             Hit_Bone                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // class UPrimitiveComponent*              Hit_Primitive_Component                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-// bool*                                   nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool*                                   Nul                                                    (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_VertexPaint_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* nul)
+void IBPI_VertexPaint_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul)
 {
 	static class UFunction* Func = nullptr;
 
@@ -40,8 +40,8 @@ void IBPI_VertexPaint_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName 
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 
-	if (nul != nullptr)
-		*nul = Parms.nul;
+	if (Nul != nullptr)
+		*Nul = Parms.Nul;
 }
 
 }

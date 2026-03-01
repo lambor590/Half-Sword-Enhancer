@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
+#include "SkeletalMerging_structs.hpp"
 #include "Enum_Clothing_Material_structs.hpp"
 #include "Engine_structs.hpp"
-#include "SkeletalMerging_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
 namespace SDK::Params

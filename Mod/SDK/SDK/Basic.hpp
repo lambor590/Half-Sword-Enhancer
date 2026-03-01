@@ -451,6 +451,16 @@ public:
 		return ClassPtr != Other;
 	}
 };
+
+// Predefined struct FStructBaseChain
+// 0x0010 (0x0010 - 0x0000)
+struct FStructBaseChain
+{
+public:
+	FStructBaseChain**                            StructBaseChainArray;                              // 0x0000(0x0008)(NOT AUTO-GENERATED PROPERTY)
+	int32                                         NumStructBasesInChainMinusOne;                     // 0x0008(0x0004)(NOT AUTO-GENERATED PROPERTY)
+};
+
 namespace FTextImpl
 {
 // Predefined struct FTextData

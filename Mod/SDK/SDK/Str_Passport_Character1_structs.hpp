@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Str_SubPassport_Equipment_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Str_SubPassport_Equipment_structs.hpp"
 
 
 namespace SDK

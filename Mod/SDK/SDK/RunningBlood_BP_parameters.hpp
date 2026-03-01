@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "VertexPaintDetectionPlugin_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "VertexPaintDetectionPlugin_structs.hpp"
 
 
 namespace SDK::Params

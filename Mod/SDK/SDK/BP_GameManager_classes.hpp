@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Str_Passport_Character1_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 
 

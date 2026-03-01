@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Str_ArmorElements_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Str_ArmorElements_structs.hpp"
 
 
 namespace SDK

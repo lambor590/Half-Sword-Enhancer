@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "SlateCore_structs.hpp"
-#include "Engine_structs.hpp"
 #include "S_InputIcons_structs.hpp"
+#include "Engine_structs.hpp"
 
 
 namespace SDK::Params

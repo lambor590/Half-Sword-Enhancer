@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 
 

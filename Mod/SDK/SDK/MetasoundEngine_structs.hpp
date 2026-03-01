@@ -51,12 +51,12 @@ enum class EMetaSoundOutputAudioFormat : uint8
 	EMetaSoundOutputAudioFormat_MAX          = 6,
 };
 
-// ScriptStruct MetasoundEngine.MetaSoundAssetDirectory
-// 0x0010 (0x0010 - 0x0000)
-struct FMetaSoundAssetDirectory final
+// ScriptStruct MetasoundEngine.DefaultMetaSoundAssetAutoUpdateSettings
+// 0x0020 (0x0020 - 0x0000)
+struct FDefaultMetaSoundAssetAutoUpdateSettings final
 {
 public:
-	struct FDirectoryPath                         Directory;                                         // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FSoftObjectPath                        Metasound;                                         // 0x0000(0x0020)(Edit, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct MetasoundEngine.MetaSoundOutput
@@ -67,14 +67,6 @@ public:
 	uint8                                         Pad_8[0x8];                                        // 0x0008(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-// ScriptStruct MetasoundEngine.DefaultMetaSoundAssetAutoUpdateSettings
-// 0x0020 (0x0020 - 0x0000)
-struct FDefaultMetaSoundAssetAutoUpdateSettings final
-{
-public:
-	struct FSoftObjectPath                        Metasound;                                         // 0x0000(0x0020)(Edit, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct MetasoundEngine.MetaSoundQualitySettings
 // 0x0008 (0x0008 - 0x0000)
 struct FMetaSoundQualitySettings final
@@ -82,6 +74,14 @@ struct FMetaSoundQualitySettings final
 public:
 	struct FPerPlatformInt                        SampleRate;                                        // 0x0000(0x0004)(Edit, Config, NoDestructor, NativeAccessSpecifierPublic)
 	struct FPerPlatformFloat                      BlockRate;                                         // 0x0004(0x0004)(Edit, Config, NoDestructor, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct MetasoundEngine.MetaSoundAssetDirectory
+// 0x0010 (0x0010 - 0x0000)
+struct FMetaSoundAssetDirectory final
+{
+public:
+	struct FDirectoryPath                         Directory;                                         // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct MetasoundEngine.MetaSoundAsyncAssetDependencies

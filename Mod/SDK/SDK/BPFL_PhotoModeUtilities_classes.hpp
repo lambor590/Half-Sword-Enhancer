@@ -11,9 +11,9 @@
 #include "Basic.hpp"
 
 #include "Engine_classes.hpp"
-#include "E_SaveSort_structs.hpp"
 #include "UMG_structs.hpp"
 #include "E_ScreenshotMethod_structs.hpp"
+#include "E_SaveSort_structs.hpp"
 
 
 namespace SDK

@@ -10,34 +10,34 @@
 
 #include "Basic.hpp"
 
-#include "GripType_Enum_structs.hpp"
+#include "SheathSlots_Enum_structs.hpp"
+#include "Severable_BodyParts_Enum_structs.hpp"
+#include "Enum_VoiceType_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Severable_BodyParts_Enum_structs.hpp"
-#include "CoreUObject_structs.hpp"
+#include "GripType_Enum_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
 #include "FootStepping_Enum_structs.hpp"
-#include "BodyPart_Enum_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
-#include "Attached_Transform_Str_structs.hpp"
-#include "Willie_Bones_Enum_structs.hpp"
 #include "VertexPaintDetectionPlugin_structs.hpp"
+#include "BodyPart_Enum_structs.hpp"
+#include "Willie_Bones_Enum_structs.hpp"
+#include "Attached_Transform_Str_structs.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "ArmorSlotContents_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
-#include "Enum_VoiceType_structs.hpp"
 #include "Enum_DismembermentPart_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "PhysicsCore_structs.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
+#include "PhysicsCore_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
 #include "LeftRight_Enum_structs.hpp"
-#include "HideBodyPart_Enum_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
 
 
 namespace SDK
@@ -1381,7 +1381,7 @@ public:
 	void Assign_L_Weapon_Slot();
 	void Assign_R_Weapon_Slot();
 	void Attach_Bolt_Quiver(class ABP_Quiver_Master_C* InputPin);
-	void Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* nul);
+	void Attach_Decal(class UDecalComponent* Decal, const struct FAttached_Transform_Str& Attach_Param, bool* Nul);
 	void Attach_Empty_Quiver();
 	void Attach_L_Hand_To_Offhand_Position();
 	void Bite_Event();
@@ -1389,7 +1389,7 @@ public:
 	void BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_0_VertexColorGetAllVertexColorsOnly__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
 	void BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
 	void Body_Skill_Up();
-	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* nul);
+	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul);
 	void BOXXX(class UBoxComponent* VP_Collision_Box_1, class UBoxComponent* VP_Collision_Box_2);
 	void Break_Arm_L();
 	void Break_Arm_R();
@@ -1444,6 +1444,8 @@ public:
 	void Fallen_Give_Up_TL__UpdateFunc();
 	void Feet_Rotation_and_Normal();
 	void Find_Ass_Touching_Ground_Loc_NOW();
+	void Find_Grab_Location_Left_Event();
+	void Find_Grab_Location_Right_Event();
 	void Find_Hit_Armor(class UPrimitiveComponent* Hit_Component_0, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, struct FStr_Passport_Armor1* Armor_Passport, bool* Armor_Found);
 	void Find_Node_Time_Begin();
 	void Find_Node_Time_End();
@@ -1553,7 +1555,7 @@ public:
 	void Reset_Trail_Blood(float Duration);
 	void RT_DRAW_EVENT();
 	void Send_My_Regards_to_Dress_Up_Darling();
-	void Send_Threat_Location_R(const struct FVector& Threat_Location_0, const struct FVector& Offset, bool Immediate, bool* nul);
+	void Send_Threat_Location_R(const struct FVector& Threat_Location_0, const struct FVector& Offset, bool Immediate, bool* Nul);
 	void Set_Character_Height();
 	void Set_Pain_Location(class FName BoneName, const struct FVector& A);
 	void Set_Physics_LOD_Int(const class AActor* OtherActor, int32* Out_LOD);
@@ -1572,7 +1574,7 @@ public:
 	void Snap_Neck();
 	void Spawn_Blood(const struct FTransform& Transform, double Spawn_Rate, class FName bone, EBodyPart_Enum Body_Partt, class USkeletalMeshComponent* Body_Mesh, int32 Loop_Count, bool Extra_Velocity, const struct FVector& Velocity, const struct FVector& Pover, bool Skip_Check);
 	void Start_Up_First_Person_Event();
-	void StopThatBlade(double Power, bool* nul);
+	void StopThatBlade(double Power, bool* Nul);
 	void Strip_Armor_From_Bone(class FName In_Bone, class AWillie_BP_C* Stripped_Willie, bool Right_Hand_Strip);
 	void Swap_Weapons();
 	void Thrust_L();

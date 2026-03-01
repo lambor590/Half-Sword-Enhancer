@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "MovieScene_structs.hpp"
-#include "UnrealUSDWrapper_structs.hpp"
 #include "USDStage_structs.hpp"
+#include "UnrealUSDWrapper_structs.hpp"
 
 
 namespace SDK::Params

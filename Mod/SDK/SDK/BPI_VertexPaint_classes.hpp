@@ -21,7 +21,7 @@ namespace SDK
 class IBPI_VertexPaint_C final
 {
 public:
-	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* nul);
+	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul);
 
 public:
 	static class UClass* StaticClass()

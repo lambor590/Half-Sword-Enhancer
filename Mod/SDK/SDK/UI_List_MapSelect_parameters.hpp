@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "SlateCore_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
+#include "SlateCore_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 
 
