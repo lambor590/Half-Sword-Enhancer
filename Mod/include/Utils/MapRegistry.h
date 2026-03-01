@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <unordered_set>
 
+#include "imgui/imgui.h"
 #include "Utils/BlueprintRegistry.h"
 #include "Hooks/GameHook.h"
 #include "SDK/AssetRegistry_classes.hpp"
@@ -27,6 +28,13 @@ class MapRegistry {
     std::atomic<ScanState> state{ScanState::NotStarted};
     std::vector<MapEntry> maps;
     std::vector<std::string> categories;
+    float maxDisplayNameWidth = 0.0f;
+    bool displayWidthDirty = true;
+
+    static bool EndsWith(std::string_view str, std::string_view suffix) {
+        return str.size() >= suffix.size() &&
+               str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+    }
 
     static bool HasBadSuffix(std::string_view name) {
         static constexpr std::string_view BAD_SUFFIXES[] = {
@@ -34,27 +42,28 @@ class MapRegistry {
             "_Overview", "_Collision", "_LevelMetrics",
         };
         for (auto suffix : BAD_SUFFIXES) {
-            if (name.size() >= suffix.size() &&
-                name.compare(name.size() - suffix.size(), suffix.size(), suffix) == 0)
-                return true;
+            if (EndsWith(name, suffix)) return true;
         }
         return false;
     }
 
     static bool PathContainsMaps(std::string_view path) {
         return path.find("/Maps/") != std::string_view::npos ||
-               (path.size() >= 5 && path.compare(path.size() - 5, 5, "/Maps") == 0);
+               EndsWith(path, "/Maps");
+    }
+
+    static bool StartsWith(std::string_view str, std::string_view prefix) {
+        return str.size() >= prefix.size() && str.compare(0, prefix.size(), prefix) == 0;
     }
 
     static std::string CategorizeByPath(std::string_view packagePath) {
-        if (packagePath.find("/Game/Maps") == 0)
+        if (StartsWith(packagePath, "/Game/Maps"))
             return std::string(BASE_GAME_CATEGORY);
 
         constexpr std::string_view MOD_PREFIX = "/Game/Mod_";
-        if (packagePath.find(MOD_PREFIX) == 0) {
+        if (StartsWith(packagePath, MOD_PREFIX)) {
             auto rest = packagePath.substr(MOD_PREFIX.size());
-            auto slash = rest.find('/');
-            std::string modName(rest.substr(0, slash));
+            std::string modName(rest.substr(0, rest.find('/')));
             for (char& c : modName) {
                 if (c == '_') c = ' ';
             }
@@ -77,6 +86,7 @@ class MapRegistry {
         auto start = name.find_first_not_of(' ');
         if (start == std::string::npos) return {};
         auto end = name.find_last_not_of(' ');
+        if (start == 0 && end == name.size() - 1) return name;
         name.erase(end + 1);
         name.erase(0, start);
         return name;
@@ -104,48 +114,57 @@ class MapRegistry {
                 return;
             }
 
-            static SDK::UFunction* getAssetsByPathFn = nullptr;
-            if (!getAssetsByPathFn) {
+            static SDK::UFunction* getAssetsFn = nullptr;
+            if (!getAssetsFn) {
                 auto* ifaceClass = SDK::IAssetRegistry::StaticClass();
                 if (ifaceClass)
-                    getAssetsByPathFn = ifaceClass->GetFunction("AssetRegistry", "GetAssetsByPath");
+                    getAssetsFn = ifaceClass->GetFunction("AssetRegistry", "GetAssets");
             }
-            if (!getAssetsByPathFn) {
-                logger.Log("GetAssetsByPath function not found");
+            if (!getAssetsFn) {
+                logger.Log("GetAssets function not found");
                 state.store(ScanState::Failed, std::memory_order_release);
                 return;
             }
 
-            SDK::Params::AssetRegistry_GetAssetsByPath params{};
-            params.PackagePath = SDK::BasicFilesImpleUtils::StringToName(L"/Game");
-            params.bRecursive = true;
-            params.bIncludeOnlyOnDiskAssets = false;
+            SDK::FName gamePath = SDK::BasicFilesImpleUtils::StringToName(L"/Game");
+            SDK::FTopLevelAssetPath worldClassPath{};
+            worldClassPath.PackageName = SDK::BasicFilesImpleUtils::StringToName(L"/Script/Engine");
+            worldClassPath.AssetName = SDK::BasicFilesImpleUtils::StringToName(L"World");
 
-            auto flags = getAssetsByPathFn->FunctionFlags;
-            getAssetsByPathFn->FunctionFlags |= 0x400;
-            registryObj->ProcessEvent(getAssetsByPathFn, &params);
-            getAssetsByPathFn->FunctionFlags = flags;
+            SDK::Params::AssetRegistry_GetAssets params{};
+            params.Filter.PackagePaths = SDK::TArray<SDK::FName>(&gamePath, 1, 1);
+            params.Filter.ClassPaths = SDK::TArray<SDK::FTopLevelAssetPath>(&worldClassPath, 1, 1);
+            params.Filter.bRecursivePaths = true;
+            params.Filter.bRecursiveClasses = false;
+            params.bSkipARFilteredAssets = false;
+
+            auto flags = getAssetsFn->FunctionFlags;
+            getAssetsFn->FunctionFlags |= 0x400;
+            registryObj->ProcessEvent(getAssetsFn, &params);
+            getAssetsFn->FunctionFlags = flags;
+
+            params.Filter.PackagePaths = SDK::TArray<SDK::FName>(nullptr, 0, 0);
+            params.Filter.ClassPaths = SDK::TArray<SDK::FTopLevelAssetPath>(nullptr, 0, 0);
 
             const int32_t count = params.OutAssetData.Num();
-            logger.Log("Scan returned %d total assets under /Game", count);
+            logger.Log("Scan returned %d World assets under /Game", count);
 
-            static const SDK::FName worldClassName = SDK::BasicFilesImpleUtils::StringToName(L"World");
-            std::unordered_set<std::string> seen;
-            maps.reserve(32);
+            std::unordered_set<int32_t> seenIds;
+            seenIds.reserve(count);
+            maps.reserve(count);
 
             for (int32_t i = 0; i < count; ++i) {
-                if (!(params.OutAssetData[i].AssetClassPath.AssetName == worldClassName))
-                    continue;
+                const auto& asset = params.OutAssetData[i];
 
-                std::string packagePath = params.OutAssetData[i].PackagePath.GetRawString();
+                std::string packagePath = asset.PackagePath.GetRawString();
                 if (!PathContainsMaps(packagePath))
                     continue;
 
-                std::string packageName = params.OutAssetData[i].PackageName.GetRawString();
-                if (HasBadSuffix(packageName))
+                if (!seenIds.insert(asset.PackageName.ComparisonIndex).second)
                     continue;
 
-                if (!seen.insert(packageName).second)
+                std::string packageName = asset.PackageName.GetRawString();
+                if (HasBadSuffix(packageName))
                     continue;
 
                 std::string category = CategorizeByPath(packagePath);
@@ -171,6 +190,8 @@ class MapRegistry {
                 });
 
             BuildCategories();
+            displayWidthDirty = true;
+
             logger.Log("Map scan complete: %zu maps in %zu categories", maps.size(), categories.size());
         } catch (...) {
             logger.Log("Map scan failed with exception");
@@ -193,18 +214,27 @@ public:
     }
 
     void RequestRescan() {
-        ScanState expected = ScanState::Complete;
-        if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
-            expected = ScanState::Failed;
-            if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel))
-                return;
-        }
-        GameHook::QueueAction([this]() { PerformScan(); });
+        auto current = state.load(std::memory_order_acquire);
+        if (current != ScanState::Complete && current != ScanState::Failed) return;
+        if (state.compare_exchange_strong(current, ScanState::Scanning, std::memory_order_acq_rel))
+            GameHook::QueueAction([this]() { PerformScan(); });
     }
 
     ScanState GetState() const { return state.load(std::memory_order_acquire); }
     const std::vector<MapEntry>& GetMaps() const { return maps; }
     const std::vector<std::string>& GetCategories() const { return categories; }
+
+    float GetMaxDisplayNameWidth() {
+        if (displayWidthDirty) {
+            maxDisplayNameWidth = 0.0f;
+            for (const auto& m : maps) {
+                float w = ImGui::CalcTextSize(m.displayName.c_str()).x;
+                if (w > maxDisplayNameWidth) maxDisplayNameWidth = w;
+            }
+            displayWidthDirty = false;
+        }
+        return maxDisplayNameWidth;
+    }
 
     MapRegistry(const MapRegistry&) = delete;
     MapRegistry& operator=(const MapRegistry&) = delete;
