@@ -11,13 +11,16 @@
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "Hooks/GameHook.h"
+#include "Logger.h"
+
+static Logger g_logger("Spawner");
 
 namespace Spawner {
 
     namespace {
         std::unordered_map<std::string, SDK::UClass*> classCache;
 
-        constexpr std::array<std::pair<std::string_view, ActorType>, 13> TYPE_MAP = {{
+        constexpr std::array<std::pair<std::string_view, ActorType>, 14> TYPE_MAP = {{
             {"Willie_BP", ActorType::Willie},
             {"Customizable", ActorType::Weapon},
             {"ModularWeapon", ActorType::Weapon},
@@ -26,6 +29,7 @@ namespace Spawner {
             {"BP_Weapon_Ranged", ActorType::Weapon},
             {"BP_Weapon_Treasure", ActorType::Weapon},
             {"BP_Weapon_Improv", ActorType::Weapon},
+            {"BP_GameWeapon", ActorType::Weapon},
             {"Shield", ActorType::Shield},
             {"Dagger", ActorType::Tool},
             {"Tool", ActorType::Tool},
@@ -59,19 +63,16 @@ namespace Spawner {
     }
 
     static SDK::UClass* LoadActorClass(const std::string& classPath) {
-        auto it = classCache.find(classPath);
-        if (it != classCache.end())
+        auto [it, inserted] = classCache.try_emplace(classPath, nullptr);
+        if (!inserted)
             return it->second;
 
         std::wstring wClassName(classPath.begin(), classPath.end());
         SDK::FString classPathFStr(wClassName.c_str());
         SDK::FSoftClassPath softClassPath = SDK::UKismetSystemLibrary::MakeSoftClassPath(classPathFStr);
         SDK::TSoftClassPtr<SDK::UClass> softClassRef = SDK::UKismetSystemLibrary::Conv_SoftClassPathToSoftClassRef(softClassPath);
-        SDK::UClass* loaded = SDK::UKismetSystemLibrary::LoadClassAsset_Blocking(softClassRef);
-
-        if (loaded)
-            classCache[classPath] = loaded;
-        return loaded;
+        it->second = SDK::UKismetSystemLibrary::LoadClassAsset_Blocking(softClassRef);
+        return it->second;
     }
 
     static SDK::AActor* SpawnModularWeapon(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform, SDK::Enum_Ranks tier) {
@@ -196,15 +197,26 @@ namespace Spawner {
             SDK::FTransform finalTransform = transform;
             ActorType actorType = GetActorType(className);
 
+            SDK::UClass* actorClass = LoadActorClass(className);
+            if (!actorClass) {
+                g_logger.Log("Failed to load class: %s", className.c_str());
+                return;
+            }
+
+            if (actorType == ActorType::Weapon && !actorClass->IsSubclassOf(SDK::AModularWeaponBP_C::StaticClass()))
+                actorType = ActorType::Unknown;
+            if (actorType == ActorType::Armor && !actorClass->IsSubclassOf(SDK::ABP_Armor_Master_C::StaticClass()))
+                actorType = ActorType::Unknown;
+
             if (snapToGround)
                 ApplySnapToGround(world, finalTransform, actorType);
 
-            SDK::UClass* actorClass = LoadActorClass(className);
-            if (!actorClass) return;
             SDK::AActor* spawnedActor = nullptr;
 
             if (actorType == ActorType::Weapon) {
                 spawnedActor = SpawnModularWeapon(world, actorClass, finalTransform, static_cast<SDK::Enum_Ranks>(tier));
+                if (!spawnedActor)
+                    spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Armor) {
                 spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Willie) {

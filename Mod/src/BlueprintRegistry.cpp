@@ -1,3 +1,4 @@
+#include <unordered_set>
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/TierValidation.h"
 #include "Utils/EquipmentGenerator.h"
@@ -69,6 +70,7 @@ void BlueprintRegistry::PerformScan() {
 
             g_logger.Log("Asset Registry scan returned %d blueprints", results.Num());
 
+            std::unordered_set<std::string> seenPaths;
             for (int32_t i = 0; i < results.Num(); ++i) {
                 auto& asset = results[i];
 
@@ -97,11 +99,18 @@ void BlueprintRegistry::PerformScan() {
                 if (assetName.find("BP_GameWeapon_Customizable_") == 0)
                     continue;
 
+                if (assetName.find("_Master") != std::string::npos)
+                    continue;
+
+                std::string classPath = packageName + "." + assetName + "_C";
+                if (!seenPaths.insert(classPath).second)
+                    continue;
+
                 auto [category, subcategory] = CategorizeByPath(packagePath, assetName);
 
                 BlueprintEntry entry;
                 entry.displayName = CleanDisplayName(assetName);
-                entry.classPath = packageName + "." + assetName + "_C";
+                entry.classPath = std::move(classPath);
 
                 AddItem(std::move(entry), category, subcategory);
             }
