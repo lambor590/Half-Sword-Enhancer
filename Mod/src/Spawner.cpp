@@ -9,6 +9,7 @@
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
+#include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "Hooks/GameHook.h"
 #include "Logger.h"
@@ -218,7 +219,10 @@ namespace Spawner {
                 if (!spawnedActor)
                     spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Armor) {
-                spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
+                if (actorClass->IsSubclassOf(SDK::ABP_Armor_Modular_Core_Master_C::StaticClass()))
+                    spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
+                else
+                    spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Willie) {
                 SDK::AActor* actor = DeferredSpawn(world, actorClass, finalTransform, callback);
                 if (actor && postSpawnCallback) postSpawnCallback(actor);
