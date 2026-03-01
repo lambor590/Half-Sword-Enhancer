@@ -37,6 +37,38 @@ public:
                 ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
             }, player, world);
 
+        Function("Consciousness Multiplier")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&cfg.consciousnessMultiplierKey)
+            .Toggle()
+            .WithParams({
+                Parameter("consciousness_multiplier", "Multiplier",
+                          &cfg.consciousnessMultiplier, 1.0f, 100.0f,
+                          "Multiplies consciousness cap")
+            })
+            .WithTooltip("Multiply your consciousness cap to resist knockouts")
+            .Action([this](bool active) {
+                float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.consciousnessMultiplier : 1.0f);
+                player->Consciousness_Cap = cap;
+            }, player);
+
+        Function("Enemy Consciousness Multiplier")
+            .OnEvent(GameHook::GameEvent::OffLedge)
+            .WithKey(&cfg.enemyConsciousnessMultiplierKey)
+            .Toggle()
+            .WithParams({
+                Parameter("enemy_consciousness_multiplier", "Multiplier",
+                          &cfg.enemyConsciousnessMultiplier, 1.0f, 100.0f,
+                          "Multiplies enemy consciousness cap")
+            })
+            .WithTooltip("Multiply enemy consciousness cap to make them harder to knock out")
+            .Action([this](bool active) {
+                float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.enemyConsciousnessMultiplier : 1.0f);
+                ActorUtils::ForEachWillie(world, player, [cap](SDK::AWillie_BP_C* willie) {
+                    willie->Consciousness_Cap = cap;
+                });
+            }, player, world);
+
         Function("Jump")
             .WithKey(&cfg.jumpKey)
             .WithParams({ Parameter("force", "Force", &cfg.jumpForce, 1000.0f, 10000.0f, "Controls how high you jump") })

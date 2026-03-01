@@ -38,6 +38,10 @@ namespace SectionConfig {
         float biteRange = 300.0f;
         float biteAllRange = 500.0f;
         float enemyDrunkLevel = 1.0f;
+        float consciousnessMultiplier = 1.0f;
+        float enemyConsciousnessMultiplier = 1.0f;
+        int consciousnessMultiplierKey = -1;
+        int enemyConsciousnessMultiplierKey = -1;
     };
 
     struct WorldConfig {
