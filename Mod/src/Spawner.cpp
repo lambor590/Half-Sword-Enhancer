@@ -218,15 +218,9 @@ namespace Spawner {
                 if (!spawnedActor)
                     spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Armor) {
-                if (className.find("Modular_Core") != std::string::npos)
-                    spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
-                else
-                    spawnedActor = DeferredSpawn(world, actorClass, finalTransform,
-                        [actorClass, &finalTransform](SDK::AActor* actor) {
-                            auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
-                            armor->World_Transform = finalTransform;
-                            armor->Armor_Passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = actorClass;
-                        });
+                spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
+                if (!spawnedActor)
+                    spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Willie) {
                 SDK::AActor* actor = DeferredSpawn(world, actorClass, finalTransform, callback);
                 if (actor && postSpawnCallback) postSpawnCallback(actor);
@@ -329,6 +323,7 @@ namespace Spawner {
             SDK::UGameplayStatics::FinishSpawningActor(actor, finalTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
         });
     }
+
 
     SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale) {
         auto transform = player->GetTransform();

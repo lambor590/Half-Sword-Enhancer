@@ -107,6 +107,7 @@ void BlueprintRegistry::PerformScan() {
                     continue;
 
                 auto [category, subcategory] = CategorizeByPath(packagePath, assetName);
+                if (category.empty()) continue;
 
                 BlueprintEntry entry;
                 entry.displayName = CleanDisplayName(assetName);
@@ -177,7 +178,7 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
     }
 
     // Modular Armor
-    if (path.find("/Modular_Armor/") != std::string::npos) {
+    if (path.find("/Modular_Armor") != std::string::npos) {
         if (assetName.find("Module_") != std::string::npos)
             return {"Armor Modules", "General"};
         if (assetName.find("_Head_") != std::string::npos) return {"Modular Armor", "Head"};
@@ -193,32 +194,8 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
         return {"Modular Armor", "Other"};
     }
 
-    // Built Armor
-    if (path.find("/Armor/") != std::string::npos) {
-        std::string material = (path.find("/Metal/") != std::string::npos) ? "Metal" : "Cloth";
-
-        if (path.find("/Head/") != std::string::npos || path.find("/Hats/") != std::string::npos)
-            return {"Helmets", material};
-        if (path.find("/Legs/") != std::string::npos) return {"Legs", material};
-        if (path.find("/Feet/") != std::string::npos) return {"Feet", material};
-        if (path.find("/Shoulders/") != std::string::npos) return {"Shoulders", material};
-
-        if (assetName.find("_Body_") != std::string::npos || assetName.find("Gambeson") != std::string::npos ||
-            assetName.find("Doublet") != std::string::npos || assetName.find("Shirt") != std::string::npos)
-            return {"Body Armor", material};
-        if (assetName.find("_Arms_") != std::string::npos) return {"Arms", "General"};
-        if (assetName.find("_Legs_") != std::string::npos || assetName.find("Hosen") != std::string::npos ||
-            assetName.find("Panties") != std::string::npos)
-            return {"Legs", material};
-        if (assetName.find("_Hands_") != std::string::npos || assetName.find("Gauntlets") != std::string::npos)
-            return {"Hands", "General"};
-        if (assetName.find("_Feet_") != std::string::npos) return {"Feet", material};
-        if (assetName.find("_Neck_") != std::string::npos) return {"Neck", "General"};
-        if (assetName.find("_Shoulders_") != std::string::npos) return {"Shoulders", material};
-        if (assetName.find("_Waist_") != std::string::npos) return {"Waist", material};
-        if (assetName.find("_Head_") != std::string::npos) return {"Helmets", material};
-        return {"Armor", "Other"};
-    }
+    if (path.find("/Armor/") != std::string::npos)
+        return {};
 
     // Props
     if (path.find("/Props/") != std::string::npos) {
@@ -384,8 +361,7 @@ void BlueprintRegistry::InjectCustomPaths() {
 
 void BlueprintRegistry::SortCategories() {
     static const char* CATEGORY_ORDER[] = {
-        "Weapons", "Helmets", "Body Armor", "Arms", "Legs", "Hands", "Feet",
-        "Neck", "Shoulders", "Waist", "Modular Armor", "Armor Modules", "Props"
+        "Weapons", "Modular Armor", "Armor Modules", "Props"
     };
     static constexpr size_t ORDER_COUNT = sizeof(CATEGORY_ORDER) / sizeof(CATEGORY_ORDER[0]);
 
