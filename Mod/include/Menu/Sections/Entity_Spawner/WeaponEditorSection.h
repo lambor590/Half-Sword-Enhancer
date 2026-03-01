@@ -1210,7 +1210,7 @@ public:
             ImGui::SameLine();
             GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.autoRotate, "Continuously rotate the preview weapon");
             if (cfg.autoRotate) {
-                ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.4f);
+                ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
                 ImGui::DragFloat("Rotation Speed", &cfg.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
                 TooltipHelper::ShowTooltip("Rotation speed in degrees/second. Negative values reverse direction");
             }

@@ -631,6 +631,7 @@ private:
                     RenderWeaponSlotMaterials(slot);
 
                     ImGui::Spacing();
+                    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
                     ImGui::InputInt("CoA##coa", &slot.COAInt_63_593665BE4EF020F95F7D1A92564C1239);
 
                     ImGui::Spacing();

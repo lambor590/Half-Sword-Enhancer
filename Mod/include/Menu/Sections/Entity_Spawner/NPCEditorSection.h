@@ -54,25 +54,20 @@ private:
     }
 
     int CountActiveOverrides() const {
-        const bool flags[] = {
-            overrides.heightRate.enabled, overrides.muscleRate.enabled,
-            overrides.scaleMutationInhibitor.enabled, overrides.faceType.enabled,
-            overrides.eyeColor.enabled, overrides.hairLength.enabled, overrides.hairColor.enabled,
-            overrides.damageRate.enabled, overrides.limbDamageRate.enabled,
-            overrides.dismemberThreshold.enabled, overrides.regenRate.enabled,
-            overrides.aiInvincibility.enabled, overrides.aiArmorInvincibility.enabled,
-            overrides.bodySkill.enabled, overrides.fearless.enabled,
-            overrides.startKneeled.enabled, overrides.spawnInPants.enabled,
-            overrides.clearSpawnArea.enabled, overrides.drunk.enabled,
-            overrides.boltsInQuiver.enabled,
-            overrides.headHealth.enabled, overrides.neckHealth.enabled,
-            overrides.armRHealth.enabled, overrides.armLHealth.enabled,
-            overrides.bodyUpperHealth.enabled, overrides.bodyLowerHealth.enabled,
-            overrides.legRHealth.enabled, overrides.legLHealth.enabled
-        };
-        int count = 0;
-        for (bool f : flags) count += f;
-        return count;
+        return overrides.heightRate.enabled + overrides.muscleRate.enabled
+            + overrides.scaleMutationInhibitor.enabled + overrides.faceType.enabled
+            + overrides.eyeColor.enabled + overrides.hairLength.enabled
+            + overrides.hairColor.enabled + overrides.damageRate.enabled
+            + overrides.limbDamageRate.enabled + overrides.dismemberThreshold.enabled
+            + overrides.regenRate.enabled + overrides.aiInvincibility.enabled
+            + overrides.aiArmorInvincibility.enabled + overrides.bodySkill.enabled
+            + overrides.fearless.enabled + overrides.startKneeled.enabled
+            + overrides.spawnInPants.enabled + overrides.clearSpawnArea.enabled
+            + overrides.drunk.enabled + overrides.boltsInQuiver.enabled
+            + overrides.headHealth.enabled + overrides.neckHealth.enabled
+            + overrides.armRHealth.enabled + overrides.armLHealth.enabled
+            + overrides.bodyUpperHealth.enabled + overrides.bodyLowerHealth.enabled
+            + overrides.legRHealth.enabled + overrides.legLHealth.enabled;
     }
 
     static bool HasAnyBodyConditionOverride(const NPCOverrides& ovr) {

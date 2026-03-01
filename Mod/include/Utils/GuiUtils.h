@@ -18,6 +18,7 @@
 namespace GuiUtils {
     inline constexpr ImVec2 kTooltipPadding{8.0f, 6.0f};
     inline constexpr ImVec2 kPopupPadding{10.0f, 8.0f};
+    inline constexpr float kDragWidth = 120.0f;
 
     inline void BeginStyledTooltip() {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, kTooltipPadding);
@@ -112,11 +113,10 @@ namespace GuiUtils {
     }
 
     inline void RenderPriceDrag(const char* label, double& price, float speed = 1.0f) {
-        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
+        ImGui::SetNextItemWidth(kDragWidth);
         float val = static_cast<float>(price);
         if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.1f"))
             price = val;
-        ImGui::PopItemWidth();
     }
 
     inline void RenderOverrideDrag(const char* label, RuntimeOverride& ovr,
@@ -126,6 +126,7 @@ namespace GuiUtils {
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
         float val = static_cast<float>(ovr.value);
+        ImGui::SetNextItemWidth(kDragWidth);
         if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f"))
             ovr.value = val;
         if (!ovr.enabled) ImGui::EndDisabled();
@@ -137,6 +138,7 @@ namespace GuiUtils {
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
+        ImGui::SetNextItemWidth(kDragWidth);
         ImGui::DragInt(label, &ovr.value, speed, 0, 0);
         if (!ovr.enabled) ImGui::EndDisabled();
         ImGui::PopID();
@@ -184,8 +186,7 @@ namespace GuiUtils {
             ImVec2 textSize = ImGui::CalcTextSize(labels[i]);
             float tabW = textSize.x + UNDERLINE_TAB_HPAD * 2;
 
-            char btnId[32];
-            std::snprintf(btnId, sizeof(btnId), "##tab%d", i);
+            char btnId[] = {'#', '#', 't', 'a', 'b', static_cast<char>('0' + i), '\0'};
             ImGui::SetCursorScreenPos(ImVec2(x, cursor.y));
             if (ImGui::InvisibleButton(btnId, ImVec2(tabW, rowH)))
                 activeTab = i;
@@ -212,6 +213,7 @@ namespace GuiUtils {
                     baselineCol, 1.0f);
 
         ImGui::SetCursorScreenPos(ImVec2(cursor.x, baselineY + UNDERLINE_GAP));
+        ImGui::Spacing();
         ImGui::PopID();
     }
 

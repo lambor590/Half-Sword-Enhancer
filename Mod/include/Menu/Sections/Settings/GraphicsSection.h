@@ -78,6 +78,7 @@ public:
 
         ImGui::Spacing();
 
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
         if (ImGui::DragInt("Render Scale (%)", &settings.renderScale, 1.0f, 1, 0)) {
             settingsChanged = true;
         }
