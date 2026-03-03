@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <vector>
 #include <atomic>
 #include <algorithm>
@@ -41,13 +42,13 @@ private:
     void InjectCustomPaths();
     void SortCategories();
 
-    static std::pair<std::string, std::string> CategorizeByPath(const std::string& packagePath, const std::string& assetName);
+    static std::pair<std::string_view, std::string_view> CategorizeByPath(const std::string& packagePath, const std::string& assetName);
     static std::string CleanDisplayName(const std::string& assetName);
 
-    size_t FindOrCreateCategory(const std::string& name);
-    size_t FindOrCreateSubcategory(size_t catIdx, const std::string& name);
+    size_t FindOrCreateCategory(std::string_view name);
+    size_t FindOrCreateSubcategory(size_t catIdx, std::string_view name);
 
-    uint16_t AddItem(BlueprintEntry entry, const std::string& category, const std::string& subcategory);
+    uint16_t AddItem(BlueprintEntry entry, std::string_view category, std::string_view subcategory);
 
 public:
     static BlueprintRegistry& Get() {

@@ -36,6 +36,20 @@ private:
 
     static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
 
+    struct ClassNameCache {
+        SDK::UClass* ptr = nullptr;
+        std::string name;
+        const char* Get(SDK::UClass* cls) {
+            if (cls != ptr) {
+                ptr = cls;
+                name = cls ? cls->GetName() : "(empty)";
+            }
+            return name.c_str();
+        }
+    };
+    ClassNameCache armorNameCache[17]{};
+    ClassNameCache weaponNameCache[7]{};
+
     GlobalModulePool& modulePool = GlobalModulePool::Get();
     bool modulePoolQueued = false;
     char moduleFilters[6][64] = {};
@@ -471,11 +485,9 @@ private:
             ImGui::PushID(static_cast<int>(slotEnum));
 
             bool hasArmor = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
-            std::string className = hasArmor
-                ? passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43->GetName()
-                : "(empty)";
-
-            bool open = ImGui::TreeNodeEx(slotName, ImGuiTreeNodeFlags_DefaultOpen, "%s - %s", slotName, className.c_str());
+            const char* className = armorNameCache[static_cast<int>(slotEnum)].Get(
+                passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+            bool open = ImGui::TreeNodeEx(slotName, ImGuiTreeNodeFlags_DefaultOpen, "%s - %s", slotName, className);
 
             if (open) {
                 if (hasArmor) {
@@ -612,13 +624,12 @@ private:
         for (int i = 0; i < 7; ++i) {
             auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, i);
             bool hasWeapon = slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 != nullptr;
-            std::string className = hasWeapon
-                ? slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066->GetName()
-                : "(empty)";
+            const char* className = weaponNameCache[i].Get(
+                slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066);
 
             ImGui::PushID(i);
 
-            bool open = ImGui::TreeNodeEx(WEAPON_SLOT_NAMES[i], 0, "%s - %s", WEAPON_SLOT_NAMES[i], className.c_str());
+            bool open = ImGui::TreeNodeEx(WEAPON_SLOT_NAMES[i], 0, "%s - %s", WEAPON_SLOT_NAMES[i], className);
 
             if (open) {
                 if (hasWeapon) {

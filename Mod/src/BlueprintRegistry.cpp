@@ -130,24 +130,24 @@ void BlueprintRegistry::PerformScan() {
     state.store(items.empty() ? ScanState::Failed : ScanState::Complete, std::memory_order_release);
 }
 
-size_t BlueprintRegistry::FindOrCreateCategory(const std::string& name) {
+size_t BlueprintRegistry::FindOrCreateCategory(std::string_view name) {
     for (size_t i = 0; i < categories.size(); ++i) {
         if (categories[i].name == name) return i;
     }
-    categories.push_back({name, {}});
+    categories.push_back({std::string(name), {}});
     return categories.size() - 1;
 }
 
-size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, const std::string& name) {
+size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, std::string_view name) {
     auto& subs = categories[catIdx].subcategories;
     for (size_t i = 0; i < subs.size(); ++i) {
         if (subs[i].name == name) return i;
     }
-    subs.push_back({name, {}});
+    subs.push_back({std::string(name), {}});
     return subs.size() - 1;
 }
 
-uint16_t BlueprintRegistry::AddItem(BlueprintEntry entry, const std::string& category, const std::string& subcategory) {
+uint16_t BlueprintRegistry::AddItem(BlueprintEntry entry, std::string_view category, std::string_view subcategory) {
     uint16_t idx = static_cast<uint16_t>(items.size());
     items.push_back(std::move(entry));
     size_t catIdx = FindOrCreateCategory(category);
@@ -156,8 +156,7 @@ uint16_t BlueprintRegistry::AddItem(BlueprintEntry entry, const std::string& cat
     return idx;
 }
 
-std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const std::string& path, const std::string& assetName) {
-    // Weapons
+std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPath(const std::string& path, const std::string& assetName) {
     if (path.find("/Weapons/") != std::string::npos) {
         if (path.find("/Tools/") != std::string::npos) return {"Weapons", "Tools"};
         if (path.find("/Reforged/") != std::string::npos) return {"Weapons", "Reforged"};
@@ -170,7 +169,6 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
         return {"Weapons", "General"};
     }
 
-    // Modular Armor
     if (path.find("/Modular_Armor") != std::string::npos) {
         if (assetName.find("Module_") != std::string::npos)
             return {};
@@ -190,7 +188,6 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
     if (path.find("/Armor/") != std::string::npos)
         return {};
 
-    // Props
     if (path.find("/Props/") != std::string::npos) {
         if (path.find("/Lights/") != std::string::npos) return {"Props", "Lights"};
         if (path.find("/Furniture/") != std::string::npos) return {"Props", "Furniture"};
@@ -201,7 +198,6 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
         return {"Props", "General"};
     }
 
-    // Traps
     if (path.find("/Traps/") != std::string::npos) return {"Props", "Traps"};
 
     if (assetName.find("BP_GameWeapon_") == 0) return {"Weapons", "Customizable"};
@@ -210,7 +206,7 @@ std::pair<std::string, std::string> BlueprintRegistry::CategorizeByPath(const st
         size_t start = 6;
         size_t end = path.find('/', start);
         if (end != std::string::npos && path.compare(start, 4, "Mod_") == 0)
-            return {"Mods", path.substr(start + 4, end - start - 4)};
+            return {"Mods", std::string_view(path).substr(start + 4, end - start - 4)};
     }
 
     return {"Other", "General"};
