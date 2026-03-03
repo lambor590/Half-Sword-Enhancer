@@ -30,11 +30,6 @@ struct ArmorPresetData {
 class ArmorPresetSerializer {
 private:
     static constexpr SDK::FLinearColor DEFAULT_FABRIC_COLOR = {0.5f, 0.5f, 0.5f, 1.0f};
-    static bool IsDefaultColor(const SDK::FLinearColor& c, const SDK::FLinearColor& def) {
-        return std::abs(c.R - def.R) < 1e-3f && std::abs(c.G - def.G) < 1e-3f
-            && std::abs(c.B - def.B) < 1e-3f && std::abs(c.A - def.A) < 1e-3f;
-    }
-
 public:
     static std::string SerializeToIni(const SDK::FStr_Passport_Armor1& passport,
         const ArmorPresetData& data, bool minimalMode = false)
@@ -61,9 +56,9 @@ public:
         if (!minimalMode || passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 != 0)
             ini.SetValue("Passport", "module3", std::to_string(passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2).c_str());
 
-        if (!minimalMode || !IsDefaultColor(passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393, DEFAULT_FABRIC_COLOR))
+        if (!minimalMode || !PresetUtils::IsDefaultColor(passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393, DEFAULT_FABRIC_COLOR))
             ini.SetValue("Passport", "fabricColor1", PresetUtils::ColorToString(passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393).c_str());
-        if (!minimalMode || !IsDefaultColor(passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C, DEFAULT_FABRIC_COLOR))
+        if (!minimalMode || !PresetUtils::IsDefaultColor(passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C, DEFAULT_FABRIC_COLOR))
             ini.SetValue("Passport", "fabricColor2", PresetUtils::ColorToString(passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C).c_str());
 
         if (!minimalMode || std::abs(passport.Price_27_8E3ADD54484EFC4A59FE9381485AC192 - 50.0) > 0.01)

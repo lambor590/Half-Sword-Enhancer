@@ -15,18 +15,6 @@ class ItemSection : public CollapsibleSection {
 private:
     SectionConfig::ItemConfig& cfg = SectionConfig::item;
 
-    struct ArmorSlotInfo {
-        const char* displayName;
-        int slotEnum;
-    };
-
-    static constexpr std::array<ArmorSlotInfo, 15> randomArmorSlots{{
-        {"Head", 0}, {"Hands", 1}, {"Neck (Bevor)", 4}, {"Neck (Standard)", 5},
-        {"Arms", 6}, {"Shoulders", 7}, {"Tabard", 8}, {"Chest (Plate)", 9},
-        {"Hauberk", 10}, {"Cuisses", 11}, {"Body (Clothing)", 12},
-        {"Waist", 13}, {"Legs (Greaves)", 14}, {"Feet", 15}, {"Hosen", 16}
-    }};
-
     static inline char searchBuffer[128] = "";
     static inline std::vector<uint16_t> filteredIndices;
     static inline float cachedFilteredWidth = 0;
@@ -169,16 +157,11 @@ private:
     }
 
     void SpawnSelectedItem() const noexcept {
-        auto spawnTransform = player->GetTransform();
-        const auto forward = player->GetActorForwardVector();
-        spawnTransform.Translation.X += forward.X * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Z += cfg.spawnDistanceUp;
-        spawnTransform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
+        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale);
 
         if (IsRandomArmorCategory()) {
-            if (cfg.currentItemIndex >= randomArmorSlots.size()) return;
-            auto slot = static_cast<SDK::EArmorSlots_Enum>(randomArmorSlots[cfg.currentItemIndex].slotEnum);
+            if (cfg.currentItemIndex >= GameConstants::ARMOR_SLOT_COUNT) return;
+            auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[cfg.currentItemIndex].slotEnum);
             auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
             bool snap = cfg.snapToGround;
             auto transform = spawnTransform;
@@ -216,12 +199,7 @@ private:
 
     void SpawnCustomPath() const noexcept {
         if (customPathBuffer[0] == '\0') return;
-        auto spawnTransform = player->GetTransform();
-        const auto forward = player->GetActorForwardVector();
-        spawnTransform.Translation.X += forward.X * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Y += forward.Y * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Z += cfg.spawnDistanceUp;
-        spawnTransform.Scale3D = {cfg.spawnScale, cfg.spawnScale, cfg.spawnScale};
+        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale);
         std::string path = customPathBuffer;
         Spawner::SpawnActor(world, path, spawnTransform, nullptr, cfg.snapToGround, cfg.spawnTier);
     }
@@ -349,12 +327,12 @@ public:
                 ImGui::Text("Armor Slot");
                 int slotIndex = static_cast<int>(cfg.currentItemIndex);
                 auto armorSlotGetter = [](void* data, int idx) -> const char* {
-                    return static_cast<const ArmorSlotInfo*>(data)[idx].displayName;
+                    return static_cast<const GameConstants::ArmorSlotInfo*>(data)[idx].name;
                 };
-                static float armorSlotComboW = GuiUtils::CalcComboWidth(armorSlotGetter, (void*)randomArmorSlots.data(), static_cast<int>(randomArmorSlots.size()));
+                static float armorSlotComboW = GuiUtils::CalcComboWidth(armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS, GameConstants::ARMOR_SLOT_COUNT);
                 ImGui::SetNextItemWidth(armorSlotComboW);
                 if (ImGui::Combo("##ArmorSlotSelector", &slotIndex,
-                    armorSlotGetter, (void*)randomArmorSlots.data(), static_cast<int>(randomArmorSlots.size()))) {
+                    armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS, GameConstants::ARMOR_SLOT_COUNT)) {
                     cfg.currentItemIndex = static_cast<uint16_t>(slotIndex);
                 }
 

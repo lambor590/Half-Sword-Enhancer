@@ -1,6 +1,7 @@
 #include <string_view>
 #include <unordered_set>
 #include "Utils/BlueprintRegistry.h"
+#include "Utils/GameConstants.h"
 #include "Utils/TierValidation.h"
 #include "Utils/EquipmentGenerator.h"
 #include "ComponentValidator.h"
@@ -277,11 +278,10 @@ void BlueprintRegistry::ScanWeaponTiers() {
 
     EquipmentGenerator::Init(world);
 
-    constexpr int WEAPON_COUNT = 19;
     std::array<uint16_t, TierValidation::VALID_TIER_MASKS.size()> scannedMasks = {};
 
     SDK::FStr_Passport_Weapon1 passport{};
-    for (int w = 1; w <= WEAPON_COUNT; ++w) {
+    for (int w = 1; w <= GameConstants::WEAPON_TYPE_COUNT; ++w) {
         for (int tier = 0; tier <= 8; ++tier) {
             passport = EquipmentGenerator::GenerateCustomizableWeapon(
                 static_cast<CustomizableWeapon>(w), static_cast<SDK::Enum_Ranks>(tier));
@@ -294,39 +294,18 @@ void BlueprintRegistry::ScanWeaponTiers() {
     TierValidation::VALID_TIER_MASKS = scannedMasks;
 
     int populated = 0;
-    for (int i = 1; i <= WEAPON_COUNT; ++i)
+    for (int i = 1; i <= GameConstants::WEAPON_TYPE_COUNT; ++i)
         if (scannedMasks[i] != 0) ++populated;
-    g_logger.Log("Weapon tier scan: populated %d/%d weapon type masks", populated, WEAPON_COUNT);
+    g_logger.Log("Weapon tier scan: populated %d/%d weapon type masks", populated, GameConstants::WEAPON_TYPE_COUNT);
 }
 
 void BlueprintRegistry::InjectCustomizableWeapons() {
-    struct CustWeapon { const char* name; CustomizableWeapon type; };
-    static constexpr CustWeapon CUSTOMIZABLE[] = {
-        {"Arming Sword", CustomizableWeapon::SwordArming},
-        {"Short Sword", CustomizableWeapon::SwordShort},
-        {"Long Sword", CustomizableWeapon::SwordLong},
-        {"Short Mace", CustomizableWeapon::MaceShort},
-        {"Mace", CustomizableWeapon::Mace},
-        {"Long Mace", CustomizableWeapon::MaceLong},
-        {"Short Hafted", CustomizableWeapon::HaftedShort},
-        {"Hafted", CustomizableWeapon::Hafted},
-        {"Long Hafted", CustomizableWeapon::HaftedLong},
-        {"Short Polearm", CustomizableWeapon::PolearmShort},
-        {"Polearm", CustomizableWeapon::Polearm},
-        {"Long Polearm", CustomizableWeapon::PolearmLong},
-        {"Short Pollaxe", CustomizableWeapon::PollaxeShort},
-        {"Pollaxe", CustomizableWeapon::Pollaxe},
-        {"Long Pollaxe", CustomizableWeapon::PollaxeLong},
-        {"Short Casted", CustomizableWeapon::CastedShort},
-        {"Casted", CustomizableWeapon::Casted},
-        {"Long Casted", CustomizableWeapon::CastedLong},
-        {"Messer", CustomizableWeapon::Messer},
-    };
-
-    for (const auto& cw : CUSTOMIZABLE) {
+    static_assert(static_cast<int>(CustomizableWeapon::Messer) == GameConstants::WEAPON_TYPE_COUNT,
+        "WEAPON_TYPE_NAMES must match CustomizableWeapon enum range");
+    for (int i = 0; i < GameConstants::WEAPON_TYPE_COUNT; ++i) {
         BlueprintEntry entry;
-        entry.displayName = cw.name;
-        entry.customizable = cw.type;
+        entry.displayName = GameConstants::WEAPON_TYPE_NAMES[i];
+        entry.customizable = static_cast<CustomizableWeapon>(i + 1);
         AddItem(std::move(entry), "Weapons", "Customizable");
     }
 }

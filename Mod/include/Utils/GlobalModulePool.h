@@ -7,6 +7,7 @@
 
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/CustomizableWeapon.h"
+#include "Utils/GameConstants.h"
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
 
 struct GlobalModuleEntry {
@@ -28,16 +29,8 @@ struct GlobalModulePool {
     void Populate() {
         if (populated.load(std::memory_order_acquire)) return;
 
-        static constexpr const char* WEAPON_TYPE_NAMES[] = {
-            "Arming Sword", "Short Sword", "Long Sword",
-            "Short Mace", "Mace", "Long Mace",
-            "Short Hafted", "Hafted", "Long Hafted",
-            "Short Polearm", "Polearm", "Long Polearm",
-            "Short Pollaxe", "Pollaxe", "Long Pollaxe",
-            "Short Casted", "Casted", "Long Casted",
-            "Messer"
-        };
-        static constexpr int WEAPON_TYPE_COUNT = 19;
+        static constexpr auto& WEAPON_TYPE_NAMES = GameConstants::WEAPON_TYPE_NAMES;
+        static constexpr int WEAPON_TYPE_COUNT = GameConstants::WEAPON_TYPE_COUNT;
 
         std::unordered_set<SDK::UClass*> seen[6];
         for (int i = 1; i <= WEAPON_TYPE_COUNT; ++i) {

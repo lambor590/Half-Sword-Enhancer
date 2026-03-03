@@ -146,13 +146,10 @@ private:
         auto ovr = overrides;
         bool hasOverrides = CountActiveOverrides() > 0;
 
-        SDK::FTransform spawnTransform = player->GetTransform();
-        spawnTransform.Translation += player->GetActorForwardVector() * cfg.spawnDistanceForward;
-        spawnTransform.Translation.Z += cfg.spawnDistanceUp;
-        double spawnScale = cfg.spawnScale;
-        if (ovr.heightRate.enabled)
-            spawnScale = 0.875 + ovr.heightRate.value * 0.125;
-        spawnTransform.Scale3D = SDK::FVector(spawnScale, spawnScale, spawnScale);
+        double spawnScale = ovr.heightRate.enabled
+            ? 0.875 + ovr.heightRate.value * 0.125
+            : cfg.spawnScale;
+        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, static_cast<float>(spawnScale));
 
         auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides](SDK::AActor* actor) {
             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);

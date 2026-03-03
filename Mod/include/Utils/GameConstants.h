@@ -18,6 +18,17 @@ namespace GameConstants {
     };
     inline constexpr int ARMOR_SLOT_COUNT = static_cast<int>(std::size(ARMOR_SLOTS));
 
+    inline constexpr const char* WEAPON_TYPE_NAMES[] = {
+        "Arming Sword", "Short Sword", "Long Sword",
+        "Short Mace", "Mace", "Long Mace",
+        "Short Hafted", "Hafted", "Long Hafted",
+        "Short Polearm", "Polearm", "Long Polearm",
+        "Short Pollaxe", "Pollaxe", "Long Pollaxe",
+        "Short Casted", "Casted", "Long Casted",
+        "Messer"
+    };
+    inline constexpr int WEAPON_TYPE_COUNT = static_cast<int>(std::size(WEAPON_TYPE_NAMES));
+
     inline constexpr const char* MATERIAL_LAYER_NAMES[] = {
         "Brushed Steel 1", "Brushed Steel 2", "Brushed Steel 3", "Steel",
         "Iron", "Gilded", "Copper", "Brass",
@@ -31,6 +42,8 @@ namespace GameConstants {
         std::uniform_int_distribution<int> dist(min, max);
         return dist(rng);
     }
+
+    constexpr const char* WILLIE_BP_PATH = "/Game/Character/Blueprints/Willie_BP.Willie_BP_C";
 
     constexpr float DEFAULT_HEALTH = 100.0f;
     constexpr float DEFAULT_PAIN = 0.0f;

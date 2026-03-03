@@ -54,11 +54,6 @@ private:
 
     static bool IsDefaultMass(double m) { return std::abs(m - 1.0) < 1e-4; }
 
-    static bool IsDefaultColor(const SDK::FLinearColor& c, const SDK::FLinearColor& def) {
-        return std::abs(c.R - def.R) < 1e-3f && std::abs(c.G - def.G) < 1e-3f
-            && std::abs(c.B - def.B) < 1e-3f && std::abs(c.A - def.A) < 1e-3f;
-    }
-
     static constexpr SDK::FLinearColor DEFAULT_WOOD_COLOR = {0.4f, 0.26f, 0.13f, 1.0f};
     static constexpr SDK::FLinearColor DEFAULT_LEATHER_COLOR = {0.3f, 0.18f, 0.08f, 1.0f};
 
@@ -114,9 +109,9 @@ public:
         if (!minimalMode || wood != 14)    ini.SetValue("Passport", "materialWood", std::to_string(wood).c_str());
         if (!minimalMode || leather != 10) ini.SetValue("Passport", "materialLeather", std::to_string(leather).c_str());
 
-        if (!minimalMode || !IsDefaultColor(passport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743, DEFAULT_WOOD_COLOR))
+        if (!minimalMode || !PresetUtils::IsDefaultColor(passport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743, DEFAULT_WOOD_COLOR))
             ini.SetValue("Passport", "colorWood", PresetUtils::ColorToString(passport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743).c_str());
-        if (!minimalMode || !IsDefaultColor(passport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638, DEFAULT_LEATHER_COLOR))
+        if (!minimalMode || !PresetUtils::IsDefaultColor(passport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638, DEFAULT_LEATHER_COLOR))
             ini.SetValue("Passport", "colorLeather", PresetUtils::ColorToString(passport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638).c_str());
 
         int tier = static_cast<int>(passport.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461);

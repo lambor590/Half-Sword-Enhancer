@@ -226,7 +226,7 @@ private:
         float spawnScale = static_cast<float>(0.875 + heightRate * 0.125);
 
         Spawner::SpawnActor(world,
-            "/Game/Character/Blueprints/Willie_BP.Willie_BP_C",
+            GameConstants::WILLIE_BP_PATH,
             Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale),
             [passport, heightRate, muscleRate](SDK::AActor* actor) {
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);

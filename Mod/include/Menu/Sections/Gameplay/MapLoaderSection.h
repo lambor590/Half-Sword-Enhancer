@@ -151,7 +151,7 @@ class MapLoaderSection : public CollapsibleSection {
             auto* gi = static_cast<SDK::UGI_Settings_C*>(
                 SDK::UGameplayStatics::GetGameInstance(w));
 
-            auto* willieClass = Spawner::LoadClass("/Game/Character/Blueprints/Willie_BP.Willie_BP_C");
+            auto* willieClass = Spawner::LoadClass(GameConstants::WILLIE_BP_PATH);
             if (!willieClass) return;
 
             auto transform = c->GetTransform();

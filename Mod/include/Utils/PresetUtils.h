@@ -75,6 +75,11 @@ namespace PresetUtils {
         return c;
     }
 
+    inline bool IsDefaultColor(const SDK::FLinearColor& c, const SDK::FLinearColor& def) {
+        return std::abs(c.R - def.R) < 1e-3f && std::abs(c.G - def.G) < 1e-3f
+            && std::abs(c.B - def.B) < 1e-3f && std::abs(c.A - def.A) < 1e-3f;
+    }
+
     inline std::string DoubleOverrideToString(bool enabled, double value) {
         char buf[64];
         std::snprintf(buf, sizeof(buf), "%d,%.6g", enabled ? 1 : 0, value);

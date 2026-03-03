@@ -26,16 +26,8 @@ class WeaponEditorSection : public CollapsibleSection {
 private:
     SectionConfig::WeaponEditorConfig& cfg = SectionConfig::weaponEditor;
 
-    static constexpr const char* WEAPON_TYPE_NAMES[] = {
-        "Arming Sword", "Short Sword", "Long Sword",
-        "Short Mace", "Mace", "Long Mace",
-        "Short Hafted", "Hafted", "Long Hafted",
-        "Short Polearm", "Polearm", "Long Polearm",
-        "Short Pollaxe", "Pollaxe", "Long Pollaxe",
-        "Short Casted", "Casted", "Long Casted",
-        "Messer"
-    };
-    static constexpr int WEAPON_TYPE_COUNT = 19;
+    static constexpr auto& WEAPON_TYPE_NAMES = GameConstants::WEAPON_TYPE_NAMES;
+    static constexpr int WEAPON_TYPE_COUNT = GameConstants::WEAPON_TYPE_COUNT;
 
     static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
 

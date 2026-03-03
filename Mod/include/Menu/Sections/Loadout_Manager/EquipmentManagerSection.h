@@ -668,41 +668,22 @@ private:
 
     void RenderPresetsTab() {
         ImGui::PushID("presets");
-
         status.Render();
-
-        ImGui::SeparatorText("Save");
-        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##PresetName", "folder/name...", presetNameBuf, sizeof(presetNameBuf));
-        ImGui::SameLine();
-        bool canSave = presetNameBuf[0] != '\0' && ComponentValidator::Validate(player);
-        if (!canSave) ImGui::BeginDisabled();
-        if (ImGui::Button("Save")) {
-            auto data = BuildPresetFromPlayer();
-            data.name = presetNameBuf;
-            if (LoadoutPresetSerializer::SavePresetByName(data)) {
-                status.Set("Saved: " + std::string(presetNameBuf));
-                presetListDirty = true;
-            } else {
-                status.Set("Error saving preset", true);
-            }
-        }
-        if (!canSave) ImGui::EndDisabled();
-
-        ImGui::SeparatorText("Presets");
-        if (presetListDirty)
-            RefreshPresetTree();
-
-        if (presetTree.presets.empty() && presetTree.children.empty()) {
-            ImGui::TextDisabled("No saved presets");
-        } else {
-            ImGui::BeginChild("##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders);
-            auto action = GuiUtils::RenderPresetTree(presetTree);
-            ImGui::EndChild();
-
-            if (action.type == GuiUtils::PresetTreeAction::Load) {
-                auto result = LoadoutPresetSerializer::LoadFromFile(action.path);
+        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status, ComponentValidator::Validate(player)};
+        GuiUtils::RenderPresetPanel(panelState, LoadoutPresetSerializer::GetPresetsDir(),
+            [this]() { RefreshPresetTree(); },
+            [this](const char* name) {
+                auto data = BuildPresetFromPlayer();
+                data.name = name;
+                if (LoadoutPresetSerializer::SavePresetByName(data)) {
+                    status.Set("Saved: " + std::string(name));
+                    presetListDirty = true;
+                } else {
+                    status.Set("Error saving preset", true);
+                }
+            },
+            [this](const std::filesystem::path& path) {
+                auto result = LoadoutPresetSerializer::LoadFromFile(path);
                 if (result.success) {
                     strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
                     std::string loadedName = std::move(result.name);
@@ -711,18 +692,12 @@ private:
                 } else {
                     status.Set("Error: " + result.error, true);
                 }
-            } else if (action.type == GuiUtils::PresetTreeAction::Delete) {
-                PresetUtils::DeletePreset(action.path);
+            },
+            [this](const std::filesystem::path& path) {
+                PresetUtils::DeletePreset(path);
                 PresetUtils::CleanEmptyDirectories(LoadoutPresetSerializer::GetPresetsDir());
                 presetListDirty = true;
-            }
-        }
-
-        ImGui::Spacing();
-        if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) {
-            PresetUtils::OpenInExplorer(LoadoutPresetSerializer::GetPresetsDir());
-        }
-
+            });
         ImGui::PopID();
     }
 

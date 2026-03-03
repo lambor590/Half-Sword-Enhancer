@@ -312,6 +312,7 @@ namespace GuiUtils {
         bool& listDirty;
         PresetUtils::PresetTreeNode& tree;
         StatusMessage& status;
+        bool canSave = true;
     };
 
     using PresetCallback = std::function<void()>;
@@ -330,7 +331,7 @@ namespace GuiUtils {
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
         ImGui::InputTextWithHint("##PresetName", "folder/name...", state.nameBuf, state.nameBufSize);
         ImGui::SameLine();
-        bool canSave = state.nameBuf[0] != '\0';
+        bool canSave = state.nameBuf[0] != '\0' && state.canSave;
         if (!canSave) ImGui::BeginDisabled();
         if (ImGui::Button("Save"))
             onSave(state.nameBuf);

@@ -5,18 +5,19 @@
 #include "ConfigManager.h"
 
 std::filesystem::path ConfigManager::GetAppDataPath() {
-    std::filesystem::path basePath;
-    PWSTR appDataPath = nullptr;
-    
-    if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &appDataPath))) {
-        basePath = std::filesystem::path(appDataPath) / "Half Sword Enhancer";
-        CoTaskMemFree(appDataPath);
-        std::filesystem::create_directories(basePath);
-    } else {
-        basePath = std::filesystem::current_path();
-    }
-    
-    return basePath;
+    static std::filesystem::path cached = [] {
+        PWSTR appDataPath = nullptr;
+        std::filesystem::path result;
+        if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &appDataPath))) {
+            result = std::filesystem::path(appDataPath) / "Half Sword Enhancer";
+            CoTaskMemFree(appDataPath);
+            std::filesystem::create_directories(result);
+        } else {
+            result = std::filesystem::current_path();
+        }
+        return result;
+    }();
+    return cached;
 }
 
 ConfigManager::ConfigManager() {
