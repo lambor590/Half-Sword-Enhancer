@@ -5,6 +5,7 @@
 #include <vector>
 #include <atomic>
 #include <algorithm>
+#include <ranges>
 #include <unordered_set>
 
 #include "imgui/imgui.h"
@@ -31,12 +32,12 @@ class MapRegistry {
     float maxDisplayNameWidth = 0.0f;
     bool displayWidthDirty = true;
 
-    static bool EndsWith(std::string_view str, std::string_view suffix) {
+    [[nodiscard]] static bool EndsWith(std::string_view str, std::string_view suffix) {
         return str.size() >= suffix.size() &&
                str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
     }
 
-    static bool HasBadSuffix(std::string_view name) {
+    [[nodiscard]] static bool HasBadSuffix(std::string_view name) {
         static constexpr std::string_view BAD_SUFFIXES[] = {
             "_BuiltData", "_HLOD", "_Minimap", "_NavData",
             "_Overview", "_Collision", "_LevelMetrics",
@@ -47,16 +48,16 @@ class MapRegistry {
         return false;
     }
 
-    static bool PathContainsMaps(std::string_view path) {
+    [[nodiscard]] static bool PathContainsMaps(std::string_view path) {
         return path.find("/Maps/") != std::string_view::npos ||
                EndsWith(path, "/Maps");
     }
 
-    static bool StartsWith(std::string_view str, std::string_view prefix) {
+    [[nodiscard]] static bool StartsWith(std::string_view str, std::string_view prefix) {
         return str.size() >= prefix.size() && str.compare(0, prefix.size(), prefix) == 0;
     }
 
-    static std::string CategorizeByPath(std::string_view packagePath) {
+    [[nodiscard]] static std::string CategorizeByPath(std::string_view packagePath) {
         if (StartsWith(packagePath, "/Game/Maps"))
             return std::string(BASE_GAME_CATEGORY);
 
@@ -73,7 +74,7 @@ class MapRegistry {
         return {};
     }
 
-    static std::string CleanMapName(std::string_view packageName) {
+    [[nodiscard]] static std::string CleanMapName(std::string_view packageName) {
         auto lastSlash = packageName.rfind('/');
         if (lastSlash != std::string_view::npos)
             packageName = packageName.substr(lastSlash + 1);
@@ -178,7 +179,7 @@ class MapRegistry {
                 maps.push_back({std::move(displayName), std::move(packageName), std::move(category)});
             }
 
-            std::sort(maps.begin(), maps.end(),
+            std::ranges::sort(maps,
                 [](const MapEntry& a, const MapEntry& b) {
                     if (a.category != b.category) {
                         bool aBase = (a.category == BASE_GAME_CATEGORY);
@@ -201,7 +202,7 @@ class MapRegistry {
     }
 
 public:
-    static MapRegistry& Get() {
+    [[nodiscard]] static MapRegistry& Get() {
         static MapRegistry instance;
         return instance;
     }
@@ -220,11 +221,11 @@ public:
             GameHook::QueueAction([this]() { PerformScan(); });
     }
 
-    ScanState GetState() const { return state.load(std::memory_order_acquire); }
-    const std::vector<MapEntry>& GetMaps() const { return maps; }
-    const std::vector<std::string>& GetCategories() const { return categories; }
+    [[nodiscard]] ScanState GetState() const { return state.load(std::memory_order_acquire); }
+    [[nodiscard]] const std::vector<MapEntry>& GetMaps() const { return maps; }
+    [[nodiscard]] const std::vector<std::string>& GetCategories() const { return categories; }
 
-    float GetMaxDisplayNameWidth() {
+    [[nodiscard]] float GetMaxDisplayNameWidth() {
         if (displayWidthDirty) {
             maxDisplayNameWidth = 0.0f;
             for (const auto& m : maps) {

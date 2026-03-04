@@ -4,6 +4,7 @@
 #include <cctype>
 #include <cstdint>
 #include <map>
+#include <ranges>
 #include <string>
 #include <vector>
 
@@ -41,7 +42,7 @@ struct WorldActor {
     std::string className;
 };
 
-inline std::vector<WorldActor> FindWorldActors(SDK::UWorld* world) {
+[[nodiscard]] inline std::vector<WorldActor> FindWorldActors(SDK::UWorld* world) {
     std::vector<WorldActor> result;
     if (!world) return result;
     auto& levels = world->Levels;
@@ -58,11 +59,11 @@ inline std::vector<WorldActor> FindWorldActors(SDK::UWorld* world) {
     return result;
 }
 
-inline bool IsHexChar(char c) {
+[[nodiscard]] inline bool IsHexChar(char c) {
     return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
 }
 
-inline std::string CleanPropertyName(const std::string& raw) {
+[[nodiscard]] inline std::string CleanPropertyName(const std::string& raw) {
     std::string cleaned = raw;
 
     // Strip trailing Dumper-7 hash suffix like "_0EB204DF"
@@ -88,14 +89,14 @@ inline std::string CleanPropertyName(const std::string& raw) {
     return cleaned;
 }
 
-inline std::string ExtractCategory(const std::string& raw) {
+[[nodiscard]] inline std::string ExtractCategory(const std::string& raw) {
     auto pos = raw.find('_');
     if (pos == std::string::npos || pos == 0)
         return "General";
     return raw.substr(0, pos);
 }
 
-inline PropType ClassifyProperty(SDK::FProperty* prop, SDK::UEnum*& outEnum) {
+[[nodiscard]] inline PropType ClassifyProperty(SDK::FProperty* prop, SDK::UEnum*& outEnum) {
     outEnum = nullptr;
     auto castFlags = static_cast<SDK::EClassCastFlags>(prop->ClassPrivate->CastFlags);
 
@@ -134,7 +135,7 @@ inline PropType ClassifyProperty(SDK::FProperty* prop, SDK::UEnum*& outEnum) {
     return PropType::Unsupported;
 }
 
-inline std::vector<std::string> BuildEnumNames(SDK::UEnum* enumPtr) {
+[[nodiscard]] inline std::vector<std::string> BuildEnumNames(SDK::UEnum* enumPtr) {
     std::vector<std::string> names;
     if (!enumPtr) return names;
 
@@ -170,7 +171,7 @@ inline std::vector<std::string> BuildEnumNames(SDK::UEnum* enumPtr) {
     return names;
 }
 
-inline std::vector<PropertyInfo> EnumerateProperties(SDK::UStruct* ustruct) {
+[[nodiscard]] inline std::vector<PropertyInfo> EnumerateProperties(SDK::UStruct* ustruct) {
     std::vector<PropertyInfo> result;
     if (!ustruct) return result;
 
@@ -207,7 +208,7 @@ inline std::vector<PropertyInfo> EnumerateProperties(SDK::UStruct* ustruct) {
         }
     }
 
-    std::sort(result.begin(), result.end(), [](const PropertyInfo& a, const PropertyInfo& b) {
+    std::ranges::sort(result, [](const PropertyInfo& a, const PropertyInfo& b) {
         if (a.category != b.category) return a.category < b.category;
         return a.rawName < b.rawName;
     });
@@ -217,7 +218,7 @@ inline std::vector<PropertyInfo> EnumerateProperties(SDK::UStruct* ustruct) {
 
 using CategoryMap = std::map<std::string, std::vector<const PropertyInfo*>>;
 
-inline CategoryMap GroupByCategory(const std::vector<PropertyInfo>& props) {
+[[nodiscard]] inline CategoryMap GroupByCategory(const std::vector<PropertyInfo>& props) {
     CategoryMap map;
     for (const auto& p : props)
         map[p.category].push_back(&p);

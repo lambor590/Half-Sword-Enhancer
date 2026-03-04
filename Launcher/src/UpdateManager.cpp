@@ -1,7 +1,7 @@
 #include <vector>
 #include <array>
 #include <charconv>
-#include <cstdio>
+#include <format>
 #include <fstream>
 #include <Windows.h>
 
@@ -33,26 +33,15 @@ namespace hse {
     }
 
     std::string Version::ToString() const {
-        char buf[18];
-        const auto len = std::snprintf(buf, sizeof(buf), "%u.%u.%u", major_, minor_, patch_);
-        return std::string(buf, static_cast<size_t>(len));
+        return std::format("{}.{}.{}", major_, minor_, patch_);
     }
 
     std::string Version::ToCompactString() const {
-        char buf[16];
-        const auto len = std::snprintf(buf, sizeof(buf), "%u%u%u", major_, minor_, patch_);
-        return std::string(buf, static_cast<size_t>(len));
+        return std::format("{}{}{}", major_, minor_, patch_);
     }
 
     std::string UpdateManager::BuildReleaseUrl(std::string_view version, std::string_view filename) {
-        constexpr std::string_view base = "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v";
-        std::string url;
-        url.reserve(base.size() + version.size() + 1 + filename.size());
-        url.append(base);
-        url.append(version);
-        url.push_back('/');
-        url.append(filename);
-        return url;
+        return std::format("https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v{}/{}", version, filename);
     }
 
     std::expected<Version, UpdateError> UpdateManager::GetLocalVersion() noexcept {
@@ -96,7 +85,7 @@ namespace hse {
             info.downloadUrlLauncher = BuildReleaseUrl(versionStr, "HSEnhancerLauncher.exe");
             info.downloadUrlMod = BuildReleaseUrl(versionStr, "HSEnhancer.dll");
             info.downloadUrlProxy = BuildReleaseUrl(versionStr, "winmm.dll");
-            hse::Logger::info("Update available: %s", versionStr.c_str());
+            hse::Logger::info(std::format("Update available: {}", versionStr));
         }
 
         return info;
@@ -160,7 +149,7 @@ namespace hse {
             gameBinPath
         );
         if (result) {
-            Logger::info("Mod installed successfully (v%s)", versionStr.c_str());
+            Logger::info(std::format("Mod installed successfully (v{})", versionStr));
         }
         return result;
     }
@@ -242,27 +231,22 @@ namespace hse {
             const auto tempStr = tempPath.string();
             const auto batchStr = batchPath.string();
 
-            std::string script;
-            script.reserve(512);
-            script.append("@echo off\n"
+            auto script = std::format(
+                "@echo off\n"
                 "echo Updating Half Sword Enhancer Launcher...\n"
                 "timeout /t 2 /nobreak >nul\n"
-                "move \"");
-            script.append(tempStr);
-            script.append("\" \"");
-            script.append(currentExePath);
-            script.append("\"\nif exist \"");
-            script.append(currentExePath);
-            script.append("\" (\n"
+                "move \"{}\" \"{}\"\n"
+                "if exist \"{}\" (\n"
                 "    echo Update completed successfully!\n"
                 "    echo Starting updated launcher...\n"
-                "    start \"\" \"");
-            script.append(currentExePath);
-            script.append("\"\n) else (\n"
+                "    start \"\" \"{}\"\n"
+                ") else (\n"
                 "    echo Update failed! Please download manually.\n"
-                "    pause\n)\ndel \"");
-            script.append(batchStr);
-            script.append("\"\n");
+                "    pause\n"
+                ")\n"
+                "del \"{}\"\n",
+                tempStr, currentExePath, currentExePath, currentExePath, batchStr
+            );
 
             batchFile.write(script.data(), static_cast<std::streamsize>(script.size()));
             batchFile.close();
@@ -273,7 +257,7 @@ namespace hse {
             PROCESS_INFORMATION processInfo{};
             startupInfo.cb = sizeof(startupInfo);
 
-            std::string cmdLine = "cmd.exe /c \"" + batchStr + "\"";
+            auto cmdLine = std::format("cmd.exe /c \"{}\"", batchStr);
 
             if (!CreateProcessA(nullptr, cmdLine.data(), nullptr, nullptr, FALSE,
                               0, nullptr, nullptr, &startupInfo, &processInfo)) {
@@ -293,7 +277,7 @@ namespace hse {
             ExitProcess(0);
 
         } catch (const std::exception& e) {
-            Logger::error("Exception during launcher update: %s", e.what());
+            Logger::error(std::format("Exception during launcher update: {}", e.what()));
             return std::unexpected(UpdateError::UpdateFailed);
         } catch (...) {
             Logger::error("Unknown error during launcher update");
@@ -384,15 +368,10 @@ namespace hse {
         std::string_view assetName
     ) const noexcept {
         try {
-            constexpr std::string_view patternPrefix = "\"name\":\"";
-            std::string searchPattern;
-            searchPattern.reserve(patternPrefix.size() + assetName.size() + 1);
-            searchPattern.append(patternPrefix);
-            searchPattern.append(assetName);
-            searchPattern.push_back('"');
+            auto searchPattern = std::format("\"name\":\"{}\"", assetName);
             const auto assetPos = json.find(searchPattern);
             if (assetPos == std::string_view::npos) {
-                Logger::warn("Asset not found: %s", std::string(assetName).c_str());
+                Logger::warn(std::format("Asset not found: {}", assetName));
                 return std::unexpected(UpdateError::InvalidResponse);
             }
 
@@ -421,11 +400,7 @@ namespace hse {
         std::string_view fieldName
     ) const noexcept {
         try {
-            std::string fieldPrefix;
-            fieldPrefix.reserve(fieldName.size() + 4);
-            fieldPrefix.push_back('"');
-            fieldPrefix.append(fieldName);
-            fieldPrefix.append("\":\"");
+            auto fieldPrefix = std::format("\"{}\":\"", fieldName);
             const auto fieldPos = assetObject.find(fieldPrefix);
             if (fieldPos == std::string_view::npos) {
                 return std::unexpected(UpdateError::InvalidResponse);
@@ -451,7 +426,7 @@ namespace hse {
         if (stableResult && stableResult->remoteVersion >= stableResult->currentVersion) {
             info.stableRelease = *stableResult;
             info.stableRelease->available = true;
-            Logger::info("Stable release %s available for migration", stableResult->remoteVersion.ToString().c_str());
+            Logger::info(std::format("Stable release {} available for migration", stableResult->remoteVersion.ToString()));
             return info;
         }
 
@@ -499,11 +474,11 @@ namespace hse {
             (storedLauncherTimestamp.empty() || info.launcherTimestamp > storedLauncherTimestamp);
 
         if (info.modUpdateAvailable) {
-            Logger::info("Experimental mod update available. Timestamp: %s", info.modTimestamp.c_str());
+            Logger::info(std::format("Experimental mod update available. Timestamp: {}", info.modTimestamp));
         }
 
         if (info.launcherUpdateAvailable) {
-            Logger::info("Experimental launcher update available. Timestamp: %s", info.launcherTimestamp.c_str());
+            Logger::info(std::format("Experimental launcher update available. Timestamp: {}", info.launcherTimestamp));
         }
 
         return info;

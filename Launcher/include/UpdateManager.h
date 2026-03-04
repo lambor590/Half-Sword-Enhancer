@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <format>
 #include <expected>
 #include <optional>
 #include <compare>

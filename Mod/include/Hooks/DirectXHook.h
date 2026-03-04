@@ -8,18 +8,9 @@
 #include "Logger.h"
 #include "imgui/backends/imgui_impl_win32.h"
 
-/*
-* Here we have typedefs of the functions we want to hook.
-* They are defined so we can call the respective functions through pointers to their memory addresses.
-*
-* Setting the proper calling convention is important (__stdcall).
-* It makes it so the function arguments are read/written to/from memory in the correct way.
-* 64-bit functions actually use the __fastcall calling convention, but the compiler changes
-* __stdcall to __fastcall automatically for 64-bit compilation.
-*/
-typedef HRESULT(__stdcall* Present)(IDXGISwapChain* This, UINT SyncInterval, UINT Flags);
-typedef HRESULT(__stdcall* ResizeBuffers)(IDXGISwapChain* This, UINT BufferCount, UINT Width, UINT Height, DXGI_FORMAT NewFormat, UINT SwapChainFlags);
-typedef void(__stdcall* ExecuteCommandLists)(ID3D12CommandQueue* This, UINT NumCommandLists, const ID3D12CommandList** ppCommandLists);
+using Present = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
+using ResizeBuffers = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT);
+using ExecuteCommandLists = void(__stdcall*)(ID3D12CommandQueue*, UINT, const ID3D12CommandList**);
 
 // Hooks DirectX 11 and DirectX 12
 class DirectXHook

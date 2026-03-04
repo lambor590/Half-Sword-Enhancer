@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <vector>
 #include <filesystem>
 #include <cstdio>
@@ -24,7 +25,7 @@ namespace PresetUtils {
         ShellExecuteW(NULL, L"open", dir.wstring().c_str(), NULL, NULL, SW_SHOWDEFAULT);
     }
 
-    inline std::string ObjectToAbsolutePath(const SDK::UObject* obj) {
+    [[nodiscard]] inline std::string ObjectToAbsolutePath(const SDK::UObject* obj) {
         if (!obj) return "";
         std::string result = obj->GetName();
         for (auto* outer = obj->Outer; outer; outer = outer->Outer) {
@@ -114,7 +115,7 @@ namespace PresetUtils {
         value = val != 0;
     }
 
-    inline std::string SanitizeFilename(const std::string& name) {
+    [[nodiscard]] inline std::string SanitizeFilename(std::string_view name) noexcept {
         std::string result;
         result.reserve(name.size());
         for (char c : name) {
@@ -136,7 +137,7 @@ namespace PresetUtils {
         return dir;
     }
 
-    inline bool SaveStringToFile(const std::filesystem::path& path, const std::string& content) {
+    [[nodiscard]] inline bool SaveStringToFile(const std::filesystem::path& path, const std::string& content) {
         FILE* f = nullptr;
         if (fopen_s(&f, path.string().c_str(), "wb") != 0 || !f)
             return false;

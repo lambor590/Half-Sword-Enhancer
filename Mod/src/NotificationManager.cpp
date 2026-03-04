@@ -45,14 +45,10 @@ void NotificationManager::Update() noexcept {
     
     s_currentTime = GetTime();
     
-    const auto newEnd = std::remove_if(s_notifications.begin(), s_notifications.end(),
+    std::erase_if(s_notifications,
         [currentTime = s_currentTime](const Notification& notification) noexcept -> bool {
             return currentTime - notification.startTime >= notification.duration;
         });
-    
-    if (newEnd != s_notifications.end()) [[unlikely]] {
-        s_notifications.erase(newEnd, s_notifications.end());
-    }
 }
 
 void NotificationManager::Render() noexcept {

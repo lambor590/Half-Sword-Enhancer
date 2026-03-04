@@ -90,10 +90,10 @@ static void RenderKeyButton(const char* id, bool& waitingForKey, int key, int& p
     }
 }
 
-static inline void RenderName(const std::string& name, bool isDisabled) {
+static inline void RenderName(std::string_view name, bool isDisabled) {
     ImGui::TextColored(
-        isDisabled ? GuiConstants::DISABLED_NAME_COLOR : DefaultStyle::parchment, 
-        "%s", name.c_str()
+        isDisabled ? GuiConstants::DISABLED_NAME_COLOR : DefaultStyle::parchment,
+        "%.*s", static_cast<int>(name.size()), name.data()
     );
 }
 

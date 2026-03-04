@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <cstdint>
 #include <cstring>
 #include <filesystem>
 #include <functional>
@@ -20,17 +21,17 @@ namespace GuiUtils {
     inline constexpr ImVec2 kPopupPadding{10.0f, 8.0f};
     inline constexpr float kDragWidth = 120.0f;
 
-    inline void BeginStyledTooltip() {
+    inline void BeginStyledTooltip() noexcept {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, kTooltipPadding);
         ImGui::BeginTooltip();
     }
 
-    inline void EndStyledTooltip() {
+    inline void EndStyledTooltip() noexcept {
         ImGui::EndTooltip();
         ImGui::PopStyleVar();
     }
 
-    inline bool CheckboxWithTooltip(const char* label, bool* value, const char* tooltip) {
+    [[nodiscard]] inline bool CheckboxWithTooltip(const char* label, bool* value, const char* tooltip) {
         bool changed = ImGui::Checkbox(label, value);
         if (ImGui::IsItemHovered()) {
             BeginStyledTooltip();
@@ -40,15 +41,15 @@ namespace GuiUtils {
         return changed;
     }
 
-    inline float ComboWidthFromText(float maxTextWidth) {
+    [[nodiscard]] inline float ComboWidthFromText(float maxTextWidth) noexcept {
         return maxTextWidth + ImGui::GetFrameHeight() + ImGui::GetStyle().FramePadding.x * 2;
     }
 
-    inline float CalcComboWidth(const char* widestItem) {
+    [[nodiscard]] inline float CalcComboWidth(const char* widestItem) {
         return ComboWidthFromText(ImGui::CalcTextSize(widestItem).x);
     }
 
-    inline float CalcComboWidth(const char* const* items, int count) {
+    [[nodiscard]] inline float CalcComboWidth(const char* const* items, int count) {
         float maxW = 0;
         for (int i = 0; i < count; ++i) {
             float w = ImGui::CalcTextSize(items[i]).x;
@@ -57,7 +58,7 @@ namespace GuiUtils {
         return ComboWidthFromText(maxW);
     }
 
-    inline float CalcComboWidth(const char* (*getter)(void* data, int idx), void* data, int count) {
+    [[nodiscard]] inline float CalcComboWidth(const char* (*getter)(void* data, int idx), void* data, int count) {
         float maxW = 0;
         for (int i = 0; i < count; ++i) {
             float w = ImGui::CalcTextSize(getter(data, i)).x;
@@ -73,7 +74,7 @@ namespace GuiUtils {
         return t;
     }();
 
-    inline bool MatchesFilter(const char* name, size_t nameLen, const char* filter, size_t filterLen) {
+    [[nodiscard]] inline bool MatchesFilter(const char* name, size_t nameLen, const char* filter, size_t filterLen) {
         if (filterLen == 0) return true;
         if (filterLen > nameLen) return false;
         char filterLower[128];
@@ -97,7 +98,7 @@ namespace GuiUtils {
         "Tier 5", "Tier 6", "Tier 7", "Tier 8"
     };
 
-    inline float CachedTierComboWidth() {
+    [[nodiscard]] inline float CachedTierComboWidth() {
         static float w = CalcComboWidth(TIER_LABELS, 9);
         return w;
     }
@@ -270,11 +271,12 @@ namespace GuiUtils {
     }
 
     struct PresetTreeAction {
-        enum Type { None, Load, Delete } type = None;
+        enum class Type : uint8_t { None, Load, Delete };
+        Type type = Type::None;
         std::filesystem::path path;
     };
 
-    inline PresetTreeAction RenderPresetTree(const PresetUtils::PresetTreeNode& node) {
+    [[nodiscard]] inline PresetTreeAction RenderPresetTree(const PresetUtils::PresetTreeNode& node) {
         PresetTreeAction action;
         static const float loadW = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2;
         static const float delW = ImGui::CalcTextSize("Del").x + ImGui::GetStyle().FramePadding.x * 2;
@@ -283,7 +285,7 @@ namespace GuiUtils {
         for (const auto& child : node.children) {
             if (ImGui::TreeNode(child.name.c_str())) {
                 auto childAction = RenderPresetTree(child);
-                if (childAction.type != PresetTreeAction::None)
+                if (childAction.type != PresetTreeAction::Type::None)
                     action = std::move(childAction);
                 ImGui::TreePop();
             }
@@ -298,10 +300,10 @@ namespace GuiUtils {
             if (textW > 0)
                 ImGui::SameLine(textW);
             if (ImGui::Button("Load"))
-                action = {PresetTreeAction::Load, node.presets[i].path};
+                action = {PresetTreeAction::Type::Load, node.presets[i].path};
             ImGui::SameLine();
             if (ImGui::Button("Del"))
-                action = {PresetTreeAction::Delete, node.presets[i].path};
+                action = {PresetTreeAction::Type::Delete, node.presets[i].path};
             ImGui::PopID();
         }
 
@@ -350,9 +352,9 @@ namespace GuiUtils {
             auto action = RenderPresetTree(state.tree);
             ImGui::EndChild();
 
-            if (action.type == PresetTreeAction::Load)
+            if (action.type == PresetTreeAction::Type::Load)
                 onLoad(action.path);
-            else if (action.type == PresetTreeAction::Delete)
+            else if (action.type == PresetTreeAction::Type::Delete)
                 onDelete(action.path);
         }
 

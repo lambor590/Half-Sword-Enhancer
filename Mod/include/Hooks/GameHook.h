@@ -24,7 +24,7 @@
 #include "SDK/Willie_BP_classes.hpp"
 #include "MemoryUtils.h"
 
-typedef void* (__stdcall* ProcessEvent)(SDK::UObject*, SDK::UFunction*, void*);
+using ProcessEvent = void*(__stdcall*)(SDK::UObject*, SDK::UFunction*, void*);
 
 
 class GameHook
@@ -66,8 +66,8 @@ public:
                 RegisterHook(funcName, [this, event]() {
                     uint8_t eventIdx = static_cast<uint8_t>(event);
                     auto& callbacks = eventCallbacks[eventIdx];
-                    for (auto& pair : callbacks) {
-                        pair.second();
+                    for (auto& [_, cb] : callbacks) {
+                        cb();
                     }
                 });
             }
@@ -111,13 +111,13 @@ public:
     GameHook& operator=(const GameHook&) = delete;
 
 private:
-    void RegisterHook(const std::string& functionName, std::function<void()> callback);
+    void RegisterHook(std::string_view functionName, std::function<void()> callback);
     void RegisterHook(uint64_t hash, std::function<void()> callback);
-    void UnregisterHook(const std::string& functionName);
+    void UnregisterHook(std::string_view functionName);
     void UnregisterHook(uint64_t hash);
 
     Logger logger{ "GameHook" };
-    uintptr_t oProcessEvent = NULL;
+    uintptr_t oProcessEvent = 0;
     uintptr_t processEventAddress = 0;
     bool hooked = false;
 

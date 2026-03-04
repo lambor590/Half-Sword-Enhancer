@@ -178,12 +178,12 @@ void GameHook::Unhook()
     logger.Log("ProcessEvent unhooked successfully!");
 }
 
-void GameHook::RegisterHook(const std::string& functionName, std::function<void()> callback) {
-    RegisterHook(HS::Hash::FNV1A(functionName.c_str()), std::move(callback));
+void GameHook::RegisterHook(std::string_view functionName, std::function<void()> callback) {
+    RegisterHook(HS::Hash::FNV1A(functionName), std::move(callback));
 }
 
-void GameHook::UnregisterHook(const std::string& functionName) {
-    UnregisterHook(HS::Hash::FNV1A(functionName.c_str()));
+void GameHook::UnregisterHook(std::string_view functionName) {
+    UnregisterHook(HS::Hash::FNV1A(functionName));
 }
 
 void GameHook::RegisterHook(uint64_t hash, std::function<void()> callback) {

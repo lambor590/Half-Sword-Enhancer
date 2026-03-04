@@ -47,10 +47,9 @@ namespace Spawner {
         }};
     }
 
-    ActorType GetActorType(const std::string& classPath) {
-        std::string_view pathView(classPath);
+    ActorType GetActorType(std::string_view classPath) {
         for (const auto& [key, type] : TYPE_MAP) {
-            if (pathView.find(key) != std::string_view::npos) {
+            if (classPath.find(key) != std::string_view::npos) {
                 return type;
             }
         }

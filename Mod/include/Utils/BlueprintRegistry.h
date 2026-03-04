@@ -43,7 +43,7 @@ private:
     void SortCategories();
 
     static std::pair<std::string_view, std::string_view> CategorizeByPath(const std::string& packagePath, const std::string& assetName);
-    static std::string CleanDisplayName(const std::string& assetName);
+    [[nodiscard]] static std::string CleanDisplayName(std::string_view assetName);
 
     size_t FindOrCreateCategory(std::string_view name);
     size_t FindOrCreateSubcategory(size_t catIdx, std::string_view name);
@@ -59,9 +59,9 @@ public:
     void RequestScan();
     void RequestRescan();
     void EnsureTiersScanned();
-    ScanState GetState() const { return state.load(std::memory_order_acquire); }
+    [[nodiscard]] ScanState GetState() const { return state.load(std::memory_order_acquire); }
 
-    const std::vector<CategoryData>& GetCategories() const { return categories; }
+    [[nodiscard]] const std::vector<CategoryData>& GetCategories() const { return categories; }
     const std::vector<BlueprintEntry>& GetAllItems() const { return items; }
 
     size_t GetCategoryCount() const { return categories.size(); }

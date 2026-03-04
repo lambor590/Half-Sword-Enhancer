@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <array>
+#include <ranges>
 
 #include "KeybindManager.h"
 #include "ConfigManager.h"
@@ -52,7 +53,7 @@ void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
         auto keyIt = s_hotData.keyToBindings.find(binding.currentKey);
         if (keyIt != s_hotData.keyToBindings.end()) {
             auto& vec = keyIt->second;
-            vec.erase(std::remove(vec.begin(), vec.end(), &binding), vec.end());
+            std::erase(vec, &binding);
             if (vec.empty()) {
                 s_hotData.keyToBindings.erase(keyIt);
             }
@@ -184,7 +185,7 @@ bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
 
     if (!excludeKeyPtr) return !bindings->empty();
 
-    bool hasExcluded = std::find_if(bindings->begin(), bindings->end(),
+    bool hasExcluded = std::ranges::find_if(*bindings,
         [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != bindings->end();
     return bindings->size() > (hasExcluded ? 1 : 0);
 }
@@ -194,7 +195,7 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
     if (it == s_hotData.keyToBindings.end()) return;
 
     auto& bindings = it->second;
-    auto foundIt = std::find_if(bindings.begin(), bindings.end(),
+    auto foundIt = std::ranges::find_if(bindings,
         [excludeKeyPtr](const Binding* b) { return b->keyPtr != excludeKeyPtr; });
 
     if (foundIt != bindings.end()) {
@@ -242,7 +243,7 @@ int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) noexcept {
 
     if (!excludeKeyPtr) return static_cast<int>(bindings->size());
 
-    bool hasExcluded = std::find_if(bindings->begin(), bindings->end(),
+    bool hasExcluded = std::ranges::find_if(*bindings,
         [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != bindings->end();
     return static_cast<int>(bindings->size() - (hasExcluded ? 1 : 0));
 }
@@ -270,7 +271,7 @@ void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
 
     if (oldKey != -1) {
         auto& oldBindings = s_hotData.keyToBindings[oldKey];
-        oldBindings.erase(std::remove(oldBindings.begin(), oldBindings.end(), &binding), oldBindings.end());
+        std::erase(oldBindings, &binding);
         if (oldBindings.empty()) {
             s_hotData.keyToBindings.erase(oldKey);
         }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <string_view>
 
 #include "Utils/CustomizableWeapon.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -20,7 +21,7 @@ namespace Spawner {
         Unknown
     };
 
-    ActorType GetActorType(const std::string& classPath);
+    ActorType GetActorType(std::string_view classPath);
     float GetGroundOffsetForType(ActorType type, const SDK::FVector& scale = {1.0f, 1.0f, 1.0f});
     void ClearCache();
 

@@ -17,6 +17,7 @@ namespace GameConstants {
         {"Waist", 13}, {"Legs (Greaves)", 14}, {"Feet", 15}, {"Hosen", 16}
     };
     inline constexpr int ARMOR_SLOT_COUNT = static_cast<int>(std::size(ARMOR_SLOTS));
+    static_assert(std::size(ARMOR_SLOTS) == ARMOR_SLOT_COUNT);
 
     inline constexpr const char* WEAPON_TYPE_NAMES[] = {
         "Arming Sword", "Short Sword", "Long Sword",
@@ -36,8 +37,9 @@ namespace GameConstants {
         "Turned Leather 2", "Turned Leather 3", "Wood", "Old Wood",
     };
     inline constexpr int MATERIAL_LAYER_COUNT = static_cast<int>(std::size(MATERIAL_LAYER_NAMES));
+    static_assert(std::size(MATERIAL_LAYER_NAMES) == MATERIAL_LAYER_COUNT);
 
-    inline int RandomInt(int min, int max) {
+    inline int RandomInt(int min, int max) noexcept {
         static thread_local std::mt19937 rng{std::random_device{}()};
         std::uniform_int_distribution<int> dist(min, max);
         return dist(rng);

@@ -1,3 +1,4 @@
+#include <ranges>
 #include <string_view>
 #include <unordered_set>
 #include "Utils/BlueprintRegistry.h"
@@ -212,8 +213,8 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
     return {"Other", "General"};
 }
 
-std::string BlueprintRegistry::CleanDisplayName(const std::string& assetName) {
-    std::string name = assetName;
+std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
+    std::string name{assetName};
 
     static constexpr std::string_view prefixes[] = {
         "BP_GameWeapon_Customizable_", "BP_GameWeapon_",
@@ -249,7 +250,7 @@ std::string BlueprintRegistry::CleanDisplayName(const std::string& assetName) {
     else if (start > 0) name.erase(0, start);
     while (!name.empty() && name.back() == ' ') name.pop_back();
 
-    if (name.empty()) name = assetName;
+    if (name.empty()) name = std::string{assetName};
     return name;
 }
 
@@ -333,7 +334,7 @@ void BlueprintRegistry::SortCategories() {
     };
     static constexpr size_t ORDER_COUNT = sizeof(CATEGORY_ORDER) / sizeof(CATEGORY_ORDER[0]);
 
-    std::sort(categories.begin(), categories.end(),
+    std::ranges::sort(categories,
         [](const CategoryData& a, const CategoryData& b) {
             auto orderOf = [](const std::string& name) -> int {
                 for (size_t i = 0; i < ORDER_COUNT; ++i) {
@@ -347,7 +348,7 @@ void BlueprintRegistry::SortCategories() {
         });
 
     for (auto& cat : categories) {
-        std::sort(cat.subcategories.begin(), cat.subcategories.end(),
+        std::ranges::sort(cat.subcategories,
             [](const SubcategoryData& a, const SubcategoryData& b) { return a.name < b.name; });
     }
 }

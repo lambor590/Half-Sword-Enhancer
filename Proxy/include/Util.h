@@ -15,8 +15,8 @@ static bool LoadModDLL()
 {
     HMODULE hModDLL = LoadLibraryA("HSEnhancer.dll");
     if (hModDLL) {
-        typedef void(*InitFn)();
-        InitFn init = (InitFn)GetProcAddress(hModDLL, "HSE_Initialize");
+        using InitFn = void(*)();
+        auto init = reinterpret_cast<InitFn>(GetProcAddress(hModDLL, "HSE_Initialize"));
         if (init) init();
         return true;
     }

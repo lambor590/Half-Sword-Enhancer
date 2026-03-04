@@ -46,3 +46,5 @@ namespace HS::Hash {
         constexpr uint64_t RECEIVE_TICK = "ReceiveTick"_hash;
     }
 }
+
+static_assert(HS::Hash::FNV1A("test") != 0, "FNV1A hash function validation");
