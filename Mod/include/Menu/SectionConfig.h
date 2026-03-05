@@ -4,6 +4,19 @@
 
 namespace SectionConfig {
 
+    struct SpawnConfig {
+        float distanceForward;
+        float distanceUp;
+        float scale = 1.0f;
+        bool snapToGround = true;
+    };
+
+    struct PreviewConfig {
+        bool livePreview = false;
+        bool autoRotate = false;
+        float rotationSpeed = 45.0f;
+    };
+
     struct PlayerConfig {
         int infiniteStaminaKey = 0x49; // I
         int infiniteConsciousnessKey = -1;
@@ -66,12 +79,8 @@ namespace SectionConfig {
 
     struct NPCConfig {
         int spawnEnemyKey = 0x4E; // N
-
-        float spawnDistanceForward = 200.0f;
-        float spawnDistanceUp = 0.0f;
-        float spawnScale = 1.0f;
+        SpawnConfig spawn{.distanceForward = 200.0f, .distanceUp = 0.0f};
         bool bodyguard = false;
-        bool snapToGround = true;
         int npcTeam = 0;
         int npcTypeIndex = 0;
         int npcNationality = 0;
@@ -81,11 +90,7 @@ namespace SectionConfig {
 
     struct ItemConfig {
         int spawnItemKey = -1;
-
-        float spawnDistanceForward = 150.0f;
-        float spawnDistanceUp = 50.0f;
-        float spawnScale = 1.0f;
-        bool snapToGround = true;
+        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnTier = 4;
 
         uint8_t currentCategoryIndex = 0;
@@ -96,28 +101,18 @@ namespace SectionConfig {
     struct WeaponEditorConfig {
         int weaponType = 1;
         int weaponTier = 4;
-        float spawnDistanceForward = 150.0f;
-        float spawnDistanceUp = 50.0f;
-        float spawnScale = 1.0f;
-        bool snapToGround = true;
+        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnKey = -1;
-        bool livePreview = false;
-        bool autoRotate = false;
-        float rotationSpeed = 45.0f;
+        PreviewConfig preview;
     };
 
     struct ArmorEditorConfig {
         int armorSlotIndex = 0;
         int armorTier = 4;
         float moduleChance = 0.5f;
-        float spawnDistanceForward = 150.0f;
-        float spawnDistanceUp = 50.0f;
-        float spawnScale = 1.0f;
-        bool snapToGround = true;
+        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnKey = -1;
-        bool livePreview = false;
-        bool autoRotate = false;
-        float rotationSpeed = 45.0f;
+        PreviewConfig preview;
     };
 
     struct EquipmentManagerConfig {

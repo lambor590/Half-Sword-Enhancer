@@ -157,13 +157,13 @@ private:
     }
 
     void SpawnSelectedItem() const noexcept {
-        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale);
+        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
 
         if (IsRandomArmorCategory()) {
             if (cfg.currentItemIndex >= GameConstants::ARMOR_SLOT_COUNT) return;
             auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[cfg.currentItemIndex].slotEnum);
             auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
-            bool snap = cfg.snapToGround;
+            bool snap = cfg.spawn.snapToGround;
             auto transform = spawnTransform;
             GameHook::QueueAction([this, slot, tier, transform, snap]() {
                 EquipmentGenerator::Init(world);
@@ -181,7 +181,7 @@ private:
         auto& item = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
 
         if (item.customizable != CustomizableWeapon::None) {
-            Spawner::SpawnCustomizableWeapon(world, item.customizable, spawnTransform, cfg.snapToGround, cfg.spawnTier);
+            Spawner::SpawnCustomizableWeapon(world, item.customizable, spawnTransform, cfg.spawn.snapToGround, cfg.spawnTier);
         } else if (IsCurrentItemModularArmor(item)) {
             auto* coreClass = Spawner::LoadClass(item.classPath);
             if (coreClass) {
@@ -190,18 +190,18 @@ private:
                 passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = armorModules.selected[0];
                 passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = armorModules.selected[1];
                 passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = armorModules.selected[2];
-                Spawner::SpawnArmorFromPassport(world, passport, spawnTransform, cfg.snapToGround);
+                Spawner::SpawnArmorFromPassport(world, passport, spawnTransform, cfg.spawn.snapToGround);
             }
         } else if (!item.classPath.empty()) {
-            Spawner::SpawnActor(world, item.classPath, spawnTransform, nullptr, cfg.snapToGround, cfg.spawnTier);
+            Spawner::SpawnActor(world, item.classPath, spawnTransform, nullptr, cfg.spawn.snapToGround, cfg.spawnTier);
         }
     }
 
     void SpawnCustomPath() const noexcept {
         if (customPathBuffer[0] == '\0') return;
-        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale);
+        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
         std::string path = customPathBuffer;
-        Spawner::SpawnActor(world, path, spawnTransform, nullptr, cfg.snapToGround, cfg.spawnTier);
+        Spawner::SpawnActor(world, path, spawnTransform, nullptr, cfg.spawn.snapToGround, cfg.spawnTier);
     }
 
 public:
@@ -209,10 +209,10 @@ public:
         Function("Spawn Item")
             .WithKey(&cfg.spawnItemKey)
             .WithParams({
-                Parameter("snap_to_ground", "Snap to Ground", &cfg.snapToGround, "Automatically adjust height to touch the ground"),
-                Parameter("distance_forward", "Forward Distance", &cfg.spawnDistanceForward, 50.0f, 300.0f, "How far in front the item appears"),
-                Parameter("distance_up", "Up Distance", &cfg.spawnDistanceUp, 0.0f, 200.0f, "Height offset for spawn position"),
-                Parameter("scale", "Scale", &cfg.spawnScale, 0.1f, 5.0f, "Size multiplier for the spawned item")
+                Parameter("snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Automatically adjust height to touch the ground"),
+                Parameter("distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f, "How far in front the item appears"),
+                Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Height offset for spawn position"),
+                Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item")
             })
             .WithTooltip("Spawns the selected item with configurable position and size")
             .Action([this]() { SpawnSelectedItem(); }, player, world);

@@ -163,9 +163,9 @@ private:
         auto props = runtimeProps;
         bool hasOverrides = CountActiveOverrides() > 0;
 
-        Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale), cfg.snapToGround,
+        Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale), cfg.spawn.snapToGround,
             [this, props, hasOverrides](SDK::AActor* actor) {
-                if (!cfg.livePreview) {
+                if (!cfg.preview.livePreview) {
                     actor->K2_DestroyActor();
                     return;
                 }
@@ -180,7 +180,7 @@ private:
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props);
                 previewActor = actor;
-                if (cfg.autoRotate)
+                if (cfg.preview.autoRotate)
                     actor->K2_SetActorRotation(SDK::FRotator{0.0, previewYaw, 0.0}, true);
             });
     }
@@ -211,9 +211,9 @@ private:
     }
 
     void RotatePreview() {
-        if (!previewActor || !cfg.autoRotate) return;
+        if (!previewActor || !cfg.preview.autoRotate) return;
 
-        previewYaw += cfg.rotationSpeed * static_cast<double>(ImGui::GetIO().DeltaTime);
+        previewYaw += cfg.preview.rotationSpeed * static_cast<double>(ImGui::GetIO().DeltaTime);
         if (previewYaw >= 360.0) previewYaw -= 360.0;
         if (previewYaw < 0.0) previewYaw += 360.0;
 
@@ -227,8 +227,8 @@ private:
     void SpawnFromPassport() {
         if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
 
-        if (cfg.livePreview) {
-            cfg.livePreview = false;
+        if (cfg.preview.livePreview) {
+            cfg.preview.livePreview = false;
             DestroyPreview();
         }
 
@@ -242,7 +242,7 @@ private:
             };
         }
 
-        Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, cfg.spawnScale), cfg.snapToGround, callback);
+        Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale), cfg.spawn.snapToGround, callback);
     }
 
     void RenderModuleIndexCombo(const char* label, int32_t& moduleIndex,
@@ -535,11 +535,11 @@ public:
         Function("Spawn Armor")
             .WithKey(&cfg.spawnKey)
             .WithParams({
-                Parameter("snap_to_ground", "Snap to Ground", &cfg.snapToGround, "Snap spawned armor to the ground"),
-                Parameter("distance_forward", "Forward Distance", &cfg.spawnDistanceForward, 50.0f, 300.0f, "Spawn distance in front of player"),
-                Parameter("distance_up", "Up Distance", &cfg.spawnDistanceUp, 0.0f, 200.0f, "Spawn height offset"),
-                Parameter("scale", "Scale", &cfg.spawnScale, 0.1f, 5.0f, "Size multiplier"),
-                Parameter("live_preview", "Live Preview", &cfg.livePreview, "Auto-spawn preview armor as you edit")
+                Parameter("snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"),
+                Parameter("distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f, "Spawn distance in front of player"),
+                Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
+                Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
+                Parameter("live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview armor as you edit")
             })
             .WithTooltip("Spawns the currently edited armor with runtime overrides applied")
             .Action([this]() { SpawnFromPassport(); }, player, world);
@@ -558,16 +558,16 @@ public:
 
         RenderGenerationControls();
 
-        if (GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.livePreview, "Auto-spawn a preview armor that updates as you edit")) {
-            if (!cfg.livePreview)
+        if (GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview armor that updates as you edit")) {
+            if (!cfg.preview.livePreview)
                 DestroyPreview();
         }
-        if (cfg.livePreview) {
+        if (cfg.preview.livePreview) {
             ImGui::SameLine();
-            GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.autoRotate, "Continuously rotate the preview armor");
-            if (cfg.autoRotate) {
+            GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview armor");
+            if (cfg.preview.autoRotate) {
                 ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
-                ImGui::DragFloat("Rotation Speed", &cfg.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
+                ImGui::DragFloat("Rotation Speed", &cfg.preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
                 TooltipHelper::ShowTooltip("Rotation speed in degrees/second. Negative values reverse direction");
             }
         }
@@ -593,7 +593,7 @@ public:
 
         RenderSpawnFooter();
 
-        if (cfg.livePreview) {
+        if (cfg.preview.livePreview) {
             UpdatePreview();
             RotatePreview();
         }

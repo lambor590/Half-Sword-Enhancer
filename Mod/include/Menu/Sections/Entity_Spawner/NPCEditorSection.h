@@ -148,8 +148,8 @@ private:
 
         double spawnScale = ovr.heightRate.enabled
             ? 0.875 + ovr.heightRate.value * 0.125
-            : cfg.spawnScale;
-        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawnDistanceForward, cfg.spawnDistanceUp, static_cast<float>(spawnScale));
+            : cfg.spawn.scale;
+        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, static_cast<float>(spawnScale));
 
         auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides](SDK::AActor* actor) {
             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
@@ -184,7 +184,7 @@ private:
             };
         }
 
-        Spawner::SpawnActor(world, className, spawnTransform, preCallback, cfg.snapToGround, 4, postCallback);
+        Spawner::SpawnActor(world, className, spawnTransform, preCallback, cfg.spawn.snapToGround, 4, postCallback);
     }
 
     NPCPresetData BuildPresetData() const {
@@ -368,10 +368,10 @@ public:
             .WithParams({
                 Parameter("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
                 Parameter("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),
-                Parameter("snap_to_ground", "Snap to Ground", &cfg.snapToGround, "Automatically adjust height to touch the ground"),
-                Parameter("distance_forward", "Distance Forward", &cfg.spawnDistanceForward, 100.0f, 500.0f, "How far in front the NPC appears"),
-                Parameter("distance_up", "Distance Up", &cfg.spawnDistanceUp, 0.0f, 300.0f, "Height offset for spawn position"),
-                Parameter("scale", "Scale", &cfg.spawnScale, 0.1f, 4.0f, "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game doesn't crash."),
+                Parameter("snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Automatically adjust height to touch the ground"),
+                Parameter("distance_forward", "Distance Forward", &cfg.spawn.distanceForward, 100.0f, 500.0f, "How far in front the NPC appears"),
+                Parameter("distance_up", "Distance Up", &cfg.spawn.distanceUp, 0.0f, 300.0f, "Height offset for spawn position"),
+                Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 4.0f, "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game doesn't crash."),
                 Parameter("team", "Team", &cfg.npcTeam, 0, 9, "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team.")
             })
             .WithTooltip("Spawns an NPC with randomly generated equipment and applied overrides")
