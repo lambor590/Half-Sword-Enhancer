@@ -393,7 +393,6 @@ private:
         for (int i = 0; i < 7; ++i)
             LoadoutPresetSerializer::ReadWeaponSlot(LoadoutPresetSerializer::GetWeaponSlot(weapons, i), data.weaponSlots[i]);
 
-        data.name = presets.presetNameBuf;
         return data;
     }
 

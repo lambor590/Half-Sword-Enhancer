@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <string>
 
+#include "imgui/imgui.h"
 #include "Utils/PresetUtils.h"
 #include "Utils/GuiUtils.h"
 

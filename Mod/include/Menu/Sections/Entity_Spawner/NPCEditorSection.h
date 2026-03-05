@@ -187,7 +187,6 @@ private:
 
     NPCPresetData BuildPresetData() const {
         NPCPresetData d;
-        d.name = presets.presetNameBuf;
         d.npcTypeIndex = cfg.npcTypeIndex;
         d.nationality = cfg.npcNationality;
         d.tier = cfg.npcTier;

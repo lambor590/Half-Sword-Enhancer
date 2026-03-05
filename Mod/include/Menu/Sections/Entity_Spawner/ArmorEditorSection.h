@@ -364,7 +364,6 @@ private:
 
     ArmorPresetData BuildPresetData() const {
         ArmorPresetData d;
-        d.name = presets.presetNameBuf;
         d.passport = armorPassport;
         d.runtimeProps = runtimeProps;
         return d;

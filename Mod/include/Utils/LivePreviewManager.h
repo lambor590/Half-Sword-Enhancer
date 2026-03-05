@@ -11,6 +11,7 @@ public:
     using CleanupFn = std::function<void()>;
 
     explicit LivePreviewManager(SectionConfig::PreviewConfig& cfg) : cfg(cfg) {}
+    ~LivePreviewManager() { Destroy(); }
 
     void SetPreviewActor(SDK::AActor* actor) { previewActor = actor; }
     [[nodiscard]] SDK::AActor* GetPreviewActor() const { return previewActor; }
@@ -40,7 +41,8 @@ public:
         });
     }
 
-    void Update(bool needsRefresh, std::function<void()> spawnFn) {
+    template<typename SpawnFn>
+    void Update(bool needsRefresh, SpawnFn&& spawnFn) {
         if (!needsRefresh) return;
         if (previewActor && (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN)) return;
         lastChangeTime = ImGui::GetTime();
@@ -48,8 +50,10 @@ public:
     }
 
     void InvalidateIfDead(const SDK::AWillie_BP_C* player, const SDK::UWorld* world) {
-        if (previewActor && (!player || !world))
+        if (previewActor && (!player || !world)) {
+            if (onCleanup) onCleanup();
             previewActor = nullptr;
+        }
     }
 
 private:

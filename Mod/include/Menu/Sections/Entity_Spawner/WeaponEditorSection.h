@@ -927,7 +927,6 @@ private:
 
     WeaponPresetData BuildPresetData() const {
         WeaponPresetData d;
-        d.name = presets.presetNameBuf;
         d.passport = weaponPassport;
         d.runtimeProps = runtimeProps;
 

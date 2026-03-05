@@ -197,7 +197,6 @@ private:
 
     PlayerPresetData BuildPresetData() const {
         PlayerPresetData d;
-        d.name = presets.presetNameBuf;
         d.overrides = overrides;
         return d;
     }
