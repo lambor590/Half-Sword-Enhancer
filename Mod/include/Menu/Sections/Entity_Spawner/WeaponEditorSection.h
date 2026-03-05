@@ -22,6 +22,7 @@
 #include "Utils/GuiUtils.h"
 #include "Utils/GlobalModulePool.h"
 #include "Utils/LivePreviewManager.h"
+#include "Utils/PresetSectionState.h"
 
 class WeaponEditorSection : public CollapsibleSection {
 private:
@@ -46,10 +47,7 @@ private:
 
     char moduleFilters[6][64] = {};
 
-    char presetNameBuf[128] = {};
-    PresetUtils::PresetTreeNode presetTree;
-    bool presetListDirty = true;
-    GuiUtils::StatusMessage status;
+    PresetSectionState<WeaponPresetSerializer> presets;
     int activeTab = 0;
 
     enum class WeaponModuleSlot : int { Head = 0, Guard, Grip, Pommel, Count };
@@ -986,7 +984,7 @@ private:
 
     WeaponPresetData BuildPresetData() const {
         WeaponPresetData d;
-        d.name = presetNameBuf;
+        d.name = presets.presetNameBuf;
         d.passport = weaponPassport;
         d.runtimeProps = runtimeProps;
 
@@ -1068,45 +1066,7 @@ private:
     }
 
     void SetStatus(std::string msg, bool isError = false) {
-        status.Set(std::move(msg), isError);
-    }
-
-    void RefreshPresetTree() {
-        presetTree = WeaponPresetSerializer::ListPresetsTree();
-        presetListDirty = false;
-    }
-
-    void RenderPresetsTab() {
-        ImGui::PushID("presets");
-        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status};
-        GuiUtils::RenderPresetPanel(panelState, WeaponPresetSerializer::GetPresetsDirectory(),
-            [this]() { RefreshPresetTree(); },
-            [this](const char* name) {
-                auto data = BuildPresetData();
-                if (WeaponPresetSerializer::SavePresetByName(name, data)) {
-                    SetStatus("Saved: " + std::string(name));
-                    presetListDirty = true;
-                } else {
-                    SetStatus("Error saving preset", true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                auto result = WeaponPresetSerializer::LoadFromFile(path);
-                if (result.success) {
-                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    std::string loadedName = std::move(result.name);
-                    ApplyPresetData(std::move(result));
-                    SetStatus("Loaded: " + loadedName);
-                } else {
-                    SetStatus("Error: " + result.error, true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                WeaponPresetSerializer::DeletePreset(path);
-                PresetUtils::CleanEmptyDirectories(WeaponPresetSerializer::GetPresetsDirectory());
-                presetListDirty = true;
-            });
-        ImGui::PopID();
+        presets.status.Set(std::move(msg), isError);
     }
 
     void RenderSpawnFooter() {
@@ -1173,7 +1133,7 @@ public:
             }
         }
 
-        status.Render();
+        presets.status.Render();
 
         float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
         float scrollH = ImGui::GetContentRegionAvail().y - footerH;
@@ -1189,7 +1149,10 @@ public:
             case 2: RenderAppearanceTab(); break;
             case 3: RenderMeshTab();       break;
             case 4: RenderStatsTab();      break;
-            case 5: RenderPresetsTab();    break;
+            case 5: presets.RenderPresetsTab(
+                        [this]() { return BuildPresetData(); },
+                        [this](WeaponPresetData d) { ApplyPresetData(std::move(d)); });
+                    break;
         }
 
         ImGui::EndChild();

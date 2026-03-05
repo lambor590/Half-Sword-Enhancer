@@ -7,6 +7,7 @@
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Str_Character_Body_Condition_structs.hpp"
 #include "Utils/NPCPresetSerializer.h"
+#include "Utils/PresetSectionState.h"
 #include "Utils/GuiUtils.h"
 
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
@@ -41,10 +42,7 @@ private:
 
     NPCOverrides overrides{};
 
-    char presetNameBuf[128] = {};
-    PresetUtils::PresetTreeNode presetTree;
-    bool presetListDirty = true;
-    GuiUtils::StatusMessage status;
+    PresetSectionState<NPCPresetSerializer> presets;
     int activeTab = 0;
 
     const char* getNPCClassName() const noexcept {
@@ -189,7 +187,7 @@ private:
 
     NPCPresetData BuildPresetData() const {
         NPCPresetData d;
-        d.name = presetNameBuf;
+        d.name = presets.presetNameBuf;
         d.npcTypeIndex = cfg.npcTypeIndex;
         d.nationality = cfg.npcNationality;
         d.tier = cfg.npcTier;
@@ -204,11 +202,6 @@ private:
         cfg.npcTier = std::clamp(d.tier, 0, 8);
         cfg.npcMercenary = d.mercenary;
         overrides = d.overrides;
-    }
-
-    void RefreshPresetTree() {
-        presetTree = NPCPresetSerializer::ListPresetsTree();
-        presetListDirty = false;
     }
 
     void RenderPhysicalTab() {
@@ -327,38 +320,6 @@ private:
         ImGui::PopID();
     }
 
-    void RenderPresetsTab() {
-        ImGui::PushID("presets");
-        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status};
-        GuiUtils::RenderPresetPanel(panelState, NPCPresetSerializer::GetPresetsDirectory(),
-            [this]() { RefreshPresetTree(); },
-            [this](const char* name) {
-                auto data = BuildPresetData();
-                if (NPCPresetSerializer::SavePresetByName(name, data)) {
-                    status.Set("Saved: " + std::string(name));
-                    presetListDirty = true;
-                } else {
-                    status.Set("Error saving preset", true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                auto result = NPCPresetSerializer::LoadFromFile(path);
-                if (result.success) {
-                    ApplyPresetData(result);
-                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    status.Set("Loaded: " + result.name);
-                } else {
-                    status.Set("Error: " + result.error, true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                NPCPresetSerializer::DeletePreset(path);
-                PresetUtils::CleanEmptyDirectories(NPCPresetSerializer::GetPresetsDirectory());
-                presetListDirty = true;
-            });
-        ImGui::PopID();
-    }
-
 public:
     const char* GetGroup() const noexcept override { return "Editors"; }
 
@@ -416,7 +377,7 @@ public:
             ImGui::TextDisabled("(%d active)", activeCount);
         }
         ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.5f);
-        status.Render();
+        presets.status.Render();
 
         ImGui::Spacing();
         ImGui::BeginChild("##npc_scroll", ImVec2(0, 0));
@@ -428,7 +389,10 @@ public:
             case 1: RenderCombatTab();          break;
             case 2: RenderBehaviorTab();        break;
             case 3: RenderBodyConditionTab();   break;
-            case 4: RenderPresetsTab();         break;
+            case 4: presets.RenderPresetsTab(
+                        [this]() { return BuildPresetData(); },
+                        [this](NPCPresetData d) { ApplyPresetData(std::move(d)); });
+                    break;
         }
 
         ImGui::EndChild();

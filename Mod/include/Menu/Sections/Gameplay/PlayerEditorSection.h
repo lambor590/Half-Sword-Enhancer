@@ -4,6 +4,7 @@
 #include "Menu/SectionConfig.h"
 #include "SDK/Willie_BP_classes.hpp"
 #include "Utils/PlayerPresetSerializer.h"
+#include "Utils/PresetSectionState.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/GameConstants.h"
 #include "Utils/Spawner.h"
@@ -13,10 +14,7 @@ private:
     int enforceKey = -1;
     PlayerEditorOverrides overrides{};
 
-    char presetNameBuf[128] = {};
-    PresetUtils::PresetTreeNode presetTree;
-    bool presetListDirty = true;
-    GuiUtils::StatusMessage status;
+    PresetSectionState<PlayerPresetSerializer> presets;
     int activeTab = 0;
 
     int CountActiveOverrides() const {
@@ -194,23 +192,18 @@ private:
         overrides.invulnerable.value = player->Invulnerable;
         overrides.fearless.value     = player->Fearless;
 
-        status.Set("Values read from player");
+        presets.status.Set("Values read from player");
     }
 
     PlayerPresetData BuildPresetData() const {
         PlayerPresetData d;
-        d.name = presetNameBuf;
+        d.name = presets.presetNameBuf;
         d.overrides = overrides;
         return d;
     }
 
     void ApplyPresetData(const PlayerPresetData& d) {
         overrides = d.overrides;
-    }
-
-    void RefreshPresetTree() {
-        presetTree = PlayerPresetSerializer::ListPresetsTree();
-        presetListDirty = false;
     }
 
     void ClonePlayer() {
@@ -440,38 +433,6 @@ private:
         ImGui::PopID();
     }
 
-    void RenderPresetsTab() {
-        ImGui::PushID("presets");
-        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status};
-        GuiUtils::RenderPresetPanel(panelState, PlayerPresetSerializer::GetPresetsDirectory(),
-            [this]() { RefreshPresetTree(); },
-            [this](const char* name) {
-                auto data = BuildPresetData();
-                if (PlayerPresetSerializer::SavePresetByName(name, data)) {
-                    status.Set("Saved: " + std::string(name));
-                    presetListDirty = true;
-                } else {
-                    status.Set("Error saving preset", true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                auto result = PlayerPresetSerializer::LoadFromFile(path);
-                if (result.success) {
-                    ApplyPresetData(result);
-                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    status.Set("Loaded: " + result.name);
-                } else {
-                    status.Set("Error: " + result.error, true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                PlayerPresetSerializer::DeletePreset(path);
-                PresetUtils::CleanEmptyDirectories(PlayerPresetSerializer::GetPresetsDirectory());
-                presetListDirty = true;
-            });
-        ImGui::PopID();
-    }
-
 public:
     PlayerEditorSection() : CollapsibleSection("Player Editor") {
         Function("Enforce Overrides")
@@ -510,7 +471,7 @@ public:
         if (ImGui::Button("Clone Player")) {
             if (player && world) {
                 ClonePlayer();
-                status.Set("Player cloned");
+                presets.status.Set("Player cloned");
             }
         }
         TooltipHelper::ShowTooltip("Spawns a clone of the player with the current physical overrides");
@@ -521,7 +482,7 @@ public:
             ImGui::TextDisabled("(%d active)", activeCount);
         }
         ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.5f);
-        status.Render();
+        presets.status.Render();
 
         ImGui::Spacing();
         ImGui::BeginChild("##playereditor_scroll", ImVec2(0, 0));
@@ -537,7 +498,10 @@ public:
             case 3: RenderMovementTab();   break;
             case 4: RenderCombatTab();     break;
             case 5: RenderSkillsStateTab();break;
-            case 6: RenderPresetsTab();    break;
+            case 6: presets.RenderPresetsTab(
+                        [this]() { return BuildPresetData(); },
+                        [this](PlayerPresetData d) { ApplyPresetData(std::move(d)); });
+                    break;
         }
 
         ImGui::EndChild();

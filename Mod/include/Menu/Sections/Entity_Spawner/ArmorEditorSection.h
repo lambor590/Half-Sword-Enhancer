@@ -13,6 +13,7 @@
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/LivePreviewManager.h"
+#include "Utils/PresetSectionState.h"
 
 class ArmorEditorSection : public CollapsibleSection {
 private:
@@ -46,10 +47,7 @@ private:
 
     char moduleFilters[3][64] = {};
 
-    char presetNameBuf[128] = {};
-    PresetUtils::PresetTreeNode presetTree;
-    bool presetListDirty = true;
-    GuiUtils::StatusMessage status;
+    PresetSectionState<ArmorPresetSerializer> presets;
     int activeTab = 0;
 
     bool IsModularCore() const {
@@ -423,7 +421,7 @@ private:
 
     ArmorPresetData BuildPresetData() const {
         ArmorPresetData d;
-        d.name = presetNameBuf;
+        d.name = presets.presetNameBuf;
         d.passport = armorPassport;
         d.runtimeProps = runtimeProps;
         return d;
@@ -439,44 +437,6 @@ private:
                 armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(path);
             });
         }
-    }
-
-    void RefreshPresetTree() {
-        presetTree = ArmorPresetSerializer::ListPresetsTree();
-        presetListDirty = false;
-    }
-
-    void RenderPresetsTab() {
-        ImGui::PushID("presets");
-        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status};
-        GuiUtils::RenderPresetPanel(panelState, ArmorPresetSerializer::GetPresetsDirectory(),
-            [this]() { RefreshPresetTree(); },
-            [this](const char* name) {
-                auto data = BuildPresetData();
-                if (ArmorPresetSerializer::SavePresetByName(name, data)) {
-                    status.Set("Saved: " + std::string(name));
-                    presetListDirty = true;
-                } else {
-                    status.Set("Error saving preset", true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                auto result = ArmorPresetSerializer::LoadFromFile(path);
-                if (result.success) {
-                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    std::string loadedName = std::move(result.name);
-                    ApplyPresetData(std::move(result));
-                    status.Set("Loaded: " + loadedName);
-                } else {
-                    status.Set("Error: " + result.error, true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                ArmorPresetSerializer::DeletePreset(path);
-                PresetUtils::CleanEmptyDirectories(ArmorPresetSerializer::GetPresetsDirectory());
-                presetListDirty = true;
-            });
-        ImGui::PopID();
     }
 
     void RenderSpawnFooter() {
@@ -534,7 +494,7 @@ public:
             }
         }
 
-        status.Render();
+        presets.status.Render();
 
         float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
         float scrollH = ImGui::GetContentRegionAvail().y - footerH;
@@ -548,7 +508,10 @@ public:
             case 0: RenderModulesTab();  break;
             case 1: RenderColorsTab();   break;
             case 2: RenderStatsTab();    break;
-            case 3: RenderPresetsTab();  break;
+            case 3: presets.RenderPresetsTab(
+                        [this]() { return BuildPresetData(); },
+                        [this](ArmorPresetData d) { ApplyPresetData(std::move(d)); });
+                    break;
         }
 
         ImGui::EndChild();

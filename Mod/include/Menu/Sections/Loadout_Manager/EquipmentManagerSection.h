@@ -12,6 +12,7 @@
 #include "Hooks/GameHook.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/LoadoutPresetSerializer.h"
+#include "Utils/PresetSectionState.h"
 #include "Utils/Spawner.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/WeaponPassportBuilder.h"
@@ -62,16 +63,8 @@ private:
     size_t staggeredIdx = 0;
     std::atomic<bool> staggeredBusy{false};
 
-    char presetNameBuf[128] = {};
-    PresetUtils::PresetTreeNode presetTree;
-    bool presetListDirty = true;
-    GuiUtils::StatusMessage status;
+    PresetSectionState<LoadoutPresetSerializer> presets;
     int activeTab = 0;
-
-    void RefreshPresetTree() {
-        presetTree = LoadoutPresetSerializer::ListPresetsTree();
-        presetListDirty = false;
-    }
 
     static const char* GetArmorSlotDisplayName(SDK::EArmorSlots_Enum slot) {
         int val = static_cast<int>(slot);
@@ -443,7 +436,7 @@ private:
         for (int i = 0; i < 7; ++i)
             LoadoutPresetSerializer::ReadWeaponSlot(LoadoutPresetSerializer::GetWeaponSlot(weapons, i), data.weaponSlots[i]);
 
-        data.name = presetNameBuf;
+        data.name = presets.presetNameBuf;
         return data;
     }
 
@@ -677,41 +670,6 @@ private:
         ImGui::PopID();
     }
 
-    void RenderPresetsTab() {
-        ImGui::PushID("presets");
-        status.Render();
-        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status, ComponentValidator::Validate(player)};
-        GuiUtils::RenderPresetPanel(panelState, LoadoutPresetSerializer::GetPresetsDirectory(),
-            [this]() { RefreshPresetTree(); },
-            [this](const char* name) {
-                auto data = BuildPresetFromPlayer();
-                data.name = name;
-                if (LoadoutPresetSerializer::SavePresetByName(name, data)) {
-                    status.Set("Saved: " + std::string(name));
-                    presetListDirty = true;
-                } else {
-                    status.Set("Error saving preset", true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                auto result = LoadoutPresetSerializer::LoadFromFile(path);
-                if (result.success) {
-                    strncpy_s(presetNameBuf, result.name.c_str(), _TRUNCATE);
-                    std::string loadedName = std::move(result.name);
-                    ApplyLoadoutPreset(std::move(result));
-                    status.Set("Loaded: " + loadedName);
-                } else {
-                    status.Set("Error: " + result.error, true);
-                }
-            },
-            [this](const std::filesystem::path& path) {
-                PresetUtils::DeletePreset(path);
-                PresetUtils::CleanEmptyDirectories(LoadoutPresetSerializer::GetPresetsDirectory());
-                presetListDirty = true;
-            });
-        ImGui::PopID();
-    }
-
 public:
     EquipmentManagerSection() : CollapsibleSection("Equipment Manager") {
         Function("Apply Loadout")
@@ -765,7 +723,13 @@ public:
         switch (activeTab) {
             case 0: RenderArmorTab();   break;
             case 1: RenderWeaponsTab(); break;
-            case 2: RenderPresetsTab(); break;
+            case 2:
+                presets.status.Render();
+                presets.RenderPresetsTab(
+                    [this]() { return BuildPresetFromPlayer(); },
+                    [this](LoadoutPresetData d) { ApplyLoadoutPreset(std::move(d)); },
+                    ComponentValidator::Validate(player));
+                break;
         }
     }
 };
