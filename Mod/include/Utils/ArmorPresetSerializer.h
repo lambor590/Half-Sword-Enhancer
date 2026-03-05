@@ -6,11 +6,13 @@
 #include <cstring>
 
 #include "Utils/PresetUtils.h"
+#include "Utils/PresetDataBase.h"
+#include "Utils/PresetSerializerBase.h"
 #include "Utils/OverrideTypes.h"
 #include "SDK/Str_Passport_Armor1_structs.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
 
-struct ArmorPresetData {
+struct ArmorPresetData : PresetDataBase {
     SDK::FStr_Passport_Armor1 passport{};
 
     struct {
@@ -21,19 +23,17 @@ struct ArmorPresetData {
     } runtimeProps{};
 
     std::string armorCorePath;
-
-    std::string name;
-    bool success = false;
-    std::string error;
 };
 
-class ArmorPresetSerializer {
+class ArmorPresetSerializer : public PresetSerializerBase<ArmorPresetSerializer, ArmorPresetData> {
 private:
     static constexpr SDK::FLinearColor DEFAULT_FABRIC_COLOR = {0.5f, 0.5f, 0.5f, 1.0f};
 public:
-    static std::string SerializeToIni(const SDK::FStr_Passport_Armor1& passport,
-        const ArmorPresetData& data, bool minimalMode = false)
+    static constexpr const char* kPresetsSubdir = "armor_presets";
+
+    static std::string SerializeToIni(const ArmorPresetData& data, bool minimalMode = false)
     {
+        const auto& passport = data.passport;
         CSimpleIniA ini;
         ini.SetUnicode(false);
 
@@ -168,41 +168,4 @@ public:
         return result;
     }
 
-    static std::filesystem::path GetPresetsDirectory() {
-        return PresetUtils::EnsureDirectory(ConfigManager::GetAppDataPath() / "armor_presets");
-    }
-
-    static bool SaveToFile(const std::filesystem::path& path,
-        const SDK::FStr_Passport_Armor1& passport, const ArmorPresetData& data)
-    {
-        return PresetUtils::SaveStringToFile(path, SerializeToIni(passport, data, false));
-    }
-
-    static ArmorPresetData LoadFromFile(const std::filesystem::path& path) {
-        ArmorPresetData result;
-        std::string content = PresetUtils::LoadStringFromFile(path);
-        if (content.empty()) {
-            result.error = "Cannot open file: " + path.string();
-            return result;
-        }
-        return DeserializeFromIni(content);
-    }
-
-    static PresetUtils::PresetTreeNode ListPresetsTree() {
-        return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
-    }
-
-    static bool DeletePreset(const std::filesystem::path& path) {
-        return PresetUtils::DeletePreset(path);
-    }
-
-    static bool SavePresetByName(const std::string& name,
-        const SDK::FStr_Passport_Armor1& passport, const ArmorPresetData& data)
-    {
-        auto [folder, filename] = PresetUtils::SanitizePresetPath(name);
-        auto dir = GetPresetsDirectory();
-        if (!folder.empty()) dir /= folder;
-        PresetUtils::EnsureDirectory(dir);
-        return SaveToFile(dir / (filename + ".ini"), passport, data);
-    }
 };

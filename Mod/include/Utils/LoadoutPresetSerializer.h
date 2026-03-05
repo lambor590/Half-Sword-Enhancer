@@ -2,15 +2,16 @@
 
 #include <string>
 #include <vector>
-#include <filesystem>
 #include <cstring>
 
+#include "Utils/PresetDataBase.h"
+#include "Utils/PresetSerializerBase.h"
 #include "Utils/PresetUtils.h"
 #include "SDK/Str_Loadout_Equipment_structs.hpp"
 #include "SDK/Str_ArmorElements_structs.hpp"
 #include "SDK/ArmorSlots_Enum_structs.hpp"
 
-struct LoadoutPresetData {
+struct LoadoutPresetData : PresetDataBase {
     struct ArmorSlotData {
         SDK::EArmorSlots_Enum slot{};
         std::string armorClass;
@@ -35,14 +36,13 @@ struct LoadoutPresetData {
 
     std::vector<ArmorSlotData> armorSlots;
     WeaponSlotData weaponSlots[7];
-    std::string name;
-    bool success = false;
-    std::string error;
 };
 
-class LoadoutPresetSerializer {
-private:
+class LoadoutPresetSerializer : public PresetSerializerBase<LoadoutPresetSerializer, LoadoutPresetData> {
+public:
+    static constexpr const char* kPresetsSubdir = "loadout_presets";
 
+private:
     static constexpr const char* WEAPON_SLOT_KEYS[] = {
         "HandR", "HandL", "SlotR1", "SlotR2", "SlotL1", "SlotL2", "Back"
     };
@@ -212,34 +212,4 @@ public:
         return data;
     }
 
-    static std::filesystem::path GetPresetsDir() {
-        return PresetUtils::EnsureDirectory(
-            std::filesystem::path(ConfigManager::GetAppDataPath()) / "loadout_presets");
-    }
-
-    static bool SaveToFile(const std::filesystem::path& path, const LoadoutPresetData& data) {
-        return PresetUtils::SaveStringToFile(path, SerializeToIni(data));
-    }
-
-    static LoadoutPresetData LoadFromFile(const std::filesystem::path& path) {
-        std::string content = PresetUtils::LoadStringFromFile(path);
-        if (content.empty()) {
-            LoadoutPresetData data;
-            data.error = "Failed to read file";
-            return data;
-        }
-        return DeserializeFromIni(content);
-    }
-
-    static bool SavePresetByName(const LoadoutPresetData& data) {
-        auto [folder, filename] = PresetUtils::SanitizePresetPath(data.name);
-        auto dir = GetPresetsDir();
-        if (!folder.empty()) dir /= folder;
-        PresetUtils::EnsureDirectory(dir);
-        return SaveToFile(dir / (filename + ".ini"), data);
-    }
-
-    static PresetUtils::PresetTreeNode ListPresetsTree() {
-        return PresetUtils::ListPresetsRecursive(GetPresetsDir());
-    }
 };

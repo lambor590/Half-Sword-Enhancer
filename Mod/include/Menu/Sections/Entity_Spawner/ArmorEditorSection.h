@@ -490,7 +490,7 @@ private:
             [this]() { RefreshPresetTree(); },
             [this](const char* name) {
                 auto data = BuildPresetData();
-                if (ArmorPresetSerializer::SavePresetByName(name, armorPassport, data)) {
+                if (ArmorPresetSerializer::SavePresetByName(name, data)) {
                     status.Set("Saved: " + std::string(name));
                     presetListDirty = true;
                 } else {

@@ -6,6 +6,8 @@
 #include <cstring>
 
 #include "Utils/PresetUtils.h"
+#include "Utils/PresetDataBase.h"
+#include "Utils/PresetSerializerBase.h"
 #include "Utils/OverrideTypes.h"
 
 struct NPCOverrides {
@@ -43,11 +45,7 @@ struct NPCOverrides {
     RuntimeOverride legLHealth;
 };
 
-struct NPCPresetData {
-    std::string name;
-    bool success = false;
-    std::string error;
-
+struct NPCPresetData : PresetDataBase {
     int npcTypeIndex = 0;
     int nationality = 0;
     int tier = 4;
@@ -56,10 +54,10 @@ struct NPCPresetData {
     NPCOverrides overrides{};
 };
 
-class NPCPresetSerializer {
-private:
-
+class NPCPresetSerializer : public PresetSerializerBase<NPCPresetSerializer, NPCPresetData> {
 public:
+    static constexpr const char* kPresetsSubdir = "npc_presets";
+
     static std::string SerializeToIni(const NPCPresetData& data, bool minimalMode = false) {
         CSimpleIniA ini;
         ini.SetUnicode(false);
@@ -187,37 +185,4 @@ public:
         return result;
     }
 
-    static std::filesystem::path GetPresetsDirectory() {
-        return PresetUtils::EnsureDirectory(ConfigManager::GetAppDataPath() / "npc_presets");
-    }
-
-    static bool SaveToFile(const std::filesystem::path& path, const NPCPresetData& data) {
-        return PresetUtils::SaveStringToFile(path, SerializeToIni(data, false));
-    }
-
-    static NPCPresetData LoadFromFile(const std::filesystem::path& path) {
-        NPCPresetData result;
-        std::string content = PresetUtils::LoadStringFromFile(path);
-        if (content.empty()) {
-            result.error = "Cannot open file: " + path.string();
-            return result;
-        }
-        return DeserializeFromIni(content);
-    }
-
-    static PresetUtils::PresetTreeNode ListPresetsTree() {
-        return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
-    }
-
-    static bool DeletePreset(const std::filesystem::path& path) {
-        return PresetUtils::DeletePreset(path);
-    }
-
-    static bool SavePresetByName(const std::string& name, const NPCPresetData& data) {
-        auto [folder, filename] = PresetUtils::SanitizePresetPath(name);
-        auto dir = GetPresetsDirectory();
-        if (!folder.empty()) dir /= folder;
-        PresetUtils::EnsureDirectory(dir);
-        return SaveToFile(dir / (filename + ".ini"), data);
-    }
 };

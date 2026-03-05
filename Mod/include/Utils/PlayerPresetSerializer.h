@@ -5,17 +5,18 @@
 #include <cstring>
 
 #include "Utils/PresetUtils.h"
+#include "Utils/PresetDataBase.h"
+#include "Utils/PresetSerializerBase.h"
 #include "Utils/PlayerEditorOverrides.h"
 
-struct PlayerPresetData {
-    std::string name;
-    bool success = false;
-    std::string error;
+struct PlayerPresetData : PresetDataBase {
     PlayerEditorOverrides overrides{};
 };
 
-class PlayerPresetSerializer {
+class PlayerPresetSerializer : public PresetSerializerBase<PlayerPresetSerializer, PlayerPresetData> {
 public:
+    static constexpr const char* kPresetsSubdir = "player_presets";
+
     static std::string SerializeToIni(const PlayerPresetData& data, bool minimal = false) {
         CSimpleIniA ini;
         ini.SetUnicode(false);
@@ -198,37 +199,4 @@ public:
         return result;
     }
 
-    static std::filesystem::path GetPresetsDirectory() {
-        return PresetUtils::EnsureDirectory(ConfigManager::GetAppDataPath() / "player_presets");
-    }
-
-    static bool SaveToFile(const std::filesystem::path& path, const PlayerPresetData& data) {
-        return PresetUtils::SaveStringToFile(path, SerializeToIni(data, false));
-    }
-
-    static PlayerPresetData LoadFromFile(const std::filesystem::path& path) {
-        PlayerPresetData result;
-        std::string content = PresetUtils::LoadStringFromFile(path);
-        if (content.empty()) {
-            result.error = "Cannot open file: " + path.string();
-            return result;
-        }
-        return DeserializeFromIni(content);
-    }
-
-    static PresetUtils::PresetTreeNode ListPresetsTree() {
-        return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
-    }
-
-    static bool DeletePreset(const std::filesystem::path& path) {
-        return PresetUtils::DeletePreset(path);
-    }
-
-    static bool SavePresetByName(const std::string& name, const PlayerPresetData& data) {
-        auto [folder, filename] = PresetUtils::SanitizePresetPath(name);
-        auto dir = GetPresetsDirectory();
-        if (!folder.empty()) dir /= folder;
-        PresetUtils::EnsureDirectory(dir);
-        return SaveToFile(dir / (filename + ".ini"), data);
-    }
 };

@@ -6,6 +6,8 @@
 #include <cstring>
 
 #include "Utils/PresetUtils.h"
+#include "Utils/PresetDataBase.h"
+#include "Utils/PresetSerializerBase.h"
 #include "Utils/OverrideTypes.h"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
@@ -20,7 +22,7 @@ struct MeshOverridePreset {
     SDK::FVector offset = {0.0, 0.0, 0.0};
 };
 
-struct WeaponPresetData {
+struct WeaponPresetData : PresetDataBase {
     SDK::FStr_Passport_Weapon1 passport{};
 
     struct {
@@ -39,15 +41,10 @@ struct WeaponPresetData {
         std::string headModule, guardModule, gripModule, pommelModule;
         std::string subModule1, subModule2;
     } classPaths{};
-
-    std::string name;
-    bool success = false;
-    std::string error;
 };
 
-class WeaponPresetSerializer {
+class WeaponPresetSerializer : public PresetSerializerBase<WeaponPresetSerializer, WeaponPresetData> {
 private:
-
     static bool IsDefaultVec(const SDK::FVector& v, const SDK::FVector& def = {1.0, 1.0, 1.0}) {
         return std::abs(v.X - def.X) < 1e-4 && std::abs(v.Y - def.Y) < 1e-4 && std::abs(v.Z - def.Z) < 1e-4;
     }
@@ -58,9 +55,11 @@ private:
     static constexpr SDK::FLinearColor DEFAULT_LEATHER_COLOR = {0.3f, 0.18f, 0.08f, 1.0f};
 
 public:
-    static std::string SerializeToIni(const SDK::FStr_Passport_Weapon1& passport,
-        const WeaponPresetData& data, bool minimalMode = false)
+    static constexpr const char* kPresetsSubdir = "weapon_presets";
+
+    static std::string SerializeToIni(const WeaponPresetData& data, bool minimalMode = false)
     {
+        const auto& passport = data.passport;
         CSimpleIniA ini;
         ini.SetUnicode(false);
 
@@ -300,41 +299,4 @@ public:
         return result;
     }
 
-    static std::filesystem::path GetPresetsDirectory() {
-        return PresetUtils::EnsureDirectory(ConfigManager::GetAppDataPath() / "weapon_presets");
-    }
-
-    static bool SaveToFile(const std::filesystem::path& path,
-        const SDK::FStr_Passport_Weapon1& passport, const WeaponPresetData& data)
-    {
-        return PresetUtils::SaveStringToFile(path, SerializeToIni(passport, data, false));
-    }
-
-    static WeaponPresetData LoadFromFile(const std::filesystem::path& path) {
-        WeaponPresetData result;
-        std::string content = PresetUtils::LoadStringFromFile(path);
-        if (content.empty()) {
-            result.error = "Cannot open file: " + path.string();
-            return result;
-        }
-        return DeserializeFromIni(content);
-    }
-
-    static PresetUtils::PresetTreeNode ListPresetsTree() {
-        return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
-    }
-
-    static bool DeletePreset(const std::filesystem::path& path) {
-        return PresetUtils::DeletePreset(path);
-    }
-
-    static bool SavePresetByName(const std::string& name,
-        const SDK::FStr_Passport_Weapon1& passport, const WeaponPresetData& data)
-    {
-        auto [folder, filename] = PresetUtils::SanitizePresetPath(name);
-        auto dir = GetPresetsDirectory();
-        if (!folder.empty()) dir /= folder;
-        PresetUtils::EnsureDirectory(dir);
-        return SaveToFile(dir / (filename + ".ini"), passport, data);
-    }
 };

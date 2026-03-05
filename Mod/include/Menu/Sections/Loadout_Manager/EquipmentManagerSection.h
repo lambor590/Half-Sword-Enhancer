@@ -681,12 +681,12 @@ private:
         ImGui::PushID("presets");
         status.Render();
         GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status, ComponentValidator::Validate(player)};
-        GuiUtils::RenderPresetPanel(panelState, LoadoutPresetSerializer::GetPresetsDir(),
+        GuiUtils::RenderPresetPanel(panelState, LoadoutPresetSerializer::GetPresetsDirectory(),
             [this]() { RefreshPresetTree(); },
             [this](const char* name) {
                 auto data = BuildPresetFromPlayer();
                 data.name = name;
-                if (LoadoutPresetSerializer::SavePresetByName(data)) {
+                if (LoadoutPresetSerializer::SavePresetByName(name, data)) {
                     status.Set("Saved: " + std::string(name));
                     presetListDirty = true;
                 } else {
@@ -706,7 +706,7 @@ private:
             },
             [this](const std::filesystem::path& path) {
                 PresetUtils::DeletePreset(path);
-                PresetUtils::CleanEmptyDirectories(LoadoutPresetSerializer::GetPresetsDir());
+                PresetUtils::CleanEmptyDirectories(LoadoutPresetSerializer::GetPresetsDirectory());
                 presetListDirty = true;
             });
         ImGui::PopID();

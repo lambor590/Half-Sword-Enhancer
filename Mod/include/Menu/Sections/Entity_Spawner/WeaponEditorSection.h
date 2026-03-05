@@ -1122,7 +1122,7 @@ private:
             [this]() { RefreshPresetTree(); },
             [this](const char* name) {
                 auto data = BuildPresetData();
-                if (WeaponPresetSerializer::SavePresetByName(name, weaponPassport, data)) {
+                if (WeaponPresetSerializer::SavePresetByName(name, data)) {
                     SetStatus("Saved: " + std::string(name));
                     presetListDirty = true;
                 } else {
