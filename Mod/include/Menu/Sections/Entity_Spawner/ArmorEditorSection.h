@@ -12,6 +12,7 @@
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/LivePreviewManager.h"
 
 class ArmorEditorSection : public CollapsibleSection {
 private:
@@ -27,9 +28,7 @@ private:
 
     ArmorRuntimeProps runtimeProps{};
 
-    SDK::AActor* previewActor = nullptr;
-    double lastChangeTime = 0.0;
-    double previewYaw = 0.0;
+    LivePreviewManager preview{cfg.preview};
     SDK::FStr_Passport_Armor1 lastPreviewedPassport{};
     ArmorRuntimeProps lastPreviewedProps{};
 
@@ -143,17 +142,8 @@ private:
         return count;
     }
 
-    void DestroyPreview() {
-        if (!previewActor) return;
-        SDK::AActor* actor = previewActor;
-        previewActor = nullptr;
-        GameHook::QueueAction([actor]() {
-            if (actor) actor->K2_DestroyActor();
-        });
-    }
-
     void SpawnPreview() {
-        DestroyPreview();
+        preview.Destroy();
         if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
         if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
 
@@ -179,9 +169,9 @@ private:
                     armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props);
-                previewActor = actor;
+                preview.SetPreviewActor(actor);
                 if (cfg.preview.autoRotate)
-                    actor->K2_SetActorRotation(SDK::FRotator{0.0, previewYaw, 0.0}, true);
+                    actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
             });
     }
 
@@ -197,39 +187,12 @@ private:
             TAIL_SIZE) != 0;
     }
 
-    void UpdatePreview() {
-        static constexpr double REFRESH_COOLDOWN = 0.2;
-
-        bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport)
-                        || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(ArmorRuntimeProps)) != 0;
-
-        if (!needsUpdate) return;
-        if (previewActor && (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN)) return;
-
-        lastChangeTime = ImGui::GetTime();
-        SpawnPreview();
-    }
-
-    void RotatePreview() {
-        if (!previewActor || !cfg.preview.autoRotate) return;
-
-        previewYaw += cfg.preview.rotationSpeed * static_cast<double>(ImGui::GetIO().DeltaTime);
-        if (previewYaw >= 360.0) previewYaw -= 360.0;
-        if (previewYaw < 0.0) previewYaw += 360.0;
-
-        double yaw = previewYaw;
-        SDK::AActor* actor = previewActor;
-        GameHook::QueueAction([actor, yaw]() {
-            if (actor) actor->K2_SetActorRotation(SDK::FRotator{0.0, yaw, 0.0}, true);
-        });
-    }
-
     void SpawnFromPassport() {
         if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
 
         if (cfg.preview.livePreview) {
             cfg.preview.livePreview = false;
-            DestroyPreview();
+            preview.Destroy();
         }
 
         std::function<void(SDK::AActor*)> callback = nullptr;
@@ -548,8 +511,7 @@ public:
     void RenderContent() override {
         SectionStyle::StyleRAII style;
 
-        if (previewActor && (!player || !world))
-            previewActor = nullptr;
+        preview.InvalidateIfDead(player, world);
 
         for (auto& function : functions) {
             function->Render();
@@ -560,7 +522,7 @@ public:
 
         if (GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview armor that updates as you edit")) {
             if (!cfg.preview.livePreview)
-                DestroyPreview();
+                preview.Destroy();
         }
         if (cfg.preview.livePreview) {
             ImGui::SameLine();
@@ -594,8 +556,10 @@ public:
         RenderSpawnFooter();
 
         if (cfg.preview.livePreview) {
-            UpdatePreview();
-            RotatePreview();
+            bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport)
+                            || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(ArmorRuntimeProps)) != 0;
+            preview.Update(needsUpdate, [this]() { SpawnPreview(); });
+            preview.Rotate();
         }
     }
 };

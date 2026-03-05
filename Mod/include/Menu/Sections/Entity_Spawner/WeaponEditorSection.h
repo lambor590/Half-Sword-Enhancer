@@ -21,6 +21,7 @@
 #include "Utils/WeaponPresetSerializer.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/GlobalModulePool.h"
+#include "Utils/LivePreviewManager.h"
 
 class WeaponEditorSection : public CollapsibleSection {
 private:
@@ -39,9 +40,7 @@ private:
 
     WeaponRuntimeProps runtimeProps{};
 
-    SDK::AActor* previewActor = nullptr;
-    double lastChangeTime = 0.0;
-    double previewYaw = 0.0;
+    LivePreviewManager preview{cfg.preview};
     SDK::FStr_Passport_Weapon1 lastPreviewedPassport{};
     WeaponRuntimeProps lastPreviewedProps{};
 
@@ -323,14 +322,14 @@ private:
     }
 
     void ApplyMeshToPreview() {
-        if (!previewActor) return;
+        if (!preview.GetPreviewActor()) return;
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             if (skeletalPreviewComps[i]) {
                 skeletalPreviewComps[i]->K2_DestroyComponent(skeletalPreviewComps[i]);
                 skeletalPreviewComps[i] = nullptr;
             }
         }
-        auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(previewActor);
+        auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(preview.GetPreviewActor());
         ApplyMeshOverrides(weapon, BuildMeshSnapshot(), skeletalPreviewComps);
     }
 
@@ -428,19 +427,8 @@ private:
         return count;
     }
 
-    void DestroyPreview() {
-        for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
-            skeletalPreviewComps[i] = nullptr;
-        if (!previewActor) return;
-        SDK::AActor* actor = previewActor;
-        previewActor = nullptr;
-        GameHook::QueueAction([actor]() {
-            if (actor) actor->K2_DestroyActor();
-        });
-    }
-
     void SpawnPreview() {
-        DestroyPreview();
+        preview.Destroy();
         if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
 
         lastPreviewedPassport = weaponPassport;
@@ -464,43 +452,16 @@ private:
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props);
                 if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
-                previewActor = actor;
+                preview.SetPreviewActor(actor);
                 if (cfg.preview.autoRotate)
-                    actor->K2_SetActorRotation(SDK::FRotator{0.0, previewYaw, 0.0}, true);
+                    actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
             });
-    }
-
-    void UpdatePreview() {
-        static constexpr double REFRESH_COOLDOWN = 0.2;
-
-        bool needsUpdate = std::memcmp(&weaponPassport, &lastPreviewedPassport, sizeof(SDK::FStr_Passport_Weapon1)) != 0
-                        || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(WeaponRuntimeProps)) != 0;
-
-        if (!needsUpdate) return;
-        if (previewActor && (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN)) return;
-
-        lastChangeTime = ImGui::GetTime();
-        SpawnPreview();
-    }
-
-    void RotatePreview() {
-        if (!previewActor || !cfg.preview.autoRotate) return;
-
-        previewYaw += cfg.preview.rotationSpeed * static_cast<double>(ImGui::GetIO().DeltaTime);
-        if (previewYaw >= 360.0) previewYaw -= 360.0;
-        if (previewYaw < 0.0) previewYaw += 360.0;
-
-        double yaw = previewYaw;
-        SDK::AActor* actor = previewActor;
-        GameHook::QueueAction([actor, yaw]() {
-            if (actor) actor->K2_SetActorRotation(SDK::FRotator{0.0, yaw, 0.0}, true);
-        });
     }
 
     void SpawnFromPassport() {
         if (cfg.preview.livePreview) {
             cfg.preview.livePreview = false;
-            DestroyPreview();
+            preview.Destroy();
         }
 
         bool hasOverrides = CountActiveOverrides() > 0;
@@ -832,7 +793,7 @@ private:
                     ovr.poolIndex = i;
                     ovr.mesh = meshPool[i].mesh;
                     ovr.meshType = meshPool[i].type;
-                    if (previewActor) {
+                    if (preview.GetPreviewActor()) {
                         GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
                     }
                 }
@@ -847,21 +808,21 @@ private:
             ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
             if (ImGui::DragFloat3("Scale", s, 0.01f, 0.0f, 0.0f, "%.2f")) {
                 ovr.scale = {s[0], s[1], s[2]};
-                if (previewActor) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
+                if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
             }
 
             float r[3] = {static_cast<float>(ovr.rotation.Pitch), static_cast<float>(ovr.rotation.Yaw), static_cast<float>(ovr.rotation.Roll)};
             ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
             if (ImGui::DragFloat3("Rotation", r, 1.0f, -180.0f, 180.0f, "%.1f")) {
                 ovr.rotation = {r[0], r[1], r[2]};
-                if (previewActor) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
+                if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
             }
 
             float o[3] = {static_cast<float>(ovr.offset.X), static_cast<float>(ovr.offset.Y), static_cast<float>(ovr.offset.Z)};
             ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
             if (ImGui::DragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f")) {
                 ovr.offset = {o[0], o[1], o[2]};
-                if (previewActor) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
+                if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
             }
 
             ImGui::SameLine();
@@ -869,7 +830,7 @@ private:
                 ovr.scale = {1.0, 1.0, 1.0};
                 ovr.rotation = {0.0, 0.0, 0.0};
                 ovr.offset = {0.0, 0.0, 0.0};
-                if (previewActor) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
+                if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
             }
         }
 
@@ -1174,13 +1135,17 @@ public:
             })
             .WithTooltip("Spawns the currently edited weapon with runtime overrides applied")
             .Action([this]() { SpawnFromPassport(); }, player, world);
+
+        preview.SetCleanupCallback([this]() {
+            for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
+                skeletalPreviewComps[i] = nullptr;
+        });
     }
 
     void RenderContent() override {
         SectionStyle::StyleRAII style;
 
-        if (previewActor && (!player || !world))
-            previewActor = nullptr;
+        preview.InvalidateIfDead(player, world);
 
         for (auto& function : functions) {
             function->Render();
@@ -1196,7 +1161,7 @@ public:
 
         if (GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview weapon that updates as you edit")) {
             if (!cfg.preview.livePreview)
-                DestroyPreview();
+                preview.Destroy();
         }
         if (cfg.preview.livePreview) {
             ImGui::SameLine();
@@ -1232,8 +1197,10 @@ public:
         RenderSpawnFooter();
 
         if (cfg.preview.livePreview) {
-            UpdatePreview();
-            RotatePreview();
+            bool needsUpdate = std::memcmp(&weaponPassport, &lastPreviewedPassport, sizeof(SDK::FStr_Passport_Weapon1)) != 0
+                            || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(WeaponRuntimeProps)) != 0;
+            preview.Update(needsUpdate, [this]() { SpawnPreview(); });
+            preview.Rotate();
         }
     }
 };
