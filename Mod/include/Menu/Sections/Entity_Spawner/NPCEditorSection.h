@@ -371,11 +371,7 @@ public:
             overrides = {};
         }
         TooltipHelper::ShowTooltip("Disable all NPC property overrides");
-        int activeCount = CountActiveOverrides();
-        if (activeCount > 0) {
-            ImGui::SameLine();
-            ImGui::TextDisabled("(%d active)", activeCount);
-        }
+        GuiUtils::RenderOverrideCount(CountActiveOverrides());
         ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.5f);
         presets.status.Render();
 

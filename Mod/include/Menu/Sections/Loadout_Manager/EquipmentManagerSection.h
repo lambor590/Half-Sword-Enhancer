@@ -2,8 +2,6 @@
 
 #include <vector>
 #include <string>
-#include <cstring>
-#include <cstdio>
 #include <atomic>
 #include <functional>
 
@@ -122,47 +120,6 @@ private:
             modulePool.Populate();
             modulePoolQueued = false;
         });
-    }
-
-    static void RenderModuleCombo(const char* label, SDK::UClass*& current,
-        const std::vector<GlobalModuleEntry>& options, char* filterBuf, float& cachedWidth)
-    {
-        const char* preview = "None";
-        for (const auto& e : options)
-            if (e.cls == current) { preview = e.name.c_str(); break; }
-
-        if (cachedWidth == 0.0f) {
-            float maxW = 0;
-            for (const auto& e : options) {
-                char buf[128];
-                std::snprintf(buf, sizeof(buf), "%-36s [%s]", e.name.c_str(), e.sourceType);
-                float w = ImGui::CalcTextSize(buf).x;
-                if (w > maxW) maxW = w;
-            }
-            cachedWidth = GuiUtils::ComboWidthFromText(maxW);
-        }
-
-        ImGui::SetNextItemWidth(cachedWidth);
-        if (!ImGui::BeginCombo(label, preview)) return;
-
-        ImGui::SetNextItemWidth(-1);
-        ImGui::InputTextWithHint("##filter", "Search...", filterBuf, 64);
-        const size_t filterLen = std::strlen(filterBuf);
-
-        ImGui::Separator();
-        if (ImGui::Selectable("None", current == nullptr))
-            current = nullptr;
-
-        char display[128];
-        for (const auto& e : options) {
-            if (filterLen > 0 && !GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen))
-                continue;
-            std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
-            if (ImGui::Selectable(display, e.cls == current))
-                current = e.cls;
-            if (e.cls == current) ImGui::SetItemDefaultFocus();
-        }
-        ImGui::EndCombo();
     }
 
     static void RenderVectorDrag(const char* label, SDK::FVector& vec) {
@@ -539,19 +496,19 @@ private:
             return;
         }
 
-        RenderModuleCombo("Head", slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F,
+        GuiUtils::RenderGlobalModuleCombo("Head", slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F,
             modulePool.heads, moduleFilters[0], modulePool.cachedWidths[0]);
-        RenderModuleCombo("Guard", slot.GuardModule_21_774015784EB0300D2671C894D57ED144,
+        GuiUtils::RenderGlobalModuleCombo("Guard", slot.GuardModule_21_774015784EB0300D2671C894D57ED144,
             modulePool.guards, moduleFilters[1], modulePool.cachedWidths[1]);
-        RenderModuleCombo("Grip", slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867,
+        GuiUtils::RenderGlobalModuleCombo("Grip", slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867,
             modulePool.grips, moduleFilters[2], modulePool.cachedWidths[2]);
-        RenderModuleCombo("Pommel", slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984,
+        GuiUtils::RenderGlobalModuleCombo("Pommel", slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984,
             modulePool.pommels, moduleFilters[3], modulePool.cachedWidths[3]);
         if (!modulePool.subMods1.empty())
-            RenderModuleCombo("Sub-Mod 1", slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0,
+            GuiUtils::RenderGlobalModuleCombo("Sub-Mod 1", slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0,
                 modulePool.subMods1, moduleFilters[4], modulePool.cachedWidths[4]);
         if (!modulePool.subMods2.empty())
-            RenderModuleCombo("Sub-Mod 2", slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980,
+            GuiUtils::RenderGlobalModuleCombo("Sub-Mod 2", slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980,
                 modulePool.subMods2, moduleFilters[5], modulePool.cachedWidths[5]);
     }
 

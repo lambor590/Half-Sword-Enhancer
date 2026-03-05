@@ -206,59 +206,6 @@ private:
         Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale), cfg.spawn.snapToGround, callback);
     }
 
-    void RenderModuleIndexCombo(const char* label, int32_t& moduleIndex,
-        const std::vector<ModuleEntry>& available, char* filterBuf, float& cachedWidth)
-    {
-        if (available.empty()) {
-            ImGui::TextDisabled("No %s modules available", label);
-            return;
-        }
-
-        const char* preview = "None";
-        if (moduleIndex > 0 && moduleIndex <= static_cast<int32_t>(available.size()))
-            preview = available[moduleIndex - 1].name.c_str();
-
-        if (cachedWidth == 0.0f) {
-            float maxW = 0;
-            for (const auto& e : available) {
-                float w = ImGui::CalcTextSize(e.name.c_str()).x;
-                if (w > maxW) maxW = w;
-            }
-            cachedWidth = GuiUtils::ComboWidthFromText(maxW);
-        }
-
-        ImGui::SetNextItemWidth(cachedWidth);
-        if (!ImGui::BeginCombo(label, preview)) return;
-
-        ImGui::SetNextItemWidth(-1);
-        ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
-
-        const size_t filterLen = std::strlen(filterBuf);
-        const bool hasFilter = filterLen > 0;
-
-        if (hasFilter) {
-            int visible = 0;
-            for (const auto& e : available)
-                if (GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
-            ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(available.size()));
-        }
-
-        ImGui::Separator();
-
-        if (ImGui::Selectable("None", moduleIndex <= 0))
-            moduleIndex = 0;
-
-        for (int i = 0; i < static_cast<int>(available.size()); ++i) {
-            if (hasFilter && !GuiUtils::MatchesFilter(available[i].name.c_str(), available[i].name.size(), filterBuf, filterLen))
-                continue;
-            bool selected = (moduleIndex == i + 1);
-            if (ImGui::Selectable(available[i].name.c_str(), selected))
-                moduleIndex = i + 1;
-            if (selected) ImGui::SetItemDefaultFocus();
-        }
-        ImGui::EndCombo();
-    }
-
     void RenderGenerationControls() {
         ImGui::PushID("gen");
 
@@ -333,13 +280,13 @@ private:
         TooltipHelper::ShowTooltip("Remove the core piece, keeping only attached modules");
 
         ImGui::Spacing();
-        RenderModuleIndexCombo("Module 1",
+        GuiUtils::RenderModuleIndexCombo("Module 1",
             armorPassport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4,
             armorModules.modules1, moduleFilters[0], armorModules.cachedWidths[0]);
-        RenderModuleIndexCombo("Module 2",
+        GuiUtils::RenderModuleIndexCombo("Module 2",
             armorPassport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0,
             armorModules.modules2, moduleFilters[1], armorModules.cachedWidths[1]);
-        RenderModuleIndexCombo("Module 3",
+        GuiUtils::RenderModuleIndexCombo("Module 3",
             armorPassport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2,
             armorModules.modules3, moduleFilters[2], armorModules.cachedWidths[2]);
 
@@ -373,11 +320,7 @@ private:
         if (ImGui::Button("Reset All Overrides"))
             runtimeProps = {};
         TooltipHelper::ShowTooltip("Disable all runtime overrides");
-        int activeCount = CountActiveOverrides();
-        if (activeCount > 0) {
-            ImGui::SameLine();
-            ImGui::TextDisabled("(%d active)", activeCount);
-        }
+        GuiUtils::RenderOverrideCount(CountActiveOverrides());
 
         ImGui::Spacing();
         if (ImGui::TreeNodeEx("Protection", ImGuiTreeNodeFlags_DefaultOpen)) {

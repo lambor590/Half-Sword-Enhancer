@@ -478,59 +478,6 @@ private:
         Spawner::SpawnCustomizableFromPassport(world, weaponPassport, Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale), cfg.spawn.snapToGround, callback);
     }
 
-    static void RenderFilteredModuleCombo(const char* label,
-        SDK::UClass*& current, const std::vector<GlobalModuleEntry>& options,
-        char* filterBuf, float& cachedWidth, bool allowNone = true)
-    {
-        const char* preview = "None";
-        for (const auto& e : options) {
-            if (e.cls == current) { preview = e.name.c_str(); break; }
-        }
-
-        if (cachedWidth == 0.0f) {
-            float maxModW = 0;
-            for (const auto& e : options) {
-                char buf[128];
-                std::snprintf(buf, sizeof(buf), "%-36s [%s]", e.name.c_str(), e.sourceType);
-                float w = ImGui::CalcTextSize(buf).x;
-                if (w > maxModW) maxModW = w;
-            }
-            cachedWidth = GuiUtils::ComboWidthFromText(maxModW);
-        }
-
-        ImGui::SetNextItemWidth(cachedWidth);
-        if (!ImGui::BeginCombo(label, preview)) return;
-
-        ImGui::SetNextItemWidth(-1);
-        ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
-
-        const size_t filterLen = std::strlen(filterBuf);
-        const bool hasFilter = filterLen > 0;
-
-        if (hasFilter) {
-            int visible = 0;
-            for (const auto& e : options)
-                if (GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
-            ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(options.size()));
-        }
-
-        ImGui::Separator();
-
-        if (allowNone && ImGui::Selectable("None", current == nullptr))
-            current = nullptr;
-
-        char display[128];
-        for (const auto& e : options) {
-            if (hasFilter && !GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen))
-                continue;
-            std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
-            if (ImGui::Selectable(display, e.cls == current))
-                current = e.cls;
-            if (e.cls == current) ImGui::SetItemDefaultFocus();
-        }
-        ImGui::EndCombo();
-    }
-
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f) {
         float v[3] = {static_cast<float>(vec.X), static_cast<float>(vec.Y), static_cast<float>(vec.Z)};
         if (ImGui::DragFloat3(label, v, speed, 0.0f, 0.0f, "%.3f")) {
@@ -630,25 +577,25 @@ private:
             return;
         }
 
-        RenderFilteredModuleCombo("Head",
+        GuiUtils::RenderGlobalModuleCombo("Head",
             weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139,
             globalModules.heads, moduleFilters[0], globalModules.cachedWidths[0]);
-        RenderFilteredModuleCombo("Guard",
+        GuiUtils::RenderGlobalModuleCombo("Guard",
             weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0,
             globalModules.guards, moduleFilters[1], globalModules.cachedWidths[1]);
-        RenderFilteredModuleCombo("Grip",
+        GuiUtils::RenderGlobalModuleCombo("Grip",
             weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4,
             globalModules.grips, moduleFilters[2], globalModules.cachedWidths[2]);
-        RenderFilteredModuleCombo("Pommel",
+        GuiUtils::RenderGlobalModuleCombo("Pommel",
             weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6,
             globalModules.pommels, moduleFilters[3], globalModules.cachedWidths[3]);
         if (!globalModules.subMods1.empty()) {
-            RenderFilteredModuleCombo("Sub-Mod 1",
+            GuiUtils::RenderGlobalModuleCombo("Sub-Mod 1",
                 weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D,
                 globalModules.subMods1, moduleFilters[4], globalModules.cachedWidths[4]);
         }
         if (!globalModules.subMods2.empty()) {
-            RenderFilteredModuleCombo("Sub-Mod 2",
+            GuiUtils::RenderGlobalModuleCombo("Sub-Mod 2",
                 weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9,
                 globalModules.subMods2, moduleFilters[5], globalModules.cachedWidths[5]);
         }
@@ -912,11 +859,7 @@ private:
         if (ImGui::Button("Reset All Overrides"))
             runtimeProps = {};
         TooltipHelper::ShowTooltip("Disable all runtime overrides");
-        int activeCount = CountActiveOverrides();
-        if (activeCount > 0) {
-            ImGui::SameLine();
-            ImGui::TextDisabled("(%d active)", activeCount);
-        }
+        GuiUtils::RenderOverrideCount(CountActiveOverrides());
 
         ImGui::Spacing();
         if (ImGui::TreeNodeEx("Combat", ImGuiTreeNodeFlags_DefaultOpen)) {

@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstdint>
+#include <cstdio>
 #include <cstring>
 #include <filesystem>
 #include <functional>
@@ -361,6 +362,120 @@ namespace GuiUtils {
         ImGui::Spacing();
         if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0)))
             PresetUtils::OpenInExplorer(presetsDir);
+    }
+
+    inline void RenderOverrideCount(int count) {
+        if (count > 0) {
+            ImGui::SameLine();
+            ImGui::TextDisabled("(%d active)", count);
+        }
+    }
+
+    template<typename Entry>
+    inline void RenderGlobalModuleCombo(const char* label,
+        SDK::UClass*& current, const std::vector<Entry>& options,
+        char* filterBuf, float& cachedWidth, bool allowNone = true)
+    {
+        const char* preview = "None";
+        for (const auto& e : options)
+            if (e.cls == current) { preview = e.name.c_str(); break; }
+
+        if (cachedWidth == 0.0f) {
+            float maxW = 0;
+            for (const auto& e : options) {
+                char buf[128];
+                std::snprintf(buf, sizeof(buf), "%-36s [%s]", e.name.c_str(), e.sourceType);
+                float w = ImGui::CalcTextSize(buf).x;
+                if (w > maxW) maxW = w;
+            }
+            cachedWidth = ComboWidthFromText(maxW);
+        }
+
+        ImGui::SetNextItemWidth(cachedWidth);
+        if (!ImGui::BeginCombo(label, preview)) return;
+
+        ImGui::SetNextItemWidth(-1);
+        ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
+
+        const size_t filterLen = std::strlen(filterBuf);
+        const bool hasFilter = filterLen > 0;
+
+        if (hasFilter) {
+            int visible = 0;
+            for (const auto& e : options)
+                if (MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
+            ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(options.size()));
+        }
+
+        ImGui::Separator();
+
+        if (allowNone && ImGui::Selectable("None", current == nullptr))
+            current = nullptr;
+
+        char display[128];
+        for (const auto& e : options) {
+            if (hasFilter && !MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen))
+                continue;
+            std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
+            if (ImGui::Selectable(display, e.cls == current))
+                current = e.cls;
+            if (e.cls == current) ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
+    }
+
+    template<typename Entry>
+    inline void RenderModuleIndexCombo(const char* label, int32_t& moduleIndex,
+        const std::vector<Entry>& available, char* filterBuf, float& cachedWidth)
+    {
+        if (available.empty()) {
+            ImGui::TextDisabled("No %s modules available", label);
+            return;
+        }
+
+        const char* preview = "None";
+        if (moduleIndex > 0 && moduleIndex <= static_cast<int32_t>(available.size()))
+            preview = available[moduleIndex - 1].name.c_str();
+
+        if (cachedWidth == 0.0f) {
+            float maxW = 0;
+            for (const auto& e : available) {
+                float w = ImGui::CalcTextSize(e.name.c_str()).x;
+                if (w > maxW) maxW = w;
+            }
+            cachedWidth = ComboWidthFromText(maxW);
+        }
+
+        ImGui::SetNextItemWidth(cachedWidth);
+        if (!ImGui::BeginCombo(label, preview)) return;
+
+        ImGui::SetNextItemWidth(-1);
+        ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
+
+        const size_t filterLen = std::strlen(filterBuf);
+        const bool hasFilter = filterLen > 0;
+
+        if (hasFilter) {
+            int visible = 0;
+            for (const auto& e : available)
+                if (MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) ++visible;
+            ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(available.size()));
+        }
+
+        ImGui::Separator();
+
+        if (ImGui::Selectable("None", moduleIndex <= 0))
+            moduleIndex = 0;
+
+        for (int i = 0; i < static_cast<int>(available.size()); ++i) {
+            if (hasFilter && !MatchesFilter(available[i].name.c_str(), available[i].name.size(), filterBuf, filterLen))
+                continue;
+            bool selected = (moduleIndex == i + 1);
+            if (ImGui::Selectable(available[i].name.c_str(), selected))
+                moduleIndex = i + 1;
+            if (selected) ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
     }
 
 }
