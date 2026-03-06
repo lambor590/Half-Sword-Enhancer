@@ -35,4 +35,6 @@ namespace Spawner {
     SDK::UClass* LoadClass(const std::string& classPath);
 
     SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale);
+
+    bool SpawnAndEquipArmor(const SDK::UWorld* world, SDK::AWillie_BP_C* willie, const SDK::FStr_Passport_Armor1& passport);
 }

@@ -323,6 +323,31 @@ namespace Spawner {
         });
     }
 
+    bool SpawnAndEquipArmor(const SDK::UWorld* world, SDK::AWillie_BP_C* willie, const SDK::FStr_Passport_Armor1& passport) {
+        auto* armorClass = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
+        if (!armorClass) return false;
+
+        SDK::FTransform transform{};
+        transform.Scale3D = {1.0, 1.0, 1.0};
+
+        auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
+            world, armorClass, transform,
+            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        if (!actor) return false;
+
+        auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
+        armor->Armor_Passport = passport;
+        armor->World_Transform = transform;
+
+        SDK::UGameplayStatics::FinishSpawningActor(actor, transform,
+            SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+
+        bool pickedUp = false;
+        willie->Pick_Up_Armor(armor->DefaultSceneRoot, armor, &pickedUp);
+        return pickedUp;
+    }
+
     SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale) {
         auto transform = player->GetTransform();
         const auto forward = player->GetActorForwardVector();

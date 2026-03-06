@@ -15,6 +15,9 @@
 #include "Utils/GuiUtils.h"
 #include "Utils/WeaponPassportBuilder.h"
 #include "Utils/GlobalModulePool.h"
+#include "Utils/PresetPickerState.h"
+#include "Utils/WeaponPresetSerializer.h"
+#include "Utils/ArmorPresetSerializer.h"
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/ArmorSlots_Enum_structs.hpp"
 #include "SDK/Str_Passport_Armor1_structs.hpp"
@@ -65,6 +68,8 @@ private:
     std::atomic<bool> hasPendingStaggeredOps{false};
 
     PresetSectionState<LoadoutPresetSerializer> presets;
+    PresetPickerState<WeaponPresetSerializer> weaponPicker;
+    PresetPickerState<ArmorPresetSerializer> armorPicker;
     int activeTab = 0;
 
     static const char* GetArmorSlotDisplayName(SDK::EArmorSlots_Enum slot) {
@@ -87,33 +92,6 @@ private:
         SDK::ABP_Armor_Modular_Core_Master_C* dropped = nullptr;
         p->Remove_Armor(transform, slot, &dropped);
         if (dropped) dropped->K2_DestroyActor();
-    }
-
-    static bool SpawnAndEquipArmor(const SDK::UWorld* w, SDK::AWillie_BP_C* p,
-                                    const SDK::FStr_Passport_Armor1& passport)
-    {
-        auto* armorClass = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
-        if (!armorClass) return false;
-
-        SDK::FTransform transform{};
-        transform.Scale3D = {1.0, 1.0, 1.0};
-
-        auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            w, armorClass, transform,
-            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
-        if (!actor) return false;
-
-        auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
-        armor->Armor_Passport = passport;
-        armor->World_Transform = transform;
-
-        SDK::UGameplayStatics::FinishSpawningActor(actor, transform,
-            SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
-
-        bool pickedUp = false;
-        p->Pick_Up_Armor(armor->DefaultSceneRoot, armor, &pickedUp);
-        return pickedUp;
     }
 
     void EnsureModulePool() {
@@ -153,7 +131,7 @@ private:
             ops.push_back([p, slot]() { RemoveArmorSlot(p, slot); });
 
         for (auto& passport : passportsToSpawn)
-            ops.push_back([w, p, passport]() { SpawnAndEquipArmor(w, p, passport); });
+            ops.push_back([w, p, passport]() { Spawner::SpawnAndEquipArmor(w, p, passport); });
     }
 
     void ApplyArmorToPlayer() {
@@ -173,7 +151,7 @@ private:
                 if (!passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) break;
                 SDK::FStr_Passport_Armor1 copy = passport;
                 RemoveArmorSlot(p, slot);
-                SpawnAndEquipArmor(w, p, copy);
+                Spawner::SpawnAndEquipArmor(w, p, copy);
                 break;
             }
         });
@@ -242,7 +220,7 @@ private:
             if (!passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
 
             RemoveArmorSlot(player, slotEnum);
-            SpawnAndEquipArmor(world, player, passport);
+            Spawner::SpawnAndEquipArmor(world, player, passport);
         });
     }
 
@@ -275,7 +253,7 @@ private:
                 pendingStaggeredOps.push_back([p, slot]() { RemoveArmorSlot(p, slot); });
 
             for (auto& passport : newPassports)
-                pendingStaggeredOps.push_back([w, p, passport]() { SpawnAndEquipArmor(w, p, passport); });
+                pendingStaggeredOps.push_back([w, p, passport]() { Spawner::SpawnAndEquipArmor(w, p, passport); });
 
             hasPendingStaggeredOps.store(true, std::memory_order_release);
         });
@@ -306,6 +284,52 @@ private:
 
         if (slotIndex <= 1)
             ApplyWeaponToPlayer(slotIndex);
+    }
+
+    void ImportWeaponPreset(int slotIndex) {
+        if (!weaponPicker.HasSelection() || !ComponentValidator::Validate(player)) return;
+        auto data = WeaponPresetSerializer::LoadFromFile(weaponPicker.SelectedPath());
+        if (!data.success) return;
+
+        GameHook::QueueAction([this, slotIndex, data = std::move(data)]() {
+            auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
+            auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, slotIndex);
+
+            auto load = [](const std::string& path) -> SDK::UClass* {
+                return path.empty() ? nullptr : Spawner::LoadClass(path);
+            };
+            slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = load(data.classPaths.weaponClass);
+            slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = load(data.classPaths.headModule);
+            slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = load(data.classPaths.guardModule);
+            slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = load(data.classPaths.gripModule);
+            slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = load(data.classPaths.pommelModule);
+            slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = load(data.classPaths.subModule1);
+            slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = load(data.classPaths.subModule2);
+            slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA = data.passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57;
+            slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D = data.passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704;
+            slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 = data.passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E;
+        });
+
+        if (slotIndex <= 1)
+            ApplyWeaponToPlayer(slotIndex);
+    }
+
+    void ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
+        if (!armorPicker.HasSelection() || !ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+        auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
+        if (!data.success) return;
+
+        GameHook::QueueAction([this, slotEnum, data = std::move(data)]() {
+            SDK::UClass* cls = data.armorCorePath.empty() ? nullptr : Spawner::LoadClass(data.armorCorePath);
+            if (!cls) return;
+
+            SDK::FStr_Passport_Armor1 passport = data.passport;
+            passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = cls;
+            passport.Slot_30_7561CB484566A4512003EA96ED44F88D = slotEnum;
+
+            RemoveArmorSlot(player, slotEnum);
+            Spawner::SpawnAndEquipArmor(world, player, passport);
+        });
     }
 
     void ApplyLoadoutPreset(LoadoutPresetData data) {
@@ -431,6 +455,8 @@ private:
             RandomizeAllArmor();
         ImGui::PopID();
 
+        armorPicker.Render("Armor Preset##ap");
+
         ImGui::Spacing();
         ImGui::Separator();
         ImGui::Spacing();
@@ -495,6 +521,11 @@ private:
                     if (ImGui::Button("Generate")) {
                         GenerateArmorForSlot(slotEnum);
                     }
+                }
+
+                if (armorPicker.HasSelection()) {
+                    if (ImGui::Button("Import from Preset"))
+                        ImportArmorPreset(slotEnum);
                 }
 
                 ImGui::TreePop();
@@ -581,6 +612,8 @@ private:
         if (ImGui::Button("Clear All Weapons", ImVec2(ImGui::GetContentRegionAvail().x, 0)))
             ClearAllWeapons();
 
+        weaponPicker.Render("Weapon Preset##wp");
+
         ImGui::Spacing();
         ImGui::Separator();
         ImGui::Spacing();
@@ -633,6 +666,11 @@ private:
 
                 if (ImGui::Button(hasWeapon ? "Regenerate" : "Generate", ImVec2(-1, 0)))
                     GenerateWeaponForSlot(i);
+
+                if (weaponPicker.HasSelection()) {
+                    if (ImGui::Button("Import from Preset", ImVec2(-1, 0)))
+                        ImportWeaponPreset(i);
+                }
 
                 ImGui::TreePop();
             }
