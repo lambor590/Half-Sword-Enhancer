@@ -121,7 +121,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor /guard:cf %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,6 +132,7 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <StripPrivateSymbols>true</StripPrivateSymbols>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <AdditionalOptions>/guard:cf %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Experimental|x64'">
@@ -154,7 +155,7 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor /guard:cf %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -165,6 +166,7 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <StripPrivateSymbols>true</StripPrivateSymbols>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <AdditionalOptions>/guard:cf %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <!-- Conditional PropertyGroups for ExperimentalBuild -->
