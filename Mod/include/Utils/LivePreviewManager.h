@@ -41,9 +41,19 @@ public:
         });
     }
 
+    void SyncToggleState() {
+        bool enabled = cfg.livePreview;
+        if (enabled && !prevEnabled)
+            forceRefresh = true;
+        if (!enabled && prevEnabled && previewActor)
+            Destroy();
+        prevEnabled = enabled;
+    }
+
     template<typename SpawnFn>
     void Update(bool needsRefresh, SpawnFn&& spawnFn) {
-        if (!needsRefresh) return;
+        if (!needsRefresh && !forceRefresh) return;
+        forceRefresh = false;
         if (previewActor && (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN)) return;
         lastChangeTime = ImGui::GetTime();
         spawnFn();
@@ -61,6 +71,8 @@ private:
     SDK::AActor* previewActor = nullptr;
     double lastChangeTime = 0.0;
     double yaw = 0.0;
+    bool forceRefresh = false;
+    bool prevEnabled = false;
 
     SectionConfig::PreviewConfig& cfg;
     CleanupFn onCleanup;

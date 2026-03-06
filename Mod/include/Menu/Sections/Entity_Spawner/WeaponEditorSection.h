@@ -1086,6 +1086,7 @@ public:
         SectionStyle::StyleRAII style;
 
         preview.InvalidateIfDead(player, world);
+        preview.SyncToggleState();
 
         for (auto& function : functions) {
             function->Render();
@@ -1099,10 +1100,7 @@ public:
             GameHook::QueueAction([this]() { globalModules.Populate(); });
         }
 
-        if (GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview weapon that updates as you edit")) {
-            if (!cfg.preview.livePreview)
-                preview.Destroy();
-        }
+        (void)GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview weapon that updates as you edit");
         if (cfg.preview.livePreview) {
             ImGui::SameLine();
             (void)GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview weapon");
