@@ -10,14 +10,15 @@
 
 class SkyEditorSection : public CollapsibleSection {
 private:
-    static constexpr int TAB_COUNT = 4;
-    static constexpr const char* TAB_LABELS[TAB_COUNT] = {"Sun", "Atmosphere", "Sky Light", "Fog"};
+    static constexpr int TAB_COUNT = 5;
+    static constexpr const char* TAB_LABELS[TAB_COUNT] = {"Sun", "Atmosphere", "Sky Light", "Fog", "Clouds"};
 
     SDK::AActor* sunActor = nullptr;
     SDK::UDirectionalLightComponent* sunComp = nullptr;
     SDK::USkyAtmosphereComponent* atmoComp = nullptr;
     SDK::USkyLightComponent* skyLightComp = nullptr;
     SDK::UExponentialHeightFogComponent* fogComp = nullptr;
+    SDK::UVolumetricCloudComponent* cloudComp = nullptr;
     SDK::UWorld* cachedWorld = nullptr;
 
     bool initialized = false;
@@ -58,12 +59,19 @@ private:
     float fogStartDist = 0.0f;
     float fogMaxOpacity = 1.0f;
 
+    float cloudBottomAlt = 5.0f;
+    float cloudHeight = 10.0f;
+    float cloudViewSamples = 1.0f;
+    float cloudShadowSamples = 1.0f;
+    float cloudShadowDist = 50.0f;
+
     void ResetState() {
         sunActor = nullptr;
         sunComp = nullptr;
         atmoComp = nullptr;
         skyLightComp = nullptr;
         fogComp = nullptr;
+        cloudComp = nullptr;
         cachedWorld = nullptr;
         initialized = false;
         searchPending = false;
@@ -115,6 +123,13 @@ private:
             auto& fc = fogComp->FogInscatteringColor;
             fogColor[0] = fc.R; fogColor[1] = fc.G; fogColor[2] = fc.B;
         }
+        if (cloudComp) {
+            cloudBottomAlt = cloudComp->LayerBottomAltitude;
+            cloudHeight = cloudComp->LayerHeight;
+            cloudViewSamples = cloudComp->ViewSampleCountScale;
+            cloudShadowSamples = cloudComp->ShadowViewSampleCountScale;
+            cloudShadowDist = cloudComp->ShadowTracingDistance;
+        }
     }
 
     void FindComponents() {
@@ -150,6 +165,11 @@ private:
             auto* fg = SDK::UGameplayStatics::GetActorOfClass(cachedWorld, fgClass);
             if (fg)
                 fogComp = static_cast<SDK::AExponentialHeightFog*>(fg)->Component;
+
+            auto* vcClass = SDK::AVolumetricCloud::StaticClass();
+            auto* vc = SDK::UGameplayStatics::GetActorOfClass(cachedWorld, vcClass);
+            if (vc)
+                cloudComp = static_cast<SDK::AVolumetricCloud*>(vc)->VolumetricCloudComponent;
 
             componentsReady.store(true, std::memory_order_release);
         });
@@ -218,6 +238,19 @@ private:
             comp->SetFogInscatteringColor(c);
             comp->SetStartDistance(s);
             comp->SetFogMaxOpacity(m);
+        });
+    }
+
+    void ApplyClouds() {
+        auto* comp = cloudComp;
+        float ba = cloudBottomAlt, h = cloudHeight, vs = cloudViewSamples;
+        float ss = cloudShadowSamples, sd = cloudShadowDist;
+        GameHook::QueueAction([comp, ba, h, vs, ss, sd]() {
+            comp->SetLayerBottomAltitude(ba);
+            comp->SetLayerHeight(h);
+            comp->SetViewSampleCountScale(vs);
+            comp->SetShadowViewSampleCountScale(ss);
+            comp->SetShadowTracingDistance(sd);
         });
     }
 
@@ -356,6 +389,22 @@ private:
         if (changed) ApplyFog();
     }
 
+    void RenderCloudsTab() {
+        if (!cloudComp) { ImGui::TextDisabled("VolumetricCloud not found"); return; }
+        bool changed = false;
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        changed |= ImGui::DragFloat("Base Altitude", &cloudBottomAlt, 0.1f, 0.0f, 50.0f, "%.1f km");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        changed |= ImGui::DragFloat("Layer Height", &cloudHeight, 0.1f, 0.1f, 100.0f, "%.1f km");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        changed |= ImGui::DragFloat("View Samples", &cloudViewSamples, 0.05f, 0.1f, 4.0f, "%.2f");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        changed |= ImGui::DragFloat("Shadow Samples", &cloudShadowSamples, 0.05f, 0.1f, 4.0f, "%.2f");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        changed |= ImGui::DragFloat("Shadow Distance", &cloudShadowDist, 1.0f, 1.0f, 200.0f, "%.0f km");
+        if (changed) ApplyClouds();
+    }
+
 public:
     const char* GetGroup() const noexcept override { return "Editors"; }
 
@@ -376,7 +425,8 @@ public:
 
         if (!initialized && componentsReady.exchange(false, std::memory_order_acquire)) {
             int found = (sunComp ? 1 : 0) + (atmoComp ? 1 : 0) +
-                        (skyLightComp ? 1 : 0) + (fogComp ? 1 : 0);
+                        (skyLightComp ? 1 : 0) + (fogComp ? 1 : 0) +
+                        (cloudComp ? 1 : 0);
             if (found == 0) {
                 status.Set("No sky components found", true);
             } else {
@@ -384,7 +434,8 @@ public:
                 infoText = std::string(sunComp ? "Sun " : "") +
                            (atmoComp ? "Atmo " : "") +
                            (skyLightComp ? "SkyLight " : "") +
-                           (fogComp ? "Fog" : "");
+                           (fogComp ? "Fog " : "") +
+                           (cloudComp ? "Clouds" : "");
                 initialized = true;
                 status.Set("Found " + std::to_string(found) + " components!");
             }
@@ -425,6 +476,7 @@ public:
         case 1: RenderAtmoTab(); break;
         case 2: RenderSkyLightTab(); break;
         case 3: RenderFogTab(); break;
+        case 4: RenderCloudsTab(); break;
         }
         ImGui::EndChild();
 
