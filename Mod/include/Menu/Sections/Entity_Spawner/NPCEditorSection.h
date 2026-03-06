@@ -368,7 +368,6 @@ public:
         }
         TooltipHelper::ShowTooltip("Disable all NPC property overrides");
         GuiUtils::RenderOverrideCount(CountActiveOverrides());
-        ImGui::SameLine(ImGui::GetContentRegionAvail().x * 0.5f);
         presets.status.Render();
 
         ImGui::Spacing();
