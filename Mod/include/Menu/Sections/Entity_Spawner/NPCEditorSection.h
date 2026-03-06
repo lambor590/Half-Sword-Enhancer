@@ -351,8 +351,6 @@ public:
         };
         static float npcTypeComboW = GuiUtils::CalcComboWidth(npcGetter, (void*)npcTypes, npcTypesCount);
         static float nationalityComboW = GuiUtils::CalcComboWidth(nationalityNames, nationalityCount);
-        float spacing = ImGui::GetStyle().ItemSpacing.x;
-
         ImGui::SetNextItemWidth(npcTypeComboW);
         ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex,
             npcGetter, (void*)npcTypes, npcTypesCount);

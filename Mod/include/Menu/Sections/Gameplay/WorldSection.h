@@ -162,8 +162,6 @@ public:
             .WithTooltip("Removes dropped weapons and armor")
             .GameThread()
             .Action([this]() {
-                constexpr double MIN_DISTANCE_SQ = 120.0 * 120.0;
-
                 std::vector<SDK::FVector> williePositions;
                 ActorUtils::ForEachWillie(world, nullptr, [&](SDK::AWillie_BP_C* willie) {
                     williePositions.push_back(willie->K2_GetActorLocation());
@@ -172,6 +170,7 @@ public:
                 const double radiusSq = static_cast<double>(cfg.clearObjectsRadius) * static_cast<double>(cfg.clearObjectsRadius);
 
                 auto shouldDestroy = [&](SDK::AActor* object) -> bool {
+                    constexpr double MIN_DISTANCE_SQ = 120.0 * 120.0;
                     if (williePositions.empty()) return false;
 
                     SDK::FVector objPos = object->K2_GetActorLocation();

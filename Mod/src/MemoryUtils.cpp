@@ -199,6 +199,31 @@ namespace MemoryUtils
         ToggleMemoryProtection(true, address, clearance);
     }
 
+    static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
+    {
+        uintptr_t lowerBound = origin > MEMORY_RANGE_32BIT ? origin - MEMORY_RANGE_32BIT : 0;
+        uintptr_t higherBound = (origin <= UINTPTR_MAX - MEMORY_RANGE_32BIT)
+                              ? origin + MEMORY_RANGE_32BIT
+                              : UINTPTR_MAX;
+
+        SYSTEM_INFO si;
+        GetSystemInfo(&si);
+        size_t alignedSize = (numBytes + si.dwPageSize - 1) & ~(static_cast<unsigned long long>(si.dwPageSize) - 1);
+
+        for (uintptr_t i = lowerBound; i < higherBound; i += ALLOCATION_INCREMENT)
+        {
+            if (uintptr_t addr = (uintptr_t)VirtualAlloc((void*)i, alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE))
+            {
+                if (addr >= lowerBound && addr <= higherBound) {
+                    std::memset(reinterpret_cast<void*>(addr), NOP_INSTRUCTION, numBytes);
+                    return addr;
+                }
+                VirtualFree((void*)addr, 0, MEM_RELEASE);
+            }
+        }
+        return 0;
+    }
+
     static void FixupRelativeOffsets(uintptr_t trampolineAddr, uintptr_t originalAddr, size_t size)
     {
         uint8_t* code = reinterpret_cast<uint8_t*>(trampolineAddr);

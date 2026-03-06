@@ -81,52 +81,6 @@ namespace MemoryUtils
         MessageBoxA(NULL, errorStr.c_str(), GetCurrentModuleName().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
     }
 
-    static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
-    {
-        uintptr_t lowerBound = origin > MEMORY_RANGE_32BIT ? origin - MEMORY_RANGE_32BIT : 0;
-        uintptr_t higherBound = (origin <= UINTPTR_MAX - MEMORY_RANGE_32BIT)
-                              ? origin + MEMORY_RANGE_32BIT
-                              : UINTPTR_MAX;
-
-        SYSTEM_INFO si;
-        GetSystemInfo(&si);
-        size_t alignedSize = (numBytes + si.dwPageSize - 1) & ~(static_cast<unsigned long long>(si.dwPageSize) - 1);
-
-        for (uintptr_t i = lowerBound; i < higherBound; i += ALLOCATION_INCREMENT)
-        {
-            if (uintptr_t addr = (uintptr_t)VirtualAlloc((void*)i, alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE))
-            {
-                if (addr >= lowerBound && addr <= higherBound) {
-                    std::memset(reinterpret_cast<void*>(addr), NOP_INSTRUCTION, numBytes);
-                    return addr;
-                }
-                VirtualFree((void*)addr, 0, MEM_RELEASE);
-            }
-        }
-        return 0;
-    }
-
     void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress);
     void Unhook(uintptr_t hookedAddress);
-
-    static uintptr_t ReadPointerChain(const std::vector<uintptr_t>& pointerOffsets)
-    {
-        uintptr_t pointer = reinterpret_cast<uintptr_t>(GetModuleHandleA(NULL));
-        if (!pointer) return 0;
-
-        for (size_t i = 0; i < pointerOffsets.size(); i++)
-        {
-            pointer += pointerOffsets[i];
-            if (i < pointerOffsets.size() - 1) {
-                __try {
-                    pointer = *reinterpret_cast<uintptr_t*>(pointer);
-                }
-                __except (EXCEPTION_EXECUTE_HANDLER) {
-                    return 0;
-                }
-            }
-            if (pointer == 0) return 0;
-        }
-        return pointer;
-    }
 }
