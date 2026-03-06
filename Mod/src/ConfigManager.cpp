@@ -28,17 +28,18 @@ ConfigManager::ConfigManager() {
 }
 
 void ConfigManager::SaveConfig() {
-    bool result = ini.SaveFile(configPath.string().c_str());
+    auto rc = ini.SaveFile(configPath.string().c_str());
 
-    if (!result) {
+    if (rc < 0) {
         std::filesystem::create_directories(configPath.parent_path());
-        result = ini.SaveFile(configPath.string().c_str());
+        ini.SaveFile(configPath.string().c_str());
     }
     needsSave.store(false, std::memory_order_release);
     lastSaveTime = std::chrono::steady_clock::now();
 }
 
 void ConfigManager::SaveConfigDeferred() {
+    if (suppressDeferred_) return;
     needsSave.store(true, std::memory_order_relaxed);
     const auto now = std::chrono::steady_clock::now();
     if (now - lastSaveTime >= SAVE_DELAY) {

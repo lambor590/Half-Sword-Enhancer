@@ -14,6 +14,7 @@ private:
     std::filesystem::path configPath;
     mutable std::atomic<bool> needsSave{false};
     mutable std::chrono::steady_clock::time_point lastSaveTime;
+    bool suppressDeferred_ = false;
     static constexpr std::chrono::milliseconds SAVE_DELAY{500};
 
     ConfigManager();
@@ -30,6 +31,7 @@ public:
     void SaveConfigDeferred();
     void LoadConfig();
     void FlushPendingSave();
+    void SuppressDeferred(bool suppress) { suppressDeferred_ = suppress; }
 
     int GetInt(std::string_view function, std::string_view param, int defaultValue);
 

@@ -15,9 +15,12 @@ namespace ConfigUtils {
 
     public:
         explicit ConfigTransaction(bool shouldSave = true)
-            : config(ConfigManager::Get()), shouldSave(shouldSave) {}
+            : config(ConfigManager::Get()), shouldSave(shouldSave) {
+            config.SuppressDeferred(true);
+        }
 
         ~ConfigTransaction() {
+            config.SuppressDeferred(false);
             if (shouldSave) {
                 config.SaveConfig();
             }
