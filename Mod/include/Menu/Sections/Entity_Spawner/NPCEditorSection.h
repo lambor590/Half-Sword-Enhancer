@@ -121,7 +121,7 @@ private:
         if (ovr.boltsInQuiver.enabled)        npc->Bolts_in_Quiver = ovr.boltsInQuiver.value;
 
         if (HasAnyBodyConditionOverride(ovr)) {
-            SDK::FStr_Character_Body_Condition condition{};
+            auto condition = npc->Start_Body_Condition;
             if (ovr.headHealth.enabled)      condition.HeadHealth_2_61859BB444171EF8952E0FA5DD8628EE = ovr.headHealth.value;
             if (ovr.neckHealth.enabled)      condition.NeckHealth_4_C658DC6A4BD1988C40F1A5B3C4F8F4EE = ovr.neckHealth.value;
             if (ovr.armRHealth.enabled)      condition.ArmRHealth_9_A65DD4C14ACBF6030A2B3AAD90FD0CFD = ovr.armRHealth.value;
@@ -154,7 +154,6 @@ private:
             if (!npc) return;
 
             if (bodyguard) {
-                player->Team_Int = SPECIAL_TEAM_ID;
                 npc->Team_Int = player->Team_Int;
             } else {
                 npc->Team_Int = team;
