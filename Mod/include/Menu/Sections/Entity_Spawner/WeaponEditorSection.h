@@ -223,8 +223,8 @@ private:
             if (obj->IsDefaultObject()) continue;
             if (!meshSeen.insert(obj).second) continue;
 
-            std::string name = obj->GetName();
-            if (HasExcludedName(name)) continue;
+            std::string meshName = obj->GetName();
+            if (HasExcludedName(meshName)) continue;
 
             std::string fullName = obj->GetFullName();
             if (HasExcludedPath(fullName)) continue;
@@ -235,7 +235,7 @@ private:
                 if (IsSkeletalMeshInvalid(static_cast<SDK::USkeletalMesh*>(obj))) continue;
             }
 
-            meshPool.push_back({obj, std::move(name),
+            meshPool.push_back({obj, std::move(meshName),
                 PresetUtils::ObjectToAbsolutePath(obj),
                 ExtractCategory(fullName), type});
         }
@@ -703,11 +703,11 @@ private:
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
 
-        const char* preview = (ovr.poolIndex >= 0 && ovr.poolIndex < static_cast<int>(meshPool.size()))
+        const char* comboPreview = (ovr.poolIndex >= 0 && ovr.poolIndex < static_cast<int>(meshPool.size()))
             ? meshPool[ovr.poolIndex].name.c_str() : "None";
 
         ImGui::SetNextItemWidth(meshComboWidth);
-        if (ImGui::BeginCombo("Mesh", preview)) {
+        if (ImGui::BeginCombo("Mesh", comboPreview)) {
             ImGui::SetNextItemWidth(-1);
             ImGui::InputTextWithHint("##mf", "Search meshes...", meshFilters[slotIdx], 64);
 
@@ -1067,7 +1067,7 @@ public:
         }
         if (cfg.preview.livePreview) {
             ImGui::SameLine();
-            GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview weapon");
+            (void)GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview weapon");
             if (cfg.preview.autoRotate) {
                 ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
                 ImGui::DragFloat("Rotation Speed", &cfg.preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");

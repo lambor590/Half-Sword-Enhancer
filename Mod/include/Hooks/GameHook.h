@@ -122,10 +122,10 @@ private:
     bool hooked = false;
 
     static constexpr size_t MAX_HOOKS = 16;
-    alignas(64) std::array<HookEntry, MAX_HOOKS> hooks{};
+    std::array<HookEntry, MAX_HOOKS> hooks{};
     uint8_t hookCount = 0;
 
-    alignas(64) std::array<std::vector<std::pair<void*, std::function<void()>>>, 3> eventCallbacks;
+    std::array<std::vector<std::pair<void*, std::function<void()>>>, 3> eventCallbacks;
 
     static std::queue<std::function<void()>> gameThreadQueue;
     static std::mutex queueMutex;

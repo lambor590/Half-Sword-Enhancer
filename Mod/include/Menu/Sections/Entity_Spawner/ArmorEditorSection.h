@@ -428,7 +428,7 @@ public:
         }
         if (cfg.preview.livePreview) {
             ImGui::SameLine();
-            GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview armor");
+            (void)GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview armor");
             if (cfg.preview.autoRotate) {
                 ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
                 ImGui::DragFloat("Rotation Speed", &cfg.preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");

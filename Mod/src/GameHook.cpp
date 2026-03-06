@@ -123,7 +123,7 @@ __declspec(noinline) static int8_t ResolveAndCache(
     return resolved;
 }
 
-static void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
+void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
 {
     if (GameHook::hasQueuedActions.load(std::memory_order_relaxed)) [[unlikely]] {
         GameHook::ProcessGameThreadQueue();

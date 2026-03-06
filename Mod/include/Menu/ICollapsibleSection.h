@@ -124,7 +124,7 @@ public:
 
         template<typename Callback, typename... Components>
         void Action(Callback&& callback, Components*&... comps) && {
-            auto validatedCb = [this, callback = std::forward<Callback>(callback), &comps...](bool active) {
+            auto validatedCb = [this, callback = std::forward<Callback>(callback), &comps...]([[maybe_unused]] bool active) {
                 if (!(... && ComponentValidator::Validate(comps))) return;
                 if constexpr (std::is_invocable_v<Callback>) {
                     callback();

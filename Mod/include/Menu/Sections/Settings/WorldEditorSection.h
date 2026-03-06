@@ -169,14 +169,14 @@ private:
         }
         findPending = true;
         status.Set("Searching...");
-        std::string name = className;
-        GameHook::QueueAction([this, cls, name]() {
+        std::string searchName = className;
+        GameHook::QueueAction([this, cls, searchName]() {
             auto* actor = SDK::UGameplayStatics::GetActorOfClass(cachedWorld ? cachedWorld : world, cls);
             if (actor) {
                 selectedActorIndex = -1;
-                SelectActorDirect(actor, name);
+                SelectActorDirect(actor, searchName);
             } else {
-                status.Set(name + " instance not found", true);
+                status.Set(searchName + " instance not found", true);
             }
             findPending = false;
         });
@@ -208,12 +208,12 @@ private:
         return count;
     }
 
-    void RenderCategory(const std::string& name, const std::vector<const PropertyBrowser::PropertyInfo*>& props, size_t filterLen) {
+    void RenderCategory(const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props, size_t filterLen) {
         int visibleCount = CountVisibleInCategory(props, filterLen);
         if (visibleCount == 0) return;
 
         char label[128];
-        std::snprintf(label, sizeof(label), "%s (%d)", name.c_str(), visibleCount);
+        std::snprintf(label, sizeof(label), "%s (%d)", categoryName.c_str(), visibleCount);
 
         if (expandState != 0) ImGui::SetNextItemOpen(expandState > 0);
         bool open = ImGui::TreeNodeEx(label, filterLen > 0 ? ImGuiTreeNodeFlags_DefaultOpen : 0);

@@ -26,7 +26,7 @@ private:
         int currentKey = -1;
     };
 
-    struct alignas(64) HotData {
+    struct HotData {
         std::unordered_map<int, std::vector<Binding*>> keyToBindings;
         int toggleGuiKey = VK_INSERT;
         std::atomic<bool> processingKeyEvent{false};
