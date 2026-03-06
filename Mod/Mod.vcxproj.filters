@@ -21,20 +21,20 @@
     <Filter Include="ImGui">
       <UniqueIdentifier>{599e38d0-57ad-4975-9664-5d8a6a2d4a73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sections\Gameplay">
+    <Filter Include="Sections\Player">
       <UniqueIdentifier>{65d21439-0f61-47f6-b909-6bc9a7bf7170}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sections\Entity Spawner">
+    <Filter Include="Sections\World">
       <UniqueIdentifier>{c3386a45-c87f-45d1-b600-efa2291b0a1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sections\Spawner">
+      <UniqueIdentifier>{9a8b7c6d-5e4f-3201-b5a6-c7d8e9f01234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sections\Equipment">
+      <UniqueIdentifier>{8a9b0c1d-2e3f-4567-8901-23456789abcd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sections\Settings">
       <UniqueIdentifier>{6d8edfdd-95fa-49d1-9b64-f21552501a48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sections\Post Process">
-      <UniqueIdentifier>{9a8b7c6d-5e4f-3201-b5a6-c7d8e9f01234}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sections\Loadout Manager">
-      <UniqueIdentifier>{8a9b0c1d-2e3f-4567-8901-23456789abcd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{33cde545-1a54-4930-a8be-77b978337349}</UniqueIdentifier>
@@ -196,8 +196,17 @@
     <ClInclude Include="include\MemoryUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Gameplay\WorldSection.h">
-      <Filter>Sections\Gameplay</Filter>
+    <ClInclude Include="include\Menu\Sections\World\WorldActionsSection.h">
+      <Filter>Sections\World</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\World\WorldEditorSection.h">
+      <Filter>Sections\World</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\World\SkyEditorSection.h">
+      <Filter>Sections\World</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\World\MapLoaderSection.h">
+      <Filter>Sections\World</Filter>
     </ClInclude>
     <ClInclude Include="include\Gui.h">
       <Filter>GUI</Filter>
@@ -214,8 +223,11 @@
     <ClInclude Include="include\KeybindManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Gameplay\PlayerSection.h">
-      <Filter>Sections\Gameplay</Filter>
+    <ClInclude Include="include\Menu\Sections\Player\PlayerAbilitiesSection.h">
+      <Filter>Sections\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Player\PlayerEditorSection.h">
+      <Filter>Sections\Player</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h">
       <Filter>Sections\Settings</Filter>
@@ -223,17 +235,17 @@
     <ClInclude Include="include\Utils\Spawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Entity_Spawner\ItemSection.h">
-      <Filter>Sections\Entity Spawner</Filter>
+    <ClInclude Include="include\Menu\Sections\Spawner\ItemSpawnerSection.h">
+      <Filter>Sections\Spawner</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Entity_Spawner\NPCEditorSection.h">
-      <Filter>Sections\Entity Spawner</Filter>
+    <ClInclude Include="include\Menu\Sections\Spawner\NPCEditorSection.h">
+      <Filter>Sections\Spawner</Filter>
     </ClInclude>
     <ClInclude Include="resource\resource.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Loadout_Manager\LoadoutManagerSection.h">
-      <Filter>Sections\Loadout Manager</Filter>
+    <ClInclude Include="include\Menu\Sections\Equipment\LoadoutManagerSection.h">
+      <Filter>Sections\Equipment</Filter>
     </ClInclude>
     <ClInclude Include="include\DefaultStyle.h">
       <Filter>Header Files</Filter>
@@ -265,11 +277,11 @@
     <ClInclude Include="include\Menu\SectionConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Entity_Spawner\WeaponEditorSection.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\Menu\Sections\Equipment\WeaponEditorSection.h">
+      <Filter>Sections\Equipment</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\Sections\Entity_Spawner\ArmorEditorSection.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\Menu\Sections\Equipment\ArmorEditorSection.h">
+      <Filter>Sections\Equipment</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\PresetUtils.h">
       <Filter>Utils</Filter>

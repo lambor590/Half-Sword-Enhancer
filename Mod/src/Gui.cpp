@@ -1,17 +1,17 @@
 #include "Gui.h"
-#include "Menu/Sections/Gameplay/PlayerSection.h"
-#include "Menu/Sections/Gameplay/PlayerEditorSection.h"
-#include "Menu/Sections/Gameplay/WorldSection.h"
-#include "Menu/Sections/Gameplay/MapLoaderSection.h"
-#include "Menu/Sections/Entity_Spawner/NPCEditorSection.h"
-#include "Menu/Sections/Entity_Spawner/ItemSection.h"
-#include "Menu/Sections/Entity_Spawner/WeaponEditorSection.h"
-#include "Menu/Sections/Entity_Spawner/ArmorEditorSection.h"
-#include "Menu/Sections/Loadout_Manager/EquipmentManagerSection.h"
+#include "Menu/Sections/Player/PlayerAbilitiesSection.h"
+#include "Menu/Sections/Player/PlayerEditorSection.h"
+#include "Menu/Sections/World/WorldActionsSection.h"
+#include "Menu/Sections/World/MapLoaderSection.h"
+#include "Menu/Sections/World/WorldEditorSection.h"
+#include "Menu/Sections/World/SkyEditorSection.h"
+#include "Menu/Sections/Spawner/ItemSpawnerSection.h"
+#include "Menu/Sections/Spawner/NPCEditorSection.h"
+#include "Menu/Sections/Equipment/WeaponEditorSection.h"
+#include "Menu/Sections/Equipment/ArmorEditorSection.h"
+#include "Menu/Sections/Equipment/LoadoutManagerSection.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Menu/Sections/Settings/GuiSection.h"
-#include "Menu/Sections/Gameplay/WorldEditorSection.h"
-#include "Menu/Sections/Gameplay/SkyEditorSection.h"
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Version.h"
@@ -111,17 +111,17 @@ void Gui::Setup() {
 
     NotificationManager::Initialize();
 
-    MenuManager::Get().AddSection<PlayerSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<WorldSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<PlayerEditorSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<WorldEditorSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<SkyEditorSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<MapLoaderSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
-    MenuManager::Get().AddSection<NPCEditorSection>(MenuTab::Entity_Spawner);
-    MenuManager::Get().AddSection<WeaponEditorSection>(MenuTab::Entity_Spawner);
-    MenuManager::Get().AddSection<ArmorEditorSection>(MenuTab::Entity_Spawner);
-    MenuManager::Get().AddSection<EquipmentManagerSection>(MenuTab::Loadout_Manager);
+    MenuManager::Get().AddSection<PlayerAbilitiesSection>(MenuTab::Player);
+    MenuManager::Get().AddSection<PlayerEditorSection>(MenuTab::Player);
+    MenuManager::Get().AddSection<WorldActionsSection>(MenuTab::World);
+    MenuManager::Get().AddSection<MapLoaderSection>(MenuTab::World);
+    MenuManager::Get().AddSection<WorldEditorSection>(MenuTab::World);
+    MenuManager::Get().AddSection<SkyEditorSection>(MenuTab::World);
+    MenuManager::Get().AddSection<ItemSpawnerSection>(MenuTab::Spawner);
+    MenuManager::Get().AddSection<NPCEditorSection>(MenuTab::Spawner);
+    MenuManager::Get().AddSection<WeaponEditorSection>(MenuTab::Equipment);
+    MenuManager::Get().AddSection<ArmorEditorSection>(MenuTab::Equipment);
+    MenuManager::Get().AddSection<LoadoutManagerSection>(MenuTab::Equipment);
     MenuManager::Get().AddSection<GuiSection>(MenuTab::Settings);
     MenuManager::Get().AddSection<GraphicsSection>(MenuTab::Settings);
 

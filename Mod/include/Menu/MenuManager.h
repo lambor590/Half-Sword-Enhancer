@@ -14,9 +14,10 @@
 #include "DefaultStyle.h"
 
 enum class MenuTab : uint8_t {
-    Gameplay,
-    Entity_Spawner,
-    Loadout_Manager,
+    Player,
+    World,
+    Spawner,
+    Equipment,
     Settings,
     Count
 };
@@ -28,14 +29,15 @@ private:
     std::array<std::vector<std::unique_ptr<ICollapsibleSection>>, TabCount> sections;
 
     static constexpr std::array<std::pair<MenuTab, const char*>, TabCount> tabOrder = {{
-        {MenuTab::Gameplay, "Gameplay"},
-        {MenuTab::Entity_Spawner, "Entity Spawner"},
-        {MenuTab::Loadout_Manager, "Loadout Manager"},
+        {MenuTab::Player, "Player"},
+        {MenuTab::World, "World"},
+        {MenuTab::Spawner, "Spawner"},
+        {MenuTab::Equipment, "Equipment"},
         {MenuTab::Settings, "Settings"}
     }};
 
     ICollapsibleSection* selectedSection = nullptr;
-    MenuTab openCategory = MenuTab::Gameplay;
+    MenuTab openCategory = MenuTab::Player;
     float sidebarWidth = 140.0f;
     bool sidebarVisible = true;
 
