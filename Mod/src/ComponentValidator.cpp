@@ -14,8 +14,11 @@ bool ComponentValidator::Validate<SDK::AWorldSettings>(SDK::AWorldSettings*& wor
 template<>
 bool ComponentValidator::Validate<SDK::APlayerController>(SDK::APlayerController*& playerController) {
     SDK::UWorld* world;
-    return Validate(world) &&
-        (playerController = world->OwningGameInstance->LocalPlayers[0]->PlayerController);
+    if (!Validate(world)) return false;
+    auto* gi = world->OwningGameInstance;
+    if (!gi || !gi->LocalPlayers.Num()) return false;
+    auto* lp = gi->LocalPlayers[0];
+    return lp && (playerController = lp->PlayerController);
 }
 
 template<>
