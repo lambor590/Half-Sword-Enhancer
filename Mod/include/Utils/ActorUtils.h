@@ -3,17 +3,20 @@
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "Utils/GameConstants.h"
+#include "Utils/PossessState.h"
 
 namespace ActorUtils {
     template<typename Func>
     void ForEachWillieInRadius(SDK::UWorld* world, SDK::AWillie_BP_C* player, float radius, Func&& func) {
         SDK::TArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
-        
+
+        auto* originalPawn = PossessState::GetOriginalPawn();
+
         for (auto* actor : actors) {
             auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
-            if (willie == player || !willie) continue;
-            
+            if (willie == player || willie == originalPawn || !willie) continue;
+
             if (radius == GameConstants::MAX_DISTANCE || player->GetDistanceTo(willie) <= radius) {
                 func(willie);
             }
