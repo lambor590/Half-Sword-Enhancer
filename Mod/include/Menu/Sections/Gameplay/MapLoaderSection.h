@@ -1,10 +1,16 @@
 #pragma once
 
 #include "Menu/ICollapsibleSection.h"
+#include "Hooks/GameHook.h"
 #include "Utils/MapRegistry.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"
 #include "Utils/PlayerPresetSerializer.h"
+#include "Utils/LoadoutPresetSerializer.h"
+#include "Utils/NPCPresetSerializer.h"
+#include "Utils/NPCSpawnHelpers.h"
+#include "Utils/EquipmentGenerator.h"
+#include "Utils/PresetPickerState.h"
 #include "SDK/GI_Settings_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 
@@ -31,9 +37,10 @@ class MapLoaderSection : public CollapsibleSection {
 
     bool optAutoSpawn = false;
     bool pendingAutoSpawn = false;
-    std::vector<PresetListEntry> playerPresets;
-    int selectedPresetIndex = -1;
-    bool presetListDirty = true;
+    PresetPickerState<PlayerPresetSerializer> playerPicker;
+    PresetPickerState<LoadoutPresetSerializer> loadoutPicker;
+    PresetPickerState<NPCPresetSerializer> npcPicker;
+    int optAutoNPCCount = 0;
 
     static constexpr ImVec4 kYellowText{1.0f, 0.85f, 0.3f, 1.0f};
     static constexpr ImVec4 kOrangeText{1.0f, 0.5f, 0.3f, 1.0f};
@@ -48,18 +55,6 @@ class MapLoaderSection : public CollapsibleSection {
             cachedLevelName.clear();
         }
         levelNameDirty = false;
-    }
-
-    void CollectPresets(const PresetUtils::PresetTreeNode& node) {
-        for (const auto& p : node.presets) playerPresets.push_back(p);
-        for (const auto& child : node.children) CollectPresets(child);
-    }
-
-    void RefreshPresetList() {
-        if (!presetListDirty) return;
-        presetListDirty = false;
-        playerPresets.clear();
-        CollectPresets(PlayerPresetSerializer::ListPresetsTree());
     }
 
     void RebuildFilter(MapRegistry& reg) {
@@ -140,10 +135,26 @@ class MapLoaderSection : public CollapsibleSection {
 
     void SpawnPlayer() {
         std::filesystem::path presetPath;
-        if (selectedPresetIndex >= 0 && selectedPresetIndex < static_cast<int>(playerPresets.size()))
-            presetPath = playerPresets[selectedPresetIndex].path;
+        if (playerPicker.HasSelection())
+            presetPath = playerPicker.SelectedPath();
 
-        GameHook::QueueAction([this, presetPath]() {
+        bool hasLoadout = loadoutPicker.HasSelection();
+        LoadoutPresetData loadoutData;
+        if (hasLoadout) {
+            loadoutData = LoadoutPresetSerializer::LoadFromFile(loadoutPicker.SelectedPath());
+            if (!loadoutData.success) hasLoadout = false;
+        }
+
+        bool hasNPCPreset = npcPicker.HasSelection() && optAutoNPCCount > 0;
+        NPCPresetData npcData;
+        if (hasNPCPreset) {
+            npcData = NPCPresetSerializer::LoadFromFile(npcPicker.SelectedPath());
+            if (!npcData.success) hasNPCPreset = false;
+        }
+        int npcCount = hasNPCPreset ? optAutoNPCCount : 0;
+
+        GameHook::QueueAction([this, presetPath, hasLoadout, loadout = std::move(loadoutData),
+                               hasNPCPreset, npcPreset = std::move(npcData), npcCount]() {
             SDK::APlayerController* c;
             SDK::UWorld* w;
             if (!ComponentValidator::Validate(c) || !ComponentValidator::Validate(w)) return;
@@ -188,6 +199,75 @@ class MapLoaderSection : public CollapsibleSection {
 
             c->Possess(willie);
             willie->Set_Up_Armor(true, false);
+
+            if (hasLoadout) {
+                for (const auto& sd : loadout.armorSlots) {
+                    SDK::UClass* cls = sd.armorClass.empty() ? nullptr : Spawner::LoadClass(sd.armorClass);
+                    if (!cls) continue;
+
+                    SDK::FStr_Passport_Armor1 armorPassport{};
+                    armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = cls;
+                    armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = sd.color1;
+                    armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = sd.color2;
+                    armorPassport.Slot_30_7561CB484566A4512003EA96ED44F88D = sd.slot;
+                    Spawner::SpawnAndEquipArmor(w, willie, armorPassport);
+                }
+
+                auto& weapons = willie->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
+                for (int i = 0; i < 7; ++i) {
+                    const auto& wd = loadout.weaponSlots[i];
+                    if (wd.weaponClass.empty()) continue;
+                    auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, i);
+                    auto load = [](const std::string& path) -> SDK::UClass* {
+                        return path.empty() ? nullptr : Spawner::LoadClass(path);
+                    };
+                    slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = load(wd.weaponClass);
+                    slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = load(wd.gripModule);
+                    slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = load(wd.headModule);
+                    slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = load(wd.guardModule);
+                    slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = load(wd.pommelModule);
+                    slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = load(wd.subModule1);
+                    slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = load(wd.subModule2);
+                    slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA = wd.headSize;
+                    slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D = wd.guardSize;
+                    slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 = wd.pommelSize;
+                    slot.COAInt_63_593665BE4EF020F95F7D1A92564C1239 = wd.coaInt;
+                }
+                willie->Set_Up_Armor(true, false);
+            }
+
+            if (hasNPCPreset) {
+                EquipmentGenerator::Init(w);
+                for (int n = 0; n < npcCount; ++n) {
+                    float angle = (6.2832f / npcCount) * n;
+                    float dist = 300.0f;
+                    SDK::FTransform npcTransform = willie->GetTransform();
+                    auto fwd = willie->GetActorForwardVector();
+                    npcTransform.Translation.X += fwd.X * dist + std::cos(angle) * 100.0f * n;
+                    npcTransform.Translation.Y += fwd.Y * dist + std::sin(angle) * 100.0f * n;
+                    npcTransform.Scale3D = {1.0, 1.0, 1.0};
+
+                    auto nationality = static_cast<SDK::Enum_Nationalities>(std::clamp(npcPreset.nationality, 0, 6));
+                    auto tier = static_cast<SDK::Enum_Ranks>(std::clamp(npcPreset.tier, 0, 8));
+
+                    std::string npcClassName = GameConstants::WILLIE_BP_PATH;
+
+                    Spawner::SpawnActor(w, npcClassName, npcTransform,
+                        [w, nationality, tier, mercenary = npcPreset.mercenary, ovr = npcPreset.overrides](SDK::AActor* actor) {
+                            auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                            if (!npc) return;
+                            auto passport = EquipmentGenerator::GenerateCharacter(npc->Class, nationality, tier, mercenary);
+                            NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
+                            npc->Character_Passport = passport;
+                            NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
+                        },
+                        true, 4,
+                        [ovr = npcPreset.overrides](SDK::AActor* actor) {
+                            auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                            if (npc) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
+                        });
+                }
+            }
         });
     }
 
@@ -325,17 +405,14 @@ public:
             ImGui::Checkbox("Auto-Spawn Player", &optAutoSpawn);
 
             if (optAutoSpawn) {
-                RefreshPresetList();
-                const char* presetPreview = selectedPresetIndex < 0 ? "None (use save)"
-                    : playerPresets[selectedPresetIndex].name.c_str();
-                if (ImGui::BeginCombo("Preset", presetPreview)) {
-                    if (ImGui::Selectable("None (use save)", selectedPresetIndex < 0))
-                        selectedPresetIndex = -1;
-                    for (int i = 0; i < static_cast<int>(playerPresets.size()); ++i) {
-                        if (ImGui::Selectable(playerPresets[i].name.c_str(), i == selectedPresetIndex))
-                            selectedPresetIndex = i;
-                    }
-                    ImGui::EndCombo();
+                playerPicker.Render("Player Preset", "None (use save)");
+                loadoutPicker.Render("Loadout Preset");
+
+                ImGui::SeparatorText("Auto-Spawn NPCs");
+                npcPicker.Render("NPC Preset");
+                if (npcPicker.HasSelection()) {
+                    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+                    ImGui::DragInt("##NPCCount", &optAutoNPCCount, 0.2f, 0, 10, "Count: %d");
                 }
             }
 
@@ -362,7 +439,9 @@ public:
             searchBuffer[0] = '\0';
             filterDirty = true;
             cachedCatComboW = 0.0f;
-            presetListDirty = true;
+            playerPicker.Invalidate();
+            loadoutPicker.Invalidate();
+            npcPicker.Invalidate();
         }
         ImGui::SameLine();
         ImGui::TextColored(kGrayText, "(%zu maps)", maps.size());
