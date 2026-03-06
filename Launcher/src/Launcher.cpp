@@ -5,6 +5,8 @@
 
 #include "../include/Launcher.h"
 
+#include <shellapi.h>
+
 HSELauncher::HSELauncher()
     : updateManager(hse::UpdateManager::Instance()),
     steamLocator(hse::SteamLocator::Instance()),
@@ -406,7 +408,7 @@ void HSELauncher::ShowExitMessage(bool success) {
     std::this_thread::sleep_for(std::chrono::seconds(EXIT_DELAY_SECONDS));
 }
 
-int HSELauncher::Run(int argc, char* argv[]) {
+int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
     try {
         SetupConsole();
         DisplayBanner();
