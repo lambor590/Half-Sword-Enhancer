@@ -183,15 +183,20 @@ private:
         if (item.customizable != CustomizableWeapon::None) {
             Spawner::SpawnCustomizableWeapon(world, item.customizable, spawnTransform, cfg.spawn.snapToGround, cfg.spawnTier);
         } else if (IsCurrentItemModularArmor(item)) {
-            auto* coreClass = Spawner::LoadClass(item.classPath);
-            if (coreClass) {
+            auto classPath = item.classPath;
+            int mod1 = armorModules.selected[0], mod2 = armorModules.selected[1], mod3 = armorModules.selected[2];
+            auto transform = spawnTransform;
+            bool snap = cfg.spawn.snapToGround;
+            GameHook::QueueAction([w = world, classPath, mod1, mod2, mod3, transform, snap]() {
+                auto* coreClass = Spawner::LoadClass(classPath);
+                if (!coreClass) return;
                 SDK::FStr_Passport_Armor1 passport{};
                 passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = coreClass;
-                passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = armorModules.selected[0];
-                passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = armorModules.selected[1];
-                passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = armorModules.selected[2];
-                Spawner::SpawnArmorFromPassport(world, passport, spawnTransform, cfg.spawn.snapToGround);
-            }
+                passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = mod1;
+                passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = mod2;
+                passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = mod3;
+                Spawner::SpawnArmorFromPassport(w, passport, transform, snap);
+            });
         } else if (!item.classPath.empty()) {
             Spawner::SpawnActor(world, item.classPath, spawnTransform, nullptr, cfg.spawn.snapToGround, cfg.spawnTier);
         }
@@ -385,8 +390,10 @@ public:
                 if (!cachedItemNames.empty()) {
                     ImGui::Text("Item");
                     int itemIndex = static_cast<int>(cfg.currentItemIndex);
-                    if (itemIndex >= static_cast<int>(cachedItemNames.size()))
+                    if (itemIndex >= static_cast<int>(cachedItemNames.size())) {
                         itemIndex = 0;
+                        cfg.currentItemIndex = 0;
+                    }
                     ImGui::SetNextItemWidth(cachedItemNamesWidth);
                     if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
                         cfg.currentItemIndex = static_cast<uint16_t>(itemIndex);

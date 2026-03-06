@@ -259,9 +259,15 @@ public:
                     SDK::AAIController* prevController = nullptr;
                     SDK::APawn* originalPawn = nullptr;
                     SDK::AWillie_BP_C* possessed = nullptr;
+                    SDK::UWorld* lastWorld = nullptr;
 
                     void Reset() { prevController = nullptr; originalPawn = nullptr; possessed = nullptr; }
                 } state;
+
+                if (state.lastWorld != world) {
+                    state.Reset();
+                    state.lastWorld = world;
+                }
 
                 SDK::APawn* currentPawn = controller->K2_GetPawn();
                 if (state.possessed && currentPawn != state.possessed) [[unlikely]] {
