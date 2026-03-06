@@ -32,6 +32,13 @@ private:
     float sunIntensity = 10.0f;
     float sunColor[3] = {1.f, 1.f, 1.f};
     float sunTemperature = 6500.f;
+    float sunSourceAngle = 0.5357f;
+    float sunSoftAngle = 0.0f;
+    float sunBloomScale = 1.0f;
+    float sunBloomThreshold = -1.0f;
+    float sunShadowAmount = 1.0f;
+    float sunVolumetricScatter = 1.0f;
+    float sunIndirectIntensity = 1.0f;
 
     float rayleighScale = 1.0f;
     float rayleighColor[3] = {0.175f, 0.409f, 1.0f};
@@ -74,6 +81,13 @@ private:
             auto lc = static_cast<SDK::ULightComponentBase*>(sunComp)->LightColor;
             sunColor[0] = lc.R / 255.f; sunColor[1] = lc.G / 255.f; sunColor[2] = lc.B / 255.f;
             sunTemperature = lightComp->Temperature;
+            sunSourceAngle = sunComp->LightSourceAngle;
+            sunSoftAngle = sunComp->LightSourceSoftAngle;
+            sunBloomScale = lightComp->BloomScale;
+            sunBloomThreshold = lightComp->BloomThreshold;
+            sunShadowAmount = sunComp->ShadowAmount;
+            sunVolumetricScatter = static_cast<SDK::ULightComponentBase*>(sunComp)->VolumetricScatteringIntensity;
+            sunIndirectIntensity = static_cast<SDK::ULightComponentBase*>(sunComp)->IndirectLightingIntensity;
         }
         if (atmoComp) {
             rayleighScale = atmoComp->RayleighScatteringScale;
@@ -207,6 +221,23 @@ private:
         });
     }
 
+    void ApplySunExtended() {
+        auto* comp = sunComp;
+        float sa = sunSourceAngle, soft = sunSoftAngle, bs = sunBloomScale;
+        float bt = sunBloomThreshold, sha = sunShadowAmount;
+        float vs = sunVolumetricScatter, ii = sunIndirectIntensity;
+        GameHook::QueueAction([comp, sa, soft, bs, bt, sha, vs, ii]() {
+            comp->SetLightSourceAngle(sa);
+            comp->SetLightSourceSoftAngle(soft);
+            comp->SetShadowAmount(sha);
+            auto* lc = static_cast<SDK::ULightComponent*>(comp);
+            lc->SetBloomScale(bs);
+            lc->SetBloomThreshold(bt);
+            lc->SetVolumetricScatteringIntensity(vs);
+            lc->SetIndirectLightingIntensity(ii);
+        });
+    }
+
     void ApplyPreset(float pitch) {
         sunPitch = pitch;
         if (sunComp) ApplySunRotation();
@@ -233,6 +264,23 @@ private:
                 static_cast<SDK::ULightComponent*>(comp)->SetTemperature(t);
             });
         }
+        ImGui::Separator();
+        bool extChanged = false;
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        extChanged |= ImGui::DragFloat("Sun Disk Size", &sunSourceAngle, 0.05f, 0.0f, 20.0f, "%.2f");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        extChanged |= ImGui::DragFloat("Soft Angle", &sunSoftAngle, 0.05f, 0.0f, 20.0f, "%.2f");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        extChanged |= ImGui::DragFloat("Bloom Scale", &sunBloomScale, 0.01f, 0.0f, 0.0f, "%.2f");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        extChanged |= ImGui::DragFloat("Bloom Threshold", &sunBloomThreshold, 0.1f, 0.0f, 0.0f, "%.1f");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        extChanged |= ImGui::DragFloat("Shadow Amount", &sunShadowAmount, 0.01f, 0.0f, 1.0f, "%.2f");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        extChanged |= ImGui::DragFloat("Volumetric", &sunVolumetricScatter, 0.01f, 0.0f, 0.0f, "%.2f");
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        extChanged |= ImGui::DragFloat("Indirect", &sunIndirectIntensity, 0.01f, 0.0f, 0.0f, "%.2f");
+        if (extChanged) ApplySunExtended();
     }
 
     void RenderAtmoTab() {
