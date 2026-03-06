@@ -9,6 +9,9 @@
 #include "Utils/TierValidation.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/BlueprintRegistry.h"
+#include "Utils/PresetPickerState.h"
+#include "Utils/WeaponPresetSerializer.h"
+#include "Utils/ArmorPresetSerializer.h"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
 class ItemSection : public CollapsibleSection {
@@ -21,6 +24,9 @@ private:
     static inline bool searchActive = false;
 
     static inline char customPathBuffer[256] = "";
+
+    PresetPickerState<WeaponPresetSerializer> weaponPicker;
+    PresetPickerState<ArmorPresetSerializer> armorPicker;
 
     struct ModuleEntry { SDK::UClass* cls; std::string name; };
     struct {
@@ -207,6 +213,48 @@ private:
         auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
         std::string path = customPathBuffer;
         Spawner::SpawnActor(world, path, spawnTransform, nullptr, cfg.spawn.snapToGround, cfg.spawnTier);
+    }
+
+    void SpawnWeaponFromPreset() {
+        if (!weaponPicker.HasSelection()) return;
+        auto data = WeaponPresetSerializer::LoadFromFile(weaponPicker.SelectedPath());
+        if (!data.success) return;
+
+        auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+        bool snap = cfg.spawn.snapToGround;
+        auto rp = data.runtimeProps;
+
+        GameHook::QueueAction([w = world, transform, snap, data = std::move(data), rp]() mutable {
+            auto load = [](SDK::UClass*& target, const std::string& path) {
+                if (!path.empty()) target = Spawner::LoadClass(path);
+            };
+            load(data.passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC, data.classPaths.weaponClass);
+            load(data.passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, data.classPaths.headModule);
+            load(data.passport.GuardModule_13_6DD2B06245505E53B529D090333012F0, data.classPaths.guardModule);
+            load(data.passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, data.classPaths.gripModule);
+            load(data.passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, data.classPaths.pommelModule);
+            load(data.passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, data.classPaths.subModule1);
+            load(data.passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, data.classPaths.subModule2);
+
+            if (!EquipmentGenerator::IsPassportValid(data.passport)) return;
+            Spawner::SpawnCustomizableFromPassport(w, data.passport, transform, snap);
+        });
+    }
+
+    void SpawnArmorFromPreset() {
+        if (!armorPicker.HasSelection()) return;
+        auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
+        if (!data.success) return;
+
+        auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+        bool snap = cfg.spawn.snapToGround;
+
+        GameHook::QueueAction([w = world, transform, snap, data = std::move(data)]() mutable {
+            if (!data.armorCorePath.empty())
+                data.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(data.armorCorePath);
+            if (!data.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
+            Spawner::SpawnArmorFromPassport(w, data.passport, transform, snap);
+        });
     }
 
 public:
@@ -479,6 +527,30 @@ public:
             if (removeIdx >= 0) {
                 BlueprintRegistry::Get().RemoveCustomPath(static_cast<size_t>(removeIdx));
             }
+        }
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
+        if (ImGui::TreeNode("Spawn from Preset")) {
+            bool canSpawn = ComponentValidator::Validate(player) && ComponentValidator::Validate(world);
+
+            weaponPicker.Render("Weapon Preset");
+            if (weaponPicker.HasSelection()) {
+                ImGui::SameLine();
+                if (ImGui::Button("Spawn##WeaponPreset") && canSpawn)
+                    SpawnWeaponFromPreset();
+            }
+
+            armorPicker.Render("Armor Preset");
+            if (armorPicker.HasSelection()) {
+                ImGui::SameLine();
+                if (ImGui::Button("Spawn##ArmorPreset") && canSpawn)
+                    SpawnArmorFromPreset();
+            }
+
+            ImGui::TreePop();
         }
 
         ImGui::Spacing();
