@@ -148,10 +148,11 @@ namespace PresetUtils {
 
     inline std::string LoadStringFromFile(const std::filesystem::path& path) {
         FILE* f = nullptr;
-        if (fopen_s(&f, path.string().c_str(), "r") != 0 || !f)
+        if (fopen_s(&f, path.string().c_str(), "rb") != 0 || !f)
             return {};
         std::fseek(f, 0, SEEK_END);
         long size = std::ftell(f);
+        if (size <= 0) { std::fclose(f); return {}; }
         std::fseek(f, 0, SEEK_SET);
         std::string content(size, '\0');
         std::fread(content.data(), 1, size, f);

@@ -190,9 +190,9 @@ namespace GuiUtils {
             ImVec2 textSize = ImGui::CalcTextSize(labels[i]);
             float tabW = textSize.x + UNDERLINE_TAB_HPAD * 2;
 
-            char btnId[] = {'#', '#', 't', 'a', 'b', static_cast<char>('0' + i), '\0'};
+            ImGui::PushID(i);
             ImGui::SetCursorScreenPos(ImVec2(x, cursor.y));
-            if (ImGui::InvisibleButton(btnId, ImVec2(tabW, rowH)))
+            if (ImGui::InvisibleButton("##tab", ImVec2(tabW, rowH)))
                 activeTab = i;
             bool hovered = ImGui::IsItemHovered();
             if (i < count - 1) ImGui::SameLine(0, TAB_SPACING);
@@ -209,6 +209,7 @@ namespace GuiUtils {
             }
 
             x += tabW + TAB_SPACING;
+            ImGui::PopID();
         }
 
         float baselineY = cursor.y + rowH + 1.0f;

@@ -20,8 +20,8 @@ public:
     void SetCleanupCallback(CleanupFn fn) { onCleanup = std::move(fn); }
 
     void Destroy() {
-        if (onCleanup) onCleanup();
         if (!previewActor) return;
+        if (onCleanup) onCleanup();
         SDK::AActor* actor = previewActor;
         previewActor = nullptr;
         GameHook::QueueAction([actor]() {
@@ -51,8 +51,7 @@ public:
 
     void InvalidateIfDead(const SDK::AWillie_BP_C* player, const SDK::UWorld* world) {
         if (previewActor && (!player || !world)) {
-            if (onCleanup) onCleanup();
-            previewActor = nullptr;
+            Destroy();
         }
     }
 
