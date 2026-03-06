@@ -65,6 +65,11 @@ private:
     float cloudShadowSamples = 1.0f;
     float cloudShadowDist = 50.0f;
 
+    bool timelapseActive = false;
+    float timelapseSpeed = 5.0f;
+    float timelapseYawSpeed = 1.0f;
+    float timelapseDirection = 1.0f;
+
     void ResetState() {
         sunActor = nullptr;
         sunComp = nullptr;
@@ -75,6 +80,7 @@ private:
         cachedWorld = nullptr;
         initialized = false;
         searchPending = false;
+        timelapseActive = false;
         infoText.clear();
         status = {};
     }
@@ -241,19 +247,6 @@ private:
         });
     }
 
-    void ApplyClouds() {
-        auto* comp = cloudComp;
-        float ba = cloudBottomAlt, h = cloudHeight, vs = cloudViewSamples;
-        float ss = cloudShadowSamples, sd = cloudShadowDist;
-        GameHook::QueueAction([comp, ba, h, vs, ss, sd]() {
-            comp->SetLayerBottomAltitude(ba);
-            comp->SetLayerHeight(h);
-            comp->SetViewSampleCountScale(vs);
-            comp->SetShadowViewSampleCountScale(ss);
-            comp->SetShadowTracingDistance(sd);
-        });
-    }
-
     void ApplySunExtended() {
         auto* comp = sunComp;
         float sa = sunSourceAngle, soft = sunSoftAngle, bs = sunBloomScale;
@@ -268,6 +261,19 @@ private:
             lc->SetBloomThreshold(bt);
             lc->SetVolumetricScatteringIntensity(vs);
             lc->SetIndirectLightingIntensity(ii);
+        });
+    }
+
+    void ApplyClouds() {
+        auto* comp = cloudComp;
+        float ba = cloudBottomAlt, h = cloudHeight, vs = cloudViewSamples;
+        float ss = cloudShadowSamples, sd = cloudShadowDist;
+        GameHook::QueueAction([comp, ba, h, vs, ss, sd]() {
+            comp->SetLayerBottomAltitude(ba);
+            comp->SetLayerHeight(h);
+            comp->SetViewSampleCountScale(vs);
+            comp->SetShadowViewSampleCountScale(ss);
+            comp->SetShadowTracingDistance(sd);
         });
     }
 
@@ -449,12 +455,33 @@ public:
         ImGui::Spacing();
 
         if (sunActor) {
+            if (timelapseActive) {
+                float dt = ImGui::GetIO().DeltaTime;
+                sunPitch += timelapseDirection * timelapseSpeed * dt;
+                if (sunPitch >= 90.f)  { sunPitch = 90.f;  timelapseDirection = -1.f; }
+                if (sunPitch <= -90.f) { sunPitch = -90.f;  timelapseDirection = 1.f;  }
+                sunYaw += timelapseYawSpeed * dt;
+                if (sunYaw > 180.f)  sunYaw -= 360.f;
+                if (sunYaw < -180.f) sunYaw += 360.f;
+                ApplySunRotation();
+            }
+
+            if (timelapseActive) ImGui::BeginDisabled();
             ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
             if (ImGui::SliderFloat("Sun Pitch", &sunPitch, -90.f, 90.f, "%.1f"))
                 ApplySunRotation();
             ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
             if (ImGui::SliderFloat("Sun Yaw", &sunYaw, -180.f, 180.f, "%.1f"))
                 ApplySunRotation();
+            if (timelapseActive) ImGui::EndDisabled();
+
+            ImGui::Checkbox("Timelapse", &timelapseActive);
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+            ImGui::DragFloat("Speed", &timelapseSpeed, 0.5f, 0.1f, 90.f, "%.1f deg/s");
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+            ImGui::DragFloat("Yaw Speed", &timelapseYawSpeed, 0.1f, 0.0f, 30.f, "%.1f deg/s");
         }
 
         ImGui::Spacing();
