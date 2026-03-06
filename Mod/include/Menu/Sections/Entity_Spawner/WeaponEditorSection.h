@@ -76,6 +76,10 @@ private:
     std::unordered_set<SDK::UObject*> meshSeen;
     bool meshScanQueued = false;
     float meshComboWidth = 0.0f;
+
+    std::vector<MeshPoolEntry> pendingMeshEntries;
+    std::atomic<bool> meshPendingReady{false};
+    bool meshPendingIsFullReplace = false;
     char meshFilters[MODULE_SLOT_COUNT][64] = {};
     char assetPathBuf[256] = {};
     struct MeshSnapshot {
@@ -86,6 +90,12 @@ private:
     SDK::USkeletalMeshComponent* skeletalPreviewComps[MODULE_SLOT_COUNT] = {};
 
     GlobalModulePool& globalModules = GlobalModulePool::Get();
+
+    static void ClearWeaponPassportPadding(SDK::FStr_Passport_Weapon1& p) {
+        std::memset(p.Pad_14, 0, sizeof(p.Pad_14));
+        std::memset(p.Pad_EC, 0, sizeof(p.Pad_EC));
+        std::memset(reinterpret_cast<uint8_t*>(&p) + 0xF9, 0, 7);
+    }
 
     static const char* ExtractCategory(const std::string& fullName) {
         if (fullName.find("/Weapons/") != std::string::npos) return "Weapon";
@@ -152,16 +162,21 @@ private:
 
     void CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapon) {
         SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
+        bool added = false;
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             if (!comps[i]) continue;
             auto* mesh = comps[i]->StaticMesh;
             if (!mesh || !meshSeen.insert(mesh).second) continue;
             std::string fullName = mesh->GetFullName();
-            meshPool.push_back({mesh, mesh->GetName(),
+            pendingMeshEntries.push_back({mesh, mesh->GetName(),
                 PresetUtils::ObjectToAbsolutePath(mesh),
                 ExtractCategory(fullName), MeshType::Static});
+            added = true;
         }
-        meshComboWidth = 0.0f;
+        if (added) {
+            meshPendingIsFullReplace = false;
+            meshPendingReady.store(true, std::memory_order_release);
+        }
     }
 
     SDK::UObject* LoadAssetByPath(const char* pathStr) {
@@ -195,10 +210,11 @@ private:
 
         if (meshSeen.insert(loaded).second) {
             std::string fullName = loaded->GetFullName();
-            meshPool.push_back({loaded, loaded->GetName(),
+            pendingMeshEntries.push_back({loaded, loaded->GetName(),
                 PresetUtils::ObjectToAbsolutePath(loaded),
                 ExtractCategory(fullName), type});
-            meshComboWidth = 0.0f;
+            meshPendingIsFullReplace = false;
+            meshPendingReady.store(true, std::memory_order_release);
         }
         return loaded;
     }
@@ -208,8 +224,10 @@ private:
         auto* skeletalClass = SDK::USkeletalMesh::StaticClass();
         int count = SDK::UObject::GObjects->Num();
 
-        meshPool.reserve(2048);
-        meshSeen.reserve(4096);
+        std::vector<MeshPoolEntry> scanned;
+        std::unordered_set<SDK::UObject*> seen;
+        scanned.reserve(2048);
+        seen.reserve(4096);
 
         for (int i = 0; i < count; ++i) {
             auto* obj = SDK::UObject::GObjects->GetByIndex(i);
@@ -221,7 +239,7 @@ private:
             else continue;
 
             if (obj->IsDefaultObject()) continue;
-            if (!meshSeen.insert(obj).second) continue;
+            if (!seen.insert(obj).second) continue;
 
             std::string meshName = obj->GetName();
             if (HasExcludedName(meshName)) continue;
@@ -235,11 +253,14 @@ private:
                 if (IsSkeletalMeshInvalid(static_cast<SDK::USkeletalMesh*>(obj))) continue;
             }
 
-            meshPool.push_back({obj, std::move(meshName),
+            scanned.push_back({obj, std::move(meshName),
                 PresetUtils::ObjectToAbsolutePath(obj),
                 ExtractCategory(fullName), type});
         }
-        meshComboWidth = 0.0f;
+
+        pendingMeshEntries = std::move(scanned);
+        meshPendingIsFullReplace = true;
+        meshPendingReady.store(true, std::memory_order_release);
     }
 
     bool HasAnyMeshOverride() const {
@@ -291,9 +312,8 @@ private:
 
             if (enableSkeletalCollision) {
                 comps[i]->SetCollisionEnabled(SDK::ECollisionEnabled::NoCollision);
-                auto* raw = reinterpret_cast<uint8_t*>(skelComp);
-                raw[0x025A] |= (1 << 2);
-                raw[0x0A50] |= (1 << 6);
+                skelComp->bAlwaysCreatePhysicsState = true;
+                skelComp->bEnablePerPolyCollision = true;
                 skelComp->SetCollisionProfileName(comps[i]->GetCollisionProfileName(), true);
                 skelComp->SetCollisionEnabled(SDK::ECollisionEnabled::QueryAndPhysics);
                 skelComp->SetSimulatePhysics(false);
@@ -361,6 +381,7 @@ private:
         GameHook::QueueAction([this, type, tier]() {
             EquipmentGenerator::Init(world);
             weaponPassport = EquipmentGenerator::GenerateCustomizableWeapon(type, tier);
+            ClearWeaponPassportPadding(weaponPassport);
             if (!EquipmentGenerator::IsPassportValid(weaponPassport))
                 SetStatus("Generation failed for this type/tier", true);
             globalModules.Populate();
@@ -430,6 +451,7 @@ private:
         if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
 
         lastPreviewedPassport = weaponPassport;
+        ClearWeaponPassportPadding(lastPreviewedPassport);
         lastPreviewedProps = runtimeProps;
 
         auto props = runtimeProps;
@@ -782,8 +804,26 @@ private:
         if (!ovr.enabled) ImGui::EndDisabled();
     }
 
+    void DrainPendingMeshEntries() {
+        if (!meshPendingReady.exchange(false, std::memory_order_acquire)) return;
+
+        if (meshPendingIsFullReplace) {
+            meshPool = std::move(pendingMeshEntries);
+            meshSeen.clear();
+            for (auto& e : meshPool) meshSeen.insert(e.mesh);
+            meshScanQueued = false;
+        } else {
+            for (auto& e : pendingMeshEntries)
+                meshPool.push_back(std::move(e));
+            pendingMeshEntries.clear();
+        }
+        meshComboWidth = 0.0f;
+    }
+
     void RenderMeshTab() {
         ImGui::PushID("mesh");
+
+        DrainPendingMeshEntries();
 
         if (meshPool.empty() && !meshScanQueued) {
             meshScanQueued = true;
@@ -797,9 +837,6 @@ private:
         }
 
         if (ImGui::Button("Refresh")) {
-            meshPool.clear();
-            meshSeen.clear();
-            meshComboWidth = 0.0f;
             meshScanQueued = false;
             GameHook::QueueAction([this]() { ScanAllMeshes(); });
         }
@@ -946,6 +983,7 @@ private:
 
     void ApplyPresetData(WeaponPresetData d) {
         weaponPassport = d.passport;
+        ClearWeaponPassportPadding(weaponPassport);
         runtimeProps = d.runtimeProps;
 
         GameHook::QueueAction([this, paths = std::move(d.classPaths)]() {
