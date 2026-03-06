@@ -5,9 +5,12 @@
 #include "Utils/Spawner.h"
 #include "Utils/EquipmentGenerator.h"
 #include "SDK/Willie_BP_classes.hpp"
-#include "SDK/Str_Character_Body_Condition_structs.hpp"
 #include "Utils/NPCPresetSerializer.h"
+#include "Utils/NPCSpawnHelpers.h"
 #include "Utils/PresetSectionState.h"
+#include "Utils/PresetPickerState.h"
+#include "Utils/LoadoutPresetSerializer.h"
+#include "Utils/WeaponPassportBuilder.h"
 #include "Utils/GuiUtils.h"
 
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
@@ -43,6 +46,7 @@ private:
     NPCOverrides overrides{};
 
     PresetSectionState<NPCPresetSerializer> presets;
+    PresetPickerState<LoadoutPresetSerializer> loadoutPicker;
     int activeTab = 0;
 
     const char* getNPCClassName() const noexcept {
@@ -68,71 +72,6 @@ private:
             + overrides.legRHealth.enabled + overrides.legLHealth.enabled;
     }
 
-    static bool HasAnyBodyConditionOverride(const NPCOverrides& ovr) {
-        return ovr.headHealth.enabled || ovr.neckHealth.enabled ||
-               ovr.armRHealth.enabled || ovr.armLHealth.enabled ||
-               ovr.bodyUpperHealth.enabled || ovr.bodyLowerHealth.enabled ||
-               ovr.legRHealth.enabled || ovr.legLHealth.enabled;
-    }
-
-    static SDK::FLinearColor MelaninToColor(float melanin) {
-        float m = std::clamp(melanin, 0.0f, 1.0f);
-        float inv = 1.0f - m;
-        return { inv * inv, inv * inv * inv, inv * inv * inv * inv, 1.0f };
-    }
-
-    static void ApplyPassportOverrides(SDK::FStr_Passport_Character1& passport,
-                                       const NPCOverrides& ovr)
-    {
-        if (ovr.heightRate.enabled)
-            passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = ovr.heightRate.value;
-        if (ovr.muscleRate.enabled)
-            passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = ovr.muscleRate.value;
-        if (ovr.bodySkill.enabled)
-            passport.Skill_43_4CF5DCC248424BFADCCD6AB9F5F39CC9 = ovr.bodySkill.value;
-        if (ovr.faceType.enabled)
-            passport.FaceType_34_FB5E4D464B2A5CF6406C3CB19051FCE3 = ovr.faceType.value;
-        if (ovr.eyeColor.enabled)
-            passport.EyeColor_46_826504294B0D51C1343D848E8B1AB4C6 = ovr.eyeColor.value;
-        if (ovr.hairLength.enabled)
-            passport.HairLength_41_9295B3CF41DF9BED0FEDB9AE02E7FC16 = ovr.hairLength.value;
-        if (ovr.hairColor.enabled)
-            passport.HairColor_38_CBDC51B043E6816A062799A9A96EB232 = MelaninToColor(static_cast<float>(ovr.hairColor.value));
-    }
-
-    static void ApplyPropertyOverrides(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
-        if (ovr.heightRate.enabled)           npc->Height_Rate = ovr.heightRate.value;
-        if (ovr.muscleRate.enabled)           npc->Muscle_Rate = ovr.muscleRate.value;
-        if (ovr.scaleMutationInhibitor.enabled) npc->Scale_Mutation_Inhibitor = ovr.scaleMutationInhibitor.value;
-
-        if (ovr.damageRate.enabled)           npc->Damage_Rate__Additional_ = ovr.damageRate.value;
-        if (ovr.limbDamageRate.enabled)       npc->Limb_Damage_Rate__Additional_ = ovr.limbDamageRate.value;
-        if (ovr.dismemberThreshold.enabled)   npc->Health_Threshold_For_Dismemberment = ovr.dismemberThreshold.value;
-        if (ovr.regenRate.enabled)            npc->Regen_Rate = ovr.regenRate.value;
-        if (ovr.aiInvincibility.enabled)      npc->AI_Invincibility_Rate = ovr.aiInvincibility.value;
-        if (ovr.aiArmorInvincibility.enabled) npc->AI_Armor_Invincibility_Rate = ovr.aiArmorInvincibility.value;
-        if (ovr.bodySkill.enabled)            npc->Body_Skill__Temp_ = ovr.bodySkill.value;
-
-        if (ovr.fearless.enabled)             npc->Fearless = ovr.fearless.value;
-        if (ovr.startKneeled.enabled)         npc->Start_Kneeled = ovr.startKneeled.value;
-        if (ovr.spawnInPants.enabled)         npc->Spawn_in_Pants = ovr.spawnInPants.value;
-        if (ovr.clearSpawnArea.enabled)       npc->Clear_Spawn_Area = ovr.clearSpawnArea.value;
-        if (ovr.drunk.enabled)                npc->Drunk = ovr.drunk.value;
-        if (ovr.boltsInQuiver.enabled)        npc->Bolts_in_Quiver = ovr.boltsInQuiver.value;
-
-        if (HasAnyBodyConditionOverride(ovr)) {
-            auto condition = npc->Start_Body_Condition;
-            if (ovr.headHealth.enabled)      condition.HeadHealth_2_61859BB444171EF8952E0FA5DD8628EE = ovr.headHealth.value;
-            if (ovr.neckHealth.enabled)      condition.NeckHealth_4_C658DC6A4BD1988C40F1A5B3C4F8F4EE = ovr.neckHealth.value;
-            if (ovr.armRHealth.enabled)      condition.ArmRHealth_9_A65DD4C14ACBF6030A2B3AAD90FD0CFD = ovr.armRHealth.value;
-            if (ovr.armLHealth.enabled)      condition.ArmLHealth_11_32345C31454A51B3CDE618918B9574F6 = ovr.armLHealth.value;
-            if (ovr.bodyUpperHealth.enabled) condition.BodyUpperHealth_16_F71EA0C742135DC3B4F71EA3FEF07C46 = ovr.bodyUpperHealth.value;
-            if (ovr.bodyLowerHealth.enabled) condition.BodyLowerHealth_18_37C008FF4FA0C0E5F5E09C9F0C174FE3 = ovr.bodyLowerHealth.value;
-            if (ovr.legRHealth.enabled)      condition.LegRHealth_13_D50D4E174859A541DBEA66963D162E12 = ovr.legRHealth.value;
-            if (ovr.legLHealth.enabled)      condition.LegLHealth_15_41C766B5460596C0804EA5B4B8F8EB36 = ovr.legLHealth.value;
-            npc->Start_Body_Condition = condition;
-        }
-    }
 
     void SpawnNPC() {
         auto className = std::string(getNPCClassName());
@@ -143,13 +82,20 @@ private:
         int team = cfg.npcTeam;
         auto ovr = overrides;
         bool hasOverrides = CountActiveOverrides() > 0;
+        bool hasLoadout = loadoutPicker.HasSelection();
+
+        LoadoutPresetData loadoutData;
+        if (hasLoadout) {
+            loadoutData = LoadoutPresetSerializer::LoadFromFile(loadoutPicker.SelectedPath());
+            if (!loadoutData.success) hasLoadout = false;
+        }
 
         double spawnScale = ovr.heightRate.enabled
             ? 0.875 + ovr.heightRate.value * 0.125
             : cfg.spawn.scale;
         auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, static_cast<float>(spawnScale));
 
-        auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides](SDK::AActor* actor) {
+        auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides, hasLoadout](SDK::AActor* actor) {
             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
             if (!npc) return;
 
@@ -162,24 +108,70 @@ private:
             EquipmentGenerator::Init(world);
             auto passport = EquipmentGenerator::GenerateCharacter(
                 npc->Class, nationality, tier, mercenary);
-            ApplyPassportOverrides(passport, ovr);
+            NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
             npc->Character_Passport = passport;
 
+            if (hasLoadout)
+                npc->Spawn_in_Pants = true;
+
             if (hasOverrides)
-                ApplyPropertyOverrides(npc, ovr);
+                NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
         };
 
-        std::function<void(SDK::AActor*)> postCallback = nullptr;
-        if (hasOverrides) {
-            postCallback = [ovr](SDK::AActor* actor) {
-                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-                if (!npc) return;
-                if (ovr.hairColor.enabled && npc->Hair_Mat) {
-                    auto melaninName = SDK::BasicFilesImpleUtils::StringToName(L"Melanin");
-                    npc->Hair_Mat->SetScalarParameterValue(melaninName, static_cast<float>(ovr.hairColor.value));
+        auto postCallback = [w = world, ovr, hasOverrides, hasLoadout, loadout = std::move(loadoutData)](SDK::AActor* actor) {
+            auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+            if (!npc) return;
+
+            if (hasOverrides)
+                NPCSpawnHelpers::ApplyHairColor(npc, ovr);
+
+            if (hasLoadout) {
+
+                for (const auto& sd : loadout.armorSlots) {
+                    SDK::UClass* cls = sd.armorClass.empty() ? nullptr : Spawner::LoadClass(sd.armorClass);
+                    if (!cls) continue;
+
+                    SDK::FStr_Passport_Armor1 armorPassport{};
+                    armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = cls;
+                    armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = sd.color1;
+                    armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = sd.color2;
+                    armorPassport.Slot_30_7561CB484566A4512003EA96ED44F88D = sd.slot;
+                    Spawner::SpawnAndEquipArmor(w, npc, armorPassport);
                 }
-            };
-        }
+
+                auto& weapons = npc->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
+                for (int i = 0; i < 7; ++i) {
+                    const auto& wd = loadout.weaponSlots[i];
+                    if (wd.weaponClass.empty()) continue;
+                    auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, i);
+                    auto load = [](const std::string& path) -> SDK::UClass* {
+                        return path.empty() ? nullptr : Spawner::LoadClass(path);
+                    };
+                    slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = load(wd.weaponClass);
+                    slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = load(wd.gripModule);
+                    slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = load(wd.headModule);
+                    slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = load(wd.guardModule);
+                    slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = load(wd.pommelModule);
+                    slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = load(wd.subModule1);
+                    slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = load(wd.subModule2);
+                    slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA = wd.headSize;
+                    slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D = wd.guardSize;
+                    slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 = wd.pommelSize;
+                    slot.COAInt_63_593665BE4EF020F95F7D1A92564C1239 = wd.coaInt;
+                }
+
+                auto& slot0 = LoadoutPresetSerializer::GetWeaponSlot(weapons, 0);
+                if (slot0.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066) {
+                    auto p = WeaponPassportBuilder::FromWeaponParts(slot0);
+                    npc->Set_Up_Right_Hand_Weapon(slot0.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, npc->Weapon_R, false, true, p);
+                }
+                auto& slot1 = LoadoutPresetSerializer::GetWeaponSlot(weapons, 1);
+                if (slot1.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066) {
+                    auto p = WeaponPassportBuilder::FromWeaponParts(slot1);
+                    npc->Set_Up_Left_Hand_Weapon(slot1.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, npc->Weapon_L, false, true, p);
+                }
+            }
+        };
 
         Spawner::SpawnActor(world, className, spawnTransform, preCallback, cfg.spawn.snapToGround, 4, postCallback);
     }
@@ -373,14 +365,23 @@ public:
         ImGui::Spacing();
         ImGui::BeginChild("##npc_scroll", ImVec2(0, 0));
 
-        static constexpr const char* NPC_TAB_LABELS[] = {"Physical", "Combat", "Behavior", "Body Condition", "Presets"};
-        GuiUtils::RenderUnderlineTabs("##NPCEditorTabs", activeTab, NPC_TAB_LABELS, 5);
+        static constexpr const char* NPC_TAB_LABELS[] = {"Physical", "Combat", "Behavior", "Body Condition", "Equipment", "Presets"};
+        GuiUtils::RenderUnderlineTabs("##NPCEditorTabs", activeTab, NPC_TAB_LABELS, 6);
         switch (activeTab) {
             case 0: RenderPhysicalTab();       break;
             case 1: RenderCombatTab();          break;
             case 2: RenderBehaviorTab();        break;
             case 3: RenderBodyConditionTab();   break;
-            case 4: presets.RenderPresetsTab(
+            case 4:
+                ImGui::PushID("equipment");
+                loadoutPicker.Render("Loadout Preset");
+                if (loadoutPicker.HasSelection())
+                    ImGui::TextColored(ImVec4(0.6f, 1.0f, 0.6f, 1.0f), "Equipment from preset will replace generated equipment");
+                else
+                    ImGui::TextDisabled("No preset selected — NPC will use randomly generated equipment");
+                ImGui::PopID();
+                break;
+            case 5: presets.RenderPresetsTab(
                         [this]() { return BuildPresetData(); },
                         [this](NPCPresetData d) { ApplyPresetData(std::move(d)); });
                     break;
