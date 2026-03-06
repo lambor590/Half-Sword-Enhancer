@@ -61,6 +61,9 @@ private:
     size_t staggeredIdx = 0;
     std::atomic<bool> staggeredBusy{false};
 
+    std::vector<std::function<void()>> pendingStaggeredOps;
+    std::atomic<bool> hasPendingStaggeredOps{false};
+
     PresetSectionState<LoadoutPresetSerializer> presets;
     int activeTab = 0;
 
@@ -129,9 +132,7 @@ private:
         }
     }
 
-    void ApplyArmorToPlayer() {
-        if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
-
+    void BuildArmorOps(std::vector<std::function<void()>>& ops) {
         auto& map = player->Currently_Equipped_Armor;
 
         std::vector<SDK::EArmorSlots_Enum> slotsToRemove;
@@ -144,18 +145,22 @@ private:
             }
         }
 
-        staggeredOps.clear();
-        staggeredIdx = 0;
-        staggeredBusy.store(false, std::memory_order_relaxed);
-
+        ops.clear();
         auto* p = player;
         auto* w = world;
 
         for (auto slot : slotsToRemove)
-            staggeredOps.push_back([p, slot]() { RemoveArmorSlot(p, slot); });
+            ops.push_back([p, slot]() { RemoveArmorSlot(p, slot); });
 
         for (auto& passport : passportsToSpawn)
-            staggeredOps.push_back([w, p, passport]() { SpawnAndEquipArmor(w, p, passport); });
+            ops.push_back([w, p, passport]() { SpawnAndEquipArmor(w, p, passport); });
+    }
+
+    void ApplyArmorToPlayer() {
+        if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+        BuildArmorOps(staggeredOps);
+        staggeredIdx = 0;
+        staggeredBusy.store(false, std::memory_order_relaxed);
     }
 
     void ReapplyArmorSlot(SDK::EArmorSlots_Enum slot) {
@@ -264,15 +269,15 @@ private:
             auto* p = player;
             auto* w = world;
 
-            staggeredOps.clear();
-            staggeredIdx = 0;
-            staggeredBusy.store(false, std::memory_order_relaxed);
+            pendingStaggeredOps.clear();
 
             for (auto slot : removeSlots)
-                staggeredOps.push_back([p, slot]() { RemoveArmorSlot(p, slot); });
+                pendingStaggeredOps.push_back([p, slot]() { RemoveArmorSlot(p, slot); });
 
             for (auto& passport : newPassports)
-                staggeredOps.push_back([w, p, passport]() { SpawnAndEquipArmor(w, p, passport); });
+                pendingStaggeredOps.push_back([w, p, passport]() { SpawnAndEquipArmor(w, p, passport); });
+
+            hasPendingStaggeredOps.store(true, std::memory_order_release);
         });
     }
 
@@ -365,7 +370,8 @@ private:
                 slot.COAInt_63_593665BE4EF020F95F7D1A92564C1239 = wd.coaInt;
             }
 
-            ApplyArmorToPlayer();
+            BuildArmorOps(pendingStaggeredOps);
+            hasPendingStaggeredOps.store(true, std::memory_order_release);
             ApplyWeaponToPlayer(0);
             ApplyWeaponToPlayer(1);
         });
@@ -377,6 +383,9 @@ private:
         data.success = true;
 
         auto& armorMap = player->Currently_Equipped_Armor;
+        auto& equipArmorMap = player->Load_Equipment.Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04
+                                   .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
+
         for (auto it = begin(armorMap); it != end(armorMap); ++it) {
             auto& passport = it->Value();
             if (!passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) continue;
@@ -386,6 +395,14 @@ private:
             slotData.armorClass = PresetUtils::ObjectToAbsolutePath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
             slotData.color1 = passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393;
             slotData.color2 = passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C;
+
+            for (auto eit = begin(equipArmorMap); eit != end(equipArmorMap); ++eit) {
+                if (eit->Key() == it->Key()) {
+                    slotData.color3 = eit->Value().Color3_9_D8B5A08742A87F5492F8138A4F686141;
+                    break;
+                }
+            }
+
             data.armorSlots.push_back(std::move(slotData));
         }
 
@@ -658,6 +675,13 @@ public:
                 lastSlotApplyTime = ImGui::GetTime();
                 pendingSlotApply = false;
             }
+        }
+
+        if (hasPendingStaggeredOps.exchange(false, std::memory_order_acquire)) {
+            staggeredOps = std::move(pendingStaggeredOps);
+            pendingStaggeredOps.clear();
+            staggeredIdx = 0;
+            staggeredBusy.store(false, std::memory_order_relaxed);
         }
 
         if (staggeredIdx < staggeredOps.size() && !staggeredBusy.load(std::memory_order_acquire)) {
