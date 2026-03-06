@@ -2,6 +2,7 @@
 
 #include <d3d11.h>
 #include <wrl/client.h>
+#include <utility>
 
 class IRenderCallback
 {
@@ -10,13 +11,13 @@ public:
     virtual void Render() = 0;
     
     void Init(
-        Microsoft::WRL::ComPtr<ID3D11Device> device,
-        Microsoft::WRL::ComPtr<ID3D11DeviceContext> context,
-        HWND window) noexcept
+        Microsoft::WRL::ComPtr<ID3D11Device> newDevice,
+        Microsoft::WRL::ComPtr<ID3D11DeviceContext> newContext,
+        HWND newWindow) noexcept
     {
-        this->device = device;
-        this->context = context;
-        this->window = window;
+        device = std::move(newDevice);
+        context = std::move(newContext);
+        window = newWindow;
     }
     
     bool IsInitialized() const noexcept {

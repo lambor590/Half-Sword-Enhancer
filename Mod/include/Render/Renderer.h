@@ -18,17 +18,15 @@
 
 #define LIKELY [[likely]]
 #define UNLIKELY [[unlikely]]
-#define CACHE_ALIGN __declspec(align(RenderConfig::CACHE_LINE_SIZE))
-
 class Renderer : public ID3DRenderer
 {
 public:
-    void OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept override;
-    void OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept override;
-    
-    __forceinline void SetCommandQueue(ID3D12CommandQueue* commandQueue) noexcept override {
-        if (this->commandQueue.Get() != commandQueue) UNLIKELY {
-            this->commandQueue = commandQueue;
+    void OnPresent(IDXGISwapChain* pThis, UINT, UINT) noexcept override;
+    void OnResizeBuffers(IDXGISwapChain*, UINT, UINT width, UINT height, DXGI_FORMAT, UINT) noexcept override;
+
+    __forceinline void SetCommandQueue(ID3D12CommandQueue* newQueue) noexcept override {
+        if (commandQueue.Get() != newQueue) UNLIKELY {
+            commandQueue = newQueue;
         }
     }
     
@@ -41,7 +39,7 @@ public:
 private:
     Logger logger{ "Renderer" };
     
-    CACHE_ALIGN struct {
+    struct {
         void (Renderer::*renderFunc)() noexcept = nullptr;
         bool needsInit = true;
         bool guiReady = false;
@@ -49,15 +47,15 @@ private:
         uint8_t bufferIndex = 0;
         uint8_t bufferCount = 0;
     } state;
-    
-    CACHE_ALIGN struct {
+
+    struct {
         HWND handle = nullptr;
         D3D11_VIEWPORT viewport = {};
         int width = 0, height = 0;
         bool viewportDirty = true;
     } window;
 
-    CACHE_ALIGN Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
+    Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context;
     Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
     
@@ -68,7 +66,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
     Microsoft::WRL::ComPtr<ID3D12Fence> fence;
     
-    CACHE_ALIGN std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, RenderConfig::MAX_RENDER_TARGETS> d3d12RenderTargets;
+    std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, RenderConfig::MAX_RENDER_TARGETS> d3d12RenderTargets;
     std::array<Microsoft::WRL::ComPtr<ID3D11Resource>, RenderConfig::MAX_RENDER_TARGETS> d3d11WrappedBackBuffers;
     std::array<Microsoft::WRL::ComPtr<ID3D11RenderTargetView>, RenderConfig::MAX_RENDER_TARGETS> d3d11RenderTargetViews;
     
@@ -84,7 +82,7 @@ private:
     __forceinline void RenderFrameD3D12() noexcept;
     bool SignalAndWait() noexcept;
     
-    bool InitD3DResources(IDXGISwapChain* swapChain) noexcept;
+    bool InitD3DResources(IDXGISwapChain* sc) noexcept;
     bool InitD3D11() noexcept;
     bool InitD3D12() noexcept;
     void ReleaseResources() noexcept;

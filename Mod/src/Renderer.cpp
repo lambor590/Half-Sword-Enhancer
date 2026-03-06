@@ -4,7 +4,7 @@
 
 using namespace Microsoft::WRL;
 
-void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept
+void Renderer::OnPresent(IDXGISwapChain* pThis, UINT, UINT) noexcept
 {
     if (state.needsInit) UNLIKELY {
         if (!InitD3DResources(pThis)) UNLIKELY return;
@@ -17,7 +17,7 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) n
     (this->*state.renderFunc)();
 }
 
-void Renderer::OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept
+void Renderer::OnResizeBuffers(IDXGISwapChain*, UINT, UINT width, UINT height, DXGI_FORMAT, UINT) noexcept
 {
     if (state.isD3D12) LIKELY {
         if (d3d11Context) {
@@ -95,18 +95,18 @@ void Renderer::InitOrReinitImGui() noexcept {
     }
 }
 
-bool Renderer::InitD3DResources(IDXGISwapChain* swapChain) noexcept
+bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept
 {
-    this->swapChain = swapChain;
+    swapChain = sc;
 
-    if (SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D11Device), (void**)&d3d11Device))) LIKELY {
+    if (SUCCEEDED(sc->GetDevice(__uuidof(ID3D11Device), (void**)&d3d11Device))) LIKELY {
         state.isD3D12 = false;
         state.renderFunc = &Renderer::RenderFrameD3D11;
         logger.Log("Initializing D3D11 renderer");
         return InitD3D11();
     }
 
-    if (SUCCEEDED(swapChain->GetDevice(__uuidof(ID3D12Device), (void**)&d3d12Device))) UNLIKELY {
+    if (SUCCEEDED(sc->GetDevice(__uuidof(ID3D12Device), (void**)&d3d12Device))) UNLIKELY {
         state.isD3D12 = true;
         state.renderFunc = &Renderer::RenderFrameD3D12;
         logger.Log("Initializing D3D12 renderer");

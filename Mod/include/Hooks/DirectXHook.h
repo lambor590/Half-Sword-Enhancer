@@ -25,12 +25,12 @@ public:
     DirectXHook(ID3DRenderer* renderer);
     void Hook();
     ID3D12CommandQueue* CreateDummyCommandQueue();
-    void HookCommandQueue(ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* executeCommandListsReturnAddress);
+    void HookCommandQueue(ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* outExecReturn);
     void UnhookCommandQueue() const;
 
 private:
     Logger logger{ "DirectXHook" };
 
     IDXGISwapChain* CreateDummySwapChain();
-    void HookSwapChain(IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction, uintptr_t* presentReturnAddress, uintptr_t* resizeBuffersReturnAddress);
+    void HookSwapChain(IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn);
 };

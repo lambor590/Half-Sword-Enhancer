@@ -9,9 +9,9 @@ class ID3DRenderer
 {
 public:
     virtual void OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept = 0;
-    virtual void OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept {};
-    virtual void SetCommandQueue(ID3D12CommandQueue* commandQueue) noexcept {};
-    virtual void SetGetCommandQueueCallback(void (*callback)()) noexcept {};
+    virtual void OnResizeBuffers(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT) noexcept {};
+    virtual void SetCommandQueue(ID3D12CommandQueue*) noexcept {};
+    virtual void SetGetCommandQueueCallback(void (*)()) noexcept {};
     virtual void Cleanup() noexcept {};
     
     virtual ~ID3DRenderer() = default;

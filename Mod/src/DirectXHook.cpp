@@ -123,8 +123,8 @@ void DirectXHook::HookSwapChain(
     IDXGISwapChain* dummySwapChain,
     uintptr_t presentDetourFunction,
     uintptr_t resizeBuffersDetourFunction,
-    uintptr_t* presentReturnAddress,
-    uintptr_t* resizeBuffersReturnAddress)
+    uintptr_t* outPresentReturn,
+    uintptr_t* outResizeReturn)
 {
     using namespace DXHookConstants;
 
@@ -135,8 +135,8 @@ void DirectXHook::HookSwapChain(
     uintptr_t presentAddress = (*(uintptr_t*)vmtPresentIndex);
     uintptr_t resizeBuffersAddress = (*(uintptr_t*)vmtResizeBuffersIndex);
 
-    MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, presentReturnAddress);
-    MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, resizeBuffersReturnAddress);
+    MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, outPresentReturn);
+    MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, outResizeReturn);
 
     dummySwapChain->Release();
 }
@@ -144,7 +144,7 @@ void DirectXHook::HookSwapChain(
 void DirectXHook::HookCommandQueue(
     ID3D12CommandQueue* dummyCommandQueue,
     uintptr_t executeCommandListsDetourFunction,
-    uintptr_t* executeCommandListsReturnAddress)
+    uintptr_t* outExecReturn)
 {
     if (!dummyCommandQueue) return;
 
@@ -154,7 +154,7 @@ void DirectXHook::HookCommandQueue(
     uintptr_t executeAddr = vTable[executeOffset];
     executeCommandListsAddress = executeAddr;
 
-    MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, executeCommandListsReturnAddress);
+    MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, outExecReturn);
 
     dummyCommandQueue->Release();
 }
