@@ -17,7 +17,6 @@ enum class MenuTab : uint8_t {
     Gameplay,
     Entity_Spawner,
     Loadout_Manager,
-    Post_Process_Settings,
     Settings,
     Count
 };
@@ -32,7 +31,6 @@ private:
         {MenuTab::Gameplay, "Gameplay"},
         {MenuTab::Entity_Spawner, "Entity Spawner"},
         {MenuTab::Loadout_Manager, "Loadout Manager"},
-        {MenuTab::Post_Process_Settings, "Post Process"},
         {MenuTab::Settings, "Settings"}
     }};
 

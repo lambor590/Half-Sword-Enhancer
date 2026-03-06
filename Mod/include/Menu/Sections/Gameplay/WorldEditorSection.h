@@ -231,8 +231,9 @@ private:
     }
 
 public:
+    const char* GetGroup() const noexcept override { return "Editors"; }
+
     WorldEditorSection() : CollapsibleSection("World Editor") {}
-    const char* GetGroup() const noexcept override { return "Settings"; }
 
     void RenderContent() override {
         const SectionStyle::StyleRAII style;

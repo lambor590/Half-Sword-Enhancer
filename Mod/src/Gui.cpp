@@ -10,6 +10,8 @@
 #include "Menu/Sections/Loadout_Manager/EquipmentManagerSection.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Menu/Sections/Settings/GuiSection.h"
+#include "Menu/Sections/Gameplay/WorldEditorSection.h"
+#include "Menu/Sections/Gameplay/SkyEditorSection.h"
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Version.h"
@@ -110,8 +112,10 @@ void Gui::Setup() {
     NotificationManager::Initialize();
 
     MenuManager::Get().AddSection<PlayerSection>(MenuTab::Gameplay);
-    MenuManager::Get().AddSection<PlayerEditorSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<WorldSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<PlayerEditorSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<WorldEditorSection>(MenuTab::Gameplay);
+    MenuManager::Get().AddSection<SkyEditorSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<MapLoaderSection>(MenuTab::Gameplay);
     MenuManager::Get().AddSection<ItemSection>(MenuTab::Entity_Spawner);
     MenuManager::Get().AddSection<NPCEditorSection>(MenuTab::Entity_Spawner);

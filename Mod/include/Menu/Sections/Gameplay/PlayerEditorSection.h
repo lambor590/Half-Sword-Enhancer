@@ -433,6 +433,8 @@ private:
     }
 
 public:
+    const char* GetGroup() const noexcept override { return "Editors"; }
+
     PlayerEditorSection() : CollapsibleSection("Player Editor") {
         Function("Enforce Overrides")
             .OnEvent(GameHook::GameEvent::OffLedge)
