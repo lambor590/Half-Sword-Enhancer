@@ -25,7 +25,7 @@
 #include "SDK/Enum_Weapon_Material_Type_structs.hpp"
 #include "SDK/Enum_MaterialLayer_structs.hpp"
 
-class EquipmentManagerSection : public CollapsibleSection {
+class LoadoutManagerSection : public CollapsibleSection {
 private:
     SectionConfig::EquipmentManagerConfig& cfg = SectionConfig::equipmentManager;
 
@@ -682,7 +682,7 @@ private:
     }
 
 public:
-    EquipmentManagerSection() : CollapsibleSection("Equipment Manager") {
+    LoadoutManagerSection() : CollapsibleSection("Loadout Manager") {
         Function("Apply Loadout")
             .WithKey(&cfg.applyKey)
             .WithTooltip("Reapply the current equipment to the player")

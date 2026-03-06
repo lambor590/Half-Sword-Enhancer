@@ -14,7 +14,7 @@
 #include "Utils/ArmorPresetSerializer.h"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
-class ItemSection : public CollapsibleSection {
+class ItemSpawnerSection : public CollapsibleSection {
 private:
     SectionConfig::ItemConfig& cfg = SectionConfig::item;
 
@@ -258,7 +258,7 @@ private:
     }
 
 public:
-    ItemSection() : CollapsibleSection("Item") {
+    ItemSpawnerSection() : CollapsibleSection("Items") {
         Function("Spawn Item")
             .WithKey(&cfg.spawnItemKey)
             .WithParams({

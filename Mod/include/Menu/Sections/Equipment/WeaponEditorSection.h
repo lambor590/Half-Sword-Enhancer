@@ -1059,8 +1059,6 @@ private:
     }
 
 public:
-    const char* GetGroup() const noexcept override { return "Editors"; }
-
     WeaponEditorSection() : CollapsibleSection("Weapon Editor") {
         CreateBlankWeaponPassport();
 

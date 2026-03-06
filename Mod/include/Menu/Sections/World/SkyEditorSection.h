@@ -412,7 +412,7 @@ private:
     }
 
 public:
-    const char* GetGroup() const noexcept override { return "Editors"; }
+    const char* GetGroup() const noexcept override { return "Environment"; }
 
     SkyEditorSection() : CollapsibleSection("Sky Editor") {}
 

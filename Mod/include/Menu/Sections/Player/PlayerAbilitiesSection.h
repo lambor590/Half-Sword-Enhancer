@@ -8,12 +8,12 @@
 #include "Utils/ActorUtils.h"
 #include "Utils/PossessState.h"
 
-class PlayerSection : public CollapsibleSection {
+class PlayerAbilitiesSection : public CollapsibleSection {
 private:
     SectionConfig::PlayerConfig& cfg = SectionConfig::player;
 
 public:
-    PlayerSection() : CollapsibleSection("Player") {
+    PlayerAbilitiesSection() : CollapsibleSection("Abilities") {
         Function("Infinite Stamina")
             .OnEvent(GameHook::GameEvent::OffLedge)
             .WithKey(&cfg.infiniteStaminaKey)

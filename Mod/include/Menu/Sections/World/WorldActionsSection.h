@@ -18,12 +18,12 @@
 #include "SDK/BP_MeshBloodSim_classes.hpp"
 #include "SDK/HSComputeShaders_classes.hpp"
 
-class WorldSection : public CollapsibleSection {
+class WorldActionsSection : public CollapsibleSection {
 private:
     SectionConfig::WorldConfig& cfg = SectionConfig::world;
 
 public:
-    WorldSection() : CollapsibleSection("World") {
+    WorldActionsSection() : CollapsibleSection("Actions") {
         Function("Toggle Slow Motion")
             .WithKey(&cfg.sloMoKey)
             .WithParams({ Parameter("speed", "Speed", &cfg.slowMotionSpeed, 0.01f, 0.99f, "The speed of the game when is enabled") })

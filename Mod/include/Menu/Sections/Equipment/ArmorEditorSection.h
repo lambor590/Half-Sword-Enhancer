@@ -392,8 +392,6 @@ private:
     }
 
 public:
-    const char* GetGroup() const noexcept override { return "Editors"; }
-
     ArmorEditorSection() : CollapsibleSection("Armor Editor") {
         CreateBlankArmorPassport();
 

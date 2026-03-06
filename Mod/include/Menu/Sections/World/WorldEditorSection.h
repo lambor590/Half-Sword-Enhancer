@@ -231,7 +231,7 @@ private:
     }
 
 public:
-    const char* GetGroup() const noexcept override { return "Editors"; }
+    const char* GetGroup() const noexcept override { return "Environment"; }
 
     WorldEditorSection() : CollapsibleSection("World Editor") {}
 

@@ -311,8 +311,6 @@ private:
     }
 
 public:
-    const char* GetGroup() const noexcept override { return "Editors"; }
-
     NPCEditorSection() : CollapsibleSection("NPC Editor") {
         Function("Spawn NPC")
             .WithKey(&cfg.spawnEnemyKey)
