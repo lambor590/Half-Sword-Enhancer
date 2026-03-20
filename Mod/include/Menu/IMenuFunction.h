@@ -42,15 +42,6 @@ private:
     LoadFn loadFn;
     SaveFn saveFn;
     
-    template<typename T>
-    static void RenderParameter(const Parameter& param) noexcept;
-    
-    template<typename T>
-    static void LoadParameter(const Parameter& param, const IMenuFunction* func) noexcept;
-    
-    template<typename T>
-    static void SaveParameter(const Parameter& param, const IMenuFunction* func) noexcept;
-    
     static void RenderInt(const Parameter& param) noexcept;
     static void RenderFloat(const Parameter& param) noexcept;
     static void RenderBool(const Parameter& param) noexcept;
