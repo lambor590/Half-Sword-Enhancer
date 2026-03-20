@@ -1,4 +1,5 @@
 #include "Hooks/GameHook.h"
+#include "GlobalDefinitions.h"
 #include "ConfigManager.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Utils/CompileTimeHash.h"
@@ -44,13 +45,6 @@ namespace {
         ProcessEventCache() { Clear(); }
 
         void Clear() noexcept {
-            // Each slot is 16 bytes: 8 bytes key (zeroed = nullptr) + 1 byte
-            // hookIdx + 7 padding. We need hookIdx = EMPTY (-2 = 0xFE).
-            // Byte 8 of each 16-byte slot must be 0xFE, rest zero.
-            // memset to zero first, then set each hookIdx.
-            // With 4096 slots at 16 bytes = 64KB, memset is fast (uses
-            // rep stosb / AVX on MSVC). The hookIdx loop touches each cache
-            // line once sequentially -- hardware prefetcher handles this.
             std::memset(slots, 0, sizeof(slots));
             for (size_t i = 0; i < TABLE_SIZE; ++i) {
                 slots[i].hookIdx = EMPTY;
@@ -65,16 +59,12 @@ namespace {
             // The first cache line will be demand-loaded; the second is speculative.
             _mm_prefetch(reinterpret_cast<const char*>(&slots[(idx + 4) & TABLE_MASK]), _MM_HINT_T0);
 
-            // Unrolled first probe: the most likely hit. With Fibonacci hashing and
-            // < 75% load factor, first-probe hits are ~75-90% of lookups.
             {
                 const auto& s = slots[idx & TABLE_MASK];
                 if (s.key == funcPtr) [[likely]] return s.hookIdx;
                 if (s.hookIdx == EMPTY) return EMPTY;
             }
 
-            // Probes 1-7: linear scan. The compiler will unroll this for
-            // MAX_PROBES=7 remaining iterations.
             for (size_t i = 1; i < MAX_PROBES; ++i) {
                 const auto& s = slots[(idx + i) & TABLE_MASK];
                 if (s.key == funcPtr) return s.hookIdx;
