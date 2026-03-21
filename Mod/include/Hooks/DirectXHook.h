@@ -12,7 +12,6 @@ using Present = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
 using ResizeBuffers = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT);
 using ExecuteCommandLists = void(__stdcall*)(ID3D12CommandQueue*, UINT, const ID3D12CommandList**);
 
-// Hooks DirectX 11 and DirectX 12
 class DirectXHook
 {
 public:
