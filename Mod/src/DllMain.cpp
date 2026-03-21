@@ -74,15 +74,6 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept
             logger.Log("Half Sword Enhancer initializing...");
         #endif
         KeybindManager::Initialize();
-
-        {
-            HANDLE hMutex = OpenMutexA(SYNCHRONIZE, FALSE, "HSEnhancerProxyInit");
-            if (hMutex) {
-                CloseHandle(hMutex);
-            } else {
-                HSE_Initialize();
-            }
-        }
         break;
     case DLL_PROCESS_DETACH:
         Cleanup();
