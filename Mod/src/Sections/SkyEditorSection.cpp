@@ -1,5 +1,6 @@
 #include "Menu/Sections/World/SkyEditorSection.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/SectionStyle.h"
 #include "ComponentValidator.h"
 
 REGISTER_SECTION(SkyEditorSection, MenuTab::World);

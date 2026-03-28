@@ -1,5 +1,6 @@
 #include "Menu/Sections/World/MapLoaderSection.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/SectionStyle.h"
 #include "Hooks/GameHook.h"
 
 REGISTER_SECTION(MapLoaderSection, MenuTab::World);
