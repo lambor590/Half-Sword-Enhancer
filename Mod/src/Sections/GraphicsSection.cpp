@@ -1,5 +1,8 @@
 #include "Menu/Sections/Settings/GraphicsSection.h"
+#include "Menu/SectionRegistry.h"
 #include "ConfigManager.h"
+
+REGISTER_SECTION(GraphicsSection, MenuTab::Settings);
 #include "ComponentValidator.h"
 #include "Utils/ConfigUtils.h"
 #include "Utils/GuiUtils.h"

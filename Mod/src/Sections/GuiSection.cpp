@@ -1,5 +1,8 @@
 #include "Menu/Sections/Settings/GuiSection.h"
+#include "Menu/SectionRegistry.h"
 #include "ConfigManager.h"
+
+REGISTER_SECTION(GuiSection, MenuTab::Settings);
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Utils/GuiUtils.h"

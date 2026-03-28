@@ -11,9 +11,8 @@
 #include <string_view>
 
 #include "Section.h"
+#include "MenuTab.h"
 #include "DefaultStyle.h"
-
-enum class MenuTab : uint8_t { Player, World, Spawner, Equipment, Settings, Count };
 
 class MenuManager {
 private:
@@ -268,6 +267,15 @@ public:
             sectionVec.reserve(8);
         }
         sectionVec.push_back(std::make_unique<T>(ctx));
+        if (!selectedSection) selectedSection = sectionVec.back().get();
+    }
+
+    void AddSection(MenuTab tab, std::unique_ptr<Section> section) {
+        auto& sectionVec = sections[static_cast<size_t>(tab)];
+        if (sectionVec.empty()) {
+            sectionVec.reserve(8);
+        }
+        sectionVec.push_back(std::move(section));
         if (!selectedSection) selectedSection = sectionVec.back().get();
     }
 

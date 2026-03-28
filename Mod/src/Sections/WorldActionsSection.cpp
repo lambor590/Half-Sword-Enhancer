@@ -1,5 +1,8 @@
 #include "Menu/Sections/World/WorldActionsSection.h"
+#include "Menu/SectionRegistry.h"
 #include "Menu/SectionConfig.h"
+
+REGISTER_SECTION(WorldActionsSection, MenuTab::World);
 #include "Utils/Spawner.h"
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"

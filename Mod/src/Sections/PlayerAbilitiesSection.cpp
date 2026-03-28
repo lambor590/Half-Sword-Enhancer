@@ -1,5 +1,8 @@
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
+#include "Menu/SectionRegistry.h"
 #include "Menu/SectionConfig.h"
+
+REGISTER_SECTION(PlayerAbilitiesSection, MenuTab::Player);
 #include "SDK/AIModule_classes.hpp"
 #include "Hooks/GameHook.h"
 #include "Utils/GameConstants.h"

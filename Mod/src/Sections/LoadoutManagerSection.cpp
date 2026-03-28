@@ -1,4 +1,7 @@
 #include "Menu/Sections/Equipment/LoadoutManagerSection.h"
+#include "Menu/SectionRegistry.h"
+
+REGISTER_SECTION(LoadoutManagerSection, MenuTab::Equipment);
 
 #include "Hooks/GameHook.h"
 #include "Utils/EquipmentGenerator.h"

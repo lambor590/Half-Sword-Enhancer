@@ -1,5 +1,8 @@
 #include "Menu/Sections/Spawner/NPCEditorSection.h"
+#include "Menu/SectionRegistry.h"
 #include "Utils/Spawner.h"
+
+REGISTER_SECTION(NPCEditorSection, MenuTab::Spawner);
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/NPCSpawnHelpers.h"
 #include "Utils/GuiUtils.h"

@@ -1,5 +1,8 @@
 #include "Menu/Sections/World/WorldEditorSection.h"
+#include "Menu/SectionRegistry.h"
 #include "ComponentValidator.h"
+
+REGISTER_SECTION(WorldEditorSection, MenuTab::World);
 #include "Hooks/GameHook.h"
 
 WorldEditorSection::WorldEditorSection(ModContext& ctx) : Section(ctx, "World Editor") {}

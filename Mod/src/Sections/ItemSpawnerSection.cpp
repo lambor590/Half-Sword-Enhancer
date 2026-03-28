@@ -1,5 +1,8 @@
 #include "Menu/Sections/Spawner/ItemSpawnerSection.h"
+#include "Menu/SectionRegistry.h"
 #include "Hooks/GameHook.h"
+
+REGISTER_SECTION(ItemSpawnerSection, MenuTab::Spawner);
 #include "Utils/Spawner.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/TierValidation.h"

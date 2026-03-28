@@ -1,4 +1,8 @@
 #include "Menu/Sections/Equipment/ArmorEditorSection.h"
+#include "Menu/SectionRegistry.h"
+
+REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
+
 #include <cstring>
 #include "Hooks/GameHook.h"
 #include "Utils/EquipmentGenerator.h"

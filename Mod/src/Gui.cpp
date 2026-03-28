@@ -1,18 +1,6 @@
 #include "Gui.h"
 #include "Core/ModContext.h"
-#include "Menu/Sections/Player/PlayerAbilitiesSection.h"
-#include "Menu/Sections/Player/PlayerEditorSection.h"
-#include "Menu/Sections/World/WorldActionsSection.h"
-#include "Menu/Sections/World/MapLoaderSection.h"
-#include "Menu/Sections/World/WorldEditorSection.h"
-#include "Menu/Sections/World/SkyEditorSection.h"
-#include "Menu/Sections/Spawner/ItemSpawnerSection.h"
-#include "Menu/Sections/Spawner/NPCEditorSection.h"
-#include "Menu/Sections/Equipment/WeaponEditorSection.h"
-#include "Menu/Sections/Equipment/ArmorEditorSection.h"
-#include "Menu/Sections/Equipment/LoadoutManagerSection.h"
-#include "Menu/Sections/Settings/GraphicsSection.h"
-#include "Menu/Sections/Settings/GuiSection.h"
+#include "Menu/SectionRegistry.h"
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Version.h"
@@ -124,19 +112,7 @@ void Gui::Setup() {
     NotificationManager::Initialize();
 
     auto& ctx = ModContext::Get();
-    MenuManager::Get().AddSection<PlayerAbilitiesSection>(MenuTab::Player, ctx);
-    MenuManager::Get().AddSection<PlayerEditorSection>(MenuTab::Player, ctx);
-    MenuManager::Get().AddSection<WorldActionsSection>(MenuTab::World, ctx);
-    MenuManager::Get().AddSection<MapLoaderSection>(MenuTab::World, ctx);
-    MenuManager::Get().AddSection<WorldEditorSection>(MenuTab::World, ctx);
-    MenuManager::Get().AddSection<SkyEditorSection>(MenuTab::World, ctx);
-    MenuManager::Get().AddSection<ItemSpawnerSection>(MenuTab::Spawner, ctx);
-    MenuManager::Get().AddSection<NPCEditorSection>(MenuTab::Spawner, ctx);
-    MenuManager::Get().AddSection<WeaponEditorSection>(MenuTab::Equipment, ctx);
-    MenuManager::Get().AddSection<ArmorEditorSection>(MenuTab::Equipment, ctx);
-    MenuManager::Get().AddSection<LoadoutManagerSection>(MenuTab::Equipment, ctx);
-    MenuManager::Get().AddSection<GuiSection>(MenuTab::Settings, ctx);
-    MenuManager::Get().AddSection<GraphicsSection>(MenuTab::Settings, ctx);
+    SectionRegistry::Get().CreateAll(MenuManager::Get(), ctx);
 
     originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
     logger.Log("WndProc hooked successfully");

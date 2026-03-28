@@ -1,5 +1,8 @@
 #include "Menu/Sections/Player/PlayerEditorSection.h"
+#include "Menu/SectionRegistry.h"
 #include "Utils/GameConstants.h"
+
+REGISTER_SECTION(PlayerEditorSection, MenuTab::Player);
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"
 

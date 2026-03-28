@@ -1,5 +1,8 @@
 #include "Menu/Sections/World/SkyEditorSection.h"
+#include "Menu/SectionRegistry.h"
 #include "ComponentValidator.h"
+
+REGISTER_SECTION(SkyEditorSection, MenuTab::World);
 #include "Hooks/GameHook.h"
 
 SkyEditorSection::SkyEditorSection(ModContext& ctx) : Section(ctx, "Sky Editor") {}
