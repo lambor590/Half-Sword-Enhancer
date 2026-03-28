@@ -1,0 +1,74 @@
+#include "Menu/Sections/Settings/GuiSection.h"
+#include "ConfigManager.h"
+#include "KeybindManager.h"
+#include "NotificationManager.h"
+#include "Utils/GuiUtils.h"
+#include "Utils/ConfigUtils.h"
+
+GuiSection::GuiSection(ModContext& ctx)
+    : Section(ctx, GUI_SECTION_NAME), notificationsEnabled(NotificationManager::IsEnabled()) {}
+
+void GuiSection::Render() {
+    const SectionStyle::StyleRAII style;
+
+    bool changed =
+        RenderKeybind(TOGGLE_GUI_LABEL, TOGGLE_TOOLTIP, waitingForToggleKey, KeybindManager::GetToggleGuiKey());
+
+    ImGui::Spacing();
+
+    changed |= RenderKeybind(UNBIND_LABEL, UNBIND_TOOLTIP, waitingForUnbindKey, KeybindManager::GetUnbindKey());
+
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+
+    if (GuiUtils::CheckboxWithTooltip(NOTIFICATIONS_LABEL, &notificationsEnabled, NOTIFICATIONS_TOOLTIP)) {
+        NotificationManager::SetEnabled(notificationsEnabled);
+    }
+
+    ImGui::Spacing();
+
+    static bool tooltipsEnabled = ConfigManager::Get().GetBool("GUI", "tooltips_enabled", true);
+    if (GuiUtils::CheckboxWithTooltip(TOOLTIPS_LABEL, &tooltipsEnabled, TOOLTIPS_TOOLTIP)) {
+        ConfigManager::Get().SetBool("GUI", "tooltips_enabled", tooltipsEnabled);
+        TooltipHelper::InvalidateCache();
+    }
+
+    ImGui::Spacing();
+
+    static bool ueConsoleEnabled = ConfigManager::Get().GetBool("UE", "console_enabled", false);
+    if (GuiUtils::CheckboxWithTooltip(UE_CONSOLE_LABEL, &ueConsoleEnabled, UE_CONSOLE_TOOLTIP)) {
+        ConfigUtils::BatchUpdate([&](ConfigUtils::ConfigTransaction& config) {
+            config.SetBool("UE", "console_enabled", ueConsoleEnabled);
+        });
+
+        if (ueConsoleEnabled) {
+            GameHook::Get().UnlockUEConsole();
+        } else {
+            GameHook::Get().LockUEConsole();
+        }
+    }
+
+    if (changed) [[unlikely]]
+        KeybindManager::SaveKeybinds();
+}
+
+bool GuiSection::RenderKeybind(const char* label, const char* tooltip, bool& waitingForKey, int& key) noexcept {
+    const char* const keyName = waitingForKey ? PRESS_KEY_TEXT : KeybindManager::GetKeyName(key);
+
+    ImGui::AlignTextToFramePadding();
+    ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyName).x + BUTTON_PADDING);
+
+    if (ImGui::Button(keyName)) [[unlikely]]
+        waitingForKey = true;
+
+    ImGui::SameLine();
+    ImGui::Text(label);
+    if (ImGui::IsItemHovered()) [[unlikely]] {
+        GuiUtils::BeginStyledTooltip();
+        ImGui::Text(tooltip);
+        GuiUtils::EndStyledTooltip();
+    }
+
+    return KeybindManager::HandleKeyPress(waitingForKey, key);
+}

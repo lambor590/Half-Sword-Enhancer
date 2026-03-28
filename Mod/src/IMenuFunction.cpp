@@ -1,7 +1,6 @@
 #include <algorithm>
 
 #include "Menu/IMenuFunction.h"
-#include "Menu/ICollapsibleSection.h"
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
 #include "Gui.h"

@@ -2,7 +2,6 @@
 #include <algorithm>
 
 #include "Menu/IMenuFunction.h"
-#include "Menu/ICollapsibleSection.h"
 #include "imgui/imgui.h"
 #include "Gui.h"
 #include "GlobalDefinitions.h"
@@ -145,6 +144,11 @@ template <typename Derived> void KeyFunction<Derived>::Render() {
         ImGui::PopStyleVar();
     }
 
+    HandleKeyAssignment();
+    RenderConflictPopup();
+}
+
+template <typename Derived> void KeyFunction<Derived>::HandleKeyAssignment() {
     if (KeybindManager::HandleKeyPress(waitingForKey, *key)) {
         const int newKey = *key;
         if (newKey != -1) {
@@ -162,7 +166,9 @@ template <typename Derived> void KeyFunction<Derived>::Render() {
             OnKeyAssigned();
         }
     }
+}
 
+template <typename Derived> void KeyFunction<Derived>::RenderConflictPopup() {
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, GuiConstants::MODAL_DIM_COLOR);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::kPopupPadding);
     if (ImGui::BeginPopupModal(
@@ -233,6 +239,10 @@ template <typename Derived> void KeyFunction<Derived>::Render() {
 
 template void KeyFunction<HookedFunction>::Render();
 template void KeyFunction<KeybindFunction>::Render();
+template void KeyFunction<HookedFunction>::HandleKeyAssignment();
+template void KeyFunction<KeybindFunction>::HandleKeyAssignment();
+template void KeyFunction<HookedFunction>::RenderConflictPopup();
+template void KeyFunction<KeybindFunction>::RenderConflictPopup();
 
 void KeybindFunction::OnKeyAssigned() {
     KeybindManager::UnregisterKeybind(key);

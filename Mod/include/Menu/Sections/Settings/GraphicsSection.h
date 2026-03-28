@@ -1,17 +1,11 @@
 #pragma once
 
 #include <array>
-#include <cstdio>
 #include <string_view>
 
-#include "Menu/ICollapsibleSection.h"
-#include "Utils/ConfigUtils.h"
-#include "Utils/GuiUtils.h"
-#include "ComponentValidator.h"
-#include "SDK/Engine_classes.hpp"
-#include "Hooks/GameHook.h"
+#include "Menu/Section.h"
 
-class GraphicsSection : public CollapsibleSection {
+class GraphicsSection : public Section {
 private:
     struct GraphicsSettings {
         bool applyOnStartup = false;
@@ -54,114 +48,14 @@ private:
 
     static constexpr std::string_view graphicsConfigSection = "Graphics";
 
-public:
-    GraphicsSection() : CollapsibleSection("Graphics") { LoadSettings(); }
-
-    void RenderContent() override {
-        const SectionStyle::StyleRAII style;
-        bool settingsChanged = false;
-
-        if (ImGui::Checkbox("Apply on startup", &settings.applyOnStartup)) {
-            settingsChanged = true;
-        }
-        if (ImGui::IsItemHovered()) {
-            GuiUtils::BeginStyledTooltip();
-            ImGui::Text("Apply these settings when the mod is initialized");
-            GuiUtils::EndStyledTooltip();
-        }
-
-        ImGui::Spacing();
-
-        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
-        if (ImGui::DragInt("Render Scale (%)", &settings.renderScale, 1.0f, 1, 400)) {
-            settingsChanged = true;
-        }
-
-        ImGui::Spacing();
-
-        static float qualityComboW =
-            GuiUtils::CalcComboWidth(qualityLevels.data(), static_cast<int>(qualityLevels.size()));
-        for (const auto& combo : qualityCombos) {
-            int currentValue = settings.*combo.memberPtr;
-            ImGui::SetNextItemWidth(qualityComboW);
-            if (ImGui::Combo(
-                    combo.label, &currentValue, qualityLevels.data(), static_cast<int>(qualityLevels.size())
-                )) {
-                settings.*combo.memberPtr = currentValue;
-                settingsChanged = true;
-            }
-        }
-
-        if (settingsChanged) [[unlikely]] {
-            SaveSettings();
-            ApplySettings();
-        }
-    }
-
-private:
-    void LoadSettings() { settings = LoadSettingsFromConfig(); }
-
-    void SaveSettings() {
-        ConfigUtils::BatchUpdate([&](ConfigUtils::ConfigTransaction& config) {
-            const char* section = graphicsConfigSection.data();
-
-            config.SetBool(section, "apply_on_startup", settings.applyOnStartup);
-            config.SetInt(section, "render_scale", settings.renderScale);
-            config.SetInt(section, "sg_shadow_quality", settings.sgShadowQuality);
-            config.SetInt(section, "sg_global_illumination_quality", settings.sgGlobalIlluminationQuality);
-            config.SetInt(section, "sg_reflection_quality", settings.sgReflectionQuality);
-            config.SetInt(section, "sg_post_process_quality", settings.sgPostProcessQuality);
-            config.SetInt(section, "sg_effects_quality", settings.sgEffectsQuality);
-        });
-    }
-
-    static void ExecuteConsoleCommands(SDK::UWorld* world, const GraphicsSettings& currentSettings) noexcept {
-        wchar_t commandBuffer[128];
-
-        for (const auto& cmd : consoleCommands) {
-            const int value = currentSettings.*cmd.memberPtr;
-            std::swprintf(commandBuffer, sizeof(commandBuffer) / sizeof(wchar_t), L"%ls%d", cmd.commandPrefix, value);
-            SDK::UKismetSystemLibrary::ExecuteConsoleCommand(world, SDK::FString(commandBuffer), nullptr);
-        }
-    }
-
-    void ApplySettings() {
-        GameHook::QueueAction([currentSettings = settings]() {
-            SDK::UWorld* world;
-            if (!ComponentValidator::Validate(world)) return;
-            ExecuteConsoleCommands(world, currentSettings);
-        });
-    }
-
-    static GraphicsSettings LoadSettingsFromConfig() {
-        auto& config = ConfigManager::Get();
-        const char* section = graphicsConfigSection.data();
-
-        GraphicsSettings loadedSettings;
-        loadedSettings.applyOnStartup = config.GetBool(section, "apply_on_startup", false);
-        loadedSettings.renderScale = config.GetInt(section, "render_scale", 100);
-        loadedSettings.sgShadowQuality = config.GetInt(section, "sg_shadow_quality", 0);
-        loadedSettings.sgGlobalIlluminationQuality = config.GetInt(section, "sg_global_illumination_quality", 0);
-        loadedSettings.sgReflectionQuality = config.GetInt(section, "sg_reflection_quality", 0);
-        loadedSettings.sgPostProcessQuality = config.GetInt(section, "sg_post_process_quality", 0);
-        loadedSettings.sgEffectsQuality = config.GetInt(section, "sg_effects_quality", 0);
-
-        return loadedSettings;
-    }
+    void LoadSettings();
+    void SaveSettings();
+    static void ExecuteConsoleCommands(SDK::UWorld* world, const GraphicsSettings& currentSettings) noexcept;
+    void ApplySettings();
+    static GraphicsSettings LoadSettingsFromConfig();
 
 public:
-    static void ApplyOnStartup() {
-        auto& config = ConfigManager::Get();
-        const bool applyOnStart = config.GetBool(graphicsConfigSection.data(), "apply_on_startup", false);
-        if (!applyOnStart) [[likely]]
-            return;
-
-        GameHook::QueueAction([]() {
-            SDK::UWorld* world;
-            if (!ComponentValidator::Validate(world)) return;
-
-            const GraphicsSettings gameStartSettings = LoadSettingsFromConfig();
-            ExecuteConsoleCommands(world, gameStartSettings);
-        });
-    }
+    explicit GraphicsSection(ModContext& ctx);
+    void Render() override;
+    static void ApplyOnStartup();
 };

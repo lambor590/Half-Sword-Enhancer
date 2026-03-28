@@ -1,11 +1,16 @@
 #pragma once
 
-#include <string>
+/// Transitional bridge: extends Section with FunctionBuilder and functions vector.
+/// Sections still using FunctionBuilder inherit from this until the keybind-system
+/// feature replaces FunctionBuilder with a lightweight keybind registration system.
+/// Once all sections are migrated, this file will be deleted.
+
 #include <vector>
 #include <memory>
 #include <functional>
 
 #include "imgui/imgui.h"
+#include "Menu/Section.h"
 #include "Menu/IMenuFunction.h"
 #include "ComponentValidator.h"
 #include "Hooks/GameHook.h"
@@ -33,35 +38,14 @@ namespace SectionStyle {
     };
 }
 
-class ICollapsibleSection {
+class CollapsibleSection : public Section {
 protected:
-    SDK::UWorld* world = nullptr;
-    SDK::APlayerController* controller = nullptr;
-    SDK::AWillie_BP_C* player = nullptr;
-    SDK::AWorldSettings* worldSettings = nullptr;
-
-public:
-    virtual ~ICollapsibleSection() = default;
-    virtual void RenderContent() = 0;
-    virtual const std::string& GetName() const noexcept = 0;
-
-    virtual const std::vector<std::unique_ptr<IMenuFunction>>& GetFunctions() const noexcept {
-        static const std::vector<std::unique_ptr<IMenuFunction>> empty;
-        return empty;
-    }
-
-    virtual const char* GetGroup() const noexcept { return nullptr; }
-};
-
-class CollapsibleSection : public ICollapsibleSection {
-protected:
-    std::string name;
     std::vector<std::unique_ptr<IMenuFunction>> functions;
 
 public:
-    explicit CollapsibleSection(std::string name) noexcept : name(std::move(name)) {}
+    explicit CollapsibleSection(ModContext& ctx, std::string name) noexcept : Section(ctx, std::move(name)) {}
 
-    void RenderContent() override {
+    void Render() override {
         const SectionStyle::StyleRAII style;
         const size_t count = functions.size();
         for (size_t i = 0; i < count; ++i) {
@@ -72,9 +56,7 @@ public:
         }
     }
 
-    const std::string& GetName() const noexcept override { return name; }
-
-    const std::vector<std::unique_ptr<IMenuFunction>>& GetFunctions() const noexcept override { return functions; }
+    const std::vector<std::unique_ptr<IMenuFunction>>& GetFunctions() const noexcept { return functions; }
 
     void AddFunction(std::unique_ptr<IMenuFunction> function) { functions.emplace_back(std::move(function)); }
 
