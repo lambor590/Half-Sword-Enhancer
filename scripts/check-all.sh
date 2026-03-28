@@ -35,9 +35,10 @@ echo ""
 echo "Running all code quality checks..."
 echo ""
 
-run_check "Cyclomatic Complexity" "$SCRIPT_DIR/check-complexity.sh"
-run_check "Dead Code Detection"   "$SCRIPT_DIR/check-dead-code.sh"
-run_check "Duplicate Code"        "$SCRIPT_DIR/check-duplicates.sh"
+run_check "Cyclomatic Complexity"   "$SCRIPT_DIR/check-complexity.sh"
+run_check "Dead Code Detection"    "$SCRIPT_DIR/check-dead-code.sh"
+run_check "Duplicate Code"         "$SCRIPT_DIR/check-duplicates.sh"
+run_check "Unused Dependencies"    "$SCRIPT_DIR/check-unused-deps.sh"
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo " Summary"
