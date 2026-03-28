@@ -27,8 +27,7 @@ namespace hse {
         }
 
         return HttpConnection{
-            .host = std::wstring(hostBuffer.data()), .path = std::wstring(pathBuffer.data()), .port = urlComp.nPort
-        };
+            .host = std::wstring(hostBuffer.data()), .path = std::wstring(pathBuffer.data()), .port = urlComp.nPort};
     }
 
     std::expected<WinHttpSession, NetworkError> NetworkManager::CreateSession(const HttpConnection& connection

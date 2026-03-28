@@ -236,13 +236,19 @@ template void KeyFunction<KeybindFunction>::Render();
 
 void KeybindFunction::OnKeyAssigned() {
     KeybindManager::UnregisterKeybind(key);
-    if (*key != -1) KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
+    if (*key != -1)
+        KeybindManager::RegisterKeybind(
+            key, [this]() { callback(isEnabled); }, this
+        );
     UpdateKey();
 }
 
 void HookedFunction::OnKeyAssigned() {
     KeybindManager::UnregisterKeybind(key);
-    if (*key != -1) KeybindManager::RegisterKeybind(key, [this]() { SetEnabled(!isEnabled); }, this);
+    if (*key != -1)
+        KeybindManager::RegisterKeybind(
+            key, [this]() { SetEnabled(!isEnabled); }, this
+        );
     SetKey();
 }
 

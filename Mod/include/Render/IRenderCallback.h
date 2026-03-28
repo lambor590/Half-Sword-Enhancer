@@ -6,7 +6,7 @@
 
 class IRenderCallback {
 public:
-    virtual void Setup() {};
+    virtual void Setup(){};
     virtual void Render() = 0;
 
     void Init(

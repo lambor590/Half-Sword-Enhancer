@@ -45,7 +45,7 @@ This method combines both the mod and the mouse fix. It requires extra steps to 
 * `HSEnhancer`
 7. **Verify Override:** The list should now display `winmm` and `HSEnhancer` with a setting of `n,b` (native first, then built-in). This is the desired setting.
 8. **Exit:** Exit all Protontricks windows.
-9. **Install Gamescope:** If you are not on SteamDeck, you wont have gamescope automatically installed. **NOTE:** The gamescope package is currently bugged and requires recent patches to capture the mouse. More details in final section. 
+9. **Install Gamescope:** If you are not on SteamDeck, you wont have gamescope automatically installed. **NOTE:** The gamescope package is currently bugged and requires recent patches to capture the mouse. More details in final section.
 
 10. **Steam Launch Options:** Now, add the following to the Steam Launch Options to:
 `gamescope -w 1920 -h 1080 -r 144 --force-grab-cursor -- %command%`

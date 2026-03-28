@@ -21,8 +21,8 @@ __forceinline static HRESULT __fastcall OnResizeBuffers(
     IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
 ) noexcept {
     g_DirectXHook->renderer->OnResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
-    return ((ResizeBuffers
-    )g_DirectXHook->resizeBuffersReturnAddress)(pThis, bufferCount, width, height, newFormat, swapChainFlags);
+    return ((ResizeBuffers)g_DirectXHook->resizeBuffersReturnAddress
+    )(pThis, bufferCount, width, height, newFormat, swapChainFlags);
 }
 
 __forceinline static void __fastcall OnExecuteCommandLists(

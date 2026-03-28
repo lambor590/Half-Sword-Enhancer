@@ -49,7 +49,9 @@ void HookedFunction::LoadConfig() {
     prevKey = *key;
 
     if (*key != -1) {
-        KeybindManager::RegisterKeybind(key, [this]() { SetEnabled(!isEnabled); }, this);
+        KeybindManager::RegisterKeybind(
+            key, [this]() { SetEnabled(!isEnabled); }, this
+        );
     }
 
     LoadEnabledState(false);
@@ -70,7 +72,9 @@ void KeybindFunction::SetEnabled(bool enabled) {
     SaveConfig("enabled", enabled);
 
     if (isEnabled && *key != -1) {
-        KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
+        KeybindManager::RegisterKeybind(
+            key, [this]() { callback(isEnabled); }, this
+        );
     } else {
         KeybindManager::UnregisterKeybind(key);
     }
@@ -84,10 +88,14 @@ void KeybindFunction::LoadConfig() {
 
     if (toggleable) {
         if (LoadEnabledState(false) && isEnabled && *key != -1) {
-            KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
+            KeybindManager::RegisterKeybind(
+                key, [this]() { callback(isEnabled); }, this
+            );
         }
     } else if (*key != -1) {
-        KeybindManager::RegisterKeybind(key, [this]() { callback(true); }, this);
+        KeybindManager::RegisterKeybind(
+            key, [this]() { callback(true); }, this
+        );
     }
 
     LoadParameters();
@@ -101,7 +109,9 @@ void KeybindFunction::UpdateKey() {
     if (!toggleable || isEnabled) {
         KeybindManager::UnregisterKeybind(key);
         if (*key != -1) {
-            KeybindManager::RegisterKeybind(key, [this]() { callback(toggleable ? isEnabled : true); }, this);
+            KeybindManager::RegisterKeybind(
+                key, [this]() { callback(toggleable ? isEnabled : true); }, this
+            );
         }
     }
 

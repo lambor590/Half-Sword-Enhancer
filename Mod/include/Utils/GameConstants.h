@@ -10,32 +10,29 @@ namespace GameConstants {
         int slotEnum;
     };
 
-    inline constexpr ArmorSlotInfo ARMOR_SLOTS[] =
-        {{"Head", 0},
-         {"Hands", 1},
-         {"Neck (Bevor)", 4},
-         {"Neck (Standard)", 5},
-         {"Arms", 6},
-         {"Shoulders", 7},
-         {"Tabard", 8},
-         {"Chest (Plate)", 9},
-         {"Hauberk", 10},
-         {"Cuisses", 11},
-         {"Body (Clothing)", 12},
-         {"Waist", 13},
-         {"Legs (Greaves)", 14},
-         {"Feet", 15},
-         {"Hosen", 16}};
+    inline constexpr ArmorSlotInfo ARMOR_SLOTS[] = {
+        {"Head", 0},
+        {"Hands", 1},
+        {"Neck (Bevor)", 4},
+        {"Neck (Standard)", 5},
+        {"Arms", 6},
+        {"Shoulders", 7},
+        {"Tabard", 8},
+        {"Chest (Plate)", 9},
+        {"Hauberk", 10},
+        {"Cuisses", 11},
+        {"Body (Clothing)", 12},
+        {"Waist", 13},
+        {"Legs (Greaves)", 14},
+        {"Feet", 15},
+        {"Hosen", 16}};
     inline constexpr int ARMOR_SLOT_COUNT = static_cast<int>(std::size(ARMOR_SLOTS));
     static_assert(std::size(ARMOR_SLOTS) == ARMOR_SLOT_COUNT);
 
-    inline constexpr const char* WEAPON_TYPE_NAMES[] = {"Arming Sword",  "Short Sword", "Long Sword",
-                                                        "Short Mace",    "Mace",        "Long Mace",
-                                                        "Short Hafted",  "Hafted",      "Long Hafted",
-                                                        "Short Polearm", "Polearm",     "Long Polearm",
-                                                        "Short Pollaxe", "Pollaxe",     "Long Pollaxe",
-                                                        "Short Casted",  "Casted",      "Long Casted",
-                                                        "Messer"};
+    inline constexpr const char* WEAPON_TYPE_NAMES[] = {
+        "Arming Sword", "Short Sword",  "Long Sword",    "Short Mace",  "Mace",         "Long Mace",     "Short Hafted",
+        "Hafted",       "Long Hafted",  "Short Polearm", "Polearm",     "Long Polearm", "Short Pollaxe", "Pollaxe",
+        "Long Pollaxe", "Short Casted", "Casted",        "Long Casted", "Messer"};
     inline constexpr int WEAPON_TYPE_COUNT = static_cast<int>(std::size(WEAPON_TYPE_NAMES));
 
     inline constexpr const char* MATERIAL_LAYER_NAMES[] = {

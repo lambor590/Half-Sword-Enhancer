@@ -25,14 +25,14 @@ private:
 
     struct QualityComboInfo {
         const char* label;
-        int GraphicsSettings::* memberPtr;
+        int GraphicsSettings::*memberPtr;
     };
 
     static constexpr std::array<const char*, 5> qualityLevels = {"Low", "Medium", "High", "Epic", "Cinematic"};
 
     struct ConsoleCommandInfo {
         const wchar_t* commandPrefix;
-        int GraphicsSettings::* memberPtr;
+        int GraphicsSettings::*memberPtr;
     };
 
     static inline GraphicsSettings settings;
@@ -42,8 +42,7 @@ private:
          {"Global Illumination Quality", &GraphicsSettings::sgGlobalIlluminationQuality},
          {"Reflection Quality", &GraphicsSettings::sgReflectionQuality},
          {"Post Process Quality", &GraphicsSettings::sgPostProcessQuality},
-         {"Effects Quality", &GraphicsSettings::sgEffectsQuality}}
-    };
+         {"Effects Quality", &GraphicsSettings::sgEffectsQuality}}};
 
     static inline const std::array<ConsoleCommandInfo, 6> consoleCommands = {
         {{L"r.ScreenPercentage ", &GraphicsSettings::renderScale},
@@ -51,8 +50,7 @@ private:
          {L"sg.GlobalIlluminationQuality ", &GraphicsSettings::sgGlobalIlluminationQuality},
          {L"sg.ReflectionQuality ", &GraphicsSettings::sgReflectionQuality},
          {L"sg.PostProcessQuality ", &GraphicsSettings::sgPostProcessQuality},
-         {L"sg.EffectsQuality ", &GraphicsSettings::sgEffectsQuality}}
-    };
+         {L"sg.EffectsQuality ", &GraphicsSettings::sgEffectsQuality}}};
 
     static constexpr std::string_view graphicsConfigSection = "Graphics";
 

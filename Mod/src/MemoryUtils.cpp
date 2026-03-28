@@ -67,8 +67,7 @@ namespace MemoryUtils {
             } else if (byte == 0x66) {
                 operandSize16 = true;
                 offset++;
-            } else if (byte == 0x67 || byte == 0xF0 || byte == 0xF2 || byte == 0xF3 || byte == 0x26 || byte == 0x2E ||
-                       byte == 0x36 || byte == 0x3E || byte == 0x64 || byte == 0x65) {
+            } else if (byte == 0x67 || byte == 0xF0 || byte == 0xF2 || byte == 0xF3 || byte == 0x26 || byte == 0x2E || byte == 0x36 || byte == 0x3E || byte == 0x64 || byte == 0x65) {
                 offset++;
             } else {
                 break;
@@ -87,9 +86,7 @@ namespace MemoryUtils {
 
             if (opcode >= 0x80 && opcode <= 0x8F) {
                 immSize = 4;
-            } else if ((opcode >= 0x10 && opcode <= 0x17) || (opcode >= 0x28 && opcode <= 0x2F) ||
-                       (opcode >= 0x40 && opcode <= 0x76) || opcode == 0xAE || opcode == 0xAF ||
-                       (opcode >= 0xB0 && opcode <= 0xB7) || (opcode >= 0xC2 && opcode <= 0xC6)) {
+            } else if ((opcode >= 0x10 && opcode <= 0x17) || (opcode >= 0x28 && opcode <= 0x2F) || (opcode >= 0x40 && opcode <= 0x76) || opcode == 0xAE || opcode == 0xAF || (opcode >= 0xB0 && opcode <= 0xB7) || (opcode >= 0xC2 && opcode <= 0xC6)) {
                 hasModRM = true;
             }
         } else {

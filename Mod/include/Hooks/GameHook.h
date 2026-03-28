@@ -88,8 +88,8 @@ public:
     }
 
     static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
-        constexpr const char* EventNames[] =
-            {"ExecuteUbergraph_UI_BeginFight", "ExecuteUbergraph_Abyss_Map_Open_Intermediate", "OnWalkingOffLedge"};
+        constexpr const char* EventNames[] = {
+            "ExecuteUbergraph_UI_BeginFight", "ExecuteUbergraph_Abyss_Map_Open_Intermediate", "OnWalkingOffLedge"};
         return EventNames[static_cast<uint8_t>(event)];
     }
 
