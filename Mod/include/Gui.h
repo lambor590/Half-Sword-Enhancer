@@ -1,9 +1,10 @@
 #pragma once
 
 #include <atomic>
+#include <d3d11.h>
 #include <Windows.h>
+#include <wrl/client.h>
 
-#include "Render/IRenderCallback.h"
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_dx11.h"
 #include "imgui/backends/imgui_impl_win32.h"
@@ -16,7 +17,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 extern IMGUI_IMPL_API LRESULT
 ImGui_ImplWin32_WndProcHandlerEx(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, ImGuiIO& io);
 
-class Gui : public IRenderCallback {
+class Gui {
 private:
     Gui() = default;
 
@@ -29,6 +30,11 @@ public:
         return instance;
     }
 
+    void Init(
+        Microsoft::WRL::ComPtr<ID3D11Device> newDevice, Microsoft::WRL::ComPtr<ID3D11DeviceContext> newContext,
+        HWND newWindow
+    ) noexcept;
+    bool IsInitialized() const noexcept;
     void Setup();
     void Render();
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -39,6 +45,10 @@ public:
     static bool NeedsRendering() noexcept;
 
 private:
+    Microsoft::WRL::ComPtr<ID3D11Device> device = nullptr;
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext> context = nullptr;
+    HWND window = nullptr;
+
     static WNDPROC originalWndProc;
     static std::atomic<bool> isVisible;
 };

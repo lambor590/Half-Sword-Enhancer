@@ -22,6 +22,19 @@ std::atomic<bool> Gui::isVisible = true;
 
 Logger logger("Gui");
 
+void Gui::Init(
+    Microsoft::WRL::ComPtr<ID3D11Device> newDevice, Microsoft::WRL::ComPtr<ID3D11DeviceContext> newContext,
+    HWND newWindow
+) noexcept {
+    device = std::move(newDevice);
+    context = std::move(newContext);
+    window = newWindow;
+}
+
+bool Gui::IsInitialized() const noexcept {
+    return device && context && window;
+}
+
 namespace {
     bool s_showMismatchPopup = false;
     bool s_mismatchDismissed = false;

@@ -4,14 +4,12 @@
 #include "Logger.h"
 #include "MemoryUtils.h"
 #include "Hooks/GameHook.h"
-#include "Hooks/DirectXHook.h"
 #include "Render/Renderer.h"
 #include "GlobalDefinitions.h"
 #include "KeybindManager.h"
 
 static Logger logger{"DllMain"};
 static Renderer renderer;
-static DirectXHook dxHook(&renderer);
 
 #ifdef EXPERIMENTAL_VERSION
 static void OpenDebugTerminal() noexcept {
@@ -22,8 +20,7 @@ static void OpenDebugTerminal() noexcept {
 #endif
 
 static DWORD WINAPI DXHookThread(LPVOID) noexcept {
-    g_DirectXHook = &dxHook;
-    g_DirectXHook->Hook();
+    renderer.Hook();
     return 0;
 }
 

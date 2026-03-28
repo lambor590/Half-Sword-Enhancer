@@ -267,7 +267,7 @@
     <ClCompile Include="SDK\SDK\Willie_BP_functions.cpp">
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <ClCompile Include="src\DirectXHook.cpp" />
+
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\GameHook.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -275,6 +275,19 @@
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />
+    <ClCompile Include="src\Sections\GuiSection.cpp" />
+    <ClCompile Include="src\Sections\GraphicsSection.cpp" />
+    <ClCompile Include="src\Sections\WorldActionsSection.cpp" />
+    <ClCompile Include="src\Sections\WorldEditorSection.cpp" />
+    <ClCompile Include="src\Sections\SkyEditorSection.cpp" />
+    <ClCompile Include="src\Sections\MapLoaderSection.cpp" />
+    <ClCompile Include="src\Sections\PlayerAbilitiesSection.cpp" />
+    <ClCompile Include="src\Sections\PlayerEditorSection.cpp" />
+    <ClCompile Include="src\Sections\NPCEditorSection.cpp" />
+    <ClCompile Include="src\Sections\ItemSpawnerSection.cpp" />
+    <ClCompile Include="src\Sections\ArmorEditorSection.cpp" />
+    <ClCompile Include="src\Sections\WeaponEditorSection.cpp" />
+    <ClCompile Include="src\Sections\LoadoutManagerSection.cpp" />
     <ClCompile Include="SDK\SDK\AssetRegistry_functions.cpp">
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
@@ -284,7 +297,7 @@
     <ClInclude Include="include\ConfigManager.h" />
     <ClInclude Include="include\GlobalDefinitions.h" />
     <ClInclude Include="include\Gui.h" />
-    <ClInclude Include="include\Hooks\DirectXHook.h" />
+
     <ClInclude Include="include\Hooks\GameHook.h" />
     <ClInclude Include="include\KeybindManager.h" />
     <ClInclude Include="include\Logger.h" />
@@ -309,8 +322,7 @@
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h" />
     <ClInclude Include="include\NotificationManager.h" />
     <ClInclude Include="include\Utils\Spawner.h" />
-    <ClInclude Include="include\Render\ID3DRenderer.h" />
-    <ClInclude Include="include\Render\IRenderCallback.h" />
+
     <ClInclude Include="include\Render\RenderConfig.h" />
     <ClInclude Include="include\Render\Renderer.h" />
     <ClInclude Include="resource\resource.h" />
