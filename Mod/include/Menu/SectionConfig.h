@@ -1,133 +1,17 @@
 #pragma once
 
-#include <cstdint>
+/// Shared config sub-structs used by multiple sections.
+/// Each section owns its own config struct -- there are no global config instances.
 
-namespace SectionConfig {
+struct SpawnConfig {
+    float distanceForward;
+    float distanceUp;
+    float scale = 1.0f;
+    bool snapToGround = true;
+};
 
-    struct SpawnConfig {
-        float distanceForward;
-        float distanceUp;
-        float scale = 1.0f;
-        bool snapToGround = true;
-    };
-
-    struct PreviewConfig {
-        bool livePreview = false;
-        bool autoRotate = false;
-        float rotationSpeed = 45.0f;
-    };
-
-    struct PlayerConfig {
-        int infiniteStaminaKey = 0x49; // I
-        int infiniteConsciousnessKey = -1;
-        int enemyInfiniteConsciousnessKey = -1;
-        int getUpKey = -1;
-        int possessWillieKey = -1;
-        int invulnerabilityKey = -1;
-        int noPainKey = -1;
-        int noKickCooldownKey = -1;
-        int enemyNoPainKey = -1;
-        int ragdollKey = -1;
-        int enemyRagdollKey = -1;
-        int jumpKey = 0x4A;        // J
-        int playerSpeedKey = 0x50; // P
-        int playerStrengthKey = -1;
-        int bodyTonusKey = -1;
-        int dashKey = -1;
-        int biteAttackKey = -1;
-        int enemyBiteKey = -1;
-        int enemyBiteAllKey = -1;
-        int enemyDrunkKey = -1;
-
-        float jumpForce = 5000.0f;
-        float playerRunMultiplier = 1.0f;
-        float playerWalkMultiplier = 1.0f;
-        float playerStrengthMultiplier = 1.0f;
-        float playerGrabForceMultiplier = 1.0f;
-        float playerHandsRigidityMultiplier = 1.0f;
-        float bodyTonusAllBodyMultiplier = 1.0f;
-        bool bodyTonusNoBodyWeakening = false;
-        float dashForce = 7000.0f;
-        float biteRange = 300.0f;
-        float biteAllRange = 500.0f;
-        float enemyDrunkLevel = 1.0f;
-        float consciousnessMultiplier = 1.0f;
-        float enemyConsciousnessMultiplier = 1.0f;
-        int consciousnessMultiplierKey = -1;
-        int enemyConsciousnessMultiplierKey = -1;
-    };
-
-    struct WorldConfig {
-        int sloMoKey = 0x5A;         // Z
-        int customGravityKey = 0x4C; // L
-        int killAllEnemiesKey = -1;
-        int toggleEnemyAIKey = -1;
-        int destroyWilliesKey = -1;
-        int clearBloodKey = -1;
-        int clearObjectsKey = -1;
-        int setGamePausedKey = -1;
-
-        float slowMotionSpeed = 0.4f;
-        float customGravityValue = 0.0f;
-        float killAllEnemiesRadius = 1000.0f;
-        bool snapNeckEnemies = false;
-        float toggleEnemyAIRadius = 1000.0f;
-        bool destroyDeadOnly = true;
-        bool destroyDisintegrate = true;
-        float clearObjectsRadius = 1000.0f;
-    };
-
-    struct NPCConfig {
-        int spawnEnemyKey = 0x4E; // N
-        SpawnConfig spawn{.distanceForward = 200.0f, .distanceUp = 0.0f};
-        bool bodyguard = false;
-        int npcTeam = 0;
-        int npcTypeIndex = 0;
-        int npcNationality = 0;
-        int npcTier = 4;
-        bool npcMercenary = false;
-    };
-
-    struct ItemConfig {
-        int spawnItemKey = -1;
-        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
-        int spawnTier = 4;
-
-        uint8_t currentCategoryIndex = 0;
-        uint8_t currentSubcategoryIndex = 0;
-        uint16_t currentItemIndex = 0;
-    };
-
-    struct WeaponEditorConfig {
-        int weaponType = 1;
-        int weaponTier = 4;
-        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
-        int spawnKey = -1;
-        PreviewConfig preview;
-    };
-
-    struct ArmorEditorConfig {
-        int armorSlotIndex = 0;
-        int armorTier = 4;
-        float moduleChance = 0.5f;
-        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
-        int spawnKey = -1;
-        PreviewConfig preview;
-    };
-
-    struct EquipmentManagerConfig {
-        bool livePreview = true;
-        int applyKey = -1;
-        int randomizeKey = -1;
-        int generateTier = 4;
-    };
-
-    inline PlayerConfig player;
-    inline WorldConfig world;
-    inline NPCConfig npc;
-    inline ItemConfig item;
-    inline WeaponEditorConfig weaponEditor;
-    inline ArmorEditorConfig armorEditor;
-    inline EquipmentManagerConfig equipmentManager;
-
-}
+struct PreviewConfig {
+    bool livePreview = false;
+    bool autoRotate = false;
+    float rotationSpeed = 45.0f;
+};

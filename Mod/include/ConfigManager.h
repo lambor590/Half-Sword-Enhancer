@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <string>
 #include <string_view>
 #include <filesystem>
@@ -21,31 +22,25 @@ private:
 
 public:
     static std::filesystem::path GetAppDataPath();
-
-    static ConfigManager& Get() {
-        static ConfigManager manager;
-        return manager;
-    }
+    static ConfigManager& Get();
 
     void SaveConfig();
     void SaveConfigDeferred();
     void LoadConfig();
     void FlushPendingSave();
-    void SuppressDeferred(bool suppress) { suppressDeferred_ = suppress; }
+    void SuppressDeferred(bool suppress);
 
-    int GetInt(std::string_view function, std::string_view param, int defaultValue);
+    /// Executes multiple Set* calls in a single batch, issuing one SaveConfig at the end.
+    /// Use instead of calling SetX() individually when writing many values at once.
+    void BatchSave(const std::function<void()>& updates);
 
-    bool GetBool(std::string_view function, std::string_view param, bool defaultValue);
+    int GetInt(std::string_view section, std::string_view key, int defaultValue);
+    bool GetBool(std::string_view section, std::string_view key, bool defaultValue);
+    float GetFloat(std::string_view section, std::string_view key, float defaultValue);
+    std::string GetString(std::string_view section, std::string_view key, std::string_view defaultValue);
 
-    float GetFloat(std::string_view function, std::string_view param, float defaultValue);
-
-    std::string GetString(std::string_view function, std::string_view param, std::string_view defaultValue);
-
-    void SetInt(std::string_view function, std::string_view param, int value);
-
-    void SetBool(std::string_view function, std::string_view param, bool value);
-
-    void SetFloat(std::string_view function, std::string_view param, float value);
-
-    void SetString(std::string_view function, std::string_view param, std::string_view value);
+    void SetInt(std::string_view section, std::string_view key, int value);
+    void SetBool(std::string_view section, std::string_view key, bool value);
+    void SetFloat(std::string_view section, std::string_view key, float value);
+    void SetString(std::string_view section, std::string_view key, std::string_view value);
 };

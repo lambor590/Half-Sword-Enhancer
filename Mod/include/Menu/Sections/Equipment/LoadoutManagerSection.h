@@ -7,7 +7,6 @@
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
-#include "Menu/SectionConfig.h"
 #include "Utils/GameConstants.h"
 #include "Utils/GlobalModulePool.h"
 #include "Utils/LoadoutPresetSerializer.h"
@@ -18,8 +17,16 @@
 #include "SDK/ArmorSlots_Enum_structs.hpp"
 
 class LoadoutManagerSection : public Section {
+public:
+    struct Config {
+        bool livePreview = true;
+        int applyKey = -1;
+        int randomizeKey = -1;
+        int generateTier = 4;
+    };
+
 private:
-    SectionConfig::EquipmentManagerConfig& cfg = SectionConfig::equipmentManager;
+    Config cfg;
 
     static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
     static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;

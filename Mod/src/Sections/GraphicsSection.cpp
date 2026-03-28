@@ -5,7 +5,6 @@
 
 REGISTER_SECTION(GraphicsSection, MenuTab::Settings);
 #include "ComponentValidator.h"
-#include "Utils/ConfigUtils.h"
 #include "Utils/GuiUtils.h"
 #include "Hooks/GameHook.h"
 #include "SDK/Engine_classes.hpp"
@@ -57,7 +56,8 @@ void GraphicsSection::LoadSettings() {
 }
 
 void GraphicsSection::SaveSettings() {
-    ConfigUtils::BatchUpdate([&](ConfigUtils::ConfigTransaction& config) {
+    auto& config = ConfigManager::Get();
+    config.BatchSave([&]() {
         const char* section = graphicsConfigSection.data();
 
         config.SetBool(section, "apply_on_startup", settings.applyOnStartup);

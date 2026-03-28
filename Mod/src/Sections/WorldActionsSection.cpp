@@ -1,6 +1,5 @@
 #include "Menu/Sections/World/WorldActionsSection.h"
 #include "Menu/SectionRegistry.h"
-#include "Menu/SectionConfig.h"
 #include "Menu/SectionStyle.h"
 
 REGISTER_SECTION(WorldActionsSection, MenuTab::World);

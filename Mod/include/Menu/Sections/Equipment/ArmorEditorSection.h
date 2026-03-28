@@ -12,8 +12,18 @@
 #include "Utils/PresetSectionState.h"
 
 class ArmorEditorSection : public Section {
+public:
+    struct Config {
+        int armorSlotIndex = 0;
+        int armorTier = 4;
+        float moduleChance = 0.5f;
+        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
+        int spawnKey = -1;
+        PreviewConfig preview;
+    };
+
 private:
-    SectionConfig::ArmorEditorConfig& cfg = SectionConfig::armorEditor;
+    Config cfg;
 
     static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
     static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;

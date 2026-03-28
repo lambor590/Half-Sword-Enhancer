@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <vector>
 #include <string>
 
@@ -12,8 +13,19 @@
 #include "Utils/ArmorPresetSerializer.h"
 
 class ItemSpawnerSection : public Section {
+public:
+    struct Config {
+        int spawnItemKey = -1;
+        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
+        int spawnTier = 4;
+
+        uint8_t currentCategoryIndex = 0;
+        uint8_t currentSubcategoryIndex = 0;
+        uint16_t currentItemIndex = 0;
+    };
+
 private:
-    SectionConfig::ItemConfig& cfg = SectionConfig::item;
+    Config cfg;
 
     static inline char searchBuffer[128] = "";
     static inline std::vector<uint16_t> filteredIndices;

@@ -13,6 +13,18 @@
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
 
 class NPCEditorSection : public Section {
+public:
+    struct Config {
+        int spawnEnemyKey = 0x4E; // N
+        SpawnConfig spawn{.distanceForward = 200.0f, .distanceUp = 0.0f};
+        bool bodyguard = false;
+        int npcTeam = 0;
+        int npcTypeIndex = 0;
+        int npcNationality = 0;
+        int npcTier = 4;
+        bool npcMercenary = false;
+    };
+
 private:
     struct NPCTypeInfo {
         const char* displayName;
@@ -21,7 +33,7 @@ private:
 
     static constexpr int SPECIAL_TEAM_ID = 1337;
 
-    SectionConfig::NPCConfig& cfg = SectionConfig::npc;
+    Config cfg;
 
     static constexpr NPCTypeInfo npcTypes[] = {
         {"Regular", WILLIE_PATH("/Willie_BP.Willie_BP_C")},

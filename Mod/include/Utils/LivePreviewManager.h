@@ -10,7 +10,7 @@ class LivePreviewManager {
 public:
     using CleanupFn = std::function<void()>;
 
-    explicit LivePreviewManager(SectionConfig::PreviewConfig& cfg) : cfg(cfg) {}
+    explicit LivePreviewManager(PreviewConfig& cfg) : cfg(cfg) {}
     ~LivePreviewManager() { Destroy(); }
 
     void SetPreviewActor(SDK::AActor* actor) { previewActor = actor; }
@@ -71,6 +71,6 @@ private:
     bool forceRefresh = false;
     bool prevEnabled = false;
 
-    SectionConfig::PreviewConfig& cfg;
+    PreviewConfig& cfg;
     CleanupFn onCleanup;
 };

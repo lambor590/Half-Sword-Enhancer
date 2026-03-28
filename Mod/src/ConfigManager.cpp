@@ -20,6 +20,11 @@ std::filesystem::path ConfigManager::GetAppDataPath() {
     return cached;
 }
 
+ConfigManager& ConfigManager::Get() {
+    static ConfigManager manager;
+    return manager;
+}
+
 ConfigManager::ConfigManager() {
     configPath = GetAppDataPath() / "config.ini";
 
@@ -53,6 +58,17 @@ void ConfigManager::FlushPendingSave() {
     }
 }
 
+void ConfigManager::SuppressDeferred(bool suppress) {
+    suppressDeferred_ = suppress;
+}
+
+void ConfigManager::BatchSave(const std::function<void()>& updates) {
+    SuppressDeferred(true);
+    updates();
+    SuppressDeferred(false);
+    SaveConfig();
+}
+
 void ConfigManager::LoadConfig() {
     if (std::filesystem::exists(configPath)) {
         ini.LoadFile(configPath.string().c_str());
@@ -61,38 +77,38 @@ void ConfigManager::LoadConfig() {
     }
 }
 
-int ConfigManager::GetInt(std::string_view function, std::string_view param, int defaultValue) {
-    return ini.GetLongValue(function.data(), param.data(), defaultValue);
+int ConfigManager::GetInt(std::string_view section, std::string_view key, int defaultValue) {
+    return ini.GetLongValue(section.data(), key.data(), defaultValue);
 }
 
-bool ConfigManager::GetBool(std::string_view function, std::string_view param, bool defaultValue) {
-    return ini.GetBoolValue(function.data(), param.data(), defaultValue);
+bool ConfigManager::GetBool(std::string_view section, std::string_view key, bool defaultValue) {
+    return ini.GetBoolValue(section.data(), key.data(), defaultValue);
 }
 
-float ConfigManager::GetFloat(std::string_view function, std::string_view param, float defaultValue) {
-    return static_cast<float>(ini.GetDoubleValue(function.data(), param.data(), defaultValue));
+float ConfigManager::GetFloat(std::string_view section, std::string_view key, float defaultValue) {
+    return static_cast<float>(ini.GetDoubleValue(section.data(), key.data(), defaultValue));
 }
 
-std::string ConfigManager::GetString(std::string_view function, std::string_view param, std::string_view defaultValue) {
-    return ini.GetValue(function.data(), param.data(), defaultValue.data());
+std::string ConfigManager::GetString(std::string_view section, std::string_view key, std::string_view defaultValue) {
+    return ini.GetValue(section.data(), key.data(), defaultValue.data());
 }
 
-void ConfigManager::SetInt(std::string_view function, std::string_view param, int value) {
-    ini.SetLongValue(function.data(), param.data(), value);
+void ConfigManager::SetInt(std::string_view section, std::string_view key, int value) {
+    ini.SetLongValue(section.data(), key.data(), value);
     SaveConfigDeferred();
 }
 
-void ConfigManager::SetBool(std::string_view function, std::string_view param, bool value) {
-    ini.SetBoolValue(function.data(), param.data(), value);
+void ConfigManager::SetBool(std::string_view section, std::string_view key, bool value) {
+    ini.SetBoolValue(section.data(), key.data(), value);
     SaveConfigDeferred();
 }
 
-void ConfigManager::SetFloat(std::string_view function, std::string_view param, float value) {
-    ini.SetDoubleValue(function.data(), param.data(), value);
+void ConfigManager::SetFloat(std::string_view section, std::string_view key, float value) {
+    ini.SetDoubleValue(section.data(), key.data(), value);
     SaveConfigDeferred();
 }
 
-void ConfigManager::SetString(std::string_view function, std::string_view param, std::string_view value) {
-    ini.SetValue(function.data(), param.data(), value.data());
+void ConfigManager::SetString(std::string_view section, std::string_view key, std::string_view value) {
+    ini.SetValue(section.data(), key.data(), value.data());
     SaveConfigDeferred();
 }

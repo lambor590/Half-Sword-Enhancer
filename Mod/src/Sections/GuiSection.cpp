@@ -7,7 +7,6 @@ REGISTER_SECTION(GuiSection, MenuTab::Settings);
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Utils/GuiUtils.h"
-#include "Utils/ConfigUtils.h"
 
 GuiSection::GuiSection(ModContext& ctx)
     : Section(ctx, GUI_SECTION_NAME), notificationsEnabled(NotificationManager::IsEnabled()) {}
@@ -42,8 +41,8 @@ void GuiSection::Render() {
 
     static bool ueConsoleEnabled = ConfigManager::Get().GetBool("UE", "console_enabled", false);
     if (GuiUtils::CheckboxWithTooltip(UE_CONSOLE_LABEL, &ueConsoleEnabled, UE_CONSOLE_TOOLTIP)) {
-        ConfigUtils::BatchUpdate([&](ConfigUtils::ConfigTransaction& config) {
-            config.SetBool("UE", "console_enabled", ueConsoleEnabled);
+        ConfigManager::Get().BatchSave([&]() {
+            ConfigManager::Get().SetBool("UE", "console_enabled", ueConsoleEnabled);
         });
 
         if (ueConsoleEnabled) {

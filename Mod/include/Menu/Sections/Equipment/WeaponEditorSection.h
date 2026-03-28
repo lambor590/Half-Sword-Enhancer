@@ -21,8 +21,17 @@ namespace SDK {
 }
 
 class WeaponEditorSection : public Section {
+public:
+    struct Config {
+        int weaponType = 1;
+        int weaponTier = 4;
+        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
+        int spawnKey = -1;
+        PreviewConfig preview;
+    };
+
 private:
-    SectionConfig::WeaponEditorConfig& cfg = SectionConfig::weaponEditor;
+    Config cfg;
 
     static constexpr auto& WEAPON_TYPE_NAMES = GameConstants::WEAPON_TYPE_NAMES;
     static constexpr int WEAPON_TYPE_COUNT = GameConstants::WEAPON_TYPE_COUNT;

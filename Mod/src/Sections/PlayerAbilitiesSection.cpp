@@ -1,6 +1,5 @@
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
 #include "Menu/SectionRegistry.h"
-#include "Menu/SectionConfig.h"
 #include "Menu/SectionStyle.h"
 #include "ComponentValidator.h"
 
