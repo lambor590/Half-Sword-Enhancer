@@ -19,6 +19,15 @@ static constexpr std::string_view VALID_ASSET_PREFIXES[] = {
     "Shield_", "Chain_BP", "Trap_",
 };
 
+static std::string DisplayNameFromClassPath(const std::string& path) {
+    size_t dotPos = path.rfind('.');
+    if (dotPos == std::string::npos) return path;
+    std::string name = path.substr(dotPos + 1);
+    if (name.size() > 2 && name.ends_with("_C"))
+        name.resize(name.size() - 2);
+    return BlueprintRegistry::CleanDisplayName(name);
+}
+
 static bool HasValidAssetPrefix(const std::string& assetName) {
     for (auto prefix : VALID_ASSET_PREFIXES) {
         if (assetName.compare(0, prefix.size(), prefix.data()) == 0)
@@ -65,16 +74,13 @@ void BlueprintRegistry::PerformScan() {
 
             g_logger.Log("Asset Registry scan returned %d blueprints", results.Num());
 
-            std::unordered_set<std::string> seenPaths;
+            std::unordered_set<uint64_t> seenIds;
             for (int32_t i = 0; i < results.Num(); ++i) {
                 auto& asset = results[i];
 
                 std::string packagePath = asset.PackagePath.GetRawString();
                 if (packagePath.find("/Game/") != 0)
                     continue;
-
-                std::string packageName = asset.PackageName.GetRawString();
-                std::string assetName = asset.AssetName.ToString();
 
                 if (packagePath.find("/Game/Maps") == 0 ||
                     packagePath.find("/Game/UI") == 0 ||
@@ -84,6 +90,14 @@ void BlueprintRegistry::PerformScan() {
                     packagePath.find("/Game/Cinematics") == 0) {
                     continue;
                 }
+
+                uint64_t nameKey = (static_cast<uint64_t>(asset.PackageName.ComparisonIndex) << 32)
+                    | static_cast<uint64_t>(asset.PackageName.Number);
+                if (!seenIds.insert(nameKey).second)
+                    continue;
+
+                std::string packageName = asset.PackageName.GetRawString();
+                std::string assetName = asset.AssetName.ToString();
 
                 if (packagePath.find("/Game/Assets/") == 0 ||
                     packagePath.find("/Game/Blueprints/") == 0) {
@@ -96,16 +110,12 @@ void BlueprintRegistry::PerformScan() {
                 if (assetName.find("_Master") != std::string::npos)
                     continue;
 
-                std::string classPath = packageName + "." + assetName + "_C";
-                if (!seenPaths.insert(classPath).second)
-                    continue;
-
                 auto [category, subcategory] = CategorizeByPath(packagePath, assetName);
                 if (category.empty()) continue;
 
                 BlueprintEntry entry;
                 entry.displayName = CleanDisplayName(assetName);
-                entry.classPath = std::move(classPath);
+                entry.classPath = packageName + "." + assetName + "_C";
 
                 AddItem(std::move(entry), category, subcategory);
             }
@@ -313,17 +323,7 @@ void BlueprintRegistry::InjectCustomPaths() {
     for (const auto& path : customPaths) {
         BlueprintEntry entry;
         entry.classPath = path;
-
-        size_t dotPos = path.rfind('.');
-        if (dotPos != std::string::npos) {
-            std::string assetName = path.substr(dotPos + 1);
-            if (assetName.size() > 2 && assetName.substr(assetName.size() - 2) == "_C")
-                assetName = assetName.substr(0, assetName.size() - 2);
-            entry.displayName = CleanDisplayName(assetName);
-        } else {
-            entry.displayName = path;
-        }
-
+        entry.displayName = DisplayNameFromClassPath(path);
         AddItem(std::move(entry), "Custom", "Saved");
     }
 }
@@ -364,15 +364,7 @@ void BlueprintRegistry::AddCustomPath(const std::string& path) {
     if (state.load(std::memory_order_acquire) == ScanState::Complete) {
         BlueprintEntry entry;
         entry.classPath = path;
-        size_t dotPos = path.rfind('.');
-        if (dotPos != std::string::npos) {
-            std::string assetName = path.substr(dotPos + 1);
-            if (assetName.size() > 2 && assetName.substr(assetName.size() - 2) == "_C")
-                assetName = assetName.substr(0, assetName.size() - 2);
-            entry.displayName = CleanDisplayName(assetName);
-        } else {
-            entry.displayName = path;
-        }
+        entry.displayName = DisplayNameFromClassPath(path);
         AddItem(std::move(entry), "Custom", "Saved");
     }
 }
