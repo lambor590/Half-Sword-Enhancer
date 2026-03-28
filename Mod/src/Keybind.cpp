@@ -169,6 +169,20 @@ namespace {
 
     // ─── Key assignment and conflict popup ───────────────────────────────────
 
+    void ApplyKey(KeybindEntry& entry) {
+        KeybindManager::UnregisterKeybind(entry.keyPtr);
+        if (*entry.keyPtr != -1) {
+            KeybindManager::RegisterKeybind(entry.keyPtr, [&entry]() {
+                if (entry.toggleable) {
+                    entry.isEnabled = !entry.isEnabled;
+                }
+                entry.callback(entry.isEnabled);
+            });
+        }
+        entry.prevKey = *entry.keyPtr;
+        KeybindConfig::SaveKeybind(entry);
+    }
+
     void HandleKeyAssignment(KeybindEntry& entry) {
         if (!KeybindManager::HandleKeyPress(entry.waitingForKey, *entry.keyPtr)) return;
 
@@ -183,32 +197,7 @@ namespace {
             }
         }
 
-        // No conflict -- apply key
-        KeybindManager::UnregisterKeybind(entry.keyPtr);
-        if (*entry.keyPtr != -1) {
-            KeybindManager::RegisterKeybind(entry.keyPtr, [&entry]() {
-                if (entry.toggleable) {
-                    entry.isEnabled = !entry.isEnabled;
-                }
-                entry.callback(entry.isEnabled);
-            });
-        }
-        entry.prevKey = *entry.keyPtr;
-        KeybindConfig::SaveKeybind(entry);
-    }
-
-    void ApplyKeyAfterConflict(KeybindEntry& entry) {
-        KeybindManager::UnregisterKeybind(entry.keyPtr);
-        if (*entry.keyPtr != -1) {
-            KeybindManager::RegisterKeybind(entry.keyPtr, [&entry]() {
-                if (entry.toggleable) {
-                    entry.isEnabled = !entry.isEnabled;
-                }
-                entry.callback(entry.isEnabled);
-            });
-        }
-        entry.prevKey = *entry.keyPtr;
-        KeybindConfig::SaveKeybind(entry);
+        ApplyKey(entry);
     }
 
     void RenderConflictPopup(KeybindEntry& entry) {
@@ -245,13 +234,13 @@ namespace {
             if (ImGui::Button(replaceText)) {
                 KeybindManager::RemoveBinding(entry.pendingConflictKey, entry.keyPtr);
                 *entry.keyPtr = entry.pendingConflictKey;
-                ApplyKeyAfterConflict(entry);
+                ApplyKey(entry);
                 ImGui::CloseCurrentPopup();
             }
             ImGui::SameLine();
             if (ImGui::Button("Share Key")) {
                 *entry.keyPtr = entry.pendingConflictKey;
-                ApplyKeyAfterConflict(entry);
+                ApplyKey(entry);
                 ImGui::CloseCurrentPopup();
             }
             ImGui::SameLine();

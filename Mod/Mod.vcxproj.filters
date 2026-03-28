@@ -44,10 +44,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\DllMain.cpp">
+    <ClCompile Include="src\Core\ModContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DirectXHook.cpp">
+    <ClCompile Include="src\MenuManager.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SectionRegistry.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Keybind.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventBus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GameHook.cpp">
@@ -70,9 +82,6 @@
     </ClCompile>
     <ClCompile Include="SDK\SDK\Willie_BP_functions.cpp">
       <Filter>SDK</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MenuFunction.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\imgui\imgui.cpp">
       <Filter>ImGui</Filter>
@@ -99,9 +108,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Globals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IMenuFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KeybindManager.cpp">
@@ -166,26 +172,29 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Hooks\DirectXHook.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Hooks\GameHook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Menu\ICollapsibleSection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Menu\IMenuFunction.h">
+    <ClInclude Include="include\Core\ModContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\MenuManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Render\ID3DRenderer.h">
+    <ClInclude Include="include\Menu\SectionRegistry.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\SectionStyle.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Keybind.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\EventBus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Render\IRenderCallback.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\Menu\MenuTab.h">
+      <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\Render\Renderer.h">
       <Filter>Header Files</Filter>
@@ -260,9 +269,6 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\ActorUtils.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Utils\ConfigUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\GuiUtils.h">

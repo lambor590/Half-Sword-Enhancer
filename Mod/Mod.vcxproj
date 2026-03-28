@@ -248,11 +248,9 @@
     <ClCompile Include="src\ComponentValidator.cpp" />
     <ClCompile Include="src\ConfigManager.cpp" />
     <ClCompile Include="src\Globals.cpp" />
-    <ClCompile Include="src\IMenuFunction.cpp" />
     <ClCompile Include="src\KeybindManager.cpp" />
     <ClCompile Include="src\DefaultStyle.cpp" />
     <ClCompile Include="src\MemoryUtils.cpp" />
-    <ClCompile Include="src\MenuFunction.cpp" />
     <ClCompile Include="src\NotificationManager.cpp" />
     <ClCompile Include="src\Gui.cpp" />
     <ClCompile Include="SDK\SDK\Basic.cpp">
@@ -268,6 +266,11 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
 
+    <ClCompile Include="src\Core\ModContext.cpp" />
+    <ClCompile Include="src\MenuManager.cpp" />
+    <ClCompile Include="src\SectionRegistry.cpp" />
+    <ClCompile Include="src\Keybind.cpp" />
+    <ClCompile Include="src\EventBus.cpp" />
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\GameHook.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -303,9 +306,13 @@
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\DefaultStyle.h" />
     <ClInclude Include="include\MemoryUtils.h" />
-    <ClInclude Include="include\Menu\ICollapsibleSection.h" />
-    <ClInclude Include="include\Menu\IMenuFunction.h" />
+    <ClInclude Include="include\Core\ModContext.h" />
     <ClInclude Include="include\Menu\MenuManager.h" />
+    <ClInclude Include="include\Menu\SectionRegistry.h" />
+    <ClInclude Include="include\Menu\SectionStyle.h" />
+    <ClInclude Include="include\Menu\Keybind.h" />
+    <ClInclude Include="include\Menu\EventBus.h" />
+    <ClInclude Include="include\Menu\MenuTab.h" />
     <ClInclude Include="include\Menu\SectionConfig.h" />
     <ClInclude Include="include\Menu\Sections\Player\PlayerAbilitiesSection.h" />
     <ClInclude Include="include\Menu\Sections\Player\PlayerEditorSection.h" />
@@ -328,7 +335,6 @@
     <ClInclude Include="resource\resource.h" />
     <ClInclude Include="include\Utils\GameConstants.h" />
     <ClInclude Include="include\Utils\ActorUtils.h" />
-    <ClInclude Include="include\Utils\ConfigUtils.h" />
     <ClInclude Include="include\Utils\GuiUtils.h" />
     <ClInclude Include="include\Utils\GameBuildInfo.h" />
     <ClInclude Include="include\Utils\PresetUtils.h" />

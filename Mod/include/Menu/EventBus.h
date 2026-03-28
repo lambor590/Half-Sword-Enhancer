@@ -6,7 +6,6 @@
 
 #include <cstdint>
 #include <functional>
-#include <string_view>
 #include <vector>
 
 /// Game events that can be subscribed to via the EventBus.
