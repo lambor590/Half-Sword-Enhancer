@@ -31,7 +31,7 @@ private:
     BlueprintRegistry() { LoadCustomPaths(); }
 
     std::atomic<ScanState> state{ScanState::NotStarted};
-    bool tierScanDone = false;
+    std::atomic<bool> tierScanDone{false};
     std::vector<BlueprintEntry> items;
     std::vector<CategoryData> categories;
     std::vector<std::string> customPaths;
@@ -43,7 +43,6 @@ private:
     void SortCategories();
 
     static std::pair<std::string_view, std::string_view> CategorizeByPath(const std::string& packagePath, const std::string& assetName);
-    [[nodiscard]] static std::string CleanDisplayName(std::string_view assetName);
 
     size_t FindOrCreateCategory(std::string_view name);
     size_t FindOrCreateSubcategory(size_t catIdx, std::string_view name);
@@ -63,6 +62,7 @@ public:
 
     [[nodiscard]] const std::vector<CategoryData>& GetCategories() const { return categories; }
     const std::vector<BlueprintEntry>& GetAllItems() const { return items; }
+    [[nodiscard]] static std::string CleanDisplayName(std::string_view assetName);
 
     size_t GetCategoryCount() const { return categories.size(); }
     const CategoryData& GetCategory(size_t idx) const { return categories[idx]; }
