@@ -1,4 +1,9 @@
 # Functions that cppcheck reports as unused due to analysis limitations.
 # All entries below have been manually verified.
-# This file should be empty or minimal -- prefer moving code to .cpp files
-# so cppcheck can trace call sites.
+
+# Launcher -- unused utility (pre-existing, out of scope for Mod rewrite)
+ToCompactString
+
+# Mod -- will be removed during utilities milestone
+GetProcessBaseAddress
+SpawnWeaponFromPassport

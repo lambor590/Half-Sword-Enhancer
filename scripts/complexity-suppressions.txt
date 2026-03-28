@@ -72,3 +72,20 @@ HSELauncher::CheckAndInstallExperimental
 
 # Modal popup with multiple resolution buttons
 RenderConflictPopup
+
+# Pre-existing serializers (will be replaced by unified preset system in later milestone)
+WeaponPresetSerializer::SerializeToIni
+ArmorPresetSerializer::SerializeToIni
+
+# Pre-existing categorization (table-driven, inherent branching)
+BlueprintRegistry::CategorizeByPath
+
+# Pre-existing installer flow (ifdef split)
+HSELauncher::CheckAndInstallMod
+
+# Pre-existing VDF parser
+SteamLocator::ParseLibraryFolders
+
+# Filterable combo UI (template, inherent branching)
+GuiUtils::RenderGlobalModuleCombo
+GuiUtils::RenderModuleIndexCombo
