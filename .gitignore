@@ -2,6 +2,7 @@
 packages/
 bin/
 .claude
+.factory
 CLAUDE.md
 Mod/SDK/Engine
 *.user
