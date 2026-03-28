@@ -1,5 +1,7 @@
 #include "Menu/Sections/Equipment/ArmorEditorSection.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/SectionStyle.h"
+#include "ComponentValidator.h"
 
 REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
 
@@ -350,25 +352,37 @@ void ArmorEditorSection::RenderSpawnFooter() {
     if (!canSpawn) ImGui::EndDisabled();
 }
 
-ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : CollapsibleSection(ctx, "Armor Editor") {
+ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, "Armor Editor") {
     CreateBlankArmorPassport();
+    InitKeybinds();
+}
 
-    Function("Spawn Armor")
-        .WithKey(&cfg.spawnKey)
-        .WithParams(
-            {Parameter("snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"),
-             Parameter(
+void ArmorEditorSection::InitKeybinds() {
+    keybinds.push_back({
+        .name = "Spawn Armor",
+        .tooltip = "Spawns the currently edited armor with runtime overrides applied",
+        .configSection = "SpawnArmor",
+        .keyPtr = &cfg.spawnKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                SpawnFromPassport();
+            },
+        .params =
+            {KeybindParam(
+                 "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"
+             ),
+             KeybindParam(
                  "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
                  "Spawn distance in front of player"
              ),
-             Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
-             Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
-             Parameter(
+             KeybindParam("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
+             KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
+             KeybindParam(
                  "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview armor as you edit"
-             )}
-        )
-        .WithTooltip("Spawns the currently edited armor with runtime overrides applied")
-        .Action([this]() { SpawnFromPassport(); }, player, world);
+             )},
+    });
+    InitKeybindEntry(keybinds.back());
 }
 
 void ArmorEditorSection::Render() {
@@ -377,10 +391,8 @@ void ArmorEditorSection::Render() {
     preview.InvalidateIfDead(player, world);
     preview.SyncToggleState();
 
-    for (auto& function : functions) {
-        function->Render();
-        ImGui::Spacing();
-    }
+    KeybindUI::RenderKeybindList(keybinds);
+    ImGui::Spacing();
 
     RenderGenerationControls();
 

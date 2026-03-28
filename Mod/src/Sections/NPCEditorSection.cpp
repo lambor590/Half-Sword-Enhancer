@@ -1,6 +1,8 @@
 #include "Menu/Sections/Spawner/NPCEditorSection.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/SectionStyle.h"
 #include "Utils/Spawner.h"
+#include "ComponentValidator.h"
 
 REGISTER_SECTION(NPCEditorSection, MenuTab::Spawner);
 #include "Utils/EquipmentGenerator.h"
@@ -215,44 +217,53 @@ void NPCEditorSection::RenderBodyConditionTab() {
     ImGui::PopID();
 }
 
-NPCEditorSection::NPCEditorSection(ModContext& ctx) : CollapsibleSection(ctx, "NPC Editor") {
-    Function("Spawn NPC")
-        .WithKey(&cfg.spawnEnemyKey)
-        .WithParams(
-            {Parameter("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
-             Parameter("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),
-             Parameter(
+NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, "NPC Editor") {
+    InitKeybinds();
+}
+
+void NPCEditorSection::InitKeybinds() {
+    keybinds.push_back({
+        .name = "Spawn NPC",
+        .tooltip = "Spawns an NPC with randomly generated equipment and applied overrides",
+        .configSection = "SpawnNPC",
+        .keyPtr = &cfg.spawnEnemyKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                SpawnNPC();
+            },
+        .params =
+            {KeybindParam("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
+             KeybindParam("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),
+             KeybindParam(
                  "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
                  "Automatically adjust height to touch the ground"
              ),
-             Parameter(
+             KeybindParam(
                  "distance_forward", "Distance Forward", &cfg.spawn.distanceForward, 100.0f, 500.0f,
                  "How far in front the NPC appears"
              ),
-             Parameter(
+             KeybindParam(
                  "distance_up", "Distance Up", &cfg.spawn.distanceUp, 0.0f, 300.0f, "Height offset for spawn position"
              ),
-             Parameter(
+             KeybindParam(
                  "scale", "Scale", &cfg.spawn.scale, 0.1f, 4.0f,
                  "Size multiplier for the spawned NPC. Adjust the height offset to match the scale "
                  "so the game doesn't crash."
              ),
-             Parameter(
+             KeybindParam(
                  "team", "Team", &cfg.npcTeam, 0, 9,
                  "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
-             )}
-        )
-        .WithTooltip("Spawns an NPC with randomly generated equipment and applied overrides")
-        .Action([this]() { SpawnNPC(); }, player, world);
+             )},
+    });
+    InitKeybindEntry(keybinds.back());
 }
 
 void NPCEditorSection::Render() {
     const SectionStyle::StyleRAII style;
 
-    for (auto& function : functions) {
-        function->Render();
-        ImGui::Spacing();
-    }
+    KeybindUI::RenderKeybindList(keybinds);
+    ImGui::Spacing();
 
     auto npcGetter = [](void* data, int idx) -> const char* {
         return static_cast<const NPCTypeInfo*>(data)[idx].displayName;

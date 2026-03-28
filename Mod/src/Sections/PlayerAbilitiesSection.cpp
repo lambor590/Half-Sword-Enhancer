@@ -1,6 +1,8 @@
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionConfig.h"
+#include "Menu/SectionStyle.h"
+#include "ComponentValidator.h"
 
 REGISTER_SECTION(PlayerAbilitiesSection, MenuTab::Player);
 #include "SDK/AIModule_classes.hpp"
@@ -9,120 +11,150 @@ REGISTER_SECTION(PlayerAbilitiesSection, MenuTab::Player);
 #include "Utils/ActorUtils.h"
 #include "Utils/PossessState.h"
 
-PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : CollapsibleSection(ctx, "Abilities") {
-    Function("Infinite Stamina")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.infiniteStaminaKey)
-        .WithTooltip("Keeps your stamina bar full at all times")
-        .Action([this]() { player->Stamina = GameConstants::DEFAULT_HEALTH; }, player);
+PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : Section(ctx, "Abilities") {
+    InitKeybinds();
+}
 
-    Function("Infinite Consciousness")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.infiniteConsciousnessKey)
-        .WithTooltip("Prevents you from losing consciousness, so you can't be knocked out")
-        .Action([this]() { ActorUtils::SetInfiniteConsciousness(player); }, player);
+void PlayerAbilitiesSection::Render() {
+    const SectionStyle::StyleRAII style;
+    KeybindUI::RenderKeybindList(keybinds);
+}
 
-    Function("Enemy Infinite Consciousness")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.enemyInfiniteConsciousnessKey)
-        .WithTooltip("Enemies can't be knocked out")
-        .Action(
-            [this]() { ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness); }, player, world
-        );
+void PlayerAbilitiesSection::InitKeybinds() {
+    keybinds.push_back({
+        .name = "Infinite Stamina",
+        .tooltip = "Keeps your stamina bar full at all times",
+        .configSection = "InfiniteStamina",
+        .keyPtr = &cfg.infiniteStaminaKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
+                player->Stamina = GameConstants::DEFAULT_HEALTH;
+            },
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Consciousness Multiplier")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.consciousnessMultiplierKey)
-        .Toggle()
-        .WithParams({Parameter(
-            "consciousness_multiplier", "Multiplier", &cfg.consciousnessMultiplier, 1.0f, 100.0f,
-            "Multiplies consciousness cap"
-        )})
-        .WithTooltip("Multiply your consciousness cap to resist knockouts")
-        .Action(
+    keybinds.push_back({
+        .name = "Infinite Consciousness",
+        .tooltip = "Prevents you from losing consciousness, so you can't be knocked out",
+        .configSection = "InfiniteConsciousness",
+        .keyPtr = &cfg.infiniteConsciousnessKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
+                ActorUtils::SetInfiniteConsciousness(player);
+            },
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
+
+    keybinds.push_back({
+        .name = "Enemy Infinite Consciousness",
+        .tooltip = "Enemies can't be knocked out",
+        .configSection = "EnemyInfiniteConsciousness",
+        .keyPtr = &cfg.enemyInfiniteConsciousnessKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
+            },
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
+
+    keybinds.push_back({
+        .name = "Consciousness Multiplier",
+        .tooltip = "Multiply your consciousness cap to resist knockouts",
+        .configSection = "ConsciousnessMultiplier",
+        .keyPtr = &cfg.consciousnessMultiplierKey,
+        .callback =
             [this](bool active) {
+                if (!ComponentValidator::Validate(player)) return;
                 float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.consciousnessMultiplier : 1.0f);
                 player->Consciousness_Cap = cap;
             },
-            player
-        );
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+        .params = {KeybindParam(
+            "consciousness_multiplier", "Multiplier", &cfg.consciousnessMultiplier, 1.0f, 100.0f,
+            "Multiplies consciousness cap"
+        )},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Enemy Consciousness Multiplier")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.enemyConsciousnessMultiplierKey)
-        .Toggle()
-        .WithParams({Parameter(
-            "enemy_consciousness_multiplier", "Multiplier", &cfg.enemyConsciousnessMultiplier, 1.0f, 100.0f,
-            "Multiplies enemy consciousness cap"
-        )})
-        .WithTooltip("Multiply enemy consciousness cap to make them harder to knock out")
-        .Action(
+    keybinds.push_back({
+        .name = "Enemy Consciousness Multiplier",
+        .tooltip = "Multiply enemy consciousness cap to make them harder to knock out",
+        .configSection = "EnemyConsciousnessMultiplier",
+        .keyPtr = &cfg.enemyConsciousnessMultiplierKey,
+        .callback =
             [this](bool active) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
                 float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.enemyConsciousnessMultiplier : 1.0f);
                 ActorUtils::ForEachWillie(world, player, [cap](SDK::AWillie_BP_C* willie) {
                     willie->Consciousness_Cap = cap;
                 });
             },
-            player, world
-        );
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+        .params = {KeybindParam(
+            "enemy_consciousness_multiplier", "Multiplier", &cfg.enemyConsciousnessMultiplier, 1.0f, 100.0f,
+            "Multiplies enemy consciousness cap"
+        )},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Jump")
-        .WithKey(&cfg.jumpKey)
-        .WithParams({Parameter("force", "Force", &cfg.jumpForce, 1000.0f, 10000.0f, "Controls how high you jump")})
-        .WithTooltip("Jump with configurable force. There's no way to make it more natural, so it will always be a "
-                     "bit floaty.")
-        .Action(
-            [this]() { player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, cfg.jumpForce), SDK::FName(), true); }, player
-        );
+    keybinds.push_back({
+        .name = "Jump",
+        .tooltip =
+            "Jump with configurable force. There's no way to make it more natural, so it will always be a bit floaty.",
+        .configSection = "Jump",
+        .keyPtr = &cfg.jumpKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
+                player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, cfg.jumpForce), SDK::FName(), true);
+            },
+        .params = {KeybindParam("force", "Force", &cfg.jumpForce, 1000.0f, 10000.0f, "Controls how high you jump")},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Speed Multiplier")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.playerSpeedKey)
-        .Toggle()
-        .WithParams(
-            {Parameter(
-                 "run_speed_multiplier", "Run Speed Multiplier", &cfg.playerRunMultiplier, 1.0f, 100.0f,
-                 "Makes you run faster in a natural way"
-             ),
-             Parameter(
-                 "walk_speed_multiplier", "Walk Speed Multiplier", &cfg.playerWalkMultiplier, 1.0f, 100.0f,
-                 "Makes you walk faster in a natural way"
-             )}
-        )
-        .WithTooltip("Speed multiplier for running and walking. More noticible when you run a long distance.")
-        .Action(
+    keybinds.push_back({
+        .name = "Speed Multiplier",
+        .tooltip = "Speed multiplier for running and walking. More noticible when you run a long distance.",
+        .configSection = "SpeedMultiplier",
+        .keyPtr = &cfg.playerSpeedKey,
+        .callback =
             [this](bool active) {
+                if (!ComponentValidator::Validate(player)) return;
                 player->Running_Speed_Rate = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerRunMultiplier)
                                                     : GameConstants::DEFAULT_PLAYER_SPEED;
                 player->Walk_Speed_Rate_Run = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerWalkMultiplier)
                                                      : GameConstants::DEFAULT_PLAYER_SPEED;
             },
-            player
-        );
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+        .params =
+            {KeybindParam(
+                 "run_speed_multiplier", "Run Speed Multiplier", &cfg.playerRunMultiplier, 1.0f, 100.0f,
+                 "Makes you run faster in a natural way"
+             ),
+             KeybindParam(
+                 "walk_speed_multiplier", "Walk Speed Multiplier", &cfg.playerWalkMultiplier, 1.0f, 100.0f,
+                 "Makes you walk faster in a natural way"
+             )},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Strength Multiplier")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.playerStrengthKey)
-        .Toggle()
-        .WithParams(
-            {Parameter(
-                 "strength_multiplier", "Strength Multiplier", &cfg.playerStrengthMultiplier, 1.0f, 10.0f,
-                 "Makes your body more rigid and responsive. If set 4+, enable Custom Body Tonus and set its "
-                 "multiplier to a value in which you don't lose balance."
-             ),
-             Parameter(
-                 "grab_force_multiplier", "Grab Force Multiplier", &cfg.playerGrabForceMultiplier, 1.0f, 10.0f,
-                 "Makes it harder for your hands to loose grip. I believe there's a random chance to loose "
-                 "grip, so this is not 100% reliable. I haven't found a way to have permanent grip yet."
-             ),
-             Parameter(
-                 "hands_rigidity_multiplier", "Hands Rigidity Multiplier", &cfg.playerHandsRigidityMultiplier, 1.0f,
-                 10.0f, "Makes your punches hit harder"
-             )}
-        )
-        .WithTooltip("Strength multiplier for muscle power, grab force and hands rigidity")
-        .Action(
+    keybinds.push_back({
+        .name = "Strength Multiplier",
+        .tooltip = "Strength multiplier for muscle power, grab force and hands rigidity",
+        .configSection = "StrengthMultiplier",
+        .keyPtr = &cfg.playerStrengthKey,
+        .callback =
             [this](bool active) {
+                if (!ComponentValidator::Validate(player)) return;
                 player->Muscle_Power = active ? (GameConstants::DEFAULT_MUSCLE_POWER * cfg.playerStrengthMultiplier)
                                               : GameConstants::DEFAULT_MUSCLE_POWER;
                 player->R_Grab_Force_Limit = active
@@ -135,25 +167,32 @@ PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : CollapsibleSec
                     active ? (GameConstants::DEFAULT_HANDS_RIGIDITY * cfg.playerHandsRigidityMultiplier)
                            : GameConstants::DEFAULT_HANDS_RIGIDITY;
             },
-            player
-        );
-
-    Function("Custom Body Tonus")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.bodyTonusKey)
-        .WithParams(
-            {Parameter(
-                 "all_body", "All Body Tonus Multiplier", &cfg.bodyTonusAllBodyMultiplier, 1.0f, 10.0f,
-                 "Controls overall body muscle tension and strength. Heavily affects your movement speed."
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+        .params =
+            {KeybindParam(
+                 "strength_multiplier", "Strength Multiplier", &cfg.playerStrengthMultiplier, 1.0f, 10.0f,
+                 "Makes your body more rigid and responsive."
              ),
-             Parameter(
-                 "no_body_weakening", "No Body Weakening", &cfg.bodyTonusNoBodyWeakening,
-                 "Prevents body parts from becoming weak or limp when getting hit"
-             )}
-        )
-        .WithTooltip("Adjusts muscle tension and prevents body weakening. Heavily affects your movement speed.")
-        .Action(
-            [this]() {
+             KeybindParam(
+                 "grab_force_multiplier", "Grab Force Multiplier", &cfg.playerGrabForceMultiplier, 1.0f, 10.0f,
+                 "Makes it harder for your hands to loose grip."
+             ),
+             KeybindParam(
+                 "hands_rigidity_multiplier", "Hands Rigidity Multiplier", &cfg.playerHandsRigidityMultiplier, 1.0f,
+                 10.0f, "Makes your punches hit harder"
+             )},
+    });
+    InitKeybindEntry(keybinds.back());
+
+    keybinds.push_back({
+        .name = "Custom Body Tonus",
+        .tooltip = "Adjusts muscle tension and prevents body weakening. Heavily affects your movement speed.",
+        .configSection = "CustomBodyTonus",
+        .keyPtr = &cfg.bodyTonusKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
                 player->All_Body_Tonus = GameConstants::DEFAULT_ALL_BODY_TONUS * cfg.bodyTonusAllBodyMultiplier;
                 if (cfg.bodyTonusNoBodyWeakening) [[unlikely]] {
                     player->Head_Tonus = GameConstants::FULL_TONUS;
@@ -163,144 +202,228 @@ PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : CollapsibleSec
                     player->Leg_R_Tonus = GameConstants::FULL_TONUS;
                 }
             },
-            player
-        );
+        .events = {GameHook::GameEvent::OffLedge},
+        .params =
+            {KeybindParam(
+                 "all_body", "All Body Tonus Multiplier", &cfg.bodyTonusAllBodyMultiplier, 1.0f, 10.0f,
+                 "Controls overall body muscle tension and strength."
+             ),
+             KeybindParam(
+                 "no_body_weakening", "No Body Weakening", &cfg.bodyTonusNoBodyWeakening,
+                 "Prevents body parts from becoming weak or limp when getting hit"
+             )},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Ragdoll")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.ragdollKey)
-        .WithTooltip("Makes character go completely limp and ragdoll")
-        .Action([this]() { player->All_Body_Tonus = GameConstants::DEFAULT_PAIN; }, player);
+    keybinds.push_back({
+        .name = "Ragdoll",
+        .tooltip = "Makes character go completely limp and ragdoll",
+        .configSection = "Ragdoll",
+        .keyPtr = &cfg.ragdollKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
+                player->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
+            },
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Enemy Ragdoll")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.enemyRagdollKey)
-        .WithTooltip("Makes all enemies go limp and ragdoll")
-        .Action(
-            [this]() {
+    keybinds.push_back({
+        .name = "Enemy Ragdoll",
+        .tooltip = "Makes all enemies go limp and ragdoll",
+        .configSection = "EnemyRagdoll",
+        .keyPtr = &cfg.enemyRagdollKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
                 ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
                     willie->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
                 });
             },
-            player, world
-        );
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Drunk Enemies")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.enemyDrunkKey)
-        .Toggle()
-        .WithParams({Parameter(
-            "drunk_level", "Drunk Level", &cfg.enemyDrunkLevel, 0.0f, 1.0f,
-            "How drunk the enemies are (0 = sober, 1 = fully drunk)"
-        )})
-        .WithTooltip("Makes all enemies stumble around drunk")
-        .Action(
+    keybinds.push_back({
+        .name = "Drunk Enemies",
+        .tooltip = "Makes all enemies stumble around drunk",
+        .configSection = "DrunkEnemies",
+        .keyPtr = &cfg.enemyDrunkKey,
+        .callback =
             [this](bool active) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
                 ActorUtils::ForEachWillie(world, player, [this, active](SDK::AWillie_BP_C* willie) {
                     willie->Drunk = active ? static_cast<double>(cfg.enemyDrunkLevel) : 0.0;
                 });
             },
-            player, world
-        );
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+        .params = {KeybindParam(
+            "drunk_level", "Drunk Level", &cfg.enemyDrunkLevel, 0.0f, 1.0f,
+            "How drunk the enemies are (0 = sober, 1 = fully drunk)"
+        )},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("No Kick Cooldown")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.noKickCooldownKey)
-        .WithTooltip("Removes cooldown between kicks for rapid kicking")
-        .Action([this]() { player->Kick_Cooldown = false; }, player);
+    keybinds.push_back({
+        .name = "No Kick Cooldown",
+        .tooltip = "Removes cooldown between kicks for rapid kicking",
+        .configSection = "NoKickCooldown",
+        .keyPtr = &cfg.noKickCooldownKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
+                player->Kick_Cooldown = false;
+            },
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Invulnerability")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.invulnerabilityKey)
-        .Toggle()
-        .WithTooltip("Makes you immune to all damage like a god")
-        .Action(
+    keybinds.push_back({
+        .name = "Invulnerability",
+        .tooltip = "Makes you immune to all damage like a god",
+        .configSection = "Invulnerability",
+        .keyPtr = &cfg.invulnerabilityKey,
+        .callback =
             [this](bool active) {
+                if (!ComponentValidator::Validate(player)) return;
                 player->BitPad_5C_0 = active;
                 player->Invulnerable = active;
             },
-            player
-        );
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("No Pain")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.noPainKey)
-        .WithTooltip("Makes you immune to pain and removes all pain effects")
-        .Action([this]() { ActorUtils::ApplyNoPainEffect(player); }, player);
+    keybinds.push_back({
+        .name = "No Pain",
+        .tooltip = "Makes you immune to pain and removes all pain effects",
+        .configSection = "NoPain",
+        .keyPtr = &cfg.noPainKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
+                ActorUtils::ApplyNoPainEffect(player);
+            },
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Enemy No Pain")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.enemyNoPainKey)
-        .WithTooltip("Makes all enemies immune to pain and removes their pain effects")
-        .Action([this]() { ActorUtils::ForEachWillie(world, player, ActorUtils::ApplyNoPainEffect); }, player, world);
+    keybinds.push_back({
+        .name = "Enemy No Pain",
+        .tooltip = "Makes all enemies immune to pain and removes their pain effects",
+        .configSection = "EnemyNoPain",
+        .keyPtr = &cfg.enemyNoPainKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                ActorUtils::ForEachWillie(world, player, ActorUtils::ApplyNoPainEffect);
+            },
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Get Up")
-        .WithKey(&cfg.getUpKey)
-        .WithTooltip("Forces you to stand up when knocked down")
-        .Action([this]() { player->Get_Up_Rate = GameConstants::GET_UP_RATE; }, player);
+    keybinds.push_back({
+        .name = "Get Up",
+        .tooltip = "Forces you to stand up when knocked down",
+        .configSection = "GetUp",
+        .keyPtr = &cfg.getUpKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
+                player->Get_Up_Rate = GameConstants::GET_UP_RATE;
+            },
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Dash")
-        .WithKey(&cfg.dashKey)
-        .WithParams({Parameter("force", "Force", &cfg.dashForce, 1000.0f, 10000.0f, "Controls how fast you dash")})
-        .WithTooltip("Dash forward with configurable force")
-        .Action(
-            [this]() {
+    keybinds.push_back({
+        .name = "Dash",
+        .tooltip = "Dash forward with configurable force",
+        .configSection = "Dash",
+        .keyPtr = &cfg.dashKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
                 SDK::FVector forwardVector = player->GetActorForwardVector();
                 player->Mesh->AddImpulse(forwardVector * cfg.dashForce, SDK::FName(), true);
             },
-            player
-        );
+        .params = {KeybindParam("force", "Force", &cfg.dashForce, 1000.0f, 10000.0f, "Controls how fast you dash")},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Bite Attack")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.biteAttackKey)
-        .Toggle()
-        .GameThread()
-        .WithTooltip("Bite the nearest enemy like a zombie")
-        .Action([this](bool active) { ActorUtils::ApplyBiteState(player, active); }, player);
-
-    Function("Enemy Bite")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.enemyBiteKey)
-        .Toggle()
-        .GameThread()
-        .WithParams({Parameter("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target")})
-        .WithTooltip("Make the nearest enemy bite another enemy")
-        .Action(
+    keybinds.push_back({
+        .name = "Bite Attack",
+        .tooltip = "Bite the nearest enemy like a zombie",
+        .configSection = "BiteAttack",
+        .keyPtr = &cfg.biteAttackKey,
+        .callback =
             [this](bool active) {
-                if (active) {
-                    auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
-                    if (biter) ActorUtils::ApplyBiteState(biter, true);
-                } else {
-                    ActorUtils::ForEachWillieInRadius(world, player, cfg.biteRange, [](SDK::AWillie_BP_C* willie) {
-                        ActorUtils::ApplyBiteState(willie, false);
-                    });
-                }
+                if (!ComponentValidator::Validate(player)) return;
+                GameHook::QueueAction([this, active]() { ActorUtils::ApplyBiteState(player, active); });
             },
-            player, world
-        );
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Enemy Bite All")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&cfg.enemyBiteAllKey)
-        .Toggle()
-        .GameThread()
-        .WithParams({Parameter("range", "Range", &cfg.biteAllRange, 50.0f, 2000.0f, "Detection range for mass bite")})
-        .WithTooltip("Make all enemies within range bite each other")
-        .Action(
+    keybinds.push_back({
+        .name = "Enemy Bite",
+        .tooltip = "Make the nearest enemy bite another enemy",
+        .configSection = "EnemyBite",
+        .keyPtr = &cfg.enemyBiteKey,
+        .callback =
             [this](bool active) {
-                ActorUtils::ForEachWillieInRadius(world, player, cfg.biteAllRange, [active](SDK::AWillie_BP_C* willie) {
-                    ActorUtils::ApplyBiteState(willie, active);
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                GameHook::QueueAction([this, active]() {
+                    if (active) {
+                        auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
+                        if (biter) ActorUtils::ApplyBiteState(biter, true);
+                    } else {
+                        ActorUtils::ForEachWillieInRadius(world, player, cfg.biteRange, [](SDK::AWillie_BP_C* willie) {
+                            ActorUtils::ApplyBiteState(willie, false);
+                        });
+                    }
                 });
             },
-            player, world
-        );
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+        .params = {KeybindParam("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target")},
+    });
+    InitKeybindEntry(keybinds.back());
 
-    Function("Possess Nearest Willie")
-        .WithKey(&cfg.possessWillieKey)
-        .WithTooltip("Take control of the closest NPC")
-        .Action(
-            [this]() {
+    keybinds.push_back({
+        .name = "Enemy Bite All",
+        .tooltip = "Make all enemies within range bite each other",
+        .configSection = "EnemyBiteAll",
+        .keyPtr = &cfg.enemyBiteAllKey,
+        .callback =
+            [this](bool active) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                GameHook::QueueAction([this, active]() {
+                    ActorUtils::ForEachWillieInRadius(
+                        world, player, cfg.biteAllRange,
+                        [active](SDK::AWillie_BP_C* willie) { ActorUtils::ApplyBiteState(willie, active); }
+                    );
+                });
+            },
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+        .params = {KeybindParam("range", "Range", &cfg.biteAllRange, 50.0f, 2000.0f, "Detection range for mass bite")},
+    });
+    InitKeybindEntry(keybinds.back());
+
+    keybinds.push_back({
+        .name = "Possess Nearest Willie",
+        .tooltip = "Take control of the closest NPC",
+        .configSection = "PossessNearestWillie",
+        .keyPtr = &cfg.possessWillieKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(controller) ||
+                    !ComponentValidator::Validate(world))
+                    return;
+
                 if (PossessState::lastWorld != world) {
                     PossessState::Reset();
                     PossessState::lastWorld = world;
@@ -347,6 +470,6 @@ PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : CollapsibleSec
                     PossessState::Reset();
                 }
             },
-            player, controller, world
-        );
+    });
+    InitKeybindEntry(keybinds.back());
 }

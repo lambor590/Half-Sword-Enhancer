@@ -3,14 +3,15 @@
 #include <vector>
 #include <string>
 
-#include "Menu/CollapsibleSection.h"
+#include "Menu/Section.h"
+#include "Menu/Keybind.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/PresetPickerState.h"
 #include "Utils/WeaponPresetSerializer.h"
 #include "Utils/ArmorPresetSerializer.h"
 
-class ItemSpawnerSection : public CollapsibleSection {
+class ItemSpawnerSection : public Section {
 private:
     SectionConfig::ItemConfig& cfg = SectionConfig::item;
 
@@ -21,6 +22,7 @@ private:
 
     static inline char customPathBuffer[256] = "";
 
+    std::vector<KeybindEntry> keybinds;
     PresetPickerState<WeaponPresetSerializer> weaponPicker;
     PresetPickerState<ArmorPresetSerializer> armorPicker;
 
@@ -52,6 +54,7 @@ private:
     void SpawnCustomPath() const noexcept;
     void SpawnWeaponFromPreset();
     void SpawnArmorFromPreset();
+    void InitKeybinds();
 
 public:
     explicit ItemSpawnerSection(ModContext& ctx);

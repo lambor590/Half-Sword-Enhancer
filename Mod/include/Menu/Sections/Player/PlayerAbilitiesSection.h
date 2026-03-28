@@ -1,12 +1,19 @@
 #pragma once
 
-#include "Menu/CollapsibleSection.h"
+#include <vector>
+
+#include "Menu/Section.h"
+#include "Menu/Keybind.h"
 #include "Menu/SectionConfig.h"
 
-class PlayerAbilitiesSection : public CollapsibleSection {
+class PlayerAbilitiesSection : public Section {
 private:
     SectionConfig::PlayerConfig& cfg = SectionConfig::player;
+    std::vector<KeybindEntry> keybinds;
+
+    void InitKeybinds();
 
 public:
     explicit PlayerAbilitiesSection(ModContext& ctx);
+    void Render() override;
 };

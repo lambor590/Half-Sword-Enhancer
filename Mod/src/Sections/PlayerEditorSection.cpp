@@ -1,6 +1,8 @@
 #include "Menu/Sections/Player/PlayerEditorSection.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/SectionStyle.h"
 #include "Utils/GameConstants.h"
+#include "ComponentValidator.h"
 
 REGISTER_SECTION(PlayerEditorSection, MenuTab::Player);
 #include "Utils/GuiUtils.h"
@@ -408,18 +410,25 @@ void PlayerEditorSection::RenderSkillsStateTab() {
     ImGui::PopID();
 }
 
-PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : CollapsibleSection(ctx, "Editor") {
-    Function("Enforce Overrides")
-        .OnEvent(GameHook::GameEvent::OffLedge)
-        .WithKey(&enforceKey)
-        .Toggle()
-        .WithTooltip("Continuously applies all enabled overrides to the player character every game tick")
-        .Action(
+PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : Section(ctx, "Editor") {
+    InitKeybinds();
+}
+
+void PlayerEditorSection::InitKeybinds() {
+    keybinds.push_back({
+        .name = "Enforce Overrides",
+        .tooltip = "Continuously applies all enabled overrides to the player character every game tick",
+        .configSection = "EnforceOverrides",
+        .keyPtr = &enforceKey,
+        .callback =
             [this](bool active) {
+                if (!ComponentValidator::Validate(player)) return;
                 if (active) ApplyActiveOverrides(player, overrides);
             },
-            player
-        );
+        .toggleable = true,
+        .events = {GameHook::GameEvent::OffLedge},
+    });
+    InitKeybindEntry(keybinds.back());
 }
 
 void PlayerEditorSection::Render() {
@@ -428,9 +437,7 @@ void PlayerEditorSection::Render() {
     ComponentValidator::Validate(controller);
     ComponentValidator::Validate(world);
 
-    for (auto& function : functions) {
-        function->Render();
-    }
+    KeybindUI::RenderKeybindList(keybinds);
 
     ImGui::Spacing();
 

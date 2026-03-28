@@ -5,7 +5,8 @@
 #include <atomic>
 #include <functional>
 
-#include "Menu/CollapsibleSection.h"
+#include "Menu/Section.h"
+#include "Menu/Keybind.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/GameConstants.h"
 #include "Utils/GlobalModulePool.h"
@@ -16,7 +17,7 @@
 #include "Utils/ArmorPresetSerializer.h"
 #include "SDK/ArmorSlots_Enum_structs.hpp"
 
-class LoadoutManagerSection : public CollapsibleSection {
+class LoadoutManagerSection : public Section {
 private:
     SectionConfig::EquipmentManagerConfig& cfg = SectionConfig::equipmentManager;
 
@@ -36,6 +37,7 @@ private:
     ClassNameCache armorNameCache[17]{};
     ClassNameCache weaponNameCache[7]{};
 
+    std::vector<KeybindEntry> keybinds;
     GlobalModulePool& modulePool = GlobalModulePool::Get();
     bool modulePoolQueued = false;
     char moduleFilters[6][64] = {};
@@ -79,6 +81,7 @@ private:
     void RenderWeaponSlotSizes(SDK::FStr_WeaponParts& slot);
     static void RenderWeaponSlotMaterials(SDK::FStr_WeaponParts& slot);
     void RenderWeaponsTab();
+    void InitKeybinds();
 
 public:
     explicit LoadoutManagerSection(ModContext& ctx);

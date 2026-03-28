@@ -1,17 +1,22 @@
 #pragma once
 
-#include "Menu/CollapsibleSection.h"
+#include <vector>
+
+#include "Menu/Section.h"
+#include "Menu/Keybind.h"
 #include "Utils/PlayerPresetSerializer.h"
 #include "Utils/PresetSectionState.h"
 
-class PlayerEditorSection : public CollapsibleSection {
+class PlayerEditorSection : public Section {
 private:
     int enforceKey = -1;
     PlayerEditorOverrides overrides{};
+    std::vector<KeybindEntry> keybinds;
 
     PresetSectionState<PlayerPresetSerializer> presets;
     int activeTab = 0;
 
+    void InitKeybinds();
     int CountActiveOverrides() const;
     static void ApplyActiveOverrides(SDK::AWillie_BP_C* p, PlayerEditorOverrides& ovr);
     void ReadFromPlayer();

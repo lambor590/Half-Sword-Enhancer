@@ -1,6 +1,8 @@
 #include "Menu/Sections/Spawner/ItemSpawnerSection.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/SectionStyle.h"
 #include "Hooks/GameHook.h"
+#include "ComponentValidator.h"
 
 REGISTER_SECTION(ItemSpawnerSection, MenuTab::Spawner);
 #include "Utils/Spawner.h"
@@ -233,25 +235,36 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
     });
 }
 
-ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : CollapsibleSection(ctx, "Items") {
-    Function("Spawn Item")
-        .WithKey(&cfg.spawnItemKey)
-        .WithParams(
-            {Parameter(
+ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, "Items") {
+    InitKeybinds();
+}
+
+void ItemSpawnerSection::InitKeybinds() {
+    keybinds.push_back({
+        .name = "Spawn Item",
+        .tooltip = "Spawns the selected item with configurable position and size",
+        .configSection = "SpawnItem",
+        .keyPtr = &cfg.spawnItemKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                SpawnSelectedItem();
+            },
+        .params =
+            {KeybindParam(
                  "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
                  "Automatically adjust height to touch the ground"
              ),
-             Parameter(
+             KeybindParam(
                  "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
                  "How far in front the item appears"
              ),
-             Parameter(
+             KeybindParam(
                  "distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Height offset for spawn position"
              ),
-             Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item")}
-        )
-        .WithTooltip("Spawns the selected item with configurable position and size")
-        .Action([this]() { SpawnSelectedItem(); }, player, world);
+             KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item")},
+    });
+    InitKeybindEntry(keybinds.back());
 }
 
 void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
@@ -513,10 +526,8 @@ void ItemSpawnerSection::RenderPresetSection() {
 void ItemSpawnerSection::Render() {
     SectionStyle::StyleRAII style;
 
-    for (auto& function : functions) {
-        function->Render();
-        ImGui::Spacing();
-    }
+    KeybindUI::RenderKeybindList(keybinds);
+    ImGui::Spacing();
 
     auto& reg = BlueprintRegistry::Get();
     auto scanState = reg.GetState();

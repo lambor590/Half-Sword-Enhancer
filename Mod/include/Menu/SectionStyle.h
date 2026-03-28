@@ -3,8 +3,7 @@
 #include "imgui/imgui.h"
 
 /// Shared style constants and RAII guard for section rendering.
-/// Extracted from CollapsibleSection.h so all sections can access it
-/// regardless of whether they inherit Section or CollapsibleSection.
+/// Used by all sections for consistent ImGui styling.
 namespace SectionStyle {
     constexpr ImVec2 framePadding{8, 6};
     constexpr ImVec2 itemSpacing{10, 8};

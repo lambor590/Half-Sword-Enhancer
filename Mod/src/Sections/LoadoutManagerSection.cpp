@@ -1,5 +1,7 @@
 #include "Menu/Sections/Equipment/LoadoutManagerSection.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/SectionStyle.h"
+#include "ComponentValidator.h"
 
 REGISTER_SECTION(LoadoutManagerSection, MenuTab::Equipment);
 
@@ -641,29 +643,46 @@ void LoadoutManagerSection::RenderWeaponsTab() {
     ImGui::PopID();
 }
 
-LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : CollapsibleSection(ctx, "Loadout Manager") {
-    Function("Apply Loadout")
-        .WithKey(&cfg.applyKey)
-        .WithTooltip("Reapply the current equipment to the player")
-        .Action([this]() { ApplyArmorToPlayer(); }, player);
+LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : Section(ctx, "Loadout Manager") {
+    InitKeybinds();
+}
 
-    Function("Randomize Equipment")
-        .WithKey(&cfg.randomizeKey)
-        .WithParams(
-            {Parameter("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
-             Parameter("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")}
-        )
-        .WithTooltip("Generate random armor for all equipped slots")
-        .Action([this]() { RandomizeAllArmor(); }, player, world);
+void LoadoutManagerSection::InitKeybinds() {
+    keybinds.push_back({
+        .name = "Apply Loadout",
+        .tooltip = "Reapply the current equipment to the player",
+        .configSection = "ApplyLoadout",
+        .keyPtr = &cfg.applyKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player)) return;
+                ApplyArmorToPlayer();
+            },
+    });
+    InitKeybindEntry(keybinds.back());
+
+    keybinds.push_back({
+        .name = "Randomize Equipment",
+        .tooltip = "Generate random armor for all equipped slots",
+        .configSection = "RandomizeEquipment",
+        .keyPtr = &cfg.randomizeKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                RandomizeAllArmor();
+            },
+        .params =
+            {KeybindParam("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
+             KeybindParam("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")},
+    });
+    InitKeybindEntry(keybinds.back());
 }
 
 void LoadoutManagerSection::Render() {
     SectionStyle::StyleRAII style;
 
-    for (auto& function : functions) {
-        function->Render();
-        ImGui::Spacing();
-    }
+    KeybindUI::RenderKeybindList(keybinds);
+    ImGui::Spacing();
 
     if (cfg.livePreview && pendingSlotApply) {
         static constexpr double APPLY_COOLDOWN = 0.3;

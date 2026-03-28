@@ -4,14 +4,13 @@
 #include <functional>
 #include <map>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
+#include <string>
 #include <string_view>
 #include <atomic>
 #include <array>
 
 class ConfigManager;
-class IMenuFunction;
 extern ConfigManager& g_ConfigManager;
 
 class KeybindManager {
@@ -22,7 +21,8 @@ private:
     struct Binding {
         Callback callback;
         int* keyPtr = nullptr;
-        IMenuFunction* function = nullptr;
+        std::string name;
+        bool toggleable = false;
         int currentKey = -1;
     };
 
@@ -51,11 +51,14 @@ private:
             valid[i] = (i != 0 && i != VK_LWIN && i != VK_RWIN && i != VK_APPS);
         }
         return valid;
-    }();
+    }
+    ();
 
 public:
     static void Initialize() noexcept;
-    static void RegisterKeybind(int* keyPtr, Callback callback, IMenuFunction* function) noexcept;
+    static void RegisterKeybind(
+        int* keyPtr, Callback callback, std::string name = "", bool toggleable = false
+    ) noexcept;
     static void UnregisterKeybind(int* keyPtr) noexcept;
     static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;
     static bool ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept;
@@ -188,8 +191,8 @@ public:
 
     static bool IsKeyBound(int key, int* excludeKeyPtr = nullptr) noexcept;
     static void RemoveBinding(int key, int* excludeKeyPtr = nullptr) noexcept;
-    static IMenuFunction* GetBoundFunction(int key, int* excludeKeyPtr = nullptr) noexcept;
-    static std::vector<IMenuFunction*> GetAllBoundFunctions(int key, int* excludeKeyPtr = nullptr) noexcept;
+    static std::string GetBoundName(int key, int* excludeKeyPtr = nullptr) noexcept;
+    static std::vector<std::string> GetAllBoundNames(int key, int* excludeKeyPtr = nullptr) noexcept;
     static int GetBindingCount(int key, int* excludeKeyPtr = nullptr) noexcept;
     static void UpdateBinding(int* keyPtr) noexcept;
 

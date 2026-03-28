@@ -6,7 +6,8 @@
 #include <atomic>
 #include <unordered_set>
 
-#include "Menu/CollapsibleSection.h"
+#include "Menu/Section.h"
+#include "Menu/Keybind.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/GameConstants.h"
 #include "Utils/GlobalModulePool.h"
@@ -19,7 +20,7 @@ namespace SDK {
     class AModularWeaponBP_C;
 }
 
-class WeaponEditorSection : public CollapsibleSection {
+class WeaponEditorSection : public Section {
 private:
     SectionConfig::WeaponEditorConfig& cfg = SectionConfig::weaponEditor;
 
@@ -28,6 +29,7 @@ private:
 
     static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
 
+    std::vector<KeybindEntry> keybinds;
     SDK::FStr_Passport_Weapon1 weaponPassport{};
     bool weaponGenerationPending = false;
     bool modulePoolQueued = false;
@@ -129,6 +131,7 @@ private:
     void ApplyPresetData(WeaponPresetData d);
     void SetStatus(std::string msg, bool isError = false);
     void RenderSpawnFooter();
+    void InitKeybinds();
 
 public:
     explicit WeaponEditorSection(ModContext& ctx);

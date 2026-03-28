@@ -1,0 +1,74 @@
+# Functions with inherent complexity that should not trigger warnings.
+# Each line is a function name pattern matched against lizard output.
+# Lines starting with # are comments.
+
+# VK code switch table (108 cases, compile-time data mapping)
+KeybindManager::GetKeyNameConstexpr
+
+# x86 instruction length decoder (inherently complex opcode classification)
+MemoryUtils::GetInstructionLength
+
+# Linear data-mapping: N independent if(enabled) prop=val assignments
+PlayerEditorSection::ApplyActiveOverrides
+NPCSpawnHelpers::ApplyPropertyOverrides
+WeaponEditorSection::ApplyRuntimeProps
+
+# Type-dispatch switch (one self-contained case per UE property type)
+PropertyBrowser::RenderPropertyWidget
+
+# Declarative keybind registrations (flat list of independent blocks)
+PlayerAbilitiesSection::InitKeybinds
+WorldActionsSection::InitKeybinds
+
+# Enum-to-value switch (19 cases)
+EquipmentGenerator::GetCustomizableModulesClass
+
+# Win32 message dispatch (inherent branching)
+Gui::WndProc
+
+# Small functions flagged only by CCN, already concise
+ArmorEditorSection::RenderGenerationControls
+PresetUtils::SanitizeFilename
+
+# Serialization: many fields with minimal-mode guards (data mapping)
+NPCPresetSerializer::SerializeToIni
+ArmorPresetSerializer::SerializePassport
+WeaponPresetSerializer::SerializePassport
+
+# Deserialization: sequential field reads (low CCN, length-only flag)
+NPCPresetSerializer::DeserializeFromIni
+WeaponPresetSerializer::DeserializeFromIni
+
+# False positive: line range spans multiple already-separated functions
+HSELauncher::DisplayBanner
+
+# --- Borderline UI rendering / scan functions (CCN 16-26) ---
+# These were refactored from much higher values and are already
+# well-structured for their domain. Further splitting would fragment
+# readability without meaningful complexity reduction.
+
+# UI combos with search, category filter, and selection (ImGui branching)
+WorldEditorSection::RenderActorSelector
+WeaponEditorSection::RenderMeshCombo
+MapLoaderSection::RenderMapSelector
+ItemSpawnerSection::RenderBlueprintItemUI
+LoadoutManagerSection::RenderArmorTab
+
+# Asset registry scan pipelines (query, filter, deduplicate, categorize)
+BlueprintRegistry::PerformScan
+MapRegistry::PerformScan
+
+# Component discovery state machine
+SkyEditorSection::RenderComponentStatus
+
+# Spawn orchestration with optional presets
+MapLoaderSection::SpawnPlayer
+
+# Update check with JSON parsing and version comparison
+UpdateManager::CheckForExperimentalUpdates
+
+# Extracted from ifdef-split, inherent install/update flow
+HSELauncher::CheckAndInstallExperimental
+
+# Modal popup with multiple resolution buttons
+RenderConflictPopup

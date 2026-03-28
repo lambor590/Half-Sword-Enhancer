@@ -1,5 +1,7 @@
 #include "Menu/Sections/Equipment/WeaponEditorSection.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/SectionStyle.h"
+#include "ComponentValidator.h"
 
 REGISTER_SECTION(WeaponEditorSection, MenuTab::Equipment);
 
@@ -1022,32 +1024,42 @@ void WeaponEditorSection::RenderSpawnFooter() {
     if (!canSpawn) ImGui::EndDisabled();
 }
 
-WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : CollapsibleSection(ctx, "Weapon Editor") {
+WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, "Weapon Editor") {
     CreateBlankWeaponPassport();
-
-    Function("Spawn Weapon")
-        .WithKey(&cfg.spawnKey)
-        .WithParams(
-            {Parameter(
-                 "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned weapon to the ground"
-             ),
-             Parameter(
-                 "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
-                 "Spawn distance in front of player"
-             ),
-             Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
-             Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
-             Parameter(
-                 "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview weapon as you edit"
-             )}
-        )
-        .WithTooltip("Spawns the currently edited weapon with runtime overrides applied")
-        .Action([this]() { SpawnFromPassport(); }, player, world);
+    InitKeybinds();
 
     preview.SetCleanupCallback([this]() {
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
             skeletalPreviewComps[i] = nullptr;
     });
+}
+
+void WeaponEditorSection::InitKeybinds() {
+    keybinds.push_back({
+        .name = "Spawn Weapon",
+        .tooltip = "Spawns the currently edited weapon with runtime overrides applied",
+        .configSection = "SpawnWeapon",
+        .keyPtr = &cfg.spawnKey,
+        .callback =
+            [this]([[maybe_unused]] bool) {
+                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                SpawnFromPassport();
+            },
+        .params =
+            {KeybindParam(
+                 "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned weapon to the ground"
+             ),
+             KeybindParam(
+                 "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
+                 "Spawn distance in front of player"
+             ),
+             KeybindParam("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
+             KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
+             KeybindParam(
+                 "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview weapon as you edit"
+             )},
+    });
+    InitKeybindEntry(keybinds.back());
 }
 
 void WeaponEditorSection::Render() {
@@ -1056,10 +1068,8 @@ void WeaponEditorSection::Render() {
     preview.InvalidateIfDead(player, world);
     preview.SyncToggleState();
 
-    for (auto& function : functions) {
-        function->Render();
-        ImGui::Spacing();
-    }
+    KeybindUI::RenderKeybindList(keybinds);
+    ImGui::Spacing();
 
     RenderGenerationControls();
 

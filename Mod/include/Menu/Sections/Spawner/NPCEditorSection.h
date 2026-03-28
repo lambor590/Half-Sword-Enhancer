@@ -1,6 +1,9 @@
 #pragma once
 
-#include "Menu/CollapsibleSection.h"
+#include <vector>
+
+#include "Menu/Section.h"
+#include "Menu/Keybind.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/NPCPresetSerializer.h"
 #include "Utils/PresetSectionState.h"
@@ -9,7 +12,7 @@
 
 #define WILLIE_PATH(s) "/Game/Character/Blueprints" s
 
-class NPCEditorSection : public CollapsibleSection {
+class NPCEditorSection : public Section {
 private:
     struct NPCTypeInfo {
         const char* displayName;
@@ -36,6 +39,7 @@ private:
     static constexpr int nationalityCount = 7;
 
     NPCOverrides overrides{};
+    std::vector<KeybindEntry> keybinds;
 
     PresetSectionState<NPCPresetSerializer> presets;
     PresetPickerState<LoadoutPresetSerializer> loadoutPicker;
@@ -50,6 +54,7 @@ private:
     void RenderCombatTab();
     void RenderBehaviorTab();
     void RenderBodyConditionTab();
+    void InitKeybinds();
 
 public:
     explicit NPCEditorSection(ModContext& ctx);

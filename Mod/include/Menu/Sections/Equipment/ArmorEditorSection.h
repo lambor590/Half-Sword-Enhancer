@@ -3,20 +3,22 @@
 #include <string>
 #include <vector>
 
-#include "Menu/CollapsibleSection.h"
+#include "Menu/Section.h"
+#include "Menu/Keybind.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/GameConstants.h"
 #include "Utils/LivePreviewManager.h"
 #include "Utils/PresetSectionState.h"
 
-class ArmorEditorSection : public CollapsibleSection {
+class ArmorEditorSection : public Section {
 private:
     SectionConfig::ArmorEditorConfig& cfg = SectionConfig::armorEditor;
 
     static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
     static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;
 
+    std::vector<KeybindEntry> keybinds;
     SDK::FStr_Passport_Armor1 armorPassport{};
     bool armorGenerationPending = false;
 
@@ -63,6 +65,7 @@ private:
     ArmorPresetData BuildPresetData() const;
     void ApplyPresetData(ArmorPresetData d);
     void RenderSpawnFooter();
+    void InitKeybinds();
 
 public:
     explicit ArmorEditorSection(ModContext& ctx);
