@@ -1,41 +1,26 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <memory>
-#include <functional>
-#include <unordered_map>
-#include <chrono>
-#include <filesystem>
 #include <array>
-#include <algorithm>
-#include <thread>
-#include <string_view>
-#include <initializer_list>
-#include <queue>
+#include <atomic>
+#include <cstdint>
+#include <functional>
 #include <mutex>
-
-#include <Windows.h>
+#include <queue>
+#include <string_view>
+#include <vector>
 
 #include "Logger.h"
-#include "SDK/Basic.hpp"
-#include "SDK/CoreUObject_classes.hpp"
-#include "SDK/Engine_classes.hpp"
-#include "SDK/Willie_BP_classes.hpp"
-#include "MemoryUtils.h"
+
+namespace SDK {
+    class UObject;
+    class UFunction;
+}
 
 using ProcessEvent = void*(__stdcall*)(SDK::UObject*, SDK::UFunction*, void*);
 
-
 class GameHook {
-private:
-    GameHook() = default;
-
 public:
-    static GameHook& Get() {
-        static GameHook instance;
-        return instance;
-    }
+    static GameHook& Get();
 
     void Hook();
     void Unhook();
@@ -50,49 +35,14 @@ public:
 
     enum class GameEvent : uint8_t { BeginFight, InAbyss, OffLedge };
 
-    void RegisterEvent(GameEvent event, void* id, std::function<void()> callback) {
-        QueueAction([this, event, id, cb = std::move(callback)]() mutable {
-            uint8_t idx = static_cast<uint8_t>(event);
-            auto& vec = eventCallbacks[idx];
-            bool first = vec.empty();
-            vec.emplace_back(id, std::move(cb));
-            if (first) {
-                const char* funcName = GetEventFunctionName(event);
-                RegisterHook(funcName, [this, event]() {
-                    uint8_t eventIdx = static_cast<uint8_t>(event);
-                    auto& callbacks = eventCallbacks[eventIdx];
-                    for (auto& [_, cb] : callbacks) {
-                        cb();
-                    }
-                });
-            }
-        });
-    }
-
-    void UnregisterEvent(GameEvent event, void* id) {
-        QueueAction([this, event, id]() {
-            uint8_t idx = static_cast<uint8_t>(event);
-            auto& vec = eventCallbacks[idx];
-            for (size_t i = 0; i < vec.size(); ++i) {
-                if (vec[i].first == id) {
-                    vec[i] = std::move(vec.back());
-                    vec.pop_back();
-                    break;
-                }
-            }
-            if (vec.empty()) {
-                const char* funcName = GetEventFunctionName(event);
-                UnregisterHook(funcName);
-            }
-        });
-    }
+    void RegisterEvent(GameEvent event, void* id, std::function<void()> callback);
+    void UnregisterEvent(GameEvent event, void* id);
 
     static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
-        constexpr const char* EventNames[] = {
+        constexpr const char* EVENT_NAMES[] = {
             "ExecuteUbergraph_UI_BeginFight", "ExecuteUbergraph_Abyss_Map_Open_Intermediate", "OnWalkingOffLedge"};
-        return EventNames[static_cast<uint8_t>(event)];
+        return EVENT_NAMES[static_cast<uint8_t>(event)];
     }
-
 
     struct HookEntry {
         uint64_t nameHash = 0;
@@ -103,6 +53,8 @@ public:
     GameHook& operator=(const GameHook&) = delete;
 
 private:
+    GameHook() = default;
+
     void RegisterHook(std::string_view functionName, std::function<void()> callback);
     void RegisterHook(uint64_t hash, std::function<void()> callback);
     void UnregisterHook(std::string_view functionName);

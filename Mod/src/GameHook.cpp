@@ -1,11 +1,17 @@
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
-#include "Menu/Sections/Settings/GraphicsSection.h"
+#include "MemoryUtils.h"
 #include "Utils/CompileTimeHash.h"
 #include "Utils/GameBuildInfo.h"
 
-#include <intrin.h>
+#include "SDK/Basic.hpp"
+#include "SDK/CoreUObject_classes.hpp"
+#include "SDK/Engine_classes.hpp"
+
+#include <chrono>
 #include <cstring>
+#include <intrin.h>
+#include <thread>
 
 std::queue<std::function<void()>> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
@@ -128,6 +134,11 @@ void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, voi
     return ((ProcessEvent)hook.oProcessEvent)(pObject, pFunc, Parms);
 }
 
+GameHook& GameHook::Get() {
+    static GameHook instance;
+    return instance;
+}
+
 void GameHook::Hook() {
     logger.Log("Hooking ProcessEvent");
 
@@ -142,9 +153,7 @@ void GameHook::Hook() {
         UnlockUEConsole();
     }
 
-    GraphicsSection::ApplyOnStartup();
-
-    GameHook::QueueAction([]() { GameBuildInfo::Query(); });
+    QueueAction([]() { GameBuildInfo::Query(); });
 
     logger.Log("ProcessEvent hooked successfully!");
 }
@@ -159,6 +168,43 @@ void GameHook::Unhook() {
     for (auto& vec : eventCallbacks)
         vec.clear();
     logger.Log("ProcessEvent unhooked successfully!");
+}
+
+void GameHook::RegisterEvent(GameEvent event, void* id, std::function<void()> callback) {
+    QueueAction([this, event, id, cb = std::move(callback)]() mutable {
+        uint8_t idx = static_cast<uint8_t>(event);
+        auto& vec = eventCallbacks[idx];
+        bool first = vec.empty();
+        vec.emplace_back(id, std::move(cb));
+        if (first) {
+            const char* funcName = GetEventFunctionName(event);
+            RegisterHook(funcName, [this, event]() {
+                uint8_t eventIdx = static_cast<uint8_t>(event);
+                auto& callbacks = eventCallbacks[eventIdx];
+                for (auto& [_, cb] : callbacks) {
+                    cb();
+                }
+            });
+        }
+    });
+}
+
+void GameHook::UnregisterEvent(GameEvent event, void* id) {
+    QueueAction([this, event, id]() {
+        uint8_t idx = static_cast<uint8_t>(event);
+        auto& vec = eventCallbacks[idx];
+        for (size_t i = 0; i < vec.size(); ++i) {
+            if (vec[i].first == id) {
+                vec[i] = std::move(vec.back());
+                vec.pop_back();
+                break;
+            }
+        }
+        if (vec.empty()) {
+            const char* funcName = GetEventFunctionName(event);
+            UnregisterHook(funcName);
+        }
+    });
 }
 
 void GameHook::RegisterHook(std::string_view functionName, std::function<void()> callback) {

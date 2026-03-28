@@ -5,6 +5,7 @@
 #include "MemoryUtils.h"
 #include "Hooks/GameHook.h"
 #include "Render/Renderer.h"
+#include "Menu/Sections/Settings/GraphicsSection.h"
 #include "GlobalDefinitions.h"
 #include "KeybindManager.h"
 
@@ -26,12 +27,20 @@ static DWORD WINAPI DXHookThread(LPVOID) noexcept {
 
 static DWORD WINAPI GameHookThread(LPVOID) noexcept {
     GameHook::Get().Hook();
+    GraphicsSection::ApplyOnStartup();
     return 0;
 }
 
 extern "C" __declspec(dllexport) void HSE_Initialize() noexcept {
-    CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
-    CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
+    HANDLE dxThread = CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
+    if (dxThread) {
+        CloseHandle(dxThread);
+    }
+
+    HANDLE gameThread = CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
+    if (gameThread) {
+        CloseHandle(gameThread);
+    }
 }
 
 static void Cleanup() noexcept {
