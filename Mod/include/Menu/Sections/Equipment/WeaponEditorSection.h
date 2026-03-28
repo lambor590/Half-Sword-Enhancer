@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <string_view>
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
@@ -123,7 +124,7 @@ private:
         return false;
     }
 
-    static bool HasExcludedName(const std::string& name) {
+    static bool HasExcludedName(std::string_view name) {
         static constexpr const char* PREFIXES[] = {
             "UCX_", "UBX_", "USP_", "UCP_", "SM_Preview", "SM_Template"
         };
@@ -134,7 +135,7 @@ private:
             "_Collision", "Proxy", "Placeholder", "NavMesh"
         };
         for (auto* sub : SUBSTRINGS)
-            if (name.find(sub) != std::string::npos) return true;
+            if (name.find(sub) != std::string_view::npos) return true;
 
         return false;
     }
@@ -241,11 +242,13 @@ private:
             if (obj->IsDefaultObject()) continue;
             if (!seen.insert(obj).second) continue;
 
-            std::string meshName = obj->GetName();
-            if (HasExcludedName(meshName)) continue;
-
             std::string fullName = obj->GetFullName();
             if (HasExcludedPath(fullName)) continue;
+
+            auto dotPos = fullName.rfind('.');
+            std::string_view meshNameView = (dotPos != std::string::npos)
+                ? std::string_view(fullName).substr(dotPos + 1) : std::string_view(fullName);
+            if (HasExcludedName(meshNameView)) continue;
 
             if (type == MeshType::Static) {
                 if (IsStaticMeshInvalid(static_cast<SDK::UStaticMesh*>(obj))) continue;
@@ -253,7 +256,7 @@ private:
                 if (IsSkeletalMeshInvalid(static_cast<SDK::USkeletalMesh*>(obj))) continue;
             }
 
-            scanned.push_back({obj, std::move(meshName),
+            scanned.push_back({obj, std::string(meshNameView),
                 PresetUtils::ObjectToAbsolutePath(obj),
                 ExtractCategory(fullName), type});
         }
@@ -837,7 +840,7 @@ private:
         }
 
         if (ImGui::Button("Refresh")) {
-            meshScanQueued = false;
+            meshScanQueued = true;
             GameHook::QueueAction([this]() { ScanAllMeshes(); });
         }
         TooltipHelper::ShowTooltip("Rescan all loaded meshes from memory. Custom-loaded assets will need to be reloaded");
