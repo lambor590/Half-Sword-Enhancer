@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+FAILED=0
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Get staged files (excluding deleted)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=d)
+[ -z "$STAGED_FILES" ] && exit 0
+
+is_excluded() {
+    case "$1" in
+        Mod/SDK/*|ext/*|*/ext/*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# --- Check: large files (>500KB) ---
+while IFS= read -r file; do
+    [ -z "$file" ] && continue
+    size=$(git cat-file -s ":$file" 2>/dev/null || echo 0)
+    if [ "$size" -gt 512000 ]; then
+        echo "[FAIL] Large file detected ($(( size / 1024 ))KB): $file"
+        FAILED=1
+    fi
+done <<< "$STAGED_FILES"
+
+# --- Check: merge conflict markers ---
+CONFLICT_FILES=$(echo "$STAGED_FILES" | while IFS= read -r file; do
+    [ -z "$file" ] && continue
+    is_excluded "$file" && continue
+    if git show ":$file" 2>/dev/null | grep -qE '^(<{7}|>{7}|={7})( |$)'; then
+        echo "  $file"
+    fi
+done)
+if [ -n "$CONFLICT_FILES" ]; then
+    echo "[FAIL] Merge conflict markers found in:"
+    echo "$CONFLICT_FILES"
+    FAILED=1
+fi
+
+# --- Check: trailing whitespace ---
+WS_FILES=$(echo "$STAGED_FILES" | while IFS= read -r file; do
+    [ -z "$file" ] && continue
+    is_excluded "$file" && continue
+    if git show ":$file" 2>/dev/null | grep -qP '[ \t]+$'; then
+        echo "  $file"
+    fi
+done)
+if [ -n "$WS_FILES" ]; then
+    echo "[FAIL] Trailing whitespace found in:"
+    echo "$WS_FILES"
+    echo "  Run: sed -i 's/[[:space:]]*$//' <file>"
+    FAILED=1
+fi
+
+# --- Check: clang-format (if available) ---
+if command -v clang-format &>/dev/null; then
+    FORMAT_FILES=$(echo "$STAGED_FILES" | while IFS= read -r file; do
+        [ -z "$file" ] && continue
+        is_excluded "$file" && continue
+        case "$file" in
+            *.cpp|*.h|*.hpp|*.c)
+                if ! git show ":$file" | clang-format --style=file:"$REPO_ROOT/.clang-format" --dry-run --Werror 2>/dev/null; then
+                    echo "  $file"
+                fi
+                ;;
+        esac
+    done)
+    if [ -n "$FORMAT_FILES" ]; then
+        echo "[FAIL] clang-format violations in:"
+        echo "$FORMAT_FILES"
+        echo "  Run: clang-format -i <file>"
+        FAILED=1
+    fi
+else
+    echo "[SKIP] clang-format not found, skipping format check"
+fi
+
+if [ "$FAILED" -ne 0 ]; then
+    echo ""
+    echo "Pre-commit checks failed. Fix the issues above and try again."
+    exit 1
+fi
