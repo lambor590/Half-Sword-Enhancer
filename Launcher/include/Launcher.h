@@ -12,6 +12,9 @@
 #include "Util.h"
 
 class HSELauncher {
+#if __has_include("launcher_ext.h")
+    friend struct lext;
+#endif
     static constexpr int EXIT_DELAY_SECONDS = 3;
     static constexpr int CONSOLE_RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
     static constexpr int CONSOLE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;

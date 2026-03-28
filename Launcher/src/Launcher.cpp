@@ -5,6 +5,10 @@
 
 #include "../include/Launcher.h"
 
+#if __has_include("launcher_ext.h")
+#include "launcher_ext.h"
+#endif
+
 #include <shellapi.h>
 
 HSELauncher::HSELauncher()
@@ -409,6 +413,9 @@ void HSELauncher::ShowExitMessage(bool success) {
 }
 
 int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
+#if __has_include("launcher_ext.h")
+    return lext::Run(*this);
+#else
     try {
         SetupConsole();
         DisplayBanner();
@@ -458,4 +465,5 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
         ShowExitMessage(false);
         return 1;
     }
+#endif
 }
