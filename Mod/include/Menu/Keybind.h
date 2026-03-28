@@ -9,7 +9,7 @@
 #include <string_view>
 #include <vector>
 
-#include "Hooks/GameHook.h"
+#include "Menu/EventBus.h"
 
 class ModContext;
 
@@ -57,7 +57,7 @@ struct KeybindEntry {
     bool gameThread = false;
 
     /// Game events this keybind subscribes to (fires callback periodically).
-    std::vector<GameHook::GameEvent> events;
+    std::vector<GameEvent> events;
 
     /// UI state -- managed by rendering.
     bool waitingForKey = false;

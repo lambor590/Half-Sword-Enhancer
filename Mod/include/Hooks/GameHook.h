@@ -7,9 +7,10 @@
 #include <mutex>
 #include <queue>
 #include <string_view>
-#include <vector>
 
 #include "Logger.h"
+
+enum class GameEvent : uint8_t;
 
 namespace SDK {
     class UObject;
@@ -33,16 +34,17 @@ public:
 
     bool IsHooked() const noexcept { return hooked; }
 
-    enum class GameEvent : uint8_t { BeginFight, InAbyss, OffLedge };
+    /// Register a ProcessEvent hook by UE function name.
+    void RegisterHook(std::string_view functionName, std::function<void()> callback);
 
-    void RegisterEvent(GameEvent event, void* id, std::function<void()> callback);
-    void UnregisterEvent(GameEvent event, void* id);
+    /// Unregister a ProcessEvent hook by UE function name.
+    void UnregisterHook(std::string_view functionName);
 
-    static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
-        constexpr const char* EVENT_NAMES[] = {
-            "ExecuteUbergraph_UI_BeginFight", "ExecuteUbergraph_Abyss_Map_Open_Intermediate", "OnWalkingOffLedge"};
-        return EVENT_NAMES[static_cast<uint8_t>(event)];
-    }
+    /// Register a ProcessEvent hook for a GameEvent (maps to its UE function name).
+    void RegisterHook(GameEvent event, std::function<void()> callback);
+
+    /// Unregister a ProcessEvent hook for a GameEvent.
+    void UnregisterHook(GameEvent event);
 
     struct HookEntry {
         uint64_t nameHash = 0;
@@ -55,9 +57,7 @@ public:
 private:
     GameHook() = default;
 
-    void RegisterHook(std::string_view functionName, std::function<void()> callback);
     void RegisterHook(uint64_t hash, std::function<void()> callback);
-    void UnregisterHook(std::string_view functionName);
     void UnregisterHook(uint64_t hash);
 
     Logger logger{"GameHook"};
@@ -68,8 +68,6 @@ private:
     static constexpr size_t MAX_HOOKS = 16;
     std::array<HookEntry, MAX_HOOKS> hooks{};
     uint8_t hookCount = 0;
-
-    std::array<std::vector<std::pair<void*, std::function<void()>>>, 3> eventCallbacks;
 
     static std::queue<std::function<void()>> gameThreadQueue;
     static std::mutex queueMutex;

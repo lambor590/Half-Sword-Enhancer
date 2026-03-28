@@ -426,7 +426,7 @@ void PlayerEditorSection::InitKeybinds() {
                 if (active) ApplyActiveOverrides(player, overrides);
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 }

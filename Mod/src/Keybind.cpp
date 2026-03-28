@@ -2,6 +2,7 @@
 #include <algorithm>
 
 #include "Menu/Keybind.h"
+#include "Hooks/GameHook.h"
 #include "imgui/imgui.h"
 #include "ConfigManager.h"
 #include "KeybindManager.h"
@@ -468,9 +469,9 @@ void InitKeybindEntry(KeybindEntry& entry) {
                 // Toggle event subscriptions
                 for (auto evt : entry.events) {
                     if (entry.isEnabled) {
-                        GameHook::Get().RegisterEvent(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
+                        EventBus::Get().Subscribe(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
                     } else {
-                        GameHook::Get().UnregisterEvent(evt, &entry);
+                        EventBus::Get().Unsubscribe(evt, &entry);
                     }
                 }
 
@@ -491,7 +492,7 @@ void InitKeybindEntry(KeybindEntry& entry) {
     // If already enabled (loaded from config) and has events, subscribe now
     if (entry.isEnabled && !entry.events.empty()) {
         for (auto evt : entry.events) {
-            GameHook::Get().RegisterEvent(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
+            EventBus::Get().Subscribe(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
         }
     }
 }

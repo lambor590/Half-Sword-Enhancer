@@ -1,5 +1,6 @@
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
+#include "Menu/EventBus.h"
 #include "MemoryUtils.h"
 #include "Utils/CompileTimeHash.h"
 #include "Utils/GameBuildInfo.h"
@@ -165,46 +166,8 @@ void GameHook::Unhook() {
         hooks[i] = {};
     hookCount = 0;
     g_peCache.Clear();
-    for (auto& vec : eventCallbacks)
-        vec.clear();
+    EventBus::Get().Clear();
     logger.Log("ProcessEvent unhooked successfully!");
-}
-
-void GameHook::RegisterEvent(GameEvent event, void* id, std::function<void()> callback) {
-    QueueAction([this, event, id, cb = std::move(callback)]() mutable {
-        uint8_t idx = static_cast<uint8_t>(event);
-        auto& vec = eventCallbacks[idx];
-        bool first = vec.empty();
-        vec.emplace_back(id, std::move(cb));
-        if (first) {
-            const char* funcName = GetEventFunctionName(event);
-            RegisterHook(funcName, [this, event]() {
-                uint8_t eventIdx = static_cast<uint8_t>(event);
-                auto& callbacks = eventCallbacks[eventIdx];
-                for (auto& [_, cb] : callbacks) {
-                    cb();
-                }
-            });
-        }
-    });
-}
-
-void GameHook::UnregisterEvent(GameEvent event, void* id) {
-    QueueAction([this, event, id]() {
-        uint8_t idx = static_cast<uint8_t>(event);
-        auto& vec = eventCallbacks[idx];
-        for (size_t i = 0; i < vec.size(); ++i) {
-            if (vec[i].first == id) {
-                vec[i] = std::move(vec.back());
-                vec.pop_back();
-                break;
-            }
-        }
-        if (vec.empty()) {
-            const char* funcName = GetEventFunctionName(event);
-            UnregisterHook(funcName);
-        }
-    });
 }
 
 void GameHook::RegisterHook(std::string_view functionName, std::function<void()> callback) {
@@ -213,6 +176,14 @@ void GameHook::RegisterHook(std::string_view functionName, std::function<void()>
 
 void GameHook::UnregisterHook(std::string_view functionName) {
     UnregisterHook(HS::Hash::FNV1A(functionName));
+}
+
+void GameHook::RegisterHook(GameEvent event, std::function<void()> callback) {
+    RegisterHook(EventBus::GetEventFunctionName(event), std::move(callback));
+}
+
+void GameHook::UnregisterHook(GameEvent event) {
+    UnregisterHook(EventBus::GetEventFunctionName(event));
 }
 
 void GameHook::RegisterHook(uint64_t hash, std::function<void()> callback) {

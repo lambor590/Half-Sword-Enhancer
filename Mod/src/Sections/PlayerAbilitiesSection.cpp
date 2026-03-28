@@ -31,7 +31,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 if (!ComponentValidator::Validate(player)) return;
                 player->Stamina = GameConstants::DEFAULT_HEALTH;
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -45,7 +45,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 if (!ComponentValidator::Validate(player)) return;
                 ActorUtils::SetInfiniteConsciousness(player);
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -59,7 +59,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
                 ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -75,7 +75,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 player->Consciousness_Cap = cap;
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
         .params = {KeybindParam(
             "consciousness_multiplier", "Multiplier", &cfg.consciousnessMultiplier, 1.0f, 100.0f,
             "Multiplies consciousness cap"
@@ -97,7 +97,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 });
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
         .params = {KeybindParam(
             "enemy_consciousness_multiplier", "Multiplier", &cfg.enemyConsciousnessMultiplier, 1.0f, 100.0f,
             "Multiplies enemy consciousness cap"
@@ -134,7 +134,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                                      : GameConstants::DEFAULT_PLAYER_SPEED;
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
         .params =
             {KeybindParam(
                  "run_speed_multiplier", "Run Speed Multiplier", &cfg.playerRunMultiplier, 1.0f, 100.0f,
@@ -168,7 +168,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                            : GameConstants::DEFAULT_HANDS_RIGIDITY;
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
         .params =
             {KeybindParam(
                  "strength_multiplier", "Strength Multiplier", &cfg.playerStrengthMultiplier, 1.0f, 10.0f,
@@ -202,7 +202,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                     player->Leg_R_Tonus = GameConstants::FULL_TONUS;
                 }
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
         .params =
             {KeybindParam(
                  "all_body", "All Body Tonus Multiplier", &cfg.bodyTonusAllBodyMultiplier, 1.0f, 10.0f,
@@ -225,7 +225,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 if (!ComponentValidator::Validate(player)) return;
                 player->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -241,7 +241,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                     willie->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
                 });
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -258,7 +258,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 });
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
         .params = {KeybindParam(
             "drunk_level", "Drunk Level", &cfg.enemyDrunkLevel, 0.0f, 1.0f,
             "How drunk the enemies are (0 = sober, 1 = fully drunk)"
@@ -276,7 +276,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 if (!ComponentValidator::Validate(player)) return;
                 player->Kick_Cooldown = false;
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -292,7 +292,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 player->Invulnerable = active;
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -306,7 +306,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 if (!ComponentValidator::Validate(player)) return;
                 ActorUtils::ApplyNoPainEffect(player);
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -320,7 +320,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
                 ActorUtils::ForEachWillie(world, player, ActorUtils::ApplyNoPainEffect);
             },
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -363,7 +363,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 GameHook::QueueAction([this, active]() { ActorUtils::ApplyBiteState(player, active); });
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
     });
     InitKeybindEntry(keybinds.back());
 
@@ -387,7 +387,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 });
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
         .params = {KeybindParam("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target")},
     });
     InitKeybindEntry(keybinds.back());
@@ -408,7 +408,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 });
             },
         .toggleable = true,
-        .events = {GameHook::GameEvent::OffLedge},
+        .events = {GameEvent::OffLedge},
         .params = {KeybindParam("range", "Range", &cfg.biteAllRange, 50.0f, 2000.0f, "Detection range for mass bite")},
     });
     InitKeybindEntry(keybinds.back());
