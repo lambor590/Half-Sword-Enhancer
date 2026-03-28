@@ -39,8 +39,7 @@ public:
 
     float GetFloat(std::string_view function, std::string_view param, float defaultValue);
 
-    std::string GetString(std::string_view function, std::string_view param,
-                          std::string_view defaultValue);
+    std::string GetString(std::string_view function, std::string_view param, std::string_view defaultValue);
 
     void SetInt(std::string_view function, std::string_view param, int value);
 
@@ -48,6 +47,5 @@ public:
 
     void SetFloat(std::string_view function, std::string_view param, float value);
 
-    void SetString(std::string_view function, std::string_view param,
-                   std::string_view value);
-}; 
+    void SetString(std::string_view function, std::string_view param, std::string_view value);
+};

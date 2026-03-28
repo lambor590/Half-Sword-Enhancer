@@ -8,8 +8,7 @@
 
 #include "Logger.h"
 
-namespace MemoryUtils
-{
+namespace MemoryUtils {
     extern Logger logger;
 
     constexpr unsigned char NOP_INSTRUCTION = 0x90;
@@ -25,8 +24,7 @@ namespace MemoryUtils
     constexpr size_t ABS_JUMP_FULL_SIZE = 14;
     constexpr size_t REL_JUMP_SIZE = 5;
 
-    struct HookInformation
-    {
+    struct HookInformation {
         std::array<uint8_t, 32> originalBytes{};
         size_t originalBytesSize = 0;
         uintptr_t trampolineInstructionsAddress = 0;
@@ -37,15 +35,13 @@ namespace MemoryUtils
 
     void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size) noexcept;
 
-    static inline void MemCopy(uintptr_t destination, uintptr_t source, size_t numBytes) noexcept
-    {
+    static inline void MemCopy(uintptr_t destination, uintptr_t source, size_t numBytes) noexcept {
         ToggleMemoryProtection(false, destination, numBytes);
         std::memcpy(reinterpret_cast<void*>(destination), reinterpret_cast<const void*>(source), numBytes);
         ToggleMemoryProtection(true, destination, numBytes);
     }
 
-    static inline void MemSet(uintptr_t address, unsigned char byte, size_t numBytes) noexcept
-    {
+    static inline void MemSet(uintptr_t address, unsigned char byte, size_t numBytes) noexcept {
         ToggleMemoryProtection(false, address, numBytes);
         std::memset(reinterpret_cast<void*>(address), byte, numBytes);
         ToggleMemoryProtection(true, address, numBytes);
@@ -53,16 +49,17 @@ namespace MemoryUtils
 
     uintptr_t GetProcessBaseAddress(DWORD processId) noexcept;
 
-    static inline const std::string& GetCurrentModuleName() noexcept
-    {
+    static inline const std::string& GetCurrentModuleName() noexcept {
         static const std::string cachedName = []() {
             HMODULE module = NULL;
             static char dummy = 'x';
-            GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, &dummy, &module);
+            GetModuleHandleExA(
+                GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, &dummy, &module
+            );
 
             char lpFilename[MAX_PATH];
             GetModuleFileNameA(module, lpFilename, sizeof(lpFilename));
-            
+
             if (char* lastSlash = strrchr(lpFilename, '\\')) {
                 std::string_view moduleName(lastSlash + 1);
                 if (auto dotPos = moduleName.find(".dll"); dotPos != std::string_view::npos) {
@@ -74,8 +71,7 @@ namespace MemoryUtils
         return cachedName;
     }
 
-    static inline void ShowErrorPopup(std::string_view error) noexcept
-    {
+    static inline void ShowErrorPopup(std::string_view error) noexcept {
         logger.Log("Raised error: {}", error);
         std::string errorStr(error);
         MessageBoxA(NULL, errorStr.c_str(), GetCurrentModuleName().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);

@@ -18,36 +18,26 @@ private:
     int activeTab = 0;
 
     int CountActiveOverrides() const {
-        return overrides.heightRate.enabled + overrides.muscleRate.enabled
-            + overrides.scaleMutationInhibitor.enabled
-            + overrides.health.enabled + overrides.headHealth.enabled
-            + overrides.neckHealth.enabled + overrides.armRHealth.enabled
-            + overrides.armLHealth.enabled + overrides.bodyUpperHealth.enabled
-            + overrides.bodyLowerHealth.enabled + overrides.legRHealth.enabled
-            + overrides.legLHealth.enabled + overrides.backHealth.enabled
-            + overrides.consciousness.enabled + overrides.regenRate.enabled
-            + overrides.allBodyTonus.enabled + overrides.headTonus.enabled
-            + overrides.armRTonus.enabled + overrides.armLTonus.enabled
-            + overrides.legRTonus.enabled + overrides.legLTonus.enabled
-            + overrides.musclePower.enabled + overrides.orientationStrength.enabled
-            + overrides.angularStrength.enabled + overrides.hitRigidity.enabled
-            + overrides.runningSpeedRate.enabled + overrides.walkSpeedRateRun.enabled
-            + overrides.jumpRate.enabled + overrides.dodgeRate.enabled
-            + overrides.crawlRate.enabled + overrides.getUpRate.enabled
-            + overrides.fallenRate.enabled + overrides.damageRate.enabled
-            + overrides.limbDamageRate.enabled + overrides.dismemberThreshold.enabled
-            + overrides.stamina.enabled + overrides.staminaBurnSwingR.enabled
-            + overrides.staminaBurnSwingL.enabled + overrides.staminaBurnDodge.enabled
-            + overrides.grabForceR.enabled + overrides.grabForceL.enabled
-            + overrides.handsRigidity.enabled + overrides.bodySkill.enabled
-            + overrides.weaponSkill.enabled + overrides.skillThrust.enabled
-            + overrides.skillParry.enabled + overrides.skillAltGrip.enabled
-            + overrides.skillAltStance.enabled + overrides.skillRotate.enabled
-            + overrides.skillCrouch.enabled + overrides.skillDodge.enabled
-            + overrides.skillKick.enabled + overrides.skillSlomo.enabled
-            + overrides.exhaustion.enabled + overrides.drunk.enabled
-            + overrides.fear.enabled + overrides.invulnerable.enabled
-            + overrides.fearless.enabled;
+        return overrides.heightRate.enabled + overrides.muscleRate.enabled + overrides.scaleMutationInhibitor.enabled +
+               overrides.health.enabled + overrides.headHealth.enabled + overrides.neckHealth.enabled +
+               overrides.armRHealth.enabled + overrides.armLHealth.enabled + overrides.bodyUpperHealth.enabled +
+               overrides.bodyLowerHealth.enabled + overrides.legRHealth.enabled + overrides.legLHealth.enabled +
+               overrides.backHealth.enabled + overrides.consciousness.enabled + overrides.regenRate.enabled +
+               overrides.allBodyTonus.enabled + overrides.headTonus.enabled + overrides.armRTonus.enabled +
+               overrides.armLTonus.enabled + overrides.legRTonus.enabled + overrides.legLTonus.enabled +
+               overrides.musclePower.enabled + overrides.orientationStrength.enabled +
+               overrides.angularStrength.enabled + overrides.hitRigidity.enabled + overrides.runningSpeedRate.enabled +
+               overrides.walkSpeedRateRun.enabled + overrides.jumpRate.enabled + overrides.dodgeRate.enabled +
+               overrides.crawlRate.enabled + overrides.getUpRate.enabled + overrides.fallenRate.enabled +
+               overrides.damageRate.enabled + overrides.limbDamageRate.enabled + overrides.dismemberThreshold.enabled +
+               overrides.stamina.enabled + overrides.staminaBurnSwingR.enabled + overrides.staminaBurnSwingL.enabled +
+               overrides.staminaBurnDodge.enabled + overrides.grabForceR.enabled + overrides.grabForceL.enabled +
+               overrides.handsRigidity.enabled + overrides.bodySkill.enabled + overrides.weaponSkill.enabled +
+               overrides.skillThrust.enabled + overrides.skillParry.enabled + overrides.skillAltGrip.enabled +
+               overrides.skillAltStance.enabled + overrides.skillRotate.enabled + overrides.skillCrouch.enabled +
+               overrides.skillDodge.enabled + overrides.skillKick.enabled + overrides.skillSlomo.enabled +
+               overrides.exhaustion.enabled + overrides.drunk.enabled + overrides.fear.enabled +
+               overrides.invulnerable.enabled + overrides.fearless.enabled;
     }
 
     static void ApplyActiveOverrides(SDK::AWillie_BP_C* p, PlayerEditorOverrides& ovr) {
@@ -55,68 +45,67 @@ private:
             p->Height_Rate = ovr.heightRate.value;
             p->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = ovr.heightRate.value;
         }
-        if (ovr.muscleRate.enabled)
-            p->Muscle_Rate = ovr.muscleRate.value;
+        if (ovr.muscleRate.enabled) p->Muscle_Rate = ovr.muscleRate.value;
         if (ovr.scaleMutationInhibitor.enabled) p->Scale_Mutation_Inhibitor = ovr.scaleMutationInhibitor.value;
 
-        if (ovr.health.enabled)          p->Health = ovr.health.value;
-        if (ovr.headHealth.enabled)      p->Head_Health = ovr.headHealth.value;
-        if (ovr.neckHealth.enabled)      p->Neck_Health = ovr.neckHealth.value;
-        if (ovr.armRHealth.enabled)      p->Arm_R_Health = ovr.armRHealth.value;
-        if (ovr.armLHealth.enabled)      p->Arm_L_Health = ovr.armLHealth.value;
+        if (ovr.health.enabled) p->Health = ovr.health.value;
+        if (ovr.headHealth.enabled) p->Head_Health = ovr.headHealth.value;
+        if (ovr.neckHealth.enabled) p->Neck_Health = ovr.neckHealth.value;
+        if (ovr.armRHealth.enabled) p->Arm_R_Health = ovr.armRHealth.value;
+        if (ovr.armLHealth.enabled) p->Arm_L_Health = ovr.armLHealth.value;
         if (ovr.bodyUpperHealth.enabled) p->Body_Upper_Health = ovr.bodyUpperHealth.value;
         if (ovr.bodyLowerHealth.enabled) p->Body_Lower_Health = ovr.bodyLowerHealth.value;
-        if (ovr.legRHealth.enabled)      p->Leg_R_Health = ovr.legRHealth.value;
-        if (ovr.legLHealth.enabled)      p->Leg_L_Health = ovr.legLHealth.value;
-        if (ovr.backHealth.enabled)      p->Back_Health = ovr.backHealth.value;
-        if (ovr.consciousness.enabled)   p->Consciousness = ovr.consciousness.value;
-        if (ovr.regenRate.enabled)       p->Regen_Rate = ovr.regenRate.value;
+        if (ovr.legRHealth.enabled) p->Leg_R_Health = ovr.legRHealth.value;
+        if (ovr.legLHealth.enabled) p->Leg_L_Health = ovr.legLHealth.value;
+        if (ovr.backHealth.enabled) p->Back_Health = ovr.backHealth.value;
+        if (ovr.consciousness.enabled) p->Consciousness = ovr.consciousness.value;
+        if (ovr.regenRate.enabled) p->Regen_Rate = ovr.regenRate.value;
 
-        if (ovr.allBodyTonus.enabled)        p->All_Body_Tonus = ovr.allBodyTonus.value;
-        if (ovr.headTonus.enabled)           p->Head_Tonus = ovr.headTonus.value;
-        if (ovr.armRTonus.enabled)           p->Arm_R_Tonus = ovr.armRTonus.value;
-        if (ovr.armLTonus.enabled)           p->Arm_L_Tonus = ovr.armLTonus.value;
-        if (ovr.legRTonus.enabled)           p->Leg_R_Tonus = ovr.legRTonus.value;
-        if (ovr.legLTonus.enabled)           p->Leg_L_Tonus = ovr.legLTonus.value;
-        if (ovr.musclePower.enabled)         p->Muscle_Power = ovr.musclePower.value;
+        if (ovr.allBodyTonus.enabled) p->All_Body_Tonus = ovr.allBodyTonus.value;
+        if (ovr.headTonus.enabled) p->Head_Tonus = ovr.headTonus.value;
+        if (ovr.armRTonus.enabled) p->Arm_R_Tonus = ovr.armRTonus.value;
+        if (ovr.armLTonus.enabled) p->Arm_L_Tonus = ovr.armLTonus.value;
+        if (ovr.legRTonus.enabled) p->Leg_R_Tonus = ovr.legRTonus.value;
+        if (ovr.legLTonus.enabled) p->Leg_L_Tonus = ovr.legLTonus.value;
+        if (ovr.musclePower.enabled) p->Muscle_Power = ovr.musclePower.value;
         if (ovr.orientationStrength.enabled) p->Orientation_Strength = ovr.orientationStrength.value;
-        if (ovr.angularStrength.enabled)     p->Angular_Strength = ovr.angularStrength.value;
-        if (ovr.hitRigidity.enabled)         p->Hit_Rigidity = ovr.hitRigidity.value;
+        if (ovr.angularStrength.enabled) p->Angular_Strength = ovr.angularStrength.value;
+        if (ovr.hitRigidity.enabled) p->Hit_Rigidity = ovr.hitRigidity.value;
 
         if (ovr.runningSpeedRate.enabled) p->Running_Speed_Rate = ovr.runningSpeedRate.value;
         if (ovr.walkSpeedRateRun.enabled) p->Walk_Speed_Rate_Run = static_cast<float>(ovr.walkSpeedRateRun.value);
-        if (ovr.jumpRate.enabled)         p->Jump_Rate = ovr.jumpRate.value;
-        if (ovr.dodgeRate.enabled)        p->Dodge_Rate = ovr.dodgeRate.value;
-        if (ovr.crawlRate.enabled)        p->Crawl_Rate = ovr.crawlRate.value;
-        if (ovr.getUpRate.enabled)        p->Get_Up_Rate = ovr.getUpRate.value;
-        if (ovr.fallenRate.enabled)       p->Fallen_Rate = ovr.fallenRate.value;
+        if (ovr.jumpRate.enabled) p->Jump_Rate = ovr.jumpRate.value;
+        if (ovr.dodgeRate.enabled) p->Dodge_Rate = ovr.dodgeRate.value;
+        if (ovr.crawlRate.enabled) p->Crawl_Rate = ovr.crawlRate.value;
+        if (ovr.getUpRate.enabled) p->Get_Up_Rate = ovr.getUpRate.value;
+        if (ovr.fallenRate.enabled) p->Fallen_Rate = ovr.fallenRate.value;
 
-        if (ovr.damageRate.enabled)         p->Damage_Rate__Additional_ = ovr.damageRate.value;
-        if (ovr.limbDamageRate.enabled)     p->Limb_Damage_Rate__Additional_ = ovr.limbDamageRate.value;
+        if (ovr.damageRate.enabled) p->Damage_Rate__Additional_ = ovr.damageRate.value;
+        if (ovr.limbDamageRate.enabled) p->Limb_Damage_Rate__Additional_ = ovr.limbDamageRate.value;
         if (ovr.dismemberThreshold.enabled) p->Health_Threshold_For_Dismemberment = ovr.dismemberThreshold.value;
-        if (ovr.stamina.enabled)            p->Stamina = ovr.stamina.value;
-        if (ovr.staminaBurnSwingR.enabled)  p->Stamina_Burn_Swing_R = ovr.staminaBurnSwingR.value;
-        if (ovr.staminaBurnSwingL.enabled)  p->Stamina_Burn_Swing_L = ovr.staminaBurnSwingL.value;
-        if (ovr.staminaBurnDodge.enabled)   p->Stamina_Burn_Dodge = ovr.staminaBurnDodge.value;
-        if (ovr.grabForceR.enabled)         p->R_Grab_Force_Limit = ovr.grabForceR.value;
-        if (ovr.grabForceL.enabled)         p->L_Grab_Force_Limit = ovr.grabForceL.value;
-        if (ovr.handsRigidity.enabled)      p->Hands_Rigidity__Gauntlets_ = ovr.handsRigidity.value;
-        if (ovr.bodySkill.enabled)          p->Body_Skill__Temp_ = ovr.bodySkill.value;
-        if (ovr.weaponSkill.enabled)        p->Weapon_Skill__Temp_ = ovr.weaponSkill.value;
+        if (ovr.stamina.enabled) p->Stamina = ovr.stamina.value;
+        if (ovr.staminaBurnSwingR.enabled) p->Stamina_Burn_Swing_R = ovr.staminaBurnSwingR.value;
+        if (ovr.staminaBurnSwingL.enabled) p->Stamina_Burn_Swing_L = ovr.staminaBurnSwingL.value;
+        if (ovr.staminaBurnDodge.enabled) p->Stamina_Burn_Dodge = ovr.staminaBurnDodge.value;
+        if (ovr.grabForceR.enabled) p->R_Grab_Force_Limit = ovr.grabForceR.value;
+        if (ovr.grabForceL.enabled) p->L_Grab_Force_Limit = ovr.grabForceL.value;
+        if (ovr.handsRigidity.enabled) p->Hands_Rigidity__Gauntlets_ = ovr.handsRigidity.value;
+        if (ovr.bodySkill.enabled) p->Body_Skill__Temp_ = ovr.bodySkill.value;
+        if (ovr.weaponSkill.enabled) p->Weapon_Skill__Temp_ = ovr.weaponSkill.value;
 
-        if (ovr.skillThrust.enabled)    p->Skill_Unlock_Weapon_Thrust = ovr.skillThrust.value;
-        if (ovr.skillParry.enabled)     p->Skill_Unlock_Weapon_Parry = ovr.skillParry.value;
-        if (ovr.skillAltGrip.enabled)   p->Skill_Unlock_Weapon_Alt_Grip = ovr.skillAltGrip.value;
+        if (ovr.skillThrust.enabled) p->Skill_Unlock_Weapon_Thrust = ovr.skillThrust.value;
+        if (ovr.skillParry.enabled) p->Skill_Unlock_Weapon_Parry = ovr.skillParry.value;
+        if (ovr.skillAltGrip.enabled) p->Skill_Unlock_Weapon_Alt_Grip = ovr.skillAltGrip.value;
         if (ovr.skillAltStance.enabled) p->Skill_Unlock_Weapon_Alt_Stance = ovr.skillAltStance.value;
-        if (ovr.skillRotate.enabled)    p->Skill_Unlock_Weapon_Rotate = ovr.skillRotate.value;
-        if (ovr.skillCrouch.enabled)    p->Skill_Unlock_Body_Crouch = ovr.skillCrouch.value;
-        if (ovr.skillDodge.enabled)     p->Skill_Unlock_Body_Dodge = ovr.skillDodge.value;
-        if (ovr.skillKick.enabled)      p->Skill_Unlock_Body_Kick = ovr.skillKick.value;
-        if (ovr.skillSlomo.enabled)     p->Skill_Unlock_Body_Slomo = ovr.skillSlomo.value;
+        if (ovr.skillRotate.enabled) p->Skill_Unlock_Weapon_Rotate = ovr.skillRotate.value;
+        if (ovr.skillCrouch.enabled) p->Skill_Unlock_Body_Crouch = ovr.skillCrouch.value;
+        if (ovr.skillDodge.enabled) p->Skill_Unlock_Body_Dodge = ovr.skillDodge.value;
+        if (ovr.skillKick.enabled) p->Skill_Unlock_Body_Kick = ovr.skillKick.value;
+        if (ovr.skillSlomo.enabled) p->Skill_Unlock_Body_Slomo = ovr.skillSlomo.value;
 
         if (ovr.exhaustion.enabled) p->Exhaustion = ovr.exhaustion.value;
-        if (ovr.drunk.enabled)      p->Drunk = ovr.drunk.value;
-        if (ovr.fear.enabled)       p->Fear = ovr.fear.value;
+        if (ovr.drunk.enabled) p->Drunk = ovr.drunk.value;
+        if (ovr.fear.enabled) p->Fear = ovr.fear.value;
         if (ovr.invulnerable.enabled) {
             p->Invulnerable = ovr.invulnerable.value;
             p->BitPad_5C_0 = ovr.invulnerable.value;
@@ -127,70 +116,70 @@ private:
     void ReadFromPlayer() {
         if (!player) return;
 
-        overrides.heightRate.value             = player->Height_Rate;
-        overrides.muscleRate.value             = player->Muscle_Rate;
+        overrides.heightRate.value = player->Height_Rate;
+        overrides.muscleRate.value = player->Muscle_Rate;
         overrides.scaleMutationInhibitor.value = player->Scale_Mutation_Inhibitor;
 
-        overrides.health.value          = player->Health;
-        overrides.headHealth.value      = player->Head_Health;
-        overrides.neckHealth.value      = player->Neck_Health;
-        overrides.armRHealth.value      = player->Arm_R_Health;
-        overrides.armLHealth.value      = player->Arm_L_Health;
+        overrides.health.value = player->Health;
+        overrides.headHealth.value = player->Head_Health;
+        overrides.neckHealth.value = player->Neck_Health;
+        overrides.armRHealth.value = player->Arm_R_Health;
+        overrides.armLHealth.value = player->Arm_L_Health;
         overrides.bodyUpperHealth.value = player->Body_Upper_Health;
         overrides.bodyLowerHealth.value = player->Body_Lower_Health;
-        overrides.legRHealth.value      = player->Leg_R_Health;
-        overrides.legLHealth.value      = player->Leg_L_Health;
-        overrides.backHealth.value      = player->Back_Health;
-        overrides.consciousness.value   = player->Consciousness;
-        overrides.regenRate.value       = player->Regen_Rate;
+        overrides.legRHealth.value = player->Leg_R_Health;
+        overrides.legLHealth.value = player->Leg_L_Health;
+        overrides.backHealth.value = player->Back_Health;
+        overrides.consciousness.value = player->Consciousness;
+        overrides.regenRate.value = player->Regen_Rate;
 
-        overrides.allBodyTonus.value        = player->All_Body_Tonus;
-        overrides.headTonus.value           = player->Head_Tonus;
-        overrides.armRTonus.value           = player->Arm_R_Tonus;
-        overrides.armLTonus.value           = player->Arm_L_Tonus;
-        overrides.legRTonus.value           = player->Leg_R_Tonus;
-        overrides.legLTonus.value           = player->Leg_L_Tonus;
-        overrides.musclePower.value         = player->Muscle_Power;
+        overrides.allBodyTonus.value = player->All_Body_Tonus;
+        overrides.headTonus.value = player->Head_Tonus;
+        overrides.armRTonus.value = player->Arm_R_Tonus;
+        overrides.armLTonus.value = player->Arm_L_Tonus;
+        overrides.legRTonus.value = player->Leg_R_Tonus;
+        overrides.legLTonus.value = player->Leg_L_Tonus;
+        overrides.musclePower.value = player->Muscle_Power;
         overrides.orientationStrength.value = player->Orientation_Strength;
-        overrides.angularStrength.value     = player->Angular_Strength;
-        overrides.hitRigidity.value         = player->Hit_Rigidity;
+        overrides.angularStrength.value = player->Angular_Strength;
+        overrides.hitRigidity.value = player->Hit_Rigidity;
 
         overrides.runningSpeedRate.value = player->Running_Speed_Rate;
         overrides.walkSpeedRateRun.value = static_cast<double>(player->Walk_Speed_Rate_Run);
-        overrides.jumpRate.value         = player->Jump_Rate;
-        overrides.dodgeRate.value        = player->Dodge_Rate;
-        overrides.crawlRate.value        = player->Crawl_Rate;
-        overrides.getUpRate.value        = player->Get_Up_Rate;
-        overrides.fallenRate.value       = player->Fallen_Rate;
+        overrides.jumpRate.value = player->Jump_Rate;
+        overrides.dodgeRate.value = player->Dodge_Rate;
+        overrides.crawlRate.value = player->Crawl_Rate;
+        overrides.getUpRate.value = player->Get_Up_Rate;
+        overrides.fallenRate.value = player->Fallen_Rate;
 
-        overrides.damageRate.value         = player->Damage_Rate__Additional_;
-        overrides.limbDamageRate.value     = player->Limb_Damage_Rate__Additional_;
+        overrides.damageRate.value = player->Damage_Rate__Additional_;
+        overrides.limbDamageRate.value = player->Limb_Damage_Rate__Additional_;
         overrides.dismemberThreshold.value = player->Health_Threshold_For_Dismemberment;
-        overrides.stamina.value            = player->Stamina;
-        overrides.staminaBurnSwingR.value  = player->Stamina_Burn_Swing_R;
-        overrides.staminaBurnSwingL.value  = player->Stamina_Burn_Swing_L;
-        overrides.staminaBurnDodge.value   = player->Stamina_Burn_Dodge;
-        overrides.grabForceR.value         = player->R_Grab_Force_Limit;
-        overrides.grabForceL.value         = player->L_Grab_Force_Limit;
-        overrides.handsRigidity.value      = player->Hands_Rigidity__Gauntlets_;
-        overrides.bodySkill.value          = player->Body_Skill__Temp_;
-        overrides.weaponSkill.value        = player->Weapon_Skill__Temp_;
+        overrides.stamina.value = player->Stamina;
+        overrides.staminaBurnSwingR.value = player->Stamina_Burn_Swing_R;
+        overrides.staminaBurnSwingL.value = player->Stamina_Burn_Swing_L;
+        overrides.staminaBurnDodge.value = player->Stamina_Burn_Dodge;
+        overrides.grabForceR.value = player->R_Grab_Force_Limit;
+        overrides.grabForceL.value = player->L_Grab_Force_Limit;
+        overrides.handsRigidity.value = player->Hands_Rigidity__Gauntlets_;
+        overrides.bodySkill.value = player->Body_Skill__Temp_;
+        overrides.weaponSkill.value = player->Weapon_Skill__Temp_;
 
-        overrides.skillThrust.value    = player->Skill_Unlock_Weapon_Thrust;
-        overrides.skillParry.value     = player->Skill_Unlock_Weapon_Parry;
-        overrides.skillAltGrip.value   = player->Skill_Unlock_Weapon_Alt_Grip;
+        overrides.skillThrust.value = player->Skill_Unlock_Weapon_Thrust;
+        overrides.skillParry.value = player->Skill_Unlock_Weapon_Parry;
+        overrides.skillAltGrip.value = player->Skill_Unlock_Weapon_Alt_Grip;
         overrides.skillAltStance.value = player->Skill_Unlock_Weapon_Alt_Stance;
-        overrides.skillRotate.value    = player->Skill_Unlock_Weapon_Rotate;
-        overrides.skillCrouch.value    = player->Skill_Unlock_Body_Crouch;
-        overrides.skillDodge.value     = player->Skill_Unlock_Body_Dodge;
-        overrides.skillKick.value      = player->Skill_Unlock_Body_Kick;
-        overrides.skillSlomo.value     = player->Skill_Unlock_Body_Slomo;
+        overrides.skillRotate.value = player->Skill_Unlock_Weapon_Rotate;
+        overrides.skillCrouch.value = player->Skill_Unlock_Body_Crouch;
+        overrides.skillDodge.value = player->Skill_Unlock_Body_Dodge;
+        overrides.skillKick.value = player->Skill_Unlock_Body_Kick;
+        overrides.skillSlomo.value = player->Skill_Unlock_Body_Slomo;
 
-        overrides.exhaustion.value   = player->Exhaustion;
-        overrides.drunk.value        = player->Drunk;
-        overrides.fear.value         = player->Fear;
+        overrides.exhaustion.value = player->Exhaustion;
+        overrides.drunk.value = player->Drunk;
+        overrides.fear.value = player->Fear;
         overrides.invulnerable.value = player->Invulnerable;
-        overrides.fearless.value     = player->Fearless;
+        overrides.fearless.value = player->Fearless;
 
         presets.status.Set("Values read from player");
     }
@@ -201,9 +190,7 @@ private:
         return d;
     }
 
-    void ApplyPresetData(const PlayerPresetData& d) {
-        overrides = d.overrides;
-    }
+    void ApplyPresetData(const PlayerPresetData& d) { overrides = d.overrides; }
 
     void ClonePlayer() {
         if (!player || !world) return;
@@ -217,16 +204,16 @@ private:
         double muscleRate = passport.Weight_23_65E4C6534D14653F96EB739F159E58CD;
         float spawnScale = static_cast<float>(0.875 + heightRate * 0.125);
 
-        Spawner::SpawnActor(world,
-            GameConstants::WILLIE_BP_PATH,
-            Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale),
+        Spawner::SpawnActor(
+            world, GameConstants::WILLIE_BP_PATH, Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale),
             [passport, heightRate, muscleRate](SDK::AActor* actor) {
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                 npc->Character_Passport = passport;
                 npc->Height_Rate = heightRate;
                 npc->Muscle_Rate = muscleRate;
                 npc->Team_Int = 1;
-            });
+            }
+        );
     }
 
     void RenderPhysicalTab() {
@@ -439,10 +426,12 @@ public:
             .WithKey(&enforceKey)
             .Toggle()
             .WithTooltip("Continuously applies all enabled overrides to the player character every game tick")
-            .Action([this](bool active) {
-                if (active)
-                    ApplyActiveOverrides(player, overrides);
-            }, player);
+            .Action(
+                [this](bool active) {
+                    if (active) ApplyActiveOverrides(player, overrides);
+                },
+                player
+            );
     }
 
     void RenderContent() override {
@@ -481,21 +470,22 @@ public:
         ImGui::Spacing();
         ImGui::BeginChild("##playereditor_scroll", ImVec2(0, 0));
 
-        static constexpr const char* TAB_LABELS[] = {
-            "Physical", "Health", "Physics", "Movement", "Combat", "Skills & State", "Presets"
-        };
+        static constexpr const char* TAB_LABELS[] = {"Physical", "Health",         "Physics", "Movement",
+                                                     "Combat",   "Skills & State", "Presets"};
         GuiUtils::RenderUnderlineTabs("##PlayerEditorTabs", activeTab, TAB_LABELS, 7);
         switch (activeTab) {
-            case 0: RenderPhysicalTab();   break;
-            case 1: RenderHealthTab();     break;
-            case 2: RenderPhysicsTab();    break;
-            case 3: RenderMovementTab();   break;
-            case 4: RenderCombatTab();     break;
-            case 5: RenderSkillsStateTab();break;
-            case 6: presets.RenderPresetsTab(
-                        [this]() { return BuildPresetData(); },
-                        [this](PlayerPresetData d) { ApplyPresetData(std::move(d)); });
-                    break;
+            case 0: RenderPhysicalTab(); break;
+            case 1: RenderHealthTab(); break;
+            case 2: RenderPhysicsTab(); break;
+            case 3: RenderMovementTab(); break;
+            case 4: RenderCombatTab(); break;
+            case 5: RenderSkillsStateTab(); break;
+            case 6:
+                presets.RenderPresetsTab(
+                    [this]() { return BuildPresetData(); },
+                    [this](PlayerPresetData d) { ApplyPresetData(std::move(d)); }
+                );
+                break;
         }
 
         ImGui::EndChild();

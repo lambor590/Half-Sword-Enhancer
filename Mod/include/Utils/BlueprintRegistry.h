@@ -42,7 +42,9 @@ private:
     void InjectCustomPaths();
     void SortCategories();
 
-    static std::pair<std::string_view, std::string_view> CategorizeByPath(const std::string& packagePath, const std::string& assetName);
+    static std::pair<std::string_view, std::string_view> CategorizeByPath(
+        const std::string& packagePath, const std::string& assetName
+    );
 
     size_t FindOrCreateCategory(std::string_view name);
     size_t FindOrCreateSubcategory(size_t catIdx, std::string_view name);

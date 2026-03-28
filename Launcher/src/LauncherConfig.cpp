@@ -10,8 +10,7 @@ namespace hse {
 
         if (isFirstRun_) {
             (void)SaveConfig();
-        }
-        else {
+        } else {
             (void)LoadConfig();
         }
     }
@@ -50,8 +49,7 @@ namespace hse {
     }
 
     std::expected<void, ConfigError> LauncherConfig::SetGameEdition(GameEdition edition) noexcept {
-        return SetString("Install", "game_edition",
-            edition == GameEdition::Demo ? "demo" : "full");
+        return SetString("Install", "game_edition", edition == GameEdition::Demo ? "demo" : "full");
     }
 
     std::expected<void, ConfigError> LauncherConfig::SaveConfig() noexcept {

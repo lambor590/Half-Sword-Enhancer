@@ -26,21 +26,19 @@ private:
 
     SectionConfig::NPCConfig& cfg = SectionConfig::npc;
 
-    static constexpr NPCTypeInfo npcTypes[] = {
-        { "Regular", WILLIE_PATH("/Willie_BP.Willie_BP_C") },
-        { "No Brain", WILLIE_PATH("/Willie_BP_NoBrain.Willie_BP_NoBrain_C") },
-        { "Zombie", WILLIE_PATH("/Willie_BP_Zombie.Willie_BP_Zombie_C") },
-        { "DressUp", WILLIE_PATH("/Willie_BP_DressUp.Willie_BP_DressUp_C") },
-        { "Torso", WILLIE_PATH("/Willie_Torso_BP.Willie_Torso_BP_C") },
-        { "Falcon Boss", WILLIE_PATH("/Unique/Willie_BP_FalconBoss.Willie_BP_FalconBoss_C") },
-        { "Grim Reaper", WILLIE_PATH("/Unique/Willie_BP_GrimReaper.Willie_BP_GrimReaper_C") }
-    };
+    static constexpr NPCTypeInfo npcTypes[] =
+        {{"Regular", WILLIE_PATH("/Willie_BP.Willie_BP_C")},
+         {"No Brain", WILLIE_PATH("/Willie_BP_NoBrain.Willie_BP_NoBrain_C")},
+         {"Zombie", WILLIE_PATH("/Willie_BP_Zombie.Willie_BP_Zombie_C")},
+         {"DressUp", WILLIE_PATH("/Willie_BP_DressUp.Willie_BP_DressUp_C")},
+         {"Torso", WILLIE_PATH("/Willie_Torso_BP.Willie_Torso_BP_C")},
+         {"Falcon Boss", WILLIE_PATH("/Unique/Willie_BP_FalconBoss.Willie_BP_FalconBoss_C")},
+         {"Grim Reaper", WILLIE_PATH("/Unique/Willie_BP_GrimReaper.Willie_BP_GrimReaper_C")}};
 #undef WILLIE_PATH
     static constexpr int npcTypesCount = sizeof(npcTypes) / sizeof(npcTypes[0]);
 
-    static constexpr const char* nationalityNames[] = {
-        "English", "French", "German", "Italian", "Spanish", "Slavic", "Nordic"
-    };
+    static constexpr const char* nationalityNames[] = {"English", "French", "German", "Italian",
+                                                       "Spanish", "Slavic", "Nordic"};
     static constexpr int nationalityCount = 7;
 
     NPCOverrides overrides{};
@@ -56,20 +54,16 @@ private:
     }
 
     int CountActiveOverrides() const {
-        return overrides.heightRate.enabled + overrides.muscleRate.enabled
-            + overrides.scaleMutationInhibitor.enabled + overrides.faceType.enabled
-            + overrides.eyeColor.enabled + overrides.hairLength.enabled
-            + overrides.hairColor.enabled + overrides.damageRate.enabled
-            + overrides.limbDamageRate.enabled + overrides.dismemberThreshold.enabled
-            + overrides.regenRate.enabled + overrides.aiInvincibility.enabled
-            + overrides.aiArmorInvincibility.enabled + overrides.bodySkill.enabled
-            + overrides.fearless.enabled + overrides.startKneeled.enabled
-            + overrides.spawnInPants.enabled + overrides.clearSpawnArea.enabled
-            + overrides.drunk.enabled + overrides.boltsInQuiver.enabled
-            + overrides.headHealth.enabled + overrides.neckHealth.enabled
-            + overrides.armRHealth.enabled + overrides.armLHealth.enabled
-            + overrides.bodyUpperHealth.enabled + overrides.bodyLowerHealth.enabled
-            + overrides.legRHealth.enabled + overrides.legLHealth.enabled;
+        return overrides.heightRate.enabled + overrides.muscleRate.enabled + overrides.scaleMutationInhibitor.enabled +
+               overrides.faceType.enabled + overrides.eyeColor.enabled + overrides.hairLength.enabled +
+               overrides.hairColor.enabled + overrides.damageRate.enabled + overrides.limbDamageRate.enabled +
+               overrides.dismemberThreshold.enabled + overrides.regenRate.enabled + overrides.aiInvincibility.enabled +
+               overrides.aiArmorInvincibility.enabled + overrides.bodySkill.enabled + overrides.fearless.enabled +
+               overrides.startKneeled.enabled + overrides.spawnInPants.enabled + overrides.clearSpawnArea.enabled +
+               overrides.drunk.enabled + overrides.boltsInQuiver.enabled + overrides.headHealth.enabled +
+               overrides.neckHealth.enabled + overrides.armRHealth.enabled + overrides.armLHealth.enabled +
+               overrides.bodyUpperHealth.enabled + overrides.bodyLowerHealth.enabled + overrides.legRHealth.enabled +
+               overrides.legLHealth.enabled;
     }
 
 
@@ -90,12 +84,13 @@ private:
             if (!loadoutData.success) hasLoadout = false;
         }
 
-        double spawnScale = ovr.heightRate.enabled
-            ? 0.875 + ovr.heightRate.value * 0.125
-            : cfg.spawn.scale;
-        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, static_cast<float>(spawnScale));
+        double spawnScale = ovr.heightRate.enabled ? 0.875 + ovr.heightRate.value * 0.125 : cfg.spawn.scale;
+        auto spawnTransform = Spawner::BuildSpawnTransform(
+            player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, static_cast<float>(spawnScale)
+        );
 
-        auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides, hasLoadout](SDK::AActor* actor) {
+        auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides,
+                            hasLoadout](SDK::AActor* actor) {
             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
             if (!npc) return;
 
@@ -106,27 +101,23 @@ private:
             }
 
             EquipmentGenerator::Init(world);
-            auto passport = EquipmentGenerator::GenerateCharacter(
-                npc->Class, nationality, tier, mercenary);
+            auto passport = EquipmentGenerator::GenerateCharacter(npc->Class, nationality, tier, mercenary);
             NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
             npc->Character_Passport = passport;
 
-            if (hasLoadout)
-                npc->Spawn_in_Pants = true;
+            if (hasLoadout) npc->Spawn_in_Pants = true;
 
-            if (hasOverrides)
-                NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
+            if (hasOverrides) NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
         };
 
-        auto postCallback = [w = world, ovr, hasOverrides, hasLoadout, loadout = std::move(loadoutData)](SDK::AActor* actor) {
+        auto postCallback = [w = world, ovr, hasOverrides, hasLoadout,
+                             loadout = std::move(loadoutData)](SDK::AActor* actor) {
             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
             if (!npc) return;
 
-            if (hasOverrides)
-                NPCSpawnHelpers::ApplyHairColor(npc, ovr);
+            if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
 
             if (hasLoadout) {
-
                 for (const auto& sd : loadout.armorSlots) {
                     SDK::UClass* cls = sd.armorClass.empty() ? nullptr : Spawner::LoadClass(sd.armorClass);
                     if (!cls) continue;
@@ -163,12 +154,16 @@ private:
                 auto& slot0 = LoadoutPresetSerializer::GetWeaponSlot(weapons, 0);
                 if (slot0.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066) {
                     auto p = WeaponPassportBuilder::FromWeaponParts(slot0);
-                    npc->Set_Up_Right_Hand_Weapon(slot0.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, npc->Weapon_R, false, true, p);
+                    npc->Set_Up_Right_Hand_Weapon(
+                        slot0.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, npc->Weapon_R, false, true, p
+                    );
                 }
                 auto& slot1 = LoadoutPresetSerializer::GetWeaponSlot(weapons, 1);
                 if (slot1.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066) {
                     auto p = WeaponPassportBuilder::FromWeaponParts(slot1);
-                    npc->Set_Up_Left_Hand_Weapon(slot1.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, npc->Weapon_L, false, true, p);
+                    npc->Set_Up_Left_Hand_Weapon(
+                        slot1.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066, npc->Weapon_L, false, true, p
+                    );
                 }
             }
         };
@@ -314,15 +309,31 @@ public:
     NPCEditorSection() : CollapsibleSection("NPC Editor") {
         Function("Spawn NPC")
             .WithKey(&cfg.spawnEnemyKey)
-            .WithParams({
-                Parameter("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
-                Parameter("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),
-                Parameter("snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Automatically adjust height to touch the ground"),
-                Parameter("distance_forward", "Distance Forward", &cfg.spawn.distanceForward, 100.0f, 500.0f, "How far in front the NPC appears"),
-                Parameter("distance_up", "Distance Up", &cfg.spawn.distanceUp, 0.0f, 300.0f, "Height offset for spawn position"),
-                Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 4.0f, "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game doesn't crash."),
-                Parameter("team", "Team", &cfg.npcTeam, 0, 9, "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team.")
-            })
+            .WithParams(
+                {Parameter("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
+                 Parameter("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),
+                 Parameter(
+                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
+                     "Automatically adjust height to touch the ground"
+                 ),
+                 Parameter(
+                     "distance_forward", "Distance Forward", &cfg.spawn.distanceForward, 100.0f, 500.0f,
+                     "How far in front the NPC appears"
+                 ),
+                 Parameter(
+                     "distance_up", "Distance Up", &cfg.spawn.distanceUp, 0.0f, 300.0f,
+                     "Height offset for spawn position"
+                 ),
+                 Parameter(
+                     "scale", "Scale", &cfg.spawn.scale, 0.1f, 4.0f,
+                     "Size multiplier for the spawned NPC. Adjust the height offset to match the scale "
+                     "so the game doesn't crash."
+                 ),
+                 Parameter(
+                     "team", "Team", &cfg.npcTeam, 0, 9,
+                     "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
+                 )}
+            )
             .WithTooltip("Spawns an NPC with randomly generated equipment and applied overrides")
             .Action([this]() { SpawnNPC(); }, player, world);
     }
@@ -341,13 +352,11 @@ public:
         static float npcTypeComboW = GuiUtils::CalcComboWidth(npcGetter, (void*)npcTypes, npcTypesCount);
         static float nationalityComboW = GuiUtils::CalcComboWidth(nationalityNames, nationalityCount);
         ImGui::SetNextItemWidth(npcTypeComboW);
-        ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex,
-            npcGetter, (void*)npcTypes, npcTypesCount);
+        ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex, npcGetter, (void*)npcTypes, npcTypesCount);
         TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
         ImGui::SameLine();
         ImGui::SetNextItemWidth(nationalityComboW);
-        ImGui::Combo("##NationalitySelector", &cfg.npcNationality,
-            nationalityNames, nationalityCount);
+        ImGui::Combo("##NationalitySelector", &cfg.npcNationality, nationalityNames, nationalityCount);
         ImGui::SameLine();
         ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
         ImGui::DragInt("##NPCTierSlider", &cfg.npcTier, 0.1f, 0, 8, "Tier %d");
@@ -363,26 +372,30 @@ public:
         ImGui::Spacing();
         ImGui::BeginChild("##npc_scroll", ImVec2(0, 0));
 
-        static constexpr const char* NPC_TAB_LABELS[] = {"Physical", "Combat", "Behavior", "Body Condition", "Equipment", "Presets"};
+        static constexpr const char* NPC_TAB_LABELS[] = {"Physical",       "Combat",    "Behavior",
+                                                         "Body Condition", "Equipment", "Presets"};
         GuiUtils::RenderUnderlineTabs("##NPCEditorTabs", activeTab, NPC_TAB_LABELS, 6);
         switch (activeTab) {
-            case 0: RenderPhysicalTab();       break;
-            case 1: RenderCombatTab();          break;
-            case 2: RenderBehaviorTab();        break;
-            case 3: RenderBodyConditionTab();   break;
+            case 0: RenderPhysicalTab(); break;
+            case 1: RenderCombatTab(); break;
+            case 2: RenderBehaviorTab(); break;
+            case 3: RenderBodyConditionTab(); break;
             case 4:
                 ImGui::PushID("equipment");
                 loadoutPicker.Render("Loadout Preset");
                 if (loadoutPicker.HasSelection())
-                    ImGui::TextColored(ImVec4(0.6f, 1.0f, 0.6f, 1.0f), "Equipment from preset will replace generated equipment");
+                    ImGui::TextColored(
+                        ImVec4(0.6f, 1.0f, 0.6f, 1.0f), "Equipment from preset will replace generated equipment"
+                    );
                 else
                     ImGui::TextDisabled("No preset selected — NPC will use randomly generated equipment");
                 ImGui::PopID();
                 break;
-            case 5: presets.RenderPresetsTab(
-                        [this]() { return BuildPresetData(); },
-                        [this](NPCPresetData d) { ApplyPresetData(std::move(d)); });
-                    break;
+            case 5:
+                presets.RenderPresetsTab(
+                    [this]() { return BuildPresetData(); }, [this](NPCPresetData d) { ApplyPresetData(std::move(d)); }
+                );
+                break;
         }
 
         ImGui::EndChild();

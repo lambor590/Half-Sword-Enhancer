@@ -23,7 +23,7 @@ float NotificationManager::GetTime() noexcept {
     if (!s_enabled && s_notifications.empty()) {
         return s_currentTime;
     }
-    
+
     static auto startTime = std::chrono::steady_clock::now();
     auto now = std::chrono::steady_clock::now();
     return std::chrono::duration<float>(now - startTime).count();
@@ -40,19 +40,20 @@ void NotificationManager::Update() noexcept {
         }
         return;
     }
-    
-    if (s_notifications.empty()) [[likely]] return;
-    
+
+    if (s_notifications.empty()) [[likely]]
+        return;
+
     s_currentTime = GetTime();
-    
-    std::erase_if(s_notifications,
-        [currentTime = s_currentTime](const Notification& notification) noexcept -> bool {
-            return currentTime - notification.startTime >= notification.duration;
-        });
+
+    std::erase_if(s_notifications, [currentTime = s_currentTime](const Notification& notification) noexcept -> bool {
+        return currentTime - notification.startTime >= notification.duration;
+    });
 }
 
 void NotificationManager::Render() noexcept {
-    if (!s_enabled || s_notifications.empty()) [[unlikely]] return;
+    if (!s_enabled || s_notifications.empty()) [[unlikely]]
+        return;
 
     size_t visibleCount = 0;
     float maxWidth = MIN_NOTIFICATION_WIDTH;
@@ -67,21 +68,18 @@ void NotificationManager::Render() noexcept {
         }
     }
 
-    if (visibleCount == 0) [[unlikely]] return;
+    if (visibleCount == 0) [[unlikely]]
+        return;
 
     const ImGuiViewport* viewport = ImGui::GetMainViewport();
     const float containerWidth = maxWidth;
-    const ImVec2 containerPos{
-        viewport->Pos.x + viewport->Size.x - containerWidth - PADDING,
-        viewport->Pos.y + PADDING
-    };
+    const ImVec2 containerPos{viewport->Pos.x + viewport->Size.x - containerWidth - PADDING, viewport->Pos.y + PADDING};
 
     static constexpr ImGuiWindowFlags containerFlags =
-        ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs |
-        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings |
-        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
-    static constexpr ImGuiWindowFlags childFlags = ImGuiWindowFlags_NoScrollbar |
-        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
+        ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
+    static constexpr ImGuiWindowFlags childFlags =
+        ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
     ImGui::SetNextWindowPos(containerPos);
     ImGui::SetNextWindowSize(ImVec2(containerWidth, HEIGHT_PLUS_PADDING * visibleCount - PADDING));
@@ -100,12 +98,15 @@ void NotificationManager::Render() noexcept {
             const float elapsed = s_currentTime - notification.startTime;
             const float alpha = CalculateAlpha(elapsed, notification.duration);
 
-            if (alpha <= 0.0f) [[unlikely]] continue;
+            if (alpha <= 0.0f) [[unlikely]]
+                continue;
 
             const ImVec2 textSize = ImGui::CalcTextSize(notification.message.c_str());
             const float notifWidth = (std::max)(textSize.x + TEXT_PADDING * 2.0f, MIN_NOTIFICATION_WIDTH);
 
-            auto withAlpha = [alpha](const ImVec4& c) { return ImVec4(c.x, c.y, c.z, c.w * alpha); };
+            auto withAlpha = [alpha](const ImVec4& c) {
+                return ImVec4(c.x, c.y, c.z, c.w * alpha);
+            };
             const ImVec4 bgColor = withAlpha(NOTIFICATION_BG);
             const ImVec4 borderColor = withAlpha(NOTIFICATION_BORDER);
             const ImVec4 textColor = withAlpha(NOTIFICATION_TEXT);
@@ -117,10 +118,13 @@ void NotificationManager::Render() noexcept {
             ImGui::SetCursorPosX(containerWidth - notifWidth);
 
             ImGui::PushID(i);
-            if (ImGui::BeginChild("##notification", ImVec2(notifWidth, NOTIFICATION_HEIGHT), true, childFlags)) [[likely]] {
+            if (ImGui::BeginChild("##notification", ImVec2(notifWidth, NOTIFICATION_HEIGHT), true, childFlags))
+                [[likely]] {
                 const float textY = (NOTIFICATION_HEIGHT - textSize.y) * 0.5f;
                 ImGui::SetCursorPos(ImVec2(TEXT_PADDING, textY));
-                ImGui::TextUnformatted(notification.message.c_str(), notification.message.c_str() + notification.message.size());
+                ImGui::TextUnformatted(
+                    notification.message.c_str(), notification.message.c_str() + notification.message.size()
+                );
             }
             ImGui::EndChild();
             ImGui::PopID();
@@ -135,17 +139,19 @@ void NotificationManager::Render() noexcept {
 }
 
 void NotificationManager::AddNotification(std::string&& message, float duration) noexcept {
-    if (!s_enabled) [[unlikely]] return;
-    
+    if (!s_enabled) [[unlikely]]
+        return;
+
     if (s_notifications.size() >= MAX_NOTIFICATIONS) [[unlikely]] {
         s_notifications.erase(s_notifications.begin());
     }
-    
+
     s_notifications.emplace_back(std::move(message), duration);
 }
 
 void NotificationManager::NotifyHookToggle(std::string_view functionName, bool enabled) noexcept {
-    if (!s_enabled) [[unlikely]] return;
+    if (!s_enabled) [[unlikely]]
+        return;
 
     const std::string_view prefix = enabled ? ENABLED_PREFIX : DISABLED_PREFIX;
 
@@ -158,7 +164,8 @@ void NotificationManager::NotifyHookToggle(std::string_view functionName, bool e
 }
 
 void NotificationManager::NotifyOneTimeAction(std::string_view actionName) noexcept {
-    if (!s_enabled) [[unlikely]] return;
+    if (!s_enabled) [[unlikely]]
+        return;
 
     static constexpr float actionDuration = 2.0f;
 
@@ -174,22 +181,22 @@ void NotificationManager::NotifyOneTimeAction(std::string_view actionName) noexc
     if (elapsed < FADE_IN_DURATION) [[unlikely]] {
         return elapsed * INV_FADE_IN;
     }
-    
+
     const float fadeStartTime = duration - FADE_OUT_DURATION;
     if (elapsed > fadeStartTime) [[unlikely]] {
         return 1.0f - (elapsed - fadeStartTime) * INV_FADE_OUT;
     }
-    
+
     return 1.0f;
 }
 
 void NotificationManager::SetEnabled(bool enabled) noexcept {
     if (s_enabled == enabled) return;
-    
+
     s_enabled = enabled;
     g_ConfigManager.SetBool("Notifications", "enabled", enabled);
     g_ConfigManager.SaveConfig();
-    
+
     if (!enabled) {
         s_notifications.clear();
         s_notifications.shrink_to_fit();

@@ -29,7 +29,7 @@ namespace SectionConfig {
         int enemyNoPainKey = -1;
         int ragdollKey = -1;
         int enemyRagdollKey = -1;
-        int jumpKey = 0x4A; // J
+        int jumpKey = 0x4A;        // J
         int playerSpeedKey = 0x50; // P
         int playerStrengthKey = -1;
         int bodyTonusKey = -1;
@@ -58,7 +58,7 @@ namespace SectionConfig {
     };
 
     struct WorldConfig {
-        int sloMoKey = 0x5A; // Z
+        int sloMoKey = 0x5A;         // Z
         int customGravityKey = 0x4C; // L
         int killAllEnemiesKey = -1;
         int toggleEnemyAIKey = -1;

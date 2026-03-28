@@ -14,8 +14,7 @@ namespace ConfigUtils {
         ConfigTransaction& operator=(ConfigTransaction&&) = delete;
 
     public:
-        explicit ConfigTransaction(bool shouldSave = true)
-            : config(ConfigManager::Get()), shouldSave(shouldSave) {
+        explicit ConfigTransaction(bool shouldSave = true) : config(ConfigManager::Get()), shouldSave(shouldSave) {
             config.SuppressDeferred(true);
         }
 

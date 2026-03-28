@@ -2,13 +2,13 @@
 
 void DefaultStyle::ApplyGlobalStyle() {
     ImGuiStyle& style = ImGui::GetStyle();
-    
+
     static constexpr auto precomputedColors = GetColorArray();
-    
+
     for (int i = 0; i < ImGuiCol_COUNT; ++i) {
         style.Colors[i] = precomputedColors[i];
     }
-    
+
     style.WindowPadding = ImVec2(18, 18);
     style.FramePadding = ImVec2(10, 8);
     style.ItemSpacing = ImVec2(12, 10);
@@ -31,4 +31,4 @@ void DefaultStyle::ApplyGlobalStyle() {
     style.DisplaySafeAreaPadding = ImVec2(3, 3);
     style.IndentSpacing = 25.0f;
     style.SeparatorTextPadding = ImVec2(15, 6);
-} 
+}

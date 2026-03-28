@@ -32,15 +32,13 @@ private:
     int expandState = 0;
     bool findPending = false;
 
-    struct QuickFilter { const char* label; const char* filter; };
+    struct QuickFilter {
+        const char* label;
+        const char* filter;
+    };
     static constexpr QuickFilter QUICK_FILTERS[] = {
-        {"All", ""},
-        {"Sky", "Sky"},
-        {"Light", "Light"},
-        {"Fog", "Fog"},
-        {"PostProcess", "PostProcess"},
-        {"Volume", "Volume"},
-        {"Water", "Water"},
+        {"All", ""},          {"Sky", "Sky"},     {"Light", "Light"}, {"Fog", "Fog"}, {"PostProcess", "PostProcess"},
+        {"Volume", "Volume"}, {"Water", "Water"},
     };
 
     void ResetState() {
@@ -80,9 +78,7 @@ private:
         categories.clear();
         actorComboWidth = 0;
 
-        const char* filter = actorSearchBuf[0] != '\0'
-            ? actorSearchBuf
-            : QUICK_FILTERS[activeQuickFilter].filter;
+        const char* filter = actorSearchBuf[0] != '\0' ? actorSearchBuf : QUICK_FILTERS[activeQuickFilter].filter;
         size_t filterLen = std::strlen(filter);
 
         for (auto& wa : allActors) {
@@ -134,9 +130,8 @@ private:
         for (const auto& p : properties)
             if (p.type != PropertyBrowser::PropType::Unsupported) ++supported;
 
-        infoText = filteredActors[index].className + " > " +
-            browseTarget->Class->GetName() + " (" +
-            std::to_string(supported) + " editable)";
+        infoText = filteredActors[index].className + " > " + browseTarget->Class->GetName() + " (" +
+                   std::to_string(supported) + " editable)";
     }
 
     void SelectActorDirect(SDK::AActor* actor, const std::string& className) {
@@ -155,9 +150,7 @@ private:
         for (const auto& p : properties)
             if (p.type != PropertyBrowser::PropType::Unsupported) ++supported;
 
-        infoText = className + " > " +
-            browseTarget->Class->GetName() + " (" +
-            std::to_string(supported) + " editable)";
+        infoText = className + " > " + browseTarget->Class->GetName() + " (" + std::to_string(supported) + " editable)";
     }
 
     void FindByClassName(const char* className) {
@@ -190,10 +183,9 @@ private:
             comp->SetVisibility(false, false);
             comp->SetVisibility(true, false);
             comp->K2_SetRelativeLocationAndRotation(
-                comp->RelativeLocation, comp->RelativeRotation,
-                false, nullptr, true);
-            if (isSkyLight)
-                static_cast<SDK::USkyLightComponent*>(comp)->RecaptureSky();
+                comp->RelativeLocation, comp->RelativeRotation, false, nullptr, true
+            );
+            if (isSkyLight) static_cast<SDK::USkyLightComponent*>(comp)->RecaptureSky();
         });
     }
 
@@ -201,14 +193,18 @@ private:
         int count = 0;
         for (const auto* p : props) {
             if (p->type == PropertyBrowser::PropType::Unsupported) continue;
-            if (filterLen > 0 && !GuiUtils::MatchesFilter(p->displayName.c_str(), p->displayName.size(), propSearchBuf, filterLen))
+            if (filterLen > 0 &&
+                !GuiUtils::MatchesFilter(p->displayName.c_str(), p->displayName.size(), propSearchBuf, filterLen))
                 continue;
             ++count;
         }
         return count;
     }
 
-    void RenderCategory(const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props, size_t filterLen) {
+    void RenderCategory(
+        const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props,
+        size_t filterLen
+    ) {
         int visibleCount = CountVisibleInCategory(props, filterLen);
         if (visibleCount == 0) return;
 
@@ -221,10 +217,10 @@ private:
 
         for (const auto* p : props) {
             if (p->type == PropertyBrowser::PropType::Unsupported) continue;
-            if (filterLen > 0 && !GuiUtils::MatchesFilter(p->displayName.c_str(), p->displayName.size(), propSearchBuf, filterLen))
+            if (filterLen > 0 &&
+                !GuiUtils::MatchesFilter(p->displayName.c_str(), p->displayName.size(), propSearchBuf, filterLen))
                 continue;
-            if (PropertyBrowser::RenderPropertyWidget(*p, browseTarget) && liveMode)
-                pendingApply = true;
+            if (PropertyBrowser::RenderPropertyWidget(*p, browseTarget) && liveMode) pendingApply = true;
         }
 
         ImGui::TreePop();
@@ -238,11 +234,9 @@ public:
     void RenderContent() override {
         const SectionStyle::StyleRAII style;
 
-        if (world != cachedWorld)
-            ResetState();
+        if (world != cachedWorld) ResetState();
 
-        if (needsScan)
-            ScanAllActors();
+        if (needsScan) ScanAllActors();
 
         char actorLabel[64];
         if (!allActors.empty())
@@ -264,14 +258,15 @@ public:
         }
         ImGui::SameLine();
         if (findPending) ImGui::BeginDisabled();
-        if (ImGui::SmallButton("UDS"))
-            FindByClassName("Ultra_Dynamic_Sky_C");
+        if (ImGui::SmallButton("UDS")) FindByClassName("Ultra_Dynamic_Sky_C");
         if (findPending) ImGui::EndDisabled();
 
         float refreshW = ImGui::CalcTextSize("Refresh").x + ImGui::GetStyle().FramePadding.x * 2;
         ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - refreshW - ImGui::GetStyle().ItemSpacing.x);
-        bool enterPressed = ImGui::InputTextWithHint("##ActorSearch", "Custom filter...",
-            actorSearchBuf, sizeof(actorSearchBuf), ImGuiInputTextFlags_EnterReturnsTrue);
+        bool enterPressed = ImGui::InputTextWithHint(
+            "##ActorSearch", "Custom filter...", actorSearchBuf, sizeof(actorSearchBuf),
+            ImGuiInputTextFlags_EnterReturnsTrue
+        );
         ImGui::SameLine();
         if (ImGui::Button("Refresh") || enterPressed) {
             if (actorSearchBuf[0] != '\0')
@@ -281,15 +276,14 @@ public:
         }
 
         if (!filteredActors.empty()) {
-            const char* preview = (selectedActorIndex >= 0)
-                ? filteredActors[selectedActorIndex].className.c_str() : "Select...";
+            const char* preview =
+                (selectedActorIndex >= 0) ? filteredActors[selectedActorIndex].className.c_str() : "Select...";
             ImGui::SetNextItemWidth(actorComboWidth);
             if (ImGui::BeginCombo("##ActorSelector", preview)) {
                 for (int i = 0; i < static_cast<int>(filteredActors.size()); ++i) {
                     ImGui::PushID(i);
                     bool sel = (i == selectedActorIndex);
-                    if (ImGui::Selectable(filteredActors[i].className.c_str(), sel))
-                        SelectActor(i);
+                    if (ImGui::Selectable(filteredActors[i].className.c_str(), sel)) SelectActor(i);
                     if (sel) ImGui::SetItemDefaultFocus();
                     ImGui::PopID();
                 }
@@ -298,17 +292,14 @@ public:
             if (browseTarget) {
                 ImGui::SameLine();
                 if (!liveMode && browseTargetIsComponent) {
-                    if (ImGui::Button("Apply"))
-                        QueueApply();
+                    if (ImGui::Button("Apply")) QueueApply();
                     ImGui::SameLine();
                 }
-                if (browseTargetIsComponent)
-                    ImGui::Checkbox("Live", &liveMode);
+                if (browseTargetIsComponent) ImGui::Checkbox("Live", &liveMode);
             }
         }
 
-        if (!infoText.empty())
-            ImGui::TextDisabled("%s", infoText.c_str());
+        if (!infoText.empty()) ImGui::TextDisabled("%s", infoText.c_str());
         status.Render();
 
         if (!browseTarget) return;
@@ -321,10 +312,18 @@ public:
         ImGui::InputTextWithHint("##PropFilter", "Search properties...", propSearchBuf, sizeof(propSearchBuf));
         ImGui::SameLine();
         if (ImGui::Button("+", ImVec2(btnW, 0))) expandState = 1;
-        if (ImGui::IsItemHovered()) { GuiUtils::BeginStyledTooltip(); ImGui::TextUnformatted("Expand all"); GuiUtils::EndStyledTooltip(); }
+        if (ImGui::IsItemHovered()) {
+            GuiUtils::BeginStyledTooltip();
+            ImGui::TextUnformatted("Expand all");
+            GuiUtils::EndStyledTooltip();
+        }
         ImGui::SameLine();
         if (ImGui::Button("-", ImVec2(btnW, 0))) expandState = -1;
-        if (ImGui::IsItemHovered()) { GuiUtils::BeginStyledTooltip(); ImGui::TextUnformatted("Collapse all"); GuiUtils::EndStyledTooltip(); }
+        if (ImGui::IsItemHovered()) {
+            GuiUtils::BeginStyledTooltip();
+            ImGui::TextUnformatted("Collapse all");
+            GuiUtils::EndStyledTooltip();
+        }
 
         ImGui::Spacing();
 

@@ -34,7 +34,8 @@ public:
     void RenderContent() override {
         const SectionStyle::StyleRAII style;
 
-        bool changed = RenderKeybind(TOGGLE_GUI_LABEL, TOGGLE_TOOLTIP, waitingForToggleKey, KeybindManager::GetToggleGuiKey());
+        bool changed =
+            RenderKeybind(TOGGLE_GUI_LABEL, TOGGLE_TOOLTIP, waitingForToggleKey, KeybindManager::GetToggleGuiKey());
 
         ImGui::Spacing();
 
@@ -71,18 +72,20 @@ public:
             }
         }
 
-        if (changed) [[unlikely]] KeybindManager::SaveKeybinds();
+        if (changed) [[unlikely]]
+            KeybindManager::SaveKeybinds();
     }
 
 private:
     [[nodiscard]] bool RenderKeybind(const char* label, const char* tooltip, bool& waitingForKey, int& key) noexcept {
         const char* const keyName = waitingForKey ? PRESS_KEY_TEXT : KeybindManager::GetKeyName(key);
-        
+
         ImGui::AlignTextToFramePadding();
         ImGui::SetNextItemWidth(ImGui::CalcTextSize(keyName).x + BUTTON_PADDING);
-        
-        if (ImGui::Button(keyName)) [[unlikely]] waitingForKey = true;
-        
+
+        if (ImGui::Button(keyName)) [[unlikely]]
+            waitingForKey = true;
+
         ImGui::SameLine();
         ImGui::Text(label);
         if (ImGui::IsItemHovered()) [[unlikely]] {
@@ -90,7 +93,7 @@ private:
             ImGui::Text(tooltip);
             GuiUtils::EndStyledTooltip();
         }
-        
+
         return KeybindManager::HandleKeyPress(waitingForKey, key);
     }
 };

@@ -43,7 +43,10 @@ namespace {
 
         ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(20.0f, 16.0f));
-        if (ImGui::BeginPopupModal("##version_mismatch", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings)) {
+        if (ImGui::BeginPopupModal(
+                "##version_mismatch", nullptr,
+                ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings
+            )) {
             auto& info = GameBuildInfo::Get();
             ImGui::Text("Game version mismatch detected");
             ImGui::Spacing();
@@ -65,12 +68,10 @@ namespace {
 }
 
 LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    if (KeybindManager::ProcessRebindEvent(msg, wParam))
-        return true;
+    if (KeybindManager::ProcessRebindEvent(msg, wParam)) return true;
 
     if (!isVisible) [[likely]] {
-        if (KeybindManager::ProcessKeyEvent(msg, wParam))
-            return true;
+        if (KeybindManager::ProcessKeyEvent(msg, wParam)) return true;
         return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
     }
 
@@ -83,15 +84,12 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     ImGuiIO& io = *cachedIO;
 
-    if (!io.WantTextInput && KeybindManager::ProcessKeyEvent(msg, wParam))
-        return true;
+    if (!io.WantTextInput && KeybindManager::ProcessKeyEvent(msg, wParam)) return true;
 
     ImGui_ImplWin32_WndProcHandlerEx(hWnd, msg, wParam, lParam, io);
 
-    if (io.WantCaptureMouse && (msg == WM_SETCURSOR || (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST)))
-        return true;
-    if ((io.WantTextInput || io.WantCaptureKeyboard) && msg >= WM_KEYFIRST && msg <= WM_KEYLAST)
-        return true;
+    if (io.WantCaptureMouse && (msg == WM_SETCURSOR || (msg >= WM_MOUSEFIRST && msg <= WM_MOUSELAST))) return true;
+    if ((io.WantTextInput || io.WantCaptureKeyboard) && msg >= WM_KEYFIRST && msg <= WM_KEYLAST) return true;
 
     return CallWindowProc(originalWndProc, hWnd, msg, wParam, lParam);
 }
@@ -141,7 +139,8 @@ bool Gui::NeedsRendering() noexcept {
         return true;
     }
 
-    if (s_showMismatchPopup) [[unlikely]] return true;
+    if (s_showMismatchPopup) [[unlikely]]
+        return true;
     if (!s_mismatchDismissed && GameBuildInfo::Get().mismatchDetected.load(std::memory_order_relaxed)) [[unlikely]]
         return true;
 
@@ -159,16 +158,15 @@ void Gui::Render() {
     io.MouseDrawCursor = visible;
 
     if (visible) {
-        constexpr ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse
-            | ImGuiWindowFlags_NoScrollbar
-            | ImGuiWindowFlags_NoScrollWithMouse;
-        #ifndef HSE_WINDOW_TITLE
-            #ifdef EXPERIMENTAL_VERSION
-                #define HSE_WINDOW_TITLE "Half Sword Enhancer v" HSE_VERSION " - Experimental Build###HSEMain"
-            #else
-                #define HSE_WINDOW_TITLE "Half Sword Enhancer v" HSE_VERSION "###HSEMain"
-            #endif
-        #endif
+        constexpr ImGuiWindowFlags windowFlags =
+            ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
+#ifndef HSE_WINDOW_TITLE
+#ifdef EXPERIMENTAL_VERSION
+#define HSE_WINDOW_TITLE "Half Sword Enhancer v" HSE_VERSION " - Experimental Build###HSEMain"
+#else
+#define HSE_WINDOW_TITLE "Half Sword Enhancer v" HSE_VERSION "###HSEMain"
+#endif
+#endif
         constexpr const char* windowTitle = HSE_WINDOW_TITLE;
 
         ImGui::SetNextWindowSizeConstraints(ImVec2(400, 300), ImVec2(FLT_MAX, FLT_MAX));

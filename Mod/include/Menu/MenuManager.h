@@ -13,14 +13,7 @@
 #include "ICollapsibleSection.h"
 #include "DefaultStyle.h"
 
-enum class MenuTab : uint8_t {
-    Player,
-    World,
-    Spawner,
-    Equipment,
-    Settings,
-    Count
-};
+enum class MenuTab : uint8_t { Player, World, Spawner, Equipment, Settings, Count };
 
 class MenuManager {
 private:
@@ -28,13 +21,13 @@ private:
 
     std::array<std::vector<std::unique_ptr<ICollapsibleSection>>, TabCount> sections;
 
-    static constexpr std::array<std::pair<MenuTab, const char*>, TabCount> tabOrder = {{
-        {MenuTab::Player, "Player"},
-        {MenuTab::World, "World"},
-        {MenuTab::Spawner, "Spawner"},
-        {MenuTab::Equipment, "Equipment"},
-        {MenuTab::Settings, "Settings"}
-    }};
+    static constexpr std::array<std::pair<MenuTab, const char*>, TabCount> tabOrder = {
+        {{MenuTab::Player, "Player"},
+         {MenuTab::World, "World"},
+         {MenuTab::Spawner, "Spawner"},
+         {MenuTab::Equipment, "Equipment"},
+         {MenuTab::Settings, "Settings"}}
+    };
 
     ICollapsibleSection* selectedSection = nullptr;
     MenuTab openCategory = MenuTab::Player;
@@ -68,8 +61,7 @@ private:
         for (size_t i = 0; i <= text.size() - needleLen; ++i) {
             bool match = true;
             for (size_t j = 0; j < needleLen; ++j) {
-                if (static_cast<char>(std::tolower(static_cast<unsigned char>(text[i + j]))) !=
-                    lowerNeedle[j]) {
+                if (static_cast<char>(std::tolower(static_cast<unsigned char>(text[i + j]))) != lowerNeedle[j]) {
                     match = false;
                     break;
                 }
@@ -92,8 +84,8 @@ private:
         char lowerNeedle[sizeof(searchBuffer)];
         size_t needleLen = 0;
         for (; searchBuffer[needleLen] != '\0'; ++needleLen) {
-            lowerNeedle[needleLen] = static_cast<char>(
-                std::tolower(static_cast<unsigned char>(searchBuffer[needleLen])));
+            lowerNeedle[needleLen] =
+                static_cast<char>(std::tolower(static_cast<unsigned char>(searchBuffer[needleLen])));
         }
 
         for (size_t i = 0; i < TabCount; ++i) {
@@ -142,10 +134,13 @@ private:
         ImDrawList* dl = ImGui::GetWindowDrawList();
         ImVec2 pos = ImGui::GetCursorScreenPos();
         float w = ImGui::GetContentRegionAvail().x;
-        dl->AddLine(pos, ImVec2(pos.x + w, pos.y),
-            ImGui::ColorConvertFloat4ToU32(ImVec4(
-                DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y,
-                DefaultStyle::mediumWood.z, 0.35f)), 1.0f);
+        dl->AddLine(
+            pos, ImVec2(pos.x + w, pos.y),
+            ImGui::ColorConvertFloat4ToU32(
+                ImVec4(DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y, DefaultStyle::mediumWood.z, 0.35f)
+            ),
+            1.0f
+        );
         ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
     }
 
@@ -169,10 +164,13 @@ private:
                     ImDrawList* dl = ImGui::GetWindowDrawList();
                     ImVec2 pos = ImGui::GetCursorScreenPos();
                     float w = ImGui::GetContentRegionAvail().x;
-                    dl->AddLine(pos, ImVec2(pos.x + w, pos.y),
+                    dl->AddLine(
+                        pos, ImVec2(pos.x + w, pos.y),
                         ImGui::ColorConvertFloat4ToU32(ImVec4(
-                            DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y,
-                            DefaultStyle::mediumWood.z, 0.35f)), 1.0f);
+                            DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y, DefaultStyle::mediumWood.z, 0.35f
+                        )),
+                        1.0f
+                    );
                     ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
                 }
                 currentTab = result.tab;
@@ -208,10 +206,9 @@ private:
                 auto mn = ImGui::GetItemRectMin();
                 auto mx = ImGui::GetItemRectMax();
                 ImGui::GetWindowDrawList()->AddRectFilled(
-                    ImVec2(mn.x - 5, mn.y + 1),
-                    ImVec2(mn.x - 2, mx.y - 1),
-                    ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass),
-                    1.0f);
+                    ImVec2(mn.x - 5, mn.y + 1), ImVec2(mn.x - 2, mx.y - 1),
+                    ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass), 1.0f
+                );
             }
 
             ImGui::Unindent(SECTION_INDENT);
@@ -273,8 +270,7 @@ public:
     MenuManager(const MenuManager&) = delete;
     MenuManager& operator=(const MenuManager&) = delete;
 
-    template<typename T>
-    void AddSection(MenuTab tab) {
+    template <typename T> void AddSection(MenuTab tab) {
         auto& sectionVec = sections[static_cast<size_t>(tab)];
         if (sectionVec.empty()) {
             sectionVec.reserve(8);
@@ -310,17 +306,18 @@ private:
         float bgLeft = winPos.x + style.WindowBorderSize;
 
         ImGui::GetWindowDrawList()->AddRectFilled(
-            ImVec2(bgLeft, bgTop),
-            ImVec2(bgLeft + sidebarWidth + style.WindowPadding.x, bgBottom),
-            ImGui::ColorConvertFloat4ToU32(DefaultStyle::darkInk),
-            style.WindowRounding,
+            ImVec2(bgLeft, bgTop), ImVec2(bgLeft + sidebarWidth + style.WindowPadding.x, bgBottom),
+            ImGui::ColorConvertFloat4ToU32(DefaultStyle::darkInk), style.WindowRounding,
             ImDrawFlags_RoundCornersBottomLeft
         );
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(SIDEBAR_HPAD, 6));
         ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(8, 4));
         ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(4, 4));
-        ImGui::BeginChild("nav_sidebar", ImVec2(sidebarWidth, ImGui::GetContentRegionAvail().y), ImGuiChildFlags_AlwaysUseWindowPadding);
+        ImGui::BeginChild(
+            "nav_sidebar", ImVec2(sidebarWidth, ImGui::GetContentRegionAvail().y),
+            ImGuiChildFlags_AlwaysUseWindowPadding
+        );
 
         RenderSearchBar();
 
@@ -331,108 +328,108 @@ private:
         if (searchActive) {
             RenderSearchResults();
         } else {
+            bool firstVisible = true;
+            for (size_t i = 0; i < TabCount; ++i) {
+                const auto& [tab, label] = tabOrder[i];
+                auto& sects = sections[i];
+                if (sects.empty()) continue;
 
-        bool firstVisible = true;
-        for (size_t i = 0; i < TabCount; ++i) {
-            const auto& [tab, label] = tabOrder[i];
-            auto& sects = sections[i];
-            if (sects.empty()) continue;
-
-            if (!firstVisible) {
-                ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
-                ImDrawList* dl = ImGui::GetWindowDrawList();
-                ImVec2 pos = ImGui::GetCursorScreenPos();
-                float w = ImGui::GetContentRegionAvail().x;
-                dl->AddLine(pos, ImVec2(pos.x + w, pos.y),
-                    ImGui::ColorConvertFloat4ToU32(ImVec4(
-                        DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y,
-                        DefaultStyle::mediumWood.z, 0.35f)), 1.0f);
-                ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
-            }
-            firstVisible = false;
-
-            ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::parchmentDark);
-            ImGui::Indent(ARROW_INDENT);
-            if (ImGui::Selectable(label, tab == openCategory)) {
-                openCategory = tab;
-            }
-            ImGui::Unindent(ARROW_INDENT);
-            ImGui::PopStyleColor();
-
-            {
-                auto min = ImGui::GetItemRectMin();
-                auto max = ImGui::GetItemRectMax();
-                float midY = (min.y + max.y) * 0.5f;
-                float ax = min.x - ARROW_INDENT * 0.6f;
-                ImU32 col = ImGui::ColorConvertFloat4ToU32(DefaultStyle::textDisabled);
-                ImDrawList* dl = ImGui::GetWindowDrawList();
-                if (tab == openCategory) {
-                    dl->AddTriangleFilled(
-                        ImVec2(ax - ARROW_SIZE, midY - ARROW_SIZE * 0.5f),
-                        ImVec2(ax + ARROW_SIZE, midY - ARROW_SIZE * 0.5f),
-                        ImVec2(ax, midY + ARROW_SIZE * 0.5f), col);
-                } else {
-                    dl->AddTriangleFilled(
-                        ImVec2(ax - ARROW_SIZE * 0.5f, midY - ARROW_SIZE),
-                        ImVec2(ax + ARROW_SIZE * 0.5f, midY),
-                        ImVec2(ax - ARROW_SIZE * 0.5f, midY + ARROW_SIZE), col);
+                if (!firstVisible) {
+                    ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
+                    ImDrawList* dl = ImGui::GetWindowDrawList();
+                    ImVec2 pos = ImGui::GetCursorScreenPos();
+                    float w = ImGui::GetContentRegionAvail().x;
+                    dl->AddLine(
+                        pos, ImVec2(pos.x + w, pos.y),
+                        ImGui::ColorConvertFloat4ToU32(ImVec4(
+                            DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y, DefaultStyle::mediumWood.z, 0.35f
+                        )),
+                        1.0f
+                    );
+                    ImGui::Dummy(ImVec2(0, CATEGORY_VGAP));
                 }
-            }
+                firstVisible = false;
 
-            if (tab == openCategory) {
-                ImGui::Indent(SECTION_INDENT);
-                ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.71f, 0.57f, 0.25f, 0.18f));
-
-                const char* currentGroup = nullptr;
-                bool groupOpen = false;
-
-                auto groupsEqual = [](const char* a, const char* b) {
-                    if (a == b) return true;
-                    if (!a || !b) return false;
-                    return std::strcmp(a, b) == 0;
-                };
-
-                for (auto& section : sects) {
-                    const char* group = section->GetGroup();
-
-                    if (!groupsEqual(group, currentGroup)) {
-                        if (currentGroup && groupOpen) {
-                            ImGui::TreePop();
-                        }
-                        currentGroup = group;
-                        if (group) {
-                            groupOpen = ImGui::TreeNodeEx(group, ImGuiTreeNodeFlags_DefaultOpen);
-                        } else {
-                            groupOpen = false;
-                        }
-                    }
-
-                    if (group && !groupOpen) continue;
-
-                    bool isSelected = selectedSection == section.get();
-                    if (ImGui::Selectable(section->GetName().c_str(), isSelected)) {
-                        selectedSection = section.get();
-                    }
-                    if (isSelected) {
-                        auto mn = ImGui::GetItemRectMin();
-                        auto mx = ImGui::GetItemRectMax();
-                        ImGui::GetWindowDrawList()->AddRectFilled(
-                            ImVec2(mn.x - 5, mn.y + 1),
-                            ImVec2(mn.x - 2, mx.y - 1),
-                            ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass),
-                            1.0f);
-                    }
+                ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::parchmentDark);
+                ImGui::Indent(ARROW_INDENT);
+                if (ImGui::Selectable(label, tab == openCategory)) {
+                    openCategory = tab;
                 }
-
-                if (currentGroup && groupOpen) {
-                    ImGui::TreePop();
-                }
-
+                ImGui::Unindent(ARROW_INDENT);
                 ImGui::PopStyleColor();
-                ImGui::Unindent(SECTION_INDENT);
-            }
-        }
 
+                {
+                    auto min = ImGui::GetItemRectMin();
+                    auto max = ImGui::GetItemRectMax();
+                    float midY = (min.y + max.y) * 0.5f;
+                    float ax = min.x - ARROW_INDENT * 0.6f;
+                    ImU32 col = ImGui::ColorConvertFloat4ToU32(DefaultStyle::textDisabled);
+                    ImDrawList* dl = ImGui::GetWindowDrawList();
+                    if (tab == openCategory) {
+                        dl->AddTriangleFilled(
+                            ImVec2(ax - ARROW_SIZE, midY - ARROW_SIZE * 0.5f),
+                            ImVec2(ax + ARROW_SIZE, midY - ARROW_SIZE * 0.5f), ImVec2(ax, midY + ARROW_SIZE * 0.5f), col
+                        );
+                    } else {
+                        dl->AddTriangleFilled(
+                            ImVec2(ax - ARROW_SIZE * 0.5f, midY - ARROW_SIZE), ImVec2(ax + ARROW_SIZE * 0.5f, midY),
+                            ImVec2(ax - ARROW_SIZE * 0.5f, midY + ARROW_SIZE), col
+                        );
+                    }
+                }
+
+                if (tab == openCategory) {
+                    ImGui::Indent(SECTION_INDENT);
+                    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.71f, 0.57f, 0.25f, 0.18f));
+
+                    const char* currentGroup = nullptr;
+                    bool groupOpen = false;
+
+                    auto groupsEqual = [](const char* a, const char* b) {
+                        if (a == b) return true;
+                        if (!a || !b) return false;
+                        return std::strcmp(a, b) == 0;
+                    };
+
+                    for (auto& section : sects) {
+                        const char* group = section->GetGroup();
+
+                        if (!groupsEqual(group, currentGroup)) {
+                            if (currentGroup && groupOpen) {
+                                ImGui::TreePop();
+                            }
+                            currentGroup = group;
+                            if (group) {
+                                groupOpen = ImGui::TreeNodeEx(group, ImGuiTreeNodeFlags_DefaultOpen);
+                            } else {
+                                groupOpen = false;
+                            }
+                        }
+
+                        if (group && !groupOpen) continue;
+
+                        bool isSelected = selectedSection == section.get();
+                        if (ImGui::Selectable(section->GetName().c_str(), isSelected)) {
+                            selectedSection = section.get();
+                        }
+                        if (isSelected) {
+                            auto mn = ImGui::GetItemRectMin();
+                            auto mx = ImGui::GetItemRectMax();
+                            ImGui::GetWindowDrawList()->AddRectFilled(
+                                ImVec2(mn.x - 5, mn.y + 1), ImVec2(mn.x - 2, mx.y - 1),
+                                ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass), 1.0f
+                            );
+                        }
+                    }
+
+                    if (currentGroup && groupOpen) {
+                        ImGui::TreePop();
+                    }
+
+                    ImGui::PopStyleColor();
+                    ImGui::Unindent(SECTION_INDENT);
+                }
+            }
         }
 
         ImGui::PopStyleColor(3);

@@ -30,8 +30,7 @@ namespace EquipmentGenerator {
         SDK::ABP_Generator_Armor_Random_C* armorGenerator = nullptr;
         SDK::ABP_Generator_Characters_Random_C* characterGenerator = nullptr;
 
-        template<typename T>
-        T* SpawnGenerator(const SDK::UWorld* world) {
+        template <typename T> T* SpawnGenerator(const SDK::UWorld* world) {
             SDK::UClass* genClass = T::StaticClass();
             if (!genClass) return nullptr;
 
@@ -40,12 +39,14 @@ namespace EquipmentGenerator {
             transform.Scale3D = SDK::FVector(1, 1, 1);
 
             auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-                world, genClass, transform,
-                SDK::ESpawnActorCollisionHandlingMethod::AlwaysSpawn,
-                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+                world, genClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AlwaysSpawn, nullptr,
+                SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
             if (!actor) return nullptr;
 
-            SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            SDK::UGameplayStatics::FinishSpawningActor(
+                actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
             return static_cast<T*>(actor);
         }
 
@@ -107,25 +108,27 @@ namespace EquipmentGenerator {
 
     SDK::UClass* GetCustomizableModulesClass(CustomizableWeapon type) {
         switch (type) {
-            case CustomizableWeapon::SwordArming:  return SDK::UBP_GameWeapon_Customizable_Sword_Arming_C::StaticClass();
-            case CustomizableWeapon::SwordShort:   return SDK::UBP_GameWeapon_Customizable_Sword_Short_C::StaticClass();
-            case CustomizableWeapon::SwordLong:    return SDK::UBP_GameWeapon_Customizable_Sword_Long_C::StaticClass();
-            case CustomizableWeapon::MaceShort:    return SDK::UBP_GameWeapon_Customizable_Mace_Short_C::StaticClass();
-            case CustomizableWeapon::Mace:         return SDK::UBP_GameWeapon_Customizable_Mace_C::StaticClass();
-            case CustomizableWeapon::MaceLong:     return SDK::UBP_GameWeapon_Customizable_Mace_Long_C::StaticClass();
-            case CustomizableWeapon::HaftedShort:  return SDK::UBP_GameWeapon_Customizable_Hafted_Short_C::StaticClass();
-            case CustomizableWeapon::Hafted:       return SDK::UBP_GameWeapon_Customizable_Hafted_C::StaticClass();
-            case CustomizableWeapon::HaftedLong:   return SDK::UBP_GameWeapon_Customizable_Hafted_Long_C::StaticClass();
-            case CustomizableWeapon::PolearmShort: return SDK::UBP_GameWeapon_Customizable_Polearm_Short_C::StaticClass();
-            case CustomizableWeapon::Polearm:      return SDK::UBP_GameWeapon_Customizable_Polearm_C::StaticClass();
-            case CustomizableWeapon::PolearmLong:  return SDK::UBP_GameWeapon_Customizable_Polearm_Long_C::StaticClass();
-            case CustomizableWeapon::PollaxeShort: return SDK::UBP_GameWeapon_Customizable_Pollaxe_Short_C::StaticClass();
-            case CustomizableWeapon::Pollaxe:      return SDK::UBP_GameWeapon_Customizable_Pollaxe_C::StaticClass();
-            case CustomizableWeapon::PollaxeLong:  return SDK::UBP_GameWeapon_Customizable_Pollaxe_Long_C::StaticClass();
-            case CustomizableWeapon::CastedShort:  return SDK::UBP_GameWeapon_Customizable_Casted_Short_C::StaticClass();
-            case CustomizableWeapon::Casted:       return SDK::UBP_GameWeapon_Customizable_Casted_C::StaticClass();
-            case CustomizableWeapon::CastedLong:   return SDK::UBP_GameWeapon_Customizable_Casted_Long_C::StaticClass();
-            case CustomizableWeapon::Messer:       return SDK::UBP_GameWeapon_Customizable_Messer_C::StaticClass();
+            case CustomizableWeapon::SwordArming: return SDK::UBP_GameWeapon_Customizable_Sword_Arming_C::StaticClass();
+            case CustomizableWeapon::SwordShort: return SDK::UBP_GameWeapon_Customizable_Sword_Short_C::StaticClass();
+            case CustomizableWeapon::SwordLong: return SDK::UBP_GameWeapon_Customizable_Sword_Long_C::StaticClass();
+            case CustomizableWeapon::MaceShort: return SDK::UBP_GameWeapon_Customizable_Mace_Short_C::StaticClass();
+            case CustomizableWeapon::Mace: return SDK::UBP_GameWeapon_Customizable_Mace_C::StaticClass();
+            case CustomizableWeapon::MaceLong: return SDK::UBP_GameWeapon_Customizable_Mace_Long_C::StaticClass();
+            case CustomizableWeapon::HaftedShort: return SDK::UBP_GameWeapon_Customizable_Hafted_Short_C::StaticClass();
+            case CustomizableWeapon::Hafted: return SDK::UBP_GameWeapon_Customizable_Hafted_C::StaticClass();
+            case CustomizableWeapon::HaftedLong: return SDK::UBP_GameWeapon_Customizable_Hafted_Long_C::StaticClass();
+            case CustomizableWeapon::PolearmShort:
+                return SDK::UBP_GameWeapon_Customizable_Polearm_Short_C::StaticClass();
+            case CustomizableWeapon::Polearm: return SDK::UBP_GameWeapon_Customizable_Polearm_C::StaticClass();
+            case CustomizableWeapon::PolearmLong: return SDK::UBP_GameWeapon_Customizable_Polearm_Long_C::StaticClass();
+            case CustomizableWeapon::PollaxeShort:
+                return SDK::UBP_GameWeapon_Customizable_Pollaxe_Short_C::StaticClass();
+            case CustomizableWeapon::Pollaxe: return SDK::UBP_GameWeapon_Customizable_Pollaxe_C::StaticClass();
+            case CustomizableWeapon::PollaxeLong: return SDK::UBP_GameWeapon_Customizable_Pollaxe_Long_C::StaticClass();
+            case CustomizableWeapon::CastedShort: return SDK::UBP_GameWeapon_Customizable_Casted_Short_C::StaticClass();
+            case CustomizableWeapon::Casted: return SDK::UBP_GameWeapon_Customizable_Casted_C::StaticClass();
+            case CustomizableWeapon::CastedLong: return SDK::UBP_GameWeapon_Customizable_Casted_Long_C::StaticClass();
+            case CustomizableWeapon::Messer: return SDK::UBP_GameWeapon_Customizable_Messer_C::StaticClass();
             default: return nullptr;
         }
     }
@@ -153,7 +156,9 @@ namespace EquipmentGenerator {
         return output;
     }
 
-    SDK::FStr_Passport_Character1 GenerateCharacter(SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier, bool mercenary) {
+    SDK::FStr_Passport_Character1 GenerateCharacter(
+        SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier, bool mercenary
+    ) {
         SDK::FStr_Passport_Character1 output{};
         auto* gen = GetCharacterGenerator();
         if (gen) {

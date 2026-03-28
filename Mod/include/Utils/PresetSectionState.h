@@ -8,8 +8,7 @@
 #include "Utils/PresetUtils.h"
 #include "Utils/GuiUtils.h"
 
-template<typename Serializer>
-struct PresetSectionState {
+template <typename Serializer> struct PresetSectionState {
     char presetNameBuf[128] = {};
     PresetUtils::PresetTreeNode presetTree;
     bool presetListDirty = true;
@@ -20,15 +19,13 @@ struct PresetSectionState {
         presetListDirty = false;
     }
 
-    template<typename BuildFn, typename ApplyFn>
+    template <typename BuildFn, typename ApplyFn>
     void RenderPresetsTab(BuildFn&& buildData, ApplyFn&& applyData, bool canSave = true) {
         ImGui::PushID("presets");
-        GuiUtils::PresetPanelState panelState{
-            presetNameBuf, sizeof(presetNameBuf),
-            presetListDirty, presetTree, status, canSave
-        };
-        GuiUtils::RenderPresetPanel(panelState, Serializer::GetPresetsDirectory(),
-            [this]() { RefreshPresetTree(); },
+        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status,
+                                              canSave};
+        GuiUtils::RenderPresetPanel(
+            panelState, Serializer::GetPresetsDirectory(), [this]() { RefreshPresetTree(); },
             [this, &buildData](const char* name) {
                 auto data = buildData();
                 data.name = name;
@@ -54,7 +51,8 @@ struct PresetSectionState {
                 Serializer::DeletePreset(path);
                 PresetUtils::CleanEmptyDirectories(Serializer::GetPresetsDirectory());
                 presetListDirty = true;
-            });
+            }
+        );
         ImGui::PopID();
     }
 };

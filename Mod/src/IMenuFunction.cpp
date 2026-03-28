@@ -26,10 +26,10 @@ void HookedFunction::SetKey() {
 
 void HookedFunction::SetEnabled(bool enabled) {
     if (isEnabled == enabled) return;
-    
+
     isEnabled = enabled;
     SaveConfig("enabled", enabled);
-    
+
     for (const auto evt : eventTypes) {
         if (isEnabled) {
             g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
@@ -37,7 +37,7 @@ void HookedFunction::SetEnabled(bool enabled) {
             g_GameHook->UnregisterEvent(evt, this);
         }
     }
-    
+
     if (executeOnToggle) {
         GameHook::QueueAction([this, enabled = isEnabled]() { callback(enabled); });
     }
@@ -47,41 +47,41 @@ void HookedFunction::SetEnabled(bool enabled) {
 void HookedFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
-    
+
     if (*key != -1) {
         KeybindManager::RegisterKeybind(key, [this]() { SetEnabled(!isEnabled); }, this);
     }
-    
+
     LoadEnabledState(false);
-    
+
     if (isEnabled) {
         for (const auto evt : eventTypes) {
             g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
         }
     }
-    
+
     LoadParameters();
 }
 
 void KeybindFunction::SetEnabled(bool enabled) {
     if (!toggleable || isEnabled == enabled) return;
-    
+
     isEnabled = enabled;
     SaveConfig("enabled", enabled);
-    
+
     if (isEnabled && *key != -1) {
         KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
     } else {
         KeybindManager::UnregisterKeybind(key);
     }
-    
+
     g_ConfigManager.SaveConfig();
 }
 
 void KeybindFunction::LoadConfig() {
     *key = GetConfig("key", *key);
     prevKey = *key;
-    
+
     if (toggleable) {
         if (LoadEnabledState(false) && isEnabled && *key != -1) {
             KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
@@ -89,7 +89,7 @@ void KeybindFunction::LoadConfig() {
     } else if (*key != -1) {
         KeybindManager::RegisterKeybind(key, [this]() { callback(true); }, this);
     }
-    
+
     LoadParameters();
 }
 

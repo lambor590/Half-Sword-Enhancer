@@ -6,12 +6,11 @@
 #include "Utils/PresetUtils.h"
 #include "ConfigManager.h"
 
-template<typename Derived, typename DataT>
-class PresetSerializerBase {
+template <typename Derived, typename DataT> class PresetSerializerBase {
 public:
     static const std::filesystem::path& GetPresetsDirectory() {
-        static std::filesystem::path dir = PresetUtils::EnsureDirectory(
-            ConfigManager::GetAppDataPath() / Derived::kPresetsSubdir);
+        static std::filesystem::path dir =
+            PresetUtils::EnsureDirectory(ConfigManager::GetAppDataPath() / Derived::kPresetsSubdir);
         return dir;
     }
 
@@ -29,9 +28,7 @@ public:
         return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
     }
 
-    static bool DeletePreset(const std::filesystem::path& path) {
-        return PresetUtils::DeletePreset(path);
-    }
+    static bool DeletePreset(const std::filesystem::path& path) { return PresetUtils::DeletePreset(path); }
 
     static bool SaveToFile(const std::filesystem::path& path, const DataT& data) {
         return PresetUtils::SaveStringToFile(path, Derived::SerializeToIni(data));

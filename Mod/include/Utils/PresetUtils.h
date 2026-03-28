@@ -77,8 +77,8 @@ namespace PresetUtils {
     }
 
     inline bool IsDefaultColor(const SDK::FLinearColor& c, const SDK::FLinearColor& def) {
-        return std::abs(c.R - def.R) < 1e-3f && std::abs(c.G - def.G) < 1e-3f
-            && std::abs(c.B - def.B) < 1e-3f && std::abs(c.A - def.A) < 1e-3f;
+        return std::abs(c.R - def.R) < 1e-3f && std::abs(c.G - def.G) < 1e-3f && std::abs(c.B - def.B) < 1e-3f &&
+               std::abs(c.A - def.A) < 1e-3f;
     }
 
     inline std::string DoubleOverrideToString(bool enabled, double value) {
@@ -94,21 +94,33 @@ namespace PresetUtils {
     }
 
     inline void ParseDoubleOverride(const char* str, bool& enabled, double& value) {
-        if (!str || !str[0]) { enabled = false; value = 0.0; return; }
+        if (!str || !str[0]) {
+            enabled = false;
+            value = 0.0;
+            return;
+        }
         int en = 0;
         sscanf_s(str, "%d,%lf", &en, &value);
         enabled = en != 0;
     }
 
     inline void ParseIntOverride(const char* str, bool& enabled, int& value) {
-        if (!str || !str[0]) { enabled = false; value = 0; return; }
+        if (!str || !str[0]) {
+            enabled = false;
+            value = 0;
+            return;
+        }
         int en = 0;
         sscanf_s(str, "%d,%d", &en, &value);
         enabled = en != 0;
     }
 
     inline void ParseBoolOverride(const char* str, bool& enabled, bool& value) {
-        if (!str || !str[0]) { enabled = false; value = false; return; }
+        if (!str || !str[0]) {
+            enabled = false;
+            value = false;
+            return;
+        }
         int en = 0, val = 0;
         sscanf_s(str, "%d,%d", &en, &val);
         enabled = en != 0;
@@ -119,8 +131,8 @@ namespace PresetUtils {
         std::string result;
         result.reserve(name.size());
         for (char c : name) {
-            if (c == '<' || c == '>' || c == ':' || c == '"' || c == '/' ||
-                c == '\\' || c == '|' || c == '?' || c == '*' || c < 32)
+            if (c == '<' || c == '>' || c == ':' || c == '"' || c == '/' || c == '\\' || c == '|' || c == '?' ||
+                c == '*' || c < 32)
                 result += '_';
             else
                 result += c;
@@ -139,8 +151,7 @@ namespace PresetUtils {
 
     [[nodiscard]] inline bool SaveStringToFile(const std::filesystem::path& path, const std::string& content) {
         FILE* f = nullptr;
-        if (fopen_s(&f, path.string().c_str(), "wb") != 0 || !f)
-            return false;
+        if (fopen_s(&f, path.string().c_str(), "wb") != 0 || !f) return false;
         std::fwrite(content.data(), 1, content.size(), f);
         std::fclose(f);
         return true;
@@ -148,11 +159,13 @@ namespace PresetUtils {
 
     inline std::string LoadStringFromFile(const std::filesystem::path& path) {
         FILE* f = nullptr;
-        if (fopen_s(&f, path.string().c_str(), "rb") != 0 || !f)
-            return {};
+        if (fopen_s(&f, path.string().c_str(), "rb") != 0 || !f) return {};
         std::fseek(f, 0, SEEK_END);
         long size = std::ftell(f);
-        if (size <= 0) { std::fclose(f); return {}; }
+        if (size <= 0) {
+            std::fclose(f);
+            return {};
+        }
         std::fseek(f, 0, SEEK_SET);
         std::string content(size, '\0');
         std::fread(content.data(), 1, size, f);
@@ -168,12 +181,11 @@ namespace PresetUtils {
     inline void CleanEmptyDirectories(const std::filesystem::path& dir) {
         std::error_code ec;
         if (!std::filesystem::exists(dir, ec)) return;
-        for (auto it = std::filesystem::directory_iterator(dir, ec); it != std::filesystem::directory_iterator(); ++it) {
-            if (it->is_directory())
-                CleanEmptyDirectories(it->path());
+        for (auto it = std::filesystem::directory_iterator(dir, ec); it != std::filesystem::directory_iterator();
+             ++it) {
+            if (it->is_directory()) CleanEmptyDirectories(it->path());
         }
-        if (std::filesystem::is_empty(dir, ec))
-            std::filesystem::remove(dir, ec);
+        if (std::filesystem::is_empty(dir, ec)) std::filesystem::remove(dir, ec);
     }
 
     inline std::pair<std::string, std::string> SanitizePresetPath(const std::string& input) {
@@ -182,8 +194,7 @@ namespace PresetUtils {
             if (c == '\\') c = '/';
 
         size_t lastSlash = normalized.rfind('/');
-        if (lastSlash == std::string::npos)
-            return {"", SanitizeFilename(normalized)};
+        if (lastSlash == std::string::npos) return {"", SanitizeFilename(normalized)};
 
         std::string folder = normalized.substr(0, lastSlash);
         std::string filename = normalized.substr(lastSlash + 1);
@@ -193,8 +204,7 @@ namespace PresetUtils {
         for (char c : folder) {
             if (c == '/') {
                 cleanFolder += '/';
-            } else if (c == '<' || c == '>' || c == ':' || c == '"' ||
-                       c == '|' || c == '?' || c == '*' || c < 32) {
+            } else if (c == '<' || c == '>' || c == ':' || c == '"' || c == '|' || c == '?' || c == '*' || c < 32) {
                 cleanFolder += '_';
             } else {
                 cleanFolder += c;
@@ -219,8 +229,7 @@ namespace PresetUtils {
         for (const auto& entry : std::filesystem::directory_iterator(rootDir, ec)) {
             if (entry.is_directory()) {
                 auto child = ListPresetsRecursive(entry.path());
-                if (!child.presets.empty() || !child.children.empty())
-                    root.children.push_back(std::move(child));
+                if (!child.presets.empty() || !child.children.empty()) root.children.push_back(std::move(child));
             } else if (entry.is_regular_file() && entry.path().extension() == ".ini") {
                 CSimpleIniA ini;
                 if (ini.LoadFile(entry.path().string().c_str()) < 0) continue;

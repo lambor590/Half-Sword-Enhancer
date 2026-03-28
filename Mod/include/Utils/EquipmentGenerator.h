@@ -22,7 +22,11 @@ namespace EquipmentGenerator {
     SDK::FStr_Passport_Weapon1 GenerateWeapon(SDK::Enum_WeaponType type, SDK::Enum_Ranks tier);
     SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(SDK::UClass* weaponClass, SDK::Enum_Ranks tier);
     SDK::FStr_Passport_Weapon1 GenerateCustomizableWeapon(CustomizableWeapon type, SDK::Enum_Ranks tier);
-    SDK::FStr_Passport_Armor1 GenerateArmor(SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot, double moduleChance = 0.5);
-    SDK::FStr_Passport_Character1 GenerateCharacter(SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier, bool mercenary = false);
+    SDK::FStr_Passport_Armor1 GenerateArmor(
+        SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot, double moduleChance = 0.5
+    );
+    SDK::FStr_Passport_Character1 GenerateCharacter(
+        SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier, bool mercenary = false
+    );
 
 }

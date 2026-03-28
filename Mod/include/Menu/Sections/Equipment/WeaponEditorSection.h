@@ -111,29 +111,28 @@ private:
     }
 
     static bool HasExcludedPath(const std::string& fullName) {
-        static constexpr const char* PATTERNS[] = {
-            "/Engine/", "/Effects/", "/UltraDynamicSky/", "/MetaHumans/",
-            "/Tests/", "/Character/Material", "/Collisions/", "/Niagara/",
-            "/Debug/", "/Editor", "/NavMesh/",
-            "/Plugins/", "/Developer/", "/BasicShapes/", "/EditorMeshes/",
-            "/Geometry/", "/MaterialEditor/", "/PCG/", "/FieldSystem/",
-            "/GeometryCollection/", "/ChaosFlesh/", "/ChaosVehicles/"
-        };
+        static constexpr const char* PATTERNS[] = {"/Engine/",          "/Effects/",
+                                                   "/UltraDynamicSky/", "/MetaHumans/",
+                                                   "/Tests/",           "/Character/Material",
+                                                   "/Collisions/",      "/Niagara/",
+                                                   "/Debug/",           "/Editor",
+                                                   "/NavMesh/",         "/Plugins/",
+                                                   "/Developer/",       "/BasicShapes/",
+                                                   "/EditorMeshes/",    "/Geometry/",
+                                                   "/MaterialEditor/",  "/PCG/",
+                                                   "/FieldSystem/",     "/GeometryCollection/",
+                                                   "/ChaosFlesh/",      "/ChaosVehicles/"};
         for (auto* p : PATTERNS)
             if (fullName.find(p) != std::string::npos) return true;
         return false;
     }
 
     static bool HasExcludedName(std::string_view name) {
-        static constexpr const char* PREFIXES[] = {
-            "UCX_", "UBX_", "USP_", "UCP_", "SM_Preview", "SM_Template"
-        };
+        static constexpr const char* PREFIXES[] = {"UCX_", "UBX_", "USP_", "UCP_", "SM_Preview", "SM_Template"};
         for (auto* prefix : PREFIXES)
             if (name.compare(0, std::strlen(prefix), prefix) == 0) return true;
 
-        static constexpr const char* SUBSTRINGS[] = {
-            "_Collision", "Proxy", "Placeholder", "NavMesh"
-        };
+        static constexpr const char* SUBSTRINGS[] = {"_Collision", "Proxy", "Placeholder", "NavMesh"};
         for (auto* sub : SUBSTRINGS)
             if (name.find(sub) != std::string_view::npos) return true;
 
@@ -169,9 +168,10 @@ private:
             auto* mesh = comps[i]->StaticMesh;
             if (!mesh || !meshSeen.insert(mesh).second) continue;
             std::string fullName = mesh->GetFullName();
-            pendingMeshEntries.push_back({mesh, mesh->GetName(),
-                PresetUtils::ObjectToAbsolutePath(mesh),
-                ExtractCategory(fullName), MeshType::Static});
+            pendingMeshEntries.push_back(
+                {mesh, mesh->GetName(), PresetUtils::ObjectToAbsolutePath(mesh), ExtractCategory(fullName),
+                 MeshType::Static}
+            );
             added = true;
         }
         if (added) {
@@ -184,13 +184,11 @@ private:
         std::string path(pathStr);
         if (path.empty()) return nullptr;
 
-        if (path[0] != '/')
-            path = "/Game/" + path;
+        if (path[0] != '/') path = "/Game/" + path;
 
         if (path.find('.') == std::string::npos) {
             size_t lastSlash = path.rfind('/');
-            if (lastSlash != std::string::npos)
-                path += "." + path.substr(lastSlash + 1);
+            if (lastSlash != std::string::npos) path += "." + path.substr(lastSlash + 1);
         }
 
         std::wstring widePath(path.begin(), path.end());
@@ -205,15 +203,18 @@ private:
         auto* skeletalMeshClass = SDK::USkeletalMesh::StaticClass();
 
         MeshType type;
-        if (loaded->IsA(skeletalMeshClass)) type = MeshType::Skeletal;
-        else if (loaded->IsA(staticMeshClass)) type = MeshType::Static;
-        else return nullptr;
+        if (loaded->IsA(skeletalMeshClass))
+            type = MeshType::Skeletal;
+        else if (loaded->IsA(staticMeshClass))
+            type = MeshType::Static;
+        else
+            return nullptr;
 
         if (meshSeen.insert(loaded).second) {
             std::string fullName = loaded->GetFullName();
-            pendingMeshEntries.push_back({loaded, loaded->GetName(),
-                PresetUtils::ObjectToAbsolutePath(loaded),
-                ExtractCategory(fullName), type});
+            pendingMeshEntries.push_back(
+                {loaded, loaded->GetName(), PresetUtils::ObjectToAbsolutePath(loaded), ExtractCategory(fullName), type}
+            );
             meshPendingIsFullReplace = false;
             meshPendingReady.store(true, std::memory_order_release);
         }
@@ -235,9 +236,12 @@ private:
             if (!obj) continue;
 
             MeshType type;
-            if (obj->Class == staticClass) type = MeshType::Static;
-            else if (obj->Class == skeletalClass) type = MeshType::Skeletal;
-            else continue;
+            if (obj->Class == staticClass)
+                type = MeshType::Static;
+            else if (obj->Class == skeletalClass)
+                type = MeshType::Skeletal;
+            else
+                continue;
 
             if (obj->IsDefaultObject()) continue;
             if (!seen.insert(obj).second) continue;
@@ -247,7 +251,8 @@ private:
 
             auto dotPos = fullName.rfind('.');
             std::string_view meshNameView = (dotPos != std::string::npos)
-                ? std::string_view(fullName).substr(dotPos + 1) : std::string_view(fullName);
+                                                ? std::string_view(fullName).substr(dotPos + 1)
+                                                : std::string_view(fullName);
             if (HasExcludedName(meshNameView)) continue;
 
             if (type == MeshType::Static) {
@@ -256,9 +261,10 @@ private:
                 if (IsSkeletalMeshInvalid(static_cast<SDK::USkeletalMesh*>(obj))) continue;
             }
 
-            scanned.push_back({obj, std::string(meshNameView),
-                PresetUtils::ObjectToAbsolutePath(obj),
-                ExtractCategory(fullName), type});
+            scanned.push_back(
+                {obj, std::string(meshNameView), PresetUtils::ObjectToAbsolutePath(obj), ExtractCategory(fullName), type
+                }
+            );
         }
 
         pendingMeshEntries = std::move(scanned);
@@ -272,10 +278,10 @@ private:
         return false;
     }
 
-    void ApplyMeshOverrides(SDK::AModularWeaponBP_C* weapon,
-        const MeshSnapshot& snap, SDK::USkeletalMeshComponent** outSkeletalComps = nullptr,
-        bool enableSkeletalCollision = false)
-    {
+    void ApplyMeshOverrides(
+        SDK::AModularWeaponBP_C* weapon, const MeshSnapshot& snap,
+        SDK::USkeletalMeshComponent** outSkeletalComps = nullptr, bool enableSkeletalCollision = false
+    ) {
         SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             if (!comps[i]) continue;
@@ -300,8 +306,8 @@ private:
             auto* skMesh = static_cast<SDK::USkeletalMesh*>(slot.mesh);
 
             auto* added = weapon->AddComponentByClass(
-                SDK::USkeletalMeshComponent::StaticClass(),
-                false, SDK::FTransform{}, false);
+                SDK::USkeletalMeshComponent::StaticClass(), false, SDK::FTransform{}, false
+            );
             if (!added) continue;
 
             auto* skelComp = static_cast<SDK::USkeletalMeshComponent*>(added);
@@ -323,10 +329,10 @@ private:
                 skelComp->SetEnableGravity(false);
             }
 
-            skelComp->K2_AttachToComponent(comps[i], SDK::FName(),
-                SDK::EAttachmentRule::SnapToTarget,
-                SDK::EAttachmentRule::SnapToTarget,
-                SDK::EAttachmentRule::SnapToTarget, !enableSkeletalCollision);
+            skelComp->K2_AttachToComponent(
+                comps[i], SDK::FName(), SDK::EAttachmentRule::SnapToTarget, SDK::EAttachmentRule::SnapToTarget,
+                SDK::EAttachmentRule::SnapToTarget, !enableSkeletalCollision
+            );
 
             skelComp->SetRelativeScale3D(slot.scale);
             skelComp->K2_SetRelativeRotation(slot.rotation, false, nullptr, true);
@@ -393,9 +399,7 @@ private:
     }
 
     void GenerateWeaponPassport() {
-        QueueGeneration(
-            static_cast<CustomizableWeapon>(cfg.weaponType),
-            static_cast<SDK::Enum_Ranks>(cfg.weaponTier));
+        QueueGeneration(static_cast<CustomizableWeapon>(cfg.weaponType), static_cast<SDK::Enum_Ranks>(cfg.weaponTier));
     }
 
     void RandomizeWeaponPassport() {
@@ -409,43 +413,42 @@ private:
         if (!actor) return;
         auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
 
-        if (props.rigidity.enabled)       weapon->Rigidity = props.rigidity.value;
-        if (props.edgeSharpness.enabled)   weapon->Edge_Sharpness = props.edgeSharpness.value;
-        if (props.rawDamage.enabled)       weapon->Raw_Damage = props.rawDamage.value;
-        if (props.cuttingRate.enabled)     weapon->Cutting_Rate = props.cuttingRate.value;
-        if (props.stabRate.enabled)        weapon->Stab_Rate = props.stabRate.value;
-        if (props.defRating.enabled)       weapon->Def_Rating = props.defRating.value;
-        if (props.gripRate.enabled)        weapon->Grip_Rate = props.gripRate.value;
-        if (props.drawCutRate.enabled)     weapon->Draw_Cut_Rate = props.drawCutRate.value;
-        if (props.tipSharpness.enabled)    weapon->Tip_Sharpness = props.tipSharpness.value;
-        if (props.kickPower.enabled)       weapon->Kick_Power = props.kickPower.value;
-        if (props.matDensity.enabled)      weapon->Mat_Density = props.matDensity.value;
-        if (props.dismemberSharp.enabled)  weapon->Dismemberment_Level_Sharp = props.dismemberSharp.value;
-        if (props.dismemberBlunt.enabled)  weapon->Dismemberment_Level_Blunt = props.dismemberBlunt.value;
-        if (props.doubleEdged.enabled)     weapon->Double_Edged = props.doubleEdged.value;
-        if (props.piercing.enabled)        weapon->Piercing = props.piercing.value;
-        if (props.noStab.enabled)          weapon->NoStab = props.noStab.value;
-        if (props.staminaBurnR.enabled)    weapon->R_Hand_Stamina_Burn_Rate = props.staminaBurnR.value;
-        if (props.staminaBurnL.enabled)    weapon->L_Hand_Stamina_Burn_Rate = props.staminaBurnL.value;
-        if (props.staminaBurn2H.enabled)   weapon->TwoH_Default_Stamina_Burn_Rate = props.staminaBurn2H.value;
+        if (props.rigidity.enabled) weapon->Rigidity = props.rigidity.value;
+        if (props.edgeSharpness.enabled) weapon->Edge_Sharpness = props.edgeSharpness.value;
+        if (props.rawDamage.enabled) weapon->Raw_Damage = props.rawDamage.value;
+        if (props.cuttingRate.enabled) weapon->Cutting_Rate = props.cuttingRate.value;
+        if (props.stabRate.enabled) weapon->Stab_Rate = props.stabRate.value;
+        if (props.defRating.enabled) weapon->Def_Rating = props.defRating.value;
+        if (props.gripRate.enabled) weapon->Grip_Rate = props.gripRate.value;
+        if (props.drawCutRate.enabled) weapon->Draw_Cut_Rate = props.drawCutRate.value;
+        if (props.tipSharpness.enabled) weapon->Tip_Sharpness = props.tipSharpness.value;
+        if (props.kickPower.enabled) weapon->Kick_Power = props.kickPower.value;
+        if (props.matDensity.enabled) weapon->Mat_Density = props.matDensity.value;
+        if (props.dismemberSharp.enabled) weapon->Dismemberment_Level_Sharp = props.dismemberSharp.value;
+        if (props.dismemberBlunt.enabled) weapon->Dismemberment_Level_Blunt = props.dismemberBlunt.value;
+        if (props.doubleEdged.enabled) weapon->Double_Edged = props.doubleEdged.value;
+        if (props.piercing.enabled) weapon->Piercing = props.piercing.value;
+        if (props.noStab.enabled) weapon->NoStab = props.noStab.value;
+        if (props.staminaBurnR.enabled) weapon->R_Hand_Stamina_Burn_Rate = props.staminaBurnR.value;
+        if (props.staminaBurnL.enabled) weapon->L_Hand_Stamina_Burn_Rate = props.staminaBurnL.value;
+        if (props.staminaBurn2H.enabled) weapon->TwoH_Default_Stamina_Burn_Rate = props.staminaBurn2H.value;
         if (props.staminaBurn2HAlt.enabled) weapon->TwoH_Alt_Stamina_Burn_Rate = props.staminaBurn2HAlt.value;
     }
 
     int CountActiveOverrides() const {
-        const bool flags[] = {
-            runtimeProps.rigidity.enabled, runtimeProps.edgeSharpness.enabled,
-            runtimeProps.rawDamage.enabled, runtimeProps.cuttingRate.enabled,
-            runtimeProps.stabRate.enabled, runtimeProps.defRating.enabled,
-            runtimeProps.gripRate.enabled, runtimeProps.drawCutRate.enabled,
-            runtimeProps.tipSharpness.enabled, runtimeProps.kickPower.enabled,
-            runtimeProps.matDensity.enabled, runtimeProps.dismemberSharp.enabled,
-            runtimeProps.dismemberBlunt.enabled, runtimeProps.doubleEdged.enabled,
-            runtimeProps.piercing.enabled, runtimeProps.noStab.enabled,
-            runtimeProps.staminaBurnR.enabled, runtimeProps.staminaBurnL.enabled,
-            runtimeProps.staminaBurn2H.enabled, runtimeProps.staminaBurn2HAlt.enabled
-        };
+        const bool flags[] = {runtimeProps.rigidity.enabled,       runtimeProps.edgeSharpness.enabled,
+                              runtimeProps.rawDamage.enabled,      runtimeProps.cuttingRate.enabled,
+                              runtimeProps.stabRate.enabled,       runtimeProps.defRating.enabled,
+                              runtimeProps.gripRate.enabled,       runtimeProps.drawCutRate.enabled,
+                              runtimeProps.tipSharpness.enabled,   runtimeProps.kickPower.enabled,
+                              runtimeProps.matDensity.enabled,     runtimeProps.dismemberSharp.enabled,
+                              runtimeProps.dismemberBlunt.enabled, runtimeProps.doubleEdged.enabled,
+                              runtimeProps.piercing.enabled,       runtimeProps.noStab.enabled,
+                              runtimeProps.staminaBurnR.enabled,   runtimeProps.staminaBurnL.enabled,
+                              runtimeProps.staminaBurn2H.enabled,  runtimeProps.staminaBurn2HAlt.enabled};
         int count = 0;
-        for (bool f : flags) count += f;
+        for (bool f : flags)
+            count += f;
         return count;
     }
 
@@ -462,7 +465,10 @@ private:
         bool hasMesh = HasAnyMeshOverride();
         auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
-        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale), cfg.spawn.snapToGround,
+        Spawner::SpawnCustomizableFromPassport(
+            world, weaponPassport,
+            Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
+            cfg.spawn.snapToGround,
             [this, props, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
                 auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
                 CollectMeshesFromWeapon(weapon);
@@ -476,9 +482,9 @@ private:
                 if (hasOverrides) ApplyRuntimeProps(actor, props);
                 if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
                 preview.SetPreviewActor(actor);
-                if (cfg.preview.autoRotate)
-                    actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
-            });
+                if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
+            }
+        );
     }
 
     void SpawnFromPassport() {
@@ -500,20 +506,25 @@ private:
             if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, nullptr, true);
         };
 
-        Spawner::SpawnCustomizableFromPassport(world, weaponPassport, Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale), cfg.spawn.snapToGround, callback);
+        Spawner::SpawnCustomizableFromPassport(
+            world, weaponPassport,
+            Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
+            cfg.spawn.snapToGround, callback
+        );
     }
 
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f) {
         float v[3] = {static_cast<float>(vec.X), static_cast<float>(vec.Y), static_cast<float>(vec.Z)};
         if (ImGui::DragFloat3(label, v, speed, 0.0f, 0.0f, "%.3f")) {
-            vec.X = v[0]; vec.Y = v[1]; vec.Z = v[2];
+            vec.X = v[0];
+            vec.Y = v[1];
+            vec.Z = v[2];
         }
     }
 
     static void RenderMassDrag(const char* label, double& mass, float speed = 0.01f) {
         float val = static_cast<float>(mass);
-        if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f"))
-            mass = val;
+        if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f")) mass = val;
     }
 
     static void RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask) {
@@ -523,8 +534,7 @@ private:
         if (ImGui::BeginCombo(label, GuiUtils::TIER_LABELS[tier])) {
             for (int t = 0; t <= 8; ++t) {
                 if (!(validMask & (1 << t))) continue;
-                if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == tier))
-                    tier = t;
+                if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == tier)) tier = t;
                 if (t == tier) ImGui::SetItemDefaultFocus();
             }
             ImGui::EndCombo();
@@ -558,8 +568,7 @@ private:
         static float weaponTypeComboW = GuiUtils::CalcComboWidth(WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT);
         ImGui::SetNextItemWidth(weaponTypeComboW);
         int typeIdx = cfg.weaponType - 1;
-        if (ImGui::Combo("##Type", &typeIdx, WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT))
-            cfg.weaponType = typeIdx + 1;
+        if (ImGui::Combo("##Type", &typeIdx, WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT)) cfg.weaponType = typeIdx + 1;
         TooltipHelper::ShowTooltip("Base weapon archetype that determines available modules and valid tiers");
 
         ImGui::SameLine();
@@ -571,18 +580,15 @@ private:
 
         ImGui::Spacing();
         if (!canGenerate) ImGui::BeginDisabled();
-        if (ImGui::Button("Generate"))
-            GenerateWeaponPassport();
+        if (ImGui::Button("Generate")) GenerateWeaponPassport();
         TooltipHelper::ShowTooltip("Generate weapon passport using selected type and tier");
         ImGui::SameLine();
-        if (ImGui::Button("Randomize"))
-            RandomizeWeaponPassport();
+        if (ImGui::Button("Randomize")) RandomizeWeaponPassport();
         TooltipHelper::ShowTooltip("Pick random type and tier, then generate");
         if (!canGenerate) ImGui::EndDisabled();
 
         ImGui::SameLine();
-        if (ImGui::Button("Reset"))
-            CreateBlankWeaponPassport();
+        if (ImGui::Button("Reset")) CreateBlankWeaponPassport();
         TooltipHelper::ShowTooltip("Clear all passport data to blank defaults");
 
         if (weaponGenerationPending) {
@@ -602,27 +608,33 @@ private:
             return;
         }
 
-        GuiUtils::RenderGlobalModuleCombo("Head",
-            weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139,
-            globalModules.heads, moduleFilters[0], globalModules.cachedWidths[0]);
-        GuiUtils::RenderGlobalModuleCombo("Guard",
-            weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0,
-            globalModules.guards, moduleFilters[1], globalModules.cachedWidths[1]);
-        GuiUtils::RenderGlobalModuleCombo("Grip",
-            weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4,
-            globalModules.grips, moduleFilters[2], globalModules.cachedWidths[2]);
-        GuiUtils::RenderGlobalModuleCombo("Pommel",
-            weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6,
-            globalModules.pommels, moduleFilters[3], globalModules.cachedWidths[3]);
+        GuiUtils::RenderGlobalModuleCombo(
+            "Head", weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, globalModules.heads,
+            moduleFilters[0], globalModules.cachedWidths[0]
+        );
+        GuiUtils::RenderGlobalModuleCombo(
+            "Guard", weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, globalModules.guards,
+            moduleFilters[1], globalModules.cachedWidths[1]
+        );
+        GuiUtils::RenderGlobalModuleCombo(
+            "Grip", weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, globalModules.grips,
+            moduleFilters[2], globalModules.cachedWidths[2]
+        );
+        GuiUtils::RenderGlobalModuleCombo(
+            "Pommel", weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, globalModules.pommels,
+            moduleFilters[3], globalModules.cachedWidths[3]
+        );
         if (!globalModules.subMods1.empty()) {
-            GuiUtils::RenderGlobalModuleCombo("Sub-Mod 1",
-                weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D,
-                globalModules.subMods1, moduleFilters[4], globalModules.cachedWidths[4]);
+            GuiUtils::RenderGlobalModuleCombo(
+                "Sub-Mod 1", weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, globalModules.subMods1,
+                moduleFilters[4], globalModules.cachedWidths[4]
+            );
         }
         if (!globalModules.subMods2.empty()) {
-            GuiUtils::RenderGlobalModuleCombo("Sub-Mod 2",
-                weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9,
-                globalModules.subMods2, moduleFilters[5], globalModules.cachedWidths[5]);
+            GuiUtils::RenderGlobalModuleCombo(
+                "Sub-Mod 2", weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, globalModules.subMods2,
+                moduleFilters[5], globalModules.cachedWidths[5]
+            );
         }
         if (globalModules.subMods1.empty() && globalModules.subMods2.empty())
             ImGui::TextDisabled("No sub-modules available for this weapon type");
@@ -640,21 +652,25 @@ private:
         ImGui::TextDisabled("Size (XYZ)");
         ImGui::SameLine(headerAvail - 70.0f + ImGui::GetStyle().ItemSpacing.x);
         ImGui::TextDisabled("Mass");
-        RenderSizeMassRow("Head",
-            weaponPassport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57,
-            weaponPassport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7);
+        RenderSizeMassRow(
+            "Head", weaponPassport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57,
+            weaponPassport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7
+        );
         TooltipHelper::ShowTooltip("Scale and weight of the head component");
-        RenderSizeMassRow("Guard",
-            weaponPassport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704,
-            weaponPassport.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927);
+        RenderSizeMassRow(
+            "Guard", weaponPassport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704,
+            weaponPassport.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927
+        );
         TooltipHelper::ShowTooltip("Scale and weight of the guard component");
-        RenderSizeMassRow("Grip",
-            weaponPassport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF,
-            weaponPassport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10);
+        RenderSizeMassRow(
+            "Grip", weaponPassport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF,
+            weaponPassport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10
+        );
         TooltipHelper::ShowTooltip("Scale and weight of the grip component");
-        RenderSizeMassRow("Pommel",
-            weaponPassport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E,
-            weaponPassport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173);
+        RenderSizeMassRow(
+            "Pommel", weaponPassport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E,
+            weaponPassport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173
+        );
         TooltipHelper::ShowTooltip("Scale and weight of the pommel component");
 
         ImGui::Spacing();
@@ -679,7 +695,9 @@ private:
         ImGui::SeparatorText("Metal");
         GuiUtils::RenderMaterialCombo("Steel", weaponPassport.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36);
         TooltipHelper::ShowTooltip("Primary metal surface finish");
-        GuiUtils::RenderMaterialCombo("Colored", weaponPassport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2);
+        GuiUtils::RenderMaterialCombo(
+            "Colored", weaponPassport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2
+        );
         TooltipHelper::ShowTooltip("Secondary metallic accent layer");
 
         ImGui::SeparatorText("Organic");
@@ -696,10 +714,13 @@ private:
 
         ImGui::Spacing();
         if (ImGui::Button("Reset Appearance")) {
-            weaponPassport.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 = static_cast<SDK::Enum_MaterialLayer>(3);
-            weaponPassport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2 = static_cast<SDK::Enum_MaterialLayer>(0);
+            weaponPassport.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 =
+                static_cast<SDK::Enum_MaterialLayer>(3);
+            weaponPassport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2 =
+                static_cast<SDK::Enum_MaterialLayer>(0);
             weaponPassport.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A = static_cast<SDK::Enum_MaterialLayer>(14);
-            weaponPassport.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB = static_cast<SDK::Enum_MaterialLayer>(10);
+            weaponPassport.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB =
+                static_cast<SDK::Enum_MaterialLayer>(10);
             weaponPassport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743 = {0.4f, 0.26f, 0.13f, 1.0f};
             weaponPassport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638 = {0.3f, 0.18f, 0.08f, 1.0f};
         }
@@ -729,7 +750,8 @@ private:
         if (!ovr.enabled) ImGui::BeginDisabled();
 
         const char* comboPreview = (ovr.poolIndex >= 0 && ovr.poolIndex < static_cast<int>(meshPool.size()))
-            ? meshPool[ovr.poolIndex].name.c_str() : "None";
+                                       ? meshPool[ovr.poolIndex].name.c_str()
+                                       : "None";
 
         ImGui::SetNextItemWidth(meshComboWidth);
         if (ImGui::BeginCombo("Mesh", comboPreview)) {
@@ -742,7 +764,8 @@ private:
             if (hasFilter) {
                 int visible = 0;
                 for (const auto& e : meshPool)
-                    if (GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), meshFilters[slotIdx], filterLen)) ++visible;
+                    if (GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), meshFilters[slotIdx], filterLen))
+                        ++visible;
                 ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(meshPool.size()));
             }
             ImGui::Separator();
@@ -754,11 +777,15 @@ private:
 
             char display[128];
             for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
-                if (hasFilter && !GuiUtils::MatchesFilter(meshPool[i].name.c_str(), meshPool[i].name.size(),
-                    meshFilters[slotIdx], filterLen)) continue;
+                if (hasFilter && !GuiUtils::MatchesFilter(
+                                     meshPool[i].name.c_str(), meshPool[i].name.size(), meshFilters[slotIdx], filterLen
+                                 ))
+                    continue;
                 ImGui::PushID(i);
                 const char* tag = meshPool[i].type == MeshType::Skeletal ? "SK" : "SM";
-                std::snprintf(display, sizeof(display), "%-36s [%s][%s]", meshPool[i].name.c_str(), meshPool[i].category, tag);
+                std::snprintf(
+                    display, sizeof(display), "%-36s [%s][%s]", meshPool[i].name.c_str(), meshPool[i].category, tag
+                );
                 if (ImGui::Selectable(display, ovr.poolIndex == i)) {
                     ovr.poolIndex = i;
                     ovr.mesh = meshPool[i].mesh;
@@ -774,21 +801,25 @@ private:
         }
 
         if (ovr.mesh) {
-            float s[3] = {static_cast<float>(ovr.scale.X), static_cast<float>(ovr.scale.Y), static_cast<float>(ovr.scale.Z)};
+            float s[3] =
+                {static_cast<float>(ovr.scale.X), static_cast<float>(ovr.scale.Y), static_cast<float>(ovr.scale.Z)};
             ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
             if (ImGui::DragFloat3("Scale", s, 0.01f, 0.0f, 0.0f, "%.2f")) {
                 ovr.scale = {s[0], s[1], s[2]};
                 if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
             }
 
-            float r[3] = {static_cast<float>(ovr.rotation.Pitch), static_cast<float>(ovr.rotation.Yaw), static_cast<float>(ovr.rotation.Roll)};
+            float r[3] =
+                {static_cast<float>(ovr.rotation.Pitch), static_cast<float>(ovr.rotation.Yaw),
+                 static_cast<float>(ovr.rotation.Roll)};
             ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
             if (ImGui::DragFloat3("Rotation", r, 1.0f, -180.0f, 180.0f, "%.1f")) {
                 ovr.rotation = {r[0], r[1], r[2]};
                 if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
             }
 
-            float o[3] = {static_cast<float>(ovr.offset.X), static_cast<float>(ovr.offset.Y), static_cast<float>(ovr.offset.Z)};
+            float o[3] =
+                {static_cast<float>(ovr.offset.X), static_cast<float>(ovr.offset.Y), static_cast<float>(ovr.offset.Z)};
             ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
             if (ImGui::DragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f")) {
                 ovr.offset = {o[0], o[1], o[2]};
@@ -813,7 +844,8 @@ private:
         if (meshPendingIsFullReplace) {
             meshPool = std::move(pendingMeshEntries);
             meshSeen.clear();
-            for (auto& e : meshPool) meshSeen.insert(e.mesh);
+            for (auto& e : meshPool)
+                meshSeen.insert(e.mesh);
             meshScanQueued = false;
         } else {
             for (auto& e : pendingMeshEntries)
@@ -843,7 +875,8 @@ private:
             meshScanQueued = true;
             GameHook::QueueAction([this]() { ScanAllMeshes(); });
         }
-        TooltipHelper::ShowTooltip("Rescan all loaded meshes from memory. Custom-loaded assets will need to be reloaded");
+        TooltipHelper::ShowTooltip("Rescan all loaded meshes from memory. Custom-loaded assets will need to be reloaded"
+        );
         ImGui::SameLine();
         int smCount = 0, skCount = 0;
         for (const auto& e : meshPool)
@@ -857,16 +890,26 @@ private:
         }
         TooltipHelper::ShowTooltip("Clear all mesh overrides and restore original weapon meshes");
 
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize("Load").x - ImGui::GetStyle().FramePadding.x * 2 - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##assetPath", "Asset path (e.g. Assets/Animals/Horse_001/SkeletalMeshes/SK_Animal_Horse_002)", assetPathBuf, sizeof(assetPathBuf));
-        TooltipHelper::ShowTooltip("Full or partial UE asset path. Prefix /Game/ and suffix .AssetName are added automatically if missing");
+        ImGui::SetNextItemWidth(
+            ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize("Load").x - ImGui::GetStyle().FramePadding.x * 2 -
+            ImGui::GetStyle().ItemSpacing.x
+        );
+        ImGui::InputTextWithHint(
+            "##assetPath", "Asset path (e.g. Assets/Animals/Horse_001/SkeletalMeshes/SK_Animal_Horse_002)",
+            assetPathBuf, sizeof(assetPathBuf)
+        );
+        TooltipHelper::ShowTooltip(
+            "Full or partial UE asset path. Prefix /Game/ and suffix .AssetName are added automatically if missing"
+        );
         ImGui::SameLine();
         if (ImGui::Button("Load") && assetPathBuf[0]) {
             auto pathCopy = std::string(assetPathBuf);
             GameHook::QueueAction([this, pathCopy]() {
                 auto* result = LoadAssetByPath(pathCopy.c_str());
-                if (result) SetStatus("Loaded: " + std::string(result->GetName()));
-                else SetStatus("Failed to load asset", true);
+                if (result)
+                    SetStatus("Loaded: " + std::string(result->GetName()));
+                else
+                    SetStatus("Failed to load asset", true);
             });
         }
         TooltipHelper::ShowTooltip("Force-load an asset from disk into memory");
@@ -896,8 +939,7 @@ private:
         ImGui::SeparatorText("Runtime Overrides");
         TooltipHelper::ShowTooltip("Override weapon stats after spawning. Enable each to apply its value.");
 
-        if (ImGui::Button("Reset All Overrides"))
-            runtimeProps = {};
+        if (ImGui::Button("Reset All Overrides")) runtimeProps = {};
         TooltipHelper::ShowTooltip("Disable all runtime overrides");
         GuiUtils::RenderOverrideCount(CountActiveOverrides());
 
@@ -972,8 +1014,8 @@ private:
 
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
             d.meshPresets[i].enabled = meshOverrides[i].enabled;
-            if (meshOverrides[i].enabled && meshOverrides[i].poolIndex >= 0
-                && meshOverrides[i].poolIndex < static_cast<int>(meshPool.size()))
+            if (meshOverrides[i].enabled && meshOverrides[i].poolIndex >= 0 &&
+                meshOverrides[i].poolIndex < static_cast<int>(meshPool.size()))
                 d.meshPresets[i].meshPath = meshPool[meshOverrides[i].poolIndex].path;
             d.meshPresets[i].meshType = meshOverrides[i].meshType;
             d.meshPresets[i].scale = meshOverrides[i].scale;
@@ -991,8 +1033,7 @@ private:
 
         GameHook::QueueAction([this, paths = std::move(d.classPaths)]() {
             auto load = [](SDK::UClass*& target, const std::string& path) {
-                if (!path.empty())
-                    target = Spawner::LoadClass(path);
+                if (!path.empty()) target = Spawner::LoadClass(path);
             };
             load(weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC, paths.weaponClass);
             load(weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, paths.headModule);
@@ -1003,7 +1044,11 @@ private:
             load(weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, paths.subModule2);
         });
 
-        struct PendingMeshLoad { int slot; std::string path; MeshType meshType; };
+        struct PendingMeshLoad {
+            int slot;
+            std::string path;
+            MeshType meshType;
+        };
         std::vector<PendingMeshLoad> pending;
 
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
@@ -1015,8 +1060,7 @@ private:
             meshOverrides[i].rotation = d.meshPresets[i].rotation;
             meshOverrides[i].offset = d.meshPresets[i].offset;
 
-            if (!d.meshPresets[i].enabled || d.meshPresets[i].meshPath.empty())
-                continue;
+            if (!d.meshPresets[i].enabled || d.meshPresets[i].meshPath.empty()) continue;
 
             bool found = false;
             for (int j = 0; j < static_cast<int>(meshPool.size()); ++j) {
@@ -1027,8 +1071,7 @@ private:
                     break;
                 }
             }
-            if (!found)
-                pending.push_back({i, std::move(d.meshPresets[i].meshPath), d.meshPresets[i].meshType});
+            if (!found) pending.push_back({i, std::move(d.meshPresets[i].meshPath), d.meshPresets[i].meshType});
         }
 
         if (!pending.empty()) {
@@ -1048,15 +1091,12 @@ private:
         }
     }
 
-    void SetStatus(std::string msg, bool isError = false) {
-        presets.status.Set(std::move(msg), isError);
-    }
+    void SetStatus(std::string msg, bool isError = false) { presets.status.Set(std::move(msg), isError); }
 
     void RenderSpawnFooter() {
         bool canSpawn = ComponentValidator::Validate(player) && ComponentValidator::Validate(world);
         if (!canSpawn) ImGui::BeginDisabled();
-        if (ImGui::Button("Spawn Weapon", ImVec2(-1, 0)))
-            SpawnFromPassport();
+        if (ImGui::Button("Spawn Weapon", ImVec2(-1, 0))) SpawnFromPassport();
         TooltipHelper::ShowTooltip("Spawn the weapon with current settings. Disables live preview");
         if (!canSpawn) ImGui::EndDisabled();
     }
@@ -1067,13 +1107,20 @@ public:
 
         Function("Spawn Weapon")
             .WithKey(&cfg.spawnKey)
-            .WithParams({
-                Parameter("snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned weapon to the ground"),
-                Parameter("distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f, "Spawn distance in front of player"),
-                Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
-                Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
-                Parameter("live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview weapon as you edit")
-            })
+            .WithParams(
+                {Parameter(
+                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned weapon to the ground"
+                 ),
+                 Parameter(
+                     "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
+                     "Spawn distance in front of player"
+                 ),
+                 Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
+                 Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
+                 Parameter(
+                     "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview weapon as you edit"
+                 )}
+            )
             .WithTooltip("Spawns the currently edited weapon with runtime overrides applied")
             .Action([this]() { SpawnFromPassport(); }, player, world);
 
@@ -1101,10 +1148,14 @@ public:
             GameHook::QueueAction([this]() { globalModules.Populate(); });
         }
 
-        (void)GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview weapon that updates as you edit");
+        (void)GuiUtils::CheckboxWithTooltip(
+            "Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview weapon that updates as you edit"
+        );
         if (cfg.preview.livePreview) {
             ImGui::SameLine();
-            (void)GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview weapon");
+            (void)GuiUtils::CheckboxWithTooltip(
+                "Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview weapon"
+            );
             if (cfg.preview.autoRotate) {
                 ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
                 ImGui::DragFloat("Rotation Speed", &cfg.preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
@@ -1120,18 +1171,21 @@ public:
 
         ImGui::BeginChild("##weapon_scroll", ImVec2(0, scrollH));
 
-        static constexpr const char* WE_TAB_LABELS[] = {"Modules", "Geometry", "Appearance", "Mesh", "Stats", "Presets"};
+        static constexpr const char* WE_TAB_LABELS[] = {"Modules", "Geometry", "Appearance",
+                                                        "Mesh",    "Stats",    "Presets"};
         GuiUtils::RenderUnderlineTabs("##WeaponEditorTabs", activeTab, WE_TAB_LABELS, 6);
         switch (activeTab) {
-            case 0: RenderModulesTab();    break;
-            case 1: RenderGeometryTab();   break;
+            case 0: RenderModulesTab(); break;
+            case 1: RenderGeometryTab(); break;
             case 2: RenderAppearanceTab(); break;
-            case 3: RenderMeshTab();       break;
-            case 4: RenderStatsTab();      break;
-            case 5: presets.RenderPresetsTab(
-                        [this]() { return BuildPresetData(); },
-                        [this](WeaponPresetData d) { ApplyPresetData(std::move(d)); });
-                    break;
+            case 3: RenderMeshTab(); break;
+            case 4: RenderStatsTab(); break;
+            case 5:
+                presets.RenderPresetsTab(
+                    [this]() { return BuildPresetData(); },
+                    [this](WeaponPresetData d) { ApplyPresetData(std::move(d)); }
+                );
+                break;
         }
 
         ImGui::EndChild();
@@ -1139,8 +1193,9 @@ public:
         RenderSpawnFooter();
 
         if (cfg.preview.livePreview) {
-            bool needsUpdate = std::memcmp(&weaponPassport, &lastPreviewedPassport, sizeof(SDK::FStr_Passport_Weapon1)) != 0
-                            || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(WeaponRuntimeProps)) != 0;
+            bool needsUpdate =
+                std::memcmp(&weaponPassport, &lastPreviewedPassport, sizeof(SDK::FStr_Passport_Weapon1)) != 0 ||
+                std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(WeaponRuntimeProps)) != 0;
             preview.Update(needsUpdate, [this]() { SpawnPreview(); });
             preview.Rotate();
         }

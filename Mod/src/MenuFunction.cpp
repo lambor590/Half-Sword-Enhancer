@@ -16,12 +16,12 @@ namespace GuiConstants {
     constexpr ImVec4 DISABLED_BORDER_COLOR{0.28f, 0.20f, 0.12f, 0.40f};
     constexpr ImVec4 DISABLED_NAME_COLOR{0.60f, 0.55f, 0.48f, 0.70f};
     constexpr ImVec4 MODAL_DIM_COLOR{0, 0, 0, 0.6f};
-    
+
     constexpr float BUTTON_WIDTH_PADDING = 28.0f;
     constexpr float PARAMETER_BUTTON_OFFSET = 95.0f;
     constexpr float ITEM_WIDTH_160 = 160.0f;
     constexpr float FRAME_BORDER_SIZE = 1.0f;
-    
+
     constexpr std::string_view PRESS_KEY_TEXT = "Press a key...";
     constexpr std::string_view CONFIGURE_TEXT = "Configure %s";
     constexpr std::string_view CHANGE_KEYBIND_TEXT = "Change keybind";
@@ -31,14 +31,15 @@ namespace GuiConstants {
     constexpr std::string_view CHOOSE_ANOTHER_TEXT = "Choose Another";
     constexpr std::string_view UNKNOWN_TEXT = "Unknown";
     constexpr std::string_view KEY_CONFLICT_FORMAT = "Key %s is already bound to %s. What do you want to do?";
-    constexpr std::string_view KEY_MULTI_CONFLICT_FORMAT = "Key %s is already bound to %d functions. What do you want to do?";
+    constexpr std::string_view KEY_MULTI_CONFLICT_FORMAT =
+        "Key %s is already bound to %d functions. What do you want to do?";
 }
 
 namespace {
     constexpr bool IsKeyUnbound(int key) noexcept {
         return key == -1 || key == 255;
     }
-    
+
     struct ButtonStyleRAII {
         explicit ButtonStyleRAII(bool disabled) : pushCount(disabled ? 4 : 0) {
             if (disabled) {
@@ -56,15 +57,13 @@ namespace {
         }
         int pushCount;
     };
-    
+
     struct SliderStyleRAII {
         SliderStyleRAII() {
             ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
             ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
         }
-        ~SliderStyleRAII() {
-            ImGui::PopStyleColor(2);
-        }
+        ~SliderStyleRAII() { ImGui::PopStyleColor(2); }
     };
 }
 
@@ -92,17 +91,17 @@ static void RenderKeyButton(const char* id, bool& waitingForKey, int key, int& p
 
 static inline void RenderName(std::string_view name, bool isDisabled) {
     ImGui::TextColored(
-        isDisabled ? GuiConstants::DISABLED_NAME_COLOR : DefaultStyle::parchment,
-        "%.*s", static_cast<int>(name.size()), name.data()
+        isDisabled ? GuiConstants::DISABLED_NAME_COLOR : DefaultStyle::parchment, "%.*s", static_cast<int>(name.size()),
+        name.data()
     );
 }
 
 static bool RenderParametersButton(const char* buttonId, const std::string& name) {
     ImGui::SameLine();
     ImGui::SetCursorPosX(ImGui::GetWindowWidth() - GuiConstants::PARAMETER_BUTTON_OFFSET);
-    
+
     const bool clicked = ImGui::Button(buttonId);
-    
+
     if (ImGui::IsItemHovered()) {
         GuiUtils::BeginStyledTooltip();
         ImGui::Text(GuiConstants::CONFIGURE_TEXT.data(), name.c_str());
@@ -111,17 +110,16 @@ static bool RenderParametersButton(const char* buttonId, const std::string& name
     return clicked;
 }
 
-template<typename Derived>
-void KeyFunction<Derived>::Render() {
+template <typename Derived> void KeyFunction<Derived>::Render() {
     RenderKeyButton(GetKeyId(), waitingForKey, *key, pendingOriginalKey);
     ImGui::SameLine();
-    
+
     if (toggleable) {
         bool currentEnabled = isEnabled;
         if (ImGui::Checkbox(GetCheckId(), &currentEnabled) && currentEnabled != isEnabled) {
             SetEnabled(currentEnabled);
         }
-        
+
         ImGui::SameLine();
         RenderName(name, !isEnabled && IsKeyUnbound(*key));
         TooltipHelper::ShowTooltip(tooltip);
@@ -134,7 +132,7 @@ void KeyFunction<Derived>::Render() {
         if (RenderParametersButton(GetParamButtonId(), name)) {
             ImGui::OpenPopup(GetPopupId());
         }
-        
+
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::kPopupPadding);
         if (ImGui::BeginPopup(GetPopupId())) {
             RenderParameters();
@@ -167,19 +165,27 @@ void KeyFunction<Derived>::Render() {
 
     ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, GuiConstants::MODAL_DIM_COLOR);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::kPopupPadding);
-    if (ImGui::BeginPopupModal(GetConflictPopupId(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings)) {
+    if (ImGui::BeginPopupModal(
+            GetConflictPopupId(), nullptr,
+            ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings
+        )) {
         if (cachedBindingCount == 1) {
             std::string conflictName{GuiConstants::UNKNOWN_TEXT};
-            if (!cachedBoundFunctions.empty() && cachedBoundFunctions[0] && !cachedBoundFunctions[0]->GetName().empty()) {
+            if (!cachedBoundFunctions.empty() && cachedBoundFunctions[0] &&
+                !cachedBoundFunctions[0]->GetName().empty()) {
                 conflictName = std::string(cachedBoundFunctions[0]->GetName());
             }
-            
-            ImGui::Text(GuiConstants::KEY_CONFLICT_FORMAT.data(), 
-                        KeybindManager::GetKeyName(pendingConflictKey), conflictName.c_str());
+
+            ImGui::Text(
+                GuiConstants::KEY_CONFLICT_FORMAT.data(), KeybindManager::GetKeyName(pendingConflictKey),
+                conflictName.c_str()
+            );
         } else {
-            ImGui::Text(GuiConstants::KEY_MULTI_CONFLICT_FORMAT.data(), 
-                        KeybindManager::GetKeyName(pendingConflictKey), cachedBindingCount);
-            
+            ImGui::Text(
+                GuiConstants::KEY_MULTI_CONFLICT_FORMAT.data(), KeybindManager::GetKeyName(pendingConflictKey),
+                cachedBindingCount
+            );
+
             ImGui::Spacing();
             ImGui::Text("Currently bound to:");
             for (size_t i = 0; i < cachedBoundFunctions.size() && i < 5; ++i) {
@@ -194,7 +200,7 @@ void KeyFunction<Derived>::Render() {
             }
         }
         ImGui::Spacing();
-        
+
         const char* replaceButtonText = (cachedBindingCount > 1) ? "Remove One" : "Replace";
         if (ImGui::Button(replaceButtonText)) {
             KeybindManager::RemoveBinding(pendingConflictKey, pendingConflictKeyPtr);
@@ -230,31 +236,29 @@ template void KeyFunction<KeybindFunction>::Render();
 
 void KeybindFunction::OnKeyAssigned() {
     KeybindManager::UnregisterKeybind(key);
-    if (*key != -1)
-        KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
+    if (*key != -1) KeybindManager::RegisterKeybind(key, [this]() { callback(isEnabled); }, this);
     UpdateKey();
 }
 
 void HookedFunction::OnKeyAssigned() {
     KeybindManager::UnregisterKeybind(key);
-    if (*key != -1)
-        KeybindManager::RegisterKeybind(key, [this]() { SetEnabled(!isEnabled); }, this);
+    if (*key != -1) KeybindManager::RegisterKeybind(key, [this]() { SetEnabled(!isEnabled); }, this);
     SetKey();
 }
 
 namespace {
-    template<typename T>
-    void RenderParameterImpl(const Parameter& param) noexcept {
+    template <typename T> void RenderParameterImpl(const Parameter& param) noexcept {
         ImGui::PushItemWidth(GuiConstants::ITEM_WIDTH_160);
         ImGui::AlignTextToFramePadding();
-        
-        ImGui::TextColored(DefaultStyle::parchmentDark, "%.*s", 
-                          static_cast<int>(param.displayName.size()), param.displayName.data());
+
+        ImGui::TextColored(
+            DefaultStyle::parchmentDark, "%.*s", static_cast<int>(param.displayName.size()), param.displayName.data()
+        );
         TooltipHelper::ShowTooltip(param.tooltip);
         ImGui::SameLine();
-        
+
         auto* const valuePtr = static_cast<T*>(param.valuePtr);
-        
+
         if constexpr (std::is_same_v<T, bool>) {
             ImGui::Checkbox(param.id.c_str(), valuePtr);
         } else {
@@ -265,18 +269,16 @@ namespace {
                 ImGui::DragFloat(param.id.c_str(), valuePtr, 0.01f, 0.0f, 0.0f, "%.2f");
             }
         }
-        
+
         ImGui::PopItemWidth();
     }
 
-    template<typename T>
-    void LoadParameterImpl(const Parameter& param, const IMenuFunction* func) noexcept {
+    template <typename T> void LoadParameterImpl(const Parameter& param, const IMenuFunction* func) noexcept {
         auto* valuePtr = static_cast<T*>(param.valuePtr);
         *valuePtr = func->GetConfig(param.name, *valuePtr);
     }
 
-    template<typename T>
-    void SaveParameterImpl(const Parameter& param, const IMenuFunction* func) noexcept {
+    template <typename T> void SaveParameterImpl(const Parameter& param, const IMenuFunction* func) noexcept {
         auto* valuePtr = static_cast<T*>(param.valuePtr);
         func->SaveConfig(param.name, *valuePtr);
     }
@@ -322,7 +324,7 @@ namespace {
     struct TooltipState {
         bool enabled = true;
         uint8_t counter = 0;
-        
+
         [[nodiscard]] inline bool IsEnabled() noexcept {
             if (++counter >= 60) [[unlikely]] {
                 enabled = g_ConfigManager.GetBool("GUI", "tooltips_enabled", true);
@@ -330,24 +332,25 @@ namespace {
             }
             return enabled;
         }
-        
+
         inline void Refresh() noexcept {
             enabled = g_ConfigManager.GetBool("GUI", "tooltips_enabled", true);
             counter = 0;
         }
     };
-    
+
     thread_local TooltipState g_state;
 }
 
 void TooltipHelper::ShowTooltip(std::string_view tooltip) {
-    if (tooltip.empty()) [[unlikely]] return;
-    if (!g_state.IsEnabled()) [[likely]] return;
+    if (tooltip.empty()) [[unlikely]]
+        return;
+    if (!g_state.IsEnabled()) [[likely]]
+        return;
 
     if (ImGui::IsItemHovered()) [[unlikely]] {
         GuiUtils::BeginStyledTooltip();
-        ImGui::TextColored(DefaultStyle::parchment, "%.*s",
-            static_cast<int>(tooltip.size()), tooltip.data());
+        ImGui::TextColored(DefaultStyle::parchment, "%.*s", static_cast<int>(tooltip.size()), tooltip.data());
         GuiUtils::EndStyledTooltip();
     }
 }

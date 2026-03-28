@@ -38,39 +38,27 @@ namespace hse {
         [[nodiscard]] std::expected<void, ConfigError> SetGameEdition(GameEdition edition) noexcept;
 
         [[nodiscard]] std::expected<bool, ConfigError> GetBool(
-            std::string_view section,
-            std::string_view key,
-            bool defaultValue = false
+            std::string_view section, std::string_view key, bool defaultValue = false
         ) const noexcept;
 
         [[nodiscard]] std::expected<int, ConfigError> GetInt(
-            std::string_view section,
-            std::string_view key,
-            int defaultValue = 0
+            std::string_view section, std::string_view key, int defaultValue = 0
         ) const noexcept;
 
         [[nodiscard]] std::expected<std::string, ConfigError> GetString(
-            std::string_view section,
-            std::string_view key,
-            std::string_view defaultValue = ""
+            std::string_view section, std::string_view key, std::string_view defaultValue = ""
         ) const noexcept;
 
         [[nodiscard]] std::expected<void, ConfigError> SetBool(
-            std::string_view section,
-            std::string_view key,
-            bool value
+            std::string_view section, std::string_view key, bool value
         ) noexcept;
 
         [[nodiscard]] std::expected<void, ConfigError> SetInt(
-            std::string_view section,
-            std::string_view key,
-            int value
+            std::string_view section, std::string_view key, int value
         ) noexcept;
 
         [[nodiscard]] std::expected<void, ConfigError> SetString(
-            std::string_view section,
-            std::string_view key,
-            std::string_view value
+            std::string_view section, std::string_view key, std::string_view value
         ) noexcept;
 
     private:
@@ -102,11 +90,9 @@ namespace hse {
                 }
             }
             return {};
-        }
-        catch (const std::filesystem::filesystem_error&) {
+        } catch (const std::filesystem::filesystem_error&) {
             return std::unexpected(ConfigError::WritePermissionDenied);
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(ConfigError::InvalidFormat);
         }
     }
@@ -117,34 +103,27 @@ namespace hse {
                 return std::unexpected(ConfigError::FileNotFound);
             }
             return {};
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(ConfigError::InvalidFormat);
         }
     }
 
     inline std::expected<bool, ConfigError> LauncherConfig::GetBool(
-        std::string_view section,
-        std::string_view key,
-        bool defaultValue
+        std::string_view section, std::string_view key, bool defaultValue
     ) const noexcept {
         std::lock_guard lock(mutex_);
         return ini_.GetBoolValue(section.data(), key.data(), defaultValue);
     }
 
     inline std::expected<int, ConfigError> LauncherConfig::GetInt(
-        std::string_view section,
-        std::string_view key,
-        int defaultValue
+        std::string_view section, std::string_view key, int defaultValue
     ) const noexcept {
         std::lock_guard lock(mutex_);
         return static_cast<int>(ini_.GetLongValue(section.data(), key.data(), defaultValue));
     }
 
     inline std::expected<std::string, ConfigError> LauncherConfig::GetString(
-        std::string_view section,
-        std::string_view key,
-        std::string_view defaultValue
+        std::string_view section, std::string_view key, std::string_view defaultValue
     ) const noexcept {
         std::lock_guard lock(mutex_);
         std::string default_str(defaultValue);
@@ -152,47 +131,38 @@ namespace hse {
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::SetBool(
-        std::string_view section,
-        std::string_view key,
-        bool value
+        std::string_view section, std::string_view key, bool value
     ) noexcept {
         try {
             std::lock_guard lock(mutex_);
             ini_.SetBoolValue(section.data(), key.data(), value);
             return SaveConfigUnlocked();
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(ConfigError::InvalidValue);
         }
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::SetInt(
-        std::string_view section,
-        std::string_view key,
-        int value
+        std::string_view section, std::string_view key, int value
     ) noexcept {
         try {
             std::lock_guard lock(mutex_);
             ini_.SetLongValue(section.data(), key.data(), value);
             return SaveConfigUnlocked();
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(ConfigError::InvalidValue);
         }
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::SetString(
-        std::string_view section,
-        std::string_view key,
-        std::string_view value
+        std::string_view section, std::string_view key, std::string_view value
     ) noexcept {
         try {
             std::lock_guard lock(mutex_);
             std::string value_str(value);
             ini_.SetValue(section.data(), key.data(), value_str.c_str());
             return SaveConfigUnlocked();
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(ConfigError::InvalidValue);
         }
     }

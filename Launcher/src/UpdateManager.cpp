@@ -21,7 +21,7 @@ namespace hse {
             versionString.remove_prefix(1);
         }
 
-        std::uint16_t* components[] = { &major_, &minor_, &patch_ };
+        std::uint16_t* components[] = {&major_, &minor_, &patch_};
 
         for (size_t i = 0; i < 3 && !versionString.empty(); ++i) {
             const auto dotPos = versionString.find('.');
@@ -41,7 +41,9 @@ namespace hse {
     }
 
     std::string UpdateManager::BuildReleaseUrl(std::string_view version, std::string_view filename) {
-        return std::format("https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v{}/{}", version, filename);
+        return std::format(
+            "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v{}/{}", version, filename
+        );
     }
 
     std::expected<Version, UpdateError> UpdateManager::GetLocalVersion() noexcept {
@@ -91,8 +93,7 @@ namespace hse {
         return info;
     }
 
-    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(
-        const std::filesystem::path& gameBinPath
+    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(const std::filesystem::path& gameBinPath
     ) noexcept {
         const auto dllPath = gameBinPath / MOD_FILENAME;
         if (!std::filesystem::exists(dllPath)) {
@@ -102,9 +103,7 @@ namespace hse {
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadToTempAndInstall(
-        std::string_view modUrl,
-        std::string_view proxyUrl,
-        const std::filesystem::path& gameBinPath,
+        std::string_view modUrl, std::string_view proxyUrl, const std::filesystem::path& gameBinPath,
         std::uint32_t modMinSize
     ) noexcept {
         try {
@@ -132,21 +131,17 @@ namespace hse {
             }
 
             return {};
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(UpdateError::UpdateFailed);
         }
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallMod(
-        const Version& version,
-        const std::filesystem::path& gameBinPath
+        const Version& version, const std::filesystem::path& gameBinPath
     ) noexcept {
         const auto versionStr = version.ToString();
         auto result = DownloadToTempAndInstall(
-            BuildReleaseUrl(versionStr, MOD_FILENAME),
-            BuildReleaseUrl(versionStr, PROXY_FILENAME),
-            gameBinPath
+            BuildReleaseUrl(versionStr, MOD_FILENAME), BuildReleaseUrl(versionStr, PROXY_FILENAME), gameBinPath
         );
         if (result) {
             Logger::info(std::format("Mod installed successfully (v{})", versionStr));
@@ -155,9 +150,7 @@ namespace hse {
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadModToPath(
-        std::string_view downloadUrl,
-        const std::filesystem::path& outputPath,
-        std::uint32_t minFileSize
+        std::string_view downloadUrl, const std::filesystem::path& outputPath, std::uint32_t minFileSize
     ) noexcept {
         try {
             const auto tempPath = outputPath.string() + ".tmp";
@@ -177,21 +170,18 @@ namespace hse {
 
             try {
                 std::filesystem::rename(tempPath, outputPath);
-            }
-            catch (...) {
+            } catch (...) {
                 std::filesystem::remove(tempPath);
                 return std::unexpected(UpdateError::FileSystemError);
             }
             return {};
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(UpdateError::UpdateFailed);
         }
     }
 
     std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
-        std::string_view downloadUrl,
-        std::string_view timestamp
+        std::string_view downloadUrl, std::string_view timestamp
     ) noexcept {
         try {
             std::array<char, MAX_PATH> currentPath{};
@@ -200,7 +190,7 @@ namespace hse {
                 return std::unexpected(UpdateError::FileSystemError);
             }
 
-            const std::string currentExePath{ currentPath.data() };
+            const std::string currentExePath{currentPath.data()};
             const auto& appDataPath = getAppDataPath();
             const auto tempPath = std::filesystem::path(appDataPath) / "HSEnhancerLauncher_Update.exe";
             const auto batchPath = std::filesystem::path(appDataPath) / "HSEnhancer_Update.bat";
@@ -259,8 +249,9 @@ namespace hse {
 
             auto cmdLine = std::format("cmd.exe /c \"{}\"", batchStr);
 
-            if (!CreateProcessA(nullptr, cmdLine.data(), nullptr, nullptr, FALSE,
-                              0, nullptr, nullptr, &startupInfo, &processInfo)) {
+            if (!CreateProcessA(
+                    nullptr, cmdLine.data(), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo
+                )) {
                 Logger::error("Failed to start update script");
                 return std::unexpected(UpdateError::UpdateFailed);
             }
@@ -293,14 +284,12 @@ namespace hse {
             }
 
             return ExtractVersionFromFile(filePath.data());
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(UpdateError::VersionParsingFailed);
         }
     }
 
-    std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromFile(
-        const std::filesystem::path& filePath
+    std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromFile(const std::filesystem::path& filePath
     ) noexcept {
         try {
             const auto pathStr = filePath.string();
@@ -323,8 +312,7 @@ namespace hse {
                 static_cast<std::uint16_t>(LOWORD(fileInfo->dwFileVersionMS)),
                 static_cast<std::uint16_t>(HIWORD(fileInfo->dwFileVersionLS))
             );
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(UpdateError::VersionParsingFailed);
         }
     }
@@ -356,16 +344,14 @@ namespace hse {
 
             const auto versionStr = json.substr(startPos, endPos - startPos);
             return Version(versionStr);
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(UpdateError::VersionParsingFailed);
         }
     }
 
 #ifdef EXPERIMENTAL_VERSION
     std::expected<std::string_view, UpdateError> UpdateManager::ExtractAssetObject(
-        std::string_view json,
-        std::string_view assetName
+        std::string_view json, std::string_view assetName
     ) const noexcept {
         try {
             auto searchPattern = std::format("\"name\":\"{}\"", assetName);
@@ -383,21 +369,21 @@ namespace hse {
             size_t braceCount = 1;
             size_t objectEnd = objectStart + 1;
             while (objectEnd < json.length() && braceCount > 0) {
-                if (json[objectEnd] == '{') braceCount++;
-                else if (json[objectEnd] == '}') braceCount--;
+                if (json[objectEnd] == '{')
+                    braceCount++;
+                else if (json[objectEnd] == '}')
+                    braceCount--;
                 objectEnd++;
             }
 
             return json.substr(objectStart, objectEnd - objectStart);
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(UpdateError::InvalidResponse);
         }
     }
 
     std::expected<std::string, UpdateError> UpdateManager::ParseAssetField(
-        std::string_view assetObject,
-        std::string_view fieldName
+        std::string_view assetObject, std::string_view fieldName
     ) const noexcept {
         try {
             auto fieldPrefix = std::format("\"{}\":\"", fieldName);
@@ -413,8 +399,7 @@ namespace hse {
             }
 
             return std::string(assetObject.substr(startPos, endPos - startPos));
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(UpdateError::InvalidResponse);
         }
     }
@@ -426,7 +411,9 @@ namespace hse {
         if (stableResult && stableResult->remoteVersion >= stableResult->currentVersion) {
             info.stableRelease = *stableResult;
             info.stableRelease->available = true;
-            Logger::info(std::format("Stable release {} available for migration", stableResult->remoteVersion.ToString()));
+            Logger::info(
+                std::format("Stable release {} available for migration", stableResult->remoteVersion.ToString())
+            );
             return info;
         }
 
@@ -467,10 +454,11 @@ namespace hse {
         const std::string storedLauncherTimestamp =
             LauncherConfig::Instance().GetString("ExperimentalUpdate", "launcher_timestamp", "").value_or("");
 
-        info.modUpdateAvailable = !info.modTimestamp.empty() &&
-            (storedModTimestamp.empty() || info.modTimestamp > storedModTimestamp);
+        info.modUpdateAvailable =
+            !info.modTimestamp.empty() && (storedModTimestamp.empty() || info.modTimestamp > storedModTimestamp);
 
-        info.launcherUpdateAvailable = !info.launcherTimestamp.empty() &&
+        info.launcherUpdateAvailable =
+            !info.launcherTimestamp.empty() &&
             (storedLauncherTimestamp.empty() || info.launcherTimestamp > storedLauncherTimestamp);
 
         if (info.modUpdateAvailable) {
@@ -485,13 +473,13 @@ namespace hse {
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallExperimentalMod(
-        const ExperimentalUpdateInfo& info,
-        const std::filesystem::path& gameBinPath
+        const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath
     ) noexcept {
         auto result = DownloadToTempAndInstall(info.downloadUrlMod, info.downloadUrlProxy, gameBinPath, 30000);
         if (!result) return result;
 
-        auto configResult = LauncherConfig::Instance().SetString("ExperimentalUpdate", "mod_timestamp", info.modTimestamp);
+        auto configResult =
+            LauncherConfig::Instance().SetString("ExperimentalUpdate", "mod_timestamp", info.modTimestamp);
         if (!configResult) {
             Logger::warn("Failed to save mod timestamp, update detection may not work correctly");
         }

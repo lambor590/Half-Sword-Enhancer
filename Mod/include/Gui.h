@@ -13,11 +13,13 @@
 #include "DefaultStyle.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandlerEx(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, ImGuiIO& io);
+extern IMGUI_IMPL_API LRESULT
+ImGui_ImplWin32_WndProcHandlerEx(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam, ImGuiIO& io);
 
 class Gui : public IRenderCallback {
 private:
     Gui() = default;
+
 public:
     Gui(const Gui&) = delete;
     Gui& operator=(const Gui&) = delete;

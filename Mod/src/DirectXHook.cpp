@@ -12,37 +12,38 @@ namespace DXHookConstants {
     constexpr size_t VMT_RESIZE_BUFFERS_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS_OFFSET;
 }
 
-__forceinline static HRESULT __fastcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept
-{
+__forceinline static HRESULT __fastcall OnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept {
     g_DirectXHook->renderer->OnPresent(pThis, syncInterval, flags);
     return ((Present)g_DirectXHook->presentReturnAddress)(pThis, syncInterval, flags);
 }
 
-__forceinline static HRESULT __fastcall OnResizeBuffers(IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags) noexcept
-{
+__forceinline static HRESULT __fastcall OnResizeBuffers(
+    IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
+) noexcept {
     g_DirectXHook->renderer->OnResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
-    return ((ResizeBuffers)g_DirectXHook->resizeBuffersReturnAddress)(pThis, bufferCount, width, height, newFormat, swapChainFlags);
+    return ((ResizeBuffers
+    )g_DirectXHook->resizeBuffersReturnAddress)(pThis, bufferCount, width, height, newFormat, swapChainFlags);
 }
 
-__forceinline static void __fastcall OnExecuteCommandLists(ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists) noexcept
-{
-    if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT) [[likely]]
-    {
+__forceinline static void __fastcall OnExecuteCommandLists(
+    ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists
+) noexcept {
+    if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT) [[likely]] {
         g_DirectXHook->renderer->SetCommandQueue(pThis);
     }
     ((ExecuteCommandLists)g_DirectXHook->executeCommandListsReturnAddress)(pThis, numCommandLists, ppCommandLists);
 }
 
-static void GetCommandQueue()
-{
+static void GetCommandQueue() {
     ID3D12CommandQueue* cmdQueue = g_DirectXHook->CreateDummyCommandQueue();
-    g_DirectXHook->HookCommandQueue(cmdQueue, (uintptr_t)&OnExecuteCommandLists, &g_DirectXHook->executeCommandListsReturnAddress);
+    g_DirectXHook->HookCommandQueue(
+        cmdQueue, (uintptr_t)&OnExecuteCommandLists, &g_DirectXHook->executeCommandListsReturnAddress
+    );
 }
 
 DirectXHook::DirectXHook(ID3DRenderer* renderer) : renderer(renderer) {}
 
-void DirectXHook::Hook()
-{
+void DirectXHook::Hook() {
     logger.Log("OnPresent: %p", &OnPresent);
     logger.Log("OnResizeBuffers: %p", &OnResizeBuffers);
 
@@ -52,17 +53,30 @@ void DirectXHook::Hook()
         logger.Log("Failed to create dummy swap chain, hooking aborted");
         return;
     }
-    HookSwapChain(dummySwapChain, (uintptr_t)&OnPresent, (uintptr_t)&OnResizeBuffers, &presentReturnAddress, &resizeBuffersReturnAddress);
+    HookSwapChain(
+        dummySwapChain, (uintptr_t)&OnPresent, (uintptr_t)&OnResizeBuffers, &presentReturnAddress,
+        &resizeBuffersReturnAddress
+    );
 }
 
-IDXGISwapChain* DirectXHook::CreateDummySwapChain()
-{
+IDXGISwapChain* DirectXHook::CreateDummySwapChain() {
     static HWND dummyWindow = []() {
-        WNDCLASSEX wc{ sizeof(WNDCLASSEX), CS_CLASSDC, DefWindowProc, 0, 0,
-                       GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, TEXT("DX"), nullptr };
+        WNDCLASSEX wc{sizeof(WNDCLASSEX),
+                      CS_CLASSDC,
+                      DefWindowProc,
+                      0,
+                      0,
+                      GetModuleHandle(nullptr),
+                      nullptr,
+                      nullptr,
+                      nullptr,
+                      nullptr,
+                      TEXT("DX"),
+                      nullptr};
         RegisterClassEx(&wc);
-        return CreateWindowEx(0, wc.lpszClassName, nullptr, WS_POPUP,
-                              0, 0, 1, 1, nullptr, nullptr, wc.hInstance, nullptr);
+        return CreateWindowEx(
+            0, wc.lpszClassName, nullptr, WS_POPUP, 0, 0, 1, 1, nullptr, nullptr, wc.hInstance, nullptr
+        );
     }();
 
     if (!dummyWindow) {
@@ -84,14 +98,21 @@ IDXGISwapChain* DirectXHook::CreateDummySwapChain()
     IDXGISwapChain* swapChain = nullptr;
     ID3D11Device* device = nullptr;
 
-    HRESULT hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0,
-        &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChain, &device, nullptr, nullptr);
+    HRESULT hr = D3D11CreateDeviceAndSwapChain(
+        nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChain, &device,
+        nullptr, nullptr
+    );
 
     if (FAILED(hr)) {
         logger.Log("Hardware device failed (0x%08X), falling back to WARP", hr);
-        if (device) { device->Release(); device = nullptr; }
-        hr = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_WARP, nullptr, 0,
-            &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChain, &device, nullptr, nullptr);
+        if (device) {
+            device->Release();
+            device = nullptr;
+        }
+        hr = D3D11CreateDeviceAndSwapChain(
+            nullptr, D3D_DRIVER_TYPE_WARP, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &desc, &swapChain, &device,
+            nullptr, nullptr
+        );
     }
 
     if (device) device->Release();
@@ -104,8 +125,7 @@ IDXGISwapChain* DirectXHook::CreateDummySwapChain()
     return swapChain;
 }
 
-ID3D12CommandQueue* DirectXHook::CreateDummyCommandQueue()
-{
+ID3D12CommandQueue* DirectXHook::CreateDummyCommandQueue() {
     ID3D12Device* device = nullptr;
     D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
 
@@ -115,17 +135,14 @@ ID3D12CommandQueue* DirectXHook::CreateDummyCommandQueue()
     ID3D12CommandQueue* queue = nullptr;
     device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue));
     device->Release();
-    
+
     return queue;
 }
 
 void DirectXHook::HookSwapChain(
-    IDXGISwapChain* dummySwapChain,
-    uintptr_t presentDetourFunction,
-    uintptr_t resizeBuffersDetourFunction,
-    uintptr_t* outPresentReturn,
-    uintptr_t* outResizeReturn)
-{
+    IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
+    uintptr_t* outPresentReturn, uintptr_t* outResizeReturn
+) {
     using namespace DXHookConstants;
 
     uintptr_t vmtBaseAddress = (*(uintptr_t*)dummySwapChain);
@@ -142,10 +159,8 @@ void DirectXHook::HookSwapChain(
 }
 
 void DirectXHook::HookCommandQueue(
-    ID3D12CommandQueue* dummyCommandQueue,
-    uintptr_t executeCommandListsDetourFunction,
-    uintptr_t* outExecReturn)
-{
+    ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* outExecReturn
+) {
     if (!dummyCommandQueue) return;
 
     uintptr_t* vTable = *(uintptr_t**)dummyCommandQueue;
@@ -159,7 +174,6 @@ void DirectXHook::HookCommandQueue(
     dummyCommandQueue->Release();
 }
 
-void DirectXHook::UnhookCommandQueue() const
-{
+void DirectXHook::UnhookCommandQueue() const {
     MemoryUtils::Unhook(executeCommandListsAddress);
 }

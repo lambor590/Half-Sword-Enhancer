@@ -8,8 +8,21 @@ namespace TierValidation {
     inline std::array<uint16_t, 20> VALID_TIER_MASKS = {{}};
 
     static constexpr std::array<uint16_t, 15> VALID_ARMOR_TIER_MASKS = {{
-        0x0FE, 0x0F8, 0x0F0, 0x0F0, 0x0E0, 0x0F0, 0x0C0,
-        0x0F8, 0x0F0, 0x0E0, 0x0FF, 0x0C0, 0x0F8, 0x0FE, 0x0FF,
+        0x0FE,
+        0x0F8,
+        0x0F0,
+        0x0F0,
+        0x0E0,
+        0x0F0,
+        0x0C0,
+        0x0F8,
+        0x0F0,
+        0x0E0,
+        0x0FF,
+        0x0C0,
+        0x0F8,
+        0x0FE,
+        0x0FF,
     }};
 
     inline int NearestValidTier(uint16_t mask, int tier) noexcept {

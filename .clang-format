@@ -1,0 +1,81 @@
+BasedOnStyle: LLVM
+
+# Indentation
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+AccessModifierOffset: -4
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+IndentCaseLabels: true
+IndentPPDirectives: None
+NamespaceIndentation: All
+
+# Line width
+ColumnLimit: 120
+
+# Braces
+BreakBeforeBraces: Attach
+
+# Pointers & references
+PointerAlignment: Left
+ReferenceAlignment: Left
+DerivePointerAlignment: false
+
+# Includes
+SortIncludes: Never
+IncludeBlocks: Preserve
+
+# Short forms
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortBlocksOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLoopsOnASingleLine: false
+AllowShortLambdasOnASingleLine: Inline
+AllowShortEnumsOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+
+# Arguments & parameters
+BinPackArguments: true
+BinPackParameters: true
+AlignAfterOpenBracket: BlockIndent
+
+# Constructors
+BreakConstructorInitializers: BeforeColon
+PackConstructorInitializers: NextLine
+
+# Spacing
+SpaceBeforeParens: ControlStatements
+SpaceAfterCStyleCast: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceInEmptyBlock: false
+SpacesInAngles: Never
+SpacesInParentheses: false
+
+# Namespace & braces
+FixNamespaceComments: false
+Cpp11BracedListStyle: true
+
+# Alignment
+AlignConsecutiveAssignments: None
+AlignConsecutiveDeclarations: None
+AlignConsecutiveMacros: None
+AlignEscapedNewlines: Left
+AlignOperands: Align
+AlignTrailingComments: true
+
+# Break penalties
+PenaltyReturnTypeOnItsOwnLine: 200
+PenaltyBreakBeforeFirstCallParameter: 100
+
+# Lambda
+LambdaBodyIndentation: Signature
+
+# Misc
+Standard: Latest
+EmptyLineBeforeAccessModifier: Always
+EmptyLineAfterAccessModifier: Never
+SeparateDefinitionBlocks: Leave
+MaxEmptyLinesToKeep: 2
+KeepEmptyLinesAtTheStartOfBlocks: false

@@ -32,9 +32,8 @@ private:
     static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
     static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;
 
-    static constexpr const char* WEAPON_SLOT_NAMES[] = {
-        "Right Hand", "Left Hand", "Slot R1", "Slot R2", "Slot L1", "Slot L2", "Back"
-    };
+    static constexpr const char* WEAPON_SLOT_NAMES[] = {"Right Hand", "Left Hand", "Slot R1", "Slot R2",
+                                                        "Slot L1",    "Slot L2",   "Back"};
 
     static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
 
@@ -75,8 +74,7 @@ private:
     static const char* GetArmorSlotDisplayName(SDK::EArmorSlots_Enum slot) {
         int val = static_cast<int>(slot);
         for (int i = 0; i < ARMOR_SLOT_COUNT; ++i) {
-            if (ARMOR_SLOTS[i].slotEnum == val)
-                return ARMOR_SLOTS[i].name;
+            if (ARMOR_SLOTS[i].slotEnum == val) return ARMOR_SLOTS[i].name;
         }
         return "Unknown";
     }
@@ -106,7 +104,9 @@ private:
     static void RenderVectorDrag(const char* label, SDK::FVector& vec) {
         float v[3] = {static_cast<float>(vec.X), static_cast<float>(vec.Y), static_cast<float>(vec.Z)};
         if (ImGui::DragFloat3(label, v, 0.01f, 0.0f, 0.0f, "%.3f")) {
-            vec.X = v[0]; vec.Y = v[1]; vec.Z = v[2];
+            vec.X = v[0];
+            vec.Y = v[1];
+            vec.Z = v[2];
         }
     }
 
@@ -186,8 +186,7 @@ private:
             auto& map = p->Currently_Equipped_Armor;
             std::vector<SDK::EArmorSlots_Enum> slots;
             for (auto it = begin(map); it != end(map); ++it)
-                if (it->Value().ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
-                    slots.push_back(it->Key());
+                if (it->Value().ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) slots.push_back(it->Key());
             for (auto slot : slots)
                 RemoveArmorSlot(p, slot);
         });
@@ -240,8 +239,7 @@ private:
             for (auto it = begin(dstMap); it != end(dstMap); ++it) {
                 removeSlots.push_back(it->Key());
                 auto passport = EquipmentGenerator::GenerateArmor(tier, it->Key(), 0.5);
-                if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
-                    newPassports.push_back(passport);
+                if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) newPassports.push_back(passport);
             }
 
             auto* p = player;
@@ -270,20 +268,27 @@ private:
 
             auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
             auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, slotIndex);
-            slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC;
-            slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139;
-            slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = passport.GuardModule_13_6DD2B06245505E53B529D090333012F0;
-            slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4;
-            slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6;
-            slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D;
-            slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9;
+            slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 =
+                passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC;
+            slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F =
+                passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139;
+            slot.GuardModule_21_774015784EB0300D2671C894D57ED144 =
+                passport.GuardModule_13_6DD2B06245505E53B529D090333012F0;
+            slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 =
+                passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4;
+            slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 =
+                passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6;
+            slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 =
+                passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D;
+            slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 =
+                passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9;
             slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA = passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57;
             slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D = passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704;
-            slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 = passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E;
+            slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 =
+                passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E;
         });
 
-        if (slotIndex <= 1)
-            ApplyWeaponToPlayer(slotIndex);
+        if (slotIndex <= 1) ApplyWeaponToPlayer(slotIndex);
     }
 
     void ImportWeaponPreset(int slotIndex) {
@@ -305,17 +310,21 @@ private:
             slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = load(data.classPaths.pommelModule);
             slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = load(data.classPaths.subModule1);
             slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = load(data.classPaths.subModule2);
-            slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA = data.passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57;
-            slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D = data.passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704;
-            slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 = data.passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E;
+            slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA =
+                data.passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57;
+            slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D =
+                data.passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704;
+            slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 =
+                data.passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E;
         });
 
-        if (slotIndex <= 1)
-            ApplyWeaponToPlayer(slotIndex);
+        if (slotIndex <= 1) ApplyWeaponToPlayer(slotIndex);
     }
 
     void ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
-        if (!armorPicker.HasSelection() || !ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+        if (!armorPicker.HasSelection() || !ComponentValidator::Validate(player) ||
+            !ComponentValidator::Validate(world))
+            return;
         auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
         if (!data.success) return;
 
@@ -342,7 +351,7 @@ private:
         GameHook::QueueAction([this, data = std::move(data)]() {
             auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
             auto& equipArmorMap = player->Load_Equipment.Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04
-                                       .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
+                                      .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
             auto& dstMap = player->Currently_Equipped_Armor;
 
             for (auto it = begin(equipArmorMap); it != end(equipArmorMap); ++it)
@@ -408,7 +417,7 @@ private:
 
         auto& armorMap = player->Currently_Equipped_Armor;
         auto& equipArmorMap = player->Load_Equipment.Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04
-                                   .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
+                                  .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
 
         for (auto it = begin(armorMap); it != end(armorMap); ++it) {
             auto& passport = it->Value();
@@ -416,7 +425,8 @@ private:
 
             LoadoutPresetData::ArmorSlotData slotData;
             slotData.slot = it->Key();
-            slotData.armorClass = PresetUtils::ObjectToAbsolutePath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+            slotData.armorClass =
+                PresetUtils::ObjectToAbsolutePath(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
             slotData.color1 = passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393;
             slotData.color2 = passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C;
 
@@ -432,7 +442,9 @@ private:
 
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         for (int i = 0; i < 7; ++i)
-            LoadoutPresetSerializer::ReadWeaponSlot(LoadoutPresetSerializer::GetWeaponSlot(weapons, i), data.weaponSlots[i]);
+            LoadoutPresetSerializer::ReadWeaponSlot(
+                LoadoutPresetSerializer::GetWeaponSlot(weapons, i), data.weaponSlots[i]
+            );
 
         return data;
     }
@@ -448,11 +460,9 @@ private:
 
         ImGui::PushID("actions");
         float halfWidth = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
-        if (ImGui::Button("Strip All Armor", ImVec2(halfWidth, 0)))
-            StripAllArmor();
+        if (ImGui::Button("Strip All Armor", ImVec2(halfWidth, 0))) StripAllArmor();
         ImGui::SameLine();
-        if (ImGui::Button("Randomize All", ImVec2(halfWidth, 0)))
-            RandomizeAllArmor();
+        if (ImGui::Button("Randomize All", ImVec2(halfWidth, 0))) RandomizeAllArmor();
         ImGui::PopID();
 
         armorPicker.Render("Armor Preset##ap");
@@ -477,41 +487,46 @@ private:
             ImGui::PushID(static_cast<int>(slotEnum));
 
             bool hasArmor = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
-            const char* className = armorNameCache[static_cast<int>(slotEnum)].Get(
-                passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
+            const char* className =
+                armorNameCache[static_cast<int>(slotEnum)].Get(passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
             bool open = ImGui::TreeNodeEx(slotName, ImGuiTreeNodeFlags_DefaultOpen, "%s - %s", slotName, className);
 
             if (open) {
                 if (hasArmor) {
                     bool colorChanged = false;
-                    float col1[4] = {passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.R,
-                                     passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.G,
-                                     passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.B,
-                                     passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.A};
-                    float col2[4] = {passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.R,
-                                     passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.G,
-                                     passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.B,
-                                     passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.A};
+                    float col1[4] =
+                        {passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.R,
+                         passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.G,
+                         passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.B,
+                         passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.A};
+                    float col2[4] =
+                        {passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.R,
+                         passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.G,
+                         passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.B,
+                         passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.A};
 
                     ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
-                    if (ImGui::ColorEdit4("Fabric Color 1##c1", col1, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar)) {
-                        passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = {col1[0], col1[1], col1[2], col1[3]};
+                    if (ImGui::ColorEdit4(
+                            "Fabric Color 1##c1", col1, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar
+                        )) {
+                        passport
+                            .FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = {col1[0], col1[1], col1[2], col1[3]};
                         colorChanged = true;
                     }
-                    if (ImGui::ColorEdit4("Fabric Color 2##c2", col2, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar)) {
-                        passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = {col2[0], col2[1], col2[2], col2[3]};
+                    if (ImGui::ColorEdit4(
+                            "Fabric Color 2##c2", col2, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar
+                        )) {
+                        passport
+                            .FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = {col2[0], col2[1], col2[2], col2[3]};
                         colorChanged = true;
                     }
                     ImGui::PopItemWidth();
 
-                    if (colorChanged && cfg.livePreview)
-                        ScheduleSlotApply(slotEnum);
+                    if (colorChanged && cfg.livePreview) ScheduleSlotApply(slotEnum);
 
                     if (ImGui::Button("Remove")) {
                         auto s = slotEnum;
-                        GameHook::QueueAction([p = player, s]() {
-                            RemoveArmorSlot(p, s);
-                        });
+                        GameHook::QueueAction([p = player, s]() { RemoveArmorSlot(p, s); });
                     }
                     ImGui::SameLine();
                     if (ImGui::Button("Regenerate")) {
@@ -524,8 +539,7 @@ private:
                 }
 
                 if (armorPicker.HasSelection()) {
-                    if (ImGui::Button("Import from Preset"))
-                        ImportArmorPreset(slotEnum);
+                    if (ImGui::Button("Import from Preset")) ImportArmorPreset(slotEnum);
                 }
 
                 ImGui::TreePop();
@@ -543,20 +557,32 @@ private:
             return;
         }
 
-        GuiUtils::RenderGlobalModuleCombo("Head", slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F,
-            modulePool.heads, moduleFilters[0], modulePool.cachedWidths[0]);
-        GuiUtils::RenderGlobalModuleCombo("Guard", slot.GuardModule_21_774015784EB0300D2671C894D57ED144,
-            modulePool.guards, moduleFilters[1], modulePool.cachedWidths[1]);
-        GuiUtils::RenderGlobalModuleCombo("Grip", slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867,
-            modulePool.grips, moduleFilters[2], modulePool.cachedWidths[2]);
-        GuiUtils::RenderGlobalModuleCombo("Pommel", slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984,
-            modulePool.pommels, moduleFilters[3], modulePool.cachedWidths[3]);
+        GuiUtils::RenderGlobalModuleCombo(
+            "Head", slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F, modulePool.heads, moduleFilters[0],
+            modulePool.cachedWidths[0]
+        );
+        GuiUtils::RenderGlobalModuleCombo(
+            "Guard", slot.GuardModule_21_774015784EB0300D2671C894D57ED144, modulePool.guards, moduleFilters[1],
+            modulePool.cachedWidths[1]
+        );
+        GuiUtils::RenderGlobalModuleCombo(
+            "Grip", slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867, modulePool.grips, moduleFilters[2],
+            modulePool.cachedWidths[2]
+        );
+        GuiUtils::RenderGlobalModuleCombo(
+            "Pommel", slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984, modulePool.pommels, moduleFilters[3],
+            modulePool.cachedWidths[3]
+        );
         if (!modulePool.subMods1.empty())
-            GuiUtils::RenderGlobalModuleCombo("Sub-Mod 1", slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0,
-                modulePool.subMods1, moduleFilters[4], modulePool.cachedWidths[4]);
+            GuiUtils::RenderGlobalModuleCombo(
+                "Sub-Mod 1", slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0, modulePool.subMods1,
+                moduleFilters[4], modulePool.cachedWidths[4]
+            );
         if (!modulePool.subMods2.empty())
-            GuiUtils::RenderGlobalModuleCombo("Sub-Mod 2", slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980,
-                modulePool.subMods2, moduleFilters[5], modulePool.cachedWidths[5]);
+            GuiUtils::RenderGlobalModuleCombo(
+                "Sub-Mod 2", slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980, modulePool.subMods2,
+                moduleFilters[5], modulePool.cachedWidths[5]
+            );
     }
 
     void RenderWeaponSlotSizes(SDK::FStr_WeaponParts& slot) {
@@ -609,8 +635,7 @@ private:
 
         EnsureModulePool();
 
-        if (ImGui::Button("Clear All Weapons", ImVec2(ImGui::GetContentRegionAvail().x, 0)))
-            ClearAllWeapons();
+        if (ImGui::Button("Clear All Weapons", ImVec2(ImGui::GetContentRegionAvail().x, 0))) ClearAllWeapons();
 
         weaponPicker.Render("Weapon Preset##wp");
 
@@ -623,8 +648,7 @@ private:
         for (int i = 0; i < 7; ++i) {
             auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, i);
             bool hasWeapon = slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 != nullptr;
-            const char* className = weaponNameCache[i].Get(
-                slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066);
+            const char* className = weaponNameCache[i].Get(slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066);
 
             ImGui::PushID(i);
 
@@ -646,8 +670,7 @@ private:
 
                     ImGui::Spacing();
                     float halfW = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
-                    if (ImGui::Button("Apply", ImVec2(halfW, 0)))
-                        ApplyWeaponToPlayer(i);
+                    if (ImGui::Button("Apply", ImVec2(halfW, 0))) ApplyWeaponToPlayer(i);
                     ImGui::SameLine();
                     if (ImGui::Button("Remove", ImVec2(halfW, 0))) {
                         slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = nullptr;
@@ -657,19 +680,16 @@ private:
                         slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = nullptr;
                         slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = nullptr;
                         slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = nullptr;
-                        if (cfg.livePreview && i <= 1)
-                            ApplyWeaponToPlayer(i);
+                        if (cfg.livePreview && i <= 1) ApplyWeaponToPlayer(i);
                     }
                 } else {
                     ImGui::TextDisabled("(empty slot)");
                 }
 
-                if (ImGui::Button(hasWeapon ? "Regenerate" : "Generate", ImVec2(-1, 0)))
-                    GenerateWeaponForSlot(i);
+                if (ImGui::Button(hasWeapon ? "Regenerate" : "Generate", ImVec2(-1, 0))) GenerateWeaponForSlot(i);
 
                 if (weaponPicker.HasSelection()) {
-                    if (ImGui::Button("Import from Preset", ImVec2(-1, 0)))
-                        ImportWeaponPreset(i);
+                    if (ImGui::Button("Import from Preset", ImVec2(-1, 0))) ImportWeaponPreset(i);
                 }
 
                 ImGui::TreePop();
@@ -690,10 +710,10 @@ public:
 
         Function("Randomize Equipment")
             .WithKey(&cfg.randomizeKey)
-            .WithParams({
-                Parameter("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
-                Parameter("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")
-            })
+            .WithParams(
+                {Parameter("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
+                 Parameter("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")}
+            )
             .WithTooltip("Generate random armor for all equipped slots")
             .Action([this]() { RandomizeAllArmor(); }, player, world);
     }
@@ -739,14 +759,15 @@ public:
         static constexpr const char* EQ_TAB_LABELS[] = {"Armor", "Weapons", "Presets"};
         GuiUtils::RenderUnderlineTabs("##EquipmentTabs", activeTab, EQ_TAB_LABELS, 3);
         switch (activeTab) {
-            case 0: RenderArmorTab();   break;
+            case 0: RenderArmorTab(); break;
             case 1: RenderWeaponsTab(); break;
             case 2:
                 presets.status.Render();
                 presets.RenderPresetsTab(
                     [this]() { return BuildPresetFromPlayer(); },
                     [this](LoadoutPresetData d) { ApplyLoadoutPreset(std::move(d)); },
-                    ComponentValidator::Validate(player));
+                    ComponentValidator::Validate(player)
+                );
                 break;
         }
     }

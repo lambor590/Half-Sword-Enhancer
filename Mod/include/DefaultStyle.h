@@ -32,10 +32,10 @@ public:
     static constexpr ImVec4 windowingHighlight = makeColor(1, 1, 1, 0.70f);
     static constexpr ImVec4 windowingDimBg = makeColor(0.80f, 0.80f, 0.80f, 0.20f);
     static constexpr ImVec4 tableRowBgAlt = makeColor(1, 1, 1, 0.06f);
-    
+
     static constexpr auto GetColorArray() noexcept {
         std::array<ImVec4, ImGuiCol_COUNT> colors{};
-        
+
         colors[ImGuiCol_Text] = parchment;
         colors[ImGuiCol_TextDisabled] = textDisabled;
         colors[ImGuiCol_WindowBg] = black;
@@ -90,9 +90,9 @@ public:
         colors[ImGuiCol_NavWindowingDimBg] = windowingDimBg;
         colors[ImGuiCol_ModalWindowDimBg] = modalDimBg;
         colors[ImGuiCol_InputTextCursor] = brightBrass;
-        
+
         return colors;
     }
-    
+
     static void ApplyGlobalStyle();
-}; 
+};

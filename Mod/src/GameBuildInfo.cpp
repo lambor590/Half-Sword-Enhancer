@@ -9,7 +9,7 @@ GameBuildInfo& GameBuildInfo::Get() {
 }
 
 void GameBuildInfo::Query() {
-    static Logger logger{ "Compat" };
+    static Logger logger{"Compat"};
     auto& info = Get();
     if (info.queried.load(std::memory_order_acquire)) return;
 

@@ -13,10 +13,9 @@
 
 HSELauncher::HSELauncher()
     : updateManager(hse::UpdateManager::Instance()),
-    steamLocator(hse::SteamLocator::Instance()),
-    installManager(hse::InstallManager::Instance()),
-    config(hse::LauncherConfig::Instance()) {
-}
+      steamLocator(hse::SteamLocator::Instance()),
+      installManager(hse::InstallManager::Instance()),
+      config(hse::LauncherConfig::Instance()) {}
 
 void HSELauncher::SetupConsole() {
     auto localVersionResult = updateManager.GetLocalVersion();
@@ -49,7 +48,8 @@ void HSELauncher::DisplayBanner() {
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
-    )" << "\n";
+    )"
+              << "\n";
 #else
     std::cout << R"(
         ______      __
@@ -57,7 +57,8 @@ void HSELauncher::DisplayBanner() {
       / __/ / __ \/ __ \/ __ `/ __ \/ ___/ _ \/ ___/
      / /___/ / / / / / / /_/ / / / / /__/  __/ /
     /_____/_/ /_/_/ /_/\__,_/_/ /_/\___/\___/_/
-    )" << "\n";
+    )"
+              << "\n";
 #endif
 
     SetConsoleTextAttribute(hConsole, CONSOLE_WHITE);
@@ -72,7 +73,8 @@ void HSELauncher::DisplayBanner() {
 }
 
 void HSELauncher::ShowFirstRunInstructions() {
-    MessageBoxA(nullptr,
+    MessageBoxA(
+        nullptr,
         "The installer will automatically:\n"
         "- Find your Half Sword installation\n"
         "- Install and update the mod files\n\n"
@@ -82,19 +84,21 @@ void HSELauncher::ShowFirstRunInstructions() {
         "- Use the Settings section to customize interface keybinds\n"
         "- All mod features are accessible through the interface\n\n"
         "Have fun!",
-        "Mod Usage Guide",
-        MB_OK | MB_ICONINFORMATION);
+        "Mod Usage Guide", MB_OK | MB_ICONINFORMATION
+    );
 }
 
 bool HSELauncher::AskForUpdatePreference() {
     if (config.HasCheckForUpdatesSetting()) return config.GetCheckForUpdates();
     hse::Logger::info("Asking user for update preference...");
-    int result = MessageBoxA(nullptr,
+    int result = MessageBoxA(
+        nullptr,
         "Would you like the installer to check for new updates automatically?\n\n"
         "- YES: Get notified when new versions are available\n"
         "- NO: Check manually when you want\n\n"
         "You can change this setting later by editing the configuration file.",
-        "Update Settings", MB_YESNO | MB_ICONQUESTION);
+        "Update Settings", MB_YESNO | MB_ICONQUESTION
+    );
     bool enableUpdates = (result == IDYES);
     (void)config.SetCheckForUpdates(enableUpdates);
     hse::Logger::info(enableUpdates ? "User enabled update checking" : "User disabled update checking");
@@ -124,9 +128,13 @@ bool HSELauncher::PerformSelfUpdate() {
     if (experimentalInfo.stableRelease && experimentalInfo.stableRelease->available) {
         auto& stable = *experimentalInfo.stableRelease;
         std::string message = "A stable release is available!\n\n"
-            "Current experimental version: " + stable.currentVersion.ToString() + "\n"
-            "Stable release: " + stable.remoteVersion.ToString() + "\n\n"
-            "Do you want to update to the stable release?";
+                              "Current experimental version: " +
+                              stable.currentVersion.ToString() +
+                              "\n"
+                              "Stable release: " +
+                              stable.remoteVersion.ToString() +
+                              "\n\n"
+                              "Do you want to update to the stable release?";
 
         int result = MessageBoxA(nullptr, message.c_str(), "Stable Release Available", MB_YESNO | MB_ICONINFORMATION);
 
@@ -141,11 +149,12 @@ bool HSELauncher::PerformSelfUpdate() {
 
     if (experimentalInfo.launcherUpdateAvailable && !experimentalInfo.downloadUrlLauncher.empty()) {
         std::string message = "A new experimental launcher build is available!\n\n"
-            "Do you want to update the launcher now?";
+                              "Do you want to update the launcher now?";
         int result = MessageBoxA(nullptr, message.c_str(), "Launcher Update Available", MB_YESNO | MB_ICONINFORMATION);
         if (result == IDYES) {
             hse::Logger::info("Updating experimental launcher...");
-            auto launcherResult = updateManager.UpdateLauncher(experimentalInfo.downloadUrlLauncher, experimentalInfo.launcherTimestamp);
+            auto launcherResult =
+                updateManager.UpdateLauncher(experimentalInfo.downloadUrlLauncher, experimentalInfo.launcherTimestamp);
             return static_cast<bool>(launcherResult);
         }
     }
@@ -168,9 +177,13 @@ bool HSELauncher::PerformSelfUpdate() {
     }
 
     std::string message = "A new version of Half Sword Enhancer is available!\n\n"
-        "Current version: " + updateInfo.currentVersion.ToString() + "\n"
-        "New version: " + updateInfo.remoteVersion.ToString() + "\n\n"
-        "Do you want to update the launcher now?";
+                          "Current version: " +
+                          updateInfo.currentVersion.ToString() +
+                          "\n"
+                          "New version: " +
+                          updateInfo.remoteVersion.ToString() +
+                          "\n\n"
+                          "Do you want to update the launcher now?";
     int result = MessageBoxA(nullptr, message.c_str(), "Launcher Update Available", MB_YESNO | MB_ICONINFORMATION);
 
     if (result != IDYES) {
@@ -190,7 +203,9 @@ bool HSELauncher::LocateGame() {
         if (std::filesystem::exists(savedPath)) {
             gameBinPath_ = savedPath;
             gameEdition_ = config.GetGameEdition();
-            hse::Logger::info("Game found (saved): %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_));
+            hse::Logger::info(
+                "Game found (saved): %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
+            );
             return true;
         }
         hse::Logger::warn("Saved game path no longer valid, re-detecting...");
@@ -226,7 +241,9 @@ bool HSELauncher::LocateGame() {
     gameEdition_ = manualResult->edition;
     (void)config.SetGamePath(gameBinPath_);
     (void)config.SetGameEdition(gameEdition_);
-    hse::Logger::info("Game found (manual): %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_));
+    hse::Logger::info(
+        "Game found (manual): %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
+    );
     return true;
 }
 
@@ -238,9 +255,13 @@ std::string HSELauncher::AskManualPath() {
     std::string path;
     std::getline(std::cin, path);
 
-    auto isQuote = [](char c) { return c == '"' || c == '\''; };
-    while (!path.empty() && isQuote(path.front())) path.erase(path.begin());
-    while (!path.empty() && isQuote(path.back())) path.pop_back();
+    auto isQuote = [](char c) {
+        return c == '"' || c == '\'';
+    };
+    while (!path.empty() && isQuote(path.front()))
+        path.erase(path.begin());
+    while (!path.empty() && isQuote(path.back()))
+        path.pop_back();
 
     return path;
 }
@@ -255,8 +276,10 @@ bool HSELauncher::CheckAndInstallMod() {
         if (!cachedExperimentalInfo_) {
             auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
             if (!experimentalUpdateResult) {
-                hse::logAndShowError("Failed to get experimental release information",
-                    "Could not connect to update server. Please check your internet connection.");
+                hse::logAndShowError(
+                    "Failed to get experimental release information",
+                    "Could not connect to update server. Please check your internet connection."
+                );
                 return false;
             }
             cachedExperimentalInfo_ = *experimentalUpdateResult;
@@ -267,8 +290,10 @@ bool HSELauncher::CheckAndInstallMod() {
             hse::Logger::info("No experimental build available, downloading stable release...");
             auto stableInfo = updateManager.CheckForUpdates();
             if (!stableInfo || !stableInfo->remoteVersion.IsValid()) {
-                hse::logAndShowError("No mod available",
-                    "Could not find any mod version to install. Please check your internet connection.");
+                hse::logAndShowError(
+                    "No mod available",
+                    "Could not find any mod version to install. Please check your internet connection."
+                );
                 return false;
             }
             return DownloadAndInstall(stableInfo->remoteVersion);
@@ -276,8 +301,10 @@ bool HSELauncher::CheckAndInstallMod() {
 
         auto result = updateManager.DownloadAndInstallExperimentalMod(info, gameBinPath_);
         if (!result) {
-            hse::logAndShowError("Failed to install experimental mod",
-                "Failed to download and install the mod. Please check your internet connection.");
+            hse::logAndShowError(
+                "Failed to install experimental mod",
+                "Failed to download and install the mod. Please check your internet connection."
+            );
             return false;
         }
         return true;
@@ -297,8 +324,10 @@ bool HSELauncher::CheckAndInstallMod() {
     if (info.stableRelease && info.stableRelease->available) {
         auto& stable = *info.stableRelease;
         std::string message = "A stable mod release is available!\n\n"
-            "Stable release: " + stable.remoteVersion.ToString() + "\n\n"
-            "Do you want to install the stable version?";
+                              "Stable release: " +
+                              stable.remoteVersion.ToString() +
+                              "\n\n"
+                              "Do you want to install the stable version?";
         int result = MessageBoxA(nullptr, message.c_str(), "Stable Release Available", MB_YESNO | MB_ICONINFORMATION);
         if (result == IDYES) {
             return DownloadAndInstall(stable.remoteVersion);
@@ -307,7 +336,7 @@ bool HSELauncher::CheckAndInstallMod() {
 
     if (info.modUpdateAvailable && !info.downloadUrlMod.empty()) {
         std::string message = "A new experimental mod build is available!\n\n"
-            "Do you want to install the update now?";
+                              "Do you want to install the update now?";
         int result = MessageBoxA(nullptr, message.c_str(), "Mod Update Available", MB_YESNO | MB_ICONINFORMATION);
         if (result == IDYES) {
             auto updateResult = updateManager.DownloadAndInstallExperimentalMod(info, gameBinPath_);
@@ -325,8 +354,10 @@ bool HSELauncher::CheckAndInstallMod() {
     if (!cachedUpdateInfo_) {
         auto updateInfoResult = updateManager.CheckForUpdates();
         if (!updateInfoResult) {
-            hse::logAndShowError("Failed to get remote version information",
-                "Could not connect to update server. Please check your internet connection.");
+            hse::logAndShowError(
+                "Failed to get remote version information",
+                "Could not connect to update server. Please check your internet connection."
+            );
             return false;
         }
         cachedUpdateInfo_ = *updateInfoResult;
@@ -352,9 +383,13 @@ bool HSELauncher::CheckAndInstallMod() {
         needsUpdate = updateInfo.remoteVersion > *installedVersion;
         if (needsUpdate) {
             std::string message = "A mod update is available!\n\n"
-                "Installed: " + installedVersion->ToString() + "\n"
-                "Available: " + updateInfo.remoteVersion.ToString() + "\n\n"
-                "Do you want to update now?";
+                                  "Installed: " +
+                                  installedVersion->ToString() +
+                                  "\n"
+                                  "Available: " +
+                                  updateInfo.remoteVersion.ToString() +
+                                  "\n\n"
+                                  "Do you want to update now?";
             int result = MessageBoxA(nullptr, message.c_str(), "Update Available", MB_YESNO | MB_ICONINFORMATION);
             if (result != IDYES) {
                 hse::Logger::info("User declined mod update");
@@ -364,8 +399,9 @@ bool HSELauncher::CheckAndInstallMod() {
     } else {
         needsUpdate = updateInfo.available;
         if (needsUpdate) {
-            std::string message = "An update may be available (v" + updateInfo.remoteVersion.ToString() + ").\n\n"
-                "Do you want to reinstall the mod?";
+            std::string message = "An update may be available (v" + updateInfo.remoteVersion.ToString() +
+                                  ").\n\n"
+                                  "Do you want to reinstall the mod?";
             int result = MessageBoxA(nullptr, message.c_str(), "Update Available", MB_YESNO | MB_ICONQUESTION);
             if (result != IDYES) {
                 return true;
@@ -385,8 +421,10 @@ bool HSELauncher::CheckAndInstallMod() {
 bool HSELauncher::DownloadAndInstall(const hse::Version& version) {
     auto result = updateManager.DownloadAndInstallMod(version, gameBinPath_);
     if (!result) {
-        hse::logAndShowError("Failed to install mod v" + version.ToString(),
-            "Failed to download and install the mod. Please check your internet connection and try again.");
+        hse::logAndShowError(
+            "Failed to install mod v" + version.ToString(),
+            "Failed to download and install the mod. Please check your internet connection and try again."
+        );
         return false;
     }
     return true;
@@ -444,7 +482,8 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
                 "Cannot write to game folder: " + gameBinPath_.string(),
                 "Cannot write to the game folder.\n\n"
                 "Please run the installer as administrator or check the folder permissions.\n\n"
-                "Path: " + gameBinPath_.string()
+                "Path: " +
+                    gameBinPath_.string()
             );
             ShowExitMessage(false);
             return 1;
@@ -458,8 +497,7 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
         OfferGameLaunch();
         ShowExitMessage(true);
         return 0;
-    }
-    catch (const std::exception& e) {
+    } catch (const std::exception& e) {
         hse::Logger::error("Fatal error: %s", e.what());
         hse::showError(std::string("A fatal error occurred: ") + e.what());
         ShowExitMessage(false);

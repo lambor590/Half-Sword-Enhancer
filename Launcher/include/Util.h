@@ -17,9 +17,7 @@ namespace hse {
     }
 
     constexpr const char* SteamUrl(GameEdition edition) noexcept {
-        return (edition == GameEdition::Demo)
-            ? "steam://rungameid/2642680"
-            : "steam://rungameid/2397300";
+        return (edition == GameEdition::Demo) ? "steam://rungameid/2642680" : "steam://rungameid/2397300";
     }
 
     constexpr const char* APP_FOLDER_NAME = "Half Sword Enhancer";
@@ -50,14 +48,12 @@ namespace hse {
 
         if (fullPath.empty()) {
             char appDataPath[MAX_PATH];
-            if (FAILED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appDataPath)))
-                fail("Failed to get AppData path");
+            if (FAILED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appDataPath))) fail("Failed to get AppData path");
 
             fullPath = std::string(appDataPath) + "\\" + APP_FOLDER_NAME;
             try {
                 std::filesystem::create_directories(fullPath);
-            }
-            catch (const std::filesystem::filesystem_error& e) {
+            } catch (const std::filesystem::filesystem_error& e) {
                 fail(std::string("Failed to create directory in AppData: ") + e.what());
             }
         }

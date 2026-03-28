@@ -30,10 +30,10 @@ class MapLoaderSection : public CollapsibleSection {
     bool optTutorial = false;
     bool optFreeMode = false;
     bool optCarnage = false;
-    int  optFoesAmount = 3;
-    int  optFoeTier = 0;
-    int  optCombatantsAmount = 3;
-    int  optOpponentTier = 0;
+    int optFoesAmount = 3;
+    int optFoeTier = 0;
+    int optCombatantsAmount = 3;
+    int optOpponentTier = 0;
 
     bool optAutoSpawn = false;
     bool pendingAutoSpawn = false;
@@ -65,12 +65,10 @@ class MapLoaderSection : public CollapsibleSection {
         const auto& cats = reg.GetCategories();
         const size_t prevCapacity = filteredIndices.capacity();
         filteredIndices.clear();
-        if (prevCapacity > 0)
-            filteredIndices.reserve(prevCapacity);
+        if (prevCapacity > 0) filteredIndices.reserve(prevCapacity);
 
         const size_t filterLen = std::strlen(searchBuffer);
-        const bool hasCategory = selectedCategoryIndex > 0 &&
-                                 selectedCategoryIndex <= static_cast<int>(cats.size());
+        const bool hasCategory = selectedCategoryIndex > 0 && selectedCategoryIndex <= static_cast<int>(cats.size());
         const char* selectedCat = hasCategory ? cats[selectedCategoryIndex - 1].c_str() : nullptr;
 
         const bool hasFilter = filterLen > 0;
@@ -85,11 +83,9 @@ class MapLoaderSection : public CollapsibleSection {
             float maxW = 0;
             for (int i = 0; i < static_cast<int>(maps.size()); ++i) {
                 const auto& map = maps[i];
-                if (hasCategory && map.category != selectedCat)
-                    continue;
-                if (hasFilter && !GuiUtils::MatchesFilter(map.displayName.c_str(),
-                                                          map.displayName.size(),
-                                                          searchBuffer, filterLen))
+                if (hasCategory && map.category != selectedCat) continue;
+                if (hasFilter &&
+                    !GuiUtils::MatchesFilter(map.displayName.c_str(), map.displayName.size(), searchBuffer, filterLen))
                     continue;
                 filteredIndices.push_back(i);
                 float w = ImGui::CalcTextSize(map.displayName.c_str()).x;
@@ -110,11 +106,9 @@ class MapLoaderSection : public CollapsibleSection {
         int foes = optFoesAmount, foeTier = optFoeTier;
         int combatants = optCombatantsAmount, opponentTier = optOpponentTier;
 
-        GameHook::QueueAction([this, pn = packageName,
-                               freshStart, tutorial, freeMode, carnage,
-                               foes, foeTier, combatants, opponentTier]() {
-            auto* gi = static_cast<SDK::UGI_Settings_C*>(
-                SDK::UGameplayStatics::GetGameInstance(world));
+        GameHook::QueueAction([this, pn = packageName, freshStart, tutorial, freeMode, carnage, foes, foeTier,
+                               combatants, opponentTier]() {
+            auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(world));
             if (gi) {
                 gi->Fresh_Start_Map__Temp_ = freshStart;
                 gi->Tutorial_Enabled = tutorial;
@@ -135,8 +129,7 @@ class MapLoaderSection : public CollapsibleSection {
 
     void SpawnPlayer() {
         std::filesystem::path presetPath;
-        if (playerPicker.HasSelection())
-            presetPath = playerPicker.SelectedPath();
+        if (playerPicker.HasSelection()) presetPath = playerPicker.SelectedPath();
 
         bool hasLoadout = loadoutPicker.HasSelection();
         LoadoutPresetData loadoutData;
@@ -153,14 +146,13 @@ class MapLoaderSection : public CollapsibleSection {
         }
         int npcCount = hasNPCPreset ? optAutoNPCCount : 0;
 
-        GameHook::QueueAction([this, presetPath, hasLoadout, loadout = std::move(loadoutData),
-                               hasNPCPreset, npcPreset = std::move(npcData), npcCount]() {
+        GameHook::QueueAction([this, presetPath, hasLoadout, loadout = std::move(loadoutData), hasNPCPreset,
+                               npcPreset = std::move(npcData), npcCount]() {
             SDK::APlayerController* c;
             SDK::UWorld* w;
             if (!ComponentValidator::Validate(c) || !ComponentValidator::Validate(w)) return;
 
-            auto* gi = static_cast<SDK::UGI_Settings_C*>(
-                SDK::UGameplayStatics::GetGameInstance(w));
+            auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(w));
 
             auto* willieClass = Spawner::LoadClass(GameConstants::WILLIE_BP_PATH);
             if (!willieClass) return;
@@ -168,16 +160,15 @@ class MapLoaderSection : public CollapsibleSection {
             auto transform = c->GetTransform();
 
             auto* newActor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-                w, willieClass, transform,
-                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+                w, willieClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
             if (!newActor) return;
 
             auto* willie = static_cast<SDK::AWillie_BP_C*>(newActor);
             willie->Player = true;
             willie->Team_Int = 0;
-            if (gi)
-                willie->Character_Passport = gi->Player_Character;
+            if (gi) willie->Character_Passport = gi->Player_Character;
 
             if (!presetPath.empty()) {
                 auto preset = PlayerPresetSerializer::LoadFromFile(presetPath);
@@ -194,8 +185,9 @@ class MapLoaderSection : public CollapsibleSection {
                 }
             }
 
-            SDK::UGameplayStatics::FinishSpawningActor(newActor, transform,
-                SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            SDK::UGameplayStatics::FinishSpawningActor(
+                newActor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
 
             c->Possess(willie);
             willie->Set_Up_Armor(true, false);
@@ -252,11 +244,14 @@ class MapLoaderSection : public CollapsibleSection {
 
                     std::string npcClassName = GameConstants::WILLIE_BP_PATH;
 
-                    Spawner::SpawnActor(w, npcClassName, npcTransform,
-                        [w, nationality, tier, mercenary = npcPreset.mercenary, ovr = npcPreset.overrides](SDK::AActor* actor) {
+                    Spawner::SpawnActor(
+                        w, npcClassName, npcTransform,
+                        [w, nationality, tier, mercenary = npcPreset.mercenary,
+                         ovr = npcPreset.overrides](SDK::AActor* actor) {
                             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                             if (!npc) return;
-                            auto passport = EquipmentGenerator::GenerateCharacter(npc->Class, nationality, tier, mercenary);
+                            auto passport =
+                                EquipmentGenerator::GenerateCharacter(npc->Class, nationality, tier, mercenary);
                             NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
                             npc->Character_Passport = passport;
                             NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
@@ -265,7 +260,8 @@ class MapLoaderSection : public CollapsibleSection {
                         [ovr = npcPreset.overrides](SDK::AActor* actor) {
                             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                             if (npc) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
-                        });
+                        }
+                    );
                 }
             }
         });
@@ -312,8 +308,7 @@ public:
         if (!hasPlayer) {
             ImGui::TextColored(kOrangeText, "No player detected");
             ImGui::SameLine();
-            if (ImGui::Button("Spawn Player"))
-                SpawnPlayer();
+            if (ImGui::Button("Spawn Player")) SpawnPlayer();
             ImGui::Spacing();
         }
 
@@ -330,8 +325,7 @@ public:
                 cachedCatComboW = GuiUtils::ComboWidthFromText(maxW);
             }
 
-            const char* catPreview = selectedCategoryIndex == 0 ? "All"
-                : cats[selectedCategoryIndex - 1].c_str();
+            const char* catPreview = selectedCategoryIndex == 0 ? "All" : cats[selectedCategoryIndex - 1].c_str();
             ImGui::SetNextItemWidth(cachedCatComboW);
             if (ImGui::BeginCombo("##MapCategory", catPreview)) {
                 if (ImGui::Selectable("All", selectedCategoryIndex == 0)) {
@@ -354,8 +348,7 @@ public:
         if (filteredIndices.empty()) {
             ImGui::TextColored(kGrayText, "No matches");
         } else {
-            if (selectedFilteredIndex >= static_cast<int>(filteredIndices.size()))
-                selectedFilteredIndex = 0;
+            if (selectedFilteredIndex >= static_cast<int>(filteredIndices.size())) selectedFilteredIndex = 0;
 
             const char* preview = maps[filteredIndices[selectedFilteredIndex]].displayName.c_str();
             ImGui::SetNextItemWidth(cachedComboW);
@@ -363,8 +356,7 @@ public:
                 for (int i = 0; i < static_cast<int>(filteredIndices.size()); ++i) {
                     const auto& entry = maps[filteredIndices[i]];
                     bool selected = (i == selectedFilteredIndex);
-                    if (ImGui::Selectable(entry.displayName.c_str(), selected))
-                        selectedFilteredIndex = i;
+                    if (ImGui::Selectable(entry.displayName.c_str(), selected)) selectedFilteredIndex = i;
                     if (ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip))
                         ImGui::SetItemTooltip("%s", entry.packageName.c_str());
                 }
@@ -372,11 +364,9 @@ public:
             }
 
             ImGui::Spacing();
-            if (ImGui::Button("Load Map"))
-                LoadMap(maps[filteredIndices[selectedFilteredIndex]].packageName);
+            if (ImGui::Button("Load Map")) LoadMap(maps[filteredIndices[selectedFilteredIndex]].packageName);
             ImGui::SameLine();
-            if (ImGui::Button("Restart Current") && !cachedLevelName.empty())
-                LoadMap(cachedLevelName);
+            if (ImGui::Button("Restart Current") && !cachedLevelName.empty()) LoadMap(cachedLevelName);
         }
 
         ImGui::Spacing();
@@ -425,8 +415,7 @@ public:
 
         ImGui::Text("Custom path");
         ImGui::InputTextWithHint("##CustomMapPath", "/Game/Maps/...", customPathBuffer, sizeof(customPathBuffer));
-        if (ImGui::Button("Load Custom") && customPathBuffer[0] != '\0')
-            LoadMap(std::string(customPathBuffer));
+        if (ImGui::Button("Load Custom") && customPathBuffer[0] != '\0') LoadMap(std::string(customPathBuffer));
 
         ImGui::Spacing();
         ImGui::Separator();

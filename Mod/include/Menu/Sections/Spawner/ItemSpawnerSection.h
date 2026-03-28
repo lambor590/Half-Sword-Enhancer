@@ -28,7 +28,10 @@ private:
     PresetPickerState<WeaponPresetSerializer> weaponPicker;
     PresetPickerState<ArmorPresetSerializer> armorPicker;
 
-    struct ModuleEntry { SDK::UClass* cls; std::string name; };
+    struct ModuleEntry {
+        SDK::UClass* cls;
+        std::string name;
+    };
     struct {
         std::vector<ModuleEntry> slots[3];
         float cachedWidths[3] = {};
@@ -58,8 +61,10 @@ private:
         auto& modules = armorModules.slots[slot];
         if (modules.empty()) return;
 
-        const char* preview = (armorModules.selected[slot] > 0 && armorModules.selected[slot] <= static_cast<int32_t>(modules.size()))
-            ? modules[armorModules.selected[slot] - 1].name.c_str() : "None";
+        const char* preview =
+            (armorModules.selected[slot] > 0 && armorModules.selected[slot] <= static_cast<int32_t>(modules.size()))
+                ? modules[armorModules.selected[slot] - 1].name.c_str()
+                : "None";
 
         if (armorModules.cachedWidths[slot] == 0.0f) {
             float maxW = 0;
@@ -73,12 +78,10 @@ private:
         ImGui::SetNextItemWidth(armorModules.cachedWidths[slot]);
         if (!ImGui::BeginCombo(label, preview)) return;
 
-        if (ImGui::Selectable("None", armorModules.selected[slot] <= 0))
-            armorModules.selected[slot] = 0;
+        if (ImGui::Selectable("None", armorModules.selected[slot] <= 0)) armorModules.selected[slot] = 0;
         for (int i = 0; i < static_cast<int>(modules.size()); ++i) {
             bool sel = (armorModules.selected[slot] == i + 1);
-            if (ImGui::Selectable(modules[i].name.c_str(), sel))
-                armorModules.selected[slot] = i + 1;
+            if (ImGui::Selectable(modules[i].name.c_str(), sel)) armorModules.selected[slot] = i + 1;
             if (sel) ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
@@ -86,8 +89,8 @@ private:
 
     bool IsCurrentItemModularArmor(const BlueprintEntry& item) const {
         if (item.classPath.empty()) return false;
-        return Spawner::GetActorType(item.classPath) == Spawner::ActorType::Armor
-            && item.classPath.find("Modular_Core") != std::string::npos;
+        return Spawner::GetActorType(item.classPath) == Spawner::ActorType::Armor &&
+               item.classPath.find("Modular_Core") != std::string::npos;
     }
 
     static inline std::vector<const char*> cachedItemNames;
@@ -125,7 +128,8 @@ private:
                 for (size_t i = 0; i < items.size(); ++i) {
                     cachedItemNames[i] = reg.GetItem(items[i]).displayName.c_str();
                 }
-                cachedItemNamesWidth = GuiUtils::CalcComboWidth(cachedItemNames.data(), static_cast<int>(cachedItemNames.size()));
+                cachedItemNamesWidth =
+                    GuiUtils::CalcComboWidth(cachedItemNames.data(), static_cast<int>(cachedItemNames.size()));
             } else {
                 cachedItemNames.clear();
                 cachedItemNamesWidth = 0;
@@ -152,8 +156,9 @@ private:
 
         float maxW = 0;
         for (uint16_t i = 0; i < static_cast<uint16_t>(allItems.size()); ++i) {
-            if (GuiUtils::MatchesFilter(allItems[i].displayName.c_str(), allItems[i].displayName.size(),
-                                        searchBuffer, filterLen)) {
+            if (GuiUtils::MatchesFilter(
+                    allItems[i].displayName.c_str(), allItems[i].displayName.size(), searchBuffer, filterLen
+                )) {
                 filteredIndices.push_back(i);
                 float w = ImGui::CalcTextSize(allItems[i].displayName.c_str()).x;
                 if (w > maxW) maxW = w;
@@ -163,7 +168,8 @@ private:
     }
 
     void SpawnSelectedItem() const noexcept {
-        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+        auto spawnTransform =
+            Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
 
         if (IsRandomArmorCategory()) {
             if (cfg.currentItemIndex >= GameConstants::ARMOR_SLOT_COUNT) return;
@@ -187,7 +193,9 @@ private:
         auto& item = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
 
         if (item.customizable != CustomizableWeapon::None) {
-            Spawner::SpawnCustomizableWeapon(world, item.customizable, spawnTransform, cfg.spawn.snapToGround, cfg.spawnTier);
+            Spawner::SpawnCustomizableWeapon(
+                world, item.customizable, spawnTransform, cfg.spawn.snapToGround, cfg.spawnTier
+            );
         } else if (IsCurrentItemModularArmor(item)) {
             auto classPath = item.classPath;
             int mod1 = armorModules.selected[0], mod2 = armorModules.selected[1], mod3 = armorModules.selected[2];
@@ -210,7 +218,8 @@ private:
 
     void SpawnCustomPath() const noexcept {
         if (customPathBuffer[0] == '\0') return;
-        auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+        auto spawnTransform =
+            Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
         std::string path = customPathBuffer;
         Spawner::SpawnActor(world, path, spawnTransform, nullptr, cfg.spawn.snapToGround, cfg.spawnTier);
     }
@@ -220,7 +229,8 @@ private:
         auto data = WeaponPresetSerializer::LoadFromFile(weaponPicker.SelectedPath());
         if (!data.success) return;
 
-        auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+        auto transform =
+            Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
         bool snap = cfg.spawn.snapToGround;
         auto rp = data.runtimeProps;
 
@@ -246,7 +256,8 @@ private:
         auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
         if (!data.success) return;
 
-        auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+        auto transform =
+            Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
         bool snap = cfg.spawn.snapToGround;
 
         GameHook::QueueAction([w = world, transform, snap, data = std::move(data)]() mutable {
@@ -261,12 +272,21 @@ public:
     ItemSpawnerSection() : CollapsibleSection("Items") {
         Function("Spawn Item")
             .WithKey(&cfg.spawnItemKey)
-            .WithParams({
-                Parameter("snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Automatically adjust height to touch the ground"),
-                Parameter("distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f, "How far in front the item appears"),
-                Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Height offset for spawn position"),
-                Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item")
-            })
+            .WithParams(
+                {Parameter(
+                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
+                     "Automatically adjust height to touch the ground"
+                 ),
+                 Parameter(
+                     "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
+                     "How far in front the item appears"
+                 ),
+                 Parameter(
+                     "distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f,
+                     "Height offset for spawn position"
+                 ),
+                 Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item")}
+            )
             .WithTooltip("Spawns the selected item with configurable position and size")
             .Action([this]() { SpawnSelectedItem(); }, player, world);
     }
@@ -303,7 +323,8 @@ public:
         ImGui::AlignTextToFramePadding();
         ImGui::Text("Search");
         ImGui::SameLine();
-        bool searchChanged = ImGui::InputText("##ItemSearch", searchBuffer, sizeof(searchBuffer), ImGuiInputTextFlags_AutoSelectAll);
+        bool searchChanged =
+            ImGui::InputText("##ItemSearch", searchBuffer, sizeof(searchBuffer), ImGuiInputTextFlags_AutoSelectAll);
         if (searchChanged) updateFilteredItems();
 
         if (searchActive && !filteredIndices.empty()) {
@@ -333,7 +354,7 @@ public:
                                 }
                             }
                         }
-                        found:;
+                    found:;
                     }
                 }
                 ImGui::EndCombo();
@@ -370,7 +391,8 @@ public:
                 lastCatCount = totalCatCount;
             }
             ImGui::SetNextItemWidth(categoryComboW);
-            if (ImGui::Combo("##CategorySelector", &catIndex, categoryGetter, &reg, static_cast<int>(totalCatCount))) [[unlikely]] {
+            if (ImGui::Combo("##CategorySelector", &catIndex, categoryGetter, &reg, static_cast<int>(totalCatCount)))
+                [[unlikely]] {
                 cfg.currentCategoryIndex = static_cast<uint8_t>(catIndex);
                 cfg.currentSubcategoryIndex = 0;
                 cfg.currentItemIndex = 0;
@@ -382,10 +404,14 @@ public:
                 auto armorSlotGetter = [](void* data, int idx) -> const char* {
                     return static_cast<const GameConstants::ArmorSlotInfo*>(data)[idx].name;
                 };
-                static float armorSlotComboW = GuiUtils::CalcComboWidth(armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS, GameConstants::ARMOR_SLOT_COUNT);
+                static float armorSlotComboW = GuiUtils::CalcComboWidth(
+                    armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS, GameConstants::ARMOR_SLOT_COUNT
+                );
                 ImGui::SetNextItemWidth(armorSlotComboW);
-                if (ImGui::Combo("##ArmorSlotSelector", &slotIndex,
-                    armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS, GameConstants::ARMOR_SLOT_COUNT)) {
+                if (ImGui::Combo(
+                        "##ArmorSlotSelector", &slotIndex, armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS,
+                        GameConstants::ARMOR_SLOT_COUNT
+                    )) {
                     cfg.currentItemIndex = static_cast<uint16_t>(slotIndex);
                 }
 
@@ -398,10 +424,8 @@ public:
                     if (ImGui::BeginCombo("##ArmorTierCombo", GuiUtils::TIER_LABELS[cfg.spawnTier])) {
                         for (int t = 0; t <= 8; ++t) {
                             if (!(mask & (1 << t))) continue;
-                            if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier))
-                                cfg.spawnTier = t;
-                            if (t == cfg.spawnTier)
-                                ImGui::SetItemDefaultFocus();
+                            if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier)) cfg.spawnTier = t;
+                            if (t == cfg.spawnTier) ImGui::SetItemDefaultFocus();
                         }
                         ImGui::EndCombo();
                     }
@@ -413,8 +437,7 @@ public:
                 if (cat.subcategories.size() > 1) {
                     ImGui::Text("Subcategory");
                     int subIndex = static_cast<int>(cfg.currentSubcategoryIndex);
-                    if (subIndex >= static_cast<int>(cat.subcategories.size()))
-                        subIndex = 0;
+                    if (subIndex >= static_cast<int>(cat.subcategories.size())) subIndex = 0;
 
                     auto subGetter = [](void* data, int idx) -> const char* {
                         auto* cat = static_cast<const BlueprintRegistry::CategoryData*>(data);
@@ -423,11 +446,16 @@ public:
                     static float subcatComboW = 0;
                     static uint8_t subcatCacheForCat = 255;
                     if (subcatCacheForCat != cfg.currentCategoryIndex) {
-                        subcatComboW = GuiUtils::CalcComboWidth(subGetter, (void*)&cat, static_cast<int>(cat.subcategories.size()));
+                        subcatComboW = GuiUtils::CalcComboWidth(
+                            subGetter, (void*)&cat, static_cast<int>(cat.subcategories.size())
+                        );
                         subcatCacheForCat = cfg.currentCategoryIndex;
                     }
                     ImGui::SetNextItemWidth(subcatComboW);
-                    if (ImGui::Combo("##SubcategorySelector", &subIndex, subGetter, (void*)&cat, static_cast<int>(cat.subcategories.size()))) [[unlikely]] {
+                    if (ImGui::Combo(
+                            "##SubcategorySelector", &subIndex, subGetter, (void*)&cat,
+                            static_cast<int>(cat.subcategories.size())
+                        )) [[unlikely]] {
                         cfg.currentSubcategoryIndex = static_cast<uint8_t>(subIndex);
                         cfg.currentItemIndex = 0;
                     }
@@ -443,7 +471,10 @@ public:
                         cfg.currentItemIndex = 0;
                     }
                     ImGui::SetNextItemWidth(cachedItemNamesWidth);
-                    if (ImGui::Combo("##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size()))) [[unlikely]] {
+                    if (ImGui::Combo(
+                            "##ItemSelector", &itemIndex, cachedItemNames.data(),
+                            static_cast<int>(cachedItemNames.size())
+                        )) [[unlikely]] {
                         cfg.currentItemIndex = static_cast<uint16_t>(itemIndex);
                     }
                 }
@@ -453,7 +484,8 @@ public:
                     auto& currentItem = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
                     if (currentItem.customizable != CustomizableWeapon::None) {
                         reg.EnsureTiersScanned();
-                        uint16_t mask = TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)];
+                        uint16_t mask =
+                            TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)];
                         cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
 
                         ImGui::Text("Tier");
@@ -461,10 +493,8 @@ public:
                         if (ImGui::BeginCombo("##TierCombo", GuiUtils::TIER_LABELS[cfg.spawnTier])) {
                             for (int t = 0; t <= 8; ++t) {
                                 if (!(mask & (1 << t))) continue;
-                                if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier))
-                                    cfg.spawnTier = t;
-                                if (t == cfg.spawnTier)
-                                    ImGui::SetItemDefaultFocus();
+                                if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier)) cfg.spawnTier = t;
+                                if (t == cfg.spawnTier) ImGui::SetItemDefaultFocus();
                             }
                             ImGui::EndCombo();
                         }
@@ -499,7 +529,8 @@ public:
         ImGui::InputText("##CustomPath", customPathBuffer, sizeof(customPathBuffer));
         ImGui::SameLine();
         if (ImGui::Button("Spawn##Custom")) {
-            if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world) && customPathBuffer[0] != '\0') {
+            if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world) &&
+                customPathBuffer[0] != '\0') {
                 SpawnCustomPath();
             }
         }
@@ -539,15 +570,13 @@ public:
             weaponPicker.Render("Weapon Preset");
             if (weaponPicker.HasSelection()) {
                 ImGui::SameLine();
-                if (ImGui::Button("Spawn##WeaponPreset") && canSpawn)
-                    SpawnWeaponFromPreset();
+                if (ImGui::Button("Spawn##WeaponPreset") && canSpawn) SpawnWeaponFromPreset();
             }
 
             armorPicker.Render("Armor Preset");
             if (armorPicker.HasSelection()) {
                 ImGui::SameLine();
-                if (ImGui::Button("Spawn##ArmorPreset") && canSpawn)
-                    SpawnArmorFromPreset();
+                if (ImGui::Button("Spawn##ArmorPreset") && canSpawn) SpawnArmorFromPreset();
             }
 
             ImGui::TreePop();

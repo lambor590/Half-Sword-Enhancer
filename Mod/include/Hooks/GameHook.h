@@ -27,8 +27,7 @@
 using ProcessEvent = void*(__stdcall*)(SDK::UObject*, SDK::UFunction*, void*);
 
 
-class GameHook
-{
+class GameHook {
 private:
     GameHook() = default;
 
@@ -49,11 +48,7 @@ public:
 
     bool IsHooked() const noexcept { return hooked; }
 
-    enum class GameEvent : uint8_t {
-        BeginFight,
-        InAbyss,
-        OffLedge
-    };
+    enum class GameEvent : uint8_t { BeginFight, InAbyss, OffLedge };
 
     void RegisterEvent(GameEvent event, void* id, std::function<void()> callback) {
         QueueAction([this, event, id, cb = std::move(callback)]() mutable {
@@ -93,14 +88,11 @@ public:
     }
 
     static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
-        constexpr const char* EventNames[] = {
-            "ExecuteUbergraph_UI_BeginFight",
-            "ExecuteUbergraph_Abyss_Map_Open_Intermediate",
-            "OnWalkingOffLedge"
-        };
+        constexpr const char* EventNames[] =
+            {"ExecuteUbergraph_UI_BeginFight", "ExecuteUbergraph_Abyss_Map_Open_Intermediate", "OnWalkingOffLedge"};
         return EventNames[static_cast<uint8_t>(event)];
     }
-    
+
 
     struct HookEntry {
         uint64_t nameHash = 0;
@@ -116,7 +108,7 @@ private:
     void UnregisterHook(std::string_view functionName);
     void UnregisterHook(uint64_t hash);
 
-    Logger logger{ "GameHook" };
+    Logger logger{"GameHook"};
     uintptr_t oProcessEvent = 0;
     uintptr_t processEventAddress = 0;
     bool hooked = false;

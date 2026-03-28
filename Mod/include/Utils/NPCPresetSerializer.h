@@ -69,10 +69,8 @@ public:
             ini.SetValue("Generator", "npcType", std::to_string(data.npcTypeIndex).c_str());
         if (!minimalMode || data.nationality != 0)
             ini.SetValue("Generator", "nationality", std::to_string(data.nationality).c_str());
-        if (!minimalMode || data.tier != 4)
-            ini.SetValue("Generator", "tier", std::to_string(data.tier).c_str());
-        if (!minimalMode || data.mercenary)
-            ini.SetValue("Generator", "mercenary", data.mercenary ? "1" : "0");
+        if (!minimalMode || data.tier != 4) ini.SetValue("Generator", "tier", std::to_string(data.tier).c_str());
+        if (!minimalMode || data.mercenary) ini.SetValue("Generator", "mercenary", data.mercenary ? "1" : "0");
 
         const auto& o = data.overrides;
         auto setOvr = [&](const char* section, const char* key, bool enabled, double val) {
@@ -149,40 +147,89 @@ public:
         result.mercenary = std::atoi(ini.GetValue("Generator", "mercenary", "0")) != 0;
 
         auto& o = result.overrides;
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Physical", "heightRate", ""), o.heightRate.enabled, o.heightRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Physical", "muscleRate", ""), o.muscleRate.enabled, o.muscleRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Physical", "scaleMutationInhibitor", ""), o.scaleMutationInhibitor.enabled, o.scaleMutationInhibitor.value);
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Physical", "heightRate", ""), o.heightRate.enabled, o.heightRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Physical", "muscleRate", ""), o.muscleRate.enabled, o.muscleRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Physical", "scaleMutationInhibitor", ""), o.scaleMutationInhibitor.enabled,
+            o.scaleMutationInhibitor.value
+        );
         PresetUtils::ParseIntOverride(ini.GetValue("Physical", "faceType", ""), o.faceType.enabled, o.faceType.value);
         PresetUtils::ParseIntOverride(ini.GetValue("Physical", "eyeColor", ""), o.eyeColor.enabled, o.eyeColor.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Physical", "hairLength", ""), o.hairLength.enabled, o.hairLength.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Physical", "hairColor", ""), o.hairColor.enabled, o.hairColor.value);
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Physical", "hairLength", ""), o.hairLength.enabled, o.hairLength.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Physical", "hairColor", ""), o.hairColor.enabled, o.hairColor.value
+        );
 
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "damageRate", ""), o.damageRate.enabled, o.damageRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "limbDamageRate", ""), o.limbDamageRate.enabled, o.limbDamageRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "dismemberThreshold", ""), o.dismemberThreshold.enabled, o.dismemberThreshold.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "regenRate", ""), o.regenRate.enabled, o.regenRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "aiInvincibility", ""), o.aiInvincibility.enabled, o.aiInvincibility.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "aiArmorInvincibility", ""), o.aiArmorInvincibility.enabled, o.aiArmorInvincibility.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Combat", "bodySkill", ""), o.bodySkill.enabled, o.bodySkill.value);
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Combat", "damageRate", ""), o.damageRate.enabled, o.damageRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Combat", "limbDamageRate", ""), o.limbDamageRate.enabled, o.limbDamageRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Combat", "dismemberThreshold", ""), o.dismemberThreshold.enabled, o.dismemberThreshold.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Combat", "regenRate", ""), o.regenRate.enabled, o.regenRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Combat", "aiInvincibility", ""), o.aiInvincibility.enabled, o.aiInvincibility.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Combat", "aiArmorInvincibility", ""), o.aiArmorInvincibility.enabled,
+            o.aiArmorInvincibility.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Combat", "bodySkill", ""), o.bodySkill.enabled, o.bodySkill.value
+        );
 
         PresetUtils::ParseBoolOverride(ini.GetValue("Behavior", "fearless", ""), o.fearless.enabled, o.fearless.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Behavior", "startKneeled", ""), o.startKneeled.enabled, o.startKneeled.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Behavior", "spawnInPants", ""), o.spawnInPants.enabled, o.spawnInPants.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Behavior", "clearSpawnArea", ""), o.clearSpawnArea.enabled, o.clearSpawnArea.value);
+        PresetUtils::ParseBoolOverride(
+            ini.GetValue("Behavior", "startKneeled", ""), o.startKneeled.enabled, o.startKneeled.value
+        );
+        PresetUtils::ParseBoolOverride(
+            ini.GetValue("Behavior", "spawnInPants", ""), o.spawnInPants.enabled, o.spawnInPants.value
+        );
+        PresetUtils::ParseBoolOverride(
+            ini.GetValue("Behavior", "clearSpawnArea", ""), o.clearSpawnArea.enabled, o.clearSpawnArea.value
+        );
         PresetUtils::ParseDoubleOverride(ini.GetValue("Behavior", "drunk", ""), o.drunk.enabled, o.drunk.value);
-        PresetUtils::ParseIntOverride(ini.GetValue("Behavior", "boltsInQuiver", ""), o.boltsInQuiver.enabled, o.boltsInQuiver.value);
+        PresetUtils::ParseIntOverride(
+            ini.GetValue("Behavior", "boltsInQuiver", ""), o.boltsInQuiver.enabled, o.boltsInQuiver.value
+        );
 
-        PresetUtils::ParseDoubleOverride(ini.GetValue("BodyCondition", "headHealth", ""), o.headHealth.enabled, o.headHealth.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("BodyCondition", "neckHealth", ""), o.neckHealth.enabled, o.neckHealth.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("BodyCondition", "armRHealth", ""), o.armRHealth.enabled, o.armRHealth.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("BodyCondition", "armLHealth", ""), o.armLHealth.enabled, o.armLHealth.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("BodyCondition", "bodyUpperHealth", ""), o.bodyUpperHealth.enabled, o.bodyUpperHealth.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("BodyCondition", "bodyLowerHealth", ""), o.bodyLowerHealth.enabled, o.bodyLowerHealth.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("BodyCondition", "legRHealth", ""), o.legRHealth.enabled, o.legRHealth.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("BodyCondition", "legLHealth", ""), o.legLHealth.enabled, o.legLHealth.value);
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("BodyCondition", "headHealth", ""), o.headHealth.enabled, o.headHealth.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("BodyCondition", "neckHealth", ""), o.neckHealth.enabled, o.neckHealth.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("BodyCondition", "armRHealth", ""), o.armRHealth.enabled, o.armRHealth.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("BodyCondition", "armLHealth", ""), o.armLHealth.enabled, o.armLHealth.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("BodyCondition", "bodyUpperHealth", ""), o.bodyUpperHealth.enabled, o.bodyUpperHealth.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("BodyCondition", "bodyLowerHealth", ""), o.bodyLowerHealth.enabled, o.bodyLowerHealth.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("BodyCondition", "legRHealth", ""), o.legRHealth.enabled, o.legRHealth.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("BodyCondition", "legLHealth", ""), o.legLHealth.enabled, o.legLHealth.value
+        );
 
         result.success = true;
         return result;
     }
-
 };

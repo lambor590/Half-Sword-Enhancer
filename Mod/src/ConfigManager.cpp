@@ -22,7 +22,7 @@ std::filesystem::path ConfigManager::GetAppDataPath() {
 
 ConfigManager::ConfigManager() {
     configPath = GetAppDataPath() / "config.ini";
-    
+
     ini.SetUnicode();
     LoadConfig();
 }
@@ -73,8 +73,7 @@ float ConfigManager::GetFloat(std::string_view function, std::string_view param,
     return static_cast<float>(ini.GetDoubleValue(function.data(), param.data(), defaultValue));
 }
 
-std::string ConfigManager::GetString(std::string_view function, std::string_view param,
-                                    std::string_view defaultValue) {
+std::string ConfigManager::GetString(std::string_view function, std::string_view param, std::string_view defaultValue) {
     return ini.GetValue(function.data(), param.data(), defaultValue.data());
 }
 
@@ -93,8 +92,7 @@ void ConfigManager::SetFloat(std::string_view function, std::string_view param, 
     SaveConfigDeferred();
 }
 
-void ConfigManager::SetString(std::string_view function, std::string_view param,
-                             std::string_view value) {
+void ConfigManager::SetString(std::string_view function, std::string_view param, std::string_view value) {
     ini.SetValue(function.data(), param.data(), value.data());
     SaveConfigDeferred();
 }

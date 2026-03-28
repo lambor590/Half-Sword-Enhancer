@@ -43,15 +43,12 @@ public:
 
     void SyncToggleState() {
         bool enabled = cfg.livePreview;
-        if (enabled && !prevEnabled)
-            forceRefresh = true;
-        if (!enabled && prevEnabled && previewActor)
-            Destroy();
+        if (enabled && !prevEnabled) forceRefresh = true;
+        if (!enabled && prevEnabled && previewActor) Destroy();
         prevEnabled = enabled;
     }
 
-    template<typename SpawnFn>
-    void Update(bool needsRefresh, SpawnFn&& spawnFn) {
+    template <typename SpawnFn> void Update(bool needsRefresh, SpawnFn&& spawnFn) {
         if (!needsRefresh && !forceRefresh) return;
         forceRefresh = false;
         if (previewActor && (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN)) return;

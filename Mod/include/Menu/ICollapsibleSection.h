@@ -57,7 +57,7 @@ class CollapsibleSection : public ICollapsibleSection {
 protected:
     std::string name;
     std::vector<std::unique_ptr<IMenuFunction>> functions;
-    
+
 public:
     explicit CollapsibleSection(std::string name) noexcept : name(std::move(name)) {}
 
@@ -74,14 +74,10 @@ public:
 
     const std::string& GetName() const noexcept override { return name; }
 
-    const std::vector<std::unique_ptr<IMenuFunction>>& GetFunctions() const noexcept override {
-        return functions;
-    }
+    const std::vector<std::unique_ptr<IMenuFunction>>& GetFunctions() const noexcept override { return functions; }
 
-    void AddFunction(std::unique_ptr<IMenuFunction> function) {
-        functions.emplace_back(std::move(function));
-    }
-    
+    void AddFunction(std::unique_ptr<IMenuFunction> function) { functions.emplace_back(std::move(function)); }
+
     struct FunctionBuilder {
         CollapsibleSection* section;
         std::string name;
@@ -122,9 +118,10 @@ public:
             return std::move(*this);
         }
 
-        template<typename Callback, typename... Components>
+        template <typename Callback, typename... Components>
         void Action(Callback&& callback, Components*&... comps) && {
-            auto validatedCb = [this, callback = std::forward<Callback>(callback), &comps...]([[maybe_unused]] bool active) {
+            auto validatedCb = [this, callback = std::forward<Callback>(callback),
+                                &comps...]([[maybe_unused]] bool active) {
                 if (!(... && ComponentValidator::Validate(comps))) return;
                 if constexpr (std::is_invocable_v<Callback>) {
                     callback();
@@ -161,7 +158,5 @@ public:
         }
     };
 
-    FunctionBuilder Function(std::string funcName) {
-        return FunctionBuilder{this, std::move(funcName)};
-    }
+    FunctionBuilder Function(std::string funcName) { return FunctionBuilder{this, std::move(funcName)}; }
 };

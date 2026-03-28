@@ -6,7 +6,7 @@
 #include "Utils/PossessState.h"
 
 namespace ActorUtils {
-    template<typename Func>
+    template <typename Func>
     void ForEachWillieInRadius(SDK::UWorld* world, SDK::AWillie_BP_C* player, float radius, Func&& func) {
         SDK::TArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AWillie_BP_C::StaticClass(), &actors);
@@ -23,14 +23,15 @@ namespace ActorUtils {
         }
     }
 
-    template<typename Func>
-    void ForEachWillie(SDK::UWorld* world, SDK::AWillie_BP_C* player, Func&& func) {
+    template <typename Func> void ForEachWillie(SDK::UWorld* world, SDK::AWillie_BP_C* player, Func&& func) {
         ForEachWillieInRadius(world, player, GameConstants::MAX_DISTANCE, std::forward<Func>(func));
     }
 
     inline void ApplyBiteState(SDK::AWillie_BP_C* willie, bool active) noexcept {
-        if (active && !willie->Biting) willie->Bite_Event();
-        else if (!active && willie->Biting) willie->Un_Bite_Event();
+        if (active && !willie->Biting)
+            willie->Bite_Event();
+        else if (!active && willie->Biting)
+            willie->Un_Bite_Event();
     }
 
     inline void SetInfiniteConsciousness(SDK::AWillie_BP_C* willie) noexcept {
@@ -85,14 +86,14 @@ namespace ActorUtils {
         willie->Pain_Stumble_Delayed = SDK::FVector{};
     }
 
-    template<typename ComponentClass, typename Func>
-    void ForEachComponentOfType(SDK::UWorld* world, Func&& func) {
+    template <typename ComponentClass, typename Func> void ForEachComponentOfType(SDK::UWorld* world, Func&& func) {
         SDK::TArray<SDK::AActor*> actors;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, SDK::AActor::StaticClass(), &actors);
 
         for (auto* actor : actors) {
             if (!actor) continue;
-            SDK::TArray<SDK::UActorComponent*> components = actor->K2_GetComponentsByClass(ComponentClass::StaticClass());
+            SDK::TArray<SDK::UActorComponent*> components =
+                actor->K2_GetComponentsByClass(ComponentClass::StaticClass());
             for (auto* component : components) {
                 if (auto* typed = static_cast<ComponentClass*>(component)) {
                     func(typed);
@@ -102,24 +103,26 @@ namespace ActorUtils {
     }
 
     inline SDK::AWillie_BP_C* FindNearestWillie(
-        SDK::UWorld* world, SDK::AWillie_BP_C* player, SDK::AActor* origin,
-        float maxRange, SDK::AWillie_BP_C* additionalExclude = nullptr) noexcept
-    {
+        SDK::UWorld* world, SDK::AWillie_BP_C* player, SDK::AActor* origin, float maxRange,
+        SDK::AWillie_BP_C* additionalExclude = nullptr
+    ) noexcept {
         SDK::AWillie_BP_C* nearest = nullptr;
         float nearestDist = maxRange;
         ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
             if (willie == additionalExclude) return;
             float dist = origin->GetDistanceTo(willie);
-            if (dist < nearestDist) { nearestDist = dist; nearest = willie; }
+            if (dist < nearestDist) {
+                nearestDist = dist;
+                nearest = willie;
+            }
         });
         return nearest;
     }
 
-    template<typename ObjectClass, typename Func>
-    void ForEachObjectOfType(SDK::UWorld* world, Func&& func) {
+    template <typename ObjectClass, typename Func> void ForEachObjectOfType(SDK::UWorld* world, Func&& func) {
         SDK::TArray<SDK::AActor*> objects;
         SDK::UGameplayStatics::GetAllActorsOfClass(world, ObjectClass::StaticClass(), &objects);
-        
+
         for (auto* object : objects) {
             if (auto* typedObject = static_cast<ObjectClass*>(object)) {
                 func(typedObject);

@@ -45,8 +45,7 @@ namespace hse {
         return std::unexpected(SteamError::GameNotFound);
     }
 
-    std::expected<GameLocation, SteamError> SteamLocator::LocateGameAt(
-        const std::filesystem::path& manualPath
+    std::expected<GameLocation, SteamError> SteamLocator::LocateGameAt(const std::filesystem::path& manualPath
     ) noexcept {
         try {
             auto win64Dir = FindWin64Directory(manualPath);
@@ -66,12 +65,8 @@ namespace hse {
                 return std::unexpected(SteamError::PathDoesNotExist);
             }
 
-            return GameLocation{
-                .binariesPath = win64Dir,
-                .edition = DetectEditionFromPath(win64Dir)
-            };
-        }
-        catch (...) {
+            return GameLocation{.binariesPath = win64Dir, .edition = DetectEditionFromPath(win64Dir)};
+        } catch (...) {
             return std::unexpected(SteamError::PathDoesNotExist);
         }
     }
@@ -87,13 +82,14 @@ namespace hse {
         struct RegKeyGuard {
             HKEY key;
             ~RegKeyGuard() { RegCloseKey(key); }
-        } guard{ hKey };
+        } guard{hKey};
 
         char buffer[MAX_PATH]{};
         DWORD bufferSize = sizeof(buffer);
         DWORD type = REG_SZ;
 
-        result = RegQueryValueExA(hKey, STEAM_INSTALL_VALUE, nullptr, &type, reinterpret_cast<LPBYTE>(buffer), &bufferSize);
+        result =
+            RegQueryValueExA(hKey, STEAM_INSTALL_VALUE, nullptr, &type, reinterpret_cast<LPBYTE>(buffer), &bufferSize);
         if (result != ERROR_SUCCESS) {
             Logger::error("Steam InstallPath registry value not found");
             return std::unexpected(SteamError::RegistryNotFound);
@@ -190,19 +186,16 @@ namespace hse {
             }
 
             return libraries;
-        }
-        catch (const std::exception& e) {
+        } catch (const std::exception& e) {
             Logger::error("VDF parsing error: %s", e.what());
             return std::unexpected(SteamError::VdfParsingFailed);
-        }
-        catch (...) {
+        } catch (...) {
             return std::unexpected(SteamError::VdfParsingFailed);
         }
     }
 
     std::expected<GameLocation, SteamError> SteamLocator::ResolveGamePath(
-        const std::filesystem::path& libraryPath,
-        GameEdition edition
+        const std::filesystem::path& libraryPath, GameEdition edition
     ) const noexcept {
         try {
             const char* gameFolder = (edition == GameEdition::FullGame) ? FULL_GAME_FOLDER : DEMO_GAME_FOLDER;
@@ -212,12 +205,8 @@ namespace hse {
                 return std::unexpected(SteamError::PathDoesNotExist);
             }
 
-            return GameLocation{
-                .binariesPath = std::move(binariesPath),
-                .edition = edition
-            };
-        }
-        catch (const std::filesystem::filesystem_error&) {
+            return GameLocation{.binariesPath = std::move(binariesPath), .edition = edition};
+        } catch (const std::filesystem::filesystem_error&) {
             return std::unexpected(SteamError::PathDoesNotExist);
         }
     }
@@ -229,8 +218,7 @@ namespace hse {
             if (pathStr.find("demo") != std::string::npos) {
                 return GameEdition::Demo;
             }
-        }
-        catch (...) {}
+        } catch (...) {}
 
         return GameEdition::FullGame;
     }
@@ -246,13 +234,13 @@ namespace hse {
                 return win64Under;
             }
 
-            for (auto current = basePath; current.has_parent_path() && current != current.root_path(); current = current.parent_path()) {
+            for (auto current = basePath; current.has_parent_path() && current != current.root_path();
+                 current = current.parent_path()) {
                 if (current.filename() == "Win64") {
                     return current;
                 }
             }
-        }
-        catch (...) {}
+        } catch (...) {}
 
         return {};
     }

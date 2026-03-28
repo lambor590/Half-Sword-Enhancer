@@ -31,8 +31,7 @@ namespace hse {
         }
 
         [[nodiscard]] std::expected<GameLocation, SteamError> LocateGame() noexcept;
-        [[nodiscard]] std::expected<GameLocation, SteamError> LocateGameAt(
-            const std::filesystem::path& manualPath
+        [[nodiscard]] std::expected<GameLocation, SteamError> LocateGameAt(const std::filesystem::path& manualPath
         ) noexcept;
 
     private:
@@ -61,8 +60,7 @@ namespace hse {
             const std::filesystem::path& vdfPath
         ) const noexcept;
         [[nodiscard]] std::expected<GameLocation, SteamError> ResolveGamePath(
-            const std::filesystem::path& libraryPath,
-            GameEdition edition
+            const std::filesystem::path& libraryPath, GameEdition edition
         ) const noexcept;
         [[nodiscard]] static GameEdition DetectEditionFromPath(const std::filesystem::path& path) noexcept;
         [[nodiscard]] static std::filesystem::path FindWin64Directory(const std::filesystem::path& basePath) noexcept;

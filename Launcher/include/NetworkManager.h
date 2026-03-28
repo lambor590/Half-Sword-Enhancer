@@ -25,8 +25,8 @@ namespace hse {
         std::string outputPath;
         std::string description;
         std::string fallbackPath;
-        std::chrono::milliseconds connectTimeout{ 5000 };
-        std::chrono::milliseconds receiveTimeout{ 15000 };
+        std::chrono::milliseconds connectTimeout{5000};
+        std::chrono::milliseconds receiveTimeout{15000};
         std::uint32_t minFileSize = 0;
     };
 
@@ -37,9 +37,10 @@ namespace hse {
 
     class WinHttpSession {
     public:
-        explicit WinHttpSession(HINTERNET session = nullptr, HINTERNET connection = nullptr, HINTERNET request = nullptr) noexcept
-            : session_(session), connection_(connection), request_(request) {
-        }
+        explicit WinHttpSession(
+            HINTERNET session = nullptr, HINTERNET connection = nullptr, HINTERNET request = nullptr
+        ) noexcept
+            : session_(session), connection_(connection), request_(request) {}
 
         ~WinHttpSession() noexcept {
             if (request_) WinHttpCloseHandle(request_);
@@ -51,10 +52,9 @@ namespace hse {
         WinHttpSession& operator=(const WinHttpSession&) = delete;
 
         WinHttpSession(WinHttpSession&& other) noexcept
-            : session_(std::exchange(other.session_, nullptr))
-            , connection_(std::exchange(other.connection_, nullptr))
-            , request_(std::exchange(other.request_, nullptr)) {
-        }
+            : session_(std::exchange(other.session_, nullptr)),
+              connection_(std::exchange(other.connection_, nullptr)),
+              request_(std::exchange(other.request_, nullptr)) {}
 
         WinHttpSession& operator=(WinHttpSession&& other) noexcept {
             if (this != &other) {
@@ -77,9 +77,7 @@ namespace hse {
         void set_connection(HINTERNET handle) noexcept { connection_ = handle; }
         void set_request(HINTERNET handle) noexcept { request_ = handle; }
 
-        [[nodiscard]] explicit operator bool() const noexcept {
-            return session_ && connection_ && request_;
-        }
+        [[nodiscard]] explicit operator bool() const noexcept { return session_ && connection_ && request_; }
 
     private:
         HINTERNET session_;
@@ -108,8 +106,11 @@ namespace hse {
         };
 
         [[nodiscard]] std::expected<HttpConnection, NetworkError> ParseUrl(const std::string& url) const noexcept;
-        [[nodiscard]] std::expected<WinHttpSession, NetworkError> CreateSession(const HttpConnection& connection) const noexcept;
-        [[nodiscard]] std::expected<void, NetworkError> SendRequest(HINTERNET request, int connectTimeoutMs = 5000, int receiveTimeoutMs = 15000) const noexcept;
+        [[nodiscard]] std::expected<WinHttpSession, NetworkError> CreateSession(const HttpConnection& connection
+        ) const noexcept;
+        [[nodiscard]] std::expected<void, NetworkError> SendRequest(
+            HINTERNET request, int connectTimeoutMs = 5000, int receiveTimeoutMs = 15000
+        ) const noexcept;
 
         NetworkManager() = default;
         ~NetworkManager() = default;

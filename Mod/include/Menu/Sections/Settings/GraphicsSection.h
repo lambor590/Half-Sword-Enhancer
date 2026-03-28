@@ -25,43 +25,39 @@ private:
 
     struct QualityComboInfo {
         const char* label;
-        int GraphicsSettings::*memberPtr;
+        int GraphicsSettings::* memberPtr;
     };
 
-    static constexpr std::array<const char*, 5> qualityLevels = {
-        "Low", "Medium", "High", "Epic", "Cinematic"
-    };
+    static constexpr std::array<const char*, 5> qualityLevels = {"Low", "Medium", "High", "Epic", "Cinematic"};
 
     struct ConsoleCommandInfo {
         const wchar_t* commandPrefix;
-        int GraphicsSettings::*memberPtr;
+        int GraphicsSettings::* memberPtr;
     };
 
     static inline GraphicsSettings settings;
 
-    static inline const std::array<QualityComboInfo, 5> qualityCombos = {{
-        {"Shadow Quality", &GraphicsSettings::sgShadowQuality},
-        {"Global Illumination Quality", &GraphicsSettings::sgGlobalIlluminationQuality},
-        {"Reflection Quality", &GraphicsSettings::sgReflectionQuality},
-        {"Post Process Quality", &GraphicsSettings::sgPostProcessQuality},
-        {"Effects Quality", &GraphicsSettings::sgEffectsQuality}
-    }};
+    static inline const std::array<QualityComboInfo, 5> qualityCombos = {
+        {{"Shadow Quality", &GraphicsSettings::sgShadowQuality},
+         {"Global Illumination Quality", &GraphicsSettings::sgGlobalIlluminationQuality},
+         {"Reflection Quality", &GraphicsSettings::sgReflectionQuality},
+         {"Post Process Quality", &GraphicsSettings::sgPostProcessQuality},
+         {"Effects Quality", &GraphicsSettings::sgEffectsQuality}}
+    };
 
-    static inline const std::array<ConsoleCommandInfo, 6> consoleCommands = {{
-        {L"r.ScreenPercentage ", &GraphicsSettings::renderScale},
-        {L"sg.ShadowQuality ", &GraphicsSettings::sgShadowQuality},
-        {L"sg.GlobalIlluminationQuality ", &GraphicsSettings::sgGlobalIlluminationQuality},
-        {L"sg.ReflectionQuality ", &GraphicsSettings::sgReflectionQuality},
-        {L"sg.PostProcessQuality ", &GraphicsSettings::sgPostProcessQuality},
-        {L"sg.EffectsQuality ", &GraphicsSettings::sgEffectsQuality}
-    }};
+    static inline const std::array<ConsoleCommandInfo, 6> consoleCommands = {
+        {{L"r.ScreenPercentage ", &GraphicsSettings::renderScale},
+         {L"sg.ShadowQuality ", &GraphicsSettings::sgShadowQuality},
+         {L"sg.GlobalIlluminationQuality ", &GraphicsSettings::sgGlobalIlluminationQuality},
+         {L"sg.ReflectionQuality ", &GraphicsSettings::sgReflectionQuality},
+         {L"sg.PostProcessQuality ", &GraphicsSettings::sgPostProcessQuality},
+         {L"sg.EffectsQuality ", &GraphicsSettings::sgEffectsQuality}}
+    };
 
     static constexpr std::string_view graphicsConfigSection = "Graphics";
 
 public:
-    GraphicsSection() : CollapsibleSection("Graphics") {
-        LoadSettings();
-    }
+    GraphicsSection() : CollapsibleSection("Graphics") { LoadSettings(); }
 
     void RenderContent() override {
         const SectionStyle::StyleRAII style;
@@ -85,11 +81,14 @@ public:
 
         ImGui::Spacing();
 
-        static float qualityComboW = GuiUtils::CalcComboWidth(qualityLevels.data(), static_cast<int>(qualityLevels.size()));
+        static float qualityComboW =
+            GuiUtils::CalcComboWidth(qualityLevels.data(), static_cast<int>(qualityLevels.size()));
         for (const auto& combo : qualityCombos) {
             int currentValue = settings.*combo.memberPtr;
             ImGui::SetNextItemWidth(qualityComboW);
-            if (ImGui::Combo(combo.label, &currentValue, qualityLevels.data(), static_cast<int>(qualityLevels.size()))) {
+            if (ImGui::Combo(
+                    combo.label, &currentValue, qualityLevels.data(), static_cast<int>(qualityLevels.size())
+                )) {
                 settings.*combo.memberPtr = currentValue;
                 settingsChanged = true;
             }
@@ -102,14 +101,12 @@ public:
     }
 
 private:
-    void LoadSettings() {
-        settings = LoadSettingsFromConfig();
-    }
+    void LoadSettings() { settings = LoadSettingsFromConfig(); }
 
     void SaveSettings() {
         ConfigUtils::BatchUpdate([&](ConfigUtils::ConfigTransaction& config) {
             const char* section = graphicsConfigSection.data();
-            
+
             config.SetBool(section, "apply_on_startup", settings.applyOnStartup);
             config.SetInt(section, "render_scale", settings.renderScale);
             config.SetInt(section, "sg_shadow_quality", settings.sgShadowQuality);
@@ -122,11 +119,10 @@ private:
 
     static void ExecuteConsoleCommands(SDK::UWorld* world, const GraphicsSettings& currentSettings) noexcept {
         wchar_t commandBuffer[128];
-        
+
         for (const auto& cmd : consoleCommands) {
             const int value = currentSettings.*cmd.memberPtr;
-            std::swprintf(commandBuffer, sizeof(commandBuffer) / sizeof(wchar_t), 
-                         L"%ls%d", cmd.commandPrefix, value);
+            std::swprintf(commandBuffer, sizeof(commandBuffer) / sizeof(wchar_t), L"%ls%d", cmd.commandPrefix, value);
             SDK::UKismetSystemLibrary::ExecuteConsoleCommand(world, SDK::FString(commandBuffer), nullptr);
         }
     }
@@ -138,11 +134,11 @@ private:
             ExecuteConsoleCommands(world, currentSettings);
         });
     }
-    
+
     static GraphicsSettings LoadSettingsFromConfig() {
         auto& config = ConfigManager::Get();
         const char* section = graphicsConfigSection.data();
-        
+
         GraphicsSettings loadedSettings;
         loadedSettings.applyOnStartup = config.GetBool(section, "apply_on_startup", false);
         loadedSettings.renderScale = config.GetInt(section, "render_scale", 100);
@@ -159,15 +155,15 @@ public:
     static void ApplyOnStartup() {
         auto& config = ConfigManager::Get();
         const bool applyOnStart = config.GetBool(graphicsConfigSection.data(), "apply_on_startup", false);
-        if (!applyOnStart) [[likely]] return;
-        
+        if (!applyOnStart) [[likely]]
+            return;
+
         GameHook::QueueAction([]() {
             SDK::UWorld* world;
             if (!ComponentValidator::Validate(world)) return;
-            
+
             const GraphicsSettings gameStartSettings = LoadSettingsFromConfig();
             ExecuteConsoleCommands(world, gameStartSettings);
         });
     }
-    
 };

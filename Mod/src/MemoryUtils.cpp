@@ -4,16 +4,14 @@
 
 #include "MemoryUtils.h"
 
-namespace MemoryUtils
-{
-    Logger logger{ "MemoryUtils" };
+namespace MemoryUtils {
+    Logger logger{"MemoryUtils"};
     std::unordered_map<uintptr_t, HookInformation> InfoBufferForHookedAddresses;
 
     static std::unordered_map<uintptr_t, DWORD> g_protectionHistory;
     static constexpr size_t MAX_PROTECTION_HISTORY = 128;
 
-    void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size) noexcept
-    {
+    void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size) noexcept {
         auto it = g_protectionHistory.find(address);
 
         if (enableProtection) {
@@ -35,32 +33,25 @@ namespace MemoryUtils
         }
     }
 
-    template<typename T>
-    static inline bool SafeReadMemory(uintptr_t address, T& output) noexcept
-    {
+    template <typename T> static inline bool SafeReadMemory(uintptr_t address, T& output) noexcept {
         __try {
             output = *reinterpret_cast<const T*>(address);
             return true;
-        }
-        __except (EXCEPTION_EXECUTE_HANDLER) {
+        } __except (EXCEPTION_EXECUTE_HANDLER) {
             return false;
         }
     }
 
-    template<size_t N>
-    static inline bool SafeReadMemoryArray(uintptr_t address, uint8_t(&output)[N]) noexcept
-    {
+    template <size_t N> static inline bool SafeReadMemoryArray(uintptr_t address, uint8_t (&output)[N]) noexcept {
         __try {
             std::memcpy(output, reinterpret_cast<const void*>(address), N);
             return true;
-        }
-        __except (EXCEPTION_EXECUTE_HANDLER) {
+        } __except (EXCEPTION_EXECUTE_HANDLER) {
             return false;
         }
     }
 
-    static size_t GetInstructionLength(const uint8_t* code, size_t maxLength)
-    {
+    static size_t GetInstructionLength(const uint8_t* code, size_t maxLength) {
         if (maxLength < 1) return 0;
 
         size_t offset = 0;
@@ -76,9 +67,8 @@ namespace MemoryUtils
             } else if (byte == 0x66) {
                 operandSize16 = true;
                 offset++;
-            } else if (byte == 0x67 || byte == 0xF0 || byte == 0xF2 || byte == 0xF3 ||
-                       byte == 0x26 || byte == 0x2E || byte == 0x36 || byte == 0x3E ||
-                       byte == 0x64 || byte == 0x65) {
+            } else if (byte == 0x67 || byte == 0xF0 || byte == 0xF2 || byte == 0xF3 || byte == 0x26 || byte == 0x2E ||
+                       byte == 0x36 || byte == 0x3E || byte == 0x64 || byte == 0x65) {
                 offset++;
             } else {
                 break;
@@ -108,10 +98,9 @@ namespace MemoryUtils
                 (opcode >= 0x20 && opcode <= 0x23) || (opcode >= 0x28 && opcode <= 0x2B) ||
                 (opcode >= 0x30 && opcode <= 0x33) || (opcode >= 0x38 && opcode <= 0x3B) ||
                 (opcode >= 0x62 && opcode <= 0x63) || (opcode >= 0x69 && opcode <= 0x6B) ||
-                (opcode >= 0x80 && opcode <= 0x8F) || opcode == 0xC0 || opcode == 0xC1 ||
-                opcode == 0xC6 || opcode == 0xC7 || opcode == 0xD0 || opcode == 0xD1 ||
-                opcode == 0xD2 || opcode == 0xD3 || opcode == 0xF6 || opcode == 0xF7 ||
-                opcode == 0xFE || opcode == 0xFF) {
+                (opcode >= 0x80 && opcode <= 0x8F) || opcode == 0xC0 || opcode == 0xC1 || opcode == 0xC6 ||
+                opcode == 0xC7 || opcode == 0xD0 || opcode == 0xD1 || opcode == 0xD2 || opcode == 0xD3 ||
+                opcode == 0xF6 || opcode == 0xF7 || opcode == 0xFE || opcode == 0xFF) {
                 hasModRM = true;
             }
 
@@ -157,18 +146,16 @@ namespace MemoryUtils
         return offset;
     }
 
-    static size_t CalculateRequiredAsmClearance(uintptr_t address, size_t minimumClearance)
-    {
+    static size_t CalculateRequiredAsmClearance(uintptr_t address, size_t minimumClearance) {
         uint8_t buffer[MAX_ASM_BYTES];
         if (!SafeReadMemoryArray(address, buffer)) return minimumClearance;
 
-        if (buffer[0] == 0xff && buffer[1] == 0x25 &&
-            buffer[2] == 0x00 && buffer[3] == 0x00 && buffer[4] == 0x00 && buffer[5] == 0x00) {
+        if (buffer[0] == 0xff && buffer[1] == 0x25 && buffer[2] == 0x00 && buffer[3] == 0x00 && buffer[4] == 0x00 &&
+            buffer[5] == 0x00) {
             return FAR_JUMP_SIZE;
         }
 
-        for (size_t byteCount = 0; byteCount < MAX_ASM_BYTES;)
-        {
+        for (size_t byteCount = 0; byteCount < MAX_ASM_BYTES;) {
             size_t instructionSize = GetInstructionLength(&buffer[byteCount], MAX_ASM_BYTES - byteCount);
             if (instructionSize == 0) return minimumClearance;
             if (byteCount >= minimumClearance) return byteCount;
@@ -177,14 +164,15 @@ namespace MemoryUtils
         return minimumClearance;
     }
 
-    static void PlaceJump(uintptr_t address, uintptr_t destination, bool absolute = false, size_t clearance = MIN_CLEARANCE)
-    {
+    static void PlaceJump(
+        uintptr_t address, uintptr_t destination, bool absolute = false, size_t clearance = MIN_CLEARANCE
+    ) {
         ToggleMemoryProtection(false, address, clearance);
 
         uint8_t* ptr = reinterpret_cast<uint8_t*>(address);
 
         if (absolute) {
-            static constexpr uint8_t absJumpHeader[ABS_JUMP_HEADER_SIZE] = { 0xff, 0x25, 0x00, 0x00, 0x00, 0x00 };
+            static constexpr uint8_t absJumpHeader[ABS_JUMP_HEADER_SIZE] = {0xff, 0x25, 0x00, 0x00, 0x00, 0x00};
             std::memcpy(ptr, absJumpHeader, ABS_JUMP_HEADER_SIZE);
             std::memcpy(ptr + ABS_JUMP_HEADER_SIZE, &destination, sizeof(destination));
             std::memset(ptr + ABS_JUMP_FULL_SIZE, NOP_INSTRUCTION, clearance - ABS_JUMP_FULL_SIZE);
@@ -199,21 +187,18 @@ namespace MemoryUtils
         ToggleMemoryProtection(true, address, clearance);
     }
 
-    static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin)
-    {
+    static uintptr_t AllocateMemoryWithin32BitRange(size_t numBytes, uintptr_t origin) {
         uintptr_t lowerBound = origin > MEMORY_RANGE_32BIT ? origin - MEMORY_RANGE_32BIT : 0;
-        uintptr_t higherBound = (origin <= UINTPTR_MAX - MEMORY_RANGE_32BIT)
-                              ? origin + MEMORY_RANGE_32BIT
-                              : UINTPTR_MAX;
+        uintptr_t higherBound =
+            (origin <= UINTPTR_MAX - MEMORY_RANGE_32BIT) ? origin + MEMORY_RANGE_32BIT : UINTPTR_MAX;
 
         SYSTEM_INFO si;
         GetSystemInfo(&si);
         size_t alignedSize = (numBytes + si.dwPageSize - 1) & ~(static_cast<unsigned long long>(si.dwPageSize) - 1);
 
-        for (uintptr_t i = lowerBound; i < higherBound; i += ALLOCATION_INCREMENT)
-        {
-            if (uintptr_t addr = (uintptr_t)VirtualAlloc((void*)i, alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE))
-            {
+        for (uintptr_t i = lowerBound; i < higherBound; i += ALLOCATION_INCREMENT) {
+            if (uintptr_t addr =
+                    (uintptr_t)VirtualAlloc((void*)i, alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE)) {
                 if (addr >= lowerBound && addr <= higherBound) {
                     std::memset(reinterpret_cast<void*>(addr), NOP_INSTRUCTION, numBytes);
                     return addr;
@@ -224,15 +209,12 @@ namespace MemoryUtils
         return 0;
     }
 
-    static void FixupRelativeOffsets(uintptr_t trampolineAddr, uintptr_t originalAddr, size_t size)
-    {
+    static void FixupRelativeOffsets(uintptr_t trampolineAddr, uintptr_t originalAddr, size_t size) {
         uint8_t* code = reinterpret_cast<uint8_t*>(trampolineAddr);
 
         for (size_t pos = 0; pos < size;) {
-            if (pos + FAR_JUMP_SIZE <= size &&
-                code[pos] == 0xFF && code[pos + 1] == 0x25 &&
-                code[pos + 2] == 0x00 && code[pos + 3] == 0x00 &&
-                code[pos + 4] == 0x00 && code[pos + 5] == 0x00) {
+            if (pos + FAR_JUMP_SIZE <= size && code[pos] == 0xFF && code[pos + 1] == 0x25 && code[pos + 2] == 0x00 &&
+                code[pos + 3] == 0x00 && code[pos + 4] == 0x00 && code[pos + 5] == 0x00) {
                 pos += FAR_JUMP_SIZE;
                 continue;
             }
@@ -255,8 +237,7 @@ namespace MemoryUtils
         }
     }
 
-    void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress)
-    {
+    void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress) {
         size_t clearance = CalculateRequiredAsmClearance(addressToHook, NEAR_JUMP_SIZE);
         size_t trampolineSize = TRAMPOLINE_BUFFER_SIZE + clearance + PROTECTION_BUFFER;
 
@@ -291,8 +272,7 @@ namespace MemoryUtils
         PlaceJump(addressToHook, trampoline, false, clearance);
     }
 
-    void Unhook(uintptr_t hookedAddress)
-    {
+    void Unhook(uintptr_t hookedAddress) {
         auto it = InfoBufferForHookedAddresses.find(hookedAddress);
         if (it == InfoBufferForHookedAddresses.end()) return;
 
@@ -305,9 +285,8 @@ namespace MemoryUtils
                 uintptr_t jumpTarget = hookedAddress + REL_JUMP_SIZE + jumpOffset;
                 uintptr_t trampBase = hookInfo.trampolineBase;
 
-                bool isOurHook = trampBase != 0
-                              && (jumpTarget >= trampBase)
-                              && (jumpTarget <= trampBase + TRAMPOLINE_BUFFER_SIZE * 2);
+                bool isOurHook = trampBase != 0 && (jumpTarget >= trampBase) &&
+                                 (jumpTarget <= trampBase + TRAMPOLINE_BUFFER_SIZE * 2);
 
                 if (isOurHook) {
                     MemCopy(hookedAddress, (uintptr_t)hookInfo.originalBytes.data(), hookInfo.originalBytesSize);
@@ -322,8 +301,7 @@ namespace MemoryUtils
         InfoBufferForHookedAddresses.erase(it);
     }
 
-    uintptr_t GetProcessBaseAddress(DWORD processId) noexcept
-    {
+    uintptr_t GetProcessBaseAddress(DWORD processId) noexcept {
         HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processId);
         if (!hProcess) return 0;
 

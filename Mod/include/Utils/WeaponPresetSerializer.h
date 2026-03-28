@@ -57,8 +57,7 @@ private:
 public:
     static constexpr const char* kPresetsSubdir = "weapon_presets";
 
-    static std::string SerializeToIni(const WeaponPresetData& data, bool minimalMode = false)
-    {
+    static std::string SerializeToIni(const WeaponPresetData& data, bool minimalMode = false) {
         const auto& passport = data.passport;
         CSimpleIniA ini;
         ini.SetUnicode(false);
@@ -68,8 +67,7 @@ public:
 
         auto setClass = [&](const char* key, SDK::UClass* cls) {
             auto path = PresetUtils::ObjectToAbsolutePath(cls);
-            if (!minimalMode || !path.empty())
-                ini.SetValue("Passport", key, path.c_str());
+            if (!minimalMode || !path.empty()) ini.SetValue("Passport", key, path.c_str());
         };
 
         setClass("weaponClass", passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC);
@@ -81,43 +79,77 @@ public:
         setClass("subModule2", passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9);
 
         if (!minimalMode || !IsDefaultVec(passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57))
-            ini.SetValue("Passport", "headSize", PresetUtils::VecToString(passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57).c_str());
+            ini.SetValue(
+                "Passport", "headSize",
+                PresetUtils::VecToString(passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57).c_str()
+            );
         if (!minimalMode || !IsDefaultVec(passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704))
-            ini.SetValue("Passport", "guardSize", PresetUtils::VecToString(passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704).c_str());
+            ini.SetValue(
+                "Passport", "guardSize",
+                PresetUtils::VecToString(passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704).c_str()
+            );
         if (!minimalMode || !IsDefaultVec(passport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF))
-            ini.SetValue("Passport", "gripSize", PresetUtils::VecToString(passport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF).c_str());
+            ini.SetValue(
+                "Passport", "gripSize",
+                PresetUtils::VecToString(passport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF).c_str()
+            );
         if (!minimalMode || !IsDefaultVec(passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E))
-            ini.SetValue("Passport", "pommelSize", PresetUtils::VecToString(passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E).c_str());
+            ini.SetValue(
+                "Passport", "pommelSize",
+                PresetUtils::VecToString(passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E).c_str()
+            );
 
         if (!minimalMode || !IsDefaultMass(passport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7))
-            ini.SetValue("Passport", "massHead", std::to_string(passport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7).c_str());
+            ini.SetValue(
+                "Passport", "massHead",
+                std::to_string(passport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7).c_str()
+            );
         if (!minimalMode || !IsDefaultMass(passport.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927))
-            ini.SetValue("Passport", "massGuard", std::to_string(passport.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927).c_str());
+            ini.SetValue(
+                "Passport", "massGuard",
+                std::to_string(passport.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927).c_str()
+            );
         if (!minimalMode || !IsDefaultMass(passport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10))
-            ini.SetValue("Passport", "massGrip", std::to_string(passport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10).c_str());
+            ini.SetValue(
+                "Passport", "massGrip",
+                std::to_string(passport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10).c_str()
+            );
         if (!minimalMode || !IsDefaultMass(passport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173))
-            ini.SetValue("Passport", "massPommel", std::to_string(passport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173).c_str());
+            ini.SetValue(
+                "Passport", "massPommel",
+                std::to_string(passport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173).c_str()
+            );
 
         int steel = static_cast<int>(passport.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36);
         int colored = static_cast<int>(passport.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2);
         int wood = static_cast<int>(passport.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A);
         int leather = static_cast<int>(passport.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB);
 
-        if (!minimalMode || steel != 3)   ini.SetValue("Passport", "materialSteel", std::to_string(steel).c_str());
-        if (!minimalMode || colored != 0)  ini.SetValue("Passport", "materialColored", std::to_string(colored).c_str());
-        if (!minimalMode || wood != 14)    ini.SetValue("Passport", "materialWood", std::to_string(wood).c_str());
+        if (!minimalMode || steel != 3) ini.SetValue("Passport", "materialSteel", std::to_string(steel).c_str());
+        if (!minimalMode || colored != 0) ini.SetValue("Passport", "materialColored", std::to_string(colored).c_str());
+        if (!minimalMode || wood != 14) ini.SetValue("Passport", "materialWood", std::to_string(wood).c_str());
         if (!minimalMode || leather != 10) ini.SetValue("Passport", "materialLeather", std::to_string(leather).c_str());
 
-        if (!minimalMode || !PresetUtils::IsDefaultColor(passport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743, DEFAULT_WOOD_COLOR))
-            ini.SetValue("Passport", "colorWood", PresetUtils::ColorToString(passport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743).c_str());
-        if (!minimalMode || !PresetUtils::IsDefaultColor(passport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638, DEFAULT_LEATHER_COLOR))
-            ini.SetValue("Passport", "colorLeather", PresetUtils::ColorToString(passport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638).c_str());
+        if (!minimalMode ||
+            !PresetUtils::IsDefaultColor(passport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743, DEFAULT_WOOD_COLOR))
+            ini.SetValue(
+                "Passport", "colorWood",
+                PresetUtils::ColorToString(passport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743).c_str()
+            );
+        if (!minimalMode || !PresetUtils::IsDefaultColor(
+                                passport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638, DEFAULT_LEATHER_COLOR
+                            ))
+            ini.SetValue(
+                "Passport", "colorLeather",
+                PresetUtils::ColorToString(passport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638).c_str()
+            );
 
         int tier = static_cast<int>(passport.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461);
-        if (!minimalMode || tier != 4)
-            ini.SetValue("Passport", "tier", std::to_string(tier).c_str());
+        if (!minimalMode || tier != 4) ini.SetValue("Passport", "tier", std::to_string(tier).c_str());
         if (!minimalMode || std::abs(passport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5 - 100.0) > 0.01)
-            ini.SetValue("Passport", "price", std::to_string(passport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5).c_str());
+            ini.SetValue(
+                "Passport", "price", std::to_string(passport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5).c_str()
+            );
 
         const auto& rp = data.runtimeProps;
         auto setOvr = [&](const char* key, bool enabled, double val) {
@@ -159,13 +191,11 @@ public:
             const auto& mp = data.meshPresets[slot];
             if (!minimalMode || mp.enabled) {
                 char buf[512];
-                std::snprintf(buf, sizeof(buf), "%d|%s|%d|%s|%s|%s",
-                    mp.enabled ? 1 : 0,
-                    mp.meshPath.c_str(),
-                    static_cast<int>(mp.meshType),
-                    PresetUtils::VecToString(mp.scale).c_str(),
-                    PresetUtils::RotToString(mp.rotation).c_str(),
-                    PresetUtils::VecToString(mp.offset).c_str());
+                std::snprintf(
+                    buf, sizeof(buf), "%d|%s|%d|%s|%s|%s", mp.enabled ? 1 : 0, mp.meshPath.c_str(),
+                    static_cast<int>(mp.meshType), PresetUtils::VecToString(mp.scale).c_str(),
+                    PresetUtils::RotToString(mp.rotation).c_str(), PresetUtils::VecToString(mp.offset).c_str()
+                );
                 ini.SetValue("MeshOverrides", MESH_KEYS[slot], buf);
             }
         }
@@ -204,48 +234,101 @@ public:
         result.classPaths.subModule1 = ini.GetValue("Passport", "subModule1", "");
         result.classPaths.subModule2 = ini.GetValue("Passport", "subModule2", "");
 
-        p.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = PresetUtils::StringToVec(ini.GetValue("Passport", "headSize", nullptr));
-        p.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = PresetUtils::StringToVec(ini.GetValue("Passport", "guardSize", nullptr));
-        p.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF = PresetUtils::StringToVec(ini.GetValue("Passport", "gripSize", nullptr));
-        p.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E = PresetUtils::StringToVec(ini.GetValue("Passport", "pommelSize", nullptr));
+        p.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 =
+            PresetUtils::StringToVec(ini.GetValue("Passport", "headSize", nullptr));
+        p.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 =
+            PresetUtils::StringToVec(ini.GetValue("Passport", "guardSize", nullptr));
+        p.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF =
+            PresetUtils::StringToVec(ini.GetValue("Passport", "gripSize", nullptr));
+        p.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E =
+            PresetUtils::StringToVec(ini.GetValue("Passport", "pommelSize", nullptr));
 
-        p.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7 = std::atof(ini.GetValue("Passport", "massHead", "1.0"));
-        p.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927 = std::atof(ini.GetValue("Passport", "massGuard", "1.0"));
-        p.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 = std::atof(ini.GetValue("Passport", "massGrip", "1.0"));
-        p.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 = std::atof(ini.GetValue("Passport", "massPommel", "1.0"));
+        p.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7 =
+            std::atof(ini.GetValue("Passport", "massHead", "1.0"));
+        p.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927 =
+            std::atof(ini.GetValue("Passport", "massGuard", "1.0"));
+        p.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 =
+            std::atof(ini.GetValue("Passport", "massGrip", "1.0"));
+        p.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 =
+            std::atof(ini.GetValue("Passport", "massPommel", "1.0"));
 
-        p.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 = static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialSteel", "3")));
-        p.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2 = static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialColored", "0")));
-        p.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A = static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialWood", "14")));
-        p.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB = static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialLeather", "10")));
+        p.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 =
+            static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialSteel", "3")));
+        p.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2 =
+            static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialColored", "0")));
+        p.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A =
+            static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialWood", "14")));
+        p.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB =
+            static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialLeather", "10")));
 
-        p.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743 = PresetUtils::StringToColor(ini.GetValue("Passport", "colorWood", nullptr), DEFAULT_WOOD_COLOR);
-        p.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638 = PresetUtils::StringToColor(ini.GetValue("Passport", "colorLeather", nullptr), DEFAULT_LEATHER_COLOR);
+        p.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743 =
+            PresetUtils::StringToColor(ini.GetValue("Passport", "colorWood", nullptr), DEFAULT_WOOD_COLOR);
+        p.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638 =
+            PresetUtils::StringToColor(ini.GetValue("Passport", "colorLeather", nullptr), DEFAULT_LEATHER_COLOR);
 
-        p.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 = static_cast<SDK::Enum_Ranks>(std::atoi(ini.GetValue("Passport", "tier", "4")));
+        p.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 =
+            static_cast<SDK::Enum_Ranks>(std::atoi(ini.GetValue("Passport", "tier", "4")));
         p.Price_60_83FE5A624EA188485BBE4E9C8606AEE5 = std::atof(ini.GetValue("Passport", "price", "100.0"));
 
         auto& rp = result.runtimeProps;
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "rigidity", ""), rp.rigidity.enabled, rp.rigidity.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "edgeSharpness", ""), rp.edgeSharpness.enabled, rp.edgeSharpness.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "rawDamage", ""), rp.rawDamage.enabled, rp.rawDamage.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "cuttingRate", ""), rp.cuttingRate.enabled, rp.cuttingRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "stabRate", ""), rp.stabRate.enabled, rp.stabRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "defRating", ""), rp.defRating.enabled, rp.defRating.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "gripRate", ""), rp.gripRate.enabled, rp.gripRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "drawCutRate", ""), rp.drawCutRate.enabled, rp.drawCutRate.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "tipSharpness", ""), rp.tipSharpness.enabled, rp.tipSharpness.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "kickPower", ""), rp.kickPower.enabled, rp.kickPower.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "matDensity", ""), rp.matDensity.enabled, rp.matDensity.value);
-        PresetUtils::ParseIntOverride(ini.GetValue("Overrides", "dismemberSharp", ""), rp.dismemberSharp.enabled, rp.dismemberSharp.value);
-        PresetUtils::ParseIntOverride(ini.GetValue("Overrides", "dismemberBlunt", ""), rp.dismemberBlunt.enabled, rp.dismemberBlunt.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "doubleEdged", ""), rp.doubleEdged.enabled, rp.doubleEdged.value);
-        PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "piercing", ""), rp.piercing.enabled, rp.piercing.value);
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "rigidity", ""), rp.rigidity.enabled, rp.rigidity.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "edgeSharpness", ""), rp.edgeSharpness.enabled, rp.edgeSharpness.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "rawDamage", ""), rp.rawDamage.enabled, rp.rawDamage.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "cuttingRate", ""), rp.cuttingRate.enabled, rp.cuttingRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "stabRate", ""), rp.stabRate.enabled, rp.stabRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "defRating", ""), rp.defRating.enabled, rp.defRating.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "gripRate", ""), rp.gripRate.enabled, rp.gripRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "drawCutRate", ""), rp.drawCutRate.enabled, rp.drawCutRate.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "tipSharpness", ""), rp.tipSharpness.enabled, rp.tipSharpness.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "kickPower", ""), rp.kickPower.enabled, rp.kickPower.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "matDensity", ""), rp.matDensity.enabled, rp.matDensity.value
+        );
+        PresetUtils::ParseIntOverride(
+            ini.GetValue("Overrides", "dismemberSharp", ""), rp.dismemberSharp.enabled, rp.dismemberSharp.value
+        );
+        PresetUtils::ParseIntOverride(
+            ini.GetValue("Overrides", "dismemberBlunt", ""), rp.dismemberBlunt.enabled, rp.dismemberBlunt.value
+        );
+        PresetUtils::ParseBoolOverride(
+            ini.GetValue("Overrides", "doubleEdged", ""), rp.doubleEdged.enabled, rp.doubleEdged.value
+        );
+        PresetUtils::ParseBoolOverride(
+            ini.GetValue("Overrides", "piercing", ""), rp.piercing.enabled, rp.piercing.value
+        );
         PresetUtils::ParseBoolOverride(ini.GetValue("Overrides", "noStab", ""), rp.noStab.enabled, rp.noStab.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurnR", ""), rp.staminaBurnR.enabled, rp.staminaBurnR.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurnL", ""), rp.staminaBurnL.enabled, rp.staminaBurnL.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurn2H", ""), rp.staminaBurn2H.enabled, rp.staminaBurn2H.value);
-        PresetUtils::ParseDoubleOverride(ini.GetValue("Overrides", "staminaBurn2HAlt", ""), rp.staminaBurn2HAlt.enabled, rp.staminaBurn2HAlt.value);
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "staminaBurnR", ""), rp.staminaBurnR.enabled, rp.staminaBurnR.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "staminaBurnL", ""), rp.staminaBurnL.enabled, rp.staminaBurnL.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "staminaBurn2H", ""), rp.staminaBurn2H.enabled, rp.staminaBurn2H.value
+        );
+        PresetUtils::ParseDoubleOverride(
+            ini.GetValue("Overrides", "staminaBurn2HAlt", ""), rp.staminaBurn2HAlt.enabled, rp.staminaBurn2HAlt.value
+        );
 
         static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
         for (int slot = 0; slot < WeaponPresetData::MODULE_SLOT_COUNT; ++slot) {
@@ -260,12 +343,14 @@ public:
             mp.enabled = (val[0] == '1');
 
             size_t p2 = val.find('|', p1 + 1);
-            if (p2 == std::string::npos) { mp.meshPath = val.substr(p1 + 1); continue; }
+            if (p2 == std::string::npos) {
+                mp.meshPath = val.substr(p1 + 1);
+                continue;
+            }
             mp.meshPath = val.substr(p1 + 1, p2 - p1 - 1);
 
             size_t p3 = val.find('|', p2 + 1);
-            std::string field3 = (p3 != std::string::npos)
-                ? val.substr(p2 + 1, p3 - p2 - 1) : val.substr(p2 + 1);
+            std::string field3 = (p3 != std::string::npos) ? val.substr(p2 + 1, p3 - p2 - 1) : val.substr(p2 + 1);
 
             size_t scaleStart;
             if (field3.find(',') == std::string::npos && field3.length() <= 1) {
@@ -298,5 +383,4 @@ public:
         result.success = true;
         return result;
     }
-
 };

@@ -30,50 +30,79 @@ public:
     std::string_view tooltip;
     Type type;
     void* valuePtr;
-    union { int intMin, intMax; float floatMin, floatMax; } minValue{}, maxValue{};
+    union {
+        int intMin, intMax;
+        float floatMin, floatMax;
+    } minValue{}, maxValue{};
     mutable std::string id;
 
 private:
-    using RenderFn = void(*)(const Parameter&) noexcept;
-    using LoadFn = void(*)(const Parameter&, const class IMenuFunction*) noexcept;
-    using SaveFn = void(*)(const Parameter&, const class IMenuFunction*) noexcept;
-    
+    using RenderFn = void (*)(const Parameter&) noexcept;
+    using LoadFn = void (*)(const Parameter&, const class IMenuFunction*) noexcept;
+    using SaveFn = void (*)(const Parameter&, const class IMenuFunction*) noexcept;
+
     RenderFn renderFn;
     LoadFn loadFn;
     SaveFn saveFn;
-    
+
     static void RenderInt(const Parameter& param) noexcept;
     static void RenderFloat(const Parameter& param) noexcept;
     static void RenderBool(const Parameter& param) noexcept;
-    
+
     static void LoadInt(const Parameter& param, const IMenuFunction* func) noexcept;
     static void LoadFloat(const Parameter& param, const IMenuFunction* func) noexcept;
     static void LoadBool(const Parameter& param, const IMenuFunction* func) noexcept;
-    
+
     static void SaveInt(const Parameter& param, const IMenuFunction* func) noexcept;
     static void SaveFloat(const Parameter& param, const IMenuFunction* func) noexcept;
     static void SaveBool(const Parameter& param, const IMenuFunction* func) noexcept;
 
 public:
-    Parameter(std::string_view name, std::string_view displayName, int* valuePtr, int minValue = 0, int maxValue = 100, std::string_view tooltip = "") noexcept
-        : name(name), displayName(displayName), tooltip(tooltip), type(Type::Int), valuePtr(valuePtr), 
-          renderFn(RenderInt), loadFn(LoadInt), saveFn(SaveInt) {
+    Parameter(
+        std::string_view name, std::string_view displayName, int* valuePtr, int minValue = 0, int maxValue = 100,
+        std::string_view tooltip = ""
+    ) noexcept
+        : name(name),
+          displayName(displayName),
+          tooltip(tooltip),
+          type(Type::Int),
+          valuePtr(valuePtr),
+          renderFn(RenderInt),
+          loadFn(LoadInt),
+          saveFn(SaveInt) {
         this->minValue.intMin = minValue;
         this->maxValue.intMax = maxValue;
         id = "##param_" + std::string(name);
     }
 
-    Parameter(std::string_view name, std::string_view displayName, float* valuePtr, float minValue = 0.0f, float maxValue = 1.0f, std::string_view tooltip = "") noexcept
-        : name(name), displayName(displayName), tooltip(tooltip), type(Type::Float), valuePtr(valuePtr), 
-          renderFn(RenderFloat), loadFn(LoadFloat), saveFn(SaveFloat) {
+    Parameter(
+        std::string_view name, std::string_view displayName, float* valuePtr, float minValue = 0.0f,
+        float maxValue = 1.0f, std::string_view tooltip = ""
+    ) noexcept
+        : name(name),
+          displayName(displayName),
+          tooltip(tooltip),
+          type(Type::Float),
+          valuePtr(valuePtr),
+          renderFn(RenderFloat),
+          loadFn(LoadFloat),
+          saveFn(SaveFloat) {
         this->minValue.floatMin = minValue;
         this->maxValue.floatMax = maxValue;
         id = "##param_" + std::string(name);
     }
 
-    Parameter(std::string_view name, std::string_view displayName, bool* valuePtr, std::string_view tooltip = "") noexcept
-        : name(name), displayName(displayName), tooltip(tooltip), type(Type::Bool), valuePtr(valuePtr), 
-          renderFn(RenderBool), loadFn(LoadBool), saveFn(SaveBool) {
+    Parameter(
+        std::string_view name, std::string_view displayName, bool* valuePtr, std::string_view tooltip = ""
+    ) noexcept
+        : name(name),
+          displayName(displayName),
+          tooltip(tooltip),
+          type(Type::Bool),
+          valuePtr(valuePtr),
+          renderFn(RenderBool),
+          loadFn(LoadBool),
+          saveFn(SaveBool) {
         id = "##param_" + std::string(name);
     }
 
@@ -98,9 +127,8 @@ public:
         s.erase(std::remove(s.begin(), s.end(), ' '), s.end());
         return s;
     }
-    
-    template<typename T>
-    T GetConfig(std::string_view paramName, T defaultValue) const {
+
+    template <typename T> T GetConfig(std::string_view paramName, T defaultValue) const {
         auto section = NormalizeSection(GetName());
         if constexpr (std::is_same_v<T, int>)
             return g_ConfigManager.GetInt(section, std::string(paramName), defaultValue);
@@ -111,9 +139,8 @@ public:
         else
             return g_ConfigManager.GetString(section, std::string(paramName), defaultValue);
     }
-    
-    template<typename T>
-    void SaveConfig(std::string_view paramName, T value) const {
+
+    template <typename T> void SaveConfig(std::string_view paramName, T value) const {
         auto section = NormalizeSection(GetName());
         if constexpr (std::is_same_v<T, int>)
             g_ConfigManager.SetInt(section, std::string(paramName), value);
@@ -132,40 +159,37 @@ public:
             g_ConfigManager.SaveConfig();
         }
     }
-    
-    bool LoadEnabledState(bool defaultState = false) {
-        return isEnabled = GetConfig("enabled", defaultState);
-    }
+
+    bool LoadEnabledState(bool defaultState = false) { return isEnabled = GetConfig("enabled", defaultState); }
 
     void AddParameter(Parameter&& param) { parameters.emplace_back(std::move(param)); }
     void AddParameter(const Parameter& param) { parameters.emplace_back(param); }
-    
+
     void RenderParameters() {
         for (auto& param : parameters)
             param.Render();
     }
-    
+
     void LoadParameters() {
         for (const auto& param : parameters) {
             param.Load(this);
         }
     }
-    
+
     void SaveParameters() const {
         for (const auto& param : parameters) {
             param.Save(this);
         }
         g_ConfigManager.SaveConfig();
     }
-    
+
     const std::vector<Parameter>& GetParameters() const { return parameters; }
 };
 
 class HookedFunction;
 class KeybindFunction;
 
-template<typename Derived>
-class KeyFunction : public IMenuFunction {
+template <typename Derived> class KeyFunction : public IMenuFunction {
 protected:
     std::string name;
     std::string tooltip;
@@ -185,8 +209,7 @@ private:
     std::array<std::string, 5> m_cachedIds;
 
     void InitializeIds() {
-        constexpr std::string_view prefix =
-            std::is_same_v<Derived, HookedFunction> ? "##Hook_" : "##Key_";
+        constexpr std::string_view prefix = std::is_same_v<Derived, HookedFunction> ? "##Hook_" : "##Key_";
 
         std::string base;
         base.reserve(prefix.length() + name.length() + 10);
@@ -201,8 +224,16 @@ private:
     }
 
 protected:
-    KeyFunction(std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable, std::string_view funcTooltip = "")
-        : name(funcName), tooltip(funcTooltip), key(keyPtr), callback(std::move(callback)), prevKey(*key), toggleable(toggleable) {
+    KeyFunction(
+        std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable,
+        std::string_view funcTooltip = ""
+    )
+        : name(funcName),
+          tooltip(funcTooltip),
+          key(keyPtr),
+          callback(std::move(callback)),
+          prevKey(*key),
+          toggleable(toggleable) {
         InitializeIds();
     }
 
@@ -237,10 +268,13 @@ protected:
     void OnKeyAssigned() override;
 
 public:
-    HookedFunction(std::string_view funcName, const std::vector<GameHook::GameEvent>& events,
-                   std::function<void(bool)> callback, int* keyPtr, bool executeOnToggle = false, std::string_view funcTooltip = "")
+    HookedFunction(
+        std::string_view funcName, const std::vector<GameHook::GameEvent>& events, std::function<void(bool)> callback,
+        int* keyPtr, bool executeOnToggle = false, std::string_view funcTooltip = ""
+    )
         : KeyFunction(funcName, keyPtr, std::move(callback), true, funcTooltip),
-          eventTypes(events), executeOnToggle(executeOnToggle) {
+          eventTypes(events),
+          executeOnToggle(executeOnToggle) {
         LoadConfig();
     }
 
@@ -255,7 +289,10 @@ protected:
     void OnKeyAssigned() override;
 
 public:
-    KeybindFunction(std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable = false, std::string_view funcTooltip = "")
+    KeybindFunction(
+        std::string_view funcName, int* keyPtr, std::function<void(bool)> callback, bool toggleable = false,
+        std::string_view funcTooltip = ""
+    )
         : KeyFunction(funcName, keyPtr, std::move(callback), toggleable, funcTooltip) {
         LoadConfig();
     }

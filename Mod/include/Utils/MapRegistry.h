@@ -33,14 +33,12 @@ class MapRegistry {
     bool displayWidthDirty = true;
 
     [[nodiscard]] static bool EndsWith(std::string_view str, std::string_view suffix) {
-        return str.size() >= suffix.size() &&
-               str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
+        return str.size() >= suffix.size() && str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
     }
 
     [[nodiscard]] static bool HasBadSuffix(std::string_view name) {
         static constexpr std::string_view BAD_SUFFIXES[] = {
-            "_BuiltData", "_HLOD", "_Minimap", "_NavData",
-            "_Overview", "_Collision", "_LevelMetrics",
+            "_BuiltData", "_HLOD", "_Minimap", "_NavData", "_Overview", "_Collision", "_LevelMetrics",
         };
         for (auto suffix : BAD_SUFFIXES) {
             if (EndsWith(name, suffix)) return true;
@@ -49,8 +47,7 @@ class MapRegistry {
     }
 
     [[nodiscard]] static bool PathContainsMaps(std::string_view path) {
-        return path.find("/Maps/") != std::string_view::npos ||
-               EndsWith(path, "/Maps");
+        return path.find("/Maps/") != std::string_view::npos || EndsWith(path, "/Maps");
     }
 
     [[nodiscard]] static bool StartsWith(std::string_view str, std::string_view prefix) {
@@ -58,8 +55,7 @@ class MapRegistry {
     }
 
     [[nodiscard]] static std::string CategorizeByPath(std::string_view packagePath) {
-        if (StartsWith(packagePath, "/Game/Maps"))
-            return std::string(BASE_GAME_CATEGORY);
+        if (StartsWith(packagePath, "/Game/Maps")) return std::string(BASE_GAME_CATEGORY);
 
         constexpr std::string_view MOD_PREFIX = "/Game/Mod_";
         if (StartsWith(packagePath, MOD_PREFIX)) {
@@ -76,8 +72,7 @@ class MapRegistry {
 
     [[nodiscard]] static std::string CleanMapName(std::string_view packageName) {
         auto lastSlash = packageName.rfind('/');
-        if (lastSlash != std::string_view::npos)
-            packageName = packageName.substr(lastSlash + 1);
+        if (lastSlash != std::string_view::npos) packageName = packageName.substr(lastSlash + 1);
 
         std::string name(packageName);
         for (char& c : name) {
@@ -96,8 +91,7 @@ class MapRegistry {
     void BuildCategories() {
         categories.clear();
         for (const auto& m : maps) {
-            if (categories.empty() || categories.back() != m.category)
-                categories.push_back(m.category);
+            if (categories.empty() || categories.back() != m.category) categories.push_back(m.category);
         }
     }
 
@@ -118,8 +112,7 @@ class MapRegistry {
             static SDK::UFunction* getAssetsFn = nullptr;
             if (!getAssetsFn) {
                 auto* ifaceClass = SDK::IAssetRegistry::StaticClass();
-                if (ifaceClass)
-                    getAssetsFn = ifaceClass->GetFunction("AssetRegistry", "GetAssets");
+                if (ifaceClass) getAssetsFn = ifaceClass->GetFunction("AssetRegistry", "GetAssets");
             }
             if (!getAssetsFn) {
                 logger.Log("GetAssets function not found");
@@ -158,37 +151,31 @@ class MapRegistry {
                 const auto& asset = params.OutAssetData[i];
 
                 std::string packagePath = asset.PackagePath.GetRawString();
-                if (!PathContainsMaps(packagePath))
-                    continue;
+                if (!PathContainsMaps(packagePath)) continue;
 
-                if (!seenIds.insert(asset.PackageName.ComparisonIndex).second)
-                    continue;
+                if (!seenIds.insert(asset.PackageName.ComparisonIndex).second) continue;
 
                 std::string packageName = asset.PackageName.GetRawString();
-                if (HasBadSuffix(packageName))
-                    continue;
+                if (HasBadSuffix(packageName)) continue;
 
                 std::string category = CategorizeByPath(packagePath);
-                if (category.empty())
-                    continue;
+                if (category.empty()) continue;
 
                 std::string displayName = CleanMapName(packageName);
-                if (displayName.empty())
-                    continue;
+                if (displayName.empty()) continue;
 
                 maps.push_back({std::move(displayName), std::move(packageName), std::move(category)});
             }
 
-            std::ranges::sort(maps,
-                [](const MapEntry& a, const MapEntry& b) {
-                    if (a.category != b.category) {
-                        bool aBase = (a.category == BASE_GAME_CATEGORY);
-                        bool bBase = (b.category == BASE_GAME_CATEGORY);
-                        if (aBase != bBase) return aBase;
-                        return a.category < b.category;
-                    }
-                    return a.displayName < b.displayName;
-                });
+            std::ranges::sort(maps, [](const MapEntry& a, const MapEntry& b) {
+                if (a.category != b.category) {
+                    bool aBase = (a.category == BASE_GAME_CATEGORY);
+                    bool bBase = (b.category == BASE_GAME_CATEGORY);
+                    if (aBase != bBase) return aBase;
+                    return a.category < b.category;
+                }
+                return a.displayName < b.displayName;
+            });
 
             BuildCategories();
             displayWidthDirty = true;

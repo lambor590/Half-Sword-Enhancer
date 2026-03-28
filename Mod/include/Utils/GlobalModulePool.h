@@ -38,14 +38,13 @@ struct GlobalModulePool {
             SDK::UClass* masterClass = EquipmentGenerator::GetCustomizableModulesClass(type);
             if (!masterClass || !masterClass->ClassDefaultObject) continue;
 
-            auto* cdo = reinterpret_cast<SDK::UBP_GameWeapon_Customizable_Master_C*>(
-                masterClass->ClassDefaultObject);
+            auto* cdo = reinterpret_cast<SDK::UBP_GameWeapon_Customizable_Master_C*>(masterClass->ClassDefaultObject);
             const char* typeName = WEAPON_TYPE_NAMES[i - 1];
 
-            CollectEntries(heads,    seen[0], cdo->Module_Heads_Array, typeName);
-            CollectEntries(guards,   seen[1], cdo->Module_Guards_Array, typeName);
-            CollectEntries(grips,    seen[2], cdo->Module_Grips_Array, typeName);
-            CollectEntries(pommels,  seen[3], cdo->Module_Pommels_Array, typeName);
+            CollectEntries(heads, seen[0], cdo->Module_Heads_Array, typeName);
+            CollectEntries(guards, seen[1], cdo->Module_Guards_Array, typeName);
+            CollectEntries(grips, seen[2], cdo->Module_Grips_Array, typeName);
+            CollectEntries(pommels, seen[3], cdo->Module_Pommels_Array, typeName);
             CollectEntries(subMods1, seen[4], cdo->Head_Sub_Module_1_Array, typeName);
             CollectEntries(subMods2, seen[5], cdo->Head_Sub_Module_2_Array, typeName);
         }
@@ -55,13 +54,12 @@ struct GlobalModulePool {
 private:
     GlobalModulePool() = default;
 
-    static void CollectEntries(std::vector<GlobalModuleEntry>& out,
-        std::unordered_set<SDK::UClass*>& seen,
-        const SDK::TArray<SDK::UClass*>& arr, const char* sourceType)
-    {
+    static void CollectEntries(
+        std::vector<GlobalModuleEntry>& out, std::unordered_set<SDK::UClass*>& seen,
+        const SDK::TArray<SDK::UClass*>& arr, const char* sourceType
+    ) {
         for (int i = 0; i < arr.Num(); ++i) {
-            if (arr[i] && seen.insert(arr[i]).second)
-                out.push_back({arr[i], arr[i]->GetName(), sourceType});
+            if (arr[i] && seen.insert(arr[i]).second) out.push_back({arr[i], arr[i]->GetName(), sourceType});
         }
     }
 };

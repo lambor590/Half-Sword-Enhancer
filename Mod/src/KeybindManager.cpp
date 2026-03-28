@@ -64,30 +64,22 @@ void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
 }
 
 constexpr bool KeybindManager::IsRelevantMessage(UINT msg) noexcept {
-    return (msg == WM_KEYDOWN) ||
-           (msg == WM_SYSKEYDOWN) ||
-           (msg == WM_MBUTTONDOWN) ||
-           (msg == WM_MBUTTONDBLCLK) ||
-           (msg == WM_XBUTTONDOWN) ||
-           (msg == WM_XBUTTONDBLCLK);
+    return (msg == WM_KEYDOWN) || (msg == WM_SYSKEYDOWN) || (msg == WM_MBUTTONDOWN) || (msg == WM_MBUTTONDBLCLK) ||
+           (msg == WM_XBUTTONDOWN) || (msg == WM_XBUTTONDBLCLK);
 }
 
 int KeybindManager::ExtractKeyCode(UINT msg, WPARAM wParam) noexcept {
     switch (msg) {
         case WM_KEYDOWN:
-        case WM_SYSKEYDOWN:
-            return static_cast<int>(wParam);
+        case WM_SYSKEYDOWN: return static_cast<int>(wParam);
 
         case WM_MBUTTONDOWN:
-        case WM_MBUTTONDBLCLK:
-            return VK_MBUTTON;
+        case WM_MBUTTONDBLCLK: return VK_MBUTTON;
 
         case WM_XBUTTONDOWN:
-        case WM_XBUTTONDBLCLK:
-            return (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? VK_XBUTTON1 : VK_XBUTTON2;
+        case WM_XBUTTONDBLCLK: return (GET_XBUTTON_WPARAM(wParam) == XBUTTON1) ? VK_XBUTTON1 : VK_XBUTTON2;
 
-        default:
-            return -1;
+        default: return -1;
     }
 }
 
@@ -105,7 +97,8 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
     }
 
     const auto it = s_hotData.keyToBindings.find(keyCode);
-    if (it == s_hotData.keyToBindings.end()) [[likely]] return false;
+    if (it == s_hotData.keyToBindings.end()) [[likely]]
+        return false;
 
     bool expected = false;
     if (!s_hotData.processingKeyEvent.compare_exchange_strong(expected, true, std::memory_order_acquire)) {
@@ -181,12 +174,14 @@ const std::vector<KeybindManager::Binding*>* KeybindManager::FindBindings(int ke
 
 bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
     auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]] return false;
+    if (!bindings) [[likely]]
+        return false;
 
     if (!excludeKeyPtr) return !bindings->empty();
 
-    bool hasExcluded = std::ranges::find_if(*bindings,
-        [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != bindings->end();
+    bool hasExcluded = std::ranges::find_if(*bindings, [excludeKeyPtr](const Binding* b) {
+                           return b->keyPtr == excludeKeyPtr;
+                       }) != bindings->end();
     return bindings->size() > (hasExcluded ? 1 : 0);
 }
 
@@ -195,8 +190,8 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
     if (it == s_hotData.keyToBindings.end()) return;
 
     auto& bindings = it->second;
-    auto foundIt = std::ranges::find_if(bindings,
-        [excludeKeyPtr](const Binding* b) { return b->keyPtr != excludeKeyPtr; });
+    auto foundIt =
+        std::ranges::find_if(bindings, [excludeKeyPtr](const Binding* b) { return b->keyPtr != excludeKeyPtr; });
 
     if (foundIt != bindings.end()) {
         Binding* binding = *foundIt;
@@ -212,7 +207,8 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
 
 IMenuFunction* KeybindManager::GetBoundFunction(int key, int* excludeKeyPtr) noexcept {
     auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]] return nullptr;
+    if (!bindings) [[likely]]
+        return nullptr;
 
     for (const Binding* binding : *bindings) {
         if (binding->keyPtr != excludeKeyPtr) {
@@ -224,7 +220,8 @@ IMenuFunction* KeybindManager::GetBoundFunction(int key, int* excludeKeyPtr) noe
 
 std::vector<IMenuFunction*> KeybindManager::GetAllBoundFunctions(int key, int* excludeKeyPtr) noexcept {
     auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]] return {};
+    if (!bindings) [[likely]]
+        return {};
 
     std::vector<IMenuFunction*> functions;
     functions.reserve(bindings->size());
@@ -239,12 +236,14 @@ std::vector<IMenuFunction*> KeybindManager::GetAllBoundFunctions(int key, int* e
 
 int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) noexcept {
     auto* bindings = FindBindings(key);
-    if (!bindings) [[likely]] return 0;
+    if (!bindings) [[likely]]
+        return 0;
 
     if (!excludeKeyPtr) return static_cast<int>(bindings->size());
 
-    bool hasExcluded = std::ranges::find_if(*bindings,
-        [excludeKeyPtr](const Binding* b) { return b->keyPtr == excludeKeyPtr; }) != bindings->end();
+    bool hasExcluded = std::ranges::find_if(*bindings, [excludeKeyPtr](const Binding* b) {
+                           return b->keyPtr == excludeKeyPtr;
+                       }) != bindings->end();
     return static_cast<int>(bindings->size() - (hasExcluded ? 1 : 0));
 }
 

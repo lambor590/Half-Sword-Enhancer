@@ -61,7 +61,8 @@ namespace {
 
             {
                 const auto& s = slots[idx & TABLE_MASK];
-                if (s.key == funcPtr) [[likely]] return s.hookIdx;
+                if (s.key == funcPtr) [[likely]]
+                    return s.hookIdx;
                 if (s.hookIdx == EMPTY) return EMPTY;
             }
 
@@ -83,7 +84,7 @@ namespace {
                     return;
                 }
             }
-            slots[idx & TABLE_MASK] = { funcPtr, hookIdx };
+            slots[idx & TABLE_MASK] = {funcPtr, hookIdx};
         }
     };
 
@@ -94,11 +95,8 @@ namespace {
 // so the fast path in OnProcessEvent stays compact (fewer registers spilled,
 // smaller icache footprint, better branch prediction).
 __declspec(noinline) static int8_t ResolveAndCache(
-    void* funcPtr,
-    SDK::UFunction* pFunc,
-    const GameHook::HookEntry* hookArray,
-    uint8_t hookCount) noexcept
-{
+    void* funcPtr, SDK::UFunction* pFunc, const GameHook::HookEntry* hookArray, uint8_t hookCount
+) noexcept {
     std::string funcName = pFunc->GetName();
     uint64_t nameHash = HS::Hash::FNV1A(funcName.c_str());
 
@@ -113,8 +111,7 @@ __declspec(noinline) static int8_t ResolveAndCache(
     return resolved;
 }
 
-void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept
-{
+void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept {
     if (GameHook::hasQueuedActions.load(std::memory_order_relaxed)) [[unlikely]] {
         GameHook::ProcessGameThreadQueue();
     }
@@ -133,8 +130,7 @@ void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, voi
     return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
 }
 
-void GameHook::Hook()
-{
+void GameHook::Hook() {
     logger.Log("Hooking ProcessEvent");
 
     processEventAddress = SDK::InSDKUtils::GetImageBase() + SDK::Offsets::ProcessEvent;
@@ -150,21 +146,20 @@ void GameHook::Hook()
 
     GraphicsSection::ApplyOnStartup();
 
-    GameHook::QueueAction([]() {
-        GameBuildInfo::Query();
-    });
+    GameHook::QueueAction([]() { GameBuildInfo::Query(); });
 
     logger.Log("ProcessEvent hooked successfully!");
 }
 
-void GameHook::Unhook()
-{
+void GameHook::Unhook() {
     hooked = false;
     MemoryUtils::Unhook(processEventAddress);
-    for (uint8_t i = 0; i < hookCount; ++i) hooks[i] = {};
+    for (uint8_t i = 0; i < hookCount; ++i)
+        hooks[i] = {};
     hookCount = 0;
     g_peCache.Clear();
-    for (auto& vec : eventCallbacks) vec.clear();
+    for (auto& vec : eventCallbacks)
+        vec.clear();
     logger.Log("ProcessEvent unhooked successfully!");
 }
 
@@ -185,7 +180,7 @@ void GameHook::RegisterHook(uint64_t hash, std::function<void()> callback) {
         }
     }
     if (hookCount < MAX_HOOKS) {
-        hooks[hookCount++] = { hash, std::move(callback) };
+        hooks[hookCount++] = {hash, std::move(callback)};
         g_peCache.Clear();
     }
 }

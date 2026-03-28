@@ -43,22 +43,19 @@ public:
     static constexpr const char* kPresetsSubdir = "loadout_presets";
 
 private:
-    static constexpr const char* WEAPON_SLOT_KEYS[] = {
-        "HandR", "HandL", "SlotR1", "SlotR2", "SlotL1", "SlotL2", "Back"
-    };
+    static constexpr const char* WEAPON_SLOT_KEYS[] = {"HandR",  "HandL",  "SlotR1", "SlotR2",
+                                                       "SlotL1", "SlotL2", "Back"};
 
-    static constexpr const char* ARMOR_SLOT_NAMES[] = {
-        "Head", "Hands", "Neck_Bevor", "Neck_Gorget", "Neck_Standard",
-        "Arms", "Shoulders", "Tabard", "Chest_Plate",
-        "Hauberk", "Cuisses", "Body_Clothing",
-        "Waist", "Legs_Greaves", "Feet", "Hosen", "Slot16"
-    };
+    static constexpr const char* ARMOR_SLOT_NAMES[] = {"Head",          "Hands",        "Neck_Bevor", "Neck_Gorget",
+                                                       "Neck_Standard", "Arms",         "Shoulders",  "Tabard",
+                                                       "Chest_Plate",   "Hauberk",      "Cuisses",    "Body_Clothing",
+                                                       "Waist",         "Legs_Greaves", "Feet",       "Hosen",
+                                                       "Slot16"};
     static constexpr int ARMOR_SLOT_NAME_COUNT = 17;
 
     static const char* ArmorSlotToKey(SDK::EArmorSlots_Enum slot) {
         int idx = static_cast<int>(slot);
-        if (idx >= 0 && idx < ARMOR_SLOT_NAME_COUNT)
-            return ARMOR_SLOT_NAMES[idx];
+        if (idx >= 0 && idx < ARMOR_SLOT_NAME_COUNT) return ARMOR_SLOT_NAMES[idx];
         return "Unknown";
     }
 
@@ -100,15 +97,16 @@ public:
         LoadoutPresetData data;
         data.success = true;
 
-        auto& armorMap = equip.Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04
-                             .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
+        auto& armorMap =
+            equip.Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04.ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
         for (auto it = begin(armorMap); it != end(armorMap); ++it) {
             auto& elem = it->Value();
             if (!elem.ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3) continue;
 
             LoadoutPresetData::ArmorSlotData slotData;
             slotData.slot = it->Key();
-            slotData.armorClass = PresetUtils::ObjectToAbsolutePath(elem.ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3);
+            slotData.armorClass =
+                PresetUtils::ObjectToAbsolutePath(elem.ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3);
             slotData.color1 = elem.Color1_5_5527FC7C442DCF594A4DA5BA8D94351F;
             slotData.color2 = elem.Color2_7_1FF790D94C8CD95FF2D76183E7102E1B;
             slotData.color3 = elem.Color3_9_D8B5A08742A87F5492F8138A4F686141;
@@ -116,7 +114,9 @@ public:
         }
 
         for (int i = 0; i < 7; ++i)
-            ReadWeaponSlot(GetWeaponSlotConst(equip.Weapons_83_06F076E247B54D0D9942B383323C1968, i), data.weaponSlots[i]);
+            ReadWeaponSlot(
+                GetWeaponSlotConst(equip.Weapons_83_06F076E247B54D0D9942B383323C1968, i), data.weaponSlots[i]
+            );
 
         return data;
     }
@@ -145,12 +145,12 @@ public:
             char section[64];
             std::snprintf(section, sizeof(section), "Weapon.%s", WEAPON_SLOT_KEYS[i]);
             ini.SetValue(section, "class", wp.weaponClass.c_str());
-            if (!wp.gripModule.empty())   ini.SetValue(section, "gripModule", wp.gripModule.c_str());
-            if (!wp.headModule.empty())   ini.SetValue(section, "headModule", wp.headModule.c_str());
-            if (!wp.guardModule.empty())  ini.SetValue(section, "guardModule", wp.guardModule.c_str());
+            if (!wp.gripModule.empty()) ini.SetValue(section, "gripModule", wp.gripModule.c_str());
+            if (!wp.headModule.empty()) ini.SetValue(section, "headModule", wp.headModule.c_str());
+            if (!wp.guardModule.empty()) ini.SetValue(section, "guardModule", wp.guardModule.c_str());
             if (!wp.pommelModule.empty()) ini.SetValue(section, "pommelModule", wp.pommelModule.c_str());
-            if (!wp.subModule1.empty())   ini.SetValue(section, "subModule1", wp.subModule1.c_str());
-            if (!wp.subModule2.empty())   ini.SetValue(section, "subModule2", wp.subModule2.c_str());
+            if (!wp.subModule1.empty()) ini.SetValue(section, "subModule1", wp.subModule1.c_str());
+            if (!wp.subModule2.empty()) ini.SetValue(section, "subModule2", wp.subModule2.c_str());
             ini.SetValue(section, "headSize", PresetUtils::VecToString(wp.headSize).c_str());
             ini.SetValue(section, "guardSize", PresetUtils::VecToString(wp.guardSize).c_str());
             ini.SetValue(section, "pommelSize", PresetUtils::VecToString(wp.pommelSize).c_str());
@@ -211,5 +211,4 @@ public:
         data.success = true;
         return data;
     }
-
 };

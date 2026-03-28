@@ -101,8 +101,8 @@ private:
     void GenerateArmorPassport() {
         QueueGeneration(
             static_cast<SDK::EArmorSlots_Enum>(ARMOR_SLOTS[cfg.armorSlotIndex].slotEnum),
-            static_cast<SDK::Enum_Ranks>(cfg.armorTier),
-            cfg.moduleChance);
+            static_cast<SDK::Enum_Ranks>(cfg.armorTier), cfg.moduleChance
+        );
     }
 
     void RandomizeArmorPassport() {
@@ -115,28 +115,27 @@ private:
         if (!actor) return;
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
 
-        if (props.protectionBlunt.enabled)     armor->Protection_Blunt = props.protectionBlunt.value;
-        if (props.protectionCut.enabled)       armor->Protection_Cut = props.protectionCut.value;
-        if (props.protectionStab.enabled)      armor->Protection_Stab = props.protectionStab.value;
-        if (props.materialDensity.enabled)     armor->Material_Density = props.materialDensity.value;
-        if (props.massScale.enabled)           armor->Mass_Scale = props.massScale.value;
-        if (props.handsRigidity.enabled)       armor->Hands_Rigidity__Gauntlets_ = props.handsRigidity.value;
-        if (props.strapPower.enabled)          armor->Strap_Power__Helmet_ = props.strapPower.value;
+        if (props.protectionBlunt.enabled) armor->Protection_Blunt = props.protectionBlunt.value;
+        if (props.protectionCut.enabled) armor->Protection_Cut = props.protectionCut.value;
+        if (props.protectionStab.enabled) armor->Protection_Stab = props.protectionStab.value;
+        if (props.materialDensity.enabled) armor->Material_Density = props.materialDensity.value;
+        if (props.massScale.enabled) armor->Mass_Scale = props.massScale.value;
+        if (props.handsRigidity.enabled) armor->Hands_Rigidity__Gauntlets_ = props.handsRigidity.value;
+        if (props.strapPower.enabled) armor->Strap_Power__Helmet_ = props.strapPower.value;
         if (props.aiInvincibilityRate.enabled) armor->AI_Invinvcibility_Rate = props.aiInvincibilityRate.value;
-        if (props.price.enabled)               armor->Price = props.price.value;
-        if (props.pickUp.enabled)              armor->Pick_Up = props.pickUp.value;
+        if (props.price.enabled) armor->Price = props.price.value;
+        if (props.pickUp.enabled) armor->Pick_Up = props.pickUp.value;
     }
 
     int CountActiveOverrides() const {
-        const bool flags[] = {
-            runtimeProps.protectionBlunt.enabled, runtimeProps.protectionCut.enabled,
-            runtimeProps.protectionStab.enabled, runtimeProps.materialDensity.enabled,
-            runtimeProps.massScale.enabled, runtimeProps.handsRigidity.enabled,
-            runtimeProps.strapPower.enabled, runtimeProps.aiInvincibilityRate.enabled,
-            runtimeProps.price.enabled, runtimeProps.pickUp.enabled
-        };
+        const bool flags[] = {runtimeProps.protectionBlunt.enabled, runtimeProps.protectionCut.enabled,
+                              runtimeProps.protectionStab.enabled,  runtimeProps.materialDensity.enabled,
+                              runtimeProps.massScale.enabled,       runtimeProps.handsRigidity.enabled,
+                              runtimeProps.strapPower.enabled,      runtimeProps.aiInvincibilityRate.enabled,
+                              runtimeProps.price.enabled,           runtimeProps.pickUp.enabled};
         int count = 0;
-        for (bool f : flags) count += f;
+        for (bool f : flags)
+            count += f;
         return count;
     }
 
@@ -151,7 +150,10 @@ private:
         auto props = runtimeProps;
         bool hasOverrides = CountActiveOverrides() > 0;
 
-        Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale), cfg.spawn.snapToGround,
+        Spawner::SpawnArmorFromPassport(
+            world, armorPassport,
+            Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
+            cfg.spawn.snapToGround,
             [this, props, hasOverrides](SDK::AActor* actor) {
                 if (!cfg.preview.livePreview) {
                     actor->K2_DestroyActor();
@@ -159,30 +161,29 @@ private:
                 }
                 auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
                 armor->Simulates_Physics = false;
-                if (armor->Armor_Mesh_Static)
-                    armor->Armor_Mesh_Static->SetSimulatePhysics(false);
-                if (armor->Armor_Mesh_Skeletal)
-                    armor->Armor_Mesh_Skeletal->SetAllBodiesSimulatePhysics(false);
-                if (armor->Armor_Mesh_Primitive)
-                    armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
+                if (armor->Armor_Mesh_Static) armor->Armor_Mesh_Static->SetSimulatePhysics(false);
+                if (armor->Armor_Mesh_Skeletal) armor->Armor_Mesh_Skeletal->SetAllBodiesSimulatePhysics(false);
+                if (armor->Armor_Mesh_Primitive) armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyRuntimeProps(actor, props);
                 preview.SetPreviewActor(actor);
-                if (cfg.preview.autoRotate)
-                    actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
-            });
+                if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
+            }
+        );
     }
 
     static bool PassportChanged(const SDK::FStr_Passport_Armor1& a, const SDK::FStr_Passport_Armor1& b) {
-        static constexpr size_t BEFORE_TMAP = offsetof(SDK::FStr_Passport_Armor1, SlotsBlocked_45_0807340240E57ACE5A59D39F5E998F51);
-        static constexpr size_t AFTER_TMAP = offsetof(SDK::FStr_Passport_Armor1, RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A);
+        static constexpr size_t BEFORE_TMAP =
+            offsetof(SDK::FStr_Passport_Armor1, SlotsBlocked_45_0807340240E57ACE5A59D39F5E998F51);
+        static constexpr size_t AFTER_TMAP =
+            offsetof(SDK::FStr_Passport_Armor1, RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A);
         static constexpr size_t TAIL_SIZE = sizeof(SDK::FStr_Passport_Armor1) - AFTER_TMAP;
 
         if (std::memcmp(&a, &b, BEFORE_TMAP) != 0) return true;
         return std::memcmp(
-            reinterpret_cast<const char*>(&a) + AFTER_TMAP,
-            reinterpret_cast<const char*>(&b) + AFTER_TMAP,
-            TAIL_SIZE) != 0;
+                   reinterpret_cast<const char*>(&a) + AFTER_TMAP, reinterpret_cast<const char*>(&b) + AFTER_TMAP,
+                   TAIL_SIZE
+               ) != 0;
     }
 
     void SpawnFromPassport() {
@@ -203,7 +204,11 @@ private:
             };
         }
 
-        Spawner::SpawnArmorFromPassport(world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale), cfg.spawn.snapToGround, callback);
+        Spawner::SpawnArmorFromPassport(
+            world, armorPassport,
+            Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
+            cfg.spawn.snapToGround, callback
+        );
     }
 
     void RenderGenerationControls() {
@@ -222,8 +227,7 @@ private:
         ImGui::SetNextItemWidth(slotComboW);
         if (ImGui::BeginCombo("##Slot", ARMOR_SLOTS[cfg.armorSlotIndex].name)) {
             for (int i = 0; i < ARMOR_SLOT_COUNT; ++i) {
-                if (ImGui::Selectable(ARMOR_SLOTS[i].name, i == cfg.armorSlotIndex))
-                    cfg.armorSlotIndex = i;
+                if (ImGui::Selectable(ARMOR_SLOTS[i].name, i == cfg.armorSlotIndex)) cfg.armorSlotIndex = i;
                 if (i == cfg.armorSlotIndex) ImGui::SetItemDefaultFocus();
             }
             ImGui::EndCombo();
@@ -238,17 +242,14 @@ private:
 
         ImGui::Spacing();
         if (ImGui::Button("Generate")) {
-            if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
-                GenerateArmorPassport();
+            if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world)) GenerateArmorPassport();
         }
         ImGui::SameLine();
         if (ImGui::Button("Randomize")) {
-            if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
-                RandomizeArmorPassport();
+            if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world)) RandomizeArmorPassport();
         }
         ImGui::SameLine();
-        if (ImGui::Button("Reset"))
-            CreateBlankArmorPassport();
+        if (ImGui::Button("Reset")) CreateBlankArmorPassport();
 
         if (armorGenerationPending) {
             ImGui::SameLine();
@@ -275,20 +276,22 @@ private:
             return;
         }
 
-        ImGui::Checkbox("Core Removed",
-            &armorPassport.CoreRemoved_12_5CFF8F6D4A05C15812594CAF6771C66B);
+        ImGui::Checkbox("Core Removed", &armorPassport.CoreRemoved_12_5CFF8F6D4A05C15812594CAF6771C66B);
         TooltipHelper::ShowTooltip("Remove the core piece, keeping only attached modules");
 
         ImGui::Spacing();
-        GuiUtils::RenderModuleIndexCombo("Module 1",
-            armorPassport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4,
-            armorModules.modules1, moduleFilters[0], armorModules.cachedWidths[0]);
-        GuiUtils::RenderModuleIndexCombo("Module 2",
-            armorPassport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0,
-            armorModules.modules2, moduleFilters[1], armorModules.cachedWidths[1]);
-        GuiUtils::RenderModuleIndexCombo("Module 3",
-            armorPassport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2,
-            armorModules.modules3, moduleFilters[2], armorModules.cachedWidths[2]);
+        GuiUtils::RenderModuleIndexCombo(
+            "Module 1", armorPassport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4, armorModules.modules1,
+            moduleFilters[0], armorModules.cachedWidths[0]
+        );
+        GuiUtils::RenderModuleIndexCombo(
+            "Module 2", armorPassport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0, armorModules.modules2,
+            moduleFilters[1], armorModules.cachedWidths[1]
+        );
+        GuiUtils::RenderModuleIndexCombo(
+            "Module 3", armorPassport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2, armorModules.modules3,
+            moduleFilters[2], armorModules.cachedWidths[2]
+        );
 
         ImGui::PopID();
     }
@@ -297,10 +300,8 @@ private:
         ImGui::PushID("colors");
 
         ImGui::SeparatorText("Passport Fabric Colors");
-        GuiUtils::RenderColorEditor("Fabric Color 1",
-            armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393);
-        GuiUtils::RenderColorEditor("Fabric Color 2",
-            armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C);
+        GuiUtils::RenderColorEditor("Fabric Color 1", armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393);
+        GuiUtils::RenderColorEditor("Fabric Color 2", armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C);
 
         ImGui::PopID();
     }
@@ -317,8 +318,7 @@ private:
         ImGui::SeparatorText("Runtime Overrides");
         TooltipHelper::ShowTooltip("Override armor stats after spawning. Enable each to apply its value.");
 
-        if (ImGui::Button("Reset All Overrides"))
-            runtimeProps = {};
+        if (ImGui::Button("Reset All Overrides")) runtimeProps = {};
         TooltipHelper::ShowTooltip("Disable all runtime overrides");
         GuiUtils::RenderOverrideCount(CountActiveOverrides());
 
@@ -385,8 +385,7 @@ private:
         bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
         if (!canSpawn) ImGui::BeginDisabled();
         if (ImGui::Button("Spawn Armor", ImVec2(-1, 0))) {
-            if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world))
-                SpawnFromPassport();
+            if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world)) SpawnFromPassport();
         }
         if (!canSpawn) ImGui::EndDisabled();
     }
@@ -397,13 +396,20 @@ public:
 
         Function("Spawn Armor")
             .WithKey(&cfg.spawnKey)
-            .WithParams({
-                Parameter("snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"),
-                Parameter("distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f, "Spawn distance in front of player"),
-                Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
-                Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
-                Parameter("live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview armor as you edit")
-            })
+            .WithParams(
+                {Parameter(
+                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"
+                 ),
+                 Parameter(
+                     "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
+                     "Spawn distance in front of player"
+                 ),
+                 Parameter("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
+                 Parameter("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
+                 Parameter(
+                     "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview armor as you edit"
+                 )}
+            )
             .WithTooltip("Spawns the currently edited armor with runtime overrides applied")
             .Action([this]() { SpawnFromPassport(); }, player, world);
     }
@@ -421,10 +427,14 @@ public:
 
         RenderGenerationControls();
 
-        (void)GuiUtils::CheckboxWithTooltip("Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview armor that updates as you edit");
+        (void)GuiUtils::CheckboxWithTooltip(
+            "Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview armor that updates as you edit"
+        );
         if (cfg.preview.livePreview) {
             ImGui::SameLine();
-            (void)GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview armor");
+            (void)GuiUtils::CheckboxWithTooltip(
+                "Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview armor"
+            );
             if (cfg.preview.autoRotate) {
                 ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
                 ImGui::DragFloat("Rotation Speed", &cfg.preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
@@ -443,13 +453,14 @@ public:
         static constexpr const char* AE_TAB_LABELS[] = {"Modules", "Colors", "Stats", "Presets"};
         GuiUtils::RenderUnderlineTabs("##ArmorEditorTabs", activeTab, AE_TAB_LABELS, 4);
         switch (activeTab) {
-            case 0: RenderModulesTab();  break;
-            case 1: RenderColorsTab();   break;
-            case 2: RenderStatsTab();    break;
-            case 3: presets.RenderPresetsTab(
-                        [this]() { return BuildPresetData(); },
-                        [this](ArmorPresetData d) { ApplyPresetData(std::move(d)); });
-                    break;
+            case 0: RenderModulesTab(); break;
+            case 1: RenderColorsTab(); break;
+            case 2: RenderStatsTab(); break;
+            case 3:
+                presets.RenderPresetsTab(
+                    [this]() { return BuildPresetData(); }, [this](ArmorPresetData d) { ApplyPresetData(std::move(d)); }
+                );
+                break;
         }
 
         ImGui::EndChild();
@@ -457,8 +468,8 @@ public:
         RenderSpawnFooter();
 
         if (cfg.preview.livePreview) {
-            bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport)
-                            || std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(ArmorRuntimeProps)) != 0;
+            bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport) ||
+                               std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(ArmorRuntimeProps)) != 0;
             preview.Update(needsUpdate, [this]() { SpawnPreview(); });
             preview.Rotate();
         }

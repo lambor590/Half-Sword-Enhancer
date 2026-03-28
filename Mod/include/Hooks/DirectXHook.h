@@ -12,8 +12,7 @@ using Present = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
 using ResizeBuffers = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT);
 using ExecuteCommandLists = void(__stdcall*)(ID3D12CommandQueue*, UINT, const ID3D12CommandList**);
 
-class DirectXHook
-{
+class DirectXHook {
 public:
     ID3DRenderer* renderer;
     uintptr_t executeCommandListsAddress = 0;
@@ -24,12 +23,17 @@ public:
     DirectXHook(ID3DRenderer* renderer);
     void Hook();
     ID3D12CommandQueue* CreateDummyCommandQueue();
-    void HookCommandQueue(ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* outExecReturn);
+    void HookCommandQueue(
+        ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* outExecReturn
+    );
     void UnhookCommandQueue() const;
 
 private:
-    Logger logger{ "DirectXHook" };
+    Logger logger{"DirectXHook"};
 
     IDXGISwapChain* CreateDummySwapChain();
-    void HookSwapChain(IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn);
+    void HookSwapChain(
+        IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
+        uintptr_t* outPresentReturn, uintptr_t* outResizeReturn
+    );
 };

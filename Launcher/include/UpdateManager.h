@@ -30,9 +30,7 @@ namespace hse {
 
         [[nodiscard]] std::string ToString() const;
         [[nodiscard]] std::string ToCompactString() const;
-        [[nodiscard]] constexpr bool IsValid() const noexcept {
-            return major_ > 0 || minor_ > 0 || patch_ > 0;
-        }
+        [[nodiscard]] constexpr bool IsValid() const noexcept { return major_ > 0 || minor_ > 0 || patch_ > 0; }
 
         [[nodiscard]] constexpr std::uint16_t major() const noexcept { return major_; }
         [[nodiscard]] constexpr std::uint16_t minor() const noexcept { return minor_; }
@@ -80,24 +78,19 @@ namespace hse {
             const std::filesystem::path& gameBinPath
         ) noexcept;
         [[nodiscard]] std::expected<void, UpdateError> DownloadAndInstallMod(
-            const Version& version,
-            const std::filesystem::path& gameBinPath
+            const Version& version, const std::filesystem::path& gameBinPath
         ) noexcept;
         [[nodiscard]] std::expected<void, UpdateError> DownloadModToPath(
-            std::string_view downloadUrl,
-            const std::filesystem::path& outputPath,
-            std::uint32_t minFileSize = 300000
+            std::string_view downloadUrl, const std::filesystem::path& outputPath, std::uint32_t minFileSize = 300000
         ) noexcept;
         [[nodiscard]] std::expected<void, UpdateError> UpdateLauncher(
-            std::string_view downloadUrl,
-            std::string_view timestamp = {}
+            std::string_view downloadUrl, std::string_view timestamp = {}
         ) noexcept;
 
 #ifdef EXPERIMENTAL_VERSION
         [[nodiscard]] std::expected<ExperimentalUpdateInfo, UpdateError> CheckForExperimentalUpdates() noexcept;
         [[nodiscard]] std::expected<void, UpdateError> DownloadAndInstallExperimentalMod(
-            const ExperimentalUpdateInfo& info,
-            const std::filesystem::path& gameBinPath
+            const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath
         ) noexcept;
 #endif
 
@@ -123,9 +116,7 @@ namespace hse {
 
         [[nodiscard]] static std::string BuildReleaseUrl(std::string_view version, std::string_view filename);
         [[nodiscard]] std::expected<void, UpdateError> DownloadToTempAndInstall(
-            std::string_view modUrl,
-            std::string_view proxyUrl,
-            const std::filesystem::path& gameBinPath,
+            std::string_view modUrl, std::string_view proxyUrl, const std::filesystem::path& gameBinPath,
             std::uint32_t modMinSize = 300000
         ) noexcept;
         [[nodiscard]] std::expected<Version, UpdateError> ExtractVersionFromExecutable() const noexcept;
@@ -137,13 +128,11 @@ namespace hse {
 
 #ifdef EXPERIMENTAL_VERSION
         [[nodiscard]] std::expected<std::string_view, UpdateError> ExtractAssetObject(
-            std::string_view json,
-            std::string_view assetName
+            std::string_view json, std::string_view assetName
         ) const noexcept;
 
         [[nodiscard]] std::expected<std::string, UpdateError> ParseAssetField(
-            std::string_view assetObject,
-            std::string_view fieldName
+            std::string_view assetObject, std::string_view fieldName
         ) const noexcept;
 #endif
     };

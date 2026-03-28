@@ -14,24 +14,21 @@
 static Logger g_logger("BlueprintRegistry");
 
 static constexpr std::string_view VALID_ASSET_PREFIXES[] = {
-    "BP_GameWeapon_", "BP_Weapon_", "BP_Armor_", "BP_Container_",
-    "BP_Prop_", "BP_Fence_", "BP_Quiver_", "BP_Candle",
-    "Shield_", "Chain_BP", "Trap_",
+    "BP_GameWeapon_", "BP_Weapon_", "BP_Armor_", "BP_Container_", "BP_Prop_", "BP_Fence_",
+    "BP_Quiver_",     "BP_Candle",  "Shield_",   "Chain_BP",      "Trap_",
 };
 
 static std::string DisplayNameFromClassPath(const std::string& path) {
     size_t dotPos = path.rfind('.');
     if (dotPos == std::string::npos) return path;
     std::string name = path.substr(dotPos + 1);
-    if (name.size() > 2 && name.ends_with("_C"))
-        name.resize(name.size() - 2);
+    if (name.size() > 2 && name.ends_with("_C")) name.resize(name.size() - 2);
     return BlueprintRegistry::CleanDisplayName(name);
 }
 
 static bool HasValidAssetPrefix(const std::string& assetName) {
     for (auto prefix : VALID_ASSET_PREFIXES) {
-        if (assetName.compare(0, prefix.size(), prefix.data()) == 0)
-            return true;
+        if (assetName.compare(0, prefix.size(), prefix.data()) == 0) return true;
     }
     return false;
 }
@@ -47,8 +44,7 @@ void BlueprintRegistry::RequestRescan() {
     ScanState expected = ScanState::Complete;
     if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
         expected = ScanState::Failed;
-        if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel))
-            return;
+        if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) return;
     }
     tierScanDone = false;
     GameHook::QueueAction([this]() { PerformScan(); });
@@ -79,36 +75,28 @@ void BlueprintRegistry::PerformScan() {
                 auto& asset = results[i];
 
                 std::string packagePath = asset.PackagePath.GetRawString();
-                if (packagePath.find("/Game/") != 0)
-                    continue;
+                if (packagePath.find("/Game/") != 0) continue;
 
-                if (packagePath.find("/Game/Maps") == 0 ||
-                    packagePath.find("/Game/UI") == 0 ||
-                    packagePath.find("/Game/FX") == 0 ||
-                    packagePath.find("/Game/Audio") == 0 ||
-                    packagePath.find("/Game/Characters") == 0 ||
-                    packagePath.find("/Game/Cinematics") == 0) {
+                if (packagePath.find("/Game/Maps") == 0 || packagePath.find("/Game/UI") == 0 ||
+                    packagePath.find("/Game/FX") == 0 || packagePath.find("/Game/Audio") == 0 ||
+                    packagePath.find("/Game/Characters") == 0 || packagePath.find("/Game/Cinematics") == 0) {
                     continue;
                 }
 
-                uint64_t nameKey = (static_cast<uint64_t>(asset.PackageName.ComparisonIndex) << 32)
-                    | static_cast<uint64_t>(asset.PackageName.Number);
-                if (!seenIds.insert(nameKey).second)
-                    continue;
+                uint64_t nameKey = (static_cast<uint64_t>(asset.PackageName.ComparisonIndex) << 32) |
+                                   static_cast<uint64_t>(asset.PackageName.Number);
+                if (!seenIds.insert(nameKey).second) continue;
 
                 std::string packageName = asset.PackageName.GetRawString();
                 std::string assetName = asset.AssetName.ToString();
 
-                if (packagePath.find("/Game/Assets/") == 0 ||
-                    packagePath.find("/Game/Blueprints/") == 0) {
+                if (packagePath.find("/Game/Assets/") == 0 || packagePath.find("/Game/Blueprints/") == 0) {
                     if (!HasValidAssetPrefix(assetName)) continue;
                 }
 
-                if (assetName.find("BP_GameWeapon_Customizable_") == 0)
-                    continue;
+                if (assetName.find("BP_GameWeapon_Customizable_") == 0) continue;
 
-                if (assetName.find("_Master") != std::string::npos)
-                    continue;
+                if (assetName.find("_Master") != std::string::npos) continue;
 
                 auto [category, subcategory] = CategorizeByPath(packagePath, assetName);
                 if (category.empty()) continue;
@@ -167,7 +155,9 @@ uint16_t BlueprintRegistry::AddItem(BlueprintEntry entry, std::string_view categ
     return idx;
 }
 
-std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPath(const std::string& path, const std::string& assetName) {
+std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPath(
+    const std::string& path, const std::string& assetName
+) {
     if (path.find("/Weapons/") != std::string::npos) {
         if (path.find("/Tools/") != std::string::npos) return {"Weapons", "Tools"};
         if (path.find("/Reforged/") != std::string::npos) return {"Weapons", "Reforged"};
@@ -181,8 +171,7 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
     }
 
     if (path.find("/Modular_Armor") != std::string::npos) {
-        if (assetName.find("Module_") != std::string::npos)
-            return {};
+        if (assetName.find("Module_") != std::string::npos) return {};
         if (assetName.find("_Head_") != std::string::npos) return {"Modular Armor", "Head"};
         if (assetName.find("_Body_") != std::string::npos || assetName.find("_Chest_") != std::string::npos)
             return {"Modular Armor", "Body"};
@@ -196,8 +185,7 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
         return {"Modular Armor", "Other"};
     }
 
-    if (path.find("/Armor/") != std::string::npos)
-        return {};
+    if (path.find("/Armor/") != std::string::npos) return {};
 
     if (path.find("/Props/") != std::string::npos) {
         if (path.find("/Lights/") != std::string::npos) return {"Props", "Lights"};
@@ -226,23 +214,42 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
 std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
     std::string name{assetName};
 
-    static constexpr std::string_view prefixes[] = {
-        "BP_GameWeapon_Customizable_", "BP_GameWeapon_",
-        "BP_Weapon_Reforged_", "BP_Weapon_Tool_", "BP_Weapon_Improv_",
-        "BP_Weapon_Ranged_Weapon_", "BP_Weapon_Ranged_Projectle_",
-        "BP_Weapon_Treasure_", "BP_Weapon_",
-        "ModularWeaponBP_Tool_", "ModularWeaponBP_",
-        "BP_Armor_Modular_Core_", "BP_Armor_Modular_Module_",
-        "BP_Armor_Head_Hat_", "BP_Armor_Head_",
-        "BP_Armor_Body_Doublet_", "BP_Armor_Body_",
-        "BP_Armor_Arms_", "BP_Armor_Legs_Hosen_", "BP_Armor_Legs_",
-        "BP_Armor_Hands_", "BP_Armor_Feet_", "BP_Armor_Neck_",
-        "BP_Armor_Shoulders_", "BP_Armor_",
-        "BP_Container_", "BP_Prop_Light_", "BP_Prop_Furniture_",
-        "BP_Prop_Smithing_", "BP_Prop_Construction_",
-        "BP_Fence_", "BP_Quiver_", "BP_Candle",
-        "BP_", "Shield_"
-    };
+    static constexpr std::string_view prefixes[] =
+        {"BP_GameWeapon_Customizable_",
+         "BP_GameWeapon_",
+         "BP_Weapon_Reforged_",
+         "BP_Weapon_Tool_",
+         "BP_Weapon_Improv_",
+         "BP_Weapon_Ranged_Weapon_",
+         "BP_Weapon_Ranged_Projectle_",
+         "BP_Weapon_Treasure_",
+         "BP_Weapon_",
+         "ModularWeaponBP_Tool_",
+         "ModularWeaponBP_",
+         "BP_Armor_Modular_Core_",
+         "BP_Armor_Modular_Module_",
+         "BP_Armor_Head_Hat_",
+         "BP_Armor_Head_",
+         "BP_Armor_Body_Doublet_",
+         "BP_Armor_Body_",
+         "BP_Armor_Arms_",
+         "BP_Armor_Legs_Hosen_",
+         "BP_Armor_Legs_",
+         "BP_Armor_Hands_",
+         "BP_Armor_Feet_",
+         "BP_Armor_Neck_",
+         "BP_Armor_Shoulders_",
+         "BP_Armor_",
+         "BP_Container_",
+         "BP_Prop_Light_",
+         "BP_Prop_Furniture_",
+         "BP_Prop_Smithing_",
+         "BP_Prop_Construction_",
+         "BP_Fence_",
+         "BP_Quiver_",
+         "BP_Candle",
+         "BP_",
+         "Shield_"};
 
     for (auto prefix : prefixes) {
         if (name.size() > prefix.size() && name.compare(0, prefix.size(), prefix.data()) == 0) {
@@ -256,9 +263,12 @@ std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
     }
 
     auto start = name.find_first_not_of(' ');
-    if (start == std::string::npos) { name.clear(); }
-    else if (start > 0) name.erase(0, start);
-    while (!name.empty() && name.back() == ' ') name.pop_back();
+    if (start == std::string::npos) {
+        name.clear();
+    } else if (start > 0)
+        name.erase(0, start);
+    while (!name.empty() && name.back() == ' ')
+        name.pop_back();
 
     if (name.empty()) name = std::string{assetName};
     return name;
@@ -291,10 +301,10 @@ void BlueprintRegistry::ScanWeaponTiers() {
     for (int w = 1; w <= GameConstants::WEAPON_TYPE_COUNT; ++w) {
         for (int tier = 0; tier <= 8; ++tier) {
             passport = EquipmentGenerator::GenerateCustomizableWeapon(
-                static_cast<CustomizableWeapon>(w), static_cast<SDK::Enum_Ranks>(tier));
+                static_cast<CustomizableWeapon>(w), static_cast<SDK::Enum_Ranks>(tier)
+            );
 
-            if (passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 != nullptr)
-                scannedMasks[w] |= (1 << tier);
+            if (passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 != nullptr) scannedMasks[w] |= (1 << tier);
         }
     }
 
@@ -307,8 +317,10 @@ void BlueprintRegistry::ScanWeaponTiers() {
 }
 
 void BlueprintRegistry::InjectCustomizableWeapons() {
-    static_assert(static_cast<int>(CustomizableWeapon::Messer) == GameConstants::WEAPON_TYPE_COUNT,
-        "WEAPON_TYPE_NAMES must match CustomizableWeapon enum range");
+    static_assert(
+        static_cast<int>(CustomizableWeapon::Messer) == GameConstants::WEAPON_TYPE_COUNT,
+        "WEAPON_TYPE_NAMES must match CustomizableWeapon enum range"
+    );
     for (int i = 0; i < GameConstants::WEAPON_TYPE_COUNT; ++i) {
         BlueprintEntry entry;
         entry.displayName = GameConstants::WEAPON_TYPE_NAMES[i];
@@ -329,27 +341,25 @@ void BlueprintRegistry::InjectCustomPaths() {
 }
 
 void BlueprintRegistry::SortCategories() {
-    static const char* CATEGORY_ORDER[] = {
-        "Weapons", "Modular Armor", "Props"
-    };
+    static const char* CATEGORY_ORDER[] = {"Weapons", "Modular Armor", "Props"};
     static constexpr size_t ORDER_COUNT = sizeof(CATEGORY_ORDER) / sizeof(CATEGORY_ORDER[0]);
 
-    std::ranges::sort(categories,
-        [](const CategoryData& a, const CategoryData& b) {
-            auto orderOf = [](const std::string& name) -> int {
-                for (size_t i = 0; i < ORDER_COUNT; ++i) {
-                    if (name == CATEGORY_ORDER[i]) return static_cast<int>(i);
-                }
-                return static_cast<int>(ORDER_COUNT);
-            };
-            int oa = orderOf(a.name), ob = orderOf(b.name);
-            if (oa != ob) return oa < ob;
-            return a.name < b.name;
-        });
+    std::ranges::sort(categories, [](const CategoryData& a, const CategoryData& b) {
+        auto orderOf = [](const std::string& name) -> int {
+            for (size_t i = 0; i < ORDER_COUNT; ++i) {
+                if (name == CATEGORY_ORDER[i]) return static_cast<int>(i);
+            }
+            return static_cast<int>(ORDER_COUNT);
+        };
+        int oa = orderOf(a.name), ob = orderOf(b.name);
+        if (oa != ob) return oa < ob;
+        return a.name < b.name;
+    });
 
     for (auto& cat : categories) {
-        std::ranges::sort(cat.subcategories,
-            [](const SubcategoryData& a, const SubcategoryData& b) { return a.name < b.name; });
+        std::ranges::sort(cat.subcategories, [](const SubcategoryData& a, const SubcategoryData& b) {
+            return a.name < b.name;
+        });
     }
 }
 
@@ -383,8 +393,7 @@ void BlueprintRegistry::LoadCustomPaths() {
         char key[16];
         std::snprintf(key, sizeof(key), "path_%d", i);
         std::string path = cfg.GetString("CustomBlueprints", key, "");
-        if (!path.empty())
-            customPaths.push_back(std::move(path));
+        if (!path.empty()) customPaths.push_back(std::move(path));
     }
 }
 
@@ -398,4 +407,3 @@ void BlueprintRegistry::SaveCustomPaths() {
     }
     cfg.SaveConfigDeferred();
 }
-

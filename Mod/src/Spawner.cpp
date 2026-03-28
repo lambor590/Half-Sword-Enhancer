@@ -20,30 +20,30 @@ namespace Spawner {
     namespace {
         std::unordered_map<std::string, SDK::UClass*> classCache;
 
-        constexpr std::array<std::pair<std::string_view, ActorType>, 14> TYPE_MAP = {{
-            {"Willie_BP", ActorType::Willie},
-            {"Customizable", ActorType::Weapon},
-            {"ModularWeapon", ActorType::Weapon},
-            {"BP_Weapon_Reforged", ActorType::Weapon},
-            {"Projectle", ActorType::Unknown},
-            {"BP_Weapon_Ranged", ActorType::Weapon},
-            {"BP_Weapon_Treasure", ActorType::Weapon},
-            {"BP_Weapon_Improv", ActorType::Weapon},
-            {"BP_GameWeapon", ActorType::Weapon},
-            {"Shield", ActorType::Shield},
-            {"Dagger", ActorType::Tool},
-            {"Tool", ActorType::Tool},
-            {"BP_Modular", ActorType::Armor},
-            {"Armor", ActorType::Armor}
-        }};
+        constexpr std::array<std::pair<std::string_view, ActorType>, 14> TYPE_MAP = {
+            {{"Willie_BP", ActorType::Willie},
+             {"Customizable", ActorType::Weapon},
+             {"ModularWeapon", ActorType::Weapon},
+             {"BP_Weapon_Reforged", ActorType::Weapon},
+             {"Projectle", ActorType::Unknown},
+             {"BP_Weapon_Ranged", ActorType::Weapon},
+             {"BP_Weapon_Treasure", ActorType::Weapon},
+             {"BP_Weapon_Improv", ActorType::Weapon},
+             {"BP_GameWeapon", ActorType::Weapon},
+             {"Shield", ActorType::Shield},
+             {"Dagger", ActorType::Tool},
+             {"Tool", ActorType::Tool},
+             {"BP_Modular", ActorType::Armor},
+             {"Armor", ActorType::Armor}}
+        };
 
         constexpr std::array<float, 6> GROUND_OFFSETS = {{
-            50.0f,  // Willie
-            5.0f,   // Weapon
-            5.0f,   // Shield
-            3.0f,   // Tool
-            5.0f,   // Armor
-            10.0f   // Unknown
+            50.0f, // Willie
+            5.0f,  // Weapon
+            5.0f,  // Shield
+            3.0f,  // Tool
+            5.0f,  // Armor
+            10.0f  // Unknown
         }};
     }
 
@@ -63,18 +63,20 @@ namespace Spawner {
 
     static SDK::UClass* LoadActorClass(const std::string& classPath) {
         auto [it, inserted] = classCache.try_emplace(classPath, nullptr);
-        if (!inserted)
-            return it->second;
+        if (!inserted) return it->second;
 
         std::wstring wClassName(classPath.begin(), classPath.end());
         SDK::FString classPathFStr(wClassName.c_str());
         SDK::FSoftClassPath softClassPath = SDK::UKismetSystemLibrary::MakeSoftClassPath(classPathFStr);
-        SDK::TSoftClassPtr<SDK::UClass> softClassRef = SDK::UKismetSystemLibrary::Conv_SoftClassPathToSoftClassRef(softClassPath);
+        SDK::TSoftClassPtr<SDK::UClass> softClassRef =
+            SDK::UKismetSystemLibrary::Conv_SoftClassPathToSoftClassRef(softClassPath);
         it->second = SDK::UKismetSystemLibrary::LoadClassAsset_Blocking(softClassRef);
         return it->second;
     }
 
-    static SDK::AActor* SpawnModularWeapon(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform, SDK::Enum_Ranks tier) {
+    static SDK::AActor* SpawnModularWeapon(
+        const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform, SDK::Enum_Ranks tier
+    ) {
         if (!actorClass) return nullptr;
 
         EquipmentGenerator::Init(world);
@@ -82,69 +84,86 @@ namespace Spawner {
         if (!EquipmentGenerator::IsPassportValid(passport)) return nullptr;
 
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            world, actorClass, transform,
-            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            world, actorClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         if (!actor) return nullptr;
 
         auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
         weapon->Weapon_Passport = passport;
 
-        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        SDK::UGameplayStatics::FinishSpawningActor(
+            actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
 
         return actor;
     }
 
-    static SDK::AActor* SpawnModularArmor(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform) {
+    static SDK::AActor* SpawnModularArmor(
+        const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform
+    ) {
         SDK::FStr_Passport_Armor1 passport{};
         passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = actorClass;
 
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            world, actorClass, transform,
-            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            world, actorClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         if (!actor) return nullptr;
 
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
         armor->Armor_Passport = passport;
         armor->World_Transform = transform;
 
-        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        SDK::UGameplayStatics::FinishSpawningActor(
+            actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         return actor;
     }
 
-    static SDK::AActor* SpawnWeaponWithPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform) {
+    static SDK::AActor* SpawnWeaponWithPassport(
+        const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform
+    ) {
         SDK::UClass* weaponClass = passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC;
         if (!weaponClass) return nullptr;
 
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            world, weaponClass, transform,
-            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            world, weaponClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         if (!actor) return nullptr;
 
         auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
         weapon->Weapon_Passport = passport;
 
-        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        SDK::UGameplayStatics::FinishSpawningActor(
+            actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
 
         return actor;
     }
 
-    static SDK::AActor* DeferredSpawn(const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> preFinishCallback = nullptr) {
+    static SDK::AActor* DeferredSpawn(
+        const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform,
+        std::function<void(SDK::AActor*)> preFinishCallback = nullptr
+    ) {
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            world, actorClass, transform,
-            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            world, actorClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         if (!actor) return nullptr;
 
         if (preFinishCallback) preFinishCallback(actor);
 
-        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        SDK::UGameplayStatics::FinishSpawningActor(
+            actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         return actor;
     }
 
-    SDK::FVector GetGroundPosition(const SDK::UWorld* world, SDK::FVector position, float groundOffset, float traceDistance) {
+    SDK::FVector GetGroundPosition(
+        const SDK::UWorld* world, SDK::FVector position, float groundOffset, float traceDistance
+    ) {
         SDK::FHitResult hitResult;
         SDK::FVector startPos = position;
         startPos.Z += traceDistance * 0.5f;
@@ -156,18 +175,8 @@ namespace Spawner {
         objectTypes.Add(SDK::EObjectTypeQuery::ObjectTypeQuery1);
 
         bool hit = SDK::UKismetSystemLibrary::LineTraceSingleForObjects(
-            world,
-            startPos,
-            endPos,
-            objectTypes,
-            true,
-            actorsToIgnore,
-            SDK::EDrawDebugTrace::None,
-            &hitResult,
-            true,
-            SDK::FLinearColor(1.0f, 0.0f, 0.0f, 1.0f),
-            SDK::FLinearColor(0.0f, 1.0f, 0.0f, 1.0f),
-            1.0f
+            world, startPos, endPos, objectTypes, true, actorsToIgnore, SDK::EDrawDebugTrace::None, &hitResult, true,
+            SDK::FLinearColor(1.0f, 0.0f, 0.0f, 1.0f), SDK::FLinearColor(0.0f, 1.0f, 0.0f, 1.0f), 1.0f
         );
 
         if (hit && hitResult.bBlockingHit) {
@@ -191,8 +200,13 @@ namespace Spawner {
         EquipmentGenerator::ClearCache();
     }
 
-    void SpawnActor(const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform, std::function<void(SDK::AActor*)> callback, bool snapToGround, int tier, std::function<void(SDK::AActor*)> postSpawnCallback) {
-        GameHook::QueueAction([world, className, transform, callback = std::move(callback), snapToGround, tier, postSpawnCallback = std::move(postSpawnCallback)]() {
+    void SpawnActor(
+        const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
+        std::function<void(SDK::AActor*)> callback, bool snapToGround, int tier,
+        std::function<void(SDK::AActor*)> postSpawnCallback
+    ) {
+        GameHook::QueueAction([world, className, transform, callback = std::move(callback), snapToGround, tier,
+                               postSpawnCallback = std::move(postSpawnCallback)]() {
             SDK::FTransform finalTransform = transform;
             ActorType actorType = GetActorType(className);
 
@@ -207,19 +221,17 @@ namespace Spawner {
             if (actorType == ActorType::Armor && !actorClass->IsSubclassOf(SDK::ABP_Armor_Master_C::StaticClass()))
                 actorType = ActorType::Unknown;
 
-            if (snapToGround)
-                ApplySnapToGround(world, finalTransform, actorType);
+            if (snapToGround) ApplySnapToGround(world, finalTransform, actorType);
 
             SDK::AActor* spawnedActor = nullptr;
 
             if (actorType == ActorType::Weapon) {
-                spawnedActor = SpawnModularWeapon(world, actorClass, finalTransform, static_cast<SDK::Enum_Ranks>(tier));
-                if (!spawnedActor)
-                    spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
+                spawnedActor =
+                    SpawnModularWeapon(world, actorClass, finalTransform, static_cast<SDK::Enum_Ranks>(tier));
+                if (!spawnedActor) spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Armor) {
                 spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
-                if (!spawnedActor)
-                    spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
+                if (!spawnedActor) spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Willie) {
                 SDK::AActor* actor = DeferredSpawn(world, actorClass, finalTransform, callback);
                 if (actor && postSpawnCallback) postSpawnCallback(actor);
@@ -232,41 +244,49 @@ namespace Spawner {
         });
     }
 
-    void SpawnWeaponFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround) {
+    void SpawnWeaponFromPassport(
+        const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform,
+        bool snapToGround
+    ) {
         GameHook::QueueAction([world, passport, transform, snapToGround]() {
             SDK::FTransform finalTransform = transform;
 
-            if (snapToGround)
-                ApplySnapToGround(world, finalTransform, ActorType::Weapon);
+            if (snapToGround) ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
             SpawnWeaponWithPassport(world, passport, finalTransform);
         });
     }
 
-    static SDK::AActor* SpawnArmorWithPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform) {
+    static SDK::AActor* SpawnArmorWithPassport(
+        const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform
+    ) {
         SDK::UClass* armorClass = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
         if (!armorClass) return nullptr;
 
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            world, armorClass, transform,
-            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            world, armorClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         if (!actor) return nullptr;
 
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
         armor->Armor_Passport = passport;
         armor->World_Transform = transform;
 
-        SDK::UGameplayStatics::FinishSpawningActor(actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        SDK::UGameplayStatics::FinishSpawningActor(
+            actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         return actor;
     }
 
-    void SpawnArmorFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform, bool snapToGround, std::function<void(SDK::AActor*)> callback) {
+    void SpawnArmorFromPassport(
+        const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,
+        bool snapToGround, std::function<void(SDK::AActor*)> callback
+    ) {
         GameHook::QueueAction([world, passport, transform, snapToGround, callback = std::move(callback)]() {
             SDK::FTransform finalTransform = transform;
 
-            if (snapToGround)
-                ApplySnapToGround(world, finalTransform, ActorType::Armor);
+            if (snapToGround) ApplySnapToGround(world, finalTransform, ActorType::Armor);
 
             SDK::AActor* actor = SpawnArmorWithPassport(world, passport, finalTransform);
             if (callback && actor) callback(actor);
@@ -277,35 +297,41 @@ namespace Spawner {
         return LoadActorClass(classPath);
     }
 
-    void SpawnCustomizableFromPassport(const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform, bool snapToGround, std::function<void(SDK::AActor*)> callback) {
+    void SpawnCustomizableFromPassport(
+        const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform,
+        bool snapToGround, std::function<void(SDK::AActor*)> callback
+    ) {
         GameHook::QueueAction([world, passport, transform, snapToGround, callback = std::move(callback)]() {
             if (!EquipmentGenerator::IsPassportValid(passport)) return;
 
             SDK::FTransform finalTransform = transform;
 
-            if (snapToGround)
-                ApplySnapToGround(world, finalTransform, ActorType::Weapon);
+            if (snapToGround) ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
             SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();
             auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
                 world, weaponClass, finalTransform,
-                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn, nullptr,
+                SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
             if (!actor) return;
 
             static_cast<SDK::AModularWeaponBP_Customizable_C*>(actor)->Weapon_Passport = passport;
-            SDK::UGameplayStatics::FinishSpawningActor(actor, finalTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            SDK::UGameplayStatics::FinishSpawningActor(
+                actor, finalTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
 
             if (callback) callback(actor);
         });
     }
 
-    void SpawnCustomizableWeapon(const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround, int tier) {
+    void SpawnCustomizableWeapon(
+        const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround, int tier
+    ) {
         GameHook::QueueAction([world, type, transform, snapToGround, tier]() {
             SDK::FTransform finalTransform = transform;
 
-            if (snapToGround)
-                ApplySnapToGround(world, finalTransform, ActorType::Weapon);
+            if (snapToGround) ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
             EquipmentGenerator::Init(world);
             auto passport = EquipmentGenerator::GenerateCustomizableWeapon(type, static_cast<SDK::Enum_Ranks>(tier));
@@ -314,16 +340,21 @@ namespace Spawner {
             SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();
             auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
                 world, weaponClass, finalTransform,
-                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-                nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+                SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn, nullptr,
+                SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
             if (!actor) return;
 
             static_cast<SDK::AModularWeaponBP_Customizable_C*>(actor)->Weapon_Passport = passport;
-            SDK::UGameplayStatics::FinishSpawningActor(actor, finalTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            SDK::UGameplayStatics::FinishSpawningActor(
+                actor, finalTransform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+            );
         });
     }
 
-    bool SpawnAndEquipArmor(const SDK::UWorld* world, SDK::AWillie_BP_C* willie, const SDK::FStr_Passport_Armor1& passport) {
+    bool SpawnAndEquipArmor(
+        const SDK::UWorld* world, SDK::AWillie_BP_C* willie, const SDK::FStr_Passport_Armor1& passport
+    ) {
         auto* armorClass = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
         if (!armorClass) return false;
 
@@ -331,24 +362,27 @@ namespace Spawner {
         transform.Scale3D = {1.0, 1.0, 1.0};
 
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            world, armorClass, transform,
-            SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
-            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+            world, armorClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
+            nullptr, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
         if (!actor) return false;
 
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
         armor->Armor_Passport = passport;
         armor->World_Transform = transform;
 
-        SDK::UGameplayStatics::FinishSpawningActor(actor, transform,
-            SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime);
+        SDK::UGameplayStatics::FinishSpawningActor(
+            actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
+        );
 
         bool pickedUp = false;
         willie->Pick_Up_Armor(armor->DefaultSceneRoot, armor, &pickedUp);
         return pickedUp;
     }
 
-    SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale) {
+    SDK::FTransform BuildSpawnTransform(
+        SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale
+    ) {
         auto transform = player->GetTransform();
         const auto forward = player->GetActorForwardVector();
         transform.Translation.X += forward.X * distanceForward;
