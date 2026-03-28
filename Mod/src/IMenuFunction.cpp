@@ -9,9 +9,9 @@
 #include "KeybindManager.h"
 
 HookedFunction::~HookedFunction() {
-    if (!isEnabled || !g_GameHook->IsHooked()) return;
+    if (!isEnabled || !GameHook::Get().IsHooked()) return;
     for (const auto evt : eventTypes) {
-        g_GameHook->UnregisterEvent(evt, this);
+        GameHook::Get().UnregisterEvent(evt, this);
     }
 }
 
@@ -32,9 +32,9 @@ void HookedFunction::SetEnabled(bool enabled) {
 
     for (const auto evt : eventTypes) {
         if (isEnabled) {
-            g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
+            GameHook::Get().RegisterEvent(evt, this, [this]() { callback(isEnabled); });
         } else {
-            g_GameHook->UnregisterEvent(evt, this);
+            GameHook::Get().UnregisterEvent(evt, this);
         }
     }
 
@@ -58,7 +58,7 @@ void HookedFunction::LoadConfig() {
 
     if (isEnabled) {
         for (const auto evt : eventTypes) {
-            g_GameHook->RegisterEvent(evt, this, [this]() { callback(isEnabled); });
+            GameHook::Get().RegisterEvent(evt, this, [this]() { callback(isEnabled); });
         }
     }
 

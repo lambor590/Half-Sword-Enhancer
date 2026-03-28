@@ -1,6 +1,7 @@
 #include <immintrin.h>
 
 #include "Render/Renderer.h"
+#include "Core/ModContext.h"
 #include "MemoryUtils.h"
 #include "Gui.h"
 
@@ -89,6 +90,7 @@ void Renderer::OnPresent(IDXGISwapChain* pThis) noexcept {
     if (!Gui::NeedsRendering()) [[likely]]
         return;
 
+    ModContext::Get().RefreshCache();
     (this->*state.renderFunc)();
 }
 

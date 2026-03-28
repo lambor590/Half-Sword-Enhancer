@@ -1,5 +1,4 @@
 #include "Hooks/GameHook.h"
-#include "GlobalDefinitions.h"
 #include "ConfigManager.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Utils/CompileTimeHash.h"
@@ -7,8 +6,6 @@
 
 #include <intrin.h>
 #include <cstring>
-
-static GameHook* hookInstance = &GameHook::Get();
 
 std::queue<std::function<void()>> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
@@ -116,18 +113,19 @@ void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, voi
         GameHook::ProcessGameThreadQueue();
     }
 
+    auto& hook = GameHook::Get();
     void* funcPtr = static_cast<void*>(pFunc);
     int8_t idx = g_peCache.Lookup(funcPtr);
 
     if (idx == ProcessEventCache::EMPTY) [[unlikely]] {
-        idx = ResolveAndCache(funcPtr, pFunc, hookInstance->hooks.data(), hookInstance->hookCount);
+        idx = ResolveAndCache(funcPtr, pFunc, hook.hooks.data(), hook.hookCount);
     }
 
     if (idx >= 0) [[unlikely]] {
-        hookInstance->hooks[idx].callback();
+        hook.hooks[idx].callback();
     }
 
-    return ((ProcessEvent)hookInstance->oProcessEvent)(pObject, pFunc, Parms);
+    return ((ProcessEvent)hook.oProcessEvent)(pObject, pFunc, Parms);
 }
 
 void GameHook::Hook() {
@@ -136,7 +134,7 @@ void GameHook::Hook() {
     processEventAddress = SDK::InSDKUtils::GetImageBase() + SDK::Offsets::ProcessEvent;
     oProcessEvent = processEventAddress;
 
-    MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&hookInstance->oProcessEvent);
+    MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&oProcessEvent);
 
     hooked = true;
 
