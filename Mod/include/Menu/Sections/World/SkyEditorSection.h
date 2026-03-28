@@ -65,11 +65,6 @@ private:
     float cloudShadowSamples = 1.0f;
     float cloudShadowDist = 50.0f;
 
-    bool timelapseActive = false;
-    float timelapseSpeed = 5.0f;
-    float timelapseYawSpeed = 1.0f;
-    float timelapseDirection = 1.0f;
-
     void ResetState() {
         sunActor = nullptr;
         sunComp = nullptr;
@@ -80,7 +75,6 @@ private:
         cachedWorld = nullptr;
         initialized = false;
         searchPending = false;
-        timelapseActive = false;
         infoText.clear();
         status = {};
     }
@@ -93,7 +87,9 @@ private:
             auto* lightComp = static_cast<SDK::ULightComponent*>(sunComp);
             sunIntensity = static_cast<SDK::ULightComponentBase*>(sunComp)->Intensity;
             auto lc = static_cast<SDK::ULightComponentBase*>(sunComp)->LightColor;
-            sunColor[0] = lc.R / 255.f; sunColor[1] = lc.G / 255.f; sunColor[2] = lc.B / 255.f;
+            sunColor[0] = lc.R / 255.f;
+            sunColor[1] = lc.G / 255.f;
+            sunColor[2] = lc.B / 255.f;
             sunTemperature = lightComp->Temperature;
             sunSourceAngle = sunComp->LightSourceAngle;
             sunSoftAngle = sunComp->LightSourceSoftAngle;
@@ -106,20 +102,30 @@ private:
         if (atmoComp) {
             rayleighScale = atmoComp->RayleighScatteringScale;
             auto& rs = atmoComp->RayleighScattering;
-            rayleighColor[0] = rs.R; rayleighColor[1] = rs.G; rayleighColor[2] = rs.B;
+            rayleighColor[0] = rs.R;
+            rayleighColor[1] = rs.G;
+            rayleighColor[2] = rs.B;
             mieScale = atmoComp->MieScatteringScale;
             mieAnisotropy = atmoComp->MieAnisotropy;
             multiScatter = atmoComp->MultiScatteringFactor;
             auto& sl = atmoComp->SkyLuminanceFactor;
-            skyLuminance[0] = sl.R; skyLuminance[1] = sl.G; skyLuminance[2] = sl.B; skyLuminance[3] = sl.A;
+            skyLuminance[0] = sl.R;
+            skyLuminance[1] = sl.G;
+            skyLuminance[2] = sl.B;
+            skyLuminance[3] = sl.A;
             atmoHeight = atmoComp->AtmosphereHeight;
         }
         if (skyLightComp) {
             skyLightIntensity = static_cast<SDK::ULightComponentBase*>(skyLightComp)->Intensity;
             auto lc = static_cast<SDK::ULightComponentBase*>(skyLightComp)->LightColor;
-            skyLightColor[0] = lc.R / 255.f; skyLightColor[1] = lc.G / 255.f; skyLightColor[2] = lc.B / 255.f;
+            skyLightColor[0] = lc.R / 255.f;
+            skyLightColor[1] = lc.G / 255.f;
+            skyLightColor[2] = lc.B / 255.f;
             auto& lh = skyLightComp->LowerHemisphereColor;
-            lowerHemiColor[0] = lh.R; lowerHemiColor[1] = lh.G; lowerHemiColor[2] = lh.B; lowerHemiColor[3] = lh.A;
+            lowerHemiColor[0] = lh.R;
+            lowerHemiColor[1] = lh.G;
+            lowerHemiColor[2] = lh.B;
+            lowerHemiColor[3] = lh.A;
         }
         if (fogComp) {
             fogDensity = fogComp->FogDensity;
@@ -127,7 +133,9 @@ private:
             fogMaxOpacity = fogComp->FogMaxOpacity;
             fogStartDist = fogComp->StartDistance;
             auto& fc = fogComp->FogInscatteringColor;
-            fogColor[0] = fc.R; fogColor[1] = fc.G; fogColor[2] = fc.B;
+            fogColor[0] = fc.R;
+            fogColor[1] = fc.G;
+            fogColor[2] = fc.B;
         }
         if (cloudComp) {
             cloudBottomAlt = cloudComp->LayerBottomAltitude;
@@ -153,37 +161,32 @@ private:
             auto* dl = SDK::UGameplayStatics::GetActorOfClass(cachedWorld, dlClass);
             if (dl) {
                 sunActor = dl;
-                sunComp = static_cast<SDK::UDirectionalLightComponent*>(
-                    static_cast<SDK::ALight*>(dl)->LightComponent);
+                sunComp = static_cast<SDK::UDirectionalLightComponent*>(static_cast<SDK::ALight*>(dl)->LightComponent);
             }
 
             auto* saClass = SDK::ASkyAtmosphere::StaticClass();
             auto* sa = SDK::UGameplayStatics::GetActorOfClass(cachedWorld, saClass);
-            if (sa)
-                atmoComp = static_cast<SDK::ASkyAtmosphere*>(sa)->SkyAtmosphereComponent;
+            if (sa) atmoComp = static_cast<SDK::ASkyAtmosphere*>(sa)->SkyAtmosphereComponent;
 
             auto* slClass = SDK::ASkyLight::StaticClass();
             auto* sl = SDK::UGameplayStatics::GetActorOfClass(cachedWorld, slClass);
-            if (sl)
-                skyLightComp = static_cast<SDK::ASkyLight*>(sl)->LightComponent;
+            if (sl) skyLightComp = static_cast<SDK::ASkyLight*>(sl)->LightComponent;
 
             auto* fgClass = SDK::AExponentialHeightFog::StaticClass();
             auto* fg = SDK::UGameplayStatics::GetActorOfClass(cachedWorld, fgClass);
-            if (fg)
-                fogComp = static_cast<SDK::AExponentialHeightFog*>(fg)->Component;
+            if (fg) fogComp = static_cast<SDK::AExponentialHeightFog*>(fg)->Component;
 
             auto* vcClass = SDK::AVolumetricCloud::StaticClass();
             auto* vc = SDK::UGameplayStatics::GetActorOfClass(cachedWorld, vcClass);
-            if (vc)
-                cloudComp = static_cast<SDK::AVolumetricCloud*>(vc)->VolumetricCloudComponent;
+            if (vc) cloudComp = static_cast<SDK::AVolumetricCloud*>(vc)->VolumetricCloudComponent;
 
             componentsReady.store(true, std::memory_order_release);
         });
     }
 
-    void ApplySunRotation() {
+    void ApplySunRotation(bool recapture = true) {
         auto* comp = static_cast<SDK::USceneComponent*>(sunComp);
-        auto* sl = skyLightComp;
+        auto* sl = recapture ? skyLightComp : nullptr;
         float p = sunPitch, y = sunYaw;
         GameHook::QueueAction([comp, sl, p, y]() {
             comp->K2_SetWorldRotation(SDK::FRotator{p, y, 0.0}, false, nullptr, false);
@@ -283,14 +286,18 @@ private:
     }
 
     void RenderSunTab() {
-        if (!sunComp) { ImGui::TextDisabled("DirectionalLight not found"); return; }
+        if (!sunComp) {
+            ImGui::TextDisabled("DirectionalLight not found");
+            return;
+        }
         ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
-        if (ImGui::DragFloat("Intensity", &sunIntensity, 0.1f, 0.0f, 0.0f, "%.1f"))
-            ApplySunLight();
+        if (ImGui::DragFloat("Intensity", &sunIntensity, 0.1f, 0.0f, 0.0f, "%.1f")) ApplySunLight();
         float col[3] = {sunColor[0], sunColor[1], sunColor[2]};
         ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
         if (ImGui::ColorEdit3("Color", col)) {
-            sunColor[0] = col[0]; sunColor[1] = col[1]; sunColor[2] = col[2];
+            sunColor[0] = col[0];
+            sunColor[1] = col[1];
+            sunColor[2] = col[2];
             ApplySunLight();
         }
         ImGui::PopItemWidth();
@@ -323,14 +330,19 @@ private:
     }
 
     void RenderAtmoTab() {
-        if (!atmoComp) { ImGui::TextDisabled("SkyAtmosphere not found"); return; }
+        if (!atmoComp) {
+            ImGui::TextDisabled("SkyAtmosphere not found");
+            return;
+        }
         bool changed = false;
         ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
         changed |= ImGui::DragFloat("Rayleigh Scale", &rayleighScale, 0.01f, 0.0f, 0.0f, "%.3f");
         float rc[3] = {rayleighColor[0], rayleighColor[1], rayleighColor[2]};
         ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
         if (ImGui::ColorEdit3("Rayleigh Color", rc)) {
-            rayleighColor[0] = rc[0]; rayleighColor[1] = rc[1]; rayleighColor[2] = rc[2];
+            rayleighColor[0] = rc[0];
+            rayleighColor[1] = rc[1];
+            rayleighColor[2] = rc[2];
             changed = true;
         }
         ImGui::PopItemWidth();
@@ -345,7 +357,10 @@ private:
         float sl[4] = {skyLuminance[0], skyLuminance[1], skyLuminance[2], skyLuminance[3]};
         ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
         if (ImGui::ColorEdit4("Sky Luminance", sl)) {
-            skyLuminance[0] = sl[0]; skyLuminance[1] = sl[1]; skyLuminance[2] = sl[2]; skyLuminance[3] = sl[3];
+            skyLuminance[0] = sl[0];
+            skyLuminance[1] = sl[1];
+            skyLuminance[2] = sl[2];
+            skyLuminance[3] = sl[3];
             changed = true;
         }
         ImGui::PopItemWidth();
@@ -353,21 +368,29 @@ private:
     }
 
     void RenderSkyLightTab() {
-        if (!skyLightComp) { ImGui::TextDisabled("SkyLight not found"); return; }
+        if (!skyLightComp) {
+            ImGui::TextDisabled("SkyLight not found");
+            return;
+        }
         bool changed = false;
         ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
         changed |= ImGui::DragFloat("Intensity", &skyLightIntensity, 0.01f, 0.0f, 0.0f, "%.3f");
         float col[3] = {skyLightColor[0], skyLightColor[1], skyLightColor[2]};
         ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
         if (ImGui::ColorEdit3("Color", col)) {
-            skyLightColor[0] = col[0]; skyLightColor[1] = col[1]; skyLightColor[2] = col[2];
+            skyLightColor[0] = col[0];
+            skyLightColor[1] = col[1];
+            skyLightColor[2] = col[2];
             changed = true;
         }
         ImGui::PopItemWidth();
         float lh[4] = {lowerHemiColor[0], lowerHemiColor[1], lowerHemiColor[2], lowerHemiColor[3]};
         ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
         if (ImGui::ColorEdit4("Lower Hemisphere", lh)) {
-            lowerHemiColor[0] = lh[0]; lowerHemiColor[1] = lh[1]; lowerHemiColor[2] = lh[2]; lowerHemiColor[3] = lh[3];
+            lowerHemiColor[0] = lh[0];
+            lowerHemiColor[1] = lh[1];
+            lowerHemiColor[2] = lh[2];
+            lowerHemiColor[3] = lh[3];
             changed = true;
         }
         ImGui::PopItemWidth();
@@ -375,7 +398,10 @@ private:
     }
 
     void RenderFogTab() {
-        if (!fogComp) { ImGui::TextDisabled("Fog not found"); return; }
+        if (!fogComp) {
+            ImGui::TextDisabled("Fog not found");
+            return;
+        }
         bool changed = false;
         ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
         changed |= ImGui::DragFloat("Density", &fogDensity, 0.001f, 0.0f, 0.0f, "%.4f");
@@ -388,7 +414,9 @@ private:
         float col[3] = {fogColor[0], fogColor[1], fogColor[2]};
         ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
         if (ImGui::ColorEdit3("Inscattering Color", col)) {
-            fogColor[0] = col[0]; fogColor[1] = col[1]; fogColor[2] = col[2];
+            fogColor[0] = col[0];
+            fogColor[1] = col[1];
+            fogColor[2] = col[2];
             changed = true;
         }
         ImGui::PopItemWidth();
@@ -396,7 +424,10 @@ private:
     }
 
     void RenderCloudsTab() {
-        if (!cloudComp) { ImGui::TextDisabled("VolumetricCloud not found"); return; }
+        if (!cloudComp) {
+            ImGui::TextDisabled("VolumetricCloud not found");
+            return;
+        }
         bool changed = false;
         ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
         changed |= ImGui::DragFloat("Base Altitude", &cloudBottomAlt, 0.1f, 0.0f, 50.0f, "%.1f km");
@@ -420,28 +451,22 @@ public:
         const SectionStyle::StyleRAII style;
         ImGui::PushID("SkyEdit");
 
-        if (world != cachedWorld)
-            ResetState();
+        if (world != cachedWorld) ResetState();
 
         bool disabled = searchPending;
         if (disabled) ImGui::BeginDisabled();
-        if (ImGui::Button("Find Sky Components"))
-            FindComponents();
+        if (ImGui::Button("Find Sky Components")) FindComponents();
         if (disabled) ImGui::EndDisabled();
 
         if (!initialized && componentsReady.exchange(false, std::memory_order_acquire)) {
-            int found = (sunComp ? 1 : 0) + (atmoComp ? 1 : 0) +
-                        (skyLightComp ? 1 : 0) + (fogComp ? 1 : 0) +
+            int found = (sunComp ? 1 : 0) + (atmoComp ? 1 : 0) + (skyLightComp ? 1 : 0) + (fogComp ? 1 : 0) +
                         (cloudComp ? 1 : 0);
             if (found == 0) {
                 status.Set("No sky components found", true);
             } else {
                 ReadInitialValues();
-                infoText = std::string(sunComp ? "Sun " : "") +
-                           (atmoComp ? "Atmo " : "") +
-                           (skyLightComp ? "SkyLight " : "") +
-                           (fogComp ? "Fog " : "") +
-                           (cloudComp ? "Clouds" : "");
+                infoText = std::string(sunComp ? "Sun " : "") + (atmoComp ? "Atmo " : "") +
+                           (skyLightComp ? "SkyLight " : "") + (fogComp ? "Fog " : "") + (cloudComp ? "Clouds" : "");
                 initialized = true;
                 status.Set("Found " + std::to_string(found) + " components!");
             }
@@ -449,61 +474,38 @@ public:
         }
 
         status.Render();
-        if (!initialized) { ImGui::PopID(); return; }
+        if (!initialized) {
+            ImGui::PopID();
+            return;
+        }
 
         ImGui::TextDisabled("%s", infoText.c_str());
         ImGui::Spacing();
 
         if (sunActor) {
-            if (timelapseActive) {
-                float dt = ImGui::GetIO().DeltaTime;
-                sunPitch += timelapseDirection * timelapseSpeed * dt;
-                if (sunPitch >= 90.f)  { sunPitch = 90.f;  timelapseDirection = -1.f; }
-                if (sunPitch <= -90.f) { sunPitch = -90.f;  timelapseDirection = 1.f;  }
-                sunYaw += timelapseYawSpeed * dt;
-                if (sunYaw > 180.f)  sunYaw -= 360.f;
-                if (sunYaw < -180.f) sunYaw += 360.f;
-                ApplySunRotation();
-            }
-
-            if (timelapseActive) ImGui::BeginDisabled();
             ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
-            if (ImGui::SliderFloat("Sun Pitch", &sunPitch, -90.f, 90.f, "%.1f"))
-                ApplySunRotation();
+            if (ImGui::SliderFloat("Sun Pitch", &sunPitch, -90.f, 90.f, "%.1f")) ApplySunRotation();
             ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x * 0.6f);
-            if (ImGui::SliderFloat("Sun Yaw", &sunYaw, -180.f, 180.f, "%.1f"))
-                ApplySunRotation();
-            if (timelapseActive) ImGui::EndDisabled();
-
-            ImGui::Checkbox("Timelapse", &timelapseActive);
-            ImGui::SameLine();
-            ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
-            ImGui::DragFloat("Speed", &timelapseSpeed, 0.5f, 0.1f, 90.f, "%.1f deg/s");
-            ImGui::SameLine();
-            ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
-            ImGui::DragFloat("Yaw Speed", &timelapseYawSpeed, 0.1f, 0.0f, 30.f, "%.1f deg/s");
+            if (ImGui::SliderFloat("Sun Yaw", &sunYaw, -180.f, 180.f, "%.1f")) ApplySunRotation();
         }
 
         ImGui::Spacing();
-        if (ImGui::Button("Day"))
-            ApplyPreset(45.f);
+        if (ImGui::Button("Day")) ApplyPreset(45.f);
         ImGui::SameLine();
-        if (ImGui::Button("Sunset"))
-            ApplyPreset(2.f);
+        if (ImGui::Button("Sunset")) ApplyPreset(2.f);
         ImGui::SameLine();
-        if (ImGui::Button("Night"))
-            ApplyPreset(-30.f);
+        if (ImGui::Button("Night")) ApplyPreset(-30.f);
 
         ImGui::Spacing();
         GuiUtils::RenderUnderlineTabs("##SkyTabs", activeTab, TAB_LABELS, TAB_COUNT);
 
         ImGui::BeginChild("##SkyParams", ImVec2(0, 0), ImGuiChildFlags_None);
         switch (activeTab) {
-        case 0: RenderSunTab(); break;
-        case 1: RenderAtmoTab(); break;
-        case 2: RenderSkyLightTab(); break;
-        case 3: RenderFogTab(); break;
-        case 4: RenderCloudsTab(); break;
+            case 0: RenderSunTab(); break;
+            case 1: RenderAtmoTab(); break;
+            case 2: RenderSkyLightTab(); break;
+            case 3: RenderFogTab(); break;
+            case 4: RenderCloudsTab(); break;
         }
         ImGui::EndChild();
 
