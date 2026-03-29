@@ -1,4 +1,6 @@
 #include "Menu/Sections/Settings/GuiSection.h"
+#include "Hooks/GameHook.h"
+#include "Menu/Keybind.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
