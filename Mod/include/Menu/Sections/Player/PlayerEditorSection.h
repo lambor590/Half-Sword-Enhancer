@@ -4,6 +4,7 @@
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
+#include "Menu/Override.h"
 #include "Utils/PlayerPresetSerializer.h"
 #include "Utils/PresetSectionState.h"
 
@@ -16,9 +17,20 @@ private:
     PresetSectionState<PlayerPresetSerializer> presets;
     int activeTab = 0;
 
+    /// Cached override descriptor groups, built once in constructor.
+    /// Each group corresponds to a UI tab section.
+    std::vector<OverrideDescriptor> physicalFields;
+    std::vector<OverrideDescriptor> healthFields;
+    std::vector<OverrideDescriptor> physicsFields;
+    std::vector<OverrideDescriptor> movementFields;
+    std::vector<OverrideDescriptor> combatFields;
+    std::vector<OverrideDescriptor> skillFields;
+    std::vector<OverrideDescriptor> stateFields;
+
     void InitKeybinds();
-    int CountActiveOverrides() const;
-    static void ApplyActiveOverrides(SDK::AWillie_BP_C* p, PlayerEditorOverrides& ovr);
+    void BuildDescriptors();
+    int CountAllActive() const;
+    void ApplyToPlayer(SDK::AWillie_BP_C* p);
     void ReadFromPlayer();
     PlayerPresetData BuildPresetData() const;
     void ApplyPresetData(const PlayerPresetData& d);

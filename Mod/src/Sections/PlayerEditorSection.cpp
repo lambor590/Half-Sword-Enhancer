@@ -1,108 +1,283 @@
 #include "Menu/Sections/Player/PlayerEditorSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-#include "Utils/GameConstants.h"
 #include "ComponentValidator.h"
 
 REGISTER_SECTION(PlayerEditorSection, MenuTab::Player);
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"
 
-int PlayerEditorSection::CountActiveOverrides() const {
-    return overrides.heightRate.enabled + overrides.muscleRate.enabled + overrides.scaleMutationInhibitor.enabled +
-           overrides.health.enabled + overrides.headHealth.enabled + overrides.neckHealth.enabled +
-           overrides.armRHealth.enabled + overrides.armLHealth.enabled + overrides.bodyUpperHealth.enabled +
-           overrides.bodyLowerHealth.enabled + overrides.legRHealth.enabled + overrides.legLHealth.enabled +
-           overrides.backHealth.enabled + overrides.consciousness.enabled + overrides.regenRate.enabled +
-           overrides.allBodyTonus.enabled + overrides.headTonus.enabled + overrides.armRTonus.enabled +
-           overrides.armLTonus.enabled + overrides.legRTonus.enabled + overrides.legLTonus.enabled +
-           overrides.musclePower.enabled + overrides.orientationStrength.enabled + overrides.angularStrength.enabled +
-           overrides.hitRigidity.enabled + overrides.runningSpeedRate.enabled + overrides.walkSpeedRateRun.enabled +
-           overrides.jumpRate.enabled + overrides.dodgeRate.enabled + overrides.crawlRate.enabled +
-           overrides.getUpRate.enabled + overrides.fallenRate.enabled + overrides.damageRate.enabled +
-           overrides.limbDamageRate.enabled + overrides.dismemberThreshold.enabled + overrides.stamina.enabled +
-           overrides.staminaBurnSwingR.enabled + overrides.staminaBurnSwingL.enabled +
-           overrides.staminaBurnDodge.enabled + overrides.grabForceR.enabled + overrides.grabForceL.enabled +
-           overrides.handsRigidity.enabled + overrides.bodySkill.enabled + overrides.weaponSkill.enabled +
-           overrides.skillThrust.enabled + overrides.skillParry.enabled + overrides.skillAltGrip.enabled +
-           overrides.skillAltStance.enabled + overrides.skillRotate.enabled + overrides.skillCrouch.enabled +
-           overrides.skillDodge.enabled + overrides.skillKick.enabled + overrides.skillSlomo.enabled +
-           overrides.exhaustion.enabled + overrides.drunk.enabled + overrides.fear.enabled +
-           overrides.invulnerable.enabled + overrides.fearless.enabled;
+// ── Descriptor construction ───────────────────────────────────────────
+
+void PlayerEditorSection::BuildDescriptors() {
+    auto& o = overrides;
+
+    physicalFields = {
+        OverrideField("Height Rate", o.heightRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Muscle Rate", o.muscleRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.0, 0.0, 0.0, 0.01f),
+    };
+    healthFields = {
+        OverrideField("Health", o.health, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Head", o.headHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Neck", o.neckHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Right Arm##h", o.armRHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Left Arm##h", o.armLHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Upper Body", o.bodyUpperHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Lower Body", o.bodyLowerHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Right Leg##h", o.legRHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Left Leg##h", o.legLHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Back", o.backHealth, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Consciousness", o.consciousness, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Regen Rate", o.regenRate, 0.0, 0.0, 0.0, 0.01f),
+    };
+    physicsFields = {
+        OverrideField("All Body Tonus", o.allBodyTonus, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Head##t", o.headTonus, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Right Arm##t", o.armRTonus, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Left Arm##t", o.armLTonus, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Right Leg##t", o.legRTonus, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Left Leg##t", o.legLTonus, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Muscle Power", o.musclePower, 0.0, 0.0, 0.0, 0.5f),
+        OverrideField("Orientation Strength", o.orientationStrength, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Angular Strength", o.angularStrength, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Hit Rigidity", o.hitRigidity, 0.0, 0.0, 0.0, 0.01f),
+    };
+    movementFields = {
+        OverrideField("Running Speed Rate", o.runningSpeedRate, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Walk Speed Rate", o.walkSpeedRateRun, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Jump Rate", o.jumpRate, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Dodge Rate", o.dodgeRate, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Crawl Rate", o.crawlRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Get Up Rate", o.getUpRate, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Fallen Rate", o.fallenRate, 0.0, 0.0, 0.0, 0.01f),
+    };
+    combatFields = {
+        OverrideField("Damage Rate", o.damageRate, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Limb Damage Rate", o.limbDamageRate, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Dismember Threshold", o.dismemberThreshold, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Stamina", o.stamina, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Swing R Burn", o.staminaBurnSwingR, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Swing L Burn", o.staminaBurnSwingL, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Dodge Burn", o.staminaBurnDodge, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Grab Force R", o.grabForceR, 0.0, 0.0, 0.0, 100.0f),
+        OverrideField("Grab Force L", o.grabForceL, 0.0, 0.0, 0.0, 100.0f),
+        OverrideField("Hands Rigidity", o.handsRigidity, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Body Skill", o.bodySkill, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Weapon Skill", o.weaponSkill, 0.0, 0.0, 0.0, 0.1f),
+    };
+    skillFields = {
+        OverrideField("Thrust", o.skillThrust),     OverrideField("Parry", o.skillParry),
+        OverrideField("Alt Grip", o.skillAltGrip),  OverrideField("Alt Stance", o.skillAltStance),
+        OverrideField("Rotate", o.skillRotate),     OverrideField("Crouch", o.skillCrouch),
+        OverrideField("Dodge##sk", o.skillDodge),   OverrideField("Kick", o.skillKick),
+        OverrideField("Slow Motion", o.skillSlomo),
+    };
+    stateFields = {
+        OverrideField("Exhaustion", o.exhaustion, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Drunk", o.drunk, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Fear", o.fear, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Invulnerable", o.invulnerable),
+        OverrideField("Fearless", o.fearless),
+    };
 }
 
-void PlayerEditorSection::ApplyActiveOverrides(SDK::AWillie_BP_C* p, PlayerEditorOverrides& ovr) {
-    if (ovr.heightRate.enabled) {
-        p->Height_Rate = ovr.heightRate.value;
-        p->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = ovr.heightRate.value;
-    }
-    if (ovr.muscleRate.enabled) p->Muscle_Rate = ovr.muscleRate.value;
-    if (ovr.scaleMutationInhibitor.enabled) p->Scale_Mutation_Inhibitor = ovr.scaleMutationInhibitor.value;
+// ── Active override counting via descriptors ──────────────────────────
 
-    if (ovr.health.enabled) p->Health = ovr.health.value;
-    if (ovr.headHealth.enabled) p->Head_Health = ovr.headHealth.value;
-    if (ovr.neckHealth.enabled) p->Neck_Health = ovr.neckHealth.value;
-    if (ovr.armRHealth.enabled) p->Arm_R_Health = ovr.armRHealth.value;
-    if (ovr.armLHealth.enabled) p->Arm_L_Health = ovr.armLHealth.value;
-    if (ovr.bodyUpperHealth.enabled) p->Body_Upper_Health = ovr.bodyUpperHealth.value;
-    if (ovr.bodyLowerHealth.enabled) p->Body_Lower_Health = ovr.bodyLowerHealth.value;
-    if (ovr.legRHealth.enabled) p->Leg_R_Health = ovr.legRHealth.value;
-    if (ovr.legLHealth.enabled) p->Leg_L_Health = ovr.legLHealth.value;
-    if (ovr.backHealth.enabled) p->Back_Health = ovr.backHealth.value;
-    if (ovr.consciousness.enabled) p->Consciousness = ovr.consciousness.value;
-    if (ovr.regenRate.enabled) p->Regen_Rate = ovr.regenRate.value;
-
-    if (ovr.allBodyTonus.enabled) p->All_Body_Tonus = ovr.allBodyTonus.value;
-    if (ovr.headTonus.enabled) p->Head_Tonus = ovr.headTonus.value;
-    if (ovr.armRTonus.enabled) p->Arm_R_Tonus = ovr.armRTonus.value;
-    if (ovr.armLTonus.enabled) p->Arm_L_Tonus = ovr.armLTonus.value;
-    if (ovr.legRTonus.enabled) p->Leg_R_Tonus = ovr.legRTonus.value;
-    if (ovr.legLTonus.enabled) p->Leg_L_Tonus = ovr.legLTonus.value;
-    if (ovr.musclePower.enabled) p->Muscle_Power = ovr.musclePower.value;
-    if (ovr.orientationStrength.enabled) p->Orientation_Strength = ovr.orientationStrength.value;
-    if (ovr.angularStrength.enabled) p->Angular_Strength = ovr.angularStrength.value;
-    if (ovr.hitRigidity.enabled) p->Hit_Rigidity = ovr.hitRigidity.value;
-
-    if (ovr.runningSpeedRate.enabled) p->Running_Speed_Rate = ovr.runningSpeedRate.value;
-    if (ovr.walkSpeedRateRun.enabled) p->Walk_Speed_Rate_Run = static_cast<float>(ovr.walkSpeedRateRun.value);
-    if (ovr.jumpRate.enabled) p->Jump_Rate = ovr.jumpRate.value;
-    if (ovr.dodgeRate.enabled) p->Dodge_Rate = ovr.dodgeRate.value;
-    if (ovr.crawlRate.enabled) p->Crawl_Rate = ovr.crawlRate.value;
-    if (ovr.getUpRate.enabled) p->Get_Up_Rate = ovr.getUpRate.value;
-    if (ovr.fallenRate.enabled) p->Fallen_Rate = ovr.fallenRate.value;
-
-    if (ovr.damageRate.enabled) p->Damage_Rate__Additional_ = ovr.damageRate.value;
-    if (ovr.limbDamageRate.enabled) p->Limb_Damage_Rate__Additional_ = ovr.limbDamageRate.value;
-    if (ovr.dismemberThreshold.enabled) p->Health_Threshold_For_Dismemberment = ovr.dismemberThreshold.value;
-    if (ovr.stamina.enabled) p->Stamina = ovr.stamina.value;
-    if (ovr.staminaBurnSwingR.enabled) p->Stamina_Burn_Swing_R = ovr.staminaBurnSwingR.value;
-    if (ovr.staminaBurnSwingL.enabled) p->Stamina_Burn_Swing_L = ovr.staminaBurnSwingL.value;
-    if (ovr.staminaBurnDodge.enabled) p->Stamina_Burn_Dodge = ovr.staminaBurnDodge.value;
-    if (ovr.grabForceR.enabled) p->R_Grab_Force_Limit = ovr.grabForceR.value;
-    if (ovr.grabForceL.enabled) p->L_Grab_Force_Limit = ovr.grabForceL.value;
-    if (ovr.handsRigidity.enabled) p->Hands_Rigidity__Gauntlets_ = ovr.handsRigidity.value;
-    if (ovr.bodySkill.enabled) p->Body_Skill__Temp_ = ovr.bodySkill.value;
-    if (ovr.weaponSkill.enabled) p->Weapon_Skill__Temp_ = ovr.weaponSkill.value;
-
-    if (ovr.skillThrust.enabled) p->Skill_Unlock_Weapon_Thrust = ovr.skillThrust.value;
-    if (ovr.skillParry.enabled) p->Skill_Unlock_Weapon_Parry = ovr.skillParry.value;
-    if (ovr.skillAltGrip.enabled) p->Skill_Unlock_Weapon_Alt_Grip = ovr.skillAltGrip.value;
-    if (ovr.skillAltStance.enabled) p->Skill_Unlock_Weapon_Alt_Stance = ovr.skillAltStance.value;
-    if (ovr.skillRotate.enabled) p->Skill_Unlock_Weapon_Rotate = ovr.skillRotate.value;
-    if (ovr.skillCrouch.enabled) p->Skill_Unlock_Body_Crouch = ovr.skillCrouch.value;
-    if (ovr.skillDodge.enabled) p->Skill_Unlock_Body_Dodge = ovr.skillDodge.value;
-    if (ovr.skillKick.enabled) p->Skill_Unlock_Body_Kick = ovr.skillKick.value;
-    if (ovr.skillSlomo.enabled) p->Skill_Unlock_Body_Slomo = ovr.skillSlomo.value;
-
-    if (ovr.exhaustion.enabled) p->Exhaustion = ovr.exhaustion.value;
-    if (ovr.drunk.enabled) p->Drunk = ovr.drunk.value;
-    if (ovr.fear.enabled) p->Fear = ovr.fear.value;
-    if (ovr.invulnerable.enabled) {
-        p->Invulnerable = ovr.invulnerable.value;
-        p->BitPad_5C_0 = ovr.invulnerable.value;
-    }
-    if (ovr.fearless.enabled) p->Fearless = ovr.fearless.value;
+int PlayerEditorSection::CountAllActive() const {
+    return CountActive(physicalFields) + CountActive(healthFields) + CountActive(physicsFields) +
+           CountActive(movementFields) + CountActive(combatFields) + CountActive(skillFields) +
+           CountActive(stateFields);
 }
+
+// ── Apply overrides per group ─────────────────────────────────────────
+// Each group uses ApplyAll() to iterate only enabled descriptors.
+// Pointer identity on the descriptor's value field dispatches to the correct
+// SDK property. This replaces 55+ manual if(.enabled) chains with descriptor
+// iteration. Special cases (heightRate → passport, invulnerable → BitPad)
+// are handled inline in their respective group applier.
+
+namespace {
+
+    void ApplyPhysical(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
+        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+            double v = GetDouble(f);
+            if (f.value == &o.heightRate.value) {
+                p->Height_Rate = v;
+                p->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = v;
+            } else if (f.value == &o.muscleRate.value) {
+                p->Muscle_Rate = v;
+            } else {
+                p->Scale_Mutation_Inhibitor = v;
+            }
+        });
+    }
+
+    void ApplyHealth(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
+        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+            double v = GetDouble(f);
+            if (f.value == &o.health.value)
+                p->Health = v;
+            else if (f.value == &o.headHealth.value)
+                p->Head_Health = v;
+            else if (f.value == &o.neckHealth.value)
+                p->Neck_Health = v;
+            else if (f.value == &o.armRHealth.value)
+                p->Arm_R_Health = v;
+            else if (f.value == &o.armLHealth.value)
+                p->Arm_L_Health = v;
+            else if (f.value == &o.bodyUpperHealth.value)
+                p->Body_Upper_Health = v;
+            else if (f.value == &o.bodyLowerHealth.value)
+                p->Body_Lower_Health = v;
+            else if (f.value == &o.legRHealth.value)
+                p->Leg_R_Health = v;
+            else if (f.value == &o.legLHealth.value)
+                p->Leg_L_Health = v;
+            else if (f.value == &o.backHealth.value)
+                p->Back_Health = v;
+            else if (f.value == &o.consciousness.value)
+                p->Consciousness = v;
+            else if (f.value == &o.regenRate.value)
+                p->Regen_Rate = v;
+        });
+    }
+
+    void ApplyPhysics(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
+        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+            double v = GetDouble(f);
+            if (f.value == &o.allBodyTonus.value)
+                p->All_Body_Tonus = v;
+            else if (f.value == &o.headTonus.value)
+                p->Head_Tonus = v;
+            else if (f.value == &o.armRTonus.value)
+                p->Arm_R_Tonus = v;
+            else if (f.value == &o.armLTonus.value)
+                p->Arm_L_Tonus = v;
+            else if (f.value == &o.legRTonus.value)
+                p->Leg_R_Tonus = v;
+            else if (f.value == &o.legLTonus.value)
+                p->Leg_L_Tonus = v;
+            else if (f.value == &o.musclePower.value)
+                p->Muscle_Power = v;
+            else if (f.value == &o.orientationStrength.value)
+                p->Orientation_Strength = v;
+            else if (f.value == &o.angularStrength.value)
+                p->Angular_Strength = v;
+            else if (f.value == &o.hitRigidity.value)
+                p->Hit_Rigidity = v;
+        });
+    }
+
+    void ApplyMovement(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
+        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+            double v = GetDouble(f);
+            if (f.value == &o.runningSpeedRate.value)
+                p->Running_Speed_Rate = v;
+            else if (f.value == &o.walkSpeedRateRun.value)
+                p->Walk_Speed_Rate_Run = static_cast<float>(v);
+            else if (f.value == &o.jumpRate.value)
+                p->Jump_Rate = v;
+            else if (f.value == &o.dodgeRate.value)
+                p->Dodge_Rate = v;
+            else if (f.value == &o.crawlRate.value)
+                p->Crawl_Rate = v;
+            else if (f.value == &o.getUpRate.value)
+                p->Get_Up_Rate = v;
+            else if (f.value == &o.fallenRate.value)
+                p->Fallen_Rate = v;
+        });
+    }
+
+    void ApplyCombat(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
+        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+            double v = GetDouble(f);
+            if (f.value == &o.damageRate.value)
+                p->Damage_Rate__Additional_ = v;
+            else if (f.value == &o.limbDamageRate.value)
+                p->Limb_Damage_Rate__Additional_ = v;
+            else if (f.value == &o.dismemberThreshold.value)
+                p->Health_Threshold_For_Dismemberment = v;
+            else if (f.value == &o.stamina.value)
+                p->Stamina = v;
+            else if (f.value == &o.staminaBurnSwingR.value)
+                p->Stamina_Burn_Swing_R = v;
+            else if (f.value == &o.staminaBurnSwingL.value)
+                p->Stamina_Burn_Swing_L = v;
+            else if (f.value == &o.staminaBurnDodge.value)
+                p->Stamina_Burn_Dodge = v;
+            else if (f.value == &o.grabForceR.value)
+                p->R_Grab_Force_Limit = v;
+            else if (f.value == &o.grabForceL.value)
+                p->L_Grab_Force_Limit = v;
+            else if (f.value == &o.handsRigidity.value)
+                p->Hands_Rigidity__Gauntlets_ = v;
+            else if (f.value == &o.bodySkill.value)
+                p->Body_Skill__Temp_ = v;
+            else if (f.value == &o.weaponSkill.value)
+                p->Weapon_Skill__Temp_ = v;
+        });
+    }
+
+    void ApplySkills(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
+        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+            bool v = GetBool(f);
+            if (f.value == &o.skillThrust.value)
+                p->Skill_Unlock_Weapon_Thrust = v;
+            else if (f.value == &o.skillParry.value)
+                p->Skill_Unlock_Weapon_Parry = v;
+            else if (f.value == &o.skillAltGrip.value)
+                p->Skill_Unlock_Weapon_Alt_Grip = v;
+            else if (f.value == &o.skillAltStance.value)
+                p->Skill_Unlock_Weapon_Alt_Stance = v;
+            else if (f.value == &o.skillRotate.value)
+                p->Skill_Unlock_Weapon_Rotate = v;
+            else if (f.value == &o.skillCrouch.value)
+                p->Skill_Unlock_Body_Crouch = v;
+            else if (f.value == &o.skillDodge.value)
+                p->Skill_Unlock_Body_Dodge = v;
+            else if (f.value == &o.skillKick.value)
+                p->Skill_Unlock_Body_Kick = v;
+            else if (f.value == &o.skillSlomo.value)
+                p->Skill_Unlock_Body_Slomo = v;
+        });
+    }
+
+    void ApplyState(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
+        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+            if (f.type == OverrideFieldType::Double) {
+                double v = GetDouble(f);
+                if (f.value == &o.exhaustion.value)
+                    p->Exhaustion = v;
+                else if (f.value == &o.drunk.value)
+                    p->Drunk = v;
+                else if (f.value == &o.fear.value)
+                    p->Fear = v;
+            } else {
+                bool v = GetBool(f);
+                if (f.value == &o.invulnerable.value) {
+                    p->Invulnerable = v;
+                    p->BitPad_5C_0 = v;
+                } else {
+                    p->Fearless = v;
+                }
+            }
+        });
+    }
+
+} // namespace
+
+void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
+    ApplyPhysical(physicalFields, p, overrides);
+    ApplyHealth(healthFields, p, overrides);
+    ApplyPhysics(physicsFields, p, overrides);
+    ApplyMovement(movementFields, p, overrides);
+    ApplyCombat(combatFields, p, overrides);
+    ApplySkills(skillFields, p, overrides);
+    ApplyState(stateFields, p, overrides);
+}
+
+// ── Read current values from player into override fields ──────────────
 
 void PlayerEditorSection::ReadFromPlayer() {
     if (!player) return;
@@ -175,6 +350,8 @@ void PlayerEditorSection::ReadFromPlayer() {
     presets.status.Set("Values read from player");
 }
 
+// ── Preset data conversion ────────────────────────────────────────────
+
 PlayerPresetData PlayerEditorSection::BuildPresetData() const {
     PlayerPresetData d;
     d.overrides = overrides;
@@ -184,6 +361,8 @@ PlayerPresetData PlayerEditorSection::BuildPresetData() const {
 void PlayerEditorSection::ApplyPresetData(const PlayerPresetData& d) {
     overrides = d.overrides;
 }
+
+// ── Clone player ──────────────────────────────────────────────────────
 
 void PlayerEditorSection::ClonePlayer() {
     if (!player || !world) return;
@@ -207,17 +386,17 @@ void PlayerEditorSection::ClonePlayer() {
     );
 }
 
+// ── Tab rendering (using RenderOverrideField from override system) ────
+
 void PlayerEditorSection::RenderPhysicalTab() {
     ImGui::PushID("physical");
-
     ImGui::SeparatorText("Body");
-    GuiUtils::RenderOverrideDrag("Height Rate", overrides.heightRate, 0.01f);
+    RenderOverrideField(physicalFields[0]);
     TooltipHelper::ShowTooltip("Character height multiplier (1.0 = normal). Only takes effect at spawn");
-    GuiUtils::RenderOverrideDrag("Muscle Rate", overrides.muscleRate, 0.01f);
+    RenderOverrideField(physicalFields[1]);
     TooltipHelper::ShowTooltip("Character muscle/bulk multiplier (1.0 = normal)");
-    GuiUtils::RenderOverrideDrag("Scale Mutation Inhibitor", overrides.scaleMutationInhibitor, 0.01f);
+    RenderOverrideField(physicalFields[2]);
     TooltipHelper::ShowTooltip("Controls how much random scale variation is suppressed");
-
     ImGui::PopID();
 }
 
@@ -225,38 +404,38 @@ void PlayerEditorSection::RenderHealthTab() {
     ImGui::PushID("health");
 
     ImGui::SeparatorText("General");
-    GuiUtils::RenderOverrideDrag("Health", overrides.health, 1.0f);
+    RenderOverrideField(healthFields[0]); // Health
     TooltipHelper::ShowTooltip("Overall health points");
-    GuiUtils::RenderOverrideDrag("Consciousness", overrides.consciousness, 1.0f);
+    RenderOverrideField(healthFields[10]); // Consciousness
     TooltipHelper::ShowTooltip("Consciousness level (0 = knocked out)");
-    GuiUtils::RenderOverrideDrag("Regen Rate", overrides.regenRate, 0.01f);
+    RenderOverrideField(healthFields[11]); // Regen Rate
     TooltipHelper::ShowTooltip("Health regeneration rate per tick");
 
     ImGui::SeparatorText("Per-Limb Health");
     if (ImGui::BeginTable("##healthparts", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Head", overrides.headHealth, 1.0f);
+        RenderOverrideField(healthFields[1]); // Head
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Neck", overrides.neckHealth, 1.0f);
+        RenderOverrideField(healthFields[2]); // Neck
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Right Arm##h", overrides.armRHealth, 1.0f);
+        RenderOverrideField(healthFields[3]); // Right Arm
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Left Arm##h", overrides.armLHealth, 1.0f);
+        RenderOverrideField(healthFields[4]); // Left Arm
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Upper Body", overrides.bodyUpperHealth, 1.0f);
+        RenderOverrideField(healthFields[5]); // Upper Body
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Lower Body", overrides.bodyLowerHealth, 1.0f);
+        RenderOverrideField(healthFields[6]); // Lower Body
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Right Leg##h", overrides.legRHealth, 1.0f);
+        RenderOverrideField(healthFields[7]); // Right Leg
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Left Leg##h", overrides.legLHealth, 1.0f);
+        RenderOverrideField(healthFields[8]); // Left Leg
         ImGui::EndTable();
     }
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::cellPadding.y);
-    GuiUtils::RenderOverrideDrag("Back", overrides.backHealth, 1.0f);
+    RenderOverrideField(healthFields[9]); // Back
     TooltipHelper::ShowTooltip("Back health");
 
     ImGui::PopID();
@@ -266,34 +445,34 @@ void PlayerEditorSection::RenderPhysicsTab() {
     ImGui::PushID("physics");
 
     ImGui::SeparatorText("Muscle Tonus");
-    GuiUtils::RenderOverrideDrag("All Body Tonus", overrides.allBodyTonus, 1.0f);
+    RenderOverrideField(physicsFields[0]); // All Body Tonus
     TooltipHelper::ShowTooltip("Master body muscle tension (100 = normal)");
 
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::cellPadding.y);
     if (ImGui::BeginTable("##tonusparts", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Head##t", overrides.headTonus, 0.01f);
+        RenderOverrideField(physicsFields[1]); // Head
         ImGui::TableNextColumn();
         ImGui::Dummy(ImVec2(0, 0));
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Right Arm##t", overrides.armRTonus, 0.01f);
+        RenderOverrideField(physicsFields[2]); // Right Arm
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Left Arm##t", overrides.armLTonus, 0.01f);
+        RenderOverrideField(physicsFields[3]); // Left Arm
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Right Leg##t", overrides.legRTonus, 0.01f);
+        RenderOverrideField(physicsFields[4]); // Right Leg
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Left Leg##t", overrides.legLTonus, 0.01f);
+        RenderOverrideField(physicsFields[5]); // Left Leg
         ImGui::EndTable();
     }
 
     ImGui::SeparatorText("Strength");
-    GuiUtils::RenderOverrideDrag("Muscle Power", overrides.musclePower, 0.5f);
+    RenderOverrideField(physicsFields[6]); // Muscle Power
     TooltipHelper::ShowTooltip("Overall muscle force (35 = default)");
-    GuiUtils::RenderOverrideDrag("Orientation Strength", overrides.orientationStrength, 0.1f);
-    GuiUtils::RenderOverrideDrag("Angular Strength", overrides.angularStrength, 0.1f);
-    GuiUtils::RenderOverrideDrag("Hit Rigidity", overrides.hitRigidity, 0.01f);
+    RenderOverrideField(physicsFields[7]); // Orientation Strength
+    RenderOverrideField(physicsFields[8]); // Angular Strength
+    RenderOverrideField(physicsFields[9]); // Hit Rigidity
     TooltipHelper::ShowTooltip("How rigid the body stays when hit");
 
     ImGui::PopID();
@@ -303,21 +482,21 @@ void PlayerEditorSection::RenderMovementTab() {
     ImGui::PushID("movement");
 
     ImGui::SeparatorText("Speed");
-    GuiUtils::RenderOverrideDrag("Running Speed Rate", overrides.runningSpeedRate, 0.1f);
+    RenderOverrideField(movementFields[0]); // Running Speed Rate
     TooltipHelper::ShowTooltip("Running speed multiplier (1.5 = default)");
-    GuiUtils::RenderOverrideDrag("Walk Speed Rate", overrides.walkSpeedRateRun, 0.1f);
+    RenderOverrideField(movementFields[1]); // Walk Speed Rate
     TooltipHelper::ShowTooltip("Walking/aiming speed rate");
 
     ImGui::SeparatorText("Actions");
-    GuiUtils::RenderOverrideDrag("Jump Rate", overrides.jumpRate, 0.1f);
+    RenderOverrideField(movementFields[2]); // Jump Rate
     TooltipHelper::ShowTooltip("Jump power multiplier");
-    GuiUtils::RenderOverrideDrag("Dodge Rate", overrides.dodgeRate, 0.1f);
+    RenderOverrideField(movementFields[3]); // Dodge Rate
     TooltipHelper::ShowTooltip("Dodge speed/distance multiplier");
-    GuiUtils::RenderOverrideDrag("Crawl Rate", overrides.crawlRate, 0.01f);
+    RenderOverrideField(movementFields[4]); // Crawl Rate
     TooltipHelper::ShowTooltip("Crawling speed multiplier");
-    GuiUtils::RenderOverrideDrag("Get Up Rate", overrides.getUpRate, 0.1f);
+    RenderOverrideField(movementFields[5]); // Get Up Rate
     TooltipHelper::ShowTooltip("Speed of getting up from the ground");
-    GuiUtils::RenderOverrideDrag("Fallen Rate", overrides.fallenRate, 0.01f);
+    RenderOverrideField(movementFields[6]); // Fallen Rate
     TooltipHelper::ShowTooltip("Rate at which the character recovers from falling");
 
     ImGui::PopID();
@@ -327,33 +506,33 @@ void PlayerEditorSection::RenderCombatTab() {
     ImGui::PushID("combat");
 
     ImGui::SeparatorText("Damage");
-    GuiUtils::RenderOverrideDrag("Damage Rate", overrides.damageRate, 0.1f);
+    RenderOverrideField(combatFields[0]); // Damage Rate
     TooltipHelper::ShowTooltip("Additional damage multiplier dealt");
-    GuiUtils::RenderOverrideDrag("Limb Damage Rate", overrides.limbDamageRate, 0.1f);
+    RenderOverrideField(combatFields[1]); // Limb Damage Rate
     TooltipHelper::ShowTooltip("Additional limb-specific damage multiplier");
-    GuiUtils::RenderOverrideDrag("Dismember Threshold", overrides.dismemberThreshold, 0.1f);
+    RenderOverrideField(combatFields[2]); // Dismember Threshold
     TooltipHelper::ShowTooltip("Health threshold below which dismemberment can occur");
 
     ImGui::SeparatorText("Stamina");
-    GuiUtils::RenderOverrideDrag("Stamina", overrides.stamina, 1.0f);
+    RenderOverrideField(combatFields[3]); // Stamina
     TooltipHelper::ShowTooltip("Current stamina level (100 = full)");
-    GuiUtils::RenderOverrideDrag("Swing R Burn", overrides.staminaBurnSwingR, 0.1f);
+    RenderOverrideField(combatFields[4]); // Swing R Burn
     TooltipHelper::ShowTooltip("Stamina cost for right-hand swings");
-    GuiUtils::RenderOverrideDrag("Swing L Burn", overrides.staminaBurnSwingL, 0.1f);
+    RenderOverrideField(combatFields[5]); // Swing L Burn
     TooltipHelper::ShowTooltip("Stamina cost for left-hand swings");
-    GuiUtils::RenderOverrideDrag("Dodge Burn", overrides.staminaBurnDodge, 0.1f);
+    RenderOverrideField(combatFields[6]); // Dodge Burn
     TooltipHelper::ShowTooltip("Stamina cost for dodging");
 
     ImGui::SeparatorText("Grip & Skill");
-    GuiUtils::RenderOverrideDrag("Grab Force R", overrides.grabForceR, 100.0f);
+    RenderOverrideField(combatFields[7]); // Grab Force R
     TooltipHelper::ShowTooltip("Right hand grip force limit (10000 = default)");
-    GuiUtils::RenderOverrideDrag("Grab Force L", overrides.grabForceL, 100.0f);
+    RenderOverrideField(combatFields[8]); // Grab Force L
     TooltipHelper::ShowTooltip("Left hand grip force limit (10000 = default)");
-    GuiUtils::RenderOverrideDrag("Hands Rigidity", overrides.handsRigidity, 0.01f);
+    RenderOverrideField(combatFields[9]); // Hands Rigidity
     TooltipHelper::ShowTooltip("Punch impact force (0.666 = default)");
-    GuiUtils::RenderOverrideDrag("Body Skill", overrides.bodySkill, 0.1f);
+    RenderOverrideField(combatFields[10]); // Body Skill
     TooltipHelper::ShowTooltip("Overall combat skill level");
-    GuiUtils::RenderOverrideDrag("Weapon Skill", overrides.weaponSkill, 0.1f);
+    RenderOverrideField(combatFields[11]); // Weapon Skill
     TooltipHelper::ShowTooltip("Weapon handling skill level");
 
     ImGui::PopID();
@@ -365,17 +544,17 @@ void PlayerEditorSection::RenderSkillsStateTab() {
     ImGui::SeparatorText("Weapon Skills");
     if (ImGui::BeginTable("##weaponskills", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Thrust", overrides.skillThrust);
+        RenderOverrideField(skillFields[0]); // Thrust
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Parry", overrides.skillParry);
+        RenderOverrideField(skillFields[1]); // Parry
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Alt Grip", overrides.skillAltGrip);
+        RenderOverrideField(skillFields[2]); // Alt Grip
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Alt Stance", overrides.skillAltStance);
+        RenderOverrideField(skillFields[3]); // Alt Stance
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Rotate", overrides.skillRotate);
+        RenderOverrideField(skillFields[4]); // Rotate
         ImGui::TableNextColumn();
         ImGui::Dummy(ImVec2(0, 0));
         ImGui::EndTable();
@@ -384,33 +563,36 @@ void PlayerEditorSection::RenderSkillsStateTab() {
     ImGui::SeparatorText("Body Skills");
     if (ImGui::BeginTable("##bodyskills", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Crouch", overrides.skillCrouch);
+        RenderOverrideField(skillFields[5]); // Crouch
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Dodge##sk", overrides.skillDodge);
+        RenderOverrideField(skillFields[6]); // Dodge
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Kick", overrides.skillKick);
+        RenderOverrideField(skillFields[7]); // Kick
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideBool("Slow Motion", overrides.skillSlomo);
+        RenderOverrideField(skillFields[8]); // Slow Motion
         ImGui::EndTable();
     }
 
     ImGui::SeparatorText("State");
-    GuiUtils::RenderOverrideDrag("Exhaustion", overrides.exhaustion, 0.1f);
+    RenderOverrideField(stateFields[0]); // Exhaustion
     TooltipHelper::ShowTooltip("Physical exhaustion level");
-    GuiUtils::RenderOverrideDrag("Drunk", overrides.drunk, 0.01f);
+    RenderOverrideField(stateFields[1]); // Drunk
     TooltipHelper::ShowTooltip("Drunkenness level (0 = sober, 1 = fully drunk)");
-    GuiUtils::RenderOverrideDrag("Fear", overrides.fear, 0.1f);
+    RenderOverrideField(stateFields[2]); // Fear
     TooltipHelper::ShowTooltip("Fear level");
-    GuiUtils::RenderOverrideBool("Invulnerable", overrides.invulnerable);
+    RenderOverrideField(stateFields[3]); // Invulnerable
     TooltipHelper::ShowTooltip("Immune to all damage");
-    GuiUtils::RenderOverrideBool("Fearless", overrides.fearless);
+    RenderOverrideField(stateFields[4]); // Fearless
     TooltipHelper::ShowTooltip("Never flees from combat");
 
     ImGui::PopID();
 }
 
+// ── Constructor & main Render ─────────────────────────────────────────
+
 PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : Section(ctx, "Editor") {
+    BuildDescriptors();
     InitKeybinds();
 }
 
@@ -423,7 +605,7 @@ void PlayerEditorSection::InitKeybinds() {
         .callback =
             [this](bool active) {
                 if (!ComponentValidator::Validate(player)) return;
-                if (active) ApplyActiveOverrides(player, overrides);
+                if (active) ApplyToPlayer(player);
             },
         .toggleable = true,
         .events = {GameEvent::OffLedge},
@@ -459,7 +641,7 @@ void PlayerEditorSection::Render() {
     }
     TooltipHelper::ShowTooltip("Spawns a clone of the player with the current physical overrides");
 
-    GuiUtils::RenderOverrideCount(CountActiveOverrides());
+    GuiUtils::RenderOverrideCount(CountAllActive());
     presets.status.Render();
 
     ImGui::Spacing();
