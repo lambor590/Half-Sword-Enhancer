@@ -43,7 +43,6 @@ class MapLoaderSection : public Section {
     void RefreshLevelName();
     void RebuildFilter(MapRegistry& reg);
     void LoadMap(const std::string& packageName);
-    static void ApplyLoadout(SDK::UWorld* w, SDK::AWillie_BP_C* willie, const LoadoutPresetData& loadout);
     static void SpawnAutoNPCs(SDK::UWorld* w, SDK::AWillie_BP_C* willie, const NPCPresetData& npcPreset, int npcCount);
     void SpawnPlayer();
     void RenderPreLoadOptions();

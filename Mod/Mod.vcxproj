@@ -277,6 +277,7 @@
     <ClCompile Include="src\GameHook.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Spawner.cpp" />
+    <ClCompile Include="src\NPCSpawnHelpers.cpp" />
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />

@@ -7,7 +7,12 @@
 #include "SDK/Str_Passport_Character1_structs.hpp"
 #include "SDK/Str_Character_Body_Condition_structs.hpp"
 
+struct LoadoutPresetData;
+
 namespace NPCSpawnHelpers {
+
+    /// Apply a full loadout (armor + weapons) to an NPC. Shared by NPCEditorSection and MapLoaderSection.
+    void ApplyNPCLoadout(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout);
 
     inline SDK::FLinearColor MelaninToColor(float melanin) {
         float m = std::clamp(melanin, 0.0f, 1.0f);
