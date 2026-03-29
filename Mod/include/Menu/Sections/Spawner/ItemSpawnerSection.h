@@ -60,8 +60,9 @@ private:
 
     bool IsRandomArmorCategory() const noexcept;
     const BlueprintRegistry::SubcategoryData* GetCurrentSubcategory() const noexcept;
-    void updateItemNamesCache() noexcept;
-    void updateFilteredItems();
+    void RenderMaskedTierCombo(const char* comboLabel, uint16_t mask);
+    void UpdateItemNamesCache() noexcept;
+    void UpdateFilteredItems();
     void SpawnSelectedItem() const noexcept;
     void SpawnCustomPath() const noexcept;
     void SpawnWeaponFromPreset();

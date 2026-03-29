@@ -2,7 +2,6 @@
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "Hooks/GameHook.h"
-#include "ComponentValidator.h"
 
 REGISTER_SECTION(ItemSpawnerSection, MenuTab::Spawner);
 #include "Utils/Spawner.h"
@@ -80,7 +79,22 @@ const BlueprintRegistry::SubcategoryData* ItemSpawnerSection::GetCurrentSubcateg
     return &cat.subcategories[subIdx];
 }
 
-void ItemSpawnerSection::updateItemNamesCache() noexcept {
+void ItemSpawnerSection::RenderMaskedTierCombo(const char* comboLabel, uint16_t mask) {
+    cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
+
+    ImGui::Text("Tier");
+    ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
+    if (ImGui::BeginCombo(comboLabel, GuiUtils::TIER_LABELS[cfg.spawnTier])) {
+        for (int t = 0; t <= 8; ++t) {
+            if (!(mask & (1 << t))) continue;
+            if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier)) cfg.spawnTier = t;
+            if (t == cfg.spawnTier) ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
+    }
+}
+
+void ItemSpawnerSection::UpdateItemNamesCache() noexcept {
     auto& reg = BlueprintRegistry::Get();
     if (cfg.currentCategoryIndex >= reg.GetCategoryCount()) return;
 
@@ -106,7 +120,7 @@ void ItemSpawnerSection::updateItemNamesCache() noexcept {
     }
 }
 
-void ItemSpawnerSection::updateFilteredItems() {
+void ItemSpawnerSection::UpdateFilteredItems() {
     filteredIndices.clear();
     cachedFilteredWidth = 0;
 
@@ -247,7 +261,7 @@ void ItemSpawnerSection::InitKeybinds() {
         .keyPtr = &cfg.spawnItemKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 SpawnSelectedItem();
             },
         .params =
@@ -365,19 +379,7 @@ void ItemSpawnerSection::RenderRandomArmorUI() {
     }
 
     if (cfg.currentItemIndex < TierValidation::VALID_ARMOR_TIER_MASKS.size()) {
-        uint16_t mask = TierValidation::VALID_ARMOR_TIER_MASKS[cfg.currentItemIndex];
-        cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
-
-        ImGui::Text("Tier");
-        ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
-        if (ImGui::BeginCombo("##ArmorTierCombo", GuiUtils::TIER_LABELS[cfg.spawnTier])) {
-            for (int t = 0; t <= 8; ++t) {
-                if (!(mask & (1 << t))) continue;
-                if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier)) cfg.spawnTier = t;
-                if (t == cfg.spawnTier) ImGui::SetItemDefaultFocus();
-            }
-            ImGui::EndCombo();
-        }
+        RenderMaskedTierCombo("##ArmorTierCombo", TierValidation::VALID_ARMOR_TIER_MASKS[cfg.currentItemIndex]);
     }
 }
 
@@ -408,7 +410,7 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
         }
     }
 
-    updateItemNamesCache();
+    UpdateItemNamesCache();
 
     if (!cachedItemNames.empty()) {
         ImGui::Text("Item");
@@ -430,19 +432,9 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
         auto& currentItem = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
         if (currentItem.customizable != CustomizableWeapon::None) {
             reg.EnsureTiersScanned();
-            uint16_t mask = TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)];
-            cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
-
-            ImGui::Text("Tier");
-            ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
-            if (ImGui::BeginCombo("##TierCombo", GuiUtils::TIER_LABELS[cfg.spawnTier])) {
-                for (int t = 0; t <= 8; ++t) {
-                    if (!(mask & (1 << t))) continue;
-                    if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier)) cfg.spawnTier = t;
-                    if (t == cfg.spawnTier) ImGui::SetItemDefaultFocus();
-                }
-                ImGui::EndCombo();
-            }
+            RenderMaskedTierCombo(
+                "##TierCombo", TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)]
+            );
         }
 
         if (IsCurrentItemModularArmor(currentItem)) {
@@ -467,8 +459,7 @@ void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
     ImGui::InputText("##CustomPath", customPathBuffer, sizeof(customPathBuffer));
     ImGui::SameLine();
     if (ImGui::Button("Spawn##Custom")) {
-        if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world) &&
-            customPathBuffer[0] != '\0') {
+        if (player && world && customPathBuffer[0] != '\0') {
             SpawnCustomPath();
         }
     }
@@ -505,7 +496,7 @@ void ItemSpawnerSection::RenderPresetSection() {
     ImGui::Spacing();
 
     if (ImGui::TreeNode("Spawn from Preset")) {
-        bool canSpawn = ComponentValidator::Validate(player) && ComponentValidator::Validate(world);
+        bool canSpawn = player && world;
 
         weaponPicker.Render("Weapon Preset");
         if (weaponPicker.HasSelection()) {
@@ -552,7 +543,7 @@ void ItemSpawnerSection::Render() {
     ImGui::SameLine();
     bool searchChanged =
         ImGui::InputText("##ItemSearch", searchBuffer, sizeof(searchBuffer), ImGuiInputTextFlags_AutoSelectAll);
-    if (searchChanged) updateFilteredItems();
+    if (searchChanged) UpdateFilteredItems();
 
     if (searchActive) {
         RenderSearchResults(reg);
@@ -562,7 +553,7 @@ void ItemSpawnerSection::Render() {
 
     ImGui::Spacing();
     if (ImGui::Button("Spawn Item")) [[unlikely]] {
-        if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world)) {
+        if (player && world) {
             SpawnSelectedItem();
         }
     }
