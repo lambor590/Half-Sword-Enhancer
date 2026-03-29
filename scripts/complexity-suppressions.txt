@@ -11,7 +11,7 @@ MemoryUtils::GetInstructionLength
 # Linear data-mapping: N independent if(enabled) prop=val assignments
 PlayerEditorSection::ApplyActiveOverrides
 NPCSpawnHelpers::ApplyPropertyOverrides
-WeaponEditorSection::ApplyRuntimeProps
+WeaponEditorSection::ApplyOverridesToActor
 
 # Type-dispatch switch (one self-contained case per UE property type)
 PropertyBrowser::RenderPropertyWidget

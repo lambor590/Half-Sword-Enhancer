@@ -1,7 +1,6 @@
 #include "Menu/Sections/Equipment/WeaponEditorSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-#include "ComponentValidator.h"
 
 REGISTER_SECTION(WeaponEditorSection, MenuTab::Equipment);
 
@@ -334,59 +333,123 @@ void WeaponEditorSection::RandomizeWeaponPassport() {
     GenerateWeaponPassport();
 }
 
-void WeaponEditorSection::ApplyRuntimeProps(SDK::AActor* actor, const WeaponRuntimeProps& props) {
-    if (!actor) return;
-    auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+// ── Descriptor construction ───────────────────────────────────────────
 
-    if (props.rigidity.enabled) weapon->Rigidity = props.rigidity.value;
-    if (props.edgeSharpness.enabled) weapon->Edge_Sharpness = props.edgeSharpness.value;
-    if (props.rawDamage.enabled) weapon->Raw_Damage = props.rawDamage.value;
-    if (props.cuttingRate.enabled) weapon->Cutting_Rate = props.cuttingRate.value;
-    if (props.stabRate.enabled) weapon->Stab_Rate = props.stabRate.value;
-    if (props.defRating.enabled) weapon->Def_Rating = props.defRating.value;
-    if (props.gripRate.enabled) weapon->Grip_Rate = props.gripRate.value;
-    if (props.drawCutRate.enabled) weapon->Draw_Cut_Rate = props.drawCutRate.value;
-    if (props.tipSharpness.enabled) weapon->Tip_Sharpness = props.tipSharpness.value;
-    if (props.kickPower.enabled) weapon->Kick_Power = props.kickPower.value;
-    if (props.matDensity.enabled) weapon->Mat_Density = props.matDensity.value;
-    if (props.dismemberSharp.enabled) weapon->Dismemberment_Level_Sharp = props.dismemberSharp.value;
-    if (props.dismemberBlunt.enabled) weapon->Dismemberment_Level_Blunt = props.dismemberBlunt.value;
-    if (props.doubleEdged.enabled) weapon->Double_Edged = props.doubleEdged.value;
-    if (props.piercing.enabled) weapon->Piercing = props.piercing.value;
-    if (props.noStab.enabled) weapon->NoStab = props.noStab.value;
-    if (props.staminaBurnR.enabled) weapon->R_Hand_Stamina_Burn_Rate = props.staminaBurnR.value;
-    if (props.staminaBurnL.enabled) weapon->L_Hand_Stamina_Burn_Rate = props.staminaBurnL.value;
-    if (props.staminaBurn2H.enabled) weapon->TwoH_Default_Stamina_Burn_Rate = props.staminaBurn2H.value;
-    if (props.staminaBurn2HAlt.enabled) weapon->TwoH_Alt_Stamina_Burn_Rate = props.staminaBurn2HAlt.value;
+void WeaponEditorSection::BuildDescriptors() {
+    auto& rp = runtimeProps;
+
+    combatFields = {
+        OverrideField("Rigidity", rp.rigidity, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Edge Sharpness", rp.edgeSharpness, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Raw Damage", rp.rawDamage, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Cutting Rate", rp.cuttingRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Stab Rate", rp.stabRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Def Rating", rp.defRating, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Grip Rate", rp.gripRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Draw Cut Rate", rp.drawCutRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Tip Sharpness", rp.tipSharpness, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Kick Power", rp.kickPower, 0.0, 0.0, 0.0, 0.1f),
+    };
+    physicsFields = {
+        OverrideField("Mat Density", rp.matDensity, 0.0, 0.0, 0.0, 0.1f),
+    };
+    dismemberFields = {
+        OverrideField("Sharp Level", rp.dismemberSharp),
+        OverrideField("Blunt Level", rp.dismemberBlunt),
+    };
+    toggleFields = {
+        OverrideField("Double Edged", rp.doubleEdged),
+        OverrideField("Piercing", rp.piercing),
+        OverrideField("No Stab", rp.noStab),
+    };
+    staminaFields = {
+        OverrideField("R Hand Burn", rp.staminaBurnR, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("L Hand Burn", rp.staminaBurnL, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("2H Burn", rp.staminaBurn2H, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("2H Alt Burn", rp.staminaBurn2HAlt, 0.0, 0.0, 0.0, 0.01f),
+    };
 }
 
-int WeaponEditorSection::CountActiveOverrides() const {
-    const bool flags[] = {runtimeProps.rigidity.enabled,       runtimeProps.edgeSharpness.enabled,
-                          runtimeProps.rawDamage.enabled,      runtimeProps.cuttingRate.enabled,
-                          runtimeProps.stabRate.enabled,       runtimeProps.defRating.enabled,
-                          runtimeProps.gripRate.enabled,       runtimeProps.drawCutRate.enabled,
-                          runtimeProps.tipSharpness.enabled,   runtimeProps.kickPower.enabled,
-                          runtimeProps.matDensity.enabled,     runtimeProps.dismemberSharp.enabled,
-                          runtimeProps.dismemberBlunt.enabled, runtimeProps.doubleEdged.enabled,
-                          runtimeProps.piercing.enabled,       runtimeProps.noStab.enabled,
-                          runtimeProps.staminaBurnR.enabled,   runtimeProps.staminaBurnL.enabled,
-                          runtimeProps.staminaBurn2H.enabled,  runtimeProps.staminaBurn2HAlt.enabled};
-    int count = 0;
-    for (bool f : flags)
-        count += f;
-    return count;
+// ── Active override counting via descriptors ──────────────────────────
+
+int WeaponEditorSection::CountAllActive() const {
+    return CountActive(combatFields) + CountActive(physicsFields) + CountActive(dismemberFields) +
+           CountActive(toggleFields) + CountActive(staminaFields);
+}
+
+// ── Apply overrides using descriptors ─────────────────────────────────
+
+void WeaponEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
+    if (!actor) return;
+    auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+    const auto& rp = runtimeProps;
+
+    ApplyAll(combatFields, [weapon, &rp](const OverrideDescriptor& f) {
+        double v = GetDouble(f);
+        if (f.value == &rp.rigidity.value)
+            weapon->Rigidity = v;
+        else if (f.value == &rp.edgeSharpness.value)
+            weapon->Edge_Sharpness = v;
+        else if (f.value == &rp.rawDamage.value)
+            weapon->Raw_Damage = v;
+        else if (f.value == &rp.cuttingRate.value)
+            weapon->Cutting_Rate = v;
+        else if (f.value == &rp.stabRate.value)
+            weapon->Stab_Rate = v;
+        else if (f.value == &rp.defRating.value)
+            weapon->Def_Rating = v;
+        else if (f.value == &rp.gripRate.value)
+            weapon->Grip_Rate = v;
+        else if (f.value == &rp.drawCutRate.value)
+            weapon->Draw_Cut_Rate = v;
+        else if (f.value == &rp.tipSharpness.value)
+            weapon->Tip_Sharpness = v;
+        else
+            weapon->Kick_Power = v;
+    });
+
+    ApplyAll(physicsFields, [weapon](const OverrideDescriptor& f) { weapon->Mat_Density = GetDouble(f); });
+
+    ApplyAll(dismemberFields, [weapon, &rp](const OverrideDescriptor& f) {
+        int v = GetInt(f);
+        if (f.value == &rp.dismemberSharp.value)
+            weapon->Dismemberment_Level_Sharp = v;
+        else
+            weapon->Dismemberment_Level_Blunt = v;
+    });
+
+    ApplyAll(toggleFields, [weapon, &rp](const OverrideDescriptor& f) {
+        bool v = GetBool(f);
+        if (f.value == &rp.doubleEdged.value)
+            weapon->Double_Edged = v;
+        else if (f.value == &rp.piercing.value)
+            weapon->Piercing = v;
+        else
+            weapon->NoStab = v;
+    });
+
+    ApplyAll(staminaFields, [weapon, &rp](const OverrideDescriptor& f) {
+        double v = GetDouble(f);
+        if (f.value == &rp.staminaBurnR.value)
+            weapon->R_Hand_Stamina_Burn_Rate = v;
+        else if (f.value == &rp.staminaBurnL.value)
+            weapon->L_Hand_Stamina_Burn_Rate = v;
+        else if (f.value == &rp.staminaBurn2H.value)
+            weapon->TwoH_Default_Stamina_Burn_Rate = v;
+        else
+            weapon->TwoH_Alt_Stamina_Burn_Rate = v;
+    });
 }
 
 void WeaponEditorSection::SpawnPreview() {
     preview.Destroy();
-    if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+    if (!player || !world) return;
 
     lastPreviewedPassport = weaponPassport;
     ClearWeaponPassportPadding(lastPreviewedPassport);
     lastPreviewedProps = runtimeProps;
 
-    auto props = runtimeProps;
-    bool hasOverrides = CountActiveOverrides() > 0;
+    bool hasOverrides = CountAllActive() > 0;
     bool hasMesh = HasAnyMeshOverride();
     auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
@@ -394,7 +457,7 @@ void WeaponEditorSection::SpawnPreview() {
         world, weaponPassport,
         Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
         cfg.spawn.snapToGround,
-        [this, props, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
+        [this, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
             auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
             CollectMeshesFromWeapon(weapon);
             if (!cfg.preview.livePreview) {
@@ -404,7 +467,7 @@ void WeaponEditorSection::SpawnPreview() {
             weapon->Simulates_Physics = false;
             weapon->Turn_Off_Collision();
             actor->SetActorEnableCollision(false);
-            if (hasOverrides) ApplyRuntimeProps(actor, props);
+            if (hasOverrides) ApplyOverridesToActor(actor);
             if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
             preview.SetPreviewActor(actor);
             if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
@@ -418,16 +481,14 @@ void WeaponEditorSection::SpawnFromPassport() {
         preview.Destroy();
     }
 
-    bool hasOverrides = CountActiveOverrides() > 0;
+    bool hasOverrides = CountAllActive() > 0;
     bool hasMesh = HasAnyMeshOverride();
-
-    auto props = runtimeProps;
     auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
-    auto callback = [this, props, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
+    auto callback = [this, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
         auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
         CollectMeshesFromWeapon(weapon);
-        if (hasOverrides) ApplyRuntimeProps(actor, props);
+        if (hasOverrides) ApplyOverridesToActor(actor);
         if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, nullptr, true);
     };
 
@@ -501,16 +562,14 @@ void WeaponEditorSection::RenderGenerationControls() {
     RenderValidatedTierCombo("##GenTier", cfg.weaponTier, weaponMask);
     TooltipHelper::ShowTooltip("Quality tier - affects generated module selection and weapon stats");
 
-    bool canGenerate = ComponentValidator::Validate(player) && ComponentValidator::Validate(world);
-
     ImGui::Spacing();
-    if (!canGenerate) ImGui::BeginDisabled();
+    if (!player || !world) ImGui::BeginDisabled();
     if (ImGui::Button("Generate")) GenerateWeaponPassport();
     TooltipHelper::ShowTooltip("Generate weapon passport using selected type and tier");
     ImGui::SameLine();
     if (ImGui::Button("Randomize")) RandomizeWeaponPassport();
     TooltipHelper::ShowTooltip("Pick random type and tier, then generate");
-    if (!canGenerate) ImGui::EndDisabled();
+    if (!player || !world) ImGui::EndDisabled();
 
     ImGui::SameLine();
     if (ImGui::Button("Reset")) CreateBlankWeaponPassport();
@@ -862,65 +921,65 @@ void WeaponEditorSection::RenderStatsTab() {
 
     if (ImGui::Button("Reset All Overrides")) runtimeProps = {};
     TooltipHelper::ShowTooltip("Disable all runtime overrides");
-    GuiUtils::RenderOverrideCount(CountActiveOverrides());
+    GuiUtils::RenderOverrideCount(CountAllActive());
 
     ImGui::Spacing();
     if (ImGui::TreeNodeEx("Combat", ImGuiTreeNodeFlags_DefaultOpen)) {
-        GuiUtils::RenderOverrideDrag("Rigidity", runtimeProps.rigidity, 0.1f);
+        RenderOverrideField(combatFields[0]);
         TooltipHelper::ShowTooltip("Structural stiffness - affects impact resistance and damage transfer");
-        GuiUtils::RenderOverrideDrag("Edge Sharpness", runtimeProps.edgeSharpness, 0.1f);
+        RenderOverrideField(combatFields[1]);
         TooltipHelper::ShowTooltip("Cutting edge quality - determines slashing effectiveness");
-        GuiUtils::RenderOverrideDrag("Raw Damage", runtimeProps.rawDamage, 0.1f);
+        RenderOverrideField(combatFields[2]);
         TooltipHelper::ShowTooltip("Base damage multiplier before other modifiers");
-        GuiUtils::RenderOverrideDrag("Cutting Rate", runtimeProps.cuttingRate, 0.01f);
+        RenderOverrideField(combatFields[3]);
         TooltipHelper::ShowTooltip("Slashing damage multiplier for cutting attacks");
-        GuiUtils::RenderOverrideDrag("Stab Rate", runtimeProps.stabRate, 0.01f);
+        RenderOverrideField(combatFields[4]);
         TooltipHelper::ShowTooltip("Thrusting damage multiplier for stab attacks");
-        GuiUtils::RenderOverrideDrag("Def Rating", runtimeProps.defRating, 0.01f);
+        RenderOverrideField(combatFields[5]);
         TooltipHelper::ShowTooltip("Defensive effectiveness when blocking or parrying");
-        GuiUtils::RenderOverrideDrag("Grip Rate", runtimeProps.gripRate, 0.01f);
+        RenderOverrideField(combatFields[6]);
         TooltipHelper::ShowTooltip("Weapon handling and control precision");
-        GuiUtils::RenderOverrideDrag("Draw Cut Rate", runtimeProps.drawCutRate, 0.01f);
+        RenderOverrideField(combatFields[7]);
         TooltipHelper::ShowTooltip("Damage bonus for drawing/slicing motions");
-        GuiUtils::RenderOverrideDrag("Tip Sharpness", runtimeProps.tipSharpness, 0.1f);
+        RenderOverrideField(combatFields[8]);
         TooltipHelper::ShowTooltip("Point sharpness - affects piercing on thrust attacks");
-        GuiUtils::RenderOverrideDrag("Kick Power", runtimeProps.kickPower, 0.1f);
+        RenderOverrideField(combatFields[9]);
         TooltipHelper::ShowTooltip("Knockback force applied on impact");
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Physics")) {
-        GuiUtils::RenderOverrideDrag("Mat Density", runtimeProps.matDensity, 0.1f);
+        RenderOverrideField(physicsFields[0]);
         TooltipHelper::ShowTooltip("Material density - affects momentum and swing weight");
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Dismemberment")) {
-        GuiUtils::RenderOverrideInt("Sharp Level", runtimeProps.dismemberSharp);
+        RenderOverrideField(dismemberFields[0]);
         TooltipHelper::ShowTooltip("Sharp dismemberment threshold (higher = easier to sever)");
-        GuiUtils::RenderOverrideInt("Blunt Level", runtimeProps.dismemberBlunt);
+        RenderOverrideField(dismemberFields[1]);
         TooltipHelper::ShowTooltip("Blunt dismemberment threshold (higher = easier to crush)");
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Toggles")) {
-        GuiUtils::RenderOverrideBool("Double Edged", runtimeProps.doubleEdged);
+        RenderOverrideField(toggleFields[0]);
         TooltipHelper::ShowTooltip("Both edges can cut (swords vs single-edge weapons)");
-        GuiUtils::RenderOverrideBool("Piercing", runtimeProps.piercing);
+        RenderOverrideField(toggleFields[1]);
         TooltipHelper::ShowTooltip("Weapon can pierce through armor");
-        GuiUtils::RenderOverrideBool("No Stab", runtimeProps.noStab);
+        RenderOverrideField(toggleFields[2]);
         TooltipHelper::ShowTooltip("Disables thrust attacks (for blunt weapons)");
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Stamina")) {
-        GuiUtils::RenderOverrideDrag("R Hand Burn", runtimeProps.staminaBurnR, 0.01f);
+        RenderOverrideField(staminaFields[0]);
         TooltipHelper::ShowTooltip("Stamina drain rate when wielding in right hand");
-        GuiUtils::RenderOverrideDrag("L Hand Burn", runtimeProps.staminaBurnL, 0.01f);
+        RenderOverrideField(staminaFields[1]);
         TooltipHelper::ShowTooltip("Stamina drain rate when wielding in left hand");
-        GuiUtils::RenderOverrideDrag("2H Burn", runtimeProps.staminaBurn2H, 0.01f);
+        RenderOverrideField(staminaFields[2]);
         TooltipHelper::ShowTooltip("Stamina drain rate for two-handed default grip");
-        GuiUtils::RenderOverrideDrag("2H Alt Burn", runtimeProps.staminaBurn2HAlt, 0.01f);
+        RenderOverrideField(staminaFields[3]);
         TooltipHelper::ShowTooltip("Stamina drain for alternate two-handed grip (half-sword, mordschlag)");
         ImGui::TreePop();
     }
@@ -1017,15 +1076,15 @@ void WeaponEditorSection::SetStatus(std::string msg, bool isError) {
 }
 
 void WeaponEditorSection::RenderSpawnFooter() {
-    bool canSpawn = ComponentValidator::Validate(player) && ComponentValidator::Validate(world);
-    if (!canSpawn) ImGui::BeginDisabled();
+    if (!player || !world) ImGui::BeginDisabled();
     if (ImGui::Button("Spawn Weapon", ImVec2(-1, 0))) SpawnFromPassport();
     TooltipHelper::ShowTooltip("Spawn the weapon with current settings. Disables live preview");
-    if (!canSpawn) ImGui::EndDisabled();
+    if (!player || !world) ImGui::EndDisabled();
 }
 
 WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, "Weapon Editor") {
     CreateBlankWeaponPassport();
+    BuildDescriptors();
     InitKeybinds();
 
     preview.SetCleanupCallback([this]() {
@@ -1042,7 +1101,7 @@ void WeaponEditorSection::InitKeybinds() {
         .keyPtr = &cfg.spawnKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 SpawnFromPassport();
             },
         .params =

@@ -8,6 +8,7 @@
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
+#include "Menu/Override.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/GameConstants.h"
 #include "Utils/GlobalModulePool.h"
@@ -55,6 +56,16 @@ private:
 
     PresetSectionState<WeaponPresetSerializer> presets;
     int activeTab = 0;
+
+    /// Cached override descriptor groups, built once in constructor.
+    std::vector<OverrideDescriptor> combatFields;
+    std::vector<OverrideDescriptor> physicsFields;
+    std::vector<OverrideDescriptor> dismemberFields;
+    std::vector<OverrideDescriptor> toggleFields;
+    std::vector<OverrideDescriptor> staminaFields;
+
+    void BuildDescriptors();
+    int CountAllActive() const;
 
     enum class WeaponModuleSlot : int { Head = 0, Guard, Grip, Pommel, Count };
     static constexpr int MODULE_SLOT_COUNT = static_cast<int>(WeaponModuleSlot::Count);
@@ -119,8 +130,7 @@ private:
     void QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier);
     void GenerateWeaponPassport();
     void RandomizeWeaponPassport();
-    static void ApplyRuntimeProps(SDK::AActor* actor, const WeaponRuntimeProps& props);
-    int CountActiveOverrides() const;
+    void ApplyOverridesToActor(SDK::AActor* actor) const;
     void SpawnPreview();
     void SpawnFromPassport();
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f);
