@@ -196,35 +196,30 @@ void MapLoaderSection::SpawnPlayer() {
 
         auto transform = c->GetTransform();
 
-        auto* newActor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
-            w, willieClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn, nullptr,
-            SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
-        );
+        auto* newActor = Spawner::DeferredSpawn(w, willieClass, transform, [&](SDK::AActor* actor) {
+            auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+            willie->Player = true;
+            willie->Team_Int = 0;
+            if (gi) willie->Character_Passport = gi->Player_Character;
+
+            if (!presetPath.empty()) {
+                auto preset = PlayerPresetSerializer::LoadFromFile(presetPath);
+                if (preset.success) {
+                    auto& o = preset.overrides;
+                    if (o.heightRate.enabled) {
+                        willie->Height_Rate = o.heightRate.value;
+                        willie->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = o.heightRate.value;
+                    }
+                    if (o.muscleRate.enabled) {
+                        willie->Muscle_Rate = o.muscleRate.value;
+                        willie->Character_Passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = o.muscleRate.value;
+                    }
+                }
+            }
+        });
         if (!newActor) return;
 
         auto* willie = static_cast<SDK::AWillie_BP_C*>(newActor);
-        willie->Player = true;
-        willie->Team_Int = 0;
-        if (gi) willie->Character_Passport = gi->Player_Character;
-
-        if (!presetPath.empty()) {
-            auto preset = PlayerPresetSerializer::LoadFromFile(presetPath);
-            if (preset.success) {
-                auto& o = preset.overrides;
-                if (o.heightRate.enabled) {
-                    willie->Height_Rate = o.heightRate.value;
-                    willie->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = o.heightRate.value;
-                }
-                if (o.muscleRate.enabled) {
-                    willie->Muscle_Rate = o.muscleRate.value;
-                    willie->Character_Passport.Weight_23_65E4C6534D14653F96EB739F159E58CD = o.muscleRate.value;
-                }
-            }
-        }
-
-        SDK::UGameplayStatics::FinishSpawningActor(
-            newActor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
-        );
 
         c->Possess(willie);
         willie->Set_Up_Armor(true, false);

@@ -20,6 +20,14 @@ namespace Spawner {
     float GetGroundOffsetForType(ActorType type, const SDK::FVector& scale = {1.0f, 1.0f, 1.0f});
     void ClearCache();
 
+    /// Deferred spawn helper: begins deferred actor spawn -> runs optional pre-finish callback -> finishes spawning.
+    /// All spawn functions use this internally. Exposed publicly so callers outside Spawner (e.g. MapLoaderSection)
+    /// can use it directly instead of duplicating the pattern.
+    SDK::AActor* DeferredSpawn(
+        const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform,
+        std::function<void(SDK::AActor*)> preFinishCallback = nullptr
+    );
+
     SDK::FVector GetGroundPosition(
         const SDK::UWorld* world, SDK::FVector position, float groundOffset = 50.0f, float traceDistance = 1000.0f
     );
@@ -31,10 +39,6 @@ namespace Spawner {
     void SpawnCustomizableWeapon(
         const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround = false,
         int tier = 4
-    );
-    void SpawnWeaponFromPassport(
-        const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform,
-        bool snapToGround = false
     );
     void SpawnArmorFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,

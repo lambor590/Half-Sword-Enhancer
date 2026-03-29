@@ -6,7 +6,6 @@ ToCompactString
 
 # Mod -- will be removed during utilities milestone
 GetProcessBaseAddress
-SpawnWeaponFromPassport
 
 # Override system -- infrastructure consumed by sections-editors milestone
 CountActive
