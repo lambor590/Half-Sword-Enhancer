@@ -1,7 +1,6 @@
 #include "Menu/Sections/Equipment/ArmorEditorSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-#include "ComponentValidator.h"
 
 REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
 
@@ -12,6 +11,37 @@ REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
 #include "Utils/Spawner.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
+
+// ── Descriptor construction ───────────────────────────────────────────
+
+void ArmorEditorSection::BuildDescriptors() {
+    auto& rp = runtimeProps;
+
+    protectionFields = {
+        OverrideField("Blunt Protection", rp.protectionBlunt, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Cut Protection", rp.protectionCut, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Stab Protection", rp.protectionStab, 0.0, 0.0, 0.0, 0.1f),
+    };
+    physicsFields = {
+        OverrideField("Material Density", rp.materialDensity, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Mass Scale", rp.massScale, 0.0, 0.0, 0.0, 0.01f),
+    };
+    behaviorFields = {
+        OverrideField("Hands Rigidity", rp.handsRigidity, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Strap Power", rp.strapPower, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("AI Invincibility Rate", rp.aiInvincibilityRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Price Override", rp.price, 0.0, 0.0, 0.0, 1.0f),
+        OverrideField("Pick Up", rp.pickUp),
+    };
+}
+
+// ── Active override counting via descriptors ──────────────────────────
+
+int ArmorEditorSection::CountAllActive() const {
+    return CountActive(protectionFields) + CountActive(physicsFields) + CountActive(behaviorFields);
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────
 
 bool ArmorEditorSection::IsModularCore() const {
     SDK::UClass* coreClass = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
@@ -74,50 +104,65 @@ void ArmorEditorSection::RandomizeArmorPassport() {
     GenerateArmorPassport();
 }
 
-void ArmorEditorSection::ApplyRuntimeProps(SDK::AActor* actor, const ArmorRuntimeProps& props) {
+// ── Apply overrides using descriptors ─────────────────────────────────
+
+void ArmorEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
     if (!actor) return;
     auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
+    const auto& rp = runtimeProps;
 
-    if (props.protectionBlunt.enabled) armor->Protection_Blunt = props.protectionBlunt.value;
-    if (props.protectionCut.enabled) armor->Protection_Cut = props.protectionCut.value;
-    if (props.protectionStab.enabled) armor->Protection_Stab = props.protectionStab.value;
-    if (props.materialDensity.enabled) armor->Material_Density = props.materialDensity.value;
-    if (props.massScale.enabled) armor->Mass_Scale = props.massScale.value;
-    if (props.handsRigidity.enabled) armor->Hands_Rigidity__Gauntlets_ = props.handsRigidity.value;
-    if (props.strapPower.enabled) armor->Strap_Power__Helmet_ = props.strapPower.value;
-    if (props.aiInvincibilityRate.enabled) armor->AI_Invinvcibility_Rate = props.aiInvincibilityRate.value;
-    if (props.price.enabled) armor->Price = props.price.value;
-    if (props.pickUp.enabled) armor->Pick_Up = props.pickUp.value;
+    ApplyAll(protectionFields, [armor, &rp](const OverrideDescriptor& f) {
+        double v = GetDouble(f);
+        if (f.value == &rp.protectionBlunt.value)
+            armor->Protection_Blunt = v;
+        else if (f.value == &rp.protectionCut.value)
+            armor->Protection_Cut = v;
+        else
+            armor->Protection_Stab = v;
+    });
+
+    ApplyAll(physicsFields, [armor, &rp](const OverrideDescriptor& f) {
+        double v = GetDouble(f);
+        if (f.value == &rp.materialDensity.value)
+            armor->Material_Density = v;
+        else
+            armor->Mass_Scale = v;
+    });
+
+    ApplyAll(behaviorFields, [armor, &rp](const OverrideDescriptor& f) {
+        if (f.type == OverrideFieldType::Bool) {
+            armor->Pick_Up = GetBool(f);
+        } else {
+            double v = GetDouble(f);
+            if (f.value == &rp.handsRigidity.value)
+                armor->Hands_Rigidity__Gauntlets_ = v;
+            else if (f.value == &rp.strapPower.value)
+                armor->Strap_Power__Helmet_ = v;
+            else if (f.value == &rp.aiInvincibilityRate.value)
+                armor->AI_Invinvcibility_Rate = v;
+            else
+                armor->Price = v;
+        }
+    });
 }
 
-int ArmorEditorSection::CountActiveOverrides() const {
-    const bool flags[] = {runtimeProps.protectionBlunt.enabled, runtimeProps.protectionCut.enabled,
-                          runtimeProps.protectionStab.enabled,  runtimeProps.materialDensity.enabled,
-                          runtimeProps.massScale.enabled,       runtimeProps.handsRigidity.enabled,
-                          runtimeProps.strapPower.enabled,      runtimeProps.aiInvincibilityRate.enabled,
-                          runtimeProps.price.enabled,           runtimeProps.pickUp.enabled};
-    int count = 0;
-    for (bool f : flags)
-        count += f;
-    return count;
-}
+// ── Live preview ──────────────────────────────────────────────────────
 
 void ArmorEditorSection::SpawnPreview() {
     preview.Destroy();
     if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
-    if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+    if (!player || !world) return;
 
     lastPreviewedPassport = armorPassport;
     lastPreviewedProps = runtimeProps;
 
-    auto props = runtimeProps;
-    bool hasOverrides = CountActiveOverrides() > 0;
+    bool hasOverrides = CountAllActive() > 0;
 
     Spawner::SpawnArmorFromPassport(
         world, armorPassport,
         Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
         cfg.spawn.snapToGround,
-        [this, props, hasOverrides](SDK::AActor* actor) {
+        [this, hasOverrides](SDK::AActor* actor) {
             if (!cfg.preview.livePreview) {
                 actor->K2_DestroyActor();
                 return;
@@ -128,7 +173,7 @@ void ArmorEditorSection::SpawnPreview() {
             if (armor->Armor_Mesh_Skeletal) armor->Armor_Mesh_Skeletal->SetAllBodiesSimulatePhysics(false);
             if (armor->Armor_Mesh_Primitive) armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
             actor->SetActorEnableCollision(false);
-            if (hasOverrides) ApplyRuntimeProps(actor, props);
+            if (hasOverrides) ApplyOverridesToActor(actor);
             preview.SetPreviewActor(actor);
             if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
         }
@@ -157,12 +202,9 @@ void ArmorEditorSection::SpawnFromPassport() {
     }
 
     std::function<void(SDK::AActor*)> callback = nullptr;
-    bool hasOverrides = CountActiveOverrides() > 0;
-
-    if (hasOverrides) {
-        auto props = runtimeProps;
-        callback = [props](SDK::AActor* actor) {
-            ApplyRuntimeProps(actor, props);
+    if (CountAllActive() > 0) {
+        callback = [this](SDK::AActor* actor) {
+            ApplyOverridesToActor(actor);
         };
     }
 
@@ -172,6 +214,8 @@ void ArmorEditorSection::SpawnFromPassport() {
         cfg.spawn.snapToGround, callback
     );
 }
+
+// ── Generation controls rendering ─────────────────────────────────────
 
 void ArmorEditorSection::RenderGenerationControls() {
     ImGui::PushID("gen");
@@ -204,11 +248,11 @@ void ArmorEditorSection::RenderGenerationControls() {
 
     ImGui::Spacing();
     if (ImGui::Button("Generate")) {
-        if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world)) GenerateArmorPassport();
+        if (player && world) GenerateArmorPassport();
     }
     ImGui::SameLine();
     if (ImGui::Button("Randomize")) {
-        if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world)) RandomizeArmorPassport();
+        if (player && world) RandomizeArmorPassport();
     }
     ImGui::SameLine();
     if (ImGui::Button("Reset")) CreateBlankArmorPassport();
@@ -220,6 +264,8 @@ void ArmorEditorSection::RenderGenerationControls() {
 
     ImGui::PopID();
 }
+
+// ── Tab rendering (using RenderOverrideField from override system) ────
 
 void ArmorEditorSection::RenderModulesTab() {
     ImGui::PushID("modules");
@@ -282,47 +328,49 @@ void ArmorEditorSection::RenderStatsTab() {
 
     if (ImGui::Button("Reset All Overrides")) runtimeProps = {};
     TooltipHelper::ShowTooltip("Disable all runtime overrides");
-    GuiUtils::RenderOverrideCount(CountActiveOverrides());
+    GuiUtils::RenderOverrideCount(CountAllActive());
 
     ImGui::Spacing();
     if (ImGui::TreeNodeEx("Protection", ImGuiTreeNodeFlags_DefaultOpen)) {
-        GuiUtils::RenderOverrideDrag("Blunt Protection", runtimeProps.protectionBlunt, 0.1f);
+        RenderOverrideField(protectionFields[0]);
         TooltipHelper::ShowTooltip("Protection against blunt/crushing damage");
-        GuiUtils::RenderOverrideDrag("Cut Protection", runtimeProps.protectionCut, 0.1f);
+        RenderOverrideField(protectionFields[1]);
         TooltipHelper::ShowTooltip("Protection against cutting/slashing damage");
-        GuiUtils::RenderOverrideDrag("Stab Protection", runtimeProps.protectionStab, 0.1f);
+        RenderOverrideField(protectionFields[2]);
         TooltipHelper::ShowTooltip("Protection against piercing/stabbing damage");
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Physics")) {
-        GuiUtils::RenderOverrideDrag("Material Density", runtimeProps.materialDensity, 0.1f);
+        RenderOverrideField(physicsFields[0]);
         TooltipHelper::ShowTooltip("Material density - affects weight and impact absorption");
-        GuiUtils::RenderOverrideDrag("Mass Scale", runtimeProps.massScale, 0.01f);
+        RenderOverrideField(physicsFields[1]);
         TooltipHelper::ShowTooltip("Overall mass multiplier for the armor piece");
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Behavior")) {
-        GuiUtils::RenderOverrideDrag("Hands Rigidity", runtimeProps.handsRigidity, 0.1f);
+        RenderOverrideField(behaviorFields[0]);
         TooltipHelper::ShowTooltip("Gauntlet hand rigidity - affects grip strength");
-        GuiUtils::RenderOverrideDrag("Strap Power", runtimeProps.strapPower, 0.1f);
+        RenderOverrideField(behaviorFields[1]);
         TooltipHelper::ShowTooltip("Helmet strap force - affects how securely the helmet stays on");
-        GuiUtils::RenderOverrideDrag("AI Invincibility Rate", runtimeProps.aiInvincibilityRate, 0.01f);
+        RenderOverrideField(behaviorFields[2]);
         TooltipHelper::ShowTooltip("Rate at which AI ignores damage when wearing this armor");
-        GuiUtils::RenderOverrideDrag("Price Override", runtimeProps.price, 1.0f);
+        RenderOverrideField(behaviorFields[3]);
         TooltipHelper::ShowTooltip("Override the runtime price value on the actor");
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Toggles")) {
-        GuiUtils::RenderOverrideBool("Pick Up", runtimeProps.pickUp);
+        RenderOverrideField(behaviorFields[4]);
         TooltipHelper::ShowTooltip("Allow picking up this armor piece from the ground");
         ImGui::TreePop();
     }
 
     ImGui::PopID();
 }
+
+// ── Preset data conversion ────────────────────────────────────────────
 
 ArmorPresetData ArmorEditorSection::BuildPresetData() const {
     ArmorPresetData d;
@@ -343,17 +391,11 @@ void ArmorEditorSection::ApplyPresetData(ArmorPresetData d) {
     }
 }
 
-void ArmorEditorSection::RenderSpawnFooter() {
-    bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
-    if (!canSpawn) ImGui::BeginDisabled();
-    if (ImGui::Button("Spawn Armor", ImVec2(-1, 0))) {
-        if (ComponentValidator::Validate(player) && ComponentValidator::Validate(world)) SpawnFromPassport();
-    }
-    if (!canSpawn) ImGui::EndDisabled();
-}
+// ── Constructor & keybinds ────────────────────────────────────────────
 
 ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, "Armor Editor") {
     CreateBlankArmorPassport();
+    BuildDescriptors();
     InitKeybinds();
 }
 
@@ -365,7 +407,7 @@ void ArmorEditorSection::InitKeybinds() {
         .keyPtr = &cfg.spawnKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 SpawnFromPassport();
             },
         .params =
@@ -385,6 +427,8 @@ void ArmorEditorSection::InitKeybinds() {
     InitKeybindEntry(keybinds.back());
 }
 
+// ── Main Render ───────────────────────────────────────────────────────
+
 void ArmorEditorSection::Render() {
     SectionStyle::StyleRAII style;
 
@@ -396,27 +440,11 @@ void ArmorEditorSection::Render() {
 
     RenderGenerationControls();
 
-    (void)GuiUtils::CheckboxWithTooltip(
-        "Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview armor that updates as you edit"
-    );
-    if (cfg.preview.livePreview) {
-        ImGui::SameLine();
-        (void
-        )GuiUtils::CheckboxWithTooltip("Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview armor");
-        if (cfg.preview.autoRotate) {
-            ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
-            ImGui::DragFloat("Rotation Speed", &cfg.preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
-            TooltipHelper::ShowTooltip("Rotation speed in degrees/second. Negative values reverse direction");
-        }
-    }
+    GuiUtils::RenderPreviewControls(cfg.preview, "preview armor");
 
     presets.status.Render();
 
-    float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
-    float scrollH = ImGui::GetContentRegionAvail().y - footerH;
-    if (scrollH < 100.0f) scrollH = 100.0f;
-
-    ImGui::BeginChild("##armor_scroll", ImVec2(0, scrollH));
+    GuiUtils::BeginScrollWithFooter("##armor_scroll");
 
     static constexpr const char* AE_TAB_LABELS[] = {"Modules", "Colors", "Stats", "Presets"};
     GuiUtils::RenderUnderlineTabs("##ArmorEditorTabs", activeTab, AE_TAB_LABELS, 4);
@@ -433,7 +461,12 @@ void ArmorEditorSection::Render() {
 
     ImGui::EndChild();
 
-    RenderSpawnFooter();
+    bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
+    if (!canSpawn) ImGui::BeginDisabled();
+    if (ImGui::Button("Spawn Armor", ImVec2(-1, 0))) {
+        if (player && world) SpawnFromPassport();
+    }
+    if (!canSpawn) ImGui::EndDisabled();
 
     if (cfg.preview.livePreview) {
         bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport) ||

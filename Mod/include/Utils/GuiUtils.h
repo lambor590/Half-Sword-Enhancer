@@ -12,6 +12,7 @@
 #include "ConfigManager.h"
 #include "DefaultStyle.h"
 #include "Utils/PresetUtils.h"
+#include "Menu/SectionConfig.h"
 #include "Utils/OverrideTypes.h"
 #include "Utils/GameConstants.h"
 #include "SDK/Enum_Ranks_structs.hpp"
@@ -355,6 +356,34 @@ namespace GuiUtils {
             ImGui::SameLine();
             ImGui::TextDisabled("(%d active)", count);
         }
+    }
+
+    /// Render the shared live-preview controls (Live Preview checkbox,
+    /// Auto-Rotate checkbox, Rotation Speed drag). Used by editor sections
+    /// that support a LivePreviewManager + PreviewConfig.
+    inline void RenderPreviewControls(PreviewConfig& preview, const char* itemType = "preview") {
+        char label[64];
+        std::snprintf(label, sizeof(label), "Auto-spawn a %s that updates as you edit", itemType);
+        (void)CheckboxWithTooltip("Live Preview", &preview.livePreview, label);
+        if (preview.livePreview) {
+            ImGui::SameLine();
+            std::snprintf(label, sizeof(label), "Continuously rotate the %s", itemType);
+            (void)CheckboxWithTooltip("Auto-Rotate", &preview.autoRotate, label);
+            if (preview.autoRotate) {
+                ImGui::SetNextItemWidth(kDragWidth);
+                ImGui::DragFloat("Rotation Speed", &preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
+            }
+        }
+    }
+
+    /// Begin a scrollable region above a fixed-height spawn footer button.
+    /// Returns the child height used. Caller must call ImGui::EndChild() after content.
+    inline float BeginScrollWithFooter(const char* id) {
+        float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
+        float scrollH = ImGui::GetContentRegionAvail().y - footerH;
+        if (scrollH < 100.0f) scrollH = 100.0f;
+        ImGui::BeginChild(id, ImVec2(0, scrollH));
+        return scrollH;
     }
 
     template <typename Entry>

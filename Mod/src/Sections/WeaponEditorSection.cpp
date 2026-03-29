@@ -1078,28 +1078,11 @@ void WeaponEditorSection::Render() {
         GameHook::QueueAction([this]() { globalModules.Populate(); });
     }
 
-    (void)GuiUtils::CheckboxWithTooltip(
-        "Live Preview", &cfg.preview.livePreview, "Auto-spawn a preview weapon that updates as you edit"
-    );
-    if (cfg.preview.livePreview) {
-        ImGui::SameLine();
-        (void)GuiUtils::CheckboxWithTooltip(
-            "Auto-Rotate", &cfg.preview.autoRotate, "Continuously rotate the preview weapon"
-        );
-        if (cfg.preview.autoRotate) {
-            ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
-            ImGui::DragFloat("Rotation Speed", &cfg.preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
-            TooltipHelper::ShowTooltip("Rotation speed in degrees/second. Negative values reverse direction");
-        }
-    }
+    GuiUtils::RenderPreviewControls(cfg.preview, "preview weapon");
 
     presets.status.Render();
 
-    float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
-    float scrollH = ImGui::GetContentRegionAvail().y - footerH;
-    if (scrollH < 100.0f) scrollH = 100.0f;
-
-    ImGui::BeginChild("##weapon_scroll", ImVec2(0, scrollH));
+    GuiUtils::BeginScrollWithFooter("##weapon_scroll");
 
     static constexpr const char* WE_TAB_LABELS[] = {"Modules", "Geometry", "Appearance", "Mesh", "Stats", "Presets"};
     GuiUtils::RenderUnderlineTabs("##WeaponEditorTabs", activeTab, WE_TAB_LABELS, 6);

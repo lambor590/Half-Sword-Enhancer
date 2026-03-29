@@ -5,6 +5,7 @@
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
+#include "Menu/Override.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/GameConstants.h"
@@ -57,14 +58,21 @@ private:
     PresetSectionState<ArmorPresetSerializer> presets;
     int activeTab = 0;
 
+    /// Cached override descriptor groups, built once in constructor.
+    std::vector<OverrideDescriptor> protectionFields;
+    std::vector<OverrideDescriptor> physicsFields;
+    std::vector<OverrideDescriptor> behaviorFields;
+
+    void BuildDescriptors();
+    int CountAllActive() const;
+
     bool IsModularCore() const;
     void PopulateModulePoolForCurrentCore();
     void CreateBlankArmorPassport();
     void QueueGeneration(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, double moduleChance);
     void GenerateArmorPassport();
     void RandomizeArmorPassport();
-    static void ApplyRuntimeProps(SDK::AActor* actor, const ArmorRuntimeProps& props);
-    int CountActiveOverrides() const;
+    void ApplyOverridesToActor(SDK::AActor* actor) const;
     void SpawnPreview();
     static bool PassportChanged(const SDK::FStr_Passport_Armor1& a, const SDK::FStr_Passport_Armor1& b);
     void SpawnFromPassport();
@@ -74,7 +82,6 @@ private:
     void RenderStatsTab();
     ArmorPresetData BuildPresetData() const;
     void ApplyPresetData(ArmorPresetData d);
-    void RenderSpawnFooter();
     void InitKeybinds();
 
 public:
