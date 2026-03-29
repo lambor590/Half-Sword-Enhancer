@@ -3,10 +3,9 @@
 #include "Menu/SectionStyle.h"
 
 REGISTER_SECTION(WorldActionsSection, MenuTab::World);
-#include "Utils/Spawner.h"
+#include "Hooks/GameHook.h"
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
-#include "ComponentValidator.h"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/Blood_BP_P4_classes.hpp"
@@ -31,7 +30,7 @@ void WorldActionsSection::InitKeybinds() {
         .keyPtr = &cfg.sloMoKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(worldSettings)) return;
+                if (!worldSettings) return;
                 worldSettings->TimeDilation = (worldSettings->TimeDilation == GameConstants::DEFAULT_TIME_DILATION)
                                                   ? cfg.slowMotionSpeed
                                                   : GameConstants::DEFAULT_TIME_DILATION;
@@ -48,7 +47,7 @@ void WorldActionsSection::InitKeybinds() {
         .keyPtr = &cfg.customGravityKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(worldSettings)) return;
+                if (!worldSettings) return;
                 worldSettings->bWorldGravitySet = true;
                 worldSettings->WorldGravityZ = (worldSettings->WorldGravityZ == GameConstants::DEFAULT_GRAVITY)
                                                    ? cfg.customGravityValue
@@ -64,7 +63,7 @@ void WorldActionsSection::InitKeybinds() {
         .keyPtr = &cfg.killAllEnemiesKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 GameHook::QueueAction([this]() {
                     ActorUtils::ForEachWillieInRadius(
                         world, player, cfg.killAllEnemiesRadius,
@@ -90,7 +89,7 @@ void WorldActionsSection::InitKeybinds() {
         .keyPtr = &cfg.toggleEnemyAIKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 GameHook::QueueAction([this]() {
                     bool newTickEnabled = false;
                     bool computed = false;
@@ -119,7 +118,7 @@ void WorldActionsSection::InitKeybinds() {
         .keyPtr = &cfg.destroyWilliesKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 GameHook::QueueAction([this]() {
                     ActorUtils::ForEachWillie(world, player, [this](SDK::AWillie_BP_C* willie) {
                         if (!cfg.destroyDeadOnly || willie->Health <= GameConstants::MIN_HEALTH) {
@@ -150,7 +149,7 @@ void WorldActionsSection::InitKeybinds() {
         .keyPtr = &cfg.clearBloodKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(world)) return;
+                if (!world) return;
                 GameHook::QueueAction([this]() {
                     const SDK::FLinearColor clearColor{0.0f, 0.0f, 0.0f, 0.0f};
                     const SDK::FLinearColor defaultVertexColor{1.0f, 1.0f, 1.0f, 1.0f};
@@ -224,7 +223,7 @@ void WorldActionsSection::InitKeybinds() {
         .keyPtr = &cfg.clearObjectsKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 GameHook::QueueAction([this]() {
                     std::vector<SDK::FVector> williePositions;
                     ActorUtils::ForEachWillie(world, nullptr, [&](SDK::AWillie_BP_C* willie) {
@@ -270,7 +269,7 @@ void WorldActionsSection::InitKeybinds() {
         .keyPtr = &cfg.setGamePausedKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(world)) return;
+                if (!world) return;
                 const bool isPaused = SDK::UGameplayStatics::IsGamePaused(world);
                 SDK::UGameplayStatics::SetGamePaused(world, !isPaused);
             },
