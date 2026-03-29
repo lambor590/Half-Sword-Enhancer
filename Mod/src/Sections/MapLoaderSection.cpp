@@ -14,7 +14,7 @@ REGISTER_SECTION(MapLoaderSection, MenuTab::World);
 
 void MapLoaderSection::RefreshLevelName() {
     if (!levelNameDirty) return;
-    if (ComponentValidator::Validate(world)) {
+    if (world) {
         SDK::FString currentLevel = SDK::UGameplayStatics::GetCurrentLevelName(world, true);
         cachedLevelName = currentLevel.ToString();
     } else {
@@ -64,7 +64,7 @@ void MapLoaderSection::RebuildFilter(MapRegistry& reg) {
 }
 
 void MapLoaderSection::LoadMap(const std::string& packageName) {
-    if (!ComponentValidator::Validate(world)) return;
+    if (!world) return;
     if (optAutoSpawn) pendingAutoSpawn = true;
 
     bool freshStart = optFreshStart, tutorial = optTutorial;
@@ -149,18 +149,16 @@ void MapLoaderSection::SpawnPlayer() {
 
     GameHook::QueueAction([this, presetPath, hasLoadout, loadout = std::move(loadoutData), hasNPCPreset,
                            npcPreset = std::move(npcData), npcCount]() {
-        SDK::APlayerController* c;
-        SDK::UWorld* w;
-        if (!ComponentValidator::Validate(c) || !ComponentValidator::Validate(w)) return;
+        if (!controller || !world) return;
 
-        auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(w));
+        auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(world));
 
         auto* willieClass = Spawner::LoadClass(GameConstants::WILLIE_BP_PATH);
         if (!willieClass) return;
 
-        auto transform = c->GetTransform();
+        auto transform = controller->GetTransform();
 
-        auto* newActor = Spawner::DeferredSpawn(w, willieClass, transform, [&](SDK::AActor* actor) {
+        auto* newActor = Spawner::DeferredSpawn(world, willieClass, transform, [&](SDK::AActor* actor) {
             auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
             willie->Player = true;
             willie->Team_Int = 0;
@@ -185,11 +183,11 @@ void MapLoaderSection::SpawnPlayer() {
 
         auto* willie = static_cast<SDK::AWillie_BP_C*>(newActor);
 
-        c->Possess(willie);
+        controller->Possess(willie);
         willie->Set_Up_Armor(true, false);
 
-        if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(w, willie, loadout);
-        if (hasNPCPreset) SpawnAutoNPCs(w, willie, npcPreset, npcCount);
+        if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(world, willie, loadout);
+        if (hasNPCPreset) SpawnAutoNPCs(world, willie, npcPreset, npcCount);
     });
 }
 
@@ -323,10 +321,9 @@ void MapLoaderSection::Render() {
         ImGui::Spacing();
     }
 
-    SDK::AWillie_BP_C* playerCheck = nullptr;
-    bool hasPlayer = ComponentValidator::Validate(playerCheck);
+    bool hasPlayer = player != nullptr;
 
-    if (pendingAutoSpawn && !hasPlayer && ComponentValidator::Validate(world)) {
+    if (pendingAutoSpawn && !hasPlayer && world) {
         SpawnPlayer();
         pendingAutoSpawn = false;
     }
