@@ -1,7 +1,8 @@
 #include "Core/ModContext.h"
-#include "ComponentValidator.h"
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
+#include "SDK/Engine_classes.hpp"
+#include "SDK/Willie_BP_classes.hpp"
 
 ModContext& ModContext::Get() {
     static ModContext instance;
@@ -11,8 +12,18 @@ ModContext& ModContext::Get() {
 ModContext::ModContext() : gameHook(GameHook::Get()), configManager(ConfigManager::Get()) {}
 
 void ModContext::RefreshCache() {
-    ComponentValidator::Validate(world);
-    ComponentValidator::Validate(controller);
-    ComponentValidator::Validate(player);
-    ComponentValidator::Validate(worldSettings);
+    world = SDK::UWorld::GetWorld();
+    if (world) {
+        worldSettings = world->K2_GetWorldSettings();
+        auto* gi = world->OwningGameInstance;
+        if (gi && gi->LocalPlayers.Num()) {
+            auto* lp = gi->LocalPlayers[0];
+            if (lp) controller = lp->PlayerController;
+        }
+    }
+    if (controller) {
+        auto* pawn = controller->Pawn;
+        player =
+            (pawn && pawn->IsA(SDK::AWillie_BP_C::StaticClass())) ? static_cast<SDK::AWillie_BP_C*>(pawn) : nullptr;
+    }
 }

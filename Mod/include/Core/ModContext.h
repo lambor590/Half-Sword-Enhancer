@@ -12,7 +12,7 @@ class ConfigManager;
 
 /// Single context object replacing global pointer soup.
 /// Provides per-frame cached component pointers validated once per render frame.
-/// Sections and GUI access game components through this instead of ComponentValidator chains.
+/// Sections and GUI access game components through this instead of per-section validation chains.
 class ModContext {
 public:
     static ModContext& Get();

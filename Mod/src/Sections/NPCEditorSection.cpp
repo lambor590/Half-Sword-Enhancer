@@ -2,7 +2,6 @@
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "Utils/Spawner.h"
-#include "ComponentValidator.h"
 
 REGISTER_SECTION(NPCEditorSection, MenuTab::Spawner);
 #include "Utils/EquipmentGenerator.h"
@@ -277,7 +276,7 @@ void NPCEditorSection::InitKeybinds() {
         .keyPtr = &cfg.spawnEnemyKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 SpawnNPC();
             },
         .params =

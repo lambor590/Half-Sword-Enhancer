@@ -47,8 +47,6 @@ namespace MemoryUtils {
         ToggleMemoryProtection(true, address, numBytes);
     }
 
-    uintptr_t GetProcessBaseAddress(DWORD processId) noexcept;
-
     static inline const std::string& GetCurrentModuleName() noexcept {
         static const std::string cachedName = []() {
             HMODULE module = NULL;

@@ -245,7 +245,6 @@
     <ClCompile Include="SDK\SDK\SG_PlayerProgression_functions.cpp">
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-    <ClCompile Include="src\ComponentValidator.cpp" />
     <ClCompile Include="src\ConfigManager.cpp" />
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\KeybindManager.cpp" />
@@ -300,7 +299,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\ComponentValidator.h" />
     <ClInclude Include="include\ConfigManager.h" />
     <ClInclude Include="include\GlobalDefinitions.h" />
     <ClInclude Include="include\Gui.h" />

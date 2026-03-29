@@ -298,19 +298,4 @@ namespace MemoryUtils {
         InfoBufferForHookedAddresses.erase(it);
     }
 
-    uintptr_t GetProcessBaseAddress(DWORD processId) noexcept {
-        HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processId);
-        if (!hProcess) return 0;
-
-        HMODULE hModule;
-        DWORD cbNeeded;
-        uintptr_t baseAddress = 0;
-
-        if (EnumProcessModules(hProcess, &hModule, sizeof(hModule), &cbNeeded)) {
-            baseAddress = reinterpret_cast<uintptr_t>(hModule);
-        }
-
-        CloseHandle(hProcess);
-        return baseAddress;
-    }
 }

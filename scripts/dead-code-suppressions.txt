@@ -4,10 +4,7 @@
 # Launcher -- unused utility (pre-existing, out of scope for Mod rewrite)
 ToCompactString
 
-# Mod -- will be removed during utilities milestone
-GetProcessBaseAddress
-
-# Override system -- infrastructure consumed by sections-editors milestone
+# Override system -- called by editor sections via override descriptor tables
 CountActive
 SerializeAll
 DeserializeAll

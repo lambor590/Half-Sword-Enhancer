@@ -5,7 +5,6 @@
 #include "Utils/GameConstants.h"
 #include "Utils/TierValidation.h"
 #include "Utils/EquipmentGenerator.h"
-#include "ComponentValidator.h"
 #include "Hooks/GameHook.h"
 #include "SDK/AssetRegistry_classes.hpp"
 #include "ConfigManager.h"
@@ -214,42 +213,42 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
 std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
     std::string name{assetName};
 
-    static constexpr std::string_view prefixes[] =
-        {"BP_GameWeapon_Customizable_",
-         "BP_GameWeapon_",
-         "BP_Weapon_Reforged_",
-         "BP_Weapon_Tool_",
-         "BP_Weapon_Improv_",
-         "BP_Weapon_Ranged_Weapon_",
-         "BP_Weapon_Ranged_Projectle_",
-         "BP_Weapon_Treasure_",
-         "BP_Weapon_",
-         "ModularWeaponBP_Tool_",
-         "ModularWeaponBP_",
-         "BP_Armor_Modular_Core_",
-         "BP_Armor_Modular_Module_",
-         "BP_Armor_Head_Hat_",
-         "BP_Armor_Head_",
-         "BP_Armor_Body_Doublet_",
-         "BP_Armor_Body_",
-         "BP_Armor_Arms_",
-         "BP_Armor_Legs_Hosen_",
-         "BP_Armor_Legs_",
-         "BP_Armor_Hands_",
-         "BP_Armor_Feet_",
-         "BP_Armor_Neck_",
-         "BP_Armor_Shoulders_",
-         "BP_Armor_",
-         "BP_Container_",
-         "BP_Prop_Light_",
-         "BP_Prop_Furniture_",
-         "BP_Prop_Smithing_",
-         "BP_Prop_Construction_",
-         "BP_Fence_",
-         "BP_Quiver_",
-         "BP_Candle",
-         "BP_",
-         "Shield_"};
+    static constexpr std::string_view prefixes[] = {
+        "BP_GameWeapon_Customizable_",
+        "BP_GameWeapon_",
+        "BP_Weapon_Reforged_",
+        "BP_Weapon_Tool_",
+        "BP_Weapon_Improv_",
+        "BP_Weapon_Ranged_Weapon_",
+        "BP_Weapon_Ranged_Projectle_",
+        "BP_Weapon_Treasure_",
+        "BP_Weapon_",
+        "ModularWeaponBP_Tool_",
+        "ModularWeaponBP_",
+        "BP_Armor_Modular_Core_",
+        "BP_Armor_Modular_Module_",
+        "BP_Armor_Head_Hat_",
+        "BP_Armor_Head_",
+        "BP_Armor_Body_Doublet_",
+        "BP_Armor_Body_",
+        "BP_Armor_Arms_",
+        "BP_Armor_Legs_Hosen_",
+        "BP_Armor_Legs_",
+        "BP_Armor_Hands_",
+        "BP_Armor_Feet_",
+        "BP_Armor_Neck_",
+        "BP_Armor_Shoulders_",
+        "BP_Armor_",
+        "BP_Container_",
+        "BP_Prop_Light_",
+        "BP_Prop_Furniture_",
+        "BP_Prop_Smithing_",
+        "BP_Prop_Construction_",
+        "BP_Fence_",
+        "BP_Quiver_",
+        "BP_Candle",
+        "BP_",
+        "Shield_"};
 
     for (auto prefix : prefixes) {
         if (name.size() > prefix.size() && name.compare(0, prefix.size(), prefix.data()) == 0) {
@@ -281,14 +280,8 @@ void BlueprintRegistry::EnsureTiersScanned() {
 }
 
 void BlueprintRegistry::ScanWeaponTiers() {
-    SDK::AWillie_BP_C* player;
-    if (!ComponentValidator::Validate(player)) {
-        tierScanDone = false;
-        return;
-    }
-
-    SDK::UWorld* world;
-    if (!ComponentValidator::Validate(world)) {
+    auto* world = SDK::UWorld::GetWorld();
+    if (!world) {
         tierScanDone = false;
         return;
     }

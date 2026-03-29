@@ -107,9 +107,6 @@
     <ClCompile Include="ext\imgui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\ComponentValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ConfigManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -231,9 +228,6 @@
     </ClInclude>
     <ClInclude Include="include\Gui.h">
       <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ComponentValidator.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\ConfigManager.h">
       <Filter>Header Files</Filter>
