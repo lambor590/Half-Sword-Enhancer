@@ -62,6 +62,9 @@
     <ClCompile Include="src\Override.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Preset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\DllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -289,6 +292,9 @@
     <ClInclude Include="include\Menu\Override.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Menu\Preset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\Menu\Sections\Equipment\WeaponEditorSection.h">
       <Filter>Sections\Equipment</Filter>
     </ClInclude>
@@ -298,10 +304,37 @@
     <ClInclude Include="include\Utils\PresetUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="include\Utils\PresetDataBase.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\PresetSerializerBase.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\PresetSectionState.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\PresetPickerState.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\NPCPresetSerializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\WeaponPresetSerializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\PlayerPresetSerializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\LoadoutPresetSerializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\PlayerEditorOverrides.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\NPCSpawnHelpers.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\BlueprintRegistry.h">

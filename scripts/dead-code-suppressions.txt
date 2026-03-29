@@ -14,3 +14,7 @@ SerializeAll
 DeserializeAll
 RenderOverrideField
 RenderOverrideGroup
+
+# Preset system -- called from PresetSerializer<DataType> template (cppcheck can't see template instantiation)
+SerializePresetFields
+DeserializePresetFields

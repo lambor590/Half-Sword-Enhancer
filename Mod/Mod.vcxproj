@@ -272,6 +272,7 @@
     <ClCompile Include="src\Keybind.cpp" />
     <ClCompile Include="src\EventBus.cpp" />
     <ClCompile Include="src\Override.cpp" />
+    <ClCompile Include="src\Preset.cpp" />
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\GameHook.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -316,6 +317,7 @@
     <ClInclude Include="include\Menu\MenuTab.h" />
     <ClInclude Include="include\Menu\SectionConfig.h" />
     <ClInclude Include="include\Menu\Override.h" />
+    <ClInclude Include="include\Menu\Preset.h" />
     <ClInclude Include="include\Menu\Sections\Player\PlayerAbilitiesSection.h" />
     <ClInclude Include="include\Menu\Sections\Player\PlayerEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\World\WorldActionsSection.h" />
@@ -340,8 +342,17 @@
     <ClInclude Include="include\Utils\GuiUtils.h" />
     <ClInclude Include="include\Utils\GameBuildInfo.h" />
     <ClInclude Include="include\Utils\PresetUtils.h" />
+    <ClInclude Include="include\Utils\PresetDataBase.h" />
+    <ClInclude Include="include\Utils\PresetSerializerBase.h" />
+    <ClInclude Include="include\Utils\PresetSectionState.h" />
+    <ClInclude Include="include\Utils\PresetPickerState.h" />
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h" />
     <ClInclude Include="include\Utils\NPCPresetSerializer.h" />
+    <ClInclude Include="include\Utils\WeaponPresetSerializer.h" />
+    <ClInclude Include="include\Utils\PlayerPresetSerializer.h" />
+    <ClInclude Include="include\Utils\LoadoutPresetSerializer.h" />
+    <ClInclude Include="include\Utils\PlayerEditorOverrides.h" />
+    <ClInclude Include="include\Utils\NPCSpawnHelpers.h" />
     <ClInclude Include="include\Utils\BlueprintRegistry.h" />
   </ItemGroup>
   <ItemGroup>
