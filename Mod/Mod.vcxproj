@@ -271,6 +271,7 @@
     <ClCompile Include="src\SectionRegistry.cpp" />
     <ClCompile Include="src\Keybind.cpp" />
     <ClCompile Include="src\EventBus.cpp" />
+    <ClCompile Include="src\Override.cpp" />
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\GameHook.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -314,6 +315,7 @@
     <ClInclude Include="include\Menu\EventBus.h" />
     <ClInclude Include="include\Menu\MenuTab.h" />
     <ClInclude Include="include\Menu\SectionConfig.h" />
+    <ClInclude Include="include\Menu\Override.h" />
     <ClInclude Include="include\Menu\Sections\Player\PlayerAbilitiesSection.h" />
     <ClInclude Include="include\Menu\Sections\Player\PlayerEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\World\WorldActionsSection.h" />

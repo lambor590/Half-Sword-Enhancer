@@ -59,6 +59,9 @@
     <ClCompile Include="src\EventBus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Override.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\DllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -281,6 +284,9 @@
       <Filter>Sections\Settings</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\SectionConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Override.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Equipment\WeaponEditorSection.h">
