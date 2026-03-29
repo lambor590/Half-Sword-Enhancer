@@ -485,3 +485,8 @@ void InitKeybindEntry(KeybindEntry& entry) {
         }
     }
 }
+
+void AddKeybind(std::vector<KeybindEntry>& keybinds, KeybindEntry entry) {
+    keybinds.push_back(std::move(entry));
+    InitKeybindEntry(keybinds.back());
+}

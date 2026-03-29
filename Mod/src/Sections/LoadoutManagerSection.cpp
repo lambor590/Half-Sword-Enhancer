@@ -189,8 +189,7 @@ void LoadoutManagerSection::GenerateArmorForSlot(SDK::EArmorSlots_Enum slotEnum)
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
 
     GameHook::QueueAction([this, slotEnum, tier]() {
-        EquipmentGenerator::Init(world);
-        auto passport = EquipmentGenerator::GenerateArmor(tier, slotEnum, 0.5);
+        auto passport = EquipmentGenerator::GenerateArmor(world, tier, slotEnum, 0.5);
         if (!passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
 
         RemoveArmorSlot(player, slotEnum);
@@ -205,15 +204,13 @@ void LoadoutManagerSection::RandomizeAllArmor() {
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
 
     GameHook::QueueAction([this, tier]() {
-        EquipmentGenerator::Init(world);
-
         auto& dstMap = player->Currently_Equipped_Armor;
         std::vector<SDK::EArmorSlots_Enum> removeSlots;
         std::vector<SDK::FStr_Passport_Armor1> newPassports;
 
         for (auto it = begin(dstMap); it != end(dstMap); ++it) {
             removeSlots.push_back(it->Key());
-            auto passport = EquipmentGenerator::GenerateArmor(tier, it->Key(), 0.5);
+            auto passport = EquipmentGenerator::GenerateArmor(world, tier, it->Key(), 0.5);
             if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) newPassports.push_back(passport);
         }
 
@@ -238,8 +235,7 @@ void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
     auto type = static_cast<SDK::Enum_WeaponType>(0);
 
     GameHook::QueueAction([this, slotIndex, tier, type]() {
-        EquipmentGenerator::Init(world);
-        auto passport = EquipmentGenerator::GenerateWeapon(type, tier);
+        auto passport = EquipmentGenerator::GenerateWeapon(world, type, tier);
 
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
@@ -650,34 +646,38 @@ LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : Section(ctx, "Lo
 }
 
 void LoadoutManagerSection::InitKeybinds() {
-    keybinds.push_back({
-        .name = "Apply Loadout",
-        .tooltip = "Reapply the current equipment to the player",
-        .configSection = "ApplyLoadout",
-        .keyPtr = &cfg.applyKey,
-        .callback =
-            [this]([[maybe_unused]] bool) {
-                if (!player) return;
-                ApplyArmorToPlayer();
-            },
-    });
-    InitKeybindEntry(keybinds.back());
+    AddKeybind(
+        keybinds,
+        {
+            .name = "Apply Loadout",
+            .tooltip = "Reapply the current equipment to the player",
+            .configSection = "ApplyLoadout",
+            .keyPtr = &cfg.applyKey,
+            .callback =
+                [this]([[maybe_unused]] bool) {
+                    if (!player) return;
+                    ApplyArmorToPlayer();
+                },
+        }
+    );
 
-    keybinds.push_back({
-        .name = "Randomize Equipment",
-        .tooltip = "Generate random armor for all equipped slots",
-        .configSection = "RandomizeEquipment",
-        .keyPtr = &cfg.randomizeKey,
-        .callback =
-            [this]([[maybe_unused]] bool) {
-                if (!player || !world) return;
-                RandomizeAllArmor();
-            },
-        .params =
-            {KeybindParam("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
-             KeybindParam("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")},
-    });
-    InitKeybindEntry(keybinds.back());
+    AddKeybind(
+        keybinds,
+        {
+            .name = "Randomize Equipment",
+            .tooltip = "Generate random armor for all equipped slots",
+            .configSection = "RandomizeEquipment",
+            .keyPtr = &cfg.randomizeKey,
+            .callback =
+                [this]([[maybe_unused]] bool) {
+                    if (!player || !world) return;
+                    RandomizeAllArmor();
+                },
+            .params =
+                {KeybindParam("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
+                 KeybindParam("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")},
+        }
+    );
 }
 
 void LoadoutManagerSection::Render() {

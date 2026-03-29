@@ -80,7 +80,10 @@ namespace EquipmentGenerator {
         cachedWorld = nullptr;
     }
 
-    SDK::FStr_Passport_Weapon1 GenerateWeapon(SDK::Enum_WeaponType type, SDK::Enum_Ranks tier) {
+    SDK::FStr_Passport_Weapon1 GenerateWeapon(
+        const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier
+    ) {
+        Init(world);
         SDK::FStr_Passport_Weapon1 output{};
         auto* gen = GetWeaponGenerator();
         if (!gen) return output;
@@ -93,7 +96,10 @@ namespace EquipmentGenerator {
         return output;
     }
 
-    SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(SDK::UClass* weaponClass, SDK::Enum_Ranks tier) {
+    SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(
+        const SDK::UWorld* world, SDK::UClass* weaponClass, SDK::Enum_Ranks tier
+    ) {
+        Init(world);
         SDK::FStr_Passport_Weapon1 output{};
         auto* gen = GetWeaponGenerator();
         if (!gen) return output;
@@ -133,7 +139,10 @@ namespace EquipmentGenerator {
         }
     }
 
-    SDK::FStr_Passport_Weapon1 GenerateCustomizableWeapon(CustomizableWeapon type, SDK::Enum_Ranks tier) {
+    SDK::FStr_Passport_Weapon1 GenerateCustomizableWeapon(
+        const SDK::UWorld* world, CustomizableWeapon type, SDK::Enum_Ranks tier
+    ) {
+        Init(world);
         SDK::FStr_Passport_Weapon1 output{};
         auto* gen = GetWeaponGenerator();
         if (!gen) return output;
@@ -147,7 +156,10 @@ namespace EquipmentGenerator {
         return output;
     }
 
-    SDK::FStr_Passport_Armor1 GenerateArmor(SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot, double moduleChance) {
+    SDK::FStr_Passport_Armor1 GenerateArmor(
+        const SDK::UWorld* world, SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot, double moduleChance
+    ) {
+        Init(world);
         SDK::FStr_Passport_Armor1 output{};
         auto* gen = GetArmorGenerator();
         if (gen) {
@@ -157,8 +169,10 @@ namespace EquipmentGenerator {
     }
 
     SDK::FStr_Passport_Character1 GenerateCharacter(
-        SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier, bool mercenary
+        const SDK::UWorld* world, SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier,
+        bool mercenary
     ) {
+        Init(world);
         SDK::FStr_Passport_Character1 output{};
         auto* gen = GetCharacterGenerator();
         if (gen) {

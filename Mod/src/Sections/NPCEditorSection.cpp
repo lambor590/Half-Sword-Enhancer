@@ -123,8 +123,7 @@ void NPCEditorSection::SpawnNPC() {
             npc->Team_Int = team;
         }
 
-        EquipmentGenerator::Init(world);
-        auto passport = EquipmentGenerator::GenerateCharacter(npc->Class, nationality, tier, mercenary);
+        auto passport = EquipmentGenerator::GenerateCharacter(world, npc->Class, nationality, tier, mercenary);
         NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
         npc->Character_Passport = passport;
 
@@ -258,41 +257,44 @@ NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, "NPC Editor")
 }
 
 void NPCEditorSection::InitKeybinds() {
-    keybinds.push_back({
-        .name = "Spawn NPC",
-        .tooltip = "Spawns an NPC with randomly generated equipment and applied overrides",
-        .configSection = "SpawnNPC",
-        .keyPtr = &cfg.spawnEnemyKey,
-        .callback =
-            [this]([[maybe_unused]] bool) {
-                if (!player || !world) return;
-                SpawnNPC();
-            },
-        .params =
-            {KeybindParam("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
-             KeybindParam("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),
-             KeybindParam(
-                 "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
-                 "Automatically adjust height to touch the ground"
-             ),
-             KeybindParam(
-                 "distance_forward", "Distance Forward", &cfg.spawn.distanceForward, 100.0f, 500.0f,
-                 "How far in front the NPC appears"
-             ),
-             KeybindParam(
-                 "distance_up", "Distance Up", &cfg.spawn.distanceUp, 0.0f, 300.0f, "Height offset for spawn position"
-             ),
-             KeybindParam(
-                 "scale", "Scale", &cfg.spawn.scale, 0.1f, 4.0f,
-                 "Size multiplier for the spawned NPC. Adjust the height offset to match the scale "
-                 "so the game doesn't crash."
-             ),
-             KeybindParam(
-                 "team", "Team", &cfg.npcTeam, 0, 9,
-                 "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
-             )},
-    });
-    InitKeybindEntry(keybinds.back());
+    AddKeybind(
+        keybinds,
+        {
+            .name = "Spawn NPC",
+            .tooltip = "Spawns an NPC with randomly generated equipment and applied overrides",
+            .configSection = "SpawnNPC",
+            .keyPtr = &cfg.spawnEnemyKey,
+            .callback =
+                [this]([[maybe_unused]] bool) {
+                    if (!player || !world) return;
+                    SpawnNPC();
+                },
+            .params =
+                {KeybindParam("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
+                 KeybindParam("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),
+                 KeybindParam(
+                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
+                     "Automatically adjust height to touch the ground"
+                 ),
+                 KeybindParam(
+                     "distance_forward", "Distance Forward", &cfg.spawn.distanceForward, 100.0f, 500.0f,
+                     "How far in front the NPC appears"
+                 ),
+                 KeybindParam(
+                     "distance_up", "Distance Up", &cfg.spawn.distanceUp, 0.0f, 300.0f,
+                     "Height offset for spawn position"
+                 ),
+                 KeybindParam(
+                     "scale", "Scale", &cfg.spawn.scale, 0.1f, 4.0f,
+                     "Size multiplier for the spawned NPC. Adjust the height offset to match the scale "
+                     "so the game doesn't crash."
+                 ),
+                 KeybindParam(
+                     "team", "Team", &cfg.npcTeam, 0, 9,
+                     "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
+                 )},
+        }
+    );
 }
 
 // ── Main Render ───────────────────────────────────────────────────────

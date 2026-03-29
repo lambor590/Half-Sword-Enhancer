@@ -101,8 +101,7 @@ void ArmorEditorSection::CreateBlankArmorPassport() {
 void ArmorEditorSection::QueueGeneration(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, double moduleChance) {
     armorGenerationPending = true;
     GameHook::QueueAction([this, slot, tier, moduleChance]() {
-        EquipmentGenerator::Init(world);
-        armorPassport = EquipmentGenerator::GenerateArmor(tier, slot, moduleChance);
+        armorPassport = EquipmentGenerator::GenerateArmor(world, tier, slot, moduleChance);
         PopulateModulePoolForCurrentCore();
         armorGenerationPending = false;
     });
@@ -125,26 +124,20 @@ void ArmorEditorSection::RandomizeArmorPassport() {
 
 namespace {
 
-    using Setter = void (*)(void*, const OverrideDescriptor&);
     using A = SDK::ABP_Armor_Master_C;
 
-    void ApplyWithSetters(std::span<const OverrideDescriptor> fields, void* target, const Setter* setters) {
-        for (size_t i = 0; i < fields.size(); ++i)
-            if (*fields[i].enabled) setters[i](target, fields[i]);
-    }
-
-    static constexpr Setter PROTECTION_SETTERS[] = {
+    static constexpr OverrideSetter PROTECTION_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Blunt = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Cut = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Stab = GetDouble(f); },
     };
 
-    static constexpr Setter PHYSICS_SETTERS[] = {
+    static constexpr OverrideSetter PHYSICS_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Material_Density = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Mass_Scale = GetDouble(f); },
     };
 
-    static constexpr Setter BEHAVIOR_SETTERS[] = {
+    static constexpr OverrideSetter BEHAVIOR_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Hands_Rigidity__Gauntlets_ = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Strap_Power__Helmet_ = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->AI_Invinvcibility_Rate = GetDouble(f); },
@@ -175,9 +168,7 @@ void ArmorEditorSection::SpawnPreview() {
     bool hasOverrides = CountAllActive() > 0;
 
     Spawner::SpawnArmorFromPassport(
-        world, armorPassport,
-        Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
-        cfg.spawn.snapToGround,
+        world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn), cfg.spawn.snapToGround,
         [this, hasOverrides](SDK::AActor* actor) {
             if (!cfg.preview.livePreview) {
                 actor->K2_DestroyActor();
@@ -225,9 +216,7 @@ void ArmorEditorSection::SpawnFromPassport() {
     }
 
     Spawner::SpawnArmorFromPassport(
-        world, armorPassport,
-        Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
-        cfg.spawn.snapToGround, callback
+        world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn), cfg.spawn.snapToGround, callback
     );
 }
 
@@ -400,31 +389,33 @@ ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, "Armor Ed
 }
 
 void ArmorEditorSection::InitKeybinds() {
-    keybinds.push_back({
-        .name = "Spawn Armor",
-        .tooltip = "Spawns the currently edited armor with runtime overrides applied",
-        .configSection = "SpawnArmor",
-        .keyPtr = &cfg.spawnKey,
-        .callback =
-            [this]([[maybe_unused]] bool) {
-                if (!player || !world) return;
-                SpawnFromPassport();
-            },
-        .params =
-            {KeybindParam(
-                 "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"
-             ),
-             KeybindParam(
-                 "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
-                 "Spawn distance in front of player"
-             ),
-             KeybindParam("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
-             KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
-             KeybindParam(
-                 "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview armor as you edit"
-             )},
-    });
-    InitKeybindEntry(keybinds.back());
+    AddKeybind(
+        keybinds,
+        {
+            .name = "Spawn Armor",
+            .tooltip = "Spawns the currently edited armor with runtime overrides applied",
+            .configSection = "SpawnArmor",
+            .keyPtr = &cfg.spawnKey,
+            .callback =
+                [this]([[maybe_unused]] bool) {
+                    if (!player || !world) return;
+                    SpawnFromPassport();
+                },
+            .params =
+                {KeybindParam(
+                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"
+                 ),
+                 KeybindParam(
+                     "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
+                     "Spawn distance in front of player"
+                 ),
+                 KeybindParam("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
+                 KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
+                 KeybindParam(
+                     "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview armor as you edit"
+                 )},
+        }
+    );
 }
 
 // ── Main Render ───────────────────────────────────────────────────────

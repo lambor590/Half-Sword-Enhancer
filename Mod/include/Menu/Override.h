@@ -78,6 +78,19 @@ inline bool GetBool(const OverrideDescriptor& f) {
     return *static_cast<bool*>(f.value);
 }
 
+// ── Setter-table application ──────────────────────────────────────────
+
+/// Function pointer type for setter-table-driven override application.
+/// Each setter receives the target actor (as void*) and the descriptor to read the value from.
+using OverrideSetter = void (*)(void*, const OverrideDescriptor&);
+
+/// Apply enabled overrides using a parallel setter table.
+/// Each fields[i] maps to setters[i]. The setter table must have at least fields.size() entries.
+inline void ApplyWithSetters(std::span<const OverrideDescriptor> fields, void* target, const OverrideSetter* setters) {
+    for (size_t i = 0; i < fields.size(); ++i)
+        if (*fields[i].enabled) setters[i](target, fields[i]);
+}
+
 // ── INI persistence ───────────────────────────────────────────────────
 
 /// Serialize all override fields into an INI object under the given section.

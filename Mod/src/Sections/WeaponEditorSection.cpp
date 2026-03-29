@@ -313,8 +313,7 @@ void WeaponEditorSection::CreateBlankWeaponPassport() {
 void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier) {
     weaponGenerationPending = true;
     GameHook::QueueAction([this, type, tier]() {
-        EquipmentGenerator::Init(world);
-        weaponPassport = EquipmentGenerator::GenerateCustomizableWeapon(type, tier);
+        weaponPassport = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
         ClearWeaponPassportPadding(weaponPassport);
         if (!EquipmentGenerator::IsPassportValid(weaponPassport))
             SetStatus("Generation failed for this type/tier", true);
@@ -412,16 +411,9 @@ int WeaponEditorSection::CountAllActive() const {
 
 namespace {
 
-    using Setter = void (*)(void*, const OverrideDescriptor&);
-
-    void ApplyWithSetters(std::span<const OverrideDescriptor> fields, void* target, const Setter* setters) {
-        for (size_t i = 0; i < fields.size(); ++i)
-            if (*fields[i].enabled) setters[i](target, fields[i]);
-    }
-
     using W = SDK::AModularWeaponBP_C;
 
-    static constexpr Setter COMBAT_SETTERS[] = {
+    static constexpr OverrideSetter COMBAT_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Rigidity = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Edge_Sharpness = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Raw_Damage = GetDouble(f); },
@@ -434,22 +426,22 @@ namespace {
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Kick_Power = GetDouble(f); },
     };
 
-    static constexpr Setter PHYSICS_SETTERS[] = {
+    static constexpr OverrideSetter PHYSICS_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Mat_Density = GetDouble(f); },
     };
 
-    static constexpr Setter DISMEMBER_SETTERS[] = {
+    static constexpr OverrideSetter DISMEMBER_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Sharp = GetInt(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Blunt = GetInt(f); },
     };
 
-    static constexpr Setter TOGGLE_SETTERS[] = {
+    static constexpr OverrideSetter TOGGLE_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Double_Edged = GetBool(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Piercing = GetBool(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->NoStab = GetBool(f); },
     };
 
-    static constexpr Setter STAMINA_SETTERS[] = {
+    static constexpr OverrideSetter STAMINA_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->R_Hand_Stamina_Burn_Rate = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->L_Hand_Stamina_Burn_Rate = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->TwoH_Default_Stamina_Burn_Rate = GetDouble(f); },
@@ -481,9 +473,7 @@ void WeaponEditorSection::SpawnPreview() {
     auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
     Spawner::SpawnCustomizableFromPassport(
-        world, weaponPassport,
-        Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
-        cfg.spawn.snapToGround,
+        world, weaponPassport, Spawner::BuildSpawnTransform(player, cfg.spawn), cfg.spawn.snapToGround,
         [this, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
             auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
             CollectMeshesFromWeapon(weapon);
@@ -520,9 +510,7 @@ void WeaponEditorSection::SpawnFromPassport() {
     };
 
     Spawner::SpawnCustomizableFromPassport(
-        world, weaponPassport,
-        Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale),
-        cfg.spawn.snapToGround, callback
+        world, weaponPassport, Spawner::BuildSpawnTransform(player, cfg.spawn), cfg.spawn.snapToGround, callback
     );
 }
 
@@ -1004,16 +992,7 @@ void WeaponEditorSection::ApplyPresetData(WeaponPresetData d) {
     runtimeProps = d.runtimeProps;
 
     GameHook::QueueAction([this, paths = std::move(d.classPaths)]() {
-        auto load = [](SDK::UClass*& target, const std::string& path) {
-            if (!path.empty()) target = Spawner::LoadClass(path);
-        };
-        load(weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC, paths.weaponClass);
-        load(weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, paths.headModule);
-        load(weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, paths.guardModule);
-        load(weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, paths.gripModule);
-        load(weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, paths.pommelModule);
-        load(weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, paths.subModule1);
-        load(weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, paths.subModule2);
+        Spawner::LoadWeaponClasses(weaponPassport, paths);
     });
 
     struct PendingMeshLoad {
@@ -1086,31 +1065,33 @@ WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, "Weapon
 }
 
 void WeaponEditorSection::InitKeybinds() {
-    keybinds.push_back({
-        .name = "Spawn Weapon",
-        .tooltip = "Spawns the currently edited weapon with runtime overrides applied",
-        .configSection = "SpawnWeapon",
-        .keyPtr = &cfg.spawnKey,
-        .callback =
-            [this]([[maybe_unused]] bool) {
-                if (!player || !world) return;
-                SpawnFromPassport();
-            },
-        .params =
-            {KeybindParam(
-                 "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned weapon to the ground"
-             ),
-             KeybindParam(
-                 "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
-                 "Spawn distance in front of player"
-             ),
-             KeybindParam("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
-             KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
-             KeybindParam(
-                 "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview weapon as you edit"
-             )},
-    });
-    InitKeybindEntry(keybinds.back());
+    AddKeybind(
+        keybinds,
+        {
+            .name = "Spawn Weapon",
+            .tooltip = "Spawns the currently edited weapon with runtime overrides applied",
+            .configSection = "SpawnWeapon",
+            .keyPtr = &cfg.spawnKey,
+            .callback =
+                [this]([[maybe_unused]] bool) {
+                    if (!player || !world) return;
+                    SpawnFromPassport();
+                },
+            .params =
+                {KeybindParam(
+                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned weapon to the ground"
+                 ),
+                 KeybindParam(
+                     "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
+                     "Spawn distance in front of player"
+                 ),
+                 KeybindParam("distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Spawn height offset"),
+                 KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier"),
+                 KeybindParam(
+                     "live_preview", "Live Preview", &cfg.preview.livePreview, "Auto-spawn preview weapon as you edit"
+                 )},
+        }
+    );
 }
 
 void WeaponEditorSection::Render() {

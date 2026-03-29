@@ -4,6 +4,7 @@
 #include <string_view>
 
 #include "Utils/CustomizableWeapon.h"
+#include "Menu/SectionConfig.h"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
@@ -12,6 +13,8 @@
 namespace SDK {
     class AWillie_BP_C;
 }
+
+struct WeaponClassPaths;
 
 namespace Spawner {
     enum class ActorType { Willie, Weapon, Shield, Tool, Armor, Unknown };
@@ -54,8 +57,11 @@ namespace Spawner {
     SDK::FTransform BuildSpawnTransform(
         SDK::AWillie_BP_C* player, float distanceForward, float distanceUp, float scale
     );
+    SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, const SpawnConfig& cfg);
 
     bool SpawnAndEquipArmor(
         const SDK::UWorld* world, SDK::AWillie_BP_C* willie, const SDK::FStr_Passport_Armor1& passport
     );
+
+    void LoadWeaponClasses(SDK::FStr_Passport_Weapon1& passport, const WeaponClassPaths& paths);
 }

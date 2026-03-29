@@ -115,3 +115,6 @@ namespace KeybindConfig {
 /// Initialize a keybind entry: generate ImGui IDs, load config, register with
 /// KeybindManager and GameHook events. Call once after populating the entry fields.
 void InitKeybindEntry(KeybindEntry& entry);
+
+/// Add a keybind entry and initialize it in one step.
+void AddKeybind(std::vector<KeybindEntry>& keybinds, KeybindEntry entry);

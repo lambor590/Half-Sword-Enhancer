@@ -149,8 +149,7 @@ void ItemSpawnerSection::UpdateFilteredItems() {
 }
 
 void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
-    auto spawnTransform =
-        Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+    auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn);
 
     if (IsRandomArmorCategory()) {
         if (cfg.currentItemIndex >= GameConstants::ARMOR_SLOT_COUNT) return;
@@ -159,8 +158,7 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
         bool snap = cfg.spawn.snapToGround;
         auto transform = spawnTransform;
         GameHook::QueueAction([this, slot, tier, transform, snap]() {
-            EquipmentGenerator::Init(world);
-            auto passport = EquipmentGenerator::GenerateArmor(tier, slot, 0.5);
+            auto passport = EquipmentGenerator::GenerateArmor(world, tier, slot, 0.5);
             if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
                 Spawner::SpawnArmorFromPassport(world, passport, transform, snap);
         });
@@ -199,8 +197,7 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
 
 void ItemSpawnerSection::SpawnCustomPath() const noexcept {
     if (customPathBuffer[0] == '\0') return;
-    auto spawnTransform =
-        Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+    auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     std::string path = customPathBuffer;
     Spawner::SpawnActor(world, path, spawnTransform, nullptr, cfg.spawn.snapToGround, cfg.spawnTier);
 }
@@ -210,22 +207,12 @@ void ItemSpawnerSection::SpawnWeaponFromPreset() {
     auto data = WeaponPresetSerializer::LoadFromFile(weaponPicker.SelectedPath());
     if (!data.success) return;
 
-    auto transform =
-        Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     bool snap = cfg.spawn.snapToGround;
     auto rp = data.runtimeProps;
 
     GameHook::QueueAction([w = world, transform, snap, data = std::move(data), rp]() mutable {
-        auto load = [](SDK::UClass*& target, const std::string& path) {
-            if (!path.empty()) target = Spawner::LoadClass(path);
-        };
-        load(data.passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC, data.classPaths.weaponClass);
-        load(data.passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, data.classPaths.headModule);
-        load(data.passport.GuardModule_13_6DD2B06245505E53B529D090333012F0, data.classPaths.guardModule);
-        load(data.passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, data.classPaths.gripModule);
-        load(data.passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, data.classPaths.pommelModule);
-        load(data.passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, data.classPaths.subModule1);
-        load(data.passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, data.classPaths.subModule2);
+        Spawner::LoadWeaponClasses(data.passport, data.classPaths);
 
         if (!EquipmentGenerator::IsPassportValid(data.passport)) return;
         Spawner::SpawnCustomizableFromPassport(w, data.passport, transform, snap);
@@ -237,8 +224,7 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
     auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
     if (!data.success) return;
 
-    auto transform =
-        Spawner::BuildSpawnTransform(player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, cfg.spawn.scale);
+    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     bool snap = cfg.spawn.snapToGround;
 
     GameHook::QueueAction([w = world, transform, snap, data = std::move(data)]() mutable {
@@ -254,31 +240,34 @@ ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, "Items") 
 }
 
 void ItemSpawnerSection::InitKeybinds() {
-    keybinds.push_back({
-        .name = "Spawn Item",
-        .tooltip = "Spawns the selected item with configurable position and size",
-        .configSection = "SpawnItem",
-        .keyPtr = &cfg.spawnItemKey,
-        .callback =
-            [this]([[maybe_unused]] bool) {
-                if (!player || !world) return;
-                SpawnSelectedItem();
-            },
-        .params =
-            {KeybindParam(
-                 "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
-                 "Automatically adjust height to touch the ground"
-             ),
-             KeybindParam(
-                 "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
-                 "How far in front the item appears"
-             ),
-             KeybindParam(
-                 "distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f, "Height offset for spawn position"
-             ),
-             KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item")},
-    });
-    InitKeybindEntry(keybinds.back());
+    AddKeybind(
+        keybinds,
+        {
+            .name = "Spawn Item",
+            .tooltip = "Spawns the selected item with configurable position and size",
+            .configSection = "SpawnItem",
+            .keyPtr = &cfg.spawnItemKey,
+            .callback =
+                [this]([[maybe_unused]] bool) {
+                    if (!player || !world) return;
+                    SpawnSelectedItem();
+                },
+            .params =
+                {KeybindParam(
+                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
+                     "Automatically adjust height to touch the ground"
+                 ),
+                 KeybindParam(
+                     "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
+                     "How far in front the item appears"
+                 ),
+                 KeybindParam(
+                     "distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f,
+                     "Height offset for spawn position"
+                 ),
+                 KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item")},
+        }
+    );
 }
 
 void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {

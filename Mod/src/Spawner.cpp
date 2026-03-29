@@ -4,6 +4,7 @@
 
 #include "Utils/Spawner.h"
 #include "Utils/EquipmentGenerator.h"
+#include "Utils/WeaponPresetSerializer.h"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
@@ -63,8 +64,7 @@ namespace Spawner {
         ) {
             if (!actorClass) return nullptr;
 
-            EquipmentGenerator::Init(world);
-            auto passport = EquipmentGenerator::GenerateSpecificWeapon(actorClass, tier);
+            auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
             if (!EquipmentGenerator::IsPassportValid(passport)) return nullptr;
 
             return DeferredSpawn(world, actorClass, transform, [&passport](SDK::AActor* actor) {
@@ -252,8 +252,8 @@ namespace Spawner {
             SDK::FTransform finalTransform = transform;
             if (snapToGround) ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
-            EquipmentGenerator::Init(world);
-            auto passport = EquipmentGenerator::GenerateCustomizableWeapon(type, static_cast<SDK::Enum_Ranks>(tier));
+            auto passport =
+                EquipmentGenerator::GenerateCustomizableWeapon(world, type, static_cast<SDK::Enum_Ranks>(tier));
             if (!EquipmentGenerator::IsPassportValid(passport)) return;
 
             SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();
@@ -295,6 +295,23 @@ namespace Spawner {
         transform.Translation.Z += distanceUp;
         transform.Scale3D = {scale, scale, scale};
         return transform;
+    }
+
+    SDK::FTransform BuildSpawnTransform(SDK::AWillie_BP_C* player, const SpawnConfig& cfg) {
+        return BuildSpawnTransform(player, cfg.distanceForward, cfg.distanceUp, cfg.scale);
+    }
+
+    void LoadWeaponClasses(SDK::FStr_Passport_Weapon1& passport, const WeaponClassPaths& paths) {
+        auto load = [](SDK::UClass*& target, const std::string& path) {
+            if (!path.empty()) target = LoadClass(path);
+        };
+        load(passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC, paths.weaponClass);
+        load(passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, paths.headModule);
+        load(passport.GuardModule_13_6DD2B06245505E53B529D090333012F0, paths.guardModule);
+        load(passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, paths.gripModule);
+        load(passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, paths.pommelModule);
+        load(passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, paths.subModule1);
+        load(passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, paths.subModule2);
     }
 
 }

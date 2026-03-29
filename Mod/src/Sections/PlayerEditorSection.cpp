@@ -118,15 +118,9 @@ int PlayerEditorSection::CountAllActive() const {
 
 namespace {
 
-    using Setter = void (*)(void*, const OverrideDescriptor&);
     using P = SDK::AWillie_BP_C;
 
-    void ApplyWithSetters(std::span<const OverrideDescriptor> fields, void* target, const Setter* setters) {
-        for (size_t i = 0; i < fields.size(); ++i)
-            if (*fields[i].enabled) setters[i](target, fields[i]);
-    }
-
-    static constexpr Setter PHYSICAL_SETTERS[] = {
+    static constexpr OverrideSetter PHYSICAL_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) {
             auto* p = static_cast<P*>(a);
             double v = GetDouble(f);
@@ -137,7 +131,7 @@ namespace {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Scale_Mutation_Inhibitor = GetDouble(f); },
     };
 
-    static constexpr Setter HEALTH_SETTERS[] = {
+    static constexpr OverrideSetter HEALTH_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Health = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Head_Health = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Neck_Health = GetDouble(f); },
@@ -152,7 +146,7 @@ namespace {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Regen_Rate = GetDouble(f); },
     };
 
-    static constexpr Setter PHYSICS_SETTERS[] = {
+    static constexpr OverrideSetter PHYSICS_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->All_Body_Tonus = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Head_Tonus = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Arm_R_Tonus = GetDouble(f); },
@@ -165,7 +159,7 @@ namespace {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Hit_Rigidity = GetDouble(f); },
     };
 
-    static constexpr Setter MOVEMENT_SETTERS[] = {
+    static constexpr OverrideSetter MOVEMENT_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Running_Speed_Rate = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) {
             static_cast<P*>(a)->Walk_Speed_Rate_Run = static_cast<float>(GetDouble(f));
@@ -177,7 +171,7 @@ namespace {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Fallen_Rate = GetDouble(f); },
     };
 
-    static constexpr Setter COMBAT_SETTERS[] = {
+    static constexpr OverrideSetter COMBAT_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Damage_Rate__Additional_ = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Limb_Damage_Rate__Additional_ = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) {
@@ -194,7 +188,7 @@ namespace {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Weapon_Skill__Temp_ = GetDouble(f); },
     };
 
-    static constexpr Setter SKILL_SETTERS[] = {
+    static constexpr OverrideSetter SKILL_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Weapon_Thrust = GetBool(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Weapon_Parry = GetBool(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Weapon_Alt_Grip = GetBool(f); },
@@ -206,7 +200,7 @@ namespace {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Body_Slomo = GetBool(f); },
     };
 
-    static constexpr Setter STATE_SETTERS[] = {
+    static constexpr OverrideSetter STATE_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Exhaustion = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Drunk = GetDouble(f); },
         [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Fear = GetDouble(f); },
@@ -498,20 +492,22 @@ PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : Section(ctx, "Editor
 }
 
 void PlayerEditorSection::InitKeybinds() {
-    keybinds.push_back({
-        .name = "Enforce Overrides",
-        .tooltip = "Continuously applies all enabled overrides to the player character every game tick",
-        .configSection = "EnforceOverrides",
-        .keyPtr = &enforceKey,
-        .callback =
-            [this](bool active) {
-                if (!player) return;
-                if (active) ApplyToPlayer(player);
-            },
-        .toggleable = true,
-        .events = {GameEvent::OffLedge},
-    });
-    InitKeybindEntry(keybinds.back());
+    AddKeybind(
+        keybinds,
+        {
+            .name = "Enforce Overrides",
+            .tooltip = "Continuously applies all enabled overrides to the player character every game tick",
+            .configSection = "EnforceOverrides",
+            .keyPtr = &enforceKey,
+            .callback =
+                [this](bool active) {
+                    if (!player) return;
+                    if (active) ApplyToPlayer(player);
+                },
+            .toggleable = true,
+            .events = {GameEvent::OffLedge},
+        }
+    );
 }
 
 void PlayerEditorSection::Render() {

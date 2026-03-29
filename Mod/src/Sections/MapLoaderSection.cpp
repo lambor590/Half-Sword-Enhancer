@@ -96,7 +96,6 @@ void MapLoaderSection::LoadMap(const std::string& packageName) {
 void MapLoaderSection::SpawnAutoNPCs(
     SDK::UWorld* w, SDK::AWillie_BP_C* willie, const NPCPresetData& npcPreset, int npcCount
 ) {
-    EquipmentGenerator::Init(w);
     for (int n = 0; n < npcCount; ++n) {
         float angle = (6.2832f / npcCount) * n;
         float dist = 300.0f;
@@ -114,7 +113,7 @@ void MapLoaderSection::SpawnAutoNPCs(
             [w, nationality, tier, mercenary = npcPreset.mercenary, ovr = npcPreset.overrides](SDK::AActor* actor) {
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                 if (!npc) return;
-                auto passport = EquipmentGenerator::GenerateCharacter(npc->Class, nationality, tier, mercenary);
+                auto passport = EquipmentGenerator::GenerateCharacter(w, npc->Class, nationality, tier, mercenary);
                 NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
                 npc->Character_Passport = passport;
                 NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);

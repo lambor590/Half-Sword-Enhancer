@@ -286,15 +286,13 @@ void BlueprintRegistry::ScanWeaponTiers() {
         return;
     }
 
-    EquipmentGenerator::Init(world);
-
     std::array<uint16_t, TierValidation::VALID_TIER_MASKS.size()> scannedMasks = {};
 
     SDK::FStr_Passport_Weapon1 passport{};
     for (int w = 1; w <= GameConstants::WEAPON_TYPE_COUNT; ++w) {
         for (int tier = 0; tier <= 8; ++tier) {
             passport = EquipmentGenerator::GenerateCustomizableWeapon(
-                static_cast<CustomizableWeapon>(w), static_cast<SDK::Enum_Ranks>(tier)
+                world, static_cast<CustomizableWeapon>(w), static_cast<SDK::Enum_Ranks>(tier)
             );
 
             if (passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 != nullptr) scannedMasks[w] |= (1 << tier);

@@ -20,6 +20,12 @@ struct MeshOverridePreset {
     SDK::FVector offset = {0.0, 0.0, 0.0};
 };
 
+struct WeaponClassPaths {
+    std::string weaponClass;
+    std::string headModule, guardModule, gripModule, pommelModule;
+    std::string subModule1, subModule2;
+};
+
 struct WeaponPresetData : PresetDataBase {
     static constexpr const char* kPresetsSubdir = "weapon_presets";
 
@@ -36,11 +42,7 @@ struct WeaponPresetData : PresetDataBase {
     static constexpr int MODULE_SLOT_COUNT = 4;
     MeshOverridePreset meshPresets[MODULE_SLOT_COUNT];
 
-    struct {
-        std::string weaponClass;
-        std::string headModule, guardModule, gripModule, pommelModule;
-        std::string subModule1, subModule2;
-    } classPaths{};
+    WeaponClassPaths classPaths{};
 
     static std::vector<PresetFieldDescriptor> GetPresetFields(WeaponPresetData& data);
     static std::vector<OverrideGroupDescriptor> GetOverrideGroups(WeaponPresetData& data);
