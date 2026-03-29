@@ -1,7 +1,6 @@
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-#include "ComponentValidator.h"
 
 REGISTER_SECTION(PlayerAbilitiesSection, MenuTab::Player);
 #include "SDK/AIModule_classes.hpp"
@@ -27,7 +26,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.infiniteStaminaKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->Stamina = GameConstants::DEFAULT_HEALTH;
             },
         .events = {GameEvent::OffLedge},
@@ -41,7 +40,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.infiniteConsciousnessKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 ActorUtils::SetInfiniteConsciousness(player);
             },
         .events = {GameEvent::OffLedge},
@@ -55,7 +54,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.enemyInfiniteConsciousnessKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
             },
         .events = {GameEvent::OffLedge},
@@ -69,7 +68,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.consciousnessMultiplierKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.consciousnessMultiplier : 1.0f);
                 player->Consciousness_Cap = cap;
             },
@@ -89,7 +88,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.enemyConsciousnessMultiplierKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.enemyConsciousnessMultiplier : 1.0f);
                 ActorUtils::ForEachWillie(world, player, [cap](SDK::AWillie_BP_C* willie) {
                     willie->Consciousness_Cap = cap;
@@ -112,7 +111,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.jumpKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, cfg.jumpForce), SDK::FName(), true);
             },
         .params = {KeybindParam("force", "Force", &cfg.jumpForce, 1000.0f, 10000.0f, "Controls how high you jump")},
@@ -126,7 +125,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.playerSpeedKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->Running_Speed_Rate = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerRunMultiplier)
                                                     : GameConstants::DEFAULT_PLAYER_SPEED;
                 player->Walk_Speed_Rate_Run = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerWalkMultiplier)
@@ -153,7 +152,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.playerStrengthKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->Muscle_Power = active ? (GameConstants::DEFAULT_MUSCLE_POWER * cfg.playerStrengthMultiplier)
                                               : GameConstants::DEFAULT_MUSCLE_POWER;
                 player->R_Grab_Force_Limit = active
@@ -191,7 +190,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.bodyTonusKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->All_Body_Tonus = GameConstants::DEFAULT_ALL_BODY_TONUS * cfg.bodyTonusAllBodyMultiplier;
                 if (cfg.bodyTonusNoBodyWeakening) [[unlikely]] {
                     player->Head_Tonus = GameConstants::FULL_TONUS;
@@ -221,7 +220,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.ragdollKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
             },
         .events = {GameEvent::OffLedge},
@@ -235,7 +234,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.enemyRagdollKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
                     willie->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
                 });
@@ -251,7 +250,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.enemyDrunkKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 ActorUtils::ForEachWillie(world, player, [this, active](SDK::AWillie_BP_C* willie) {
                     willie->Drunk = active ? static_cast<double>(cfg.enemyDrunkLevel) : 0.0;
                 });
@@ -272,7 +271,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.noKickCooldownKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->Kick_Cooldown = false;
             },
         .events = {GameEvent::OffLedge},
@@ -286,7 +285,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.invulnerabilityKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->BitPad_5C_0 = active;
                 player->Invulnerable = active;
             },
@@ -302,7 +301,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.noPainKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 ActorUtils::ApplyNoPainEffect(player);
             },
         .events = {GameEvent::OffLedge},
@@ -316,7 +315,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.enemyNoPainKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 ActorUtils::ForEachWillie(world, player, ActorUtils::ApplyNoPainEffect);
             },
         .events = {GameEvent::OffLedge},
@@ -330,7 +329,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.getUpKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 player->Get_Up_Rate = GameConstants::GET_UP_RATE;
             },
     });
@@ -343,7 +342,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.dashKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 SDK::FVector forwardVector = player->GetActorForwardVector();
                 player->Mesh->AddImpulse(forwardVector * cfg.dashForce, SDK::FName(), true);
             },
@@ -358,7 +357,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.biteAttackKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 GameHook::QueueAction([this, active]() { ActorUtils::ApplyBiteState(player, active); });
             },
         .toggleable = true,
@@ -373,7 +372,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.enemyBiteKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 GameHook::QueueAction([this, active]() {
                     if (active) {
                         auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
@@ -398,7 +397,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.enemyBiteAllKey,
         .callback =
             [this](bool active) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 GameHook::QueueAction([this, active]() {
                     ActorUtils::ForEachWillieInRadius(
                         world, player, cfg.biteAllRange,
@@ -419,9 +418,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         .keyPtr = &cfg.possessWillieKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(controller) ||
-                    !ComponentValidator::Validate(world))
-                    return;
+                if (!player || !controller || !world) return;
 
                 if (PossessState::lastWorld != world) {
                     PossessState::Reset();
