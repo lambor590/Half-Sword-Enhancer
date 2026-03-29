@@ -2,11 +2,12 @@
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
+#include "Core/ModContext.h"
+#include "Hooks/GameHook.h"
+#include "Utils/GuiUtils.h"
 
 REGISTER_SECTION(GraphicsSection, MenuTab::Settings);
-#include "ComponentValidator.h"
-#include "Utils/GuiUtils.h"
-#include "Hooks/GameHook.h"
+
 #include "SDK/Engine_classes.hpp"
 
 GraphicsSection::GraphicsSection(ModContext& ctx) : Section(ctx, "Graphics") {
@@ -82,9 +83,9 @@ void GraphicsSection::ExecuteConsoleCommands(SDK::UWorld* world, const GraphicsS
 
 void GraphicsSection::ApplySettings() {
     GameHook::QueueAction([currentSettings = settings]() {
-        SDK::UWorld* world;
-        if (!ComponentValidator::Validate(world)) return;
-        ExecuteConsoleCommands(world, currentSettings);
+        auto* w = ModContext::Get().world;
+        if (!w) return;
+        ExecuteConsoleCommands(w, currentSettings);
     });
 }
 
@@ -111,10 +112,10 @@ void GraphicsSection::ApplyOnStartup() {
         return;
 
     GameHook::QueueAction([]() {
-        SDK::UWorld* world;
-        if (!ComponentValidator::Validate(world)) return;
+        auto* w = ModContext::Get().world;
+        if (!w) return;
 
         const GraphicsSettings gameStartSettings = LoadSettingsFromConfig();
-        ExecuteConsoleCommands(world, gameStartSettings);
+        ExecuteConsoleCommands(w, gameStartSettings);
     });
 }
