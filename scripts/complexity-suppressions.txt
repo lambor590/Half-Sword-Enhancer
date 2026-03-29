@@ -1,6 +1,5 @@
 # Functions with inherent complexity that should not trigger warnings.
 # Each line is a function name pattern matched against lizard output.
-# Lines starting with # are comments.
 
 # VK code switch table (108 cases, compile-time data mapping)
 KeybindManager::GetKeyNameConstexpr
@@ -8,84 +7,64 @@ KeybindManager::GetKeyNameConstexpr
 # x86 instruction length decoder (inherently complex opcode classification)
 MemoryUtils::GetInstructionLength
 
-# Linear data-mapping: N independent if(enabled) prop=val assignments
-PlayerEditorSection::ApplyActiveOverrides
-NPCSpawnHelpers::ApplyPropertyOverrides
-WeaponEditorSection::ApplyOverridesToActor
-
-# Type-dispatch switch (one self-contained case per UE property type)
-PropertyBrowser::RenderPropertyWidget
-
 # Declarative keybind registrations (flat list of independent blocks)
 PlayerAbilitiesSection::InitKeybinds
 WorldActionsSection::InitKeybinds
 
-# Enum-to-value switch (19 cases)
-EquipmentGenerator::GetCustomizableModulesClass
+# Table-driven blueprint categorization
+BlueprintRegistry::CategorizeByPath
 
-# Win32 message dispatch (inherent branching)
-Gui::WndProc
+# Installer flow with ifdef experimental/stable split
+HSELauncher::CheckAndInstallMod
 
-# Small functions flagged only by CCN, already concise
-ArmorEditorSection::RenderGenerationControls
-PresetUtils::SanitizeFilename
+# Type-dispatch switch (one self-contained case per UE property type)
+PropertyBrowser::RenderPropertyWidget
 
-# Serialization: many fields with minimal-mode guards (data mapping)
-NPCPresetSerializer::SerializeToIni
-ArmorPresetSerializer::SerializePassport
-WeaponPresetSerializer::SerializePassport
-
-# Deserialization: sequential field reads (low CCN, length-only flag)
-NPCPresetSerializer::DeserializeFromIni
-WeaponPresetSerializer::DeserializeFromIni
-
-# False positive: line range spans multiple already-separated functions
-HSELauncher::DisplayBanner
-
-# --- Borderline UI rendering / scan functions (CCN 16-26) ---
-# These were refactored from much higher values and are already
-# well-structured for their domain. Further splitting would fragment
-# readability without meaningful complexity reduction.
-
-# UI combos with search, category filter, and selection (ImGui branching)
+# UI combo with actor selector, quick filters, search
 WorldEditorSection::RenderActorSelector
+
+# Linear data-mapping: independent if(enabled) prop=val assignments
+NPCSpawnHelpers::ApplyPropertyOverrides
+
+# VDF state-machine parser
+SteamLocator::ParseLibraryFolders
+
+# Weapon mesh combo with search, type tagging, transform controls
 WeaponEditorSection::RenderMeshCombo
-MapLoaderSection::RenderMapSelector
-ItemSpawnerSection::RenderBlueprintItemUI
-LoadoutManagerSection::RenderArmorTab
 
 # Asset registry scan pipelines (query, filter, deduplicate, categorize)
 BlueprintRegistry::PerformScan
 MapRegistry::PerformScan
 
-# Component discovery state machine
-SkyEditorSection::RenderComponentStatus
+# Map selector with search, category filter, combo
+MapLoaderSection::RenderMapSelector
+
+# Enum-to-value switch (19 cases)
+EquipmentGenerator::GetCustomizableModulesClass
 
 # Spawn orchestration with optional presets
 MapLoaderSection::SpawnPlayer
 
+# Component discovery state machine
+SkyEditorSection::RenderComponentStatus
+
 # Update check with JSON parsing and version comparison
 UpdateManager::CheckForExperimentalUpdates
 
-# Extracted from ifdef-split, inherent install/update flow
-HSELauncher::CheckAndInstallExperimental
+# Pointer-identity dispatch for override application
+WeaponEditorSection::ApplyOverridesToActor
 
-# Modal popup with multiple resolution buttons
-RenderConflictPopup
-
-# Pre-existing serializers (will be replaced by unified preset system in later milestone)
-WeaponPresetSerializer::SerializeToIni
-ArmorPresetSerializer::SerializeToIni
-
-# Pre-existing categorization (table-driven, inherent branching)
-BlueprintRegistry::CategorizeByPath
-
-# Pre-existing installer flow (ifdef split)
-HSELauncher::CheckAndInstallMod
-
-# Pre-existing VDF parser
-SteamLocator::ParseLibraryFolders
+# Per-slot armor tree node rendering
+LoadoutManagerSection::RenderArmorTab
 
 # Filterable combo UI (template, inherent branching)
 GuiUtils::RenderGlobalModuleCombo
 GuiUtils::RenderModuleIndexCombo
+
+# Small functions flagged only by CCN, already concise
+ArmorEditorSection::RenderGenerationControls
+PresetUtils::SanitizeFilename
+Gui::WndProc
+
+# False positive: line range spans multiple already-separated functions
+HSELauncher::DisplayBanner

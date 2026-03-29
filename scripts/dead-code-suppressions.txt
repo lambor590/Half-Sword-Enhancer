@@ -1,16 +1,12 @@
 # Functions that cppcheck reports as unused due to analysis limitations.
-# All entries below have been manually verified.
 
-# Launcher -- unused utility (pre-existing, out of scope for Mod rewrite)
+# Launcher -- unused utility, out of scope for Mod rewrite
 ToCompactString
 
-# Override system -- called by editor sections via override descriptor tables
-CountActive
+# Override system -- called from editor sections via descriptor tables (cppcheck can't trace)
 SerializeAll
 DeserializeAll
-RenderOverrideField
-RenderOverrideGroup
 
-# Preset system -- called from PresetSerializer<DataType> template (cppcheck can't see template instantiation)
+# Preset system -- called from PresetSerializer<T> template (cppcheck can't trace template instantiation)
 SerializePresetFields
 DeserializePresetFields
