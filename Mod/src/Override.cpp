@@ -95,7 +95,6 @@ void DeserializeAll(std::span<const OverrideDescriptor> fields, const CSimpleIni
     }
 }
 
-// ── ImGui rendering ───────────────────────────────────────────────────
 
 namespace {
 

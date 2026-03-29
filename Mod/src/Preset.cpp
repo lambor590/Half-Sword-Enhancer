@@ -13,9 +13,7 @@
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/LoadoutPresetSerializer.h"
 
-// ═══════════════════════════════════════════════════════════════════════
 // Unified field serialize/deserialize
-// ═══════════════════════════════════════════════════════════════════════
 
 void SerializePresetFields(std::span<const PresetFieldDescriptor> fields, CSimpleIniA& ini) {
     for (const auto& f : fields) {
@@ -68,9 +66,7 @@ void DeserializePresetFields(std::span<const PresetFieldDescriptor> fields, cons
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════
 // PlayerPresetData descriptors
-// ═══════════════════════════════════════════════════════════════════════
 
 std::vector<OverrideGroupDescriptor> PlayerPresetData::GetOverrideGroups(PlayerPresetData& data) {
     auto& o = data.overrides;
@@ -151,9 +147,7 @@ std::vector<OverrideGroupDescriptor> PlayerPresetData::GetOverrideGroups(PlayerP
     };
 }
 
-// ═══════════════════════════════════════════════════════════════════════
 // NPCPresetData descriptors
-// ═══════════════════════════════════════════════════════════════════════
 
 std::vector<PresetFieldDescriptor> NPCPresetData::GetPresetFields(NPCPresetData& data) {
     return {
@@ -209,9 +203,7 @@ std::vector<OverrideGroupDescriptor> NPCPresetData::GetOverrideGroups(NPCPresetD
     };
 }
 
-// ═══════════════════════════════════════════════════════════════════════
 // WeaponPresetData descriptors
-// ═══════════════════════════════════════════════════════════════════════
 
 std::vector<PresetFieldDescriptor> WeaponPresetData::GetPresetFields(WeaponPresetData& data) {
     auto& p = data.passport;
@@ -391,9 +383,7 @@ void WeaponPresetData::DeserializeCustom(WeaponPresetData& data, const CSimpleIn
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════
 // ArmorPresetData descriptors
-// ═══════════════════════════════════════════════════════════════════════
 
 std::vector<PresetFieldDescriptor> ArmorPresetData::GetPresetFields(ArmorPresetData& data) {
     auto& p = data.passport;
@@ -488,9 +478,7 @@ void ArmorPresetData::DeserializeCustom(ArmorPresetData& data, const CSimpleIniA
         static_cast<SDK::Enum_Ranks>(std::atoi(ini.GetValue("Passport", "tier", "4")));
 }
 
-// ═══════════════════════════════════════════════════════════════════════
 // LoadoutPresetData descriptors + utilities
-// ═══════════════════════════════════════════════════════════════════════
 
 SDK::FStr_WeaponParts& LoadoutPresetData::GetWeaponSlot(SDK::FStr_Loadout_Weapons& weapons, int index) {
     switch (index) {

@@ -13,7 +13,6 @@
 #include "Utils/PresetDataBase.h"
 #include "Utils/PresetSerializerBase.h"
 
-// ── Field descriptor types ────────────────────────────────────────────
 
 enum class PresetFieldType : uint8_t { String, Int, Double, Bool, Vec3, Rotator, Color };
 
@@ -67,19 +66,16 @@ namespace PresetField {
 
 } // namespace PresetField
 
-// ── Override field group descriptor ───────────────────────────────────
 
 struct OverrideGroupDescriptor {
     const char* section;
     std::span<const OverrideDescriptor> fields;
 };
 
-// ── Unified serialize/deserialize (free functions) ────────────────────
 
 void SerializePresetFields(std::span<const PresetFieldDescriptor> fields, CSimpleIniA& ini);
 void DeserializePresetFields(std::span<const PresetFieldDescriptor> fields, const CSimpleIniA& ini);
 
-// ── Concept detection for optional DataType hooks ─────────────────────
 
 template <typename T>
 concept HasPresetFields = requires(T& t) {
@@ -101,7 +97,6 @@ concept HasCustomDeserialize = requires(T& t, const CSimpleIniA& ini) {
     {T::DeserializeCustom(t, ini)};
 };
 
-// ── PresetSerializer<DataType> ────────────────────────────────────────
 
 /// Inherits PresetSerializerBase CRTP for file I/O (LoadFromFile, SaveToFile, etc.).
 template <typename DataType>

@@ -254,7 +254,6 @@ namespace {
 
 } // anonymous namespace
 
-// ─── TooltipHelper ───────────────────────────────────────────────────────────
 
 namespace {
     struct TooltipState {
@@ -295,7 +294,6 @@ void TooltipHelper::InvalidateCache() {
     g_tooltipState.Refresh();
 }
 
-// ─── KeybindUI ───────────────────────────────────────────────────────────────
 
 void KeybindUI::RenderKeybind(KeybindEntry& entry) {
     RenderKeyButton(entry.keyId.c_str(), entry.waitingForKey, *entry.keyPtr, entry.pendingOriginalKey);
@@ -348,7 +346,6 @@ void KeybindUI::RenderKeybindList(std::vector<KeybindEntry>& entries) {
     }
 }
 
-// ─── KeybindConfig ───────────────────────────────────────────────────────────
 
 static std::string NormalizeSection(std::string_view name) {
     std::string s(name);

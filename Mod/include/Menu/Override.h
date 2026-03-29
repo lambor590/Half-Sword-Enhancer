@@ -23,7 +23,6 @@ struct OverrideDescriptor {
     const char* tooltip;
 };
 
-// ── Construction helpers ──────────────────────────────────────────────
 
 struct RuntimeOverride;
 struct IntOverride;
@@ -43,7 +42,6 @@ constexpr OverrideDescriptor OverrideField(
     const char* name, BoolOverride& ovr, bool defaultVal = false, const char* tooltip = nullptr
 );
 
-// ── Iteration utilities ───────────────────────────────────────────────
 
 int CountActive(std::span<const OverrideDescriptor> fields);
 
@@ -53,7 +51,6 @@ template <typename Fn> void ApplyAll(std::span<const OverrideDescriptor> fields,
     }
 }
 
-// ── Value accessors (for use inside applier lambdas) ──────────────────
 
 /// Only valid when type == Double.
 inline double GetDouble(const OverrideDescriptor& f) {
@@ -70,7 +67,6 @@ inline bool GetBool(const OverrideDescriptor& f) {
     return *static_cast<bool*>(f.value);
 }
 
-// ── Setter-table application ──────────────────────────────────────────
 
 /// Each setter receives the target actor (as void*) and the descriptor to read the value from.
 using OverrideSetter = void (*)(void*, const OverrideDescriptor&);
@@ -81,7 +77,6 @@ inline void ApplyWithSetters(std::span<const OverrideDescriptor> fields, void* t
         if (*fields[i].enabled) setters[i](target, fields[i]);
 }
 
-// ── INI persistence ───────────────────────────────────────────────────
 
 /// When minimalMode is true, only enabled fields are written.
 void SerializeAll(
@@ -90,14 +85,12 @@ void SerializeAll(
 
 void DeserializeAll(std::span<const OverrideDescriptor> fields, const CSimpleIniA& ini, const char* section);
 
-// ── ImGui rendering ───────────────────────────────────────────────────
 
 /// Dispatches to DragFloat, DragInt, or tristate Combo based on field type.
 void RenderOverrideField(const OverrideDescriptor& field);
 
 void RenderOverrideGroup(std::span<const OverrideDescriptor> fields);
 
-// ── Inline constexpr construction (needs OverrideTypes.h included by caller) ──
 
 #include "Utils/OverrideTypes.h"
 
