@@ -1,7 +1,6 @@
 #include "Menu/Sections/Equipment/LoadoutManagerSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-#include "ComponentValidator.h"
 
 REGISTER_SECTION(LoadoutManagerSection, MenuTab::Equipment);
 
@@ -85,14 +84,14 @@ void LoadoutManagerSection::BuildArmorOps(std::vector<std::function<void()>>& op
 }
 
 void LoadoutManagerSection::ApplyArmorToPlayer() {
-    if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+    if (!player || !world) return;
     BuildArmorOps(staggeredOps);
     staggeredIdx = 0;
     staggeredBusy.store(false, std::memory_order_relaxed);
 }
 
 void LoadoutManagerSection::ReapplyArmorSlot(SDK::EArmorSlots_Enum slot) {
-    if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+    if (!player || !world) return;
     GameHook::QueueAction([p = player, w = world, slot]() {
         auto& map = p->Currently_Equipped_Armor;
         for (auto it = begin(map); it != end(map); ++it) {
@@ -108,7 +107,7 @@ void LoadoutManagerSection::ReapplyArmorSlot(SDK::EArmorSlots_Enum slot) {
 }
 
 void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
-    if (!ComponentValidator::Validate(player)) return;
+    if (!player) return;
 
     auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
     auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
@@ -131,7 +130,7 @@ void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
 }
 
 void LoadoutManagerSection::StripAllArmor() {
-    if (!ComponentValidator::Validate(player)) return;
+    if (!player) return;
     GameHook::QueueAction([p = player]() {
         auto& map = p->Currently_Equipped_Armor;
         std::vector<SDK::EArmorSlots_Enum> slots;
@@ -143,7 +142,7 @@ void LoadoutManagerSection::StripAllArmor() {
 }
 
 void LoadoutManagerSection::ClearAllWeapons() {
-    if (!ComponentValidator::Validate(player)) return;
+    if (!player) return;
     auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
     for (int i = 0; i < 7; ++i) {
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, i);
@@ -160,7 +159,7 @@ void LoadoutManagerSection::ClearAllWeapons() {
 }
 
 void LoadoutManagerSection::GenerateArmorForSlot(SDK::EArmorSlots_Enum slotEnum) {
-    if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+    if (!player || !world) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
 
     GameHook::QueueAction([this, slotEnum, tier]() {
@@ -174,7 +173,7 @@ void LoadoutManagerSection::GenerateArmorForSlot(SDK::EArmorSlots_Enum slotEnum)
 }
 
 void LoadoutManagerSection::RandomizeAllArmor() {
-    if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+    if (!player || !world) return;
     if (staggeredIdx < staggeredOps.size()) return;
 
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
@@ -208,7 +207,7 @@ void LoadoutManagerSection::RandomizeAllArmor() {
 }
 
 void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
-    if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+    if (!player || !world) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
     auto type = static_cast<SDK::Enum_WeaponType>(0);
 
@@ -239,7 +238,7 @@ void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
 }
 
 void LoadoutManagerSection::ImportWeaponPreset(int slotIndex) {
-    if (!weaponPicker.HasSelection() || !ComponentValidator::Validate(player)) return;
+    if (!weaponPicker.HasSelection() || !player) return;
     auto data = WeaponPresetSerializer::LoadFromFile(weaponPicker.SelectedPath());
     if (!data.success) return;
 
@@ -268,8 +267,7 @@ void LoadoutManagerSection::ImportWeaponPreset(int slotIndex) {
 }
 
 void LoadoutManagerSection::ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
-    if (!armorPicker.HasSelection() || !ComponentValidator::Validate(player) || !ComponentValidator::Validate(world))
-        return;
+    if (!armorPicker.HasSelection() || !player || !world) return;
     auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
     if (!data.success) return;
 
@@ -287,7 +285,7 @@ void LoadoutManagerSection::ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
 }
 
 void LoadoutManagerSection::ApplyLoadoutPreset(LoadoutPresetData data) {
-    if (!ComponentValidator::Validate(player)) return;
+    if (!player) return;
 
     auto& dstMap = player->Currently_Equipped_Armor;
     for (auto it = begin(dstMap); it != end(dstMap); ++it)
@@ -356,7 +354,7 @@ void LoadoutManagerSection::ApplyLoadoutPreset(LoadoutPresetData data) {
 }
 
 LoadoutPresetData LoadoutManagerSection::BuildPresetFromPlayer() {
-    if (!ComponentValidator::Validate(player)) return {};
+    if (!player) return {};
     LoadoutPresetData data;
     data.success = true;
 
@@ -394,7 +392,7 @@ LoadoutPresetData LoadoutManagerSection::BuildPresetFromPlayer() {
 void LoadoutManagerSection::RenderArmorTab() {
     ImGui::PushID("armor");
 
-    if (!ComponentValidator::Validate(player)) {
+    if (!player) {
         ImGui::TextDisabled("Player not available");
         ImGui::PopID();
         return;
@@ -567,7 +565,7 @@ void LoadoutManagerSection::RenderWeaponSlotMaterials(SDK::FStr_WeaponParts& slo
 void LoadoutManagerSection::RenderWeaponsTab() {
     ImGui::PushID("weapons");
 
-    if (!ComponentValidator::Validate(player)) {
+    if (!player) {
         ImGui::TextDisabled("Player not available");
         ImGui::PopID();
         return;
@@ -653,7 +651,7 @@ void LoadoutManagerSection::InitKeybinds() {
         .keyPtr = &cfg.applyKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player)) return;
+                if (!player) return;
                 ApplyArmorToPlayer();
             },
     });
@@ -666,7 +664,7 @@ void LoadoutManagerSection::InitKeybinds() {
         .keyPtr = &cfg.randomizeKey,
         .callback =
             [this]([[maybe_unused]] bool) {
-                if (!ComponentValidator::Validate(player) || !ComponentValidator::Validate(world)) return;
+                if (!player || !world) return;
                 RandomizeAllArmor();
             },
         .params =
@@ -721,7 +719,7 @@ void LoadoutManagerSection::Render() {
             presets.status.Render();
             presets.RenderPresetsTab(
                 [this]() { return BuildPresetFromPlayer(); },
-                [this](LoadoutPresetData d) { ApplyLoadoutPreset(std::move(d)); }, ComponentValidator::Validate(player)
+                [this](LoadoutPresetData d) { ApplyLoadoutPreset(std::move(d)); }, player != nullptr
             );
             break;
     }
