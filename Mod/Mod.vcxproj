@@ -280,6 +280,7 @@
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />
+    <ClCompile Include="src\MapRegistry.cpp" />
     <ClCompile Include="src\Sections\GuiSection.cpp" />
     <ClCompile Include="src\Sections\GraphicsSection.cpp" />
     <ClCompile Include="src\Sections\WorldActionsSection.cpp" />
@@ -354,6 +355,7 @@
     <ClInclude Include="include\Utils\PlayerEditorOverrides.h" />
     <ClInclude Include="include\Utils\NPCSpawnHelpers.h" />
     <ClInclude Include="include\Utils\BlueprintRegistry.h" />
+    <ClInclude Include="include\Utils\MapRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Mod.rc" />

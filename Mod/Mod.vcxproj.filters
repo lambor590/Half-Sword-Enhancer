@@ -131,6 +131,9 @@
     <ClCompile Include="src\BlueprintRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\MapRegistry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SDK\SDK\AssetRegistry_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -338,6 +341,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\BlueprintRegistry.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\MapRegistry.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
