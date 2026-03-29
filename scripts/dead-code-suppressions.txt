@@ -12,3 +12,5 @@ SpawnWeaponFromPassport
 CountActive
 SerializeAll
 DeserializeAll
+RenderOverrideField
+RenderOverrideGroup

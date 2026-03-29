@@ -4,7 +4,9 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "imgui/imgui.h"
 #include "SimpleIni.h"
+#include "Utils/GuiUtils.h"
 
 // ── CountActive ───────────────────────────────────────────────────────
 
@@ -99,4 +101,59 @@ void DeserializeAll(std::span<const OverrideDescriptor> fields, const CSimpleIni
             case OverrideFieldType::Bool: DeserializeBool(raw, *f.enabled, *static_cast<bool*>(f.value)); break;
         }
     }
+}
+
+// ── ImGui rendering ───────────────────────────────────────────────────
+
+namespace {
+
+    void RenderDoubleDrag(const OverrideDescriptor& field) {
+        ImGui::Checkbox("##en", field.enabled);
+        ImGui::SameLine();
+        if (!*field.enabled) ImGui::BeginDisabled();
+        float val = static_cast<float>(*static_cast<double*>(field.value));
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        if (ImGui::DragFloat(field.name, &val, field.speed, 0.0f, 0.0f, "%.3f"))
+            *static_cast<double*>(field.value) = val;
+        if (!*field.enabled) ImGui::EndDisabled();
+    }
+
+    void RenderIntDrag(const OverrideDescriptor& field) {
+        ImGui::Checkbox("##en", field.enabled);
+        ImGui::SameLine();
+        if (!*field.enabled) ImGui::BeginDisabled();
+        ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+        ImGui::DragInt(field.name, static_cast<int*>(field.value), field.speed, 0, 0);
+        if (!*field.enabled) ImGui::EndDisabled();
+    }
+
+    void RenderBoolCombo(const OverrideDescriptor& field) {
+        static constexpr const char* TRISTATE[] = {"Default", "No", "Yes"};
+        static float tristateW = GuiUtils::CalcComboWidth(TRISTATE, 3);
+
+        bool& enabled = *field.enabled;
+        bool& value = *static_cast<bool*>(field.value);
+        int current = enabled ? (value ? 2 : 1) : 0;
+        ImGui::SetNextItemWidth(tristateW);
+        if (ImGui::Combo(field.name, &current, TRISTATE, 3)) {
+            enabled = (current != 0);
+            value = (current == 2);
+        }
+    }
+
+} // namespace
+
+void RenderOverrideField(const OverrideDescriptor& field) {
+    ImGui::PushID(field.name);
+    switch (field.type) {
+        case OverrideFieldType::Double: RenderDoubleDrag(field); break;
+        case OverrideFieldType::Int: RenderIntDrag(field); break;
+        case OverrideFieldType::Bool: RenderBoolCombo(field); break;
+    }
+    ImGui::PopID();
+}
+
+void RenderOverrideGroup(std::span<const OverrideDescriptor> fields) {
+    for (const auto& f : fields)
+        RenderOverrideField(f);
 }
