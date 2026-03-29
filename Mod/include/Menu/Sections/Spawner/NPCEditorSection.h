@@ -4,6 +4,7 @@
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
+#include "Menu/Override.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/NPCPresetSerializer.h"
 #include "Utils/PresetSectionState.h"
@@ -57,8 +58,16 @@ private:
     PresetPickerState<LoadoutPresetSerializer> loadoutPicker;
     int activeTab = 0;
 
+    /// Cached override descriptor groups, built once in constructor.
+    /// Each group corresponds to a UI tab section.
+    std::vector<OverrideDescriptor> physicalFields;
+    std::vector<OverrideDescriptor> combatFields;
+    std::vector<OverrideDescriptor> behaviorFields;
+    std::vector<OverrideDescriptor> bodyConditionFields;
+
+    void BuildDescriptors();
+    int CountAllActive() const;
     const char* getNPCClassName() const noexcept;
-    int CountActiveOverrides() const;
     void SpawnNPC();
     NPCPresetData BuildPresetData() const;
     void ApplyPresetData(const NPCPresetData& d);

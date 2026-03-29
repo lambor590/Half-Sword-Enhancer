@@ -9,24 +9,65 @@ REGISTER_SECTION(NPCEditorSection, MenuTab::Spawner);
 #include "Utils/NPCSpawnHelpers.h"
 #include "Utils/GuiUtils.h"
 
+// ── Descriptor construction ───────────────────────────────────────────
+
+void NPCEditorSection::BuildDescriptors() {
+    auto& o = overrides;
+
+    physicalFields = {
+        OverrideField("Height Rate", o.heightRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Muscle Rate", o.muscleRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Face Type", o.faceType),
+        OverrideField("Eye Color", o.eyeColor),
+        OverrideField("Hair Length", o.hairLength, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Hair Color", o.hairColor, 0.0, 0.0, 0.0, 0.01f),
+    };
+    combatFields = {
+        OverrideField("Damage Rate", o.damageRate, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Limb Damage Rate", o.limbDamageRate, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Dismember Threshold", o.dismemberThreshold, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Regen Rate", o.regenRate, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("AI Invincibility", o.aiInvincibility, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("AI Armor Invincibility", o.aiArmorInvincibility, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Body Skill", o.bodySkill, 0.0, 0.0, 0.0, 0.1f),
+    };
+    behaviorFields = {
+        OverrideField("Fearless", o.fearless),
+        OverrideField("Start Kneeled", o.startKneeled),
+        OverrideField("Spawn in Pants", o.spawnInPants),
+        OverrideField("Clear Spawn Area", o.clearSpawnArea),
+        OverrideField("Drunk", o.drunk, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Bolts in Quiver", o.boltsInQuiver),
+    };
+    bodyConditionFields = {
+        OverrideField("Head", o.headHealth, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Neck", o.neckHealth, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Right Arm", o.armRHealth, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Left Arm", o.armLHealth, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Upper Body", o.bodyUpperHealth, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Lower Body", o.bodyLowerHealth, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Right Leg", o.legRHealth, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Left Leg", o.legLHealth, 0.0, 0.0, 0.0, 0.1f),
+    };
+}
+
+// ── Active override counting via descriptors ──────────────────────────
+
+int NPCEditorSection::CountAllActive() const {
+    return CountActive(physicalFields) + CountActive(combatFields) + CountActive(behaviorFields) +
+           CountActive(bodyConditionFields);
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────
+
 const char* NPCEditorSection::getNPCClassName() const noexcept {
     if (cfg.npcTypeIndex >= 0 && cfg.npcTypeIndex < npcTypesCount) [[likely]]
         return npcTypes[cfg.npcTypeIndex].className;
     return npcTypes[0].className;
 }
 
-int NPCEditorSection::CountActiveOverrides() const {
-    return overrides.heightRate.enabled + overrides.muscleRate.enabled + overrides.scaleMutationInhibitor.enabled +
-           overrides.faceType.enabled + overrides.eyeColor.enabled + overrides.hairLength.enabled +
-           overrides.hairColor.enabled + overrides.damageRate.enabled + overrides.limbDamageRate.enabled +
-           overrides.dismemberThreshold.enabled + overrides.regenRate.enabled + overrides.aiInvincibility.enabled +
-           overrides.aiArmorInvincibility.enabled + overrides.bodySkill.enabled + overrides.fearless.enabled +
-           overrides.startKneeled.enabled + overrides.spawnInPants.enabled + overrides.clearSpawnArea.enabled +
-           overrides.drunk.enabled + overrides.boltsInQuiver.enabled + overrides.headHealth.enabled +
-           overrides.neckHealth.enabled + overrides.armRHealth.enabled + overrides.armLHealth.enabled +
-           overrides.bodyUpperHealth.enabled + overrides.bodyLowerHealth.enabled + overrides.legRHealth.enabled +
-           overrides.legLHealth.enabled;
-}
+// ── Spawn NPC ─────────────────────────────────────────────────────────
 
 void NPCEditorSection::SpawnNPC() {
     auto className = std::string(getNPCClassName());
@@ -36,7 +77,7 @@ void NPCEditorSection::SpawnNPC() {
     bool bodyguard = cfg.bodyguard;
     int team = cfg.npcTeam;
     auto ovr = overrides;
-    bool hasOverrides = CountActiveOverrides() > 0;
+    bool hasOverrides = CountAllActive() > 0;
     bool hasLoadout = loadoutPicker.HasSelection();
 
     LoadoutPresetData loadoutData;
@@ -83,6 +124,8 @@ void NPCEditorSection::SpawnNPC() {
     Spawner::SpawnActor(world, className, spawnTransform, preCallback, cfg.spawn.snapToGround, 4, postCallback);
 }
 
+// ── Preset data conversion ────────────────────────────────────────────
+
 NPCPresetData NPCEditorSection::BuildPresetData() const {
     NPCPresetData d;
     d.npcTypeIndex = cfg.npcTypeIndex;
@@ -101,25 +144,27 @@ void NPCEditorSection::ApplyPresetData(const NPCPresetData& d) {
     overrides = d.overrides;
 }
 
+// ── Tab rendering (using RenderOverrideField from override system) ────
+
 void NPCEditorSection::RenderPhysicalTab() {
     ImGui::PushID("physical");
 
     ImGui::SeparatorText("Body");
-    GuiUtils::RenderOverrideDrag("Height Rate", overrides.heightRate, 0.01f);
+    RenderOverrideField(physicalFields[0]); // Height Rate
     TooltipHelper::ShowTooltip("Character height multiplier (1.0 = normal)");
-    GuiUtils::RenderOverrideDrag("Muscle Rate", overrides.muscleRate, 0.01f);
+    RenderOverrideField(physicalFields[1]); // Muscle Rate
     TooltipHelper::ShowTooltip("Character muscle/bulk multiplier (1.0 = normal)");
-    GuiUtils::RenderOverrideDrag("Scale Mutation Inhibitor", overrides.scaleMutationInhibitor, 0.01f);
+    RenderOverrideField(physicalFields[2]); // Scale Mutation Inhibitor
     TooltipHelper::ShowTooltip("Controls how much random scale variation is suppressed");
 
     ImGui::SeparatorText("Appearance");
-    GuiUtils::RenderOverrideInt("Face Type", overrides.faceType);
+    RenderOverrideField(physicalFields[3]); // Face Type
     TooltipHelper::ShowTooltip("Face mesh index");
-    GuiUtils::RenderOverrideInt("Eye Color", overrides.eyeColor);
+    RenderOverrideField(physicalFields[4]); // Eye Color
     TooltipHelper::ShowTooltip("Eye color index");
-    GuiUtils::RenderOverrideDrag("Hair Length", overrides.hairLength, 0.01f);
+    RenderOverrideField(physicalFields[5]); // Hair Length
     TooltipHelper::ShowTooltip("Hair length (0 = bald, 1 = maximum)");
-    GuiUtils::RenderOverrideDrag("Hair Color", overrides.hairColor, 0.01f);
+    RenderOverrideField(physicalFields[6]); // Hair Color
     TooltipHelper::ShowTooltip("Hair melanin (0 = blonde, 0.5 = brown, 1 = black)");
 
     ImGui::PopID();
@@ -129,23 +174,23 @@ void NPCEditorSection::RenderCombatTab() {
     ImGui::PushID("combat");
 
     ImGui::SeparatorText("Damage");
-    GuiUtils::RenderOverrideDrag("Damage Rate", overrides.damageRate, 0.1f);
+    RenderOverrideField(combatFields[0]); // Damage Rate
     TooltipHelper::ShowTooltip("Additional damage multiplier dealt by this NPC");
-    GuiUtils::RenderOverrideDrag("Limb Damage Rate", overrides.limbDamageRate, 0.1f);
+    RenderOverrideField(combatFields[1]); // Limb Damage Rate
     TooltipHelper::ShowTooltip("Additional limb-specific damage multiplier");
-    GuiUtils::RenderOverrideDrag("Dismember Threshold", overrides.dismemberThreshold, 0.1f);
+    RenderOverrideField(combatFields[2]); // Dismember Threshold
     TooltipHelper::ShowTooltip("Health threshold below which dismemberment can occur");
 
     ImGui::SeparatorText("Defense");
-    GuiUtils::RenderOverrideDrag("Regen Rate", overrides.regenRate, 0.01f);
+    RenderOverrideField(combatFields[3]); // Regen Rate
     TooltipHelper::ShowTooltip("Health regeneration rate per tick");
-    GuiUtils::RenderOverrideDrag("AI Invincibility", overrides.aiInvincibility, 0.01f);
+    RenderOverrideField(combatFields[4]); // AI Invincibility
     TooltipHelper::ShowTooltip("Rate at which AI ignores incoming damage");
-    GuiUtils::RenderOverrideDrag("AI Armor Invincibility", overrides.aiArmorInvincibility, 0.01f);
+    RenderOverrideField(combatFields[5]); // AI Armor Invincibility
     TooltipHelper::ShowTooltip("Rate at which AI armor ignores damage");
 
     ImGui::SeparatorText("Skill");
-    GuiUtils::RenderOverrideDrag("Body Skill", overrides.bodySkill, 0.1f);
+    RenderOverrideField(combatFields[6]); // Body Skill
     TooltipHelper::ShowTooltip("Overall combat skill level affecting movement and reactions");
 
     ImGui::PopID();
@@ -154,19 +199,19 @@ void NPCEditorSection::RenderCombatTab() {
 void NPCEditorSection::RenderBehaviorTab() {
     ImGui::PushID("behavior");
 
-    GuiUtils::RenderOverrideBool("Fearless", overrides.fearless);
+    RenderOverrideField(behaviorFields[0]); // Fearless
     TooltipHelper::ShowTooltip("NPC never flees from combat");
-    GuiUtils::RenderOverrideBool("Start Kneeled", overrides.startKneeled);
+    RenderOverrideField(behaviorFields[1]); // Start Kneeled
     TooltipHelper::ShowTooltip("NPC spawns in a kneeling position");
-    GuiUtils::RenderOverrideBool("Spawn in Pants", overrides.spawnInPants);
+    RenderOverrideField(behaviorFields[2]); // Spawn in Pants
     TooltipHelper::ShowTooltip("NPC spawns wearing only pants (no armor)");
-    GuiUtils::RenderOverrideBool("Clear Spawn Area", overrides.clearSpawnArea);
+    RenderOverrideField(behaviorFields[3]); // Clear Spawn Area
     TooltipHelper::ShowTooltip("Clear objects around spawn point before spawning");
 
     ImGui::Spacing();
-    GuiUtils::RenderOverrideDrag("Drunk", overrides.drunk, 0.01f);
+    RenderOverrideField(behaviorFields[4]); // Drunk
     TooltipHelper::ShowTooltip("Drunkenness level (0 = sober, 1 = fully drunk)");
-    GuiUtils::RenderOverrideInt("Bolts in Quiver", overrides.boltsInQuiver);
+    RenderOverrideField(behaviorFields[5]); // Bolts in Quiver
     TooltipHelper::ShowTooltip("Number of crossbow bolts the NPC carries");
 
     ImGui::PopID();
@@ -193,31 +238,34 @@ void NPCEditorSection::RenderBodyConditionTab() {
     ImGui::Spacing();
     if (ImGui::BeginTable("##bodyparts", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Head", overrides.headHealth, 0.1f);
+        RenderOverrideField(bodyConditionFields[0]); // Head
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Neck", overrides.neckHealth, 0.1f);
+        RenderOverrideField(bodyConditionFields[1]); // Neck
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Right Arm", overrides.armRHealth, 0.1f);
+        RenderOverrideField(bodyConditionFields[2]); // Right Arm
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Left Arm", overrides.armLHealth, 0.1f);
+        RenderOverrideField(bodyConditionFields[3]); // Left Arm
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Upper Body", overrides.bodyUpperHealth, 0.1f);
+        RenderOverrideField(bodyConditionFields[4]); // Upper Body
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Lower Body", overrides.bodyLowerHealth, 0.1f);
+        RenderOverrideField(bodyConditionFields[5]); // Lower Body
 
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Right Leg", overrides.legRHealth, 0.1f);
+        RenderOverrideField(bodyConditionFields[6]); // Right Leg
         ImGui::TableNextColumn();
-        GuiUtils::RenderOverrideDrag("Left Leg", overrides.legLHealth, 0.1f);
+        RenderOverrideField(bodyConditionFields[7]); // Left Leg
         ImGui::EndTable();
     }
 
     ImGui::PopID();
 }
 
+// ── Constructor & keybinds ────────────────────────────────────────────
+
 NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, "NPC Editor") {
+    BuildDescriptors();
     InitKeybinds();
 }
 
@@ -259,6 +307,8 @@ void NPCEditorSection::InitKeybinds() {
     InitKeybindEntry(keybinds.back());
 }
 
+// ── Main Render ───────────────────────────────────────────────────────
+
 void NPCEditorSection::Render() {
     const SectionStyle::StyleRAII style;
 
@@ -285,7 +335,7 @@ void NPCEditorSection::Render() {
         overrides = {};
     }
     TooltipHelper::ShowTooltip("Disable all NPC property overrides");
-    GuiUtils::RenderOverrideCount(CountActiveOverrides());
+    GuiUtils::RenderOverrideCount(CountAllActive());
     presets.status.Render();
 
     ImGui::Spacing();
