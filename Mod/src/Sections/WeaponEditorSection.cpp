@@ -7,6 +7,7 @@ REGISTER_SECTION(WeaponEditorSection, MenuTab::Equipment);
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
+#include <span>
 
 #include "Hooks/GameHook.h"
 #include "Utils/BlueprintRegistry.h"
@@ -339,34 +340,64 @@ void WeaponEditorSection::BuildDescriptors() {
     auto& rp = runtimeProps;
 
     combatFields = {
-        OverrideField("Rigidity", rp.rigidity, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Edge Sharpness", rp.edgeSharpness, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Raw Damage", rp.rawDamage, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Cutting Rate", rp.cuttingRate, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Stab Rate", rp.stabRate, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Def Rating", rp.defRating, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Grip Rate", rp.gripRate, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Draw Cut Rate", rp.drawCutRate, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Tip Sharpness", rp.tipSharpness, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Kick Power", rp.kickPower, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField(
+            "Rigidity", rp.rigidity, 0.0, 0.0, 0.0, 0.1f,
+            "Structural stiffness - affects impact resistance and damage transfer"
+        ),
+        OverrideField(
+            "Edge Sharpness", rp.edgeSharpness, 0.0, 0.0, 0.0, 0.1f,
+            "Cutting edge quality - determines slashing effectiveness"
+        ),
+        OverrideField("Raw Damage", rp.rawDamage, 0.0, 0.0, 0.0, 0.1f, "Base damage multiplier before other modifiers"),
+        OverrideField(
+            "Cutting Rate", rp.cuttingRate, 0.0, 0.0, 0.0, 0.01f, "Slashing damage multiplier for cutting attacks"
+        ),
+        OverrideField("Stab Rate", rp.stabRate, 0.0, 0.0, 0.0, 0.01f, "Thrusting damage multiplier for stab attacks"),
+        OverrideField(
+            "Def Rating", rp.defRating, 0.0, 0.0, 0.0, 0.01f, "Defensive effectiveness when blocking or parrying"
+        ),
+        OverrideField("Grip Rate", rp.gripRate, 0.0, 0.0, 0.0, 0.01f, "Weapon handling and control precision"),
+        OverrideField(
+            "Draw Cut Rate", rp.drawCutRate, 0.0, 0.0, 0.0, 0.01f, "Damage bonus for drawing/slicing motions"
+        ),
+        OverrideField(
+            "Tip Sharpness", rp.tipSharpness, 0.0, 0.0, 0.0, 0.1f,
+            "Point sharpness - affects piercing on thrust attacks"
+        ),
+        OverrideField("Kick Power", rp.kickPower, 0.0, 0.0, 0.0, 0.1f, "Knockback force applied on impact"),
     };
     physicsFields = {
-        OverrideField("Mat Density", rp.matDensity, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField(
+            "Mat Density", rp.matDensity, 0.0, 0.0, 0.0, 0.1f, "Material density - affects momentum and swing weight"
+        ),
     };
     dismemberFields = {
-        OverrideField("Sharp Level", rp.dismemberSharp),
-        OverrideField("Blunt Level", rp.dismemberBlunt),
+        OverrideField(
+            "Sharp Level", rp.dismemberSharp, 0, 0, 0, 0.1f, "Sharp dismemberment threshold (higher = easier to sever)"
+        ),
+        OverrideField(
+            "Blunt Level", rp.dismemberBlunt, 0, 0, 0, 0.1f, "Blunt dismemberment threshold (higher = easier to crush)"
+        ),
     };
     toggleFields = {
-        OverrideField("Double Edged", rp.doubleEdged),
-        OverrideField("Piercing", rp.piercing),
-        OverrideField("No Stab", rp.noStab),
+        OverrideField("Double Edged", rp.doubleEdged, false, "Both edges can cut (swords vs single-edge weapons)"),
+        OverrideField("Piercing", rp.piercing, false, "Weapon can pierce through armor"),
+        OverrideField("No Stab", rp.noStab, false, "Disables thrust attacks (for blunt weapons)"),
     };
     staminaFields = {
-        OverrideField("R Hand Burn", rp.staminaBurnR, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("L Hand Burn", rp.staminaBurnL, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("2H Burn", rp.staminaBurn2H, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("2H Alt Burn", rp.staminaBurn2HAlt, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField(
+            "R Hand Burn", rp.staminaBurnR, 0.0, 0.0, 0.0, 0.01f, "Stamina drain rate when wielding in right hand"
+        ),
+        OverrideField(
+            "L Hand Burn", rp.staminaBurnL, 0.0, 0.0, 0.0, 0.01f, "Stamina drain rate when wielding in left hand"
+        ),
+        OverrideField(
+            "2H Burn", rp.staminaBurn2H, 0.0, 0.0, 0.0, 0.01f, "Stamina drain rate for two-handed default grip"
+        ),
+        OverrideField(
+            "2H Alt Burn", rp.staminaBurn2HAlt, 0.0, 0.0, 0.0, 0.01f,
+            "Stamina drain for alternate two-handed grip (half-sword, mordschlag)"
+        ),
     };
 }
 
@@ -379,66 +410,62 @@ int WeaponEditorSection::CountAllActive() const {
 
 // ── Apply overrides using descriptors ─────────────────────────────────
 
+namespace {
+
+    using Setter = void (*)(void*, const OverrideDescriptor&);
+
+    void ApplyWithSetters(std::span<const OverrideDescriptor> fields, void* target, const Setter* setters) {
+        for (size_t i = 0; i < fields.size(); ++i)
+            if (*fields[i].enabled) setters[i](target, fields[i]);
+    }
+
+    using W = SDK::AModularWeaponBP_C;
+
+    static constexpr Setter COMBAT_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Rigidity = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Edge_Sharpness = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Raw_Damage = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Cutting_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Stab_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Def_Rating = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Grip_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Draw_Cut_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Tip_Sharpness = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Kick_Power = GetDouble(f); },
+    };
+
+    static constexpr Setter PHYSICS_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Mat_Density = GetDouble(f); },
+    };
+
+    static constexpr Setter DISMEMBER_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Sharp = GetInt(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Blunt = GetInt(f); },
+    };
+
+    static constexpr Setter TOGGLE_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Double_Edged = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Piercing = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->NoStab = GetBool(f); },
+    };
+
+    static constexpr Setter STAMINA_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->R_Hand_Stamina_Burn_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->L_Hand_Stamina_Burn_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->TwoH_Default_Stamina_Burn_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->TwoH_Alt_Stamina_Burn_Rate = GetDouble(f); },
+    };
+
+} // namespace
+
 void WeaponEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
     if (!actor) return;
-    auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
-    const auto& rp = runtimeProps;
-
-    ApplyAll(combatFields, [weapon, &rp](const OverrideDescriptor& f) {
-        double v = GetDouble(f);
-        if (f.value == &rp.rigidity.value)
-            weapon->Rigidity = v;
-        else if (f.value == &rp.edgeSharpness.value)
-            weapon->Edge_Sharpness = v;
-        else if (f.value == &rp.rawDamage.value)
-            weapon->Raw_Damage = v;
-        else if (f.value == &rp.cuttingRate.value)
-            weapon->Cutting_Rate = v;
-        else if (f.value == &rp.stabRate.value)
-            weapon->Stab_Rate = v;
-        else if (f.value == &rp.defRating.value)
-            weapon->Def_Rating = v;
-        else if (f.value == &rp.gripRate.value)
-            weapon->Grip_Rate = v;
-        else if (f.value == &rp.drawCutRate.value)
-            weapon->Draw_Cut_Rate = v;
-        else if (f.value == &rp.tipSharpness.value)
-            weapon->Tip_Sharpness = v;
-        else
-            weapon->Kick_Power = v;
-    });
-
-    ApplyAll(physicsFields, [weapon](const OverrideDescriptor& f) { weapon->Mat_Density = GetDouble(f); });
-
-    ApplyAll(dismemberFields, [weapon, &rp](const OverrideDescriptor& f) {
-        int v = GetInt(f);
-        if (f.value == &rp.dismemberSharp.value)
-            weapon->Dismemberment_Level_Sharp = v;
-        else
-            weapon->Dismemberment_Level_Blunt = v;
-    });
-
-    ApplyAll(toggleFields, [weapon, &rp](const OverrideDescriptor& f) {
-        bool v = GetBool(f);
-        if (f.value == &rp.doubleEdged.value)
-            weapon->Double_Edged = v;
-        else if (f.value == &rp.piercing.value)
-            weapon->Piercing = v;
-        else
-            weapon->NoStab = v;
-    });
-
-    ApplyAll(staminaFields, [weapon, &rp](const OverrideDescriptor& f) {
-        double v = GetDouble(f);
-        if (f.value == &rp.staminaBurnR.value)
-            weapon->R_Hand_Stamina_Burn_Rate = v;
-        else if (f.value == &rp.staminaBurnL.value)
-            weapon->L_Hand_Stamina_Burn_Rate = v;
-        else if (f.value == &rp.staminaBurn2H.value)
-            weapon->TwoH_Default_Stamina_Burn_Rate = v;
-        else
-            weapon->TwoH_Alt_Stamina_Burn_Rate = v;
-    });
+    auto* w = static_cast<void*>(static_cast<SDK::AModularWeaponBP_C*>(actor));
+    ApplyWithSetters(combatFields, w, COMBAT_SETTERS);
+    ApplyWithSetters(physicsFields, w, PHYSICS_SETTERS);
+    ApplyWithSetters(dismemberFields, w, DISMEMBER_SETTERS);
+    ApplyWithSetters(toggleFields, w, TOGGLE_SETTERS);
+    ApplyWithSetters(staminaFields, w, STAMINA_SETTERS);
 }
 
 void WeaponEditorSection::SpawnPreview() {
@@ -925,62 +952,27 @@ void WeaponEditorSection::RenderStatsTab() {
 
     ImGui::Spacing();
     if (ImGui::TreeNodeEx("Combat", ImGuiTreeNodeFlags_DefaultOpen)) {
-        RenderOverrideField(combatFields[0]);
-        TooltipHelper::ShowTooltip("Structural stiffness - affects impact resistance and damage transfer");
-        RenderOverrideField(combatFields[1]);
-        TooltipHelper::ShowTooltip("Cutting edge quality - determines slashing effectiveness");
-        RenderOverrideField(combatFields[2]);
-        TooltipHelper::ShowTooltip("Base damage multiplier before other modifiers");
-        RenderOverrideField(combatFields[3]);
-        TooltipHelper::ShowTooltip("Slashing damage multiplier for cutting attacks");
-        RenderOverrideField(combatFields[4]);
-        TooltipHelper::ShowTooltip("Thrusting damage multiplier for stab attacks");
-        RenderOverrideField(combatFields[5]);
-        TooltipHelper::ShowTooltip("Defensive effectiveness when blocking or parrying");
-        RenderOverrideField(combatFields[6]);
-        TooltipHelper::ShowTooltip("Weapon handling and control precision");
-        RenderOverrideField(combatFields[7]);
-        TooltipHelper::ShowTooltip("Damage bonus for drawing/slicing motions");
-        RenderOverrideField(combatFields[8]);
-        TooltipHelper::ShowTooltip("Point sharpness - affects piercing on thrust attacks");
-        RenderOverrideField(combatFields[9]);
-        TooltipHelper::ShowTooltip("Knockback force applied on impact");
+        RenderOverrideGroup(combatFields);
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Physics")) {
         RenderOverrideField(physicsFields[0]);
-        TooltipHelper::ShowTooltip("Material density - affects momentum and swing weight");
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Dismemberment")) {
-        RenderOverrideField(dismemberFields[0]);
-        TooltipHelper::ShowTooltip("Sharp dismemberment threshold (higher = easier to sever)");
-        RenderOverrideField(dismemberFields[1]);
-        TooltipHelper::ShowTooltip("Blunt dismemberment threshold (higher = easier to crush)");
+        RenderOverrideGroup(dismemberFields);
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Toggles")) {
-        RenderOverrideField(toggleFields[0]);
-        TooltipHelper::ShowTooltip("Both edges can cut (swords vs single-edge weapons)");
-        RenderOverrideField(toggleFields[1]);
-        TooltipHelper::ShowTooltip("Weapon can pierce through armor");
-        RenderOverrideField(toggleFields[2]);
-        TooltipHelper::ShowTooltip("Disables thrust attacks (for blunt weapons)");
+        RenderOverrideGroup(toggleFields);
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Stamina")) {
-        RenderOverrideField(staminaFields[0]);
-        TooltipHelper::ShowTooltip("Stamina drain rate when wielding in right hand");
-        RenderOverrideField(staminaFields[1]);
-        TooltipHelper::ShowTooltip("Stamina drain rate when wielding in left hand");
-        RenderOverrideField(staminaFields[2]);
-        TooltipHelper::ShowTooltip("Stamina drain rate for two-handed default grip");
-        RenderOverrideField(staminaFields[3]);
-        TooltipHelper::ShowTooltip("Stamina drain for alternate two-handed grip (half-sword, mordschlag)");
+        RenderOverrideGroup(staminaFields);
         ImGui::TreePop();
     }
 

@@ -111,191 +111,125 @@ int PlayerEditorSection::CountAllActive() const {
            CountActive(stateFields);
 }
 
-// ── Apply overrides per group ─────────────────────────────────────────
-// Each group uses ApplyAll() to iterate only enabled descriptors.
-// Pointer identity on the descriptor's value field dispatches to the correct
-// SDK property. This replaces 55+ manual if(.enabled) chains with descriptor
-// iteration. Special cases (heightRate → passport, invulnerable → BitPad)
-// are handled inline in their respective group applier.
+// ── Apply overrides via setter tables ──────────────────────────────────
+// Each group has a parallel array of setter function pointers, indexed to
+// match the descriptor order from BuildDescriptors(). ApplyWithSetters
+// iterates enabled fields and dispatches through the table.
 
 namespace {
 
-    void ApplyPhysical(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
-        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
-            double v = GetDouble(f);
-            if (f.value == &o.heightRate.value) {
-                p->Height_Rate = v;
-                p->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = v;
-            } else if (f.value == &o.muscleRate.value) {
-                p->Muscle_Rate = v;
-            } else {
-                p->Scale_Mutation_Inhibitor = v;
-            }
-        });
+    using Setter = void (*)(void*, const OverrideDescriptor&);
+    using P = SDK::AWillie_BP_C;
+
+    void ApplyWithSetters(std::span<const OverrideDescriptor> fields, void* target, const Setter* setters) {
+        for (size_t i = 0; i < fields.size(); ++i)
+            if (*fields[i].enabled) setters[i](target, fields[i]);
     }
 
-    void ApplyHealth(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
-        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+    static constexpr Setter PHYSICAL_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) {
+            auto* p = static_cast<P*>(a);
             double v = GetDouble(f);
-            if (f.value == &o.health.value)
-                p->Health = v;
-            else if (f.value == &o.headHealth.value)
-                p->Head_Health = v;
-            else if (f.value == &o.neckHealth.value)
-                p->Neck_Health = v;
-            else if (f.value == &o.armRHealth.value)
-                p->Arm_R_Health = v;
-            else if (f.value == &o.armLHealth.value)
-                p->Arm_L_Health = v;
-            else if (f.value == &o.bodyUpperHealth.value)
-                p->Body_Upper_Health = v;
-            else if (f.value == &o.bodyLowerHealth.value)
-                p->Body_Lower_Health = v;
-            else if (f.value == &o.legRHealth.value)
-                p->Leg_R_Health = v;
-            else if (f.value == &o.legLHealth.value)
-                p->Leg_L_Health = v;
-            else if (f.value == &o.backHealth.value)
-                p->Back_Health = v;
-            else if (f.value == &o.consciousness.value)
-                p->Consciousness = v;
-            else if (f.value == &o.regenRate.value)
-                p->Regen_Rate = v;
-        });
-    }
+            p->Height_Rate = v;
+            p->Character_Passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = v;
+        },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Muscle_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Scale_Mutation_Inhibitor = GetDouble(f); },
+    };
 
-    void ApplyPhysics(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
-        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
-            double v = GetDouble(f);
-            if (f.value == &o.allBodyTonus.value)
-                p->All_Body_Tonus = v;
-            else if (f.value == &o.headTonus.value)
-                p->Head_Tonus = v;
-            else if (f.value == &o.armRTonus.value)
-                p->Arm_R_Tonus = v;
-            else if (f.value == &o.armLTonus.value)
-                p->Arm_L_Tonus = v;
-            else if (f.value == &o.legRTonus.value)
-                p->Leg_R_Tonus = v;
-            else if (f.value == &o.legLTonus.value)
-                p->Leg_L_Tonus = v;
-            else if (f.value == &o.musclePower.value)
-                p->Muscle_Power = v;
-            else if (f.value == &o.orientationStrength.value)
-                p->Orientation_Strength = v;
-            else if (f.value == &o.angularStrength.value)
-                p->Angular_Strength = v;
-            else if (f.value == &o.hitRigidity.value)
-                p->Hit_Rigidity = v;
-        });
-    }
+    static constexpr Setter HEALTH_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Head_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Neck_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Arm_R_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Arm_L_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Body_Upper_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Body_Lower_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Leg_R_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Leg_L_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Back_Health = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Consciousness = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Regen_Rate = GetDouble(f); },
+    };
 
-    void ApplyMovement(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
-        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
-            double v = GetDouble(f);
-            if (f.value == &o.runningSpeedRate.value)
-                p->Running_Speed_Rate = v;
-            else if (f.value == &o.walkSpeedRateRun.value)
-                p->Walk_Speed_Rate_Run = static_cast<float>(v);
-            else if (f.value == &o.jumpRate.value)
-                p->Jump_Rate = v;
-            else if (f.value == &o.dodgeRate.value)
-                p->Dodge_Rate = v;
-            else if (f.value == &o.crawlRate.value)
-                p->Crawl_Rate = v;
-            else if (f.value == &o.getUpRate.value)
-                p->Get_Up_Rate = v;
-            else if (f.value == &o.fallenRate.value)
-                p->Fallen_Rate = v;
-        });
-    }
+    static constexpr Setter PHYSICS_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->All_Body_Tonus = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Head_Tonus = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Arm_R_Tonus = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Arm_L_Tonus = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Leg_R_Tonus = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Leg_L_Tonus = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Muscle_Power = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Orientation_Strength = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Angular_Strength = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Hit_Rigidity = GetDouble(f); },
+    };
 
-    void ApplyCombat(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
-        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
-            double v = GetDouble(f);
-            if (f.value == &o.damageRate.value)
-                p->Damage_Rate__Additional_ = v;
-            else if (f.value == &o.limbDamageRate.value)
-                p->Limb_Damage_Rate__Additional_ = v;
-            else if (f.value == &o.dismemberThreshold.value)
-                p->Health_Threshold_For_Dismemberment = v;
-            else if (f.value == &o.stamina.value)
-                p->Stamina = v;
-            else if (f.value == &o.staminaBurnSwingR.value)
-                p->Stamina_Burn_Swing_R = v;
-            else if (f.value == &o.staminaBurnSwingL.value)
-                p->Stamina_Burn_Swing_L = v;
-            else if (f.value == &o.staminaBurnDodge.value)
-                p->Stamina_Burn_Dodge = v;
-            else if (f.value == &o.grabForceR.value)
-                p->R_Grab_Force_Limit = v;
-            else if (f.value == &o.grabForceL.value)
-                p->L_Grab_Force_Limit = v;
-            else if (f.value == &o.handsRigidity.value)
-                p->Hands_Rigidity__Gauntlets_ = v;
-            else if (f.value == &o.bodySkill.value)
-                p->Body_Skill__Temp_ = v;
-            else if (f.value == &o.weaponSkill.value)
-                p->Weapon_Skill__Temp_ = v;
-        });
-    }
+    static constexpr Setter MOVEMENT_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Running_Speed_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) {
+            static_cast<P*>(a)->Walk_Speed_Rate_Run = static_cast<float>(GetDouble(f));
+        },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Jump_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Dodge_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Crawl_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Get_Up_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Fallen_Rate = GetDouble(f); },
+    };
 
-    void ApplySkills(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
-        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
+    static constexpr Setter COMBAT_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Damage_Rate__Additional_ = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Limb_Damage_Rate__Additional_ = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) {
+            static_cast<P*>(a)->Health_Threshold_For_Dismemberment = GetDouble(f);
+        },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Stamina = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Stamina_Burn_Swing_R = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Stamina_Burn_Swing_L = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Stamina_Burn_Dodge = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->R_Grab_Force_Limit = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->L_Grab_Force_Limit = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Hands_Rigidity__Gauntlets_ = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Body_Skill__Temp_ = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Weapon_Skill__Temp_ = GetDouble(f); },
+    };
+
+    static constexpr Setter SKILL_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Weapon_Thrust = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Weapon_Parry = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Weapon_Alt_Grip = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Weapon_Alt_Stance = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Weapon_Rotate = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Body_Crouch = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Body_Dodge = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Body_Kick = GetBool(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Skill_Unlock_Body_Slomo = GetBool(f); },
+    };
+
+    static constexpr Setter STATE_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Exhaustion = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Drunk = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Fear = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) {
+            auto* p = static_cast<P*>(a);
             bool v = GetBool(f);
-            if (f.value == &o.skillThrust.value)
-                p->Skill_Unlock_Weapon_Thrust = v;
-            else if (f.value == &o.skillParry.value)
-                p->Skill_Unlock_Weapon_Parry = v;
-            else if (f.value == &o.skillAltGrip.value)
-                p->Skill_Unlock_Weapon_Alt_Grip = v;
-            else if (f.value == &o.skillAltStance.value)
-                p->Skill_Unlock_Weapon_Alt_Stance = v;
-            else if (f.value == &o.skillRotate.value)
-                p->Skill_Unlock_Weapon_Rotate = v;
-            else if (f.value == &o.skillCrouch.value)
-                p->Skill_Unlock_Body_Crouch = v;
-            else if (f.value == &o.skillDodge.value)
-                p->Skill_Unlock_Body_Dodge = v;
-            else if (f.value == &o.skillKick.value)
-                p->Skill_Unlock_Body_Kick = v;
-            else if (f.value == &o.skillSlomo.value)
-                p->Skill_Unlock_Body_Slomo = v;
-        });
-    }
-
-    void ApplyState(std::span<const OverrideDescriptor> fields, SDK::AWillie_BP_C* p, PlayerEditorOverrides& o) {
-        ApplyAll(fields, [p, &o](const OverrideDescriptor& f) {
-            if (f.type == OverrideFieldType::Double) {
-                double v = GetDouble(f);
-                if (f.value == &o.exhaustion.value)
-                    p->Exhaustion = v;
-                else if (f.value == &o.drunk.value)
-                    p->Drunk = v;
-                else if (f.value == &o.fear.value)
-                    p->Fear = v;
-            } else {
-                bool v = GetBool(f);
-                if (f.value == &o.invulnerable.value) {
-                    p->Invulnerable = v;
-                    p->BitPad_5C_0 = v;
-                } else {
-                    p->Fearless = v;
-                }
-            }
-        });
-    }
+            p->Invulnerable = v;
+            p->BitPad_5C_0 = v;
+        },
+        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Fearless = GetBool(f); },
+    };
 
 } // namespace
 
 void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
-    ApplyPhysical(physicalFields, p, overrides);
-    ApplyHealth(healthFields, p, overrides);
-    ApplyPhysics(physicsFields, p, overrides);
-    ApplyMovement(movementFields, p, overrides);
-    ApplyCombat(combatFields, p, overrides);
-    ApplySkills(skillFields, p, overrides);
-    ApplyState(stateFields, p, overrides);
+    auto* target = static_cast<void*>(p);
+    ApplyWithSetters(physicalFields, target, PHYSICAL_SETTERS);
+    ApplyWithSetters(healthFields, target, HEALTH_SETTERS);
+    ApplyWithSetters(physicsFields, target, PHYSICS_SETTERS);
+    ApplyWithSetters(movementFields, target, MOVEMENT_SETTERS);
+    ApplyWithSetters(combatFields, target, COMBAT_SETTERS);
+    ApplyWithSetters(skillFields, target, SKILL_SETTERS);
+    ApplyWithSetters(stateFields, target, STATE_SETTERS);
 }
 
 // ── Read current values from player into override fields ──────────────
@@ -458,7 +392,6 @@ void PlayerEditorSection::RenderPhysicsTab() {
 
     ImGui::SeparatorText("Muscle Tonus");
     RenderOverrideField(physicsFields[0]); // All Body Tonus
-    TooltipHelper::ShowTooltip("Master body muscle tension (100 = normal)");
 
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::cellPadding.y);
     if (ImGui::BeginTable("##tonusparts", 2, ImGuiTableFlags_None)) {
@@ -481,11 +414,9 @@ void PlayerEditorSection::RenderPhysicsTab() {
 
     ImGui::SeparatorText("Strength");
     RenderOverrideField(physicsFields[6]); // Muscle Power
-    TooltipHelper::ShowTooltip("Overall muscle force (35 = default)");
     RenderOverrideField(physicsFields[7]); // Orientation Strength
     RenderOverrideField(physicsFields[8]); // Angular Strength
     RenderOverrideField(physicsFields[9]); // Hit Rigidity
-    TooltipHelper::ShowTooltip("How rigid the body stays when hit");
 
     ImGui::PopID();
 }
@@ -494,22 +425,10 @@ void PlayerEditorSection::RenderMovementTab() {
     ImGui::PushID("movement");
 
     ImGui::SeparatorText("Speed");
-    RenderOverrideField(movementFields[0]); // Running Speed Rate
-    TooltipHelper::ShowTooltip("Running speed multiplier (1.5 = default)");
-    RenderOverrideField(movementFields[1]); // Walk Speed Rate
-    TooltipHelper::ShowTooltip("Walking/aiming speed rate");
+    RenderOverrideGroup({movementFields.data(), 2});
 
     ImGui::SeparatorText("Actions");
-    RenderOverrideField(movementFields[2]); // Jump Rate
-    TooltipHelper::ShowTooltip("Jump power multiplier");
-    RenderOverrideField(movementFields[3]); // Dodge Rate
-    TooltipHelper::ShowTooltip("Dodge speed/distance multiplier");
-    RenderOverrideField(movementFields[4]); // Crawl Rate
-    TooltipHelper::ShowTooltip("Crawling speed multiplier");
-    RenderOverrideField(movementFields[5]); // Get Up Rate
-    TooltipHelper::ShowTooltip("Speed of getting up from the ground");
-    RenderOverrideField(movementFields[6]); // Fallen Rate
-    TooltipHelper::ShowTooltip("Rate at which the character recovers from falling");
+    RenderOverrideGroup({movementFields.data() + 2, 5});
 
     ImGui::PopID();
 }
@@ -518,34 +437,13 @@ void PlayerEditorSection::RenderCombatTab() {
     ImGui::PushID("combat");
 
     ImGui::SeparatorText("Damage");
-    RenderOverrideField(combatFields[0]); // Damage Rate
-    TooltipHelper::ShowTooltip("Additional damage multiplier dealt");
-    RenderOverrideField(combatFields[1]); // Limb Damage Rate
-    TooltipHelper::ShowTooltip("Additional limb-specific damage multiplier");
-    RenderOverrideField(combatFields[2]); // Dismember Threshold
-    TooltipHelper::ShowTooltip("Health threshold below which dismemberment can occur");
+    RenderOverrideGroup({combatFields.data(), 3});
 
     ImGui::SeparatorText("Stamina");
-    RenderOverrideField(combatFields[3]); // Stamina
-    TooltipHelper::ShowTooltip("Current stamina level (100 = full)");
-    RenderOverrideField(combatFields[4]); // Swing R Burn
-    TooltipHelper::ShowTooltip("Stamina cost for right-hand swings");
-    RenderOverrideField(combatFields[5]); // Swing L Burn
-    TooltipHelper::ShowTooltip("Stamina cost for left-hand swings");
-    RenderOverrideField(combatFields[6]); // Dodge Burn
-    TooltipHelper::ShowTooltip("Stamina cost for dodging");
+    RenderOverrideGroup({combatFields.data() + 3, 4});
 
     ImGui::SeparatorText("Grip & Skill");
-    RenderOverrideField(combatFields[7]); // Grab Force R
-    TooltipHelper::ShowTooltip("Right hand grip force limit (10000 = default)");
-    RenderOverrideField(combatFields[8]); // Grab Force L
-    TooltipHelper::ShowTooltip("Left hand grip force limit (10000 = default)");
-    RenderOverrideField(combatFields[9]); // Hands Rigidity
-    TooltipHelper::ShowTooltip("Punch impact force (0.666 = default)");
-    RenderOverrideField(combatFields[10]); // Body Skill
-    TooltipHelper::ShowTooltip("Overall combat skill level");
-    RenderOverrideField(combatFields[11]); // Weapon Skill
-    TooltipHelper::ShowTooltip("Weapon handling skill level");
+    RenderOverrideGroup({combatFields.data() + 7, 5});
 
     ImGui::PopID();
 }
@@ -587,16 +485,7 @@ void PlayerEditorSection::RenderSkillsStateTab() {
     }
 
     ImGui::SeparatorText("State");
-    RenderOverrideField(stateFields[0]); // Exhaustion
-    TooltipHelper::ShowTooltip("Physical exhaustion level");
-    RenderOverrideField(stateFields[1]); // Drunk
-    TooltipHelper::ShowTooltip("Drunkenness level (0 = sober, 1 = fully drunk)");
-    RenderOverrideField(stateFields[2]); // Fear
-    TooltipHelper::ShowTooltip("Fear level");
-    RenderOverrideField(stateFields[3]); // Invulnerable
-    TooltipHelper::ShowTooltip("Immune to all damage");
-    RenderOverrideField(stateFields[4]); // Fearless
-    TooltipHelper::ShowTooltip("Never flees from combat");
+    RenderOverrideGroup(stateFields);
 
     ImGui::PopID();
 }

@@ -12,6 +12,38 @@ REGISTER_SECTION(LoadoutManagerSection, MenuTab::Equipment);
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "SDK/Enum_Weapon_Material_Type_structs.hpp"
 
+namespace {
+
+    void CopyPassportToSlot(const SDK::FStr_Passport_Weapon1& passport, SDK::FStr_WeaponParts& slot) {
+        slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 =
+            passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC;
+        slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139;
+        slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = passport.GuardModule_13_6DD2B06245505E53B529D090333012F0;
+        slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4;
+        slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 =
+            passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6;
+        slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 =
+            passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D;
+        slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 =
+            passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9;
+        slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA = passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57;
+        slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D = passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704;
+        slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 =
+            passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E;
+    }
+
+    void ClearWeaponSlot(SDK::FStr_WeaponParts& slot) {
+        slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = nullptr;
+        slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = nullptr;
+        slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = nullptr;
+        slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = nullptr;
+        slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = nullptr;
+        slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = nullptr;
+        slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = nullptr;
+    }
+
+} // namespace
+
 const char* LoadoutManagerSection::ClassNameCache::Get(SDK::UClass* cls) {
     if (cls != ptr) {
         ptr = cls;
@@ -146,13 +178,7 @@ void LoadoutManagerSection::ClearAllWeapons() {
     auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
     for (int i = 0; i < 7; ++i) {
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, i);
-        slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = nullptr;
-        slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = nullptr;
-        slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = nullptr;
-        slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = nullptr;
-        slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = nullptr;
-        slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = nullptr;
-        slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = nullptr;
+        ClearWeaponSlot(slot);
     }
     ApplyWeaponToPlayer(0);
     ApplyWeaponToPlayer(1);
@@ -217,21 +243,7 @@ void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
 
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
-        slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 =
-            passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC;
-        slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139;
-        slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = passport.GuardModule_13_6DD2B06245505E53B529D090333012F0;
-        slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4;
-        slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 =
-            passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6;
-        slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 =
-            passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D;
-        slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 =
-            passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9;
-        slot.HeadSize_23_5DF30AE0493E534BD92D5B95E31E13CA = passport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57;
-        slot.GuardSize_24_7EB9BB3F4B7B54DD51CE529FEEA9A98D = passport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704;
-        slot.PommelPommelSize_26_5B37388746A83FCB7A7833891C1C5524 =
-            passport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E;
+        CopyPassportToSlot(passport, slot);
     });
 
     if (slotIndex <= 1) ApplyWeaponToPlayer(slotIndex);
@@ -611,13 +623,7 @@ void LoadoutManagerSection::RenderWeaponsTab() {
                 if (ImGui::Button("Apply", ImVec2(halfW, 0))) ApplyWeaponToPlayer(i);
                 ImGui::SameLine();
                 if (ImGui::Button("Remove", ImVec2(halfW, 0))) {
-                    slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = nullptr;
-                    slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = nullptr;
-                    slot.GuardModule_21_774015784EB0300D2671C894D57ED144 = nullptr;
-                    slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = nullptr;
-                    slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984 = nullptr;
-                    slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0 = nullptr;
-                    slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = nullptr;
+                    ClearWeaponSlot(slot);
                     if (cfg.livePreview && i <= 1) ApplyWeaponToPlayer(i);
                 }
             } else {

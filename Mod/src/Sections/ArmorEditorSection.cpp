@@ -18,20 +18,37 @@ void ArmorEditorSection::BuildDescriptors() {
     auto& rp = runtimeProps;
 
     protectionFields = {
-        OverrideField("Blunt Protection", rp.protectionBlunt, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Cut Protection", rp.protectionCut, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Stab Protection", rp.protectionStab, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField(
+            "Blunt Protection", rp.protectionBlunt, 0.0, 0.0, 0.0, 0.1f, "Protection against blunt/crushing damage"
+        ),
+        OverrideField(
+            "Cut Protection", rp.protectionCut, 0.0, 0.0, 0.0, 0.1f, "Protection against cutting/slashing damage"
+        ),
+        OverrideField(
+            "Stab Protection", rp.protectionStab, 0.0, 0.0, 0.0, 0.1f, "Protection against piercing/stabbing damage"
+        ),
     };
     physicsFields = {
-        OverrideField("Material Density", rp.materialDensity, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Mass Scale", rp.massScale, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField(
+            "Material Density", rp.materialDensity, 0.0, 0.0, 0.0, 0.1f,
+            "Material density - affects weight and impact absorption"
+        ),
+        OverrideField("Mass Scale", rp.massScale, 0.0, 0.0, 0.0, 0.01f, "Overall mass multiplier for the armor piece"),
     };
     behaviorFields = {
-        OverrideField("Hands Rigidity", rp.handsRigidity, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Strap Power", rp.strapPower, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("AI Invincibility Rate", rp.aiInvincibilityRate, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Price Override", rp.price, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Pick Up", rp.pickUp),
+        OverrideField(
+            "Hands Rigidity", rp.handsRigidity, 0.0, 0.0, 0.0, 0.1f, "Gauntlet hand rigidity - affects grip strength"
+        ),
+        OverrideField(
+            "Strap Power", rp.strapPower, 0.0, 0.0, 0.0, 0.1f,
+            "Helmet strap force - affects how securely the helmet stays on"
+        ),
+        OverrideField(
+            "AI Invincibility Rate", rp.aiInvincibilityRate, 0.0, 0.0, 0.0, 0.01f,
+            "Rate at which AI ignores damage when wearing this armor"
+        ),
+        OverrideField("Price Override", rp.price, 0.0, 0.0, 0.0, 1.0f, "Override the runtime price value on the actor"),
+        OverrideField("Pick Up", rp.pickUp, false, "Allow picking up this armor piece from the ground"),
     };
 }
 
@@ -104,46 +121,45 @@ void ArmorEditorSection::RandomizeArmorPassport() {
     GenerateArmorPassport();
 }
 
-// ── Apply overrides using descriptors ─────────────────────────────────
+// ── Apply overrides using setter tables ────────────────────────────────
+
+namespace {
+
+    using Setter = void (*)(void*, const OverrideDescriptor&);
+    using A = SDK::ABP_Armor_Master_C;
+
+    void ApplyWithSetters(std::span<const OverrideDescriptor> fields, void* target, const Setter* setters) {
+        for (size_t i = 0; i < fields.size(); ++i)
+            if (*fields[i].enabled) setters[i](target, fields[i]);
+    }
+
+    static constexpr Setter PROTECTION_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Blunt = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Cut = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Protection_Stab = GetDouble(f); },
+    };
+
+    static constexpr Setter PHYSICS_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Material_Density = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Mass_Scale = GetDouble(f); },
+    };
+
+    static constexpr Setter BEHAVIOR_SETTERS[] = {
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Hands_Rigidity__Gauntlets_ = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Strap_Power__Helmet_ = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->AI_Invinvcibility_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Price = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<A*>(a)->Pick_Up = GetBool(f); },
+    };
+
+} // namespace
 
 void ArmorEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
     if (!actor) return;
-    auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
-    const auto& rp = runtimeProps;
-
-    ApplyAll(protectionFields, [armor, &rp](const OverrideDescriptor& f) {
-        double v = GetDouble(f);
-        if (f.value == &rp.protectionBlunt.value)
-            armor->Protection_Blunt = v;
-        else if (f.value == &rp.protectionCut.value)
-            armor->Protection_Cut = v;
-        else
-            armor->Protection_Stab = v;
-    });
-
-    ApplyAll(physicsFields, [armor, &rp](const OverrideDescriptor& f) {
-        double v = GetDouble(f);
-        if (f.value == &rp.materialDensity.value)
-            armor->Material_Density = v;
-        else
-            armor->Mass_Scale = v;
-    });
-
-    ApplyAll(behaviorFields, [armor, &rp](const OverrideDescriptor& f) {
-        if (f.type == OverrideFieldType::Bool) {
-            armor->Pick_Up = GetBool(f);
-        } else {
-            double v = GetDouble(f);
-            if (f.value == &rp.handsRigidity.value)
-                armor->Hands_Rigidity__Gauntlets_ = v;
-            else if (f.value == &rp.strapPower.value)
-                armor->Strap_Power__Helmet_ = v;
-            else if (f.value == &rp.aiInvincibilityRate.value)
-                armor->AI_Invinvcibility_Rate = v;
-            else
-                armor->Price = v;
-        }
-    });
+    auto* a = static_cast<void*>(static_cast<SDK::ABP_Armor_Master_C*>(actor));
+    ApplyWithSetters(protectionFields, a, PROTECTION_SETTERS);
+    ApplyWithSetters(physicsFields, a, PHYSICS_SETTERS);
+    ApplyWithSetters(behaviorFields, a, BEHAVIOR_SETTERS);
 }
 
 // ── Live preview ──────────────────────────────────────────────────────
@@ -332,38 +348,22 @@ void ArmorEditorSection::RenderStatsTab() {
 
     ImGui::Spacing();
     if (ImGui::TreeNodeEx("Protection", ImGuiTreeNodeFlags_DefaultOpen)) {
-        RenderOverrideField(protectionFields[0]);
-        TooltipHelper::ShowTooltip("Protection against blunt/crushing damage");
-        RenderOverrideField(protectionFields[1]);
-        TooltipHelper::ShowTooltip("Protection against cutting/slashing damage");
-        RenderOverrideField(protectionFields[2]);
-        TooltipHelper::ShowTooltip("Protection against piercing/stabbing damage");
+        RenderOverrideGroup(protectionFields);
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Physics")) {
-        RenderOverrideField(physicsFields[0]);
-        TooltipHelper::ShowTooltip("Material density - affects weight and impact absorption");
-        RenderOverrideField(physicsFields[1]);
-        TooltipHelper::ShowTooltip("Overall mass multiplier for the armor piece");
+        RenderOverrideGroup(physicsFields);
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Behavior")) {
-        RenderOverrideField(behaviorFields[0]);
-        TooltipHelper::ShowTooltip("Gauntlet hand rigidity - affects grip strength");
-        RenderOverrideField(behaviorFields[1]);
-        TooltipHelper::ShowTooltip("Helmet strap force - affects how securely the helmet stays on");
-        RenderOverrideField(behaviorFields[2]);
-        TooltipHelper::ShowTooltip("Rate at which AI ignores damage when wearing this armor");
-        RenderOverrideField(behaviorFields[3]);
-        TooltipHelper::ShowTooltip("Override the runtime price value on the actor");
+        RenderOverrideGroup({behaviorFields.data(), 4});
         ImGui::TreePop();
     }
 
     if (ImGui::TreeNode("Toggles")) {
         RenderOverrideField(behaviorFields[4]);
-        TooltipHelper::ShowTooltip("Allow picking up this armor piece from the ground");
         ImGui::TreePop();
     }
 

@@ -14,30 +14,52 @@ void NPCEditorSection::BuildDescriptors() {
     auto& o = overrides;
 
     physicalFields = {
-        OverrideField("Height Rate", o.heightRate, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Muscle Rate", o.muscleRate, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Face Type", o.faceType),
-        OverrideField("Eye Color", o.eyeColor),
-        OverrideField("Hair Length", o.hairLength, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Hair Color", o.hairColor, 0.0, 0.0, 0.0, 0.01f),
+        OverrideField("Height Rate", o.heightRate, 0.0, 0.0, 0.0, 0.01f, "Character height multiplier (1.0 = normal)"),
+        OverrideField(
+            "Muscle Rate", o.muscleRate, 0.0, 0.0, 0.0, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"
+        ),
+        OverrideField(
+            "Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.0, 0.0, 0.0, 0.01f,
+            "Controls how much random scale variation is suppressed"
+        ),
+        OverrideField("Face Type", o.faceType, 0, 0, 0, 0.1f, "Face mesh index"),
+        OverrideField("Eye Color", o.eyeColor, 0, 0, 0, 0.1f, "Eye color index"),
+        OverrideField("Hair Length", o.hairLength, 0.0, 0.0, 0.0, 0.01f, "Hair length (0 = bald, 1 = maximum)"),
+        OverrideField(
+            "Hair Color", o.hairColor, 0.0, 0.0, 0.0, 0.01f, "Hair melanin (0 = blonde, 0.5 = brown, 1 = black)"
+        ),
     };
     combatFields = {
-        OverrideField("Damage Rate", o.damageRate, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Limb Damage Rate", o.limbDamageRate, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Dismember Threshold", o.dismemberThreshold, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Regen Rate", o.regenRate, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("AI Invincibility", o.aiInvincibility, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("AI Armor Invincibility", o.aiArmorInvincibility, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Body Skill", o.bodySkill, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField(
+            "Damage Rate", o.damageRate, 0.0, 0.0, 0.0, 0.1f, "Additional damage multiplier dealt by this NPC"
+        ),
+        OverrideField(
+            "Limb Damage Rate", o.limbDamageRate, 0.0, 0.0, 0.0, 0.1f, "Additional limb-specific damage multiplier"
+        ),
+        OverrideField(
+            "Dismember Threshold", o.dismemberThreshold, 0.0, 0.0, 0.0, 0.1f,
+            "Health threshold below which dismemberment can occur"
+        ),
+        OverrideField("Regen Rate", o.regenRate, 0.0, 0.0, 0.0, 0.01f, "Health regeneration rate per tick"),
+        OverrideField(
+            "AI Invincibility", o.aiInvincibility, 0.0, 0.0, 0.0, 0.01f, "Rate at which AI ignores incoming damage"
+        ),
+        OverrideField(
+            "AI Armor Invincibility", o.aiArmorInvincibility, 0.0, 0.0, 0.0, 0.01f,
+            "Rate at which AI armor ignores damage"
+        ),
+        OverrideField(
+            "Body Skill", o.bodySkill, 0.0, 0.0, 0.0, 0.1f,
+            "Overall combat skill level affecting movement and reactions"
+        ),
     };
     behaviorFields = {
-        OverrideField("Fearless", o.fearless),
-        OverrideField("Start Kneeled", o.startKneeled),
-        OverrideField("Spawn in Pants", o.spawnInPants),
-        OverrideField("Clear Spawn Area", o.clearSpawnArea),
-        OverrideField("Drunk", o.drunk, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Bolts in Quiver", o.boltsInQuiver),
+        OverrideField("Fearless", o.fearless, false, "NPC never flees from combat"),
+        OverrideField("Start Kneeled", o.startKneeled, false, "NPC spawns in a kneeling position"),
+        OverrideField("Spawn in Pants", o.spawnInPants, false, "NPC spawns wearing only pants (no armor)"),
+        OverrideField("Clear Spawn Area", o.clearSpawnArea, false, "Clear objects around spawn point before spawning"),
+        OverrideField("Drunk", o.drunk, 0.0, 0.0, 0.0, 0.01f, "Drunkenness level (0 = sober, 1 = fully drunk)"),
+        OverrideField("Bolts in Quiver", o.boltsInQuiver, 0, 0, 0, 0.1f, "Number of crossbow bolts the NPC carries"),
     };
     bodyConditionFields = {
         OverrideField("Head", o.headHealth, 0.0, 0.0, 0.0, 0.1f),
@@ -149,22 +171,10 @@ void NPCEditorSection::RenderPhysicalTab() {
     ImGui::PushID("physical");
 
     ImGui::SeparatorText("Body");
-    RenderOverrideField(physicalFields[0]); // Height Rate
-    TooltipHelper::ShowTooltip("Character height multiplier (1.0 = normal)");
-    RenderOverrideField(physicalFields[1]); // Muscle Rate
-    TooltipHelper::ShowTooltip("Character muscle/bulk multiplier (1.0 = normal)");
-    RenderOverrideField(physicalFields[2]); // Scale Mutation Inhibitor
-    TooltipHelper::ShowTooltip("Controls how much random scale variation is suppressed");
+    RenderOverrideGroup({physicalFields.data(), 3});
 
     ImGui::SeparatorText("Appearance");
-    RenderOverrideField(physicalFields[3]); // Face Type
-    TooltipHelper::ShowTooltip("Face mesh index");
-    RenderOverrideField(physicalFields[4]); // Eye Color
-    TooltipHelper::ShowTooltip("Eye color index");
-    RenderOverrideField(physicalFields[5]); // Hair Length
-    TooltipHelper::ShowTooltip("Hair length (0 = bald, 1 = maximum)");
-    RenderOverrideField(physicalFields[6]); // Hair Color
-    TooltipHelper::ShowTooltip("Hair melanin (0 = blonde, 0.5 = brown, 1 = black)");
+    RenderOverrideGroup({physicalFields.data() + 3, 4});
 
     ImGui::PopID();
 }
@@ -173,24 +183,13 @@ void NPCEditorSection::RenderCombatTab() {
     ImGui::PushID("combat");
 
     ImGui::SeparatorText("Damage");
-    RenderOverrideField(combatFields[0]); // Damage Rate
-    TooltipHelper::ShowTooltip("Additional damage multiplier dealt by this NPC");
-    RenderOverrideField(combatFields[1]); // Limb Damage Rate
-    TooltipHelper::ShowTooltip("Additional limb-specific damage multiplier");
-    RenderOverrideField(combatFields[2]); // Dismember Threshold
-    TooltipHelper::ShowTooltip("Health threshold below which dismemberment can occur");
+    RenderOverrideGroup({combatFields.data(), 3});
 
     ImGui::SeparatorText("Defense");
-    RenderOverrideField(combatFields[3]); // Regen Rate
-    TooltipHelper::ShowTooltip("Health regeneration rate per tick");
-    RenderOverrideField(combatFields[4]); // AI Invincibility
-    TooltipHelper::ShowTooltip("Rate at which AI ignores incoming damage");
-    RenderOverrideField(combatFields[5]); // AI Armor Invincibility
-    TooltipHelper::ShowTooltip("Rate at which AI armor ignores damage");
+    RenderOverrideGroup({combatFields.data() + 3, 3});
 
     ImGui::SeparatorText("Skill");
-    RenderOverrideField(combatFields[6]); // Body Skill
-    TooltipHelper::ShowTooltip("Overall combat skill level affecting movement and reactions");
+    RenderOverrideField(combatFields[6]);
 
     ImGui::PopID();
 }
@@ -198,20 +197,10 @@ void NPCEditorSection::RenderCombatTab() {
 void NPCEditorSection::RenderBehaviorTab() {
     ImGui::PushID("behavior");
 
-    RenderOverrideField(behaviorFields[0]); // Fearless
-    TooltipHelper::ShowTooltip("NPC never flees from combat");
-    RenderOverrideField(behaviorFields[1]); // Start Kneeled
-    TooltipHelper::ShowTooltip("NPC spawns in a kneeling position");
-    RenderOverrideField(behaviorFields[2]); // Spawn in Pants
-    TooltipHelper::ShowTooltip("NPC spawns wearing only pants (no armor)");
-    RenderOverrideField(behaviorFields[3]); // Clear Spawn Area
-    TooltipHelper::ShowTooltip("Clear objects around spawn point before spawning");
+    RenderOverrideGroup({behaviorFields.data(), 4});
 
     ImGui::Spacing();
-    RenderOverrideField(behaviorFields[4]); // Drunk
-    TooltipHelper::ShowTooltip("Drunkenness level (0 = sober, 1 = fully drunk)");
-    RenderOverrideField(behaviorFields[5]); // Bolts in Quiver
-    TooltipHelper::ShowTooltip("Number of crossbow bolts the NPC carries");
+    RenderOverrideGroup({behaviorFields.data() + 4, 2});
 
     ImGui::PopID();
 }
