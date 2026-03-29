@@ -42,6 +42,7 @@ private:
     void ResetState();
     void ScanAllActors();
     void ApplyFilter();
+    void BrowseActor(SDK::AActor* actor, const std::string& className);
     void SelectActor(int index);
     void SelectActorDirect(SDK::AActor* actor, const std::string& className);
     void FindByClassName(const char* className);
@@ -55,7 +56,7 @@ private:
     void RenderPropertyToolbar();
 
 public:
-    const char* GetGroup() const noexcept override { return "Environment"; }
+    const char* GetGroup() const noexcept override;
 
     explicit WorldEditorSection(ModContext& ctx);
     void Render() override;

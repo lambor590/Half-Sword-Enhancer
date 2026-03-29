@@ -1,12 +1,15 @@
 #include "Menu/Sections/World/WorldEditorSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-#include "ComponentValidator.h"
 
 REGISTER_SECTION(WorldEditorSection, MenuTab::World);
 #include "Hooks/GameHook.h"
 
 WorldEditorSection::WorldEditorSection(ModContext& ctx) : Section(ctx, "World Editor") {}
+
+const char* WorldEditorSection::GetGroup() const noexcept {
+    return "Environment";
+}
 
 void WorldEditorSection::ResetState() {
     allActors.clear();
@@ -26,7 +29,7 @@ void WorldEditorSection::ResetState() {
 void WorldEditorSection::ScanAllActors() {
     needsScan = false;
 
-    if (!ComponentValidator::Validate(world)) {
+    if (!world) {
         status.Set("World not available", true);
         return;
     }
@@ -77,32 +80,7 @@ void WorldEditorSection::ApplyFilter() {
     SelectActor(restoreIdx);
 }
 
-void WorldEditorSection::SelectActor(int index) {
-    if (index < 0 || index >= static_cast<int>(filteredActors.size())) return;
-    selectedActorIndex = index;
-    previousClassName = filteredActors[index].className;
-
-    auto* actor = filteredActors[index].actor;
-    browseTarget = actor;
-    browseTargetIsComponent = false;
-    if (actor->RootComponent) {
-        browseTarget = actor->RootComponent;
-        browseTargetIsComponent = true;
-    }
-
-    properties = PropertyBrowser::EnumerateProperties(browseTarget->Class);
-    categories = PropertyBrowser::GroupByCategory(properties);
-
-    int supported = 0;
-    for (const auto& p : properties)
-        if (p.type != PropertyBrowser::PropType::Unsupported) ++supported;
-
-    infoText = filteredActors[index].className + " > " + browseTarget->Class->GetName() + " (" +
-               std::to_string(supported) + " editable)";
-}
-
-void WorldEditorSection::SelectActorDirect(SDK::AActor* actor, const std::string& className) {
-    if (!actor) return;
+void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& className) {
     browseTarget = actor;
     browseTargetIsComponent = false;
     if (actor->RootComponent) {
@@ -118,6 +96,18 @@ void WorldEditorSection::SelectActorDirect(SDK::AActor* actor, const std::string
         if (p.type != PropertyBrowser::PropType::Unsupported) ++supported;
 
     infoText = className + " > " + browseTarget->Class->GetName() + " (" + std::to_string(supported) + " editable)";
+}
+
+void WorldEditorSection::SelectActor(int index) {
+    if (index < 0 || index >= static_cast<int>(filteredActors.size())) return;
+    selectedActorIndex = index;
+    previousClassName = filteredActors[index].className;
+    BrowseActor(filteredActors[index].actor, filteredActors[index].className);
+}
+
+void WorldEditorSection::SelectActorDirect(SDK::AActor* actor, const std::string& className) {
+    if (!actor) return;
+    BrowseActor(actor, className);
 }
 
 void WorldEditorSection::FindByClassName(const char* className) {
