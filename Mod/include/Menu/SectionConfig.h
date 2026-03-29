@@ -1,6 +1,5 @@
 #pragma once
 
-/// Shared config sub-structs used by multiple sections.
 /// Each section owns its own config struct -- there are no global config instances.
 
 struct SpawnConfig {

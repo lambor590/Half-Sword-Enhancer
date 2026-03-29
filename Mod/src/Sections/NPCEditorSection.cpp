@@ -8,8 +8,6 @@ REGISTER_SECTION(NPCEditorSection, MenuTab::Spawner);
 #include "Utils/NPCSpawnHelpers.h"
 #include "Utils/GuiUtils.h"
 
-// ── Descriptor construction ───────────────────────────────────────────
-
 void NPCEditorSection::BuildDescriptors() {
     auto& o = overrides;
 
@@ -73,22 +71,16 @@ void NPCEditorSection::BuildDescriptors() {
     };
 }
 
-// ── Active override counting via descriptors ──────────────────────────
-
 int NPCEditorSection::CountAllActive() const {
     return CountActive(physicalFields) + CountActive(combatFields) + CountActive(behaviorFields) +
            CountActive(bodyConditionFields);
 }
-
-// ── Helpers ───────────────────────────────────────────────────────────
 
 const char* NPCEditorSection::getNPCClassName() const noexcept {
     if (cfg.npcTypeIndex >= 0 && cfg.npcTypeIndex < npcTypesCount) [[likely]]
         return npcTypes[cfg.npcTypeIndex].className;
     return npcTypes[0].className;
 }
-
-// ── Spawn NPC ─────────────────────────────────────────────────────────
 
 void NPCEditorSection::SpawnNPC() {
     auto className = std::string(getNPCClassName());
@@ -144,8 +136,6 @@ void NPCEditorSection::SpawnNPC() {
     Spawner::SpawnActor(world, className, spawnTransform, preCallback, cfg.spawn.snapToGround, 4, postCallback);
 }
 
-// ── Preset data conversion ────────────────────────────────────────────
-
 NPCPresetData NPCEditorSection::BuildPresetData() const {
     NPCPresetData d;
     d.npcTypeIndex = cfg.npcTypeIndex;
@@ -163,8 +153,6 @@ void NPCEditorSection::ApplyPresetData(const NPCPresetData& d) {
     cfg.npcMercenary = d.mercenary;
     overrides = d.overrides;
 }
-
-// ── Tab rendering (using RenderOverrideField from override system) ────
 
 void NPCEditorSection::RenderPhysicalTab() {
     ImGui::PushID("physical");
@@ -249,8 +237,6 @@ void NPCEditorSection::RenderBodyConditionTab() {
     ImGui::PopID();
 }
 
-// ── Constructor & keybinds ────────────────────────────────────────────
-
 NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, "NPC Editor") {
     BuildDescriptors();
     InitKeybinds();
@@ -296,8 +282,6 @@ void NPCEditorSection::InitKeybinds() {
         }
     );
 }
-
-// ── Main Render ───────────────────────────────────────────────────────
 
 void NPCEditorSection::Render() {
     const SectionStyle::StyleRAII style;

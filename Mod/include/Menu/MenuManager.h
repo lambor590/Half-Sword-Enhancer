@@ -12,8 +12,6 @@
 class ModContext;
 struct ImVec2;
 
-/// Manages the main mod menu: sidebar navigation with category tabs, section list,
-/// search functionality, and a resizable splitter.
 class MenuManager {
 public:
     static MenuManager& Get();
@@ -21,7 +19,6 @@ public:
     MenuManager(const MenuManager&) = delete;
     MenuManager& operator=(const MenuManager&) = delete;
 
-    /// Add a section to a specific tab (templated — constructs in-place).
     template <typename T> void AddSection(MenuTab tab, ModContext& ctx) {
         auto& sectionVec = sections[static_cast<size_t>(tab)];
         if (sectionVec.empty()) {
@@ -31,10 +28,8 @@ public:
         if (!selectedSection) selectedSection = sectionVec.back().get();
     }
 
-    /// Add a pre-constructed section to a specific tab.
     void AddSection(MenuTab tab, std::unique_ptr<Section> section);
 
-    /// Render the full menu: sidebar + splitter + content panel.
     void RenderMenu();
 
 private:

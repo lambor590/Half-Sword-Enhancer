@@ -57,7 +57,6 @@ private:
     PresetSectionState<WeaponPresetSerializer> presets;
     int activeTab = 0;
 
-    /// Cached override descriptor groups, built once in constructor.
     std::vector<OverrideDescriptor> combatFields;
     std::vector<OverrideDescriptor> physicsFields;
     std::vector<OverrideDescriptor> dismemberFields;

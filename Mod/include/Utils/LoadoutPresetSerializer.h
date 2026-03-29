@@ -38,16 +38,9 @@ struct LoadoutPresetData : PresetDataBase {
     std::vector<ArmorSlotData> armorSlots;
     WeaponSlotData weaponSlots[7];
 
-    /// Utility to access a weapon slot from the SDK struct by index.
     static SDK::FStr_WeaponParts& GetWeaponSlot(SDK::FStr_Loadout_Weapons& weapons, int index);
-
-    /// Read weapon slot data from an SDK weapon parts struct.
     static void ReadWeaponSlot(const SDK::FStr_WeaponParts& wp, WeaponSlotData& out);
-
-    /// Build a LoadoutPresetData from live equipment.
     static LoadoutPresetData ReadFromEquipment(const SDK::FStr_Loadout_Equipment& equip);
-
-    /// Custom serialization for armor/weapon slot arrays.
     static void SerializeCustom(const LoadoutPresetData& data, CSimpleIniA& ini);
     static void DeserializeCustom(LoadoutPresetData& data, const CSimpleIniA& ini);
 };

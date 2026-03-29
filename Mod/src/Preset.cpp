@@ -47,8 +47,6 @@ void SerializePresetFields(std::span<const PresetFieldDescriptor> fields, CSimpl
     }
 }
 
-// ── DeserializePresetFields ───────────────────────────────────────────
-
 void DeserializePresetFields(std::span<const PresetFieldDescriptor> fields, const CSimpleIniA& ini) {
     for (const auto& f : fields) {
         const char* raw = ini.GetValue(f.section, f.key, f.defaultStr);

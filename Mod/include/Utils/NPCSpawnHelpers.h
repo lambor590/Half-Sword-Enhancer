@@ -11,7 +11,6 @@ struct LoadoutPresetData;
 
 namespace NPCSpawnHelpers {
 
-    /// Apply a full loadout (armor + weapons) to an NPC. Shared by NPCEditorSection and MapLoaderSection.
     void ApplyNPCLoadout(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout);
 
     inline SDK::FLinearColor MelaninToColor(float melanin) {

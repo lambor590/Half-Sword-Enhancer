@@ -22,7 +22,6 @@ namespace {
     constexpr ImVec4 SEPARATOR_COLOR = {
         DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y, DefaultStyle::mediumWood.z, 0.35f};
 
-    /// Draw a thin horizontal separator line using the sidebar theme color.
     void DrawSeparator(float vGap) {
         ImGui::Dummy(ImVec2(0, vGap));
         ImDrawList* dl = ImGui::GetWindowDrawList();
@@ -32,7 +31,6 @@ namespace {
         ImGui::Dummy(ImVec2(0, vGap));
     }
 
-    /// Draw a small vertical accent bar at the left edge of a selected item.
     void DrawSelectionAccent() {
         auto mn = ImGui::GetItemRectMin();
         auto mx = ImGui::GetItemRectMax();

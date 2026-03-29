@@ -5,8 +5,6 @@ REGISTER_SECTION(PlayerEditorSection, MenuTab::Player);
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"
 
-// ── Descriptor construction ───────────────────────────────────────────
-
 void PlayerEditorSection::BuildDescriptors() {
     auto& o = overrides;
 
@@ -103,15 +101,12 @@ void PlayerEditorSection::BuildDescriptors() {
     };
 }
 
-// ── Active override counting via descriptors ──────────────────────────
-
 int PlayerEditorSection::CountAllActive() const {
     return CountActive(physicalFields) + CountActive(healthFields) + CountActive(physicsFields) +
            CountActive(movementFields) + CountActive(combatFields) + CountActive(skillFields) +
            CountActive(stateFields);
 }
 
-// ── Apply overrides via setter tables ──────────────────────────────────
 // Each group has a parallel array of setter function pointers, indexed to
 // match the descriptor order from BuildDescriptors(). ApplyWithSetters
 // iterates enabled fields and dispatches through the table.
@@ -226,8 +221,6 @@ void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
     ApplyWithSetters(stateFields, target, STATE_SETTERS);
 }
 
-// ── Read current values from player into override fields ──────────────
-
 void PlayerEditorSection::ReadFromPlayer() {
     if (!player) return;
 
@@ -299,8 +292,6 @@ void PlayerEditorSection::ReadFromPlayer() {
     presets.status.Set("Values read from player");
 }
 
-// ── Preset data conversion ────────────────────────────────────────────
-
 PlayerPresetData PlayerEditorSection::BuildPresetData() const {
     PlayerPresetData d;
     d.overrides = overrides;
@@ -310,8 +301,6 @@ PlayerPresetData PlayerEditorSection::BuildPresetData() const {
 void PlayerEditorSection::ApplyPresetData(const PlayerPresetData& d) {
     overrides = d.overrides;
 }
-
-// ── Clone player ──────────────────────────────────────────────────────
 
 void PlayerEditorSection::ClonePlayer() {
     if (!player || !world) return;
@@ -334,8 +323,6 @@ void PlayerEditorSection::ClonePlayer() {
         }
     );
 }
-
-// ── Tab rendering (using RenderOverrideField from override system) ────
 
 void PlayerEditorSection::RenderPhysicalTab() {
     ImGui::PushID("physical");
@@ -483,8 +470,6 @@ void PlayerEditorSection::RenderSkillsStateTab() {
 
     ImGui::PopID();
 }
-
-// ── Constructor & main Render ─────────────────────────────────────────
 
 PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : Section(ctx, "Editor") {
     BuildDescriptors();

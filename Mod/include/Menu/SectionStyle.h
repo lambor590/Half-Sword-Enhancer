@@ -2,8 +2,6 @@
 
 #include "imgui/imgui.h"
 
-/// Shared style constants and RAII guard for section rendering.
-/// Used by all sections for consistent ImGui styling.
 namespace SectionStyle {
     constexpr ImVec2 framePadding{8, 6};
     constexpr ImVec2 itemSpacing{10, 8};

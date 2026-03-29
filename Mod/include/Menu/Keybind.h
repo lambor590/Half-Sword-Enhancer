@@ -1,9 +1,5 @@
 #pragma once
 
-/// Lightweight data-driven keybind system.
-/// Replaces the old IMenuFunction class hierarchy
-/// with plain structs and free utility functions.
-
 #include <functional>
 #include <string>
 #include <string_view>
@@ -13,7 +9,6 @@
 
 class ModContext;
 
-/// Describes a single configurable parameter attached to a keybind action.
 struct KeybindParam {
     enum class Type : uint8_t { Int, Float, Bool };
 
@@ -45,7 +40,6 @@ struct KeybindParam {
     ) noexcept;
 };
 
-/// A single keybind entry: key assignment, toggle state, callback, and optional parameters.
 struct KeybindEntry {
     std::string name;
     std::string tooltip;
@@ -56,7 +50,6 @@ struct KeybindEntry {
     bool isEnabled = false;
     bool gameThread = false;
 
-    /// Game events this keybind subscribes to (fires callback periodically).
     std::vector<GameEvent> events;
 
     /// UI state -- managed by rendering.
@@ -76,39 +69,23 @@ struct KeybindEntry {
     std::string conflictPopupId;
 };
 
-/// Tooltip helper (cached config read).
+/// Cached config read.
 namespace TooltipHelper {
     void ShowTooltip(std::string_view tooltip);
     void InvalidateCache();
 }
 
-/// Keybind UI rendering utilities.
 namespace KeybindUI {
-    /// Render a single keybind row: key button + toggle checkbox + name + params popup.
     void RenderKeybind(KeybindEntry& entry);
-
-    /// Render all keybinds in a section with spacing.
     void RenderKeybindList(std::vector<KeybindEntry>& entries);
 }
 
-/// Keybind persistence utilities.
 namespace KeybindConfig {
-    /// Load key assignment and enabled state from ConfigManager.
     void LoadKeybind(KeybindEntry& entry);
-
-    /// Save key assignment and enabled state to ConfigManager.
     void SaveKeybind(const KeybindEntry& entry);
-
-    /// Load a parameter value from ConfigManager.
     void LoadParam(const KeybindParam& param, std::string_view configSection);
-
-    /// Save a parameter value to ConfigManager.
     void SaveParam(const KeybindParam& param, std::string_view configSection);
-
-    /// Load all parameters for a keybind entry.
     void LoadParams(KeybindEntry& entry);
-
-    /// Save all parameters for a keybind entry.
     void SaveParams(const KeybindEntry& entry);
 }
 
@@ -116,5 +93,4 @@ namespace KeybindConfig {
 /// KeybindManager and GameHook events. Call once after populating the entry fields.
 void InitKeybindEntry(KeybindEntry& entry);
 
-/// Add a keybind entry and initialize it in one step.
 void AddKeybind(std::vector<KeybindEntry>& keybinds, KeybindEntry entry);

@@ -8,16 +8,12 @@
 #include "SimpleIni.h"
 #include "Utils/GuiUtils.h"
 
-// ── CountActive ───────────────────────────────────────────────────────
-
 int CountActive(std::span<const OverrideDescriptor> fields) {
     int count = 0;
     for (const auto& f : fields)
         count += *f.enabled;
     return count;
 }
-
-// ── INI helpers (local) ───────────────────────────────────────────────
 
 namespace {
 
@@ -69,8 +65,6 @@ namespace {
 
 } // namespace
 
-// ── SerializeAll ──────────────────────────────────────────────────────
-
 void SerializeAll(std::span<const OverrideDescriptor> fields, CSimpleIniA& ini, const char* section, bool minimalMode) {
     for (const auto& f : fields) {
         if (minimalMode && !*f.enabled) continue;
@@ -88,8 +82,6 @@ void SerializeAll(std::span<const OverrideDescriptor> fields, CSimpleIniA& ini, 
         }
     }
 }
-
-// ── DeserializeAll ────────────────────────────────────────────────────
 
 void DeserializeAll(std::span<const OverrideDescriptor> fields, const CSimpleIniA& ini, const char* section) {
     for (const auto& f : fields) {

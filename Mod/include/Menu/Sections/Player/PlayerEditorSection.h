@@ -17,8 +17,6 @@ private:
     PresetSectionState<PlayerPresetSerializer> presets;
     int activeTab = 0;
 
-    /// Cached override descriptor groups, built once in constructor.
-    /// Each group corresponds to a UI tab section.
     std::vector<OverrideDescriptor> physicalFields;
     std::vector<OverrideDescriptor> healthFields;
     std::vector<OverrideDescriptor> physicsFields;

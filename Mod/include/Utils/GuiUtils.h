@@ -358,9 +358,6 @@ namespace GuiUtils {
         }
     }
 
-    /// Render the shared live-preview controls (Live Preview checkbox,
-    /// Auto-Rotate checkbox, Rotation Speed drag). Used by editor sections
-    /// that support a LivePreviewManager + PreviewConfig.
     inline void RenderPreviewControls(PreviewConfig& preview, const char* itemType = "preview") {
         char label[64];
         std::snprintf(label, sizeof(label), "Auto-spawn a %s that updates as you edit", itemType);
@@ -376,8 +373,7 @@ namespace GuiUtils {
         }
     }
 
-    /// Begin a scrollable region above a fixed-height spawn footer button.
-    /// Returns the child height used. Caller must call ImGui::EndChild() after content.
+    /// Caller must call ImGui::EndChild() after content.
     inline float BeginScrollWithFooter(const char* id) {
         float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
         float scrollH = ImGui::GetContentRegionAvail().y - footerH;

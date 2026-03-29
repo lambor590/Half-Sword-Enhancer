@@ -15,20 +15,18 @@
 
 // ── Field descriptor types ────────────────────────────────────────────
 
-/// Type tag for preset field discriminated union.
 enum class PresetFieldType : uint8_t { String, Int, Double, Bool, Vec3, Rotator, Color };
 
 /// Type-erased descriptor for a single preset data field.
 /// Points into the owning struct's storage -- no copies, no allocations.
 struct PresetFieldDescriptor {
-    const char* section;    ///< INI section name
-    const char* key;        ///< INI key name
-    PresetFieldType type;   ///< Which type the value pointer refers to
-    void* value;            ///< Pointer to the field in the data struct
+    const char* section;
+    const char* key;
+    PresetFieldType type;
+    void* value;
     const char* defaultStr; ///< Default string value for deserialization fallback
 };
 
-/// Construct helpers for building field descriptors.
 namespace PresetField {
 
     constexpr PresetFieldDescriptor String(
@@ -71,7 +69,6 @@ namespace PresetField {
 
 // ── Override field group descriptor ───────────────────────────────────
 
-/// Pairs a span of override descriptors with the INI section they serialize under.
 struct OverrideGroupDescriptor {
     const char* section;
     std::span<const OverrideDescriptor> fields;
@@ -84,19 +81,16 @@ void DeserializePresetFields(std::span<const PresetFieldDescriptor> fields, cons
 
 // ── Concept detection for optional DataType hooks ─────────────────────
 
-/// DataType must provide GetPresetFields().
 template <typename T>
 concept HasPresetFields = requires(T& t) {
     { T::GetPresetFields(t) } -> std::convertible_to<std::vector<PresetFieldDescriptor>>;
 };
 
-/// DataType may provide override groups.
 template <typename T>
 concept HasOverrideGroups = requires(T& t) {
     { T::GetOverrideGroups(t) } -> std::convertible_to<std::vector<OverrideGroupDescriptor>>;
 };
 
-/// DataType may provide custom serialization hooks.
 template <typename T>
 concept HasCustomSerialize = requires(const T& t, CSimpleIniA& ini) {
     {T::SerializeCustom(t, ini)};
@@ -109,8 +103,6 @@ concept HasCustomDeserialize = requires(T& t, const CSimpleIniA& ini) {
 
 // ── PresetSerializer<DataType> ────────────────────────────────────────
 
-/// Unified preset serializer template. DataType provides field descriptors;
-/// this class provides the single SerializeToIni / DeserializeFromIni code path.
 /// Inherits PresetSerializerBase CRTP for file I/O (LoadFromFile, SaveToFile, etc.).
 template <typename DataType>
 class PresetSerializer : public PresetSerializerBase<PresetSerializer<DataType>, DataType> {
@@ -124,20 +116,17 @@ public:
         ini.SetValue("Preset", "name", data.name.c_str());
         ini.SetValue("Preset", "version", "1");
 
-        // Serialize typed fields via descriptors
         if constexpr (HasPresetFields<DataType>) {
             auto fields = DataType::GetPresetFields(const_cast<DataType&>(data));
             SerializePresetFields(fields, ini);
         }
 
-        // Serialize override groups
         if constexpr (HasOverrideGroups<DataType>) {
             auto groups = DataType::GetOverrideGroups(const_cast<DataType&>(data));
             for (const auto& group : groups)
                 SerializeAll(group.fields, ini, group.section);
         }
 
-        // Optional custom serialization
         if constexpr (HasCustomSerialize<DataType>) {
             DataType::SerializeCustom(data, ini);
         }
@@ -165,20 +154,17 @@ public:
 
         result.name = ini.GetValue("Preset", "name", "Unnamed");
 
-        // Deserialize typed fields
         if constexpr (HasPresetFields<DataType>) {
             auto fields = DataType::GetPresetFields(result);
             DeserializePresetFields(fields, ini);
         }
 
-        // Deserialize override groups
         if constexpr (HasOverrideGroups<DataType>) {
             auto groups = DataType::GetOverrideGroups(result);
             for (const auto& group : groups)
                 DeserializeAll(group.fields, ini, group.section);
         }
 
-        // Optional custom deserialization
         if constexpr (HasCustomDeserialize<DataType>) {
             DataType::DeserializeCustom(result, ini);
         }

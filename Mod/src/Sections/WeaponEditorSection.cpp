@@ -333,8 +333,6 @@ void WeaponEditorSection::RandomizeWeaponPassport() {
     GenerateWeaponPassport();
 }
 
-// ── Descriptor construction ───────────────────────────────────────────
-
 void WeaponEditorSection::BuildDescriptors() {
     auto& rp = runtimeProps;
 
@@ -400,14 +398,10 @@ void WeaponEditorSection::BuildDescriptors() {
     };
 }
 
-// ── Active override counting via descriptors ──────────────────────────
-
 int WeaponEditorSection::CountAllActive() const {
     return CountActive(combatFields) + CountActive(physicsFields) + CountActive(dismemberFields) +
            CountActive(toggleFields) + CountActive(staminaFields);
 }
-
-// ── Apply overrides using descriptors ─────────────────────────────────
 
 namespace {
 

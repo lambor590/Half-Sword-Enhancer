@@ -12,8 +12,6 @@ REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
-// ── Descriptor construction ───────────────────────────────────────────
-
 void ArmorEditorSection::BuildDescriptors() {
     auto& rp = runtimeProps;
 
@@ -52,13 +50,9 @@ void ArmorEditorSection::BuildDescriptors() {
     };
 }
 
-// ── Active override counting via descriptors ──────────────────────────
-
 int ArmorEditorSection::CountAllActive() const {
     return CountActive(protectionFields) + CountActive(physicsFields) + CountActive(behaviorFields);
 }
-
-// ── Helpers ───────────────────────────────────────────────────────────
 
 bool ArmorEditorSection::IsModularCore() const {
     SDK::UClass* coreClass = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
@@ -120,8 +114,6 @@ void ArmorEditorSection::RandomizeArmorPassport() {
     GenerateArmorPassport();
 }
 
-// ── Apply overrides using setter tables ────────────────────────────────
-
 namespace {
 
     using A = SDK::ABP_Armor_Master_C;
@@ -154,8 +146,6 @@ void ArmorEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
     ApplyWithSetters(physicsFields, a, PHYSICS_SETTERS);
     ApplyWithSetters(behaviorFields, a, BEHAVIOR_SETTERS);
 }
-
-// ── Live preview ──────────────────────────────────────────────────────
 
 void ArmorEditorSection::SpawnPreview() {
     preview.Destroy();
@@ -220,8 +210,6 @@ void ArmorEditorSection::SpawnFromPassport() {
     );
 }
 
-// ── Generation controls rendering ─────────────────────────────────────
-
 void ArmorEditorSection::RenderGenerationControls() {
     ImGui::PushID("gen");
 
@@ -269,8 +257,6 @@ void ArmorEditorSection::RenderGenerationControls() {
 
     ImGui::PopID();
 }
-
-// ── Tab rendering (using RenderOverrideField from override system) ────
 
 void ArmorEditorSection::RenderModulesTab() {
     ImGui::PushID("modules");
@@ -359,8 +345,6 @@ void ArmorEditorSection::RenderStatsTab() {
     ImGui::PopID();
 }
 
-// ── Preset data conversion ────────────────────────────────────────────
-
 ArmorPresetData ArmorEditorSection::BuildPresetData() const {
     ArmorPresetData d;
     d.passport = armorPassport;
@@ -379,8 +363,6 @@ void ArmorEditorSection::ApplyPresetData(ArmorPresetData d) {
         });
     }
 }
-
-// ── Constructor & keybinds ────────────────────────────────────────────
 
 ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, "Armor Editor") {
     CreateBlankArmorPassport();
@@ -417,8 +399,6 @@ void ArmorEditorSection::InitKeybinds() {
         }
     );
 }
-
-// ── Main Render ───────────────────────────────────────────────────────
 
 void ArmorEditorSection::Render() {
     SectionStyle::StyleRAII style;

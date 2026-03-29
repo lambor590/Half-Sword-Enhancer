@@ -34,16 +34,11 @@ public:
 
     bool IsHooked() const noexcept { return hooked; }
 
-    /// Register a ProcessEvent hook by UE function name.
     void RegisterHook(std::string_view functionName, std::function<void()> callback);
-
-    /// Unregister a ProcessEvent hook by UE function name.
     void UnregisterHook(std::string_view functionName);
 
-    /// Register a ProcessEvent hook for a GameEvent (maps to its UE function name).
+    /// Maps GameEvent to its UE function name.
     void RegisterHook(GameEvent event, std::function<void()> callback);
-
-    /// Unregister a ProcessEvent hook for a GameEvent.
     void UnregisterHook(GameEvent event);
 
     struct HookEntry {

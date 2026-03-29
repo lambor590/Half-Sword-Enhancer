@@ -10,7 +10,6 @@ class Section;
 class ModContext;
 class MenuManager;
 
-/// Collects static section registrations and bulk-creates them into MenuManager.
 /// Each section .cpp adds itself with the REGISTER_SECTION macro at file scope.
 class SectionRegistry {
 public:
@@ -23,10 +22,9 @@ public:
 
     static SectionRegistry& Get();
 
-    /// Register a section factory (called during static initialization).
+    /// Called during static initialization.
     void Add(MenuTab tab, Factory factory);
 
-    /// Create all registered sections and add them to the MenuManager.
     void CreateAll(MenuManager& menu, ModContext& ctx) const;
 
     SectionRegistry(const SectionRegistry&) = delete;
@@ -37,7 +35,6 @@ private:
     std::vector<Entry> entries;
 };
 
-/// File-scope helper that registers a section during static initialization.
 struct SectionRegistrar {
     SectionRegistrar(MenuTab tab, SectionRegistry::Factory factory) {
         SectionRegistry::Get().Add(tab, std::move(factory));

@@ -9,8 +9,6 @@
 #include "DefaultStyle.h"
 #include "Utils/GuiUtils.h"
 
-// ─── KeybindParam constructors ───────────────────────────────────────────────
-
 KeybindParam::KeybindParam(
     std::string_view name, std::string_view displayName, int* value, int minVal, int maxVal, std::string_view tooltip
 ) noexcept
@@ -36,8 +34,6 @@ KeybindParam::KeybindParam(
     : name(name), displayName(displayName), tooltip(tooltip), type(Type::Bool), valuePtr(value) {
     id = "##param_" + std::string(name);
 }
-
-// ─── Local constants ─────────────────────────────────────────────────────────
 
 namespace {
 
@@ -88,8 +84,6 @@ namespace {
         }
         ~SliderStyleRAII() { ImGui::PopStyleColor(2); }
     };
-
-    // ─── Helpers ─────────────────────────────────────────────────────────────
 
     void RenderKeyButton(const char* id, bool& waitingForKey, int key, int& pendingOriginalKey) {
         const char* keyText = waitingForKey ? PRESS_KEY_TEXT.data() : KeybindManager::GetKeyName(key);
@@ -166,8 +160,6 @@ namespace {
 
         ImGui::PopItemWidth();
     }
-
-    // ─── Key assignment and conflict popup ───────────────────────────────────
 
     void ApplyKey(KeybindEntry& entry) {
         KeybindManager::UnregisterKeybind(entry.keyPtr);
@@ -434,10 +426,7 @@ void KeybindConfig::SaveParams(const KeybindEntry& entry) {
     g_ConfigManager.SaveConfig();
 }
 
-// ─── InitKeybindEntry ────────────────────────────────────────────────────────
-
 void InitKeybindEntry(KeybindEntry& entry) {
-    // Generate cached ImGui IDs
     std::string base = "##Kb_" + entry.name;
     entry.keyId = base + "_key";
     entry.checkId = base;
@@ -445,7 +434,6 @@ void InitKeybindEntry(KeybindEntry& entry) {
     entry.paramButtonId = "Config##" + base;
     entry.conflictPopupId = base + "_conflict";
 
-    // Load persisted state
     KeybindConfig::LoadKeybind(entry);
 
     // Build the keybind callback that handles toggle + event registration
@@ -455,7 +443,6 @@ void InitKeybindEntry(KeybindEntry& entry) {
                 entry.isEnabled = !entry.isEnabled;
                 KeybindConfig::SaveKeybind(entry);
 
-                // Toggle event subscriptions
                 for (auto evt : entry.events) {
                     if (entry.isEnabled) {
                         EventBus::Get().Subscribe(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
@@ -473,7 +460,6 @@ void InitKeybindEntry(KeybindEntry& entry) {
         };
     };
 
-    // Register with KeybindManager
     if (*entry.keyPtr != -1) {
         KeybindManager::RegisterKeybind(entry.keyPtr, makeCallback(), entry.name, entry.toggleable);
     }
