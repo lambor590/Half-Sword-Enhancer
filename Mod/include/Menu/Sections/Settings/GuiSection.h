@@ -12,7 +12,6 @@ class GuiSection : public Section {
     static constexpr const char* NOTIFICATIONS_TOOLTIP = "Show notifications when keybinds are activated";
     static constexpr const char* TOOLTIPS_LABEL = "Enable Tooltips";
     static constexpr const char* TOOLTIPS_TOOLTIP = "Show helpful tooltips when hovering over interface elements";
-    static constexpr const char* TOOLTIPS_ID = "##tooltips";
     static constexpr const char* UE_CONSOLE_LABEL = "Unlock UE Console";
     static constexpr const char* UE_CONSOLE_TOOLTIP = "Unlock access to Unreal Engine console (F2)";
     static constexpr const char* PRESS_KEY_TEXT = "Press any key...";
