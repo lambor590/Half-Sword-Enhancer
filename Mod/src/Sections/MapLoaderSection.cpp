@@ -110,7 +110,7 @@ void MapLoaderSection::ApplyLoadout(SDK::UWorld* w, SDK::AWillie_BP_C* willie, c
     for (int i = 0; i < 7; ++i) {
         const auto& wd = loadout.weaponSlots[i];
         if (wd.weaponClass.empty()) continue;
-        auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, i);
+        auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, i);
         auto load = [](const std::string& path) -> SDK::UClass* {
             return path.empty() ? nullptr : Spawner::LoadClass(path);
         };

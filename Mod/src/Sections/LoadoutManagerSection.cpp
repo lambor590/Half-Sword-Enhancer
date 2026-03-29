@@ -111,7 +111,7 @@ void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
     if (!ComponentValidator::Validate(player)) return;
 
     auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
-    auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, slotIndex);
+    auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
     auto* weaponClass = slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066;
     if (!weaponClass) return;
 
@@ -146,7 +146,7 @@ void LoadoutManagerSection::ClearAllWeapons() {
     if (!ComponentValidator::Validate(player)) return;
     auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
     for (int i = 0; i < 7; ++i) {
-        auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, i);
+        auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, i);
         slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 = nullptr;
         slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867 = nullptr;
         slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = nullptr;
@@ -217,7 +217,7 @@ void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
         auto passport = EquipmentGenerator::GenerateWeapon(type, tier);
 
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
-        auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, slotIndex);
+        auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
         slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 =
             passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC;
         slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F = passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139;
@@ -245,7 +245,7 @@ void LoadoutManagerSection::ImportWeaponPreset(int slotIndex) {
 
     GameHook::QueueAction([this, slotIndex, data = std::move(data)]() {
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
-        auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, slotIndex);
+        auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
 
         auto load = [](const std::string& path) -> SDK::UClass* {
             return path.empty() ? nullptr : Spawner::LoadClass(path);
@@ -331,7 +331,7 @@ void LoadoutManagerSection::ApplyLoadoutPreset(LoadoutPresetData data) {
 
         for (int i = 0; i < 7; ++i) {
             const auto& wd = data.weaponSlots[i];
-            auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, i);
+            auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, i);
             auto load = [](SDK::UClass*& target, const std::string& path) {
                 target = path.empty() ? nullptr : Spawner::LoadClass(path);
             };
@@ -386,9 +386,7 @@ LoadoutPresetData LoadoutManagerSection::BuildPresetFromPlayer() {
 
     auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
     for (int i = 0; i < 7; ++i)
-        LoadoutPresetSerializer::ReadWeaponSlot(
-            LoadoutPresetSerializer::GetWeaponSlot(weapons, i), data.weaponSlots[i]
-        );
+        LoadoutPresetData::ReadWeaponSlot(LoadoutPresetData::GetWeaponSlot(weapons, i), data.weaponSlots[i]);
 
     return data;
 }
@@ -588,7 +586,7 @@ void LoadoutManagerSection::RenderWeaponsTab() {
     auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
 
     for (int i = 0; i < 7; ++i) {
-        auto& slot = LoadoutPresetSerializer::GetWeaponSlot(weapons, i);
+        auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, i);
         bool hasWeapon = slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 != nullptr;
         const char* className = weaponNameCache[i].Get(slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066);
 
