@@ -1,0 +1,54 @@
+Checks: >-
+  -*,
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-narrowing-conversions,
+  performance-*,
+  modernize-use-override,
+  modernize-use-nullptr,
+  modernize-use-auto,
+  misc-unused-using-decls,
+  readability-identifier-naming
+
+WarningsAsErrors: '*'
+
+HeaderFilterRegex: '(Mod|Launcher|Proxy)/(include|src)/.*'
+
+CheckOptions:
+  # Classes / Structs — PascalCase
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+
+  # Enums / Enum values — PascalCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumConstantCase
+    value: CamelCase
+
+  # Methods / Functions — PascalCase
+  - key: readability-identifier-naming.FunctionCase
+    value: CamelCase
+  - key: readability-identifier-naming.MethodCase
+    value: CamelCase
+
+  # Member variables — camelCase
+  - key: readability-identifier-naming.MemberCase
+    value: camelBack
+
+  # Local variables / Params — camelCase
+  - key: readability-identifier-naming.LocalVariableCase
+    value: camelBack
+  - key: readability-identifier-naming.ParameterCase
+    value: camelBack
+
+  # Compile-time constants — UPPER_SNAKE_CASE
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.StaticConstantCase
+    value: UPPER_CASE
+
+  # Namespaces — PascalCase
+  - key: readability-identifier-naming.NamespaceCase
+    value: CamelCase
