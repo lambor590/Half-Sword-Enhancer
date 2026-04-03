@@ -42,7 +42,7 @@ struct NPCOverrides {
 };
 
 struct NPCPresetData : PresetDataBase {
-    static constexpr const char* kPresetsSubdir = "npc_presets";
+    static constexpr const char* K_PRESETS_SUBDIR = "npc_presets";
 
     int npcTypeIndex = 0;
     int nationality = 0;

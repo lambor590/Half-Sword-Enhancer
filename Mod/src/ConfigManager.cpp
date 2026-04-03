@@ -44,7 +44,7 @@ void ConfigManager::SaveConfig() {
 }
 
 void ConfigManager::SaveConfigDeferred() {
-    if (suppressDeferred_) return;
+    if (suppressDeferred) return;
     needsSave.store(true, std::memory_order_relaxed);
     const auto now = std::chrono::steady_clock::now();
     if (now - lastSaveTime >= SAVE_DELAY) {
@@ -59,7 +59,7 @@ void ConfigManager::FlushPendingSave() {
 }
 
 void ConfigManager::SuppressDeferred(bool suppress) {
-    suppressDeferred_ = suppress;
+    suppressDeferred = suppress;
 }
 
 void ConfigManager::BatchSave(const std::function<void()>& updates) {

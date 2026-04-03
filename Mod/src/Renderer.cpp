@@ -242,13 +242,13 @@ bool Renderer::InitD3D12() noexcept {
         return false;
     }
 
-    static constexpr auto createFlags = RenderConfig::D3D11_FLAGS;
+    static constexpr auto CREATE_FLAGS = RenderConfig::D3D11_FLAGS;
 
     if (FAILED(d3d12Device->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence))) ||
         FAILED(d3d12Device->CreateDescriptorHeap(&RenderConfig::RTV_HEAP_DESC, IID_PPV_ARGS(&rtvHeap))) ||
         FAILED(D3D11On12CreateDevice(
-            d3d12Device.Get(), createFlags, nullptr, 0, reinterpret_cast<IUnknown**>(commandQueue.GetAddressOf()), 1, 0,
-            &d3d11Device, &d3d11Context, nullptr
+            d3d12Device.Get(), CREATE_FLAGS, nullptr, 0, reinterpret_cast<IUnknown**>(commandQueue.GetAddressOf()), 1,
+            0, &d3d11Device, &d3d11Context, nullptr
         )) ||
         FAILED(d3d11Device.As(&d3d11On12Device)) || FAILED(swapChain.As(&swapChain3))) [[unlikely]] {
         logger.Log("Failed to initialize D3D12 core components");
@@ -274,13 +274,13 @@ bool Renderer::InitD3D12() noexcept {
     D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
     const UINT stride = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
-    static constexpr auto rtState = RenderConfig::D3D12_RT_STATE;
-    static constexpr auto presentState = RenderConfig::D3D12_PRESENT_STATE;
+    static constexpr auto RT_STATE = RenderConfig::D3D12_RT_STATE;
+    static constexpr auto PRESENT_STATE = RenderConfig::D3D12_PRESENT_STATE;
 
     for (uint8_t i = 0; i < state.bufferCount; ++i) {
         if (FAILED(swapChain->GetBuffer(i, IID_PPV_ARGS(&d3d12RenderTargets[i]))) ||
             FAILED(d3d11On12Device->CreateWrappedResource(
-                d3d12RenderTargets[i].Get(), &RenderConfig::RT_FLAGS, rtState, presentState,
+                d3d12RenderTargets[i].Get(), &RenderConfig::RT_FLAGS, RT_STATE, PRESENT_STATE,
                 IID_PPV_ARGS(&d3d11WrappedBackBuffers[i])
             )) ||
             FAILED(d3d11Device
@@ -496,9 +496,9 @@ void Renderer::HookCommandQueue(
     if (!dummyCommandQueue) return;
 
     uintptr_t* vTable = *(uintptr_t**)dummyCommandQueue;
-    constexpr size_t executeOffset = VMT_EXECUTE_COMMAND_LISTS_OFFSET;
+    constexpr size_t EXECUTE_OFFSET = VMT_EXECUTE_COMMAND_LISTS_OFFSET;
 
-    uintptr_t executeAddr = vTable[executeOffset];
+    uintptr_t executeAddr = vTable[EXECUTE_OFFSET];
     executeCommandListsAddress = executeAddr;
 
     MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, outExecReturn);

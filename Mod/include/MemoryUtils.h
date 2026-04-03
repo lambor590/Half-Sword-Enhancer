@@ -48,7 +48,7 @@ namespace MemoryUtils {
     }
 
     static inline const std::string& GetCurrentModuleName() noexcept {
-        static const std::string cachedName = []() {
+        static const std::string CACHED_NAME = []() {
             HMODULE module = NULL;
             static char dummy = 'x';
             GetModuleHandleExA(
@@ -66,7 +66,7 @@ namespace MemoryUtils {
             }
             return std::string();
         }();
-        return cachedName;
+        return CACHED_NAME;
     }
 
     static inline void ShowErrorPopup(std::string_view error) noexcept {

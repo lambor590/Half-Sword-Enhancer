@@ -22,7 +22,7 @@ private:
         int GraphicsSettings::*memberPtr;
     };
 
-    static constexpr std::array<const char*, 5> qualityLevels = {"Low", "Medium", "High", "Epic", "Cinematic"};
+    static constexpr std::array<const char*, 5> QUALITY_LEVELS = {"Low", "Medium", "High", "Epic", "Cinematic"};
 
     struct ConsoleCommandInfo {
         const wchar_t* commandPrefix;
@@ -46,7 +46,7 @@ private:
          {L"sg.PostProcessQuality ", &GraphicsSettings::sgPostProcessQuality},
          {L"sg.EffectsQuality ", &GraphicsSettings::sgEffectsQuality}}};
 
-    static constexpr std::string_view graphicsConfigSection = "Graphics";
+    static constexpr std::string_view GRAPHICS_CONFIG_SECTION = "Graphics";
 
     void LoadSettings();
     void SaveSettings();

@@ -101,8 +101,8 @@ void Gui::Setup() {
 
     ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;
-    static const std::string iniPath = (ConfigManager::GetAppDataPath() / "imgui.ini").string();
-    io.IniFilename = iniPath.c_str();
+    static const std::string INI_PATH = (ConfigManager::GetAppDataPath() / "imgui.ini").string();
+    io.IniFilename = INI_PATH.c_str();
 
     DefaultStyle::ApplyGlobalStyle();
 
@@ -149,7 +149,7 @@ void Gui::Render() {
     io.MouseDrawCursor = visible;
 
     if (visible) {
-        constexpr ImGuiWindowFlags windowFlags =
+        constexpr ImGuiWindowFlags WINDOW_FLAGS =
             ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse;
 #ifndef HSE_WINDOW_TITLE
 #ifdef EXPERIMENTAL_VERSION
@@ -158,12 +158,12 @@ void Gui::Render() {
 #define HSE_WINDOW_TITLE "Half Sword Enhancer v" HSE_VERSION "###HSEMain"
 #endif
 #endif
-        constexpr const char* windowTitle = HSE_WINDOW_TITLE;
+        constexpr const char* WINDOW_TITLE = HSE_WINDOW_TITLE;
 
         ImGui::SetNextWindowSizeConstraints(ImVec2(400, 300), ImVec2(FLT_MAX, FLT_MAX));
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(2, 2));
         bool showWindow = true;
-        if (ImGui::Begin(windowTitle, &showWindow, windowFlags)) {
+        if (ImGui::Begin(WINDOW_TITLE, &showWindow, WINDOW_FLAGS)) {
             MenuManager::Get().RenderMenu();
         }
         ImGui::End();

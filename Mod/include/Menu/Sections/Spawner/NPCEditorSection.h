@@ -36,7 +36,7 @@ private:
 
     Config cfg;
 
-    static constexpr NPCTypeInfo npcTypes[] = {
+    static constexpr NPCTypeInfo NPC_TYPES[] = {
         {"Regular", WILLIE_PATH("/Willie_BP.Willie_BP_C")},
         {"No Brain", WILLIE_PATH("/Willie_BP_NoBrain.Willie_BP_NoBrain_C")},
         {"Zombie", WILLIE_PATH("/Willie_BP_Zombie.Willie_BP_Zombie_C")},
@@ -45,11 +45,11 @@ private:
         {"Falcon Boss", WILLIE_PATH("/Unique/Willie_BP_FalconBoss.Willie_BP_FalconBoss_C")},
         {"Grim Reaper", WILLIE_PATH("/Unique/Willie_BP_GrimReaper.Willie_BP_GrimReaper_C")}};
 #undef WILLIE_PATH
-    static constexpr int npcTypesCount = sizeof(npcTypes) / sizeof(npcTypes[0]);
+    static constexpr int NPC_TYPES_COUNT = sizeof(NPC_TYPES) / sizeof(NPC_TYPES[0]);
 
-    static constexpr const char* nationalityNames[] = {"English", "French", "German", "Italian",
-                                                       "Spanish", "Slavic", "Nordic"};
-    static constexpr int nationalityCount = 7;
+    static constexpr const char* NATIONALITY_NAMES[] = {"English", "French", "German", "Italian",
+                                                        "Spanish", "Slavic", "Nordic"};
+    static constexpr int NATIONALITY_COUNT = 7;
 
     NPCOverrides overrides{};
     std::vector<KeybindEntry> keybinds;
@@ -65,7 +65,7 @@ private:
 
     void BuildDescriptors();
     int CountAllActive() const;
-    const char* getNPCClassName() const noexcept;
+    const char* GetNPCClassName() const noexcept;
     void SpawnNPC();
     NPCPresetData BuildPresetData() const;
     void ApplyPresetData(const NPCPresetData& d);

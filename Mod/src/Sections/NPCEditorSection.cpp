@@ -76,14 +76,14 @@ int NPCEditorSection::CountAllActive() const {
            CountActive(bodyConditionFields);
 }
 
-const char* NPCEditorSection::getNPCClassName() const noexcept {
-    if (cfg.npcTypeIndex >= 0 && cfg.npcTypeIndex < npcTypesCount) [[likely]]
-        return npcTypes[cfg.npcTypeIndex].className;
-    return npcTypes[0].className;
+const char* NPCEditorSection::GetNPCClassName() const noexcept {
+    if (cfg.npcTypeIndex >= 0 && cfg.npcTypeIndex < NPC_TYPES_COUNT) [[likely]]
+        return NPC_TYPES[cfg.npcTypeIndex].className;
+    return NPC_TYPES[0].className;
 }
 
 void NPCEditorSection::SpawnNPC() {
-    auto className = std::string(getNPCClassName());
+    auto className = std::string(GetNPCClassName());
     auto nationality = static_cast<SDK::Enum_Nationalities>(cfg.npcNationality);
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.npcTier);
     bool mercenary = cfg.npcMercenary;
@@ -147,8 +147,8 @@ NPCPresetData NPCEditorSection::BuildPresetData() const {
 }
 
 void NPCEditorSection::ApplyPresetData(const NPCPresetData& d) {
-    cfg.npcTypeIndex = std::clamp(d.npcTypeIndex, 0, npcTypesCount - 1);
-    cfg.npcNationality = std::clamp(d.nationality, 0, nationalityCount - 1);
+    cfg.npcTypeIndex = std::clamp(d.npcTypeIndex, 0, NPC_TYPES_COUNT - 1);
+    cfg.npcNationality = std::clamp(d.nationality, 0, NATIONALITY_COUNT - 1);
     cfg.npcTier = std::clamp(d.tier, 0, 8);
     cfg.npcMercenary = d.mercenary;
     overrides = d.overrides;
@@ -292,14 +292,14 @@ void NPCEditorSection::Render() {
     auto npcGetter = [](void* data, int idx) -> const char* {
         return static_cast<const NPCTypeInfo*>(data)[idx].displayName;
     };
-    static float npcTypeComboW = GuiUtils::CalcComboWidth(npcGetter, (void*)npcTypes, npcTypesCount);
-    static float nationalityComboW = GuiUtils::CalcComboWidth(nationalityNames, nationalityCount);
+    static float npcTypeComboW = GuiUtils::CalcComboWidth(npcGetter, (void*)NPC_TYPES, NPC_TYPES_COUNT);
+    static float nationalityComboW = GuiUtils::CalcComboWidth(NATIONALITY_NAMES, NATIONALITY_COUNT);
     ImGui::SetNextItemWidth(npcTypeComboW);
-    ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex, npcGetter, (void*)npcTypes, npcTypesCount);
+    ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex, npcGetter, (void*)NPC_TYPES, NPC_TYPES_COUNT);
     TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
     ImGui::SameLine();
     ImGui::SetNextItemWidth(nationalityComboW);
-    ImGui::Combo("##NationalitySelector", &cfg.npcNationality, nationalityNames, nationalityCount);
+    ImGui::Combo("##NationalitySelector", &cfg.npcNationality, NATIONALITY_NAMES, NATIONALITY_COUNT);
     ImGui::SameLine();
     ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
     ImGui::DragInt("##NPCTierSlider", &cfg.npcTier, 0.1f, 0, 8, "Tier %d");
@@ -339,6 +339,7 @@ void NPCEditorSection::Render() {
                 [this]() { return BuildPresetData(); }, [this](NPCPresetData d) { ApplyPresetData(std::move(d)); }
             );
             break;
+        default: break;
     }
 
     ImGui::EndChild();

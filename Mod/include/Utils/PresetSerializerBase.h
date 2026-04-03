@@ -10,7 +10,7 @@ template <typename Derived, typename DataT> class PresetSerializerBase {
 public:
     static const std::filesystem::path& GetPresetsDirectory() {
         static std::filesystem::path dir =
-            PresetUtils::EnsureDirectory(ConfigManager::GetAppDataPath() / Derived::kPresetsSubdir);
+            PresetUtils::EnsureDirectory(ConfigManager::GetAppDataPath() / Derived::K_PRESETS_SUBDIR);
         return dir;
     }
 

@@ -235,7 +235,7 @@ void ArmorEditorSection::RenderGenerationControls() {
     ImGui::SameLine();
     GuiUtils::RenderFreeTierCombo("##GenTier", cfg.armorTier);
 
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     ImGui::DragFloat("Module Chance", &cfg.moduleChance, 0.01f, 0.0f, 0.0f, "%.2f");
     TooltipHelper::ShowTooltip("Probability of generating modular armor vs built armor");
 
@@ -352,13 +352,13 @@ ArmorPresetData ArmorEditorSection::BuildPresetData() const {
     return d;
 }
 
-void ArmorEditorSection::ApplyPresetData(ArmorPresetData d) {
+void ArmorEditorSection::ApplyPresetData(const ArmorPresetData& d) {
     armorPassport = d.passport;
     runtimeProps = d.runtimeProps;
     armorModules = {};
 
     if (!d.armorCorePath.empty()) {
-        GameHook::QueueAction([this, path = std::move(d.armorCorePath)]() {
+        GameHook::QueueAction([this, path = d.armorCorePath]() {
             armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(path);
         });
     }
@@ -428,6 +428,7 @@ void ArmorEditorSection::Render() {
                 [this]() { return BuildPresetData(); }, [this](ArmorPresetData d) { ApplyPresetData(std::move(d)); }
             );
             break;
+        default: break;
     }
 
     ImGui::EndChild();

@@ -310,7 +310,7 @@ void PlayerEditorSection::ClonePlayer() {
 
     double heightRate = passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B;
     double muscleRate = passport.Weight_23_65E4C6534D14653F96EB739F159E58CD;
-    float spawnScale = static_cast<float>(0.875 + heightRate * 0.125);
+    auto spawnScale = static_cast<float>(0.875 + heightRate * 0.125);
 
     Spawner::SpawnActor(
         world, GameConstants::WILLIE_BP_PATH, Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale),
@@ -362,7 +362,7 @@ void PlayerEditorSection::RenderHealthTab() {
         RenderOverrideField(healthFields[8]); // Left Leg
         ImGui::EndTable();
     }
-    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::cellPadding.y);
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::CELL_PADDING.y);
     RenderOverrideField(healthFields[9]);
 
     ImGui::PopID();
@@ -374,7 +374,7 @@ void PlayerEditorSection::RenderPhysicsTab() {
     ImGui::SeparatorText("Muscle Tonus");
     RenderOverrideField(physicsFields[0]); // All Body Tonus
 
-    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::cellPadding.y);
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() - SectionStyle::CELL_PADDING.y);
     if (ImGui::BeginTable("##tonusparts", 2, ImGuiTableFlags_None)) {
         ImGui::TableNextColumn();
         RenderOverrideField(physicsFields[1]); // Head
@@ -541,6 +541,7 @@ void PlayerEditorSection::Render() {
                 [this]() { return BuildPresetData(); }, [this](PlayerPresetData d) { ApplyPresetData(std::move(d)); }
             );
             break;
+        default: break;
     }
 
     ImGui::EndChild();

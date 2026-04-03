@@ -102,7 +102,7 @@ concept HasCustomDeserialize = requires(T& t, const CSimpleIniA& ini) {
 template <typename DataType>
 class PresetSerializer : public PresetSerializerBase<PresetSerializer<DataType>, DataType> {
 public:
-    static constexpr const char* kPresetsSubdir = DataType::kPresetsSubdir;
+    static constexpr const char* K_PRESETS_SUBDIR = DataType::K_PRESETS_SUBDIR;
 
     static std::string SerializeToIni(const DataType& data) {
         CSimpleIniA ini;

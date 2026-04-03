@@ -55,7 +55,7 @@ namespace {
             }
         }
 
-        __forceinline int8_t Lookup(void* funcPtr) const noexcept {
+        __forceinline int8_t Lookup(void* funcPtr) const noexcept { // NOLINT(readability-identifier-naming)
             const uintptr_t raw = reinterpret_cast<uintptr_t>(funcPtr);
             const size_t idx = FibonacciHash(raw);
 
@@ -115,7 +115,7 @@ __declspec(noinline) static int8_t ResolveAndCache(
     return resolved;
 }
 
-void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept {
+void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
     if (GameHook::hasQueuedActions.load(std::memory_order_relaxed)) [[unlikely]] {
         GameHook::ProcessGameThreadQueue();
     }
@@ -132,7 +132,7 @@ void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, voi
         hook.hooks[idx].callback();
     }
 
-    return ((ProcessEvent)hook.oProcessEvent)(pObject, pFunc, Parms);
+    return ((ProcessEvent)hook.oProcessEvent)(pObject, pFunc, parms);
 }
 
 GameHook& GameHook::Get() {
@@ -170,7 +170,7 @@ void GameHook::Unhook() {
     logger.Log("ProcessEvent unhooked successfully!");
 }
 
-void GameHook::RegisterHook(std::string_view functionName, std::function<void()> callback) {
+void GameHook::RegisterHook(std::string_view functionName, const std::function<void()>& callback) {
     RegisterHook(HS::Hash::FNV1A(functionName), std::move(callback));
 }
 
@@ -178,7 +178,7 @@ void GameHook::UnregisterHook(std::string_view functionName) {
     UnregisterHook(HS::Hash::FNV1A(functionName));
 }
 
-void GameHook::RegisterHook(GameEvent event, std::function<void()> callback) {
+void GameHook::RegisterHook(GameEvent event, const std::function<void()>& callback) {
     RegisterHook(EventBus::GetEventFunctionName(event), std::move(callback));
 }
 
@@ -186,7 +186,7 @@ void GameHook::UnregisterHook(GameEvent event) {
     UnregisterHook(EventBus::GetEventFunctionName(event));
 }
 
-void GameHook::RegisterHook(uint64_t hash, std::function<void()> callback) {
+void GameHook::RegisterHook(uint64_t hash, const std::function<void()>& callback) {
     for (uint8_t i = 0; i < hookCount; ++i) {
         if (hooks[i].nameHash == hash) {
             hooks[i].callback = std::move(callback);
@@ -261,7 +261,7 @@ void GameHook::LockUEConsole() {
     logger.Log("UE Console locked");
 }
 
-void GameHook::QueueAction(std::function<void()> action) {
+void GameHook::QueueAction(const std::function<void()>& action) {
     std::lock_guard<std::mutex> lock(queueMutex);
     gameThreadQueue.push(std::move(action));
     hasQueuedActions.store(true, std::memory_order_release);

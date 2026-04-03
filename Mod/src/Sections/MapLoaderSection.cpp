@@ -201,13 +201,13 @@ void MapLoaderSection::RenderPreLoadOptions() {
     ImGui::Checkbox("Free Mode", &optFreeMode);
     ImGui::SameLine();
     ImGui::Checkbox("Carnage", &optCarnage);
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     ImGui::DragInt("##Foes", &optFoesAmount, 0.2f, 0, 7, "Foes: %d");
     ImGui::SameLine();
     GuiUtils::RenderFreeTierCombo("##FoeTier", optFoeTier);
 
     ImGui::SeparatorText("Combat");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     ImGui::DragInt("##Enemies", &optCombatantsAmount, 0.2f, 0, 7, "Enemies: %d");
     ImGui::SameLine();
     GuiUtils::RenderFreeTierCombo("##OpponentTier", optOpponentTier);
@@ -222,7 +222,7 @@ void MapLoaderSection::RenderPreLoadOptions() {
         ImGui::SeparatorText("Auto-Spawn NPCs");
         npcPicker.Render("NPC Preset");
         if (npcPicker.HasSelection()) {
-            ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+            ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
             ImGui::DragInt("##NPCCount", &optAutoNPCCount, 0.2f, 0, 10, "Count: %d");
         }
     }
@@ -267,7 +267,7 @@ void MapLoaderSection::RenderMapSelector(MapRegistry& reg) {
     RebuildFilter(reg);
 
     if (filteredIndices.empty()) {
-        ImGui::TextColored(kGrayText, "No matches");
+        ImGui::TextColored(K_GRAY_TEXT, "No matches");
     } else {
         if (selectedFilteredIndex >= static_cast<int>(filteredIndices.size())) selectedFilteredIndex = 0;
 
@@ -301,12 +301,12 @@ void MapLoaderSection::Render() {
 
     if (scanState == ScanState::NotStarted || scanState == ScanState::Scanning) {
         if (scanState == ScanState::NotStarted) reg.RequestScan();
-        ImGui::TextColored(kYellowText, "Scanning maps...");
+        ImGui::TextColored(K_YELLOW_TEXT, "Scanning maps...");
         return;
     }
 
     if (scanState == ScanState::Failed) {
-        ImGui::TextColored(kOrangeText, "No maps found");
+        ImGui::TextColored(K_ORANGE_TEXT, "No maps found");
         if (ImGui::Button("Retry")) reg.RequestRescan();
         return;
     }
@@ -328,7 +328,7 @@ void MapLoaderSection::Render() {
     }
 
     if (!hasPlayer) {
-        ImGui::TextColored(kOrangeText, "No player detected");
+        ImGui::TextColored(K_ORANGE_TEXT, "No player detected");
         ImGui::SameLine();
         if (ImGui::Button("Spawn Player")) SpawnPlayer();
         ImGui::Spacing();
@@ -364,5 +364,5 @@ void MapLoaderSection::Render() {
         npcPicker.Invalidate();
     }
     ImGui::SameLine();
-    ImGui::TextColored(kGrayText, "(%zu maps)", maps.size());
+    ImGui::TextColored(K_GRAY_TEXT, "(%zu maps)", maps.size());
 }

@@ -11,7 +11,7 @@
 class CSimpleIniA;
 
 struct LoadoutPresetData : PresetDataBase {
-    static constexpr const char* kPresetsSubdir = "loadout_presets";
+    static constexpr const char* K_PRESETS_SUBDIR = "loadout_presets";
 
     struct ArmorSlotData {
         SDK::EArmorSlots_Enum slot{};

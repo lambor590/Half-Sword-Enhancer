@@ -145,9 +145,11 @@ size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, std::string_vie
     return subs.size() - 1;
 }
 
-uint16_t BlueprintRegistry::AddItem(BlueprintEntry entry, std::string_view category, std::string_view subcategory) {
-    uint16_t idx = static_cast<uint16_t>(items.size());
-    items.push_back(std::move(entry));
+uint16_t BlueprintRegistry::AddItem(
+    const BlueprintEntry& entry, std::string_view category, std::string_view subcategory
+) {
+    auto idx = static_cast<uint16_t>(items.size());
+    items.push_back(entry);
     size_t catIdx = FindOrCreateCategory(category);
     size_t subIdx = FindOrCreateSubcategory(catIdx, subcategory);
     categories[catIdx].subcategories[subIdx].itemIndices.push_back(idx);
@@ -213,7 +215,7 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
 std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
     std::string name{assetName};
 
-    static constexpr std::string_view prefixes[] = {
+    static constexpr std::string_view PREFIXES[] = {
         "BP_GameWeapon_Customizable_",
         "BP_GameWeapon_",
         "BP_Weapon_Reforged_",
@@ -250,7 +252,7 @@ std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
         "BP_",
         "Shield_"};
 
-    for (auto prefix : prefixes) {
+    for (auto prefix : PREFIXES) {
         if (name.size() > prefix.size() && name.compare(0, prefix.size(), prefix.data()) == 0) {
             name = name.substr(prefix.size());
             break;
@@ -332,13 +334,13 @@ void BlueprintRegistry::InjectCustomPaths() {
 }
 
 void BlueprintRegistry::SortCategories() {
-    static const char* CATEGORY_ORDER[] = {"Weapons", "Modular Armor", "Props"};
-    static constexpr size_t ORDER_COUNT = sizeof(CATEGORY_ORDER) / sizeof(CATEGORY_ORDER[0]);
+    static const char* categoryOrder[] = {"Weapons", "Modular Armor", "Props"};
+    static constexpr size_t ORDER_COUNT = sizeof(categoryOrder) / sizeof(categoryOrder[0]);
 
     std::ranges::sort(categories, [](const CategoryData& a, const CategoryData& b) {
         auto orderOf = [](const std::string& name) -> int {
             for (size_t i = 0; i < ORDER_COUNT; ++i) {
-                if (name == CATEGORY_ORDER[i]) return static_cast<int>(i);
+                if (name == categoryOrder[i]) return static_cast<int>(i);
             }
             return static_cast<int>(ORDER_COUNT);
         };

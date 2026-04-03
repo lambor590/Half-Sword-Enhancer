@@ -7,7 +7,7 @@
 #include "Utils/PlayerEditorOverrides.h"
 
 struct PlayerPresetData : PresetDataBase {
-    static constexpr const char* kPresetsSubdir = "player_presets";
+    static constexpr const char* K_PRESETS_SUBDIR = "player_presets";
 
     PlayerEditorOverrides overrides{};
 

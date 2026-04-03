@@ -292,14 +292,14 @@ void LoadoutManagerSection::ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
     });
 }
 
-void LoadoutManagerSection::ApplyLoadoutPreset(LoadoutPresetData data) {
+void LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPresetData& data) {
     if (!player) return;
 
     auto& dstMap = player->Currently_Equipped_Armor;
     for (auto it = begin(dstMap); it != end(dstMap); ++it)
         it->Value().ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = nullptr;
 
-    GameHook::QueueAction([this, data = std::move(data)]() {
+    GameHook::QueueAction([this, data]() {
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& equipArmorMap = player->Load_Equipment.Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04
                                   .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
@@ -611,7 +611,7 @@ void LoadoutManagerSection::RenderWeaponsTab() {
                 RenderWeaponSlotMaterials(slot);
 
                 ImGui::Spacing();
-                ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+                ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
                 ImGui::InputInt("CoA##coa", &slot.COAInt_63_593665BE4EF020F95F7D1A92564C1239);
 
                 ImGui::Spacing();
@@ -728,5 +728,6 @@ void LoadoutManagerSection::Render() {
                 [this](LoadoutPresetData d) { ApplyLoadoutPreset(std::move(d)); }, player != nullptr
             );
             break;
+        default: break;
     }
 }

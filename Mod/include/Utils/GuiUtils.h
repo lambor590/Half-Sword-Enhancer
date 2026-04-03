@@ -19,12 +19,12 @@
 #include "SDK/Enum_MaterialLayer_structs.hpp"
 
 namespace GuiUtils {
-    inline constexpr ImVec2 kTooltipPadding{8.0f, 6.0f};
-    inline constexpr ImVec2 kPopupPadding{10.0f, 8.0f};
-    inline constexpr float kDragWidth = 120.0f;
+    inline constexpr ImVec2 K_TOOLTIP_PADDING{8.0f, 6.0f};
+    inline constexpr ImVec2 K_POPUP_PADDING{10.0f, 8.0f};
+    inline constexpr float K_DRAG_WIDTH = 120.0f;
 
     inline void BeginStyledTooltip() noexcept {
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, kTooltipPadding);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, K_TOOLTIP_PADDING);
         ImGui::BeginTooltip();
     }
 
@@ -116,8 +116,8 @@ namespace GuiUtils {
     }
 
     inline void RenderPriceDrag(const char* label, double& price, float speed = 1.0f) {
-        ImGui::SetNextItemWidth(kDragWidth);
-        float val = static_cast<float>(price);
+        ImGui::SetNextItemWidth(K_DRAG_WIDTH);
+        auto val = static_cast<float>(price);
         if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.1f")) price = val;
     }
 
@@ -126,8 +126,8 @@ namespace GuiUtils {
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
-        float val = static_cast<float>(ovr.value);
-        ImGui::SetNextItemWidth(kDragWidth);
+        auto val = static_cast<float>(ovr.value);
+        ImGui::SetNextItemWidth(K_DRAG_WIDTH);
         if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f")) ovr.value = val;
         if (!ovr.enabled) ImGui::EndDisabled();
         ImGui::PopID();
@@ -138,7 +138,7 @@ namespace GuiUtils {
         ImGui::Checkbox("##en", &ovr.enabled);
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
-        ImGui::SetNextItemWidth(kDragWidth);
+        ImGui::SetNextItemWidth(K_DRAG_WIDTH);
         ImGui::DragInt(label, &ovr.value, speed, 0, 0);
         if (!ovr.enabled) ImGui::EndDisabled();
         ImGui::PopID();
@@ -172,11 +172,11 @@ namespace GuiUtils {
         float rowH = textH + UNDERLINE_TAB_VPAD * 2;
         float availWidth = ImGui::GetContentRegionAvail().x;
 
-        static const ImU32 activeCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass);
-        static const ImU32 inactiveCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::textDisabled);
-        static const ImU32 hoverCol = ImGui::ColorConvertFloat4ToU32(DefaultStyle::parchmentDark);
-        static const ImU32 baselineCol = ImGui::ColorConvertFloat4ToU32(
-            ImVec4(DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y, DefaultStyle::mediumWood.z, 0.35f)
+        static const ImU32 ACTIVE_COL = ImGui::ColorConvertFloat4ToU32(DefaultStyle::OLD_BRASS);
+        static const ImU32 INACTIVE_COL = ImGui::ColorConvertFloat4ToU32(DefaultStyle::TEXT_DISABLED);
+        static const ImU32 HOVER_COL = ImGui::ColorConvertFloat4ToU32(DefaultStyle::PARCHMENT_DARK);
+        static const ImU32 BASELINE_COL = ImGui::ColorConvertFloat4ToU32(
+            ImVec4(DefaultStyle::MEDIUM_WOOD.x, DefaultStyle::MEDIUM_WOOD.y, DefaultStyle::MEDIUM_WOOD.z, 0.35f)
         );
 
         float x = cursor.x;
@@ -191,13 +191,13 @@ namespace GuiUtils {
             if (i < count - 1) ImGui::SameLine(0, TAB_SPACING);
 
             bool isActive = (i == activeTab);
-            ImU32 textCol = isActive ? activeCol : (hovered ? hoverCol : inactiveCol);
+            ImU32 textCol = isActive ? ACTIVE_COL : (hovered ? HOVER_COL : INACTIVE_COL);
             ImVec2 textPos(x + UNDERLINE_TAB_HPAD, cursor.y + UNDERLINE_TAB_VPAD);
             dl->AddText(textPos, textCol, labels[i]);
 
             if (isActive) {
                 float lineY = cursor.y + rowH;
-                dl->AddLine(ImVec2(x, lineY), ImVec2(x + tabW, lineY), activeCol, UNDERLINE_THICKNESS);
+                dl->AddLine(ImVec2(x, lineY), ImVec2(x + tabW, lineY), ACTIVE_COL, UNDERLINE_THICKNESS);
             }
 
             x += tabW + TAB_SPACING;
@@ -205,7 +205,7 @@ namespace GuiUtils {
         }
 
         float baselineY = cursor.y + rowH + 1.0f;
-        dl->AddLine(ImVec2(cursor.x, baselineY), ImVec2(cursor.x + availWidth, baselineY), baselineCol, 1.0f);
+        dl->AddLine(ImVec2(cursor.x, baselineY), ImVec2(cursor.x + availWidth, baselineY), BASELINE_COL, 1.0f);
 
         ImGui::SetCursorScreenPos(ImVec2(cursor.x, baselineY + UNDERLINE_GAP));
         ImGui::Spacing();
@@ -217,8 +217,8 @@ namespace GuiUtils {
         double time = 0.0;
         bool isError = false;
 
-        void Set(std::string msg, bool error = false) {
-            text = std::move(msg);
+        void Set(const std::string& msg, bool error = false) {
+            text = msg;
             time = ImGui::GetTime();
             isError = error;
         }
@@ -274,9 +274,9 @@ namespace GuiUtils {
 
     [[nodiscard]] inline PresetTreeAction RenderPresetTree(const PresetUtils::PresetTreeNode& node) {
         PresetTreeAction action;
-        static const float loadW = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2;
-        static const float delW = ImGui::CalcTextSize("Del").x + ImGui::GetStyle().FramePadding.x * 2;
-        static const float buttonsWidth = loadW + delW + ImGui::GetStyle().ItemSpacing.x * 2;
+        static const float LOAD_W = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2;
+        static const float DEL_W = ImGui::CalcTextSize("Del").x + ImGui::GetStyle().FramePadding.x * 2;
+        static const float BUTTONS_WIDTH = LOAD_W + DEL_W + ImGui::GetStyle().ItemSpacing.x * 2;
 
         for (const auto& child : node.children) {
             if (ImGui::TreeNode(child.name.c_str())) {
@@ -288,7 +288,7 @@ namespace GuiUtils {
 
         for (size_t i = 0; i < node.presets.size(); ++i) {
             ImGui::PushID(static_cast<int>(i));
-            float textW = ImGui::GetContentRegionAvail().x - buttonsWidth;
+            float textW = ImGui::GetContentRegionAvail().x - BUTTONS_WIDTH;
 
             ImGui::AlignTextToFramePadding();
             ImGui::TextUnformatted(node.presets[i].name.c_str());
@@ -316,7 +316,7 @@ namespace GuiUtils {
     using PresetPathCallback = std::function<void(const std::filesystem::path&)>;
 
     inline void RenderPresetPanel(
-        PresetPanelState& state, const std::filesystem::path& presetsDir, PresetCallback refreshTree,
+        PresetPanelState& state, const std::filesystem::path& presetsDir, const PresetCallback& refreshTree,
         PresetNameCallback onSave, PresetPathCallback onLoad, PresetPathCallback onDelete
     ) {
         ImGui::SeparatorText("Save");
@@ -367,7 +367,7 @@ namespace GuiUtils {
             std::snprintf(label, sizeof(label), "Continuously rotate the %s", itemType);
             (void)CheckboxWithTooltip("Auto-Rotate", &preview.autoRotate, label);
             if (preview.autoRotate) {
-                ImGui::SetNextItemWidth(kDragWidth);
+                ImGui::SetNextItemWidth(K_DRAG_WIDTH);
                 ImGui::DragFloat("Rotation Speed", &preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
             }
         }

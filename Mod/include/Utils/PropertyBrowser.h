@@ -15,9 +15,9 @@
 
 namespace PropertyBrowser {
 
-    inline constexpr float kScalarWidth = 120.0f;
-    inline constexpr float kEnumWidth = 160.0f;
-    inline constexpr float kVec3Width = 240.0f;
+    inline constexpr float K_SCALAR_WIDTH = 120.0f;
+    inline constexpr float K_ENUM_WIDTH = 160.0f;
+    inline constexpr float K_VEC3_WIDTH = 240.0f;
 
     enum class PropType : uint8_t {
         Float,
@@ -234,7 +234,7 @@ namespace PropertyBrowser {
 
     inline bool DragDouble3(const char* label, double* d, float speed, const char* fmt) {
         float tmp[3] = {static_cast<float>(d[0]), static_cast<float>(d[1]), static_cast<float>(d[2])};
-        ImGui::SetNextItemWidth(kVec3Width);
+        ImGui::SetNextItemWidth(K_VEC3_WIDTH);
         if (ImGui::DragFloat3(label, tmp, speed, 0.0f, 0.0f, fmt)) {
             d[0] = tmp[0];
             d[1] = tmp[1];
@@ -252,14 +252,14 @@ namespace PropertyBrowser {
 
         switch (prop.type) {
             case PropType::Float: {
-                ImGui::SetNextItemWidth(kScalarWidth);
+                ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
                 changed = ImGui::DragFloat(
                     prop.displayName.c_str(), reinterpret_cast<float*>(valuePtr), 0.01f, 0.0f, 0.0f, "%.4f"
                 );
                 break;
             }
             case PropType::Double: {
-                ImGui::SetNextItemWidth(kScalarWidth);
+                ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
                 changed = ImGui::DragScalar(
                     prop.displayName.c_str(), ImGuiDataType_Double, reinterpret_cast<double*>(valuePtr), 0.01f, nullptr,
                     nullptr, "%.4f"
@@ -267,7 +267,7 @@ namespace PropertyBrowser {
                 break;
             }
             case PropType::Int: {
-                ImGui::SetNextItemWidth(kScalarWidth);
+                ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
                 changed = ImGui::DragInt(prop.displayName.c_str(), reinterpret_cast<int32_t*>(valuePtr), 1.0f, 0, 0);
                 break;
             }
@@ -285,7 +285,7 @@ namespace PropertyBrowser {
             }
             case PropType::Byte: {
                 int intVal = *valuePtr;
-                ImGui::SetNextItemWidth(kScalarWidth);
+                ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
                 if (ImGui::DragInt(prop.displayName.c_str(), &intVal, 1.0f, 0, 255)) {
                     *valuePtr = static_cast<uint8_t>(intVal);
                     changed = true;
@@ -300,7 +300,7 @@ namespace PropertyBrowser {
                     const char* preview = (intVal >= 0 && intVal < static_cast<int>(prop.enumNames.size()))
                                               ? prop.enumNames[intVal].c_str()
                                               : "Unknown";
-                    ImGui::SetNextItemWidth(kEnumWidth);
+                    ImGui::SetNextItemWidth(K_ENUM_WIDTH);
                     if (ImGui::BeginCombo(prop.displayName.c_str(), preview)) {
                         for (int i = 0; i < static_cast<int>(prop.enumNames.size()); ++i) {
                             if (ImGui::Selectable(prop.enumNames[i].c_str(), i == intVal)) {
@@ -315,7 +315,7 @@ namespace PropertyBrowser {
                         ImGui::EndCombo();
                     }
                 } else {
-                    ImGui::SetNextItemWidth(kScalarWidth);
+                    ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
                     if (ImGui::DragInt(prop.displayName.c_str(), &intVal, 1.0f, 0, 255)) {
                         if (prop.elementSize <= 1)
                             *valuePtr = static_cast<uint8_t>(intVal);

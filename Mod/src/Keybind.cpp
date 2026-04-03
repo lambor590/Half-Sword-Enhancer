@@ -79,8 +79,8 @@ namespace {
 
     struct SliderStyleRAII {
         SliderStyleRAII() {
-            ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::oldBrass);
-            ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::brightBrass);
+            ImGui::PushStyleColor(ImGuiCol_SliderGrab, DefaultStyle::OLD_BRASS);
+            ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, DefaultStyle::BRIGHT_BRASS);
         }
         ~SliderStyleRAII() { ImGui::PopStyleColor(2); }
     };
@@ -102,14 +102,14 @@ namespace {
 
         if (ImGui::IsItemHovered()) [[unlikely]] {
             GuiUtils::BeginStyledTooltip();
-            ImGui::TextColored(DefaultStyle::parchment, CHANGE_KEYBIND_TEXT.data());
+            ImGui::TextColored(DefaultStyle::PARCHMENT, CHANGE_KEYBIND_TEXT.data());
             GuiUtils::EndStyledTooltip();
         }
     }
 
     void RenderName(std::string_view name, bool isDisabled) {
         ImGui::TextColored(
-            isDisabled ? DISABLED_NAME_COLOR : DefaultStyle::parchment, "%.*s", static_cast<int>(name.size()),
+            isDisabled ? DISABLED_NAME_COLOR : DefaultStyle::PARCHMENT, "%.*s", static_cast<int>(name.size()),
             name.data()
         );
     }
@@ -133,7 +133,7 @@ namespace {
         ImGui::AlignTextToFramePadding();
 
         ImGui::TextColored(
-            DefaultStyle::parchmentDark, "%.*s", static_cast<int>(param.displayName.size()), param.displayName.data()
+            DefaultStyle::PARCHMENT_DARK, "%.*s", static_cast<int>(param.displayName.size()), param.displayName.data()
         );
         TooltipHelper::ShowTooltip(param.tooltip);
         ImGui::SameLine();
@@ -194,7 +194,7 @@ namespace {
 
     void RenderConflictPopup(KeybindEntry& entry) {
         ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, MODAL_DIM_COLOR);
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::kPopupPadding);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::K_POPUP_PADDING);
         if (ImGui::BeginPopupModal(
                 entry.conflictPopupId.c_str(), nullptr,
                 ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings
@@ -285,7 +285,7 @@ void TooltipHelper::ShowTooltip(std::string_view tooltip) {
 
     if (ImGui::IsItemHovered()) [[unlikely]] {
         GuiUtils::BeginStyledTooltip();
-        ImGui::TextColored(DefaultStyle::parchment, "%.*s", static_cast<int>(tooltip.size()), tooltip.data());
+        ImGui::TextColored(DefaultStyle::PARCHMENT, "%.*s", static_cast<int>(tooltip.size()), tooltip.data());
         GuiUtils::EndStyledTooltip();
     }
 }
@@ -318,7 +318,7 @@ void KeybindUI::RenderKeybind(KeybindEntry& entry) {
             ImGui::OpenPopup(entry.popupId.c_str());
         }
 
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::kPopupPadding);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::K_POPUP_PADDING);
         if (ImGui::BeginPopup(entry.popupId.c_str())) {
             for (const auto& param : entry.params) {
                 RenderParam(param);

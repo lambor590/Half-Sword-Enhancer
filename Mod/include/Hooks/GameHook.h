@@ -29,16 +29,16 @@ public:
     void UnlockUEConsole();
     void LockUEConsole();
 
-    static void QueueAction(std::function<void()> action);
+    static void QueueAction(const std::function<void()>& action);
     static void ProcessGameThreadQueue();
 
     bool IsHooked() const noexcept { return hooked; }
 
-    void RegisterHook(std::string_view functionName, std::function<void()> callback);
+    void RegisterHook(std::string_view functionName, const std::function<void()>& callback);
     void UnregisterHook(std::string_view functionName);
 
     /// Maps GameEvent to its UE function name.
-    void RegisterHook(GameEvent event, std::function<void()> callback);
+    void RegisterHook(GameEvent event, const std::function<void()>& callback);
     void UnregisterHook(GameEvent event);
 
     struct HookEntry {
@@ -52,7 +52,7 @@ public:
 private:
     GameHook() = default;
 
-    void RegisterHook(uint64_t hash, std::function<void()> callback);
+    void RegisterHook(uint64_t hash, const std::function<void()>& callback);
     void UnregisterHook(uint64_t hash);
 
     Logger logger{"GameHook"};
@@ -68,5 +68,5 @@ private:
     static std::mutex queueMutex;
     static std::atomic<bool> hasQueuedActions;
 
-    friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* Parms) noexcept;
+    friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept;
 };

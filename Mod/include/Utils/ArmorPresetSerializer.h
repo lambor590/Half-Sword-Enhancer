@@ -9,7 +9,7 @@
 #include "SDK/BP_Armor_Master_classes.hpp"
 
 struct ArmorPresetData : PresetDataBase {
-    static constexpr const char* kPresetsSubdir = "armor_presets";
+    static constexpr const char* K_PRESETS_SUBDIR = "armor_presets";
 
     SDK::FStr_Passport_Armor1 passport{};
 

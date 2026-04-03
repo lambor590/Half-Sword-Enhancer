@@ -12,15 +12,15 @@ namespace {
 
     /// Brass-accent colors used for selection highlights in the sidebar.
     constexpr ImVec4 BRASS_SUBTLE = {
-        DefaultStyle::oldBrass.x, DefaultStyle::oldBrass.y, DefaultStyle::oldBrass.z, 0.12f};
+        DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.12f};
     constexpr ImVec4 BRASS_MEDIUM = {
-        DefaultStyle::oldBrass.x, DefaultStyle::oldBrass.y, DefaultStyle::oldBrass.z, 0.18f};
+        DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.18f};
     constexpr ImVec4 BRASS_STRONG = {
-        DefaultStyle::oldBrass.x, DefaultStyle::oldBrass.y, DefaultStyle::oldBrass.z, 0.25f};
+        DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.25f};
 
     /// Faint separator line color based on mediumWood.
     constexpr ImVec4 SEPARATOR_COLOR = {
-        DefaultStyle::mediumWood.x, DefaultStyle::mediumWood.y, DefaultStyle::mediumWood.z, 0.35f};
+        DefaultStyle::MEDIUM_WOOD.x, DefaultStyle::MEDIUM_WOOD.y, DefaultStyle::MEDIUM_WOOD.z, 0.35f};
 
     void DrawSeparator(float vGap) {
         ImGui::Dummy(ImVec2(0, vGap));
@@ -36,7 +36,7 @@ namespace {
         auto mx = ImGui::GetItemRectMax();
         ImGui::GetWindowDrawList()->AddRectFilled(
             ImVec2(mn.x - 5, mn.y + 1), ImVec2(mn.x - 2, mx.y - 1),
-            ImGui::ColorConvertFloat4ToU32(DefaultStyle::oldBrass), 1.0f
+            ImGui::ColorConvertFloat4ToU32(DefaultStyle::OLD_BRASS), 1.0f
         );
     }
 
@@ -147,7 +147,7 @@ void MenuManager::RenderSearchBar() {
 
     if (hasText) {
         ImGui::SameLine(0, 4.0f);
-        ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::transparent);
+        ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::TRANSPARENT);
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, BRASS_SUBTLE);
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, BRASS_STRONG);
         if (ImGui::Button("X##ClearSearch")) {
@@ -163,13 +163,13 @@ void MenuManager::RenderSearchBar() {
 
 void MenuManager::RenderSearchResults() {
     if (searchResults.empty()) {
-        ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::textDisabled);
+        ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::TEXT_DISABLED);
         ImGui::TextUnformatted("No results");
         ImGui::PopStyleColor();
         return;
     }
 
-    MenuTab currentTab = static_cast<MenuTab>(255);
+    auto currentTab = static_cast<MenuTab>(255);
     std::string funcDisplay;
     funcDisplay.reserve(64);
     bool shouldClearSearch = false;
@@ -181,7 +181,7 @@ void MenuManager::RenderSearchResults() {
             }
             currentTab = result.tab;
 
-            ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::textDisabled);
+            ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::TEXT_DISABLED);
             ImGui::TextUnformatted(TAB_ORDER[static_cast<size_t>(result.tab)].second);
             ImGui::PopStyleColor();
         }
@@ -225,9 +225,9 @@ void MenuManager::RenderSearchResults() {
 }
 
 void MenuManager::RenderSplitter() {
-    ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::darkLeather);
-    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::mediumWood);
-    ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::oldBrass);
+    ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::DARK_LEATHER);
+    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::MEDIUM_WOOD);
+    ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::OLD_BRASS);
     ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 0.0f);
 
@@ -268,7 +268,7 @@ void MenuManager::RenderCategoryHeader(const char* label, MenuTab tab, bool& fir
     }
     firstVisible = false;
 
-    ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::parchmentDark);
+    ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::PARCHMENT_DARK);
     ImGui::Indent(ARROW_INDENT);
     if (ImGui::Selectable(label, tab == openCategory)) {
         openCategory = tab;
@@ -281,7 +281,7 @@ void MenuManager::RenderCategoryHeader(const char* label, MenuTab tab, bool& fir
         auto max = ImGui::GetItemRectMax();
         float midY = (min.y + max.y) * 0.5f;
         float ax = min.x - ARROW_INDENT * 0.6f;
-        ImU32 col = ImGui::ColorConvertFloat4ToU32(DefaultStyle::textDisabled);
+        ImU32 col = ImGui::ColorConvertFloat4ToU32(DefaultStyle::TEXT_DISABLED);
         ImDrawList* dl = ImGui::GetWindowDrawList();
         if (tab == openCategory) {
             dl->AddTriangleFilled(
@@ -347,7 +347,7 @@ void MenuManager::RenderSidebar() {
 
     ImGui::GetWindowDrawList()->AddRectFilled(
         ImVec2(bgLeft, bgTop), ImVec2(bgLeft + sidebarWidth + style.WindowPadding.x, bgBottom),
-        ImGui::ColorConvertFloat4ToU32(DefaultStyle::darkInk), style.WindowRounding, ImDrawFlags_RoundCornersBottomLeft
+        ImGui::ColorConvertFloat4ToU32(DefaultStyle::DARK_INK), style.WindowRounding, ImDrawFlags_RoundCornersBottomLeft
     );
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(SIDEBAR_HPAD, 6));
@@ -359,7 +359,7 @@ void MenuManager::RenderSidebar() {
 
     RenderSearchBar();
 
-    ImGui::PushStyleColor(ImGuiCol_Header, DefaultStyle::transparent);
+    ImGui::PushStyleColor(ImGuiCol_Header, DefaultStyle::TRANSPARENT);
     ImGui::PushStyleColor(ImGuiCol_HeaderHovered, BRASS_SUBTLE);
     ImGui::PushStyleColor(ImGuiCol_HeaderActive, BRASS_STRONG);
 

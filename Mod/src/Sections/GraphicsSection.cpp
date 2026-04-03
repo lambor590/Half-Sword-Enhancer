@@ -29,18 +29,19 @@ void GraphicsSection::Render() {
 
     ImGui::Spacing();
 
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     if (ImGui::DragInt("Render Scale (%)", &settings.renderScale, 1.0f, 1, 400)) {
         settingsChanged = true;
     }
 
     ImGui::Spacing();
 
-    static float qualityComboW = GuiUtils::CalcComboWidth(qualityLevels.data(), static_cast<int>(qualityLevels.size()));
+    static float qualityComboW =
+        GuiUtils::CalcComboWidth(QUALITY_LEVELS.data(), static_cast<int>(QUALITY_LEVELS.size()));
     for (const auto& combo : qualityCombos) {
         int currentValue = settings.*combo.memberPtr;
         ImGui::SetNextItemWidth(qualityComboW);
-        if (ImGui::Combo(combo.label, &currentValue, qualityLevels.data(), static_cast<int>(qualityLevels.size()))) {
+        if (ImGui::Combo(combo.label, &currentValue, QUALITY_LEVELS.data(), static_cast<int>(QUALITY_LEVELS.size()))) {
             settings.*combo.memberPtr = currentValue;
             settingsChanged = true;
         }
@@ -59,7 +60,7 @@ void GraphicsSection::LoadSettings() {
 void GraphicsSection::SaveSettings() {
     auto& config = ConfigManager::Get();
     config.BatchSave([&]() {
-        const char* section = graphicsConfigSection.data();
+        auto section = GRAPHICS_CONFIG_SECTION;
 
         config.SetBool(section, "apply_on_startup", settings.applyOnStartup);
         config.SetInt(section, "render_scale", settings.renderScale);
@@ -91,7 +92,7 @@ void GraphicsSection::ApplySettings() {
 
 GraphicsSection::GraphicsSettings GraphicsSection::LoadSettingsFromConfig() {
     auto& config = ConfigManager::Get();
-    const char* section = graphicsConfigSection.data();
+    auto section = GRAPHICS_CONFIG_SECTION;
 
     GraphicsSettings loadedSettings;
     loadedSettings.applyOnStartup = config.GetBool(section, "apply_on_startup", false);
@@ -107,7 +108,7 @@ GraphicsSection::GraphicsSettings GraphicsSection::LoadSettingsFromConfig() {
 
 void GraphicsSection::ApplyOnStartup() {
     auto& config = ConfigManager::Get();
-    const bool applyOnStart = config.GetBool(graphicsConfigSection.data(), "apply_on_startup", false);
+    const bool applyOnStart = config.GetBool(GRAPHICS_CONFIG_SECTION, "apply_on_startup", false);
     if (!applyOnStart) [[likely]]
         return;
 

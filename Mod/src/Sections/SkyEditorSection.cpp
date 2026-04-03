@@ -232,7 +232,7 @@ void SkyEditorSection::RenderSunTab() {
         ImGui::TextDisabled("DirectionalLight not found");
         return;
     }
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     if (ImGui::DragFloat("Intensity", &sunIntensity, 0.1f, 0.0f, 0.0f, "%.1f")) ApplySunLight();
     float col[3] = {sunColor[0], sunColor[1], sunColor[2]};
     ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
@@ -243,7 +243,7 @@ void SkyEditorSection::RenderSunTab() {
         ApplySunLight();
     }
     ImGui::PopItemWidth();
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     if (ImGui::DragFloat("Temperature", &sunTemperature, 50.f, 1000.f, 15000.f, "%.0f K")) {
         auto* comp = sunComp;
         float t = sunTemperature;
@@ -254,19 +254,19 @@ void SkyEditorSection::RenderSunTab() {
     }
     ImGui::Separator();
     bool extChanged = false;
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     extChanged |= ImGui::DragFloat("Sun Disk Size", &sunSourceAngle, 0.05f, 0.0f, 20.0f, "%.2f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     extChanged |= ImGui::DragFloat("Soft Angle", &sunSoftAngle, 0.05f, 0.0f, 20.0f, "%.2f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     extChanged |= ImGui::DragFloat("Bloom Scale", &sunBloomScale, 0.01f, 0.0f, 0.0f, "%.2f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     extChanged |= ImGui::DragFloat("Bloom Threshold", &sunBloomThreshold, 0.1f, 0.0f, 0.0f, "%.1f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     extChanged |= ImGui::DragFloat("Shadow Amount", &sunShadowAmount, 0.01f, 0.0f, 1.0f, "%.2f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     extChanged |= ImGui::DragFloat("Volumetric", &sunVolumetricScatter, 0.01f, 0.0f, 0.0f, "%.2f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     extChanged |= ImGui::DragFloat("Indirect", &sunIndirectIntensity, 0.01f, 0.0f, 0.0f, "%.2f");
     if (extChanged) ApplySunExtended();
 }
@@ -277,7 +277,7 @@ void SkyEditorSection::RenderAtmoTab() {
         return;
     }
     bool changed = false;
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Rayleigh Scale", &rayleighScale, 0.01f, 0.0f, 0.0f, "%.3f");
     float rc[3] = {rayleighColor[0], rayleighColor[1], rayleighColor[2]};
     ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
@@ -288,13 +288,13 @@ void SkyEditorSection::RenderAtmoTab() {
         changed = true;
     }
     ImGui::PopItemWidth();
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Mie Scale", &mieScale, 0.01f, 0.0f, 0.0f, "%.3f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Mie Anisotropy", &mieAnisotropy, 0.005f, 0.0f, 1.0f, "%.3f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Multi Scattering", &multiScatter, 0.01f, 0.0f, 0.0f, "%.3f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Atmo Height", &atmoHeight, 0.5f, 0.0f, 0.0f, "%.1f km");
     float sl[4] = {skyLuminance[0], skyLuminance[1], skyLuminance[2], skyLuminance[3]};
     ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
@@ -315,7 +315,7 @@ void SkyEditorSection::RenderSkyLightTab() {
         return;
     }
     bool changed = false;
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Intensity", &skyLightIntensity, 0.01f, 0.0f, 0.0f, "%.3f");
     float col[3] = {skyLightColor[0], skyLightColor[1], skyLightColor[2]};
     ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
@@ -345,13 +345,13 @@ void SkyEditorSection::RenderFogTab() {
         return;
     }
     bool changed = false;
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Density", &fogDensity, 0.001f, 0.0f, 0.0f, "%.4f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Falloff", &fogFalloff, 0.01f, 0.0f, 0.0f, "%.3f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Start Distance", &fogStartDist, 10.f, 0.0f, 0.0f, "%.0f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Max Opacity", &fogMaxOpacity, 0.01f, 0.0f, 1.0f, "%.2f");
     float col[3] = {fogColor[0], fogColor[1], fogColor[2]};
     ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
@@ -371,15 +371,15 @@ void SkyEditorSection::RenderCloudsTab() {
         return;
     }
     bool changed = false;
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Base Altitude", &cloudBottomAlt, 0.1f, 0.0f, 50.0f, "%.1f km");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Layer Height", &cloudHeight, 0.1f, 0.1f, 100.0f, "%.1f km");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("View Samples", &cloudViewSamples, 0.05f, 0.1f, 4.0f, "%.2f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Shadow Samples", &cloudShadowSamples, 0.05f, 0.1f, 4.0f, "%.2f");
-    ImGui::SetNextItemWidth(GuiUtils::kDragWidth);
+    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     changed |= ImGui::DragFloat("Shadow Distance", &cloudShadowDist, 1.0f, 1.0f, 200.0f, "%.0f km");
     if (changed) ApplyClouds();
 }
@@ -447,6 +447,7 @@ void SkyEditorSection::Render() {
         case 2: RenderSkyLightTab(); break;
         case 3: RenderFogTab(); break;
         case 4: RenderCloudsTab(); break;
+        default: break;
     }
     ImGui::EndChild();
 

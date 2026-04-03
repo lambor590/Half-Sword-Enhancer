@@ -36,9 +36,9 @@ class MapLoaderSection : public Section {
     PresetPickerState<NPCPresetSerializer> npcPicker;
     int optAutoNPCCount = 0;
 
-    static constexpr ImVec4 kYellowText{1.0f, 0.85f, 0.3f, 1.0f};
-    static constexpr ImVec4 kOrangeText{1.0f, 0.5f, 0.3f, 1.0f};
-    static constexpr ImVec4 kGrayText{0.5f, 0.5f, 0.5f, 1.0f};
+    static constexpr ImVec4 K_YELLOW_TEXT{1.0f, 0.85f, 0.3f, 1.0f};
+    static constexpr ImVec4 K_ORANGE_TEXT{1.0f, 0.5f, 0.3f, 1.0f};
+    static constexpr ImVec4 K_GRAY_TEXT{0.5f, 0.5f, 0.5f, 1.0f};
 
     void RefreshLevelName();
     void RebuildFilter(MapRegistry& reg);

@@ -27,16 +27,17 @@ struct WeaponClassPaths {
 };
 
 struct WeaponPresetData : PresetDataBase {
-    static constexpr const char* kPresetsSubdir = "weapon_presets";
+    static constexpr const char* K_PRESETS_SUBDIR = "weapon_presets";
 
     SDK::FStr_Passport_Weapon1 passport{};
 
-    struct {
+    struct WeaponRuntimeProps {
         RuntimeOverride rigidity, edgeSharpness, rawDamage, cuttingRate, stabRate;
         RuntimeOverride defRating, gripRate, drawCutRate, tipSharpness, kickPower, matDensity;
         IntOverride dismemberSharp, dismemberBlunt;
         BoolOverride doubleEdged, piercing, noStab;
         RuntimeOverride staminaBurnR, staminaBurnL, staminaBurn2H, staminaBurn2HAlt;
+        bool operator==(const WeaponRuntimeProps&) const = default;
     } runtimeProps{};
 
     static constexpr int MODULE_SLOT_COUNT = 4;

@@ -15,7 +15,7 @@ private:
     std::filesystem::path configPath;
     mutable std::atomic<bool> needsSave{false};
     mutable std::chrono::steady_clock::time_point lastSaveTime;
-    bool suppressDeferred_ = false;
+    bool suppressDeferred = false;
     static constexpr std::chrono::milliseconds SAVE_DELAY{500};
 
     ConfigManager();
