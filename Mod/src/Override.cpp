@@ -1,7 +1,7 @@
 #include "Menu/Override.h"
 
+#include <charconv>
 #include <cstdio>
-#include <cstdlib>
 #include <cstring>
 
 #include "imgui/imgui.h"
@@ -35,8 +35,10 @@ namespace {
             value = 0.0;
             return;
         }
+        const char* end = str + std::strlen(str);
         int en = 0;
-        std::sscanf(str, "%d,%lf", &en, &value);
+        auto [p, ec] = std::from_chars(str, end, en);
+        if (ec == std::errc{} && p < end && *p == ',') std::from_chars(p + 1, end, value);
         enabled = en != 0;
     }
 
@@ -46,8 +48,10 @@ namespace {
             value = 0;
             return;
         }
+        const char* end = str + std::strlen(str);
         int en = 0;
-        std::sscanf(str, "%d,%d", &en, &value);
+        auto [p, ec] = std::from_chars(str, end, en);
+        if (ec == std::errc{} && p < end && *p == ',') std::from_chars(p + 1, end, value);
         enabled = en != 0;
     }
 
@@ -57,8 +61,10 @@ namespace {
             value = false;
             return;
         }
+        const char* end = str + std::strlen(str);
         int en = 0, val = 0;
-        std::sscanf(str, "%d,%d", &en, &val);
+        auto [p, ec] = std::from_chars(str, end, en);
+        if (ec == std::errc{} && p < end && *p == ',') std::from_chars(p + 1, end, val);
         enabled = en != 0;
         value = val != 0;
     }
