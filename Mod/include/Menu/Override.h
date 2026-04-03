@@ -4,7 +4,7 @@
 #include <string_view>
 #include <cstdint>
 
-class CSimpleIniA;
+#include "../../ext/SimpleIni.h"
 
 enum class OverrideFieldType : uint8_t { Double, Int, Bool };
 
@@ -12,14 +12,14 @@ enum class OverrideFieldType : uint8_t { Double, Int, Bool };
 /// Points into the owning struct's storage -- no copies, no allocations.
 /// Construct via the OverrideField() helpers below.
 struct OverrideDescriptor {
-    const char* name;       ///< INI key / display name
+    const char* name; ///< INI key / display name
     bool* enabled;
-    void* value;            ///< Pointer to the value (double*, int*, or bool*)
+    void* value; ///< Pointer to the value (double*, int*, or bool*)
     OverrideFieldType type;
-    double defaultValue;    ///< Stored as double for all types
-    double minValue;        ///< Optional minimum (0 if unused)
-    double maxValue;        ///< Optional maximum (0 if unused)
-    float speed;            ///< Drag speed for Double/Int widgets (ignored for Bool)
+    double defaultValue; ///< Stored as double for all types
+    double minValue;     ///< Optional minimum (0 if unused)
+    double maxValue;     ///< Optional maximum (0 if unused)
+    float speed;         ///< Drag speed for Double/Int widgets (ignored for Bool)
     const char* tooltip;
 };
 

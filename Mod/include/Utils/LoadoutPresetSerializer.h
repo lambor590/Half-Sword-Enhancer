@@ -8,7 +8,7 @@
 #include "SDK/Str_ArmorElements_structs.hpp"
 #include "SDK/ArmorSlots_Enum_structs.hpp"
 
-class CSimpleIniA;
+#include "../../ext/SimpleIni.h"
 
 struct LoadoutPresetData : PresetDataBase {
     static constexpr const char* K_PRESETS_SUBDIR = "loadout_presets";

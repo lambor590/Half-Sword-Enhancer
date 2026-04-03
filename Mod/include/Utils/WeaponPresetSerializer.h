@@ -7,7 +7,7 @@
 #include "Utils/OverrideTypes.h"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
-class CSimpleIniA;
+#include "../../ext/SimpleIni.h"
 
 enum class MeshType : uint8_t { Static, Skeletal };
 
