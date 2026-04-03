@@ -147,7 +147,7 @@ void MenuManager::RenderSearchBar() {
 
     if (hasText) {
         ImGui::SameLine(0, 4.0f);
-        ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::TRANSPARENT);
+        ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::CLEAR);
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, BRASS_SUBTLE);
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, BRASS_STRONG);
         if (ImGui::Button("X##ClearSearch")) {
@@ -359,7 +359,7 @@ void MenuManager::RenderSidebar() {
 
     RenderSearchBar();
 
-    ImGui::PushStyleColor(ImGuiCol_Header, DefaultStyle::TRANSPARENT);
+    ImGui::PushStyleColor(ImGuiCol_Header, DefaultStyle::CLEAR);
     ImGui::PushStyleColor(ImGuiCol_HeaderHovered, BRASS_SUBTLE);
     ImGui::PushStyleColor(ImGuiCol_HeaderActive, BRASS_STRONG);
 

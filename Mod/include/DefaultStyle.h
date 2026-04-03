@@ -27,11 +27,11 @@ public:
     static constexpr ImVec4 HEADER_ACTIVE = MakeColor(0.44f, 0.30f, 0.18f);
     static constexpr ImVec4 TEXT_SELECTED_BG = MakeColor(0.70f, 0.55f, 0.30f, 0.35f);
     static constexpr ImVec4 POPUP_BG = MakeColor(0.12f, 0.09f, 0.06f, 0.98f);
-    static constexpr ImVec4 TRANSPARENT = MakeColor(0, 0, 0, 0);
+    static constexpr ImVec4 CLEAR = MakeColor(0.0f, 0.0f, 0.0f, 0.0f);
     static constexpr ImVec4 MODAL_DIM_BG = MakeColor(0.80f, 0.80f, 0.80f, 0.35f);
-    static constexpr ImVec4 WINDOWING_HIGHLIGHT = MakeColor(1, 1, 1, 0.70f);
+    static constexpr ImVec4 WINDOWING_HIGHLIGHT = MakeColor(1.0f, 1.0f, 1.0f, 0.70f);
     static constexpr ImVec4 WINDOWING_DIM_BG = MakeColor(0.80f, 0.80f, 0.80f, 0.20f);
-    static constexpr ImVec4 TABLE_ROW_BG_ALT = MakeColor(1, 1, 1, 0.06f);
+    static constexpr ImVec4 TABLE_ROW_BG_ALT = MakeColor(1.0f, 1.0f, 1.0f, 0.06f);
 
     static constexpr auto GetColorArray() noexcept {
         std::array<ImVec4, ImGuiCol_COUNT> colors{};
@@ -39,7 +39,7 @@ public:
         colors[ImGuiCol_Text] = PARCHMENT;
         colors[ImGuiCol_TextDisabled] = TEXT_DISABLED;
         colors[ImGuiCol_WindowBg] = BLACK;
-        colors[ImGuiCol_ChildBg] = TRANSPARENT;
+        colors[ImGuiCol_ChildBg] = CLEAR;
         colors[ImGuiCol_PopupBg] = POPUP_BG;
         colors[ImGuiCol_Border] = OLD_BRASS;
         colors[ImGuiCol_BorderShadow] = SHADOW;
@@ -81,7 +81,7 @@ public:
         colors[ImGuiCol_TableHeaderBg] = DARK_WOOD;
         colors[ImGuiCol_TableBorderStrong] = OLD_BRASS;
         colors[ImGuiCol_TableBorderLight] = MEDIUM_WOOD;
-        colors[ImGuiCol_TableRowBg] = TRANSPARENT;
+        colors[ImGuiCol_TableRowBg] = CLEAR;
         colors[ImGuiCol_TableRowBgAlt] = TABLE_ROW_BG_ALT;
         colors[ImGuiCol_TextSelectedBg] = TEXT_SELECTED_BG;
         colors[ImGuiCol_DragDropTarget] = BRIGHT_BRASS;
