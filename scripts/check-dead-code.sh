@@ -51,51 +51,24 @@ OUTPUT=$(cppcheck \
     --platform=win64 \
     --quiet \
     --template='{file}:{line}: {severity}: {message} [{id}]' \
+    --suppress='unusedFunction:*Override.cpp:68' \
+    --suppress='unusedFunction:*Override.cpp:86' \
+    --suppress='unusedFunction:*Preset.cpp:18' \
+    --suppress='unusedFunction:*Preset.cpp:48' \
     2>&1)
+# ^^^ cppcheck cannot trace calls through std::span descriptor tables or CRTP
+#     template instantiation. These 4 functions are called from Preset.h templates.
 
-SUPPRESSIONS="$SCRIPT_DIR/dead-code-suppressions.txt"
+WARNINGS=$(echo "$OUTPUT" | grep -c '\(unusedFunction\|unusedVariable\|unreachableCode\)' || true)
 
-if [ -f "$SUPPRESSIONS" ]; then
-    FILTER_PATTERN=""
-    while IFS= read -r line; do
-        line="${line%%#*}"
-        line="$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
-        [ -z "$line" ] && continue
-        if [ -z "$FILTER_PATTERN" ]; then
-            FILTER_PATTERN="$line"
-        else
-            FILTER_PATTERN="$FILTER_PATTERN|$line"
-        fi
-    done < "$SUPPRESSIONS"
-
-    if [ -n "$FILTER_PATTERN" ]; then
-        FILTERED=$(echo "$OUTPUT" | grep -Ev "$FILTER_PATTERN")
-    else
-        FILTERED="$OUTPUT"
-    fi
-else
-    FILTERED="$OUTPUT"
-fi
-
-TOTAL=$(echo "$OUTPUT" | grep -c '\(unusedFunction\|unusedVariable\|unreachableCode\)' || true)
-WARNINGS=$(echo "$FILTERED" | grep -c '\(unusedFunction\|unusedVariable\|unreachableCode\)' || true)
-
-if [ -n "$FILTERED" ] && [ "$WARNINGS" -gt 0 ]; then
-    echo "$FILTERED"
+if [ -n "$OUTPUT" ] && [ "$WARNINGS" -gt 0 ]; then
+    echo "$OUTPUT"
 fi
 
 echo ""
 if [ "$WARNINGS" -gt 0 ]; then
-    echo "WARNING: $WARNINGS dead code issue(s) found (unused functions, variables, or unreachable code)"
-    SUPPRESSED=$((TOTAL - WARNINGS))
-    if [ "$SUPPRESSED" -gt 0 ]; then
-        echo "  ($SUPPRESSED additional warnings suppressed via dead-code-suppressions.txt)"
-    fi
+    echo "WARNING: $WARNINGS dead code issue(s) found"
     exit 1
 fi
 
-if [ "$TOTAL" -gt 0 ]; then
-    echo "All warnings are suppressed ($TOTAL known false positives in dead-code-suppressions.txt)."
-else
-    echo "No dead code issues detected."
-fi
+echo "No dead code issues detected."

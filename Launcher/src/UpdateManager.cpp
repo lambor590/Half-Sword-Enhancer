@@ -36,10 +36,6 @@ namespace hse {
         return std::format("{}.{}.{}", major_, minor_, patch_);
     }
 
-    std::string Version::ToCompactString() const {
-        return std::format("{}{}{}", major_, minor_, patch_);
-    }
-
     std::string UpdateManager::BuildReleaseUrl(std::string_view version, std::string_view filename) {
         return std::format(
             "https://github.com/lambor590/Half-Sword-Enhancer/releases/download/v{}/{}", version, filename
@@ -159,8 +155,7 @@ namespace hse {
                 .url = std::string(downloadUrl),
                 .outputPath = tempPath,
                 .description = "Downloading mod",
-                .minFileSize = minFileSize
-            };
+                .minFileSize = minFileSize};
 
             auto result = NetworkManager::Instance().DownloadFile(config);
             if (!result) {
@@ -201,8 +196,7 @@ namespace hse {
                 .url = std::string(downloadUrl),
                 .outputPath = tempPath.string(),
                 .description = "Downloading launcher update",
-                .minFileSize = 50000
-            };
+                .minFileSize = 50000};
 
             auto downloadResult = NetworkManager::Instance().DownloadFile(config);
             if (!downloadResult) {

@@ -29,7 +29,6 @@ namespace hse {
         constexpr bool operator==(const Version&) const noexcept = default;
 
         [[nodiscard]] std::string ToString() const;
-        [[nodiscard]] std::string ToCompactString() const;
         [[nodiscard]] constexpr bool IsValid() const noexcept { return major_ > 0 || minor_ > 0 || patch_ > 0; }
 
         [[nodiscard]] constexpr std::uint16_t major() const noexcept { return major_; }
