@@ -5,6 +5,7 @@
 
 #include "Menu/Section.h"
 #include "Utils/GuiUtils.h"
+#include "SDK/Engine_classes.hpp"
 
 class SkyEditorSection : public Section {
 private:
