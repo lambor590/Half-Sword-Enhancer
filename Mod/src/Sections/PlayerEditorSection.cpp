@@ -1,6 +1,7 @@
 #include "Menu/Sections/Player/PlayerEditorSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
+#include "SDK/Willie_BP_classes.hpp"
 REGISTER_SECTION(PlayerEditorSection, MenuTab::Player);
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"

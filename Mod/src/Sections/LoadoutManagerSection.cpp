@@ -1,6 +1,7 @@
 #include "Menu/Sections/Equipment/LoadoutManagerSection.h"
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
+#include "SDK/Willie_BP_classes.hpp"
 
 REGISTER_SECTION(LoadoutManagerSection, MenuTab::Equipment);
 
