@@ -27,12 +27,12 @@ namespace {
 // ---------------------------------------------------------------------------
 // Static hook trampolines (no __forceinline -- these are function-pointer targets)
 // ---------------------------------------------------------------------------
-static HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept {
+HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept {
     g_Renderer->OnPresent(pThis);
     return std::bit_cast<Present>(g_Renderer->presentReturnAddress)(pThis, syncInterval, flags);
 }
 
-static HRESULT __fastcall HookOnResizeBuffers(
+HRESULT __fastcall HookOnResizeBuffers(
     IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
 ) noexcept {
     g_Renderer->OnResizeBuffers(width, height);
@@ -40,7 +40,7 @@ static HRESULT __fastcall HookOnResizeBuffers(
     )(pThis, bufferCount, width, height, newFormat, swapChainFlags);
 }
 
-static void __fastcall HookOnExecuteCommandLists(
+void __fastcall HookOnExecuteCommandLists(
     ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists
 ) noexcept {
     if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT) [[likely]] {
@@ -50,7 +50,7 @@ static void __fastcall HookOnExecuteCommandLists(
     )(pThis, numCommandLists, ppCommandLists);
 }
 
-static void HookGetCommandQueue() {
+void HookGetCommandQueue() {
     ID3D12CommandQueue* cmdQueue = g_Renderer->CreateDummyCommandQueue();
     g_Renderer->HookCommandQueue(
         cmdQueue, (uintptr_t)&HookOnExecuteCommandLists, &g_Renderer->executeCommandListsReturnAddress
