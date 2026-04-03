@@ -518,7 +518,7 @@ void WeaponEditorSection::RenderVectorDrag(const char* label, SDK::FVector& vec,
 }
 
 void WeaponEditorSection::RenderMassDrag(const char* label, double& mass, float speed) {
-    float val = static_cast<float>(mass);
+    auto val = static_cast<float>(mass);
     if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f")) mass = val;
 }
 
@@ -1036,8 +1036,8 @@ void WeaponEditorSection::ApplyPresetData(WeaponPresetData d) {
     }
 }
 
-void WeaponEditorSection::SetStatus(std::string msg, bool isError) {
-    presets.status.Set(std::move(msg), isError);
+void WeaponEditorSection::SetStatus(const std::string& msg, bool isError) {
+    presets.status.Set(msg, isError);
 }
 
 void WeaponEditorSection::RenderSpawnFooter() {
@@ -1123,6 +1123,7 @@ void WeaponEditorSection::Render() {
                 [this]() { return BuildPresetData(); }, [this](WeaponPresetData d) { ApplyPresetData(std::move(d)); }
             );
             break;
+        default: break;
     }
 
     ImGui::EndChild();
@@ -1131,8 +1132,9 @@ void WeaponEditorSection::Render() {
 
     if (cfg.preview.livePreview) {
         bool needsUpdate =
+            // NOLINTNEXTLINE(bugprone-suspicious-memory-comparison): padding zeroed by ClearWeaponPassportPadding
             std::memcmp(&weaponPassport, &lastPreviewedPassport, sizeof(SDK::FStr_Passport_Weapon1)) != 0 ||
-            std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(WeaponRuntimeProps)) != 0;
+            runtimeProps != lastPreviewedProps;
         preview.Update(needsUpdate, [this]() { SpawnPreview(); });
         preview.Rotate();
     }

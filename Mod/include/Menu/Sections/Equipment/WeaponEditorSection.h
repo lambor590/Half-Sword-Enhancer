@@ -44,7 +44,7 @@ private:
     bool weaponGenerationPending = false;
     bool modulePoolQueued = false;
 
-    using WeaponRuntimeProps = decltype(WeaponPresetData::runtimeProps);
+    using WeaponRuntimeProps = WeaponPresetData::WeaponRuntimeProps;
 
     WeaponRuntimeProps runtimeProps{};
 
@@ -147,7 +147,7 @@ private:
     void RenderStatsTab();
     WeaponPresetData BuildPresetData() const;
     void ApplyPresetData(WeaponPresetData d);
-    void SetStatus(std::string msg, bool isError = false);
+    void SetStatus(const std::string& msg, bool isError = false);
     void RenderSpawnFooter();
     void InitKeybinds();
 

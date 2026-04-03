@@ -49,7 +49,7 @@ private:
     size_t FindOrCreateCategory(std::string_view name);
     size_t FindOrCreateSubcategory(size_t catIdx, std::string_view name);
 
-    uint16_t AddItem(BlueprintEntry entry, std::string_view category, std::string_view subcategory);
+    uint16_t AddItem(const BlueprintEntry& entry, std::string_view category, std::string_view subcategory);
 
 public:
     static BlueprintRegistry& Get() {

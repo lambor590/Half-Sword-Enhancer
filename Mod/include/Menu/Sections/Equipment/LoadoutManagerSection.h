@@ -81,7 +81,7 @@ private:
     void GenerateWeaponForSlot(int slotIndex);
     void ImportWeaponPreset(int slotIndex);
     void ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum);
-    void ApplyLoadoutPreset(LoadoutPresetData data);
+    void ApplyLoadoutPreset(const LoadoutPresetData& data);
     LoadoutPresetData BuildPresetFromPlayer();
     void RenderArmorTab();
     void RenderWeaponSlotModules(SDK::FStr_WeaponParts& slot);

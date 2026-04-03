@@ -43,7 +43,7 @@ namespace PresetUtils {
         return buf;
     }
 
-    inline SDK::FVector StringToVec(const char* str, SDK::FVector def = {1.0, 1.0, 1.0}) {
+    inline SDK::FVector StringToVec(const char* str, const SDK::FVector& def = {1.0, 1.0, 1.0}) {
         if (!str || !str[0]) return def;
         SDK::FVector v = def;
         sscanf_s(str, "%lf,%lf,%lf", &v.X, &v.Y, &v.Z);
@@ -56,7 +56,7 @@ namespace PresetUtils {
         return buf;
     }
 
-    inline SDK::FRotator StringToRot(const char* str, SDK::FRotator def = {0.0, 0.0, 0.0}) {
+    inline SDK::FRotator StringToRot(const char* str, const SDK::FRotator& def = {0.0, 0.0, 0.0}) {
         if (!str || !str[0]) return def;
         SDK::FRotator r = def;
         sscanf_s(str, "%lf,%lf,%lf", &r.Pitch, &r.Yaw, &r.Roll);
@@ -189,7 +189,7 @@ namespace PresetUtils {
     }
 
     inline std::pair<std::string, std::string> SanitizePresetPath(const std::string& input) {
-        std::string normalized = input;
+        std::string normalized = input; // NOLINT(performance-unnecessary-copy-initialization)
         for (char& c : normalized)
             if (c == '\\') c = '/';
 

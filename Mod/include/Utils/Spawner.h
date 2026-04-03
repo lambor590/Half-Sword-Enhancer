@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <functional>
 #include <string_view>
 
@@ -17,7 +18,7 @@ namespace SDK {
 struct WeaponClassPaths;
 
 namespace Spawner {
-    enum class ActorType { Willie, Weapon, Shield, Tool, Armor, Unknown };
+    enum class ActorType : std::uint8_t { Willie, Weapon, Shield, Tool, Armor, Unknown };
 
     ActorType GetActorType(std::string_view classPath);
     float GetGroundOffsetForType(ActorType type, const SDK::FVector& scale = {1.0f, 1.0f, 1.0f});

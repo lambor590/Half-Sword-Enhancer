@@ -17,7 +17,7 @@ public:
     [[nodiscard]] SDK::AActor* GetPreviewActor() const { return previewActor; }
     [[nodiscard]] double GetYaw() const { return yaw; }
 
-    void SetCleanupCallback(CleanupFn fn) { onCleanup = std::move(fn); }
+    void SetCleanupCallback(const CleanupFn& fn) { onCleanup = fn; }
 
     void Destroy() {
         if (!previewActor) return;

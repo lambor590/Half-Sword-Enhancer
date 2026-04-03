@@ -105,7 +105,7 @@ namespace ActorUtils {
     inline SDK::AWillie_BP_C* FindNearestWillie(
         SDK::UWorld* world, SDK::AWillie_BP_C* player, SDK::AActor* origin, float maxRange,
         SDK::AWillie_BP_C* additionalExclude = nullptr
-    ) noexcept {
+    ) {
         SDK::AWillie_BP_C* nearest = nullptr;
         float nearestDist = maxRange;
         ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {

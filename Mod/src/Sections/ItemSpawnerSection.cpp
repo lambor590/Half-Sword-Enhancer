@@ -156,7 +156,7 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
         auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[cfg.currentItemIndex].slotEnum);
         auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
         bool snap = cfg.spawn.snapToGround;
-        auto transform = spawnTransform;
+        const auto& transform = spawnTransform;
         GameHook::QueueAction([this, slot, tier, transform, snap]() {
             auto passport = EquipmentGenerator::GenerateArmor(world, tier, slot, 0.5);
             if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
@@ -178,7 +178,7 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
     } else if (IsCurrentItemModularArmor(item)) {
         auto classPath = item.classPath;
         int mod1 = armorModules.selected[0], mod2 = armorModules.selected[1], mod3 = armorModules.selected[2];
-        auto transform = spawnTransform;
+        const auto& transform = spawnTransform;
         bool snap = cfg.spawn.snapToGround;
         GameHook::QueueAction([w = world, classPath, mod1, mod2, mod3, transform, snap]() {
             auto* coreClass = Spawner::LoadClass(classPath);

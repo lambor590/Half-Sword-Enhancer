@@ -80,7 +80,7 @@ private:
     void RenderColorsTab();
     void RenderStatsTab();
     ArmorPresetData BuildPresetData() const;
-    void ApplyPresetData(ArmorPresetData d);
+    void ApplyPresetData(const ArmorPresetData& d);
     void InitKeybinds();
 
 public:
