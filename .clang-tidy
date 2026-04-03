@@ -4,6 +4,8 @@ Checks: >-
   -bugprone-easily-swappable-parameters,
   -bugprone-narrowing-conversions,
   performance-*,
+  -performance-no-int-to-ptr,
+  -performance-enum-size,
   modernize-use-override,
   modernize-use-nullptr,
   modernize-use-auto,
@@ -52,3 +54,13 @@ CheckOptions:
   # Namespaces — PascalCase
   - key: readability-identifier-naming.NamespaceCase
     value: CamelCase
+
+  # Ignore SDK forward declarations (A*_BP_C, U*_C, etc.)
+  - key: readability-identifier-naming.ClassIgnoredRegexp
+    value: '^(A|U|F|S)[A-Z].*_(C|BP_C)$'
+  - key: readability-identifier-naming.StructIgnoredRegexp
+    value: '^(F|S)[A-Z].*_(C|BP_C)$'
+
+  # Ignore ImGui extern API functions
+  - key: readability-identifier-naming.FunctionIgnoredRegexp
+    value: '^ImGui_'
