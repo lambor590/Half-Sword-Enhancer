@@ -131,9 +131,6 @@
     <ClCompile Include="src\BlueprintRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MapRegistry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SDK\SDK\AssetRegistry_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -177,6 +174,48 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SDK\SDK\BP_Generator_Weapons_Random_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\GuiSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\GraphicsSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\WorldActionsSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\WorldEditorSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\SkyEditorSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\MapLoaderSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\PlayerAbilitiesSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\PlayerEditorSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\NPCEditorSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\ItemSpawnerSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\ArmorEditorSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\WeaponEditorSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\LoadoutManagerSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MapRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -342,6 +381,9 @@
     </ClInclude>
     <ClInclude Include="include\Utils\MapRegistry.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Section.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -249,6 +249,7 @@
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\KeybindManager.cpp" />
     <ClCompile Include="src\DefaultStyle.cpp" />
+    <ClCompile Include="src\MapRegistry.cpp" />
     <ClCompile Include="src\MemoryUtils.cpp" />
     <ClCompile Include="src\NotificationManager.cpp" />
     <ClCompile Include="src\Gui.cpp" />
@@ -264,7 +265,6 @@
     <ClCompile Include="SDK\SDK\Willie_BP_functions.cpp">
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
-
     <ClCompile Include="src\Core\ModContext.cpp" />
     <ClCompile Include="src\MenuManager.cpp" />
     <ClCompile Include="src\SectionRegistry.cpp" />
@@ -280,7 +280,6 @@
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />
-    <ClCompile Include="src\MapRegistry.cpp" />
     <ClCompile Include="src\Sections\GuiSection.cpp" />
     <ClCompile Include="src\Sections\GraphicsSection.cpp" />
     <ClCompile Include="src\Sections\WorldActionsSection.cpp" />
@@ -302,7 +301,6 @@
     <ClInclude Include="include\ConfigManager.h" />
     <ClInclude Include="include\GlobalDefinitions.h" />
     <ClInclude Include="include\Gui.h" />
-
     <ClInclude Include="include\Hooks\GameHook.h" />
     <ClInclude Include="include\KeybindManager.h" />
     <ClInclude Include="include\Logger.h" />
@@ -310,6 +308,7 @@
     <ClInclude Include="include\MemoryUtils.h" />
     <ClInclude Include="include\Core\ModContext.h" />
     <ClInclude Include="include\Menu\MenuManager.h" />
+    <ClInclude Include="include\Menu\Section.h" />
     <ClInclude Include="include\Menu\SectionRegistry.h" />
     <ClInclude Include="include\Menu\SectionStyle.h" />
     <ClInclude Include="include\Menu\Keybind.h" />
@@ -333,7 +332,6 @@
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h" />
     <ClInclude Include="include\NotificationManager.h" />
     <ClInclude Include="include\Utils\Spawner.h" />
-
     <ClInclude Include="include\Render\RenderConfig.h" />
     <ClInclude Include="include\Render\Renderer.h" />
     <ClInclude Include="resource\resource.h" />
