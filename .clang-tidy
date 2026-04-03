@@ -2,10 +2,7 @@ Checks: >-
   -*,
   bugprone-*,
   -bugprone-easily-swappable-parameters,
-  -bugprone-narrowing-conversions,
   performance-*,
-  -performance-no-int-to-ptr,
-  -performance-enum-size,
   modernize-use-override,
   modernize-use-nullptr,
   modernize-use-auto,
@@ -63,4 +60,6 @@ CheckOptions:
 
   # Ignore ImGui extern API functions
   - key: readability-identifier-naming.FunctionIgnoredRegexp
+    value: '^ImGui_'
+  - key: readability-identifier-naming.GlobalFunctionIgnoredRegexp
     value: '^ImGui_'

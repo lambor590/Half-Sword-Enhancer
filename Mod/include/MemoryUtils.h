@@ -35,16 +35,18 @@ namespace MemoryUtils {
 
     void ToggleMemoryProtection(bool enableProtection, uintptr_t address, size_t size) noexcept;
 
-    static inline void MemCopy(uintptr_t destination, uintptr_t source, size_t numBytes) noexcept {
-        ToggleMemoryProtection(false, destination, numBytes);
-        std::memcpy(reinterpret_cast<void*>(destination), reinterpret_cast<const void*>(source), numBytes);
-        ToggleMemoryProtection(true, destination, numBytes);
+    static inline void MemCopy(void* destination, const void* source, size_t numBytes) noexcept {
+        auto addr = reinterpret_cast<uintptr_t>(destination);
+        ToggleMemoryProtection(false, addr, numBytes);
+        std::memcpy(destination, source, numBytes);
+        ToggleMemoryProtection(true, addr, numBytes);
     }
 
-    static inline void MemSet(uintptr_t address, unsigned char byte, size_t numBytes) noexcept {
-        ToggleMemoryProtection(false, address, numBytes);
-        std::memset(reinterpret_cast<void*>(address), byte, numBytes);
-        ToggleMemoryProtection(true, address, numBytes);
+    static inline void MemSet(void* address, unsigned char byte, size_t numBytes) noexcept {
+        auto addr = reinterpret_cast<uintptr_t>(address);
+        ToggleMemoryProtection(false, addr, numBytes);
+        std::memset(address, byte, numBytes);
+        ToggleMemoryProtection(true, addr, numBytes);
     }
 
     static inline const std::string& GetCurrentModuleName() noexcept {

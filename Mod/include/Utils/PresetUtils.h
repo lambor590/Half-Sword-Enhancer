@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -189,9 +190,8 @@ namespace PresetUtils {
     }
 
     inline std::pair<std::string, std::string> SanitizePresetPath(const std::string& input) {
-        std::string normalized = input; // NOLINT(performance-unnecessary-copy-initialization)
-        for (char& c : normalized)
-            if (c == '\\') c = '/';
+        std::string normalized(input);
+        std::replace(normalized.begin(), normalized.end(), '\\', '/');
 
         size_t lastSlash = normalized.rfind('/');
         if (lastSlash == std::string::npos) return {"", SanitizeFilename(normalized)};

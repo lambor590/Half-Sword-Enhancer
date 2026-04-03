@@ -245,13 +245,13 @@ namespace MemoryUtils {
         }
 
         uintptr_t originalInstructions = trampoline + FAR_JUMP_SIZE + PROTECTION_BUFFER;
-        MemCopy(originalInstructions, addressToHook, clearance);
+        MemCopy(reinterpret_cast<void*>(originalInstructions), reinterpret_cast<void*>(addressToHook), clearance);
 
         HookInformation hookInfo;
         hookInfo.originalBytesSize = clearance;
         hookInfo.trampolineInstructionsAddress = originalInstructions;
         hookInfo.trampolineBase = trampoline;
-        MemCopy((uintptr_t)hookInfo.originalBytes.data(), originalInstructions, clearance);
+        MemCopy(hookInfo.originalBytes.data(), reinterpret_cast<void*>(originalInstructions), clearance);
         InfoBufferForHookedAddresses[addressToHook] = hookInfo;
 
         PlaceJump(trampoline + PROTECTION_BUFFER, destinationAddress, true, FAR_JUMP_SIZE);
@@ -286,7 +286,10 @@ namespace MemoryUtils {
                                  (jumpTarget <= trampBase + TRAMPOLINE_BUFFER_SIZE * 2);
 
                 if (isOurHook) {
-                    MemCopy(hookedAddress, (uintptr_t)hookInfo.originalBytes.data(), hookInfo.originalBytesSize);
+                    MemCopy(
+                        reinterpret_cast<void*>(hookedAddress), hookInfo.originalBytes.data(),
+                        hookInfo.originalBytesSize
+                    );
                 }
             }
         }

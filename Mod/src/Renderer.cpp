@@ -1,3 +1,4 @@
+#include <bit>
 #include <immintrin.h>
 
 #include "Render/Renderer.h"
@@ -28,14 +29,14 @@ namespace {
 // ---------------------------------------------------------------------------
 static HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept {
     g_Renderer->OnPresent(pThis);
-    return ((Present)g_Renderer->presentReturnAddress)(pThis, syncInterval, flags);
+    return std::bit_cast<Present>(g_Renderer->presentReturnAddress)(pThis, syncInterval, flags);
 }
 
 static HRESULT __fastcall HookOnResizeBuffers(
     IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
 ) noexcept {
     g_Renderer->OnResizeBuffers(width, height);
-    return ((ResizeBuffers)g_Renderer->resizeBuffersReturnAddress
+    return std::bit_cast<ResizeBuffers>(g_Renderer->resizeBuffersReturnAddress
     )(pThis, bufferCount, width, height, newFormat, swapChainFlags);
 }
 
@@ -45,7 +46,8 @@ static void __fastcall HookOnExecuteCommandLists(
     if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT) [[likely]] {
         g_Renderer->SetCommandQueue(pThis);
     }
-    ((ExecuteCommandLists)g_Renderer->executeCommandListsReturnAddress)(pThis, numCommandLists, ppCommandLists);
+    std::bit_cast<ExecuteCommandLists>(g_Renderer->executeCommandListsReturnAddress
+    )(pThis, numCommandLists, ppCommandLists);
 }
 
 static void HookGetCommandQueue() {
@@ -477,12 +479,9 @@ void Renderer::HookSwapChain(
     IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
     uintptr_t* outPresentReturn, uintptr_t* outResizeReturn
 ) {
-    uintptr_t vmtBaseAddress = (*(uintptr_t*)dummySwapChain);
-    uintptr_t vmtPresentIndex = vmtBaseAddress + VMT_PRESENT_BYTE_OFFSET;
-    uintptr_t vmtResizeBuffersIndex = vmtBaseAddress + VMT_RESIZE_BUFFERS_BYTE_OFFSET;
-
-    uintptr_t presentAddress = (*(uintptr_t*)vmtPresentIndex);
-    uintptr_t resizeBuffersAddress = (*(uintptr_t*)vmtResizeBuffersIndex);
+    auto* vmt = *reinterpret_cast<uintptr_t**>(dummySwapChain);
+    uintptr_t presentAddress = vmt[VMT_PRESENT_BYTE_OFFSET / sizeof(uintptr_t)];
+    uintptr_t resizeBuffersAddress = vmt[VMT_RESIZE_BUFFERS_BYTE_OFFSET / sizeof(uintptr_t)];
 
     MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, outPresentReturn);
     MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, outResizeReturn);

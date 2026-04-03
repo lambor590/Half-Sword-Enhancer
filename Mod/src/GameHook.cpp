@@ -9,10 +9,17 @@
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 
+#include <bit>
 #include <chrono>
 #include <cstring>
 #include <intrin.h>
 #include <thread>
+
+#ifdef _MSC_VER
+#define FORCE_INLINE __forceinline
+#else
+#define FORCE_INLINE inline __attribute__((always_inline))
+#endif
 
 std::queue<std::function<void()>> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
@@ -25,7 +32,7 @@ namespace {
     // the full table range. UFunction pointers from UE5's allocator tend to
     // differ only in low bits; a multiplicative hash uses ALL bits of the
     // pointer, yielding near-perfect distribution.
-    __forceinline size_t FibonacciHash(uintptr_t key) noexcept {
+    FORCE_INLINE size_t FibonacciHash(uintptr_t key) noexcept {
         constexpr uint64_t PHI64 = 0x9E3779B97F4A7C15ULL;
         return static_cast<size_t>((key * PHI64) >> 52);
     }
@@ -55,8 +62,8 @@ namespace {
             }
         }
 
-        __forceinline int8_t Lookup(void* funcPtr) const noexcept { // NOLINT(readability-identifier-naming)
-            const uintptr_t raw = reinterpret_cast<uintptr_t>(funcPtr);
+        FORCE_INLINE int8_t Lookup(void* funcPtr) const noexcept {
+            const auto raw = reinterpret_cast<uintptr_t>(funcPtr);
             const size_t idx = FibonacciHash(raw);
 
             // Prefetch the second cache line we might touch (idx+4 slots ahead).
@@ -132,7 +139,7 @@ void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, voi
         hook.hooks[idx].callback();
     }
 
-    return ((ProcessEvent)hook.oProcessEvent)(pObject, pFunc, parms);
+    return std::bit_cast<ProcessEvent>(hook.oProcessEvent)(pObject, pFunc, parms);
 }
 
 GameHook& GameHook::Get() {

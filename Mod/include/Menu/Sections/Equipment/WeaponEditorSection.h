@@ -66,7 +66,7 @@ private:
     void BuildDescriptors();
     int CountAllActive() const;
 
-    enum class WeaponModuleSlot : int { Head = 0, Guard, Grip, Pommel, Count };
+    enum class WeaponModuleSlot : std::uint8_t { Head = 0, Guard, Grip, Pommel, Count };
     static constexpr int MODULE_SLOT_COUNT = static_cast<int>(WeaponModuleSlot::Count);
     static constexpr const char* MODULE_SLOT_NAMES[] = {"Head", "Guard", "Grip", "Pommel"};
 
