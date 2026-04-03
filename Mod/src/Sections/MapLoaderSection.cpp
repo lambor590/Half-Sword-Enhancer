@@ -312,7 +312,6 @@ void MapLoaderSection::Render() {
     }
 
     const auto& maps = reg.GetMaps();
-    const auto& cats = reg.GetCategories();
 
     RefreshLevelName();
     if (!cachedLevelName.empty()) {

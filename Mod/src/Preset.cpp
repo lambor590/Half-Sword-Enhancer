@@ -386,9 +386,6 @@ void WeaponPresetData::DeserializeCustom(WeaponPresetData& data, const CSimpleIn
 // ArmorPresetData descriptors
 
 std::vector<PresetFieldDescriptor> ArmorPresetData::GetPresetFields(ArmorPresetData& data) {
-    auto& p = data.passport;
-    // Store int temporaries for enum fields that need int* pointers
-    // These fields are serialized via custom hooks instead
     return {
         PresetField::String("Passport", "armorCore", &data.armorCorePath),
     };
