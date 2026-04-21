@@ -1,10 +1,8 @@
 .vs
 packages/
 bin/
-.claude
-.factory
-CLAUDE.md
 Mod/SDK/Engine
 *.user
 *.aps
 private/
+AGENTS.md
