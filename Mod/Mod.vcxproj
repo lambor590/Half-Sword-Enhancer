@@ -301,6 +301,7 @@
     <ClInclude Include="include\ConfigManager.h" />
     <ClInclude Include="include\GlobalDefinitions.h" />
     <ClInclude Include="include\Gui.h" />
+    <ClInclude Include="include\GuiVisibility.h" />
     <ClInclude Include="include\Hooks\GameHook.h" />
     <ClInclude Include="include\KeybindManager.h" />
     <ClInclude Include="include\Logger.h" />
@@ -312,6 +313,7 @@
     <ClInclude Include="include\Menu\SectionRegistry.h" />
     <ClInclude Include="include\Menu\SectionStyle.h" />
     <ClInclude Include="include\Menu\Keybind.h" />
+    <ClInclude Include="include\Menu\GameEvent.h" />
     <ClInclude Include="include\Menu\EventBus.h" />
     <ClInclude Include="include\Menu\MenuTab.h" />
     <ClInclude Include="include\Menu\SectionConfig.h" />
@@ -345,8 +347,10 @@
     <ClInclude Include="include\Utils\PresetSectionState.h" />
     <ClInclude Include="include\Utils\PresetPickerState.h" />
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h" />
+    <ClInclude Include="include\Utils\CharacterOverrideSets.h" />
     <ClInclude Include="include\Utils\NPCPresetSerializer.h" />
     <ClInclude Include="include\Utils\WeaponPresetSerializer.h" />
+    <ClInclude Include="include\Utils\WeaponClassPaths.h" />
     <ClInclude Include="include\Utils\PlayerPresetSerializer.h" />
     <ClInclude Include="include\Utils\LoadoutPresetSerializer.h" />
     <ClInclude Include="include\Utils\PlayerEditorOverrides.h" />

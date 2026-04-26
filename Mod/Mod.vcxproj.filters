@@ -146,9 +146,6 @@
     <ClCompile Include="src\MemoryUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DefaultStyle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\NotificationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -238,6 +235,9 @@
     <ClInclude Include="include\Menu\Keybind.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="include\Menu\GameEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\Menu\EventBus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -266,6 +266,9 @@
       <Filter>Sections\World</Filter>
     </ClInclude>
     <ClInclude Include="include\Gui.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GuiVisibility.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\ConfigManager.h">
@@ -358,10 +361,16 @@
     <ClInclude Include="include\Utils\ArmorPresetSerializer.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="include\Utils\CharacterOverrideSets.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
     <ClInclude Include="include\Utils\NPCPresetSerializer.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\WeaponPresetSerializer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\WeaponClassPaths.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\PlayerPresetSerializer.h">
