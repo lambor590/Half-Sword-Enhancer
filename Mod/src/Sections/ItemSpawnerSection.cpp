@@ -136,7 +136,7 @@ void ItemSpawnerSection::UpdateFilteredItems() {
     auto& allItems = reg.GetAllItems();
 
     float maxW = 0;
-    for (uint16_t i = 0; i < static_cast<uint16_t>(allItems.size()); ++i) {
+    for (BlueprintRegistry::ItemIndex i = 0; i < allItems.size(); ++i) {
         if (GuiUtils::MatchesFilter(
                 allItems[i].displayName.c_str(), allItems[i].displayName.size(), searchBuffer, filterLen
             )) {
@@ -173,7 +173,7 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
 
     if (item.customizable != CustomizableWeapon::None) {
         Spawner::SpawnCustomizableWeapon(
-            world, item.customizable, spawnTransform, cfg.spawn.snapToGround, cfg.spawnTier
+            world, item.customizable, spawnTransform, cfg.spawn.snapToGround, static_cast<SDK::Enum_Ranks>(cfg.spawnTier)
         );
     } else if (IsCurrentItemModularArmor(item)) {
         auto classPath = item.classPath;
@@ -191,7 +191,10 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
             Spawner::SpawnArmorFromPassport(w, passport, transform, snap);
         });
     } else if (!item.classPath.empty()) {
-        Spawner::SpawnActor(world, item.classPath, spawnTransform, nullptr, cfg.spawn.snapToGround, cfg.spawnTier);
+        Spawner::SpawnActor(
+            world, item.classPath, spawnTransform, nullptr, cfg.spawn.snapToGround,
+            static_cast<SDK::Enum_Ranks>(cfg.spawnTier)
+        );
     }
 }
 
@@ -199,7 +202,9 @@ void ItemSpawnerSection::SpawnCustomPath() const noexcept {
     if (customPathBuffer[0] == '\0') return;
     auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     std::string path = customPathBuffer;
-    Spawner::SpawnActor(world, path, spawnTransform, nullptr, cfg.spawn.snapToGround, cfg.spawnTier);
+    Spawner::SpawnActor(
+        world, path, spawnTransform, nullptr, cfg.spawn.snapToGround, static_cast<SDK::Enum_Ranks>(cfg.spawnTier)
+    );
 }
 
 void ItemSpawnerSection::SpawnWeaponFromPreset() {
@@ -280,7 +285,7 @@ void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
         ImGui::SetNextItemWidth(cachedFilteredWidth);
         if (ImGui::BeginCombo("##FilteredItems", "Select item...")) {
             auto& allItems = reg.GetAllItems();
-            for (uint16_t itemIdx : filteredIndices) {
+            for (BlueprintRegistry::ItemIndex itemIdx : filteredIndices) {
                 if (itemIdx >= allItems.size()) continue;
                 auto& item = allItems[itemIdx];
                 if (ImGui::Selectable(item.displayName.c_str(), false)) {
@@ -292,7 +297,7 @@ void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
                                 if (sub.itemIndices[ii] == itemIdx) {
                                     cfg.currentCategoryIndex = static_cast<uint8_t>(ci);
                                     cfg.currentSubcategoryIndex = static_cast<uint8_t>(si);
-                                    cfg.currentItemIndex = static_cast<uint16_t>(ii);
+                                    cfg.currentItemIndex = ii;
                                     searchBuffer[0] = '\0';
                                     searchActive = false;
                                     goto found;
@@ -326,10 +331,11 @@ void ItemSpawnerSection::RenderCategoryBrowser(BlueprintRegistry& reg) {
         size_t regCount = r->GetCategoryCount();
         if (static_cast<size_t>(idx) < regCount) return r->GetCategory(idx).name.c_str();
         if (static_cast<size_t>(idx) == regCount) return "Random Armor";
-        return "???";
+        return "";
     };
 
     int catIndex = static_cast<int>(cfg.currentCategoryIndex);
+    if (catIndex < 0 || catIndex >= static_cast<int>(totalCatCount)) catIndex = 0;
     static float categoryComboW = 0;
     static size_t lastCatCount = 0;
     if (lastCatCount != totalCatCount) {
@@ -364,7 +370,7 @@ void ItemSpawnerSection::RenderRandomArmorUI() {
             "##ArmorSlotSelector", &slotIndex, armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS,
             GameConstants::ARMOR_SLOT_COUNT
         )) {
-        cfg.currentItemIndex = static_cast<uint16_t>(slotIndex);
+        cfg.currentItemIndex = static_cast<BlueprintRegistry::ItemIndex>(slotIndex);
     }
 
     if (cfg.currentItemIndex < TierValidation::VALID_ARMOR_TIER_MASKS.size()) {
@@ -412,7 +418,7 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
         if (ImGui::Combo(
                 "##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size())
             )) [[unlikely]] {
-            cfg.currentItemIndex = static_cast<uint16_t>(itemIndex);
+            cfg.currentItemIndex = static_cast<BlueprintRegistry::ItemIndex>(itemIndex);
         }
     }
 
@@ -455,7 +461,7 @@ void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
     ImGui::SameLine();
     if (ImGui::Button("Save")) {
         if (customPathBuffer[0] != '\0') {
-            BlueprintRegistry::Get().AddCustomPath(customPathBuffer);
+            reg.AddCustomPath(customPathBuffer);
         }
     }
 
@@ -474,7 +480,7 @@ void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
             ImGui::PopID();
         }
         if (removeIdx >= 0) {
-            BlueprintRegistry::Get().RemoveCustomPath(static_cast<size_t>(removeIdx));
+            reg.RemoveCustomPath(static_cast<size_t>(removeIdx));
         }
     }
 }
@@ -524,7 +530,9 @@ void ItemSpawnerSection::Render() {
     }
 
     if (scanState == ScanState::Failed) {
-        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.3f, 1.0f), "Using fallback data");
+        ImGui::TextColored(
+            ImVec4(1.0f, 0.5f, 0.3f, 1.0f), "Asset registry scan failed; showing customizable weapons and saved paths"
+        );
     }
 
     ImGui::AlignTextToFramePadding();

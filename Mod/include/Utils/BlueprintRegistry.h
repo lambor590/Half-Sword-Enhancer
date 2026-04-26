@@ -17,9 +17,11 @@ enum class ScanState : uint8_t { NotStarted, Scanning, Complete, Failed };
 
 class BlueprintRegistry {
 public:
+    using ItemIndex = std::size_t;
+
     struct SubcategoryData {
         std::string name;
-        std::vector<uint16_t> itemIndices;
+        std::vector<ItemIndex> itemIndices;
     };
 
     struct CategoryData {
@@ -49,7 +51,7 @@ private:
     size_t FindOrCreateCategory(std::string_view name);
     size_t FindOrCreateSubcategory(size_t catIdx, std::string_view name);
 
-    uint16_t AddItem(const BlueprintEntry& entry, std::string_view category, std::string_view subcategory);
+    ItemIndex AddItem(const BlueprintEntry& entry, std::string_view category, std::string_view subcategory);
 
 public:
     static BlueprintRegistry& Get() {

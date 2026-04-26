@@ -19,6 +19,7 @@ struct WeaponClassPaths;
 
 namespace Spawner {
     enum class ActorType : std::uint8_t { Willie, Weapon, Shield, Tool, Armor, Unknown };
+    inline constexpr SDK::Enum_Ranks DEFAULT_SPAWN_TIER = SDK::Enum_Ranks::NewEnumerator4;
 
     ActorType GetActorType(std::string_view classPath);
     float GetGroundOffsetForType(ActorType type, const SDK::FVector& scale = {1.0f, 1.0f, 1.0f});
@@ -37,12 +38,13 @@ namespace Spawner {
     );
     void SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
-        std::function<void(SDK::AActor*)> callback = nullptr, bool snapToGround = false, int tier = 4,
+        std::function<void(SDK::AActor*)> callback = nullptr, bool snapToGround = false,
+        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER,
         std::function<void(SDK::AActor*)> postSpawnCallback = nullptr
     );
     void SpawnCustomizableWeapon(
         const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround = false,
-        int tier = 4
+        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER
     );
     void SpawnArmorFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,

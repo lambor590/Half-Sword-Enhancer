@@ -176,7 +176,8 @@ void WorldEditorSection::RenderCategory(
         if (filterLen > 0 &&
             !GuiUtils::MatchesFilter(p->displayName.c_str(), p->displayName.size(), propSearchBuf, filterLen))
             continue;
-        if (PropertyBrowser::RenderPropertyWidget(*p, browseTarget) && liveMode) pendingApply = true;
+        if (PropertyBrowser::RenderPropertyWidget(*p, reinterpret_cast<std::byte*>(browseTarget)) && liveMode)
+            pendingApply = true;
     }
 
     ImGui::TreePop();

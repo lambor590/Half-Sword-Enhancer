@@ -159,7 +159,7 @@ namespace Spawner {
 
     void SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
-        std::function<void(SDK::AActor*)> callback, bool snapToGround, int tier,
+        std::function<void(SDK::AActor*)> callback, bool snapToGround, SDK::Enum_Ranks tier,
         std::function<void(SDK::AActor*)> postSpawnCallback
     ) {
         GameHook::QueueAction([world, className, transform, callback = std::move(callback), snapToGround, tier,
@@ -183,8 +183,7 @@ namespace Spawner {
             SDK::AActor* spawnedActor = nullptr;
 
             if (actorType == ActorType::Weapon) {
-                spawnedActor =
-                    SpawnModularWeapon(world, actorClass, finalTransform, static_cast<SDK::Enum_Ranks>(tier));
+                spawnedActor = SpawnModularWeapon(world, actorClass, finalTransform, tier);
                 if (!spawnedActor) spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
             } else if (actorType == ActorType::Armor) {
                 spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
@@ -246,14 +245,14 @@ namespace Spawner {
     }
 
     void SpawnCustomizableWeapon(
-        const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround, int tier
+        const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround,
+        SDK::Enum_Ranks tier
     ) {
         GameHook::QueueAction([world, type, transform, snapToGround, tier]() {
             SDK::FTransform finalTransform = transform;
             if (snapToGround) ApplySnapToGround(world, finalTransform, ActorType::Weapon);
 
-            auto passport =
-                EquipmentGenerator::GenerateCustomizableWeapon(world, type, static_cast<SDK::Enum_Ranks>(tier));
+            auto passport = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
             if (!EquipmentGenerator::IsPassportValid(passport)) return;
 
             SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();

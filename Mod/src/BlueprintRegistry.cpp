@@ -145,10 +145,10 @@ size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, std::string_vie
     return subs.size() - 1;
 }
 
-uint16_t BlueprintRegistry::AddItem(
+BlueprintRegistry::ItemIndex BlueprintRegistry::AddItem(
     const BlueprintEntry& entry, std::string_view category, std::string_view subcategory
 ) {
-    auto idx = static_cast<uint16_t>(items.size());
+    const ItemIndex idx = items.size();
     items.push_back(entry);
     size_t catIdx = FindOrCreateCategory(category);
     size_t subIdx = FindOrCreateSubcategory(catIdx, subcategory);

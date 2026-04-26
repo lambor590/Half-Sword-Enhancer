@@ -21,14 +21,14 @@ public:
 
         uint8_t currentCategoryIndex = 0;
         uint8_t currentSubcategoryIndex = 0;
-        uint16_t currentItemIndex = 0;
+        BlueprintRegistry::ItemIndex currentItemIndex = 0;
     };
 
 private:
     Config cfg;
 
     static inline char searchBuffer[128] = "";
-    static inline std::vector<uint16_t> filteredIndices;
+    static inline std::vector<BlueprintRegistry::ItemIndex> filteredIndices;
     static inline float cachedFilteredWidth = 0;
     static inline bool searchActive = false;
 

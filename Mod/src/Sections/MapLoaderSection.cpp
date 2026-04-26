@@ -118,7 +118,7 @@ void MapLoaderSection::SpawnAutoNPCs(
                 npc->Character_Passport = passport;
                 NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
             },
-            true, 4,
+            true, Spawner::DEFAULT_SPAWN_TIER,
             [ovr = npcPreset.overrides](SDK::AActor* actor) {
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                 if (npc) NPCSpawnHelpers::ApplyHairColor(npc, ovr);

@@ -133,7 +133,10 @@ void NPCEditorSection::SpawnNPC() {
         if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(w, npc, loadout);
     };
 
-    Spawner::SpawnActor(world, className, spawnTransform, preCallback, cfg.spawn.snapToGround, 4, postCallback);
+    Spawner::SpawnActor(
+        world, className, spawnTransform, preCallback, cfg.spawn.snapToGround, Spawner::DEFAULT_SPAWN_TIER,
+        postCallback
+    );
 }
 
 NPCPresetData NPCEditorSection::BuildPresetData() const {

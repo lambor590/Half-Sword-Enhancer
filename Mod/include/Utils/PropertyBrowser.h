@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <cstddef>
 #include <cctype>
 #include <cstdint>
 #include <map>
@@ -244,8 +245,8 @@ namespace PropertyBrowser {
         return false;
     }
 
-    inline bool RenderPropertyWidget(const PropertyInfo& prop, void* objectBase) {
-        uint8_t* valuePtr = static_cast<uint8_t*>(objectBase) + prop.offset;
+    inline bool RenderPropertyWidget(const PropertyInfo& prop, std::byte* objectBytes) {
+        auto* valuePtr = reinterpret_cast<uint8_t*>(objectBytes + prop.offset);
         bool changed = false;
 
         ImGui::PushID(prop.rawName.c_str());
