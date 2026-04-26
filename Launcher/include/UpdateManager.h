@@ -123,6 +123,9 @@ namespace hse {
             const std::filesystem::path& filePath
         ) noexcept;
         [[nodiscard]] std::expected<std::string, UpdateError> FetchGitHubReleaseInfo() const noexcept;
+        [[nodiscard]] static std::expected<std::string, UpdateError> ParseJsonStringField(
+            std::string_view json, std::string_view fieldName
+        ) noexcept;
         [[nodiscard]] std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json) const noexcept;
 
 #ifdef EXPERIMENTAL_VERSION
@@ -130,8 +133,8 @@ namespace hse {
             std::string_view json, std::string_view assetName
         ) const noexcept;
 
-        [[nodiscard]] std::expected<std::string, UpdateError> ParseAssetField(
-            std::string_view assetObject, std::string_view fieldName
+        void PopulateAssetInfo(
+            std::string_view json, std::string_view assetName, std::string* timestamp, std::string* downloadUrl
         ) const noexcept;
 #endif
     };

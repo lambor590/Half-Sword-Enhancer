@@ -5,6 +5,8 @@
 #include <expected>
 #include <chrono>
 #include <array>
+#include <filesystem>
+#include <utility>
 #include <Windows.h>
 #include <winhttp.h>
 
@@ -22,16 +24,16 @@ namespace hse {
 
     struct DownloadConfig {
         std::string url;
-        std::string outputPath;
+        std::filesystem::path outputPath;
         std::string description;
-        std::string fallbackPath;
+        std::filesystem::path fallbackPath;
         std::chrono::milliseconds connectTimeout{5000};
         std::chrono::milliseconds receiveTimeout{15000};
         std::uint32_t minFileSize = 0;
     };
 
     struct DownloadResult {
-        std::string finalPath;
+        std::filesystem::path finalPath;
         std::uint32_t totalBytes = 0;
     };
 
@@ -103,13 +105,15 @@ namespace hse {
             std::wstring host;
             std::wstring path;
             INTERNET_PORT port;
+            bool secure = true;
         };
 
         [[nodiscard]] std::expected<HttpConnection, NetworkError> ParseUrl(const std::string& url) const noexcept;
         [[nodiscard]] std::expected<WinHttpSession, NetworkError> CreateSession(const HttpConnection& connection
         ) const noexcept;
         [[nodiscard]] std::expected<void, NetworkError> SendRequest(
-            HINTERNET request, int connectTimeoutMs = 5000, int receiveTimeoutMs = 15000
+            HINTERNET request, std::chrono::milliseconds connectTimeout = std::chrono::milliseconds{5000},
+            std::chrono::milliseconds receiveTimeout = std::chrono::milliseconds{15000}
         ) const noexcept;
 
         NetworkManager() = default;

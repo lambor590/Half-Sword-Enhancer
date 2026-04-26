@@ -79,33 +79,46 @@ namespace hse {
 
         [[nodiscard]] std::expected<void, ConfigError> SaveConfigUnlocked() noexcept;
         [[nodiscard]] std::expected<void, ConfigError> LoadConfigUnlocked() noexcept;
+        [[nodiscard]] bool HasKey(std::string_view section, std::string_view key) const noexcept;
     };
 
     inline std::expected<void, ConfigError> LauncherConfig::SaveConfigUnlocked() noexcept {
-        try {
-            if (ini_.SaveFile(configPath_.string().c_str()) < 0) {
-                std::filesystem::create_directories(configPath_.parent_path());
-                if (ini_.SaveFile(configPath_.string().c_str()) < 0) {
-                    return std::unexpected(ConfigError::WritePermissionDenied);
-                }
-            }
+        const auto saveResult = ini_.SaveFile(configPath_.string().c_str());
+        if (saveResult >= 0) {
             return {};
-        } catch (const std::filesystem::filesystem_error&) {
-            return std::unexpected(ConfigError::WritePermissionDenied);
-        } catch (...) {
+        }
+
+        if (saveResult != SI_FILE) {
             return std::unexpected(ConfigError::InvalidFormat);
         }
+
+        std::error_code ec;
+        std::filesystem::create_directories(configPath_.parent_path(), ec);
+        if (ec) {
+            return std::unexpected(ConfigError::WritePermissionDenied);
+        }
+
+        const auto retryResult = ini_.SaveFile(configPath_.string().c_str());
+        if (retryResult >= 0) {
+            return {};
+        }
+
+        return std::unexpected(retryResult == SI_FILE ? ConfigError::WritePermissionDenied
+                                                      : ConfigError::InvalidFormat);
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::LoadConfigUnlocked() noexcept {
-        try {
-            if (ini_.LoadFile(configPath_.string().c_str()) < 0) {
-                return std::unexpected(ConfigError::FileNotFound);
-            }
+        const auto loadResult = ini_.LoadFile(configPath_.string().c_str());
+        if (loadResult >= 0) {
             return {};
-        } catch (...) {
-            return std::unexpected(ConfigError::InvalidFormat);
         }
+
+        return std::unexpected(loadResult == SI_FILE ? ConfigError::FileNotFound : ConfigError::InvalidFormat);
+    }
+
+    inline bool LauncherConfig::HasKey(std::string_view section, std::string_view key) const noexcept {
+        std::lock_guard lock(mutex_);
+        return ini_.KeyExists(section.data(), key.data());
     }
 
     inline std::expected<bool, ConfigError> LauncherConfig::GetBool(
@@ -133,38 +146,32 @@ namespace hse {
     inline std::expected<void, ConfigError> LauncherConfig::SetBool(
         std::string_view section, std::string_view key, bool value
     ) noexcept {
-        try {
-            std::lock_guard lock(mutex_);
-            ini_.SetBoolValue(section.data(), key.data(), value);
-            return SaveConfigUnlocked();
-        } catch (...) {
+        std::lock_guard lock(mutex_);
+        if (ini_.SetBoolValue(section.data(), key.data(), value) < 0) {
             return std::unexpected(ConfigError::InvalidValue);
         }
+        return SaveConfigUnlocked();
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::SetInt(
         std::string_view section, std::string_view key, int value
     ) noexcept {
-        try {
-            std::lock_guard lock(mutex_);
-            ini_.SetLongValue(section.data(), key.data(), value);
-            return SaveConfigUnlocked();
-        } catch (...) {
+        std::lock_guard lock(mutex_);
+        if (ini_.SetLongValue(section.data(), key.data(), value) < 0) {
             return std::unexpected(ConfigError::InvalidValue);
         }
+        return SaveConfigUnlocked();
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::SetString(
         std::string_view section, std::string_view key, std::string_view value
     ) noexcept {
-        try {
-            std::lock_guard lock(mutex_);
-            std::string value_str(value);
-            ini_.SetValue(section.data(), key.data(), value_str.c_str());
-            return SaveConfigUnlocked();
-        } catch (...) {
+        std::lock_guard lock(mutex_);
+        std::string value_str(value);
+        if (ini_.SetValue(section.data(), key.data(), value_str.c_str()) < 0) {
             return std::unexpected(ConfigError::InvalidValue);
         }
+        return SaveConfigUnlocked();
     }
 
 }

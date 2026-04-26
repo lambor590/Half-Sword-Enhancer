@@ -2,31 +2,26 @@
 
 #include <string>
 #include <optional>
+#include <cstdint>
 #include <filesystem>
-#include <Windows.h>
 
 #include "UpdateManager.h"
-#include "SteamLocator.h"
-#include "InstallManager.h"
-#include "LauncherConfig.h"
-#include "Util.h"
+
+namespace hse {
+    enum class GameEdition : std::uint8_t;
+    class SteamLocator;
+    class InstallManager;
+    class LauncherConfig;
+}
 
 class HSELauncher {
-#if __has_include("launcher_ext.h")
-    friend struct lext;
-#endif
-    static constexpr int EXIT_DELAY_SECONDS = 3;
-    static constexpr int CONSOLE_RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
-    static constexpr int CONSOLE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
-    static constexpr int CONSOLE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-
     hse::UpdateManager& updateManager;
     hse::SteamLocator& steamLocator;
     hse::InstallManager& installManager;
     hse::LauncherConfig& config;
 
     std::filesystem::path gameBinPath_;
-    hse::GameEdition gameEdition_ = hse::GameEdition::FullGame;
+    hse::GameEdition gameEdition_;
 
 #ifdef EXPERIMENTAL_VERSION
     std::optional<hse::ExperimentalUpdateInfo> cachedExperimentalInfo_;
@@ -40,7 +35,7 @@ class HSELauncher {
     bool AskForUpdatePreference();
     bool PerformSelfUpdate();
     bool LocateGame();
-    std::string AskManualPath();
+    std::filesystem::path AskManualPath();
     bool CheckAndInstallMod();
     bool DownloadAndInstall(const hse::Version& version);
     void OfferGameLaunch();

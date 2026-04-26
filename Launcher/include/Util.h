@@ -2,6 +2,7 @@
 
 #include <Windows.h>
 #include <ShlObj.h>
+#include <array>
 #include <filesystem>
 #include <string>
 #include <cstdint>
@@ -43,22 +44,36 @@ namespace hse {
         return false;
     }
 
-    [[nodiscard]] inline const std::string& getAppDataPath() {
-        static std::string fullPath;
-
-        if (fullPath.empty()) {
+    [[nodiscard]] inline const std::filesystem::path& getAppDataDirectory() {
+        static const std::filesystem::path fullPath = []() {
             char appDataPath[MAX_PATH];
             if (FAILED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appDataPath))) fail("Failed to get AppData path");
 
-            fullPath = std::string(appDataPath) + "\\" + APP_FOLDER_NAME;
-            try {
-                std::filesystem::create_directories(fullPath);
-            } catch (const std::filesystem::filesystem_error& e) {
-                fail(std::string("Failed to create directory in AppData: ") + e.what());
+            auto appPath = std::filesystem::path(appDataPath) / APP_FOLDER_NAME;
+            std::error_code ec;
+            std::filesystem::create_directories(appPath, ec);
+            if (ec) {
+                fail(std::string("Failed to create directory in AppData: ") + ec.message());
             }
-        }
+            return appPath;
+        }();
 
         return fullPath;
+    }
+
+    [[nodiscard]] inline const std::string& getAppDataPath() {
+        static const std::string fullPath = getAppDataDirectory().string();
+        return fullPath;
+    }
+
+    [[nodiscard]] inline bool TryGetCurrentExecutablePath(std::filesystem::path& path) noexcept {
+        std::array<char, MAX_PATH> filePath{};
+        if (!GetModuleFileNameA(nullptr, filePath.data(), static_cast<DWORD>(filePath.size()))) {
+            return false;
+        }
+
+        path = filePath.data();
+        return true;
     }
 
 }

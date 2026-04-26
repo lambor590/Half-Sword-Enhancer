@@ -2,20 +2,29 @@
 #include <filesystem>
 #include <thread>
 #include <chrono>
+#include <Windows.h>
 
 #include "../include/Launcher.h"
-
-#if __has_include("launcher_ext.h")
-#include "launcher_ext.h"
-#endif
+#include "../include/InstallManager.h"
+#include "../include/LauncherConfig.h"
+#include "../include/SteamLocator.h"
+#include "../include/Util.h"
 
 #include <shellapi.h>
+
+namespace {
+    constexpr int EXIT_DELAY_SECONDS = 3;
+    constexpr int CONSOLE_RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
+    constexpr int CONSOLE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+    constexpr int CONSOLE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+}
 
 HSELauncher::HSELauncher()
     : updateManager(hse::UpdateManager::Instance()),
       steamLocator(hse::SteamLocator::Instance()),
       installManager(hse::InstallManager::Instance()),
-      config(hse::LauncherConfig::Instance()) {}
+      config(hse::LauncherConfig::Instance()),
+      gameEdition_(hse::GameEdition::FullGame) {}
 
 void HSELauncher::SetupConsole() {
     auto localVersionResult = updateManager.GetLocalVersion();
@@ -223,13 +232,13 @@ bool HSELauncher::LocateGame() {
     }
 
     hse::Logger::warn("Could not auto-detect game installation");
-    auto manualPath = AskManualPath();
+    std::filesystem::path manualPath = AskManualPath();
     if (manualPath.empty()) return false;
 
     auto manualResult = steamLocator.LocateGameAt(manualPath);
     if (!manualResult) {
         hse::logAndShowError(
-            "Invalid game path: " + manualPath,
+            "Invalid game path: " + manualPath.string(),
             "The specified path does not appear to contain a valid Half Sword installation.\n\n"
             "Please provide the path to the game folder, e.g.:\n"
             "D:\\SteamLibrary\\steamapps\\common\\Half Sword"
@@ -247,7 +256,7 @@ bool HSELauncher::LocateGame() {
     return true;
 }
 
-std::string HSELauncher::AskManualPath() {
+std::filesystem::path HSELauncher::AskManualPath() {
     hse::Logger::info("Please enter the path to your Half Sword installation:");
     hse::Logger::info("  Example: D:\\SteamLibrary\\steamapps\\common\\Half Sword");
     std::cout << "\n  > ";
@@ -263,7 +272,7 @@ std::string HSELauncher::AskManualPath() {
     while (!path.empty() && isQuote(path.back()))
         path.pop_back();
 
-    return path;
+    return std::filesystem::path(path);
 }
 
 bool HSELauncher::CheckAndInstallMod() {
@@ -451,9 +460,6 @@ void HSELauncher::ShowExitMessage(bool success) {
 }
 
 int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
-#if __has_include("launcher_ext.h")
-    return lext::Run(*this);
-#else
     try {
         SetupConsole();
         DisplayBanner();
@@ -503,5 +509,4 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
         ShowExitMessage(false);
         return 1;
     }
-#endif
 }

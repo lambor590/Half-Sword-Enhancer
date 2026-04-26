@@ -7,6 +7,49 @@
 #include "../include/Logger.h"
 
 namespace hse {
+    namespace {
+
+        [[nodiscard]] std::string ExtractQuotedToken(std::string_view line, std::size_t tokenIndex) {
+            std::size_t searchFrom = 0;
+
+            for (std::size_t currentIndex = 0; currentIndex <= tokenIndex; ++currentIndex) {
+                const auto tokenStart = line.find('"', searchFrom);
+                if (tokenStart == std::string_view::npos) {
+                    return {};
+                }
+
+                const auto tokenEnd = line.find('"', tokenStart + 1);
+                if (tokenEnd == std::string_view::npos) {
+                    return {};
+                }
+
+                if (currentIndex == tokenIndex) {
+                    return std::string(line.substr(tokenStart + 1, tokenEnd - tokenStart - 1));
+                }
+
+                searchFrom = tokenEnd + 1;
+            }
+
+            return {};
+        }
+
+        [[nodiscard]] bool LibraryContainsAppId(
+            const std::vector<std::string>& appIds, std::string_view appId
+        ) noexcept {
+            return std::ranges::find(appIds, appId) != appIds.end();
+        }
+
+        [[nodiscard]] bool DirectoryContainsExecutable(const std::filesystem::path& directory) {
+            for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+                if (entry.path().extension() == ".exe") {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+    }
 
     std::expected<GameLocation, SteamError> SteamLocator::LocateGame() noexcept {
         auto steamPath = ReadSteamInstallPath();
@@ -23,18 +66,17 @@ namespace hse {
         std::expected<GameLocation, SteamError> demoResult = std::unexpected(SteamError::GameNotFound);
 
         for (const auto& library : *libraries) {
-            bool hasFullGame = std::ranges::find(library.appIds, FULL_GAME_APP_ID) != library.appIds.end();
-            bool hasDemo = std::ranges::find(library.appIds, DEMO_APP_ID) != library.appIds.end();
-
-            if (hasFullGame) {
+            if (LibraryContainsAppId(library.appIds, FULL_GAME_APP_ID)) {
                 auto result = ResolveGamePath(library.path, GameEdition::FullGame);
                 if (result) {
                     return result;
                 }
             }
 
-            if (hasDemo && !demoResult) {
-                demoResult = ResolveGamePath(library.path, GameEdition::Demo);
+            if (LibraryContainsAppId(library.appIds, DEMO_APP_ID)) {
+                if (auto result = ResolveGamePath(library.path, GameEdition::Demo)) {
+                    demoResult = std::move(result);
+                }
             }
         }
 
@@ -47,28 +89,24 @@ namespace hse {
 
     std::expected<GameLocation, SteamError> SteamLocator::LocateGameAt(const std::filesystem::path& manualPath
     ) noexcept {
-        try {
-            auto win64Dir = FindWin64Directory(manualPath);
-            if (win64Dir.empty() || !std::filesystem::exists(win64Dir)) {
-                return std::unexpected(SteamError::PathDoesNotExist);
-            }
-
-            bool hasExecutable = false;
-            for (const auto& entry : std::filesystem::directory_iterator(win64Dir)) {
-                if (entry.path().extension() == ".exe") {
-                    hasExecutable = true;
-                    break;
-                }
-            }
-
-            if (!hasExecutable) {
-                return std::unexpected(SteamError::PathDoesNotExist);
-            }
-
-            return GameLocation{.binariesPath = win64Dir, .edition = DetectEditionFromPath(win64Dir)};
-        } catch (...) {
+        auto win64Dir = FindWin64Directory(manualPath);
+        if (win64Dir.empty()) {
             return std::unexpected(SteamError::PathDoesNotExist);
         }
+
+        std::error_code ec;
+        if (!std::filesystem::exists(win64Dir, ec)) {
+            if (ec) {
+                Logger::error("Failed to inspect Win64 directory: %s", ec.message().c_str());
+            }
+            return std::unexpected(SteamError::PathDoesNotExist);
+        }
+
+        if (!DirectoryContainsExecutable(win64Dir)) {
+            return std::unexpected(SteamError::PathDoesNotExist);
+        }
+
+        return GameLocation{.binariesPath = win64Dir, .edition = DetectEditionFromPath(win64Dir)};
     }
 
     std::expected<std::string, SteamError> SteamLocator::ReadSteamInstallPath() const noexcept {
@@ -96,7 +134,8 @@ namespace hse {
         }
 
         std::string installPath(buffer);
-        if (installPath.empty() || !std::filesystem::exists(installPath)) {
+        std::error_code ec;
+        if (installPath.empty() || !std::filesystem::exists(installPath, ec)) {
             Logger::error("Steam install path does not exist: %s", installPath.c_str());
             return std::unexpected(SteamError::SteamNotInstalled);
         }
@@ -107,140 +146,114 @@ namespace hse {
     std::expected<std::vector<SteamLocator::LibraryFolder>, SteamError> SteamLocator::ParseLibraryFolders(
         const std::filesystem::path& vdfPath
     ) const noexcept {
-        try {
-            std::ifstream file(vdfPath);
-            if (!file.is_open()) {
-                Logger::error("Failed to open libraryfolders.vdf: %s", vdfPath.string().c_str());
-                return std::unexpected(SteamError::VdfParsingFailed);
-            }
-
-            std::vector<LibraryFolder> libraries;
-            std::string line;
-            int braceDepth = 0;
-            bool insideApps = false;
-            LibraryFolder current;
-
-            auto extractQuotedValue = [](const std::string& str) -> std::string {
-                size_t first = str.find('"');
-                if (first == std::string::npos) return {};
-                size_t second = str.find('"', first + 1);
-                if (second == std::string::npos) return {};
-                size_t third = str.find('"', second + 1);
-                if (third == std::string::npos) return {};
-                size_t fourth = str.find('"', third + 1);
-                if (fourth == std::string::npos) return {};
-                return str.substr(third + 1, fourth - third - 1);
-            };
-
-            auto extractKey = [](const std::string& str) -> std::string {
-                size_t first = str.find('"');
-                if (first == std::string::npos) return {};
-                size_t second = str.find('"', first + 1);
-                if (second == std::string::npos) return {};
-                return str.substr(first + 1, second - first - 1);
-            };
-
-            while (std::getline(file, line)) {
-                if (line.find('{') != std::string::npos) {
-                    braceDepth++;
-                    continue;
-                }
-
-                if (line.find('}') != std::string::npos) {
-                    braceDepth--;
-
-                    if (insideApps && braceDepth == 2) {
-                        insideApps = false;
-                    }
-
-                    if (braceDepth == 1 && !current.path.empty()) {
-                        libraries.push_back(std::move(current));
-                        current = {};
-                    }
-                    continue;
-                }
-
-                std::string key = extractKey(line);
-                if (key.empty()) continue;
-
-                if (braceDepth == 2 && key == "path") {
-                    std::string value = extractQuotedValue(line);
-                    if (!value.empty()) {
-                        current.path = value;
-                    }
-                }
-
-                if (braceDepth == 2 && key == "apps") {
-                    insideApps = true;
-                    continue;
-                }
-
-                if (insideApps && braceDepth == 3) {
-                    current.appIds.push_back(key);
-                }
-            }
-
-            if (libraries.empty()) {
-                Logger::error("No Steam library folders found in VDF");
-                return std::unexpected(SteamError::VdfParsingFailed);
-            }
-
-            return libraries;
-        } catch (const std::exception& e) {
-            Logger::error("VDF parsing error: %s", e.what());
-            return std::unexpected(SteamError::VdfParsingFailed);
-        } catch (...) {
+        std::ifstream file(vdfPath);
+        if (!file.is_open()) {
+            Logger::error("Failed to open libraryfolders.vdf: %s", vdfPath.string().c_str());
             return std::unexpected(SteamError::VdfParsingFailed);
         }
+
+        std::vector<LibraryFolder> libraries;
+        std::string line;
+        int braceDepth = 0;
+        bool insideApps = false;
+        LibraryFolder current;
+
+        while (std::getline(file, line)) {
+            if (line.find('{') != std::string::npos) {
+                braceDepth++;
+                continue;
+            }
+
+            if (line.find('}') != std::string::npos) {
+                braceDepth--;
+
+                if (insideApps && braceDepth == 2) {
+                    insideApps = false;
+                }
+
+                if (braceDepth == 1 && !current.path.empty()) {
+                    libraries.push_back(std::move(current));
+                    current = {};
+                }
+                continue;
+            }
+
+            std::string key = ExtractQuotedToken(line, 0);
+            if (key.empty()) continue;
+
+            if (braceDepth == 2 && key == "path") {
+                std::string value = ExtractQuotedToken(line, 1);
+                if (!value.empty()) {
+                    current.path = value;
+                }
+            }
+
+            if (braceDepth == 2 && key == "apps") {
+                insideApps = true;
+                continue;
+            }
+
+            if (insideApps && braceDepth == 3) {
+                current.appIds.push_back(key);
+            }
+        }
+
+        if (libraries.empty()) {
+            Logger::error("No Steam library folders found in VDF");
+            return std::unexpected(SteamError::VdfParsingFailed);
+        }
+
+        return libraries;
     }
 
     std::expected<GameLocation, SteamError> SteamLocator::ResolveGamePath(
         const std::filesystem::path& libraryPath, GameEdition edition
     ) const noexcept {
-        try {
-            const char* gameFolder = (edition == GameEdition::FullGame) ? FULL_GAME_FOLDER : DEMO_GAME_FOLDER;
-            auto binariesPath = libraryPath / "steamapps" / "common" / gameFolder / BINARIES_SUBPATH;
+        const char* gameFolder = (edition == GameEdition::FullGame) ? FULL_GAME_FOLDER : DEMO_GAME_FOLDER;
+        auto binariesPath = libraryPath / "steamapps" / "common" / gameFolder / BINARIES_SUBPATH;
 
-            if (!std::filesystem::exists(binariesPath)) {
-                return std::unexpected(SteamError::PathDoesNotExist);
+        std::error_code ec;
+        if (!std::filesystem::exists(binariesPath, ec)) {
+            if (ec) {
+                Logger::error("Failed to inspect game binaries path: %s", ec.message().c_str());
             }
-
-            return GameLocation{.binariesPath = std::move(binariesPath), .edition = edition};
-        } catch (const std::filesystem::filesystem_error&) {
             return std::unexpected(SteamError::PathDoesNotExist);
         }
+
+        return GameLocation{.binariesPath = std::move(binariesPath), .edition = edition};
     }
 
     GameEdition SteamLocator::DetectEditionFromPath(const std::filesystem::path& path) noexcept {
-        try {
-            std::string pathStr = path.string();
-            std::ranges::transform(pathStr, pathStr.begin(), ::tolower);
-            if (pathStr.find("demo") != std::string::npos) {
-                return GameEdition::Demo;
-            }
-        } catch (...) {}
+        std::string pathStr = path.string();
+        std::ranges::transform(pathStr, pathStr.begin(), ::tolower);
+        if (pathStr.find("demo") != std::string::npos) {
+            return GameEdition::Demo;
+        }
 
         return GameEdition::FullGame;
     }
 
     std::filesystem::path SteamLocator::FindWin64Directory(const std::filesystem::path& basePath) noexcept {
-        try {
-            if (basePath.filename() == "Win64") {
-                return basePath;
-            }
+        if (basePath.filename() == "Win64") {
+            return basePath;
+        }
 
-            auto win64Under = basePath / BINARIES_SUBPATH;
-            if (std::filesystem::exists(win64Under)) {
-                return win64Under;
-            }
+        std::error_code ec;
+        auto win64Under = basePath / BINARIES_SUBPATH;
+        if (std::filesystem::exists(win64Under, ec)) {
+            return win64Under;
+        }
 
-            for (auto current = basePath; current.has_parent_path() && current != current.root_path();
-                 current = current.parent_path()) {
-                if (current.filename() == "Win64") {
-                    return current;
-                }
+        if (ec) {
+            Logger::warn("Failed to inspect candidate Win64 path: %s", ec.message().c_str());
+        }
+
+        for (auto current = basePath; current.has_parent_path() && current != current.root_path();
+             current = current.parent_path()) {
+            if (current.filename() == "Win64") {
+                return current;
             }
-        } catch (...) {}
+        }
 
         return {};
     }
