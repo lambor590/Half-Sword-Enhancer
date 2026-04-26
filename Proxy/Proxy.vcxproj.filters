@@ -26,9 +26,6 @@
     <ClInclude Include="resource\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource\winres.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Proxy.rc">

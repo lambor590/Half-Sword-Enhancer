@@ -114,7 +114,6 @@
   <ItemGroup>
     <ClInclude Include="resource\resource.h" />
     <ClInclude Include="include\Util.h" />
-    <ClInclude Include="resource\winres.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\Proxy.rc" />
