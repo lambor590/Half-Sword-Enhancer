@@ -6,7 +6,6 @@
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <wrl/client.h>
-#include <array>
 
 #include "Render/RenderConfig.h"
 #include "Logger.h"
@@ -24,23 +23,28 @@ public:
     void Cleanup() noexcept;
 
 private:
+    enum class RenderBackend : std::uint8_t { Unknown, D3D11, D3D12 };
+
+    struct RenderState {
+        void (Renderer::*renderFunc)() noexcept = nullptr;
+        bool needsInit = true;
+        bool imguiContextReady = false;
+        bool imguiRendererReady = false;
+        bool inResize = false;
+        RenderBackend backend = RenderBackend::Unknown;
+        uint8_t bufferIndex = 0;
+        uint8_t bufferCount = 0;
+    };
+
     Logger logger{"Renderer"};
 
-    // --- Hook state (formerly in DirectXHook) ---
+    // Addresses of the original methods after MemoryUtils installs the detours.
     uintptr_t presentReturnAddress = 0;
     uintptr_t resizeBuffersReturnAddress = 0;
     uintptr_t executeCommandListsAddress = 0;
     uintptr_t executeCommandListsReturnAddress = 0;
 
-    // --- Render state ---
-    struct {
-        void (Renderer::*renderFunc)() noexcept = nullptr;
-        bool needsInit = true;
-        bool guiReady = false;
-        bool isD3D12 = false;
-        uint8_t bufferIndex = 0;
-        uint8_t bufferCount = 0;
-    } state;
+    RenderState state;
 
     struct {
         HWND handle = nullptr;
@@ -49,27 +53,19 @@ private:
         bool viewportDirty = true;
     } window;
 
-    // --- D3D11 resources ---
     Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context;
     Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
 
-    // --- D3D12 resources ---
     Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device;
     Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
     Microsoft::WRL::ComPtr<IDXGISwapChain3> swapChain3;
     Microsoft::WRL::ComPtr<ID3D11On12Device> d3d11On12Device;
-    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
     Microsoft::WRL::ComPtr<ID3D12Fence> fence;
-
-    std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, RenderConfig::MAX_RENDER_TARGETS> d3d12RenderTargets;
-    std::array<Microsoft::WRL::ComPtr<ID3D11Resource>, RenderConfig::MAX_RENDER_TARGETS> d3d11WrappedBackBuffers;
-    std::array<Microsoft::WRL::ComPtr<ID3D11RenderTargetView>, RenderConfig::MAX_RENDER_TARGETS> d3d11RenderTargetViews;
 
     UINT64 fenceValue = 0;
     HANDLE fenceEvent = nullptr;
 
-    // --- Hook setup (formerly DirectXHook) ---
     IDXGISwapChain* CreateDummySwapChain();
     void HookSwapChain(
         IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
@@ -81,25 +77,26 @@ private:
     );
     void UnhookCommandQueue() const;
 
-    // --- Render frame (templated for DX11/DX12) ---
     template <bool IsD3D12> void RenderFrameImpl() noexcept;
     void RenderFrameD3D11() noexcept;
     void RenderFrameD3D12() noexcept;
 
-    // --- DX resource init ---
     bool InitD3DResources(IDXGISwapChain* sc) noexcept;
     bool InitD3D11() noexcept;
     bool InitD3D12() noexcept;
     void InitOrReinitImGui() noexcept;
 
-    // --- Shared cleanup helper ---
-    void ReleaseRenderTargets() noexcept;
+    void ReleaseContextState() noexcept;
+    void ReleaseGraphicsResources() noexcept;
     bool SignalAndWait() noexcept;
 
-    // --- Present/Resize callbacks (called from static hook trampolines) ---
     void OnPresent(IDXGISwapChain* pThis) noexcept;
-    void OnResizeBuffers(UINT width, UINT height) noexcept;
+    void BeforeResizeBuffers(
+        IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
+    ) noexcept;
+    void AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexcept;
     void SetCommandQueue(ID3D12CommandQueue* newQueue) noexcept;
+    void UpdateViewport() noexcept;
 
     inline void SetViewportIfDirty() noexcept {
         if (window.viewportDirty) [[unlikely]] {
@@ -108,7 +105,6 @@ private:
         }
     }
 
-    // Static hook trampolines need access to private members
     friend HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept;
     friend HRESULT __fastcall HookOnResizeBuffers(
         IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
