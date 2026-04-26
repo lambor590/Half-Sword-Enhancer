@@ -51,13 +51,13 @@ OUTPUT=$(cppcheck \
     --platform=win64 \
     --quiet \
     --template='{file}:{line}: {severity}: {message} [{id}]' \
-    --suppress='unusedFunction:*Override.cpp:68' \
-    --suppress='unusedFunction:*Override.cpp:86' \
-    --suppress='unusedFunction:*Preset.cpp:18' \
-    --suppress='unusedFunction:*Preset.cpp:48' \
     2>&1)
-# ^^^ cppcheck cannot trace calls through std::span descriptor tables or CRTP
-#     template instantiation. These 4 functions are called from Preset.h templates.
+# cppcheck cannot trace calls through the descriptor-table / CRTP path used by
+# Preset.h, so these specific reports are false positives.
+OUTPUT=$(echo "$OUTPUT" | grep -vE 'Mod/src/Override\.cpp:[0-9]+: .*SerializeAll.*\[unusedFunction\]$' || true)
+OUTPUT=$(echo "$OUTPUT" | grep -vE 'Mod/src/Override\.cpp:[0-9]+: .*DeserializeAll.*\[unusedFunction\]$' || true)
+OUTPUT=$(echo "$OUTPUT" | grep -vE 'Mod/src/Preset\.cpp:[0-9]+: .*SerializePresetFields.*\[unusedFunction\]$' || true)
+OUTPUT=$(echo "$OUTPUT" | grep -vE 'Mod/src/Preset\.cpp:[0-9]+: .*DeserializePresetFields.*\[unusedFunction\]$' || true)
 
 WARNINGS=$(echo "$OUTPUT" | grep -c '\(unusedFunction\|unusedVariable\|unreachableCode\)' || true)
 
