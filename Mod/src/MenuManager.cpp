@@ -9,8 +9,6 @@
 #include "imgui/imgui.h"
 
 namespace {
-
-    /// Brass-accent colors used for selection highlights in the sidebar.
     constexpr ImVec4 BRASS_SUBTLE = {
         DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.12f};
     constexpr ImVec4 BRASS_MEDIUM = {
@@ -18,7 +16,6 @@ namespace {
     constexpr ImVec4 BRASS_STRONG = {
         DefaultStyle::OLD_BRASS.x, DefaultStyle::OLD_BRASS.y, DefaultStyle::OLD_BRASS.z, 0.25f};
 
-    /// Faint separator line color based on mediumWood.
     constexpr ImVec4 SEPARATOR_COLOR = {
         DefaultStyle::MEDIUM_WOOD.x, DefaultStyle::MEDIUM_WOOD.y, DefaultStyle::MEDIUM_WOOD.z, 0.35f};
 
@@ -42,18 +39,10 @@ namespace {
 
 } // namespace
 
-// ---------------------------------------------------------------------------
-// Singleton
-// ---------------------------------------------------------------------------
-
 MenuManager& MenuManager::Get() {
     static MenuManager instance;
     return instance;
 }
-
-// ---------------------------------------------------------------------------
-// Public API
-// ---------------------------------------------------------------------------
 
 void MenuManager::AddSection(MenuTab tab, std::unique_ptr<Section> section) {
     auto& sectionVec = sections[static_cast<size_t>(tab)];
@@ -81,10 +70,6 @@ void MenuManager::RenderMenu() {
     ImGui::EndChild();
     ImGui::PopStyleVar();
 }
-
-// ---------------------------------------------------------------------------
-// Search
-// ---------------------------------------------------------------------------
 
 bool MenuManager::MatchesSearch(std::string_view text, const char* lowerNeedle, size_t needleLen) noexcept {
     if (needleLen == 0) return true;
@@ -129,10 +114,6 @@ void MenuManager::UpdateSearchResults() noexcept {
         }
     }
 }
-
-// ---------------------------------------------------------------------------
-// Sidebar rendering
-// ---------------------------------------------------------------------------
 
 void MenuManager::RenderSearchBar() {
     float availWidth = ImGui::GetContentRegionAvail().x;

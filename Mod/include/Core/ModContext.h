@@ -10,24 +10,19 @@ namespace SDK {
 class GameHook;
 class ConfigManager;
 
-/// Single context object replacing global pointer soup.
-/// Provides per-frame cached component pointers validated once per render frame.
-/// Sections and GUI access game components through this instead of per-section validation chains.
+/// Caches the game pointers most sections read every frame.
 class ModContext {
 public:
     static ModContext& Get();
 
-    /// Validates and caches world/player/controller/worldSettings.
-    /// Called once per render frame before sections access these pointers.
+    /// Refreshes world, player, controller, and worldSettings from the current engine state.
     void RefreshCache();
 
-    // Per-frame cached component pointers
     SDK::UWorld* world = nullptr;
     SDK::AWillie_BP_C* player = nullptr;
     SDK::APlayerController* controller = nullptr;
     SDK::AWorldSettings* worldSettings = nullptr;
 
-    // Subsystem references
     GameHook& gameHook;
     ConfigManager& configManager;
 

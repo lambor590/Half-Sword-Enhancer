@@ -2,10 +2,7 @@
 
 #include <string>
 #include <string_view>
-#include <chrono>
 #include <vector>
-
-#include "imgui/imgui.h"
 
 class ConfigManager;
 extern ConfigManager& g_ConfigManager;
@@ -34,11 +31,6 @@ private:
     static constexpr float INV_FADE_OUT = 1.0f / FADE_OUT_DURATION;
     static constexpr float TEXT_PADDING = 16.0f;
     static constexpr float HEIGHT_PLUS_PADDING = NOTIFICATION_HEIGHT + PADDING;
-
-    static constexpr ImVec4 NOTIFICATION_BG = ImVec4(0.12f, 0.09f, 0.06f, 0.95f);
-    static constexpr ImVec4 NOTIFICATION_TEXT = ImVec4(0.95f, 0.92f, 0.85f, 1.0f);
-    static constexpr ImVec4 NOTIFICATION_BORDER = ImVec4(0.71f, 0.57f, 0.25f, 1.0f);
-
 
     NotificationManager() = default;
 

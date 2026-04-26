@@ -9,6 +9,9 @@ namespace {
     constexpr std::string_view ENABLED_PREFIX = "Enabled ";
     constexpr std::string_view DISABLED_PREFIX = "Disabled ";
     constexpr std::string_view EXECUTED_PREFIX = "Executed ";
+    constexpr ImVec4 NOTIFICATION_BG{0.12f, 0.09f, 0.06f, 0.95f};
+    constexpr ImVec4 NOTIFICATION_TEXT{0.95f, 0.92f, 0.85f, 1.0f};
+    constexpr ImVec4 NOTIFICATION_BORDER{0.71f, 0.57f, 0.25f, 1.0f};
 }
 
 std::vector<Notification> NotificationManager::s_notifications;
