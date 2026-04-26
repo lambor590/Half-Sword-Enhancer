@@ -78,14 +78,9 @@ private:
         MeshType type;
     };
 
-    struct MeshOverride {
-        bool enabled = false;
+    struct MeshOverride : MeshOverrideSettings {
         SDK::UObject* mesh = nullptr;
         int poolIndex = -1;
-        MeshType meshType = MeshType::Static;
-        SDK::FVector scale = {1.0, 1.0, 1.0};
-        SDK::FRotator rotation = {0.0, 0.0, 0.0};
-        SDK::FVector offset = {0.0, 0.0, 0.0};
     };
 
     struct MeshSnapshot {

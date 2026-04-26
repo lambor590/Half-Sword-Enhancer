@@ -477,17 +477,30 @@ void ArmorPresetData::DeserializeCustom(ArmorPresetData& data, const CSimpleIniA
 
 // LoadoutPresetData descriptors + utilities
 
-SDK::FStr_WeaponParts& LoadoutPresetData::GetWeaponSlot(SDK::FStr_Loadout_Weapons& weapons, int index) {
-    switch (index) {
-        case 0: return weapons.WeaponHandR_2_64D3388F445655CA2E9E60B639016D17;
-        case 1: return weapons.WeaponHandL_4_4BF5616F480598D39F54058D5181EB86;
-        case 2: return weapons.WeaponSlotR1_6_140F311C4B659EE501761B8D99781B20;
-        case 3: return weapons.WeaponSlotR2_8_8B0CA70A4477398EB3B1E58EBB1AD2DC;
-        case 4: return weapons.WeaponSlotL1_10_908E8A984A1C041B0CC6238D804CEB60;
-        case 5: return weapons.WeaponSlotL2_12_EF7AA9044E150C11545E349E5AD7C2E0;
-        case 6: return weapons.WeaponBack_14_2CBE21CA47095EF150DD5791D72AC8C9;
-        default: return weapons.WeaponHandR_2_64D3388F445655CA2E9E60B639016D17;
+namespace {
+
+    template <typename TWeapons>
+    decltype(auto) ResolveWeaponSlot(TWeapons& weapons, int index) {
+        switch (index) {
+            case 0: return (weapons.WeaponHandR_2_64D3388F445655CA2E9E60B639016D17);
+            case 1: return (weapons.WeaponHandL_4_4BF5616F480598D39F54058D5181EB86);
+            case 2: return (weapons.WeaponSlotR1_6_140F311C4B659EE501761B8D99781B20);
+            case 3: return (weapons.WeaponSlotR2_8_8B0CA70A4477398EB3B1E58EBB1AD2DC);
+            case 4: return (weapons.WeaponSlotL1_10_908E8A984A1C041B0CC6238D804CEB60);
+            case 5: return (weapons.WeaponSlotL2_12_EF7AA9044E150C11545E349E5AD7C2E0);
+            case 6: return (weapons.WeaponBack_14_2CBE21CA47095EF150DD5791D72AC8C9);
+            default: std::abort();
+        }
     }
+
+} // namespace
+
+SDK::FStr_WeaponParts& LoadoutPresetData::GetWeaponSlot(SDK::FStr_Loadout_Weapons& weapons, int index) {
+    return ResolveWeaponSlot(weapons, index);
+}
+
+const SDK::FStr_WeaponParts& LoadoutPresetData::GetWeaponSlot(const SDK::FStr_Loadout_Weapons& weapons, int index) {
+    return ResolveWeaponSlot(weapons, index);
 }
 
 void LoadoutPresetData::ReadWeaponSlot(const SDK::FStr_WeaponParts& wp, WeaponSlotData& out) {
@@ -522,11 +535,9 @@ LoadoutPresetData LoadoutPresetData::ReadFromEquipment(const SDK::FStr_Loadout_E
         data.armorSlots.push_back(std::move(slotData));
     }
 
-    for (int i = 0; i < 7; ++i) {
-        const auto& slot =
-            GetWeaponSlot(const_cast<SDK::FStr_Loadout_Weapons&>(equip.Weapons_83_06F076E247B54D0D9942B383323C1968), i);
-        ReadWeaponSlot(slot, data.weaponSlots[i]);
-    }
+    const auto& weapons = equip.Weapons_83_06F076E247B54D0D9942B383323C1968;
+    for (int i = 0; i < 7; ++i)
+        ReadWeaponSlot(GetWeaponSlot(weapons, i), data.weaponSlots[i]);
 
     return data;
 }

@@ -4,25 +4,19 @@
 #include <vector>
 
 #include "Menu/Preset.h"
-#include "Utils/OverrideTypes.h"
+#include "Utils/CharacterOverrideSets.h"
 
-struct NPCOverrides {
-    RuntimeOverride heightRate;
-    RuntimeOverride muscleRate;
-    RuntimeOverride scaleMutationInhibitor;
-
+struct NPCOverrides
+    : CharacterPhysicalOverrides,
+      CharacterCombatOverrides,
+      CharacterBodyConditionOverrides {
     IntOverride faceType;
     IntOverride eyeColor;
     RuntimeOverride hairLength;
     RuntimeOverride hairColor;
 
-    RuntimeOverride damageRate;
-    RuntimeOverride limbDamageRate;
-    RuntimeOverride dismemberThreshold;
-    RuntimeOverride regenRate;
     RuntimeOverride aiInvincibility;
     RuntimeOverride aiArmorInvincibility;
-    RuntimeOverride bodySkill;
 
     BoolOverride fearless;
     BoolOverride startKneeled;
@@ -30,15 +24,6 @@ struct NPCOverrides {
     BoolOverride clearSpawnArea;
     RuntimeOverride drunk;
     IntOverride boltsInQuiver;
-
-    RuntimeOverride headHealth;
-    RuntimeOverride neckHealth;
-    RuntimeOverride armRHealth;
-    RuntimeOverride armLHealth;
-    RuntimeOverride bodyUpperHealth;
-    RuntimeOverride bodyLowerHealth;
-    RuntimeOverride legRHealth;
-    RuntimeOverride legLHealth;
 };
 
 struct NPCPresetData : PresetDataBase {

@@ -43,6 +43,24 @@ namespace {
         slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = nullptr;
     }
 
+    const char* GetWeaponMaterialLabel(SDK::Enum_Weapon_Material_Type type) {
+        switch (type) {
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator0: return "Steel##mat";
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator1: return "Colored Metal##mat";
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator2: return "Wood##mat";
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator3: return "Leather##mat";
+            default: return nullptr;
+        }
+    }
+
+    const char* GetWeaponColorLabel(SDK::Enum_Weapon_Material_Type type) {
+        switch (type) {
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator2: return "Wood Color##col";
+            case SDK::Enum_Weapon_Material_Type::NewEnumerator3: return "Leather Color##col";
+            default: return nullptr;
+        }
+    }
+
 } // namespace
 
 const char* LoadoutManagerSection::ClassNameCache::Get(SDK::UClass* cls) {
@@ -141,6 +159,7 @@ void LoadoutManagerSection::ReapplyArmorSlot(SDK::EArmorSlots_Enum slot) {
 
 void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
     if (!player) return;
+    if (slotIndex != 0 && slotIndex != 1) return;
 
     auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
     auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
@@ -157,8 +176,6 @@ void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
         GameHook::QueueAction([p = player, weaponClass, passport]() {
             if (p) p->Set_Up_Left_Hand_Weapon(weaponClass, p->Weapon_L, false, true, passport);
         });
-    } else {
-        ApplyArmorToPlayer();
     }
 }
 
@@ -545,25 +562,14 @@ void LoadoutManagerSection::RenderWeaponSlotMaterials(SDK::FStr_WeaponParts& slo
 
     ImGui::TextDisabled("Materials");
     for (auto it = begin(matMap); it != end(matMap); ++it) {
-        const char* label = "Unknown";
-        switch (it->Key()) {
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator0: label = "Steel##mat"; break;
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator1: label = "Colored Metal##mat"; break;
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator2: label = "Wood##mat"; break;
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator3: label = "Leather##mat"; break;
-            default: continue;
-        }
+        const char* label = GetWeaponMaterialLabel(it->Key());
+        if (!label) continue;
         GuiUtils::RenderMaterialCombo(label, it->Value());
     }
 
     auto& colorMap = slot.MemberVar_44_45_FF627FBE4FE882E7D295BFA0BB6716C0;
     for (auto it = begin(colorMap); it != end(colorMap); ++it) {
-        const char* label = nullptr;
-        switch (it->Key()) {
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator2: label = "Wood Color##col"; break;
-            case SDK::Enum_Weapon_Material_Type::NewEnumerator3: label = "Leather Color##col"; break;
-            default: continue;
-        }
+        const char* label = GetWeaponColorLabel(it->Key());
         if (!label) continue;
         float col[4] = {it->Value().R, it->Value().G, it->Value().B, it->Value().A};
         if (ImGui::ColorEdit4(label, col, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_AlphaBar))
@@ -616,10 +622,13 @@ void LoadoutManagerSection::RenderWeaponsTab() {
                 ImGui::InputInt("CoA##coa", &slot.COAInt_63_593665BE4EF020F95F7D1A92564C1239);
 
                 ImGui::Spacing();
-                float halfW = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
-                if (ImGui::Button("Apply", ImVec2(halfW, 0))) ApplyWeaponToPlayer(i);
-                ImGui::SameLine();
-                if (ImGui::Button("Remove", ImVec2(halfW, 0))) {
+                bool canApplyDirectly = (i <= 1);
+                float buttonW = canApplyDirectly
+                                    ? (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f
+                                    : ImGui::GetContentRegionAvail().x;
+                if (canApplyDirectly && ImGui::Button("Apply", ImVec2(buttonW, 0))) ApplyWeaponToPlayer(i);
+                if (canApplyDirectly) ImGui::SameLine();
+                if (ImGui::Button("Remove", ImVec2(buttonW, 0))) {
                     ClearWeaponSlot(slot);
                     if (cfg.livePreview && i <= 1) ApplyWeaponToPlayer(i);
                 }

@@ -1,19 +1,13 @@
 #pragma once
 
-struct RuntimeOverride {
+template <typename ValueT> struct ValueOverride {
     bool enabled = false;
-    double value = 0.0;
-    bool operator==(const RuntimeOverride&) const = default;
+    ValueT value{};
+    bool operator==(const ValueOverride&) const = default;
 };
-static_assert(sizeof(RuntimeOverride) <= 16);
 
-struct BoolOverride {
-    bool enabled = false;
-    bool value = false;
-    bool operator==(const BoolOverride&) const = default;
-};
-struct IntOverride {
-    bool enabled = false;
-    int value = 0;
-    bool operator==(const IntOverride&) const = default;
-};
+using RuntimeOverride = ValueOverride<double>;
+using BoolOverride = ValueOverride<bool>;
+using IntOverride = ValueOverride<int>;
+
+static_assert(sizeof(RuntimeOverride) <= 16);

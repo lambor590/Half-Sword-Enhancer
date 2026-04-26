@@ -5,25 +5,23 @@
 
 #include "Menu/Preset.h"
 #include "Utils/OverrideTypes.h"
+#include "Utils/WeaponClassPaths.h"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
 #include "../../ext/SimpleIni.h"
 
 enum class MeshType : uint8_t { Static, Skeletal };
 
-struct MeshOverridePreset {
+struct MeshOverrideSettings {
     bool enabled = false;
-    std::string meshPath;
     MeshType meshType = MeshType::Static;
     SDK::FVector scale = {1.0, 1.0, 1.0};
     SDK::FRotator rotation = {0.0, 0.0, 0.0};
     SDK::FVector offset = {0.0, 0.0, 0.0};
 };
 
-struct WeaponClassPaths {
-    std::string weaponClass;
-    std::string headModule, guardModule, gripModule, pommelModule;
-    std::string subModule1, subModule2;
+struct MeshOverridePreset : MeshOverrideSettings {
+    std::string meshPath;
 };
 
 struct WeaponPresetData : PresetDataBase {

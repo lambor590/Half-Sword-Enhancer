@@ -33,8 +33,6 @@ private:
     SDK::FStr_Passport_Armor1 armorPassport{};
     bool armorGenerationPending = false;
 
-    using ArmorRuntimeProps = decltype(ArmorPresetData::runtimeProps);
-
     ArmorRuntimeProps runtimeProps{};
 
     LivePreviewManager preview{cfg.preview};

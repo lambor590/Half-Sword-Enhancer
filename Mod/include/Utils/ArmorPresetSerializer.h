@@ -8,17 +8,19 @@
 #include "SDK/Str_Passport_Armor1_structs.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
 
+struct ArmorRuntimeProps {
+    RuntimeOverride protectionBlunt, protectionCut, protectionStab;
+    RuntimeOverride materialDensity, massScale;
+    RuntimeOverride handsRigidity, strapPower, aiInvincibilityRate, price;
+    BoolOverride pickUp;
+    bool operator==(const ArmorRuntimeProps&) const = default;
+};
+
 struct ArmorPresetData : PresetDataBase {
     static constexpr const char* K_PRESETS_SUBDIR = "armor_presets";
 
     SDK::FStr_Passport_Armor1 passport{};
-
-    struct {
-        RuntimeOverride protectionBlunt, protectionCut, protectionStab;
-        RuntimeOverride materialDensity, massScale;
-        RuntimeOverride handsRigidity, strapPower, aiInvincibilityRate, price;
-        BoolOverride pickUp;
-    } runtimeProps{};
+    ArmorRuntimeProps runtimeProps{};
 
     std::string armorCorePath;
 

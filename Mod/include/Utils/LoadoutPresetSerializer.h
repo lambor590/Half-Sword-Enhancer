@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Menu/Preset.h"
+#include "Utils/WeaponClassPaths.h"
 #include "SDK/Str_Loadout_Equipment_structs.hpp"
 #include "SDK/Str_ArmorElements_structs.hpp"
 #include "SDK/ArmorSlots_Enum_structs.hpp"
@@ -21,14 +22,7 @@ struct LoadoutPresetData : PresetDataBase {
         SDK::FLinearColor color3{0.5f, 0.5f, 0.5f, 1.0f};
     };
 
-    struct WeaponSlotData {
-        std::string weaponClass;
-        std::string gripModule;
-        std::string headModule;
-        std::string guardModule;
-        std::string pommelModule;
-        std::string subModule1;
-        std::string subModule2;
+    struct WeaponSlotData : WeaponClassPaths {
         SDK::FVector headSize{1.0, 1.0, 1.0};
         SDK::FVector guardSize{1.0, 1.0, 1.0};
         SDK::FVector pommelSize{1.0, 1.0, 1.0};
@@ -39,6 +33,7 @@ struct LoadoutPresetData : PresetDataBase {
     WeaponSlotData weaponSlots[7];
 
     static SDK::FStr_WeaponParts& GetWeaponSlot(SDK::FStr_Loadout_Weapons& weapons, int index);
+    static const SDK::FStr_WeaponParts& GetWeaponSlot(const SDK::FStr_Loadout_Weapons& weapons, int index);
     static void ReadWeaponSlot(const SDK::FStr_WeaponParts& wp, WeaponSlotData& out);
     static LoadoutPresetData ReadFromEquipment(const SDK::FStr_Loadout_Equipment& equip);
     static void SerializeCustom(const LoadoutPresetData& data, CSimpleIniA& ini);

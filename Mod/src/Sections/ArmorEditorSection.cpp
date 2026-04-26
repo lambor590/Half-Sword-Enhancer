@@ -442,7 +442,7 @@ void ArmorEditorSection::Render() {
 
     if (cfg.preview.livePreview) {
         bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport) ||
-                           std::memcmp(&runtimeProps, &lastPreviewedProps, sizeof(ArmorRuntimeProps)) != 0;
+                           runtimeProps != lastPreviewedProps;
         preview.Update(needsUpdate, [this]() { SpawnPreview(); });
         preview.Rotate();
     }

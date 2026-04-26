@@ -5,6 +5,7 @@
 #include <cstdint>
 
 #include "../../ext/SimpleIni.h"
+#include "Utils/OverrideTypes.h"
 
 enum class OverrideFieldType : uint8_t { Double, Int, Bool };
 
@@ -22,11 +23,6 @@ struct OverrideDescriptor {
     float speed;         ///< Drag speed for Double/Int widgets (ignored for Bool)
     const char* tooltip;
 };
-
-
-struct RuntimeOverride;
-struct IntOverride;
-struct BoolOverride;
 
 constexpr OverrideDescriptor OverrideField(
     const char* name, RuntimeOverride& ovr, double defaultVal = 0.0, double minVal = 0.0, double maxVal = 0.0,
@@ -90,9 +86,6 @@ void DeserializeAll(std::span<const OverrideDescriptor> fields, const CSimpleIni
 void RenderOverrideField(const OverrideDescriptor& field);
 
 void RenderOverrideGroup(std::span<const OverrideDescriptor> fields);
-
-
-#include "Utils/OverrideTypes.h"
 
 constexpr OverrideDescriptor OverrideField(
     const char* name, RuntimeOverride& ovr, double defaultVal, double minVal, double maxVal, float speed,

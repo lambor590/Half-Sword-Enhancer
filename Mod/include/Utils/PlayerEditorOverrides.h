@@ -1,24 +1,14 @@
 #pragma once
 
-#include "Utils/OverrideTypes.h"
+#include "Utils/CharacterOverrideSets.h"
 
-struct PlayerEditorOverrides {
-    RuntimeOverride heightRate;
-    RuntimeOverride muscleRate;
-    RuntimeOverride scaleMutationInhibitor;
-
+struct PlayerEditorOverrides
+    : CharacterPhysicalOverrides,
+      CharacterCombatOverrides,
+      CharacterBodyConditionOverrides {
     RuntimeOverride health;
-    RuntimeOverride headHealth;
-    RuntimeOverride neckHealth;
-    RuntimeOverride armRHealth;
-    RuntimeOverride armLHealth;
-    RuntimeOverride bodyUpperHealth;
-    RuntimeOverride bodyLowerHealth;
-    RuntimeOverride legRHealth;
-    RuntimeOverride legLHealth;
     RuntimeOverride backHealth;
     RuntimeOverride consciousness;
-    RuntimeOverride regenRate;
 
     RuntimeOverride allBodyTonus;
     RuntimeOverride headTonus;
@@ -39,9 +29,6 @@ struct PlayerEditorOverrides {
     RuntimeOverride getUpRate;
     RuntimeOverride fallenRate;
 
-    RuntimeOverride damageRate;
-    RuntimeOverride limbDamageRate;
-    RuntimeOverride dismemberThreshold;
     RuntimeOverride stamina;
     RuntimeOverride staminaBurnSwingR;
     RuntimeOverride staminaBurnSwingL;
@@ -49,7 +36,6 @@ struct PlayerEditorOverrides {
     RuntimeOverride grabForceR;
     RuntimeOverride grabForceL;
     RuntimeOverride handsRigidity;
-    RuntimeOverride bodySkill;
     RuntimeOverride weaponSkill;
 
     BoolOverride skillThrust;
