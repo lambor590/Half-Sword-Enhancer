@@ -1,17 +1,11 @@
 #pragma once
 
 #include <atomic>
-#include <d3d11.h>
 #include <Windows.h>
-#include <wrl/client.h>
 
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_dx11.h"
 #include "imgui/backends/imgui_impl_win32.h"
-#include "Logger.h"
-#include "Menu/MenuManager.h"
-#include "GlobalDefinitions.h"
-#include "DefaultStyle.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 extern IMGUI_IMPL_API LRESULT
@@ -30,10 +24,7 @@ public:
         return instance;
     }
 
-    void Init(
-        Microsoft::WRL::ComPtr<ID3D11Device> newDevice, Microsoft::WRL::ComPtr<ID3D11DeviceContext> newContext,
-        HWND newWindow
-    ) noexcept;
+    void Init(HWND newWindow) noexcept;
     bool IsInitialized() const noexcept;
     void Setup();
     void Render();
@@ -45,9 +36,8 @@ public:
     static bool NeedsRendering() noexcept;
 
 private:
-    Microsoft::WRL::ComPtr<ID3D11Device> device = nullptr;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext> context = nullptr;
     HWND window = nullptr;
+    bool setupComplete = false;
 
     static WNDPROC originalWndProc;
     static std::atomic<bool> isVisible;

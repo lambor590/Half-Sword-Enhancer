@@ -5,7 +5,7 @@
 #include "KeybindManager.h"
 #include "ConfigManager.h"
 #include "NotificationManager.h"
-#include "Gui.h"
+#include "GuiVisibility.h"
 
 std::map<int*, KeybindManager::Binding> KeybindManager::s_bindings;
 bool KeybindManager::s_initialized = false;
@@ -91,7 +91,7 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
     if (keyCode == -1) return false;
 
     if (keyCode == s_hotData.toggleGuiKey) [[unlikely]] {
-        Gui::ToggleVisibility();
+        ToggleGuiVisibility();
         return true;
     }
 

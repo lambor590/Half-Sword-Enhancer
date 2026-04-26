@@ -2,16 +2,10 @@
 
 /// Integrates with GameHook's ProcessEvent dispatch to fire callbacks on game events.
 
-#include <cstdint>
 #include <functional>
 #include <vector>
 
-enum class GameEvent : uint8_t {
-    BeginFight,
-    InAbyss,
-    OffLedge,
-    OnTick,
-};
+#include "Menu/GameEvent.h"
 
 /// All subscriptions and dispatches happen on the game thread via GameHook::QueueAction.
 class EventBus {

@@ -2,6 +2,7 @@
 #include <algorithm>
 
 #include "Menu/Keybind.h"
+#include "Menu/EventBus.h"
 #include "Hooks/GameHook.h"
 #include "imgui/imgui.h"
 #include "ConfigManager.h"

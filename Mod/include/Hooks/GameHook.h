@@ -9,15 +9,14 @@
 #include <string_view>
 
 #include "Logger.h"
-
-enum class GameEvent : uint8_t;
+#include "Menu/GameEvent.h"
 
 namespace SDK {
     class UObject;
     class UFunction;
 }
 
-using ProcessEvent = void*(__stdcall*)(SDK::UObject*, SDK::UFunction*, void*);
+using ProcessEvent = void(__stdcall*)(SDK::UObject*, SDK::UFunction*, void*);
 
 class GameHook {
 public:
@@ -68,5 +67,5 @@ private:
     static std::mutex queueMutex;
     static std::atomic<bool> hasQueuedActions;
 
-    friend void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept;
+    friend void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept;
 };

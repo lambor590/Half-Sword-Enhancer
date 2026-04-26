@@ -45,7 +45,7 @@ namespace {
         static constexpr int8_t NOT_HOOKED = -1;
 
         struct alignas(16) Slot {
-            void* key;
+            SDK::UFunction* key;
             int8_t hookIdx;
         };
 
@@ -62,8 +62,8 @@ namespace {
             }
         }
 
-        FORCE_INLINE int8_t Lookup(void* funcPtr) const noexcept {
-            const auto raw = reinterpret_cast<uintptr_t>(funcPtr);
+        FORCE_INLINE int8_t Lookup(SDK::UFunction* function) const noexcept {
+            const auto raw = reinterpret_cast<uintptr_t>(function);
             const size_t idx = FibonacciHash(raw);
 
             // Prefetch the second cache line we might touch (idx+4 slots ahead).
@@ -72,30 +72,30 @@ namespace {
 
             {
                 const auto& s = slots[idx & TABLE_MASK];
-                if (s.key == funcPtr) [[likely]]
+                if (s.key == function) [[likely]]
                     return s.hookIdx;
                 if (s.hookIdx == EMPTY) return EMPTY;
             }
 
             for (size_t i = 1; i < MAX_PROBES; ++i) {
                 const auto& s = slots[(idx + i) & TABLE_MASK];
-                if (s.key == funcPtr) return s.hookIdx;
+                if (s.key == function) return s.hookIdx;
                 if (s.hookIdx == EMPTY) return EMPTY;
             }
             return EMPTY;
         }
 
-        void Insert(void* funcPtr, int8_t hookIdx) noexcept {
-            const size_t idx = FibonacciHash(reinterpret_cast<uintptr_t>(funcPtr));
+        void Insert(SDK::UFunction* function, int8_t hookIdx) noexcept {
+            const size_t idx = FibonacciHash(reinterpret_cast<uintptr_t>(function));
             for (size_t i = 0; i < MAX_PROBES; ++i) {
                 auto& s = slots[(idx + i) & TABLE_MASK];
-                if (s.hookIdx == EMPTY || s.key == funcPtr) {
-                    s.key = funcPtr;
+                if (s.hookIdx == EMPTY || s.key == function) {
+                    s.key = function;
                     s.hookIdx = hookIdx;
                     return;
                 }
             }
-            slots[idx & TABLE_MASK] = {funcPtr, hookIdx};
+            slots[idx & TABLE_MASK] = {function, hookIdx};
         }
     };
 
@@ -106,9 +106,9 @@ namespace {
 // so the fast path in OnProcessEvent stays compact (fewer registers spilled,
 // smaller icache footprint, better branch prediction).
 __declspec(noinline) static int8_t ResolveAndCache(
-    void* funcPtr, SDK::UFunction* pFunc, const GameHook::HookEntry* hookArray, uint8_t hookCount
+    SDK::UFunction* function, const GameHook::HookEntry* hookArray, uint8_t hookCount
 ) noexcept {
-    std::string funcName = pFunc->GetName();
+    std::string funcName = function->GetName();
     uint64_t nameHash = HS::Hash::FNV1A(funcName.c_str());
 
     int8_t resolved = ProcessEventCache::NOT_HOOKED;
@@ -118,28 +118,27 @@ __declspec(noinline) static int8_t ResolveAndCache(
             break;
         }
     }
-    g_peCache.Insert(funcPtr, resolved);
+    g_peCache.Insert(function, resolved);
     return resolved;
 }
 
-void* __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
+void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
     if (GameHook::hasQueuedActions.load(std::memory_order_relaxed)) [[unlikely]] {
         GameHook::ProcessGameThreadQueue();
     }
 
     auto& hook = GameHook::Get();
-    void* funcPtr = static_cast<void*>(pFunc);
-    int8_t idx = g_peCache.Lookup(funcPtr);
+    int8_t idx = g_peCache.Lookup(pFunc);
 
     if (idx == ProcessEventCache::EMPTY) [[unlikely]] {
-        idx = ResolveAndCache(funcPtr, pFunc, hook.hooks.data(), hook.hookCount);
+        idx = ResolveAndCache(pFunc, hook.hooks.data(), hook.hookCount);
     }
 
     if (idx >= 0) [[unlikely]] {
         hook.hooks[idx].callback();
     }
 
-    return std::bit_cast<ProcessEvent>(hook.oProcessEvent)(pObject, pFunc, parms);
+    std::bit_cast<ProcessEvent>(hook.oProcessEvent)(pObject, pFunc, parms);
 }
 
 GameHook& GameHook::Get() {

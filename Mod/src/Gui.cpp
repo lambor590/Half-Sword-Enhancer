@@ -1,7 +1,12 @@
 #include "Gui.h"
+#include "GuiVisibility.h"
+#include "ConfigManager.h"
 #include "Core/ModContext.h"
+#include "DefaultStyle.h"
 #include "Menu/SectionRegistry.h"
+#include "Menu/MenuManager.h"
 #include "KeybindManager.h"
+#include "Logger.h"
 #include "NotificationManager.h"
 #include "Version.h"
 #include "Utils/GameBuildInfo.h"
@@ -11,17 +16,16 @@ std::atomic<bool> Gui::isVisible = true;
 
 Logger logger("Gui");
 
-void Gui::Init(
-    Microsoft::WRL::ComPtr<ID3D11Device> newDevice, Microsoft::WRL::ComPtr<ID3D11DeviceContext> newContext,
-    HWND newWindow
-) noexcept {
-    device = std::move(newDevice);
-    context = std::move(newContext);
+void ToggleGuiVisibility() noexcept {
+    Gui::ToggleVisibility();
+}
+
+void Gui::Init(HWND newWindow) noexcept {
     window = newWindow;
 }
 
 bool Gui::IsInitialized() const noexcept {
-    return device && context && window;
+    return window != nullptr;
 }
 
 namespace {
@@ -97,6 +101,9 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 void Gui::Setup() {
+    if (setupComplete)
+        return;
+
     IMGUI_CHECKVERSION();
 
     ImGuiIO& io = ImGui::GetIO();
@@ -116,6 +123,7 @@ void Gui::Setup() {
 
     originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
     logger.Log("WndProc hooked successfully");
+    setupComplete = true;
 }
 
 bool Gui::NeedsRendering() noexcept {

@@ -1,11 +1,12 @@
 #pragma once
 
 #include <functional>
+#include <cstdint>
 #include <string>
 #include <string_view>
 #include <vector>
 
-#include "Menu/EventBus.h"
+#include "Menu/GameEvent.h"
 
 class ModContext;
 
