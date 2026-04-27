@@ -396,6 +396,20 @@ void Renderer::ReleaseGraphicsResources() noexcept {
 }
 
 void Renderer::Cleanup() noexcept {
+    if (presentAddress || resizeBuffersAddress) {
+        if (presentAddress) MemoryUtils::Unhook(presentAddress);
+        if (resizeBuffersAddress) MemoryUtils::Unhook(resizeBuffersAddress);
+        presentAddress = 0;
+        resizeBuffersAddress = 0;
+        presentReturnAddress = 0;
+        resizeBuffersReturnAddress = 0;
+    }
+    if (executeCommandListsAddress) {
+        UnhookCommandQueue();
+        executeCommandListsAddress = 0;
+        executeCommandListsReturnAddress = 0;
+    }
+
     ReleaseGraphicsResources();
     commandQueue.Reset();
 
@@ -404,10 +418,6 @@ void Renderer::Cleanup() noexcept {
         ImGui::DestroyContext();
         state.imguiContextReady = false;
         window.handle = nullptr;
-    }
-
-    if (executeCommandListsAddress) {
-        UnhookCommandQueue();
     }
 
     state = {};
@@ -483,15 +493,22 @@ IDXGISwapChain* Renderer::CreateDummySwapChain() {
 }
 
 ID3D12CommandQueue* Renderer::CreateDummyCommandQueue() {
-    ID3D12Device* device = nullptr;
-    D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
+    ComPtr<ID3D12Device> device;
+    HRESULT hr = D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
+    if (FAILED(hr) || !device) {
+        logger.Log("D3D12CreateDevice failed: 0x%08X", hr);
+        return nullptr;
+    }
 
     D3D12_COMMAND_QUEUE_DESC queueDesc{};
     queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 
     ID3D12CommandQueue* queue = nullptr;
-    device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue));
-    device->Release();
+    hr = device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue));
+    if (FAILED(hr) || !queue) {
+        logger.Log("CreateCommandQueue failed: 0x%08X", hr);
+        return nullptr;
+    }
 
     return queue;
 }
@@ -506,6 +523,8 @@ void Renderer::HookSwapChain(
 
     MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, outPresentReturn);
     MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, outResizeReturn);
+    this->presentAddress = presentAddress;
+    this->resizeBuffersAddress = resizeBuffersAddress;
 
     dummySwapChain->Release();
 }

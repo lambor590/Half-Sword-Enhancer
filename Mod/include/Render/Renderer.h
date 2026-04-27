@@ -39,7 +39,9 @@ private:
     Logger logger{"Renderer"};
 
     // Addresses of the original methods after MemoryUtils installs the detours.
+    uintptr_t presentAddress = 0;
     uintptr_t presentReturnAddress = 0;
+    uintptr_t resizeBuffersAddress = 0;
     uintptr_t resizeBuffersReturnAddress = 0;
     uintptr_t executeCommandListsAddress = 0;
     uintptr_t executeCommandListsReturnAddress = 0;
