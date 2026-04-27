@@ -49,7 +49,6 @@ struct KeybindEntry {
     std::function<void(bool)> callback;
     bool toggleable = false;
     bool isEnabled = false;
-    bool gameThread = false;
 
     std::vector<GameEvent> events;
 

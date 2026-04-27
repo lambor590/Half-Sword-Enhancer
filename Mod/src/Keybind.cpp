@@ -162,15 +162,57 @@ namespace {
         ImGui::PopItemWidth();
     }
 
+    void RunEntryCallback(KeybindEntry& entry, bool enabled) {
+        GameHook::QueueAction([&entry, enabled]() { entry.callback(enabled); });
+    }
+
+    void SetToggleEnabled(KeybindEntry& entry, bool enabled, bool runCallback) {
+        entry.isEnabled = enabled;
+        KeybindConfig::SaveKeybind(entry);
+
+        for (auto evt : entry.events) {
+            if (entry.isEnabled) {
+                EventBus::Get().Subscribe(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
+            } else {
+                EventBus::Get().Unsubscribe(evt, &entry);
+            }
+        }
+
+        if (runCallback) {
+            RunEntryCallback(entry, entry.isEnabled);
+        }
+    }
+
+    KeybindManager::Callback BuildKeybindCallback(KeybindEntry& entry) {
+        return [&entry]() {
+            if (entry.toggleable) {
+                SetToggleEnabled(entry, !entry.isEnabled, true);
+            } else {
+                RunEntryCallback(entry, true);
+            }
+        };
+    }
+
+    KeybindManager::Callback BuildUnboundCallback(KeybindEntry& entry) {
+        return [&entry]() {
+            if (entry.toggleable && entry.isEnabled) {
+                SetToggleEnabled(entry, false, false);
+            } else {
+                KeybindConfig::SaveKeybind(entry);
+            }
+        };
+    }
+
     void ApplyKey(KeybindEntry& entry) {
         KeybindManager::UnregisterKeybind(entry.keyPtr);
-        if (*entry.keyPtr != -1) {
-            KeybindManager::RegisterKeybind(entry.keyPtr, [&entry]() {
-                if (entry.toggleable) {
-                    entry.isEnabled = !entry.isEnabled;
-                }
-                entry.callback(entry.isEnabled);
-            });
+        if (IsKeyUnbound(*entry.keyPtr)) {
+            if (entry.toggleable && entry.isEnabled) {
+                SetToggleEnabled(entry, false, false);
+            }
+        } else {
+            KeybindManager::RegisterKeybind(
+                entry.keyPtr, BuildKeybindCallback(entry), entry.name, entry.toggleable, BuildUnboundCallback(entry)
+            );
         }
         entry.prevKey = *entry.keyPtr;
         KeybindConfig::SaveKeybind(entry);
@@ -303,8 +345,7 @@ void KeybindUI::RenderKeybind(KeybindEntry& entry) {
     if (entry.toggleable) {
         bool currentEnabled = entry.isEnabled;
         if (ImGui::Checkbox(entry.checkId.c_str(), &currentEnabled) && currentEnabled != entry.isEnabled) {
-            entry.isEnabled = currentEnabled;
-            KeybindConfig::SaveKeybind(entry);
+            SetToggleEnabled(entry, currentEnabled, true);
         }
         ImGui::SameLine();
         RenderName(entry.name, !entry.isEnabled && IsKeyUnbound(*entry.keyPtr));
@@ -434,32 +475,10 @@ void InitKeybindEntry(KeybindEntry& entry) {
 
     KeybindConfig::LoadKeybind(entry);
 
-    // Build the keybind callback that handles toggle + event registration
-    auto makeCallback = [&entry]() {
-        return [&entry]() {
-            if (entry.toggleable) {
-                entry.isEnabled = !entry.isEnabled;
-                KeybindConfig::SaveKeybind(entry);
-
-                for (auto evt : entry.events) {
-                    if (entry.isEnabled) {
-                        EventBus::Get().Subscribe(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
-                    } else {
-                        EventBus::Get().Unsubscribe(evt, &entry);
-                    }
-                }
-
-                if (entry.gameThread) {
-                    GameHook::QueueAction([&entry]() { entry.callback(entry.isEnabled); });
-                }
-            } else {
-                entry.callback(true);
-            }
-        };
-    };
-
-    if (*entry.keyPtr != -1) {
-        KeybindManager::RegisterKeybind(entry.keyPtr, makeCallback(), entry.name, entry.toggleable);
+    if (!IsKeyUnbound(*entry.keyPtr)) {
+        KeybindManager::RegisterKeybind(
+            entry.keyPtr, BuildKeybindCallback(entry), entry.name, entry.toggleable, BuildUnboundCallback(entry)
+        );
     }
 
     // If already enabled (loaded from config) and has events, subscribe now

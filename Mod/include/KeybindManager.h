@@ -24,6 +24,7 @@ private:
         std::string name;
         bool toggleable = false;
         int currentKey = -1;
+        Callback onUnbound;
     };
 
     struct HotData {
@@ -57,7 +58,7 @@ private:
 public:
     static void Initialize() noexcept;
     static void RegisterKeybind(
-        int* keyPtr, Callback callback, std::string name = "", bool toggleable = false
+        int* keyPtr, Callback callback, std::string name = "", bool toggleable = false, Callback onUnbound = {}
     ) noexcept;
     static void UnregisterKeybind(int* keyPtr) noexcept;
     static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;

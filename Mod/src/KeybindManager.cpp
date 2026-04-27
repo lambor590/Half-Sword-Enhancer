@@ -25,7 +25,9 @@ void KeybindManager::Initialize() noexcept {
     }
 }
 
-void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback, std::string name, bool toggleable) noexcept {
+void KeybindManager::RegisterKeybind(
+    int* keyPtr, Callback callback, std::string name, bool toggleable, Callback onUnbound
+) noexcept {
     bool expected = false;
     if (!s_hotData.processingKeyEvent.compare_exchange_strong(expected, true, std::memory_order_acquire)) {
         return;
@@ -34,7 +36,7 @@ void KeybindManager::RegisterKeybind(int* keyPtr, Callback callback, std::string
     UnregisterKeybind(keyPtr);
 
     int currentKey = *keyPtr;
-    s_bindings[keyPtr] = {std::move(callback), keyPtr, std::move(name), toggleable, currentKey};
+    s_bindings[keyPtr] = {std::move(callback), keyPtr, std::move(name), toggleable, currentKey, std::move(onUnbound)};
 
     if (currentKey != -1) {
         s_hotData.keyToBindings[currentKey].push_back(&s_bindings[keyPtr]);
@@ -192,7 +194,10 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
 
     if (foundIt != bindings.end()) {
         Binding* binding = *foundIt;
-        *(binding->keyPtr) = 255;
+        *(binding->keyPtr) = -1;
+        if (binding->onUnbound) {
+            binding->onUnbound();
+        }
         s_bindings.erase(binding->keyPtr);
         bindings.erase(foundIt);
 
