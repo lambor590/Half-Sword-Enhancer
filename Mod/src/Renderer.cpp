@@ -518,13 +518,13 @@ void Renderer::HookSwapChain(
     uintptr_t* outPresentReturn, uintptr_t* outResizeReturn
 ) {
     auto* vmt = *reinterpret_cast<uintptr_t**>(dummySwapChain);
-    uintptr_t presentAddress = vmt[VMT_PRESENT_BYTE_OFFSET / sizeof(uintptr_t)];
-    uintptr_t resizeBuffersAddress = vmt[VMT_RESIZE_BUFFERS_BYTE_OFFSET / sizeof(uintptr_t)];
+    uintptr_t presentHookAddress = vmt[VMT_PRESENT_BYTE_OFFSET / sizeof(uintptr_t)];
+    uintptr_t resizeBuffersHookAddress = vmt[VMT_RESIZE_BUFFERS_BYTE_OFFSET / sizeof(uintptr_t)];
 
-    MemoryUtils::PlaceHook(presentAddress, presentDetourFunction, outPresentReturn);
-    MemoryUtils::PlaceHook(resizeBuffersAddress, resizeBuffersDetourFunction, outResizeReturn);
-    this->presentAddress = presentAddress;
-    this->resizeBuffersAddress = resizeBuffersAddress;
+    MemoryUtils::PlaceHook(presentHookAddress, presentDetourFunction, outPresentReturn);
+    MemoryUtils::PlaceHook(resizeBuffersHookAddress, resizeBuffersDetourFunction, outResizeReturn);
+    this->presentAddress = presentHookAddress;
+    this->resizeBuffersAddress = resizeBuffersHookAddress;
 
     dummySwapChain->Release();
 }
