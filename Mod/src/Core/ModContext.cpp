@@ -13,6 +13,10 @@ ModContext::ModContext() : gameHook(GameHook::Get()), configManager(ConfigManage
 
 void ModContext::RefreshCache() {
     world = SDK::UWorld::GetWorld();
+    worldSettings = nullptr;
+    controller = nullptr;
+    player = nullptr;
+
     if (world) {
         worldSettings = world->K2_GetWorldSettings();
         auto* gi = world->OwningGameInstance;
