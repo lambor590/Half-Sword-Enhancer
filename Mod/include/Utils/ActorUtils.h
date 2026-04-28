@@ -28,6 +28,8 @@ namespace ActorUtils {
     }
 
     inline void ApplyBiteState(SDK::AWillie_BP_C* willie, bool active) noexcept {
+        if (!willie) return;
+
         if (active && !willie->Biting)
             willie->Bite_Event();
         else if (!active && willie->Biting)

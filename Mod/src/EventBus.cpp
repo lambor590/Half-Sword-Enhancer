@@ -1,4 +1,5 @@
 #include "Menu/EventBus.h"
+#include "Core/ModContext.h"
 #include "Hooks/GameHook.h"
 
 EventBus& EventBus::Get() {
@@ -36,6 +37,8 @@ void EventBus::Unsubscribe(GameEvent event, void* id) {
 }
 
 void EventBus::Dispatch(GameEvent event) {
+    ModContext::Get().RefreshCache();
+
     uint8_t idx = static_cast<uint8_t>(event);
     auto& vec = subscribers[idx];
     for (auto& [_, cb] : vec) {

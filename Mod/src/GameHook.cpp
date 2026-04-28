@@ -1,5 +1,6 @@
 #include "Hooks/GameHook.h"
 #include "ConfigManager.h"
+#include "Core/ModContext.h"
 #include "Menu/EventBus.h"
 #include "MemoryUtils.h"
 #include "Utils/CompileTimeHash.h"
@@ -282,6 +283,8 @@ void GameHook::ProcessGameThreadQueue() {
         localQueue.swap(gameThreadQueue);
         hasQueuedActions.store(false, std::memory_order_release);
     }
+
+    ModContext::Get().RefreshCache();
 
     while (!localQueue.empty()) {
         localQueue.front()();

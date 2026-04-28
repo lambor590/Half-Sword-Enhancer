@@ -397,8 +397,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .keyPtr = &cfg.biteAttackKey,
             .callback =
                 [this](bool active) {
-                    if (!player) return;
-                    GameHook::QueueAction([this, active]() { ActorUtils::ApplyBiteState(player, active); });
+                    ActorUtils::ApplyBiteState(player, active);
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
@@ -415,17 +414,16 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .callback =
                 [this](bool active) {
                     if (!player || !world) return;
-                    GameHook::QueueAction([this, active]() {
-                        if (active) {
-                            auto* biter = ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange);
-                            if (biter) ActorUtils::ApplyBiteState(biter, true);
-                        } else {
-                            ActorUtils::ForEachWillieInRadius(
-                                world, player, cfg.biteRange,
-                                [](SDK::AWillie_BP_C* willie) { ActorUtils::ApplyBiteState(willie, false); }
-                            );
-                        }
-                    });
+                    if (active) {
+                        ActorUtils::ApplyBiteState(
+                            ActorUtils::FindNearestWillie(world, player, player, cfg.biteRange), true
+                        );
+                        return;
+                    }
+                    ActorUtils::ForEachWillieInRadius(
+                        world, player, cfg.biteRange,
+                        [](SDK::AWillie_BP_C* willie) { ActorUtils::ApplyBiteState(willie, false); }
+                    );
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
@@ -444,12 +442,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .callback =
                 [this](bool active) {
                     if (!player || !world) return;
-                    GameHook::QueueAction([this, active]() {
-                        ActorUtils::ForEachWillieInRadius(
-                            world, player, cfg.biteAllRange,
-                            [active](SDK::AWillie_BP_C* willie) { ActorUtils::ApplyBiteState(willie, active); }
-                        );
-                    });
+                    ActorUtils::ForEachWillieInRadius(
+                        world, player, cfg.biteAllRange,
+                        [active](SDK::AWillie_BP_C* willie) { ActorUtils::ApplyBiteState(willie, active); }
+                    );
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
