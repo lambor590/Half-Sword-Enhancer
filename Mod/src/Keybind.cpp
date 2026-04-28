@@ -143,13 +143,13 @@ namespace {
             case KeybindParam::Type::Int: {
                 auto* valuePtr = static_cast<int*>(param.valuePtr);
                 const SliderStyleRAII sliderStyle;
-                ImGui::DragInt(param.id.c_str(), valuePtr, 1.0f, 0, 0);
+                GuiUtils::DebouncedDragInt(param.id.c_str(), valuePtr, 1.0f);
                 break;
             }
             case KeybindParam::Type::Float: {
                 auto* valuePtr = static_cast<float*>(param.valuePtr);
                 const SliderStyleRAII sliderStyle;
-                ImGui::DragFloat(param.id.c_str(), valuePtr, 0.01f, 0.0f, 0.0f, "%.2f");
+                GuiUtils::DebouncedDragFloat(param.id.c_str(), valuePtr, 0.01f, 0.0f, 0.0f, "%.2f");
                 break;
             }
             case KeybindParam::Type::Bool: {

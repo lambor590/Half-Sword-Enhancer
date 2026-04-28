@@ -13,6 +13,7 @@
 #include "SDK/Basic.hpp"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
+#include "Utils/GuiUtils.h"
 
 namespace PropertyBrowser {
 
@@ -236,13 +237,9 @@ namespace PropertyBrowser {
     inline bool DragDouble3(const char* label, double* d, float speed, const char* fmt) {
         float tmp[3] = {static_cast<float>(d[0]), static_cast<float>(d[1]), static_cast<float>(d[2])};
         ImGui::SetNextItemWidth(K_VEC3_WIDTH);
-        if (ImGui::DragFloat3(label, tmp, speed, 0.0f, 0.0f, fmt)) {
-            d[0] = tmp[0];
-            d[1] = tmp[1];
-            d[2] = tmp[2];
-            return true;
-        }
-        return false;
+        bool committed = GuiUtils::DebouncedDragFloat3(label, tmp, speed, 0.0f, 0.0f, fmt);
+        if (ImGui::IsItemEdited()) std::copy_n(tmp, 3, d);
+        return committed;
     }
 
     inline bool RenderPropertyWidget(const PropertyInfo& prop, std::byte* objectBytes) {
@@ -254,14 +251,14 @@ namespace PropertyBrowser {
         switch (prop.type) {
             case PropType::Float: {
                 ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
-                changed = ImGui::DragFloat(
+                changed = GuiUtils::DebouncedDragFloat(
                     prop.displayName.c_str(), reinterpret_cast<float*>(valuePtr), 0.01f, 0.0f, 0.0f, "%.4f"
                 );
                 break;
             }
             case PropType::Double: {
                 ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
-                changed = ImGui::DragScalar(
+                changed = GuiUtils::DebouncedDragScalar(
                     prop.displayName.c_str(), ImGuiDataType_Double, reinterpret_cast<double*>(valuePtr), 0.01f, nullptr,
                     nullptr, "%.4f"
                 );
@@ -269,7 +266,8 @@ namespace PropertyBrowser {
             }
             case PropType::Int: {
                 ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
-                changed = ImGui::DragInt(prop.displayName.c_str(), reinterpret_cast<int32_t*>(valuePtr), 1.0f, 0, 0);
+                changed =
+                    GuiUtils::DebouncedDragInt(prop.displayName.c_str(), reinterpret_cast<int32_t*>(valuePtr), 1.0f);
                 break;
             }
             case PropType::Bool: {
@@ -287,10 +285,8 @@ namespace PropertyBrowser {
             case PropType::Byte: {
                 int intVal = *valuePtr;
                 ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
-                if (ImGui::DragInt(prop.displayName.c_str(), &intVal, 1.0f, 0, 255)) {
-                    *valuePtr = static_cast<uint8_t>(intVal);
-                    changed = true;
-                }
+                changed = GuiUtils::DebouncedDragInt(prop.displayName.c_str(), &intVal, 1.0f, 0, 255);
+                if (ImGui::IsItemEdited()) *valuePtr = static_cast<uint8_t>(intVal);
                 break;
             }
             case PropType::Enum: {
@@ -317,12 +313,12 @@ namespace PropertyBrowser {
                     }
                 } else {
                     ImGui::SetNextItemWidth(K_SCALAR_WIDTH);
-                    if (ImGui::DragInt(prop.displayName.c_str(), &intVal, 1.0f, 0, 255)) {
+                    changed = GuiUtils::DebouncedDragInt(prop.displayName.c_str(), &intVal, 1.0f, 0, 255);
+                    if (ImGui::IsItemEdited()) {
                         if (prop.elementSize <= 1)
                             *valuePtr = static_cast<uint8_t>(intVal);
                         else
                             *reinterpret_cast<int32_t*>(valuePtr) = intVal;
-                        changed = true;
                     }
                 }
                 break;

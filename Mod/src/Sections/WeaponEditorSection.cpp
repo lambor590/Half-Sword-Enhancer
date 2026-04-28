@@ -549,16 +549,14 @@ void WeaponEditorSection::SpawnFromPassport() {
 
 void WeaponEditorSection::RenderVectorDrag(const char* label, SDK::FVector& vec, float speed) {
     float v[3] = {static_cast<float>(vec.X), static_cast<float>(vec.Y), static_cast<float>(vec.Z)};
-    if (ImGui::DragFloat3(label, v, speed, 0.0f, 0.0f, "%.3f")) {
-        vec.X = v[0];
-        vec.Y = v[1];
-        vec.Z = v[2];
-    }
+    GuiUtils::DebouncedDragFloat3(label, v, speed, 0.0f, 0.0f, "%.3f");
+    GuiUtils::StoreEdited(vec, v);
 }
 
 void WeaponEditorSection::RenderMassDrag(const char* label, double& mass, float speed) {
     auto val = static_cast<float>(mass);
-    if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f")) mass = val;
+    GuiUtils::DebouncedDragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f");
+    GuiUtils::StoreEdited(mass, val);
 }
 
 void WeaponEditorSection::RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask) {
@@ -760,26 +758,23 @@ void WeaponEditorSection::RenderAppearanceTab() {
 void WeaponEditorSection::RenderMeshTransformControls(MeshOverride& ovr) {
     float s[3] = {static_cast<float>(ovr.scale.X), static_cast<float>(ovr.scale.Y), static_cast<float>(ovr.scale.Z)};
     ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
-    if (ImGui::DragFloat3("Scale", s, 0.01f, 0.0f, 0.0f, "%.2f")) {
-        ovr.scale = {s[0], s[1], s[2]};
-        if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
-    }
+    bool scaleCommitted = GuiUtils::DebouncedDragFloat3("Scale", s, 0.01f, 0.0f, 0.0f, "%.2f");
+    GuiUtils::StoreEdited(ovr.scale, s);
+    if (scaleCommitted && preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
 
     float r[3] = {
         static_cast<float>(ovr.rotation.Pitch), static_cast<float>(ovr.rotation.Yaw),
         static_cast<float>(ovr.rotation.Roll)};
     ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
-    if (ImGui::DragFloat3("Rotation", r, 1.0f, -180.0f, 180.0f, "%.1f")) {
-        ovr.rotation = {r[0], r[1], r[2]};
-        if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
-    }
+    bool rotationCommitted = GuiUtils::DebouncedDragFloat3("Rotation", r, 1.0f, -180.0f, 180.0f, "%.1f");
+    GuiUtils::StoreEdited(ovr.rotation, r);
+    if (rotationCommitted && preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
 
     float o[3] = {static_cast<float>(ovr.offset.X), static_cast<float>(ovr.offset.Y), static_cast<float>(ovr.offset.Z)};
     ImGui::SetNextItemWidth(meshComboWidth * 0.6f);
-    if (ImGui::DragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f")) {
-        ovr.offset = {o[0], o[1], o[2]};
-        if (preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
-    }
+    bool offsetCommitted = GuiUtils::DebouncedDragFloat3("Offset", o, 0.1f, 0.0f, 0.0f, "%.1f");
+    GuiUtils::StoreEdited(ovr.offset, o);
+    if (offsetCommitted && preview.GetPreviewActor()) GameHook::QueueAction([this]() { ApplyMeshToPreview(); });
 
     ImGui::SameLine();
     if (ImGui::SmallButton("Reset")) {

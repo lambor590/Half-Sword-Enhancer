@@ -305,7 +305,7 @@ void NPCEditorSection::Render() {
     ImGui::Combo("##NationalitySelector", &cfg.npcNationality, NATIONALITY_NAMES, NATIONALITY_COUNT);
     ImGui::SameLine();
     ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
-    ImGui::DragInt("##NPCTierSlider", &cfg.npcTier, 0.1f, 0, 8, "Tier %d");
+    GuiUtils::DebouncedDragInt("##NPCTierSlider", &cfg.npcTier, 0.1f, 0, 8, "Tier %d");
 
     ImGui::Spacing();
     if (ImGui::Button("Reset All Overrides")) {

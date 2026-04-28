@@ -15,6 +15,7 @@
 #include "Menu/SectionConfig.h"
 #include "Utils/OverrideTypes.h"
 #include "Utils/GameConstants.h"
+#include "SDK/Basic.hpp"
 #include "SDK/Enum_Ranks_structs.hpp"
 #include "SDK/Enum_MaterialLayer_structs.hpp"
 
@@ -22,6 +23,56 @@ namespace GuiUtils {
     inline constexpr ImVec2 K_TOOLTIP_PADDING{8.0f, 6.0f};
     inline constexpr ImVec2 K_POPUP_PADDING{10.0f, 8.0f};
     inline constexpr float K_DRAG_WIDTH = 120.0f;
+
+    inline bool DebouncedDragFloat(
+        const char* label, float* value, float speed, float minValue = 0.0f, float maxValue = 0.0f,
+        const char* format = "%.3f"
+    ) {
+        ImGui::DragFloat(label, value, speed, minValue, maxValue, format);
+        return ImGui::IsItemDeactivatedAfterEdit();
+    }
+
+    inline bool DebouncedDragFloat3(
+        const char* label, float value[3], float speed, float minValue = 0.0f, float maxValue = 0.0f,
+        const char* format = "%.3f"
+    ) {
+        ImGui::DragFloat3(label, value, speed, minValue, maxValue, format);
+        return ImGui::IsItemDeactivatedAfterEdit();
+    }
+
+    inline bool DebouncedDragInt(
+        const char* label, int* value, float speed, int minValue = 0, int maxValue = 0, const char* format = "%d"
+    ) {
+        ImGui::DragInt(label, value, speed, minValue, maxValue, format);
+        return ImGui::IsItemDeactivatedAfterEdit();
+    }
+
+    inline bool DebouncedDragScalar(
+        const char* label, ImGuiDataType dataType, void* value, float speed, const void* minValue = nullptr,
+        const void* maxValue = nullptr, const char* format = nullptr
+    ) {
+        ImGui::DragScalar(label, dataType, value, speed, minValue, maxValue, format);
+        return ImGui::IsItemDeactivatedAfterEdit();
+    }
+
+    inline bool DebouncedSliderFloat(
+        const char* label, float* value, float minValue, float maxValue, const char* format = "%.3f"
+    ) {
+        ImGui::SliderFloat(label, value, minValue, maxValue, format);
+        return ImGui::IsItemDeactivatedAfterEdit();
+    }
+
+    inline void StoreEdited(double& target, float value) noexcept {
+        if (ImGui::IsItemEdited()) target = value;
+    }
+
+    inline void StoreEdited(SDK::FVector& target, const float value[3]) noexcept {
+        if (ImGui::IsItemEdited()) target = {value[0], value[1], value[2]};
+    }
+
+    inline void StoreEdited(SDK::FRotator& target, const float value[3]) noexcept {
+        if (ImGui::IsItemEdited()) target = {value[0], value[1], value[2]};
+    }
 
     inline void BeginStyledTooltip() noexcept {
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, K_TOOLTIP_PADDING);
@@ -118,7 +169,8 @@ namespace GuiUtils {
     inline void RenderPriceDrag(const char* label, double& price, float speed = 1.0f) {
         ImGui::SetNextItemWidth(K_DRAG_WIDTH);
         auto val = static_cast<float>(price);
-        if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.1f")) price = val;
+        DebouncedDragFloat(label, &val, speed, 0.0f, 0.0f, "%.1f");
+        StoreEdited(price, val);
     }
 
     inline void RenderOverrideDrag(const char* label, RuntimeOverride& ovr, float speed = 0.1f) {
@@ -128,7 +180,8 @@ namespace GuiUtils {
         if (!ovr.enabled) ImGui::BeginDisabled();
         auto val = static_cast<float>(ovr.value);
         ImGui::SetNextItemWidth(K_DRAG_WIDTH);
-        if (ImGui::DragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f")) ovr.value = val;
+        DebouncedDragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f");
+        StoreEdited(ovr.value, val);
         if (!ovr.enabled) ImGui::EndDisabled();
         ImGui::PopID();
     }
@@ -139,7 +192,7 @@ namespace GuiUtils {
         ImGui::SameLine();
         if (!ovr.enabled) ImGui::BeginDisabled();
         ImGui::SetNextItemWidth(K_DRAG_WIDTH);
-        ImGui::DragInt(label, &ovr.value, speed, 0, 0);
+        DebouncedDragInt(label, &ovr.value, speed, 0, 0);
         if (!ovr.enabled) ImGui::EndDisabled();
         ImGui::PopID();
     }
@@ -368,7 +421,7 @@ namespace GuiUtils {
             (void)CheckboxWithTooltip("Auto-Rotate", &preview.autoRotate, label);
             if (preview.autoRotate) {
                 ImGui::SetNextItemWidth(K_DRAG_WIDTH);
-                ImGui::DragFloat("Rotation Speed", &preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
+                DebouncedDragFloat("Rotation Speed", &preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
             }
         }
     }

@@ -110,8 +110,8 @@ namespace {
         if (!*field.enabled) ImGui::BeginDisabled();
         float val = static_cast<float>(*static_cast<double*>(field.value));
         ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-        if (ImGui::DragFloat(field.name, &val, field.speed, 0.0f, 0.0f, "%.3f"))
-            *static_cast<double*>(field.value) = val;
+        GuiUtils::DebouncedDragFloat(field.name, &val, field.speed, 0.0f, 0.0f, "%.3f");
+        GuiUtils::StoreEdited(*static_cast<double*>(field.value), val);
         if (!*field.enabled) ImGui::EndDisabled();
     }
 
@@ -120,7 +120,7 @@ namespace {
         ImGui::SameLine();
         if (!*field.enabled) ImGui::BeginDisabled();
         ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-        ImGui::DragInt(field.name, static_cast<int*>(field.value), field.speed, 0, 0);
+        GuiUtils::DebouncedDragInt(field.name, static_cast<int*>(field.value), field.speed);
         if (!*field.enabled) ImGui::EndDisabled();
     }
 

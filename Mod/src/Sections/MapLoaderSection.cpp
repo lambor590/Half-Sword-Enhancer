@@ -202,13 +202,13 @@ void MapLoaderSection::RenderPreLoadOptions() {
     ImGui::SameLine();
     ImGui::Checkbox("Carnage", &optCarnage);
     ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-    ImGui::DragInt("##Foes", &optFoesAmount, 0.2f, 0, 7, "Foes: %d");
+    GuiUtils::DebouncedDragInt("##Foes", &optFoesAmount, 0.2f, 0, 7, "Foes: %d");
     ImGui::SameLine();
     GuiUtils::RenderFreeTierCombo("##FoeTier", optFoeTier);
 
     ImGui::SeparatorText("Combat");
     ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-    ImGui::DragInt("##Enemies", &optCombatantsAmount, 0.2f, 0, 7, "Enemies: %d");
+    GuiUtils::DebouncedDragInt("##Enemies", &optCombatantsAmount, 0.2f, 0, 7, "Enemies: %d");
     ImGui::SameLine();
     GuiUtils::RenderFreeTierCombo("##OpponentTier", optOpponentTier);
 
@@ -223,7 +223,7 @@ void MapLoaderSection::RenderPreLoadOptions() {
         npcPicker.Render("NPC Preset");
         if (npcPicker.HasSelection()) {
             ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-            ImGui::DragInt("##NPCCount", &optAutoNPCCount, 0.2f, 0, 10, "Count: %d");
+            GuiUtils::DebouncedDragInt("##NPCCount", &optAutoNPCCount, 0.2f, 0, 10, "Count: %d");
         }
     }
 

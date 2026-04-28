@@ -30,7 +30,7 @@ void GraphicsSection::Render() {
     ImGui::Spacing();
 
     ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-    if (ImGui::DragInt("Render Scale (%)", &settings.renderScale, 1.0f, 1, 400)) {
+    if (GuiUtils::DebouncedDragInt("Render Scale (%)", &settings.renderScale, 1.0f, 1, 400)) {
         settingsChanged = true;
     }
 

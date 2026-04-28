@@ -236,7 +236,7 @@ void ArmorEditorSection::RenderGenerationControls() {
     GuiUtils::RenderFreeTierCombo("##GenTier", cfg.armorTier);
 
     ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-    ImGui::DragFloat("Module Chance", &cfg.moduleChance, 0.01f, 0.0f, 0.0f, "%.2f");
+    GuiUtils::DebouncedDragFloat("Module Chance", &cfg.moduleChance, 0.01f, 0.0f, 0.0f, "%.2f");
     TooltipHelper::ShowTooltip("Probability of generating modular armor vs built armor");
 
     ImGui::Spacing();
