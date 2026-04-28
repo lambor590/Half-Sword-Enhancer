@@ -34,7 +34,7 @@ private:
 
     static inline char customPathBuffer[256] = "";
 
-    std::vector<KeybindEntry> keybinds;
+    KeybindEntries keybinds;
     PresetPickerState<WeaponPresetSerializer> weaponPicker;
     PresetPickerState<ArmorPresetSerializer> armorPicker;
 

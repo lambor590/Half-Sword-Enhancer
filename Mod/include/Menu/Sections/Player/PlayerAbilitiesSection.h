@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
 
@@ -49,7 +47,7 @@ public:
 
 private:
     Config cfg;
-    std::vector<KeybindEntry> keybinds;
+    KeybindEntries keybinds;
 
     void InitKeybinds();
 

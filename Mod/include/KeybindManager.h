@@ -22,7 +22,7 @@ private:
         Callback callback;
         int* keyPtr = nullptr;
         std::string name;
-        bool toggleable = false;
+        bool isToggle = false;
         int currentKey = -1;
         Callback onUnbound;
     };
@@ -58,7 +58,7 @@ private:
 public:
     static void Initialize() noexcept;
     static void RegisterKeybind(
-        int* keyPtr, Callback callback, std::string name = "", bool toggleable = false, Callback onUnbound = {}
+        int* keyPtr, Callback callback, std::string name = "", bool isToggle = false, Callback onUnbound = {}
     ) noexcept;
     static void UnregisterKeybind(int* keyPtr) noexcept;
     static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;

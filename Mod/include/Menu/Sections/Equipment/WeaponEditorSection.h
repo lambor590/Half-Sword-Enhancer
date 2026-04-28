@@ -39,7 +39,7 @@ private:
 
     static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
 
-    std::vector<KeybindEntry> keybinds;
+    KeybindEntries keybinds;
     SDK::FStr_Passport_Weapon1 weaponPassport{};
     bool weaponGenerationPending = false;
     bool modulePoolQueued = false;

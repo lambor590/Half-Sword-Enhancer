@@ -29,7 +29,7 @@ private:
     static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
     static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;
 
-    std::vector<KeybindEntry> keybinds;
+    KeybindEntries keybinds;
     SDK::FStr_Passport_Armor1 armorPassport{};
     bool armorGenerationPending = false;
 

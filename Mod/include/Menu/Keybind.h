@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <cstdint>
+#include <deque>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -47,7 +48,7 @@ struct KeybindEntry {
     std::string configSection;
     int* keyPtr = nullptr;
     std::function<void(bool)> callback;
-    bool toggleable = false;
+    bool runOnToggle = false;
     bool isEnabled = false;
 
     std::vector<GameEvent> events;
@@ -67,7 +68,11 @@ struct KeybindEntry {
     std::string popupId;
     std::string paramButtonId;
     std::string conflictPopupId;
+
+    bool IsToggle() const noexcept { return runOnToggle || !events.empty(); }
 };
+
+using KeybindEntries = std::deque<KeybindEntry>;
 
 /// Cached config read.
 namespace TooltipHelper {
@@ -77,7 +82,7 @@ namespace TooltipHelper {
 
 namespace KeybindUI {
     void RenderKeybind(KeybindEntry& entry);
-    void RenderKeybindList(std::vector<KeybindEntry>& entries);
+    void RenderKeybindList(KeybindEntries& entries);
 }
 
 namespace KeybindConfig {
@@ -93,4 +98,4 @@ namespace KeybindConfig {
 /// KeybindManager and GameHook events. Call once after populating the entry fields.
 void InitKeybindEntry(KeybindEntry& entry);
 
-void AddKeybind(std::vector<KeybindEntry>& keybinds, KeybindEntry entry);
+void AddKeybind(KeybindEntries& keybinds, KeybindEntry entry);

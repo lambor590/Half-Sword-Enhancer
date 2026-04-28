@@ -80,7 +80,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                     float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.consciousnessMultiplier : 1.0f);
                     player->Consciousness_Cap = cap;
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
             .params = {KeybindParam(
                 "consciousness_multiplier", "Multiplier", &cfg.consciousnessMultiplier, 1.0f, 100.0f,
@@ -104,7 +104,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                         willie->Consciousness_Cap = cap;
                     });
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
             .params = {KeybindParam(
                 "enemy_consciousness_multiplier", "Multiplier", &cfg.enemyConsciousnessMultiplier, 1.0f, 100.0f,
@@ -147,7 +147,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                                       ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerWalkMultiplier)
                                                       : GameConstants::DEFAULT_PLAYER_SPEED;
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
             .params =
                 {KeybindParam(
@@ -183,7 +183,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                         active ? (GameConstants::DEFAULT_HANDS_RIGIDITY * cfg.playerHandsRigidityMultiplier)
                                : GameConstants::DEFAULT_HANDS_RIGIDITY;
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
             .params =
                 {KeybindParam(
@@ -281,7 +281,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                         willie->Drunk = active ? static_cast<double>(cfg.enemyDrunkLevel) : 0.0;
                     });
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
             .params = {KeybindParam(
                 "drunk_level", "Drunk Level", &cfg.enemyDrunkLevel, 0.0f, 1.0f,
@@ -319,7 +319,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                     player->BitPad_5C_0 = active;
                     player->Invulnerable = active;
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
         }
     );
@@ -400,7 +400,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                     if (!player) return;
                     GameHook::QueueAction([this, active]() { ActorUtils::ApplyBiteState(player, active); });
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
         }
     );
@@ -427,7 +427,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                         }
                     });
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
             .params =
                 {KeybindParam("range", "Range", &cfg.biteRange, 50.0f, 2000.0f, "Detection range for bite target")},
@@ -451,7 +451,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                         );
                     });
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
             .params =
                 {KeybindParam("range", "Range", &cfg.biteAllRange, 50.0f, 2000.0f, "Detection range for mass bite")},

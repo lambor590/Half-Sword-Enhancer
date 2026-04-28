@@ -52,7 +52,7 @@ private:
     static constexpr int NATIONALITY_COUNT = 7;
 
     NPCOverrides overrides{};
-    std::vector<KeybindEntry> keybinds;
+    KeybindEntries keybinds;
 
     PresetSectionState<NPCPresetSerializer> presets;
     PresetPickerState<LoadoutPresetSerializer> loadoutPicker;

@@ -162,57 +162,63 @@ namespace {
         ImGui::PopItemWidth();
     }
 
-    void RunEntryCallback(KeybindEntry& entry, bool enabled) {
-        GameHook::QueueAction([&entry, enabled]() { entry.callback(enabled); });
+    void QueueEntryCallback(KeybindEntry* entry, bool enabled) {
+        GameHook::QueueAction([entry, enabled]() { entry->callback(enabled); });
     }
 
-    void SetToggleEnabled(KeybindEntry& entry, bool enabled, bool runCallback) {
-        entry.isEnabled = enabled;
-        KeybindConfig::SaveKeybind(entry);
-
-        for (auto evt : entry.events) {
-            if (entry.isEnabled) {
-                EventBus::Get().Subscribe(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
+    void SetEventsEnabled(KeybindEntry* entry, bool enabled) {
+        for (auto evt : entry->events) {
+            if (enabled) {
+                EventBus::Get().Subscribe(evt, entry, [entry]() { entry->callback(entry->isEnabled); });
             } else {
-                EventBus::Get().Unsubscribe(evt, &entry);
+                EventBus::Get().Unsubscribe(evt, entry);
             }
         }
+    }
 
-        if (runCallback) {
-            RunEntryCallback(entry, entry.isEnabled);
+    void SetEnabledState(KeybindEntry* entry, bool enabled) {
+        entry->isEnabled = enabled;
+        KeybindConfig::SaveKeybind(*entry);
+        SetEventsEnabled(entry, enabled);
+    }
+
+    void ToggleEntry(KeybindEntry* entry, bool enabled) {
+        SetEnabledState(entry, enabled);
+        if (entry->runOnToggle) {
+            QueueEntryCallback(entry, entry->isEnabled);
         }
     }
 
-    KeybindManager::Callback BuildKeybindCallback(KeybindEntry& entry) {
-        return [&entry]() {
-            if (entry.toggleable) {
-                SetToggleEnabled(entry, !entry.isEnabled, true);
-            } else {
-                RunEntryCallback(entry, true);
+    void RegisterEntry(KeybindEntry& entry) {
+        auto* entryPtr = &entry;
+        KeybindManager::RegisterKeybind(
+            entry.keyPtr,
+            [entryPtr]() {
+                if (entryPtr->IsToggle()) {
+                    ToggleEntry(entryPtr, !entryPtr->isEnabled);
+                } else {
+                    QueueEntryCallback(entryPtr, true);
+                }
+            },
+            entry.name, entry.IsToggle(),
+            [entryPtr]() {
+                if (entryPtr->IsToggle() && entryPtr->isEnabled) {
+                    SetEnabledState(entryPtr, false);
+                    return;
+                }
+                KeybindConfig::SaveKeybind(*entryPtr);
             }
-        };
-    }
-
-    KeybindManager::Callback BuildUnboundCallback(KeybindEntry& entry) {
-        return [&entry]() {
-            if (entry.toggleable && entry.isEnabled) {
-                SetToggleEnabled(entry, false, false);
-            } else {
-                KeybindConfig::SaveKeybind(entry);
-            }
-        };
+        );
     }
 
     void ApplyKey(KeybindEntry& entry) {
         KeybindManager::UnregisterKeybind(entry.keyPtr);
         if (IsKeyUnbound(*entry.keyPtr)) {
-            if (entry.toggleable && entry.isEnabled) {
-                SetToggleEnabled(entry, false, false);
+            if (entry.IsToggle() && entry.isEnabled) {
+                SetEnabledState(&entry, false);
             }
         } else {
-            KeybindManager::RegisterKeybind(
-                entry.keyPtr, BuildKeybindCallback(entry), entry.name, entry.toggleable, BuildUnboundCallback(entry)
-            );
+            RegisterEntry(entry);
         }
         entry.prevKey = *entry.keyPtr;
         KeybindConfig::SaveKeybind(entry);
@@ -342,10 +348,10 @@ void KeybindUI::RenderKeybind(KeybindEntry& entry) {
     RenderKeyButton(entry.keyId.c_str(), entry.waitingForKey, *entry.keyPtr, entry.pendingOriginalKey);
     ImGui::SameLine();
 
-    if (entry.toggleable) {
+    if (entry.IsToggle()) {
         bool currentEnabled = entry.isEnabled;
         if (ImGui::Checkbox(entry.checkId.c_str(), &currentEnabled) && currentEnabled != entry.isEnabled) {
-            SetToggleEnabled(entry, currentEnabled, true);
+            ToggleEntry(&entry, currentEnabled);
         }
         ImGui::SameLine();
         RenderName(entry.name, !entry.isEnabled && IsKeyUnbound(*entry.keyPtr));
@@ -378,7 +384,7 @@ void KeybindUI::RenderKeybind(KeybindEntry& entry) {
     RenderConflictPopup(entry);
 }
 
-void KeybindUI::RenderKeybindList(std::vector<KeybindEntry>& entries) {
+void KeybindUI::RenderKeybindList(KeybindEntries& entries) {
     const size_t count = entries.size();
     for (size_t i = 0; i < count; ++i) {
         RenderKeybind(entries[i]);
@@ -400,7 +406,7 @@ void KeybindConfig::LoadKeybind(KeybindEntry& entry) {
     *entry.keyPtr = g_ConfigManager.GetInt(section, "key", *entry.keyPtr);
     entry.prevKey = *entry.keyPtr;
 
-    if (entry.toggleable) {
+    if (entry.IsToggle()) {
         entry.isEnabled = g_ConfigManager.GetBool(section, "enabled", false);
     }
 
@@ -410,7 +416,7 @@ void KeybindConfig::LoadKeybind(KeybindEntry& entry) {
 void KeybindConfig::SaveKeybind(const KeybindEntry& entry) {
     auto section = NormalizeSection(entry.configSection);
     g_ConfigManager.SetInt(section, "key", *entry.keyPtr);
-    if (entry.toggleable) {
+    if (entry.IsToggle()) {
         g_ConfigManager.SetBool(section, "enabled", entry.isEnabled);
     }
     g_ConfigManager.SaveConfig();
@@ -475,21 +481,12 @@ void InitKeybindEntry(KeybindEntry& entry) {
 
     KeybindConfig::LoadKeybind(entry);
 
-    if (!IsKeyUnbound(*entry.keyPtr)) {
-        KeybindManager::RegisterKeybind(
-            entry.keyPtr, BuildKeybindCallback(entry), entry.name, entry.toggleable, BuildUnboundCallback(entry)
-        );
-    }
+    if (!IsKeyUnbound(*entry.keyPtr)) RegisterEntry(entry);
 
-    // If already enabled (loaded from config) and has events, subscribe now
-    if (entry.isEnabled && !entry.events.empty()) {
-        for (auto evt : entry.events) {
-            EventBus::Get().Subscribe(evt, &entry, [&entry]() { entry.callback(entry.isEnabled); });
-        }
-    }
+    if (entry.isEnabled) SetEventsEnabled(&entry, true);
 }
 
-void AddKeybind(std::vector<KeybindEntry>& keybinds, KeybindEntry entry) {
+void AddKeybind(KeybindEntries& keybinds, KeybindEntry entry) {
     keybinds.push_back(std::move(entry));
     InitKeybindEntry(keybinds.back());
 }

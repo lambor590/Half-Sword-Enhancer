@@ -12,7 +12,7 @@ class PlayerEditorSection : public Section {
 private:
     int enforceKey = -1;
     PlayerEditorOverrides overrides{};
-    std::vector<KeybindEntry> keybinds;
+    KeybindEntries keybinds;
 
     PresetSectionState<PlayerPresetSerializer> presets;
     int activeTab = 0;

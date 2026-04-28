@@ -26,7 +26,7 @@ void KeybindManager::Initialize() noexcept {
 }
 
 void KeybindManager::RegisterKeybind(
-    int* keyPtr, Callback callback, std::string name, bool toggleable, Callback onUnbound
+    int* keyPtr, Callback callback, std::string name, bool isToggle, Callback onUnbound
 ) noexcept {
     bool expected = false;
     if (!s_hotData.processingKeyEvent.compare_exchange_strong(expected, true, std::memory_order_acquire)) {
@@ -36,7 +36,7 @@ void KeybindManager::RegisterKeybind(
     UnregisterKeybind(keyPtr);
 
     int currentKey = *keyPtr;
-    s_bindings[keyPtr] = {std::move(callback), keyPtr, std::move(name), toggleable, currentKey, std::move(onUnbound)};
+    s_bindings[keyPtr] = {std::move(callback), keyPtr, std::move(name), isToggle, currentKey, std::move(onUnbound)};
 
     if (currentKey != -1) {
         s_hotData.keyToBindings[currentKey].push_back(&s_bindings[keyPtr]);
@@ -118,7 +118,7 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
         binding->callback();
 
         if (!binding->name.empty()) [[likely]] {
-            if (binding->toggleable) {
+            if (binding->isToggle) {
                 NotificationManager::NotifyHookToggle(binding->name, true);
             } else {
                 NotificationManager::NotifyOneTimeAction(binding->name);

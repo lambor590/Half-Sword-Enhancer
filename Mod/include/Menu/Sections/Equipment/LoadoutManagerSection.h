@@ -44,7 +44,7 @@ private:
     ClassNameCache armorNameCache[17]{};
     ClassNameCache weaponNameCache[7]{};
 
-    std::vector<KeybindEntry> keybinds;
+    KeybindEntries keybinds;
     GlobalModulePool& modulePool = GlobalModulePool::Get();
     bool modulePoolQueued = false;
     char moduleFilters[6][64] = {};

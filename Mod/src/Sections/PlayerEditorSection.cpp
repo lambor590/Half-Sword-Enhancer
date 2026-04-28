@@ -490,7 +490,7 @@ void PlayerEditorSection::InitKeybinds() {
                     if (!player) return;
                     if (active) ApplyToPlayer(player);
                 },
-            .toggleable = true,
+            .runOnToggle = true,
             .events = {GameEvent::OffLedge},
         }
     );
