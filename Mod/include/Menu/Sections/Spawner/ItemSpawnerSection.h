@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+#include <array>
+#include <memory>
 #include <vector>
 #include <string>
 
@@ -15,7 +17,6 @@
 class ItemSpawnerSection : public Section {
 public:
     struct Config {
-        int spawnItemKey = -1;
         SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnTier = 4;
 
@@ -25,6 +26,23 @@ public:
     };
 
 private:
+    enum class BindingSource : int { ClassPath, CustomizableWeapon, RandomArmor, ModularArmor };
+
+    struct SpawnBinding {
+        int id = 0;
+        int key = -1;
+        char name[64] = "";
+        BindingSource source = BindingSource::ClassPath;
+        std::string summary;
+        std::string classPath;
+        int customizable = 0;
+        int armorSlot = 0;
+        std::array<int, 3> modules{};
+        SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
+        int tier = 4;
+        KeybindEntry keybind;
+    };
+
     Config cfg;
 
     static inline char searchBuffer[128] = "";
@@ -34,7 +52,9 @@ private:
 
     static inline char customPathBuffer[256] = "";
 
-    KeybindEntries keybinds;
+    std::vector<std::shared_ptr<SpawnBinding>> spawnBindings;
+    int nextBindingId = 1;
+    int pendingDeleteBindingId = -1;
     PresetPickerState<WeaponPresetSerializer> weaponPicker;
     PresetPickerState<ArmorPresetSerializer> armorPicker;
 
@@ -64,10 +84,16 @@ private:
     void UpdateItemNamesCache() noexcept;
     void UpdateFilteredItems();
     void SpawnSelectedItem() const noexcept;
+    void SpawnBindingItem(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const;
     void SpawnCustomPath() const noexcept;
     void SpawnWeaponFromPreset();
     void SpawnArmorFromPreset();
-    void InitKeybinds();
+    void InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding);
+    void AddBindingFromCurrentSelection();
+    bool CaptureCurrentSelection(SpawnBinding& binding) const;
+    void LoadSpawnBindings();
+    void SaveSpawnBindings();
+    void RenderSpawnBindings();
 
 public:
     explicit ItemSpawnerSection(ModContext& ctx);

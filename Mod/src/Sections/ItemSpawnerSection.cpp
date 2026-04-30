@@ -1,14 +1,28 @@
 #include "Menu/Sections/Spawner/ItemSpawnerSection.h"
+
+#include <algorithm>
+
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "Hooks/GameHook.h"
+#include "ConfigManager.h"
 
 REGISTER_SECTION(ItemSpawnerSection, MenuTab::Spawner);
 #include "Utils/Spawner.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/TierValidation.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/SpawnBindingUtils.h"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
+
+namespace {
+    constexpr const char* ITEM_BINDINGS_SECTION = "ItemSpawnBindings";
+    constexpr const char* ITEM_BINDING_PREFIX = "ItemSpawnBinding_";
+
+    std::string ItemBindingSection(int id) {
+        return SpawnBindingUtils::SectionName(ITEM_BINDING_PREFIX, id);
+    }
+}
 
 void ItemSpawnerSection::PopulateModulesForCore(SDK::UClass* coreClass) {
     if (coreClass == armorModules.populatedFor) return;
@@ -208,6 +222,45 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
     }
 }
 
+void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
+    if (!runtime.world || !runtime.player) return;
+
+    auto transform = Spawner::BuildSpawnTransform(runtime.player, binding.spawn);
+    bool snap = binding.spawn.snapToGround;
+    auto tier = static_cast<SDK::Enum_Ranks>(binding.tier);
+
+    switch (binding.source) {
+        case BindingSource::RandomArmor: {
+            if (binding.armorSlot < 0 || binding.armorSlot >= GameConstants::ARMOR_SLOT_COUNT) return;
+            auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[binding.armorSlot].slotEnum);
+            auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slot, 0.5);
+            if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
+                Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
+            break;
+        }
+        case BindingSource::CustomizableWeapon:
+            Spawner::SpawnCustomizableWeapon(
+                runtime.world, static_cast<CustomizableWeapon>(binding.customizable), transform, snap, tier
+            );
+            break;
+        case BindingSource::ModularArmor: {
+            auto* coreClass = Spawner::LoadClass(binding.classPath);
+            if (!coreClass) return;
+            SDK::FStr_Passport_Armor1 passport{};
+            passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = coreClass;
+            passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = binding.modules[0];
+            passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = binding.modules[1];
+            passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = binding.modules[2];
+            Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
+            break;
+        }
+        case BindingSource::ClassPath:
+            if (!binding.classPath.empty())
+                Spawner::SpawnActor(runtime.world, binding.classPath, transform, nullptr, snap, tier);
+            break;
+    }
+}
+
 void ItemSpawnerSection::SpawnCustomPath() const noexcept {
     if (customPathBuffer[0] == '\0') return;
     auto [world, player] = RenderPlayerWorld();
@@ -260,33 +313,119 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
 }
 
 ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, "Items") {
-    InitKeybinds();
+    LoadSpawnBindings();
 }
 
-void ItemSpawnerSection::InitKeybinds() {
-    AddKeybind(
-        keybinds,
-        {
-            .name = "Spawn Item",
-            .tooltip = "Spawns the selected item with configurable position and size",
-            .configSection = "SpawnItem",
-            .keyPtr = &cfg.spawnItemKey,
-            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnSelectedItem(); },
-            .params =
-                {KeybindParam(
-                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
-                     "Automatically adjust height to touch the ground"
-                 ),
-                 KeybindParam(
-                     "distance_forward", "Forward Distance", &cfg.spawn.distanceForward, 50.0f, 300.0f,
-                     "How far in front the item appears"
-                 ),
-                 KeybindParam(
-                     "distance_up", "Up Distance", &cfg.spawn.distanceUp, 0.0f, 200.0f,
-                     "Height offset for spawn position"
-                 ),
-                 KeybindParam("scale", "Scale", &cfg.spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item")},
+void ItemSpawnerSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding) {
+    SpawnBindingUtils::InitKeybind(
+        binding, ItemBindingSection(binding->id),
+        [this](const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) {
+            SpawnBindingItem(binding, runtime);
+        },
+        std::vector<KeybindParam>{
+            KeybindParam(
+                "snap_to_ground", "Snap to Ground", &binding->spawn.snapToGround,
+                "Automatically adjust height to touch the ground"
+            ),
+            KeybindParam(
+                "distance_forward", "Forward Distance", &binding->spawn.distanceForward, 50.0f, 300.0f,
+                "How far in front the item appears"
+            ),
+            KeybindParam(
+                "distance_up", "Up Distance", &binding->spawn.distanceUp, 0.0f, 200.0f,
+                "Height offset for spawn position"
+            ),
+            KeybindParam("scale", "Scale", &binding->spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item"),
         }
+    );
+}
+
+bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) const {
+    binding.spawn = cfg.spawn;
+    binding.tier = cfg.spawnTier;
+
+    if (IsRandomArmorCategory()) {
+        if (cfg.currentItemIndex >= GameConstants::ARMOR_SLOT_COUNT) return false;
+        binding.source = BindingSource::RandomArmor;
+        binding.armorSlot = static_cast<int>(cfg.currentItemIndex);
+        binding.classPath.clear();
+        binding.customizable = 0;
+        binding.summary = std::string("Random ") + GameConstants::ARMOR_SLOTS[binding.armorSlot].name;
+        return true;
+    }
+
+    auto* sub = GetCurrentSubcategory();
+    if (!sub || cfg.currentItemIndex >= sub->itemIndices.size()) return false;
+
+    const auto& item = BlueprintRegistry::Get().GetItem(sub->itemIndices[cfg.currentItemIndex]);
+    binding.summary = item.displayName;
+    binding.classPath = item.classPath;
+
+    if (item.customizable != CustomizableWeapon::None) {
+        binding.source = BindingSource::CustomizableWeapon;
+        binding.customizable = static_cast<int>(item.customizable);
+    } else if (IsCurrentItemModularArmor(item)) {
+        binding.source = BindingSource::ModularArmor;
+        binding.modules = {armorModules.selected[0], armorModules.selected[1], armorModules.selected[2]};
+    } else {
+        if (item.classPath.empty()) return false;
+        binding.source = BindingSource::ClassPath;
+    }
+    return true;
+}
+
+void ItemSpawnerSection::AddBindingFromCurrentSelection() {
+    auto binding = std::make_shared<SpawnBinding>();
+    binding->id = nextBindingId++;
+    if (!CaptureCurrentSelection(*binding)) return;
+    SpawnBindingUtils::CopyName(binding->name, binding->summary);
+    InitBindingKeybind(binding);
+    spawnBindings.push_back(std::move(binding));
+    SaveSpawnBindings();
+}
+
+void ItemSpawnerSection::LoadSpawnBindings() {
+    SpawnBindingUtils::LoadBindings<SpawnBinding>(
+        ITEM_BINDINGS_SECTION, nextBindingId, spawnBindings, ItemBindingSection, "Spawn Item",
+        [](SpawnBinding& binding, const std::string& section, ConfigManager& config) {
+            binding.source = static_cast<BindingSource>(config.GetInt(section, "source", 0));
+            binding.classPath = config.GetString(section, "class_path", "");
+            binding.customizable = config.GetInt(section, "customizable", 0);
+            binding.armorSlot = config.GetInt(section, "armor_slot", 0);
+            binding.modules[0] = config.GetInt(section, "module_1", 0);
+            binding.modules[1] = config.GetInt(section, "module_2", 0);
+            binding.modules[2] = config.GetInt(section, "module_3", 0);
+            binding.tier = config.GetInt(section, "tier", 4);
+            binding.spawn = SpawnBindingUtils::LoadSpawnConfig(section, binding.spawn);
+        },
+        [this](const std::shared_ptr<SpawnBinding>& binding) { InitBindingKeybind(binding); }
+    );
+}
+
+void ItemSpawnerSection::SaveSpawnBindings() {
+    SpawnBindingUtils::SaveBindings<SpawnBinding>(
+        ITEM_BINDINGS_SECTION, nextBindingId, spawnBindings, ItemBindingSection,
+        [](const SpawnBinding& binding, const std::string& section, ConfigManager& config) {
+            config.SetInt(section, "source", static_cast<int>(binding.source));
+            config.SetString(section, "class_path", binding.classPath);
+            config.SetInt(section, "customizable", binding.customizable);
+            config.SetInt(section, "armor_slot", binding.armorSlot);
+            config.SetInt(section, "module_1", binding.modules[0]);
+            config.SetInt(section, "module_2", binding.modules[1]);
+            config.SetInt(section, "module_3", binding.modules[2]);
+            config.SetInt(section, "tier", binding.tier);
+            SpawnBindingUtils::SaveSpawnConfig(section, binding.spawn);
+        }
+    );
+}
+
+void ItemSpawnerSection::RenderSpawnBindings() {
+    SpawnBindingUtils::RenderList(
+        spawnBindings, pendingDeleteBindingId, "Save the current item selection as its own keybind",
+        "No item spawn bindings saved", "Replace this binding with the current item selection", "Delete Item Binding",
+        "Delete item spawn binding?", [this] { AddBindingFromCurrentSelection(); },
+        [this](SpawnBinding& binding) { CaptureCurrentSelection(binding); }, ItemBindingSection,
+        [this] { SaveSpawnBindings(); }
     );
 }
 
@@ -532,9 +671,6 @@ void ItemSpawnerSection::Render() {
     SectionStyle::StyleRAII style;
     auto [world, player] = RenderPlayerWorld();
 
-    KeybindUI::RenderKeybindList(keybinds);
-    ImGui::Spacing();
-
     auto& reg = BlueprintRegistry::Get();
     auto scanState = reg.GetState();
 
@@ -554,6 +690,9 @@ void ItemSpawnerSection::Render() {
             ImVec4(1.0f, 0.5f, 0.3f, 1.0f), "Asset registry scan failed; showing customizable weapons and saved paths"
         );
     }
+
+    RenderSpawnBindings();
+    ImGui::Spacing();
 
     ImGui::AlignTextToFramePadding();
     ImGui::Text("Search");
