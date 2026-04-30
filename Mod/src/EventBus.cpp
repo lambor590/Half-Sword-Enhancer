@@ -7,8 +7,8 @@ EventBus& EventBus::Get() {
     return instance;
 }
 
-void EventBus::Subscribe(GameEvent event, void* id, std::function<void()> callback) {
-    GameHook::QueueAction([this, event, id, cb = std::move(callback)]() mutable {
+void EventBus::Subscribe(GameEvent event, void* id, std::function<void(const RuntimeContextSnapshot&)> callback) {
+    GameHook::QueueAction([this, event, id, cb = std::move(callback)](const RuntimeContextSnapshot&) mutable {
         uint8_t idx = static_cast<uint8_t>(event);
         auto& vec = subscribers[idx];
         bool first = vec.empty();
@@ -20,7 +20,7 @@ void EventBus::Subscribe(GameEvent event, void* id, std::function<void()> callba
 }
 
 void EventBus::Unsubscribe(GameEvent event, void* id) {
-    GameHook::QueueAction([this, event, id]() {
+    GameHook::QueueAction([this, event, id](const RuntimeContextSnapshot&) {
         uint8_t idx = static_cast<uint8_t>(event);
         auto& vec = subscribers[idx];
         for (size_t i = 0; i < vec.size(); ++i) {
@@ -37,12 +37,12 @@ void EventBus::Unsubscribe(GameEvent event, void* id) {
 }
 
 void EventBus::Dispatch(GameEvent event) {
-    ModContext::Get().RefreshCache();
+    auto runtime = ModContext::Get().RefreshGameThreadCache();
 
     uint8_t idx = static_cast<uint8_t>(event);
     auto& vec = subscribers[idx];
     for (auto& [_, cb] : vec) {
-        cb();
+        cb(runtime);
     }
 }
 

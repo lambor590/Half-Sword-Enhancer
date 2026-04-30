@@ -5,6 +5,7 @@
 #include <functional>
 #include <vector>
 
+#include "Core/ModContext.h"
 #include "Menu/GameEvent.h"
 
 /// All subscriptions and dispatches happen on the game thread via GameHook::QueueAction.
@@ -13,7 +14,7 @@ public:
     static EventBus& Get();
 
     /// Callbacks fire on the game thread.
-    void Subscribe(GameEvent event, void* id, std::function<void()> callback);
+    void Subscribe(GameEvent event, void* id, std::function<void(const RuntimeContextSnapshot&)> callback);
 
     void Unsubscribe(GameEvent event, void* id);
 
@@ -44,7 +45,7 @@ private:
 
     struct Subscriber {
         void* id;
-        std::function<void()> callback;
+        std::function<void(const RuntimeContextSnapshot&)> callback;
     };
 
     std::vector<Subscriber> subscribers[EVENT_COUNT];

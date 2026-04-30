@@ -9,21 +9,23 @@ protected:
     ModContext& ctx;
     std::string name;
 
-    /// Convenience references to ModContext cached pointers.
-    /// Always in sync because they reference the ModContext members directly.
-    SDK::UWorld*& world;
-    SDK::AWillie_BP_C*& player;
-    SDK::APlayerController*& controller;
-    SDK::AWorldSettings*& worldSettings;
+    struct PlayerWorld {
+        SDK::UWorld* world = nullptr;
+        SDK::AWillie_BP_C* player = nullptr;
+    };
+
+    RuntimeContextSnapshot RenderSnapshot() const noexcept { return ctx.GetRenderSnapshot(); }
+
+    SDK::AWillie_BP_C* RenderPlayer() const noexcept { return RenderSnapshot().player; }
+    SDK::UWorld* RenderWorld() const noexcept { return RenderSnapshot().world; }
+
+    PlayerWorld RenderPlayerWorld() const noexcept {
+        auto snapshot = RenderSnapshot();
+        return {snapshot.world, snapshot.player};
+    }
 
 public:
-    Section(ModContext& ctx, std::string name) noexcept
-        : ctx(ctx),
-          name(std::move(name)),
-          world(ctx.world),
-          player(ctx.player),
-          controller(ctx.controller),
-          worldSettings(ctx.worldSettings) {}
+    Section(ModContext& ctx, std::string name) noexcept : ctx(ctx), name(std::move(name)) {}
     virtual ~Section() = default;
 
     virtual void Render() = 0;

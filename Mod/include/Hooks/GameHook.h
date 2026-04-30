@@ -9,6 +9,7 @@
 #include <string_view>
 
 #include "Logger.h"
+#include "Core/ModContext.h"
 #include "Menu/GameEvent.h"
 
 namespace SDK {
@@ -28,7 +29,9 @@ public:
     void UnlockUEConsole();
     void LockUEConsole();
 
-    static void QueueAction(const std::function<void()>& action);
+    using QueuedAction = std::function<void(const RuntimeContextSnapshot&)>;
+
+    static void QueueAction(QueuedAction action);
     static void ProcessGameThreadQueue();
 
     bool IsHooked() const noexcept { return hooked; }
@@ -63,7 +66,7 @@ private:
     std::array<HookEntry, MAX_HOOKS> hooks{};
     uint8_t hookCount = 0;
 
-    static std::queue<std::function<void()>> gameThreadQueue;
+    static std::queue<QueuedAction> gameThreadQueue;
     static std::mutex queueMutex;
     static std::atomic<bool> hasQueuedActions;
 

@@ -22,12 +22,11 @@
 #define FORCE_INLINE inline __attribute__((always_inline))
 #endif
 
-std::queue<std::function<void()>> GameHook::gameThreadQueue;
+std::queue<GameHook::QueuedAction> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
 std::atomic<bool> GameHook::hasQueuedActions{false};
 
 namespace {
-
     // Fibonacci hash: multiply by golden ratio constant, then shift to extract
     // high bits. This spreads clustered pointers (from pool allocators) across
     // the full table range. UFunction pointers from UE5's allocator tend to
@@ -124,6 +123,8 @@ __declspec(noinline) static int8_t ResolveAndCache(
 }
 
 void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
+    ModContext::Get().RefreshGameThreadCache();
+
     if (GameHook::hasQueuedActions.load(std::memory_order_relaxed)) [[unlikely]] {
         GameHook::ProcessGameThreadQueue();
     }
@@ -161,7 +162,7 @@ void GameHook::Hook() {
         UnlockUEConsole();
     }
 
-    QueueAction([]() { GameBuildInfo::Query(); });
+    QueueAction([](const RuntimeContextSnapshot&) { GameBuildInfo::Query(); });
 
     logger.Log("ProcessEvent hooked successfully!");
 }
@@ -268,14 +269,14 @@ void GameHook::LockUEConsole() {
     logger.Log("UE Console locked");
 }
 
-void GameHook::QueueAction(const std::function<void()>& action) {
+void GameHook::QueueAction(QueuedAction action) {
     std::lock_guard<std::mutex> lock(queueMutex);
     gameThreadQueue.push(std::move(action));
     hasQueuedActions.store(true, std::memory_order_release);
 }
 
 void GameHook::ProcessGameThreadQueue() {
-    std::queue<std::function<void()>> localQueue;
+    std::queue<QueuedAction> localQueue;
 
     {
         std::lock_guard<std::mutex> lock(queueMutex);
@@ -284,10 +285,9 @@ void GameHook::ProcessGameThreadQueue() {
         hasQueuedActions.store(false, std::memory_order_release);
     }
 
-    ModContext::Get().RefreshCache();
-
     while (!localQueue.empty()) {
-        localQueue.front()();
+        auto snapshot = ModContext::Get().RefreshGameThreadCache();
+        localQueue.front()(snapshot);
         localQueue.pop();
     }
 }

@@ -94,7 +94,6 @@ void Renderer::OnPresent(IDXGISwapChain* pThis) noexcept {
     if (!Gui::NeedsRendering()) [[likely]]
         return;
 
-    ModContext::Get().RefreshCache();
     (this->*state.renderFunc)();
 }
 
@@ -112,14 +111,15 @@ void Renderer::BeforeResizeBuffers(
     DXGI_SWAP_CHAIN_DESC desc{};
     if (pThis && SUCCEEDED(pThis->GetDesc(&desc))) {
         logger.Log(
-            "ResizeBuffers request: buffers=%u width=%u height=%u format=%u flags=0x%08X currentWindowed=%d currentBuffers=%u currentSwapEffect=%u",
+            "ResizeBuffers request: buffers=%u width=%u height=%u format=%u flags=0x%08X currentWindowed=%d "
+            "currentBuffers=%u currentSwapEffect=%u",
             bufferCount, width, height, static_cast<UINT>(newFormat), swapChainFlags, desc.Windowed, desc.BufferCount,
             static_cast<UINT>(desc.SwapEffect)
         );
     } else {
         logger.Log(
-            "ResizeBuffers request: buffers=%u width=%u height=%u format=%u flags=0x%08X",
-            bufferCount, width, height, static_cast<UINT>(newFormat), swapChainFlags
+            "ResizeBuffers request: buffers=%u width=%u height=%u format=%u flags=0x%08X", bufferCount, width, height,
+            static_cast<UINT>(newFormat), swapChainFlags
         );
     }
 
@@ -143,8 +143,7 @@ void Renderer::AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexc
         window.height = height;
     }
 
-    window.viewport =
-        RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
+    window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
     state.needsInit = true;
     logger.Log("ResizeBuffers completed: 0x%08X (%dx%d)", result, window.width, window.height);

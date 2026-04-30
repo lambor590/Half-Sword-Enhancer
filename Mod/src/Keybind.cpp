@@ -163,13 +163,17 @@ namespace {
     }
 
     void QueueEntryCallback(KeybindEntry* entry, bool enabled) {
-        GameHook::QueueAction([entry, enabled]() { entry->callback(enabled); });
+        GameHook::QueueAction([entry, enabled](const RuntimeContextSnapshot& runtime) {
+            entry->callback(enabled, runtime);
+        });
     }
 
     void SetEventsEnabled(KeybindEntry* entry, bool enabled) {
         for (auto evt : entry->events) {
             if (enabled) {
-                EventBus::Get().Subscribe(evt, entry, [entry]() { entry->callback(entry->isEnabled); });
+                EventBus::Get().Subscribe(evt, entry, [entry](const RuntimeContextSnapshot& runtime) {
+                    entry->callback(entry->isEnabled, runtime);
+                });
             } else {
                 EventBus::Get().Unsubscribe(evt, entry);
             }

@@ -7,6 +7,7 @@
 #include <string_view>
 #include <vector>
 
+#include "Core/ModContext.h"
 #include "Menu/GameEvent.h"
 
 class ModContext;
@@ -47,7 +48,7 @@ struct KeybindEntry {
     std::string tooltip;
     std::string configSection;
     int* keyPtr = nullptr;
-    std::function<void(bool)> callback;
+    std::function<void(bool, const RuntimeContextSnapshot&)> callback;
     bool runOnToggle = false;
     bool isEnabled = false;
 

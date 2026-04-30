@@ -169,7 +169,7 @@ void MapRegistry::PerformScan() {
 void MapRegistry::RequestScan() {
     ScanState expected = ScanState::NotStarted;
     if (state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
-        GameHook::QueueAction([this]() { PerformScan(); });
+        GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); });
     }
 }
 
@@ -177,7 +177,7 @@ void MapRegistry::RequestRescan() {
     auto current = state.load(std::memory_order_acquire);
     if (current != ScanState::Complete && current != ScanState::Failed) return;
     if (state.compare_exchange_strong(current, ScanState::Scanning, std::memory_order_acq_rel))
-        GameHook::QueueAction([this]() { PerformScan(); });
+        GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); });
 }
 
 float MapRegistry::GetMaxDisplayNameWidth() {

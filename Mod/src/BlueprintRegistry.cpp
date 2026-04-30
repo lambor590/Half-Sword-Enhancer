@@ -35,7 +35,7 @@ static bool HasValidAssetPrefix(const std::string& assetName) {
 void BlueprintRegistry::RequestScan() {
     ScanState expected = ScanState::NotStarted;
     if (state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) {
-        GameHook::QueueAction([this]() { PerformScan(); });
+        GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); });
     }
 }
 
@@ -46,7 +46,7 @@ void BlueprintRegistry::RequestRescan() {
         if (!state.compare_exchange_strong(expected, ScanState::Scanning, std::memory_order_acq_rel)) return;
     }
     tierScanDone = false;
-    GameHook::QueueAction([this]() { PerformScan(); });
+    GameHook::QueueAction([this](const RuntimeContextSnapshot&) { PerformScan(); });
 }
 
 void BlueprintRegistry::PerformScan() {
@@ -278,7 +278,7 @@ std::string BlueprintRegistry::CleanDisplayName(std::string_view assetName) {
 void BlueprintRegistry::EnsureTiersScanned() {
     if (tierScanDone) return;
     tierScanDone = true;
-    GameHook::QueueAction([this]() { ScanWeaponTiers(); });
+    GameHook::QueueAction([this](const RuntimeContextSnapshot&) { ScanWeaponTiers(); });
 }
 
 void BlueprintRegistry::ScanWeaponTiers() {
