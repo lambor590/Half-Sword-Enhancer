@@ -1,5 +1,6 @@
 #include <string>
 #include <algorithm>
+#include <utility>
 
 #include "Menu/Keybind.h"
 #include "Menu/EventBus.h"
@@ -163,8 +164,9 @@ namespace {
     }
 
     void QueueEntryCallback(KeybindEntry* entry, bool enabled) {
-        GameHook::QueueAction([entry, enabled](const RuntimeContextSnapshot& runtime) {
-            entry->callback(enabled, runtime);
+        auto callback = entry->callback;
+        GameHook::QueueAction([callback = std::move(callback), enabled](const RuntimeContextSnapshot& runtime) {
+            if (callback) callback(enabled, runtime);
         });
     }
 

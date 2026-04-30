@@ -112,3 +112,8 @@ void ConfigManager::SetString(std::string_view section, std::string_view key, st
     ini.SetValue(section.data(), key.data(), value.data());
     SaveConfigDeferred();
 }
+
+void ConfigManager::DeleteSection(std::string_view section) {
+    ini.Delete(section.data(), nullptr);
+    SaveConfigDeferred();
+}

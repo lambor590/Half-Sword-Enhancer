@@ -196,6 +196,7 @@ public:
     static std::vector<std::string> GetAllBoundNames(int key, int* excludeKeyPtr = nullptr) noexcept;
     static int GetBindingCount(int key, int* excludeKeyPtr = nullptr) noexcept;
     static void UpdateBinding(int* keyPtr) noexcept;
+    static void UpdateBindingName(int* keyPtr, std::string name) noexcept;
 
 private:
     static const std::vector<Binding*>* FindBindings(int key) noexcept;

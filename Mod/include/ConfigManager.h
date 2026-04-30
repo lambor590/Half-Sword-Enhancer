@@ -43,4 +43,5 @@ public:
     void SetBool(std::string_view section, std::string_view key, bool value);
     void SetFloat(std::string_view section, std::string_view key, float value);
     void SetString(std::string_view section, std::string_view key, std::string_view value);
+    void DeleteSection(std::string_view section);
 };

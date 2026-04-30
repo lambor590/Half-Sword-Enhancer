@@ -286,6 +286,13 @@ void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
     s_hotData.processingKeyEvent.store(false, std::memory_order_release);
 }
 
+void KeybindManager::UpdateBindingName(int* keyPtr, std::string name) noexcept {
+    auto it = s_bindings.find(keyPtr);
+    if (it != s_bindings.end()) {
+        it->second.name = std::move(name);
+    }
+}
+
 bool KeybindManager::IsValidKey(int key) noexcept {
     if (key < 0 || key > 255) return false;
     return s_validKeys[key];
