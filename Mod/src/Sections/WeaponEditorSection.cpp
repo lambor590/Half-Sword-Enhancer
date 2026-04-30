@@ -324,15 +324,6 @@ void WeaponEditorSection::ApplyMeshToPreview() {
     ApplyMeshOverrides(weapon, BuildMeshSnapshot(), skeletalPreviewComps);
 }
 
-int WeaponEditorSection::RandomValidTier(uint16_t mask) {
-    int validTiers[9];
-    int count = 0;
-    for (int t = 0; t <= 8; ++t)
-        if (mask & (1 << t)) validTiers[count++] = t;
-    if (count == 0) return 4;
-    return validTiers[GameConstants::RandomInt(0, count - 1)];
-}
-
 void WeaponEditorSection::CreateBlankWeaponPassport() {
     weaponPassport = {};
     weaponPassport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = {1.0, 1.0, 1.0};
@@ -357,10 +348,13 @@ void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ran
             weaponGenerationPending = false;
             return;
         }
-        weaponPassport = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
-        ClearWeaponPassportPadding(weaponPassport);
-        if (!EquipmentGenerator::IsPassportValid(weaponPassport))
+        auto generated = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
+        ClearWeaponPassportPadding(generated);
+        if (!EquipmentGenerator::IsPassportValid(generated)) {
             SetStatus("Generation failed for this type/tier", true);
+        } else {
+            weaponPassport = generated;
+        }
         globalModules.Populate();
         weaponGenerationPending = false;
     });
@@ -371,9 +365,17 @@ void WeaponEditorSection::GenerateWeaponPassport() {
 }
 
 void WeaponEditorSection::RandomizeWeaponPassport() {
-    cfg.weaponType = GameConstants::RandomInt(1, WEAPON_TYPE_COUNT);
+    int validTypes[WEAPON_TYPE_COUNT];
+    int count = 0;
+    for (int i = 1; i <= WEAPON_TYPE_COUNT; ++i)
+        if (TierValidation::VALID_TIER_MASKS[i] != 0) validTypes[count++] = i;
+    if (count == 0) {
+        SetStatus("Weapon tiers are still scanning", true);
+        return;
+    }
+    cfg.weaponType = validTypes[GameConstants::RandomInt(0, count - 1)];
     uint16_t mask = TierValidation::VALID_TIER_MASKS[cfg.weaponType];
-    cfg.weaponTier = RandomValidTier(mask);
+    cfg.weaponTier = TierValidation::RandomValidTier(mask);
     GenerateWeaponPassport();
 }
 
@@ -581,7 +583,46 @@ void WeaponEditorSection::RenderMassDrag(const char* label, double& mass, float 
     GuiUtils::StoreEdited(mass, val);
 }
 
+void WeaponEditorSection::RenderWeaponTypeCombo() {
+    static float weaponTypeComboW = GuiUtils::CalcComboWidth(WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT);
+    const int selectedIdx = cfg.weaponType - 1;
+    const char* preview =
+        (selectedIdx >= 0 && selectedIdx < WEAPON_TYPE_COUNT) ? WEAPON_TYPE_NAMES[selectedIdx] : "Select weapon";
+
+    ImGui::SetNextItemWidth(weaponTypeComboW);
+    if (!ImGui::BeginCombo("##Type", preview)) return;
+
+    ImGui::SetNextItemWidth(-1);
+    ImGui::InputTextWithHint("##WeaponTypeFilter", "Search weapons...", weaponTypeFilter, sizeof(weaponTypeFilter));
+
+    const size_t filterLen = std::strlen(weaponTypeFilter);
+    const bool hasFilter = filterLen > 0;
+    if (hasFilter) {
+        int visible = 0;
+        for (auto* name : WEAPON_TYPE_NAMES)
+            if (GuiUtils::MatchesFilter(name, std::strlen(name), weaponTypeFilter, filterLen)) ++visible;
+        ImGui::TextDisabled("Showing %d of %d", visible, WEAPON_TYPE_COUNT);
+    }
+    ImGui::Separator();
+
+    for (int i = 0; i < WEAPON_TYPE_COUNT; ++i) {
+        auto* name = WEAPON_TYPE_NAMES[i];
+        if (hasFilter && !GuiUtils::MatchesFilter(name, std::strlen(name), weaponTypeFilter, filterLen)) continue;
+        if (ImGui::Selectable(name, i == selectedIdx)) cfg.weaponType = i + 1;
+        if (i == selectedIdx) ImGui::SetItemDefaultFocus();
+    }
+    ImGui::EndCombo();
+}
+
 void WeaponEditorSection::RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask) {
+    if (validMask == 0) {
+        ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
+        ImGui::BeginDisabled();
+        if (ImGui::BeginCombo(label, "No valid tiers")) ImGui::EndCombo();
+        ImGui::EndDisabled();
+        return;
+    }
+
     tier = TierValidation::NearestValidTier(validMask, tier);
 
     ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
@@ -621,10 +662,7 @@ void WeaponEditorSection::RenderGenerationControls() {
     BlueprintRegistry::Get().EnsureTiersScanned();
     ImGui::PushID("gen");
 
-    static float weaponTypeComboW = GuiUtils::CalcComboWidth(WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT);
-    ImGui::SetNextItemWidth(weaponTypeComboW);
-    int typeIdx = cfg.weaponType - 1;
-    if (ImGui::Combo("##Type", &typeIdx, WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT)) cfg.weaponType = typeIdx + 1;
+    RenderWeaponTypeCombo();
     TooltipHelper::ShowTooltip("Base weapon archetype that determines available modules and valid tiers");
 
     ImGui::SameLine();
@@ -633,10 +671,13 @@ void WeaponEditorSection::RenderGenerationControls() {
     TooltipHelper::ShowTooltip("Quality tier - affects generated module selection and weapon stats");
 
     ImGui::Spacing();
-    if (!player || !world) ImGui::BeginDisabled();
+    if (!player || !world || weaponMask == 0) ImGui::BeginDisabled();
     if (ImGui::Button("Generate")) GenerateWeaponPassport();
     TooltipHelper::ShowTooltip("Generate weapon passport using selected type and tier");
+    if (!player || !world || weaponMask == 0) ImGui::EndDisabled();
+
     ImGui::SameLine();
+    if (!player || !world) ImGui::BeginDisabled();
     if (ImGui::Button("Randomize")) RandomizeWeaponPassport();
     TooltipHelper::ShowTooltip("Pick random type and tier, then generate");
     if (!player || !world) ImGui::EndDisabled();

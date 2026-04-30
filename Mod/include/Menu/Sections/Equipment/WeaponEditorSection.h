@@ -53,6 +53,7 @@ private:
     WeaponRuntimeProps lastPreviewedProps{};
 
     char moduleFilters[6][64] = {};
+    char weaponTypeFilter[64] = {};
 
     PresetSectionState<WeaponPresetSerializer> presets;
     int activeTab = 0;
@@ -119,7 +120,6 @@ private:
     );
     MeshSnapshot BuildMeshSnapshot() const;
     void ApplyMeshToPreview();
-    static int RandomValidTier(uint16_t mask);
     void CreateBlankWeaponPassport();
     void QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier);
     void GenerateWeaponPassport();
@@ -129,6 +129,7 @@ private:
     void SpawnFromPassport();
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f);
     static void RenderMassDrag(const char* label, double& mass, float speed = 0.01f);
+    void RenderWeaponTypeCombo();
     static void RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask);
     static void RenderSizeMassRow(const char* label, SDK::FVector& size, double& mass);
     void RenderGenerationControls();
