@@ -1,6 +1,4 @@
 #include <bit>
-#include <immintrin.h>
-
 #include "Render/Renderer.h"
 #include "Core/ModContext.h"
 #include "MemoryUtils.h"
@@ -149,46 +147,17 @@ void Renderer::AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexc
     logger.Log("ResizeBuffers completed: 0x%08X (%dx%d)", result, window.width, window.height);
 }
 
-void Renderer::UpdateViewport() noexcept {
-    if (!window.handle) [[unlikely]]
-        return;
-
-    int width = 0;
-    int height = 0;
-    GetWindowDimensions(window.handle, width, height);
-    if (width != window.width || height != window.height) [[unlikely]] {
-        window.width = width;
-        window.height = height;
-        window.viewport = RenderConfig::CreateViewport(static_cast<float>(width), static_cast<float>(height));
-        window.viewportDirty = true;
-    }
-}
-
 template <bool IsD3D12> void Renderer::RenderFrameImpl() noexcept {
-    UpdateViewport();
-
     if constexpr (IsD3D12) {
-        const uint8_t bufferIdx = static_cast<uint8_t>(swapChain3->GetCurrentBackBufferIndex());
-        state.bufferIndex = bufferIdx;
+        const UINT bufferIdx = swapChain3->GetCurrentBackBufferIndex();
+        state.bufferIndex = static_cast<uint8_t>(bufferIdx);
 
-        ComPtr<ID3D12Resource> backbuffer;
-        ComPtr<ID3D11Resource> wrappedBuffer;
-        ComPtr<ID3D11RenderTargetView> renderTarget;
-
-        if (FAILED(swapChain->GetBuffer(bufferIdx, IID_PPV_ARGS(&backbuffer))) ||
-            FAILED(d3d11On12Device->CreateWrappedResource(
-                backbuffer.Get(), &RenderConfig::RT_FLAGS, RenderConfig::D3D12_RT_STATE,
-                RenderConfig::D3D12_PRESENT_STATE, IID_PPV_ARGS(&wrappedBuffer)
-            )) ||
-            FAILED(d3d11Device->CreateRenderTargetView(wrappedBuffer.Get(), nullptr, &renderTarget))) [[unlikely]] {
-            logger.Log("Failed to create transient D3D12 render target");
+        if (bufferIdx >= d3d12FrameTargets.size()) [[unlikely]]
             return;
-        }
 
-        ID3D11Resource* wrappedResource = wrappedBuffer.Get();
-        ID3D11RenderTargetView* renderTargetView = renderTarget.Get();
-        _mm_prefetch(reinterpret_cast<const char*>(wrappedResource), _MM_HINT_T0);
-        _mm_prefetch(reinterpret_cast<const char*>(renderTargetView), _MM_HINT_T0);
+        D3D12FrameTarget& target = d3d12FrameTargets[bufferIdx];
+        ID3D11Resource* wrappedResource = target.wrappedBuffer.Get();
+        ID3D11RenderTargetView* renderTargetView = target.renderTarget.Get();
 
         d3d11On12Device->AcquireWrappedResources(&wrappedResource, 1);
         d3d11Context->OMSetRenderTargets(1, &renderTargetView, nullptr);
@@ -198,28 +167,18 @@ template <bool IsD3D12> void Renderer::RenderFrameImpl() noexcept {
 
         d3d11Context->OMSetRenderTargets(0, nullptr, nullptr);
         d3d11On12Device->ReleaseWrappedResources(&wrappedResource, 1);
-        d3d11Context->ClearState();
         d3d11Context->Flush();
-        if (fence && commandQueue) SignalAndWait();
     } else {
-        ComPtr<ID3D11Texture2D> backbuffer;
-        ComPtr<ID3D11RenderTargetView> renderTarget;
-
-        if (FAILED(swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backbuffer)) ||
-            FAILED(d3d11Device->CreateRenderTargetView(backbuffer.Get(), nullptr, &renderTarget))) [[unlikely]] {
-            logger.Log("Failed to create transient D3D11 render target");
+        ID3D11RenderTargetView* renderTargetView = d3d11RenderTarget.Get();
+        if (!renderTargetView) [[unlikely]]
             return;
-        }
 
-        ID3D11RenderTargetView* renderTargetView = renderTarget.Get();
         d3d11Context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 
         SetViewportIfDirty();
         Gui::Get().Render();
 
         d3d11Context->OMSetRenderTargets(0, nullptr, nullptr);
-        d3d11Context->ClearState();
-        d3d11Context->Flush();
     }
 }
 
@@ -245,6 +204,49 @@ void Renderer::InitOrReinitImGui() noexcept {
         ImGui_ImplDX11_Init(d3d11Device.Get(), d3d11Context.Get());
         state.imguiRendererReady = true;
     }
+}
+
+bool Renderer::CreateRenderTargets() noexcept {
+    ReleaseRenderTargets();
+    return state.backend == RenderBackend::D3D12 ? CreateD3D12RenderTargets() : CreateD3D11RenderTarget();
+}
+
+bool Renderer::CreateD3D11RenderTarget() noexcept {
+    ComPtr<ID3D11Texture2D> backbuffer;
+    if (FAILED(swapChain->GetBuffer(0, IID_PPV_ARGS(&backbuffer))) ||
+        FAILED(d3d11Device->CreateRenderTargetView(backbuffer.Get(), nullptr, &d3d11RenderTarget))) [[unlikely]] {
+        logger.Log("Failed to create D3D11 render target");
+        return false;
+    }
+
+    return true;
+}
+
+bool Renderer::CreateD3D12RenderTargets() noexcept {
+    d3d12FrameTargets.resize(state.bufferCount);
+
+    for (UINT bufferIdx = 0; bufferIdx < state.bufferCount; ++bufferIdx) {
+        D3D12FrameTarget& target = d3d12FrameTargets[bufferIdx];
+
+        if (FAILED(swapChain->GetBuffer(bufferIdx, IID_PPV_ARGS(&target.backbuffer))) ||
+            FAILED(d3d11On12Device->CreateWrappedResource(
+                target.backbuffer.Get(), &RenderConfig::RT_FLAGS, RenderConfig::D3D12_RT_STATE,
+                RenderConfig::D3D12_PRESENT_STATE, IID_PPV_ARGS(&target.wrappedBuffer)
+            )) ||
+            FAILED(d3d11Device->CreateRenderTargetView(target.wrappedBuffer.Get(), nullptr, &target.renderTarget)))
+            [[unlikely]] {
+            logger.Log("Failed to create D3D12 render target %u", bufferIdx);
+            ReleaseRenderTargets();
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void Renderer::ReleaseRenderTargets() noexcept {
+    d3d11RenderTarget.Reset();
+    d3d12FrameTargets.clear();
 }
 
 bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept {
@@ -279,6 +281,9 @@ bool Renderer::InitD3D11() noexcept {
     GetWindowDimensions(window.handle, window.width, window.height);
     window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
+
+    if (!CreateRenderTargets()) [[unlikely]]
+        return false;
 
     InitOrReinitImGui();
     logger.Log("D3D11 renderer initialized successfully (%dx%d)", window.width, window.height);
@@ -321,6 +326,9 @@ bool Renderer::InitD3D12() noexcept {
     window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
 
+    if (!CreateRenderTargets()) [[unlikely]]
+        return false;
+
     InitOrReinitImGui();
     logger.Log(
         "D3D12 renderer initialized successfully (%dx%d, %d buffers)", window.width, window.height,
@@ -362,6 +370,7 @@ void Renderer::ReleaseGraphicsResources() noexcept {
     }
 
     ReleaseContextState();
+    ReleaseRenderTargets();
 
     if (state.imguiRendererReady) {
         ImGui_ImplDX11_Shutdown();

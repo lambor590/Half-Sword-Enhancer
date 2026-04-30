@@ -5,7 +5,6 @@
 
 namespace RenderConfig {
     constexpr UINT SYNC_TIMEOUT_MS = 500;
-    constexpr UINT CACHE_LINE_SIZE = 64;
     constexpr UINT64 FENCE_INCREMENT = 1;
     constexpr bool ENABLE_DEBUG_LAYER = false;
 

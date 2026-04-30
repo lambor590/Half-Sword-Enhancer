@@ -5,6 +5,7 @@
 #include <d3d11on12.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
+#include <vector>
 #include <wrl/client.h>
 
 #include "Render/RenderConfig.h"
@@ -36,6 +37,12 @@ private:
         uint8_t bufferCount = 0;
     };
 
+    struct D3D12FrameTarget {
+        Microsoft::WRL::ComPtr<ID3D12Resource> backbuffer;
+        Microsoft::WRL::ComPtr<ID3D11Resource> wrappedBuffer;
+        Microsoft::WRL::ComPtr<ID3D11RenderTargetView> renderTarget;
+    };
+
     Logger logger{"Renderer"};
 
     // Addresses of the original methods after MemoryUtils installs the detours.
@@ -58,6 +65,7 @@ private:
     Microsoft::WRL::ComPtr<ID3D11Device> d3d11Device;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> d3d11Context;
     Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
+    Microsoft::WRL::ComPtr<ID3D11RenderTargetView> d3d11RenderTarget;
 
     Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device;
     Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
@@ -67,6 +75,7 @@ private:
 
     UINT64 fenceValue = 0;
     HANDLE fenceEvent = nullptr;
+    std::vector<D3D12FrameTarget> d3d12FrameTargets;
 
     IDXGISwapChain* CreateDummySwapChain();
     void HookSwapChain(
@@ -87,6 +96,10 @@ private:
     bool InitD3D11() noexcept;
     bool InitD3D12() noexcept;
     void InitOrReinitImGui() noexcept;
+    bool CreateRenderTargets() noexcept;
+    bool CreateD3D11RenderTarget() noexcept;
+    bool CreateD3D12RenderTargets() noexcept;
+    void ReleaseRenderTargets() noexcept;
 
     void ReleaseContextState() noexcept;
     void ReleaseGraphicsResources() noexcept;
@@ -98,8 +111,6 @@ private:
     ) noexcept;
     void AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexcept;
     void SetCommandQueue(ID3D12CommandQueue* newQueue) noexcept;
-    void UpdateViewport() noexcept;
-
     inline void SetViewportIfDirty() noexcept {
         if (window.viewportDirty) [[unlikely]] {
             d3d11Context->RSSetViewports(1, &window.viewport);
