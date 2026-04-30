@@ -9,6 +9,7 @@ REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"
+#include "Utils/TierValidation.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
@@ -100,13 +101,20 @@ void ArmorEditorSection::QueueGeneration(SDK::EArmorSlots_Enum slot, SDK::Enum_R
             armorGenerationPending = false;
             return;
         }
-        armorPassport = EquipmentGenerator::GenerateArmor(world, tier, slot, moduleChance);
-        PopulateModulePoolForCurrentCore();
+        auto generated = EquipmentGenerator::GenerateArmor(world, tier, slot, moduleChance);
+        if (EquipmentGenerator::IsArmorPassportValid(generated)) {
+            armorPassport = generated;
+            PopulateModulePoolForCurrentCore();
+        } else {
+            presets.status.Set("Generation failed for this slot/tier", true);
+        }
         armorGenerationPending = false;
     });
 }
 
 void ArmorEditorSection::GenerateArmorPassport() {
+    uint16_t mask = TierValidation::VALID_ARMOR_TIER_MASKS[cfg.armorSlotIndex];
+    cfg.armorTier = TierValidation::NearestValidTier(mask, cfg.armorTier);
     QueueGeneration(
         static_cast<SDK::EArmorSlots_Enum>(ARMOR_SLOTS[cfg.armorSlotIndex].slotEnum),
         static_cast<SDK::Enum_Ranks>(cfg.armorTier), cfg.moduleChance
@@ -115,7 +123,7 @@ void ArmorEditorSection::GenerateArmorPassport() {
 
 void ArmorEditorSection::RandomizeArmorPassport() {
     cfg.armorSlotIndex = GameConstants::RandomInt(0, ARMOR_SLOT_COUNT - 1);
-    cfg.armorTier = GameConstants::RandomInt(0, 8);
+    cfg.armorTier = TierValidation::RandomValidTier(TierValidation::VALID_ARMOR_TIER_MASKS[cfg.armorSlotIndex]);
     GenerateArmorPassport();
 }
 
@@ -203,6 +211,21 @@ bool ArmorEditorSection::PassportChanged(const SDK::FStr_Passport_Armor1& a, con
            ) != 0;
 }
 
+void ArmorEditorSection::RenderArmorTierCombo() {
+    uint16_t mask = TierValidation::VALID_ARMOR_TIER_MASKS[cfg.armorSlotIndex];
+    cfg.armorTier = TierValidation::NearestValidTier(mask, cfg.armorTier);
+
+    ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
+    if (ImGui::BeginCombo("##GenTier", GuiUtils::TIER_LABELS[cfg.armorTier])) {
+        for (int t = 0; t <= 8; ++t) {
+            if (!(mask & (1 << t))) continue;
+            if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.armorTier)) cfg.armorTier = t;
+            if (t == cfg.armorTier) ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
+    }
+}
+
 void ArmorEditorSection::SpawnFromPassport() {
     if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
     auto [world, player] = RenderPlayerWorld();
@@ -255,7 +278,7 @@ void ArmorEditorSection::RenderGenerationControls() {
     }
 
     ImGui::SameLine();
-    GuiUtils::RenderFreeTierCombo("##GenTier", cfg.armorTier);
+    RenderArmorTierCombo();
 
     ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
     GuiUtils::DebouncedDragFloat("Module Chance", &cfg.moduleChance, 0.01f, 0.0f, 0.0f, "%.2f");

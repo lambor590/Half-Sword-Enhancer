@@ -72,6 +72,7 @@ private:
     void ApplyOverridesToActor(SDK::AActor* actor) const;
     void SpawnPreview();
     static bool PassportChanged(const SDK::FStr_Passport_Armor1& a, const SDK::FStr_Passport_Armor1& b);
+    void RenderArmorTierCombo();
     void SpawnFromPassport();
     void RenderGenerationControls();
     void RenderModulesTab();
