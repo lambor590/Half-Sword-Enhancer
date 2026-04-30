@@ -17,7 +17,12 @@ namespace EquipmentGenerator {
         return passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 != nullptr;
     }
 
+    inline bool IsArmorPassportValid(const SDK::FStr_Passport_Armor1& passport) {
+        return passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
+    }
+
     SDK::UClass* GetCustomizableModulesClass(CustomizableWeapon type);
+    bool IsPassportForCustomizableWeapon(const SDK::FStr_Passport_Weapon1& passport, CustomizableWeapon type);
 
     SDK::FStr_Passport_Weapon1 GenerateWeapon(
         const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier

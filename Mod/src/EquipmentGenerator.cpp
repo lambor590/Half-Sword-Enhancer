@@ -67,6 +67,13 @@ namespace EquipmentGenerator {
                 characterGenerator = SpawnGenerator<SDK::ABP_Generator_Characters_Random_C>(cachedWorld);
             return characterGenerator;
         }
+
+        bool ContainsClass(const SDK::TArray<SDK::UClass*>& classes, SDK::UClass* cls) {
+            if (!cls) return true;
+            for (int i = 0; i < classes.Num(); ++i)
+                if (classes[i] == cls) return true;
+            return false;
+        }
     }
 
     void Init(const SDK::UWorld* world) {
@@ -139,6 +146,21 @@ namespace EquipmentGenerator {
         }
     }
 
+    bool IsPassportForCustomizableWeapon(const SDK::FStr_Passport_Weapon1& passport, CustomizableWeapon type) {
+        auto* modulesClass = GetCustomizableModulesClass(type);
+        if (!modulesClass || !modulesClass->ClassDefaultObject) return false;
+
+        auto* cdo = static_cast<SDK::UBP_GameWeapon_Customizable_Master_C*>(modulesClass->ClassDefaultObject);
+        return ContainsClass(cdo->Module_Heads_Array, passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139) &&
+               ContainsClass(cdo->Module_Guards_Array, passport.GuardModule_13_6DD2B06245505E53B529D090333012F0) &&
+               ContainsClass(cdo->Module_Grips_Array, passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4) &&
+               ContainsClass(cdo->Module_Pommels_Array, passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6) &&
+               ContainsClass(
+                   cdo->Head_Sub_Module_1_Array, passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D
+               ) &&
+               ContainsClass(cdo->Head_Sub_Module_2_Array, passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9);
+    }
+
     SDK::FStr_Passport_Weapon1 GenerateCustomizableWeapon(
         const SDK::UWorld* world, CustomizableWeapon type, SDK::Enum_Ranks tier
     ) {
@@ -151,9 +173,9 @@ namespace EquipmentGenerator {
         SDK::FStr_Passport_Weapon1 emptyPassport{};
         for (int i = 0; i < MAX_ATTEMPTS; ++i) {
             gen->Generate_Weapon(SDK::Enum_WeaponType::NewEnumerator0, tier, false, nullptr, emptyPassport, &output);
-            if (IsPassportValid(output)) return output;
+            if (IsPassportValid(output) && IsPassportForCustomizableWeapon(output, type)) return output;
         }
-        return output;
+        return {};
     }
 
     SDK::FStr_Passport_Armor1 GenerateArmor(

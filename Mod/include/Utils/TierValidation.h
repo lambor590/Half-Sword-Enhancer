@@ -3,6 +3,8 @@
 #include <array>
 #include <cstdint>
 
+#include "Utils/GameConstants.h"
+
 namespace TierValidation {
 
     inline std::array<uint16_t, 20> VALID_TIER_MASKS = {{}};
@@ -32,6 +34,14 @@ namespace TierValidation {
             if (tier - d >= 0 && (mask & (1 << (tier - d)))) return tier - d;
         }
         return 4;
+    }
+
+    inline int RandomValidTier(uint16_t mask) noexcept {
+        int validTiers[9];
+        int count = 0;
+        for (int t = 0; t <= 8; ++t)
+            if (mask & (1 << t)) validTiers[count++] = t;
+        return count > 0 ? validTiers[GameConstants::RandomInt(0, count - 1)] : 4;
     }
 
 }
