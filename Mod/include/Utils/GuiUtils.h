@@ -361,6 +361,7 @@ namespace GuiUtils {
         bool& listDirty;
         PresetUtils::PresetTreeNode& tree;
         StatusMessage& status;
+        std::filesystem::path& pendingDeletePath;
         bool canSave = true;
     };
 
@@ -396,9 +397,41 @@ namespace GuiUtils {
 
             if (action.type == PresetTreeAction::Type::Load)
                 onLoad(action.path);
-            else if (action.type == PresetTreeAction::Type::Delete)
-                onDelete(action.path);
+            else if (action.type == PresetTreeAction::Type::Delete) {
+                state.pendingDeletePath = action.path;
+                ImGui::OpenPopup("##delete_preset_confirm");
+            }
         }
+
+        ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, K_POPUP_PADDING);
+        if (ImGui::BeginPopupModal(
+                "##delete_preset_confirm", nullptr,
+                ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings
+            )) {
+            const auto relativePath = state.pendingDeletePath.lexically_relative(presetsDir);
+            const auto displayPath =
+                (relativePath.empty() ? state.pendingDeletePath.filename() : relativePath).string();
+
+            ImGui::Text("Delete preset?");
+            ImGui::Spacing();
+            ImGui::TextWrapped("%s", displayPath.c_str());
+            ImGui::Spacing();
+
+            if (ImGui::Button("Delete")) {
+                onDelete(state.pendingDeletePath);
+                state.pendingDeletePath.clear();
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel")) {
+                state.pendingDeletePath.clear();
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::EndPopup();
+        }
+        ImGui::PopStyleVar();
+        ImGui::PopStyleColor();
 
         ImGui::Spacing();
         if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) PresetUtils::OpenInExplorer(presetsDir);

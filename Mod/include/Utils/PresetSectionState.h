@@ -11,6 +11,7 @@
 template <typename Serializer> struct PresetSectionState {
     char presetNameBuf[128] = {};
     PresetUtils::PresetTreeNode presetTree;
+    std::filesystem::path pendingDeletePath;
     bool presetListDirty = true;
     GuiUtils::StatusMessage status;
 
@@ -22,8 +23,8 @@ template <typename Serializer> struct PresetSectionState {
     template <typename BuildFn, typename ApplyFn>
     void RenderPresetsTab(BuildFn&& buildData, ApplyFn&& applyData, bool canSave = true) {
         ImGui::PushID("presets");
-        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree, status,
-                                              canSave};
+        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree,
+                                              status,        pendingDeletePath,     canSave};
         GuiUtils::RenderPresetPanel(
             panelState, Serializer::GetPresetsDirectory(), [this]() { RefreshPresetTree(); },
             [this, &buildData](const char* name) {
@@ -48,9 +49,14 @@ template <typename Serializer> struct PresetSectionState {
                 }
             },
             [this](const std::filesystem::path& path) {
-                Serializer::DeletePreset(path);
-                PresetUtils::CleanEmptyDirectories(Serializer::GetPresetsDirectory());
-                presetListDirty = true;
+                const auto presetName = path.stem().string();
+                if (Serializer::DeletePreset(path)) {
+                    PresetUtils::CleanEmptyDirectories(Serializer::GetPresetsDirectory());
+                    presetListDirty = true;
+                    status.Set("Deleted: " + presetName);
+                } else {
+                    status.Set("Error deleting preset", true);
+                }
             }
         );
         ImGui::PopID();
