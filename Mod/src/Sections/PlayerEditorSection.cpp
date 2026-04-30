@@ -223,6 +223,7 @@ void PlayerEditorSection::ApplyToPlayer(SDK::AWillie_BP_C* p) {
 }
 
 void PlayerEditorSection::ReadFromPlayer() {
+    auto* player = RenderPlayer();
     if (!player) return;
 
     overrides.heightRate.value = player->Height_Rate;
@@ -304,6 +305,7 @@ void PlayerEditorSection::ApplyPresetData(const PlayerPresetData& d) {
 }
 
 void PlayerEditorSection::ClonePlayer() {
+    auto [world, player] = RenderPlayerWorld();
     if (!player || !world) return;
     auto passport = player->Character_Passport;
     if (overrides.heightRate.enabled) passport.Height_21_0EB204DF4978B92AD0ED188FD32EEC7B = overrides.heightRate.value;
@@ -313,16 +315,21 @@ void PlayerEditorSection::ClonePlayer() {
     double muscleRate = passport.Weight_23_65E4C6534D14653F96EB739F159E58CD;
     auto spawnScale = static_cast<float>(0.875 + heightRate * 0.125);
 
-    Spawner::SpawnActor(
-        world, GameConstants::WILLIE_BP_PATH, Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale),
-        [passport, heightRate, muscleRate](SDK::AActor* actor) {
-            auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-            npc->Character_Passport = passport;
-            npc->Height_Rate = heightRate;
-            npc->Muscle_Rate = muscleRate;
-            npc->Team_Int = 1;
-        }
-    );
+    auto transform = Spawner::BuildSpawnTransform(player, 150.0f, 0.0f, spawnScale);
+
+    GameHook::QueueAction([passport, heightRate, muscleRate, transform](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.world) return;
+        Spawner::SpawnActor(
+            runtime.world, GameConstants::WILLIE_BP_PATH, transform,
+            [passport, heightRate, muscleRate](SDK::AActor* actor) {
+                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                npc->Character_Passport = passport;
+                npc->Height_Rate = heightRate;
+                npc->Muscle_Rate = muscleRate;
+                npc->Team_Int = 1;
+            }
+        );
+    });
 }
 
 void PlayerEditorSection::RenderPhysicalTab() {
@@ -486,9 +493,9 @@ void PlayerEditorSection::InitKeybinds() {
             .configSection = "EnforceOverrides",
             .keyPtr = &enforceKey,
             .callback =
-                [this](bool active) {
-                    if (!player) return;
-                    if (active) ApplyToPlayer(player);
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* player = runtime.player;
+                    if (active && player) ApplyToPlayer(player);
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
@@ -498,6 +505,7 @@ void PlayerEditorSection::InitKeybinds() {
 
 void PlayerEditorSection::Render() {
     const SectionStyle::StyleRAII style;
+    auto [world, player] = RenderPlayerWorld();
 
     KeybindUI::RenderKeybindList(keybinds);
 

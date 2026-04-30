@@ -90,6 +90,7 @@ void SkyEditorSection::ReadInitialValues() {
 
 void SkyEditorSection::FindComponents() {
     if (searchPending) return;
+    auto* world = RenderWorld();
     if (!world) {
         status.Set("World not available", true);
         return;
@@ -98,7 +99,7 @@ void SkyEditorSection::FindComponents() {
     cachedWorld = world;
     status.Set("Searching...");
 
-    GameHook::QueueAction([this]() {
+    GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
         auto* dlClass = SDK::ADirectionalLight::StaticClass();
         auto* dl = SDK::UGameplayStatics::GetActorOfClass(cachedWorld, dlClass);
         if (dl) {
@@ -130,7 +131,7 @@ void SkyEditorSection::ApplySunRotation(bool recapture) {
     auto* comp = static_cast<SDK::USceneComponent*>(sunComp);
     auto* sl = recapture ? skyLightComp : nullptr;
     float p = sunPitch, y = sunYaw;
-    GameHook::QueueAction([comp, sl, p, y]() {
+    GameHook::QueueAction([comp, sl, p, y](const RuntimeContextSnapshot& runtime) {
         comp->K2_SetWorldRotation(SDK::FRotator{p, y, 0.0}, false, nullptr, false);
         if (sl) sl->RecaptureSky();
     });
@@ -141,7 +142,7 @@ void SkyEditorSection::ApplySunLight() {
     auto* sl = skyLightComp;
     float intensity = sunIntensity;
     SDK::FLinearColor color{sunColor[0], sunColor[1], sunColor[2], 1.f};
-    GameHook::QueueAction([comp, sl, intensity, color]() {
+    GameHook::QueueAction([comp, sl, intensity, color](const RuntimeContextSnapshot& runtime) {
         static_cast<SDK::ULightComponent*>(comp)->SetIntensity(intensity);
         static_cast<SDK::ULightComponent*>(comp)->SetLightColor(color, true);
         if (sl) sl->RecaptureSky();
@@ -154,7 +155,7 @@ void SkyEditorSection::ApplyAtmosphere() {
     float rs = rayleighScale, ms = mieScale, ma = mieAnisotropy, msc = multiScatter, ah = atmoHeight;
     SDK::FLinearColor rc{rayleighColor[0], rayleighColor[1], rayleighColor[2], 1.f};
     SDK::FLinearColor sl{skyLuminance[0], skyLuminance[1], skyLuminance[2], skyLuminance[3]};
-    GameHook::QueueAction([comp, sl2, rs, rc, ms, ma, msc, sl, ah]() {
+    GameHook::QueueAction([comp, sl2, rs, rc, ms, ma, msc, sl, ah](const RuntimeContextSnapshot& runtime) {
         comp->SetRayleighScatteringScale(rs);
         comp->SetRayleighScattering(rc);
         comp->SetMieScatteringScale(ms);
@@ -171,7 +172,7 @@ void SkyEditorSection::ApplySkyLight() {
     float intensity = skyLightIntensity;
     SDK::FLinearColor color{skyLightColor[0], skyLightColor[1], skyLightColor[2], 1.f};
     SDK::FLinearColor lh{lowerHemiColor[0], lowerHemiColor[1], lowerHemiColor[2], lowerHemiColor[3]};
-    GameHook::QueueAction([comp, intensity, color, lh]() {
+    GameHook::QueueAction([comp, intensity, color, lh](const RuntimeContextSnapshot& runtime) {
         comp->SetIntensity(intensity);
         comp->SetLightColor(color);
         comp->SetLowerHemisphereColor(lh);
@@ -183,7 +184,7 @@ void SkyEditorSection::ApplyFog() {
     auto* comp = fogComp;
     float d = fogDensity, f = fogFalloff, s = fogStartDist, m = fogMaxOpacity;
     SDK::FLinearColor c{fogColor[0], fogColor[1], fogColor[2], 1.f};
-    GameHook::QueueAction([comp, d, f, c, s, m]() {
+    GameHook::QueueAction([comp, d, f, c, s, m](const RuntimeContextSnapshot& runtime) {
         comp->SetFogDensity(d);
         comp->SetFogHeightFalloff(f);
         comp->SetFogInscatteringColor(c);
@@ -197,7 +198,7 @@ void SkyEditorSection::ApplySunExtended() {
     float sa = sunSourceAngle, soft = sunSoftAngle, bs = sunBloomScale;
     float bt = sunBloomThreshold, sha = sunShadowAmount;
     float vs = sunVolumetricScatter, ii = sunIndirectIntensity;
-    GameHook::QueueAction([comp, sa, soft, bs, bt, sha, vs, ii]() {
+    GameHook::QueueAction([comp, sa, soft, bs, bt, sha, vs, ii](const RuntimeContextSnapshot& runtime) {
         comp->SetLightSourceAngle(sa);
         comp->SetLightSourceSoftAngle(soft);
         comp->SetShadowAmount(sha);
@@ -213,7 +214,7 @@ void SkyEditorSection::ApplyClouds() {
     auto* comp = cloudComp;
     float ba = cloudBottomAlt, h = cloudHeight, vs = cloudViewSamples;
     float ss = cloudShadowSamples, sd = cloudShadowDist;
-    GameHook::QueueAction([comp, ba, h, vs, ss, sd]() {
+    GameHook::QueueAction([comp, ba, h, vs, ss, sd](const RuntimeContextSnapshot& runtime) {
         comp->SetLayerBottomAltitude(ba);
         comp->SetLayerHeight(h);
         comp->SetViewSampleCountScale(vs);
@@ -247,7 +248,7 @@ void SkyEditorSection::RenderSunTab() {
     if (GuiUtils::DebouncedDragFloat("Temperature", &sunTemperature, 50.f, 1000.f, 15000.f, "%.0f K")) {
         auto* comp = sunComp;
         float t = sunTemperature;
-        GameHook::QueueAction([comp, t]() {
+        GameHook::QueueAction([comp, t](const RuntimeContextSnapshot& runtime) {
             static_cast<SDK::ULightComponent*>(comp)->SetUseTemperature(true);
             static_cast<SDK::ULightComponent*>(comp)->SetTemperature(t);
         });
@@ -385,6 +386,7 @@ void SkyEditorSection::RenderCloudsTab() {
 }
 
 bool SkyEditorSection::RenderComponentStatus() {
+    auto* world = RenderWorld();
     if (world != cachedWorld) ResetState();
 
     bool disabled = searchPending;

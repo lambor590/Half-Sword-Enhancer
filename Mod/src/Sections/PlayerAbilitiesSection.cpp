@@ -27,9 +27,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "InfiniteStamina",
             .keyPtr = &cfg.infiniteStaminaKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    player->Stamina = GameConstants::DEFAULT_HEALTH;
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->Stamina = GameConstants::DEFAULT_HEALTH;
                 },
             .events = {GameEvent::OffLedge},
         }
@@ -43,9 +44,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "InfiniteConsciousness",
             .keyPtr = &cfg.infiniteConsciousnessKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    ActorUtils::SetInfiniteConsciousness(player);
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    ActorUtils::SetInfiniteConsciousness(p);
                 },
             .events = {GameEvent::OffLedge},
         }
@@ -59,7 +61,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "EnemyInfiniteConsciousness",
             .keyPtr = &cfg.enemyInfiniteConsciousnessKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
                     if (!player || !world) return;
                     ActorUtils::ForEachWillie(world, player, ActorUtils::SetInfiniteConsciousness);
                 },
@@ -75,10 +79,11 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "ConsciousnessMultiplier",
             .keyPtr = &cfg.consciousnessMultiplierKey,
             .callback =
-                [this](bool active) {
-                    if (!player) return;
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
                     float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.consciousnessMultiplier : 1.0f);
-                    player->Consciousness_Cap = cap;
+                    p->Consciousness_Cap = cap;
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
@@ -97,7 +102,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "EnemyConsciousnessMultiplier",
             .keyPtr = &cfg.enemyConsciousnessMultiplierKey,
             .callback =
-                [this](bool active) {
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
                     if (!player || !world) return;
                     float cap = GameConstants::DEFAULT_HEALTH * (active ? cfg.enemyConsciousnessMultiplier : 1.0f);
                     ActorUtils::ForEachWillie(world, player, [cap](SDK::AWillie_BP_C* willie) {
@@ -122,9 +129,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "Jump",
             .keyPtr = &cfg.jumpKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    player->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, cfg.jumpForce), SDK::FName(), true);
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->Mesh->AddImpulse(SDK::FVector(0.0f, 0.0f, cfg.jumpForce), SDK::FName(), true);
                 },
             .params = {KeybindParam("force", "Force", &cfg.jumpForce, 1000.0f, 10000.0f, "Controls how high you jump")},
         }
@@ -138,14 +146,13 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "SpeedMultiplier",
             .keyPtr = &cfg.playerSpeedKey,
             .callback =
-                [this](bool active) {
-                    if (!player) return;
-                    player->Running_Speed_Rate = active
-                                                     ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerRunMultiplier)
-                                                     : GameConstants::DEFAULT_PLAYER_SPEED;
-                    player->Walk_Speed_Rate_Run = active
-                                                      ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerWalkMultiplier)
-                                                      : GameConstants::DEFAULT_PLAYER_SPEED;
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->Running_Speed_Rate = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerRunMultiplier)
+                                                   : GameConstants::DEFAULT_PLAYER_SPEED;
+                    p->Walk_Speed_Rate_Run = active ? (GameConstants::DEFAULT_PLAYER_SPEED * cfg.playerWalkMultiplier)
+                                                    : GameConstants::DEFAULT_PLAYER_SPEED;
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
@@ -169,17 +176,16 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "StrengthMultiplier",
             .keyPtr = &cfg.playerStrengthKey,
             .callback =
-                [this](bool active) {
-                    if (!player) return;
-                    player->Muscle_Power = active ? (GameConstants::DEFAULT_MUSCLE_POWER * cfg.playerStrengthMultiplier)
-                                                  : GameConstants::DEFAULT_MUSCLE_POWER;
-                    player->R_Grab_Force_Limit =
-                        active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
-                               : GameConstants::DEFAULT_GRAB_FORCE;
-                    player->L_Grab_Force_Limit =
-                        active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
-                               : GameConstants::DEFAULT_GRAB_FORCE;
-                    player->Hands_Rigidity__Gauntlets_ =
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->Muscle_Power = active ? (GameConstants::DEFAULT_MUSCLE_POWER * cfg.playerStrengthMultiplier)
+                                             : GameConstants::DEFAULT_MUSCLE_POWER;
+                    p->R_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
+                                                   : GameConstants::DEFAULT_GRAB_FORCE;
+                    p->L_Grab_Force_Limit = active ? (GameConstants::DEFAULT_GRAB_FORCE * cfg.playerGrabForceMultiplier)
+                                                   : GameConstants::DEFAULT_GRAB_FORCE;
+                    p->Hands_Rigidity__Gauntlets_ =
                         active ? (GameConstants::DEFAULT_HANDS_RIGIDITY * cfg.playerHandsRigidityMultiplier)
                                : GameConstants::DEFAULT_HANDS_RIGIDITY;
                 },
@@ -209,15 +215,16 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "CustomBodyTonus",
             .keyPtr = &cfg.bodyTonusKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    player->All_Body_Tonus = GameConstants::DEFAULT_ALL_BODY_TONUS * cfg.bodyTonusAllBodyMultiplier;
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->All_Body_Tonus = GameConstants::DEFAULT_ALL_BODY_TONUS * cfg.bodyTonusAllBodyMultiplier;
                     if (cfg.bodyTonusNoBodyWeakening) [[unlikely]] {
-                        player->Head_Tonus = GameConstants::FULL_TONUS;
-                        player->Arm_L_Tonus = GameConstants::FULL_TONUS;
-                        player->Arm_R_Tonus = GameConstants::FULL_TONUS;
-                        player->Leg_L_Tonus = GameConstants::FULL_TONUS;
-                        player->Leg_R_Tonus = GameConstants::FULL_TONUS;
+                        p->Head_Tonus = GameConstants::FULL_TONUS;
+                        p->Arm_L_Tonus = GameConstants::FULL_TONUS;
+                        p->Arm_R_Tonus = GameConstants::FULL_TONUS;
+                        p->Leg_L_Tonus = GameConstants::FULL_TONUS;
+                        p->Leg_R_Tonus = GameConstants::FULL_TONUS;
                     }
                 },
             .events = {GameEvent::OffLedge},
@@ -241,9 +248,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "Ragdoll",
             .keyPtr = &cfg.ragdollKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    player->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
                 },
             .events = {GameEvent::OffLedge},
         }
@@ -257,7 +265,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "EnemyRagdoll",
             .keyPtr = &cfg.enemyRagdollKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
                     if (!player || !world) return;
                     ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
                         willie->All_Body_Tonus = GameConstants::DEFAULT_PAIN;
@@ -275,7 +285,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "DrunkEnemies",
             .keyPtr = &cfg.enemyDrunkKey,
             .callback =
-                [this](bool active) {
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
                     if (!player || !world) return;
                     ActorUtils::ForEachWillie(world, player, [this, active](SDK::AWillie_BP_C* willie) {
                         willie->Drunk = active ? static_cast<double>(cfg.enemyDrunkLevel) : 0.0;
@@ -298,9 +310,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "NoKickCooldown",
             .keyPtr = &cfg.noKickCooldownKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    player->Kick_Cooldown = false;
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->Kick_Cooldown = false;
                 },
             .events = {GameEvent::OffLedge},
         }
@@ -314,10 +327,11 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "Invulnerability",
             .keyPtr = &cfg.invulnerabilityKey,
             .callback =
-                [this](bool active) {
-                    if (!player) return;
-                    player->BitPad_5C_0 = active;
-                    player->Invulnerable = active;
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->BitPad_5C_0 = active;
+                    p->Invulnerable = active;
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
@@ -332,9 +346,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "NoPain",
             .keyPtr = &cfg.noPainKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    ActorUtils::ApplyNoPainEffect(player);
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    ActorUtils::ApplyNoPainEffect(p);
                 },
             .events = {GameEvent::OffLedge},
         }
@@ -348,7 +363,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "EnemyNoPain",
             .keyPtr = &cfg.enemyNoPainKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
                     if (!player || !world) return;
                     ActorUtils::ForEachWillie(world, player, ActorUtils::ApplyNoPainEffect);
                 },
@@ -364,9 +381,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "GetUp",
             .keyPtr = &cfg.getUpKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    player->Get_Up_Rate = GameConstants::GET_UP_RATE;
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    p->Get_Up_Rate = GameConstants::GET_UP_RATE;
                 },
         }
     );
@@ -379,10 +397,11 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "Dash",
             .keyPtr = &cfg.dashKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    SDK::FVector forwardVector = player->GetActorForwardVector();
-                    player->Mesh->AddImpulse(forwardVector * cfg.dashForce, SDK::FName(), true);
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* p = runtime.player;
+                    if (!p) return;
+                    SDK::FVector forwardVector = p->GetActorForwardVector();
+                    p->Mesh->AddImpulse(forwardVector * cfg.dashForce, SDK::FName(), true);
                 },
             .params = {KeybindParam("force", "Force", &cfg.dashForce, 1000.0f, 10000.0f, "Controls how fast you dash")},
         }
@@ -396,8 +415,8 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "BiteAttack",
             .keyPtr = &cfg.biteAttackKey,
             .callback =
-                [this](bool active) {
-                    ActorUtils::ApplyBiteState(player, active);
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    ActorUtils::ApplyBiteState(runtime.player, active);
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
@@ -412,7 +431,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "EnemyBite",
             .keyPtr = &cfg.enemyBiteKey,
             .callback =
-                [this](bool active) {
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
                     if (!player || !world) return;
                     if (active) {
                         ActorUtils::ApplyBiteState(
@@ -420,10 +441,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
                         );
                         return;
                     }
-                    ActorUtils::ForEachWillieInRadius(
-                        world, player, cfg.biteRange,
-                        [](SDK::AWillie_BP_C* willie) { ActorUtils::ApplyBiteState(willie, false); }
-                    );
+                    ActorUtils::ForEachWillieInRadius(world, player, cfg.biteRange, [](SDK::AWillie_BP_C* willie) {
+                        ActorUtils::ApplyBiteState(willie, false);
+                    });
                 },
             .runOnToggle = true,
             .events = {GameEvent::OffLedge},
@@ -440,7 +460,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "EnemyBiteAll",
             .keyPtr = &cfg.enemyBiteAllKey,
             .callback =
-                [this](bool active) {
+                [this](bool active, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
                     if (!player || !world) return;
                     ActorUtils::ForEachWillieInRadius(
                         world, player, cfg.biteAllRange,
@@ -462,7 +484,10 @@ void PlayerAbilitiesSection::InitKeybinds() {
             .configSection = "PossessNearestWillie",
             .keyPtr = &cfg.possessWillieKey,
             .callback =
-                [this]([[maybe_unused]] bool) {
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
+                    auto* controller = runtime.controller;
                     if (!player || !controller || !world) return;
 
                     if (PossessState::lastWorld != world) {

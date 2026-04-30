@@ -94,7 +94,12 @@ void ArmorEditorSection::CreateBlankArmorPassport() {
 
 void ArmorEditorSection::QueueGeneration(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, double moduleChance) {
     armorGenerationPending = true;
-    GameHook::QueueAction([this, slot, tier, moduleChance]() {
+    GameHook::QueueAction([this, slot, tier, moduleChance](const RuntimeContextSnapshot& runtime) {
+        auto* world = runtime.world;
+        if (!world) {
+            armorGenerationPending = false;
+            return;
+        }
         armorPassport = EquipmentGenerator::GenerateArmor(world, tier, slot, moduleChance);
         PopulateModulePoolForCurrentCore();
         armorGenerationPending = false;
@@ -150,6 +155,7 @@ void ArmorEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
 void ArmorEditorSection::SpawnPreview() {
     preview.Destroy();
     if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
+    auto [world, player] = RenderPlayerWorld();
     if (!player || !world) return;
 
     lastPreviewedPassport = armorPassport;
@@ -157,24 +163,31 @@ void ArmorEditorSection::SpawnPreview() {
 
     bool hasOverrides = CountAllActive() > 0;
 
-    Spawner::SpawnArmorFromPassport(
-        world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn), cfg.spawn.snapToGround,
-        [this, hasOverrides](SDK::AActor* actor) {
-            if (!cfg.preview.livePreview) {
-                actor->K2_DestroyActor();
-                return;
+    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
+    bool snap = cfg.spawn.snapToGround;
+    auto passport = armorPassport;
+
+    GameHook::QueueAction([this, passport, transform, snap, hasOverrides](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.world) return;
+        Spawner::SpawnArmorFromPassport(
+            runtime.world, passport, transform, snap,
+            [this, hasOverrides](SDK::AActor* actor) {
+                if (!cfg.preview.livePreview) {
+                    actor->K2_DestroyActor();
+                    return;
+                }
+                auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
+                armor->Simulates_Physics = false;
+                if (armor->Armor_Mesh_Static) armor->Armor_Mesh_Static->SetSimulatePhysics(false);
+                if (armor->Armor_Mesh_Skeletal) armor->Armor_Mesh_Skeletal->SetAllBodiesSimulatePhysics(false);
+                if (armor->Armor_Mesh_Primitive) armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
+                actor->SetActorEnableCollision(false);
+                if (hasOverrides) ApplyOverridesToActor(actor);
+                preview.SetPreviewActor(actor);
+                if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
             }
-            auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
-            armor->Simulates_Physics = false;
-            if (armor->Armor_Mesh_Static) armor->Armor_Mesh_Static->SetSimulatePhysics(false);
-            if (armor->Armor_Mesh_Skeletal) armor->Armor_Mesh_Skeletal->SetAllBodiesSimulatePhysics(false);
-            if (armor->Armor_Mesh_Primitive) armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
-            actor->SetActorEnableCollision(false);
-            if (hasOverrides) ApplyOverridesToActor(actor);
-            preview.SetPreviewActor(actor);
-            if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
-        }
-    );
+        );
+    });
 }
 
 bool ArmorEditorSection::PassportChanged(const SDK::FStr_Passport_Armor1& a, const SDK::FStr_Passport_Armor1& b) {
@@ -192,6 +205,8 @@ bool ArmorEditorSection::PassportChanged(const SDK::FStr_Passport_Armor1& a, con
 
 void ArmorEditorSection::SpawnFromPassport() {
     if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
+    auto [world, player] = RenderPlayerWorld();
+    if (!player || !world) return;
 
     if (cfg.preview.livePreview) {
         cfg.preview.livePreview = false;
@@ -205,12 +220,19 @@ void ArmorEditorSection::SpawnFromPassport() {
         };
     }
 
-    Spawner::SpawnArmorFromPassport(
-        world, armorPassport, Spawner::BuildSpawnTransform(player, cfg.spawn), cfg.spawn.snapToGround, callback
-    );
+    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
+    bool snap = cfg.spawn.snapToGround;
+    auto passport = armorPassport;
+
+    GameHook::QueueAction([passport, transform, snap,
+                           callback = std::move(callback)](const RuntimeContextSnapshot& runtime) {
+        if (runtime.world) Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap, callback);
+    });
 }
 
 void ArmorEditorSection::RenderGenerationControls() {
+    auto [world, player] = RenderPlayerWorld();
+
     ImGui::PushID("gen");
 
     static float slotComboW = 0;
@@ -358,7 +380,7 @@ void ArmorEditorSection::ApplyPresetData(const ArmorPresetData& d) {
     armorModules = {};
 
     if (!d.armorCorePath.empty()) {
-        GameHook::QueueAction([this, path = d.armorCorePath]() {
+        GameHook::QueueAction([this, path = d.armorCorePath](const RuntimeContextSnapshot& runtime) {
             armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(path);
         });
     }
@@ -378,11 +400,7 @@ void ArmorEditorSection::InitKeybinds() {
             .tooltip = "Spawns the currently edited armor with runtime overrides applied",
             .configSection = "SpawnArmor",
             .keyPtr = &cfg.spawnKey,
-            .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player || !world) return;
-                    SpawnFromPassport();
-                },
+            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnFromPassport(); },
             .params =
                 {KeybindParam(
                      "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"
@@ -402,6 +420,7 @@ void ArmorEditorSection::InitKeybinds() {
 
 void ArmorEditorSection::Render() {
     SectionStyle::StyleRAII style;
+    auto [world, player] = RenderPlayerWorld();
 
     preview.InvalidateIfDead(player, world);
     preview.SyncToggleState();
@@ -441,8 +460,7 @@ void ArmorEditorSection::Render() {
     if (!canSpawn) ImGui::EndDisabled();
 
     if (cfg.preview.livePreview) {
-        bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport) ||
-                           runtimeProps != lastPreviewedProps;
+        bool needsUpdate = PassportChanged(armorPassport, lastPreviewedPassport) || runtimeProps != lastPreviewedProps;
         preview.Update(needsUpdate, [this]() { SpawnPreview(); });
         preview.Rotate();
     }

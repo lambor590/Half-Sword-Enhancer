@@ -83,10 +83,9 @@ void GraphicsSection::ExecuteConsoleCommands(SDK::UWorld* world, const GraphicsS
 }
 
 void GraphicsSection::ApplySettings() {
-    GameHook::QueueAction([currentSettings = settings]() {
-        auto* w = ModContext::Get().world;
-        if (!w) return;
-        ExecuteConsoleCommands(w, currentSettings);
+    GameHook::QueueAction([currentSettings = settings](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.world) return;
+        ExecuteConsoleCommands(runtime.world, currentSettings);
     });
 }
 
@@ -112,11 +111,10 @@ void GraphicsSection::ApplyOnStartup() {
     if (!applyOnStart) [[likely]]
         return;
 
-    GameHook::QueueAction([]() {
-        auto* w = ModContext::Get().world;
-        if (!w) return;
+    GameHook::QueueAction([](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.world) return;
 
         const GraphicsSettings gameStartSettings = LoadSettingsFromConfig();
-        ExecuteConsoleCommands(w, gameStartSettings);
+        ExecuteConsoleCommands(runtime.world, gameStartSettings);
     });
 }

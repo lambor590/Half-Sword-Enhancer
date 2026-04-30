@@ -95,7 +95,7 @@ void LoadoutManagerSection::RemoveArmorSlot(SDK::AWillie_BP_C* p, SDK::EArmorSlo
 void LoadoutManagerSection::EnsureModulePool() {
     if (modulePool.populated.load(std::memory_order_acquire) || modulePoolQueued) return;
     modulePoolQueued = true;
-    GameHook::QueueAction([this]() {
+    GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
         modulePool.Populate();
         modulePoolQueued = false;
     });
@@ -107,7 +107,9 @@ void LoadoutManagerSection::RenderVectorDrag(const char* label, SDK::FVector& ve
     GuiUtils::StoreEdited(vec, v);
 }
 
-void LoadoutManagerSection::BuildArmorOps(std::vector<std::function<void()>>& ops) {
+void LoadoutManagerSection::BuildArmorOps(std::vector<LoadoutAction>& ops, SDK::AWillie_BP_C* player) {
+    if (!player) return;
+
     auto& map = player->Currently_Equipped_Armor;
 
     std::vector<SDK::EArmorSlots_Enum> slotsToRemove;
@@ -121,138 +123,144 @@ void LoadoutManagerSection::BuildArmorOps(std::vector<std::function<void()>>& op
     }
 
     ops.clear();
-    auto* p = player;
-    auto* w = world;
 
     for (auto slot : slotsToRemove)
-        ops.push_back([p, slot]() { RemoveArmorSlot(p, slot); });
+        ops.push_back([slot](const RuntimeContextSnapshot& runtime) {
+            if (runtime.player) RemoveArmorSlot(runtime.player, slot);
+        });
 
     for (auto& passport : passportsToSpawn)
-        ops.push_back([w, p, passport]() { Spawner::SpawnAndEquipArmor(w, p, passport); });
+        ops.push_back([passport](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world && runtime.player) Spawner::SpawnAndEquipArmor(runtime.world, runtime.player, passport);
+        });
 }
 
 void LoadoutManagerSection::ApplyArmorToPlayer() {
-    if (!player || !world) return;
-    BuildArmorOps(staggeredOps);
-    staggeredIdx = 0;
-    staggeredBusy.store(false, std::memory_order_relaxed);
+    GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.player) return;
+        BuildArmorOps(pendingStaggeredOps, runtime.player);
+        hasPendingStaggeredOps.store(true, std::memory_order_release);
+    });
 }
 
 void LoadoutManagerSection::ReapplyArmorSlot(SDK::EArmorSlots_Enum slot) {
-    if (!player || !world) return;
-    GameHook::QueueAction([p = player, w = world, slot]() {
-        auto& map = p->Currently_Equipped_Armor;
+    GameHook::QueueAction([slot](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.player || !runtime.world) return;
+        auto& map = runtime.player->Currently_Equipped_Armor;
         for (auto it = begin(map); it != end(map); ++it) {
             if (it->Key() != slot) continue;
             auto& passport = it->Value();
             if (!passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) break;
             SDK::FStr_Passport_Armor1 copy = passport;
-            RemoveArmorSlot(p, slot);
-            Spawner::SpawnAndEquipArmor(w, p, copy);
+            RemoveArmorSlot(runtime.player, slot);
+            Spawner::SpawnAndEquipArmor(runtime.world, runtime.player, copy);
             break;
         }
     });
 }
 
 void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
-    if (!player) return;
     if (slotIndex != 0 && slotIndex != 1) return;
 
-    auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
-    auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
-    auto* weaponClass = slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066;
-    if (!weaponClass) return;
+    GameHook::QueueAction([slotIndex](const RuntimeContextSnapshot& runtime) {
+        auto* player = runtime.player;
+        if (!player) return;
+        auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
+        auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
+        auto* weaponClass = slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066;
+        if (!weaponClass) return;
 
-    if (slotIndex == 0) {
         auto passport = WeaponPassportBuilder::FromWeaponParts(slot);
-        GameHook::QueueAction([p = player, weaponClass, passport]() {
-            if (p) p->Set_Up_Right_Hand_Weapon(weaponClass, p->Weapon_R, false, true, passport);
-        });
-    } else if (slotIndex == 1) {
-        auto passport = WeaponPassportBuilder::FromWeaponParts(slot);
-        GameHook::QueueAction([p = player, weaponClass, passport]() {
-            if (p) p->Set_Up_Left_Hand_Weapon(weaponClass, p->Weapon_L, false, true, passport);
-        });
-    }
+        if (slotIndex == 0) {
+            player->Set_Up_Right_Hand_Weapon(weaponClass, player->Weapon_R, false, true, passport);
+        } else {
+            player->Set_Up_Left_Hand_Weapon(weaponClass, player->Weapon_L, false, true, passport);
+        }
+    });
 }
 
 void LoadoutManagerSection::StripAllArmor() {
-    if (!player) return;
-    GameHook::QueueAction([p = player]() {
-        auto& map = p->Currently_Equipped_Armor;
+    GameHook::QueueAction([](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.player) return;
+        auto& map = runtime.player->Currently_Equipped_Armor;
         std::vector<SDK::EArmorSlots_Enum> slots;
         for (auto it = begin(map); it != end(map); ++it)
             if (it->Value().ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) slots.push_back(it->Key());
         for (auto slot : slots)
-            RemoveArmorSlot(p, slot);
+            RemoveArmorSlot(runtime.player, slot);
     });
 }
 
 void LoadoutManagerSection::ClearAllWeapons() {
-    if (!player) return;
-    auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
-    for (int i = 0; i < 7; ++i) {
-        auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, i);
-        ClearWeaponSlot(slot);
-    }
-    ApplyWeaponToPlayer(0);
-    ApplyWeaponToPlayer(1);
+    GameHook::QueueAction([](const RuntimeContextSnapshot& runtime) {
+        auto* player = runtime.player;
+        if (!player) return;
+        auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
+        for (int i = 0; i < 7; ++i) {
+            auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, i);
+            ClearWeaponSlot(slot);
+        }
+        player->Set_Up_Right_Hand_Weapon(nullptr, player->Weapon_R, false, true, {});
+        player->Set_Up_Left_Hand_Weapon(nullptr, player->Weapon_L, false, true, {});
+    });
 }
 
 void LoadoutManagerSection::GenerateArmorForSlot(SDK::EArmorSlots_Enum slotEnum) {
-    if (!player || !world) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
 
-    GameHook::QueueAction([this, slotEnum, tier]() {
-        auto passport = EquipmentGenerator::GenerateArmor(world, tier, slotEnum, 0.5);
+    GameHook::QueueAction([slotEnum, tier](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.player || !runtime.world) return;
+        auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slotEnum, 0.5);
         if (!passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
 
-        RemoveArmorSlot(player, slotEnum);
-        Spawner::SpawnAndEquipArmor(world, player, passport);
+        RemoveArmorSlot(runtime.player, slotEnum);
+        Spawner::SpawnAndEquipArmor(runtime.world, runtime.player, passport);
     });
 }
 
 void LoadoutManagerSection::RandomizeAllArmor() {
-    if (!player || !world) return;
     if (staggeredIdx < staggeredOps.size()) return;
 
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
 
-    GameHook::QueueAction([this, tier]() {
-        auto& dstMap = player->Currently_Equipped_Armor;
+    GameHook::QueueAction([this, tier](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.player || !runtime.world) return;
+        auto& dstMap = runtime.player->Currently_Equipped_Armor;
         std::vector<SDK::EArmorSlots_Enum> removeSlots;
         std::vector<SDK::FStr_Passport_Armor1> newPassports;
 
         for (auto it = begin(dstMap); it != end(dstMap); ++it) {
             removeSlots.push_back(it->Key());
-            auto passport = EquipmentGenerator::GenerateArmor(world, tier, it->Key(), 0.5);
+            auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, it->Key(), 0.5);
             if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) newPassports.push_back(passport);
         }
-
-        auto* p = player;
-        auto* w = world;
 
         pendingStaggeredOps.clear();
 
         for (auto slot : removeSlots)
-            pendingStaggeredOps.push_back([p, slot]() { RemoveArmorSlot(p, slot); });
+            pendingStaggeredOps.push_back([slot](const RuntimeContextSnapshot& runtime) {
+                if (runtime.player) RemoveArmorSlot(runtime.player, slot);
+            });
 
         for (auto& passport : newPassports)
-            pendingStaggeredOps.push_back([w, p, passport]() { Spawner::SpawnAndEquipArmor(w, p, passport); });
+            pendingStaggeredOps.push_back([passport](const RuntimeContextSnapshot& runtime) {
+                if (runtime.world && runtime.player)
+                    Spawner::SpawnAndEquipArmor(runtime.world, runtime.player, passport);
+            });
 
         hasPendingStaggeredOps.store(true, std::memory_order_release);
     });
 }
 
 void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
-    if (!player || !world) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
     auto type = static_cast<SDK::Enum_WeaponType>(0);
 
-    GameHook::QueueAction([this, slotIndex, tier, type]() {
-        auto passport = EquipmentGenerator::GenerateWeapon(world, type, tier);
+    GameHook::QueueAction([slotIndex, tier, type](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.player || !runtime.world) return;
+        auto passport = EquipmentGenerator::GenerateWeapon(runtime.world, type, tier);
 
-        auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
+        auto& weapons = runtime.player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
         CopyPassportToSlot(passport, slot);
     });
@@ -261,12 +269,13 @@ void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
 }
 
 void LoadoutManagerSection::ImportWeaponPreset(int slotIndex) {
-    if (!weaponPicker.HasSelection() || !player) return;
+    if (!weaponPicker.HasSelection()) return;
     auto data = WeaponPresetSerializer::LoadFromFile(weaponPicker.SelectedPath());
     if (!data.success) return;
 
-    GameHook::QueueAction([this, slotIndex, data = std::move(data)]() {
-        auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
+    GameHook::QueueAction([slotIndex, data = std::move(data)](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.player) return;
+        auto& weapons = runtime.player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
 
         auto load = [](const std::string& path) -> SDK::UClass* {
@@ -290,11 +299,12 @@ void LoadoutManagerSection::ImportWeaponPreset(int slotIndex) {
 }
 
 void LoadoutManagerSection::ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
-    if (!armorPicker.HasSelection() || !player || !world) return;
+    if (!armorPicker.HasSelection()) return;
     auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
     if (!data.success) return;
 
-    GameHook::QueueAction([this, slotEnum, data = std::move(data)]() {
+    GameHook::QueueAction([slotEnum, data = std::move(data)](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.player || !runtime.world) return;
         SDK::UClass* cls = data.armorCorePath.empty() ? nullptr : Spawner::LoadClass(data.armorCorePath);
         if (!cls) return;
 
@@ -302,19 +312,19 @@ void LoadoutManagerSection::ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
         passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = cls;
         passport.Slot_30_7561CB484566A4512003EA96ED44F88D = slotEnum;
 
-        RemoveArmorSlot(player, slotEnum);
-        Spawner::SpawnAndEquipArmor(world, player, passport);
+        RemoveArmorSlot(runtime.player, slotEnum);
+        Spawner::SpawnAndEquipArmor(runtime.world, runtime.player, passport);
     });
 }
 
 void LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPresetData& data) {
-    if (!player) return;
+    if (!RenderPlayer()) return;
 
-    auto& dstMap = player->Currently_Equipped_Armor;
-    for (auto it = begin(dstMap); it != end(dstMap); ++it)
-        it->Value().ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = nullptr;
+    GameHook::QueueAction([this, data](const RuntimeContextSnapshot& runtime) {
+        auto* world = runtime.world;
+        auto* player = runtime.player;
+        if (!player || !world) return;
 
-    GameHook::QueueAction([this, data]() {
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& equipArmorMap = player->Load_Equipment.Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04
                                   .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
@@ -322,6 +332,8 @@ void LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPresetData& data) {
 
         for (auto it = begin(equipArmorMap); it != end(equipArmorMap); ++it)
             it->Value().ArmorBPClass_2_0A22459840BF9E6989DFA4BA6CFED1D3 = nullptr;
+        for (auto it = begin(dstMap); it != end(dstMap); ++it)
+            it->Value().ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = nullptr;
 
         for (const auto& sd : data.armorSlots) {
             SDK::UClass* cls = sd.armorClass.empty() ? nullptr : Spawner::LoadClass(sd.armorClass);
@@ -369,14 +381,26 @@ void LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPresetData& data) {
             slot.COAInt_63_593665BE4EF020F95F7D1A92564C1239 = wd.coaInt;
         }
 
-        BuildArmorOps(pendingStaggeredOps);
+        BuildArmorOps(pendingStaggeredOps, player);
         hasPendingStaggeredOps.store(true, std::memory_order_release);
-        ApplyWeaponToPlayer(0);
-        ApplyWeaponToPlayer(1);
+
+        for (int slotIndex = 0; slotIndex < 2; ++slotIndex) {
+            auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
+            auto* weaponClass = slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066;
+            if (!weaponClass) continue;
+
+            auto passport = WeaponPassportBuilder::FromWeaponParts(slot);
+            if (slotIndex == 0) {
+                player->Set_Up_Right_Hand_Weapon(weaponClass, player->Weapon_R, false, true, passport);
+            } else {
+                player->Set_Up_Left_Hand_Weapon(weaponClass, player->Weapon_L, false, true, passport);
+            }
+        }
     });
 }
 
 LoadoutPresetData LoadoutManagerSection::BuildPresetFromPlayer() {
+    auto* player = RenderPlayer();
     if (!player) return {};
     LoadoutPresetData data;
     data.success = true;
@@ -414,6 +438,7 @@ LoadoutPresetData LoadoutManagerSection::BuildPresetFromPlayer() {
 
 void LoadoutManagerSection::RenderArmorTab() {
     ImGui::PushID("armor");
+    auto* player = RenderPlayer();
 
     if (!player) {
         ImGui::TextDisabled("Player not available");
@@ -487,7 +512,9 @@ void LoadoutManagerSection::RenderArmorTab() {
 
                 if (ImGui::Button("Remove")) {
                     auto s = slotEnum;
-                    GameHook::QueueAction([p = player, s]() { RemoveArmorSlot(p, s); });
+                    GameHook::QueueAction([s](const RuntimeContextSnapshot& runtime) {
+                        if (runtime.player) RemoveArmorSlot(runtime.player, s);
+                    });
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Regenerate")) {
@@ -576,6 +603,7 @@ void LoadoutManagerSection::RenderWeaponSlotMaterials(SDK::FStr_WeaponParts& slo
 
 void LoadoutManagerSection::RenderWeaponsTab() {
     ImGui::PushID("weapons");
+    auto* player = RenderPlayer();
 
     if (!player) {
         ImGui::TextDisabled("Player not available");
@@ -660,11 +688,7 @@ void LoadoutManagerSection::InitKeybinds() {
             .tooltip = "Reapply the current equipment to the player",
             .configSection = "ApplyLoadout",
             .keyPtr = &cfg.applyKey,
-            .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player) return;
-                    ApplyArmorToPlayer();
-                },
+            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { ApplyArmorToPlayer(); },
         }
     );
 
@@ -675,11 +699,7 @@ void LoadoutManagerSection::InitKeybinds() {
             .tooltip = "Generate random armor for all equipped slots",
             .configSection = "RandomizeEquipment",
             .keyPtr = &cfg.randomizeKey,
-            .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player || !world) return;
-                    RandomizeAllArmor();
-                },
+            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { RandomizeAllArmor(); },
             .params =
                 {KeybindParam("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
                  KeybindParam("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")},
@@ -689,6 +709,7 @@ void LoadoutManagerSection::InitKeybinds() {
 
 void LoadoutManagerSection::Render() {
     SectionStyle::StyleRAII style;
+    auto* player = RenderPlayer();
 
     KeybindUI::RenderKeybindList(keybinds);
     ImGui::Spacing();
@@ -712,8 +733,8 @@ void LoadoutManagerSection::Render() {
     if (staggeredIdx < staggeredOps.size() && !staggeredBusy.load(std::memory_order_acquire)) {
         staggeredBusy.store(true, std::memory_order_release);
         auto op = staggeredOps[staggeredIdx++];
-        GameHook::QueueAction([op, flag = &staggeredBusy]() {
-            op();
+        GameHook::QueueAction([op, flag = &staggeredBusy](const RuntimeContextSnapshot& runtime) {
+            op(runtime);
             flag->store(false, std::memory_order_release);
         });
         if (staggeredIdx >= staggeredOps.size()) {

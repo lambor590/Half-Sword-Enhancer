@@ -83,6 +83,9 @@ const char* NPCEditorSection::GetNPCClassName() const noexcept {
 }
 
 void NPCEditorSection::SpawnNPC() {
+    auto [world, player] = RenderPlayerWorld();
+    if (!player || !world) return;
+
     auto className = std::string(GetNPCClassName());
     auto nationality = static_cast<SDK::Enum_Nationalities>(cfg.npcNationality);
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.npcTier);
@@ -104,39 +107,47 @@ void NPCEditorSection::SpawnNPC() {
         player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, static_cast<float>(spawnScale)
     );
 
-    auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides,
-                        hasLoadout](SDK::AActor* actor) {
-        auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-        if (!npc) return;
+    int playerTeam = player->Team_Int;
+    bool snap = cfg.spawn.snapToGround;
 
-        if (bodyguard) {
-            npc->Team_Int = player->Team_Int;
-        } else {
-            npc->Team_Int = team;
-        }
+    GameHook::QueueAction([this, className, spawnTransform, nationality, tier, mercenary, bodyguard, team, ovr,
+                           hasOverrides, hasLoadout, playerTeam, snap,
+                           loadout = std::move(loadoutData)](const RuntimeContextSnapshot& runtime) mutable {
+        if (!runtime.world) return;
 
-        auto passport = EquipmentGenerator::GenerateCharacter(world, npc->Class, nationality, tier, mercenary);
-        NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
-        npc->Character_Passport = passport;
+        auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides, hasLoadout,
+                            playerTeam, world = runtime.world](SDK::AActor* actor) {
+            auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+            if (!npc) return;
 
-        if (hasLoadout) npc->Spawn_in_Pants = true;
+            if (bodyguard) {
+                npc->Team_Int = playerTeam;
+            } else {
+                npc->Team_Int = team;
+            }
 
-        if (hasOverrides) NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
-    };
+            auto passport = EquipmentGenerator::GenerateCharacter(world, npc->Class, nationality, tier, mercenary);
+            NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
+            npc->Character_Passport = passport;
 
-    auto postCallback = [w = world, ovr, hasOverrides, hasLoadout,
-                         loadout = std::move(loadoutData)](SDK::AActor* actor) {
-        auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-        if (!npc) return;
+            if (hasLoadout) npc->Spawn_in_Pants = true;
 
-        if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
-        if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(w, npc, loadout);
-    };
+            if (hasOverrides) NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
+        };
 
-    Spawner::SpawnActor(
-        world, className, spawnTransform, preCallback, cfg.spawn.snapToGround, Spawner::DEFAULT_SPAWN_TIER,
-        postCallback
-    );
+        auto postCallback = [w = runtime.world, ovr, hasOverrides, hasLoadout,
+                             loadout = std::move(loadout)](SDK::AActor* actor) {
+            auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+            if (!npc) return;
+
+            if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
+            if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(w, npc, loadout);
+        };
+
+        Spawner::SpawnActor(
+            runtime.world, className, spawnTransform, preCallback, snap, Spawner::DEFAULT_SPAWN_TIER, postCallback
+        );
+    });
 }
 
 NPCPresetData NPCEditorSection::BuildPresetData() const {
@@ -253,11 +264,7 @@ void NPCEditorSection::InitKeybinds() {
             .tooltip = "Spawns an NPC with randomly generated equipment and applied overrides",
             .configSection = "SpawnNPC",
             .keyPtr = &cfg.spawnEnemyKey,
-            .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player || !world) return;
-                    SpawnNPC();
-                },
+            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnNPC(); },
             .params =
                 {KeybindParam("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
                  KeybindParam("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),

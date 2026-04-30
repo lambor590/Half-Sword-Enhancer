@@ -14,6 +14,7 @@ REGISTER_SECTION(MapLoaderSection, MenuTab::World);
 
 void MapLoaderSection::RefreshLevelName() {
     if (!levelNameDirty) return;
+    auto* world = RenderWorld();
     if (world) {
         SDK::FString currentLevel = SDK::UGameplayStatics::GetCurrentLevelName(world, true);
         cachedLevelName = currentLevel.ToString();
@@ -64,7 +65,7 @@ void MapLoaderSection::RebuildFilter(MapRegistry& reg) {
 }
 
 void MapLoaderSection::LoadMap(const std::string& packageName) {
-    if (!world) return;
+    if (!RenderWorld()) return;
     if (optAutoSpawn) pendingAutoSpawn = true;
 
     bool freshStart = optFreshStart, tutorial = optTutorial;
@@ -73,7 +74,9 @@ void MapLoaderSection::LoadMap(const std::string& packageName) {
     int combatants = optCombatantsAmount, opponentTier = optOpponentTier;
 
     GameHook::QueueAction([this, pn = packageName, freshStart, tutorial, freeMode, carnage, foes, foeTier, combatants,
-                           opponentTier]() {
+                           opponentTier](const RuntimeContextSnapshot& runtime) {
+        auto* world = runtime.world;
+        if (!world) return;
         auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(world));
         if (gi) {
             gi->Fresh_Start_Map__Temp_ = freshStart;
@@ -147,7 +150,10 @@ void MapLoaderSection::SpawnPlayer() {
     int npcCount = hasNPCPreset ? optAutoNPCCount : 0;
 
     GameHook::QueueAction([this, presetPath, hasLoadout, loadout = std::move(loadoutData), hasNPCPreset,
-                           npcPreset = std::move(npcData), npcCount]() {
+                           npcPreset = std::move(npcData), npcCount](const RuntimeContextSnapshot& runtime) {
+        auto snapshot = GameSnapshot();
+        auto* controller = snapshot.controller;
+        auto* world = snapshot.world;
         if (!controller || !world) return;
 
         auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(world));
@@ -295,6 +301,7 @@ MapLoaderSection::MapLoaderSection(ModContext& ctx) : Section(ctx, "Map Loader")
 
 void MapLoaderSection::Render() {
     const SectionStyle::StyleRAII style;
+    auto [world, player] = RenderPlayerWorld();
 
     auto& reg = MapRegistry::Get();
     auto scanState = reg.GetState();

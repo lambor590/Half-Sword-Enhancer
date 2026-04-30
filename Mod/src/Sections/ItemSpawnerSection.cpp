@@ -149,6 +149,8 @@ void ItemSpawnerSection::UpdateFilteredItems() {
 }
 
 void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
+    auto [world, player] = RenderPlayerWorld();
+    if (!player || !world) return;
     auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn);
 
     if (IsRandomArmorCategory()) {
@@ -157,10 +159,11 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
         auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
         bool snap = cfg.spawn.snapToGround;
         const auto& transform = spawnTransform;
-        GameHook::QueueAction([this, slot, tier, transform, snap]() {
-            auto passport = EquipmentGenerator::GenerateArmor(world, tier, slot, 0.5);
+        GameHook::QueueAction([slot, tier, transform, snap](const RuntimeContextSnapshot& runtime) {
+            if (!runtime.world) return;
+            auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slot, 0.5);
             if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
-                Spawner::SpawnArmorFromPassport(world, passport, transform, snap);
+                Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
         });
         return;
     }
@@ -172,15 +175,20 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
     auto& item = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
 
     if (item.customizable != CustomizableWeapon::None) {
-        Spawner::SpawnCustomizableWeapon(
-            world, item.customizable, spawnTransform, cfg.spawn.snapToGround, static_cast<SDK::Enum_Ranks>(cfg.spawnTier)
-        );
+        auto customizable = item.customizable;
+        auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
+        bool snap = cfg.spawn.snapToGround;
+        GameHook::QueueAction([customizable, spawnTransform, snap, tier](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world)
+                Spawner::SpawnCustomizableWeapon(runtime.world, customizable, spawnTransform, snap, tier);
+        });
     } else if (IsCurrentItemModularArmor(item)) {
         auto classPath = item.classPath;
         int mod1 = armorModules.selected[0], mod2 = armorModules.selected[1], mod3 = armorModules.selected[2];
         const auto& transform = spawnTransform;
         bool snap = cfg.spawn.snapToGround;
-        GameHook::QueueAction([w = world, classPath, mod1, mod2, mod3, transform, snap]() {
+        GameHook::QueueAction([classPath, mod1, mod2, mod3, transform, snap](const RuntimeContextSnapshot& runtime) {
+            if (!runtime.world) return;
             auto* coreClass = Spawner::LoadClass(classPath);
             if (!coreClass) return;
             SDK::FStr_Passport_Armor1 passport{};
@@ -188,55 +196,66 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
             passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = mod1;
             passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = mod2;
             passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = mod3;
-            Spawner::SpawnArmorFromPassport(w, passport, transform, snap);
+            Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
         });
     } else if (!item.classPath.empty()) {
-        Spawner::SpawnActor(
-            world, item.classPath, spawnTransform, nullptr, cfg.spawn.snapToGround,
-            static_cast<SDK::Enum_Ranks>(cfg.spawnTier)
-        );
+        auto classPath = item.classPath;
+        auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
+        bool snap = cfg.spawn.snapToGround;
+        GameHook::QueueAction([classPath, spawnTransform, snap, tier](const RuntimeContextSnapshot& runtime) {
+            if (runtime.world) Spawner::SpawnActor(runtime.world, classPath, spawnTransform, nullptr, snap, tier);
+        });
     }
 }
 
 void ItemSpawnerSection::SpawnCustomPath() const noexcept {
     if (customPathBuffer[0] == '\0') return;
+    auto [world, player] = RenderPlayerWorld();
+    if (!player || !world) return;
     auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     std::string path = customPathBuffer;
-    Spawner::SpawnActor(
-        world, path, spawnTransform, nullptr, cfg.spawn.snapToGround, static_cast<SDK::Enum_Ranks>(cfg.spawnTier)
-    );
+    bool snap = cfg.spawn.snapToGround;
+    auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
+    GameHook::QueueAction([path, spawnTransform, snap, tier](const RuntimeContextSnapshot& runtime) {
+        if (runtime.world) Spawner::SpawnActor(runtime.world, path, spawnTransform, nullptr, snap, tier);
+    });
 }
 
 void ItemSpawnerSection::SpawnWeaponFromPreset() {
     if (!weaponPicker.HasSelection()) return;
+    auto [world, player] = RenderPlayerWorld();
+    if (!player || !world) return;
     auto data = WeaponPresetSerializer::LoadFromFile(weaponPicker.SelectedPath());
     if (!data.success) return;
 
     auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     bool snap = cfg.spawn.snapToGround;
-    auto rp = data.runtimeProps;
 
-    GameHook::QueueAction([w = world, transform, snap, data = std::move(data), rp]() mutable {
+    GameHook::QueueAction([transform, snap, data = std::move(data)](const RuntimeContextSnapshot& runtime) mutable {
+        if (!runtime.world) return;
         Spawner::LoadWeaponClasses(data.passport, data.classPaths);
 
         if (!EquipmentGenerator::IsPassportValid(data.passport)) return;
-        Spawner::SpawnCustomizableFromPassport(w, data.passport, transform, snap);
+        Spawner::SpawnCustomizableFromPassport(runtime.world, data.passport, transform, snap);
     });
 }
 
 void ItemSpawnerSection::SpawnArmorFromPreset() {
     if (!armorPicker.HasSelection()) return;
+    auto [world, player] = RenderPlayerWorld();
+    if (!player || !world) return;
     auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
     if (!data.success) return;
 
     auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     bool snap = cfg.spawn.snapToGround;
 
-    GameHook::QueueAction([w = world, transform, snap, data = std::move(data)]() mutable {
+    GameHook::QueueAction([transform, snap, data = std::move(data)](const RuntimeContextSnapshot& runtime) mutable {
+        if (!runtime.world) return;
         if (!data.armorCorePath.empty())
             data.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(data.armorCorePath);
         if (!data.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
-        Spawner::SpawnArmorFromPassport(w, data.passport, transform, snap);
+        Spawner::SpawnArmorFromPassport(runtime.world, data.passport, transform, snap);
     });
 }
 
@@ -252,11 +271,7 @@ void ItemSpawnerSection::InitKeybinds() {
             .tooltip = "Spawns the selected item with configurable position and size",
             .configSection = "SpawnItem",
             .keyPtr = &cfg.spawnItemKey,
-            .callback =
-                [this]([[maybe_unused]] bool) {
-                    if (!player || !world) return;
-                    SpawnSelectedItem();
-                },
+            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnSelectedItem(); },
             .params =
                 {KeybindParam(
                      "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
@@ -445,6 +460,8 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
 }
 
 void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
+    auto [world, player] = RenderPlayerWorld();
+
     ImGui::Spacing();
     ImGui::Separator();
     ImGui::Spacing();
@@ -486,6 +503,8 @@ void ItemSpawnerSection::RenderCustomPathSection(BlueprintRegistry& reg) {
 }
 
 void ItemSpawnerSection::RenderPresetSection() {
+    auto [world, player] = RenderPlayerWorld();
+
     ImGui::Spacing();
     ImGui::Separator();
     ImGui::Spacing();
@@ -511,6 +530,7 @@ void ItemSpawnerSection::RenderPresetSection() {
 
 void ItemSpawnerSection::Render() {
     SectionStyle::StyleRAII style;
+    auto [world, player] = RenderPlayerWorld();
 
     KeybindUI::RenderKeybindList(keybinds);
     ImGui::Spacing();

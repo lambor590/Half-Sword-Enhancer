@@ -28,6 +28,7 @@ void WorldEditorSection::ResetState() {
 
 void WorldEditorSection::ScanAllActors() {
     needsScan = false;
+    auto* world = RenderWorld();
 
     if (!world) {
         status.Set("World not available", true);
@@ -120,8 +121,9 @@ void WorldEditorSection::FindByClassName(const char* className) {
     findPending = true;
     status.Set("Searching...");
     std::string searchName = className;
-    GameHook::QueueAction([this, cls, searchName]() {
-        auto* actor = SDK::UGameplayStatics::GetActorOfClass(cachedWorld ? cachedWorld : world, cls);
+    GameHook::QueueAction([this, cls, searchName](const RuntimeContextSnapshot& runtime) {
+        auto* world = runtime.world;
+        auto* actor = world ? SDK::UGameplayStatics::GetActorOfClass(world, cls) : nullptr;
         if (actor) {
             selectedActorIndex = -1;
             SelectActorDirect(actor, searchName);
@@ -136,7 +138,7 @@ void WorldEditorSection::QueueApply() {
     if (!browseTargetIsComponent) return;
     auto* comp = static_cast<SDK::USceneComponent*>(browseTarget);
     bool isSkyLight = browseTarget->IsA(SDK::USkyLightComponent::StaticClass());
-    GameHook::QueueAction([comp, isSkyLight]() {
+    GameHook::QueueAction([comp, isSkyLight](const RuntimeContextSnapshot& runtime) {
         comp->SetVisibility(false, false);
         comp->SetVisibility(true, false);
         comp->K2_SetRelativeLocationAndRotation(comp->RelativeLocation, comp->RelativeRotation, false, nullptr, true);
@@ -274,6 +276,7 @@ void WorldEditorSection::RenderPropertyToolbar() {
 
 void WorldEditorSection::Render() {
     const SectionStyle::StyleRAII style;
+    auto* world = RenderWorld();
 
     if (world != cachedWorld) ResetState();
     if (needsScan) ScanAllActors();

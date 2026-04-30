@@ -53,11 +53,13 @@ private:
     SDK::EArmorSlots_Enum pendingSlot{};
     bool pendingSlotApply = false;
 
-    std::vector<std::function<void()>> staggeredOps;
+    using LoadoutAction = std::function<void(const RuntimeContextSnapshot&)>;
+
+    std::vector<LoadoutAction> staggeredOps;
     size_t staggeredIdx = 0;
     std::atomic<bool> staggeredBusy{false};
 
-    std::vector<std::function<void()>> pendingStaggeredOps;
+    std::vector<LoadoutAction> pendingStaggeredOps;
     std::atomic<bool> hasPendingStaggeredOps{false};
 
     PresetSectionState<LoadoutPresetSerializer> presets;
@@ -70,7 +72,7 @@ private:
     static void RemoveArmorSlot(SDK::AWillie_BP_C* p, SDK::EArmorSlots_Enum slot);
     void EnsureModulePool();
     static void RenderVectorDrag(const char* label, SDK::FVector& vec);
-    void BuildArmorOps(std::vector<std::function<void()>>& ops);
+    void BuildArmorOps(std::vector<LoadoutAction>& ops, SDK::AWillie_BP_C* player);
     void ApplyArmorToPlayer();
     void ReapplyArmorSlot(SDK::EArmorSlots_Enum slot);
     void ApplyWeaponToPlayer(int slotIndex);
