@@ -6,7 +6,7 @@ if ! command -v cppcheck &>/dev/null; then
     echo "  Windows: choco install cppcheck   or   winget install cppcheck"
     echo "  Linux:   sudo apt-get install cppcheck"
     echo "  macOS:   brew install cppcheck"
-    exit 1
+    exit 2
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -52,12 +52,16 @@ OUTPUT=$(cppcheck \
     --quiet \
     --template='{file}:{line}: {severity}: {message} [{id}]' \
     2>&1)
-# cppcheck cannot trace calls through the descriptor-table / CRTP path used by
-# Preset.h, so these specific reports are false positives.
-OUTPUT=$(echo "$OUTPUT" | grep -vE 'Mod/src/Override\.cpp:[0-9]+: .*SerializeAll.*\[unusedFunction\]$' || true)
-OUTPUT=$(echo "$OUTPUT" | grep -vE 'Mod/src/Override\.cpp:[0-9]+: .*DeserializeAll.*\[unusedFunction\]$' || true)
-OUTPUT=$(echo "$OUTPUT" | grep -vE 'Mod/src/Preset\.cpp:[0-9]+: .*SerializePresetFields.*\[unusedFunction\]$' || true)
-OUTPUT=$(echo "$OUTPUT" | grep -vE 'Mod/src/Preset\.cpp:[0-9]+: .*DeserializePresetFields.*\[unusedFunction\]$' || true)
+FALSE_POSITIVES=(
+    'Mod/src/Override\.cpp:[0-9]+: .*SerializeAll.*\[unusedFunction\]$'
+    'Mod/src/Override\.cpp:[0-9]+: .*DeserializeAll.*\[unusedFunction\]$'
+    'Mod/src/Preset\.cpp:[0-9]+: .*SerializePresetFields.*\[unusedFunction\]$'
+    'Mod/src/Preset\.cpp:[0-9]+: .*DeserializePresetFields.*\[unusedFunction\]$'
+)
+
+for pattern in "${FALSE_POSITIVES[@]}"; do
+    OUTPUT=$(grep -vE "$pattern" <<< "$OUTPUT" || true)
+done
 
 WARNINGS=$(echo "$OUTPUT" | grep -c '\(unusedFunction\|unusedVariable\|unreachableCode\)' || true)
 

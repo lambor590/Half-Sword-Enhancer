@@ -7,6 +7,14 @@ PASSED=0
 SKIPPED=0
 RESULTS=()
 
+CHECKS=(
+    "Clang-Tidy:$SCRIPT_DIR/check-tidy.sh"
+    "Cyclomatic Complexity:$SCRIPT_DIR/check-complexity.sh"
+    "Dead Code Detection:$SCRIPT_DIR/check-dead-code.sh"
+    "Duplicate Code:$SCRIPT_DIR/check-duplicates.sh"
+    "Unused Dependencies:$SCRIPT_DIR/check-unused-deps.sh"
+)
+
 run_check() {
     local name="$1"
     local script="$2"
@@ -20,11 +28,11 @@ run_check() {
         ((PASSED++))
     else
         EXIT_CODE=$?
-        if [ $EXIT_CODE -eq 1 ]; then
+        if [ "$EXIT_CODE" -eq 1 ]; then
             RESULTS+=("[FAIL] $name")
             ((FAILED++))
         else
-            RESULTS+=("[SKIP] $name (tool not installed)")
+            RESULTS+=("[SKIP] $name")
             ((SKIPPED++))
         fi
     fi
@@ -35,11 +43,9 @@ echo ""
 echo "Running all code quality checks..."
 echo ""
 
-run_check "Clang-Tidy"             "$SCRIPT_DIR/check-tidy.sh"
-run_check "Cyclomatic Complexity"   "$SCRIPT_DIR/check-complexity.sh"
-run_check "Dead Code Detection"    "$SCRIPT_DIR/check-dead-code.sh"
-run_check "Duplicate Code"         "$SCRIPT_DIR/check-duplicates.sh"
-run_check "Unused Dependencies"    "$SCRIPT_DIR/check-unused-deps.sh"
+for check in "${CHECKS[@]}"; do
+    run_check "${check%%:*}" "${check#*:}"
+done
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo " Summary"
@@ -51,6 +57,6 @@ echo ""
 echo "  Passed: $PASSED | Failed: $FAILED | Skipped: $SKIPPED"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-if [ $FAILED -gt 0 ]; then
+if [ "$FAILED" -gt 0 ]; then
     exit 1
 fi

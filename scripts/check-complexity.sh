@@ -3,7 +3,7 @@ set -uo pipefail
 
 if ! command -v lizard &>/dev/null; then
     echo "lizard not found. Install with: pip install lizard"
-    exit 1
+    exit 2
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -22,26 +22,19 @@ if [ -z "$WARNINGS" ]; then
     exit 0
 fi
 
+FILTERED="$WARNINGS"
 if [ -f "$SUPPRESSIONS" ]; then
-    FILTER_PATTERN=""
-    while IFS= read -r line; do
-        line="${line%%#*}"
-        line="$(echo "$line" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
-        [ -z "$line" ] && continue
-        if [ -z "$FILTER_PATTERN" ]; then
-            FILTER_PATTERN="$line"
-        else
-            FILTER_PATTERN="$FILTER_PATTERN|$line"
-        fi
-    done < "$SUPPRESSIONS"
+    SUPPRESSION_PATTERN=$(awk '
+        {
+            sub(/#.*/, "")
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "")
+            if ($0 != "") print
+        }
+    ' "$SUPPRESSIONS" | paste -sd '|' -)
 
-    if [ -n "$FILTER_PATTERN" ]; then
-        FILTERED=$(echo "$WARNINGS" | grep -Ev "$FILTER_PATTERN")
-    else
-        FILTERED="$WARNINGS"
+    if [ -n "$SUPPRESSION_PATTERN" ]; then
+        FILTERED=$(grep -Ev "$SUPPRESSION_PATTERN" <<< "$WARNINGS" || true)
     fi
-else
-    FILTERED="$WARNINGS"
 fi
 
 if [ -z "$FILTERED" ]; then

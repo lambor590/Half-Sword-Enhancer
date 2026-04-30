@@ -3,7 +3,7 @@ set -uo pipefail
 
 if ! command -v bun &>/dev/null; then
     echo "bun not found. Install from: https://bun.sh"
-    exit 1
+    exit 2
 fi
 
 echo "Running duplicate code detection..."
