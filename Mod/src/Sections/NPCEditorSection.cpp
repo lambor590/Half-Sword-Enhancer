@@ -1,12 +1,76 @@
 #include "Menu/Sections/Spawner/NPCEditorSection.h"
+
+#include <algorithm>
+
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
+#include "ConfigManager.h"
 #include "Utils/Spawner.h"
 
 REGISTER_SECTION(NPCEditorSection, MenuTab::Spawner);
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/NPCSpawnHelpers.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/SpawnBindingUtils.h"
+
+namespace {
+    constexpr const char* NPC_BINDINGS_SECTION = "NPCSpawnBindings";
+    constexpr const char* NPC_BINDING_PREFIX = "NPCSpawnBinding_";
+
+    std::string NPCBindingSection(int id) {
+        return SpawnBindingUtils::SectionName(NPC_BINDING_PREFIX, id);
+    }
+
+    std::string OverrideKey(const char* group, const char* name, const char* suffix) {
+        return std::string(group) + "_" + name + "_" + suffix;
+    }
+
+    void SaveOverrides(std::string_view section, NPCPresetData& npc) {
+        auto& config = ConfigManager::Get();
+        for (const auto& group : NPCPresetData::GetOverrideGroups(npc)) {
+            for (const auto& field : group.fields) {
+                config.SetBool(section, OverrideKey(group.section, field.name, "enabled"), *field.enabled);
+                switch (field.type) {
+                    case OverrideFieldType::Double:
+                        config.SetFloat(
+                            section, OverrideKey(group.section, field.name, "value"),
+                            static_cast<float>(*static_cast<double*>(field.value))
+                        );
+                        break;
+                    case OverrideFieldType::Int:
+                        config.SetInt(section, OverrideKey(group.section, field.name, "value"), GetInt(field));
+                        break;
+                    case OverrideFieldType::Bool:
+                        config.SetBool(section, OverrideKey(group.section, field.name, "value"), GetBool(field));
+                        break;
+                }
+            }
+        }
+    }
+
+    void LoadOverrides(std::string_view section, NPCPresetData& npc) {
+        auto& config = ConfigManager::Get();
+        for (const auto& group : NPCPresetData::GetOverrideGroups(npc)) {
+            for (const auto& field : group.fields) {
+                *field.enabled = config.GetBool(section, OverrideKey(group.section, field.name, "enabled"), false);
+                switch (field.type) {
+                    case OverrideFieldType::Double:
+                        *static_cast<double*>(field.value) =
+                            config.GetFloat(section, OverrideKey(group.section, field.name, "value"), 0.0f);
+                        break;
+                    case OverrideFieldType::Int:
+                        *static_cast<int*>(field.value) =
+                            config.GetInt(section, OverrideKey(group.section, field.name, "value"), 0);
+                        break;
+                    case OverrideFieldType::Bool:
+                        *static_cast<bool*>(field.value) =
+                            config.GetBool(section, OverrideKey(group.section, field.name, "value"), false);
+                        break;
+                }
+            }
+        }
+    }
+}
 
 void NPCEditorSection::BuildDescriptors() {
     auto& o = overrides;
@@ -76,10 +140,14 @@ int NPCEditorSection::CountAllActive() const {
            CountActive(bodyConditionFields);
 }
 
-const char* NPCEditorSection::GetNPCClassName() const noexcept {
-    if (cfg.npcTypeIndex >= 0 && cfg.npcTypeIndex < NPC_TYPES_COUNT) [[likely]]
-        return NPC_TYPES[cfg.npcTypeIndex].className;
+const char* NPCEditorSection::GetNPCClassName(int npcTypeIndex) const noexcept {
+    if (npcTypeIndex >= 0 && npcTypeIndex < NPC_TYPES_COUNT) [[likely]]
+        return NPC_TYPES[npcTypeIndex].className;
     return NPC_TYPES[0].className;
+}
+
+const char* NPCEditorSection::GetNPCClassName() const noexcept {
+    return GetNPCClassName(cfg.npcTypeIndex);
 }
 
 void NPCEditorSection::SpawnNPC() {
@@ -148,6 +216,66 @@ void NPCEditorSection::SpawnNPC() {
             runtime.world, className, spawnTransform, preCallback, snap, Spawner::DEFAULT_SPAWN_TIER, postCallback
         );
     });
+}
+
+void NPCEditorSection::SpawnBindingNPC(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
+    if (!runtime.world || !runtime.player) return;
+
+    auto className = std::string(GetNPCClassName(binding.npc.npcTypeIndex));
+    auto nationality = static_cast<SDK::Enum_Nationalities>(binding.npc.nationality);
+    auto tier = static_cast<SDK::Enum_Ranks>(binding.npc.tier);
+    auto ovr = binding.npc.overrides;
+    auto npcData = binding.npc;
+    bool hasOverrides = false;
+    for (const auto& group : NPCPresetData::GetOverrideGroups(npcData)) {
+        if (CountActive(group.fields) > 0) {
+            hasOverrides = true;
+            break;
+        }
+    }
+    bool hasLoadout = binding.hasLoadout && !binding.loadoutPath.empty();
+    LoadoutPresetData loadout;
+    if (hasLoadout) {
+        loadout = LoadoutPresetSerializer::LoadFromFile(binding.loadoutPath);
+        hasLoadout = loadout.success;
+    }
+
+    double spawnScale = ovr.heightRate.enabled ? 0.875 + ovr.heightRate.value * 0.125 : binding.spawn.scale;
+    auto transform = Spawner::BuildSpawnTransform(
+        runtime.player, binding.spawn.distanceForward, binding.spawn.distanceUp, static_cast<float>(spawnScale)
+    );
+    int playerTeam = runtime.player->Team_Int;
+    bool snap = binding.spawn.snapToGround;
+    bool mercenary = binding.npc.mercenary;
+    bool bodyguard = binding.bodyguard;
+    int team = binding.team;
+
+    auto preCallback = [nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides, hasLoadout, playerTeam,
+                        world = runtime.world](SDK::AActor* actor) {
+        auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+        if (!npc) return;
+
+        npc->Team_Int = bodyguard ? playerTeam : team;
+        auto passport = EquipmentGenerator::GenerateCharacter(world, npc->Class, nationality, tier, mercenary);
+        NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
+        npc->Character_Passport = passport;
+
+        if (hasLoadout) npc->Spawn_in_Pants = true;
+        if (hasOverrides) NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
+    };
+
+    auto postCallback = [world = runtime.world, ovr, hasOverrides, hasLoadout,
+                         loadout = std::move(loadout)](SDK::AActor* actor) mutable {
+        auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+        if (!npc) return;
+
+        if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
+        if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(world, npc, loadout);
+    };
+
+    Spawner::SpawnActor(
+        runtime.world, className, transform, preCallback, snap, Spawner::DEFAULT_SPAWN_TIER, postCallback
+    );
 }
 
 NPCPresetData NPCEditorSection::BuildPresetData() const {
@@ -253,50 +381,121 @@ void NPCEditorSection::RenderBodyConditionTab() {
 
 NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, "NPC Editor") {
     BuildDescriptors();
-    InitKeybinds();
+    LoadSpawnBindings();
 }
 
-void NPCEditorSection::InitKeybinds() {
-    AddKeybind(
-        keybinds,
-        {
-            .name = "Spawn NPC",
-            .tooltip = "Spawns an NPC with randomly generated equipment and applied overrides",
-            .configSection = "SpawnNPC",
-            .keyPtr = &cfg.spawnEnemyKey,
-            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnNPC(); },
-            .params =
-                {KeybindParam("bodyguard", "Bodyguard", &cfg.bodyguard, "Will join your team"),
-                 KeybindParam("mercenary", "Mercenary", &cfg.npcMercenary, "Generate with mercenary color scheme"),
-                 KeybindParam(
-                     "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround,
-                     "Automatically adjust height to touch the ground"
-                 ),
-                 KeybindParam(
-                     "distance_forward", "Distance Forward", &cfg.spawn.distanceForward, 100.0f, 500.0f,
-                     "How far in front the NPC appears"
-                 ),
-                 KeybindParam(
-                     "distance_up", "Distance Up", &cfg.spawn.distanceUp, 0.0f, 300.0f,
-                     "Height offset for spawn position"
-                 ),
-                 KeybindParam(
-                     "scale", "Scale", &cfg.spawn.scale, 0.1f, 4.0f,
-                     "Size multiplier for the spawned NPC. Adjust the height offset to match the scale "
-                     "so the game doesn't crash."
-                 ),
-                 KeybindParam(
-                     "team", "Team", &cfg.npcTeam, 0, 9,
-                     "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
-                 )},
+void NPCEditorSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding) {
+    SpawnBindingUtils::InitKeybind(
+        binding, NPCBindingSection(binding->id),
+        [this](const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) {
+            SpawnBindingNPC(binding, runtime);
+        },
+        std::vector<KeybindParam>{
+            KeybindParam("bodyguard", "Bodyguard", &binding->bodyguard, "Will join your team"),
+            KeybindParam("mercenary", "Mercenary", &binding->npc.mercenary, "Generate with mercenary color scheme"),
+            KeybindParam(
+                "snap_to_ground", "Snap to Ground", &binding->spawn.snapToGround,
+                "Automatically adjust height to touch the ground"
+            ),
+            KeybindParam(
+                "distance_forward", "Distance Forward", &binding->spawn.distanceForward, 100.0f, 500.0f,
+                "How far in front the NPC appears"
+            ),
+            KeybindParam(
+                "distance_up", "Distance Up", &binding->spawn.distanceUp, 0.0f, 300.0f,
+                "Height offset for spawn position"
+            ),
+            KeybindParam(
+                "scale", "Scale", &binding->spawn.scale, 0.1f, 4.0f,
+                "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game doesn't "
+                "crash."
+            ),
+            KeybindParam(
+                "team", "Team", &binding->team, 0, 9,
+                "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
+            ),
         }
+    );
+}
+
+void NPCEditorSection::AddBindingFromCurrentSelection() {
+    auto binding = std::make_shared<SpawnBinding>();
+    binding->id = nextBindingId++;
+    binding->spawn = cfg.spawn;
+    binding->bodyguard = cfg.bodyguard;
+    binding->team = cfg.npcTeam;
+    binding->npc = BuildPresetData();
+    binding->hasLoadout = loadoutPicker.HasSelection();
+    if (binding->hasLoadout) binding->loadoutPath = loadoutPicker.SelectedPath().string();
+    binding->summary = NPC_TYPES[std::clamp(binding->npc.npcTypeIndex, 0, NPC_TYPES_COUNT - 1)].displayName;
+    if (binding->hasLoadout) binding->summary += " + Loadout";
+    SpawnBindingUtils::CopyName(binding->name, binding->summary);
+    InitBindingKeybind(binding);
+    spawnBindings.push_back(std::move(binding));
+    SaveSpawnBindings();
+}
+
+void NPCEditorSection::LoadSpawnBindings() {
+    SpawnBindingUtils::LoadBindings<SpawnBinding>(
+        NPC_BINDINGS_SECTION, nextBindingId, spawnBindings, NPCBindingSection, "Spawn NPC",
+        [](SpawnBinding& binding, const std::string& section, ConfigManager& config) {
+            binding.spawn = SpawnBindingUtils::LoadSpawnConfig(section, binding.spawn);
+            binding.bodyguard = config.GetBool(section, "bodyguard", false);
+            binding.team = config.GetInt(section, "team", 0);
+            binding.npc.npcTypeIndex = config.GetInt(section, "npc_type", 0);
+            binding.npc.nationality = config.GetInt(section, "nationality", 0);
+            binding.npc.tier = config.GetInt(section, "tier", 4);
+            binding.npc.mercenary = config.GetBool(section, "mercenary", false);
+            binding.hasLoadout = config.GetBool(section, "has_loadout", false);
+            binding.loadoutPath = config.GetString(section, "loadout_path", "");
+            LoadOverrides(section, binding.npc);
+        },
+        [this](const std::shared_ptr<SpawnBinding>& binding) { InitBindingKeybind(binding); }
+    );
+}
+
+void NPCEditorSection::SaveSpawnBindings() {
+    SpawnBindingUtils::SaveBindings<SpawnBinding>(
+        NPC_BINDINGS_SECTION, nextBindingId, spawnBindings, NPCBindingSection,
+        [](const SpawnBinding& binding, const std::string& section, ConfigManager& config) {
+            SpawnBindingUtils::SaveSpawnConfig(section, binding.spawn);
+            config.SetBool(section, "bodyguard", binding.bodyguard);
+            config.SetInt(section, "team", binding.team);
+            config.SetInt(section, "npc_type", binding.npc.npcTypeIndex);
+            config.SetInt(section, "nationality", binding.npc.nationality);
+            config.SetInt(section, "tier", binding.npc.tier);
+            config.SetBool(section, "mercenary", binding.npc.mercenary);
+            config.SetBool(section, "has_loadout", binding.hasLoadout);
+            config.SetString(section, "loadout_path", binding.loadoutPath);
+            auto npc = binding.npc;
+            SaveOverrides(section, npc);
+        }
+    );
+}
+
+void NPCEditorSection::RenderSpawnBindings() {
+    SpawnBindingUtils::RenderList(
+        spawnBindings, pendingDeleteBindingId, "Save the current NPC setup as its own keybind",
+        "No NPC spawn bindings saved", "Replace this binding with the current NPC setup", "Delete NPC Binding",
+        "Delete NPC spawn binding?", [this] { AddBindingFromCurrentSelection(); },
+        [this](SpawnBinding& binding) {
+            binding.spawn = cfg.spawn;
+            binding.bodyguard = cfg.bodyguard;
+            binding.team = cfg.npcTeam;
+            binding.npc = BuildPresetData();
+            binding.hasLoadout = loadoutPicker.HasSelection();
+            binding.loadoutPath = binding.hasLoadout ? loadoutPicker.SelectedPath().string() : "";
+            binding.summary = NPC_TYPES[std::clamp(binding.npc.npcTypeIndex, 0, NPC_TYPES_COUNT - 1)].displayName;
+            if (binding.hasLoadout) binding.summary += " + Loadout";
+        },
+        NPCBindingSection, [this] { SaveSpawnBindings(); }
     );
 }
 
 void NPCEditorSection::Render() {
     const SectionStyle::StyleRAII style;
 
-    KeybindUI::RenderKeybindList(keybinds);
+    RenderSpawnBindings();
     ImGui::Spacing();
 
     auto npcGetter = [](void* data, int idx) -> const char* {

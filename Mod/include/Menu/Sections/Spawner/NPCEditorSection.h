@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
@@ -16,7 +17,6 @@
 class NPCEditorSection : public Section {
 public:
     struct Config {
-        int spawnEnemyKey = 0x4E; // N
         SpawnConfig spawn{.distanceForward = 200.0f, .distanceUp = 0.0f};
         bool bodyguard = false;
         int npcTeam = 0;
@@ -27,6 +27,20 @@ public:
     };
 
 private:
+    struct SpawnBinding {
+        int id = 0;
+        int key = -1;
+        char name[64] = "";
+        SpawnConfig spawn{.distanceForward = 200.0f, .distanceUp = 0.0f};
+        bool bodyguard = false;
+        int team = 0;
+        NPCPresetData npc;
+        bool hasLoadout = false;
+        std::string loadoutPath;
+        std::string summary;
+        KeybindEntry keybind;
+    };
+
     struct NPCTypeInfo {
         const char* displayName;
         const char* className;
@@ -52,7 +66,9 @@ private:
     static constexpr int NATIONALITY_COUNT = 7;
 
     NPCOverrides overrides{};
-    KeybindEntries keybinds;
+    std::vector<std::shared_ptr<SpawnBinding>> spawnBindings;
+    int nextBindingId = 1;
+    int pendingDeleteBindingId = -1;
 
     PresetSectionState<NPCPresetSerializer> presets;
     PresetPickerState<LoadoutPresetSerializer> loadoutPicker;
@@ -65,15 +81,21 @@ private:
 
     void BuildDescriptors();
     int CountAllActive() const;
+    const char* GetNPCClassName(int npcTypeIndex) const noexcept;
     const char* GetNPCClassName() const noexcept;
     void SpawnNPC();
+    void SpawnBindingNPC(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const;
     NPCPresetData BuildPresetData() const;
     void ApplyPresetData(const NPCPresetData& d);
     void RenderPhysicalTab();
     void RenderCombatTab();
     void RenderBehaviorTab();
     void RenderBodyConditionTab();
-    void InitKeybinds();
+    void InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding);
+    void AddBindingFromCurrentSelection();
+    void LoadSpawnBindings();
+    void SaveSpawnBindings();
+    void RenderSpawnBindings();
 
 public:
     explicit NPCEditorSection(ModContext& ctx);
