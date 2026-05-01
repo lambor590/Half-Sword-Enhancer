@@ -100,14 +100,14 @@ namespace {
     };
 
     static ProcessEventCache g_peCache;
+    static thread_local bool g_inProcessEventHook = false;
 }
 
 // Slow path: resolve a UFunction we haven't seen before. Marked noinline
 // so the fast path in OnProcessEvent stays compact (fewer registers spilled,
 // smaller icache footprint, better branch prediction).
-__declspec(noinline) static int8_t ResolveAndCache(
-    SDK::UFunction* function, const GameHook::HookEntry* hookArray, uint8_t hookCount
-) noexcept {
+__declspec(noinline) static int8_t
+    ResolveAndCache(SDK::UFunction* function, const GameHook::HookEntry* hookArray, uint8_t hookCount) noexcept {
     std::string funcName = function->GetName();
     uint64_t nameHash = HS::Hash::FNV1A(funcName.c_str());
 
@@ -123,13 +123,20 @@ __declspec(noinline) static int8_t ResolveAndCache(
 }
 
 void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
+    auto& hook = GameHook::Get();
+    if (g_inProcessEventHook) [[unlikely]] {
+        std::bit_cast<ProcessEvent>(hook.oProcessEvent)(pObject, pFunc, parms);
+        return;
+    }
+
+    g_inProcessEventHook = true;
+
     ModContext::Get().RefreshGameThreadCache();
 
     if (GameHook::hasQueuedActions.load(std::memory_order_relaxed)) [[unlikely]] {
         GameHook::ProcessGameThreadQueue();
     }
 
-    auto& hook = GameHook::Get();
     int8_t idx = g_peCache.Lookup(pFunc);
 
     if (idx == ProcessEventCache::EMPTY) [[unlikely]] {
@@ -141,6 +148,7 @@ void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void
     }
 
     std::bit_cast<ProcessEvent>(hook.oProcessEvent)(pObject, pFunc, parms);
+    g_inProcessEventHook = false;
 }
 
 GameHook& GameHook::Get() {
