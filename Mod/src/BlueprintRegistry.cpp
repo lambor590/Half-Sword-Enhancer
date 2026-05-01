@@ -6,6 +6,7 @@
 #include "Utils/TierValidation.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Hooks/GameHook.h"
+#include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
 #include "SDK/AssetRegistry_classes.hpp"
 #include "ConfigManager.h"
 #include "Logger.h"
@@ -290,15 +291,12 @@ void BlueprintRegistry::ScanWeaponTiers() {
 
     std::array<uint16_t, TierValidation::VALID_TIER_MASKS.size()> scannedMasks = {};
 
-    SDK::FStr_Passport_Weapon1 passport{};
     for (int w = 1; w <= GameConstants::WEAPON_TYPE_COUNT; ++w) {
-        for (int tier = 0; tier <= 8; ++tier) {
-            passport = EquipmentGenerator::GenerateCustomizableWeapon(
-                world, static_cast<CustomizableWeapon>(w), static_cast<SDK::Enum_Ranks>(tier)
-            );
+        auto* modulesClass = EquipmentGenerator::GetCustomizableModulesClass(static_cast<CustomizableWeapon>(w));
+        if (!modulesClass || !modulesClass->ClassDefaultObject) continue;
 
-            if (passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139 != nullptr) scannedMasks[w] |= (1 << tier);
-        }
+        auto* cdo = static_cast<SDK::UBP_GameWeapon_Customizable_Master_C*>(modulesClass->ClassDefaultObject);
+        if (cdo->Module_Heads_Array.Num() > 0 && cdo->Module_Grips_Array.Num() > 0) scannedMasks[w] = 0x1FF;
     }
 
     TierValidation::VALID_TIER_MASKS = scannedMasks;
