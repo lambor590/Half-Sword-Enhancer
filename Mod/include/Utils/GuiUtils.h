@@ -102,19 +102,32 @@ namespace GuiUtils {
         return maxTextWidth + ImGui::GetFrameHeight() + style.FramePadding.x * 2.0f + style.ItemInnerSpacing.x;
     }
 
-    inline void PrepareNextCombo(float width) noexcept {
+    inline void PrepareNextCombo(float width, ImGuiComboFlags flags = 0) noexcept {
         const float available = ImGui::GetContentRegionAvail().x;
         const float popupWidth = width > K_COMBO_MIN_WIDTH ? width : K_COMBO_MIN_WIDTH;
         if (available > K_COMBO_MIN_WIDTH && width > available) width = available;
 
+        float popupMaxHeight = FLT_MAX;
+        if ((flags & ImGuiComboFlags_HeightLargest) == 0) {
+            int maxItems = 8;
+            if (flags & ImGuiComboFlags_HeightSmall)
+                maxItems = 4;
+            else if (flags & ImGuiComboFlags_HeightLarge)
+                maxItems = 20;
+
+            const auto& style = ImGui::GetStyle();
+            popupMaxHeight = (ImGui::GetFontSize() + style.ItemSpacing.y) * maxItems - style.ItemSpacing.y +
+                             style.WindowPadding.y * 2.0f;
+        }
+
         ImGui::SetNextItemWidth(width > K_COMBO_MIN_WIDTH ? width : K_COMBO_MIN_WIDTH);
-        ImGui::SetNextWindowSizeConstraints(ImVec2(popupWidth, 0.0f), ImVec2(FLT_MAX, FLT_MAX));
+        ImGui::SetNextWindowSizeConstraints(ImVec2(popupWidth, 0.0f), ImVec2(FLT_MAX, popupMaxHeight));
     }
 
     [[nodiscard]] inline bool BeginSizedCombo(
         const char* label, const char* preview, float width, ImGuiComboFlags flags = 0
     ) noexcept {
-        PrepareNextCombo(width);
+        PrepareNextCombo(width, flags);
         return ImGui::BeginCombo(label, preview, flags);
     }
 
