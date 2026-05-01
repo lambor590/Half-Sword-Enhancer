@@ -586,11 +586,11 @@ void WeaponEditorSection::RenderMassDrag(const char* label, double& mass, float 
 void WeaponEditorSection::RenderWeaponTypeCombo() {
     static float weaponTypeComboW = GuiUtils::CalcComboWidth(WEAPON_TYPE_NAMES, WEAPON_TYPE_COUNT);
     const int selectedIdx = cfg.weaponType - 1;
-    const char* preview =
+    const char* previewText =
         (selectedIdx >= 0 && selectedIdx < WEAPON_TYPE_COUNT) ? WEAPON_TYPE_NAMES[selectedIdx] : "Select weapon";
 
     ImGui::SetNextItemWidth(weaponTypeComboW);
-    if (!ImGui::BeginCombo("##Type", preview)) return;
+    if (!ImGui::BeginCombo("##Type", previewText)) return;
 
     ImGui::SetNextItemWidth(-1);
     ImGui::InputTextWithHint("##WeaponTypeFilter", "Search weapons...", weaponTypeFilter, sizeof(weaponTypeFilter));
@@ -599,16 +599,17 @@ void WeaponEditorSection::RenderWeaponTypeCombo() {
     const bool hasFilter = filterLen > 0;
     if (hasFilter) {
         int visible = 0;
-        for (auto* name : WEAPON_TYPE_NAMES)
-            if (GuiUtils::MatchesFilter(name, std::strlen(name), weaponTypeFilter, filterLen)) ++visible;
+        for (auto* weaponName : WEAPON_TYPE_NAMES)
+            if (GuiUtils::MatchesFilter(weaponName, std::strlen(weaponName), weaponTypeFilter, filterLen)) ++visible;
         ImGui::TextDisabled("Showing %d of %d", visible, WEAPON_TYPE_COUNT);
     }
     ImGui::Separator();
 
     for (int i = 0; i < WEAPON_TYPE_COUNT; ++i) {
-        auto* name = WEAPON_TYPE_NAMES[i];
-        if (hasFilter && !GuiUtils::MatchesFilter(name, std::strlen(name), weaponTypeFilter, filterLen)) continue;
-        if (ImGui::Selectable(name, i == selectedIdx)) cfg.weaponType = i + 1;
+        auto* weaponName = WEAPON_TYPE_NAMES[i];
+        if (hasFilter && !GuiUtils::MatchesFilter(weaponName, std::strlen(weaponName), weaponTypeFilter, filterLen))
+            continue;
+        if (ImGui::Selectable(weaponName, i == selectedIdx)) cfg.weaponType = i + 1;
         if (i == selectedIdx) ImGui::SetItemDefaultFocus();
     }
     ImGui::EndCombo();
@@ -996,7 +997,7 @@ void WeaponEditorSection::RenderMeshTab() {
     ImGui::SameLine();
     if (ImGui::Button("Load") && assetPathBuf[0]) {
         auto pathCopy = std::string(assetPathBuf);
-        GameHook::QueueAction([this, pathCopy](const RuntimeContextSnapshot& runtime) {
+        GameHook::QueueAction([this, pathCopy](const RuntimeContextSnapshot&) {
             auto* result = LoadAssetByPath(pathCopy.c_str());
             if (result)
                 SetStatus("Loaded: " + std::string(result->GetName()));
@@ -1088,7 +1089,7 @@ void WeaponEditorSection::ApplyPresetData(WeaponPresetData d) {
     ClearWeaponPassportPadding(weaponPassport);
     runtimeProps = d.runtimeProps;
 
-    GameHook::QueueAction([this, paths = std::move(d.classPaths)](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([this, paths = std::move(d.classPaths)](const RuntimeContextSnapshot&) {
         Spawner::LoadWeaponClasses(weaponPassport, paths);
     });
 
@@ -1123,7 +1124,7 @@ void WeaponEditorSection::ApplyPresetData(WeaponPresetData d) {
     }
 
     if (!pending.empty()) {
-        GameHook::QueueAction([this, pending = std::move(pending)](const RuntimeContextSnapshot& runtime) {
+        GameHook::QueueAction([this, pending = std::move(pending)](const RuntimeContextSnapshot&) {
             for (const auto& pl : pending) {
                 auto* loaded = LoadAssetByPath(pl.path.c_str());
                 if (!loaded) continue;

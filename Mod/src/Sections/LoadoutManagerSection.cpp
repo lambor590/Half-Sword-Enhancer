@@ -95,7 +95,7 @@ void LoadoutManagerSection::RemoveArmorSlot(SDK::AWillie_BP_C* p, SDK::EArmorSlo
 void LoadoutManagerSection::EnsureModulePool() {
     if (modulePool.populated.load(std::memory_order_acquire) || modulePoolQueued) return;
     modulePoolQueued = true;
-    GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([this](const RuntimeContextSnapshot&) {
         modulePool.Populate();
         modulePoolQueued = false;
     });

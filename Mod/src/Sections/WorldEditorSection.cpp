@@ -138,7 +138,7 @@ void WorldEditorSection::QueueApply() {
     if (!browseTargetIsComponent) return;
     auto* comp = static_cast<SDK::USceneComponent*>(browseTarget);
     bool isSkyLight = browseTarget->IsA(SDK::USkyLightComponent::StaticClass());
-    GameHook::QueueAction([comp, isSkyLight](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([comp, isSkyLight](const RuntimeContextSnapshot&) {
         comp->SetVisibility(false, false);
         comp->SetVisibility(true, false);
         comp->K2_SetRelativeLocationAndRotation(comp->RelativeLocation, comp->RelativeRotation, false, nullptr, true);

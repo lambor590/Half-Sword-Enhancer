@@ -403,7 +403,7 @@ void ArmorEditorSection::ApplyPresetData(const ArmorPresetData& d) {
     armorModules = {};
 
     if (!d.armorCorePath.empty()) {
-        GameHook::QueueAction([this, path = d.armorCorePath](const RuntimeContextSnapshot& runtime) {
+        GameHook::QueueAction([this, path = d.armorCorePath](const RuntimeContextSnapshot&) {
             armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(path);
         });
     }

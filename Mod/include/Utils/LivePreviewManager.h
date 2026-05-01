@@ -24,7 +24,7 @@ public:
         if (onCleanup) onCleanup();
         SDK::AActor* actor = previewActor;
         previewActor = nullptr;
-        GameHook::QueueAction([actor](const RuntimeContextSnapshot& runtime) {
+        GameHook::QueueAction([actor](const RuntimeContextSnapshot&) {
             if (actor) actor->K2_DestroyActor();
         });
     }
@@ -36,7 +36,7 @@ public:
         if (yaw < 0.0) yaw += 360.0;
         double y = yaw;
         SDK::AActor* actor = previewActor;
-        GameHook::QueueAction([actor, y](const RuntimeContextSnapshot& runtime) {
+        GameHook::QueueAction([actor, y](const RuntimeContextSnapshot&) {
             if (actor) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
         });
     }
