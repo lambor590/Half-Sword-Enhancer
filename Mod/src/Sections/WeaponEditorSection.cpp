@@ -15,9 +15,9 @@ REGISTER_SECTION(WeaponEditorSection, MenuTab::Equipment);
 #include "Utils/CustomizableWeapon.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/PresetUtils.h"
 #include "Utils/Spawner.h"
 #include "Utils/TierValidation.h"
-#include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 

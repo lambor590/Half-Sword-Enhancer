@@ -22,7 +22,6 @@ namespace EquipmentGenerator {
     }
 
     SDK::UClass* GetCustomizableModulesClass(CustomizableWeapon type);
-    bool IsPassportForCustomizableWeapon(const SDK::FStr_Passport_Weapon1& passport, CustomizableWeapon type);
 
     SDK::FStr_Passport_Weapon1 GenerateWeapon(
         const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier
