@@ -2,7 +2,6 @@
 
 #include <Windows.h>
 #include <d3d11.h>
-#include <d3d11on12.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <vector>
@@ -12,6 +11,7 @@
 #include "Logger.h"
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_dx11.h"
+#include "imgui/backends/imgui_impl_dx12.h"
 #include "imgui/backends/imgui_impl_win32.h"
 
 using Present = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
@@ -32,15 +32,17 @@ private:
         bool imguiContextReady = false;
         bool imguiRendererReady = false;
         bool inResize = false;
+        bool commandQueueCaptured = false;
+        bool commandQueueHookInstalled = false;
         RenderBackend backend = RenderBackend::Unknown;
-        uint8_t bufferIndex = 0;
         uint8_t bufferCount = 0;
     };
 
     struct D3D12FrameTarget {
         Microsoft::WRL::ComPtr<ID3D12Resource> backbuffer;
-        Microsoft::WRL::ComPtr<ID3D11Resource> wrappedBuffer;
-        Microsoft::WRL::ComPtr<ID3D11RenderTargetView> renderTarget;
+        Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator;
+        D3D12_CPU_DESCRIPTOR_HANDLE renderTarget = {};
+        UINT64 fenceValue = 0;
     };
 
     Logger logger{"Renderer"};
@@ -70,11 +72,17 @@ private:
     Microsoft::WRL::ComPtr<ID3D12Device> d3d12Device;
     Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
     Microsoft::WRL::ComPtr<IDXGISwapChain3> swapChain3;
-    Microsoft::WRL::ComPtr<ID3D11On12Device> d3d11On12Device;
+    Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> d3d12CommandList;
+    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> d3d12RtvHeap;
+    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> d3d12SrvHeap;
     Microsoft::WRL::ComPtr<ID3D12Fence> fence;
 
     UINT64 fenceValue = 0;
     HANDLE fenceEvent = nullptr;
+    UINT d3d12RtvDescriptorSize = 0;
+    UINT d3d12SrvDescriptorSize = 0;
+    UINT d3d12NextSrvDescriptor = 0;
+    DXGI_FORMAT d3d12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     std::vector<D3D12FrameTarget> d3d12FrameTargets;
 
     IDXGISwapChain* CreateDummySwapChain();
@@ -83,10 +91,10 @@ private:
         uintptr_t* outPresentReturn, uintptr_t* outResizeReturn
     );
     ID3D12CommandQueue* CreateDummyCommandQueue();
-    void HookCommandQueue(
+    bool HookCommandQueue(
         ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* outExecReturn
     );
-    void UnhookCommandQueue() const;
+    void UnhookCommandQueue() noexcept;
 
     void RenderFrameD3D11() noexcept;
     void RenderFrameD3D12() noexcept;
@@ -95,10 +103,11 @@ private:
     bool InitD3DResources(IDXGISwapChain* sc) noexcept;
     bool InitD3D11() noexcept;
     bool InitD3D12() noexcept;
-    void InitOrReinitImGui() noexcept;
+    bool InitOrReinitImGui() noexcept;
     bool CreateRenderTargets() noexcept;
     bool CreateD3D11RenderTarget() noexcept;
     bool CreateD3D12RenderTargets() noexcept;
+    bool CreateD3D12DescriptorHeaps() noexcept;
     void ReleaseRenderTargets() noexcept;
 
     void ReleaseContextState() noexcept;
@@ -106,11 +115,18 @@ private:
     bool SignalAndWait() noexcept;
 
     void OnPresent(IDXGISwapChain* pThis) noexcept;
+    static void AllocateD3D12SrvDescriptor(
+        ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE* outCpuHandle,
+        D3D12_GPU_DESCRIPTOR_HANDLE* outGpuHandle
+    );
+    static void FreeD3D12SrvDescriptor(
+        ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle
+    );
     void BeforeResizeBuffers(
         IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
     ) noexcept;
     void AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexcept;
-    void SetCommandQueue(ID3D12CommandQueue* newQueue) noexcept;
+    bool CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept;
     inline void SetViewportIfDirty() noexcept {
         if (window.viewportDirty) [[unlikely]] {
             d3d11Context->RSSetViewports(1, &window.viewport);

@@ -14,6 +14,7 @@ namespace {
 
     constexpr size_t VMT_PRESENT_BYTE_OFFSET = PTR_SIZE * VMT_PRESENT_OFFSET;
     constexpr size_t VMT_RESIZE_BUFFERS_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS_OFFSET;
+    constexpr UINT D3D12_SRV_DESCRIPTOR_COUNT = 64;
 
     // Hook trampolines dispatch through this singleton-style instance.
     Renderer* g_Renderer = nullptr;
@@ -43,6 +44,18 @@ namespace {
         D3D11OutputStateGuard(const D3D11OutputStateGuard&) = delete;
         D3D11OutputStateGuard& operator=(const D3D11OutputStateGuard&) = delete;
     };
+
+    static inline D3D12_RESOURCE_BARRIER TransitionBarrier(
+        ID3D12Resource* resource, D3D12_RESOURCE_STATES before, D3D12_RESOURCE_STATES after
+    ) noexcept {
+        D3D12_RESOURCE_BARRIER barrier{};
+        barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+        barrier.Transition.pResource = resource;
+        barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+        barrier.Transition.StateBefore = before;
+        barrier.Transition.StateAfter = after;
+        return barrier;
+    }
 }
 
 HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept {
@@ -63,16 +76,17 @@ HRESULT __fastcall HookOnResizeBuffers(
 void __fastcall HookOnExecuteCommandLists(
     ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists
 ) noexcept {
-    if (pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT) [[likely]] {
-        g_Renderer->SetCommandQueue(pThis);
-    }
-    std::bit_cast<ExecuteCommandLists>(g_Renderer->executeCommandListsReturnAddress
-    )(pThis, numCommandLists, ppCommandLists);
+    const bool captured =
+        pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT && g_Renderer->CaptureCommandQueue(pThis);
+    const auto original = std::bit_cast<ExecuteCommandLists>(g_Renderer->executeCommandListsReturnAddress);
+    original(pThis, numCommandLists, ppCommandLists);
+    if (captured) [[unlikely]]
+        g_Renderer->UnhookCommandQueue();
 }
 
 void HookGetCommandQueue() {
-    // DX12 does not hand us the real queue from the swap chain, so we detour a
-    // dummy queue first and capture the first direct queue that executes.
+    if (g_Renderer->state.commandQueueCaptured || g_Renderer->state.commandQueueHookInstalled) return;
+
     ID3D12CommandQueue* cmdQueue = g_Renderer->CreateDummyCommandQueue();
     g_Renderer->HookCommandQueue(
         cmdQueue, (uintptr_t)&HookOnExecuteCommandLists, &g_Renderer->executeCommandListsReturnAddress
@@ -121,10 +135,14 @@ void Renderer::OnPresent(IDXGISwapChain* pThis) noexcept {
     (this->*state.renderFunc)();
 }
 
-void Renderer::SetCommandQueue(ID3D12CommandQueue* newQueue) noexcept {
-    if (commandQueue.Get() != newQueue) [[unlikely]] {
-        commandQueue = newQueue;
-    }
+bool Renderer::CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept {
+    if (state.commandQueueCaptured) [[likely]]
+        return false;
+
+    commandQueue = newQueue;
+    state.commandQueueCaptured = true;
+    logger.Log("D3D12 command queue captured");
+    return true;
 }
 
 void Renderer::BeforeResizeBuffers(
@@ -184,29 +202,59 @@ void Renderer::RenderFrameD3D11() noexcept {
 
 void Renderer::RenderFrameD3D12() noexcept {
     const UINT bufferIdx = swapChain3->GetCurrentBackBufferIndex();
-    state.bufferIndex = static_cast<uint8_t>(bufferIdx);
-
     if (bufferIdx >= d3d12FrameTargets.size()) [[unlikely]]
         return;
 
     D3D12FrameTarget& target = d3d12FrameTargets[bufferIdx];
-    ID3D11Resource* wrappedResource = target.wrappedBuffer.Get();
-    ID3D11RenderTargetView* renderTargetView = target.renderTarget.Get();
+    if (target.fenceValue && fence->GetCompletedValue() < target.fenceValue) [[unlikely]]
+        return;
 
-    d3d11On12Device->AcquireWrappedResources(&wrappedResource, 1);
-    RenderGuiToTarget(renderTargetView);
-    d3d11Context->OMSetRenderTargets(0, nullptr, nullptr);
-    d3d11On12Device->ReleaseWrappedResources(&wrappedResource, 1);
-    d3d11Context->Flush();
+    if (FAILED(target.commandAllocator->Reset()) ||
+        FAILED(d3d12CommandList->Reset(target.commandAllocator.Get(), nullptr))) [[unlikely]] {
+        logger.Log("Failed to reset D3D12 overlay command resources");
+        return;
+    }
+
+    D3D12_RESOURCE_BARRIER barrier =
+        TransitionBarrier(target.backbuffer.Get(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
+    d3d12CommandList->ResourceBarrier(1, &barrier);
+    d3d12CommandList->OMSetRenderTargets(1, &target.renderTarget, FALSE, nullptr);
+
+    ID3D12DescriptorHeap* descriptorHeaps[] = {d3d12SrvHeap.Get()};
+    d3d12CommandList->SetDescriptorHeaps(1, descriptorHeaps);
+    ImGui_ImplDX12_NewFrame();
+    Gui::Get().Render();
+    ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), d3d12CommandList.Get());
+
+    barrier =
+        TransitionBarrier(target.backbuffer.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
+    d3d12CommandList->ResourceBarrier(1, &barrier);
+
+    if (FAILED(d3d12CommandList->Close())) [[unlikely]] {
+        logger.Log("Failed to close D3D12 overlay command list");
+        return;
+    }
+
+    ID3D12CommandList* commandLists[] = {d3d12CommandList.Get()};
+    commandQueue->ExecuteCommandLists(1, commandLists);
+
+    ++fenceValue;
+    if (FAILED(commandQueue->Signal(fence.Get(), fenceValue))) [[unlikely]] {
+        logger.Log("Failed to signal D3D12 overlay fence");
+        return;
+    }
+    target.fenceValue = fenceValue;
 }
 
 void Renderer::RenderGuiToTarget(ID3D11RenderTargetView* renderTargetView) noexcept {
     d3d11Context->OMSetRenderTargets(1, &renderTargetView, nullptr);
     SetViewportIfDirty();
+    ImGui_ImplDX11_NewFrame();
     Gui::Get().Render();
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-void Renderer::InitOrReinitImGui() noexcept {
+bool Renderer::InitOrReinitImGui() noexcept {
     if (!state.imguiContextReady) {
         ImGui::CreateContext();
         ImGui_ImplWin32_Init(window.handle);
@@ -217,9 +265,28 @@ void Renderer::InitOrReinitImGui() noexcept {
     }
 
     if (!state.imguiRendererReady) {
-        ImGui_ImplDX11_Init(d3d11Device.Get(), d3d11Context.Get());
+        bool rendererReady = false;
+        if (state.backend == RenderBackend::D3D11) {
+            rendererReady = ImGui_ImplDX11_Init(d3d11Device.Get(), d3d11Context.Get());
+        } else {
+            ImGui_ImplDX12_InitInfo initInfo{};
+            initInfo.Device = d3d12Device.Get();
+            initInfo.CommandQueue = commandQueue.Get();
+            initInfo.NumFramesInFlight = static_cast<int>(state.bufferCount);
+            initInfo.RTVFormat = d3d12RenderTargetFormat;
+            initInfo.UserData = this;
+            initInfo.SrvDescriptorHeap = d3d12SrvHeap.Get();
+            initInfo.SrvDescriptorAllocFn = &Renderer::AllocateD3D12SrvDescriptor;
+            initInfo.SrvDescriptorFreeFn = &Renderer::FreeD3D12SrvDescriptor;
+            rendererReady = ImGui_ImplDX12_Init(&initInfo);
+        }
+        if (!rendererReady) [[unlikely]] {
+            logger.Log("Failed to initialize ImGui renderer backend");
+            return false;
+        }
         state.imguiRendererReady = true;
     }
+    return true;
 }
 
 bool Renderer::CreateRenderTargets() noexcept {
@@ -238,23 +305,58 @@ bool Renderer::CreateD3D11RenderTarget() noexcept {
     return true;
 }
 
-bool Renderer::CreateD3D12RenderTargets() noexcept {
-    d3d12FrameTargets.resize(state.bufferCount);
+bool Renderer::CreateD3D12DescriptorHeaps() noexcept {
+    D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
+    rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+    rtvHeapDesc.NumDescriptors = state.bufferCount;
+    if (FAILED(d3d12Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&d3d12RtvHeap)))) [[unlikely]] {
+        logger.Log("Failed to create D3D12 RTV descriptor heap");
+        return false;
+    }
+    d3d12RtvDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
+    D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc{};
+    srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+    srvHeapDesc.NumDescriptors = D3D12_SRV_DESCRIPTOR_COUNT;
+    srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+    if (FAILED(d3d12Device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&d3d12SrvHeap)))) [[unlikely]] {
+        logger.Log("Failed to create D3D12 SRV descriptor heap");
+        return false;
+    }
+    d3d12SrvDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+    d3d12NextSrvDescriptor = 0;
+    return true;
+}
+
+bool Renderer::CreateD3D12RenderTargets() noexcept {
+    if (!CreateD3D12DescriptorHeaps()) [[unlikely]]
+        return false;
+
+    d3d12FrameTargets.resize(state.bufferCount);
+    D3D12_CPU_DESCRIPTOR_HANDLE renderTarget = d3d12RtvHeap->GetCPUDescriptorHandleForHeapStart();
     for (UINT bufferIdx = 0; bufferIdx < state.bufferCount; ++bufferIdx) {
         D3D12FrameTarget& target = d3d12FrameTargets[bufferIdx];
-
+        target.renderTarget = renderTarget;
         if (FAILED(swapChain->GetBuffer(bufferIdx, IID_PPV_ARGS(&target.backbuffer))) ||
-            FAILED(d3d11On12Device->CreateWrappedResource(
-                target.backbuffer.Get(), &RenderConfig::RT_FLAGS, RenderConfig::D3D12_RT_STATE,
-                RenderConfig::D3D12_PRESENT_STATE, IID_PPV_ARGS(&target.wrappedBuffer)
-            )) ||
-            FAILED(d3d11Device->CreateRenderTargetView(target.wrappedBuffer.Get(), nullptr, &target.renderTarget)))
-            [[unlikely]] {
-            logger.Log("Failed to create D3D12 render target %u", bufferIdx);
+            FAILED(d3d12Device->CreateCommandAllocator(
+                D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&target.commandAllocator)
+            ))) [[unlikely]] {
+            logger.Log("Failed to create D3D12 frame target %u", bufferIdx);
             ReleaseRenderTargets();
             return false;
         }
+        d3d12Device->CreateRenderTargetView(target.backbuffer.Get(), nullptr, renderTarget);
+        renderTarget.ptr += d3d12RtvDescriptorSize;
+    }
+
+    if (FAILED(d3d12Device->CreateCommandList(
+            0, D3D12_COMMAND_LIST_TYPE_DIRECT, d3d12FrameTargets[0].commandAllocator.Get(), nullptr,
+            IID_PPV_ARGS(&d3d12CommandList)
+        )) ||
+        FAILED(d3d12CommandList->Close())) [[unlikely]] {
+        logger.Log("Failed to create D3D12 overlay command list");
+        ReleaseRenderTargets();
+        return false;
     }
 
     return true;
@@ -262,7 +364,11 @@ bool Renderer::CreateD3D12RenderTargets() noexcept {
 
 void Renderer::ReleaseRenderTargets() noexcept {
     d3d11RenderTarget.Reset();
+    d3d12CommandList.Reset();
     d3d12FrameTargets.clear();
+    d3d12RtvHeap.Reset();
+    d3d12SrvHeap.Reset();
+    d3d12NextSrvDescriptor = 0;
 }
 
 bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept {
@@ -301,7 +407,8 @@ bool Renderer::InitD3D11() noexcept {
     if (!CreateRenderTargets()) [[unlikely]]
         return false;
 
-    InitOrReinitImGui();
+    if (!InitOrReinitImGui()) [[unlikely]]
+        return false;
     logger.Log("D3D11 renderer initialized successfully (%dx%d)", window.width, window.height);
     return true;
 }
@@ -314,21 +421,17 @@ bool Renderer::InitD3D12() noexcept {
         return false;
     }
 
-    static constexpr auto CREATE_FLAGS = RenderConfig::D3D11_FLAGS;
-
     if (FAILED(d3d12Device->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence))) ||
-        FAILED(D3D11On12CreateDevice(
-            d3d12Device.Get(), CREATE_FLAGS, nullptr, 0, reinterpret_cast<IUnknown**>(commandQueue.GetAddressOf()), 1,
-            0, &d3d11Device, &d3d11Context, nullptr
-        )) ||
-        FAILED(d3d11Device.As(&d3d11On12Device)) || FAILED(swapChain.As(&swapChain3))) [[unlikely]] {
+        FAILED(swapChain.As(&swapChain3))) [[unlikely]] {
         logger.Log("Failed to initialize D3D12 core components");
+        ReleaseGraphicsResources();
         return false;
     }
 
     fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
     if (!fenceEvent) [[unlikely]] {
         logger.Log("Failed to create fence event");
+        ReleaseGraphicsResources();
         return false;
     }
     ++fenceValue;
@@ -337,15 +440,22 @@ bool Renderer::InitD3D12() noexcept {
     swapChain->GetDesc(&desc);
     window.handle = desc.OutputWindow;
     state.bufferCount = static_cast<uint8_t>(desc.BufferCount);
+    d3d12RenderTargetFormat = desc.BufferDesc.Format;
 
     GetWindowDimensions(window.handle, window.width, window.height);
     window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
 
-    if (!CreateRenderTargets()) [[unlikely]]
+    if (!CreateRenderTargets()) [[unlikely]] {
+        ReleaseGraphicsResources();
         return false;
+    }
 
-    InitOrReinitImGui();
+    if (!InitOrReinitImGui()) [[unlikely]] {
+        ReleaseGraphicsResources();
+        return false;
+    }
+
     logger.Log(
         "D3D12 renderer initialized successfully (%dx%d, %d buffers)", window.width, window.height,
         static_cast<int>(state.bufferCount)
@@ -386,13 +496,17 @@ void Renderer::ReleaseGraphicsResources() noexcept {
     }
 
     ReleaseContextState();
-    ReleaseRenderTargets();
 
     if (state.imguiRendererReady) {
-        ImGui_ImplDX11_Shutdown();
+        if (state.backend == RenderBackend::D3D12) {
+            ImGui_ImplDX12_Shutdown();
+        } else {
+            ImGui_ImplDX11_Shutdown();
+        }
         state.imguiRendererReady = false;
     }
 
+    ReleaseRenderTargets();
     ReleaseContextState();
 
     if (state.backend == RenderBackend::D3D12 && fence && commandQueue) [[likely]] {
@@ -404,7 +518,6 @@ void Renderer::ReleaseGraphicsResources() noexcept {
     d3d12Device.Reset();
     swapChain.Reset();
     swapChain3.Reset();
-    d3d11On12Device.Reset();
     fence.Reset();
 
     if (fenceEvent) {
@@ -414,9 +527,35 @@ void Renderer::ReleaseGraphicsResources() noexcept {
 
     state.backend = RenderBackend::Unknown;
     state.renderFunc = nullptr;
-    state.bufferIndex = 0;
     state.bufferCount = 0;
     state.needsInit = true;
+}
+
+void Renderer::AllocateD3D12SrvDescriptor(
+    ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE* outCpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE* outGpuHandle
+) {
+    auto* renderer = static_cast<Renderer*>(info->UserData);
+    const UINT descriptorIndex = renderer->d3d12NextSrvDescriptor++;
+    if (descriptorIndex >= D3D12_SRV_DESCRIPTOR_COUNT) [[unlikely]] {
+        renderer->logger.Log("D3D12 ImGui SRV descriptor heap exhausted");
+    }
+
+    D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = renderer->d3d12SrvHeap->GetCPUDescriptorHandleForHeapStart();
+    D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = renderer->d3d12SrvHeap->GetGPUDescriptorHandleForHeapStart();
+    const UINT clampedIndex =
+        descriptorIndex < D3D12_SRV_DESCRIPTOR_COUNT ? descriptorIndex : D3D12_SRV_DESCRIPTOR_COUNT - 1;
+    cpuHandle.ptr += clampedIndex * renderer->d3d12SrvDescriptorSize;
+    gpuHandle.ptr += clampedIndex * renderer->d3d12SrvDescriptorSize;
+    *outCpuHandle = cpuHandle;
+    *outGpuHandle = gpuHandle;
+}
+
+void Renderer::FreeD3D12SrvDescriptor(
+    ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle
+) {
+    (void)info;
+    (void)cpuHandle;
+    (void)gpuHandle;
 }
 
 void Renderer::Cleanup() noexcept {
@@ -430,8 +569,6 @@ void Renderer::Cleanup() noexcept {
     }
     if (executeCommandListsAddress) {
         UnhookCommandQueue();
-        executeCommandListsAddress = 0;
-        executeCommandListsReturnAddress = 0;
     }
 
     ReleaseGraphicsResources();
@@ -553,22 +690,31 @@ void Renderer::HookSwapChain(
     dummySwapChain->Release();
 }
 
-void Renderer::HookCommandQueue(
+bool Renderer::HookCommandQueue(
     ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* outExecReturn
 ) {
-    if (!dummyCommandQueue) return;
+    if (!dummyCommandQueue) return false;
 
     uintptr_t* vTable = *(uintptr_t**)dummyCommandQueue;
     constexpr size_t EXECUTE_OFFSET = VMT_EXECUTE_COMMAND_LISTS_OFFSET;
 
     uintptr_t executeAddr = vTable[EXECUTE_OFFSET];
-    executeCommandListsAddress = executeAddr;
-
     MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, outExecReturn);
+    if (*outExecReturn) {
+        executeCommandListsAddress = executeAddr;
+        state.commandQueueHookInstalled = true;
+    }
 
     dummyCommandQueue->Release();
+    return state.commandQueueHookInstalled;
 }
 
-void Renderer::UnhookCommandQueue() const {
-    MemoryUtils::Unhook(executeCommandListsAddress);
+void Renderer::UnhookCommandQueue() noexcept {
+    if (state.commandQueueHookInstalled && executeCommandListsAddress) {
+        MemoryUtils::Unhook(executeCommandListsAddress);
+    }
+
+    executeCommandListsAddress = 0;
+    executeCommandListsReturnAddress = 0;
+    state.commandQueueHookInstalled = false;
 }

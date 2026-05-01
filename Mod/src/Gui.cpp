@@ -101,8 +101,7 @@ LRESULT CALLBACK Gui::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 void Gui::Setup() {
-    if (setupComplete)
-        return;
+    if (setupComplete) return;
 
     IMGUI_CHECKVERSION();
 
@@ -150,7 +149,6 @@ void Gui::Render() {
     const bool visible = isVisible.load(std::memory_order_relaxed);
 
     ImGui_ImplWin32_NewFrame();
-    ImGui_ImplDX11_NewFrame();
     ImGui::NewFrame();
 
     ImGuiIO& io = ImGui::GetIO();
@@ -186,5 +184,4 @@ void Gui::Render() {
     NotificationManager::Render();
 
     ImGui::Render();
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
