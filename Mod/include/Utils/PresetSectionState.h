@@ -12,6 +12,7 @@ template <typename Serializer> struct PresetSectionState {
     char presetNameBuf[128] = {};
     PresetUtils::PresetTreeNode presetTree;
     std::filesystem::path pendingDeletePath;
+    ImVec2 pendingDeletePopupAnchor{};
     bool presetListDirty = true;
     GuiUtils::StatusMessage status;
 
@@ -23,8 +24,9 @@ template <typename Serializer> struct PresetSectionState {
     template <typename BuildFn, typename ApplyFn>
     void RenderPresetsTab(BuildFn&& buildData, ApplyFn&& applyData, bool canSave = true) {
         ImGui::PushID("presets");
-        GuiUtils::PresetPanelState panelState{presetNameBuf, sizeof(presetNameBuf), presetListDirty, presetTree,
-                                              status,        pendingDeletePath,     canSave};
+        GuiUtils::PresetPanelState panelState{
+            presetNameBuf, sizeof(presetNameBuf), presetListDirty,          presetTree,
+            status,        pendingDeletePath,     pendingDeletePopupAnchor, canSave};
         GuiUtils::RenderPresetPanel(
             panelState, Serializer::GetPresetsDirectory(), [this]() { RefreshPresetTree(); },
             [this, &buildData](const char* name) {

@@ -359,6 +359,7 @@ namespace GuiUtils {
         enum class Type : uint8_t { None, Load, Delete };
         Type type = Type::None;
         std::filesystem::path path;
+        ImVec2 popupAnchor{};
     };
 
     [[nodiscard]] inline PresetTreeAction RenderPresetTree(const PresetUtils::PresetTreeNode& node) {
@@ -384,7 +385,11 @@ namespace GuiUtils {
             if (textW > 0) ImGui::SameLine(textW);
             if (ImGui::Button("Load")) action = {PresetTreeAction::Type::Load, node.presets[i].path};
             ImGui::SameLine();
-            if (ImGui::Button("Del")) action = {PresetTreeAction::Type::Delete, node.presets[i].path};
+            if (ImGui::Button("Del")) {
+                const ImVec2 min = ImGui::GetItemRectMin();
+                const ImVec2 max = ImGui::GetItemRectMax();
+                action = {PresetTreeAction::Type::Delete, node.presets[i].path, ImVec2((min.x + max.x) * 0.5f, min.y)};
+            }
             ImGui::PopID();
         }
 
@@ -398,6 +403,7 @@ namespace GuiUtils {
         PresetUtils::PresetTreeNode& tree;
         StatusMessage& status;
         std::filesystem::path& pendingDeletePath;
+        ImVec2& pendingDeletePopupAnchor;
         bool canSave = true;
     };
 
@@ -435,31 +441,36 @@ namespace GuiUtils {
                 onLoad(action.path);
             else if (action.type == PresetTreeAction::Type::Delete) {
                 state.pendingDeletePath = action.path;
+                state.pendingDeletePopupAnchor = action.popupAnchor;
                 ImGui::OpenPopup("##delete_preset_confirm");
             }
         }
 
-        ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
+        constexpr ImVec2 DELETE_POPUP_SIZE{220.0f, 88.0f};
+        ImVec2 popupAnchor = state.pendingDeletePopupAnchor;
+        popupAnchor.y -= ImGui::GetStyle().ItemSpacing.y;
+        ImGui::SetNextWindowPos(popupAnchor, ImGuiCond_Always, ImVec2(0.5f, 1.0f));
+        ImGui::SetNextWindowSize(DELETE_POPUP_SIZE, ImGuiCond_Always);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, K_POPUP_PADDING);
-        if (ImGui::BeginPopupModal(
-                "##delete_preset_confirm", nullptr,
-                ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings
+        if (ImGui::BeginPopup(
+                "##delete_preset_confirm", ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings |
+                                               ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
+                                               ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
             )) {
             const auto relativePath = state.pendingDeletePath.lexically_relative(presetsDir);
             const auto displayPath =
                 (relativePath.empty() ? state.pendingDeletePath.filename() : relativePath).string();
 
             ImGui::Text("Delete preset?");
-            ImGui::Spacing();
-            ImGui::TextWrapped("%s", displayPath.c_str());
-            ImGui::Spacing();
+            ImGui::TextUnformatted(displayPath.c_str());
 
             if (ImGui::Button("Delete")) {
                 onDelete(state.pendingDeletePath);
                 state.pendingDeletePath.clear();
                 ImGui::CloseCurrentPopup();
             }
-            ImGui::SameLine();
+            const float cancelWidth = ImGui::CalcTextSize("Cancel").x + ImGui::GetStyle().FramePadding.x * 2.0f;
+            ImGui::SameLine(DELETE_POPUP_SIZE.x - K_POPUP_PADDING.x * 2.0f - cancelWidth);
             if (ImGui::Button("Cancel")) {
                 state.pendingDeletePath.clear();
                 ImGui::CloseCurrentPopup();
@@ -467,7 +478,8 @@ namespace GuiUtils {
             ImGui::EndPopup();
         }
         ImGui::PopStyleVar();
-        ImGui::PopStyleColor();
+        if (!state.pendingDeletePath.empty() && !ImGui::IsPopupOpen("##delete_preset_confirm"))
+            state.pendingDeletePath.clear();
 
         ImGui::Spacing();
         if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) PresetUtils::OpenInExplorer(presetsDir);
