@@ -17,6 +17,32 @@ namespace {
 
     // Hook trampolines dispatch through this singleton-style instance.
     Renderer* g_Renderer = nullptr;
+
+    struct D3D11OutputStateGuard {
+        ID3D11DeviceContext* context = nullptr;
+        ID3D11RenderTargetView* renderTargets[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT] = {};
+        ID3D11DepthStencilView* depthStencil = nullptr;
+        D3D11_VIEWPORT viewports[D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE] = {};
+        UINT viewportCount = D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE;
+
+        explicit D3D11OutputStateGuard(ID3D11DeviceContext* ctx) noexcept : context(ctx) {
+            context->OMGetRenderTargets(D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, renderTargets, &depthStencil);
+            context->RSGetViewports(&viewportCount, viewports);
+        }
+
+        ~D3D11OutputStateGuard() noexcept {
+            context->OMSetRenderTargets(D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT, renderTargets, depthStencil);
+            context->RSSetViewports(viewportCount, viewports);
+
+            for (ID3D11RenderTargetView* renderTarget : renderTargets) {
+                if (renderTarget) renderTarget->Release();
+            }
+            if (depthStencil) depthStencil->Release();
+        }
+
+        D3D11OutputStateGuard(const D3D11OutputStateGuard&) = delete;
+        D3D11OutputStateGuard& operator=(const D3D11OutputStateGuard&) = delete;
+    };
 }
 
 HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept {
@@ -173,12 +199,11 @@ template <bool IsD3D12> void Renderer::RenderFrameImpl() noexcept {
         if (!renderTargetView) [[unlikely]]
             return;
 
+        [[maybe_unused]] const D3D11OutputStateGuard stateGuard{d3d11Context.Get()};
         d3d11Context->OMSetRenderTargets(1, &renderTargetView, nullptr);
 
         SetViewportIfDirty();
         Gui::Get().Render();
-
-        d3d11Context->OMSetRenderTargets(0, nullptr, nullptr);
     }
 }
 
