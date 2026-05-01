@@ -4,25 +4,36 @@
 #include <filesystem>
 
 #include "imgui/imgui.h"
+#include "Utils/GuiUtils.h"
 #include "Utils/PresetUtils.h"
 
 template <typename Serializer> struct PresetPickerState {
     std::vector<PresetListEntry> entries;
     int selectedIndex = -1;
     bool dirty = true;
+    float comboWidth = 0.0f;
 
-    void Refresh() {
+    void Refresh(const char* noneLabel = "None") {
         entries.clear();
         Flatten(Serializer::ListPresetsTree());
+
+        float maxW = ImGui::CalcTextSize(noneLabel).x;
+        for (const auto& entry : entries) {
+            const float width = ImGui::CalcTextSize(entry.name.c_str()).x;
+            if (width > maxW) maxW = width;
+        }
+        comboWidth = GuiUtils::ComboWidthFromText(maxW);
+
         dirty = false;
         if (selectedIndex >= static_cast<int>(entries.size())) selectedIndex = -1;
     }
 
     bool Render(const char* label, const char* noneLabel = "None") {
-        if (dirty) Refresh();
+        if (dirty) Refresh(noneLabel);
         const char* preview = selectedIndex < 0 ? noneLabel : entries[selectedIndex].name.c_str();
+
         bool changed = false;
-        if (ImGui::BeginCombo(label, preview)) {
+        if (GuiUtils::BeginSizedCombo(label, preview, comboWidth)) {
             if (ImGui::Selectable(noneLabel, selectedIndex < 0)) {
                 selectedIndex = -1;
                 changed = true;

@@ -42,6 +42,7 @@ namespace PropertyBrowser {
         std::vector<std::string> enumNames;
         int32_t offset = 0;
         int32_t elementSize = 0;
+        float enumComboWidth = K_ENUM_WIDTH;
         PropType type = PropType::Unsupported;
         uint8_t fieldMask = 0;
         uint8_t byteOffset = 0;
@@ -211,7 +212,17 @@ namespace PropertyBrowser {
                     info.byteOffset = bp->ByteOffset;
                 }
 
-                if (type == PropType::Enum) info.enumNames = BuildEnumNames(enumPtr);
+                if (type == PropType::Enum) {
+                    info.enumNames = BuildEnumNames(enumPtr);
+
+                    float maxW = ImGui::CalcTextSize("Unknown").x;
+                    for (const auto& name : info.enumNames) {
+                        const float width = ImGui::CalcTextSize(name.c_str()).x;
+                        if (width > maxW) maxW = width;
+                    }
+                    info.enumComboWidth = GuiUtils::ComboWidthFromText(maxW);
+                    if (info.enumComboWidth < K_ENUM_WIDTH) info.enumComboWidth = K_ENUM_WIDTH;
+                }
 
                 result.push_back(std::move(info));
             }
@@ -297,8 +308,7 @@ namespace PropertyBrowser {
                     const char* preview = (intVal >= 0 && intVal < static_cast<int>(prop.enumNames.size()))
                                               ? prop.enumNames[intVal].c_str()
                                               : "Unknown";
-                    ImGui::SetNextItemWidth(K_ENUM_WIDTH);
-                    if (ImGui::BeginCombo(prop.displayName.c_str(), preview)) {
+                    if (GuiUtils::BeginSizedCombo(prop.displayName.c_str(), preview, prop.enumComboWidth)) {
                         for (int i = 0; i < static_cast<int>(prop.enumNames.size()); ++i) {
                             if (ImGui::Selectable(prop.enumNames[i].c_str(), i == intVal)) {
                                 if (prop.elementSize <= 1)
