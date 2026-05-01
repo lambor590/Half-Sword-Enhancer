@@ -88,9 +88,9 @@ private:
     );
     void UnhookCommandQueue() const;
 
-    template <bool IsD3D12> void RenderFrameImpl() noexcept;
     void RenderFrameD3D11() noexcept;
     void RenderFrameD3D12() noexcept;
+    void RenderGuiToTarget(ID3D11RenderTargetView* renderTargetView) noexcept;
 
     bool InitD3DResources(IDXGISwapChain* sc) noexcept;
     bool InitD3D11() noexcept;

@@ -173,46 +173,37 @@ void Renderer::AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexc
     logger.Log("ResizeBuffers completed: 0x%08X (%dx%d)", result, window.width, window.height);
 }
 
-template <bool IsD3D12> void Renderer::RenderFrameImpl() noexcept {
-    if constexpr (IsD3D12) {
-        const UINT bufferIdx = swapChain3->GetCurrentBackBufferIndex();
-        state.bufferIndex = static_cast<uint8_t>(bufferIdx);
-
-        if (bufferIdx >= d3d12FrameTargets.size()) [[unlikely]]
-            return;
-
-        D3D12FrameTarget& target = d3d12FrameTargets[bufferIdx];
-        ID3D11Resource* wrappedResource = target.wrappedBuffer.Get();
-        ID3D11RenderTargetView* renderTargetView = target.renderTarget.Get();
-
-        d3d11On12Device->AcquireWrappedResources(&wrappedResource, 1);
-        d3d11Context->OMSetRenderTargets(1, &renderTargetView, nullptr);
-
-        SetViewportIfDirty();
-        Gui::Get().Render();
-
-        d3d11Context->OMSetRenderTargets(0, nullptr, nullptr);
-        d3d11On12Device->ReleaseWrappedResources(&wrappedResource, 1);
-        d3d11Context->Flush();
-    } else {
-        ID3D11RenderTargetView* renderTargetView = d3d11RenderTarget.Get();
-        if (!renderTargetView) [[unlikely]]
-            return;
-
-        [[maybe_unused]] const D3D11OutputStateGuard stateGuard{d3d11Context.Get()};
-        d3d11Context->OMSetRenderTargets(1, &renderTargetView, nullptr);
-
-        SetViewportIfDirty();
-        Gui::Get().Render();
-    }
-}
-
 void Renderer::RenderFrameD3D11() noexcept {
-    RenderFrameImpl<false>();
+    ID3D11RenderTargetView* renderTargetView = d3d11RenderTarget.Get();
+    if (!renderTargetView) [[unlikely]]
+        return;
+
+    [[maybe_unused]] const D3D11OutputStateGuard stateGuard{d3d11Context.Get()};
+    RenderGuiToTarget(renderTargetView);
 }
 
 void Renderer::RenderFrameD3D12() noexcept {
-    RenderFrameImpl<true>();
+    const UINT bufferIdx = swapChain3->GetCurrentBackBufferIndex();
+    state.bufferIndex = static_cast<uint8_t>(bufferIdx);
+
+    if (bufferIdx >= d3d12FrameTargets.size()) [[unlikely]]
+        return;
+
+    D3D12FrameTarget& target = d3d12FrameTargets[bufferIdx];
+    ID3D11Resource* wrappedResource = target.wrappedBuffer.Get();
+    ID3D11RenderTargetView* renderTargetView = target.renderTarget.Get();
+
+    d3d11On12Device->AcquireWrappedResources(&wrappedResource, 1);
+    RenderGuiToTarget(renderTargetView);
+    d3d11Context->OMSetRenderTargets(0, nullptr, nullptr);
+    d3d11On12Device->ReleaseWrappedResources(&wrappedResource, 1);
+    d3d11Context->Flush();
+}
+
+void Renderer::RenderGuiToTarget(ID3D11RenderTargetView* renderTargetView) noexcept {
+    d3d11Context->OMSetRenderTargets(1, &renderTargetView, nullptr);
+    SetViewportIfDirty();
+    Gui::Get().Render();
 }
 
 void Renderer::InitOrReinitImGui() noexcept {
