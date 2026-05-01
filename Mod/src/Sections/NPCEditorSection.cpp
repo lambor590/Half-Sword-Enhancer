@@ -4,6 +4,7 @@
 
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
+#include "Hooks/GameHook.h"
 #include "ConfigManager.h"
 #include "Utils/Spawner.h"
 

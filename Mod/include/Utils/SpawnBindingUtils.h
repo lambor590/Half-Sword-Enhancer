@@ -25,7 +25,7 @@ namespace SpawnBindingUtils {
     }
 
     template <size_t N> void CopyName(char (&dst)[N], std::string_view src) {
-        const size_t len = std::min(src.size(), N - 1);
+        const size_t len = min(src.size(), N - 1);
         std::memcpy(dst, src.data(), len);
         dst[len] = '\0';
     }
@@ -55,7 +55,7 @@ namespace SpawnBindingUtils {
     ) {
         auto& config = ConfigManager::Get();
         nextId = config.GetInt(rootSection, "next_id", 1);
-        const int count = std::min(config.GetInt(rootSection, "count", 0), 64);
+        const int count = min(config.GetInt(rootSection, "count", 0), 64);
 
         for (int i = 0; i < count; ++i) {
             char idKey[16];
@@ -72,7 +72,7 @@ namespace SpawnBindingUtils {
 
             loadExtra(*binding, section, config);
             init(binding);
-            nextId = std::max(nextId, id + 1);
+            nextId = max(nextId, id + 1);
             bindings.push_back(std::move(binding));
         }
     }

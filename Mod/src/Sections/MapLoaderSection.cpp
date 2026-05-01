@@ -151,9 +151,8 @@ void MapLoaderSection::SpawnPlayer() {
 
     GameHook::QueueAction([this, presetPath, hasLoadout, loadout = std::move(loadoutData), hasNPCPreset,
                            npcPreset = std::move(npcData), npcCount](const RuntimeContextSnapshot& runtime) {
-        auto snapshot = GameSnapshot();
-        auto* controller = snapshot.controller;
-        auto* world = snapshot.world;
+        auto* controller = runtime.controller;
+        auto* world = runtime.world;
         if (!controller || !world) return;
 
         auto* gi = static_cast<SDK::UGI_Settings_C*>(SDK::UGameplayStatics::GetGameInstance(world));
