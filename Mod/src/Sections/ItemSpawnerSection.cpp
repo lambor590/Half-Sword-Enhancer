@@ -60,8 +60,7 @@ void ItemSpawnerSection::RenderModuleCombo(const char* label, int slot) {
         armorModules.cachedWidths[slot] = GuiUtils::ComboWidthFromText(maxW);
     }
 
-    ImGui::SetNextItemWidth(armorModules.cachedWidths[slot]);
-    if (!ImGui::BeginCombo(label, preview)) return;
+    if (!GuiUtils::BeginSizedCombo(label, preview, armorModules.cachedWidths[slot])) return;
 
     if (ImGui::Selectable("None", armorModules.selected[slot] <= 0)) armorModules.selected[slot] = 0;
     for (int i = 0; i < static_cast<int>(modules.size()); ++i) {
@@ -97,8 +96,7 @@ void ItemSpawnerSection::RenderMaskedTierCombo(const char* comboLabel, uint16_t 
     cfg.spawnTier = TierValidation::NearestValidTier(mask, cfg.spawnTier);
 
     ImGui::Text("Tier");
-    ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
-    if (ImGui::BeginCombo(comboLabel, GuiUtils::TIER_LABELS[cfg.spawnTier])) {
+    if (GuiUtils::BeginSizedCombo(comboLabel, GuiUtils::TIER_LABELS[cfg.spawnTier], GuiUtils::CachedTierComboWidth())) {
         for (int t = 0; t <= 8; ++t) {
             if (!(mask & (1 << t))) continue;
             if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.spawnTier)) cfg.spawnTier = t;
@@ -436,8 +434,7 @@ void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
         ImGui::Text("Found: %zu items", filteredIndices.size());
         ImGui::Spacing();
 
-        ImGui::SetNextItemWidth(cachedFilteredWidth);
-        if (ImGui::BeginCombo("##FilteredItems", "Select item...")) {
+        if (GuiUtils::BeginSizedCombo("##FilteredItems", "Select item...", cachedFilteredWidth)) {
             auto& allItems = reg.GetAllItems();
             for (BlueprintRegistry::ItemIndex itemIdx : filteredIndices) {
                 if (itemIdx >= allItems.size()) continue;
@@ -496,7 +493,7 @@ void ItemSpawnerSection::RenderCategoryBrowser(BlueprintRegistry& reg) {
         categoryComboW = GuiUtils::CalcComboWidth(categoryGetter, &reg, static_cast<int>(totalCatCount));
         lastCatCount = totalCatCount;
     }
-    ImGui::SetNextItemWidth(categoryComboW);
+    GuiUtils::PrepareNextCombo(categoryComboW);
     if (ImGui::Combo("##CategorySelector", &catIndex, categoryGetter, &reg, static_cast<int>(totalCatCount)))
         [[unlikely]] {
         cfg.currentCategoryIndex = static_cast<uint8_t>(catIndex);
@@ -519,7 +516,7 @@ void ItemSpawnerSection::RenderRandomArmorUI() {
     };
     static float armorSlotComboW =
         GuiUtils::CalcComboWidth(armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS, GameConstants::ARMOR_SLOT_COUNT);
-    ImGui::SetNextItemWidth(armorSlotComboW);
+    GuiUtils::PrepareNextCombo(armorSlotComboW);
     if (ImGui::Combo(
             "##ArmorSlotSelector", &slotIndex, armorSlotGetter, (void*)GameConstants::ARMOR_SLOTS,
             GameConstants::ARMOR_SLOT_COUNT
@@ -550,7 +547,7 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
             subcatComboW = GuiUtils::CalcComboWidth(subGetter, (void*)&cat, static_cast<int>(cat.subcategories.size()));
             subcatCacheForCat = cfg.currentCategoryIndex;
         }
-        ImGui::SetNextItemWidth(subcatComboW);
+        GuiUtils::PrepareNextCombo(subcatComboW);
         if (ImGui::Combo(
                 "##SubcategorySelector", &subIndex, subGetter, (void*)&cat, static_cast<int>(cat.subcategories.size())
             )) [[unlikely]] {
@@ -568,7 +565,7 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
             itemIndex = 0;
             cfg.currentItemIndex = 0;
         }
-        ImGui::SetNextItemWidth(cachedItemNamesWidth);
+        GuiUtils::PrepareNextCombo(cachedItemNamesWidth);
         if (ImGui::Combo(
                 "##ItemSelector", &itemIndex, cachedItemNames.data(), static_cast<int>(cachedItemNames.size())
             )) [[unlikely]] {

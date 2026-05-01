@@ -589,10 +589,9 @@ void WeaponEditorSection::RenderWeaponTypeCombo() {
     const char* previewText =
         (selectedIdx >= 0 && selectedIdx < WEAPON_TYPE_COUNT) ? WEAPON_TYPE_NAMES[selectedIdx] : "Select weapon";
 
-    ImGui::SetNextItemWidth(weaponTypeComboW);
-    if (!ImGui::BeginCombo("##Type", previewText)) return;
+    if (!GuiUtils::BeginSizedCombo("##Type", previewText, weaponTypeComboW)) return;
 
-    ImGui::SetNextItemWidth(-1);
+    GuiUtils::SetComboSearchWidth(weaponTypeComboW);
     ImGui::InputTextWithHint("##WeaponTypeFilter", "Search weapons...", weaponTypeFilter, sizeof(weaponTypeFilter));
 
     const size_t filterLen = std::strlen(weaponTypeFilter);
@@ -617,17 +616,15 @@ void WeaponEditorSection::RenderWeaponTypeCombo() {
 
 void WeaponEditorSection::RenderValidatedTierCombo(const char* label, int& tier, uint16_t validMask) {
     if (validMask == 0) {
-        ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
         ImGui::BeginDisabled();
-        if (ImGui::BeginCombo(label, "No valid tiers")) ImGui::EndCombo();
+        if (GuiUtils::BeginSizedCombo(label, "No valid tiers", GuiUtils::CachedTierComboWidth())) ImGui::EndCombo();
         ImGui::EndDisabled();
         return;
     }
 
     tier = TierValidation::NearestValidTier(validMask, tier);
 
-    ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
-    if (ImGui::BeginCombo(label, GuiUtils::TIER_LABELS[tier])) {
+    if (GuiUtils::BeginSizedCombo(label, GuiUtils::TIER_LABELS[tier], GuiUtils::CachedTierComboWidth())) {
         for (int t = 0; t <= 8; ++t) {
             if (!(validMask & (1 << t))) continue;
             if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == tier)) tier = t;
@@ -879,9 +876,8 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
                                    ? meshPool[ovr.poolIndex].name.c_str()
                                    : "None";
 
-    ImGui::SetNextItemWidth(meshComboWidth);
-    if (ImGui::BeginCombo("Mesh", comboPreview)) {
-        ImGui::SetNextItemWidth(-1);
+    if (GuiUtils::BeginSizedCombo("Mesh", comboPreview, meshComboWidth)) {
+        GuiUtils::SetComboSearchWidth(meshComboWidth);
         ImGui::InputTextWithHint("##mf", "Search meshes...", meshFilters[slotIdx], 64);
 
         const size_t filterLen = std::strlen(meshFilters[slotIdx]);

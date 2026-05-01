@@ -504,11 +504,11 @@ void NPCEditorSection::Render() {
     };
     static float npcTypeComboW = GuiUtils::CalcComboWidth(npcGetter, (void*)NPC_TYPES, NPC_TYPES_COUNT);
     static float nationalityComboW = GuiUtils::CalcComboWidth(NATIONALITY_NAMES, NATIONALITY_COUNT);
-    ImGui::SetNextItemWidth(npcTypeComboW);
+    GuiUtils::PrepareNextCombo(npcTypeComboW);
     ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex, npcGetter, (void*)NPC_TYPES, NPC_TYPES_COUNT);
     TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
     ImGui::SameLine();
-    ImGui::SetNextItemWidth(nationalityComboW);
+    GuiUtils::PrepareNextCombo(nationalityComboW);
     ImGui::Combo("##NationalitySelector", &cfg.npcNationality, NATIONALITY_NAMES, NATIONALITY_COUNT);
     ImGui::SameLine();
     ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());

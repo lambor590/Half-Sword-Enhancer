@@ -131,7 +131,7 @@ namespace {
         bool& enabled = *field.enabled;
         bool& value = *static_cast<bool*>(field.value);
         int current = enabled ? (value ? 2 : 1) : 0;
-        ImGui::SetNextItemWidth(tristateW);
+        GuiUtils::PrepareNextCombo(tristateW);
         if (ImGui::Combo(field.name, &current, TRISTATE, 3)) {
             enabled = (current != 0);
             value = (current == 2);

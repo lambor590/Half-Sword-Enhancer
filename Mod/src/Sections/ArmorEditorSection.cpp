@@ -215,8 +215,9 @@ void ArmorEditorSection::RenderArmorTierCombo() {
     uint16_t mask = TierValidation::VALID_ARMOR_TIER_MASKS[cfg.armorSlotIndex];
     cfg.armorTier = TierValidation::NearestValidTier(mask, cfg.armorTier);
 
-    ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
-    if (ImGui::BeginCombo("##GenTier", GuiUtils::TIER_LABELS[cfg.armorTier])) {
+    if (GuiUtils::BeginSizedCombo(
+            "##GenTier", GuiUtils::TIER_LABELS[cfg.armorTier], GuiUtils::CachedTierComboWidth()
+        )) {
         for (int t = 0; t <= 8; ++t) {
             if (!(mask & (1 << t))) continue;
             if (ImGui::Selectable(GuiUtils::TIER_LABELS[t], t == cfg.armorTier)) cfg.armorTier = t;
@@ -268,8 +269,7 @@ void ArmorEditorSection::RenderGenerationControls() {
         slotComboW = GuiUtils::ComboWidthFromText(maxW);
     }
 
-    ImGui::SetNextItemWidth(slotComboW);
-    if (ImGui::BeginCombo("##Slot", ARMOR_SLOTS[cfg.armorSlotIndex].name)) {
+    if (GuiUtils::BeginSizedCombo("##Slot", ARMOR_SLOTS[cfg.armorSlotIndex].name, slotComboW)) {
         for (int i = 0; i < ARMOR_SLOT_COUNT; ++i) {
             if (ImGui::Selectable(ARMOR_SLOTS[i].name, i == cfg.armorSlotIndex)) cfg.armorSlotIndex = i;
             if (i == cfg.armorSlotIndex) ImGui::SetItemDefaultFocus();

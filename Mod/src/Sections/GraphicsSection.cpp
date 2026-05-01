@@ -40,7 +40,7 @@ void GraphicsSection::Render() {
         GuiUtils::CalcComboWidth(QUALITY_LEVELS.data(), static_cast<int>(QUALITY_LEVELS.size()));
     for (const auto& combo : qualityCombos) {
         int currentValue = settings.*combo.memberPtr;
-        ImGui::SetNextItemWidth(qualityComboW);
+        GuiUtils::PrepareNextCombo(qualityComboW);
         if (ImGui::Combo(combo.label, &currentValue, QUALITY_LEVELS.data(), static_cast<int>(QUALITY_LEVELS.size()))) {
             settings.*combo.memberPtr = currentValue;
             settingsChanged = true;

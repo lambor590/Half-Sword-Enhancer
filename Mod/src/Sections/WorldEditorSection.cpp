@@ -226,8 +226,7 @@ void WorldEditorSection::RenderActorSelector() {
     if (!filteredActors.empty()) {
         const char* preview =
             (selectedActorIndex >= 0) ? filteredActors[selectedActorIndex].className.c_str() : "Select...";
-        ImGui::SetNextItemWidth(actorComboWidth);
-        if (ImGui::BeginCombo("##ActorSelector", preview)) {
+        if (GuiUtils::BeginSizedCombo("##ActorSelector", preview, actorComboWidth)) {
             for (int i = 0; i < static_cast<int>(filteredActors.size()); ++i) {
                 ImGui::PushID(i);
                 bool sel = (i == selectedActorIndex);

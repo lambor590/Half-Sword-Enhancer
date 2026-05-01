@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <cfloat>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
@@ -23,6 +24,8 @@ namespace GuiUtils {
     inline constexpr ImVec2 K_TOOLTIP_PADDING{8.0f, 6.0f};
     inline constexpr ImVec2 K_POPUP_PADDING{10.0f, 8.0f};
     inline constexpr float K_DRAG_WIDTH = 120.0f;
+    inline constexpr float K_COMBO_MIN_WIDTH = 90.0f;
+    inline constexpr float K_COMBO_SEARCH_MIN_WIDTH = 140.0f;
 
     inline bool DebouncedDragFloat(
         const char* label, float* value, float speed, float minValue = 0.0f, float maxValue = 0.0f,
@@ -95,7 +98,29 @@ namespace GuiUtils {
     }
 
     [[nodiscard]] inline float ComboWidthFromText(float maxTextWidth) noexcept {
-        return maxTextWidth + ImGui::GetFrameHeight() + ImGui::GetStyle().FramePadding.x * 2;
+        const auto& style = ImGui::GetStyle();
+        return maxTextWidth + ImGui::GetFrameHeight() + style.FramePadding.x * 2.0f + style.ItemInnerSpacing.x;
+    }
+
+    inline void PrepareNextCombo(float width) noexcept {
+        const float available = ImGui::GetContentRegionAvail().x;
+        const float popupWidth = width > K_COMBO_MIN_WIDTH ? width : K_COMBO_MIN_WIDTH;
+        if (available > K_COMBO_MIN_WIDTH && width > available) width = available;
+
+        ImGui::SetNextItemWidth(width > K_COMBO_MIN_WIDTH ? width : K_COMBO_MIN_WIDTH);
+        ImGui::SetNextWindowSizeConstraints(ImVec2(popupWidth, 0.0f), ImVec2(FLT_MAX, FLT_MAX));
+    }
+
+    [[nodiscard]] inline bool BeginSizedCombo(
+        const char* label, const char* preview, float width, ImGuiComboFlags flags = 0
+    ) noexcept {
+        PrepareNextCombo(width);
+        return ImGui::BeginCombo(label, preview, flags);
+    }
+
+    inline void SetComboSearchWidth(float width) noexcept {
+        const float searchWidth = width - ImGui::GetStyle().WindowPadding.x * 2.0f;
+        ImGui::SetNextItemWidth(searchWidth > K_COMBO_SEARCH_MIN_WIDTH ? searchWidth : K_COMBO_SEARCH_MIN_WIDTH);
     }
 
     [[nodiscard]] inline float CalcComboWidth(const char* widestItem) {
@@ -156,8 +181,7 @@ namespace GuiUtils {
     }
 
     inline void RenderFreeTierCombo(const char* label, int& tier) {
-        ImGui::SetNextItemWidth(CachedTierComboWidth());
-        if (ImGui::BeginCombo(label, TIER_LABELS[tier])) {
+        if (BeginSizedCombo(label, TIER_LABELS[tier], CachedTierComboWidth())) {
             for (int t = 0; t <= 8; ++t) {
                 if (ImGui::Selectable(TIER_LABELS[t], t == tier)) tier = t;
                 if (t == tier) ImGui::SetItemDefaultFocus();
@@ -203,7 +227,7 @@ namespace GuiUtils {
 
         int current = ovr.enabled ? (ovr.value ? 2 : 1) : 0;
         ImGui::PushID(label);
-        ImGui::SetNextItemWidth(tristateW);
+        PrepareNextCombo(tristateW);
         if (ImGui::Combo(label, &current, TRISTATE, 3)) {
             ovr.enabled = (current != 0);
             ovr.value = (current == 2);
@@ -308,8 +332,7 @@ namespace GuiUtils {
         const char* preview = (val >= 0 && val < GameConstants::MATERIAL_LAYER_COUNT)
                                   ? GameConstants::MATERIAL_LAYER_NAMES[val]
                                   : "Unknown";
-        ImGui::SetNextItemWidth(materialComboW);
-        if (ImGui::BeginCombo(label, preview)) {
+        if (BeginSizedCombo(label, preview, materialComboW)) {
             for (int i = 0; i < GameConstants::MATERIAL_LAYER_COUNT; ++i) {
                 if (ImGui::Selectable(GameConstants::MATERIAL_LAYER_NAMES[i], val == i))
                     mat = static_cast<SDK::Enum_MaterialLayer>(i);
@@ -491,10 +514,9 @@ namespace GuiUtils {
             cachedWidth = ComboWidthFromText(maxW);
         }
 
-        ImGui::SetNextItemWidth(cachedWidth);
-        if (!ImGui::BeginCombo(label, preview)) return;
+        if (!BeginSizedCombo(label, preview, cachedWidth)) return;
 
-        ImGui::SetNextItemWidth(-1);
+        SetComboSearchWidth(cachedWidth);
         ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
 
         const size_t filterLen = std::strlen(filterBuf);
@@ -544,10 +566,9 @@ namespace GuiUtils {
             cachedWidth = ComboWidthFromText(maxW);
         }
 
-        ImGui::SetNextItemWidth(cachedWidth);
-        if (!ImGui::BeginCombo(label, preview)) return;
+        if (!BeginSizedCombo(label, preview, cachedWidth)) return;
 
-        ImGui::SetNextItemWidth(-1);
+        SetComboSearchWidth(cachedWidth);
         ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
 
         const size_t filterLen = std::strlen(filterBuf);

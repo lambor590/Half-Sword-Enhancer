@@ -252,8 +252,7 @@ void MapLoaderSection::RenderMapSelector(MapRegistry& reg) {
         }
 
         const char* catPreview = selectedCategoryIndex == 0 ? "All" : cats[selectedCategoryIndex - 1].c_str();
-        ImGui::SetNextItemWidth(cachedCatComboW);
-        if (ImGui::BeginCombo("##MapCategory", catPreview)) {
+        if (GuiUtils::BeginSizedCombo("##MapCategory", catPreview, cachedCatComboW)) {
             if (ImGui::Selectable("All", selectedCategoryIndex == 0)) {
                 selectedCategoryIndex = 0;
                 filterDirty = true;
@@ -277,8 +276,7 @@ void MapLoaderSection::RenderMapSelector(MapRegistry& reg) {
         if (selectedFilteredIndex >= static_cast<int>(filteredIndices.size())) selectedFilteredIndex = 0;
 
         const char* preview = maps[filteredIndices[selectedFilteredIndex]].displayName.c_str();
-        ImGui::SetNextItemWidth(cachedComboW);
-        if (ImGui::BeginCombo("##MapSelector", preview)) {
+        if (GuiUtils::BeginSizedCombo("##MapSelector", preview, cachedComboW)) {
             for (int i = 0; i < static_cast<int>(filteredIndices.size()); ++i) {
                 const auto& entry = maps[filteredIndices[i]];
                 bool selected = (i == selectedFilteredIndex);
