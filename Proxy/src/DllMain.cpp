@@ -8,6 +8,32 @@ extern "C" FARPROC originalFuncs[FUNC_COUNT]{};
 
 static HMODULE hOriginalDLL = NULL;
 
+static BOOL CALLBACK FindMainWindow(HWND hWnd, LPARAM lParam) {
+    DWORD windowProcessId = 0;
+    GetWindowThreadProcessId(hWnd, &windowProcessId);
+    if (windowProcessId != GetCurrentProcessId() || !IsWindowVisible(hWnd) || GetWindow(hWnd, GW_OWNER)) return TRUE;
+
+    *reinterpret_cast<HWND*>(lParam) = hWnd;
+    return FALSE;
+}
+
+static bool HasMainWindow() {
+    HWND window = nullptr;
+    EnumWindows(FindMainWindow, reinterpret_cast<LPARAM>(&window));
+    return window != nullptr;
+}
+
+static DWORD WINAPI BootstrapMod(LPVOID) {
+    while (!GetModuleHandleA("dxgi.dll") || (!GetModuleHandleA("d3d11.dll") && !GetModuleHandleA("d3d12.dll")) ||
+           !HasMainWindow()) {
+        Sleep(100);
+    }
+
+    LoadModDLL();
+    return 0;
+}
+
+// clang-format off
 static constexpr const char* kFuncNames[FUNC_COUNT] =
     {"CloseDriver",
      "DefDriverProc",
@@ -189,6 +215,7 @@ static constexpr const char* kFuncNames[FUNC_COUNT] =
      "waveOutSetVolume",
      "waveOutUnprepareHeader",
      "waveOutWrite"};
+// clang-format on
 
 static void CacheOriginalFunctions() {
     for (int i = 0; i < FUNC_COUNT; i++)
@@ -199,7 +226,8 @@ BOOL APIENTRY DllMain(HMODULE /*hModule*/, DWORD ul_reason_for_call, LPVOID /*lp
     if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
         hOriginalDLL = LoadOriginalDLL();
         CacheOriginalFunctions();
-        LoadModDLL();
+        HANDLE bootstrapThread = CreateThread(nullptr, 0, BootstrapMod, nullptr, 0, nullptr);
+        if (bootstrapThread) CloseHandle(bootstrapThread);
     } else if (ul_reason_for_call == DLL_PROCESS_DETACH) {
         if (hOriginalDLL) FreeLibrary(hOriginalDLL);
     }
