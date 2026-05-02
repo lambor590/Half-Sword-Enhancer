@@ -39,6 +39,26 @@ void PlayerAbilitiesSection::InitKeybinds() {
     AddKeybind(
         keybinds,
         {
+            .name = "Enemy Infinite Stamina",
+            .tooltip = "Keeps enemy stamina full at all times",
+            .configSection = "EnemyInfiniteStamina",
+            .keyPtr = &cfg.enemyInfiniteStaminaKey,
+            .callback =
+                [this]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    auto* world = runtime.world;
+                    auto* player = runtime.player;
+                    if (!player || !world) return;
+                    ActorUtils::ForEachWillie(world, player, [](SDK::AWillie_BP_C* willie) {
+                        willie->Stamina = GameConstants::DEFAULT_HEALTH;
+                    });
+                },
+            .events = {GameEvent::OffLedge},
+        }
+    );
+
+    AddKeybind(
+        keybinds,
+        {
             .name = "Infinite Consciousness",
             .tooltip = "Prevents you from losing consciousness, so you can't be knocked out",
             .configSection = "InfiniteConsciousness",

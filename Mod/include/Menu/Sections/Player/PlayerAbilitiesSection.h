@@ -7,6 +7,7 @@ class PlayerAbilitiesSection : public Section {
 public:
     struct Config {
         int infiniteStaminaKey = 0x49; // I
+        int enemyInfiniteStaminaKey = -1;
         int infiniteConsciousnessKey = -1;
         int enemyInfiniteConsciousnessKey = -1;
         int getUpKey = -1;
