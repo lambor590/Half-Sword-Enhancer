@@ -182,6 +182,9 @@
     <ClCompile Include="src\Sections\GraphicsSection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Sections\AIDirectorSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Sections\WorldActionsSection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -288,6 +291,9 @@
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Player\PlayerEditorSection.h">
       <Filter>Sections\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Menu\Sections\World\AIDirectorSection.h">
+      <Filter>Sections\World</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h">
       <Filter>Sections\Settings</Filter>
