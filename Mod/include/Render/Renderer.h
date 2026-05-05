@@ -34,6 +34,8 @@ private:
         bool inResize = false;
         bool commandQueueCaptured = false;
         bool commandQueueHookInstalled = false;
+        bool dx12QueueMismatchLogged = false;
+        bool dx12FirstDrawLogged = false;
         RenderBackend backend = RenderBackend::Unknown;
         uint8_t bufferCount = 0;
     };
@@ -82,8 +84,10 @@ private:
     UINT d3d12RtvDescriptorSize = 0;
     UINT d3d12SrvDescriptorSize = 0;
     UINT d3d12NextSrvDescriptor = 0;
+    UINT d3d12SkipLogCount = 0;
     DXGI_FORMAT d3d12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
     std::vector<D3D12FrameTarget> d3d12FrameTargets;
+    std::vector<UINT> d3d12FreeSrvDescriptors;
 
     IDXGISwapChain* CreateDummySwapChain();
     void HookSwapChain(
@@ -114,7 +118,7 @@ private:
     void ReleaseGraphicsResources() noexcept;
     bool SignalAndWait() noexcept;
 
-    void OnPresent(IDXGISwapChain* pThis) noexcept;
+    void OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept;
     static void AllocateD3D12SrvDescriptor(
         ImGui_ImplDX12_InitInfo* info, D3D12_CPU_DESCRIPTOR_HANDLE* outCpuHandle,
         D3D12_GPU_DESCRIPTOR_HANDLE* outGpuHandle
