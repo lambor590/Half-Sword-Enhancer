@@ -8,27 +8,7 @@ extern "C" FARPROC originalFuncs[FUNC_COUNT]{};
 
 static HMODULE hOriginalDLL = NULL;
 
-static BOOL CALLBACK FindMainWindow(HWND hWnd, LPARAM lParam) {
-    DWORD windowProcessId = 0;
-    GetWindowThreadProcessId(hWnd, &windowProcessId);
-    if (windowProcessId != GetCurrentProcessId() || !IsWindowVisible(hWnd) || GetWindow(hWnd, GW_OWNER)) return TRUE;
-
-    *reinterpret_cast<HWND*>(lParam) = hWnd;
-    return FALSE;
-}
-
-static bool HasMainWindow() {
-    HWND window = nullptr;
-    EnumWindows(FindMainWindow, reinterpret_cast<LPARAM>(&window));
-    return window != nullptr;
-}
-
 static DWORD WINAPI BootstrapMod(LPVOID) {
-    while (!GetModuleHandleA("dxgi.dll") || (!GetModuleHandleA("d3d11.dll") && !GetModuleHandleA("d3d12.dll")) ||
-           !HasMainWindow()) {
-        Sleep(100);
-    }
-
     LoadModDLL();
     return 0;
 }
