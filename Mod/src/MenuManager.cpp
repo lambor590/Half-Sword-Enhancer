@@ -282,37 +282,43 @@ void MenuManager::RenderCategorySections(std::vector<std::unique_ptr<Section>>& 
     ImGui::Indent(SECTION_INDENT);
     ImGui::PushStyleColor(ImGuiCol_Header, BRASS_MEDIUM);
 
-    const char* currentGroup = nullptr;
-    bool groupOpen = false;
-
-    for (auto& section : sects) {
-        const char* group = section->GetGroup();
-
-        if (group != currentGroup && (!group || !currentGroup || std::strcmp(group, currentGroup) != 0)) {
-            if (currentGroup && groupOpen) {
-                ImGui::TreePop();
-            }
-            currentGroup = group;
-            if (group) {
-                groupOpen = ImGui::TreeNodeEx(group, ImGuiTreeNodeFlags_DefaultOpen);
-            } else {
-                groupOpen = false;
-            }
-        }
-
-        if (group && !groupOpen) continue;
-
-        bool isSelected = selectedSection == section.get();
+    auto renderSection = [this](Section* section) {
+        bool isSelected = selectedSection == section;
         if (ImGui::Selectable(section->GetName().c_str(), isSelected)) {
-            selectedSection = section.get();
+            selectedSection = section;
         }
         if (isSelected) {
             DrawSelectionAccent();
         }
-    }
+    };
 
-    if (currentGroup && groupOpen) {
-        ImGui::TreePop();
+    for (size_t i = 0; i < sects.size(); ++i) {
+        auto& section = sects[i];
+        const char* group = section->GetGroup();
+        if (!group) {
+            renderSection(section.get());
+            continue;
+        }
+
+        bool alreadyRendered = false;
+        for (size_t j = 0; j < i; ++j) {
+            const char* previousGroup = sects[j]->GetGroup();
+            if (previousGroup && std::strcmp(group, previousGroup) == 0) {
+                alreadyRendered = true;
+                break;
+            }
+        }
+        if (alreadyRendered) continue;
+
+        if (ImGui::TreeNodeEx(group, ImGuiTreeNodeFlags_DefaultOpen)) {
+            for (auto& groupedSection : sects) {
+                const char* groupedName = groupedSection->GetGroup();
+                if (groupedName && std::strcmp(group, groupedName) == 0) {
+                    renderSection(groupedSection.get());
+                }
+            }
+            ImGui::TreePop();
+        }
     }
 
     ImGui::PopStyleColor();
