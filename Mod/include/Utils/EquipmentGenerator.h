@@ -10,7 +10,6 @@
 
 namespace EquipmentGenerator {
 
-    void Init(const SDK::UWorld* world);
     void ClearCache();
 
     inline bool IsPassportValid(const SDK::FStr_Passport_Weapon1& passport) {

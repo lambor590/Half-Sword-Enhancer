@@ -169,28 +169,37 @@ namespace EquipmentGenerator {
             return static_cast<T*>(actor);
         }
 
-        SDK::ABP_Generator_Weapons_Random_C* GetWeaponGenerator() {
+        void ResetForWorld(const SDK::UWorld* world) {
+            if (cachedWorld == world) [[likely]]
+                return;
+
+            weaponGenerator = nullptr;
+            armorGenerator = nullptr;
+            characterGenerator = nullptr;
+            cachedWorld = world;
+        }
+
+        SDK::ABP_Generator_Weapons_Random_C* GetWeaponGenerator(const SDK::UWorld* world) {
+            ResetForWorld(world);
             if (!weaponGenerator && cachedWorld)
                 weaponGenerator = SpawnGenerator<SDK::ABP_Generator_Weapons_Random_C>(cachedWorld);
             return weaponGenerator;
         }
 
-        SDK::ABP_Generator_Armor_Random_C* GetArmorGenerator() {
+        SDK::ABP_Generator_Armor_Random_C* GetArmorGenerator(const SDK::UWorld* world) {
+            ResetForWorld(world);
             if (!armorGenerator && cachedWorld)
                 armorGenerator = SpawnGenerator<SDK::ABP_Generator_Armor_Random_C>(cachedWorld);
             return armorGenerator;
         }
 
-        SDK::ABP_Generator_Characters_Random_C* GetCharacterGenerator() {
+        SDK::ABP_Generator_Characters_Random_C* GetCharacterGenerator(const SDK::UWorld* world) {
+            ResetForWorld(world);
             if (!characterGenerator && cachedWorld)
                 characterGenerator = SpawnGenerator<SDK::ABP_Generator_Characters_Random_C>(cachedWorld);
             return characterGenerator;
         }
 
-    }
-
-    void Init(const SDK::UWorld* world) {
-        cachedWorld = world;
     }
 
     void ClearCache() {
@@ -203,9 +212,8 @@ namespace EquipmentGenerator {
     SDK::FStr_Passport_Weapon1 GenerateWeapon(
         const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier
     ) {
-        Init(world);
         SDK::FStr_Passport_Weapon1 output{};
-        auto* gen = GetWeaponGenerator();
+        auto* gen = GetWeaponGenerator(world);
         if (!gen) return output;
 
         SDK::FStr_Passport_Weapon1 emptyPassport{};
@@ -219,9 +227,8 @@ namespace EquipmentGenerator {
     SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(
         const SDK::UWorld* world, SDK::UClass* weaponClass, SDK::Enum_Ranks tier
     ) {
-        Init(world);
         SDK::FStr_Passport_Weapon1 output{};
-        auto* gen = GetWeaponGenerator();
+        auto* gen = GetWeaponGenerator(world);
         if (!gen) return output;
 
         SDK::FStr_Passport_Weapon1 emptyPassport{};
@@ -262,7 +269,7 @@ namespace EquipmentGenerator {
     SDK::FStr_Passport_Weapon1 GenerateCustomizableWeapon(
         const SDK::UWorld* world, CustomizableWeapon type, SDK::Enum_Ranks tier
     ) {
-        Init(world);
+        ResetForWorld(world);
         auto* modulesClass = GetCustomizableModulesClass(type);
         if (!modulesClass || !modulesClass->ClassDefaultObject) return {};
 
@@ -317,9 +324,8 @@ namespace EquipmentGenerator {
     SDK::FStr_Passport_Armor1 GenerateArmor(
         const SDK::UWorld* world, SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot, double moduleChance
     ) {
-        Init(world);
         SDK::FStr_Passport_Armor1 output{};
-        auto* gen = GetArmorGenerator();
+        auto* gen = GetArmorGenerator(world);
         if (gen) {
             gen->Generate_Armor(tier, slot, moduleChance, false, &output);
         }
@@ -330,9 +336,8 @@ namespace EquipmentGenerator {
         const SDK::UWorld* world, SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier,
         bool mercenary
     ) {
-        Init(world);
         SDK::FStr_Passport_Character1 output{};
-        auto* gen = GetCharacterGenerator();
+        auto* gen = GetCharacterGenerator(world);
         if (gen) {
             gen->Generate_Character(actorClass, nationality, tier, mercenary, &output);
         }
