@@ -16,6 +16,8 @@
 
 using Present = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
 using ResizeBuffers = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT);
+using ResizeBuffers1 =
+    HRESULT(__stdcall*)(IDXGISwapChain3*, UINT, UINT, UINT, DXGI_FORMAT, UINT, const UINT*, IUnknown* const*);
 using ExecuteCommandLists = void(__stdcall*)(ID3D12CommandQueue*, UINT, const ID3D12CommandList**);
 
 class Renderer {
@@ -37,6 +39,7 @@ private:
         bool dx12QueueMismatchLogged = false;
         bool dx12FirstDrawLogged = false;
         RenderBackend backend = RenderBackend::Unknown;
+        RenderBackend imguiBackend = RenderBackend::Unknown;
         uint8_t bufferCount = 0;
     };
 
@@ -54,6 +57,8 @@ private:
     uintptr_t presentReturnAddress = 0;
     uintptr_t resizeBuffersAddress = 0;
     uintptr_t resizeBuffersReturnAddress = 0;
+    uintptr_t resizeBuffers1Address = 0;
+    uintptr_t resizeBuffers1ReturnAddress = 0;
     uintptr_t executeCommandListsAddress = 0;
     uintptr_t executeCommandListsReturnAddress = 0;
 
@@ -86,13 +91,16 @@ private:
     UINT d3d12NextSrvDescriptor = 0;
     UINT d3d12SkipLogCount = 0;
     DXGI_FORMAT d3d12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
+    DXGI_FORMAT imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
+    uint8_t imguiD3D12BufferCount = 0;
     std::vector<D3D12FrameTarget> d3d12FrameTargets;
     std::vector<UINT> d3d12FreeSrvDescriptors;
 
     IDXGISwapChain* CreateDummySwapChain();
     void HookSwapChain(
         IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
-        uintptr_t* outPresentReturn, uintptr_t* outResizeReturn
+        uintptr_t resizeBuffers1DetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn,
+        uintptr_t* outResize1Return
     );
     ID3D12CommandQueue* CreateDummyCommandQueue();
     bool HookCommandQueue(
@@ -111,11 +119,14 @@ private:
     bool CreateRenderTargets() noexcept;
     bool CreateD3D11RenderTarget() noexcept;
     bool CreateD3D12RenderTargets() noexcept;
-    bool CreateD3D12DescriptorHeaps() noexcept;
+    bool CreateD3D12RtvHeap() noexcept;
+    bool CreateD3D12SrvHeap() noexcept;
     void ReleaseRenderTargets() noexcept;
 
     void ReleaseContextState() noexcept;
     void ReleaseGraphicsResources() noexcept;
+    void ReleaseD3DResourcesForResize() noexcept;
+    void ReleaseImGuiRenderer() noexcept;
     bool SignalAndWait() noexcept;
 
     void OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept;
@@ -141,6 +152,10 @@ private:
     friend HRESULT __fastcall HookOnPresent(IDXGISwapChain* pThis, UINT syncInterval, UINT flags) noexcept;
     friend HRESULT __fastcall HookOnResizeBuffers(
         IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
+    ) noexcept;
+    friend HRESULT __fastcall HookOnResizeBuffers1(
+        IDXGISwapChain3* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags,
+        const UINT* creationNodeMask, IUnknown* const* presentQueue
     ) noexcept;
     friend void __fastcall HookOnExecuteCommandLists(
         ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists

@@ -9,11 +9,13 @@ using namespace Microsoft::WRL;
 namespace {
     constexpr int VMT_PRESENT_OFFSET = 8;
     constexpr int VMT_RESIZE_BUFFERS_OFFSET = 13;
+    constexpr int VMT_RESIZE_BUFFERS1_OFFSET = 39;
     constexpr int VMT_EXECUTE_COMMAND_LISTS_OFFSET = 10;
     constexpr size_t PTR_SIZE = sizeof(size_t);
 
     constexpr size_t VMT_PRESENT_BYTE_OFFSET = PTR_SIZE * VMT_PRESENT_OFFSET;
     constexpr size_t VMT_RESIZE_BUFFERS_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS_OFFSET;
+    constexpr size_t VMT_RESIZE_BUFFERS1_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS1_OFFSET;
     constexpr UINT D3D12_SRV_DESCRIPTOR_COUNT = 64;
     constexpr UINT D3D12_SKIP_LOG_LIMIT = 8;
 
@@ -74,6 +76,17 @@ HRESULT __fastcall HookOnResizeBuffers(
     return result;
 }
 
+HRESULT __fastcall HookOnResizeBuffers1(
+    IDXGISwapChain3* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags,
+    const UINT* creationNodeMask, IUnknown* const* presentQueue
+) noexcept {
+    g_Renderer->BeforeResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
+    const HRESULT result = std::bit_cast<ResizeBuffers1>(g_Renderer->resizeBuffers1ReturnAddress
+    )(pThis, bufferCount, width, height, newFormat, swapChainFlags, creationNodeMask, presentQueue);
+    g_Renderer->AfterResizeBuffers(width, height, result);
+    return result;
+}
+
 void __fastcall HookOnExecuteCommandLists(
     ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists
 ) noexcept {
@@ -106,6 +119,7 @@ void Renderer::Hook() {
 
     logger.Log("HookOnPresent: %p", &HookOnPresent);
     logger.Log("HookOnResizeBuffers: %p", &HookOnResizeBuffers);
+    logger.Log("HookOnResizeBuffers1: %p", &HookOnResizeBuffers1);
 
     IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
     if (!dummySwapChain) {
@@ -113,8 +127,8 @@ void Renderer::Hook() {
         return;
     }
     HookSwapChain(
-        dummySwapChain, (uintptr_t)&HookOnPresent, (uintptr_t)&HookOnResizeBuffers, &presentReturnAddress,
-        &resizeBuffersReturnAddress
+        dummySwapChain, (uintptr_t)&HookOnPresent, (uintptr_t)&HookOnResizeBuffers, (uintptr_t)&HookOnResizeBuffers1,
+        &presentReturnAddress, &resizeBuffersReturnAddress, &resizeBuffers1ReturnAddress
     );
 }
 
@@ -123,6 +137,11 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
         return;
     if (flags & DXGI_PRESENT_TEST) [[unlikely]]
         return;
+
+    if (swapChain.Get() && pThis != swapChain.Get()) [[unlikely]] {
+        logger.Log("Swap chain changed, recreating overlay resources");
+        ReleaseD3DResourcesForResize();
+    }
 
     if (state.needsInit) [[unlikely]] {
         if (!InitD3DResources(pThis)) [[unlikely]]
@@ -183,7 +202,7 @@ void Renderer::BeforeResizeBuffers(
         );
     }
 
-    ReleaseGraphicsResources();
+    ReleaseD3DResourcesForResize();
     logger.Log("ResizeBuffers overlay teardown completed");
 }
 
@@ -219,19 +238,15 @@ void Renderer::RenderFrameD3D11() noexcept {
 }
 
 void Renderer::RenderFrameD3D12() noexcept {
-    if (!commandQueue.Get() || !swapChain3.Get() || !d3d12CommandList.Get() || !d3d12SrvHeap.Get() || !fence.Get()) {
-        if (d3d12SkipLogCount < D3D12_SKIP_LOG_LIMIT) {
-            logger.Log(
-                "D3D12 overlay skipped: queue=%d swapChain=%d commandList=%d srvHeap=%d fence=%d",
-                commandQueue.Get() != nullptr, swapChain3.Get() != nullptr, d3d12CommandList.Get() != nullptr,
-                d3d12SrvHeap.Get() != nullptr, fence.Get() != nullptr
-            );
-            ++d3d12SkipLogCount;
-        }
+    ID3D12CommandQueue* const queue = commandQueue.Get();
+    IDXGISwapChain3* const sc = swapChain3.Get();
+    ID3D12GraphicsCommandList* const commandList = d3d12CommandList.Get();
+    ID3D12DescriptorHeap* const srvHeap = d3d12SrvHeap.Get();
+    ID3D12Fence* const fencePtr = fence.Get();
+    if (!queue || !sc || !commandList || !srvHeap || !fencePtr) [[unlikely]]
         return;
-    }
 
-    const UINT bufferIdx = swapChain3->GetCurrentBackBufferIndex();
+    const UINT bufferIdx = sc->GetCurrentBackBufferIndex();
     if (bufferIdx >= d3d12FrameTargets.size()) [[unlikely]] {
         if (d3d12SkipLogCount < D3D12_SKIP_LOG_LIMIT) {
             logger.Log(
@@ -255,12 +270,12 @@ void Renderer::RenderFrameD3D12() noexcept {
         return;
     }
 
-    if (target.fenceValue && fence->GetCompletedValue() < target.fenceValue) [[unlikely]]
+    if (target.fenceValue && fencePtr->GetCompletedValue() < target.fenceValue) [[unlikely]]
         return;
 
     const HRESULT allocatorResult = target.commandAllocator->Reset();
     const HRESULT listResult =
-        SUCCEEDED(allocatorResult) ? d3d12CommandList->Reset(target.commandAllocator.Get(), nullptr) : allocatorResult;
+        SUCCEEDED(allocatorResult) ? commandList->Reset(target.commandAllocator.Get(), nullptr) : allocatorResult;
     if (FAILED(listResult)) [[unlikely]] {
         logger.Log(
             "Failed to reset D3D12 overlay command resources: 0x%08X device=0x%08X", listResult,
@@ -271,20 +286,20 @@ void Renderer::RenderFrameD3D12() noexcept {
 
     D3D12_RESOURCE_BARRIER barrier =
         TransitionBarrier(target.backbuffer.Get(), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
-    d3d12CommandList->ResourceBarrier(1, &barrier);
-    d3d12CommandList->OMSetRenderTargets(1, &target.renderTarget, FALSE, nullptr);
+    commandList->ResourceBarrier(1, &barrier);
+    commandList->OMSetRenderTargets(1, &target.renderTarget, FALSE, nullptr);
 
-    ID3D12DescriptorHeap* descriptorHeaps[] = {d3d12SrvHeap.Get()};
-    d3d12CommandList->SetDescriptorHeaps(1, descriptorHeaps);
+    ID3D12DescriptorHeap* descriptorHeaps[] = {srvHeap};
+    commandList->SetDescriptorHeaps(1, descriptorHeaps);
     ImGui_ImplDX12_NewFrame();
     Gui::Get().Render();
-    ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), d3d12CommandList.Get());
+    ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
 
     barrier =
         TransitionBarrier(target.backbuffer.Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT);
-    d3d12CommandList->ResourceBarrier(1, &barrier);
+    commandList->ResourceBarrier(1, &barrier);
 
-    HRESULT result = d3d12CommandList->Close();
+    HRESULT result = commandList->Close();
     if (FAILED(result)) [[unlikely]] {
         logger.Log(
             "Failed to close D3D12 overlay command list: 0x%08X device=0x%08X", result,
@@ -293,11 +308,11 @@ void Renderer::RenderFrameD3D12() noexcept {
         return;
     }
 
-    ID3D12CommandList* commandLists[] = {d3d12CommandList.Get()};
-    commandQueue->ExecuteCommandLists(1, commandLists);
+    ID3D12CommandList* commandLists[] = {commandList};
+    queue->ExecuteCommandLists(1, commandLists);
 
     ++fenceValue;
-    result = commandQueue->Signal(fence.Get(), fenceValue);
+    result = queue->Signal(fencePtr, fenceValue);
     if (FAILED(result)) [[unlikely]] {
         logger.Log(
             "Failed to signal D3D12 overlay fence: 0x%08X device=0x%08X", result,
@@ -336,6 +351,9 @@ bool Renderer::InitOrReinitImGui() noexcept {
         if (state.backend == RenderBackend::D3D11) {
             rendererReady = ImGui_ImplDX11_Init(d3d11Device.Get(), d3d11Context.Get());
         } else {
+            if (!d3d12SrvHeap.Get() && !CreateD3D12SrvHeap()) [[unlikely]]
+                return false;
+
             ImGui_ImplDX12_InitInfo initInfo{};
             initInfo.Device = d3d12Device.Get();
             initInfo.CommandQueue = commandQueue.Get();
@@ -346,12 +364,17 @@ bool Renderer::InitOrReinitImGui() noexcept {
             initInfo.SrvDescriptorAllocFn = &Renderer::AllocateD3D12SrvDescriptor;
             initInfo.SrvDescriptorFreeFn = &Renderer::FreeD3D12SrvDescriptor;
             rendererReady = ImGui_ImplDX12_Init(&initInfo);
+            if (rendererReady) {
+                imguiD3D12RenderTargetFormat = d3d12RenderTargetFormat;
+                imguiD3D12BufferCount = state.bufferCount;
+            }
         }
         if (!rendererReady) [[unlikely]] {
             logger.Log("Failed to initialize ImGui renderer backend");
             return false;
         }
         state.imguiRendererReady = true;
+        state.imguiBackend = state.backend;
     }
     return true;
 }
@@ -372,7 +395,7 @@ bool Renderer::CreateD3D11RenderTarget() noexcept {
     return true;
 }
 
-bool Renderer::CreateD3D12DescriptorHeaps() noexcept {
+bool Renderer::CreateD3D12RtvHeap() noexcept {
     D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
     rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
     rtvHeapDesc.NumDescriptors = state.bufferCount;
@@ -381,7 +404,10 @@ bool Renderer::CreateD3D12DescriptorHeaps() noexcept {
         return false;
     }
     d3d12RtvDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+    return true;
+}
 
+bool Renderer::CreateD3D12SrvHeap() noexcept {
     D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc{};
     srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
     srvHeapDesc.NumDescriptors = D3D12_SRV_DESCRIPTOR_COUNT;
@@ -392,11 +418,12 @@ bool Renderer::CreateD3D12DescriptorHeaps() noexcept {
     }
     d3d12SrvDescriptorSize = d3d12Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
     d3d12NextSrvDescriptor = 0;
+    d3d12FreeSrvDescriptors.clear();
     return true;
 }
 
 bool Renderer::CreateD3D12RenderTargets() noexcept {
-    if (!CreateD3D12DescriptorHeaps()) [[unlikely]]
+    if (!CreateD3D12RtvHeap()) [[unlikely]]
         return false;
 
     d3d12FrameTargets.resize(state.bufferCount);
@@ -434,9 +461,6 @@ void Renderer::ReleaseRenderTargets() noexcept {
     d3d12CommandList.Reset();
     d3d12FrameTargets.clear();
     d3d12RtvHeap.Reset();
-    d3d12SrvHeap.Reset();
-    d3d12NextSrvDescriptor = 0;
-    d3d12FreeSrvDescriptors.clear();
     d3d12SkipLogCount = 0;
     state.dx12QueueMismatchLogged = false;
     state.dx12FirstDrawLogged = false;
@@ -445,14 +469,25 @@ void Renderer::ReleaseRenderTargets() noexcept {
 bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept {
     swapChain = sc;
 
-    if (SUCCEEDED(sc->GetDevice(__uuidof(ID3D11Device), (void**)&d3d11Device))) [[likely]] {
+    ComPtr<ID3D11Device> newD3D11Device;
+    if (SUCCEEDED(sc->GetDevice(IID_PPV_ARGS(&newD3D11Device)))) [[likely]] {
+        d3d11Device = newD3D11Device;
         state.backend = RenderBackend::D3D11;
         state.renderFunc = &Renderer::RenderFrameD3D11;
         logger.Log("Initializing D3D11 renderer");
         return InitD3D11();
     }
 
-    if (SUCCEEDED(sc->GetDevice(__uuidof(ID3D12Device), (void**)&d3d12Device))) [[unlikely]] {
+    ComPtr<ID3D12Device> newD3D12Device;
+    if (SUCCEEDED(sc->GetDevice(IID_PPV_ARGS(&newD3D12Device)))) [[unlikely]] {
+        const bool deviceChanged = d3d12Device.Get() && d3d12Device.Get() != newD3D12Device.Get();
+        if (deviceChanged) {
+            ReleaseImGuiRenderer();
+            d3d12SrvHeap.Reset();
+            d3d12NextSrvDescriptor = 0;
+            d3d12FreeSrvDescriptors.clear();
+        }
+        d3d12Device = newD3D12Device;
         state.backend = RenderBackend::D3D12;
         state.renderFunc = &Renderer::RenderFrameD3D12;
         logger.Log("Initializing D3D12 renderer");
@@ -485,6 +520,16 @@ bool Renderer::InitD3D11() noexcept {
 }
 
 bool Renderer::InitD3D12() noexcept {
+    if (commandQueue.Get()) {
+        ComPtr<ID3D12Device> queueDevice;
+        if (FAILED(commandQueue->GetDevice(IID_PPV_ARGS(&queueDevice))) || queueDevice.Get() != d3d12Device.Get()) {
+            logger.Log("D3D12 command queue reset: device changed");
+            commandQueue.Reset();
+            state.commandQueueCaptured = false;
+            state.dx12QueueMismatchLogged = false;
+        }
+    }
+
     if (!commandQueue.Get()) HookGetCommandQueue();
 
     if (!commandQueue.Get()) {
@@ -492,14 +537,20 @@ bool Renderer::InitD3D12() noexcept {
         return false;
     }
 
-    if (FAILED(d3d12Device->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence))) ||
-        FAILED(swapChain.As(&swapChain3))) [[unlikely]] {
+    if (!fence.Get() && FAILED(d3d12Device->CreateFence(fenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence))))
+        [[unlikely]] {
         logger.Log("Failed to initialize D3D12 core components");
         ReleaseGraphicsResources();
         return false;
     }
 
-    fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+    if (FAILED(swapChain.As(&swapChain3))) [[unlikely]] {
+        logger.Log("Failed to initialize D3D12 swap chain");
+        ReleaseGraphicsResources();
+        return false;
+    }
+
+    if (!fenceEvent) fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
     if (!fenceEvent) [[unlikely]] {
         logger.Log("Failed to create fence event");
         ReleaseGraphicsResources();
@@ -516,10 +567,19 @@ bool Renderer::InitD3D12() noexcept {
     window.handle = desc.OutputWindow;
     state.bufferCount = static_cast<uint8_t>(desc.BufferCount);
     d3d12RenderTargetFormat = desc.BufferDesc.Format;
+    const bool imguiBackendNeedsReset =
+        state.imguiRendererReady &&
+        (imguiD3D12RenderTargetFormat != d3d12RenderTargetFormat || imguiD3D12BufferCount != state.bufferCount);
+    if (imguiBackendNeedsReset) ReleaseImGuiRenderer();
 
     GetWindowDimensions(window.handle, window.width, window.height);
     window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
+
+    if (!d3d12SrvHeap.Get() && !CreateD3D12SrvHeap()) [[unlikely]] {
+        ReleaseGraphicsResources();
+        return false;
+    }
 
     if (!CreateRenderTargets()) [[unlikely]] {
         ReleaseGraphicsResources();
@@ -544,6 +604,9 @@ bool Renderer::InitD3D12() noexcept {
 bool Renderer::SignalAndWait() noexcept {
     ID3D12CommandQueue* const __restrict cmdQueue = commandQueue.Get();
     ID3D12Fence* const __restrict fencePtr = fence.Get();
+    if (!cmdQueue || !fencePtr || !fenceEvent) [[unlikely]]
+        return false;
+
     const UINT64 currentFence = fenceValue;
 
     if (FAILED(cmdQueue->Signal(fencePtr, currentFence)) ||
@@ -569,44 +632,65 @@ void Renderer::ReleaseContextState() noexcept {
 }
 
 void Renderer::ReleaseGraphicsResources() noexcept {
-    if (state.backend == RenderBackend::D3D12 && fence && commandQueue) [[likely]] {
-        SignalAndWait();
-    }
-
-    ReleaseContextState();
-
-    if (state.imguiRendererReady) {
-        if (state.backend == RenderBackend::D3D12) {
-            ImGui_ImplDX12_Shutdown();
-        } else {
-            ImGui_ImplDX11_Shutdown();
-        }
-        state.imguiRendererReady = false;
-    }
-
-    ReleaseRenderTargets();
-    ReleaseContextState();
-
-    if (state.backend == RenderBackend::D3D12 && fence && commandQueue) [[likely]] {
-        SignalAndWait();
-    }
-
-    d3d11Context.Reset();
-    d3d11Device.Reset();
+    ReleaseD3DResourcesForResize();
+    ReleaseImGuiRenderer();
+    commandQueue.Reset();
     d3d12Device.Reset();
-    swapChain.Reset();
-    swapChain3.Reset();
+    d3d12SrvHeap.Reset();
+    d3d12NextSrvDescriptor = 0;
+    d3d12FreeSrvDescriptors.clear();
+    imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
+    imguiD3D12BufferCount = 0;
     fence.Reset();
-
     if (fenceEvent) {
         CloseHandle(fenceEvent);
         fenceEvent = nullptr;
     }
+    state.commandQueueCaptured = false;
+}
+
+void Renderer::ReleaseD3DResourcesForResize() noexcept {
+    const RenderBackend backend = state.backend;
+    if (backend == RenderBackend::D3D12 && fence && commandQueue && fenceEvent) [[likely]]
+        SignalAndWait();
+
+    if (state.imguiRendererReady && backend == RenderBackend::D3D12) {
+        ImGui_ImplDX12_InvalidateDeviceObjects();
+    } else if (state.imguiRendererReady) {
+        ReleaseImGuiRenderer();
+    }
+
+    if (backend == RenderBackend::D3D11) ReleaseContextState();
+
+    ReleaseRenderTargets();
+
+    if (backend == RenderBackend::D3D11) {
+        ReleaseContextState();
+        d3d11Context.Reset();
+        d3d11Device.Reset();
+    }
+
+    swapChain.Reset();
+    swapChain3.Reset();
 
     state.backend = RenderBackend::Unknown;
     state.renderFunc = nullptr;
     state.bufferCount = 0;
     state.needsInit = true;
+}
+
+void Renderer::ReleaseImGuiRenderer() noexcept {
+    if (!state.imguiRendererReady) return;
+
+    if (state.imguiBackend == RenderBackend::D3D12) {
+        ImGui_ImplDX12_Shutdown();
+        imguiD3D12RenderTargetFormat = DXGI_FORMAT_UNKNOWN;
+        imguiD3D12BufferCount = 0;
+    } else {
+        ImGui_ImplDX11_Shutdown();
+    }
+    state.imguiRendererReady = false;
+    state.imguiBackend = RenderBackend::Unknown;
 }
 
 void Renderer::AllocateD3D12SrvDescriptor(
@@ -647,13 +731,16 @@ void Renderer::FreeD3D12SrvDescriptor(
 }
 
 void Renderer::Cleanup() noexcept {
-    if (presentAddress || resizeBuffersAddress) {
+    if (presentAddress || resizeBuffersAddress || resizeBuffers1Address) {
         if (presentAddress) MemoryUtils::Unhook(presentAddress);
         if (resizeBuffersAddress) MemoryUtils::Unhook(resizeBuffersAddress);
+        if (resizeBuffers1Address) MemoryUtils::Unhook(resizeBuffers1Address);
         presentAddress = 0;
         resizeBuffersAddress = 0;
+        resizeBuffers1Address = 0;
         presentReturnAddress = 0;
         resizeBuffersReturnAddress = 0;
+        resizeBuffers1ReturnAddress = 0;
     }
     if (executeCommandListsAddress) {
         UnhookCommandQueue();
@@ -764,7 +851,8 @@ ID3D12CommandQueue* Renderer::CreateDummyCommandQueue() {
 
 void Renderer::HookSwapChain(
     IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
-    uintptr_t* outPresentReturn, uintptr_t* outResizeReturn
+    uintptr_t resizeBuffers1DetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn,
+    uintptr_t* outResize1Return
 ) {
     auto* vmt = *reinterpret_cast<uintptr_t**>(dummySwapChain);
     uintptr_t presentHookAddress = vmt[VMT_PRESENT_BYTE_OFFSET / sizeof(uintptr_t)];
@@ -774,6 +862,17 @@ void Renderer::HookSwapChain(
     MemoryUtils::PlaceHook(resizeBuffersHookAddress, resizeBuffersDetourFunction, outResizeReturn);
     this->presentAddress = presentHookAddress;
     this->resizeBuffersAddress = resizeBuffersHookAddress;
+
+    IDXGISwapChain3* swapChain3Dummy = nullptr;
+    if (SUCCEEDED(dummySwapChain->QueryInterface(IID_PPV_ARGS(&swapChain3Dummy))) && swapChain3Dummy) {
+        auto* swapChain3Vmt = *reinterpret_cast<uintptr_t**>(swapChain3Dummy);
+        uintptr_t resizeBuffers1HookAddress = swapChain3Vmt[VMT_RESIZE_BUFFERS1_BYTE_OFFSET / sizeof(uintptr_t)];
+        MemoryUtils::PlaceHook(resizeBuffers1HookAddress, resizeBuffers1DetourFunction, outResize1Return);
+        if (*outResize1Return) {
+            this->resizeBuffers1Address = resizeBuffers1HookAddress;
+        }
+        swapChain3Dummy->Release();
+    }
 
     dummySwapChain->Release();
 }
