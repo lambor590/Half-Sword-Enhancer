@@ -62,6 +62,11 @@ void MenuManager::RenderMenu() {
     RenderSplitter();
     ImGui::SameLine(0, 0);
 
+    if (selectedSection != openedSection) {
+        openedSection = selectedSection;
+        if (openedSection) openedSection->OnOpen();
+    }
+
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(10, 8));
     ImGui::BeginChild("content_panel", ImVec2(0, 0), ImGuiChildFlags_AlwaysUseWindowPadding);
     if (selectedSection) {
@@ -113,6 +118,11 @@ void MenuManager::UpdateSearchResults() noexcept {
             }
         }
     }
+}
+
+void MenuManager::SelectSection(Section* section, MenuTab tab) {
+    selectedSection = section;
+    openCategory = tab;
 }
 
 void MenuManager::RenderSearchBar() {
@@ -183,8 +193,7 @@ void MenuManager::RenderSearchResults() {
         bool isSelected = selectedSection == result.section;
         ImGui::PushStyleColor(ImGuiCol_Header, BRASS_MEDIUM);
         if (ImGui::Selectable(displayText, isSelected)) {
-            selectedSection = result.section;
-            openCategory = result.tab;
+            SelectSection(result.section, result.tab);
             shouldClearSearch = true;
         }
         ImGui::PopStyleColor();
@@ -285,7 +294,7 @@ void MenuManager::RenderCategorySections(std::vector<std::unique_ptr<Section>>& 
     auto renderSection = [this](Section* section) {
         bool isSelected = selectedSection == section;
         if (ImGui::Selectable(section->GetName().c_str(), isSelected)) {
-            selectedSection = section;
+            SelectSection(section, openCategory);
         }
         if (isSelected) {
             DrawSelectionAccent();

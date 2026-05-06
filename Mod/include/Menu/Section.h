@@ -29,6 +29,7 @@ public:
     virtual ~Section() = default;
 
     virtual void Render() = 0;
+    virtual void OnOpen() {}
 
     const std::string& GetName() const noexcept { return name; }
     virtual const char* GetGroup() const noexcept { return nullptr; }

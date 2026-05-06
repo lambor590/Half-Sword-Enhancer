@@ -60,6 +60,7 @@ private:
 
     std::array<std::vector<std::unique_ptr<Section>>, TAB_COUNT> sections;
     Section* selectedSection = nullptr;
+    Section* openedSection = nullptr;
     MenuTab openCategory = MenuTab::Player;
     float sidebarWidth = 140.0f;
     bool sidebarVisible = true;
@@ -71,6 +72,7 @@ private:
     // --- Search helpers ---
     static bool MatchesSearch(std::string_view text, const char* lowerNeedle, size_t needleLen) noexcept;
     void UpdateSearchResults() noexcept;
+    void SelectSection(Section* section, MenuTab tab);
 
     // --- Sidebar rendering ---
     void RenderSidebar();
