@@ -16,6 +16,7 @@ class MapRegistry {
     MapRegistry() = default;
 
     static constexpr std::string_view BASE_GAME_CATEGORY = "Base Game";
+    static constexpr std::string_view MODDED_CATEGORY = "Modded";
 
     std::atomic<ScanState> state{ScanState::NotStarted};
     std::vector<MapEntry> maps;

@@ -35,18 +35,7 @@ bool MapRegistry::StartsWith(std::string_view str, std::string_view prefix) {
 
 std::string MapRegistry::CategorizeByPath(std::string_view packagePath) {
     if (StartsWith(packagePath, "/Game/Maps")) return std::string(BASE_GAME_CATEGORY);
-
-    constexpr std::string_view MOD_PREFIX = "/Game/Mod_";
-    if (StartsWith(packagePath, MOD_PREFIX)) {
-        auto rest = packagePath.substr(MOD_PREFIX.size());
-        std::string modName(rest.substr(0, rest.find('/')));
-        for (char& c : modName) {
-            if (c == '_') c = ' ';
-        }
-        return modName.empty() ? "Mods" : modName;
-    }
-
-    return {};
+    return std::string(MODDED_CATEGORY);
 }
 
 std::string MapRegistry::CleanMapName(std::string_view packageName) {
