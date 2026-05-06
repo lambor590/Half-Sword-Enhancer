@@ -29,13 +29,10 @@ namespace {
 
     auto PassportFields(const SDK::FStr_Passport_Weapon1& p) {
         return std::tie(
-            p.WeaponClass_54_B478ECF7499977809745A3973AD678EC, p.ID_70_C02CF656483647A1933EEA96314B78A6,
-            p.Name_57_3729B51148E846FE8DD336B9419BCEE1, p.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D,
-            p.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, p.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139,
-            p.GuardModule_13_6DD2B06245505E53B529D090333012F0, p.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6,
-            p.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, p.HeadSize_21_2D425E61473B8F64FBAB51B223459D57,
-            p.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704, p.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF,
-            p.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E, p.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7,
+            p.ID_70_C02CF656483647A1933EEA96314B78A6, p.Name_57_3729B51148E846FE8DD336B9419BCEE1,
+            p.HeadSize_21_2D425E61473B8F64FBAB51B223459D57, p.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704,
+            p.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF, p.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E,
+            p.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7,
             p.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927,
             p.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10,
             p.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173,
@@ -326,6 +323,7 @@ void WeaponEditorSection::ApplyMeshToPreview() {
 
 void WeaponEditorSection::CreateBlankWeaponPassport() {
     weaponPassport = {};
+    weaponPaths = {};
     weaponPassport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = {1.0, 1.0, 1.0};
     weaponPassport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = {1.0, 1.0, 1.0};
     weaponPassport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF = {1.0, 1.0, 1.0};
@@ -354,6 +352,18 @@ void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ran
             SetStatus("Generation failed for this type/tier", true);
         } else {
             weaponPassport = generated;
+            auto path = [](SDK::UObject* obj) {
+                return PresetUtils::ObjectToAbsolutePath(obj);
+            };
+            weaponPaths = {
+                path(generated.WeaponClass_54_B478ECF7499977809745A3973AD678EC),
+                path(generated.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139),
+                path(generated.GuardModule_13_6DD2B06245505E53B529D090333012F0),
+                path(generated.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4),
+                path(generated.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6),
+                path(generated.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D),
+                path(generated.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9),
+            };
         }
         globalModules.Populate();
         weaponGenerationPending = false;
@@ -507,6 +517,7 @@ void WeaponEditorSection::SpawnPreview() {
 
     lastPreviewedPassport = weaponPassport;
     ClearWeaponPassportPadding(lastPreviewedPassport);
+    lastPreviewedPaths = weaponPaths;
     lastPreviewedProps = runtimeProps;
 
     bool hasOverrides = CountAllActive() > 0;
@@ -516,13 +527,18 @@ void WeaponEditorSection::SpawnPreview() {
     auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     bool snap = cfg.spawn.snapToGround;
     auto passport = weaponPassport;
+    auto paths = weaponPaths;
 
-    GameHook::QueueAction([this, passport, transform, snap, hasOverrides, hasMesh,
-                           meshSnap](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([this, passport, paths, transform, snap, hasOverrides, hasMesh,
+                           meshSnap](const RuntimeContextSnapshot& runtime) mutable {
         if (!runtime.world) return;
+        auto* spawnWorld = runtime.world;
+        Spawner::LoadWeaponClasses(passport, paths);
+        if (!EquipmentGenerator::IsPassportValid(passport)) return;
         Spawner::SpawnCustomizableFromPassport(
-            runtime.world, passport, transform, snap,
-            [this, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
+            spawnWorld, passport, transform, snap,
+            [this, spawnWorld, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
+                if (!actor) return;
                 auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
                 CollectMeshesFromWeapon(weapon);
                 if (!cfg.preview.livePreview) {
@@ -534,7 +550,7 @@ void WeaponEditorSection::SpawnPreview() {
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyOverridesToActor(actor);
                 if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
-                preview.SetPreviewActor(actor, runtime.world);
+                preview.SetPreviewActor(actor, spawnWorld);
                 if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
             }
         );
@@ -555,6 +571,7 @@ void WeaponEditorSection::SpawnFromPassport() {
     auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
     auto callback = [this, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
+        if (!actor) return;
         auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
         CollectMeshesFromWeapon(weapon);
         if (hasOverrides) ApplyOverridesToActor(actor);
@@ -564,10 +581,14 @@ void WeaponEditorSection::SpawnFromPassport() {
     auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
     bool snap = cfg.spawn.snapToGround;
     auto passport = weaponPassport;
+    auto paths = weaponPaths;
 
-    GameHook::QueueAction([passport, transform, snap,
-                           callback = std::move(callback)](const RuntimeContextSnapshot& runtime) {
-        if (runtime.world) Spawner::SpawnCustomizableFromPassport(runtime.world, passport, transform, snap, callback);
+    GameHook::QueueAction([passport, paths, transform, snap,
+                           callback = std::move(callback)](const RuntimeContextSnapshot& runtime) mutable {
+        if (!runtime.world) return;
+        Spawner::LoadWeaponClasses(passport, paths);
+        if (!EquipmentGenerator::IsPassportValid(passport)) return;
+        Spawner::SpawnCustomizableFromPassport(runtime.world, passport, transform, snap, callback);
     });
 }
 
@@ -703,34 +724,47 @@ void WeaponEditorSection::RenderModulesTab() {
 
     GuiUtils::RenderGlobalModuleCombo(
         "Head", weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, globalModules.heads, moduleFilters[0],
-        globalModules.cachedWidths[0]
+        globalModules.cachedWidths[0], true, &weaponPaths.headModule
     );
     GuiUtils::RenderGlobalModuleCombo(
         "Guard", weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, globalModules.guards, moduleFilters[1],
-        globalModules.cachedWidths[1]
+        globalModules.cachedWidths[1], true, &weaponPaths.guardModule
     );
     GuiUtils::RenderGlobalModuleCombo(
         "Grip", weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, globalModules.grips, moduleFilters[2],
-        globalModules.cachedWidths[2]
+        globalModules.cachedWidths[2], true, &weaponPaths.gripModule
     );
     GuiUtils::RenderGlobalModuleCombo(
         "Pommel", weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, globalModules.pommels,
-        moduleFilters[3], globalModules.cachedWidths[3]
+        moduleFilters[3], globalModules.cachedWidths[3], true, &weaponPaths.pommelModule
     );
     if (!globalModules.subMods1.empty()) {
         GuiUtils::RenderGlobalModuleCombo(
             "Sub-Mod 1", weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, globalModules.subMods1,
-            moduleFilters[4], globalModules.cachedWidths[4]
+            moduleFilters[4], globalModules.cachedWidths[4], true, &weaponPaths.subModule1
         );
     }
     if (!globalModules.subMods2.empty()) {
         GuiUtils::RenderGlobalModuleCombo(
             "Sub-Mod 2", weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, globalModules.subMods2,
-            moduleFilters[5], globalModules.cachedWidths[5]
+            moduleFilters[5], globalModules.cachedWidths[5], true, &weaponPaths.subModule2
         );
     }
     if (globalModules.subMods1.empty() && globalModules.subMods2.empty())
         ImGui::TextDisabled("No sub-modules available for this weapon type");
+
+    const bool hasModules = !weaponPaths.headModule.empty() || !weaponPaths.guardModule.empty() ||
+                            !weaponPaths.gripModule.empty() || !weaponPaths.pommelModule.empty() ||
+                            !weaponPaths.subModule1.empty() || !weaponPaths.subModule2.empty();
+    if (hasModules) {
+        static const std::string weaponClassPath =
+            PresetUtils::ObjectToAbsolutePath(SDK::AModularWeaponBP_C::StaticClass());
+        weaponPaths.weaponClass = weaponClassPath;
+        weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC = SDK::AModularWeaponBP_C::StaticClass();
+    } else {
+        weaponPaths.weaponClass.clear();
+        weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC = nullptr;
+    }
 
     ImGui::PopID();
 }
@@ -1065,16 +1099,7 @@ WeaponPresetData WeaponEditorSection::BuildPresetData() const {
     WeaponPresetData d;
     d.passport = weaponPassport;
     d.runtimeProps = runtimeProps;
-
-    const auto& p = weaponPassport;
-    auto& paths = d.classPaths;
-    paths.weaponClass = PresetUtils::ObjectToAbsolutePath(p.WeaponClass_54_B478ECF7499977809745A3973AD678EC);
-    paths.headModule = PresetUtils::ObjectToAbsolutePath(p.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139);
-    paths.guardModule = PresetUtils::ObjectToAbsolutePath(p.GuardModule_13_6DD2B06245505E53B529D090333012F0);
-    paths.gripModule = PresetUtils::ObjectToAbsolutePath(p.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4);
-    paths.pommelModule = PresetUtils::ObjectToAbsolutePath(p.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6);
-    paths.subModule1 = PresetUtils::ObjectToAbsolutePath(p.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D);
-    paths.subModule2 = PresetUtils::ObjectToAbsolutePath(p.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9);
+    d.classPaths = weaponPaths;
 
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
         d.meshPresets[i].enabled = meshOverrides[i].enabled;
@@ -1093,6 +1118,7 @@ WeaponPresetData WeaponEditorSection::BuildPresetData() const {
 void WeaponEditorSection::ApplyPresetData(WeaponPresetData d) {
     weaponPassport = d.passport;
     ClearWeaponPassportPadding(weaponPassport);
+    weaponPaths = d.classPaths;
     runtimeProps = d.runtimeProps;
 
     GameHook::QueueAction([this, paths = std::move(d.classPaths)](const RuntimeContextSnapshot&) {
@@ -1240,8 +1266,9 @@ void WeaponEditorSection::Render() {
     RenderSpawnFooter();
 
     if (cfg.preview.livePreview) {
-        bool needsUpdate =
-            !WeaponPassportEquals(weaponPassport, lastPreviewedPassport) || runtimeProps != lastPreviewedProps;
+        bool needsUpdate = weaponPaths != lastPreviewedPaths ||
+                           !WeaponPassportEquals(weaponPassport, lastPreviewedPassport) ||
+                           runtimeProps != lastPreviewedProps;
         preview.Update(needsUpdate, [this]() { SpawnPreview(); });
         preview.Rotate();
     }

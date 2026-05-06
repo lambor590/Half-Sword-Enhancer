@@ -10,4 +10,6 @@ struct WeaponClassPaths {
     std::string pommelModule;
     std::string subModule1;
     std::string subModule2;
+
+    bool operator==(const WeaponClassPaths&) const = default;
 };
