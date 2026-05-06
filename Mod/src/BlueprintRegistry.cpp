@@ -87,12 +87,7 @@ void BlueprintRegistry::PerformScan() {
                                    static_cast<uint64_t>(asset.PackageName.Number);
                 if (!seenIds.insert(nameKey).second) continue;
 
-                std::string packageName = asset.PackageName.GetRawString();
                 std::string assetName = asset.AssetName.ToString();
-
-                if (packagePath.find("/Game/Assets/") == 0 || packagePath.find("/Game/Blueprints/") == 0) {
-                    if (!HasValidAssetPrefix(assetName)) continue;
-                }
 
                 if (assetName.find("BP_GameWeapon_Customizable_") == 0) continue;
 
@@ -101,9 +96,14 @@ void BlueprintRegistry::PerformScan() {
                 auto [category, subcategory] = CategorizeByPath(packagePath, assetName);
                 if (category.empty()) continue;
 
+                if ((packagePath.find("/Game/Assets/") == 0 || packagePath.find("/Game/Blueprints/") == 0) &&
+                    category == "Other" && !HasValidAssetPrefix(assetName)) {
+                    continue;
+                }
+
                 BlueprintEntry entry;
                 entry.displayName = CleanDisplayName(assetName);
-                entry.classPath = packageName + "." + assetName + "_C";
+                entry.classPath = asset.PackageName.GetRawString() + "." + assetName + "_C";
 
                 AddItem(std::move(entry), category, subcategory);
             }
