@@ -178,9 +178,10 @@ void ArmorEditorSection::SpawnPreview() {
 
     GameHook::QueueAction([this, passport, transform, snap, hasOverrides](const RuntimeContextSnapshot& runtime) {
         if (!runtime.world) return;
+        auto* world = runtime.world;
         Spawner::SpawnArmorFromPassport(
-            runtime.world, passport, transform, snap,
-            [this, hasOverrides](SDK::AActor* actor) {
+            world, passport, transform, snap,
+            [this, hasOverrides, world](SDK::AActor* actor) {
                 if (!cfg.preview.livePreview) {
                     actor->K2_DestroyActor();
                     return;
@@ -192,7 +193,7 @@ void ArmorEditorSection::SpawnPreview() {
                 if (armor->Armor_Mesh_Primitive) armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyOverridesToActor(actor);
-                preview.SetPreviewActor(actor, runtime.world);
+                preview.SetPreviewActor(actor, world);
                 if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
             }
         );
