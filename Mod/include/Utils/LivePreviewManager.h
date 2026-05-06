@@ -13,7 +13,10 @@ public:
     explicit LivePreviewManager(PreviewConfig& cfg) : cfg(cfg) {}
     ~LivePreviewManager() { Destroy(); }
 
-    void SetPreviewActor(SDK::AActor* actor) { previewActor = actor; }
+    void SetPreviewActor(SDK::AActor* actor, SDK::UWorld* world) {
+        previewActor = actor;
+        previewWorld = world;
+    }
     [[nodiscard]] SDK::AActor* GetPreviewActor() const { return previewActor; }
     [[nodiscard]] double GetYaw() const { return yaw; }
 
@@ -23,9 +26,11 @@ public:
         if (!previewActor) return;
         if (onCleanup) onCleanup();
         SDK::AActor* actor = previewActor;
+        SDK::UWorld* world = previewWorld;
         previewActor = nullptr;
-        GameHook::QueueAction([actor](const RuntimeContextSnapshot&) {
-            if (actor) actor->K2_DestroyActor();
+        previewWorld = nullptr;
+        GameHook::QueueAction([actor, world](const RuntimeContextSnapshot& runtime) {
+            if (actor && runtime.world == world) actor->K2_DestroyActor();
         });
     }
 
@@ -36,8 +41,9 @@ public:
         if (yaw < 0.0) yaw += 360.0;
         double y = yaw;
         SDK::AActor* actor = previewActor;
-        GameHook::QueueAction([actor, y](const RuntimeContextSnapshot&) {
-            if (actor) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
+        SDK::UWorld* world = previewWorld;
+        GameHook::QueueAction([actor, world, y](const RuntimeContextSnapshot& runtime) {
+            if (actor && runtime.world == world) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
         });
     }
 
@@ -57,7 +63,7 @@ public:
     }
 
     void InvalidateIfDead(const SDK::AWillie_BP_C* player, const SDK::UWorld* world) {
-        if (previewActor && (!player || !world)) {
+        if (previewActor && (!player || !world || world != previewWorld)) {
             Destroy();
         }
     }
@@ -66,6 +72,7 @@ private:
     static constexpr double REFRESH_COOLDOWN = 0.2;
 
     SDK::AActor* previewActor = nullptr;
+    SDK::UWorld* previewWorld = nullptr;
     double lastChangeTime = 0.0;
     double yaw = 0.0;
     bool forceRefresh = false;

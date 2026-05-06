@@ -191,7 +191,7 @@ void ArmorEditorSection::SpawnPreview() {
                 if (armor->Armor_Mesh_Primitive) armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyOverridesToActor(actor);
-                preview.SetPreviewActor(actor);
+                preview.SetPreviewActor(actor, runtime.world);
                 if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
             }
         );

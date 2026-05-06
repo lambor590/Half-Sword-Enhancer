@@ -534,7 +534,7 @@ void WeaponEditorSection::SpawnPreview() {
                 actor->SetActorEnableCollision(false);
                 if (hasOverrides) ApplyOverridesToActor(actor);
                 if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
-                preview.SetPreviewActor(actor);
+                preview.SetPreviewActor(actor, runtime.world);
                 if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
             }
         );
