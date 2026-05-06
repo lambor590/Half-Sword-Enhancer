@@ -167,5 +167,6 @@ public:
     const char* GetGroup() const noexcept override { return "Environment"; }
 
     explicit AIDirectorSection(ModContext& ctx);
+    void OnOpen() override;
     void Render() override;
 };

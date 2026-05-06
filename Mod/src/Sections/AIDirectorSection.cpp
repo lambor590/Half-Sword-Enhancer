@@ -325,6 +325,10 @@ AIDirectorSection::AIDirectorSection(ModContext& ctx) : Section(ctx, "AI Directo
     enemiesBuffer.reserve(64);
 }
 
+void AIDirectorSection::OnOpen() {
+    RefreshStatus();
+}
+
 void AIDirectorSection::RefreshStatus() {
     auto selectedScope = scope;
     float selectedRadius = radius;

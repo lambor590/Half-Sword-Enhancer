@@ -11,6 +11,10 @@ const char* WorldEditorSection::GetGroup() const noexcept {
     return "Environment";
 }
 
+void WorldEditorSection::OnOpen() {
+    needsScan = true;
+}
+
 void WorldEditorSection::ResetState() {
     allActors.clear();
     filteredActors.clear();

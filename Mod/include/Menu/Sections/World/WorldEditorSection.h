@@ -59,5 +59,6 @@ public:
     const char* GetGroup() const noexcept override;
 
     explicit WorldEditorSection(ModContext& ctx);
+    void OnOpen() override;
     void Render() override;
 };

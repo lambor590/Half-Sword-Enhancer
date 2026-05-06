@@ -115,6 +115,7 @@ private:
     void CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapon);
     SDK::UObject* LoadAssetByPath(const char* pathStr);
     void ScanAllMeshes();
+    void QueueMeshScan();
     bool HasAnyMeshOverride() const;
     void ApplyMeshOverrides(
         SDK::AModularWeaponBP_C* weapon, const MeshSnapshot& snap,
@@ -151,5 +152,6 @@ private:
 
 public:
     explicit WeaponEditorSection(ModContext& ctx);
+    void OnOpen() override;
     void Render() override;
 };

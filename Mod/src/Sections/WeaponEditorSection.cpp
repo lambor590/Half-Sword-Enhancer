@@ -234,6 +234,12 @@ void WeaponEditorSection::ScanAllMeshes() {
     meshPendingReady.store(true, std::memory_order_release);
 }
 
+void WeaponEditorSection::QueueMeshScan() {
+    if (meshScanQueued) return;
+    meshScanQueued = true;
+    GameHook::QueueAction([this](const RuntimeContextSnapshot&) { ScanAllMeshes(); });
+}
+
 bool WeaponEditorSection::HasAnyMeshOverride() const {
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
         if (meshOverrides[i].enabled && meshOverrides[i].mesh) return true;
@@ -984,10 +990,7 @@ void WeaponEditorSection::RenderMeshTab() {
 
     DrainPendingMeshEntries();
 
-    if (meshPool.empty() && !meshScanQueued) {
-        meshScanQueued = true;
-        GameHook::QueueAction([this](const RuntimeContextSnapshot&) { ScanAllMeshes(); });
-    }
+    if (meshPool.empty()) QueueMeshScan();
 
     if (meshPool.empty()) {
         ImGui::TextDisabled("Scanning meshes...");
@@ -996,8 +999,7 @@ void WeaponEditorSection::RenderMeshTab() {
     }
 
     if (ImGui::Button("Refresh")) {
-        meshScanQueued = true;
-        GameHook::QueueAction([this](const RuntimeContextSnapshot&) { ScanAllMeshes(); });
+        QueueMeshScan();
     }
     TooltipHelper::ShowTooltip("Rescan all loaded meshes from memory. Custom-loaded assets will need to be reloaded");
     ImGui::SameLine();
@@ -1196,6 +1198,10 @@ WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, "Weapon
     });
 }
 
+void WeaponEditorSection::OnOpen() {
+    if (activeTab == 3) QueueMeshScan();
+}
+
 void WeaponEditorSection::InitKeybinds() {
     AddKeybind(
         keybinds,
@@ -1246,7 +1252,9 @@ void WeaponEditorSection::Render() {
     GuiUtils::BeginScrollWithFooter("##weapon_scroll");
 
     static constexpr const char* WE_TAB_LABELS[] = {"Modules", "Geometry", "Appearance", "Mesh", "Stats", "Presets"};
+    const int previousTab = activeTab;
     GuiUtils::RenderUnderlineTabs("##WeaponEditorTabs", activeTab, WE_TAB_LABELS, 6);
+    if (activeTab == 3 && previousTab != activeTab) QueueMeshScan();
     switch (activeTab) {
         case 0: RenderModulesTab(); break;
         case 1: RenderGeometryTab(); break;
