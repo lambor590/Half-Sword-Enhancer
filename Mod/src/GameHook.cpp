@@ -43,10 +43,12 @@ namespace {
         static constexpr size_t MAX_PROBES = 8;
         static constexpr int8_t EMPTY = -2;
         static constexpr int8_t NOT_HOOKED = -1;
+        static constexpr uint64_t RECEIVE_TICK_HASH = HS::Hash::FNV1A("ReceiveTick");
 
         struct alignas(16) Slot {
             SDK::UFunction* key;
             int8_t hookIdx;
+            bool isReceiveTick;
         };
 
         static_assert(sizeof(Slot) == 16);
@@ -62,7 +64,7 @@ namespace {
             }
         }
 
-        FORCE_INLINE int8_t Lookup(SDK::UFunction* function) const noexcept {
+        FORCE_INLINE const Slot* Lookup(SDK::UFunction* function) const noexcept {
             const auto raw = reinterpret_cast<uintptr_t>(function);
             const size_t idx = FibonacciHash(raw);
 
@@ -73,29 +75,31 @@ namespace {
             {
                 const auto& s = slots[idx & TABLE_MASK];
                 if (s.key == function) [[likely]]
-                    return s.hookIdx;
-                if (s.hookIdx == EMPTY) return EMPTY;
+                    return &s;
+                if (s.hookIdx == EMPTY) return nullptr;
             }
 
             for (size_t i = 1; i < MAX_PROBES; ++i) {
                 const auto& s = slots[(idx + i) & TABLE_MASK];
-                if (s.key == function) return s.hookIdx;
-                if (s.hookIdx == EMPTY) return EMPTY;
+                if (s.key == function) return &s;
+                if (s.hookIdx == EMPTY) return nullptr;
             }
-            return EMPTY;
+            return nullptr;
         }
 
-        void Insert(SDK::UFunction* function, int8_t hookIdx) noexcept {
+        Slot* Insert(SDK::UFunction* function, int8_t hookIdx, bool isReceiveTick) noexcept {
             const size_t idx = FibonacciHash(reinterpret_cast<uintptr_t>(function));
             for (size_t i = 0; i < MAX_PROBES; ++i) {
                 auto& s = slots[(idx + i) & TABLE_MASK];
                 if (s.hookIdx == EMPTY || s.key == function) {
                     s.key = function;
                     s.hookIdx = hookIdx;
-                    return;
+                    s.isReceiveTick = isReceiveTick;
+                    return &s;
                 }
             }
-            slots[idx & TABLE_MASK] = {function, hookIdx};
+            slots[idx & TABLE_MASK] = {function, hookIdx, isReceiveTick};
+            return &slots[idx & TABLE_MASK];
         }
     };
 
@@ -106,8 +110,9 @@ namespace {
 // Slow path: resolve a UFunction we haven't seen before. Marked noinline
 // so the fast path in OnProcessEvent stays compact (fewer registers spilled,
 // smaller icache footprint, better branch prediction).
-__declspec(noinline) static int8_t
-    ResolveAndCache(SDK::UFunction* function, const GameHook::HookEntry* hookArray, uint8_t hookCount) noexcept {
+__declspec(noinline) static const ProcessEventCache::Slot* ResolveAndCache(
+    SDK::UFunction* function, const GameHook::HookEntry* hookArray, uint8_t hookCount
+) noexcept {
     std::string funcName = function->GetName();
     uint64_t nameHash = HS::Hash::FNV1A(funcName.c_str());
 
@@ -118,8 +123,7 @@ __declspec(noinline) static int8_t
             break;
         }
     }
-    g_peCache.Insert(function, resolved);
-    return resolved;
+    return g_peCache.Insert(function, resolved, nameHash == ProcessEventCache::RECEIVE_TICK_HASH);
 }
 
 void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
@@ -131,20 +135,20 @@ void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void
 
     g_inProcessEventHook = true;
 
-    ModContext::Get().RefreshGameThreadCache();
+    const bool hasQueuedActions = GameHook::hasQueuedActions.load(std::memory_order_relaxed);
+    if (hasQueuedActions || hook.hookCount) [[unlikely]] {
+        const auto* slot = g_peCache.Lookup(pFunc);
+        if (!slot) [[unlikely]] {
+            slot = ResolveAndCache(pFunc, hook.hooks.data(), hook.hookCount);
+        }
 
-    if (GameHook::hasQueuedActions.load(std::memory_order_relaxed)) [[unlikely]] {
-        GameHook::ProcessGameThreadQueue();
-    }
+        if (hasQueuedActions && slot->isReceiveTick) [[unlikely]] {
+            GameHook::ProcessGameThreadQueue();
+        }
 
-    int8_t idx = g_peCache.Lookup(pFunc);
-
-    if (idx == ProcessEventCache::EMPTY) [[unlikely]] {
-        idx = ResolveAndCache(pFunc, hook.hooks.data(), hook.hookCount);
-    }
-
-    if (idx >= 0) [[unlikely]] {
-        hook.hooks[idx].callback();
+        if (slot->hookIdx >= 0) [[unlikely]] {
+            hook.hooks[slot->hookIdx].callback();
+        }
     }
 
     std::bit_cast<ProcessEvent>(hook.oProcessEvent)(pObject, pFunc, parms);
