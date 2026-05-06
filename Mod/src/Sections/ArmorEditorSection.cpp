@@ -8,6 +8,7 @@ REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
 #include "Hooks/GameHook.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/PresetUtils.h"
 #include "Utils/Spawner.h"
 #include "Utils/TierValidation.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
@@ -394,6 +395,7 @@ ArmorPresetData ArmorEditorSection::BuildPresetData() const {
     ArmorPresetData d;
     d.passport = armorPassport;
     d.runtimeProps = runtimeProps;
+    d.armorCorePath = PresetUtils::ObjectToAbsolutePath(armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43);
     return d;
 }
 
