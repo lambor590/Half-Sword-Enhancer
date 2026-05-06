@@ -59,19 +59,6 @@ namespace Spawner {
             return it->second;
         }
 
-        SDK::AActor* SpawnModularWeapon(
-            const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform, SDK::Enum_Ranks tier
-        ) {
-            if (!actorClass) return nullptr;
-
-            auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
-            if (!EquipmentGenerator::IsPassportValid(passport)) return nullptr;
-
-            return DeferredSpawn(world, actorClass, transform, [&passport](SDK::AActor* actor) {
-                static_cast<SDK::AModularWeaponBP_C*>(actor)->Weapon_Passport = passport;
-            });
-        }
-
         SDK::AActor* SpawnModularArmor(
             const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform
         ) {
@@ -162,7 +149,6 @@ namespace Spawner {
         std::function<void(SDK::AActor*)> callback, bool snapToGround, SDK::Enum_Ranks tier,
         std::function<void(SDK::AActor*)> postSpawnCallback
     ) {
-        SDK::FTransform finalTransform = transform;
         ActorType actorType = GetActorType(className);
 
         SDK::UClass* actorClass = LoadActorClass(className);
@@ -176,14 +162,19 @@ namespace Spawner {
         if (actorType == ActorType::Armor && !actorClass->IsSubclassOf(SDK::ABP_Armor_Master_C::StaticClass()))
             actorType = ActorType::Unknown;
 
+        if (actorType == ActorType::Weapon) {
+            auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
+            if (!EquipmentGenerator::IsPassportValid(passport)) return;
+            SpawnCustomizableFromPassport(world, passport, transform, snapToGround, callback);
+            return;
+        }
+
+        SDK::FTransform finalTransform = transform;
         if (snapToGround) ApplySnapToGround(world, finalTransform, actorType);
 
         SDK::AActor* spawnedActor = nullptr;
 
-        if (actorType == ActorType::Weapon) {
-            spawnedActor = SpawnModularWeapon(world, actorClass, finalTransform, tier);
-            if (!spawnedActor) spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
-        } else if (actorType == ActorType::Armor) {
+        if (actorType == ActorType::Armor) {
             spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
             if (!spawnedActor) spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
         } else if (actorType == ActorType::Willie) {
@@ -194,7 +185,7 @@ namespace Spawner {
             spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
         }
 
-        if (callback) callback(spawnedActor);
+        if (callback && spawnedActor) callback(spawnedActor);
     }
 
     void SpawnArmorFromPassport(
