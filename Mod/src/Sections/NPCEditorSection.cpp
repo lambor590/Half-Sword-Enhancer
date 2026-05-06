@@ -209,6 +209,7 @@ void NPCEditorSection::SpawnNPC() {
             auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
             if (!npc) return;
 
+            NPCSpawnHelpers::ApplyAIFearlessOverride(npc, ovr);
             if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
             if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(w, npc, loadout);
         };
@@ -270,6 +271,7 @@ void NPCEditorSection::SpawnBindingNPC(const SpawnBinding& binding, const Runtim
         auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
         if (!npc) return;
 
+        NPCSpawnHelpers::ApplyAIFearlessOverride(npc, ovr);
         if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
         if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(world, npc, loadout);
     };

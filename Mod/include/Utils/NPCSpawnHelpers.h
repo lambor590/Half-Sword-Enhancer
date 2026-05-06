@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "Utils/NPCPresetSerializer.h"
+#include "SDK/AI_BP_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Str_Passport_Character1_structs.hpp"
 #include "SDK/Str_Character_Body_Condition_structs.hpp"
@@ -35,6 +36,15 @@ namespace NPCSpawnHelpers {
         if (ovr.hairColor.enabled)
             passport.HairColor_38_CBDC51B043E6816A062799A9A96EB232 =
                 MelaninToColor(static_cast<float>(ovr.hairColor.value));
+    }
+
+    inline void ApplyAIFearlessOverride(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
+        if (!npc || !ovr.fearless.enabled) return;
+
+        auto* controller = npc->GetController();
+        if (controller && controller->IsA(SDK::AAI_BP_C::StaticClass())) {
+            static_cast<SDK::AAI_BP_C*>(controller)->Fearless = ovr.fearless.value;
+        }
     }
 
     inline void ApplyPropertyOverrides(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
