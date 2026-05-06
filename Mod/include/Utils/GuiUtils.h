@@ -7,6 +7,7 @@
 #include <cstring>
 #include <filesystem>
 #include <functional>
+#include <string>
 #include <vector>
 
 #include "imgui/imgui.h"
@@ -519,14 +520,20 @@ namespace GuiUtils {
     template <typename Entry>
     inline void RenderGlobalModuleCombo(
         const char* label, SDK::UClass*& current, const std::vector<Entry>& options, char* filterBuf,
-        float& cachedWidth, bool allowNone = true
+        float& cachedWidth, bool allowNone = true, std::string* currentPath = nullptr
     ) {
         const char* preview = "None";
+        bool foundPath = false;
         for (const auto& e : options)
-            if (e.cls == current) {
+            if ((currentPath && e.path == *currentPath) || (!currentPath && e.cls == current)) {
                 preview = e.name.c_str();
+                if (currentPath) {
+                    current = e.cls;
+                    foundPath = true;
+                }
                 break;
             }
+        if (currentPath && !foundPath) current = nullptr;
 
         if (cachedWidth == 0.0f) {
             float maxW = 0;
@@ -556,14 +563,21 @@ namespace GuiUtils {
 
         ImGui::Separator();
 
-        if (allowNone && ImGui::Selectable("None", current == nullptr)) current = nullptr;
+        if (allowNone && ImGui::Selectable("None", currentPath ? currentPath->empty() : current == nullptr)) {
+            if (currentPath) currentPath->clear();
+            current = nullptr;
+        }
 
         char display[128];
         for (const auto& e : options) {
             if (hasFilter && !MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) continue;
             std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
-            if (ImGui::Selectable(display, e.cls == current)) current = e.cls;
-            if (e.cls == current) ImGui::SetItemDefaultFocus();
+            const bool selected = currentPath ? e.path == *currentPath : e.cls == current;
+            if (ImGui::Selectable(display, selected)) {
+                if (currentPath) *currentPath = e.path;
+                current = e.cls;
+            }
+            if (selected) ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
     }

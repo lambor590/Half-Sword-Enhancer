@@ -8,11 +8,13 @@
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/CustomizableWeapon.h"
 #include "Utils/GameConstants.h"
+#include "Utils/PresetUtils.h"
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
 
 struct GlobalModuleEntry {
     SDK::UClass* cls;
     std::string name;
+    std::string path;
     const char* sourceType;
 };
 
@@ -59,7 +61,8 @@ private:
         const SDK::TArray<SDK::UClass*>& arr, const char* sourceType
     ) {
         for (int i = 0; i < arr.Num(); ++i) {
-            if (arr[i] && seen.insert(arr[i]).second) out.push_back({arr[i], arr[i]->GetName(), sourceType});
+            if (arr[i] && seen.insert(arr[i]).second)
+                out.push_back({arr[i], arr[i]->GetName(), PresetUtils::ObjectToAbsolutePath(arr[i]), sourceType});
         }
     }
 };
