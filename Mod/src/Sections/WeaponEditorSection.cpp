@@ -1066,6 +1066,16 @@ WeaponPresetData WeaponEditorSection::BuildPresetData() const {
     d.passport = weaponPassport;
     d.runtimeProps = runtimeProps;
 
+    const auto& p = weaponPassport;
+    auto& paths = d.classPaths;
+    paths.weaponClass = PresetUtils::ObjectToAbsolutePath(p.WeaponClass_54_B478ECF7499977809745A3973AD678EC);
+    paths.headModule = PresetUtils::ObjectToAbsolutePath(p.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139);
+    paths.guardModule = PresetUtils::ObjectToAbsolutePath(p.GuardModule_13_6DD2B06245505E53B529D090333012F0);
+    paths.gripModule = PresetUtils::ObjectToAbsolutePath(p.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4);
+    paths.pommelModule = PresetUtils::ObjectToAbsolutePath(p.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6);
+    paths.subModule1 = PresetUtils::ObjectToAbsolutePath(p.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D);
+    paths.subModule2 = PresetUtils::ObjectToAbsolutePath(p.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9);
+
     for (int i = 0; i < MODULE_SLOT_COUNT; ++i) {
         d.meshPresets[i].enabled = meshOverrides[i].enabled;
         if (meshOverrides[i].enabled && meshOverrides[i].poolIndex >= 0 &&
