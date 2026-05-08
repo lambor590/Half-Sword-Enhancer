@@ -3,6 +3,7 @@
 #include <unordered_map>
 
 #include "Utils/Spawner.h"
+#include "Utils/AssetOverrideManager.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/WeaponPresetSerializer.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -96,6 +97,7 @@ namespace Spawner {
         SDK::UGameplayStatics::FinishSpawningActor(
             actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
         );
+        AssetOverrideManager::Get().RequestApply();
         return actor;
     }
 

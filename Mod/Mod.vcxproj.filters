@@ -134,6 +134,9 @@
     <ClCompile Include="src\BlueprintRegistry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AssetOverrideManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SDK\SDK\AssetRegistry_functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -177,6 +180,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sections\GuiSection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sections\AssetOverridesSection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Sections\GraphicsSection.cpp">
@@ -298,6 +304,9 @@
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h">
       <Filter>Sections\Settings</Filter>
     </ClInclude>
+    <ClInclude Include="include\Menu\Sections\Settings\AssetOverridesSection.h">
+      <Filter>Sections\Settings</Filter>
+    </ClInclude>
     <ClInclude Include="include\Utils\Spawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -395,6 +404,9 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\BlueprintRegistry.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\AssetOverrideManager.h">
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Utils\MapRegistry.h">

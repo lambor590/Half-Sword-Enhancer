@@ -8,6 +8,7 @@
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "GlobalDefinitions.h"
 #include "KeybindManager.h"
+#include "Utils/AssetOverrideManager.h"
 
 static Logger logger{"DllMain"};
 static Renderer renderer;
@@ -27,6 +28,7 @@ static DWORD WINAPI DXHookThread(LPVOID) noexcept {
 
 static DWORD WINAPI GameHookThread(LPVOID) noexcept {
     GameHook::Get().Hook();
+    AssetOverrideManager::Get().Initialize();
     GraphicsSection::ApplyOnStartup();
     return 0;
 }

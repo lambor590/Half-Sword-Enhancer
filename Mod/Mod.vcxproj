@@ -282,7 +282,9 @@
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />
+    <ClCompile Include="src\AssetOverrideManager.cpp" />
     <ClCompile Include="src\Sections\GuiSection.cpp" />
+    <ClCompile Include="src\Sections\AssetOverridesSection.cpp" />
     <ClCompile Include="src\Sections\GraphicsSection.cpp" />
     <ClCompile Include="src\Sections\AIDirectorSection.cpp" />
     <ClCompile Include="src\Sections\WorldActionsSection.cpp" />
@@ -334,6 +336,7 @@
     <ClInclude Include="include\Menu\Sections\Equipment\WeaponEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Equipment\ArmorEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Equipment\LoadoutManagerSection.h" />
+    <ClInclude Include="include\Menu\Sections\Settings\AssetOverridesSection.h" />
     <ClInclude Include="include\Menu\Sections\Settings\GraphicsSection.h" />
     <ClInclude Include="include\Menu\Sections\Settings\GuiSection.h" />
     <ClInclude Include="include\NotificationManager.h" />
@@ -360,6 +363,7 @@
     <ClInclude Include="include\Utils\PlayerEditorOverrides.h" />
     <ClInclude Include="include\Utils\NPCSpawnHelpers.h" />
     <ClInclude Include="include\Utils\BlueprintRegistry.h" />
+    <ClInclude Include="include\Utils\AssetOverrideManager.h" />
     <ClInclude Include="include\Utils\MapRegistry.h" />
   </ItemGroup>
   <ItemGroup>
