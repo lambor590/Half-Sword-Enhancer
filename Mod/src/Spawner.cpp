@@ -10,6 +10,8 @@
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
+#include "SDK/BP_GameManager_classes.hpp"
+#include "SDK/BP_GameManager_parameters.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "Hooks/GameHook.h"
 #include "Logger.h"
@@ -57,19 +59,6 @@ namespace Spawner {
                 SDK::UKismetSystemLibrary::Conv_SoftClassPathToSoftClassRef(softClassPath);
             it->second = SDK::UKismetSystemLibrary::LoadClassAsset_Blocking(softClassRef);
             return it->second;
-        }
-
-        SDK::AActor* SpawnModularArmor(
-            const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform
-        ) {
-            SDK::FStr_Passport_Armor1 passport{};
-            passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = actorClass;
-
-            return DeferredSpawn(world, actorClass, transform, [&passport, &transform](SDK::AActor* actor) {
-                auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
-                armor->Armor_Passport = passport;
-                armor->World_Transform = transform;
-            });
         }
 
         void ApplySnapToGround(const SDK::UWorld* world, SDK::FTransform& transform, ActorType type) {
@@ -163,7 +152,35 @@ namespace Spawner {
             actorType = ActorType::Unknown;
 
         if (actorType == ActorType::Weapon) {
-            auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
+            SDK::FStr_Passport_Weapon1 passport{};
+            if (className.find("Built_Weapons") != std::string::npos) {
+                static SDK::UFunction* createFn = nullptr;
+                if (!createFn)
+                    createFn = SDK::ABP_GameManager_C::StaticClass()
+                                   ->GetFunction("BP_GameManager_C", "Create Pre-Made Weapon");
+
+                auto* manager =
+                    createFn ? SDK::UGameplayStatics::GetActorOfClass(world, SDK::ABP_GameManager_C::StaticClass())
+                             : nullptr;
+                if (manager) {
+                    SDK::Params::BP_GameManager_C_Create_Pre_Made_Weapon params{};
+                    const SDK::FVector unitScale{1.0, 1.0, 1.0};
+                    auto& input = params.Str_Passport_Weapon;
+                    input.WeaponClass_54_B478ECF7499977809745A3973AD678EC = actorClass;
+                    input.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = unitScale;
+                    input.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = unitScale;
+                    input.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF = unitScale;
+                    input.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E = unitScale;
+                    input.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7 = 1.0;
+                    input.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927 = 1.0;
+                    input.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 = 1.0;
+                    input.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 = 1.0;
+                    input.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 = tier;
+                    manager->ProcessEvent(createFn, &params);
+                    passport = params.Weapon_Passport;
+                }
+            } else
+                passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
             if (!EquipmentGenerator::IsPassportValid(passport)) return;
             SpawnCustomizableFromPassport(world, passport, transform, snapToGround, callback);
             return;
@@ -175,8 +192,14 @@ namespace Spawner {
         SDK::AActor* spawnedActor = nullptr;
 
         if (actorType == ActorType::Armor) {
-            spawnedActor = SpawnModularArmor(world, actorClass, finalTransform);
-            if (!spawnedActor) spawnedActor = DeferredSpawn(world, actorClass, finalTransform);
+            SDK::FStr_Passport_Armor1 passport{};
+            passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = actorClass;
+            spawnedActor =
+                DeferredSpawn(world, actorClass, finalTransform, [&passport, &finalTransform](SDK::AActor* a) {
+                    auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(a);
+                    armor->Armor_Passport = passport;
+                    armor->World_Transform = finalTransform;
+                });
         } else if (actorType == ActorType::Willie) {
             SDK::AActor* actor = DeferredSpawn(world, actorClass, finalTransform, callback);
             if (actor && postSpawnCallback) postSpawnCallback(actor);
@@ -225,22 +248,6 @@ namespace Spawner {
         });
 
         if (callback) callback(actor);
-    }
-
-    void SpawnCustomizableWeapon(
-        const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround,
-        SDK::Enum_Ranks tier
-    ) {
-        SDK::FTransform finalTransform = transform;
-        if (snapToGround) ApplySnapToGround(world, finalTransform, ActorType::Weapon);
-
-        auto passport = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
-        if (!EquipmentGenerator::IsPassportValid(passport)) return;
-
-        SDK::UClass* weaponClass = SDK::AModularWeaponBP_Customizable_C::StaticClass();
-        DeferredSpawn(world, weaponClass, finalTransform, [&passport](SDK::AActor* a) {
-            static_cast<SDK::AModularWeaponBP_Customizable_C*>(a)->Weapon_Passport = passport;
-        });
     }
 
     bool SpawnAndEquipArmor(

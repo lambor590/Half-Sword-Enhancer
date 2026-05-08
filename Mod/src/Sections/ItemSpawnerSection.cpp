@@ -22,6 +22,15 @@ namespace {
     std::string ItemBindingSection(int id) {
         return SpawnBindingUtils::SectionName(ITEM_BINDING_PREFIX, id);
     }
+
+    void SpawnGeneratedCustomizableWeapon(
+        const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround,
+        SDK::Enum_Ranks tier
+    ) {
+        auto passport = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
+        if (EquipmentGenerator::IsPassportValid(passport))
+            Spawner::SpawnCustomizableFromPassport(world, passport, transform, snapToGround);
+    }
 }
 
 void ItemSpawnerSection::PopulateModulesForCore(SDK::UClass* coreClass) {
@@ -192,7 +201,7 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
         bool snap = cfg.spawn.snapToGround;
         GameHook::QueueAction([customizable, spawnTransform, snap, tier](const RuntimeContextSnapshot& runtime) {
             if (runtime.world)
-                Spawner::SpawnCustomizableWeapon(runtime.world, customizable, spawnTransform, snap, tier);
+                SpawnGeneratedCustomizableWeapon(runtime.world, customizable, spawnTransform, snap, tier);
         });
     } else if (IsCurrentItemModularArmor(item)) {
         auto classPath = item.classPath;
@@ -236,11 +245,12 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
                 Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
             break;
         }
-        case BindingSource::CustomizableWeapon:
-            Spawner::SpawnCustomizableWeapon(
+        case BindingSource::CustomizableWeapon: {
+            SpawnGeneratedCustomizableWeapon(
                 runtime.world, static_cast<CustomizableWeapon>(binding.customizable), transform, snap, tier
             );
             break;
+        }
         case BindingSource::ModularArmor: {
             auto* coreClass = Spawner::LoadClass(binding.classPath);
             if (!coreClass) return;
@@ -428,35 +438,34 @@ void ItemSpawnerSection::RenderSpawnBindings() {
 }
 
 void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
-    size_t registryCatCount = reg.GetCategoryCount();
-
     if (!filteredIndices.empty()) {
         ImGui::Text("Found: %zu items", filteredIndices.size());
         ImGui::Spacing();
 
+        auto& allItems = reg.GetAllItems();
+
         if (GuiUtils::BeginSizedCombo("##FilteredItems", "Select item...", cachedFilteredWidth)) {
-            auto& allItems = reg.GetAllItems();
             for (BlueprintRegistry::ItemIndex itemIdx : filteredIndices) {
                 if (itemIdx >= allItems.size()) continue;
                 auto& item = allItems[itemIdx];
                 if (ImGui::Selectable(item.displayName.c_str(), false)) {
+                    const size_t registryCatCount = reg.GetCategoryCount();
                     for (size_t ci = 0; ci < registryCatCount; ++ci) {
                         auto& cat = reg.GetCategory(ci);
                         for (size_t si = 0; si < cat.subcategories.size(); ++si) {
                             auto& sub = cat.subcategories[si];
                             for (size_t ii = 0; ii < sub.itemIndices.size(); ++ii) {
-                                if (sub.itemIndices[ii] == itemIdx) {
-                                    cfg.currentCategoryIndex = static_cast<uint8_t>(ci);
-                                    cfg.currentSubcategoryIndex = static_cast<uint8_t>(si);
-                                    cfg.currentItemIndex = ii;
-                                    searchBuffer[0] = '\0';
-                                    searchActive = false;
-                                    goto found;
-                                }
+                                if (sub.itemIndices[ii] != itemIdx) continue;
+                                cfg.currentCategoryIndex = static_cast<uint8_t>(ci);
+                                cfg.currentSubcategoryIndex = static_cast<uint8_t>(si);
+                                cfg.currentItemIndex = ii;
+                                searchBuffer[0] = '\0';
+                                searchActive = false;
+                                goto selected;
                             }
                         }
                     }
-                found:;
+                selected:;
                 }
             }
             ImGui::EndCombo();

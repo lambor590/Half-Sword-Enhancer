@@ -4,7 +4,6 @@
 #include <functional>
 #include <string_view>
 
-#include "Utils/CustomizableWeapon.h"
 #include "Menu/SectionConfig.h"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
@@ -39,12 +38,7 @@ namespace Spawner {
     void SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
         std::function<void(SDK::AActor*)> callback = nullptr, bool snapToGround = false,
-        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER,
-        std::function<void(SDK::AActor*)> postSpawnCallback = nullptr
-    );
-    void SpawnCustomizableWeapon(
-        const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround = false,
-        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER
+        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER, std::function<void(SDK::AActor*)> postSpawnCallback = nullptr
     );
     void SpawnArmorFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,
