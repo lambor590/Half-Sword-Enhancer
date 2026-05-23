@@ -29,6 +29,12 @@ public:
         std::vector<SubcategoryData> subcategories;
     };
 
+    struct ItemLocation {
+        uint8_t category = 0;
+        uint8_t subcategory = 0;
+        ItemIndex item = 0;
+    };
+
 private:
     BlueprintRegistry() { LoadCustomPaths(); }
 
@@ -36,6 +42,7 @@ private:
     std::atomic<bool> tierScanDone{false};
     std::vector<BlueprintEntry> items;
     std::vector<CategoryData> categories;
+    std::vector<ItemLocation> itemLocations;
     std::vector<std::string> customPaths;
 
     void PerformScan();
@@ -43,6 +50,7 @@ private:
     void InjectCustomizableWeapons();
     void InjectCustomPaths();
     void SortCategories();
+    void RebuildItemLocations();
 
     static std::pair<std::string_view, std::string_view> CategorizeByPath(
         const std::string& packagePath, const std::string& assetName
@@ -71,6 +79,7 @@ public:
     size_t GetCategoryCount() const { return categories.size(); }
     const CategoryData& GetCategory(size_t idx) const { return categories[idx]; }
     const BlueprintEntry& GetItem(size_t idx) const { return items[idx]; }
+    const ItemLocation& GetItemLocation(size_t idx) const { return itemLocations[idx]; }
 
     void AddCustomPath(const std::string& path);
     void RemoveCustomPath(size_t index);

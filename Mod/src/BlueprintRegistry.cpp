@@ -53,6 +53,7 @@ void BlueprintRegistry::RequestRescan() {
 void BlueprintRegistry::PerformScan() {
     items.clear();
     categories.clear();
+    itemLocations.clear();
     items.reserve(512);
 
     bool scanSuccess = false;
@@ -125,6 +126,7 @@ void BlueprintRegistry::PerformScan() {
     InjectCustomizableWeapons();
     InjectCustomPaths();
     SortCategories();
+    RebuildItemLocations();
 
     state.store(items.empty() ? ScanState::Failed : ScanState::Complete, std::memory_order_release);
 }
@@ -354,6 +356,22 @@ void BlueprintRegistry::SortCategories() {
     }
 }
 
+void BlueprintRegistry::RebuildItemLocations() {
+    itemLocations.assign(items.size(), {});
+    for (size_t ci = 0; ci < categories.size(); ++ci) {
+        auto& cat = categories[ci];
+        for (size_t si = 0; si < cat.subcategories.size(); ++si) {
+            auto& sub = cat.subcategories[si];
+            for (size_t ii = 0; ii < sub.itemIndices.size(); ++ii) {
+                const ItemIndex itemIdx = sub.itemIndices[ii];
+                if (itemIdx >= itemLocations.size()) continue;
+                itemLocations[itemIdx] = {
+                    static_cast<uint8_t>(ci), static_cast<uint8_t>(si), static_cast<ItemIndex>(ii)};
+            }
+        }
+    }
+}
+
 void BlueprintRegistry::AddCustomPath(const std::string& path) {
     if (path.empty()) return;
     for (const auto& p : customPaths) {
@@ -367,6 +385,8 @@ void BlueprintRegistry::AddCustomPath(const std::string& path) {
         entry.classPath = path;
         entry.displayName = DisplayNameFromClassPath(path);
         AddItem(std::move(entry), "Custom", "Saved");
+        SortCategories();
+        RebuildItemLocations();
     }
 }
 

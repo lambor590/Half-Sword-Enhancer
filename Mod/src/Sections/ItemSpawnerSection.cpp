@@ -449,23 +449,12 @@ void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
                 if (itemIdx >= allItems.size()) continue;
                 auto& item = allItems[itemIdx];
                 if (ImGui::Selectable(item.displayName.c_str(), false)) {
-                    const size_t registryCatCount = reg.GetCategoryCount();
-                    for (size_t ci = 0; ci < registryCatCount; ++ci) {
-                        auto& cat = reg.GetCategory(ci);
-                        for (size_t si = 0; si < cat.subcategories.size(); ++si) {
-                            auto& sub = cat.subcategories[si];
-                            for (size_t ii = 0; ii < sub.itemIndices.size(); ++ii) {
-                                if (sub.itemIndices[ii] != itemIdx) continue;
-                                cfg.currentCategoryIndex = static_cast<uint8_t>(ci);
-                                cfg.currentSubcategoryIndex = static_cast<uint8_t>(si);
-                                cfg.currentItemIndex = ii;
-                                searchBuffer[0] = '\0';
-                                searchActive = false;
-                                goto selected;
-                            }
-                        }
-                    }
-                selected:;
+                    const auto& location = reg.GetItemLocation(itemIdx);
+                    cfg.currentCategoryIndex = location.category;
+                    cfg.currentSubcategoryIndex = location.subcategory;
+                    cfg.currentItemIndex = location.item;
+                    searchBuffer[0] = '\0';
+                    searchActive = false;
                 }
             }
             ImGui::EndCombo();
