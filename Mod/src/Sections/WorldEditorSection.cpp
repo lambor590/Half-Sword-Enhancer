@@ -5,6 +5,8 @@
 REGISTER_SECTION(WorldEditorSection, MenuTab::World);
 #include "Hooks/GameHook.h"
 
+#include <cstring>
+
 WorldEditorSection::WorldEditorSection(ModContext& ctx) : Section(ctx, "World Editor") {}
 
 const char* WorldEditorSection::GetGroup() const noexcept {
@@ -24,6 +26,9 @@ void WorldEditorSection::ResetState() {
     cachedWorld = nullptr;
     properties.clear();
     categories.clear();
+    visibleCategories.clear();
+    visiblePropertyFilter.clear();
+    visiblePropertiesReady = false;
     actorComboWidth = 0;
     infoText.clear();
     status = {};
@@ -51,6 +56,9 @@ void WorldEditorSection::ApplyFilter() {
     browseTargetIsComponent = false;
     properties.clear();
     categories.clear();
+    visibleCategories.clear();
+    visiblePropertyFilter.clear();
+    visiblePropertiesReady = false;
     actorComboWidth = 0;
 
     const char* filter = actorSearchBuf[0] != '\0' ? actorSearchBuf : QUICK_FILTERS[activeQuickFilter].filter;
@@ -95,6 +103,9 @@ void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& clas
 
     properties = PropertyBrowser::EnumerateProperties(browseTarget->Class);
     categories = PropertyBrowser::GroupByCategory(properties);
+    visibleCategories.clear();
+    visiblePropertyFilter.clear();
+    visiblePropertiesReady = false;
 
     int supported = 0;
     for (const auto& p : properties)
@@ -167,26 +178,39 @@ int WorldEditorSection::CountVisibleInCategory(
 void WorldEditorSection::RenderCategory(
     const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props, size_t filterLen
 ) {
-    int visibleCount = CountVisibleInCategory(props, filterLen);
-    if (visibleCount == 0) return;
-
     char label[128];
-    std::snprintf(label, sizeof(label), "%s (%d)", categoryName.c_str(), visibleCount);
+    std::snprintf(label, sizeof(label), "%s (%zu)", categoryName.c_str(), props.size());
 
     if (expandState != 0) ImGui::SetNextItemOpen(expandState > 0);
     bool open = ImGui::TreeNodeEx(label, filterLen > 0 ? ImGuiTreeNodeFlags_DefaultOpen : 0);
     if (!open) return;
 
     for (const auto* p : props) {
-        if (p->type == PropertyBrowser::PropType::Unsupported) continue;
-        if (filterLen > 0 &&
-            !GuiUtils::MatchesFilter(p->displayName.c_str(), p->displayName.size(), propSearchBuf, filterLen))
-            continue;
         if (PropertyBrowser::RenderPropertyWidget(*p, reinterpret_cast<std::byte*>(browseTarget)) && liveMode)
             pendingApply = true;
     }
 
     ImGui::TreePop();
+}
+
+void WorldEditorSection::RebuildVisibleProperties(size_t filterLen) {
+    visibleCategories.clear();
+    visiblePropertyFilter.assign(propSearchBuf, filterLen);
+    visiblePropertiesReady = true;
+
+    for (auto& [catName, catProps] : categories) {
+        VisibleCategory visible;
+        visible.name = catName;
+        visible.props.reserve(catProps.size());
+        for (const auto* p : catProps) {
+            if (p->type == PropertyBrowser::PropType::Unsupported) continue;
+            if (filterLen > 0 &&
+                !GuiUtils::MatchesFilter(p->displayName.c_str(), p->displayName.size(), propSearchBuf, filterLen))
+                continue;
+            visible.props.push_back(p);
+        }
+        if (!visible.props.empty()) visibleCategories.push_back(std::move(visible));
+    }
 }
 
 void WorldEditorSection::RenderActorSelector() {
@@ -260,7 +284,9 @@ void WorldEditorSection::RenderPropertyToolbar() {
     float btnW = ImGui::CalcTextSize("+").x + ImGui::GetStyle().FramePadding.x * 2;
     float btnsW = btnW * 2 + ImGui::GetStyle().ItemSpacing.x;
     ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnsW - ImGui::GetStyle().ItemSpacing.x);
-    ImGui::InputTextWithHint("##PropFilter", "Search properties...", propSearchBuf, sizeof(propSearchBuf));
+    if (ImGui::InputTextWithHint("##PropFilter", "Search properties...", propSearchBuf, sizeof(propSearchBuf))) {
+        visiblePropertiesReady = false;
+    }
     ImGui::SameLine();
     if (ImGui::Button("+", ImVec2(btnW, 0))) expandState = 1;
     if (ImGui::IsItemHovered()) {
@@ -293,9 +319,12 @@ void WorldEditorSection::Render() {
     ImGui::Spacing();
 
     size_t propFilterLen = std::strlen(propSearchBuf);
+    if (!visiblePropertiesReady || visiblePropertyFilter.size() != propFilterLen ||
+        std::memcmp(visiblePropertyFilter.data(), propSearchBuf, propFilterLen) != 0)
+        RebuildVisibleProperties(propFilterLen);
     ImGui::BeginChild("##PropertyList", ImVec2(0, 0), ImGuiChildFlags_None);
-    for (auto& [catName, catProps] : categories)
-        RenderCategory(catName, catProps, propFilterLen);
+    for (auto& category : visibleCategories)
+        RenderCategory(category.name, category.props, propFilterLen);
     expandState = 0;
     ImGui::EndChild();
 

@@ -26,6 +26,7 @@ public:
         }
         sectionVec.push_back(std::make_unique<T>(ctx));
         if (!selectedSection) selectedSection = sectionVec.back().get();
+        RebuildRenderGroups(tab);
     }
 
     void AddSection(MenuTab tab, std::unique_ptr<Section> section);
@@ -58,7 +59,13 @@ private:
         std::string_view functionName;
     };
 
+    struct RenderGroup {
+        const char* name = nullptr;
+        std::vector<Section*> sections;
+    };
+
     std::array<std::vector<std::unique_ptr<Section>>, TAB_COUNT> sections;
+    std::array<std::vector<RenderGroup>, TAB_COUNT> renderGroups;
     Section* selectedSection = nullptr;
     Section* openedSection = nullptr;
     MenuTab openCategory = MenuTab::Player;
@@ -72,6 +79,7 @@ private:
     // --- Search helpers ---
     static bool MatchesSearch(std::string_view text, const char* lowerNeedle, size_t needleLen) noexcept;
     void UpdateSearchResults() noexcept;
+    void RebuildRenderGroups(MenuTab tab);
     void SelectSection(Section* section, MenuTab tab);
 
     // --- Sidebar rendering ---
@@ -80,5 +88,5 @@ private:
     void RenderSearchResults();
     void RenderSplitter();
     void RenderCategoryHeader(const char* label, MenuTab tab, bool& firstVisible);
-    void RenderCategorySections(std::vector<std::unique_ptr<Section>>& sects);
+    void RenderCategorySections(MenuTab tab);
 };

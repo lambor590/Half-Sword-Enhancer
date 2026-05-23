@@ -7,6 +7,7 @@
 #include <map>
 #include <ranges>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "imgui/imgui.h"
@@ -148,8 +149,10 @@ namespace PropertyBrowser {
     }
 
     [[nodiscard]] inline std::vector<std::string> BuildEnumNames(SDK::UEnum* enumPtr) {
+        static std::unordered_map<SDK::UEnum*, std::vector<std::string>> cache;
         std::vector<std::string> names;
         if (!enumPtr) return names;
+        if (auto it = cache.find(enumPtr); it != cache.end()) return it->second;
 
         SDK::UUserDefinedEnum* udEnum =
             enumPtr->IsA(SDK::UUserDefinedEnum::StaticClass()) ? static_cast<SDK::UUserDefinedEnum*>(enumPtr) : nullptr;
@@ -179,12 +182,16 @@ namespace PropertyBrowser {
             auto colonPos = fullName.rfind(':');
             names.push_back(colonPos != std::string::npos ? fullName.substr(colonPos + 1) : fullName);
         }
-        return names;
+        auto [it, _] = cache.emplace(enumPtr, std::move(names));
+        return it->second;
     }
 
     [[nodiscard]] inline std::vector<PropertyInfo> EnumerateProperties(SDK::UStruct* ustruct) {
+        static std::unordered_map<SDK::UStruct*, std::vector<PropertyInfo>> cache;
+        if (!ustruct) return {};
+        if (auto it = cache.find(ustruct); it != cache.end()) return it->second;
+
         std::vector<PropertyInfo> result;
-        if (!ustruct) return result;
 
         for (auto* s = ustruct; s; s = s->SuperStruct) {
             std::string sName = s->GetName();
@@ -233,7 +240,8 @@ namespace PropertyBrowser {
             return a.rawName < b.rawName;
         });
 
-        return result;
+        auto [it, _] = cache.emplace(ustruct, std::move(result));
+        return it->second;
     }
 
     using CategoryMap = std::map<std::string, std::vector<const PropertyInfo*>>;

@@ -17,6 +17,13 @@ private:
     SDK::UWorld* cachedWorld = nullptr;
     std::vector<PropertyBrowser::PropertyInfo> properties;
     PropertyBrowser::CategoryMap categories;
+    struct VisibleCategory {
+        std::string name;
+        std::vector<const PropertyBrowser::PropertyInfo*> props;
+    };
+    std::vector<VisibleCategory> visibleCategories;
+    std::string visiblePropertyFilter;
+    bool visiblePropertiesReady = false;
     char actorSearchBuf[64] = "";
     char propSearchBuf[128] = "";
     std::string infoText;
@@ -52,6 +59,7 @@ private:
         const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props,
         size_t filterLen
     );
+    void RebuildVisibleProperties(size_t filterLen);
     void RenderActorSelector();
     void RenderPropertyToolbar();
 

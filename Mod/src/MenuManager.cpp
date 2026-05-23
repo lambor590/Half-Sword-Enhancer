@@ -51,6 +51,7 @@ void MenuManager::AddSection(MenuTab tab, std::unique_ptr<Section> section) {
     }
     sectionVec.push_back(std::move(section));
     if (!selectedSection) selectedSection = sectionVec.back().get();
+    RebuildRenderGroups(tab);
 }
 
 void MenuManager::RenderMenu() {
@@ -117,6 +118,33 @@ void MenuManager::UpdateSearchResults() noexcept {
                 searchResults.push_back({tab, section.get(), {}});
             }
         }
+    }
+}
+
+void MenuManager::RebuildRenderGroups(MenuTab tab) {
+    const size_t tabIndex = static_cast<size_t>(tab);
+    auto& groups = renderGroups[tabIndex];
+    groups.clear();
+
+    for (auto& section : sections[tabIndex]) {
+        const char* groupName = section->GetGroup();
+        if (!groupName) {
+            groups.push_back({nullptr, {section.get()}});
+            continue;
+        }
+
+        RenderGroup* group = nullptr;
+        for (auto& candidate : groups) {
+            if (candidate.name && std::strcmp(candidate.name, groupName) == 0) {
+                group = &candidate;
+                break;
+            }
+        }
+        if (!group) {
+            groups.push_back({groupName, {}});
+            group = &groups.back();
+        }
+        group->sections.push_back(section.get());
     }
 }
 
@@ -287,7 +315,7 @@ void MenuManager::RenderCategoryHeader(const char* label, MenuTab tab, bool& fir
     }
 }
 
-void MenuManager::RenderCategorySections(std::vector<std::unique_ptr<Section>>& sects) {
+void MenuManager::RenderCategorySections(MenuTab tab) {
     ImGui::Indent(SECTION_INDENT);
     ImGui::PushStyleColor(ImGuiCol_Header, BRASS_MEDIUM);
 
@@ -301,31 +329,15 @@ void MenuManager::RenderCategorySections(std::vector<std::unique_ptr<Section>>& 
         }
     };
 
-    for (size_t i = 0; i < sects.size(); ++i) {
-        auto& section = sects[i];
-        const char* group = section->GetGroup();
-        if (!group) {
-            renderSection(section.get());
+    for (auto& group : renderGroups[static_cast<size_t>(tab)]) {
+        if (!group.name) {
+            renderSection(group.sections.front());
             continue;
         }
 
-        bool alreadyRendered = false;
-        for (size_t j = 0; j < i; ++j) {
-            const char* previousGroup = sects[j]->GetGroup();
-            if (previousGroup && std::strcmp(group, previousGroup) == 0) {
-                alreadyRendered = true;
-                break;
-            }
-        }
-        if (alreadyRendered) continue;
-
-        if (ImGui::TreeNodeEx(group, ImGuiTreeNodeFlags_DefaultOpen)) {
-            for (auto& groupedSection : sects) {
-                const char* groupedName = groupedSection->GetGroup();
-                if (groupedName && std::strcmp(group, groupedName) == 0) {
-                    renderSection(groupedSection.get());
-                }
-            }
+        if (ImGui::TreeNodeEx(group.name, ImGuiTreeNodeFlags_DefaultOpen)) {
+            for (auto* section : group.sections)
+                renderSection(section);
             ImGui::TreePop();
         }
     }
@@ -371,7 +383,7 @@ void MenuManager::RenderSidebar() {
             RenderCategoryHeader(label, tab, firstVisible);
 
             if (tab == openCategory) {
-                RenderCategorySections(sects);
+                RenderCategorySections(tab);
             }
         }
     }
