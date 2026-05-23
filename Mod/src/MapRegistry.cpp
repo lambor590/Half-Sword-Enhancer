@@ -25,8 +25,8 @@ bool MapRegistry::HasBadSuffix(std::string_view name) {
     return false;
 }
 
-bool MapRegistry::PathContainsMaps(std::string_view path) {
-    return path.find("/Maps/") != std::string_view::npos || EndsWith(path, "/Maps");
+bool MapRegistry::IsBaseGameMapPath(std::string_view path) {
+    return StartsWith(path, "/Game/Maps");
 }
 
 bool MapRegistry::StartsWith(std::string_view str, std::string_view prefix) {
@@ -34,7 +34,7 @@ bool MapRegistry::StartsWith(std::string_view str, std::string_view prefix) {
 }
 
 std::string MapRegistry::CategorizeByPath(std::string_view packagePath) {
-    if (StartsWith(packagePath, "/Game/Maps")) return std::string(BASE_GAME_CATEGORY);
+    if (IsBaseGameMapPath(packagePath)) return std::string(BASE_GAME_CATEGORY);
     return std::string(MODDED_CATEGORY);
 }
 
@@ -118,7 +118,6 @@ void MapRegistry::PerformScan() {
             const auto& asset = params.OutAssetData[i];
 
             std::string packagePath = asset.PackagePath.GetRawString();
-            if (!PathContainsMaps(packagePath)) continue;
 
             if (!seenIds.insert(asset.PackageName.ComparisonIndex).second) continue;
 
