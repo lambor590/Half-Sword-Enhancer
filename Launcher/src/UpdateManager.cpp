@@ -305,7 +305,8 @@ namespace hse {
         Logger::info("Update script started successfully. Launcher will restart automatically.");
 
         if (!timestamp.empty()) {
-            auto saveResult = LauncherConfig::Instance().SetString("ExperimentalUpdate", "launcher_timestamp", timestamp);
+            auto saveResult =
+                LauncherConfig::Instance().SetString("ExperimentalUpdate", "launcher_timestamp", timestamp);
             if (!saveResult) {
                 Logger::warn("Failed to persist launcher update timestamp");
             }
@@ -389,62 +390,83 @@ namespace hse {
     }
 
 #ifdef EXPERIMENTAL_VERSION
-    std::expected<std::string_view, UpdateError> UpdateManager::ExtractAssetObject(
+    std::expected<std::string_view, UpdateError> UpdateManager::ExtractExperimentalAsset(
         std::string_view json, std::string_view assetName
-    ) const noexcept {
-        std::string searchPattern;
-        searchPattern.reserve(assetName.size() + 10);
-        searchPattern += "\"name\":\"";
-        searchPattern += assetName;
-        searchPattern += '"';
+    ) noexcept {
+        std::string namePattern;
+        namePattern.reserve(assetName.size() + 10);
+        namePattern += "\"name\":\"";
+        namePattern += assetName;
+        namePattern += '"';
 
-        const auto assetPos = json.find(searchPattern);
-        if (assetPos == std::string_view::npos) {
-            Logger::warn(std::format("Asset not found: {}", assetName));
-            return std::unexpected(UpdateError::InvalidResponse);
-        }
+        const size_t namePos = json.find(namePattern);
+        if (namePos == std::string_view::npos) return std::unexpected(UpdateError::InvalidResponse);
 
-        const auto objectStart = json.rfind('{', assetPos);
-        if (objectStart == std::string_view::npos) {
-            return std::unexpected(UpdateError::InvalidResponse);
-        }
+        const size_t objectStart = json.rfind('{', namePos);
+        if (objectStart == std::string_view::npos) return std::unexpected(UpdateError::InvalidResponse);
 
         size_t braceCount = 1;
         size_t objectEnd = objectStart + 1;
         while (objectEnd < json.length() && braceCount > 0) {
             if (json[objectEnd] == '{')
-                braceCount++;
+                ++braceCount;
             else if (json[objectEnd] == '}')
-                braceCount--;
-            objectEnd++;
+                --braceCount;
+            ++objectEnd;
         }
-
-        if (braceCount != 0) {
-            return std::unexpected(UpdateError::InvalidResponse);
-        }
-
+        if (braceCount != 0) return std::unexpected(UpdateError::InvalidResponse);
         return json.substr(objectStart, objectEnd - objectStart);
     }
 
-    void UpdateManager::PopulateAssetInfo(
-        std::string_view json, std::string_view assetName, std::string* timestamp, std::string* downloadUrl
-    ) const noexcept {
-        auto assetObject = ExtractAssetObject(json, assetName);
-        if (!assetObject) {
-            return;
+    std::expected<void, UpdateError> UpdateManager::StoreExperimentalAsset(
+        ExperimentalAssets& assets, std::string_view assetName, std::string_view object
+    ) noexcept {
+        const bool isMod = assetName == "HSEnhancer.dll";
+        const bool isProxy = assetName == "winmm.dll";
+        const bool isLauncher = assetName == "HSEnhancerLauncher.exe";
+        if (!isMod && !isProxy && !isLauncher) return {};
+
+        auto url = ParseJsonStringField(object, "browser_download_url");
+        if (!url) return std::unexpected(UpdateError::InvalidResponse);
+
+        if (isProxy) {
+            assets.proxyUrl = std::move(*url);
+            return {};
         }
 
-        if (timestamp) {
-            if (auto parsedTimestamp = ParseJsonStringField(*assetObject, "updated_at")) {
-                *timestamp = std::move(*parsedTimestamp);
+        auto timestamp = ParseJsonStringField(object, "updated_at");
+        if (!timestamp) return std::unexpected(UpdateError::InvalidResponse);
+
+        if (isMod) {
+            assets.modTimestamp = std::move(*timestamp);
+            assets.modUrl = std::move(*url);
+        } else if (isLauncher) {
+            assets.launcherTimestamp = std::move(*timestamp);
+            assets.launcherUrl = std::move(*url);
+        }
+        return {};
+    }
+
+    std::expected<UpdateManager::ExperimentalAssets, UpdateError> UpdateManager::ParseExperimentalAssets(
+        std::string_view json
+    ) noexcept {
+        ExperimentalAssets assets;
+
+        for (std::string_view assetName : {"HSEnhancer.dll", "winmm.dll", "HSEnhancerLauncher.exe"}) {
+            auto object = ExtractExperimentalAsset(json, assetName);
+            if (!object) return std::unexpected(object.error());
+
+            if (auto stored = StoreExperimentalAsset(assets, assetName, *object); !stored) {
+                return std::unexpected(stored.error());
             }
         }
 
-        if (downloadUrl) {
-            if (auto parsedUrl = ParseJsonStringField(*assetObject, "browser_download_url")) {
-                *downloadUrl = std::move(*parsedUrl);
-            }
+        if (assets.modTimestamp.empty() || assets.modUrl.empty() || assets.proxyUrl.empty() ||
+            assets.launcherTimestamp.empty() || assets.launcherUrl.empty()) {
+            return std::unexpected(UpdateError::InvalidResponse);
         }
+
+        return assets;
     }
 
     std::expected<ExperimentalUpdateInfo, UpdateError> UpdateManager::CheckForExperimentalUpdates() noexcept {
@@ -468,9 +490,13 @@ namespace hse {
 
         const auto& json = *jsonResult;
 
-        PopulateAssetInfo(json, "HSEnhancer.dll", &info.modTimestamp, &info.downloadUrlMod);
-        PopulateAssetInfo(json, "winmm.dll", nullptr, &info.downloadUrlProxy);
-        PopulateAssetInfo(json, "HSEnhancerLauncher.exe", &info.launcherTimestamp, &info.downloadUrlLauncher);
+        auto assets = ParseExperimentalAssets(json);
+        if (!assets) return std::unexpected(assets.error());
+        info.modTimestamp = std::move(assets->modTimestamp);
+        info.launcherTimestamp = std::move(assets->launcherTimestamp);
+        info.downloadUrlMod = std::move(assets->modUrl);
+        info.downloadUrlProxy = std::move(assets->proxyUrl);
+        info.downloadUrlLauncher = std::move(assets->launcherUrl);
 
         const std::string storedModTimestamp =
             LauncherConfig::Instance().GetString("ExperimentalUpdate", "mod_timestamp", "").value_or("");

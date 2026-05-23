@@ -129,13 +129,23 @@ namespace hse {
         [[nodiscard]] std::expected<Version, UpdateError> ParseVersionFromJson(std::string_view json) const noexcept;
 
 #ifdef EXPERIMENTAL_VERSION
-        [[nodiscard]] std::expected<std::string_view, UpdateError> ExtractAssetObject(
-            std::string_view json, std::string_view assetName
-        ) const noexcept;
+        struct ExperimentalAssets {
+            std::string modTimestamp;
+            std::string launcherTimestamp;
+            std::string modUrl;
+            std::string proxyUrl;
+            std::string launcherUrl;
+        };
 
-        void PopulateAssetInfo(
-            std::string_view json, std::string_view assetName, std::string* timestamp, std::string* downloadUrl
-        ) const noexcept;
+        [[nodiscard]] static std::expected<ExperimentalAssets, UpdateError> ParseExperimentalAssets(
+            std::string_view json
+        ) noexcept;
+        [[nodiscard]] static std::expected<std::string_view, UpdateError> ExtractExperimentalAsset(
+            std::string_view json, std::string_view assetName
+        ) noexcept;
+        [[nodiscard]] static std::expected<void, UpdateError> StoreExperimentalAsset(
+            ExperimentalAssets& assets, std::string_view assetName, std::string_view object
+        ) noexcept;
 #endif
     };
 
