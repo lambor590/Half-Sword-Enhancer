@@ -7,11 +7,11 @@
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Str_Passport_Character1_structs.hpp"
 #include "SDK/Str_Character_Body_Condition_structs.hpp"
+#include "Utils/ActorUtils.h"
 
 struct LoadoutPresetData;
 
 namespace NPCSpawnHelpers {
-
     void ApplyNPCLoadout(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout);
 
     inline SDK::FLinearColor MelaninToColor(float melanin) {
@@ -41,10 +41,8 @@ namespace NPCSpawnHelpers {
     inline void ApplyAIFearlessOverride(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
         if (!npc || !ovr.fearless.enabled) return;
 
-        auto* controller = npc->GetController();
-        if (controller && controller->IsA(SDK::AAI_BP_C::StaticClass())) {
-            static_cast<SDK::AAI_BP_C*>(controller)->Fearless = ovr.fearless.value;
-        }
+        npc->Fearless = ovr.fearless.value;
+        if (auto* ai = ActorUtils::GetAIController(npc)) ai->Fearless = ovr.fearless.value;
     }
 
     inline void ApplyPropertyOverrides(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {

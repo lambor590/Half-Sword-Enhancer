@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <iterator>
+#include <unordered_set>
 
 #include "Hooks/GameHook.h"
 #include "Menu/EventBus.h"
@@ -60,17 +61,10 @@ namespace {
         }
     }
 
-    SDK::AAI_BP_C* AIController(SDK::AWillie_BP_C* willie) {
-        if (!willie) return nullptr;
-        auto* controller = willie->GetController();
-        return controller && controller->IsA(SDK::AAI_BP_C::StaticClass()) ? static_cast<SDK::AAI_BP_C*>(controller)
-                                                                           : nullptr;
-    }
-
     bool TargetsPlayer(SDK::AWillie_BP_C* willie, SDK::AWillie_BP_C* player) {
         if (!willie || !player) return false;
 
-        if (auto* ai = AIController(willie); ai && ai->Target == player) return true;
+        if (auto* ai = ActorUtils::GetAIController(willie); ai && ai->Target == player) return true;
         for (auto* actor : willie->Targeted_By_AI) {
             if (actor == player) return true;
         }
@@ -95,7 +89,7 @@ namespace {
         int count = 0;
         const float targetRadius = scope == AIDirectorSection::Scope::Radius ? radius : GameConstants::MAX_DISTANCE;
         ActorUtils::ForEachWillieInRadius(world, player, targetRadius, [&](SDK::AWillie_BP_C* willie) {
-            auto* ai = AIController(willie);
+            auto* ai = ActorUtils::GetAIController(willie);
             if (scope == AIDirectorSection::Scope::Team && willie->Team_Int != team) return;
             if (scope == AIDirectorSection::Scope::TargetingPlayer && !TargetsPlayer(willie, player)) return;
             if (scope == AIDirectorSection::Scope::HasAI && !ai) return;
@@ -123,7 +117,7 @@ namespace {
     }
 
     void SetAggression(SDK::AWillie_BP_C* willie, double attack, double defend, double retreat, double strafe) {
-        auto* ai = AIController(willie);
+        auto* ai = ActorUtils::GetAIController(willie);
         if (!ai) return;
 
         ai->Attack_Intent = attack;
@@ -141,7 +135,7 @@ namespace {
     void ApplyProfileToWillie(SDK::AWillie_BP_C* willie, AIDirectorSection::Profile profile, int playerTeam) {
         if (!willie) return;
 
-        auto* ai = AIController(willie);
+        auto* ai = ActorUtils::GetAIController(willie);
         if (ai) ai->SetActorTickEnabled(true);
 
         switch (profile) {
@@ -307,6 +301,8 @@ namespace {
                 break;
         }
 
+        if (willie->Fearless || (ai && ai->Fearless)) ActorUtils::ApplyFearlessEffect(willie);
+
         if (ai) {
             ai->Combat_Behavior = SDK::EAI_CombatBehavior_Enum::NewEnumerator0;
             ai->Strafe_Enum = SDK::EAI_Strafe_Enum::NewEnumerator0;
@@ -349,7 +345,7 @@ void AIDirectorSection::RefreshStatus() {
                 }
 
                 if (TargetsPlayer(willie, runtime.player)) ++next.targetingPlayer;
-                auto* ai = AIController(willie);
+                auto* ai = ActorUtils::GetAIController(willie);
                 if (!ai) return;
 
                 ++next.aiControllers;
@@ -384,7 +380,7 @@ void AIDirectorSection::SetAITick(bool enabled) {
                            enabled](const RuntimeContextSnapshot& runtime) {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [enabled](SDK::AWillie_BP_C* willie) {
-                if (auto* ai = AIController(willie)) ai->SetActorTickEnabled(enabled);
+                if (auto* ai = ActorUtils::GetAIController(willie)) ai->SetActorTickEnabled(enabled);
             });
         SetStatus(status, changed, enabled ? "AI tick enabled" : "AI tick disabled");
     });
@@ -400,7 +396,7 @@ void AIDirectorSection::StopAI() {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [](SDK::AWillie_BP_C* willie) {
                 SetAggression(willie, 0.0, 0.0, 0.0, 0.0);
-                if (auto* ai = AIController(willie)) {
+                if (auto* ai = ActorUtils::GetAIController(willie)) {
                     ai->Target = nullptr;
                     ai->Target_Found = false;
                     ai->SetActorTickEnabled(false);
@@ -445,7 +441,7 @@ void AIDirectorSection::ApplyBehavior() {
                            selectedFearless](const RuntimeContextSnapshot& runtime) {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
-                willie->Fearless = selectedFearless;
+                if (!selectedFearless) willie->Fearless = false;
                 willie->Drunk = selectedDrunk;
                 willie->Body_Skill__Temp_ = selectedBodySkill;
                 willie->Weapon_Skill__Temp_ = selectedWeaponSkill;
@@ -455,8 +451,8 @@ void AIDirectorSection::ApplyBehavior() {
                 willie->AI_Armor_Invincibility_Rate = selectedArmorInvincibility;
                 SetAggression(willie, selectedAttack, selectedDefend, selectedRetreat, selectedStrafe);
 
-                if (auto* ai = AIController(willie)) {
-                    ai->Fearless = selectedFearless;
+                if (auto* ai = ActorUtils::GetAIController(willie)) {
+                    if (!selectedFearless) ai->Fearless = false;
                     ai->Drunkness = selectedDrunk;
                     ai->Berserk_Rate = selectedBerserk;
                     ai->Parry_Rate = selectedParry;
@@ -468,6 +464,7 @@ void AIDirectorSection::ApplyBehavior() {
                     ai->Strafe_Enum = static_cast<SDK::EAI_Strafe_Enum>(selectedStrafeMode);
                     ai->Team_Int = willie->Team_Int;
                 }
+                if (selectedFearless) ActorUtils::ApplyFearlessEffect(willie);
             });
         SetStatus(status, changed, "Behavior applied");
     });
@@ -483,7 +480,7 @@ void AIDirectorSection::ApplyTeam() {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [newTeam](SDK::AWillie_BP_C* willie) {
                 willie->Team_Int = newTeam;
-                if (auto* ai = AIController(willie)) ai->Team_Int = newTeam;
+                if (auto* ai = ActorUtils::GetAIController(willie)) ai->Team_Int = newTeam;
             });
         SetStatus(status, changed, "Team applied");
     });
@@ -524,7 +521,7 @@ void AIDirectorSection::ForceTargetPlayer() {
     GameHook::QueueAction([this, selectedScope, selectedRadius, selectedTeam](const RuntimeContextSnapshot& runtime) {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
-                if (auto* ai = AIController(willie)) WakeAI(ai, willie, runtime.player, true);
+                if (auto* ai = ActorUtils::GetAIController(willie)) WakeAI(ai, willie, runtime.player, true);
             });
         SetStatus(status, changed, "Target set to player");
     });
@@ -535,12 +532,29 @@ void AIDirectorSection::ForceTargetNearest() {
     float selectedRadius = radius;
     int selectedTeam = team;
     GameHook::QueueAction([this, selectedScope, selectedRadius, selectedTeam](const RuntimeContextSnapshot& runtime) {
+        targetsBuffer.clear();
+        if (runtime.world && runtime.player) {
+            ActorUtils::ForEachWillieInRadius(
+                runtime.world, runtime.player, GameConstants::MAX_DISTANCE,
+                [&](SDK::AWillie_BP_C* willie) { targetsBuffer.push_back(willie); }
+            );
+        }
+
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
-                auto* ai = AIController(willie);
-                if (!ai || !runtime.world || !runtime.player) return;
+                auto* ai = ActorUtils::GetAIController(willie);
+                if (!ai || !runtime.player) return;
 
-                auto* nearest = ActorUtils::FindNearestWillie(runtime.world, runtime.player, willie, 3000.0f, willie);
+                SDK::AWillie_BP_C* nearest = nullptr;
+                float nearestDistance = 3000.0f;
+                for (auto* candidate : targetsBuffer) {
+                    if (!candidate || candidate == willie) continue;
+                    const float distance = willie->GetDistanceTo(candidate);
+                    if (distance < nearestDistance) {
+                        nearestDistance = distance;
+                        nearest = candidate;
+                    }
+                }
                 WakeAI(ai, willie, nearest, true);
             });
         SetStatus(status, changed, "Target set to nearest NPC");
@@ -554,7 +568,7 @@ void AIDirectorSection::ClearTargets() {
     GameHook::QueueAction([this, selectedScope, selectedRadius, selectedTeam](const RuntimeContextSnapshot& runtime) {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [](SDK::AWillie_BP_C* willie) {
-                if (auto* ai = AIController(willie)) {
+                if (auto* ai = ActorUtils::GetAIController(willie)) {
                     ai->Target = nullptr;
                     ai->Target_Found = false;
                     ai->Lost_Interest = true;
@@ -571,7 +585,7 @@ void AIDirectorSection::ForceAttack() {
     GameHook::QueueAction([this, selectedScope, selectedRadius, selectedTeam](const RuntimeContextSnapshot& runtime) {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [](SDK::AWillie_BP_C* willie) {
-                if (auto* ai = AIController(willie)) ai->Attack();
+                if (auto* ai = ActorUtils::GetAIController(willie)) ai->Attack();
             });
         SetStatus(status, changed, "Attack forced");
     });
@@ -584,7 +598,7 @@ void AIDirectorSection::ForceDash() {
     GameHook::QueueAction([this, selectedScope, selectedRadius, selectedTeam](const RuntimeContextSnapshot& runtime) {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [](SDK::AWillie_BP_C* willie) {
-                if (auto* ai = AIController(willie)) ai->Dash_Event();
+                if (auto* ai = ActorUtils::GetAIController(willie)) ai->Dash_Event();
             });
         SetStatus(status, changed, "Dash forced");
     });
@@ -597,7 +611,7 @@ void AIDirectorSection::StopBlades() {
     GameHook::QueueAction([this, selectedScope, selectedRadius, selectedTeam](const RuntimeContextSnapshot& runtime) {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [](SDK::AWillie_BP_C* willie) {
-                if (auto* ai = AIController(willie)) ai->Stop_That_Blade();
+                if (auto* ai = ActorUtils::GetAIController(willie)) ai->Stop_That_Blade();
             });
         SetStatus(status, changed, "Blade stop forced");
     });
@@ -663,7 +677,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
         state.willieFearless = willie->Fearless;
         state.willieImmediateThreat = willie->AI_Immediate_Threat;
         state.willieDualist = willie->NPC_Dualist;
-        if (auto* ai = AIController(willie)) {
+        if (auto* ai = ActorUtils::GetAIController(willie)) {
             state.aiTeam = ai->Team_Int;
             state.target = reinterpret_cast<uintptr_t>(ai->Target);
             state.attackIntent = ai->Attack_Intent;
@@ -692,26 +706,20 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
 
         saveState(willie);
         willie->Team_Int = newTeam;
-        if (auto* ai = AIController(willie)) ai->Team_Int = newTeam;
+        if (auto* ai = ActorUtils::GetAIController(willie)) ai->Team_Int = newTeam;
     };
 
     if (runtime.world && runtime.player) {
         originalStates.erase(reinterpret_cast<uintptr_t>(runtime.player));
+        std::unordered_set<uintptr_t> currentActors;
+        currentActors.reserve(originalStates.size() + 16);
         ActorUtils::ForEachWillieInRadius(
             runtime.world, runtime.player, GameConstants::MAX_DISTANCE,
-            [&](auto* willie) { targetsBuffer.push_back(willie); }
+            [&](auto* willie) { currentActors.insert(reinterpret_cast<uintptr_t>(willie)); }
         );
         for (auto it = originalStates.begin(); it != originalStates.end();) {
-            bool exists = false;
-            for (auto* willie : targetsBuffer) {
-                if (reinterpret_cast<uintptr_t>(willie) == it->first) {
-                    exists = true;
-                    break;
-                }
-            }
-            it = exists ? std::next(it) : originalStates.erase(it);
+            it = currentActors.contains(it->first) ? std::next(it) : originalStates.erase(it);
         }
-        targetsBuffer.clear();
     }
 
     switch (static_cast<Directive>(activeDirective.load())) {
@@ -719,7 +727,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
             auto* player = runtime.player;
             int changed =
                 ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
-                    auto* ai = AIController(willie);
+                    auto* ai = ActorUtils::GetAIController(willie);
                     if (!ai) return;
 
                     setTeam(willie, DIRECTIVE_HOSTILE_TEAM);
@@ -743,7 +751,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
             for (size_t i = 0; i < targetsBuffer.size(); ++i) {
                 auto* willie = targetsBuffer[i];
                 auto* enemy = targetsBuffer[(i + targetsBuffer.size() / 2) % targetsBuffer.size()];
-                auto* ai = AIController(willie);
+                auto* ai = ActorUtils::GetAIController(willie);
                 if (!ai || enemy == willie) continue;
 
                 setTeam(willie, (i & 1) ? DIRECTIVE_HOSTILE_ALT_TEAM : DIRECTIVE_HOSTILE_TEAM);
@@ -766,14 +774,16 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
                 targetsBuffer.push_back(willie);
             });
+            std::unordered_set<uintptr_t> targetSet;
+            targetSet.reserve(targetsBuffer.size());
+            for (auto* target : targetsBuffer)
+                targetSet.insert(reinterpret_cast<uintptr_t>(target));
 
             if (runtime.world) {
                 ActorUtils::ForEachWillieInRadius(
                     runtime.world, player, GameConstants::MAX_DISTANCE,
                     [&](SDK::AWillie_BP_C* candidate) {
-                        for (auto* target : targetsBuffer) {
-                            if (candidate == target) return;
-                        }
+                        if (targetSet.contains(reinterpret_cast<uintptr_t>(candidate))) return;
                         setTeam(candidate, DIRECTIVE_HOSTILE_TEAM);
                         enemiesBuffer.push_back(candidate);
                     }
@@ -782,7 +792,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
 
             int changed = 0;
             for (auto* willie : targetsBuffer) {
-                auto* ai = AIController(willie);
+                auto* ai = ActorUtils::GetAIController(willie);
                 if (!ai) continue;
 
                 SDK::AWillie_BP_C* nearestEnemy = nullptr;
@@ -808,7 +818,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
         case Directive::IgnorePlayer: {
             int changed =
                 ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
-                    auto* ai = AIController(willie);
+                    auto* ai = ActorUtils::GetAIController(willie);
                     if (!ai) return;
 
                     saveState(willie);
@@ -824,7 +834,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
         case Directive::PanicFlee: {
             int changed =
                 ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
-                    auto* ai = AIController(willie);
+                    auto* ai = ActorUtils::GetAIController(willie);
                     if (!ai) return;
 
                     saveState(willie);
@@ -839,7 +849,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
         case Directive::FreezeAI: {
             int changed =
                 ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
-                    auto* ai = AIController(willie);
+                    auto* ai = ActorUtils::GetAIController(willie);
                     if (!ai) return;
 
                     saveState(willie);
@@ -865,7 +875,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
             int changed = 0;
             for (size_t i = 0; i < targetsBuffer.size(); ++i) {
                 auto* willie = targetsBuffer[i];
-                auto* ai = AIController(willie);
+                auto* ai = ActorUtils::GetAIController(willie);
                 if (!ai) continue;
 
                 saveState(willie);
@@ -935,7 +945,7 @@ void AIDirectorSection::RestoreDirectiveState(const RuntimeContextSnapshot& runt
         willie->Fearless = it->second.willieFearless;
         willie->AI_Immediate_Threat = it->second.willieImmediateThreat;
         willie->NPC_Dualist = it->second.willieDualist;
-        if (auto* ai = AIController(willie)) {
+        if (auto* ai = ActorUtils::GetAIController(willie)) {
             ai->Team_Int = it->second.aiTeam;
             ai->Target =
                 isCurrentTarget(it->second.target) ? reinterpret_cast<SDK::AWillie_BP_C*>(it->second.target) : nullptr;

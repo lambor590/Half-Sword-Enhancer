@@ -1,11 +1,58 @@
 #pragma once
 
+#include "SDK/AI_BP_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "Utils/GameConstants.h"
 #include "Utils/PossessState.h"
 
 namespace ActorUtils {
+    inline SDK::AAI_BP_C* GetAIController(SDK::AWillie_BP_C* willie) {
+        if (!willie) return nullptr;
+        auto* controller = willie->GetController();
+        return controller && controller->IsA(SDK::AAI_BP_C::StaticClass()) ? static_cast<SDK::AAI_BP_C*>(controller)
+                                                                           : nullptr;
+    }
+
+    inline void ApplyFearlessEffect(SDK::AWillie_BP_C* willie, bool recoverKneel = true) noexcept {
+        if (!willie) return;
+
+        willie->Fearless = true;
+        willie->Fear = 0.0;
+        willie->Give_Up = false;
+        willie->Give_Up_2__Temp_ = false;
+        willie->Retreat = false;
+        willie->Panic_Rate = 0.0;
+        willie->AI_Immediate_Threat = false;
+        willie->Pain_Shock = false;
+        const bool wasKneeling = willie->L_Kneel || willie->R_Kneel;
+        if (recoverKneel && wasKneeling) willie->Un_Kneel_Event();
+        willie->L_Kneel = false;
+        willie->R_Kneel = false;
+        willie->L_Kneel_Falling = false;
+        willie->R_Kneel_Falling = false;
+        willie->Give_Up_Weapon_To_Throat_Int = 0;
+
+        auto* ai = GetAIController(willie);
+        if (!ai) return;
+
+        ai->Fearless = true;
+        ai->My_Give_Up = false;
+        ai->Give_Up_Meter = 0.0;
+        ai->Threat_Level = 0.0;
+        ai->Being_Threatened = false;
+        ai->AI_Immediate_Threat = false;
+        ai->AI_Threat = false;
+        ai->Pain_Shock = false;
+        ai->Retreat = false;
+        ai->Retreat_Intent = 0.0;
+        ai->Lost_Interest = false;
+        ai->Kneel = false;
+        ai->AI_Kneel = false;
+        ai->Target_Give_Up = false;
+        ai->Target_Unarmed = false;
+    }
+
     template <typename Func>
     void ForEachWillieInRadius(SDK::UWorld* world, SDK::AWillie_BP_C* player, float radius, Func&& func) {
         SDK::TArray<SDK::AActor*> actors;
