@@ -8,7 +8,6 @@
 #include "Hooks/GameHook.h"
 #include "Logger.h"
 #include "Menu/EventBus.h"
-#include "Utils/ActorUtils.h"
 #include "Utils/PresetUtils.h"
 #include "SDK/HSComputeShaders_classes.hpp"
 #include "SDK/Engine_classes.hpp"
@@ -42,6 +41,33 @@ namespace {
         return material && material->IsA(SDK::UMaterialInstance::StaticClass())
                    ? static_cast<SDK::UMaterialInstance*>(material)
                    : nullptr;
+    }
+
+    template <typename Func> void ForEachPrimitiveComponent(SDK::UWorld* world, Func&& func) {
+        if (!world) return;
+        for (auto* level : world->Levels) {
+            if (!level) continue;
+            for (auto* actor : level->Actors) {
+                if (!actor) continue;
+                SDK::TArray<SDK::UActorComponent*> components =
+                    actor->K2_GetComponentsByClass(SDK::UPrimitiveComponent::StaticClass());
+                for (auto* component : components) {
+                    if (component && component->IsA(SDK::UPrimitiveComponent::StaticClass()))
+                        func(static_cast<SDK::UPrimitiveComponent*>(component));
+                }
+            }
+        }
+    }
+
+    template <typename Func> void ForEachBloodActor(SDK::UWorld* world, Func&& func) {
+        if (!world) return;
+        for (auto* level : world->Levels) {
+            if (!level) continue;
+            for (auto* actor : level->Actors) {
+                if (actor && actor->IsA(SDK::ACSBloodSimActor::StaticClass()))
+                    func(static_cast<SDK::ACSBloodSimActor*>(actor));
+            }
+        }
     }
 
     template <typename Func>
@@ -87,7 +113,6 @@ void AssetOverrideManager::Initialize() {
     EventBus::Get().Subscribe(GameEvent::InAbyss, this, [this](const RuntimeContextSnapshot& runtime) {
         if (runtime.world) ApplyNow(runtime.world);
     });
-    UpdateTickSubscription();
 }
 
 std::filesystem::path AssetOverrideManager::GetRootPath() const {
@@ -100,7 +125,6 @@ void AssetOverrideManager::RequestRefresh() {
         needsLoad = true;
         needsApply = true;
         if (runtime.world) ApplyNow(runtime.world);
-        UpdateTickSubscription();
     });
 }
 
@@ -109,7 +133,6 @@ void AssetOverrideManager::RequestApply() {
     GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
         needsApply = true;
         if (runtime.world) ApplyNow(runtime.world);
-        UpdateTickSubscription();
     });
 }
 
@@ -120,10 +143,14 @@ void AssetOverrideManager::ApplyNow(SDK::UWorld* world) {
         needsLoad = true;
         needsApply = true;
         repairedBloodSlots.clear();
-        if (appliedWorld && appliedWorld != world) sourceMaterials.clear();
+        if (appliedWorld && appliedWorld != world) {
+            sourceMaterials.clear();
+            touchedSlots.clear();
+        }
     }
     if (needsLoad) LoadTextures(world);
     if (needsApply) ApplyToWorld(world);
+    if (!sourceMaterials.empty()) RepairBloodMaterials(world);
 }
 
 AssetOverrideManager::Stats AssetOverrideManager::GetStats() const {
@@ -172,22 +199,6 @@ void AssetOverrideManager::ScanFiles() {
     needsApply = true;
     ++generation;
     g_logger.Log("Found %d texture override file(s)", next.files);
-}
-
-void AssetOverrideManager::UpdateTickSubscription() {
-    if (!files.empty()) {
-        if (tickSubscribed) return;
-        tickSubscribed = true;
-        EventBus::Get().Subscribe(GameEvent::OnTick, this, [this](const RuntimeContextSnapshot& runtime) {
-            if (!runtime.world) return;
-            if (needsScan || needsApply || runtime.world != appliedWorld || generation != appliedGeneration)
-                ApplyNow(runtime.world);
-            if (!sourceMaterials.empty()) RepairBloodMaterials(runtime.world);
-        });
-    } else if (tickSubscribed) {
-        tickSubscribed = false;
-        EventBus::Get().Unsubscribe(GameEvent::OnTick, this);
-    }
 }
 
 void AssetOverrideManager::LoadTextures(SDK::UWorld* world) {
@@ -243,12 +254,11 @@ void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
     if (!textures.empty()) {
         std::unordered_set<std::string> matchedTargets;
 
-        ActorUtils::ForEachComponentOfType<
-            SDK::UPrimitiveComponent>(world, [this, &next, &matchedTargets](SDK::UPrimitiveComponent* component) {
+        touchedSlots.clear();
+        ForEachPrimitiveComponent(world, [this, &next, &matchedTargets](SDK::UPrimitiveComponent* component) {
             if (!component) return;
 
             ++next.scannedComponents;
-            auto sourceIt = sourceMaterials.find(component);
             const int materialCount = component->GetNumMaterials();
             for (int materialIndex = 0; materialIndex < materialCount; ++materialIndex) {
                 ++next.scannedMaterials;
@@ -257,28 +267,26 @@ void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
                 auto* dynamicMaterial = material && material->IsA(SDK::UMaterialInstanceDynamic::StaticClass())
                                             ? static_cast<SDK::UMaterialInstanceDynamic*>(material)
                                             : nullptr;
-                auto* sourceMaterial = material;
-                bool sourceStored = false;
-                if (sourceIt != sourceMaterials.end()) {
-                    for (const auto& source : sourceIt->second) {
-                        if (source.materialIndex == materialIndex) {
-                            sourceMaterial = source.material;
-                            sourceStored = true;
-                            break;
-                        }
-                    }
-                }
+                const MaterialSlot slotKey{component, materialIndex};
+                auto sourceIt = sourceMaterials.find(slotKey);
+                auto* sourceMaterial = sourceIt != sourceMaterials.end() ? sourceIt->second : material;
+                bool sourceStored = sourceIt != sourceMaterials.end();
+                bool touchedRecorded = false;
 
                 next.appliedMaterials += ApplyMatchedTextureParameters(
                     sourceMaterial, textures, &matchedTargets,
-                    [this, component, materialIndex, sourceMaterial, &sourceStored, &dynamicMaterial,
+                    [this, component, materialIndex, sourceMaterial, &sourceStored, &dynamicMaterial, &touchedRecorded,
                      &next](const SDK::FMaterialParameterInfo& parameter, SDK::UTexture2D* texture) {
                         if (dynamicMaterial && dynamicMaterial->K2_GetTextureParameterValueByInfo(parameter) == texture)
                             return false;
 
                         if (!sourceStored) {
-                            sourceMaterials[component].push_back({materialIndex, sourceMaterial});
+                            sourceMaterials[{component, materialIndex}] = sourceMaterial;
                             sourceStored = true;
+                        }
+                        if (!touchedRecorded) {
+                            touchedSlots.push_back({component, materialIndex, sourceMaterial});
+                            touchedRecorded = true;
                         }
 
                         if (!dynamicMaterial)
@@ -300,6 +308,8 @@ void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
 
     appliedWorld = world;
     appliedGeneration = generation;
+    repairedBloodWorld = nullptr;
+    repairedBloodSlots.clear();
     needsApply = false;
     StoreStats(next);
     if (next.files > 0) {
@@ -312,19 +322,18 @@ void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
 
 void AssetOverrideManager::RepairBloodMaterials(SDK::UWorld* world) {
     if (!world) return;
+    if (repairedBloodWorld == world && repairedBloodGeneration == appliedGeneration) return;
     static const SDK::FMaterialParameterInfo bloodRt = [] {
         SDK::FMaterialParameterInfo parameter{};
         parameter.Name = SDK::BasicFilesImpleUtils::StringToName(L"BloodRT");
         return parameter;
     }();
 
-    ActorUtils::ForEachObjectOfType<SDK::ACSBloodSimActor>(world, [this](SDK::ACSBloodSimActor* actor) {
+    ForEachBloodActor(world, [this](SDK::ACSBloodSimActor* actor) {
         if (!actor->BoundMesh) return;
 
-        auto sourceIt = sourceMaterials.find(actor->BoundMesh);
-        if (sourceIt == sourceMaterials.end()) return;
-
-        for (const auto& source : sourceIt->second) {
+        for (const auto& source : touchedSlots) {
+            if (source.component != actor->BoundMesh) continue;
             if (source.materialIndex < 0 || source.materialIndex >= actor->BoundMeshMatInstances.Num()) continue;
 
             const auto slotKey = reinterpret_cast<uintptr_t>(actor) ^ static_cast<uintptr_t>(source.materialIndex);
@@ -349,4 +358,6 @@ void AssetOverrideManager::RepairBloodMaterials(SDK::UWorld* world) {
             if (source.materialIndex == 0) actor->BoundMeshMatInstance = repaired;
         }
     });
+    repairedBloodWorld = world;
+    repairedBloodGeneration = appliedGeneration;
 }

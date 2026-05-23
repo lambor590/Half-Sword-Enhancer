@@ -47,7 +47,6 @@ private:
     void ScanFiles();
     void LoadTextures(SDK::UWorld* world);
     void ApplyToWorld(SDK::UWorld* world);
-    void UpdateTickSubscription();
     void ClearTextures();
     void StoreStats(Stats next) const;
     void RepairBloodMaterials(SDK::UWorld* world);
@@ -64,23 +63,42 @@ private:
     std::unordered_map<std::string, SDK::UTexture2D*> textures;
 
     struct SlotSource {
+        SDK::UPrimitiveComponent* component = nullptr;
         int materialIndex = 0;
         SDK::UMaterialInterface* material = nullptr;
     };
 
-    std::unordered_map<SDK::UPrimitiveComponent*, std::vector<SlotSource>> sourceMaterials;
+    struct MaterialSlot {
+        SDK::UPrimitiveComponent* component = nullptr;
+        int materialIndex = 0;
+
+        bool operator==(const MaterialSlot& other) const noexcept {
+            return component == other.component && materialIndex == other.materialIndex;
+        }
+    };
+
+    struct MaterialSlotHash {
+        size_t operator()(const MaterialSlot& slot) const noexcept {
+            return std::hash<SDK::UPrimitiveComponent*>{}(slot.component) ^
+                   (std::hash<int>{}(slot.materialIndex) + 0x9E3779B9u);
+        }
+    };
+
+    std::unordered_map<MaterialSlot, SDK::UMaterialInterface*, MaterialSlotHash> sourceMaterials;
+    std::vector<SlotSource> touchedSlots;
 
     mutable Stats stats;
     mutable std::mutex statsMutex;
 
     bool initialized = false;
-    bool tickSubscribed = false;
     bool needsScan = true;
     bool needsLoad = true;
     bool needsApply = true;
     uint32_t generation = 0;
     uint32_t appliedGeneration = 0;
+    uint32_t repairedBloodGeneration = 0;
     SDK::UWorld* loadedWorld = nullptr;
     SDK::UWorld* appliedWorld = nullptr;
+    SDK::UWorld* repairedBloodWorld = nullptr;
     std::unordered_set<uintptr_t> repairedBloodSlots;
 };
