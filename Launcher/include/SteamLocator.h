@@ -45,7 +45,8 @@ namespace hse {
 
         struct LibraryFolder {
             std::filesystem::path path;
-            std::vector<std::string> appIds;
+            bool hasFullGame = false;
+            bool hasDemo = false;
         };
 
         SteamLocator() = default;

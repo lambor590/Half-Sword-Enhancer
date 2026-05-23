@@ -33,12 +33,6 @@ namespace hse {
             return {};
         }
 
-        [[nodiscard]] bool LibraryContainsAppId(
-            const std::vector<std::string>& appIds, std::string_view appId
-        ) noexcept {
-            return std::ranges::find(appIds, appId) != appIds.end();
-        }
-
         [[nodiscard]] bool DirectoryContainsExecutable(const std::filesystem::path& directory) {
             for (const auto& entry : std::filesystem::directory_iterator(directory)) {
                 if (entry.path().extension() == ".exe") {
@@ -66,14 +60,14 @@ namespace hse {
         std::expected<GameLocation, SteamError> demoResult = std::unexpected(SteamError::GameNotFound);
 
         for (const auto& library : *libraries) {
-            if (LibraryContainsAppId(library.appIds, FULL_GAME_APP_ID)) {
+            if (library.hasFullGame) {
                 auto result = ResolveGamePath(library.path, GameEdition::FullGame);
                 if (result) {
                     return result;
                 }
             }
 
-            if (LibraryContainsAppId(library.appIds, DEMO_APP_ID)) {
+            if (library.hasDemo) {
                 if (auto result = ResolveGamePath(library.path, GameEdition::Demo)) {
                     demoResult = std::move(result);
                 }
@@ -194,7 +188,11 @@ namespace hse {
             }
 
             if (insideApps && braceDepth == 3) {
-                current.appIds.push_back(key);
+                if (key == FULL_GAME_APP_ID) {
+                    current.hasFullGame = true;
+                } else if (key == DEMO_APP_ID) {
+                    current.hasDemo = true;
+                }
             }
         }
 
