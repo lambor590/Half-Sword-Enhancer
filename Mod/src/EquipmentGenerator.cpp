@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GameConstants.h"
@@ -58,6 +59,12 @@ namespace EquipmentGenerator {
             bool HasQualitySignal() const { return HasModuleTierRange() || HasNameTierRange() || HasPriceRange(); }
         };
 
+        struct ModuleCandidate {
+            SDK::UClass* cls = nullptr;
+            SDK::AModular_Weapon_Part_Master_C* module = nullptr;
+            int nameTier = -1;
+        };
+
         int NameTierScore(SDK::UClass* moduleClass) {
             if (!moduleClass) return -1;
 
@@ -75,8 +82,8 @@ namespace EquipmentGenerator {
             return -1;
         }
 
-        void AddModuleStats(SDK::UClass* moduleClass, ModulePoolStats& stats) {
-            auto* module = GetModuleDefault(moduleClass);
+        void AddModuleStats(const ModuleCandidate& candidate, ModulePoolStats& stats) {
+            auto* module = candidate.module;
             if (module) {
                 int tier = static_cast<int>(module->Module_Tier);
                 if (tier >= 0 && tier <= 8) {
@@ -88,21 +95,19 @@ namespace EquipmentGenerator {
                 stats.hasPrice = true;
             }
 
-            int nameTier = NameTierScore(moduleClass);
+            int nameTier = candidate.nameTier;
             if (nameTier >= 0) {
                 if (nameTier < stats.minNameTier) stats.minNameTier = nameTier;
                 if (nameTier > stats.maxNameTier) stats.maxNameTier = nameTier;
             }
         }
 
-        int ModuleScore(
-            SDK::UClass* moduleClass, SDK::AModular_Weapon_Part_Master_C* module, const ModulePoolStats& stats
-        ) {
-            if (stats.HasModuleTierRange() && module) return static_cast<int>(module->Module_Tier);
-            if (stats.HasNameTierRange()) return NameTierScore(moduleClass);
-            if (stats.HasPriceRange() && module)
+        int ModuleScore(const ModuleCandidate& candidate, const ModulePoolStats& stats) {
+            if (stats.HasModuleTierRange() && candidate.module) return static_cast<int>(candidate.module->Module_Tier);
+            if (stats.HasNameTierRange()) return candidate.nameTier;
+            if (stats.HasPriceRange() && candidate.module)
                 return static_cast<int>(
-                    ((module->Price - stats.minPrice) * 8.0 / (stats.maxPrice - stats.minPrice)) + 0.5
+                    ((candidate.module->Price - stats.minPrice) * 8.0 / (stats.maxPrice - stats.minPrice)) + 0.5
                 );
             return -1;
         }
@@ -111,42 +116,35 @@ namespace EquipmentGenerator {
             price = 0.0;
             if (classes.Num() == 0) return nullptr;
 
+            std::vector<ModuleCandidate> candidates;
+            candidates.reserve(classes.Num());
             ModulePoolStats stats{};
-            for (int i = 0; i < classes.Num(); ++i)
-                AddModuleStats(classes[i], stats);
+            for (int i = 0; i < classes.Num(); ++i) {
+                ModuleCandidate candidate{classes[i], GetModuleDefault(classes[i]), NameTierScore(classes[i])};
+                AddModuleStats(candidate, stats);
+                candidates.push_back(candidate);
+            }
 
             bool hasQualitySignal = stats.HasQualitySignal();
             int bestDistance = 1000;
             int bestCount = 0;
-            for (int i = 0; i < classes.Num(); ++i) {
-                auto* module = GetModuleDefault(classes[i]);
-                int score = ModuleScore(classes[i], module, stats);
+            ModuleCandidate selected{};
+            for (const auto& candidate : candidates) {
+                int score = ModuleScore(candidate, stats);
                 int distance = score >= 0 ? score - requestedTier : (hasQualitySignal ? 1000 : 0);
                 if (distance < 0) distance = -distance;
                 if (distance < bestDistance) {
                     bestDistance = distance;
                     bestCount = 1;
+                    selected = candidate;
                 } else if (distance == bestDistance) {
                     ++bestCount;
+                    if (GameConstants::RandomInt(0, bestCount - 1) == 0) selected = candidate;
                 }
             }
 
-            int pick = GameConstants::RandomInt(0, bestCount - 1);
-            for (int i = 0; i < classes.Num(); ++i) {
-                auto* module = GetModuleDefault(classes[i]);
-                int score = ModuleScore(classes[i], module, stats);
-                int distance = score >= 0 ? score - requestedTier : (hasQualitySignal ? 1000 : 0);
-                if (distance < 0) distance = -distance;
-                if (distance != bestDistance || pick-- != 0) continue;
-
-                price = module ? module->Price : 0.0;
-                return classes[i];
-            }
-
-            auto* selected = classes[GameConstants::RandomInt(0, classes.Num() - 1)];
-            auto* module = GetModuleDefault(selected);
-            price = module ? module->Price : 0.0;
-            return selected;
+            price = selected.module ? selected.module->Price : 0.0;
+            return selected.cls;
         }
 
         template <typename T> T* SpawnGenerator(const SDK::UWorld* world) {

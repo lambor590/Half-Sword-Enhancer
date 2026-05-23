@@ -77,6 +77,7 @@ private:
         SDK::UObject* mesh;
         std::string name;
         std::string path;
+        std::string display;
         const char* category;
         MeshType type;
     };
@@ -94,6 +95,8 @@ private:
     std::unordered_set<SDK::UObject*> meshSeen;
     bool meshScanQueued = false;
     float meshComboWidth = 0.0f;
+    int staticMeshCount = 0;
+    int skeletalMeshCount = 0;
 
     std::vector<MeshPoolEntry> pendingMeshEntries;
     std::atomic<bool> meshPendingReady{false};
@@ -142,6 +145,7 @@ private:
     void RenderMeshTransformControls(MeshOverride& ovr);
     void RenderMeshCombo(int slotIdx);
     void DrainPendingMeshEntries();
+    void RebuildMeshDisplayCache();
     void RenderMeshTab();
     void RenderStatsTab();
     WeaponPresetData BuildPresetData() const;

@@ -124,6 +124,17 @@ bool WeaponEditorSection::IsSkeletalMeshInvalid(SDK::USkeletalMesh* sk) {
     return false;
 }
 
+namespace {
+    std::string MeshDisplayLabel(std::string_view name, const char* category, MeshType type) {
+        char display[128];
+        std::snprintf(
+            display, sizeof(display), "%-36.*s [%s][%s]", static_cast<int>(name.size()), name.data(), category,
+            type == MeshType::Skeletal ? "SK" : "SM"
+        );
+        return display;
+    }
+}
+
 void WeaponEditorSection::CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapon) {
     SDK::UStaticMeshComponent* comps[] = {weapon->Head, weapon->Guard, weapon->Grip, weapon->Pommel};
     bool added = false;
@@ -132,9 +143,11 @@ void WeaponEditorSection::CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapo
         auto* mesh = comps[i]->StaticMesh;
         if (!mesh || !meshSeen.insert(mesh).second) continue;
         std::string fullName = mesh->GetFullName();
+        std::string name = mesh->GetName();
+        const char* category = ExtractCategory(fullName);
         pendingMeshEntries.push_back(
-            {mesh, mesh->GetName(), PresetUtils::ObjectToAbsolutePath(mesh), ExtractCategory(fullName),
-             MeshType::Static}
+            {mesh, name, PresetUtils::ObjectToAbsolutePath(mesh), MeshDisplayLabel(name, category, MeshType::Static),
+             category, MeshType::Static}
         );
         added = true;
     }
@@ -176,8 +189,11 @@ SDK::UObject* WeaponEditorSection::LoadAssetByPath(const char* pathStr) {
 
     if (meshSeen.insert(loaded).second) {
         std::string fullName = loaded->GetFullName();
+        std::string name = loaded->GetName();
+        const char* category = ExtractCategory(fullName);
         pendingMeshEntries.push_back(
-            {loaded, loaded->GetName(), PresetUtils::ObjectToAbsolutePath(loaded), ExtractCategory(fullName), type}
+            {loaded, name, PresetUtils::ObjectToAbsolutePath(loaded), MeshDisplayLabel(name, category, type), category,
+             type}
         );
         meshPendingIsFullReplace = false;
         meshPendingReady.store(true, std::memory_order_release);
@@ -224,8 +240,10 @@ void WeaponEditorSection::ScanAllMeshes() {
             if (IsSkeletalMeshInvalid(static_cast<SDK::USkeletalMesh*>(obj))) continue;
         }
 
+        std::string name(meshNameView);
+        const char* category = ExtractCategory(fullName);
         scanned.push_back(
-            {obj, std::string(meshNameView), PresetUtils::ObjectToAbsolutePath(obj), ExtractCategory(fullName), type}
+            {obj, name, PresetUtils::ObjectToAbsolutePath(obj), MeshDisplayLabel(name, category, type), category, type}
         );
     }
 
@@ -898,10 +916,7 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
     if (meshComboWidth == 0.0f) {
         float maxW = 0;
         for (const auto& e : meshPool) {
-            char buf[128];
-            const char* tag = e.type == MeshType::Skeletal ? "SK" : "SM";
-            std::snprintf(buf, sizeof(buf), "%-36s [%s][%s]", e.name.c_str(), e.category, tag);
-            float w = ImGui::CalcTextSize(buf).x;
+            float w = ImGui::CalcTextSize(e.display.c_str()).x;
             if (w > maxW) maxW = w;
         }
         meshComboWidth = GuiUtils::ComboWidthFromText(maxW);
@@ -936,18 +951,13 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
             ovr.mesh = nullptr;
         }
 
-        char display[128];
         for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
             if (hasFilter && !GuiUtils::MatchesFilter(
                                  meshPool[i].name.c_str(), meshPool[i].name.size(), meshFilters[slotIdx], filterLen
                              ))
                 continue;
             ImGui::PushID(i);
-            const char* tag = meshPool[i].type == MeshType::Skeletal ? "SK" : "SM";
-            std::snprintf(
-                display, sizeof(display), "%-36s [%s][%s]", meshPool[i].name.c_str(), meshPool[i].category, tag
-            );
-            if (ImGui::Selectable(display, ovr.poolIndex == i)) {
+            if (ImGui::Selectable(meshPool[i].display.c_str(), ovr.poolIndex == i)) {
                 ovr.poolIndex = i;
                 ovr.mesh = meshPool[i].mesh;
                 ovr.meshType = meshPool[i].type;
@@ -983,6 +993,19 @@ void WeaponEditorSection::DrainPendingMeshEntries() {
         pendingMeshEntries.clear();
     }
     meshComboWidth = 0.0f;
+    RebuildMeshDisplayCache();
+}
+
+void WeaponEditorSection::RebuildMeshDisplayCache() {
+    staticMeshCount = 0;
+    skeletalMeshCount = 0;
+    for (auto& entry : meshPool) {
+        if (entry.display.empty()) entry.display = MeshDisplayLabel(entry.name, entry.category, entry.type);
+        if (entry.type == MeshType::Skeletal)
+            ++skeletalMeshCount;
+        else
+            ++staticMeshCount;
+    }
 }
 
 void WeaponEditorSection::RenderMeshTab() {
@@ -1003,10 +1026,7 @@ void WeaponEditorSection::RenderMeshTab() {
     }
     TooltipHelper::ShowTooltip("Rescan all loaded meshes from memory. Custom-loaded assets will need to be reloaded");
     ImGui::SameLine();
-    int smCount = 0, skCount = 0;
-    for (const auto& e : meshPool)
-        (e.type == MeshType::Skeletal ? skCount : smCount)++;
-    ImGui::TextDisabled("(%d SM, %d SK)", smCount, skCount);
+    ImGui::TextDisabled("(%d SM, %d SK)", staticMeshCount, skeletalMeshCount);
     ImGui::SameLine();
     if (ImGui::Button("Reset All Meshes")) {
         for (int i = 0; i < MODULE_SLOT_COUNT; ++i)
