@@ -143,11 +143,11 @@ void WeaponEditorSection::CollectMeshesFromWeapon(SDK::AModularWeaponBP_C* weapo
         auto* mesh = comps[i]->StaticMesh;
         if (!mesh || !meshSeen.insert(mesh).second) continue;
         std::string fullName = mesh->GetFullName();
-        std::string name = mesh->GetName();
+        std::string meshName = mesh->GetName();
         const char* category = ExtractCategory(fullName);
         pendingMeshEntries.push_back(
-            {mesh, name, PresetUtils::ObjectToAbsolutePath(mesh), MeshDisplayLabel(name, category, MeshType::Static),
-             category, MeshType::Static}
+            {mesh, meshName, PresetUtils::ObjectToAbsolutePath(mesh),
+             MeshDisplayLabel(meshName, category, MeshType::Static), category, MeshType::Static}
         );
         added = true;
     }
@@ -189,11 +189,11 @@ SDK::UObject* WeaponEditorSection::LoadAssetByPath(const char* pathStr) {
 
     if (meshSeen.insert(loaded).second) {
         std::string fullName = loaded->GetFullName();
-        std::string name = loaded->GetName();
+        std::string meshName = loaded->GetName();
         const char* category = ExtractCategory(fullName);
         pendingMeshEntries.push_back(
-            {loaded, name, PresetUtils::ObjectToAbsolutePath(loaded), MeshDisplayLabel(name, category, type), category,
-             type}
+            {loaded, meshName, PresetUtils::ObjectToAbsolutePath(loaded), MeshDisplayLabel(meshName, category, type),
+             category, type}
         );
         meshPendingIsFullReplace = false;
         meshPendingReady.store(true, std::memory_order_release);
@@ -240,10 +240,11 @@ void WeaponEditorSection::ScanAllMeshes() {
             if (IsSkeletalMeshInvalid(static_cast<SDK::USkeletalMesh*>(obj))) continue;
         }
 
-        std::string name(meshNameView);
+        std::string meshName(meshNameView);
         const char* category = ExtractCategory(fullName);
         scanned.push_back(
-            {obj, name, PresetUtils::ObjectToAbsolutePath(obj), MeshDisplayLabel(name, category, type), category, type}
+            {obj, meshName, PresetUtils::ObjectToAbsolutePath(obj), MeshDisplayLabel(meshName, category, type),
+             category, type}
         );
     }
 
