@@ -5,5 +5,6 @@ Mod/SDK/Engine
 *.user
 *.aps
 private/
+.agents/
 AGENTS.md
 CHANGELOG-dev.md
