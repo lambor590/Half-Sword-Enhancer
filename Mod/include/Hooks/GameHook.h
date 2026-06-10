@@ -23,7 +23,7 @@ class GameHook {
 public:
     static GameHook& Get();
 
-    void Hook();
+    [[nodiscard]] bool Hook();
     void Unhook();
 
     void UnlockUEConsole();

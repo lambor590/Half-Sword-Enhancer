@@ -30,7 +30,7 @@ public:
 
     static AssetOverrideManager& Get();
 
-    void Initialize();
+    [[nodiscard]] bool Initialize();
     void RequestRefresh();
     void RequestApply();
     void ApplyNow(SDK::UWorld* world);
@@ -44,7 +44,7 @@ public:
 private:
     AssetOverrideManager() = default;
 
-    void ScanFiles();
+    [[nodiscard]] bool ScanFiles();
     void LoadTextures(SDK::UWorld* world);
     void ApplyToWorld(SDK::UWorld* world);
     void ClearTextures();

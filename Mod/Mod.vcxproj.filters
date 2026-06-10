@@ -47,6 +47,9 @@
     <ClCompile Include="src\Core\ModContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\ModRuntimeLifecycle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\MenuManager.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
@@ -233,6 +236,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Core\ModContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Core\ModRuntimeLifecycle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\MenuManager.h">

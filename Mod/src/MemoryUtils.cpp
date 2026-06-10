@@ -234,14 +234,22 @@ namespace MemoryUtils {
         }
     }
 
-    void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress) {
+    bool PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress) {
+        if (!addressToHook || !destinationAddress || !returnAddress) {
+            logger.Log("Invalid hook request");
+            if (returnAddress) *returnAddress = 0;
+            return false;
+        }
+
+        *returnAddress = 0;
+
         size_t clearance = CalculateRequiredAsmClearance(addressToHook, NEAR_JUMP_SIZE);
         size_t trampolineSize = TRAMPOLINE_BUFFER_SIZE + clearance + PROTECTION_BUFFER;
 
         uintptr_t trampoline = AllocateMemoryWithin32BitRange(trampolineSize, addressToHook);
         if (!trampoline) {
             logger.Log("Failed to allocate trampoline memory");
-            return;
+            return false;
         }
 
         uintptr_t originalInstructions = trampoline + FAR_JUMP_SIZE + PROTECTION_BUFFER;
@@ -267,6 +275,7 @@ namespace MemoryUtils {
         }
 
         PlaceJump(addressToHook, trampoline, false, clearance);
+        return true;
     }
 
     void Unhook(uintptr_t hookedAddress) {

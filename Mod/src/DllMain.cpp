@@ -1,17 +1,14 @@
 #include <Windows.h>
-#include <future>
+#include <atomic>
+#include <cstdio>
 
 #include "Logger.h"
-#include "MemoryUtils.h"
-#include "Hooks/GameHook.h"
-#include "Render/Renderer.h"
-#include "Menu/Sections/Settings/GraphicsSection.h"
+#include "Core/ModRuntimeLifecycle.h"
 #include "GlobalDefinitions.h"
 #include "KeybindManager.h"
-#include "Utils/AssetOverrideManager.h"
 
 static Logger logger{"DllMain"};
-static Renderer renderer;
+static std::atomic<bool> lifecycleStarted{false};
 
 #ifdef EXPERIMENTAL_VERSION
 static void OpenDebugTerminal() noexcept {
@@ -21,47 +18,9 @@ static void OpenDebugTerminal() noexcept {
 }
 #endif
 
-static DWORD WINAPI DXHookThread(LPVOID) noexcept {
-    renderer.Hook();
-    return 0;
-}
-
-static DWORD WINAPI GameHookThread(LPVOID) noexcept {
-    GameHook::Get().Hook();
-    AssetOverrideManager::Get().Initialize();
-    GraphicsSection::ApplyOnStartup();
-    return 0;
-}
-
 extern "C" __declspec(dllexport) void HSE_Initialize() noexcept {
-    HANDLE dxThread = CreateThread(nullptr, 0, DXHookThread, nullptr, 0, nullptr);
-    if (dxThread) {
-        CloseHandle(dxThread);
-    }
-
-    HANDLE gameThread = CreateThread(nullptr, 0, GameHookThread, nullptr, 0, nullptr);
-    if (gameThread) {
-        CloseHandle(gameThread);
-    }
-}
-
-static void Cleanup() noexcept {
-    logger.Log("Cleaning up resources...");
-    std::promise<void> cleanupPromise;
-    auto cleanupFuture = cleanupPromise.get_future();
-
-    std::thread cleanupThread([&cleanupPromise]() noexcept {
-        renderer.Cleanup();
-        GameHook::Get().Unhook();
-        cleanupPromise.set_value();
-    });
-
-    if (cleanupFuture.wait_for(std::chrono::seconds(5)) == std::future_status::timeout) {
-        logger.Log("Cleanup timed out, terminating forcefully");
-        cleanupThread.detach();
-    } else {
-        cleanupThread.join();
-    }
+    lifecycleStarted.store(true, std::memory_order_release);
+    ModRuntimeLifecycle::Get().StartAsync();
 }
 
 BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept {
@@ -76,7 +35,9 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept {
 #endif
             KeybindManager::Initialize();
             break;
-        case DLL_PROCESS_DETACH: Cleanup(); break;
+        case DLL_PROCESS_DETACH:
+            if (lifecycleStarted.load(std::memory_order_acquire)) ModRuntimeLifecycle::Get().Stop();
+            break;
     }
 
     return TRUE;

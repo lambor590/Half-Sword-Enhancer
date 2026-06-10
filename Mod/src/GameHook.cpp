@@ -160,13 +160,23 @@ GameHook& GameHook::Get() {
     return instance;
 }
 
-void GameHook::Hook() {
+bool GameHook::Hook() {
     logger.Log("Hooking ProcessEvent");
 
     processEventAddress = SDK::InSDKUtils::GetImageBase() + SDK::Offsets::ProcessEvent;
+    if (!processEventAddress) {
+        logger.Log("Failed to resolve ProcessEvent address");
+        return false;
+    }
+
     oProcessEvent = processEventAddress;
 
-    MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&oProcessEvent);
+    if (!MemoryUtils::PlaceHook(oProcessEvent, (uintptr_t)OnProcessEvent, (uintptr_t*)&oProcessEvent)) {
+        logger.Log("Failed to hook ProcessEvent");
+        oProcessEvent = 0;
+        processEventAddress = 0;
+        return false;
+    }
 
     hooked = true;
 
@@ -177,6 +187,7 @@ void GameHook::Hook() {
     QueueAction([](const RuntimeContextSnapshot&) { GameBuildInfo::Query(); });
 
     logger.Log("ProcessEvent hooked successfully!");
+    return true;
 }
 
 void GameHook::Unhook() {

@@ -22,7 +22,7 @@ using ExecuteCommandLists = void(__stdcall*)(ID3D12CommandQueue*, UINT, const ID
 
 class Renderer {
 public:
-    void Hook();
+    [[nodiscard]] bool Hook();
     void Cleanup() noexcept;
 
 private:
@@ -97,7 +97,7 @@ private:
     std::vector<UINT> d3d12FreeSrvDescriptors;
 
     IDXGISwapChain* CreateDummySwapChain();
-    void HookSwapChain(
+    [[nodiscard]] bool HookSwapChain(
         IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
         uintptr_t resizeBuffers1DetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn,
         uintptr_t* outResize1Return

@@ -102,10 +102,10 @@ AssetOverrideManager& AssetOverrideManager::Get() {
     return manager;
 }
 
-void AssetOverrideManager::Initialize() {
-    if (initialized) return;
+bool AssetOverrideManager::Initialize() {
+    if (initialized) return true;
+    if (!ScanFiles()) return false;
     initialized = true;
-    ScanFiles();
 
     EventBus::Get().Subscribe(GameEvent::BeginFight, this, [this](const RuntimeContextSnapshot& runtime) {
         if (runtime.world) ApplyNow(runtime.world);
@@ -113,6 +113,7 @@ void AssetOverrideManager::Initialize() {
     EventBus::Get().Subscribe(GameEvent::InAbyss, this, [this](const RuntimeContextSnapshot& runtime) {
         if (runtime.world) ApplyNow(runtime.world);
     });
+    return true;
 }
 
 std::filesystem::path AssetOverrideManager::GetRootPath() const {
@@ -138,7 +139,7 @@ void AssetOverrideManager::RequestApply() {
 
 void AssetOverrideManager::ApplyNow(SDK::UWorld* world) {
     if (!world) return;
-    if (needsScan) ScanFiles();
+    if (needsScan) (void)ScanFiles();
     if (loadedWorld != world) {
         needsLoad = true;
         needsApply = true;
@@ -163,7 +164,7 @@ void AssetOverrideManager::StoreStats(Stats next) const {
     stats = next;
 }
 
-void AssetOverrideManager::ScanFiles() {
+bool AssetOverrideManager::ScanFiles() {
     files.clear();
     ClearTextures();
     repairedBloodSlots.clear();
@@ -176,7 +177,7 @@ void AssetOverrideManager::ScanFiles() {
         next.errors = 1;
         StoreStats(next);
         g_logger.Log("Failed to create override folder: %s", ec.message().c_str());
-        return;
+        return false;
     }
 
     for (const auto& entry : std::filesystem::recursive_directory_iterator(root, ec)) {
@@ -199,6 +200,7 @@ void AssetOverrideManager::ScanFiles() {
     needsApply = true;
     ++generation;
     g_logger.Log("Found %d texture override file(s)", next.files);
+    return true;
 }
 
 void AssetOverrideManager::LoadTextures(SDK::UWorld* world) {

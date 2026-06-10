@@ -114,7 +114,7 @@ static inline void GetWindowDimensions(HWND handle, int& width, int& height) noe
     height = clientRect.bottom - clientRect.top;
 }
 
-void Renderer::Hook() {
+bool Renderer::Hook() {
     g_Renderer = this;
 
     logger.Log("HookOnPresent: %p", &HookOnPresent);
@@ -124,12 +124,20 @@ void Renderer::Hook() {
     IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
     if (!dummySwapChain) {
         logger.Log("Failed to create dummy swap chain, hooking aborted");
-        return;
+        g_Renderer = nullptr;
+        return false;
     }
-    HookSwapChain(
-        dummySwapChain, (uintptr_t)&HookOnPresent, (uintptr_t)&HookOnResizeBuffers, (uintptr_t)&HookOnResizeBuffers1,
-        &presentReturnAddress, &resizeBuffersReturnAddress, &resizeBuffers1ReturnAddress
-    );
+    if (!HookSwapChain(
+            dummySwapChain, (uintptr_t)&HookOnPresent, (uintptr_t)&HookOnResizeBuffers,
+            (uintptr_t)&HookOnResizeBuffers1, &presentReturnAddress, &resizeBuffersReturnAddress,
+            &resizeBuffers1ReturnAddress
+        )) {
+        logger.Log("Failed to hook swap chain");
+        Cleanup();
+        return false;
+    }
+
+    return true;
 }
 
 void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
@@ -849,32 +857,46 @@ ID3D12CommandQueue* Renderer::CreateDummyCommandQueue() {
     return queue;
 }
 
-void Renderer::HookSwapChain(
+bool Renderer::HookSwapChain(
     IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
     uintptr_t resizeBuffers1DetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn,
     uintptr_t* outResize1Return
 ) {
+    if (!dummySwapChain) return false;
+
     auto* vmt = *reinterpret_cast<uintptr_t**>(dummySwapChain);
     uintptr_t presentHookAddress = vmt[VMT_PRESENT_BYTE_OFFSET / sizeof(uintptr_t)];
     uintptr_t resizeBuffersHookAddress = vmt[VMT_RESIZE_BUFFERS_BYTE_OFFSET / sizeof(uintptr_t)];
 
-    MemoryUtils::PlaceHook(presentHookAddress, presentDetourFunction, outPresentReturn);
-    MemoryUtils::PlaceHook(resizeBuffersHookAddress, resizeBuffersDetourFunction, outResizeReturn);
+    if (!MemoryUtils::PlaceHook(presentHookAddress, presentDetourFunction, outPresentReturn)) {
+        dummySwapChain->Release();
+        return false;
+    }
     this->presentAddress = presentHookAddress;
+
+    if (!MemoryUtils::PlaceHook(resizeBuffersHookAddress, resizeBuffersDetourFunction, outResizeReturn)) {
+        MemoryUtils::Unhook(presentAddress);
+        presentAddress = 0;
+        presentReturnAddress = 0;
+        dummySwapChain->Release();
+        return false;
+    }
     this->resizeBuffersAddress = resizeBuffersHookAddress;
 
     IDXGISwapChain3* swapChain3Dummy = nullptr;
     if (SUCCEEDED(dummySwapChain->QueryInterface(IID_PPV_ARGS(&swapChain3Dummy))) && swapChain3Dummy) {
         auto* swapChain3Vmt = *reinterpret_cast<uintptr_t**>(swapChain3Dummy);
         uintptr_t resizeBuffers1HookAddress = swapChain3Vmt[VMT_RESIZE_BUFFERS1_BYTE_OFFSET / sizeof(uintptr_t)];
-        MemoryUtils::PlaceHook(resizeBuffers1HookAddress, resizeBuffers1DetourFunction, outResize1Return);
-        if (*outResize1Return) {
+        if (MemoryUtils::PlaceHook(resizeBuffers1HookAddress, resizeBuffers1DetourFunction, outResize1Return)) {
             this->resizeBuffers1Address = resizeBuffers1HookAddress;
+        } else {
+            logger.Log("ResizeBuffers1 hook failed; continuing with Present and ResizeBuffers hooks");
         }
         swapChain3Dummy->Release();
     }
 
     dummySwapChain->Release();
+    return true;
 }
 
 bool Renderer::HookCommandQueue(
@@ -886,11 +908,14 @@ bool Renderer::HookCommandQueue(
     constexpr size_t EXECUTE_OFFSET = VMT_EXECUTE_COMMAND_LISTS_OFFSET;
 
     uintptr_t executeAddr = vTable[EXECUTE_OFFSET];
-    MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, outExecReturn);
-    if (*outExecReturn) {
-        executeCommandListsAddress = executeAddr;
-        state.commandQueueHookInstalled = true;
+    if (!MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, outExecReturn)) {
+        logger.Log("Failed to hook D3D12 ExecuteCommandLists");
+        dummyCommandQueue->Release();
+        return false;
     }
+
+    executeCommandListsAddress = executeAddr;
+    state.commandQueueHookInstalled = true;
 
     dummyCommandQueue->Release();
     return state.commandQueueHookInstalled;

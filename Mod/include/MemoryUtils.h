@@ -77,6 +77,6 @@ namespace MemoryUtils {
         MessageBoxA(NULL, errorStr.c_str(), GetCurrentModuleName().c_str(), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
     }
 
-    void PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress);
+    [[nodiscard]] bool PlaceHook(uintptr_t addressToHook, uintptr_t destinationAddress, uintptr_t* returnAddress);
     void Unhook(uintptr_t hookedAddress);
 }

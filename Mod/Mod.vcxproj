@@ -268,6 +268,7 @@
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <ClCompile Include="src\Core\ModContext.cpp" />
+    <ClCompile Include="src\Core\ModRuntimeLifecycle.cpp" />
     <ClCompile Include="src\MenuManager.cpp" />
     <ClCompile Include="src\SectionRegistry.cpp" />
     <ClCompile Include="src\Keybind.cpp" />
@@ -313,6 +314,7 @@
     <ClInclude Include="include\DefaultStyle.h" />
     <ClInclude Include="include\MemoryUtils.h" />
     <ClInclude Include="include\Core\ModContext.h" />
+    <ClInclude Include="include\Core\ModRuntimeLifecycle.h" />
     <ClInclude Include="include\Menu\MenuManager.h" />
     <ClInclude Include="include\Menu\Section.h" />
     <ClInclude Include="include\Menu\SectionRegistry.h" />
