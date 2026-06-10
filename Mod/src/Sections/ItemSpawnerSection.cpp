@@ -15,6 +15,8 @@ REGISTER_SECTION(ItemSpawnerSection, MenuTab::Spawner);
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
 namespace {
+    using ItemSpawnRequest = SpawnWorkflow::ItemSpawnRequest;
+
     constexpr const char* ITEM_BINDINGS_SECTION = "ItemSpawnBindings";
     constexpr const char* ITEM_BINDING_PREFIX = "ItemSpawnBinding_";
 
@@ -167,7 +169,7 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
     if (IsRandomArmorCategory()) {
         if (cfg.currentItemIndex >= GameConstants::ARMOR_SLOT_COUNT) return;
         auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[cfg.currentItemIndex].slotEnum);
-        SpawnWorkflow::QueueRandomArmorSpawn(snapshot, cfg.spawn, slot, tier);
+        SpawnWorkflow::QueueItemSpawn(snapshot, cfg.spawn, ItemSpawnRequest::RandomArmor(slot, tier));
         return;
     }
 
@@ -178,14 +180,18 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
     auto& item = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
 
     if (item.customizable != CustomizableWeapon::None) {
-        SpawnWorkflow::QueueGeneratedCustomizableWeaponSpawn(snapshot, cfg.spawn, item.customizable, tier);
+        SpawnWorkflow::QueueItemSpawn(
+            snapshot, cfg.spawn, ItemSpawnRequest::GeneratedCustomizableWeapon(item.customizable, tier)
+        );
     } else if (IsCurrentItemModularArmor(item)) {
-        SpawnWorkflow::QueueModularArmorSpawn(
-            snapshot, cfg.spawn, item.classPath,
-            {armorModules.selected[0], armorModules.selected[1], armorModules.selected[2]}
+        SpawnWorkflow::QueueItemSpawn(
+            snapshot, cfg.spawn,
+            ItemSpawnRequest::ModularArmor(
+                item.classPath, {armorModules.selected[0], armorModules.selected[1], armorModules.selected[2]}
+            )
         );
     } else if (!item.classPath.empty()) {
-        SpawnWorkflow::QueueClassPathSpawn(snapshot, cfg.spawn, item.classPath, tier);
+        SpawnWorkflow::QueueItemSpawn(snapshot, cfg.spawn, ItemSpawnRequest::ClassPath(item.classPath, tier));
     }
 }
 
@@ -198,22 +204,27 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
         case BindingSource::RandomArmor: {
             if (binding.armorSlot < 0 || binding.armorSlot >= GameConstants::ARMOR_SLOT_COUNT) return;
             auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[binding.armorSlot].slotEnum);
-            SpawnWorkflow::SpawnRandomArmor(runtime, binding.spawn, slot, tier);
+            SpawnWorkflow::SpawnItem(runtime, binding.spawn, ItemSpawnRequest::RandomArmor(slot, tier));
             break;
         }
         case BindingSource::CustomizableWeapon: {
-            SpawnWorkflow::SpawnGeneratedCustomizableWeapon(
-                runtime, binding.spawn, static_cast<CustomizableWeapon>(binding.customizable), tier
+            SpawnWorkflow::SpawnItem(
+                runtime, binding.spawn,
+                ItemSpawnRequest::GeneratedCustomizableWeapon(
+                    static_cast<CustomizableWeapon>(binding.customizable), tier
+                )
             );
             break;
         }
         case BindingSource::ModularArmor: {
-            SpawnWorkflow::SpawnModularArmor(runtime, binding.spawn, binding.classPath, binding.modules);
+            SpawnWorkflow::SpawnItem(
+                runtime, binding.spawn, ItemSpawnRequest::ModularArmor(binding.classPath, binding.modules)
+            );
             break;
         }
         case BindingSource::ClassPath:
             if (!binding.classPath.empty())
-                SpawnWorkflow::SpawnClassPath(runtime, binding.spawn, binding.classPath, tier);
+                SpawnWorkflow::SpawnItem(runtime, binding.spawn, ItemSpawnRequest::ClassPath(binding.classPath, tier));
             break;
     }
 }
@@ -223,7 +234,7 @@ void ItemSpawnerSection::SpawnCustomPath() const noexcept {
     auto snapshot = RenderSnapshot();
     if (!snapshot.player || !snapshot.world) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
-    SpawnWorkflow::QueueClassPathSpawn(snapshot, cfg.spawn, customPathBuffer, tier);
+    SpawnWorkflow::QueueItemSpawn(snapshot, cfg.spawn, ItemSpawnRequest::ClassPath(customPathBuffer, tier));
 }
 
 void ItemSpawnerSection::SpawnWeaponFromPreset() {
@@ -243,7 +254,9 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
     auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
     if (!data.success) return;
 
-    SpawnWorkflow::QueueArmorSpawnWithCorePath(snapshot, cfg.spawn, data.passport, std::move(data.armorCorePath));
+    SpawnWorkflow::QueueItemSpawn(
+        snapshot, cfg.spawn, ItemSpawnRequest::ArmorPreset(data.passport, std::move(data.armorCorePath))
+    );
 }
 
 ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, "Items") {

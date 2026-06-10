@@ -30,45 +30,30 @@ namespace SpawnWorkflow {
         const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Armor1 passport,
         ActorCallback onSpawned = nullptr
     );
-    bool QueueArmorSpawnWithCorePath(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Armor1 passport,
-        std::string armorCorePath, ActorCallback onSpawned = nullptr
-    );
     bool QueueArmorPreview(
         const RuntimeContextSnapshot& snapshot, LivePreviewManager& preview, const SpawnConfig& spawn,
         SDK::FStr_Passport_Armor1 passport, ActorCallback onPreviewReady = nullptr
     );
 
-    bool SpawnClassPath(
-        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const std::string& classPath,
-        SDK::Enum_Ranks tier
-    );
-    bool QueueClassPathSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, std::string classPath, SDK::Enum_Ranks tier
-    );
+    struct ItemSpawnRequest {
+        enum class Kind { ClassPath, GeneratedCustomizableWeapon, RandomArmor, ModularArmor, ArmorPreset };
 
-    bool SpawnGeneratedCustomizableWeapon(
-        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, CustomizableWeapon type, SDK::Enum_Ranks tier
-    );
-    bool QueueGeneratedCustomizableWeaponSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, CustomizableWeapon type, SDK::Enum_Ranks tier
-    );
+        Kind kind = Kind::ClassPath;
+        std::string classPath;
+        std::string armorCorePath;
+        std::array<int, 3> modules{};
+        SDK::FStr_Passport_Armor1 armorPassport{};
+        SDK::EArmorSlots_Enum armorSlot{};
+        CustomizableWeapon customizable = CustomizableWeapon::None;
+        SDK::Enum_Ranks tier{};
 
-    bool SpawnRandomArmor(
-        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, SDK::EArmorSlots_Enum slot,
-        SDK::Enum_Ranks tier
-    );
-    bool QueueRandomArmorSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::EArmorSlots_Enum slot,
-        SDK::Enum_Ranks tier
-    );
+        static ItemSpawnRequest ClassPath(std::string classPath, SDK::Enum_Ranks tier);
+        static ItemSpawnRequest GeneratedCustomizableWeapon(CustomizableWeapon type, SDK::Enum_Ranks tier);
+        static ItemSpawnRequest RandomArmor(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier);
+        static ItemSpawnRequest ModularArmor(std::string classPath, std::array<int, 3> modules);
+        static ItemSpawnRequest ArmorPreset(SDK::FStr_Passport_Armor1 passport, std::string armorCorePath);
+    };
 
-    bool SpawnModularArmor(
-        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const std::string& classPath,
-        const std::array<int, 3>& modules
-    );
-    bool QueueModularArmorSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, std::string classPath,
-        std::array<int, 3> modules
-    );
+    bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request);
+    bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnRequest request);
 }

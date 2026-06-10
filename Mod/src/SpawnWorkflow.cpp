@@ -41,65 +41,55 @@ namespace SpawnWorkflow {
             return true;
         }
 
-        bool SpawnClassPathAt(
-            SDK::UWorld* world, const std::string& classPath, const SDK::FTransform& transform, bool snapToGround,
-            SDK::Enum_Ranks tier
-        ) {
-            if (!world || classPath.empty()) return false;
-            Spawner::SpawnActor(world, classPath, transform, nullptr, snapToGround, tier);
-            return true;
-        }
-
-        bool SpawnGeneratedCustomizableWeaponAt(
-            SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround,
-            SDK::Enum_Ranks tier
+        bool SpawnItemAt(
+            SDK::UWorld* world, const ItemSpawnRequest& request, const SDK::FTransform& transform, bool snapToGround
         ) {
             if (!world) return false;
-            auto passport = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
-            if (!EquipmentGenerator::IsPassportValid(passport)) return false;
-            Spawner::SpawnCustomizableFromPassport(world, passport, transform, snapToGround);
-            return true;
-        }
 
-        bool SpawnRandomArmorAt(
-            SDK::UWorld* world, SDK::EArmorSlots_Enum slot, const SDK::FTransform& transform, bool snapToGround,
-            SDK::Enum_Ranks tier
-        ) {
-            if (!world) return false;
-            auto passport = EquipmentGenerator::GenerateArmor(world, tier, slot, 0.5);
-            if (!EquipmentGenerator::IsArmorPassportValid(passport)) return false;
-            Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround);
-            return true;
-        }
+            switch (request.kind) {
+                case ItemSpawnRequest::Kind::ClassPath: {
+                    if (request.classPath.empty()) return false;
+                    Spawner::SpawnActor(world, request.classPath, transform, nullptr, snapToGround, request.tier);
+                    return true;
+                }
+                case ItemSpawnRequest::Kind::GeneratedCustomizableWeapon: {
+                    auto passport =
+                        EquipmentGenerator::GenerateCustomizableWeapon(world, request.customizable, request.tier);
+                    if (!EquipmentGenerator::IsPassportValid(passport)) return false;
+                    Spawner::SpawnCustomizableFromPassport(world, passport, transform, snapToGround);
+                    return true;
+                }
+                case ItemSpawnRequest::Kind::RandomArmor: {
+                    auto passport = EquipmentGenerator::GenerateArmor(world, request.tier, request.armorSlot, 0.5);
+                    if (!EquipmentGenerator::IsArmorPassportValid(passport)) return false;
+                    Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround);
+                    return true;
+                }
+                case ItemSpawnRequest::Kind::ModularArmor: {
+                    if (request.classPath.empty()) return false;
 
-        bool SpawnModularArmorAt(
-            SDK::UWorld* world, const std::string& classPath, const std::array<int, 3>& modules,
-            const SDK::FTransform& transform, bool snapToGround
-        ) {
-            if (!world || classPath.empty()) return false;
+                    auto* coreClass = Spawner::LoadClass(request.classPath);
+                    if (!coreClass) return false;
 
-            auto* coreClass = Spawner::LoadClass(classPath);
-            if (!coreClass) return false;
-
-            SDK::FStr_Passport_Armor1 passport{};
-            passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = coreClass;
-            passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = modules[0];
-            passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = modules[1];
-            passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = modules[2];
-            Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround);
-            return true;
-        }
-
-        bool SpawnArmorWithCorePathAt(
-            SDK::UWorld* world, SDK::FStr_Passport_Armor1 passport, const std::string& armorCorePath,
-            const SDK::FTransform& transform, bool snapToGround, ActorCallback onSpawned
-        ) {
-            if (!world) return false;
-            if (!armorCorePath.empty())
-                passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(armorCorePath);
-            if (!EquipmentGenerator::IsArmorPassportValid(passport)) return false;
-            Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround, std::move(onSpawned));
-            return true;
+                    SDK::FStr_Passport_Armor1 passport{};
+                    passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = coreClass;
+                    passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = request.modules[0];
+                    passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = request.modules[1];
+                    passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = request.modules[2];
+                    Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround);
+                    return true;
+                }
+                case ItemSpawnRequest::Kind::ArmorPreset: {
+                    auto passport = request.armorPassport;
+                    if (!request.armorCorePath.empty())
+                        passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 =
+                            Spawner::LoadClass(request.armorCorePath);
+                    if (!EquipmentGenerator::IsArmorPassportValid(passport)) return false;
+                    Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround);
+                    return true;
+                }
+            }
+            return false;
         }
 
         void PrepareWeaponPreviewActor(SDK::AActor* actor) {
@@ -190,19 +180,6 @@ namespace SpawnWorkflow {
         );
     }
 
-    bool QueueArmorSpawnWithCorePath(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Armor1 passport,
-        std::string armorCorePath, ActorCallback onSpawned
-    ) {
-        return QueueSpawn(
-            snapshot, spawn,
-            [passport, armorCorePath = std::move(armorCorePath),
-             onSpawned](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) mutable {
-                SpawnArmorWithCorePathAt(world, passport, armorCorePath, transform, snapToGround, onSpawned);
-            }
-        );
-    }
-
     bool QueueArmorPreview(
         const RuntimeContextSnapshot& snapshot, LivePreviewManager& preview, const SpawnConfig& spawn,
         SDK::FStr_Passport_Armor1 passport, ActorCallback onPreviewReady
@@ -228,97 +205,60 @@ namespace SpawnWorkflow {
         );
     }
 
-    bool SpawnClassPath(
-        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const std::string& classPath,
-        SDK::Enum_Ranks tier
-    ) {
+    ItemSpawnRequest ItemSpawnRequest::ClassPath(std::string classPath, SDK::Enum_Ranks tier) {
+        ItemSpawnRequest request{};
+        request.kind = Kind::ClassPath;
+        request.classPath = std::move(classPath);
+        request.tier = tier;
+        return request;
+    }
+
+    ItemSpawnRequest ItemSpawnRequest::GeneratedCustomizableWeapon(CustomizableWeapon type, SDK::Enum_Ranks tier) {
+        ItemSpawnRequest request{};
+        request.kind = Kind::GeneratedCustomizableWeapon;
+        request.customizable = type;
+        request.tier = tier;
+        return request;
+    }
+
+    ItemSpawnRequest ItemSpawnRequest::RandomArmor(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier) {
+        ItemSpawnRequest request{};
+        request.kind = Kind::RandomArmor;
+        request.armorSlot = slot;
+        request.tier = tier;
+        return request;
+    }
+
+    ItemSpawnRequest ItemSpawnRequest::ModularArmor(std::string classPath, std::array<int, 3> modules) {
+        ItemSpawnRequest request{};
+        request.kind = Kind::ModularArmor;
+        request.classPath = std::move(classPath);
+        request.modules = modules;
+        return request;
+    }
+
+    ItemSpawnRequest ItemSpawnRequest::ArmorPreset(SDK::FStr_Passport_Armor1 passport, std::string armorCorePath) {
+        ItemSpawnRequest request{};
+        request.kind = Kind::ArmorPreset;
+        request.armorPassport = passport;
+        request.armorCorePath = std::move(armorCorePath);
+        return request;
+    }
+
+    bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request) {
         return SpawnNow(
             runtime, spawn,
-            [&classPath, tier](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                return SpawnClassPathAt(world, classPath, transform, snapToGround, tier);
+            [&request](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
+                return SpawnItemAt(world, request, transform, snapToGround);
             }
         );
     }
 
-    bool QueueClassPathSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, std::string classPath, SDK::Enum_Ranks tier
-    ) {
+    bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnRequest request) {
         return QueueSpawn(
             snapshot, spawn,
-            [classPath = std::move(classPath),
-             tier](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                SpawnClassPathAt(world, classPath, transform, snapToGround, tier);
-            }
-        );
-    }
-
-    bool SpawnGeneratedCustomizableWeapon(
-        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, CustomizableWeapon type, SDK::Enum_Ranks tier
-    ) {
-        return SpawnNow(
-            runtime, spawn,
-            [type, tier](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                return SpawnGeneratedCustomizableWeaponAt(world, type, transform, snapToGround, tier);
-            }
-        );
-    }
-
-    bool QueueGeneratedCustomizableWeaponSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, CustomizableWeapon type, SDK::Enum_Ranks tier
-    ) {
-        return QueueSpawn(
-            snapshot, spawn,
-            [type, tier](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                SpawnGeneratedCustomizableWeaponAt(world, type, transform, snapToGround, tier);
-            }
-        );
-    }
-
-    bool SpawnRandomArmor(
-        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, SDK::EArmorSlots_Enum slot,
-        SDK::Enum_Ranks tier
-    ) {
-        return SpawnNow(
-            runtime, spawn,
-            [slot, tier](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                return SpawnRandomArmorAt(world, slot, transform, snapToGround, tier);
-            }
-        );
-    }
-
-    bool QueueRandomArmorSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::EArmorSlots_Enum slot,
-        SDK::Enum_Ranks tier
-    ) {
-        return QueueSpawn(
-            snapshot, spawn,
-            [slot, tier](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                SpawnRandomArmorAt(world, slot, transform, snapToGround, tier);
-            }
-        );
-    }
-
-    bool SpawnModularArmor(
-        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const std::string& classPath,
-        const std::array<int, 3>& modules
-    ) {
-        return SpawnNow(
-            runtime, spawn,
-            [&classPath, &modules](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                return SpawnModularArmorAt(world, classPath, modules, transform, snapToGround);
-            }
-        );
-    }
-
-    bool QueueModularArmorSpawn(
-        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, std::string classPath,
-        std::array<int, 3> modules
-    ) {
-        return QueueSpawn(
-            snapshot, spawn,
-            [classPath = std::move(classPath),
-             modules](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                SpawnModularArmorAt(world, classPath, modules, transform, snapToGround);
+            [request = std::move(request)](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
+                SpawnItemAt(world, request, transform, snapToGround);
             }
         );
     }
