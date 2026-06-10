@@ -8,8 +8,11 @@
 #include "Menu/SectionConfig.h"
 #include "Utils/CustomizableWeapon.h"
 #include "Utils/LivePreviewManager.h"
+#include "Utils/LoadoutPresetSerializer.h"
+#include "Utils/NPCPresetSerializer.h"
 #include "Utils/WeaponClassPaths.h"
 #include "SDK/Engine_classes.hpp"
+#include "SDK/Enum_Nationalities_structs.hpp"
 #include "SDK/Str_Passport_Armor1_structs.hpp"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
@@ -56,4 +59,19 @@ namespace SpawnWorkflow {
 
     bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request);
     bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnRequest request);
+
+    struct NPCSpawnRequest {
+        std::string classPath;
+        SDK::Enum_Nationalities nationality{};
+        SDK::Enum_Ranks tier{};
+        bool mercenary = false;
+        bool bodyguard = false;
+        int team = 0;
+        NPCOverrides overrides{};
+        bool hasLoadout = false;
+        LoadoutPresetData loadout{};
+    };
+
+    bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnRequest& request);
+    bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnRequest request);
 }

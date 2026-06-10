@@ -1,17 +1,15 @@
 #include "Menu/Sections/Spawner/NPCEditorSection.h"
 
 #include <algorithm>
+#include <utility>
 
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-#include "Hooks/GameHook.h"
 #include "ConfigManager.h"
-#include "Utils/Spawner.h"
 
 REGISTER_SECTION(NPCEditorSection, MenuTab::Spawner);
-#include "Utils/EquipmentGenerator.h"
-#include "Utils/NPCSpawnHelpers.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/SpawnWorkflow.h"
 #include "Utils/SpawnBindingUtils.h"
 
 namespace {
@@ -152,133 +150,46 @@ const char* NPCEditorSection::GetNPCClassName() const noexcept {
 }
 
 void NPCEditorSection::SpawnNPC() {
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) return;
 
-    auto className = std::string(GetNPCClassName());
-    auto nationality = static_cast<SDK::Enum_Nationalities>(cfg.npcNationality);
-    auto tier = static_cast<SDK::Enum_Ranks>(cfg.npcTier);
-    bool mercenary = cfg.npcMercenary;
-    bool bodyguard = cfg.bodyguard;
-    int team = cfg.npcTeam;
-    auto ovr = overrides;
-    bool hasOverrides = CountAllActive() > 0;
-    bool hasLoadout = loadoutPicker.HasSelection();
+    SpawnWorkflow::NPCSpawnRequest request{
+        .classPath = GetNPCClassName(),
+        .nationality = static_cast<SDK::Enum_Nationalities>(cfg.npcNationality),
+        .tier = static_cast<SDK::Enum_Ranks>(cfg.npcTier),
+        .mercenary = cfg.npcMercenary,
+        .bodyguard = cfg.bodyguard,
+        .team = cfg.npcTeam,
+        .overrides = overrides,
+    };
 
-    LoadoutPresetData loadoutData;
-    if (hasLoadout) {
-        loadoutData = LoadoutPresetSerializer::LoadFromFile(loadoutPicker.SelectedPath());
-        if (!loadoutData.success) hasLoadout = false;
+    if (loadoutPicker.HasSelection()) {
+        request.loadout = LoadoutPresetSerializer::LoadFromFile(loadoutPicker.SelectedPath());
+        request.hasLoadout = request.loadout.success;
     }
 
-    double spawnScale = ovr.heightRate.enabled ? 0.875 + ovr.heightRate.value * 0.125 : cfg.spawn.scale;
-    auto spawnTransform = Spawner::BuildSpawnTransform(
-        player, cfg.spawn.distanceForward, cfg.spawn.distanceUp, static_cast<float>(spawnScale)
-    );
-
-    int playerTeam = player->Team_Int;
-    bool snap = cfg.spawn.snapToGround;
-
-    GameHook::QueueAction([this, className, spawnTransform, nationality, tier, mercenary, bodyguard, team, ovr,
-                           hasOverrides, hasLoadout, playerTeam, snap,
-                           loadout = std::move(loadoutData)](const RuntimeContextSnapshot& runtime) mutable {
-        if (!runtime.world) return;
-
-        auto preCallback = [this, nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides, hasLoadout,
-                            playerTeam, world = runtime.world](SDK::AActor* actor) {
-            auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-            if (!npc) return;
-
-            if (bodyguard) {
-                npc->Team_Int = playerTeam;
-            } else {
-                npc->Team_Int = team;
-            }
-
-            auto passport = EquipmentGenerator::GenerateCharacter(world, npc->Class, nationality, tier, mercenary);
-            NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
-            npc->Character_Passport = passport;
-
-            if (hasLoadout) npc->Spawn_in_Pants = true;
-
-            if (hasOverrides) NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
-        };
-
-        auto postCallback = [w = runtime.world, ovr, hasOverrides, hasLoadout,
-                             loadout = std::move(loadout)](SDK::AActor* actor) {
-            auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-            if (!npc) return;
-
-            NPCSpawnHelpers::ApplyAIFearlessOverride(npc, ovr);
-            if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
-            if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(w, npc, loadout);
-        };
-
-        Spawner::SpawnActor(
-            runtime.world, className, spawnTransform, preCallback, snap, Spawner::DEFAULT_SPAWN_TIER, postCallback
-        );
-    });
+    SpawnWorkflow::QueueNPCSpawn(snapshot, cfg.spawn, std::move(request));
 }
 
 void NPCEditorSection::SpawnBindingNPC(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
     if (!runtime.world || !runtime.player) return;
 
-    auto className = std::string(GetNPCClassName(binding.npc.npcTypeIndex));
-    auto nationality = static_cast<SDK::Enum_Nationalities>(binding.npc.nationality);
-    auto tier = static_cast<SDK::Enum_Ranks>(binding.npc.tier);
-    auto ovr = binding.npc.overrides;
-    auto npcData = binding.npc;
-    bool hasOverrides = false;
-    for (const auto& group : NPCPresetData::GetOverrideGroups(npcData)) {
-        if (CountActive(group.fields) > 0) {
-            hasOverrides = true;
-            break;
-        }
-    }
-    bool hasLoadout = binding.hasLoadout && !binding.loadoutPath.empty();
-    LoadoutPresetData loadout;
-    if (hasLoadout) {
-        loadout = LoadoutPresetSerializer::LoadFromFile(binding.loadoutPath);
-        hasLoadout = loadout.success;
-    }
-
-    double spawnScale = ovr.heightRate.enabled ? 0.875 + ovr.heightRate.value * 0.125 : binding.spawn.scale;
-    auto transform = Spawner::BuildSpawnTransform(
-        runtime.player, binding.spawn.distanceForward, binding.spawn.distanceUp, static_cast<float>(spawnScale)
-    );
-    int playerTeam = runtime.player->Team_Int;
-    bool snap = binding.spawn.snapToGround;
-    bool mercenary = binding.npc.mercenary;
-    bool bodyguard = binding.bodyguard;
-    int team = binding.team;
-
-    auto preCallback = [nationality, tier, mercenary, bodyguard, team, ovr, hasOverrides, hasLoadout, playerTeam,
-                        world = runtime.world](SDK::AActor* actor) {
-        auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-        if (!npc) return;
-
-        npc->Team_Int = bodyguard ? playerTeam : team;
-        auto passport = EquipmentGenerator::GenerateCharacter(world, npc->Class, nationality, tier, mercenary);
-        NPCSpawnHelpers::ApplyPassportOverrides(passport, ovr);
-        npc->Character_Passport = passport;
-
-        if (hasLoadout) npc->Spawn_in_Pants = true;
-        if (hasOverrides) NPCSpawnHelpers::ApplyPropertyOverrides(npc, ovr);
+    SpawnWorkflow::NPCSpawnRequest request{
+        .classPath = GetNPCClassName(binding.npc.npcTypeIndex),
+        .nationality = static_cast<SDK::Enum_Nationalities>(binding.npc.nationality),
+        .tier = static_cast<SDK::Enum_Ranks>(binding.npc.tier),
+        .mercenary = binding.npc.mercenary,
+        .bodyguard = binding.bodyguard,
+        .team = binding.team,
+        .overrides = binding.npc.overrides,
     };
 
-    auto postCallback = [world = runtime.world, ovr, hasOverrides, hasLoadout,
-                         loadout = std::move(loadout)](SDK::AActor* actor) mutable {
-        auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
-        if (!npc) return;
+    if (binding.hasLoadout && !binding.loadoutPath.empty()) {
+        request.loadout = LoadoutPresetSerializer::LoadFromFile(binding.loadoutPath);
+        request.hasLoadout = request.loadout.success;
+    }
 
-        NPCSpawnHelpers::ApplyAIFearlessOverride(npc, ovr);
-        if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, ovr);
-        if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(world, npc, loadout);
-    };
-
-    Spawner::SpawnActor(
-        runtime.world, className, transform, preCallback, snap, Spawner::DEFAULT_SPAWN_TIER, postCallback
-    );
+    SpawnWorkflow::SpawnNPC(runtime, binding.spawn, request);
 }
 
 NPCPresetData NPCEditorSection::BuildPresetData() const {

@@ -4,6 +4,7 @@
 
 #include "Hooks/GameHook.h"
 #include "Utils/EquipmentGenerator.h"
+#include "Utils/NPCSpawnHelpers.h"
 #include "Utils/Spawner.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/ModularWeaponBP_classes.hpp"
@@ -90,6 +91,65 @@ namespace SpawnWorkflow {
                 }
             }
             return false;
+        }
+
+        bool HasActiveNPCOverrides(const NPCOverrides& overrides) {
+            NPCPresetData data{};
+            data.overrides = overrides;
+            for (const auto& group : NPCPresetData::GetOverrideGroups(data)) {
+                if (CountActive(group.fields) > 0) return true;
+            }
+            return false;
+        }
+
+        SpawnConfig BuildNPCSpawnConfig(const SpawnConfig& spawn, const NPCOverrides& overrides) {
+            SpawnConfig adjusted = spawn;
+            if (overrides.heightRate.enabled) {
+                adjusted.scale = static_cast<float>(0.875 + overrides.heightRate.value * 0.125);
+            }
+            return adjusted;
+        }
+
+        bool SpawnNPCAt(
+            SDK::UWorld* world, const NPCSpawnRequest& request, int playerTeam, const SDK::FTransform& transform,
+            bool snapToGround
+        ) {
+            if (!world || request.classPath.empty()) return false;
+
+            const bool hasOverrides = HasActiveNPCOverrides(request.overrides);
+            const bool hasLoadout = request.hasLoadout;
+
+            auto preCallback = [nationality = request.nationality, tier = request.tier, mercenary = request.mercenary,
+                                bodyguard = request.bodyguard, team = request.team, overrides = request.overrides,
+                                hasOverrides, hasLoadout, playerTeam, world](SDK::AActor* actor) {
+                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                if (!npc) return;
+
+                npc->Team_Int = bodyguard ? playerTeam : team;
+
+                auto passport = EquipmentGenerator::GenerateCharacter(world, npc->Class, nationality, tier, mercenary);
+                NPCSpawnHelpers::ApplyPassportOverrides(passport, overrides);
+                npc->Character_Passport = passport;
+
+                if (hasLoadout) npc->Spawn_in_Pants = true;
+                if (hasOverrides) NPCSpawnHelpers::ApplyPropertyOverrides(npc, overrides);
+            };
+
+            auto postCallback = [world, overrides = request.overrides, hasOverrides, hasLoadout,
+                                 loadout = request.loadout](SDK::AActor* actor) {
+                auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
+                if (!npc) return;
+
+                NPCSpawnHelpers::ApplyAIFearlessOverride(npc, overrides);
+                if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, overrides);
+                if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(world, npc, loadout);
+            };
+
+            Spawner::SpawnActor(
+                world, request.classPath, transform, preCallback, snapToGround, Spawner::DEFAULT_SPAWN_TIER,
+                postCallback
+            );
+            return true;
         }
 
         void PrepareWeaponPreviewActor(SDK::AActor* actor) {
@@ -261,5 +321,29 @@ namespace SpawnWorkflow {
                 SpawnItemAt(world, request, transform, snapToGround);
             }
         );
+    }
+
+    bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnRequest& request) {
+        auto adjustedSpawn = BuildNPCSpawnConfig(spawn, request.overrides);
+
+        SDK::FTransform transform{};
+        if (!BuildSpawnTransform(runtime, adjustedSpawn, transform)) return false;
+
+        return SpawnNPCAt(runtime.world, request, runtime.player->Team_Int, transform, adjustedSpawn.snapToGround);
+    }
+
+    bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnRequest request) {
+        auto adjustedSpawn = BuildNPCSpawnConfig(spawn, request.overrides);
+
+        SDK::FTransform transform{};
+        if (!BuildSpawnTransform(snapshot, adjustedSpawn, transform)) return false;
+
+        const int playerTeam = snapshot.player->Team_Int;
+        const bool snap = adjustedSpawn.snapToGround;
+        GameHook::QueueAction([request = std::move(request), transform, playerTeam,
+                               snap](const RuntimeContextSnapshot& runtime) {
+            SpawnNPCAt(runtime.world, request, playerTeam, transform, snap);
+        });
+        return true;
     }
 }
