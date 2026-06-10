@@ -4,12 +4,11 @@
 
 #include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-#include "Hooks/GameHook.h"
 #include "ConfigManager.h"
 
 REGISTER_SECTION(ItemSpawnerSection, MenuTab::Spawner);
 #include "Utils/Spawner.h"
-#include "Utils/EquipmentGenerator.h"
+#include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/SpawnBindingUtils.h"
@@ -21,15 +20,6 @@ namespace {
 
     std::string ItemBindingSection(int id) {
         return SpawnBindingUtils::SectionName(ITEM_BINDING_PREFIX, id);
-    }
-
-    void SpawnGeneratedCustomizableWeapon(
-        const SDK::UWorld* world, CustomizableWeapon type, const SDK::FTransform& transform, bool snapToGround,
-        SDK::Enum_Ranks tier
-    ) {
-        auto passport = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
-        if (EquipmentGenerator::IsPassportValid(passport))
-            Spawner::SpawnCustomizableFromPassport(world, passport, transform, snapToGround);
     }
 }
 
@@ -170,22 +160,14 @@ void ItemSpawnerSection::UpdateFilteredItems() {
 }
 
 void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
-    auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn);
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) return;
+    auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
 
     if (IsRandomArmorCategory()) {
         if (cfg.currentItemIndex >= GameConstants::ARMOR_SLOT_COUNT) return;
         auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[cfg.currentItemIndex].slotEnum);
-        auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
-        bool snap = cfg.spawn.snapToGround;
-        const auto& transform = spawnTransform;
-        GameHook::QueueAction([slot, tier, transform, snap](const RuntimeContextSnapshot& runtime) {
-            if (!runtime.world) return;
-            auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slot, 0.5);
-            if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
-                Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
-        });
+        SpawnWorkflow::QueueRandomArmorSpawn(snapshot, cfg.spawn, slot, tier);
         return;
     }
 
@@ -196,128 +178,72 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
     auto& item = reg.GetItem(sub->itemIndices[cfg.currentItemIndex]);
 
     if (item.customizable != CustomizableWeapon::None) {
-        auto customizable = item.customizable;
-        auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
-        bool snap = cfg.spawn.snapToGround;
-        GameHook::QueueAction([customizable, spawnTransform, snap, tier](const RuntimeContextSnapshot& runtime) {
-            if (runtime.world)
-                SpawnGeneratedCustomizableWeapon(runtime.world, customizable, spawnTransform, snap, tier);
-        });
+        SpawnWorkflow::QueueGeneratedCustomizableWeaponSpawn(snapshot, cfg.spawn, item.customizable, tier);
     } else if (IsCurrentItemModularArmor(item)) {
-        auto classPath = item.classPath;
-        int mod1 = armorModules.selected[0], mod2 = armorModules.selected[1], mod3 = armorModules.selected[2];
-        const auto& transform = spawnTransform;
-        bool snap = cfg.spawn.snapToGround;
-        GameHook::QueueAction([classPath, mod1, mod2, mod3, transform, snap](const RuntimeContextSnapshot& runtime) {
-            if (!runtime.world) return;
-            auto* coreClass = Spawner::LoadClass(classPath);
-            if (!coreClass) return;
-            SDK::FStr_Passport_Armor1 passport{};
-            passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = coreClass;
-            passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = mod1;
-            passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = mod2;
-            passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = mod3;
-            Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
-        });
+        SpawnWorkflow::QueueModularArmorSpawn(
+            snapshot, cfg.spawn, item.classPath,
+            {armorModules.selected[0], armorModules.selected[1], armorModules.selected[2]}
+        );
     } else if (!item.classPath.empty()) {
-        auto classPath = item.classPath;
-        auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
-        bool snap = cfg.spawn.snapToGround;
-        GameHook::QueueAction([classPath, spawnTransform, snap, tier](const RuntimeContextSnapshot& runtime) {
-            if (runtime.world) Spawner::SpawnActor(runtime.world, classPath, spawnTransform, nullptr, snap, tier);
-        });
+        SpawnWorkflow::QueueClassPathSpawn(snapshot, cfg.spawn, item.classPath, tier);
     }
 }
 
 void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
     if (!runtime.world || !runtime.player) return;
 
-    auto transform = Spawner::BuildSpawnTransform(runtime.player, binding.spawn);
-    bool snap = binding.spawn.snapToGround;
     auto tier = static_cast<SDK::Enum_Ranks>(binding.tier);
 
     switch (binding.source) {
         case BindingSource::RandomArmor: {
             if (binding.armorSlot < 0 || binding.armorSlot >= GameConstants::ARMOR_SLOT_COUNT) return;
             auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[binding.armorSlot].slotEnum);
-            auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slot, 0.5);
-            if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43)
-                Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
+            SpawnWorkflow::SpawnRandomArmor(runtime, binding.spawn, slot, tier);
             break;
         }
         case BindingSource::CustomizableWeapon: {
-            SpawnGeneratedCustomizableWeapon(
-                runtime.world, static_cast<CustomizableWeapon>(binding.customizable), transform, snap, tier
+            SpawnWorkflow::SpawnGeneratedCustomizableWeapon(
+                runtime, binding.spawn, static_cast<CustomizableWeapon>(binding.customizable), tier
             );
             break;
         }
         case BindingSource::ModularArmor: {
-            auto* coreClass = Spawner::LoadClass(binding.classPath);
-            if (!coreClass) return;
-            SDK::FStr_Passport_Armor1 passport{};
-            passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = coreClass;
-            passport.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = binding.modules[0];
-            passport.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = binding.modules[1];
-            passport.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = binding.modules[2];
-            Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap);
+            SpawnWorkflow::SpawnModularArmor(runtime, binding.spawn, binding.classPath, binding.modules);
             break;
         }
         case BindingSource::ClassPath:
             if (!binding.classPath.empty())
-                Spawner::SpawnActor(runtime.world, binding.classPath, transform, nullptr, snap, tier);
+                SpawnWorkflow::SpawnClassPath(runtime, binding.spawn, binding.classPath, tier);
             break;
     }
 }
 
 void ItemSpawnerSection::SpawnCustomPath() const noexcept {
     if (customPathBuffer[0] == '\0') return;
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
-    auto spawnTransform = Spawner::BuildSpawnTransform(player, cfg.spawn);
-    std::string path = customPathBuffer;
-    bool snap = cfg.spawn.snapToGround;
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
-    GameHook::QueueAction([path, spawnTransform, snap, tier](const RuntimeContextSnapshot& runtime) {
-        if (runtime.world) Spawner::SpawnActor(runtime.world, path, spawnTransform, nullptr, snap, tier);
-    });
+    SpawnWorkflow::QueueClassPathSpawn(snapshot, cfg.spawn, customPathBuffer, tier);
 }
 
 void ItemSpawnerSection::SpawnWeaponFromPreset() {
     if (!weaponPicker.HasSelection()) return;
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) return;
     auto data = WeaponPresetSerializer::LoadFromFile(weaponPicker.SelectedPath());
     if (!data.success) return;
 
-    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
-    bool snap = cfg.spawn.snapToGround;
-
-    GameHook::QueueAction([transform, snap, data = std::move(data)](const RuntimeContextSnapshot& runtime) mutable {
-        if (!runtime.world) return;
-        Spawner::LoadWeaponClasses(data.passport, data.classPaths);
-
-        if (!EquipmentGenerator::IsPassportValid(data.passport)) return;
-        Spawner::SpawnCustomizableFromPassport(runtime.world, data.passport, transform, snap);
-    });
+    SpawnWorkflow::QueueWeaponSpawn(snapshot, cfg.spawn, data.passport, std::move(data.classPaths));
 }
 
 void ItemSpawnerSection::SpawnArmorFromPreset() {
     if (!armorPicker.HasSelection()) return;
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) return;
     auto data = ArmorPresetSerializer::LoadFromFile(armorPicker.SelectedPath());
     if (!data.success) return;
 
-    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
-    bool snap = cfg.spawn.snapToGround;
-
-    GameHook::QueueAction([transform, snap, data = std::move(data)](const RuntimeContextSnapshot& runtime) mutable {
-        if (!runtime.world) return;
-        if (!data.armorCorePath.empty())
-            data.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 = Spawner::LoadClass(data.armorCorePath);
-        if (!data.passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
-        Spawner::SpawnArmorFromPassport(runtime.world, data.passport, transform, snap);
-    });
+    SpawnWorkflow::QueueArmorSpawnWithCorePath(snapshot, cfg.spawn, data.passport, std::move(data.armorCorePath));
 }
 
 ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, "Items") {

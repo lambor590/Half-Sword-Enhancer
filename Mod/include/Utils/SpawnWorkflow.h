@@ -1,9 +1,12 @@
 #pragma once
 
+#include <array>
 #include <functional>
+#include <string>
 
 #include "Core/ModContext.h"
 #include "Menu/SectionConfig.h"
+#include "Utils/CustomizableWeapon.h"
 #include "Utils/LivePreviewManager.h"
 #include "Utils/WeaponClassPaths.h"
 #include "SDK/Engine_classes.hpp"
@@ -27,8 +30,45 @@ namespace SpawnWorkflow {
         const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Armor1 passport,
         ActorCallback onSpawned = nullptr
     );
+    bool QueueArmorSpawnWithCorePath(
+        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Armor1 passport,
+        std::string armorCorePath, ActorCallback onSpawned = nullptr
+    );
     bool QueueArmorPreview(
         const RuntimeContextSnapshot& snapshot, LivePreviewManager& preview, const SpawnConfig& spawn,
         SDK::FStr_Passport_Armor1 passport, ActorCallback onPreviewReady = nullptr
+    );
+
+    bool SpawnClassPath(
+        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const std::string& classPath,
+        SDK::Enum_Ranks tier
+    );
+    bool QueueClassPathSpawn(
+        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, std::string classPath, SDK::Enum_Ranks tier
+    );
+
+    bool SpawnGeneratedCustomizableWeapon(
+        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, CustomizableWeapon type, SDK::Enum_Ranks tier
+    );
+    bool QueueGeneratedCustomizableWeaponSpawn(
+        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, CustomizableWeapon type, SDK::Enum_Ranks tier
+    );
+
+    bool SpawnRandomArmor(
+        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, SDK::EArmorSlots_Enum slot,
+        SDK::Enum_Ranks tier
+    );
+    bool QueueRandomArmorSpawn(
+        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::EArmorSlots_Enum slot,
+        SDK::Enum_Ranks tier
+    );
+
+    bool SpawnModularArmor(
+        const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const std::string& classPath,
+        const std::array<int, 3>& modules
+    );
+    bool QueueModularArmorSpawn(
+        const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, std::string classPath,
+        std::array<int, 3> modules
     );
 }
