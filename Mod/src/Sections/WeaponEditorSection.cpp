@@ -9,6 +9,7 @@ REGISTER_SECTION(WeaponEditorSection, MenuTab::Equipment);
 #include <tuple>
 #include <algorithm>
 #include <span>
+#include <utility>
 
 #include "Hooks/GameHook.h"
 #include "Utils/BlueprintRegistry.h"
@@ -17,6 +18,7 @@ REGISTER_SECTION(WeaponEditorSection, MenuTab::Equipment);
 #include "Utils/GuiUtils.h"
 #include "Utils/PresetUtils.h"
 #include "Utils/Spawner.h"
+#include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
@@ -536,9 +538,11 @@ void WeaponEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
 }
 
 void WeaponEditorSection::SpawnPreview() {
-    preview.Destroy();
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) {
+        preview.Destroy();
+        return;
+    }
 
     lastPreviewedPassport = weaponPassport;
     ClearWeaponPassportPadding(lastPreviewedPassport);
@@ -549,47 +553,25 @@ void WeaponEditorSection::SpawnPreview() {
     bool hasMesh = HasAnyMeshOverride();
     auto meshSnap = hasMesh ? BuildMeshSnapshot() : MeshSnapshot{};
 
-    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
-    bool snap = cfg.spawn.snapToGround;
-    auto passport = weaponPassport;
-    auto paths = weaponPaths;
-
-    GameHook::QueueAction([this, passport, paths, transform, snap, hasOverrides, hasMesh,
-                           meshSnap](const RuntimeContextSnapshot& runtime) mutable {
-        if (!runtime.world) return;
-        auto* spawnWorld = runtime.world;
-        Spawner::LoadWeaponClasses(passport, paths);
-        if (!EquipmentGenerator::IsPassportValid(passport)) return;
-        Spawner::SpawnCustomizableFromPassport(
-            spawnWorld, passport, transform, snap,
-            [this, spawnWorld, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
-                if (!actor) return;
-                auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
-                CollectMeshesFromWeapon(weapon);
-                if (!cfg.preview.livePreview) {
-                    actor->K2_DestroyActor();
-                    return;
-                }
-                weapon->Simulates_Physics = false;
-                weapon->Turn_Off_Collision();
-                actor->SetActorEnableCollision(false);
-                if (hasOverrides) ApplyOverridesToActor(actor);
-                if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
-                preview.SetPreviewActor(actor, spawnWorld);
-                if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
-            }
-        );
-    });
+    SpawnWorkflow::QueueWeaponPreview(
+        snapshot, preview, cfg.spawn, weaponPassport, weaponPaths,
+        [this](SDK::AActor* actor) {
+            auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+            CollectMeshesFromWeapon(weapon);
+        },
+        [this, hasOverrides, hasMesh, meshSnap](SDK::AActor* actor) {
+            auto* weapon = static_cast<SDK::AModularWeaponBP_C*>(actor);
+            if (hasOverrides) ApplyOverridesToActor(actor);
+            if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, skeletalPreviewComps);
+        }
+    );
 }
 
 void WeaponEditorSection::SpawnFromPassport() {
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) return;
 
-    if (cfg.preview.livePreview) {
-        cfg.preview.livePreview = false;
-        preview.Destroy();
-    }
+    if (cfg.preview.livePreview) preview.Disable();
 
     bool hasOverrides = CountAllActive() > 0;
     bool hasMesh = HasAnyMeshOverride();
@@ -603,18 +585,7 @@ void WeaponEditorSection::SpawnFromPassport() {
         if (hasMesh) ApplyMeshOverrides(weapon, meshSnap, nullptr, true);
     };
 
-    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
-    bool snap = cfg.spawn.snapToGround;
-    auto passport = weaponPassport;
-    auto paths = weaponPaths;
-
-    GameHook::QueueAction([passport, paths, transform, snap,
-                           callback = std::move(callback)](const RuntimeContextSnapshot& runtime) mutable {
-        if (!runtime.world) return;
-        Spawner::LoadWeaponClasses(passport, paths);
-        if (!EquipmentGenerator::IsPassportValid(passport)) return;
-        Spawner::SpawnCustomizableFromPassport(runtime.world, passport, transform, snap, callback);
-    });
+    SpawnWorkflow::QueueWeaponSpawn(snapshot, cfg.spawn, weaponPassport, weaponPaths, std::move(callback));
 }
 
 void WeaponEditorSection::RenderVectorDrag(const char* label, SDK::FVector& vec, float speed) {

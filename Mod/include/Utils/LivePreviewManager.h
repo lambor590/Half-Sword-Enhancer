@@ -16,11 +16,18 @@ public:
     void SetPreviewActor(SDK::AActor* actor, SDK::UWorld* world) {
         previewActor = actor;
         previewWorld = world;
+        if (actor && cfg.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, yaw, 0.0}, true);
     }
     [[nodiscard]] SDK::AActor* GetPreviewActor() const { return previewActor; }
-    [[nodiscard]] double GetYaw() const { return yaw; }
+    [[nodiscard]] bool IsEnabled() const { return cfg.livePreview; }
 
     void SetCleanupCallback(const CleanupFn& fn) { onCleanup = fn; }
+
+    void Disable() {
+        cfg.livePreview = false;
+        prevEnabled = false;
+        Destroy();
+    }
 
     void Destroy() {
         if (!previewActor) return;

@@ -5,11 +5,13 @@
 REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
 
 #include <cstring>
+#include <utility>
 #include "Hooks/GameHook.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/PresetUtils.h"
 #include "Utils/Spawner.h"
+#include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "SDK/BP_Armor_Master_classes.hpp"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
@@ -162,42 +164,27 @@ void ArmorEditorSection::ApplyOverridesToActor(SDK::AActor* actor) const {
 }
 
 void ArmorEditorSection::SpawnPreview() {
-    preview.Destroy();
-    if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
+    if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) {
+        preview.Destroy();
+        return;
+    }
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) {
+        preview.Destroy();
+        return;
+    }
 
     lastPreviewedPassport = armorPassport;
     lastPreviewedProps = runtimeProps;
 
     bool hasOverrides = CountAllActive() > 0;
 
-    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
-    bool snap = cfg.spawn.snapToGround;
-    auto passport = armorPassport;
-
-    GameHook::QueueAction([this, passport, transform, snap, hasOverrides](const RuntimeContextSnapshot& runtime) {
-        if (!runtime.world) return;
-        auto* world = runtime.world;
-        Spawner::SpawnArmorFromPassport(
-            world, passport, transform, snap,
-            [this, hasOverrides, world](SDK::AActor* actor) {
-                if (!cfg.preview.livePreview) {
-                    actor->K2_DestroyActor();
-                    return;
-                }
-                auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
-                armor->Simulates_Physics = false;
-                if (armor->Armor_Mesh_Static) armor->Armor_Mesh_Static->SetSimulatePhysics(false);
-                if (armor->Armor_Mesh_Skeletal) armor->Armor_Mesh_Skeletal->SetAllBodiesSimulatePhysics(false);
-                if (armor->Armor_Mesh_Primitive) armor->Armor_Mesh_Primitive->SetSimulatePhysics(false);
-                actor->SetActorEnableCollision(false);
-                if (hasOverrides) ApplyOverridesToActor(actor);
-                preview.SetPreviewActor(actor, world);
-                if (cfg.preview.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, preview.GetYaw(), 0.0}, true);
-            }
-        );
-    });
+    SpawnWorkflow::QueueArmorPreview(
+        snapshot, preview, cfg.spawn, armorPassport,
+        [this, hasOverrides](SDK::AActor* actor) {
+            if (hasOverrides) ApplyOverridesToActor(actor);
+        }
+    );
 }
 
 bool ArmorEditorSection::PassportChanged(const SDK::FStr_Passport_Armor1& a, const SDK::FStr_Passport_Armor1& b) {
@@ -231,13 +218,10 @@ void ArmorEditorSection::RenderArmorTierCombo() {
 
 void ArmorEditorSection::SpawnFromPassport() {
     if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
-    auto [world, player] = RenderPlayerWorld();
-    if (!player || !world) return;
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.player || !snapshot.world) return;
 
-    if (cfg.preview.livePreview) {
-        cfg.preview.livePreview = false;
-        preview.Destroy();
-    }
+    if (cfg.preview.livePreview) preview.Disable();
 
     std::function<void(SDK::AActor*)> callback = nullptr;
     if (CountAllActive() > 0) {
@@ -246,14 +230,7 @@ void ArmorEditorSection::SpawnFromPassport() {
         };
     }
 
-    auto transform = Spawner::BuildSpawnTransform(player, cfg.spawn);
-    bool snap = cfg.spawn.snapToGround;
-    auto passport = armorPassport;
-
-    GameHook::QueueAction([passport, transform, snap,
-                           callback = std::move(callback)](const RuntimeContextSnapshot& runtime) {
-        if (runtime.world) Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snap, callback);
-    });
+    SpawnWorkflow::QueueArmorSpawn(snapshot, cfg.spawn, armorPassport, std::move(callback));
 }
 
 void ArmorEditorSection::RenderGenerationControls() {

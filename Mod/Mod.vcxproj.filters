@@ -125,6 +125,9 @@
     <ClCompile Include="src\Spawner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SpawnWorkflow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\NPCSpawnHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -315,6 +318,9 @@
     </ClInclude>
     <ClInclude Include="include\Utils\Spawner.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utils\SpawnWorkflow.h">
+      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\Sections\Spawner\ItemSpawnerSection.h">
       <Filter>Sections\Spawner</Filter>
