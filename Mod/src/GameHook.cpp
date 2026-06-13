@@ -15,6 +15,7 @@
 #include <cstring>
 #include <intrin.h>
 #include <thread>
+#include <utility>
 
 #ifdef _MSC_VER
 #define FORCE_INLINE __forceinline
@@ -128,12 +129,16 @@ __declspec(noinline) static const ProcessEventCache::Slot* ResolveAndCache(
 
 void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
     auto& hook = GameHook::Get();
+    const auto originalProcessEvent = std::bit_cast<ProcessEvent>(hook.oProcessEvent);
     if (g_inProcessEventHook) [[unlikely]] {
-        std::bit_cast<ProcessEvent>(hook.oProcessEvent)(pObject, pFunc, parms);
+        originalProcessEvent(pObject, pFunc, parms);
         return;
     }
 
     g_inProcessEventHook = true;
+    bool callOriginal = true;
+    GameHook::ProcessEventContext context{pObject, pFunc, parms};
+    const GameHook::HookEntry* entry = nullptr;
 
     const bool hasQueuedActions = GameHook::hasQueuedActions.load(std::memory_order_relaxed);
     if (hasQueuedActions || hook.hookCount) [[unlikely]] {
@@ -147,11 +152,23 @@ void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void
         }
 
         if (slot->hookIdx >= 0) [[unlikely]] {
-            hook.hooks[slot->hookIdx].callback();
+            entry = &hook.hooks[slot->hookIdx];
+            if (!entry->afterOriginal) {
+                entry->callback(context);
+                pObject = context.object;
+                pFunc = context.function;
+                parms = context.params;
+                callOriginal = !context.skipOriginal;
+            }
         }
     }
 
-    std::bit_cast<ProcessEvent>(hook.oProcessEvent)(pObject, pFunc, parms);
+    if (callOriginal) {
+        originalProcessEvent(pObject, pFunc, parms);
+    }
+    if (entry && entry->afterOriginal) [[unlikely]] {
+        entry->callback(context);
+    }
     g_inProcessEventHook = false;
 }
 
@@ -201,40 +218,42 @@ void GameHook::Unhook() {
     logger.Log("ProcessEvent unhooked successfully!");
 }
 
-void GameHook::RegisterHook(std::string_view functionName, const std::function<void()>& callback) {
-    RegisterHook(HS::Hash::FNV1A(functionName), std::move(callback));
+void GameHook::RegisterHook(std::string_view functionName, HookCallback callback, bool afterOriginal) {
+    RegisterHook(HS::Hash::FNV1A(functionName), std::move(callback), afterOriginal);
 }
 
 void GameHook::UnregisterHook(std::string_view functionName) {
     UnregisterHook(HS::Hash::FNV1A(functionName));
 }
 
-void GameHook::RegisterHook(GameEvent event, const std::function<void()>& callback) {
-    RegisterHook(EventBus::GetEventFunctionName(event), std::move(callback));
-}
+void GameHook::RegisterHook(uint64_t hash, HookCallback callback, bool afterOriginal) {
+    if (!callback) return;
 
-void GameHook::UnregisterHook(GameEvent event) {
-    UnregisterHook(EventBus::GetEventFunctionName(event));
-}
-
-void GameHook::RegisterHook(uint64_t hash, const std::function<void()>& callback) {
     for (uint8_t i = 0; i < hookCount; ++i) {
         if (hooks[i].nameHash == hash) {
             hooks[i].callback = std::move(callback);
-            g_peCache.Clear();
+            hooks[i].afterOriginal = afterOriginal;
             return;
         }
     }
     if (hookCount < MAX_HOOKS) {
-        hooks[hookCount++] = {hash, std::move(callback)};
+        auto& entry = hooks[hookCount++];
+        entry.nameHash = hash;
+        entry.callback = std::move(callback);
+        entry.afterOriginal = afterOriginal;
         g_peCache.Clear();
+    } else {
+        logger.Log("Max ProcessEvent hooks reached");
     }
 }
 
 void GameHook::UnregisterHook(uint64_t hash) {
     for (uint8_t i = 0; i < hookCount; ++i) {
         if (hooks[i].nameHash == hash) {
-            hooks[i] = std::move(hooks[--hookCount]);
+            --hookCount;
+            if (i != hookCount) {
+                hooks[i] = std::move(hooks[hookCount]);
+            }
             hooks[hookCount] = {};
             g_peCache.Clear();
             return;

@@ -182,10 +182,28 @@ namespace {
         }
     }
 
+    void SetFunctionHooksEnabled(KeybindEntry* entry, bool enabled) {
+        for (const auto& hook : entry->functionHooks) {
+            if (enabled) {
+                GameHook::QueueAction([name = hook.functionName, callback = hook.callback,
+                                            afterOriginal = hook.afterOriginal](
+                                           const RuntimeContextSnapshot&
+                                       ) mutable {
+                    GameHook::Get().RegisterHook(name, std::move(callback), afterOriginal);
+                });
+            } else {
+                GameHook::QueueAction([name = hook.functionName](const RuntimeContextSnapshot&) {
+                    GameHook::Get().UnregisterHook(name);
+                });
+            }
+        }
+    }
+
     void SetEnabledState(KeybindEntry* entry, bool enabled) {
         entry->isEnabled = enabled;
         KeybindConfig::SaveKeybind(*entry);
         SetEventsEnabled(entry, enabled);
+        SetFunctionHooksEnabled(entry, enabled);
     }
 
     void ToggleEntry(KeybindEntry* entry, bool enabled) {
@@ -489,7 +507,10 @@ void InitKeybindEntry(KeybindEntry& entry) {
 
     if (!IsKeyUnbound(*entry.keyPtr)) RegisterEntry(entry);
 
-    if (entry.isEnabled) SetEventsEnabled(&entry, true);
+    if (entry.isEnabled) {
+        SetEventsEnabled(&entry, true);
+        SetFunctionHooksEnabled(&entry, true);
+    }
 }
 
 void AddKeybind(KeybindEntries& keybinds, KeybindEntry entry) {

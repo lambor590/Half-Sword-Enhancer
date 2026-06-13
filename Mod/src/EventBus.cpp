@@ -14,7 +14,9 @@ void EventBus::Subscribe(GameEvent event, void* id, std::function<void(const Run
         bool first = vec.empty();
         vec.push_back({id, std::move(cb)});
         if (first) {
-            GameHook::Get().RegisterHook(event, [this, event]() { Dispatch(event); });
+            GameHook::Get().RegisterHook(
+                GetEventFunctionName(event), [this, event](GameHook::ProcessEventContext&) { Dispatch(event); }
+            );
         }
     });
 }
@@ -31,7 +33,7 @@ void EventBus::Unsubscribe(GameEvent event, void* id) {
             }
         }
         if (vec.empty()) {
-            GameHook::Get().UnregisterHook(event);
+            GameHook::Get().UnregisterHook(GetEventFunctionName(event));
         }
     });
 }

@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "Core/ModContext.h"
+#include "Hooks/GameHook.h"
 #include "Menu/GameEvent.h"
 
 class ModContext;
@@ -43,6 +44,12 @@ struct KeybindParam {
     ) noexcept;
 };
 
+struct KeybindFunctionHook {
+    std::string_view functionName;
+    GameHook::HookCallback callback;
+    bool afterOriginal = false;
+};
+
 struct KeybindEntry {
     std::string name;
     std::string tooltip;
@@ -53,6 +60,7 @@ struct KeybindEntry {
     bool isEnabled = false;
 
     std::vector<GameEvent> events;
+    std::vector<KeybindFunctionHook> functionHooks;
 
     /// UI state -- managed by rendering.
     bool waitingForKey = false;
@@ -70,7 +78,7 @@ struct KeybindEntry {
     std::string paramButtonId;
     std::string conflictPopupId;
 
-    bool IsToggle() const noexcept { return runOnToggle || !events.empty(); }
+    bool IsToggle() const noexcept { return runOnToggle || !events.empty() || !functionHooks.empty(); }
 };
 
 using KeybindEntries = std::deque<KeybindEntry>;
@@ -96,7 +104,7 @@ namespace KeybindConfig {
 }
 
 /// Initialize a keybind entry: generate ImGui IDs, load config, register with
-/// KeybindManager and GameHook events. Call once after populating the entry fields.
+/// KeybindManager, GameHook events, and function hooks. Call once after populating the entry fields.
 void InitKeybindEntry(KeybindEntry& entry);
 
 void AddKeybind(KeybindEntries& keybinds, KeybindEntry entry);

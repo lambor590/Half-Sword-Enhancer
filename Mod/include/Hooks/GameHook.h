@@ -10,7 +10,6 @@
 
 #include "Logger.h"
 #include "Core/ModContext.h"
-#include "Menu/GameEvent.h"
 
 namespace SDK {
     class UObject;
@@ -36,16 +35,27 @@ public:
 
     bool IsHooked() const noexcept { return hooked; }
 
-    void RegisterHook(std::string_view functionName, const std::function<void()>& callback);
-    void UnregisterHook(std::string_view functionName);
+    struct ProcessEventContext {
+        SDK::UObject* object = nullptr;
+        SDK::UFunction* function = nullptr;
+        void* params = nullptr;
+        bool skipOriginal = false;
 
-    /// Maps GameEvent to its UE function name.
-    void RegisterHook(GameEvent event, const std::function<void()>& callback);
-    void UnregisterHook(GameEvent event);
+        template <typename T>
+        [[nodiscard]] T* Params() const noexcept {
+            return static_cast<T*>(params);
+        }
+    };
+
+    using HookCallback = std::function<void(ProcessEventContext&)>;
+
+    void RegisterHook(std::string_view functionName, HookCallback callback, bool afterOriginal = false);
+    void UnregisterHook(std::string_view functionName);
 
     struct HookEntry {
         uint64_t nameHash = 0;
-        std::function<void()> callback;
+        HookCallback callback;
+        bool afterOriginal = false;
     };
 
     GameHook(const GameHook&) = delete;
@@ -54,7 +64,7 @@ public:
 private:
     GameHook() = default;
 
-    void RegisterHook(uint64_t hash, const std::function<void()>& callback);
+    void RegisterHook(uint64_t hash, HookCallback callback, bool afterOriginal);
     void UnregisterHook(uint64_t hash);
 
     Logger logger{"GameHook"};
