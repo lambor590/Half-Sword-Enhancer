@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cctype>
 #include <cstring>
-#include <utility>
 
 #include "imgui/imgui.h"
 
@@ -42,16 +41,6 @@ namespace {
 MenuManager& MenuManager::Get() {
     static MenuManager instance;
     return instance;
-}
-
-void MenuManager::AddSection(MenuTab tab, std::unique_ptr<Section> section) {
-    auto& sectionVec = sections[static_cast<size_t>(tab)];
-    if (sectionVec.empty()) {
-        sectionVec.reserve(8);
-    }
-    sectionVec.push_back(std::move(section));
-    if (!selectedSection) selectedSection = sectionVec.back().get();
-    RebuildRenderGroups(tab);
 }
 
 void MenuManager::RenderMenu() {

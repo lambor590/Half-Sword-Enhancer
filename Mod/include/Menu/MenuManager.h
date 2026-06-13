@@ -29,8 +29,6 @@ public:
         RebuildRenderGroups(tab);
     }
 
-    void AddSection(MenuTab tab, std::unique_ptr<Section> section);
-
     void RenderMenu();
 
 private:

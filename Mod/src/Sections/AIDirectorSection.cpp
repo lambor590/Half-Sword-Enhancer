@@ -7,15 +7,12 @@
 #include "Hooks/GameHook.h"
 #include "Menu/EventBus.h"
 #include "Menu/GameEvent.h"
-#include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "SDK/AI_BP_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 #include "Utils/ActorUtils.h"
 #include "Utils/GameConstants.h"
 #include "Utils/GuiUtils.h"
-
-REGISTER_SECTION(AIDirectorSection, MenuTab::World);
 
 namespace {
     constexpr const char* SCOPE_LABELS[] = {

@@ -1,8 +1,5 @@
 #include "Menu/Sections/Equipment/ArmorEditorSection.h"
-#include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
-
-REGISTER_SECTION(ArmorEditorSection, MenuTab::Equipment);
 
 #include <cstring>
 #include <utility>

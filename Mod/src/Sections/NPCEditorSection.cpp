@@ -3,11 +3,9 @@
 #include <algorithm>
 #include <utility>
 
-#include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
 
-REGISTER_SECTION(NPCEditorSection, MenuTab::Spawner);
 #include "Utils/GuiUtils.h"
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/SpawnBindingUtils.h"

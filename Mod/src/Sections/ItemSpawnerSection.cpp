@@ -2,11 +2,9 @@
 
 #include <algorithm>
 
-#include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
 
-REGISTER_SECTION(ItemSpawnerSection, MenuTab::Spawner);
 #include "Utils/Spawner.h"
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"

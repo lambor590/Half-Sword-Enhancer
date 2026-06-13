@@ -1,12 +1,9 @@
 #include "Menu/Sections/Settings/AssetOverridesSection.h"
 
-#include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "Utils/AssetOverrideManager.h"
 #include "Utils/PresetUtils.h"
 #include "imgui/imgui.h"
-
-REGISTER_SECTION(AssetOverridesSection, MenuTab::Settings);
 
 AssetOverridesSection::AssetOverridesSection(ModContext& ctx) : Section(ctx, "Asset Overrides") {}
 

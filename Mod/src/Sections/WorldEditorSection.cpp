@@ -1,8 +1,6 @@
 #include "Menu/Sections/World/WorldEditorSection.h"
-#include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 
-REGISTER_SECTION(WorldEditorSection, MenuTab::World);
 #include "Hooks/GameHook.h"
 
 #include <cstring>

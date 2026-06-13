@@ -1,12 +1,9 @@
 #include "Menu/Sections/Settings/GraphicsSection.h"
-#include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
 #include "Core/ModContext.h"
 #include "Hooks/GameHook.h"
 #include "Utils/GuiUtils.h"
-
-REGISTER_SECTION(GraphicsSection, MenuTab::Settings);
 
 #include "SDK/Engine_classes.hpp"
 

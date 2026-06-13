@@ -53,9 +53,6 @@
     <ClCompile Include="src\MenuManager.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="src\SectionRegistry.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="src\Keybind.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
@@ -246,9 +243,6 @@
     </ClInclude>
     <ClInclude Include="include\Menu\MenuManager.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Menu\SectionRegistry.h">
-      <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="include\Menu\SectionStyle.h">
       <Filter>GUI</Filter>

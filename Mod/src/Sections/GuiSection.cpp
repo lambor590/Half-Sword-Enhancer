@@ -1,14 +1,11 @@
 #include "Menu/Sections/Settings/GuiSection.h"
 #include "Hooks/GameHook.h"
 #include "Menu/Keybind.h"
-#include "Menu/SectionRegistry.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
 #include "KeybindManager.h"
 #include "NotificationManager.h"
 #include "Utils/GuiUtils.h"
-
-REGISTER_SECTION(GuiSection, MenuTab::Settings);
 
 GuiSection::GuiSection(ModContext& ctx)
     : Section(ctx, GUI_SECTION_NAME), notificationsEnabled(NotificationManager::IsEnabled()) {}
