@@ -2,10 +2,31 @@
 #include "Menu/SectionStyle.h"
 
 #include "SDK/AIModule_classes.hpp"
+#include "SDK/Engine_classes.hpp"
+#include "SDK/Weapon_Feet_classes.hpp"
+#include "SDK/Willie_BP_classes.hpp"
+#include "SDK/Willie_BP_parameters.hpp"
 #include "Hooks/GameHook.h"
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
 #include "Utils/PossessState.h"
+
+namespace {
+    SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) noexcept {
+        auto* weapon = player ? (leftKick ? player->Foot_L_Weapon : player->Foot_R_Weapon) : nullptr;
+        return weapon && weapon->IsA(SDK::AWeapon_Feet_C::StaticClass()) ? static_cast<SDK::AWeapon_Feet_C*>(weapon)
+                                                                         : nullptr;
+    }
+
+    void BoostFootWeapon(SDK::AWeapon_Feet_C* weapon, float configuredMultiplier) noexcept {
+        const double multiplier = static_cast<double>(configuredMultiplier);
+        if (!weapon || multiplier <= 1.0) return;
+
+        if (weapon->Kick_Power < multiplier) {
+            weapon->Kick_Power = multiplier;
+        }
+    }
+}
 
 PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : Section(ctx, "Abilities") {
     InitKeybinds();
@@ -334,6 +355,142 @@ void PlayerAbilitiesSection::InitKeybinds() {
                     p->Kick_Cooldown = false;
                 },
             .events = {GameEvent::OffLedge},
+        }
+    );
+
+    auto openKickWindow = [this](bool leftKick, GameHook::ProcessEventContext& context) {
+        const auto& snapshot = ModContext::Get().GetRenderSnapshot();
+        auto* player = snapshot.player;
+        if (!player) return;
+
+        auto* willie = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                         ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                         : nullptr;
+        if (context.object != player && (!willie || !willie->Player)) return;
+
+        const float multiplier = cfg.kickPowerMultiplier;
+        auto* target = willie ? willie : player;
+        auto* foot = GetKickFoot(target, leftKick);
+        if (!foot || multiplier <= 1.0f || kickWindowFoot == foot) return;
+
+        kickWindowFoot = foot;
+        kickImpulseSpent = false;
+        if (leftKick) {
+            target->Kick_Rate_L *= multiplier;
+        } else {
+            target->Kick_Rate_R *= multiplier;
+        }
+        BoostFootWeapon(foot, multiplier);
+    };
+
+    auto closeKickWindow = [this](bool leftKick, GameHook::ProcessEventContext& context) {
+        const auto& snapshot = ModContext::Get().GetRenderSnapshot();
+        auto* player = snapshot.player;
+        if (!player) return;
+
+        auto* willie = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                         ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                         : nullptr;
+        if (context.object != player && (!willie || !willie->Player)) return;
+
+        auto* target = willie ? willie : player;
+        if (kickWindowFoot != GetKickFoot(target, leftKick)) return;
+
+        kickWindowFoot = nullptr;
+        kickImpulseSpent = false;
+    };
+
+    AddKeybind(
+        keybinds,
+        {
+            .name = "Kick Multiplier",
+            .tooltip = "Multiplies the physical impulse applied by kicks",
+            .configSection = "KickMultiplier",
+            .keyPtr = &cfg.kickMultiplierKey,
+            .functionHooks =
+                {
+                    KeybindFunctionHook{
+                        .functionName = "Kick L Timeline__UpdateFunc",
+                        .callback =
+                            [openKickWindow](GameHook::ProcessEventContext& context) {
+                                openKickWindow(true, context);
+                            },
+                        .afterOriginal = true,
+                    },
+                    KeybindFunctionHook{
+                        .functionName = "Kick R Timeline__UpdateFunc",
+                        .callback =
+                            [openKickWindow](GameHook::ProcessEventContext& context) {
+                                openKickWindow(false, context);
+                            },
+                        .afterOriginal = true,
+                    },
+                    KeybindFunctionHook{
+                        .functionName = "Kick L Timeline__FinishedFunc",
+                        .callback =
+                            [closeKickWindow](GameHook::ProcessEventContext& context) {
+                                closeKickWindow(true, context);
+                            },
+                        .afterOriginal = true,
+                    },
+                    KeybindFunctionHook{
+                        .functionName = "Kick R Timeline__FinishedFunc",
+                        .callback =
+                            [closeKickWindow](GameHook::ProcessEventContext& context) {
+                                closeKickWindow(false, context);
+                            },
+                        .afterOriginal = true,
+                    },
+                    KeybindFunctionHook{
+                        .functionName =
+                            "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature",
+                        .callback =
+                            [this](GameHook::ProcessEventContext& context) {
+                                auto* params = context.Params<
+                                    SDK::Params::
+                                        Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature>();
+                                if (!params) return;
+
+                                auto* target =
+                                    context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                                        ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                                        : nullptr;
+                                auto* player = ModContext::Get().GetRenderSnapshot().player;
+                                if (!target || !player || target == player || !params->HitComponent) return;
+                                if (!kickWindowFoot || kickImpulseSpent) return;
+
+                                auto* foot =
+                                    params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Feet_C::StaticClass())
+                                        ? static_cast<SDK::AWeapon_Feet_C*>(params->OtherActor)
+                                        : nullptr;
+                                if (foot != kickWindowFoot || foot->Parent_Actor != player) return;
+
+                                const double multiplier = static_cast<double>(cfg.kickPowerMultiplier);
+                                const double speed = foot->Weapon_Velocity.Magnitude();
+                                if (multiplier <= 1.0 || speed <= 0.001) return;
+
+                                auto direction = target->K2_GetActorLocation() - player->K2_GetActorLocation();
+                                direction.Z = 0.0;
+                                const double distance = direction.Magnitude();
+                                if (distance <= 1.0) return;
+
+                                direction /= distance;
+                                direction.Z = 0.20;
+                                direction.Normalize();
+
+                                const auto velocityChange = direction * (speed * (multiplier - 1.0));
+                                BoostFootWeapon(foot, cfg.kickPowerMultiplier);
+                                params->HitComponent->AddVelocityChangeImpulseAtLocation(
+                                    velocityChange, params->Hit.ImpactPoint, params->Hit.BoneName
+                                );
+                                kickImpulseSpent = true;
+                            },
+                    },
+                },
+            .params = {KeybindParam(
+                "kick_power_multiplier", "Power Multiplier", &cfg.kickPowerMultiplier, 1.0f, 100.0f,
+                "Multiplies the physical velocity impulse applied by kicks"
+            )},
         }
     );
 
