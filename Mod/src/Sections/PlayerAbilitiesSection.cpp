@@ -10,8 +10,24 @@
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
 #include "Utils/PossessState.h"
+#include "Logger.h"
+
+#include <string>
 
 namespace {
+    Logger g_kickLogger{"KickMultiplier"};
+    constexpr int KICK_DIAGNOSTIC_LOG_LIMIT = 32;
+    constexpr double KICK_FOOT_MASS_WEIGHT = 1.0;
+    constexpr double KICK_CALF_MASS_WEIGHT = 0.75;
+    constexpr double KICK_THIGH_MASS_WEIGHT = 0.35;
+    constexpr double KICK_IMPULSE_TRANSFER_WEIGHTS[] = {0.35, 0.40, 0.25};
+
+    struct KickBoneSet {
+        SDK::FName foot;
+        SDK::FName calf;
+        SDK::FName thigh;
+    };
+
     SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) noexcept {
         auto* weapon = player ? (leftKick ? player->Foot_L_Weapon : player->Foot_R_Weapon) : nullptr;
         return weapon && weapon->IsA(SDK::AWeapon_Feet_C::StaticClass()) ? static_cast<SDK::AWeapon_Feet_C*>(weapon)
@@ -25,6 +41,73 @@ namespace {
         if (weapon->Kick_Power < multiplier) {
             weapon->Kick_Power = multiplier;
         }
+    }
+
+    bool ShouldLogKickDiagnostic() noexcept {
+        static int logCount = 0;
+        if (logCount >= KICK_DIAGNOSTIC_LOG_LIMIT) return false;
+
+        ++logCount;
+        return true;
+    }
+
+    std::string NameForLog(const SDK::FName& name) {
+        return name.IsNone() ? std::string("<none>") : name.ToString();
+    }
+
+    const KickBoneSet& KickBones(bool leftKick) {
+        static KickBoneSet left{
+            SDK::BasicFilesImpleUtils::StringToName(L"foot_l"),
+            SDK::BasicFilesImpleUtils::StringToName(L"calf_l"),
+            SDK::BasicFilesImpleUtils::StringToName(L"thigh_l"),
+        };
+        static KickBoneSet right{
+            SDK::BasicFilesImpleUtils::StringToName(L"foot_r"),
+            SDK::BasicFilesImpleUtils::StringToName(L"calf_r"),
+            SDK::BasicFilesImpleUtils::StringToName(L"thigh_r"),
+        };
+        return leftKick ? left : right;
+    }
+
+    double KickLimbMass(SDK::USkeletalMeshComponent* mesh, bool leftKick) {
+        if (!mesh) return 0.0;
+
+        const auto& bones = KickBones(leftKick);
+        return static_cast<double>(mesh->GetBoneMass(bones.foot, true)) * KICK_FOOT_MASS_WEIGHT
+             + static_cast<double>(mesh->GetBoneMass(bones.calf, true)) * KICK_CALF_MASS_WEIGHT
+             + static_cast<double>(mesh->GetBoneMass(bones.thigh, true)) * KICK_THIGH_MASS_WEIGHT;
+    }
+
+    double Dot(const SDK::FVector& a, const SDK::FVector& b) noexcept {
+        return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+    }
+
+    constexpr int KickImpulseTransferStepCount() noexcept {
+        return static_cast<int>(sizeof(KICK_IMPULSE_TRANSFER_WEIGHTS) / sizeof(KICK_IMPULSE_TRANSFER_WEIGHTS[0]));
+    }
+
+    void LogKickSkip(
+        const char* reason,
+        bool leftKick,
+        SDK::AWeapon_Feet_C* foot,
+        SDK::UPrimitiveComponent* hitComponent,
+        SDK::UPrimitiveComponent* otherComponent,
+        const SDK::FHitResult& hit
+    ) {
+        if (!ShouldLogKickDiagnostic()) return;
+
+        const auto boneName = NameForLog(hit.BoneName);
+        const auto myBoneName = NameForLog(hit.MyBoneName);
+        g_kickLogger.Log(
+            "skip: reason=%s side=%s foot=%p hitComp=%p otherComp=%p boneName=%s myBoneName=%s",
+            reason,
+            leftKick ? "left" : "right",
+            foot,
+            hitComponent,
+            otherComponent,
+            boneName.c_str(),
+            myBoneName.c_str()
+        );
     }
 }
 
@@ -358,7 +441,45 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    auto openKickWindow = [this](bool leftKick, GameHook::ProcessEventContext& context) {
+    auto clearPendingKickImpulse = [this]() {
+        pendingKickImpulseComponent = nullptr;
+        pendingKickImpulse = {};
+        pendingKickImpulseLocation = {};
+        pendingKickImpulseBone = {};
+        pendingKickImpulseStep = 0;
+    };
+
+    auto applyPendingKickImpulse = [this, clearPendingKickImpulse]() {
+        if (!pendingKickImpulseComponent) return;
+
+        if (pendingKickImpulseStep >= KickImpulseTransferStepCount()) {
+            clearPendingKickImpulse();
+            return;
+        }
+
+        const double weight = KICK_IMPULSE_TRANSFER_WEIGHTS[pendingKickImpulseStep];
+        const auto impulse = pendingKickImpulse * weight;
+        pendingKickImpulseComponent->AddImpulseAtLocation(impulse, pendingKickImpulseLocation, pendingKickImpulseBone);
+        if (ShouldLogKickDiagnostic()) {
+            const auto boneName = NameForLog(pendingKickImpulseBone);
+            g_kickLogger.Log(
+                "applied: transferStep=%d/%d weight=%.2f bone=%s sliceImpulse=%.3f totalImpulse=%.3f",
+                pendingKickImpulseStep + 1,
+                KickImpulseTransferStepCount(),
+                weight,
+                boneName.c_str(),
+                impulse.Magnitude(),
+                pendingKickImpulse.Magnitude()
+            );
+        }
+
+        ++pendingKickImpulseStep;
+        if (pendingKickImpulseStep >= KickImpulseTransferStepCount()) {
+            clearPendingKickImpulse();
+        }
+    };
+
+    auto openKickWindow = [this, applyPendingKickImpulse](bool leftKick, GameHook::ProcessEventContext& context) {
         const auto& snapshot = ModContext::Get().GetRenderSnapshot();
         auto* player = snapshot.player;
         if (!player) return;
@@ -371,9 +492,14 @@ void PlayerAbilitiesSection::InitKeybinds() {
         const float multiplier = cfg.kickPowerMultiplier;
         auto* target = willie ? willie : player;
         auto* foot = GetKickFoot(target, leftKick);
-        if (!foot || multiplier <= 1.0f || kickWindowFoot == foot) return;
+        if (!foot || multiplier <= 1.0f) return;
+        if (kickWindowFoot == foot) {
+            applyPendingKickImpulse();
+            return;
+        }
 
         kickWindowFoot = foot;
+        kickWindowLeft = leftKick;
         kickImpulseSpent = false;
         if (leftKick) {
             target->Kick_Rate_L *= multiplier;
@@ -383,7 +509,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         BoostFootWeapon(foot, multiplier);
     };
 
-    auto closeKickWindow = [this](bool leftKick, GameHook::ProcessEventContext& context) {
+    auto closeKickWindow = [this, clearPendingKickImpulse](bool leftKick, GameHook::ProcessEventContext& context) {
         const auto& snapshot = ModContext::Get().GetRenderSnapshot();
         auto* player = snapshot.player;
         if (!player) return;
@@ -397,7 +523,9 @@ void PlayerAbilitiesSection::InitKeybinds() {
         if (kickWindowFoot != GetKickFoot(target, leftKick)) return;
 
         kickWindowFoot = nullptr;
+        kickWindowLeft = false;
         kickImpulseSpent = false;
+        clearPendingKickImpulse();
     };
 
     AddKeybind(
@@ -445,7 +573,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                         .functionName =
                             "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature",
                         .callback =
-                            [this](GameHook::ProcessEventContext& context) {
+                            [this, applyPendingKickImpulse](GameHook::ProcessEventContext& context) {
                                 auto* params = context.Params<
                                     SDK::Params::
                                         Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature>();
@@ -466,8 +594,36 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                 if (foot != kickWindowFoot || foot->Parent_Actor != player) return;
 
                                 const double multiplier = static_cast<double>(cfg.kickPowerMultiplier);
-                                const double speed = foot->Weapon_Velocity.Magnitude();
-                                if (multiplier <= 1.0 || speed <= 0.001) return;
+                                const double footSpeed = foot->Weapon_Velocity.Magnitude();
+                                if (multiplier <= 1.0 || footSpeed <= 0.001) return;
+
+                                if (!params->HitComponent->IsA(SDK::USkeletalMeshComponent::StaticClass())) {
+                                    LogKickSkip(
+                                        "target-not-skeletal", kickWindowLeft, foot, params->HitComponent, params->OtherComp,
+                                        params->Hit
+                                    );
+                                    return;
+                                }
+
+                                auto* targetMesh = static_cast<SDK::USkeletalMeshComponent*>(params->HitComponent);
+                                const auto targetBone = params->Hit.MyBoneName;
+                                if (targetBone.IsNone()) {
+                                    LogKickSkip(
+                                        "missing-target-bone", kickWindowLeft, foot, params->HitComponent, params->OtherComp,
+                                        params->Hit
+                                    );
+                                    return;
+                                }
+
+                                const double targetMass = targetMesh->GetBoneMass(targetBone, true);
+                                const double attackerMass = KickLimbMass(player->Mesh, kickWindowLeft);
+                                if (targetMass <= 0.001 || attackerMass <= 0.001) {
+                                    LogKickSkip(
+                                        "invalid-mass", kickWindowLeft, foot, params->HitComponent, params->OtherComp,
+                                        params->Hit
+                                    );
+                                    return;
+                                }
 
                                 auto direction = target->K2_GetActorLocation() - player->K2_GetActorLocation();
                                 direction.Z = 0.0;
@@ -475,21 +631,70 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                 if (distance <= 1.0) return;
 
                                 direction /= distance;
-                                direction.Z = 0.20;
+                                auto relativeVelocity =
+                                    foot->Weapon_Velocity
+                                    - targetMesh->GetPhysicsLinearVelocityAtPoint(params->Hit.ImpactPoint, targetBone);
+                                const double outwardSpeed = Dot(relativeVelocity, direction);
+                                if (outwardSpeed < 0.0) {
+                                    relativeVelocity -= direction * outwardSpeed;
+                                }
+
+                                const double relativeSpeed = relativeVelocity.Magnitude();
+                                if (relativeSpeed <= 0.001) {
+                                    LogKickSkip(
+                                        "invalid-relative-velocity", kickWindowLeft, foot, params->HitComponent,
+                                        params->OtherComp, params->Hit
+                                    );
+                                    return;
+                                }
+
+                                direction = relativeVelocity / relativeSpeed;
                                 direction.Normalize();
 
-                                const auto velocityChange = direction * (speed * (multiplier - 1.0));
+                                const double effectiveMass = (attackerMass * targetMass) / (attackerMass + targetMass);
+                                const auto impulse = direction * (relativeSpeed * effectiveMass * (multiplier - 1.0));
                                 BoostFootWeapon(foot, cfg.kickPowerMultiplier);
-                                params->HitComponent->AddVelocityChangeImpulseAtLocation(
-                                    velocityChange, params->Hit.ImpactPoint, params->Hit.BoneName
-                                );
+                                pendingKickImpulseComponent = params->HitComponent;
+                                pendingKickImpulse = impulse;
+                                pendingKickImpulseLocation = params->Hit.ImpactPoint;
+                                pendingKickImpulseBone = targetBone;
+                                pendingKickImpulseStep = 0;
+                                applyPendingKickImpulse();
+                                if (ShouldLogKickDiagnostic()) {
+                                    const auto targetBoneName = NameForLog(targetBone);
+                                    const auto& attackerBones = KickBones(kickWindowLeft);
+                                    const auto footBoneName = NameForLog(attackerBones.foot);
+                                    const auto calfBoneName = NameForLog(attackerBones.calf);
+                                    const auto thighBoneName = NameForLog(attackerBones.thigh);
+                                    const double otherComponentMass = params->OtherComp ? params->OtherComp->GetMass() : 0.0;
+                                    g_kickLogger.Log(
+                                        "scheduled: side=%s attackerBones=%s+%s+%s targetBone=%s footSpeed=%.3f "
+                                        "relativeSpeed=%.3f multiplier=%.3f "
+                                        "attackerMass=%.3f targetMass=%.3f effectiveMass=%.3f impulse=%.3f "
+                                        "normalImpulse=%.3f otherCompMass=%.3f",
+                                        kickWindowLeft ? "left" : "right",
+                                        footBoneName.c_str(),
+                                        calfBoneName.c_str(),
+                                        thighBoneName.c_str(),
+                                        targetBoneName.c_str(),
+                                        footSpeed,
+                                        relativeSpeed,
+                                        multiplier,
+                                        attackerMass,
+                                        targetMass,
+                                        effectiveMass,
+                                        impulse.Magnitude(),
+                                        params->NormalImpulse.Magnitude(),
+                                        otherComponentMass
+                                    );
+                                }
                                 kickImpulseSpent = true;
                             },
                     },
                 },
             .params = {KeybindParam(
                 "kick_power_multiplier", "Power Multiplier", &cfg.kickPowerMultiplier, 1.0f, 100.0f,
-                "Multiplies the physical velocity impulse applied by kicks"
+                "Multiplies the mass-aware physical impulse applied by kicks"
             )},
         }
     );

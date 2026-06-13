@@ -2,9 +2,11 @@
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
+#include "SDK/Engine_structs.hpp"
 
 namespace SDK {
     class AWeapon_Feet_C;
+    class UPrimitiveComponent;
 }
 
 class PlayerAbilitiesSection : public Section {
@@ -56,7 +58,13 @@ private:
     Config cfg;
     KeybindEntries keybinds;
     SDK::AWeapon_Feet_C* kickWindowFoot = nullptr;
+    bool kickWindowLeft = false;
     bool kickImpulseSpent = false;
+    SDK::UPrimitiveComponent* pendingKickImpulseComponent = nullptr;
+    SDK::FVector pendingKickImpulse{};
+    SDK::FVector pendingKickImpulseLocation{};
+    SDK::FName pendingKickImpulseBone{};
+    int pendingKickImpulseStep = 0;
 
     void InitKeybinds();
 
