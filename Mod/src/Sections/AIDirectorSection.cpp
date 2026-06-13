@@ -918,13 +918,11 @@ void AIDirectorSection::RestoreDirectiveState(const RuntimeContextSnapshot& runt
         );
     }
 
-    auto isCurrentTarget = [this](uintptr_t target) {
-        if (!target) return false;
-        for (auto* willie : targetsBuffer) {
-            if (reinterpret_cast<uintptr_t>(willie) == target) return true;
-        }
-        return false;
-    };
+    std::unordered_set<uintptr_t> currentTargets;
+    currentTargets.reserve(targetsBuffer.size());
+    for (auto* willie : targetsBuffer) {
+        if (willie) currentTargets.insert(reinterpret_cast<uintptr_t>(willie));
+    }
 
     for (auto* willie : targetsBuffer) {
         if (!willie) continue;
@@ -945,7 +943,8 @@ void AIDirectorSection::RestoreDirectiveState(const RuntimeContextSnapshot& runt
         if (auto* ai = ActorUtils::GetAIController(willie)) {
             ai->Team_Int = it->second.aiTeam;
             ai->Target =
-                isCurrentTarget(it->second.target) ? reinterpret_cast<SDK::AWillie_BP_C*>(it->second.target) : nullptr;
+                currentTargets.contains(it->second.target) ? reinterpret_cast<SDK::AWillie_BP_C*>(it->second.target)
+                                                           : nullptr;
             ai->Target_Found = ai->Target ? it->second.targetFound : false;
             ai->Attack_Intent = it->second.attackIntent;
             ai->Defend_Intent = it->second.defendIntent;

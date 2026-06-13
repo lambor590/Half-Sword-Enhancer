@@ -904,14 +904,21 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
         GuiUtils::SetComboSearchWidth(meshComboWidth);
         ImGui::InputTextWithHint("##mf", "Search meshes...", meshFilters[slotIdx], 64);
 
-        const size_t filterLen = std::strlen(meshFilters[slotIdx]);
+        const char* filter = meshFilters[slotIdx];
+        const size_t filterLen = std::strlen(filter);
         const bool hasFilter = filterLen > 0;
 
         if (hasFilter) {
-            int visible = 0;
-            for (const auto& e : meshPool)
-                if (GuiUtils::MatchesFilter(e.name.c_str(), e.name.size(), meshFilters[slotIdx], filterLen)) ++visible;
-            ImGui::TextDisabled("Showing %d of %d", visible, static_cast<int>(meshPool.size()));
+            filteredMeshIndices.clear();
+            filteredMeshIndices.reserve(meshPool.size());
+            for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
+                const auto& entry = meshPool[i];
+                if (GuiUtils::MatchesFilter(entry.name.c_str(), entry.name.size(), filter, filterLen))
+                    filteredMeshIndices.push_back(i);
+            }
+            ImGui::TextDisabled(
+                "Showing %d of %d", static_cast<int>(filteredMeshIndices.size()), static_cast<int>(meshPool.size())
+            );
         }
         ImGui::Separator();
 
@@ -920,11 +927,7 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
             ovr.mesh = nullptr;
         }
 
-        for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
-            if (hasFilter && !GuiUtils::MatchesFilter(
-                                 meshPool[i].name.c_str(), meshPool[i].name.size(), meshFilters[slotIdx], filterLen
-                             ))
-                continue;
+        auto renderMeshOption = [&](int i) {
             ImGui::PushID(i);
             if (ImGui::Selectable(meshPool[i].display.c_str(), ovr.poolIndex == i)) {
                 ovr.poolIndex = i;
@@ -936,6 +939,14 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
             }
             if (ovr.poolIndex == i) ImGui::SetItemDefaultFocus();
             ImGui::PopID();
+        };
+
+        if (hasFilter) {
+            for (int i : filteredMeshIndices)
+                renderMeshOption(i);
+        } else {
+            for (int i = 0; i < static_cast<int>(meshPool.size()); ++i)
+                renderMeshOption(i);
         }
         ImGui::EndCombo();
     }
@@ -962,6 +973,7 @@ void WeaponEditorSection::DrainPendingMeshEntries() {
         pendingMeshEntries.clear();
     }
     meshComboWidth = 0.0f;
+    filteredMeshIndices.clear();
     RebuildMeshDisplayCache();
 }
 

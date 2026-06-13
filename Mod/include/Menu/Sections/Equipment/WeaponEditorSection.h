@@ -102,6 +102,7 @@ private:
     std::atomic<bool> meshPendingReady{false};
     bool meshPendingIsFullReplace = false;
     char meshFilters[MODULE_SLOT_COUNT][64] = {};
+    std::vector<int> filteredMeshIndices;
     char assetPathBuf[256] = {};
 
     MeshOverride meshOverrides[MODULE_SLOT_COUNT];
