@@ -5,6 +5,7 @@
 #include <vector>
 #include <atomic>
 #include <algorithm>
+#include <array>
 #include "Utils/CustomizableWeapon.h"
 
 struct BlueprintEntry {
@@ -44,6 +45,8 @@ private:
     std::vector<CategoryData> categories;
     std::vector<ItemLocation> itemLocations;
     std::vector<std::string> customPaths;
+    std::vector<std::string> loweredItemNames;
+    std::array<std::vector<ItemIndex>, 65536> searchBuckets;
 
     void PerformScan();
     void ScanWeaponTiers();
@@ -51,6 +54,7 @@ private:
     void InjectCustomPaths();
     void SortCategories();
     void RebuildItemLocations();
+    void RebuildSearchIndex();
 
     static std::pair<std::string_view, std::string_view> CategorizeByPath(
         const std::string& packagePath, const std::string& assetName
@@ -75,6 +79,7 @@ public:
     [[nodiscard]] const std::vector<CategoryData>& GetCategories() const { return categories; }
     const std::vector<BlueprintEntry>& GetAllItems() const { return items; }
     [[nodiscard]] static std::string CleanDisplayName(std::string_view assetName);
+    void SearchItems(std::string_view filter, std::vector<ItemIndex>& out) const;
 
     size_t GetCategoryCount() const { return categories.size(); }
     const CategoryData& GetCategory(size_t idx) const { return categories[idx]; }

@@ -1,5 +1,6 @@
 #include <ranges>
 #include <string_view>
+#include <array>
 #include <unordered_set>
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/GameConstants.h"
@@ -31,6 +32,34 @@ static bool HasValidAssetPrefix(const std::string& assetName) {
         if (assetName.compare(0, prefix.size(), prefix.data()) == 0) return true;
     }
     return false;
+}
+
+namespace {
+    constexpr std::array<char, 256> BuildLowerTable() {
+        std::array<char, 256> table{};
+        for (size_t i = 0; i < table.size(); ++i)
+            table[i] = static_cast<char>(i);
+        for (char c = 'A'; c <= 'Z'; ++c)
+            table[static_cast<unsigned char>(c)] = static_cast<char>(c + 32);
+        return table;
+    }
+
+    constexpr auto LOWER_TABLE = BuildLowerTable();
+
+    constexpr uint16_t BigramKey(char a, char b) noexcept {
+        return static_cast<uint16_t>(
+            (static_cast<uint16_t>(static_cast<unsigned char>(a)) << 8u) |
+            static_cast<uint16_t>(static_cast<unsigned char>(b))
+        );
+    }
+
+    std::string ToLowerAscii(std::string_view value) {
+        std::string lowered;
+        lowered.reserve(value.size());
+        for (char c : value)
+            lowered.push_back(LOWER_TABLE[static_cast<unsigned char>(c)]);
+        return lowered;
+    }
 }
 
 void BlueprintRegistry::RequestScan() {
@@ -127,6 +156,7 @@ void BlueprintRegistry::PerformScan() {
     InjectCustomPaths();
     SortCategories();
     RebuildItemLocations();
+    RebuildSearchIndex();
 
     state.store(items.empty() ? ScanState::Failed : ScanState::Complete, std::memory_order_release);
 }
@@ -135,8 +165,10 @@ size_t BlueprintRegistry::FindOrCreateCategory(std::string_view name) {
     for (size_t i = 0; i < categories.size(); ++i) {
         if (categories[i].name == name) return i;
     }
+
+    const size_t index = categories.size();
     categories.push_back({std::string(name), {}});
-    return categories.size() - 1;
+    return index;
 }
 
 size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, std::string_view name) {
@@ -144,8 +176,10 @@ size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, std::string_vie
     for (size_t i = 0; i < subs.size(); ++i) {
         if (subs[i].name == name) return i;
     }
+
+    const size_t index = subs.size();
     subs.push_back({std::string(name), {}});
-    return subs.size() - 1;
+    return index;
 }
 
 BlueprintRegistry::ItemIndex BlueprintRegistry::AddItem(
@@ -372,6 +406,75 @@ void BlueprintRegistry::RebuildItemLocations() {
     }
 }
 
+void BlueprintRegistry::RebuildSearchIndex() {
+    loweredItemNames.clear();
+    loweredItemNames.reserve(items.size());
+    for (const auto& item : items) {
+        loweredItemNames.push_back(ToLowerAscii(item.displayName));
+    }
+
+    for (auto& bucket : searchBuckets) {
+        bucket.clear();
+    }
+
+    std::array<int32_t, 65536> lastSeen;
+    lastSeen.fill(-1);
+
+    for (ItemIndex itemIdx = 0; itemIdx < loweredItemNames.size(); ++itemIdx) {
+        const auto& name = loweredItemNames[itemIdx];
+        if (name.size() < 2) continue;
+
+        for (size_t i = 1; i < name.size(); ++i) {
+            const uint16_t key = BigramKey(name[i - 1], name[i]);
+            if (lastSeen[key] == static_cast<int32_t>(itemIdx)) continue;
+            searchBuckets[key].push_back(itemIdx);
+            lastSeen[key] = static_cast<int32_t>(itemIdx);
+        }
+    }
+}
+
+void BlueprintRegistry::SearchItems(std::string_view filter, std::vector<ItemIndex>& out) const {
+    out.clear();
+    if (filter.empty()) {
+        out.reserve(items.size());
+        for (ItemIndex i = 0; i < items.size(); ++i)
+            out.push_back(i);
+        return;
+    }
+
+    const std::string loweredFilter = ToLowerAscii(filter);
+    if (loweredItemNames.size() != items.size()) {
+        for (ItemIndex i = 0; i < items.size(); ++i) {
+            if (ToLowerAscii(items[i].displayName).find(loweredFilter) != std::string::npos) out.push_back(i);
+        }
+        return;
+    }
+
+    if (loweredFilter.size() < 2) {
+        for (ItemIndex i = 0; i < loweredItemNames.size(); ++i) {
+            if (loweredItemNames[i].find(loweredFilter) != std::string::npos) out.push_back(i);
+        }
+        return;
+    }
+
+    const std::vector<ItemIndex>* bestBucket = nullptr;
+    for (size_t i = 1; i < loweredFilter.size(); ++i) {
+        const auto& bucket = searchBuckets[BigramKey(loweredFilter[i - 1], loweredFilter[i])];
+        if (!bestBucket || bucket.size() < bestBucket->size()) {
+            bestBucket = &bucket;
+            if (bucket.empty()) return;
+        }
+    }
+    if (!bestBucket) return;
+
+    out.reserve(bestBucket->size());
+    for (ItemIndex idx : *bestBucket) {
+        if (idx < loweredItemNames.size() && loweredItemNames[idx].find(loweredFilter) != std::string::npos) {
+            out.push_back(idx);
+        }
+    }
+}
+
 void BlueprintRegistry::AddCustomPath(const std::string& path) {
     if (path.empty()) return;
     for (const auto& p : customPaths) {
@@ -387,6 +490,7 @@ void BlueprintRegistry::AddCustomPath(const std::string& path) {
         AddItem(std::move(entry), "Custom", "Saved");
         SortCategories();
         RebuildItemLocations();
+        RebuildSearchIndex();
     }
 }
 

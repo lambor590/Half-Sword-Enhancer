@@ -141,20 +141,16 @@ void ItemSpawnerSection::UpdateFilteredItems() {
     }
 
     searchActive = true;
-    size_t filterLen = std::strlen(searchBuffer);
 
     auto& reg = BlueprintRegistry::Get();
+    reg.SearchItems(searchBuffer, filteredIndices);
     auto& allItems = reg.GetAllItems();
 
     float maxW = 0;
-    for (BlueprintRegistry::ItemIndex i = 0; i < allItems.size(); ++i) {
-        if (GuiUtils::MatchesFilter(
-                allItems[i].displayName.c_str(), allItems[i].displayName.size(), searchBuffer, filterLen
-            )) {
-            filteredIndices.push_back(i);
-            float w = ImGui::CalcTextSize(allItems[i].displayName.c_str()).x;
-            if (w > maxW) maxW = w;
-        }
+    for (BlueprintRegistry::ItemIndex i : filteredIndices) {
+        if (i >= allItems.size()) continue;
+        float w = ImGui::CalcTextSize(allItems[i].displayName.c_str()).x;
+        if (w > maxW) maxW = w;
     }
     cachedFilteredWidth = GuiUtils::ComboWidthFromText(maxW);
 }
