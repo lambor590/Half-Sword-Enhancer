@@ -11,8 +11,13 @@
 #include <vector>
 
 namespace SDK {
+    class AActor;
+    class ACSBloodSimActor;
+    class UMaterialInstanceDynamic;
     class UMaterialInterface;
+    class UObject;
     class UPrimitiveComponent;
+    class UTexture;
     class UTexture2D;
     class UWorld;
 }
@@ -34,7 +39,7 @@ public:
     [[nodiscard]] bool Initialize();
     void RequestRefresh();
     void RequestApply();
-    void ApplyNow(SDK::UWorld* world);
+    void RequestActorApply(SDK::AActor* actor);
 
     [[nodiscard]] Stats GetStats() const;
     [[nodiscard]] std::filesystem::path GetRootPath() const;
@@ -45,12 +50,19 @@ public:
 private:
     AssetOverrideManager() = default;
 
+    [[nodiscard]] bool PrepareWorld(SDK::UWorld* world);
+    void ApplyNow(SDK::UWorld* world);
+    void ApplyToActor(SDK::UWorld* world, SDK::AActor* actor);
+    void ApplyToComponentNow(SDK::UPrimitiveComponent* component, int materialIndex, bool resetSource);
+    void ApplyToCreatedMaterial(
+        SDK::UPrimitiveComponent* component, int materialIndex, SDK::UMaterialInstanceDynamic* dynamicMaterial,
+        SDK::UMaterialInterface* explicitSource
+    );
     [[nodiscard]] bool ScanFiles();
     void LoadTextures(SDK::UWorld* world);
     void ApplyToWorld(SDK::UWorld* world);
     void ClearTextures();
     void StoreStats(Stats next) const;
-    void RepairBloodMaterials(SDK::UWorld* world);
     void SortTexturesForLookup();
 
     static constexpr std::string_view ROOT_FOLDER = "asset_overrides";
@@ -73,36 +85,74 @@ private:
         SDK::UTexture2D* texture = nullptr;
     };
 
+    struct ObjectPathCacheEntry {
+        std::string path;
+        uint64_t hash = 0;
+    };
+
+    using ObjectPathCache = std::unordered_map<const SDK::UObject*, ObjectPathCacheEntry>;
+
     [[nodiscard]] TextureLookupResult FindTexture(std::string_view targetPath, uint64_t targetHash) const;
+    [[nodiscard]] SDK::UMaterialInterface* GetTrackedSourceMaterial(
+        SDK::UPrimitiveComponent* component, int materialIndex
+    );
+    [[nodiscard]] SDK::UMaterialInterface* RebaseSourceMaterial(
+        SDK::UPrimitiveComponent* component, int materialIndex, SDK::UMaterialInterface* requestedSource
+    );
+    void ForgetComponentSourceMaterials(SDK::UPrimitiveComponent* component, int materialIndex);
+    void TrackOverriddenMaterial(
+        SDK::UPrimitiveComponent* component, int materialIndex, SDK::UMaterialInterface* sourceMaterial,
+        SDK::UMaterialInstanceDynamic* dynamicMaterial
+    );
+    int ApplyBloodDynamicMaterial(
+        SDK::UMaterialInstanceDynamic* dynamicMaterial, SDK::UMaterialInterface* sourceMaterial
+    );
+    int ApplyBloodComponentMaterial(SDK::UPrimitiveComponent* component, int materialIndex);
+    int ApplyBloodComputeActor(SDK::ACSBloodSimActor* sim);
+    int RepairBloodMaterials();
+    int ApplyToMaterialInstance(
+        SDK::UMaterialInstanceDynamic* dynamicMaterial, SDK::UMaterialInterface* sourceMaterial,
+        std::unordered_set<size_t>* matchedTargets, ObjectPathCache& pathCache, bool allowRuntimeBloodTarget = false
+    );
+    void ApplyToComponentSlot(
+        SDK::UPrimitiveComponent* component, int materialIndex, Stats& next,
+        std::unordered_set<size_t>* matchedTargets, ObjectPathCache& pathCache
+    );
+    void ApplyToComponent(
+        SDK::UPrimitiveComponent* component, Stats& next, std::unordered_set<size_t>* matchedTargets,
+        ObjectPathCache& pathCache
+    );
 
     std::vector<FileEntry> files;
     std::vector<SDK::UTexture2D*> rootedTextures;
     std::vector<TextureOverride> textures;
 
-    struct SlotSource {
-        SDK::UPrimitiveComponent* component = nullptr;
-        int materialIndex = 0;
-        SDK::UMaterialInterface* material = nullptr;
-    };
-
     struct MaterialSlot {
         SDK::UPrimitiveComponent* component = nullptr;
         int materialIndex = 0;
+        int componentObjectIndex = -1;
 
         bool operator==(const MaterialSlot& other) const noexcept {
-            return component == other.component && materialIndex == other.materialIndex;
+            return component == other.component && materialIndex == other.materialIndex &&
+                   componentObjectIndex == other.componentObjectIndex;
         }
     };
 
     struct MaterialSlotHash {
         size_t operator()(const MaterialSlot& slot) const noexcept {
             return std::hash<SDK::UPrimitiveComponent*>{}(slot.component) ^
-                   (std::hash<int>{}(slot.materialIndex) + 0x9E3779B9u);
+                   (std::hash<int>{}(slot.materialIndex) + 0x9E3779B9u) ^
+                   (std::hash<int>{}(slot.componentObjectIndex) + 0x85EBCA6Bu);
         }
     };
 
-    std::unordered_map<MaterialSlot, SDK::UMaterialInterface*, MaterialSlotHash> sourceMaterials;
-    std::vector<SlotSource> touchedSlots;
+    struct TrackedMaterial {
+        SDK::UMaterialInterface* source = nullptr;
+        SDK::UMaterialInstanceDynamic* dynamic = nullptr;
+    };
+
+    std::unordered_map<MaterialSlot, TrackedMaterial, MaterialSlotHash> trackedMaterials;
+    std::vector<MaterialSlot> trackedMaterialSlots;
 
     mutable Stats stats;
     mutable std::mutex statsMutex;
@@ -112,11 +162,6 @@ private:
     bool needsScan = true;
     bool needsLoad = true;
     bool needsApply = true;
-    uint32_t generation = 0;
-    uint32_t appliedGeneration = 0;
-    uint32_t repairedBloodGeneration = 0;
     SDK::UWorld* loadedWorld = nullptr;
     SDK::UWorld* appliedWorld = nullptr;
-    SDK::UWorld* repairedBloodWorld = nullptr;
-    std::unordered_set<uintptr_t> repairedBloodSlots;
 };

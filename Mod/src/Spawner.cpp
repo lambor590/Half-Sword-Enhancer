@@ -94,10 +94,11 @@ namespace Spawner {
 
         if (preFinishCallback) preFinishCallback(actor);
 
-        SDK::UGameplayStatics::FinishSpawningActor(
+        auto* finishedActor = SDK::UGameplayStatics::FinishSpawningActor(
             actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
         );
-        AssetOverrideManager::Get().RequestApply();
+        if (finishedActor) actor = finishedActor;
+        AssetOverrideManager::Get().RequestActorApply(actor);
         return actor;
     }
 
@@ -271,6 +272,7 @@ namespace Spawner {
         auto* armor = static_cast<SDK::ABP_Armor_Master_C*>(actor);
         bool pickedUp = false;
         willie->Pick_Up_Armor(armor->DefaultSceneRoot, armor, &pickedUp);
+        if (pickedUp) AssetOverrideManager::Get().RequestActorApply(willie);
         return pickedUp;
     }
 
