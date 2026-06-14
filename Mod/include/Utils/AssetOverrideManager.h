@@ -50,17 +50,33 @@ private:
     void ClearTextures();
     void StoreStats(Stats next) const;
     void RepairBloodMaterials(SDK::UWorld* world);
+    void SortTexturesForLookup();
 
     static constexpr std::string_view ROOT_FOLDER = "asset_overrides";
+    static constexpr size_t TEXTURE_NOT_FOUND = static_cast<size_t>(-1);
+    static constexpr size_t LINEAR_TEXTURE_LOOKUP_LIMIT = 64;
 
     struct FileEntry {
         std::filesystem::path filePath;
         std::string targetPath;
     };
 
+    struct TextureOverride {
+        std::string targetPath;
+        uint64_t targetHash = 0;
+        SDK::UTexture2D* texture = nullptr;
+    };
+
+    struct TextureLookupResult {
+        size_t index = TEXTURE_NOT_FOUND;
+        SDK::UTexture2D* texture = nullptr;
+    };
+
+    [[nodiscard]] TextureLookupResult FindTexture(std::string_view targetPath, uint64_t targetHash) const;
+
     std::vector<FileEntry> files;
     std::vector<SDK::UTexture2D*> rootedTextures;
-    std::unordered_map<std::string, SDK::UTexture2D*> textures;
+    std::vector<TextureOverride> textures;
 
     struct SlotSource {
         SDK::UPrimitiveComponent* component = nullptr;

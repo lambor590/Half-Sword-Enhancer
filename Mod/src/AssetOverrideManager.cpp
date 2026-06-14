@@ -16,6 +16,15 @@ namespace {
     Logger g_logger("AssetOverrides");
     constexpr std::string_view GAME_PREFIX = "/Game/Assets/";
 
+    uint64_t Fnv1a(std::string_view text) noexcept {
+        uint64_t hash = 14695981039346656037ull;
+        for (char c : text) {
+            hash ^= static_cast<unsigned char>(c);
+            hash *= 1099511628211ull;
+        }
+        return hash;
+    }
+
     bool IsSupportedImage(const std::filesystem::path& path) {
         auto ext = path.extension().string();
         std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c) {
@@ -70,10 +79,10 @@ namespace {
         }
     }
 
-    template <typename Func>
+    template <typename LookupTexture, typename Func>
     int ApplyMatchedTextureParameters(
-        SDK::UMaterialInterface* material, const std::unordered_map<std::string, SDK::UTexture2D*>& textures,
-        std::unordered_set<std::string>* matchedTargets, Func&& func
+        SDK::UMaterialInterface* material, LookupTexture&& lookupTexture, std::unordered_set<size_t>* matchedTargets,
+        Func&& func
     ) {
         auto* instance = AsMaterialInstance(material);
         if (!instance) return 0;
@@ -85,11 +94,11 @@ namespace {
                 if (!value.ParameterValue) continue;
 
                 auto matchedPath = PresetUtils::ObjectToAbsolutePath(value.ParameterValue);
-                auto it = textures.find(matchedPath);
-                if (it == textures.end()) continue;
+                const auto match = lookupTexture(matchedPath, Fnv1a(matchedPath));
+                if (!match.texture) continue;
 
-                if (matchedTargets) matchedTargets->insert(matchedPath);
-                updates += func(value.ParameterInfo, it->second) ? 1 : 0;
+                if (matchedTargets) matchedTargets->insert(match.index);
+                updates += func(value.ParameterInfo, match.texture) ? 1 : 0;
             }
             current = AsMaterialInstance(current->Parent);
         }
@@ -225,10 +234,19 @@ void AssetOverrideManager::LoadTextures(SDK::UWorld* world) {
             static_cast<uint32_t>(texture->Flags) | static_cast<uint32_t>(SDK::EObjectFlags::MarkAsRootSet)
         );
         rootedTextures.push_back(texture);
-        textures[file.targetPath] = texture;
+        const auto targetHash = Fnv1a(file.targetPath);
+        auto existing = std::ranges::find_if(textures, [&file, targetHash](const TextureOverride& overrideEntry) {
+            return overrideEntry.targetHash == targetHash && overrideEntry.targetPath == file.targetPath;
+        });
+        if (existing != textures.end()) {
+            existing->texture = texture;
+        } else {
+            textures.push_back({file.targetPath, targetHash, texture});
+        }
         ++next.loaded;
     }
 
+    SortTexturesForLookup();
     needsLoad = false;
     loadedWorld = world;
     StoreStats(next);
@@ -246,6 +264,34 @@ void AssetOverrideManager::ClearTextures() {
     loadedWorld = nullptr;
 }
 
+void AssetOverrideManager::SortTexturesForLookup() {
+    std::ranges::sort(textures, [](const TextureOverride& a, const TextureOverride& b) {
+        if (a.targetHash != b.targetHash) return a.targetHash < b.targetHash;
+        return a.targetPath < b.targetPath;
+    });
+}
+
+AssetOverrideManager::TextureLookupResult AssetOverrideManager::FindTexture(
+    std::string_view targetPath, uint64_t targetHash
+) const {
+    if (textures.size() <= LINEAR_TEXTURE_LOOKUP_LIMIT) {
+        for (size_t i = 0; i < textures.size(); ++i) {
+            const auto& entry = textures[i];
+            if (entry.targetHash == targetHash && entry.targetPath == targetPath) return {i, entry.texture};
+        }
+        return {};
+    }
+
+    auto it = std::lower_bound(
+        textures.begin(), textures.end(), targetHash,
+        [](const TextureOverride& entry, uint64_t value) { return entry.targetHash < value; }
+    );
+    for (; it != textures.end() && it->targetHash == targetHash; ++it) {
+        if (it->targetPath == targetPath) return {static_cast<size_t>(it - textures.begin()), it->texture};
+    }
+    return {};
+}
+
 void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
     Stats next = GetStats();
     next.appliedMaterials = 0;
@@ -254,10 +300,15 @@ void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
     next.unmatched = static_cast<int>(textures.size());
 
     if (!textures.empty()) {
-        std::unordered_set<std::string> matchedTargets;
+        std::unordered_set<size_t> matchedTargets;
+        auto lookupTexture = [this](std::string_view targetPath, uint64_t targetHash) {
+            return FindTexture(targetPath, targetHash);
+        };
 
         touchedSlots.clear();
-        ForEachPrimitiveComponent(world, [this, &next, &matchedTargets](SDK::UPrimitiveComponent* component) {
+        ForEachPrimitiveComponent(world, [this, &next, &matchedTargets, &lookupTexture](
+                                      SDK::UPrimitiveComponent* component
+                                  ) {
             if (!component) return;
 
             ++next.scannedComponents;
@@ -276,7 +327,7 @@ void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
                 bool touchedRecorded = false;
 
                 next.appliedMaterials += ApplyMatchedTextureParameters(
-                    sourceMaterial, textures, &matchedTargets,
+                    sourceMaterial, lookupTexture, &matchedTargets,
                     [this, component, materialIndex, sourceMaterial, &sourceStored, &dynamicMaterial, &touchedRecorded,
                      &next](const SDK::FMaterialParameterInfo& parameter, SDK::UTexture2D* texture) {
                         if (dynamicMaterial && dynamicMaterial->K2_GetTextureParameterValueByInfo(parameter) == texture)
@@ -325,13 +376,16 @@ void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
 void AssetOverrideManager::RepairBloodMaterials(SDK::UWorld* world) {
     if (!world) return;
     if (repairedBloodWorld == world && repairedBloodGeneration == appliedGeneration) return;
+    auto lookupTexture = [this](std::string_view targetPath, uint64_t targetHash) {
+        return FindTexture(targetPath, targetHash);
+    };
     static const SDK::FMaterialParameterInfo bloodRt = [] {
         SDK::FMaterialParameterInfo parameter{};
         parameter.Name = SDK::BasicFilesImpleUtils::StringToName(L"BloodRT");
         return parameter;
     }();
 
-    ForEachBloodActor(world, [this](SDK::ACSBloodSimActor* actor) {
+    ForEachBloodActor(world, [this, &lookupTexture](SDK::ACSBloodSimActor* actor) {
         if (!actor->BoundMesh) return;
 
         for (const auto& source : touchedSlots) {
@@ -350,7 +404,7 @@ void AssetOverrideManager::RepairBloodMaterials(SDK::UWorld* world) {
 
             if (bloodTexture) repaired->SetTextureParameterValueByInfo(bloodRt, bloodTexture);
             ApplyMatchedTextureParameters(
-                source.material, textures, nullptr,
+                source.material, lookupTexture, nullptr,
                 [repaired](const SDK::FMaterialParameterInfo& parameter, SDK::UTexture2D* texture) {
                     repaired->SetTextureParameterValueByInfo(parameter, texture);
                     return false;
