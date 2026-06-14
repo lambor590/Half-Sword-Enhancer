@@ -25,7 +25,7 @@ class MapRegistry {
     bool displayWidthDirty = true;
 
     [[nodiscard]] static bool EndsWith(std::string_view str, std::string_view suffix);
-    [[nodiscard]] static bool HasBadSuffix(std::string_view name);
+    [[nodiscard]] static bool IsInternalMapAsset(std::string_view packageName, std::string_view packagePath);
     [[nodiscard]] static bool IsBaseGameMapPath(std::string_view path);
     [[nodiscard]] static bool StartsWith(std::string_view str, std::string_view prefix);
     [[nodiscard]] static std::string CategorizeByPath(std::string_view packagePath);

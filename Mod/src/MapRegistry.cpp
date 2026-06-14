@@ -15,13 +15,25 @@ bool MapRegistry::EndsWith(std::string_view str, std::string_view suffix) {
     return str.size() >= suffix.size() && str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
-bool MapRegistry::HasBadSuffix(std::string_view name) {
+bool MapRegistry::IsInternalMapAsset(std::string_view packageName, std::string_view packagePath) {
     static constexpr std::string_view BAD_SUFFIXES[] = {
         "_BuiltData", "_HLOD", "_Minimap", "_NavData", "_Overview", "_Collision", "_LevelMetrics",
     };
     for (auto suffix : BAD_SUFFIXES) {
-        if (EndsWith(name, suffix)) return true;
+        if (EndsWith(packageName, suffix)) return true;
     }
+
+    static constexpr std::string_view INTERNAL_TOKENS[] = {
+        "LevelInstance",
+        "levelinstance",
+        "__ExternalActors__",
+        "__ExternalObjects__",
+    };
+    for (auto token : INTERNAL_TOKENS) {
+        if (packageName.find(token) != std::string_view::npos || packagePath.find(token) != std::string_view::npos)
+            return true;
+    }
+
     return false;
 }
 
@@ -76,9 +88,31 @@ void MapRegistry::PerformScan() {
             return;
         }
 
+        auto* ifaceClass = SDK::IAssetRegistry::StaticClass();
+
+        static SDK::UFunction* scanPathsFn = nullptr;
+        if (!scanPathsFn) {
+            if (ifaceClass) scanPathsFn = ifaceClass->GetFunction("AssetRegistry", "ScanPathsSynchronous");
+        }
+        if (scanPathsFn) {
+            SDK::FString gamePathString(L"/Game");
+            SDK::Params::AssetRegistry_ScanPathsSynchronous scanParams{};
+            scanParams.InPaths = SDK::TArray<SDK::FString>(&gamePathString, 1, 1);
+            scanParams.bForceRescan = true;
+            scanParams.bIgnoreDenyListScanFilters = true;
+
+            auto flags = scanPathsFn->FunctionFlags;
+            scanPathsFn->FunctionFlags |= 0x400;
+            registryObj->ProcessEvent(scanPathsFn, &scanParams);
+            scanPathsFn->FunctionFlags = flags;
+
+            scanParams.InPaths = SDK::TArray<SDK::FString>(nullptr, 0, 0);
+        } else {
+            g_logger.Log("ScanPathsSynchronous function not found");
+        }
+
         static SDK::UFunction* getAssetsFn = nullptr;
         if (!getAssetsFn) {
-            auto* ifaceClass = SDK::IAssetRegistry::StaticClass();
             if (ifaceClass) getAssetsFn = ifaceClass->GetFunction("AssetRegistry", "GetAssets");
         }
         if (!getAssetsFn) {
@@ -110,27 +144,23 @@ void MapRegistry::PerformScan() {
         const int32_t count = params.OutAssetData.Num();
         g_logger.Log("Scan returned %d World assets under /Game", count);
 
-        std::unordered_set<int32_t> seenIds;
-        seenIds.reserve(count);
+        std::unordered_set<std::string> seenPackages;
+        seenPackages.reserve(count);
         maps.reserve(count);
 
         for (int32_t i = 0; i < count; ++i) {
             const auto& asset = params.OutAssetData[i];
 
-            std::string packagePath = asset.PackagePath.GetRawString();
-
-            if (!seenIds.insert(asset.PackageName.ComparisonIndex).second) continue;
-
             std::string packageName = asset.PackageName.GetRawString();
-            if (HasBadSuffix(packageName)) continue;
+            if (!seenPackages.insert(packageName).second) continue;
 
-            std::string category = CategorizeByPath(packagePath);
-            if (category.empty()) continue;
+            std::string packagePath = asset.PackagePath.GetRawString();
+            if (IsInternalMapAsset(packageName, packagePath)) continue;
 
             std::string displayName = CleanMapName(packageName);
             if (displayName.empty()) continue;
 
-            maps.push_back({std::move(displayName), std::move(packageName), std::move(category)});
+            maps.push_back({std::move(displayName), std::move(packageName), CategorizeByPath(packagePath)});
         }
 
         std::ranges::sort(maps, [](const MapEntry& a, const MapEntry& b) {
