@@ -44,11 +44,7 @@ void GuiSection::Render() {
             ConfigManager::Get().SetBool("UE", "console_enabled", ueConsoleEnabled);
         });
 
-        if (ueConsoleEnabled) {
-            GameHook::Get().UnlockUEConsole();
-        } else {
-            GameHook::Get().LockUEConsole();
-        }
+        GameHook::Get().SetUEConsoleEnabled(ueConsoleEnabled);
     }
 
     if (changed) [[unlikely]]

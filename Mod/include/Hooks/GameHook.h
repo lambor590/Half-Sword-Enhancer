@@ -25,8 +25,7 @@ public:
     [[nodiscard]] bool Hook();
     void Unhook();
 
-    void UnlockUEConsole();
-    void LockUEConsole();
+    void SetUEConsoleEnabled(bool enabled);
 
     using QueuedAction = std::function<void(const RuntimeContextSnapshot&)>;
 
@@ -66,7 +65,6 @@ private:
 
     void RegisterHook(uint64_t hash, HookCallback callback, bool afterOriginal);
     void UnregisterHook(uint64_t hash);
-
     Logger logger{"GameHook"};
     uintptr_t oProcessEvent = 0;
     uintptr_t processEventAddress = 0;

@@ -11,10 +11,8 @@
 #include "SDK/Engine_classes.hpp"
 
 #include <bit>
-#include <chrono>
 #include <cstring>
 #include <intrin.h>
-#include <thread>
 #include <utility>
 
 #ifdef _MSC_VER
@@ -198,7 +196,7 @@ bool GameHook::Hook() {
     hooked = true;
 
     if (ConfigManager::Get().GetBool("UE", "console_enabled", false)) {
-        UnlockUEConsole();
+        SetUEConsoleEnabled(true);
     }
 
     QueueAction([](const RuntimeContextSnapshot&) { GameBuildInfo::Query(); });
@@ -261,54 +259,41 @@ void GameHook::UnregisterHook(uint64_t hash) {
     }
 }
 
-void GameHook::UnlockUEConsole() {
-    SDK::UEngine* engine = SDK::UEngine::GetEngine();
-    while (!engine) {
-        logger.Log("Waiting for UEngine instance...");
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        engine = SDK::UEngine::GetEngine();
-    }
+void GameHook::SetUEConsoleEnabled(bool enabled) {
+    QueueAction([enabled]([[maybe_unused]] const RuntimeContextSnapshot&) {
+        auto& hook = GameHook::Get();
+        SDK::UEngine* engine = SDK::UEngine::GetEngine();
+        SDK::UGameViewportClient* viewport = engine ? engine->GameViewport : nullptr;
 
-    SDK::UInputSettings* inputSettings = SDK::UInputSettings::GetDefaultObj();
-    if (inputSettings && inputSettings->ConsoleKeys.Num() > 0) {
-        inputSettings->ConsoleKeys[0].KeyName = SDK::UKismetStringLibrary::Conv_StringToName(SDK::FString(L"F2"));
-    }
-
-    SDK::UGameViewportClient* viewport = engine->GameViewport;
-    if (viewport) {
-        if (!viewport->ViewportConsole) {
-            SDK::UObject* newConsole = SDK::UGameplayStatics::SpawnObject(engine->ConsoleClass, engine->GameViewport);
-            if (newConsole) {
-                viewport->ViewportConsole = static_cast<SDK::UConsole*>(newConsole);
-                logger.Log("Console object created successfully");
+        if (enabled) {
+            if (!engine || !viewport || !engine->ConsoleClass.Get()) {
+                hook.logger.Log("UE Console unlock skipped: runtime was not ready");
+                return;
             }
+
+            if (!viewport->ViewportConsole) {
+                SDK::UObject* newConsole = SDK::UGameplayStatics::SpawnObject(engine->ConsoleClass, viewport);
+                if (!newConsole) {
+                    hook.logger.Log("UE Console unlock failed: console object could not be created");
+                    return;
+                }
+
+                viewport->ViewportConsole = static_cast<SDK::UConsole*>(newConsole);
+                hook.logger.Log("Console object created successfully");
+            }
+        } else if (viewport && viewport->ViewportConsole) {
+            viewport->ViewportConsole = nullptr;
+            hook.logger.Log("Console object destroyed");
         }
-        logger.Log("Viewport input settings configured");
-    }
 
-    logger.Log("UE Console unlocked - Press F2 to open console");
-}
+        SDK::UInputSettings* inputSettings = SDK::UInputSettings::GetDefaultObj();
+        if (inputSettings && inputSettings->ConsoleKeys.Num() > 0) {
+            inputSettings->ConsoleKeys[0].KeyName =
+                SDK::UKismetStringLibrary::Conv_StringToName(SDK::FString(enabled ? L"F2" : L"None"));
+        }
 
-void GameHook::LockUEConsole() {
-    SDK::UEngine* engine = SDK::UEngine::GetEngine();
-    if (!engine) {
-        logger.Log("Failed to get UEngine instance");
-        return;
-    }
-
-    SDK::UGameViewportClient* viewport = engine->GameViewport;
-    if (viewport && viewport->ViewportConsole) {
-        viewport->ViewportConsole = nullptr;
-        logger.Log("Console object destroyed");
-    }
-
-    SDK::UInputSettings* inputSettings = SDK::UInputSettings::GetDefaultObj();
-    if (inputSettings && inputSettings->ConsoleKeys.Num() > 0) {
-        inputSettings->ConsoleKeys[0].KeyName = SDK::UKismetStringLibrary::Conv_StringToName(SDK::FString(L"None"));
-        logger.Log("Console key disabled");
-    }
-
-    logger.Log("UE Console locked");
+        hook.logger.Log(enabled ? "UE Console unlocked - Press F2 to open console" : "UE Console locked");
+    });
 }
 
 void GameHook::QueueAction(QueuedAction action) {
