@@ -5,8 +5,8 @@
 #include <cstdint>
 #include <functional>
 #include <mutex>
-#include <queue>
 #include <string_view>
+#include <vector>
 
 #include "Logger.h"
 #include "Core/ModContext.h"
@@ -74,7 +74,7 @@ private:
     std::array<HookEntry, MAX_HOOKS> hooks{};
     uint8_t hookCount = 0;
 
-    static std::queue<QueuedAction> gameThreadQueue;
+    static std::vector<QueuedAction> gameThreadQueue;
     static std::mutex queueMutex;
     static std::atomic<bool> hasQueuedActions;
 

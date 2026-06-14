@@ -14,6 +14,7 @@
 #include <cstring>
 #include <intrin.h>
 #include <utility>
+#include <vector>
 
 #ifdef _MSC_VER
 #define FORCE_INLINE __forceinline
@@ -21,7 +22,7 @@
 #define FORCE_INLINE inline __attribute__((always_inline))
 #endif
 
-std::queue<GameHook::QueuedAction> GameHook::gameThreadQueue;
+std::vector<GameHook::QueuedAction> GameHook::gameThreadQueue;
 std::mutex GameHook::queueMutex;
 std::atomic<bool> GameHook::hasQueuedActions{false};
 
@@ -298,12 +299,13 @@ void GameHook::SetUEConsoleEnabled(bool enabled) {
 
 void GameHook::QueueAction(QueuedAction action) {
     std::lock_guard<std::mutex> lock(queueMutex);
-    gameThreadQueue.push(std::move(action));
+    gameThreadQueue.push_back(std::move(action));
     hasQueuedActions.store(true, std::memory_order_release);
 }
 
 void GameHook::ProcessGameThreadQueue() {
-    std::queue<QueuedAction> localQueue;
+    static thread_local std::vector<QueuedAction> localQueue;
+    localQueue.clear();
 
     {
         std::lock_guard<std::mutex> lock(queueMutex);
@@ -312,9 +314,8 @@ void GameHook::ProcessGameThreadQueue() {
         hasQueuedActions.store(false, std::memory_order_release);
     }
 
-    while (!localQueue.empty()) {
+    for (auto& action : localQueue) {
         auto snapshot = ModContext::Get().RefreshGameThreadCache();
-        localQueue.front()(snapshot);
-        localQueue.pop();
+        action(snapshot);
     }
 }
