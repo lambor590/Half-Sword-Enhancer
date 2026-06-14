@@ -83,24 +83,24 @@ namespace SpawnBindingUtils {
         SectionFn sectionName, SaveExtraFn saveExtra
     ) {
         auto& config = ConfigManager::Get();
-        config.DeleteSection(rootSection);
-        config.SetInt(rootSection, "next_id", nextId);
-        config.SetInt(rootSection, "count", static_cast<int>(bindings.size()));
+        config.BatchSave([&] {
+            config.DeleteSection(rootSection);
+            config.SetInt(rootSection, "next_id", nextId);
+            config.SetInt(rootSection, "count", static_cast<int>(bindings.size()));
 
-        for (size_t i = 0; i < bindings.size(); ++i) {
-            auto& binding = *bindings[i];
-            char idKey[16];
-            std::snprintf(idKey, sizeof(idKey), "id_%zu", i);
-            config.SetInt(rootSection, idKey, binding.id);
+            for (size_t i = 0; i < bindings.size(); ++i) {
+                auto& binding = *bindings[i];
+                char idKey[16];
+                std::snprintf(idKey, sizeof(idKey), "id_%zu", i);
+                config.SetInt(rootSection, idKey, binding.id);
 
-            auto section = sectionName(binding.id);
-            config.SetString(section, "name", binding.name);
-            config.SetString(section, "summary", binding.summary);
-            config.SetInt(section, "key", binding.key);
-            saveExtra(binding, section, config);
-        }
-
-        config.SaveConfig();
+                auto section = sectionName(binding.id);
+                config.SetString(section, "name", binding.name);
+                config.SetString(section, "summary", binding.summary);
+                config.SetInt(section, "key", binding.key);
+                saveExtra(binding, section, config);
+            }
+        });
     }
 
     template <typename Binding, typename Callback, typename Params>
