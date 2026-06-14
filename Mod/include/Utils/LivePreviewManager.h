@@ -1,6 +1,8 @@
 #pragma once
 
+#include <atomic>
 #include <functional>
+#include <memory>
 #include "imgui/imgui.h"
 #include "Hooks/GameHook.h"
 #include "Menu/SectionConfig.h"
@@ -46,10 +48,15 @@ public:
         yaw += cfg.rotationSpeed * static_cast<double>(ImGui::GetIO().DeltaTime);
         if (yaw >= 360.0) yaw -= 360.0;
         if (yaw < 0.0) yaw += 360.0;
-        double y = yaw;
+        rotationState->yaw.store(yaw, std::memory_order_release);
+        if (rotationState->queued.exchange(true, std::memory_order_acq_rel)) return;
+
         SDK::AActor* actor = previewActor;
         SDK::UWorld* world = previewWorld;
-        GameHook::QueueAction([actor, world, y](const RuntimeContextSnapshot& runtime) {
+        auto state = rotationState;
+        GameHook::QueueAction([actor, world, state](const RuntimeContextSnapshot& runtime) {
+            state->queued.store(false, std::memory_order_release);
+            const double y = state->yaw.load(std::memory_order_acquire);
             if (actor && runtime.world == world) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
         });
     }
@@ -84,6 +91,12 @@ private:
     double yaw = 0.0;
     bool forceRefresh = false;
     bool prevEnabled = false;
+
+    struct RotationQueueState {
+        std::atomic_bool queued{false};
+        std::atomic<double> yaw{0.0};
+    };
+    std::shared_ptr<RotationQueueState> rotationState = std::make_shared<RotationQueueState>();
 
     PreviewConfig& cfg;
     CleanupFn onCleanup;

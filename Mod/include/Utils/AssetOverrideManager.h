@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <atomic>
 #include <mutex>
 #include <string>
 #include <string_view>
@@ -107,6 +108,7 @@ private:
     mutable std::mutex statsMutex;
 
     bool initialized = false;
+    std::atomic<bool> applyQueued{false};
     bool needsScan = true;
     bool needsLoad = true;
     bool needsApply = true;
