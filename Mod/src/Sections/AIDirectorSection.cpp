@@ -706,8 +706,10 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
         if (auto* ai = ActorUtils::GetAIController(willie)) ai->Team_Int = newTeam;
     };
 
-    if (runtime.world && runtime.player) {
+    if (runtime.player) {
         originalStates.erase(reinterpret_cast<uintptr_t>(runtime.player));
+    }
+    if (!originalStates.empty() && runtime.world && runtime.player) {
         std::unordered_set<uintptr_t> currentActors;
         currentActors.reserve(originalStates.size() + 16);
         ActorUtils::ForEachWillieInRadius(
