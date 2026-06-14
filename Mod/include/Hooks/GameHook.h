@@ -38,7 +38,6 @@ public:
         SDK::UObject* object = nullptr;
         SDK::UFunction* function = nullptr;
         void* params = nullptr;
-        bool skipOriginal = false;
 
         template <typename T>
         [[nodiscard]] T* Params() const noexcept {
@@ -53,8 +52,8 @@ public:
 
     struct HookEntry {
         uint64_t nameHash = 0;
-        HookCallback callback;
-        bool afterOriginal = false;
+        HookCallback beforeCallback;
+        HookCallback afterCallback;
     };
 
     GameHook(const GameHook&) = delete;
@@ -70,7 +69,7 @@ private:
     uintptr_t processEventAddress = 0;
     bool hooked = false;
 
-    static constexpr size_t MAX_HOOKS = 16;
+    static constexpr size_t MAX_HOOKS = 32;
     std::array<HookEntry, MAX_HOOKS> hooks{};
     uint8_t hookCount = 0;
 

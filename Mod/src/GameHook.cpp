@@ -104,7 +104,15 @@ namespace {
     };
 
     static ProcessEventCache g_peCache;
-    static thread_local bool g_inProcessEventHook = false;
+    static thread_local uint32_t g_hookSuppressionDepth = 0;
+
+    struct ScopedHookSuppression {
+        ScopedHookSuppression() noexcept { ++g_hookSuppressionDepth; }
+        ~ScopedHookSuppression() noexcept { --g_hookSuppressionDepth; }
+
+        ScopedHookSuppression(const ScopedHookSuppression&) = delete;
+        ScopedHookSuppression& operator=(const ScopedHookSuppression&) = delete;
+    };
 }
 
 // Slow path: resolve a UFunction we haven't seen before. Marked noinline
@@ -129,13 +137,11 @@ __declspec(noinline) static const ProcessEventCache::Slot* ResolveAndCache(
 void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
     auto& hook = GameHook::Get();
     const auto originalProcessEvent = std::bit_cast<ProcessEvent>(hook.oProcessEvent);
-    if (g_inProcessEventHook) [[unlikely]] {
+    if (g_hookSuppressionDepth > 0) [[unlikely]] {
         originalProcessEvent(pObject, pFunc, parms);
         return;
     }
 
-    g_inProcessEventHook = true;
-    bool callOriginal = true;
     GameHook::ProcessEventContext context{pObject, pFunc, parms};
     const GameHook::HookEntry* entry = nullptr;
 
@@ -147,28 +153,24 @@ void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void
         }
 
         if (hasQueuedActions && slot->isReceiveTick) [[unlikely]] {
+            const ScopedHookSuppression suppressHooks;
             GameHook::ProcessGameThreadQueue();
         }
 
         if (slot->hookIdx >= 0) [[unlikely]] {
             entry = &hook.hooks[slot->hookIdx];
-            if (!entry->afterOriginal) {
-                entry->callback(context);
-                pObject = context.object;
-                pFunc = context.function;
-                parms = context.params;
-                callOriginal = !context.skipOriginal;
+            if (entry->beforeCallback) {
+                const ScopedHookSuppression suppressHooks;
+                entry->beforeCallback(context);
             }
         }
     }
 
-    if (callOriginal) {
-        originalProcessEvent(pObject, pFunc, parms);
+    originalProcessEvent(pObject, pFunc, parms);
+    if (entry && entry->afterCallback) [[unlikely]] {
+        const ScopedHookSuppression suppressHooks;
+        entry->afterCallback(context);
     }
-    if (entry && entry->afterOriginal) [[unlikely]] {
-        entry->callback(context);
-    }
-    g_inProcessEventHook = false;
 }
 
 GameHook& GameHook::Get() {
@@ -230,16 +232,22 @@ void GameHook::RegisterHook(uint64_t hash, HookCallback callback, bool afterOrig
 
     for (uint8_t i = 0; i < hookCount; ++i) {
         if (hooks[i].nameHash == hash) {
-            hooks[i].callback = std::move(callback);
-            hooks[i].afterOriginal = afterOriginal;
+            if (afterOriginal) {
+                hooks[i].afterCallback = std::move(callback);
+            } else {
+                hooks[i].beforeCallback = std::move(callback);
+            }
             return;
         }
     }
     if (hookCount < MAX_HOOKS) {
         auto& entry = hooks[hookCount++];
         entry.nameHash = hash;
-        entry.callback = std::move(callback);
-        entry.afterOriginal = afterOriginal;
+        if (afterOriginal) {
+            entry.afterCallback = std::move(callback);
+        } else {
+            entry.beforeCallback = std::move(callback);
+        }
         g_peCache.Clear();
     } else {
         logger.Log("Max ProcessEvent hooks reached");
