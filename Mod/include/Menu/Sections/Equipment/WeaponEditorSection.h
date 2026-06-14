@@ -103,6 +103,9 @@ private:
     bool meshPendingIsFullReplace = false;
     char meshFilters[MODULE_SLOT_COUNT][64] = {};
     std::vector<int> filteredMeshIndices;
+    uint32_t meshPoolVersion = 0;
+    uint32_t filteredMeshVersion = 0;
+    std::string filteredMeshFilter;
     char assetPathBuf[256] = {};
 
     MeshOverride meshOverrides[MODULE_SLOT_COUNT];

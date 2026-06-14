@@ -517,6 +517,18 @@ namespace GuiUtils {
         return scrollH;
     }
 
+    template <typename RenderFn>
+    inline void RenderClippedList(int itemCount, int includeIndex, RenderFn&& renderItem) {
+        ImGuiListClipper clipper;
+        clipper.Begin(itemCount);
+        if (includeIndex >= 0 && includeIndex < itemCount) clipper.IncludeItemByIndex(includeIndex);
+        while (clipper.Step()) {
+            for (int i = clipper.DisplayStart; i < clipper.DisplayEnd; ++i) {
+                renderItem(i);
+            }
+        }
+    }
+
     template <typename Entry>
     inline void RenderGlobalModuleCombo(
         const char* label, SDK::UClass*& current, const std::vector<Entry>& options, char* filterBuf,
@@ -524,15 +536,19 @@ namespace GuiUtils {
     ) {
         const char* preview = "None";
         bool foundPath = false;
-        for (const auto& e : options)
+        int selectedIndex = -1;
+        for (int i = 0; i < static_cast<int>(options.size()); ++i) {
+            const auto& e = options[static_cast<size_t>(i)];
             if ((currentPath && e.path == *currentPath) || (!currentPath && e.cls == current)) {
                 preview = e.name.c_str();
+                selectedIndex = i;
                 if (currentPath) {
                     current = e.cls;
                     foundPath = true;
                 }
                 break;
             }
+        }
         if (currentPath && !foundPath) current = nullptr;
 
         if (cachedWidth == 0.0f) {
@@ -568,9 +584,10 @@ namespace GuiUtils {
             current = nullptr;
         }
 
-        char display[128];
-        for (const auto& e : options) {
-            if (hasFilter && !MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) continue;
+        auto renderEntry = [&](int idx) {
+            const auto& e = options[static_cast<size_t>(idx)];
+            if (hasFilter && !MatchesFilter(e.name.c_str(), e.name.size(), filterBuf, filterLen)) return;
+            char display[128];
             std::snprintf(display, sizeof(display), "%-36s [%s]", e.name.c_str(), e.sourceType);
             const bool selected = currentPath ? e.path == *currentPath : e.cls == current;
             if (ImGui::Selectable(display, selected)) {
@@ -578,6 +595,14 @@ namespace GuiUtils {
                 current = e.cls;
             }
             if (selected) ImGui::SetItemDefaultFocus();
+        };
+
+        if (hasFilter) {
+            for (int i = 0; i < static_cast<int>(options.size()); ++i) {
+                renderEntry(i);
+            }
+        } else {
+            RenderClippedList(static_cast<int>(options.size()), selectedIndex, renderEntry);
         }
         ImGui::EndCombo();
     }
@@ -624,12 +649,21 @@ namespace GuiUtils {
 
         if (ImGui::Selectable("None", moduleIndex <= 0)) moduleIndex = 0;
 
-        for (int i = 0; i < static_cast<int>(available.size()); ++i) {
-            if (hasFilter && !MatchesFilter(available[i].name.c_str(), available[i].name.size(), filterBuf, filterLen))
-                continue;
+        auto renderEntry = [&](int i) {
+            const auto& entry = available[static_cast<size_t>(i)];
+            if (hasFilter && !MatchesFilter(entry.name.c_str(), entry.name.size(), filterBuf, filterLen))
+                return;
             bool selected = (moduleIndex == i + 1);
-            if (ImGui::Selectable(available[i].name.c_str(), selected)) moduleIndex = i + 1;
+            if (ImGui::Selectable(entry.name.c_str(), selected)) moduleIndex = i + 1;
             if (selected) ImGui::SetItemDefaultFocus();
+        };
+
+        if (hasFilter) {
+            for (int i = 0; i < static_cast<int>(available.size()); ++i) {
+                renderEntry(i);
+            }
+        } else {
+            RenderClippedList(static_cast<int>(available.size()), moduleIndex - 1, renderEntry);
         }
         ImGui::EndCombo();
     }

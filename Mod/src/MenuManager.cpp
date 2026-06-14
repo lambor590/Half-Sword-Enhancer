@@ -2,7 +2,6 @@
 #include "DefaultStyle.h"
 
 #include <algorithm>
-#include <cctype>
 #include <cstring>
 
 #include "imgui/imgui.h"
@@ -17,6 +16,10 @@ namespace {
 
     constexpr ImVec4 SEPARATOR_COLOR = {
         DefaultStyle::MEDIUM_WOOD.x, DefaultStyle::MEDIUM_WOOD.y, DefaultStyle::MEDIUM_WOOD.z, 0.35f};
+
+    constexpr char LowerAscii(char c) noexcept {
+        return (c >= 'A' && c <= 'Z') ? static_cast<char>(c + ('a' - 'A')) : c;
+    }
 
     void DrawSeparator(float vGap) {
         ImGui::Dummy(ImVec2(0, vGap));
@@ -73,7 +76,7 @@ bool MenuManager::MatchesSearch(std::string_view text, const char* lowerNeedle, 
     for (size_t i = 0; i <= text.size() - needleLen; ++i) {
         bool match = true;
         for (size_t j = 0; j < needleLen; ++j) {
-            if (static_cast<char>(std::tolower(static_cast<unsigned char>(text[i + j]))) != lowerNeedle[j]) {
+            if (LowerAscii(text[i + j]) != lowerNeedle[j]) {
                 match = false;
                 break;
             }
@@ -96,7 +99,7 @@ void MenuManager::UpdateSearchResults() noexcept {
     char lowerNeedle[sizeof(searchBuffer)];
     size_t needleLen = 0;
     for (; searchBuffer[needleLen] != '\0'; ++needleLen) {
-        lowerNeedle[needleLen] = static_cast<char>(std::tolower(static_cast<unsigned char>(searchBuffer[needleLen])));
+        lowerNeedle[needleLen] = LowerAscii(searchBuffer[needleLen]);
     }
 
     for (size_t i = 0; i < TAB_COUNT; ++i) {

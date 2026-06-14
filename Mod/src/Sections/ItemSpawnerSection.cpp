@@ -378,8 +378,9 @@ void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
         auto& allItems = reg.GetAllItems();
 
         if (GuiUtils::BeginSizedCombo("##FilteredItems", "Select item...", cachedFilteredWidth)) {
-            for (BlueprintRegistry::ItemIndex itemIdx : filteredIndices) {
-                if (itemIdx >= allItems.size()) continue;
+            GuiUtils::RenderClippedList(static_cast<int>(filteredIndices.size()), -1, [&](int row) {
+                const auto itemIdx = filteredIndices[static_cast<size_t>(row)];
+                if (itemIdx >= allItems.size()) return;
                 auto& item = allItems[itemIdx];
                 if (ImGui::Selectable(item.displayName.c_str(), false)) {
                     const auto& location = reg.GetItemLocation(itemIdx);
@@ -389,7 +390,7 @@ void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
                     searchBuffer[0] = '\0';
                     searchActive = false;
                 }
-            }
+            });
             ImGui::EndCombo();
         }
     } else {

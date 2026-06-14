@@ -909,12 +909,16 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
         const bool hasFilter = filterLen > 0;
 
         if (hasFilter) {
-            filteredMeshIndices.clear();
-            filteredMeshIndices.reserve(meshPool.size());
-            for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
-                const auto& entry = meshPool[i];
-                if (GuiUtils::MatchesFilter(entry.name.c_str(), entry.name.size(), filter, filterLen))
-                    filteredMeshIndices.push_back(i);
+            if (filteredMeshVersion != meshPoolVersion || filteredMeshFilter != filter) {
+                filteredMeshIndices.clear();
+                filteredMeshIndices.reserve(meshPool.size());
+                for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
+                    const auto& entry = meshPool[i];
+                    if (GuiUtils::MatchesFilter(entry.name.c_str(), entry.name.size(), filter, filterLen))
+                        filteredMeshIndices.push_back(i);
+                }
+                filteredMeshFilter = filter;
+                filteredMeshVersion = meshPoolVersion;
             }
             ImGui::TextDisabled(
                 "Showing %d of %d", static_cast<int>(filteredMeshIndices.size()), static_cast<int>(meshPool.size())
@@ -942,11 +946,11 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
         };
 
         if (hasFilter) {
-            for (int i : filteredMeshIndices)
-                renderMeshOption(i);
+            GuiUtils::RenderClippedList(static_cast<int>(filteredMeshIndices.size()), -1, [&](int row) {
+                renderMeshOption(filteredMeshIndices[static_cast<size_t>(row)]);
+            });
         } else {
-            for (int i = 0; i < static_cast<int>(meshPool.size()); ++i)
-                renderMeshOption(i);
+            GuiUtils::RenderClippedList(static_cast<int>(meshPool.size()), ovr.poolIndex, renderMeshOption);
         }
         ImGui::EndCombo();
     }
@@ -974,6 +978,8 @@ void WeaponEditorSection::DrainPendingMeshEntries() {
     }
     meshComboWidth = 0.0f;
     filteredMeshIndices.clear();
+    filteredMeshFilter.clear();
+    ++meshPoolVersion;
     RebuildMeshDisplayCache();
 }
 
