@@ -18,6 +18,8 @@
 
 class LoadoutManagerSection : public Section {
 public:
+    static constexpr SectionDefinition SECTION{MenuTab::Equipment, "Loadout Manager"};
+
     struct Config {
         bool livePreview = true;
         int applyKey = -1;
@@ -44,7 +46,7 @@ private:
     ClassNameCache armorNameCache[17]{};
     ClassNameCache weaponNameCache[7]{};
 
-    KeybindEntries keybinds;
+    KeybindList keybinds;
     GlobalModulePool& modulePool = GlobalModulePool::Get();
     bool modulePoolQueued = false;
     char moduleFilters[6][64] = {};

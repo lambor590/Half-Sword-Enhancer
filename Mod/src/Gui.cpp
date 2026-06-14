@@ -4,21 +4,7 @@
 #include "Core/ModContext.h"
 #include "DefaultStyle.h"
 #include "Menu/MenuManager.h"
-#include "Menu/Sections/Equipment/ArmorEditorSection.h"
-#include "Menu/Sections/Equipment/LoadoutManagerSection.h"
-#include "Menu/Sections/Equipment/WeaponEditorSection.h"
-#include "Menu/Sections/Player/PlayerAbilitiesSection.h"
-#include "Menu/Sections/Player/PlayerEditorSection.h"
-#include "Menu/Sections/Settings/AssetOverridesSection.h"
-#include "Menu/Sections/Settings/GraphicsSection.h"
-#include "Menu/Sections/Settings/GuiSection.h"
-#include "Menu/Sections/Spawner/ItemSpawnerSection.h"
-#include "Menu/Sections/Spawner/NPCEditorSection.h"
-#include "Menu/Sections/World/AIDirectorSection.h"
-#include "Menu/Sections/World/MapLoaderSection.h"
-#include "Menu/Sections/World/SkyEditorSection.h"
-#include "Menu/Sections/World/WorldActionsSection.h"
-#include "Menu/Sections/World/WorldEditorSection.h"
+#include "Menu/SectionRegistry.h"
 #include "KeybindManager.h"
 #include "Logger.h"
 #include "NotificationManager.h"
@@ -133,21 +119,7 @@ void Gui::Setup() {
 
     auto& ctx = ModContext::Get();
     auto& menu = MenuManager::Get();
-    menu.AddSection<GuiSection>(MenuTab::Settings, ctx);
-    menu.AddSection<AssetOverridesSection>(MenuTab::Settings, ctx);
-    menu.AddSection<GraphicsSection>(MenuTab::Settings, ctx);
-    menu.AddSection<AIDirectorSection>(MenuTab::World, ctx);
-    menu.AddSection<WorldActionsSection>(MenuTab::World, ctx);
-    menu.AddSection<WorldEditorSection>(MenuTab::World, ctx);
-    menu.AddSection<SkyEditorSection>(MenuTab::World, ctx);
-    menu.AddSection<MapLoaderSection>(MenuTab::World, ctx);
-    menu.AddSection<PlayerAbilitiesSection>(MenuTab::Player, ctx);
-    menu.AddSection<PlayerEditorSection>(MenuTab::Player, ctx);
-    menu.AddSection<NPCEditorSection>(MenuTab::Spawner, ctx);
-    menu.AddSection<ItemSpawnerSection>(MenuTab::Spawner, ctx);
-    menu.AddSection<ArmorEditorSection>(MenuTab::Equipment, ctx);
-    menu.AddSection<WeaponEditorSection>(MenuTab::Equipment, ctx);
-    menu.AddSection<LoadoutManagerSection>(MenuTab::Equipment, ctx);
+    RegisterModSections(menu, ctx);
 
     originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
     logger.Log("WndProc hooked successfully");

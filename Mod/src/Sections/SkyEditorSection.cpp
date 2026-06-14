@@ -2,7 +2,7 @@
 #include "Menu/SectionStyle.h"
 #include "Hooks/GameHook.h"
 
-SkyEditorSection::SkyEditorSection(ModContext& ctx) : Section(ctx, "Sky Editor") {}
+SkyEditorSection::SkyEditorSection(ModContext& ctx) : Section(ctx, SECTION) {}
 
 void SkyEditorSection::ResetState() {
     sunActor = nullptr;

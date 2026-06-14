@@ -8,7 +8,7 @@
 #include "Utils/GuiUtils.h"
 
 GuiSection::GuiSection(ModContext& ctx)
-    : Section(ctx, GUI_SECTION_NAME), notificationsEnabled(NotificationManager::IsEnabled()) {}
+    : Section(ctx, SECTION), notificationsEnabled(NotificationManager::IsEnabled()) {}
 
 void GuiSection::Render() {
     const SectionStyle::StyleRAII style;

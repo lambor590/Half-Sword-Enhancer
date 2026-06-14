@@ -111,18 +111,17 @@ namespace {
     }
 }
 
-PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : Section(ctx, "Abilities") {
+PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : Section(ctx, SECTION) {
     InitKeybinds();
 }
 
 void PlayerAbilitiesSection::Render() {
     const SectionStyle::StyleRAII style;
-    KeybindUI::RenderKeybindList(keybinds);
+    keybinds.Render();
 }
 
 void PlayerAbilitiesSection::InitKeybinds() {
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Infinite Stamina",
             .tooltip = "Keeps your stamina bar full at all times",
@@ -138,8 +137,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Enemy Infinite Stamina",
             .tooltip = "Keeps enemy stamina full at all times",
@@ -158,8 +156,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Infinite Consciousness",
             .tooltip = "Prevents you from losing consciousness, so you can't be knocked out",
@@ -175,8 +172,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Enemy Infinite Consciousness",
             .tooltip = "Enemies can't be knocked out",
@@ -193,8 +189,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Consciousness Multiplier",
             .tooltip = "Multiply your consciousness cap to resist knockouts",
@@ -216,8 +211,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Enemy Consciousness Multiplier",
             .tooltip = "Multiply enemy consciousness cap to make them harder to knock out",
@@ -242,8 +236,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Jump",
             .tooltip = "Jump with configurable force. There's no way to make it more natural, so it will always be a "
@@ -260,8 +253,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Speed Multiplier",
             .tooltip = "Speed multiplier for running and walking. More noticible when you run a long distance.",
@@ -290,8 +282,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Strength Multiplier",
             .tooltip = "Strength multiplier for muscle power, grab force and hands rigidity",
@@ -329,8 +320,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Custom Body Tonus",
             .tooltip = "Adjusts muscle tension and prevents body weakening. Heavily affects your movement speed.",
@@ -362,8 +352,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Ragdoll",
             .tooltip = "Makes character go completely limp and ragdoll",
@@ -379,8 +368,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Enemy Ragdoll",
             .tooltip = "Makes all enemies go limp and ragdoll",
@@ -399,8 +387,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Drunk Enemies",
             .tooltip = "Makes all enemies stumble around drunk",
@@ -424,8 +411,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "No Kick Cooldown",
             .tooltip = "Removes cooldown between kicks for rapid kicking",
@@ -528,8 +514,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         clearPendingKickImpulse();
     };
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Kick Multiplier",
             .tooltip = "Multiplies the physical impulse applied by kicks",
@@ -699,8 +684,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Invulnerability",
             .tooltip = "Makes you immune to all damage like a god",
@@ -718,8 +702,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "No Pain",
             .tooltip = "Makes you immune to pain and removes all pain effects",
@@ -735,8 +718,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Enemy No Pain",
             .tooltip = "Makes all enemies immune to pain and removes their pain effects",
@@ -753,8 +735,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Get Up",
             .tooltip = "Forces you to stand up when knocked down",
@@ -769,8 +750,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Dash",
             .tooltip = "Dash forward with configurable force",
@@ -787,8 +767,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Bite Attack",
             .tooltip = "Bite the nearest enemy like a zombie",
@@ -803,8 +782,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Enemy Bite",
             .tooltip = "Make the nearest enemy bite another enemy",
@@ -832,8 +810,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Enemy Bite All",
             .tooltip = "Make all enemies within range bite each other",
@@ -856,8 +833,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Possess Nearest Willie",
             .tooltip = "Take control of the closest NPC",

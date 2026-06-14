@@ -9,10 +9,13 @@
 #include "Utils/PresetSectionState.h"
 
 class PlayerEditorSection : public Section {
+public:
+    static constexpr SectionDefinition SECTION{MenuTab::Player, "Editor"};
+
 private:
     int enforceKey = -1;
     PlayerEditorOverrides overrides{};
-    KeybindEntries keybinds;
+    KeybindList keybinds;
 
     PresetSectionState<PlayerPresetSerializer> presets;
     int activeTab = 0;

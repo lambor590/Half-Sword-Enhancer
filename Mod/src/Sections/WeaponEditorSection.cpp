@@ -1194,7 +1194,7 @@ void WeaponEditorSection::RenderSpawnFooter() {
     if (!player || !world) ImGui::EndDisabled();
 }
 
-WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, "Weapon Editor") {
+WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
     CreateBlankWeaponPassport();
     BuildDescriptors();
     InitKeybinds();
@@ -1210,8 +1210,7 @@ void WeaponEditorSection::OnOpen() {
 }
 
 void WeaponEditorSection::InitKeybinds() {
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Spawn Weapon",
             .tooltip = "Spawns the currently edited weapon with runtime overrides applied",
@@ -1242,7 +1241,7 @@ void WeaponEditorSection::Render() {
     preview.InvalidateIfDead(player, world);
     preview.SyncToggleState();
 
-    KeybindUI::RenderKeybindList(keybinds);
+    keybinds.Render();
     ImGui::Spacing();
 
     RenderGenerationControls();

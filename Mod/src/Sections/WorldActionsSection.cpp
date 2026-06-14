@@ -12,18 +12,17 @@
 #include "SDK/BP_MeshBloodSim_classes.hpp"
 #include "SDK/HSComputeShaders_classes.hpp"
 
-WorldActionsSection::WorldActionsSection(ModContext& ctx) : Section(ctx, "Actions") {
+WorldActionsSection::WorldActionsSection(ModContext& ctx) : Section(ctx, SECTION) {
     InitKeybinds();
 }
 
 void WorldActionsSection::Render() {
     const SectionStyle::StyleRAII style;
-    KeybindUI::RenderKeybindList(keybinds);
+    keybinds.Render();
 }
 
 void WorldActionsSection::InitKeybinds() {
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Toggle Slow Motion",
             .configSection = "ToggleSlowMotion",
@@ -42,8 +41,7 @@ void WorldActionsSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Toggle Custom Gravity",
             .configSection = "ToggleCustomGravity",
@@ -61,8 +59,7 @@ void WorldActionsSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Kill All Enemies",
             .configSection = "KillAllEnemies",
@@ -89,8 +86,7 @@ void WorldActionsSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Toggle Enemy AI",
             .configSection = "ToggleEnemyAI",
@@ -119,8 +115,7 @@ void WorldActionsSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Destroy All Willies",
             .tooltip = "Removes all NPCs from the world",
@@ -152,8 +147,7 @@ void WorldActionsSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Clear Blood",
             .tooltip = "Removes blood decals, emitters, and surface blood from the world",
@@ -227,8 +221,7 @@ void WorldActionsSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Clear Objects",
             .tooltip = "Removes dropped weapons and armor",
@@ -275,8 +268,7 @@ void WorldActionsSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Toggle Game Paused",
             .tooltip = "Pauses/unpauses the entire game simulation",

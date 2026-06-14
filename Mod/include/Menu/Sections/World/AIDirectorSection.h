@@ -14,6 +14,8 @@ namespace SDK {
 
 class AIDirectorSection : public Section {
 public:
+    static constexpr SectionDefinition SECTION{MenuTab::World, "AI Director", "Environment"};
+
     enum class Scope : int {
         AllEnemies,
         NearestEnemy,
@@ -164,8 +166,6 @@ private:
     void RenderTactics();
 
 public:
-    const char* GetGroup() const noexcept override { return "Environment"; }
-
     explicit AIDirectorSection(ModContext& ctx);
     void OnOpen() override;
     void Render() override;

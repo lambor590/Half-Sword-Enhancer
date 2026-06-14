@@ -313,7 +313,7 @@ namespace {
     }
 }
 
-AIDirectorSection::AIDirectorSection(ModContext& ctx) : Section(ctx, "AI Director") {
+AIDirectorSection::AIDirectorSection(ModContext& ctx) : Section(ctx, SECTION) {
     targetsBuffer.reserve(64);
     enemiesBuffer.reserve(64);
 }

@@ -3,7 +3,10 @@
 #include "Menu/Section.h"
 
 class GuiSection : public Section {
-    static constexpr const char* GUI_SECTION_NAME = "GUI";
+public:
+    static constexpr SectionDefinition SECTION{MenuTab::Settings, "GUI"};
+
+private:
     static constexpr const char* TOGGLE_GUI_LABEL = "Toggle GUI Key";
     static constexpr const char* UNBIND_LABEL = "Unbind Key";
     static constexpr const char* TOGGLE_TOOLTIP = "Change key to show/hide interface";

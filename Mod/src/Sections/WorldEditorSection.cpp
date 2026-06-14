@@ -5,11 +5,7 @@
 
 #include <cstring>
 
-WorldEditorSection::WorldEditorSection(ModContext& ctx) : Section(ctx, "World Editor") {}
-
-const char* WorldEditorSection::GetGroup() const noexcept {
-    return "Environment";
-}
+WorldEditorSection::WorldEditorSection(ModContext& ctx) : Section(ctx, SECTION) {}
 
 void WorldEditorSection::OnOpen() {
     needsScan = true;

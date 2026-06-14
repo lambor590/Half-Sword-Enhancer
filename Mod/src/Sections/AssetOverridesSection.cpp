@@ -5,7 +5,7 @@
 #include "Utils/PresetUtils.h"
 #include "imgui/imgui.h"
 
-AssetOverridesSection::AssetOverridesSection(ModContext& ctx) : Section(ctx, "Asset Overrides") {}
+AssetOverridesSection::AssetOverridesSection(ModContext& ctx) : Section(ctx, SECTION) {}
 
 void AssetOverridesSection::OnOpen() {
     AssetOverrideManager::Get().RequestRefresh();

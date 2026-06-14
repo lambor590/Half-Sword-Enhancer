@@ -79,32 +79,21 @@ struct KeybindEntry {
     std::string conflictPopupId;
 
     bool IsToggle() const noexcept { return runOnToggle || !events.empty() || !functionHooks.empty(); }
+    void Init();
+    void Render();
 };
 
-using KeybindEntries = std::deque<KeybindEntry>;
+class KeybindList {
+public:
+    void Add(KeybindEntry entry);
+    void Render();
+
+private:
+    std::deque<KeybindEntry> entries;
+};
 
 /// Cached config read.
 namespace TooltipHelper {
     void ShowTooltip(std::string_view tooltip);
     void InvalidateCache();
 }
-
-namespace KeybindUI {
-    void RenderKeybind(KeybindEntry& entry);
-    void RenderKeybindList(KeybindEntries& entries);
-}
-
-namespace KeybindConfig {
-    void LoadKeybind(KeybindEntry& entry);
-    void SaveKeybind(const KeybindEntry& entry);
-    void LoadParam(const KeybindParam& param, std::string_view configSection);
-    void SaveParam(const KeybindParam& param, std::string_view configSection);
-    void LoadParams(KeybindEntry& entry);
-    void SaveParams(const KeybindEntry& entry);
-}
-
-/// Initialize a keybind entry: generate ImGui IDs, load config, register with
-/// KeybindManager, GameHook events, and function hooks. Call once after populating the entry fields.
-void InitKeybindEntry(KeybindEntry& entry);
-
-void AddKeybind(KeybindEntries& keybinds, KeybindEntry entry);

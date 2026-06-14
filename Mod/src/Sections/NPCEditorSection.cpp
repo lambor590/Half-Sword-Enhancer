@@ -291,7 +291,7 @@ void NPCEditorSection::RenderBodyConditionTab() {
     ImGui::PopID();
 }
 
-NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, "NPC Editor") {
+NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
     BuildDescriptors();
     LoadSpawnBindings();
 }

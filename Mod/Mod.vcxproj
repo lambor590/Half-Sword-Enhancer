@@ -270,6 +270,7 @@
     <ClCompile Include="src\Core\ModContext.cpp" />
     <ClCompile Include="src\Core\ModRuntimeLifecycle.cpp" />
     <ClCompile Include="src\MenuManager.cpp" />
+    <ClCompile Include="src\SectionRegistry.cpp" />
     <ClCompile Include="src\Keybind.cpp" />
     <ClCompile Include="src\EventBus.cpp" />
     <ClCompile Include="src\Override.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="include\Core\ModRuntimeLifecycle.h" />
     <ClInclude Include="include\Menu\MenuManager.h" />
     <ClInclude Include="include\Menu\Section.h" />
+    <ClInclude Include="include\Menu\SectionRegistry.h" />
     <ClInclude Include="include\Menu\SectionStyle.h" />
     <ClInclude Include="include\Menu\Keybind.h" />
     <ClInclude Include="include\Menu\GameEvent.h" />

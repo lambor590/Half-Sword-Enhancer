@@ -19,7 +19,8 @@ public:
     MenuManager(const MenuManager&) = delete;
     MenuManager& operator=(const MenuManager&) = delete;
 
-    template <typename T> void AddSection(MenuTab tab, ModContext& ctx) {
+    template <typename T> void AddSection(ModContext& ctx) {
+        const MenuTab tab = T::SECTION.tab;
         auto& sectionVec = sections[static_cast<size_t>(tab)];
         if (sectionVec.empty()) {
             sectionVec.reserve(8);

@@ -13,6 +13,12 @@ bool KeybindManager::s_initialized = false;
 KeybindManager::HotData KeybindManager::s_hotData;
 KeybindManager::ColdData KeybindManager::s_coldData;
 
+namespace {
+    constexpr bool IsIndexedKey(int key) noexcept {
+        return key >= 0 && key < 256;
+    }
+}
+
 void KeybindManager::Initialize() noexcept {
     if (!s_initialized) {
         int loadedToggleKey = g_ConfigManager.GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
@@ -38,8 +44,8 @@ void KeybindManager::RegisterKeybind(
     int currentKey = *keyPtr;
     s_bindings[keyPtr] = {std::move(callback), keyPtr, std::move(name), isToggle, currentKey, std::move(onUnbound)};
 
-    if (currentKey != -1) {
-        s_hotData.keyToBindings[currentKey].push_back(&s_bindings[keyPtr]);
+    if (IsIndexedKey(currentKey)) {
+        s_hotData.keyToBindings[static_cast<size_t>(currentKey)].push_back(&s_bindings[keyPtr]);
     }
 
     s_hotData.processingKeyEvent.store(false, std::memory_order_release);
@@ -50,15 +56,9 @@ void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
     if (it == s_bindings.end()) return;
 
     Binding& binding = it->second;
-    if (binding.currentKey != -1) {
-        auto keyIt = s_hotData.keyToBindings.find(binding.currentKey);
-        if (keyIt != s_hotData.keyToBindings.end()) {
-            auto& vec = keyIt->second;
-            std::erase(vec, &binding);
-            if (vec.empty()) {
-                s_hotData.keyToBindings.erase(keyIt);
-            }
-        }
+    if (IsIndexedKey(binding.currentKey)) {
+        auto& vec = s_hotData.keyToBindings[static_cast<size_t>(binding.currentKey)];
+        std::erase(vec, &binding);
     }
 
     s_bindings.erase(it);
@@ -97,8 +97,8 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
         return true;
     }
 
-    const auto it = s_hotData.keyToBindings.find(keyCode);
-    if (it == s_hotData.keyToBindings.end()) [[likely]]
+    const auto* bindings = FindBindings(keyCode);
+    if (!bindings) [[likely]]
         return false;
 
     bool expected = false;
@@ -108,9 +108,9 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
 
     static thread_local std::vector<Binding*> s_bindingCache;
     s_bindingCache.clear();
-    s_bindingCache.reserve(it->second.size());
+    s_bindingCache.reserve(bindings->size());
 
-    for (Binding* binding : it->second) {
+    for (Binding* binding : *bindings) {
         s_bindingCache.push_back(binding);
     }
 
@@ -167,8 +167,9 @@ void KeybindManager::SaveKeybinds() noexcept {
 }
 
 const std::vector<KeybindManager::Binding*>* KeybindManager::FindBindings(int key) noexcept {
-    auto it = s_hotData.keyToBindings.find(key);
-    return (it != s_hotData.keyToBindings.end()) ? &it->second : nullptr;
+    if (!IsIndexedKey(key)) return nullptr;
+    const auto& bindings = s_hotData.keyToBindings[static_cast<size_t>(key)];
+    return bindings.empty() ? nullptr : &bindings;
 }
 
 bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
@@ -185,10 +186,11 @@ bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
 }
 
 void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
-    auto it = s_hotData.keyToBindings.find(key);
-    if (it == s_hotData.keyToBindings.end()) return;
+    if (!IsIndexedKey(key)) return;
 
-    auto& bindings = it->second;
+    auto& bindings = s_hotData.keyToBindings[static_cast<size_t>(key)];
+    if (bindings.empty()) return;
+
     auto foundIt =
         std::ranges::find_if(bindings, [excludeKeyPtr](const Binding* b) { return b->keyPtr != excludeKeyPtr; });
 
@@ -200,10 +202,6 @@ void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
         }
         s_bindings.erase(binding->keyPtr);
         bindings.erase(foundIt);
-
-        if (bindings.empty()) {
-            s_hotData.keyToBindings.erase(it);
-        }
     }
 }
 
@@ -270,17 +268,14 @@ void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
         return;
     }
 
-    if (oldKey != -1) {
-        auto& oldBindings = s_hotData.keyToBindings[oldKey];
+    if (IsIndexedKey(oldKey)) {
+        auto& oldBindings = s_hotData.keyToBindings[static_cast<size_t>(oldKey)];
         std::erase(oldBindings, &binding);
-        if (oldBindings.empty()) {
-            s_hotData.keyToBindings.erase(oldKey);
-        }
     }
 
     binding.currentKey = newKey;
-    if (newKey != -1) {
-        s_hotData.keyToBindings[newKey].push_back(&binding);
+    if (IsIndexedKey(newKey)) {
+        s_hotData.keyToBindings[static_cast<size_t>(newKey)].push_back(&binding);
     }
 
     s_hotData.processingKeyEvent.store(false, std::memory_order_release);

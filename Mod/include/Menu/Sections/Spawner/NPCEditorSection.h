@@ -16,6 +16,8 @@
 
 class NPCEditorSection : public Section {
 public:
+    static constexpr SectionDefinition SECTION{MenuTab::Spawner, "NPC Editor"};
+
     struct Config {
         SpawnConfig spawn{.distanceForward = 200.0f, .distanceUp = 0.0f};
         bool bodyguard = false;

@@ -295,7 +295,7 @@ void MapLoaderSection::RenderMapSelector(MapRegistry& reg) {
     }
 }
 
-MapLoaderSection::MapLoaderSection(ModContext& ctx) : Section(ctx, "Map Loader") {}
+MapLoaderSection::MapLoaderSection(ModContext& ctx) : Section(ctx, SECTION) {}
 
 void MapLoaderSection::Render() {
     const SectionStyle::StyleRAII style;

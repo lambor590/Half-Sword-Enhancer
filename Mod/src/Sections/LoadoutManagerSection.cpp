@@ -673,13 +673,12 @@ void LoadoutManagerSection::RenderWeaponsTab() {
     ImGui::PopID();
 }
 
-LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : Section(ctx, "Loadout Manager") {
+LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : Section(ctx, SECTION) {
     InitKeybinds();
 }
 
 void LoadoutManagerSection::InitKeybinds() {
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Apply Loadout",
             .tooltip = "Reapply the current equipment to the player",
@@ -689,8 +688,7 @@ void LoadoutManagerSection::InitKeybinds() {
         }
     );
 
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Randomize Equipment",
             .tooltip = "Generate random armor for all equipped slots",
@@ -708,7 +706,7 @@ void LoadoutManagerSection::Render() {
     SectionStyle::StyleRAII style;
     auto* player = RenderPlayer();
 
-    KeybindUI::RenderKeybindList(keybinds);
+    keybinds.Render();
     ImGui::Spacing();
 
     if (cfg.livePreview && pendingSlotApply) {

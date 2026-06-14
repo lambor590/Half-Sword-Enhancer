@@ -1,13 +1,20 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 
 #include "Core/ModContext.h"
+#include "Menu/MenuTab.h"
+
+struct SectionDefinition {
+    MenuTab tab;
+    const char* name;
+    const char* group = nullptr;
+};
 
 class Section {
 protected:
     ModContext& ctx;
-    std::string name;
+    const SectionDefinition definition;
 
     struct PlayerWorld {
         SDK::UWorld* world = nullptr;
@@ -25,14 +32,16 @@ protected:
     }
 
 public:
-    Section(ModContext& ctx, std::string name) noexcept : ctx(ctx), name(std::move(name)) {}
+    Section(ModContext& ctx, SectionDefinition definition) noexcept : ctx(ctx), definition(definition) {}
     virtual ~Section() = default;
 
     virtual void Render() = 0;
     virtual void OnOpen() {}
 
-    const std::string& GetName() const noexcept { return name; }
-    virtual const char* GetGroup() const noexcept { return nullptr; }
+    const char* GetName() const noexcept { return definition.name; }
+    std::string_view GetNameView() const noexcept { return definition.name; }
+    MenuTab GetTab() const noexcept { return definition.tab; }
+    const char* GetGroup() const noexcept { return definition.group; }
 
     Section(const Section&) = delete;
     Section& operator=(const Section&) = delete;

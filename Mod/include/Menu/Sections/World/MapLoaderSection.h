@@ -9,6 +9,10 @@
 class MapRegistry;
 
 class MapLoaderSection : public Section {
+public:
+    static constexpr SectionDefinition SECTION{MenuTab::World, "Map Loader"};
+
+private:
     int selectedFilteredIndex = 0;
     int selectedCategoryIndex = 0;
     char searchBuffer[128] = "";

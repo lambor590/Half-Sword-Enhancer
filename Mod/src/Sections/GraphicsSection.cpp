@@ -7,7 +7,7 @@
 
 #include "SDK/Engine_classes.hpp"
 
-GraphicsSection::GraphicsSection(ModContext& ctx) : Section(ctx, "Graphics") {
+GraphicsSection::GraphicsSection(ModContext& ctx) : Section(ctx, SECTION) {
     LoadSettings();
 }
 

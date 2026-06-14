@@ -14,6 +14,8 @@
 
 class ArmorEditorSection : public Section {
 public:
+    static constexpr SectionDefinition SECTION{MenuTab::Equipment, "Armor Editor"};
+
     struct Config {
         int armorSlotIndex = 0;
         int armorTier = 4;
@@ -29,7 +31,7 @@ private:
     static constexpr auto& ARMOR_SLOTS = GameConstants::ARMOR_SLOTS;
     static constexpr int ARMOR_SLOT_COUNT = GameConstants::ARMOR_SLOT_COUNT;
 
-    KeybindEntries keybinds;
+    KeybindList keybinds;
     SDK::FStr_Passport_Armor1 armorPassport{};
     bool armorGenerationPending = false;
 

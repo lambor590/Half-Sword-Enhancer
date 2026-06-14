@@ -478,14 +478,13 @@ void PlayerEditorSection::RenderSkillsStateTab() {
     ImGui::PopID();
 }
 
-PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : Section(ctx, "Editor") {
+PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
     BuildDescriptors();
     InitKeybinds();
 }
 
 void PlayerEditorSection::InitKeybinds() {
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Enforce Overrides",
             .tooltip = "Continuously applies all enabled overrides to the player character every game tick",
@@ -506,7 +505,7 @@ void PlayerEditorSection::Render() {
     const SectionStyle::StyleRAII style;
     auto [world, player] = RenderPlayerWorld();
 
-    KeybindUI::RenderKeybindList(keybinds);
+    keybinds.Render();
 
     ImGui::Spacing();
 

@@ -120,7 +120,7 @@ namespace SpawnBindingUtils {
             .callback = std::move(run),
             .params = std::forward<Params>(params),
         };
-        InitKeybindEntry(binding->keybind);
+        binding->keybind.Init();
     }
 
     template <typename Binding, typename AddFn, typename UpdateFn, typename SectionFn, typename SaveFn>
@@ -159,7 +159,7 @@ namespace SpawnBindingUtils {
             if (ImGui::Button("Delete")) pendingDeleteId = binding.id;
 
             ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "%s", binding.summary.c_str());
-            KeybindUI::RenderKeybind(binding.keybind);
+            binding.keybind.Render();
 
             ImGui::PopID();
         }

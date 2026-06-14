@@ -11,6 +11,8 @@ namespace SDK {
 
 class PlayerAbilitiesSection : public Section {
 public:
+    static constexpr SectionDefinition SECTION{MenuTab::Player, "Abilities"};
+
     struct Config {
         int infiniteStaminaKey = 0x49; // I
         int enemyInfiniteStaminaKey = -1;
@@ -56,7 +58,7 @@ public:
 
 private:
     Config cfg;
-    KeybindEntries keybinds;
+    KeybindList keybinds;
     SDK::AWeapon_Feet_C* kickWindowFoot = nullptr;
     bool kickWindowLeft = false;
     bool kickImpulseSpent = false;

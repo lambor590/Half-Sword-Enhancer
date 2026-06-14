@@ -5,6 +5,8 @@
 
 class WorldActionsSection : public Section {
 public:
+    static constexpr SectionDefinition SECTION{MenuTab::World, "Actions"};
+
     struct Config {
         int sloMoKey = 0x5A;         // Z
         int customGravityKey = 0x4C; // L
@@ -27,7 +29,7 @@ public:
 
 private:
     Config cfg;
-    KeybindEntries keybinds;
+    KeybindList keybinds;
 
     void InitKeybinds();
 

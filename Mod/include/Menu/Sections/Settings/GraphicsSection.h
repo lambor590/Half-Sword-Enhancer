@@ -6,6 +6,9 @@
 #include "Menu/Section.h"
 
 class GraphicsSection : public Section {
+public:
+    static constexpr SectionDefinition SECTION{MenuTab::Settings, "Graphics"};
+
 private:
     struct GraphicsSettings {
         bool applyOnStartup = false;

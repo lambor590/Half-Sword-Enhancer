@@ -386,15 +386,14 @@ void ArmorEditorSection::ApplyPresetData(const ArmorPresetData& d) {
     }
 }
 
-ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, "Armor Editor") {
+ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
     CreateBlankArmorPassport();
     BuildDescriptors();
     InitKeybinds();
 }
 
 void ArmorEditorSection::InitKeybinds() {
-    AddKeybind(
-        keybinds,
+    keybinds.Add(
         {
             .name = "Spawn Armor",
             .tooltip = "Spawns the currently edited armor with runtime overrides applied",
@@ -425,7 +424,7 @@ void ArmorEditorSection::Render() {
     preview.InvalidateIfDead(player, world);
     preview.SyncToggleState();
 
-    KeybindUI::RenderKeybindList(keybinds);
+    keybinds.Render();
     ImGui::Spacing();
 
     RenderGenerationControls();

@@ -3,7 +3,6 @@
 #include <Windows.h>
 #include <functional>
 #include <map>
-#include <unordered_map>
 #include <vector>
 #include <string>
 #include <string_view>
@@ -28,7 +27,7 @@ private:
     };
 
     struct HotData {
-        std::unordered_map<int, std::vector<Binding*>> keyToBindings;
+        std::array<std::vector<Binding*>, 256> keyToBindings;
         int toggleGuiKey = VK_INSERT;
         std::atomic<bool> processingKeyEvent{false};
     };

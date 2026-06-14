@@ -253,7 +253,7 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
     );
 }
 
-ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, "Items") {
+ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, SECTION) {
     LoadSpawnBindings();
 }
 

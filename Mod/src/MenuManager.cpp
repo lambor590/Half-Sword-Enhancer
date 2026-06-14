@@ -106,7 +106,7 @@ void MenuManager::UpdateSearchResults() noexcept {
         const auto& [tab, label] = TAB_ORDER[i];
         auto& sects = sections[i];
         for (auto& section : sects) {
-            if (MatchesSearch(section->GetName(), lowerNeedle, needleLen)) {
+            if (MatchesSearch(section->GetNameView(), lowerNeedle, needleLen)) {
                 searchResults.push_back({tab, section.get(), {}});
             }
         }
@@ -201,7 +201,7 @@ void MenuManager::RenderSearchResults() {
 
         const char* displayText;
         if (result.functionName.empty()) {
-            displayText = result.section->GetName().c_str();
+            displayText = result.section->GetName();
         } else {
             funcDisplay.clear();
             funcDisplay.append(result.section->GetName());
@@ -313,7 +313,7 @@ void MenuManager::RenderCategorySections(MenuTab tab) {
 
     auto renderSection = [this](Section* section) {
         bool isSelected = selectedSection == section;
-        if (ImGui::Selectable(section->GetName().c_str(), isSelected)) {
+        if (ImGui::Selectable(section->GetName(), isSelected)) {
             SelectSection(section, openCategory);
         }
         if (isSelected) {

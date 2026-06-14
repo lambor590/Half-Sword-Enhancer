@@ -37,6 +37,15 @@ KeybindParam::KeybindParam(
     id = "##param_" + std::string(name);
 }
 
+namespace KeybindConfig {
+    void LoadKeybind(KeybindEntry& entry);
+    void SaveKeybind(const KeybindEntry& entry);
+    void LoadParam(const KeybindParam& param, std::string_view configSection);
+    void SaveParam(const KeybindParam& param, std::string_view configSection);
+    void LoadParams(KeybindEntry& entry);
+    void SaveParams(const KeybindEntry& entry);
+}
+
 namespace {
 
     constexpr ImVec4 DISABLED_BUTTON_COLOR{0.18f, 0.13f, 0.09f, 0.50f};
@@ -368,50 +377,50 @@ void TooltipHelper::InvalidateCache() {
 }
 
 
-void KeybindUI::RenderKeybind(KeybindEntry& entry) {
-    RenderKeyButton(entry.keyId.c_str(), entry.waitingForKey, *entry.keyPtr, entry.pendingOriginalKey);
+void KeybindEntry::Render() {
+    RenderKeyButton(keyId.c_str(), waitingForKey, *keyPtr, pendingOriginalKey);
     ImGui::SameLine();
 
-    if (entry.IsToggle()) {
-        bool currentEnabled = entry.isEnabled;
-        if (ImGui::Checkbox(entry.checkId.c_str(), &currentEnabled) && currentEnabled != entry.isEnabled) {
-            ToggleEntry(&entry, currentEnabled);
+    if (IsToggle()) {
+        bool currentEnabled = isEnabled;
+        if (ImGui::Checkbox(checkId.c_str(), &currentEnabled) && currentEnabled != isEnabled) {
+            ToggleEntry(this, currentEnabled);
         }
         ImGui::SameLine();
-        RenderName(entry.name, !entry.isEnabled && IsKeyUnbound(*entry.keyPtr));
-        TooltipHelper::ShowTooltip(entry.tooltip);
+        RenderName(name, !isEnabled && IsKeyUnbound(*keyPtr));
+        TooltipHelper::ShowTooltip(tooltip);
     } else {
-        RenderName(entry.name, IsKeyUnbound(*entry.keyPtr));
-        TooltipHelper::ShowTooltip(entry.tooltip);
+        RenderName(name, IsKeyUnbound(*keyPtr));
+        TooltipHelper::ShowTooltip(tooltip);
     }
 
-    if (!entry.params.empty()) {
-        if (RenderParametersButton(entry.paramButtonId.c_str(), entry.name)) {
-            ImGui::OpenPopup(entry.popupId.c_str());
+    if (!params.empty()) {
+        if (RenderParametersButton(paramButtonId.c_str(), name)) {
+            ImGui::OpenPopup(popupId.c_str());
         }
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::K_POPUP_PADDING);
-        if (ImGui::BeginPopup(entry.popupId.c_str())) {
-            for (const auto& param : entry.params) {
+        if (ImGui::BeginPopup(popupId.c_str())) {
+            for (const auto& param : params) {
                 RenderParam(param);
             }
             ImGui::EndPopup();
-            entry.popupWasOpen = true;
-        } else if (entry.popupWasOpen) {
-            KeybindConfig::SaveParams(entry);
-            entry.popupWasOpen = false;
+            popupWasOpen = true;
+        } else if (popupWasOpen) {
+            KeybindConfig::SaveParams(*this);
+            popupWasOpen = false;
         }
         ImGui::PopStyleVar();
     }
 
-    HandleKeyAssignment(entry);
-    RenderConflictPopup(entry);
+    HandleKeyAssignment(*this);
+    RenderConflictPopup(*this);
 }
 
-void KeybindUI::RenderKeybindList(KeybindEntries& entries) {
+void KeybindList::Render() {
     const size_t count = entries.size();
     for (size_t i = 0; i < count; ++i) {
-        RenderKeybind(entries[i]);
+        entries[i].Render();
         if (i + 1 < count) {
             ImGui::Spacing();
         }
@@ -495,25 +504,25 @@ void KeybindConfig::SaveParams(const KeybindEntry& entry) {
     g_ConfigManager.SaveConfig();
 }
 
-void InitKeybindEntry(KeybindEntry& entry) {
-    std::string base = "##Kb_" + entry.name;
-    entry.keyId = base + "_key";
-    entry.checkId = base;
-    entry.popupId = base + "_params";
-    entry.paramButtonId = "Config##" + base;
-    entry.conflictPopupId = base + "_conflict";
+void KeybindEntry::Init() {
+    std::string base = "##Kb_" + name;
+    keyId = base + "_key";
+    checkId = base;
+    popupId = base + "_params";
+    paramButtonId = "Config##" + base;
+    conflictPopupId = base + "_conflict";
 
-    KeybindConfig::LoadKeybind(entry);
+    KeybindConfig::LoadKeybind(*this);
 
-    if (!IsKeyUnbound(*entry.keyPtr)) RegisterEntry(entry);
+    if (!IsKeyUnbound(*keyPtr)) RegisterEntry(*this);
 
-    if (entry.isEnabled) {
-        SetEventsEnabled(&entry, true);
-        SetFunctionHooksEnabled(&entry, true);
+    if (isEnabled) {
+        SetEventsEnabled(this, true);
+        SetFunctionHooksEnabled(this, true);
     }
 }
 
-void AddKeybind(KeybindEntries& keybinds, KeybindEntry entry) {
-    keybinds.push_back(std::move(entry));
-    InitKeybindEntry(keybinds.back());
+void KeybindList::Add(KeybindEntry entry) {
+    entries.push_back(std::move(entry));
+    entries.back().Init();
 }

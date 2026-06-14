@@ -16,6 +16,8 @@
 
 class ItemSpawnerSection : public Section {
 public:
+    static constexpr SectionDefinition SECTION{MenuTab::Spawner, "Items"};
+
     struct Config {
         SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnTier = 4;

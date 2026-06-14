@@ -8,6 +8,9 @@
 #include "Utils/PropertyBrowser.h"
 
 class WorldEditorSection : public Section {
+public:
+    static constexpr SectionDefinition SECTION{MenuTab::World, "World Editor", "Environment"};
+
 private:
     std::vector<PropertyBrowser::WorldActor> allActors;
     std::vector<PropertyBrowser::WorldActor> filteredActors;
@@ -64,8 +67,6 @@ private:
     void RenderPropertyToolbar();
 
 public:
-    const char* GetGroup() const noexcept override;
-
     explicit WorldEditorSection(ModContext& ctx);
     void OnOpen() override;
     void Render() override;

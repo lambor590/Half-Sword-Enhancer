@@ -8,6 +8,9 @@
 #include "SDK/Engine_classes.hpp"
 
 class SkyEditorSection : public Section {
+public:
+    static constexpr SectionDefinition SECTION{MenuTab::World, "Sky Editor", "Environment"};
+
 private:
     static constexpr int TAB_COUNT = 5;
     static constexpr const char* TAB_LABELS[TAB_COUNT] = {"Sun", "Atmosphere", "Sky Light", "Fog", "Clouds"};
@@ -83,8 +86,6 @@ private:
     bool RenderComponentStatus();
 
 public:
-    const char* GetGroup() const noexcept override { return "Environment"; }
-
     explicit SkyEditorSection(ModContext& ctx);
     void Render() override;
 };

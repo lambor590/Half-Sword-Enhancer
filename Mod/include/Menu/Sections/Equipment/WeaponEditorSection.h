@@ -23,6 +23,8 @@ namespace SDK {
 
 class WeaponEditorSection : public Section {
 public:
+    static constexpr SectionDefinition SECTION{MenuTab::Equipment, "Weapon Editor"};
+
     struct Config {
         int weaponType = 1;
         int weaponTier = 4;
@@ -39,7 +41,7 @@ private:
 
     static constexpr auto& MATERIAL_LAYER_NAMES = GameConstants::MATERIAL_LAYER_NAMES;
 
-    KeybindEntries keybinds;
+    KeybindList keybinds;
     SDK::FStr_Passport_Weapon1 weaponPassport{};
     WeaponClassPaths weaponPaths{};
     bool weaponGenerationPending = false;
