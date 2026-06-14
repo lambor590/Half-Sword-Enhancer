@@ -6,6 +6,8 @@
 #include <atomic>
 #include <algorithm>
 #include <array>
+#include <cstdint>
+#include <unordered_map>
 #include "Utils/CustomizableWeapon.h"
 
 struct BlueprintEntry {
@@ -47,6 +49,31 @@ private:
     std::vector<std::string> customPaths;
     std::vector<std::string> loweredItemNames;
     std::array<std::vector<ItemIndex>, 65536> searchBuckets;
+    std::vector<uint16_t> usedSearchBuckets;
+
+    struct StringHash {
+        using is_transparent = void;
+
+        [[nodiscard]] size_t operator()(std::string_view value) const noexcept {
+            return std::hash<std::string_view>{}(value);
+        }
+
+        [[nodiscard]] size_t operator()(const std::string& value) const noexcept {
+            return (*this)(std::string_view(value));
+        }
+    };
+
+    struct StringEqual {
+        using is_transparent = void;
+
+        [[nodiscard]] bool operator()(std::string_view lhs, std::string_view rhs) const noexcept {
+            return lhs == rhs;
+        }
+    };
+
+    using NameIndexMap = std::unordered_map<std::string, size_t, StringHash, StringEqual>;
+    NameIndexMap categoryIndices;
+    std::vector<NameIndexMap> subcategoryIndices;
 
     void PerformScan();
     void ScanWeaponTiers();
@@ -55,6 +82,7 @@ private:
     void SortCategories();
     void RebuildItemLocations();
     void RebuildSearchIndex();
+    void RebuildCategoryIndices();
 
     static std::pair<std::string_view, std::string_view> CategorizeByPath(
         const std::string& packagePath, const std::string& assetName

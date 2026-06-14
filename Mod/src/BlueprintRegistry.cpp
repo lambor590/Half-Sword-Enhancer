@@ -83,7 +83,11 @@ void BlueprintRegistry::PerformScan() {
     items.clear();
     categories.clear();
     itemLocations.clear();
+    categoryIndices.clear();
+    subcategoryIndices.clear();
     items.reserve(512);
+    categoryIndices.reserve(32);
+    subcategoryIndices.reserve(32);
 
     bool scanSuccess = false;
 
@@ -99,8 +103,10 @@ void BlueprintRegistry::PerformScan() {
             SDK::UAssetRegistryHelpers::GetBlueprintAssets(filter, &results);
 
             g_logger.Log("Asset Registry scan returned %d blueprints", results.Num());
+            items.reserve(static_cast<size_t>(results.Num()) + GameConstants::WEAPON_TYPE_COUNT + customPaths.size());
 
             std::unordered_set<uint64_t> seenIds;
+            seenIds.reserve(static_cast<size_t>(results.Num()));
             for (int32_t i = 0; i < results.Num(); ++i) {
                 auto& asset = results[i];
 
@@ -162,23 +168,26 @@ void BlueprintRegistry::PerformScan() {
 }
 
 size_t BlueprintRegistry::FindOrCreateCategory(std::string_view name) {
-    for (size_t i = 0; i < categories.size(); ++i) {
-        if (categories[i].name == name) return i;
-    }
+    if (auto it = categoryIndices.find(name); it != categoryIndices.end()) return it->second;
 
     const size_t index = categories.size();
     categories.push_back({std::string(name), {}});
+    categoryIndices.emplace(categories.back().name, index);
+    subcategoryIndices.emplace_back();
     return index;
 }
 
 size_t BlueprintRegistry::FindOrCreateSubcategory(size_t catIdx, std::string_view name) {
     auto& subs = categories[catIdx].subcategories;
-    for (size_t i = 0; i < subs.size(); ++i) {
-        if (subs[i].name == name) return i;
-    }
+    while (subcategoryIndices.size() <= catIdx)
+        subcategoryIndices.emplace_back();
+
+    auto& indexMap = subcategoryIndices[catIdx];
+    if (auto it = indexMap.find(name); it != indexMap.end()) return it->second;
 
     const size_t index = subs.size();
     subs.push_back({std::string(name), {}});
+    indexMap.emplace(subs.back().name, index);
     return index;
 }
 
@@ -388,6 +397,26 @@ void BlueprintRegistry::SortCategories() {
             return a.name < b.name;
         });
     }
+
+    RebuildCategoryIndices();
+}
+
+void BlueprintRegistry::RebuildCategoryIndices() {
+    categoryIndices.clear();
+    subcategoryIndices.clear();
+    categoryIndices.reserve(categories.size());
+    subcategoryIndices.reserve(categories.size());
+
+    for (size_t ci = 0; ci < categories.size(); ++ci) {
+        auto& category = categories[ci];
+        categoryIndices.emplace(category.name, ci);
+
+        auto& subIndex = subcategoryIndices.emplace_back();
+        subIndex.reserve(category.subcategories.size());
+        for (size_t si = 0; si < category.subcategories.size(); ++si) {
+            subIndex.emplace(category.subcategories[si].name, si);
+        }
+    }
 }
 
 void BlueprintRegistry::RebuildItemLocations() {
@@ -413,9 +442,10 @@ void BlueprintRegistry::RebuildSearchIndex() {
         loweredItemNames.push_back(ToLowerAscii(item.displayName));
     }
 
-    for (auto& bucket : searchBuckets) {
-        bucket.clear();
+    for (const uint16_t key : usedSearchBuckets) {
+        searchBuckets[key].clear();
     }
+    usedSearchBuckets.clear();
 
     std::array<int32_t, 65536> lastSeen;
     lastSeen.fill(-1);
@@ -427,6 +457,7 @@ void BlueprintRegistry::RebuildSearchIndex() {
         for (size_t i = 1; i < name.size(); ++i) {
             const uint16_t key = BigramKey(name[i - 1], name[i]);
             if (lastSeen[key] == static_cast<int32_t>(itemIdx)) continue;
+            if (searchBuckets[key].empty()) usedSearchBuckets.push_back(key);
             searchBuckets[key].push_back(itemIdx);
             lastSeen[key] = static_cast<int32_t>(itemIdx);
         }
