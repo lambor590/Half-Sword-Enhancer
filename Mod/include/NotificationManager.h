@@ -4,9 +4,6 @@
 #include <string_view>
 #include <vector>
 
-class ConfigManager;
-extern ConfigManager& g_ConfigManager;
-
 struct Notification {
     std::string message;
     float startTime;

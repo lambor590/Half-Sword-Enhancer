@@ -33,7 +33,7 @@ float NotificationManager::GetTime() noexcept {
 }
 
 void NotificationManager::Initialize() noexcept {
-    s_enabled = g_ConfigManager.GetBool("Notifications", "enabled", true);
+    s_enabled = ConfigManager::Get().GetBool("Notifications", "enabled", true);
 }
 
 void NotificationManager::Update() noexcept {
@@ -197,8 +197,8 @@ void NotificationManager::SetEnabled(bool enabled) noexcept {
     if (s_enabled == enabled) return;
 
     s_enabled = enabled;
-    g_ConfigManager.SetBool("Notifications", "enabled", enabled);
-    g_ConfigManager.SaveConfig();
+    ConfigManager::Get().SetBool("Notifications", "enabled", enabled);
+    ConfigManager::Get().SaveConfig();
 
     if (!enabled) {
         s_notifications.clear();

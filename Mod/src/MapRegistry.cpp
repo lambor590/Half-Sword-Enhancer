@@ -11,16 +11,12 @@
 
 static Logger g_logger("MapRegistry");
 
-bool MapRegistry::EndsWith(std::string_view str, std::string_view suffix) {
-    return str.size() >= suffix.size() && str.compare(str.size() - suffix.size(), suffix.size(), suffix) == 0;
-}
-
 bool MapRegistry::IsInternalMapAsset(std::string_view packageName, std::string_view packagePath) {
     static constexpr std::string_view BAD_SUFFIXES[] = {
         "_BuiltData", "_HLOD", "_Minimap", "_NavData", "_Overview", "_Collision", "_LevelMetrics",
     };
     for (auto suffix : BAD_SUFFIXES) {
-        if (EndsWith(packageName, suffix)) return true;
+        if (packageName.ends_with(suffix)) return true;
     }
 
     static constexpr std::string_view INTERNAL_TOKENS[] = {
@@ -38,11 +34,7 @@ bool MapRegistry::IsInternalMapAsset(std::string_view packageName, std::string_v
 }
 
 bool MapRegistry::IsBaseGameMapPath(std::string_view path) {
-    return StartsWith(path, "/Game/Maps");
-}
-
-bool MapRegistry::StartsWith(std::string_view str, std::string_view prefix) {
-    return str.size() >= prefix.size() && str.compare(0, prefix.size(), prefix) == 0;
+    return path.starts_with("/Game/Maps");
 }
 
 std::string MapRegistry::CategorizeByPath(std::string_view packagePath) {

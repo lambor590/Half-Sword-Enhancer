@@ -52,12 +52,6 @@ void ConfigManager::SaveConfigDeferred() {
     }
 }
 
-void ConfigManager::FlushPendingSave() {
-    if (needsSave.load(std::memory_order_acquire)) {
-        SaveConfig();
-    }
-}
-
 void ConfigManager::SuppressDeferred(bool suppress) {
     suppressDeferred = suppress;
 }

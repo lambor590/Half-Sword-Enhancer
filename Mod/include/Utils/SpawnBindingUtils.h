@@ -20,10 +20,6 @@
 
 namespace SpawnBindingUtils {
 
-    inline std::string SectionName(std::string_view prefix, int id) {
-        return std::string(prefix) + std::to_string(id);
-    }
-
     template <size_t N> void CopyName(char (&dst)[N], std::string_view src) {
         const size_t len = min(src.size(), N - 1);
         std::memcpy(dst, src.data(), len);

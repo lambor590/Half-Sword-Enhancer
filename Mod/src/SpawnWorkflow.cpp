@@ -265,46 +265,6 @@ namespace SpawnWorkflow {
         );
     }
 
-    ItemSpawnRequest ItemSpawnRequest::ClassPath(std::string classPath, SDK::Enum_Ranks tier) {
-        ItemSpawnRequest request{};
-        request.kind = Kind::ClassPath;
-        request.classPath = std::move(classPath);
-        request.tier = tier;
-        return request;
-    }
-
-    ItemSpawnRequest ItemSpawnRequest::GeneratedCustomizableWeapon(CustomizableWeapon type, SDK::Enum_Ranks tier) {
-        ItemSpawnRequest request{};
-        request.kind = Kind::GeneratedCustomizableWeapon;
-        request.customizable = type;
-        request.tier = tier;
-        return request;
-    }
-
-    ItemSpawnRequest ItemSpawnRequest::RandomArmor(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier) {
-        ItemSpawnRequest request{};
-        request.kind = Kind::RandomArmor;
-        request.armorSlot = slot;
-        request.tier = tier;
-        return request;
-    }
-
-    ItemSpawnRequest ItemSpawnRequest::ModularArmor(std::string classPath, std::array<int, 3> modules) {
-        ItemSpawnRequest request{};
-        request.kind = Kind::ModularArmor;
-        request.classPath = std::move(classPath);
-        request.modules = modules;
-        return request;
-    }
-
-    ItemSpawnRequest ItemSpawnRequest::ArmorPreset(SDK::FStr_Passport_Armor1 passport, std::string armorCorePath) {
-        ItemSpawnRequest request{};
-        request.kind = Kind::ArmorPreset;
-        request.armorPassport = passport;
-        request.armorCorePath = std::move(armorCorePath);
-        return request;
-    }
-
     bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request) {
         return SpawnNow(
             runtime, spawn,

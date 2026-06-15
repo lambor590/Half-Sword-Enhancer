@@ -1,7 +1,6 @@
 #pragma once
 
 #include <span>
-#include <string_view>
 #include <cstdint>
 
 #include "../../ext/SimpleIni.h"
@@ -17,36 +16,22 @@ struct OverrideDescriptor {
     bool* enabled;
     void* value; ///< Pointer to the value (double*, int*, or bool*)
     OverrideFieldType type;
-    double defaultValue; ///< Stored as double for all types
-    double minValue;     ///< Optional minimum (0 if unused)
-    double maxValue;     ///< Optional maximum (0 if unused)
     float speed;         ///< Drag speed for Double/Int widgets (ignored for Bool)
     const char* tooltip;
 };
 
 constexpr OverrideDescriptor OverrideField(
-    const char* name, RuntimeOverride& ovr, double defaultVal = 0.0, double minVal = 0.0, double maxVal = 0.0,
-    float speed = 0.1f, const char* tooltip = nullptr
+    const char* name, RuntimeOverride& ovr, float speed = 0.1f, const char* tooltip = nullptr
 );
 
 constexpr OverrideDescriptor OverrideField(
-    const char* name, IntOverride& ovr, int defaultVal = 0, int minVal = 0, int maxVal = 0, float speed = 0.1f,
-    const char* tooltip = nullptr
+    const char* name, IntOverride& ovr, float speed = 0.1f, const char* tooltip = nullptr
 );
 
-constexpr OverrideDescriptor OverrideField(
-    const char* name, BoolOverride& ovr, bool defaultVal = false, const char* tooltip = nullptr
-);
+constexpr OverrideDescriptor OverrideField(const char* name, BoolOverride& ovr, const char* tooltip = nullptr);
 
 
 int CountActive(std::span<const OverrideDescriptor> fields);
-
-template <typename Fn> void ApplyAll(std::span<const OverrideDescriptor> fields, Fn&& applier) {
-    for (const auto& f : fields) {
-        if (*f.enabled) applier(f);
-    }
-}
-
 
 /// Only valid when type == Double.
 inline double GetDouble(const OverrideDescriptor& f) {
@@ -87,28 +72,14 @@ void RenderOverrideField(const OverrideDescriptor& field);
 
 void RenderOverrideGroup(std::span<const OverrideDescriptor> fields);
 
-constexpr OverrideDescriptor OverrideField(
-    const char* name, RuntimeOverride& ovr, double defaultVal, double minVal, double maxVal, float speed,
-    const char* tooltip
-) {
-    return {name, &ovr.enabled, &ovr.value, OverrideFieldType::Double, defaultVal, minVal, maxVal, speed, tooltip};
+constexpr OverrideDescriptor OverrideField(const char* name, RuntimeOverride& ovr, float speed, const char* tooltip) {
+    return {name, &ovr.enabled, &ovr.value, OverrideFieldType::Double, speed, tooltip};
 }
 
-constexpr OverrideDescriptor OverrideField(
-    const char* name, IntOverride& ovr, int defaultVal, int minVal, int maxVal, float speed, const char* tooltip
-) {
-    return {
-        name,
-        &ovr.enabled,
-        &ovr.value,
-        OverrideFieldType::Int,
-        static_cast<double>(defaultVal),
-        static_cast<double>(minVal),
-        static_cast<double>(maxVal),
-        speed,
-        tooltip};
+constexpr OverrideDescriptor OverrideField(const char* name, IntOverride& ovr, float speed, const char* tooltip) {
+    return {name, &ovr.enabled, &ovr.value, OverrideFieldType::Int, speed, tooltip};
 }
 
-constexpr OverrideDescriptor OverrideField(const char* name, BoolOverride& ovr, bool defaultVal, const char* tooltip) {
-    return {name, &ovr.enabled, &ovr.value, OverrideFieldType::Bool, defaultVal ? 1.0 : 0.0, 0.0, 0.0, 0.0f, tooltip};
+constexpr OverrideDescriptor OverrideField(const char* name, BoolOverride& ovr, const char* tooltip) {
+    return {name, &ovr.enabled, &ovr.value, OverrideFieldType::Bool, 0.0f, tooltip};
 }

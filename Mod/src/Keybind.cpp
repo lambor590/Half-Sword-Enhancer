@@ -344,14 +344,14 @@ namespace {
 
         [[nodiscard]] bool IsEnabled() noexcept {
             if (++counter >= 60) [[unlikely]] {
-                enabled = g_ConfigManager.GetBool("GUI", "tooltips_enabled", true);
+                enabled = ConfigManager::Get().GetBool("GUI", "tooltips_enabled", true);
                 counter = 0;
             }
             return enabled;
         }
 
         void Refresh() noexcept {
-            enabled = g_ConfigManager.GetBool("GUI", "tooltips_enabled", true);
+            enabled = ConfigManager::Get().GetBool("GUI", "tooltips_enabled", true);
             counter = 0;
         }
     };
@@ -436,11 +436,11 @@ static std::string NormalizeSection(std::string_view name) {
 
 void KeybindConfig::LoadKeybind(KeybindEntry& entry) {
     auto section = NormalizeSection(entry.configSection);
-    *entry.keyPtr = g_ConfigManager.GetInt(section, "key", *entry.keyPtr);
+    *entry.keyPtr = ConfigManager::Get().GetInt(section, "key", *entry.keyPtr);
     entry.prevKey = *entry.keyPtr;
 
     if (entry.IsToggle()) {
-        entry.isEnabled = g_ConfigManager.GetBool(section, "enabled", false);
+        entry.isEnabled = ConfigManager::Get().GetBool(section, "enabled", false);
     }
 
     LoadParams(entry);
@@ -448,11 +448,11 @@ void KeybindConfig::LoadKeybind(KeybindEntry& entry) {
 
 void KeybindConfig::SaveKeybind(const KeybindEntry& entry) {
     auto section = NormalizeSection(entry.configSection);
-    g_ConfigManager.SetInt(section, "key", *entry.keyPtr);
+    ConfigManager::Get().SetInt(section, "key", *entry.keyPtr);
     if (entry.IsToggle()) {
-        g_ConfigManager.SetBool(section, "enabled", entry.isEnabled);
+        ConfigManager::Get().SetBool(section, "enabled", entry.isEnabled);
     }
-    g_ConfigManager.SaveConfig();
+    ConfigManager::Get().SaveConfig();
 }
 
 void KeybindConfig::LoadParam(const KeybindParam& param, std::string_view configSection) {
@@ -460,17 +460,17 @@ void KeybindConfig::LoadParam(const KeybindParam& param, std::string_view config
     switch (param.type) {
         case KeybindParam::Type::Int: {
             auto* ptr = static_cast<int*>(param.valuePtr);
-            *ptr = g_ConfigManager.GetInt(section, std::string(param.name), *ptr);
+            *ptr = ConfigManager::Get().GetInt(section, std::string(param.name), *ptr);
             break;
         }
         case KeybindParam::Type::Float: {
             auto* ptr = static_cast<float*>(param.valuePtr);
-            *ptr = g_ConfigManager.GetFloat(section, std::string(param.name), *ptr);
+            *ptr = ConfigManager::Get().GetFloat(section, std::string(param.name), *ptr);
             break;
         }
         case KeybindParam::Type::Bool: {
             auto* ptr = static_cast<bool*>(param.valuePtr);
-            *ptr = g_ConfigManager.GetBool(section, std::string(param.name), *ptr);
+            *ptr = ConfigManager::Get().GetBool(section, std::string(param.name), *ptr);
             break;
         }
     }
@@ -480,13 +480,13 @@ void KeybindConfig::SaveParam(const KeybindParam& param, std::string_view config
     auto section = NormalizeSection(configSection);
     switch (param.type) {
         case KeybindParam::Type::Int:
-            g_ConfigManager.SetInt(section, std::string(param.name), *static_cast<int*>(param.valuePtr));
+            ConfigManager::Get().SetInt(section, std::string(param.name), *static_cast<int*>(param.valuePtr));
             break;
         case KeybindParam::Type::Float:
-            g_ConfigManager.SetFloat(section, std::string(param.name), *static_cast<float*>(param.valuePtr));
+            ConfigManager::Get().SetFloat(section, std::string(param.name), *static_cast<float*>(param.valuePtr));
             break;
         case KeybindParam::Type::Bool:
-            g_ConfigManager.SetBool(section, std::string(param.name), *static_cast<bool*>(param.valuePtr));
+            ConfigManager::Get().SetBool(section, std::string(param.name), *static_cast<bool*>(param.valuePtr));
             break;
     }
 }
@@ -501,7 +501,7 @@ void KeybindConfig::SaveParams(const KeybindEntry& entry) {
     for (const auto& param : entry.params) {
         SaveParam(param, entry.configSection);
     }
-    g_ConfigManager.SaveConfig();
+    ConfigManager::Get().SaveConfig();
 }
 
 void KeybindEntry::Init() {

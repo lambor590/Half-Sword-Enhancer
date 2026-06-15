@@ -5,7 +5,7 @@
 #include "KeybindManager.h"
 #include "ConfigManager.h"
 #include "NotificationManager.h"
-#include "GuiVisibility.h"
+#include "Gui.h"
 
 std::map<int*, KeybindManager::Binding> KeybindManager::s_bindings;
 bool KeybindManager::s_initialized = false;
@@ -21,8 +21,8 @@ namespace {
 
 void KeybindManager::Initialize() noexcept {
     if (!s_initialized) {
-        int loadedToggleKey = g_ConfigManager.GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
-        int loadedUnbindKey = g_ConfigManager.GetInt("Keybinds", "unbind_key", VK_DELETE);
+        int loadedToggleKey = ConfigManager::Get().GetInt("Keybinds", "toggle_gui_key", VK_INSERT);
+        int loadedUnbindKey = ConfigManager::Get().GetInt("Keybinds", "unbind_key", VK_DELETE);
 
         s_hotData.toggleGuiKey = IsValidKey(loadedToggleKey) ? loadedToggleKey : VK_INSERT;
         s_coldData.unbindKey = IsValidKey(loadedUnbindKey) ? loadedUnbindKey : VK_DELETE;
@@ -93,7 +93,7 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
     if (keyCode == -1) return false;
 
     if (keyCode == s_hotData.toggleGuiKey) [[unlikely]] {
-        ToggleGuiVisibility();
+        Gui::ToggleVisibility();
         return true;
     }
 
@@ -161,9 +161,9 @@ bool KeybindManager::HandleKeyPress(bool& waitingForKey, int& key) noexcept {
 }
 
 void KeybindManager::SaveKeybinds() noexcept {
-    g_ConfigManager.SetInt("Keybinds", "toggle_gui_key", s_hotData.toggleGuiKey);
-    g_ConfigManager.SetInt("Keybinds", "unbind_key", s_coldData.unbindKey);
-    g_ConfigManager.SaveConfig();
+    ConfigManager::Get().SetInt("Keybinds", "toggle_gui_key", s_hotData.toggleGuiKey);
+    ConfigManager::Get().SetInt("Keybinds", "unbind_key", s_coldData.unbindKey);
+    ConfigManager::Get().SaveConfig();
 }
 
 const std::vector<KeybindManager::Binding*>* KeybindManager::FindBindings(int key) noexcept {

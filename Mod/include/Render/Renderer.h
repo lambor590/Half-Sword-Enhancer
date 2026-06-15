@@ -7,7 +7,6 @@
 #include <vector>
 #include <wrl/client.h>
 
-#include "Render/RenderConfig.h"
 #include "Logger.h"
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_dx11.h"

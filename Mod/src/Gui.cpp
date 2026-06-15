@@ -1,5 +1,4 @@
 #include "Gui.h"
-#include "GuiVisibility.h"
 #include "ConfigManager.h"
 #include "Core/ModContext.h"
 #include "DefaultStyle.h"
@@ -15,10 +14,6 @@ WNDPROC Gui::originalWndProc = nullptr;
 std::atomic<bool> Gui::isVisible = true;
 
 Logger logger("Gui");
-
-void ToggleGuiVisibility() noexcept {
-    Gui::ToggleVisibility();
-}
 
 void Gui::Init(HWND newWindow) noexcept {
     window = newWindow;

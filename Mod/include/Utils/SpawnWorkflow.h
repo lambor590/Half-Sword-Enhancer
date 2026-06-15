@@ -49,12 +49,6 @@ namespace SpawnWorkflow {
         SDK::EArmorSlots_Enum armorSlot{};
         CustomizableWeapon customizable = CustomizableWeapon::None;
         SDK::Enum_Ranks tier{};
-
-        static ItemSpawnRequest ClassPath(std::string classPath, SDK::Enum_Ranks tier);
-        static ItemSpawnRequest GeneratedCustomizableWeapon(CustomizableWeapon type, SDK::Enum_Ranks tier);
-        static ItemSpawnRequest RandomArmor(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier);
-        static ItemSpawnRequest ModularArmor(std::string classPath, std::array<int, 3> modules);
-        static ItemSpawnRequest ArmorPreset(SDK::FStr_Passport_Armor1 passport, std::string armorCorePath);
     };
 
     bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request);

@@ -10,80 +10,80 @@ void PlayerEditorSection::BuildDescriptors() {
 
     physicalFields = {
         OverrideField(
-            "Height Rate", o.heightRate, 0.0, 0.0, 0.0, 0.01f,
+            "Height Rate", o.heightRate, 0.01f,
             "Character height multiplier (1.0 = normal). Only takes effect at spawn"
         ),
         OverrideField(
-            "Muscle Rate", o.muscleRate, 0.0, 0.0, 0.0, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"
+            "Muscle Rate", o.muscleRate, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"
         ),
         OverrideField(
-            "Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.0, 0.0, 0.0, 0.01f,
+            "Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.01f,
             "Controls how much random scale variation is suppressed"
         ),
     };
     healthFields = {
-        OverrideField("Health", o.health, 0.0, 0.0, 0.0, 1.0f, "Overall health points"),
-        OverrideField("Head", o.headHealth, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Neck", o.neckHealth, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Right Arm##h", o.armRHealth, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Left Arm##h", o.armLHealth, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Upper Body", o.bodyUpperHealth, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Lower Body", o.bodyLowerHealth, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Right Leg##h", o.legRHealth, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Left Leg##h", o.legLHealth, 0.0, 0.0, 0.0, 1.0f),
-        OverrideField("Back", o.backHealth, 0.0, 0.0, 0.0, 1.0f, "Back health"),
-        OverrideField("Consciousness", o.consciousness, 0.0, 0.0, 0.0, 1.0f, "Consciousness level (0 = knocked out)"),
-        OverrideField("Regen Rate", o.regenRate, 0.0, 0.0, 0.0, 0.01f, "Health regeneration rate per tick"),
+        OverrideField("Health", o.health, 1.0f, "Overall health points"),
+        OverrideField("Head", o.headHealth, 1.0f),
+        OverrideField("Neck", o.neckHealth, 1.0f),
+        OverrideField("Right Arm##h", o.armRHealth, 1.0f),
+        OverrideField("Left Arm##h", o.armLHealth, 1.0f),
+        OverrideField("Upper Body", o.bodyUpperHealth, 1.0f),
+        OverrideField("Lower Body", o.bodyLowerHealth, 1.0f),
+        OverrideField("Right Leg##h", o.legRHealth, 1.0f),
+        OverrideField("Left Leg##h", o.legLHealth, 1.0f),
+        OverrideField("Back", o.backHealth, 1.0f, "Back health"),
+        OverrideField("Consciousness", o.consciousness, 1.0f, "Consciousness level (0 = knocked out)"),
+        OverrideField("Regen Rate", o.regenRate, 0.01f, "Health regeneration rate per tick"),
     };
     physicsFields = {
         OverrideField(
-            "All Body Tonus", o.allBodyTonus, 0.0, 0.0, 0.0, 1.0f, "Master body muscle tension (100 = normal)"
+            "All Body Tonus", o.allBodyTonus, 1.0f, "Master body muscle tension (100 = normal)"
         ),
-        OverrideField("Head##t", o.headTonus, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Right Arm##t", o.armRTonus, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Left Arm##t", o.armLTonus, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Right Leg##t", o.legRTonus, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Left Leg##t", o.legLTonus, 0.0, 0.0, 0.0, 0.01f),
-        OverrideField("Muscle Power", o.musclePower, 0.0, 0.0, 0.0, 0.5f, "Overall muscle force (35 = default)"),
-        OverrideField("Orientation Strength", o.orientationStrength, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Angular Strength", o.angularStrength, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Hit Rigidity", o.hitRigidity, 0.0, 0.0, 0.0, 0.01f, "How rigid the body stays when hit"),
+        OverrideField("Head##t", o.headTonus, 0.01f),
+        OverrideField("Right Arm##t", o.armRTonus, 0.01f),
+        OverrideField("Left Arm##t", o.armLTonus, 0.01f),
+        OverrideField("Right Leg##t", o.legRTonus, 0.01f),
+        OverrideField("Left Leg##t", o.legLTonus, 0.01f),
+        OverrideField("Muscle Power", o.musclePower, 0.5f, "Overall muscle force (35 = default)"),
+        OverrideField("Orientation Strength", o.orientationStrength, 0.1f),
+        OverrideField("Angular Strength", o.angularStrength, 0.1f),
+        OverrideField("Hit Rigidity", o.hitRigidity, 0.01f, "How rigid the body stays when hit"),
     };
     movementFields = {
         OverrideField(
-            "Running Speed Rate", o.runningSpeedRate, 0.0, 0.0, 0.0, 0.1f, "Running speed multiplier (1.5 = default)"
+            "Running Speed Rate", o.runningSpeedRate, 0.1f, "Running speed multiplier (1.5 = default)"
         ),
-        OverrideField("Walk Speed Rate", o.walkSpeedRateRun, 0.0, 0.0, 0.0, 0.1f, "Walking/aiming speed rate"),
-        OverrideField("Jump Rate", o.jumpRate, 0.0, 0.0, 0.0, 0.1f, "Jump power multiplier"),
-        OverrideField("Dodge Rate", o.dodgeRate, 0.0, 0.0, 0.0, 0.1f, "Dodge speed/distance multiplier"),
-        OverrideField("Crawl Rate", o.crawlRate, 0.0, 0.0, 0.0, 0.01f, "Crawling speed multiplier"),
-        OverrideField("Get Up Rate", o.getUpRate, 0.0, 0.0, 0.0, 0.1f, "Speed of getting up from the ground"),
+        OverrideField("Walk Speed Rate", o.walkSpeedRateRun, 0.1f, "Walking/aiming speed rate"),
+        OverrideField("Jump Rate", o.jumpRate, 0.1f, "Jump power multiplier"),
+        OverrideField("Dodge Rate", o.dodgeRate, 0.1f, "Dodge speed/distance multiplier"),
+        OverrideField("Crawl Rate", o.crawlRate, 0.01f, "Crawling speed multiplier"),
+        OverrideField("Get Up Rate", o.getUpRate, 0.1f, "Speed of getting up from the ground"),
         OverrideField(
-            "Fallen Rate", o.fallenRate, 0.0, 0.0, 0.0, 0.01f, "Rate at which the character recovers from falling"
+            "Fallen Rate", o.fallenRate, 0.01f, "Rate at which the character recovers from falling"
         ),
     };
     combatFields = {
-        OverrideField("Damage Rate", o.damageRate, 0.0, 0.0, 0.0, 0.1f, "Additional damage multiplier dealt"),
+        OverrideField("Damage Rate", o.damageRate, 0.1f, "Additional damage multiplier dealt"),
         OverrideField(
-            "Limb Damage Rate", o.limbDamageRate, 0.0, 0.0, 0.0, 0.1f, "Additional limb-specific damage multiplier"
+            "Limb Damage Rate", o.limbDamageRate, 0.1f, "Additional limb-specific damage multiplier"
         ),
         OverrideField(
-            "Dismember Threshold", o.dismemberThreshold, 0.0, 0.0, 0.0, 0.1f,
+            "Dismember Threshold", o.dismemberThreshold, 0.1f,
             "Health threshold below which dismemberment can occur"
         ),
-        OverrideField("Stamina", o.stamina, 0.0, 0.0, 0.0, 1.0f, "Current stamina level (100 = full)"),
-        OverrideField("Swing R Burn", o.staminaBurnSwingR, 0.0, 0.0, 0.0, 0.1f, "Stamina cost for right-hand swings"),
-        OverrideField("Swing L Burn", o.staminaBurnSwingL, 0.0, 0.0, 0.0, 0.1f, "Stamina cost for left-hand swings"),
-        OverrideField("Dodge Burn", o.staminaBurnDodge, 0.0, 0.0, 0.0, 0.1f, "Stamina cost for dodging"),
+        OverrideField("Stamina", o.stamina, 1.0f, "Current stamina level (100 = full)"),
+        OverrideField("Swing R Burn", o.staminaBurnSwingR, 0.1f, "Stamina cost for right-hand swings"),
+        OverrideField("Swing L Burn", o.staminaBurnSwingL, 0.1f, "Stamina cost for left-hand swings"),
+        OverrideField("Dodge Burn", o.staminaBurnDodge, 0.1f, "Stamina cost for dodging"),
         OverrideField(
-            "Grab Force R", o.grabForceR, 0.0, 0.0, 0.0, 100.0f, "Right hand grip force limit (10000 = default)"
+            "Grab Force R", o.grabForceR, 100.0f, "Right hand grip force limit (10000 = default)"
         ),
         OverrideField(
-            "Grab Force L", o.grabForceL, 0.0, 0.0, 0.0, 100.0f, "Left hand grip force limit (10000 = default)"
+            "Grab Force L", o.grabForceL, 100.0f, "Left hand grip force limit (10000 = default)"
         ),
-        OverrideField("Hands Rigidity", o.handsRigidity, 0.0, 0.0, 0.0, 0.01f, "Punch impact force (0.666 = default)"),
-        OverrideField("Body Skill", o.bodySkill, 0.0, 0.0, 0.0, 0.1f, "Overall combat skill level"),
-        OverrideField("Weapon Skill", o.weaponSkill, 0.0, 0.0, 0.0, 0.1f, "Weapon handling skill level"),
+        OverrideField("Hands Rigidity", o.handsRigidity, 0.01f, "Punch impact force (0.666 = default)"),
+        OverrideField("Body Skill", o.bodySkill, 0.1f, "Overall combat skill level"),
+        OverrideField("Weapon Skill", o.weaponSkill, 0.1f, "Weapon handling skill level"),
     };
     skillFields = {
         OverrideField("Thrust", o.skillThrust),     OverrideField("Parry", o.skillParry),
@@ -93,11 +93,11 @@ void PlayerEditorSection::BuildDescriptors() {
         OverrideField("Slow Motion", o.skillSlomo),
     };
     stateFields = {
-        OverrideField("Exhaustion", o.exhaustion, 0.0, 0.0, 0.0, 0.1f, "Physical exhaustion level"),
-        OverrideField("Drunk", o.drunk, 0.0, 0.0, 0.0, 0.01f, "Drunkenness level (0 = sober, 1 = fully drunk)"),
-        OverrideField("Fear", o.fear, 0.0, 0.0, 0.0, 0.1f, "Fear level"),
-        OverrideField("Invulnerable", o.invulnerable, false, "Immune to all damage"),
-        OverrideField("Fearless", o.fearless, false, "Never flees from combat"),
+        OverrideField("Exhaustion", o.exhaustion, 0.1f, "Physical exhaustion level"),
+        OverrideField("Drunk", o.drunk, 0.01f, "Drunkenness level (0 = sober, 1 = fully drunk)"),
+        OverrideField("Fear", o.fear, 0.1f, "Fear level"),
+        OverrideField("Invulnerable", o.invulnerable, "Immune to all damage"),
+        OverrideField("Fearless", o.fearless, "Never flees from combat"),
     };
 }
 

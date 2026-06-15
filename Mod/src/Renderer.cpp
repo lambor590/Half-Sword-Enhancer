@@ -18,6 +18,12 @@ namespace {
     constexpr size_t VMT_RESIZE_BUFFERS1_BYTE_OFFSET = PTR_SIZE * VMT_RESIZE_BUFFERS1_OFFSET;
     constexpr UINT D3D12_SRV_DESCRIPTOR_COUNT = 64;
     constexpr UINT D3D12_SKIP_LOG_LIMIT = 8;
+    constexpr UINT SYNC_TIMEOUT_MS = 500;
+    constexpr UINT64 FENCE_INCREMENT = 1;
+
+    constexpr D3D11_VIEWPORT CreateViewport(float width, float height) noexcept {
+        return D3D11_VIEWPORT{0.0f, 0.0f, width, height, 0.0f, 1.0f};
+    }
 
     // Hook trampolines dispatch through this singleton-style instance.
     Renderer* g_Renderer = nullptr;
@@ -230,7 +236,7 @@ void Renderer::AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexc
         window.height = height;
     }
 
-    window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
+    window.viewport = CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
     state.needsInit = true;
     logger.Log("ResizeBuffers completed: 0x%08X (%dx%d)", result, window.width, window.height);
@@ -515,7 +521,7 @@ bool Renderer::InitD3D11() noexcept {
     state.bufferCount = static_cast<uint8_t>(desc.BufferCount);
 
     GetWindowDimensions(window.handle, window.width, window.height);
-    window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
+    window.viewport = CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
 
     if (!CreateRenderTargets()) [[unlikely]]
@@ -581,7 +587,7 @@ bool Renderer::InitD3D12() noexcept {
     if (imguiBackendNeedsReset) ReleaseImGuiRenderer();
 
     GetWindowDimensions(window.handle, window.width, window.height);
-    window.viewport = RenderConfig::CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
+    window.viewport = CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
 
     if (!d3d12SrvHeap.Get() && !CreateD3D12SrvHeap()) [[unlikely]] {
@@ -624,10 +630,10 @@ bool Renderer::SignalAndWait() noexcept {
     }
 
     if (fencePtr->GetCompletedValue() < currentFence) [[unlikely]] {
-        WaitForSingleObject(fenceEvent, RenderConfig::SYNC_TIMEOUT_MS);
+        WaitForSingleObject(fenceEvent, SYNC_TIMEOUT_MS);
     }
 
-    fenceValue += RenderConfig::FENCE_INCREMENT;
+    fenceValue += FENCE_INCREMENT;
     return true;
 }
 

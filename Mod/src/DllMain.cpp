@@ -4,7 +4,6 @@
 
 #include "Logger.h"
 #include "Core/ModRuntimeLifecycle.h"
-#include "GlobalDefinitions.h"
 #include "KeybindManager.h"
 
 static Logger logger{"DllMain"};

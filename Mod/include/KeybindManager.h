@@ -9,9 +9,6 @@
 #include <atomic>
 #include <array>
 
-class ConfigManager;
-extern ConfigManager& g_ConfigManager;
-
 class KeybindManager {
 public:
     using Callback = std::function<void()>;

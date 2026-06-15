@@ -418,61 +418,61 @@ void WeaponEditorSection::BuildDescriptors() {
 
     combatFields = {
         OverrideField(
-            "Rigidity", rp.rigidity, 0.0, 0.0, 0.0, 0.1f,
+            "Rigidity", rp.rigidity, 0.1f,
             "Structural stiffness - affects impact resistance and damage transfer"
         ),
         OverrideField(
-            "Edge Sharpness", rp.edgeSharpness, 0.0, 0.0, 0.0, 0.1f,
+            "Edge Sharpness", rp.edgeSharpness, 0.1f,
             "Cutting edge quality - determines slashing effectiveness"
         ),
-        OverrideField("Raw Damage", rp.rawDamage, 0.0, 0.0, 0.0, 0.1f, "Base damage multiplier before other modifiers"),
+        OverrideField("Raw Damage", rp.rawDamage, 0.1f, "Base damage multiplier before other modifiers"),
         OverrideField(
-            "Cutting Rate", rp.cuttingRate, 0.0, 0.0, 0.0, 0.01f, "Slashing damage multiplier for cutting attacks"
+            "Cutting Rate", rp.cuttingRate, 0.01f, "Slashing damage multiplier for cutting attacks"
         ),
-        OverrideField("Stab Rate", rp.stabRate, 0.0, 0.0, 0.0, 0.01f, "Thrusting damage multiplier for stab attacks"),
+        OverrideField("Stab Rate", rp.stabRate, 0.01f, "Thrusting damage multiplier for stab attacks"),
         OverrideField(
-            "Def Rating", rp.defRating, 0.0, 0.0, 0.0, 0.01f, "Defensive effectiveness when blocking or parrying"
+            "Def Rating", rp.defRating, 0.01f, "Defensive effectiveness when blocking or parrying"
         ),
-        OverrideField("Grip Rate", rp.gripRate, 0.0, 0.0, 0.0, 0.01f, "Weapon handling and control precision"),
+        OverrideField("Grip Rate", rp.gripRate, 0.01f, "Weapon handling and control precision"),
         OverrideField(
-            "Draw Cut Rate", rp.drawCutRate, 0.0, 0.0, 0.0, 0.01f, "Damage bonus for drawing/slicing motions"
+            "Draw Cut Rate", rp.drawCutRate, 0.01f, "Damage bonus for drawing/slicing motions"
         ),
         OverrideField(
-            "Tip Sharpness", rp.tipSharpness, 0.0, 0.0, 0.0, 0.1f,
+            "Tip Sharpness", rp.tipSharpness, 0.1f,
             "Point sharpness - affects piercing on thrust attacks"
         ),
-        OverrideField("Kick Power", rp.kickPower, 0.0, 0.0, 0.0, 0.1f, "Knockback force applied on impact"),
+        OverrideField("Kick Power", rp.kickPower, 0.1f, "Knockback force applied on impact"),
     };
     physicsFields = {
         OverrideField(
-            "Mat Density", rp.matDensity, 0.0, 0.0, 0.0, 0.1f, "Material density - affects momentum and swing weight"
+            "Mat Density", rp.matDensity, 0.1f, "Material density - affects momentum and swing weight"
         ),
     };
     dismemberFields = {
         OverrideField(
-            "Sharp Level", rp.dismemberSharp, 0, 0, 0, 0.1f, "Sharp dismemberment threshold (higher = easier to sever)"
+            "Sharp Level", rp.dismemberSharp, 0.1f, "Sharp dismemberment threshold (higher = easier to sever)"
         ),
         OverrideField(
-            "Blunt Level", rp.dismemberBlunt, 0, 0, 0, 0.1f, "Blunt dismemberment threshold (higher = easier to crush)"
+            "Blunt Level", rp.dismemberBlunt, 0.1f, "Blunt dismemberment threshold (higher = easier to crush)"
         ),
     };
     toggleFields = {
-        OverrideField("Double Edged", rp.doubleEdged, false, "Both edges can cut (swords vs single-edge weapons)"),
-        OverrideField("Piercing", rp.piercing, false, "Weapon can pierce through armor"),
-        OverrideField("No Stab", rp.noStab, false, "Disables thrust attacks (for blunt weapons)"),
+        OverrideField("Double Edged", rp.doubleEdged, "Both edges can cut (swords vs single-edge weapons)"),
+        OverrideField("Piercing", rp.piercing, "Weapon can pierce through armor"),
+        OverrideField("No Stab", rp.noStab, "Disables thrust attacks (for blunt weapons)"),
     };
     staminaFields = {
         OverrideField(
-            "R Hand Burn", rp.staminaBurnR, 0.0, 0.0, 0.0, 0.01f, "Stamina drain rate when wielding in right hand"
+            "R Hand Burn", rp.staminaBurnR, 0.01f, "Stamina drain rate when wielding in right hand"
         ),
         OverrideField(
-            "L Hand Burn", rp.staminaBurnL, 0.0, 0.0, 0.0, 0.01f, "Stamina drain rate when wielding in left hand"
+            "L Hand Burn", rp.staminaBurnL, 0.01f, "Stamina drain rate when wielding in left hand"
         ),
         OverrideField(
-            "2H Burn", rp.staminaBurn2H, 0.0, 0.0, 0.0, 0.01f, "Stamina drain rate for two-handed default grip"
+            "2H Burn", rp.staminaBurn2H, 0.01f, "Stamina drain rate for two-handed default grip"
         ),
         OverrideField(
-            "2H Alt Burn", rp.staminaBurn2HAlt, 0.0, 0.0, 0.0, 0.01f,
+            "2H Alt Burn", rp.staminaBurn2HAlt, 0.01f,
             "Stamina drain for alternate two-handed grip (half-sword, mordschlag)"
         ),
     };

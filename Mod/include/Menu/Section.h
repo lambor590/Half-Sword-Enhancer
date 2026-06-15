@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string_view>
-
 #include "Core/ModContext.h"
 #include "Menu/MenuTab.h"
 
@@ -39,8 +37,6 @@ public:
     virtual void OnOpen() {}
 
     const char* GetName() const noexcept { return definition.name; }
-    std::string_view GetNameView() const noexcept { return definition.name; }
-    MenuTab GetTab() const noexcept { return definition.tab; }
     const char* GetGroup() const noexcept { return definition.group; }
 
     Section(const Section&) = delete;

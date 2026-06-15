@@ -15,7 +15,7 @@ namespace {
     constexpr const char* NPC_BINDING_PREFIX = "NPCSpawnBinding_";
 
     std::string NPCBindingSection(int id) {
-        return SpawnBindingUtils::SectionName(NPC_BINDING_PREFIX, id);
+        return std::string(NPC_BINDING_PREFIX) + std::to_string(id);
     }
 
     std::string OverrideKey(const char* group, const char* name, const char* suffix) {
@@ -73,62 +73,62 @@ void NPCEditorSection::BuildDescriptors() {
     auto& o = overrides;
 
     physicalFields = {
-        OverrideField("Height Rate", o.heightRate, 0.0, 0.0, 0.0, 0.01f, "Character height multiplier (1.0 = normal)"),
+        OverrideField("Height Rate", o.heightRate, 0.01f, "Character height multiplier (1.0 = normal)"),
         OverrideField(
-            "Muscle Rate", o.muscleRate, 0.0, 0.0, 0.0, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"
+            "Muscle Rate", o.muscleRate, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"
         ),
         OverrideField(
-            "Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.0, 0.0, 0.0, 0.01f,
+            "Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.01f,
             "Controls how much random scale variation is suppressed"
         ),
-        OverrideField("Face Type", o.faceType, 0, 0, 0, 0.1f, "Face mesh index"),
-        OverrideField("Eye Color", o.eyeColor, 0, 0, 0, 0.1f, "Eye color index"),
-        OverrideField("Hair Length", o.hairLength, 0.0, 0.0, 0.0, 0.01f, "Hair length (0 = bald, 1 = maximum)"),
+        OverrideField("Face Type", o.faceType, 0.1f, "Face mesh index"),
+        OverrideField("Eye Color", o.eyeColor, 0.1f, "Eye color index"),
+        OverrideField("Hair Length", o.hairLength, 0.01f, "Hair length (0 = bald, 1 = maximum)"),
         OverrideField(
-            "Hair Color", o.hairColor, 0.0, 0.0, 0.0, 0.01f, "Hair melanin (0 = blonde, 0.5 = brown, 1 = black)"
+            "Hair Color", o.hairColor, 0.01f, "Hair melanin (0 = blonde, 0.5 = brown, 1 = black)"
         ),
     };
     combatFields = {
         OverrideField(
-            "Damage Rate", o.damageRate, 0.0, 0.0, 0.0, 0.1f, "Additional damage multiplier dealt by this NPC"
+            "Damage Rate", o.damageRate, 0.1f, "Additional damage multiplier dealt by this NPC"
         ),
         OverrideField(
-            "Limb Damage Rate", o.limbDamageRate, 0.0, 0.0, 0.0, 0.1f, "Additional limb-specific damage multiplier"
+            "Limb Damage Rate", o.limbDamageRate, 0.1f, "Additional limb-specific damage multiplier"
         ),
         OverrideField(
-            "Dismember Threshold", o.dismemberThreshold, 0.0, 0.0, 0.0, 0.1f,
+            "Dismember Threshold", o.dismemberThreshold, 0.1f,
             "Health threshold below which dismemberment can occur"
         ),
-        OverrideField("Regen Rate", o.regenRate, 0.0, 0.0, 0.0, 0.01f, "Health regeneration rate per tick"),
+        OverrideField("Regen Rate", o.regenRate, 0.01f, "Health regeneration rate per tick"),
         OverrideField(
-            "AI Invincibility", o.aiInvincibility, 0.0, 0.0, 0.0, 0.01f, "Rate at which AI ignores incoming damage"
+            "AI Invincibility", o.aiInvincibility, 0.01f, "Rate at which AI ignores incoming damage"
         ),
         OverrideField(
-            "AI Armor Invincibility", o.aiArmorInvincibility, 0.0, 0.0, 0.0, 0.01f,
+            "AI Armor Invincibility", o.aiArmorInvincibility, 0.01f,
             "Rate at which AI armor ignores damage"
         ),
         OverrideField(
-            "Body Skill", o.bodySkill, 0.0, 0.0, 0.0, 0.1f,
+            "Body Skill", o.bodySkill, 0.1f,
             "Overall combat skill level affecting movement and reactions"
         ),
     };
     behaviorFields = {
-        OverrideField("Fearless", o.fearless, false, "NPC never flees from combat"),
-        OverrideField("Start Kneeled", o.startKneeled, false, "NPC spawns in a kneeling position"),
-        OverrideField("Spawn in Pants", o.spawnInPants, false, "NPC spawns wearing only pants (no armor)"),
-        OverrideField("Clear Spawn Area", o.clearSpawnArea, false, "Clear objects around spawn point before spawning"),
-        OverrideField("Drunk", o.drunk, 0.0, 0.0, 0.0, 0.01f, "Drunkenness level (0 = sober, 1 = fully drunk)"),
-        OverrideField("Bolts in Quiver", o.boltsInQuiver, 0, 0, 0, 0.1f, "Number of crossbow bolts the NPC carries"),
+        OverrideField("Fearless", o.fearless, "NPC never flees from combat"),
+        OverrideField("Start Kneeled", o.startKneeled, "NPC spawns in a kneeling position"),
+        OverrideField("Spawn in Pants", o.spawnInPants, "NPC spawns wearing only pants (no armor)"),
+        OverrideField("Clear Spawn Area", o.clearSpawnArea, "Clear objects around spawn point before spawning"),
+        OverrideField("Drunk", o.drunk, 0.01f, "Drunkenness level (0 = sober, 1 = fully drunk)"),
+        OverrideField("Bolts in Quiver", o.boltsInQuiver, 0.1f, "Number of crossbow bolts the NPC carries"),
     };
     bodyConditionFields = {
-        OverrideField("Head", o.headHealth, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Neck", o.neckHealth, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Right Arm", o.armRHealth, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Left Arm", o.armLHealth, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Upper Body", o.bodyUpperHealth, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Lower Body", o.bodyLowerHealth, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Right Leg", o.legRHealth, 0.0, 0.0, 0.0, 0.1f),
-        OverrideField("Left Leg", o.legLHealth, 0.0, 0.0, 0.0, 0.1f),
+        OverrideField("Head", o.headHealth, 0.1f),
+        OverrideField("Neck", o.neckHealth, 0.1f),
+        OverrideField("Right Arm", o.armRHealth, 0.1f),
+        OverrideField("Left Arm", o.armLHealth, 0.1f),
+        OverrideField("Upper Body", o.bodyUpperHealth, 0.1f),
+        OverrideField("Lower Body", o.bodyLowerHealth, 0.1f),
+        OverrideField("Right Leg", o.legRHealth, 0.1f),
+        OverrideField("Left Leg", o.legLHealth, 0.1f),
     };
 }
 

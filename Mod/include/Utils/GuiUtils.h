@@ -509,12 +509,11 @@ namespace GuiUtils {
     }
 
     /// Caller must call ImGui::EndChild() after content.
-    inline float BeginScrollWithFooter(const char* id) {
+    inline void BeginScrollWithFooter(const char* id) {
         float footerH = ImGui::GetFrameHeightWithSpacing() + ImGui::GetStyle().ItemSpacing.y;
         float scrollH = ImGui::GetContentRegionAvail().y - footerH;
         if (scrollH < 100.0f) scrollH = 100.0f;
         ImGui::BeginChild(id, ImVec2(0, scrollH));
-        return scrollH;
     }
 
     template <typename RenderFn>

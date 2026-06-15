@@ -3,7 +3,6 @@
 #include <array>
 #include <memory>
 #include <string>
-#include <string_view>
 #include <vector>
 
 #include "Section.h"
@@ -55,7 +54,6 @@ private:
     struct SearchResult {
         MenuTab tab;
         Section* section;
-        std::string_view functionName;
     };
 
     struct RenderGroup {
@@ -75,8 +73,6 @@ private:
     bool searchActive = false;
     std::vector<SearchResult> searchResults;
 
-    // --- Search helpers ---
-    static bool MatchesSearch(std::string_view text, const char* lowerNeedle, size_t needleLen) noexcept;
     void UpdateSearchResults() noexcept;
     void RebuildRenderGroups(MenuTab tab);
     void SelectSection(Section* section, MenuTab tab);

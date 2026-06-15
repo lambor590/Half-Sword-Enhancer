@@ -11,7 +11,8 @@
 #include "SimpleIni.h"
 #include "Menu/Override.h"
 #include "Utils/PresetDataBase.h"
-#include "Utils/PresetSerializerBase.h"
+#include "Utils/PresetUtils.h"
+#include "ConfigManager.h"
 
 
 enum class PresetFieldType : uint8_t { String, Int, Double, Bool, Vec3, Rotator, Color };
@@ -98,11 +99,44 @@ concept HasCustomDeserialize = requires(T& t, const CSimpleIniA& ini) {
 };
 
 
-/// Inherits PresetSerializerBase CRTP for file I/O (LoadFromFile, SaveToFile, etc.).
 template <typename DataType>
-class PresetSerializer : public PresetSerializerBase<PresetSerializer<DataType>, DataType> {
+class PresetSerializer {
 public:
     static constexpr const char* K_PRESETS_SUBDIR = DataType::K_PRESETS_SUBDIR;
+
+    static const std::filesystem::path& GetPresetsDirectory() {
+        static std::filesystem::path dir =
+            PresetUtils::EnsureDirectory(ConfigManager::GetAppDataPath() / K_PRESETS_SUBDIR);
+        return dir;
+    }
+
+    static DataType LoadFromFile(const std::filesystem::path& path) {
+        DataType result;
+        std::string content = PresetUtils::LoadStringFromFile(path);
+        if (content.empty()) {
+            result.error = "Cannot open file: " + path.string();
+            return result;
+        }
+        return DeserializeFromIni(content);
+    }
+
+    static PresetUtils::PresetTreeNode ListPresetsTree() {
+        return PresetUtils::ListPresetsRecursive(GetPresetsDirectory());
+    }
+
+    static bool DeletePreset(const std::filesystem::path& path) { return PresetUtils::DeletePreset(path); }
+
+    static bool SaveToFile(const std::filesystem::path& path, const DataType& data) {
+        return PresetUtils::SaveStringToFile(path, SerializeToIni(data));
+    }
+
+    static bool SavePresetByName(const std::string& name, const DataType& data) {
+        auto [folder, filename] = PresetUtils::SanitizePresetPath(name);
+        auto dir = GetPresetsDirectory();
+        if (!folder.empty()) dir /= folder;
+        PresetUtils::EnsureDirectory(dir);
+        return SaveToFile(dir / (filename + ".ini"), data);
+    }
 
     static std::string SerializeToIni(const DataType& data) {
         CSimpleIniA ini;

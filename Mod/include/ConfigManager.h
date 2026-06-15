@@ -27,7 +27,6 @@ public:
     void SaveConfig();
     void SaveConfigDeferred();
     void LoadConfig();
-    void FlushPendingSave();
     void SuppressDeferred(bool suppress);
 
     /// Executes multiple Set* calls in a single batch, issuing one SaveConfig at the end.

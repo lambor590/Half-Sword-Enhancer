@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstring>
 
+#include "Utils/GuiUtils.h"
 #include "imgui/imgui.h"
 
 namespace {
@@ -16,10 +17,6 @@ namespace {
 
     constexpr ImVec4 SEPARATOR_COLOR = {
         DefaultStyle::MEDIUM_WOOD.x, DefaultStyle::MEDIUM_WOOD.y, DefaultStyle::MEDIUM_WOOD.z, 0.35f};
-
-    constexpr char LowerAscii(char c) noexcept {
-        return (c >= 'A' && c <= 'Z') ? static_cast<char>(c + ('a' - 'A')) : c;
-    }
 
     void DrawSeparator(float vGap) {
         ImGui::Dummy(ImVec2(0, vGap));
@@ -69,23 +66,6 @@ void MenuManager::RenderMenu() {
     ImGui::PopStyleVar();
 }
 
-bool MenuManager::MatchesSearch(std::string_view text, const char* lowerNeedle, size_t needleLen) noexcept {
-    if (needleLen == 0) return true;
-    if (needleLen > text.size()) return false;
-
-    for (size_t i = 0; i <= text.size() - needleLen; ++i) {
-        bool match = true;
-        for (size_t j = 0; j < needleLen; ++j) {
-            if (LowerAscii(text[i + j]) != lowerNeedle[j]) {
-                match = false;
-                break;
-            }
-        }
-        if (match) return true;
-    }
-    return false;
-}
-
 void MenuManager::UpdateSearchResults() noexcept {
     searchResults.clear();
 
@@ -95,19 +75,15 @@ void MenuManager::UpdateSearchResults() noexcept {
     }
 
     searchActive = true;
-
-    char lowerNeedle[sizeof(searchBuffer)];
-    size_t needleLen = 0;
-    for (; searchBuffer[needleLen] != '\0'; ++needleLen) {
-        lowerNeedle[needleLen] = LowerAscii(searchBuffer[needleLen]);
-    }
+    const size_t needleLen = std::strlen(searchBuffer);
 
     for (size_t i = 0; i < TAB_COUNT; ++i) {
-        const auto& [tab, label] = TAB_ORDER[i];
+        const MenuTab tab = TAB_ORDER[i].first;
         auto& sects = sections[i];
         for (auto& section : sects) {
-            if (MatchesSearch(section->GetNameView(), lowerNeedle, needleLen)) {
-                searchResults.push_back({tab, section.get(), {}});
+            const char* name = section->GetName();
+            if (GuiUtils::MatchesFilter(name, std::strlen(name), searchBuffer, needleLen)) {
+                searchResults.push_back({tab, section.get()});
             }
         }
     }
@@ -181,8 +157,6 @@ void MenuManager::RenderSearchResults() {
     }
 
     auto currentTab = static_cast<MenuTab>(255);
-    std::string funcDisplay;
-    funcDisplay.reserve(64);
     bool shouldClearSearch = false;
 
     for (auto& result : searchResults) {
@@ -199,20 +173,9 @@ void MenuManager::RenderSearchResults() {
 
         ImGui::Indent(SECTION_INDENT);
 
-        const char* displayText;
-        if (result.functionName.empty()) {
-            displayText = result.section->GetName();
-        } else {
-            funcDisplay.clear();
-            funcDisplay.append(result.section->GetName());
-            funcDisplay.append(" > ");
-            funcDisplay.append(result.functionName);
-            displayText = funcDisplay.c_str();
-        }
-
         bool isSelected = selectedSection == result.section;
         ImGui::PushStyleColor(ImGuiCol_Header, BRASS_MEDIUM);
-        if (ImGui::Selectable(displayText, isSelected)) {
+        if (ImGui::Selectable(result.section->GetName(), isSelected)) {
             SelectSection(result.section, result.tab);
             shouldClearSearch = true;
         }

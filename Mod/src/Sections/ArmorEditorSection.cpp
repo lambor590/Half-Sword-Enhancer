@@ -18,36 +18,36 @@ void ArmorEditorSection::BuildDescriptors() {
 
     protectionFields = {
         OverrideField(
-            "Blunt Protection", rp.protectionBlunt, 0.0, 0.0, 0.0, 0.1f, "Protection against blunt/crushing damage"
+            "Blunt Protection", rp.protectionBlunt, 0.1f, "Protection against blunt/crushing damage"
         ),
         OverrideField(
-            "Cut Protection", rp.protectionCut, 0.0, 0.0, 0.0, 0.1f, "Protection against cutting/slashing damage"
+            "Cut Protection", rp.protectionCut, 0.1f, "Protection against cutting/slashing damage"
         ),
         OverrideField(
-            "Stab Protection", rp.protectionStab, 0.0, 0.0, 0.0, 0.1f, "Protection against piercing/stabbing damage"
+            "Stab Protection", rp.protectionStab, 0.1f, "Protection against piercing/stabbing damage"
         ),
     };
     physicsFields = {
         OverrideField(
-            "Material Density", rp.materialDensity, 0.0, 0.0, 0.0, 0.1f,
+            "Material Density", rp.materialDensity, 0.1f,
             "Material density - affects weight and impact absorption"
         ),
-        OverrideField("Mass Scale", rp.massScale, 0.0, 0.0, 0.0, 0.01f, "Overall mass multiplier for the armor piece"),
+        OverrideField("Mass Scale", rp.massScale, 0.01f, "Overall mass multiplier for the armor piece"),
     };
     behaviorFields = {
         OverrideField(
-            "Hands Rigidity", rp.handsRigidity, 0.0, 0.0, 0.0, 0.1f, "Gauntlet hand rigidity - affects grip strength"
+            "Hands Rigidity", rp.handsRigidity, 0.1f, "Gauntlet hand rigidity - affects grip strength"
         ),
         OverrideField(
-            "Strap Power", rp.strapPower, 0.0, 0.0, 0.0, 0.1f,
+            "Strap Power", rp.strapPower, 0.1f,
             "Helmet strap force - affects how securely the helmet stays on"
         ),
         OverrideField(
-            "AI Invincibility Rate", rp.aiInvincibilityRate, 0.0, 0.0, 0.0, 0.01f,
+            "AI Invincibility Rate", rp.aiInvincibilityRate, 0.01f,
             "Rate at which AI ignores damage when wearing this armor"
         ),
-        OverrideField("Price Override", rp.price, 0.0, 0.0, 0.0, 1.0f, "Override the runtime price value on the actor"),
-        OverrideField("Pick Up", rp.pickUp, false, "Allow picking up this armor piece from the ground"),
+        OverrideField("Price Override", rp.price, 1.0f, "Override the runtime price value on the actor"),
+        OverrideField("Pick Up", rp.pickUp, "Allow picking up this armor piece from the ground"),
     };
 }
 

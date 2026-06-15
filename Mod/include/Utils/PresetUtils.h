@@ -6,6 +6,8 @@
 #include <vector>
 #include <filesystem>
 #include <cstdio>
+#include <fstream>
+#include <iterator>
 #include <Windows.h>
 #include <shellapi.h>
 
@@ -77,57 +79,6 @@ namespace PresetUtils {
         return c;
     }
 
-    inline bool IsDefaultColor(const SDK::FLinearColor& c, const SDK::FLinearColor& def) {
-        return std::abs(c.R - def.R) < 1e-3f && std::abs(c.G - def.G) < 1e-3f && std::abs(c.B - def.B) < 1e-3f &&
-               std::abs(c.A - def.A) < 1e-3f;
-    }
-
-    inline std::string DoubleOverrideToString(bool enabled, double value) {
-        char buf[64];
-        std::snprintf(buf, sizeof(buf), "%d,%.6g", enabled ? 1 : 0, value);
-        return buf;
-    }
-
-    inline std::string IntOverrideToString(bool enabled, int value) {
-        char buf[32];
-        std::snprintf(buf, sizeof(buf), "%d,%d", enabled ? 1 : 0, value);
-        return buf;
-    }
-
-    inline void ParseDoubleOverride(const char* str, bool& enabled, double& value) {
-        if (!str || !str[0]) {
-            enabled = false;
-            value = 0.0;
-            return;
-        }
-        int en = 0;
-        sscanf_s(str, "%d,%lf", &en, &value);
-        enabled = en != 0;
-    }
-
-    inline void ParseIntOverride(const char* str, bool& enabled, int& value) {
-        if (!str || !str[0]) {
-            enabled = false;
-            value = 0;
-            return;
-        }
-        int en = 0;
-        sscanf_s(str, "%d,%d", &en, &value);
-        enabled = en != 0;
-    }
-
-    inline void ParseBoolOverride(const char* str, bool& enabled, bool& value) {
-        if (!str || !str[0]) {
-            enabled = false;
-            value = false;
-            return;
-        }
-        int en = 0, val = 0;
-        sscanf_s(str, "%d,%d", &en, &val);
-        enabled = en != 0;
-        value = val != 0;
-    }
-
     [[nodiscard]] inline std::string SanitizeFilename(std::string_view name) noexcept {
         std::string result;
         result.reserve(name.size());
@@ -151,27 +102,16 @@ namespace PresetUtils {
     }
 
     [[nodiscard]] inline bool SaveStringToFile(const std::filesystem::path& path, const std::string& content) {
-        FILE* f = nullptr;
-        if (fopen_s(&f, path.string().c_str(), "wb") != 0 || !f) return false;
-        std::fwrite(content.data(), 1, content.size(), f);
-        std::fclose(f);
-        return true;
+        std::ofstream file(path, std::ios::binary);
+        if (!file) return false;
+        file.write(content.data(), static_cast<std::streamsize>(content.size()));
+        return static_cast<bool>(file);
     }
 
     inline std::string LoadStringFromFile(const std::filesystem::path& path) {
-        FILE* f = nullptr;
-        if (fopen_s(&f, path.string().c_str(), "rb") != 0 || !f) return {};
-        std::fseek(f, 0, SEEK_END);
-        long size = std::ftell(f);
-        if (size <= 0) {
-            std::fclose(f);
-            return {};
-        }
-        std::fseek(f, 0, SEEK_SET);
-        std::string content(size, '\0');
-        std::fread(content.data(), 1, size, f);
-        std::fclose(f);
-        return content;
+        std::ifstream file(path, std::ios::binary);
+        if (!file) return {};
+        return {std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
     }
 
     inline bool DeletePreset(const std::filesystem::path& path) {

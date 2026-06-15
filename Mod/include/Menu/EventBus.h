@@ -24,15 +24,13 @@ public:
     /// Returns the UE function name that maps to this GameEvent for ProcessEvent hooking.
     static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
         constexpr const char* EVENT_NAMES[] = {
-            "ExecuteUbergraph_UI_BeginFight",
-            "ExecuteUbergraph_Abyss_Map_Open_Intermediate",
             "OnWalkingOffLedge",
             "ReceiveTick",
         };
         return EVENT_NAMES[static_cast<uint8_t>(event)];
     }
 
-    static constexpr size_t EVENT_COUNT = 4;
+    static constexpr size_t EVENT_COUNT = 2;
 
     /// Remove all subscriptions and unregister all hooks. Called during Unhook.
     void Clear();
