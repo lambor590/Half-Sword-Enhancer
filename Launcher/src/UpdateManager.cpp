@@ -1,5 +1,4 @@
 #include <vector>
-#include <array>
 #include <charconv>
 #include <format>
 #include <fstream>
@@ -13,64 +12,6 @@
 #include "../include/Util.h"
 
 namespace hse {
-    namespace {
-
-        class ScopedDirectoryCleanup {
-        public:
-            explicit ScopedDirectoryCleanup(std::filesystem::path path) noexcept : path_(std::move(path)) {}
-
-            ~ScopedDirectoryCleanup() {
-                std::error_code ec;
-                std::filesystem::remove_all(path_, ec);
-            }
-
-        private:
-            std::filesystem::path path_;
-        };
-
-        void RemoveFileIfPresent(const std::filesystem::path& path) noexcept {
-            std::error_code ec;
-            std::filesystem::remove(path, ec);
-        }
-
-        [[nodiscard]] std::expected<std::filesystem::path, UpdateError> GetCurrentExecutablePath() noexcept {
-            std::filesystem::path executablePath;
-            if (!TryGetCurrentExecutablePath(executablePath)) {
-                return std::unexpected(UpdateError::FileSystemError);
-            }
-
-            return executablePath;
-        }
-
-        [[nodiscard]] std::expected<void, UpdateError> FinalizeDownloadedFile(
-            const std::filesystem::path& tempPath, const std::filesystem::path& outputPath
-        ) noexcept {
-            std::error_code ec;
-            if (std::filesystem::exists(outputPath, ec)) {
-                if (ec) {
-                    RemoveFileIfPresent(tempPath);
-                    return std::unexpected(UpdateError::FileSystemError);
-                }
-
-                std::filesystem::remove(outputPath, ec);
-                if (ec) {
-                    RemoveFileIfPresent(tempPath);
-                    return std::unexpected(UpdateError::FileSystemError);
-                }
-            }
-
-            std::filesystem::rename(tempPath, outputPath, ec);
-            if (ec) {
-                RemoveFileIfPresent(tempPath);
-                return std::unexpected(UpdateError::FileSystemError);
-            }
-
-            return {};
-        }
-
-    }
-
-
     Version::Version(std::string_view versionString) noexcept {
         if (versionString.empty() || versionString == "0.0.0") return;
 
@@ -149,17 +90,22 @@ namespace hse {
         std::uint32_t modMinSize
     ) noexcept {
         const auto tempDir = getAppDataDirectory() / TEMP_FOLDER;
-        [[maybe_unused]] const ScopedDirectoryCleanup cleanup(tempDir);
+        auto cleanupTempDir = [&tempDir]() noexcept {
+            std::error_code ec;
+            std::filesystem::remove_all(tempDir, ec);
+        };
 
         std::error_code ec;
         std::filesystem::create_directories(tempDir, ec);
         if (ec) {
             Logger::error("Failed to create temp update directory: %s", ec.message().c_str());
+            cleanupTempDir();
             return std::unexpected(UpdateError::FileSystemError);
         }
 
         auto modResult = DownloadModToPath(modUrl, tempDir / MOD_FILENAME, modMinSize);
         if (!modResult) {
+            cleanupTempDir();
             return modResult;
         }
 
@@ -172,9 +118,11 @@ namespace hse {
 
         auto installResult = InstallFiles(tempDir, gameBinPath);
         if (!installResult) {
+            cleanupTempDir();
             return std::unexpected(UpdateError::FileSystemError);
         }
 
+        cleanupTempDir();
         return {};
     }
 
@@ -203,19 +151,36 @@ namespace hse {
             .minFileSize = minFileSize};
 
         auto result = DownloadFile(config);
+        auto removeTemp = [&tempPath]() noexcept {
+            std::error_code ignored;
+            std::filesystem::remove(tempPath, ignored);
+        };
         if (!result) {
-            RemoveFileIfPresent(tempPath);
+            removeTemp();
             return std::unexpected(UpdateError::NetworkError);
         }
 
-        return FinalizeDownloadedFile(tempPath, outputPath);
+        std::error_code ec;
+        std::filesystem::remove(outputPath, ec);
+        if (ec) {
+            removeTemp();
+            return std::unexpected(UpdateError::FileSystemError);
+        }
+
+        std::filesystem::rename(tempPath, outputPath, ec);
+        if (ec) {
+            removeTemp();
+            return std::unexpected(UpdateError::FileSystemError);
+        }
+
+        return {};
     }
 
     std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
         std::string_view downloadUrl, std::string_view timestamp
     ) noexcept {
-        auto currentExePath = GetCurrentExecutablePath();
-        if (!currentExePath) {
+        std::filesystem::path currentExePath;
+        if (!TryGetCurrentExecutablePath(currentExePath)) {
             Logger::error("Failed to get current executable path");
             return std::unexpected(UpdateError::FileSystemError);
         }
@@ -247,7 +212,7 @@ namespace hse {
 
         const auto tempStr = tempPath.string();
         const auto batchStr = batchPath.string();
-        const auto currentExePathStr = currentExePath->string();
+        const auto currentExePathStr = currentExePath.string();
 
         auto script = std::format(
             "@echo off\n"
@@ -305,12 +270,12 @@ namespace hse {
     }
 
     std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromExecutable() const noexcept {
-        auto filePath = GetCurrentExecutablePath();
-        if (!filePath) {
+        std::filesystem::path filePath;
+        if (!TryGetCurrentExecutablePath(filePath)) {
             return std::unexpected(UpdateError::FileSystemError);
         }
 
-        return ExtractVersionFromFile(*filePath);
+        return ExtractVersionFromFile(filePath);
     }
 
     std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromFile(const std::filesystem::path& filePath

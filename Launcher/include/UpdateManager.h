@@ -65,10 +65,12 @@ namespace hse {
 
     class UpdateManager {
     public:
-        static UpdateManager& Instance() noexcept {
-            static UpdateManager instance;
-            return instance;
-        }
+        UpdateManager() = default;
+        ~UpdateManager() = default;
+        UpdateManager(const UpdateManager&) = delete;
+        UpdateManager& operator=(const UpdateManager&) = delete;
+        UpdateManager(UpdateManager&&) = delete;
+        UpdateManager& operator=(UpdateManager&&) = delete;
 
         [[nodiscard]] std::expected<Version, UpdateError> GetLocalVersion() noexcept;
         [[nodiscard]] std::expected<UpdateInfo, UpdateError> CheckForUpdates() noexcept;
@@ -101,13 +103,6 @@ namespace hse {
         static constexpr std::string_view GITHUB_EXPERIMENTAL_API_URL =
             "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/tags/experimental-latest";
 #endif
-
-        UpdateManager() = default;
-        ~UpdateManager() = default;
-        UpdateManager(const UpdateManager&) = delete;
-        UpdateManager& operator=(const UpdateManager&) = delete;
-        UpdateManager(UpdateManager&&) = delete;
-        UpdateManager& operator=(UpdateManager&&) = delete;
 
         [[nodiscard]] static std::string BuildReleaseUrl(std::string_view version, std::string_view filename);
         [[nodiscard]] std::expected<void, UpdateError> DownloadToTempAndInstall(

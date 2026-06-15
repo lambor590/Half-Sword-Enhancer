@@ -13,7 +13,7 @@ namespace hse {
 }
 
 class HSELauncher {
-    hse::UpdateManager& updateManager;
+    hse::UpdateManager updateManager;
     hse::LauncherConfig& config;
 
     std::filesystem::path gameBinPath_;

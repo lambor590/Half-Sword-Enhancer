@@ -20,8 +20,7 @@ namespace {
 }
 
 HSELauncher::HSELauncher()
-    : updateManager(hse::UpdateManager::Instance()),
-      config(hse::LauncherConfig::Instance()),
+    : config(hse::LauncherConfig::Instance()),
       gameEdition_(hse::GameEdition::FullGame) {}
 
 void HSELauncher::SetupConsole() {
