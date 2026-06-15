@@ -20,7 +20,7 @@ jobs:
       - name: Install tools
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq cppcheck clang-tidy
+          sudo apt-get install -y -qq cppcheck
           pip install lizard
 
       - name: Run quality checks
