@@ -1,15 +1,17 @@
 #include "Menu/Sections/Spawner/ItemSpawnerSection.h"
 
 #include <algorithm>
+#include <cstdio>
 
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
+#include "DefaultStyle.h"
+#include "KeybindManager.h"
 
 #include "Utils/Spawner.h"
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "Utils/GuiUtils.h"
-#include "Utils/SpawnBindingUtils.h"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
 namespace {
@@ -282,12 +284,17 @@ ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, SECTION) 
 }
 
 void ItemSpawnerSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding) {
-    SpawnBindingUtils::InitKeybind(
-        binding, ItemBindingSection(binding->id),
-        [this](const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) {
-            SpawnBindingItem(binding, runtime);
-        },
-        std::vector<KeybindParam>{
+    std::weak_ptr<SpawnBinding> weakBinding = binding;
+    binding->keybind = {
+        .name = binding->name,
+        .tooltip = binding->summary,
+        .configSection = ItemBindingSection(binding->id),
+        .keyPtr = &binding->key,
+        .callback =
+            [this, weakBinding]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                if (auto binding = weakBinding.lock()) SpawnBindingItem(*binding, runtime);
+            },
+        .params = {
             KeybindParam(
                 "snap_to_ground", "Snap to Ground", &binding->spawn.snapToGround,
                 "Automatically adjust height to touch the ground"
@@ -301,8 +308,9 @@ void ItemSpawnerSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>&
                 "Height offset for spawn position"
             ),
             KeybindParam("scale", "Scale", &binding->spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item"),
-        }
-    );
+        },
+    };
+    binding->keybind.Init();
 }
 
 bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) const {
@@ -343,34 +351,67 @@ void ItemSpawnerSection::AddBindingFromCurrentSelection() {
     auto binding = std::make_shared<SpawnBinding>();
     binding->id = nextBindingId++;
     if (!CaptureCurrentSelection(*binding)) return;
-    SpawnBindingUtils::CopyName(binding->name, binding->summary);
+    std::snprintf(binding->name, sizeof(binding->name), "%s", binding->summary.c_str());
     InitBindingKeybind(binding);
     spawnBindings.push_back(std::move(binding));
     SaveSpawnBindings();
 }
 
 void ItemSpawnerSection::LoadSpawnBindings() {
-    SpawnBindingUtils::LoadBindings<SpawnBinding>(
-        ITEM_BINDINGS_SECTION, nextBindingId, spawnBindings, ItemBindingSection, "Spawn Item",
-        [](SpawnBinding& binding, const std::string& section, ConfigManager& config) {
-            binding.source = static_cast<BindingSource>(config.GetInt(section, "source", 0));
-            binding.classPath = config.GetString(section, "class_path", "");
-            binding.customizable = config.GetInt(section, "customizable", 0);
-            binding.armorSlot = config.GetInt(section, "armor_slot", 0);
-            binding.modules[0] = config.GetInt(section, "module_1", 0);
-            binding.modules[1] = config.GetInt(section, "module_2", 0);
-            binding.modules[2] = config.GetInt(section, "module_3", 0);
-            binding.tier = config.GetInt(section, "tier", 4);
-            binding.spawn = SpawnBindingUtils::LoadSpawnConfig(section, binding.spawn);
-        },
-        [this](const std::shared_ptr<SpawnBinding>& binding) { InitBindingKeybind(binding); }
-    );
+    auto& config = ConfigManager::Get();
+    nextBindingId = config.GetInt(ITEM_BINDINGS_SECTION, "next_id", 1);
+    const int count = (std::min)(config.GetInt(ITEM_BINDINGS_SECTION, "count", 0), 64);
+
+    for (int i = 0; i < count; ++i) {
+        char idKey[16];
+        std::snprintf(idKey, sizeof(idKey), "id_%d", i);
+        const int id = config.GetInt(ITEM_BINDINGS_SECTION, idKey, 0);
+        if (id <= 0) continue;
+
+        auto binding = std::make_shared<SpawnBinding>();
+        binding->id = id;
+        const auto section = ItemBindingSection(id);
+        binding->key = config.GetInt(section, "key", -1);
+        std::snprintf(binding->name, sizeof(binding->name), "%s", config.GetString(section, "name", "Spawn Item").c_str());
+        binding->summary = config.GetString(section, "summary", binding->name);
+        binding->source = static_cast<BindingSource>(config.GetInt(section, "source", 0));
+        binding->classPath = config.GetString(section, "class_path", "");
+        binding->customizable = config.GetInt(section, "customizable", 0);
+        binding->armorSlot = config.GetInt(section, "armor_slot", 0);
+        binding->modules[0] = config.GetInt(section, "module_1", 0);
+        binding->modules[1] = config.GetInt(section, "module_2", 0);
+        binding->modules[2] = config.GetInt(section, "module_3", 0);
+        binding->tier = config.GetInt(section, "tier", 4);
+        binding->spawn = {
+            .distanceForward = config.GetFloat(section, "distance_forward", binding->spawn.distanceForward),
+            .distanceUp = config.GetFloat(section, "distance_up", binding->spawn.distanceUp),
+            .scale = config.GetFloat(section, "scale", binding->spawn.scale),
+            .snapToGround = config.GetBool(section, "snap_to_ground", binding->spawn.snapToGround),
+        };
+
+        InitBindingKeybind(binding);
+        nextBindingId = (std::max)(nextBindingId, id + 1);
+        spawnBindings.push_back(std::move(binding));
+    }
 }
 
 void ItemSpawnerSection::SaveSpawnBindings() {
-    SpawnBindingUtils::SaveBindings<SpawnBinding>(
-        ITEM_BINDINGS_SECTION, nextBindingId, spawnBindings, ItemBindingSection,
-        [](const SpawnBinding& binding, const std::string& section, ConfigManager& config) {
+    auto& config = ConfigManager::Get();
+    config.BatchSave([&] {
+        config.DeleteSection(ITEM_BINDINGS_SECTION);
+        config.SetInt(ITEM_BINDINGS_SECTION, "next_id", nextBindingId);
+        config.SetInt(ITEM_BINDINGS_SECTION, "count", static_cast<int>(spawnBindings.size()));
+
+        for (size_t i = 0; i < spawnBindings.size(); ++i) {
+            const auto& binding = *spawnBindings[i];
+            char idKey[16];
+            std::snprintf(idKey, sizeof(idKey), "id_%zu", i);
+            config.SetInt(ITEM_BINDINGS_SECTION, idKey, binding.id);
+
+            const auto section = ItemBindingSection(binding.id);
+            config.SetString(section, "name", binding.name);
+            config.SetString(section, "summary", binding.summary);
+            config.SetInt(section, "key", binding.key);
             config.SetInt(section, "source", static_cast<int>(binding.source));
             config.SetString(section, "class_path", binding.classPath);
             config.SetInt(section, "customizable", binding.customizable);
@@ -379,19 +420,80 @@ void ItemSpawnerSection::SaveSpawnBindings() {
             config.SetInt(section, "module_2", binding.modules[1]);
             config.SetInt(section, "module_3", binding.modules[2]);
             config.SetInt(section, "tier", binding.tier);
-            SpawnBindingUtils::SaveSpawnConfig(section, binding.spawn);
+            config.SetBool(section, "snap_to_ground", binding.spawn.snapToGround);
+            config.SetFloat(section, "distance_forward", binding.spawn.distanceForward);
+            config.SetFloat(section, "distance_up", binding.spawn.distanceUp);
+            config.SetFloat(section, "scale", binding.spawn.scale);
         }
-    );
+    });
 }
 
 void ItemSpawnerSection::RenderSpawnBindings() {
-    SpawnBindingUtils::RenderList(
-        spawnBindings, pendingDeleteBindingId, "Save the current item selection as its own keybind",
-        "No item spawn bindings saved", "Replace this binding with the current item selection", "Delete Item Binding",
-        "Delete item spawn binding?", [this] { AddBindingFromCurrentSelection(); },
-        [this](SpawnBinding& binding) { CaptureCurrentSelection(binding); }, ItemBindingSection,
-        [this] { SaveSpawnBindings(); }
-    );
+    if (ImGui::Button("Add Spawn Binding")) AddBindingFromCurrentSelection();
+    TooltipHelper::ShowTooltip("Save the current item selection as its own keybind");
+
+    if (spawnBindings.empty()) {
+        ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "No item spawn bindings saved");
+        return;
+    }
+
+    for (auto& bindingPtr : spawnBindings) {
+        auto& binding = *bindingPtr;
+        ImGui::PushID(binding.id);
+        ImGui::Separator();
+
+        ImGui::SetNextItemWidth(220.0f);
+        if (ImGui::InputText("##BindingName", binding.name, sizeof(binding.name))) {
+            binding.keybind.name = binding.name;
+            KeybindManager::UpdateBindingName(&binding.key, binding.name);
+            SaveSpawnBindings();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Update")) {
+            CaptureCurrentSelection(binding);
+            binding.keybind.tooltip = binding.summary;
+            SaveSpawnBindings();
+        }
+        TooltipHelper::ShowTooltip("Replace this binding with the current item selection");
+        ImGui::SameLine();
+        if (ImGui::Button("Delete")) pendingDeleteBindingId = binding.id;
+
+        ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "%s", binding.summary.c_str());
+        binding.keybind.Render();
+        ImGui::PopID();
+    }
+
+    ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::K_POPUP_PADDING);
+    if (pendingDeleteBindingId != -1) ImGui::OpenPopup("Delete Item Binding");
+    if (ImGui::BeginPopupModal(
+            "Delete Item Binding", nullptr,
+            ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings
+        )) {
+        ImGui::Text("Delete item spawn binding?");
+        ImGui::Spacing();
+        if (ImGui::Button("Delete")) {
+            auto it = std::find_if(spawnBindings.begin(), spawnBindings.end(), [this](const auto& binding) {
+                return binding->id == pendingDeleteBindingId;
+            });
+            if (it != spawnBindings.end()) {
+                KeybindManager::UnregisterKeybind((*it)->keybind.keyPtr);
+                ConfigManager::Get().DeleteSection(ItemBindingSection((*it)->id));
+                spawnBindings.erase(it);
+                SaveSpawnBindings();
+            }
+            pendingDeleteBindingId = -1;
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel")) {
+            pendingDeleteBindingId = -1;
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
+    ImGui::PopStyleVar();
+    ImGui::PopStyleColor();
 }
 
 void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {
