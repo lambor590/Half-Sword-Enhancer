@@ -22,8 +22,6 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq cppcheck clang-tidy
           pip install lizard
-          curl -fsSL https://bun.sh/install | bash
-          echo "$HOME/.bun/bin" >> $GITHUB_PATH
 
       - name: Run quality checks
         run: bash scripts/check-all.sh

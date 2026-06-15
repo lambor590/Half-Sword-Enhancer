@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Target
+    Name="InstallGameDll"
+    AfterTargets="Build"
+    Condition="'$(InstallGameBinDir)'!='' and '$(ConfigurationType)'=='DynamicLibrary'">
+    <MakeDir Directories="$(InstallGameBinDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(InstallGameBinDir)" SkipUnchangedFiles="true" />
+    <Message Text="Installed $(TargetFileName) to $(InstallGameBinDir)" Importance="high" />
+  </Target>
+</Project>

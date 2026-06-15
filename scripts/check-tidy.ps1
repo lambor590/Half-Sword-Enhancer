@@ -7,6 +7,8 @@ param(
 
     [string[]]$Files = @(),
 
+    [switch]$ExperimentalBuild,
+
     [switch]$StrictNaming
 )
 
@@ -221,7 +223,7 @@ function Invoke-TidyForProject {
     foreach ($define in $Spec.Defines) {
         $defines.Add("/D$define") | Out-Null
     }
-    if ($Configuration -eq "Release Experimental") {
+    if ($ExperimentalBuild -or $Configuration -eq "Release Experimental") {
         $defines.Add("/DEXPERIMENTAL_VERSION") | Out-Null
     }
     if ($Configuration -eq "Debug") {

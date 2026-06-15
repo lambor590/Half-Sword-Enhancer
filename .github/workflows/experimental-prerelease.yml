@@ -175,7 +175,7 @@ jobs:
         if: needs.changelog.outputs.build_mod == 'true'
         shell: pwsh
         run: |
-          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration="Release Experimental" /p:Platform=x64 /p:SolutionDir="$PWD/"
+          MSBuild.exe "Mod/Mod.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:ExperimentalBuild=true /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Mod build failed" }
 
       - name: Build Proxy
@@ -189,7 +189,7 @@ jobs:
         if: needs.changelog.outputs.build_launcher == 'true'
         shell: pwsh
         run: |
-          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration="Release Experimental" /p:Platform=x64 /p:SolutionDir="$PWD/"
+          MSBuild.exe "Launcher/Launcher.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:ExperimentalBuild=true /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Launcher build failed" }
 
       - name: Package
