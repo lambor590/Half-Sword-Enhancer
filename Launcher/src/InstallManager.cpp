@@ -42,7 +42,7 @@ namespace hse {
 
     }
 
-    InstallStatus InstallManager::CheckInstallation(const std::filesystem::path& gameBinPath) const noexcept {
+    InstallStatus CheckInstallation(const std::filesystem::path& gameBinPath) noexcept {
         InstallStatus status;
         std::error_code ec;
 
@@ -60,8 +60,7 @@ namespace hse {
         return status;
     }
 
-    std::expected<void, InstallError> InstallManager::InstallFiles(
-        const std::filesystem::path& sourcePath, const std::filesystem::path& gameBinPath
+    std::expected<void, InstallError> InstallFiles(const std::filesystem::path& sourcePath, const std::filesystem::path& gameBinPath
     ) noexcept {
         if (auto proxyResult = CopyIntoGameDirectory(sourcePath, gameBinPath, PROXY_FILENAME, false); !proxyResult) {
             return proxyResult;
@@ -75,8 +74,7 @@ namespace hse {
         return {};
     }
 
-    std::expected<bool, InstallError> InstallManager::TestWritePermissions(const std::filesystem::path& gameBinPath
-    ) const noexcept {
+    std::expected<bool, InstallError> TestWritePermissions(const std::filesystem::path& gameBinPath) noexcept {
         std::error_code ec;
         const bool pathExists = std::filesystem::exists(gameBinPath, ec);
         if (ec) {

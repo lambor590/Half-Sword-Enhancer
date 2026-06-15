@@ -5,7 +5,6 @@
 #include <expected>
 #include <optional>
 #include <compare>
-#include <mutex>
 #include <filesystem>
 
 namespace hse {
@@ -102,9 +101,6 @@ namespace hse {
         static constexpr std::string_view GITHUB_EXPERIMENTAL_API_URL =
             "https://api.github.com/repos/lambor590/Half-Sword-Enhancer/releases/tags/experimental-latest";
 #endif
-
-        mutable std::mutex mutex_;
-        std::optional<Version> cachedLocalVersion_;
 
         UpdateManager() = default;
         ~UpdateManager() = default;

@@ -3,7 +3,6 @@
 #include <string>
 #include <filesystem>
 #include <expected>
-#include <mutex>
 
 #include "../../ext/SimpleIni.h"
 #include "Util.h"
@@ -37,15 +36,9 @@ namespace hse {
         [[nodiscard]] GameEdition GetGameEdition() const noexcept;
         [[nodiscard]] std::expected<void, ConfigError> SetGameEdition(GameEdition edition) noexcept;
 
-        [[nodiscard]] std::expected<bool, ConfigError> GetBool(
-            std::string_view section, std::string_view key, bool defaultValue = false
+        [[nodiscard]] bool GetBool(std::string_view section, std::string_view key, bool defaultValue = false
         ) const noexcept;
-
-        [[nodiscard]] std::expected<int, ConfigError> GetInt(
-            std::string_view section, std::string_view key, int defaultValue = 0
-        ) const noexcept;
-
-        [[nodiscard]] std::expected<std::string, ConfigError> GetString(
+        [[nodiscard]] std::string GetString(
             std::string_view section, std::string_view key, std::string_view defaultValue = ""
         ) const noexcept;
 
@@ -53,16 +46,11 @@ namespace hse {
             std::string_view section, std::string_view key, bool value
         ) noexcept;
 
-        [[nodiscard]] std::expected<void, ConfigError> SetInt(
-            std::string_view section, std::string_view key, int value
-        ) noexcept;
-
         [[nodiscard]] std::expected<void, ConfigError> SetString(
             std::string_view section, std::string_view key, std::string_view value
         ) noexcept;
 
     private:
-        mutable std::mutex mutex_;
         std::filesystem::path configPath_;
         CSimpleIni ini_;
         bool isFirstRun_;
@@ -117,28 +105,16 @@ namespace hse {
     }
 
     inline bool LauncherConfig::HasKey(std::string_view section, std::string_view key) const noexcept {
-        std::lock_guard lock(mutex_);
         return ini_.KeyExists(section.data(), key.data());
     }
 
-    inline std::expected<bool, ConfigError> LauncherConfig::GetBool(
-        std::string_view section, std::string_view key, bool defaultValue
-    ) const noexcept {
-        std::lock_guard lock(mutex_);
+    inline bool LauncherConfig::GetBool(std::string_view section, std::string_view key, bool defaultValue) const noexcept {
         return ini_.GetBoolValue(section.data(), key.data(), defaultValue);
     }
 
-    inline std::expected<int, ConfigError> LauncherConfig::GetInt(
-        std::string_view section, std::string_view key, int defaultValue
-    ) const noexcept {
-        std::lock_guard lock(mutex_);
-        return static_cast<int>(ini_.GetLongValue(section.data(), key.data(), defaultValue));
-    }
-
-    inline std::expected<std::string, ConfigError> LauncherConfig::GetString(
+    inline std::string LauncherConfig::GetString(
         std::string_view section, std::string_view key, std::string_view defaultValue
     ) const noexcept {
-        std::lock_guard lock(mutex_);
         std::string default_str(defaultValue);
         return std::string(ini_.GetValue(section.data(), key.data(), default_str.c_str()));
     }
@@ -146,18 +122,7 @@ namespace hse {
     inline std::expected<void, ConfigError> LauncherConfig::SetBool(
         std::string_view section, std::string_view key, bool value
     ) noexcept {
-        std::lock_guard lock(mutex_);
         if (ini_.SetBoolValue(section.data(), key.data(), value) < 0) {
-            return std::unexpected(ConfigError::InvalidValue);
-        }
-        return SaveConfigUnlocked();
-    }
-
-    inline std::expected<void, ConfigError> LauncherConfig::SetInt(
-        std::string_view section, std::string_view key, int value
-    ) noexcept {
-        std::lock_guard lock(mutex_);
-        if (ini_.SetLongValue(section.data(), key.data(), value) < 0) {
             return std::unexpected(ConfigError::InvalidValue);
         }
         return SaveConfigUnlocked();
@@ -166,7 +131,6 @@ namespace hse {
     inline std::expected<void, ConfigError> LauncherConfig::SetString(
         std::string_view section, std::string_view key, std::string_view value
     ) noexcept {
-        std::lock_guard lock(mutex_);
         std::string value_str(value);
         if (ini_.SetValue(section.data(), key.data(), value_str.c_str()) < 0) {
             return std::unexpected(ConfigError::InvalidValue);

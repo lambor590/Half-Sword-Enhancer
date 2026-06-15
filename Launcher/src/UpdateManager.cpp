@@ -100,18 +100,7 @@ namespace hse {
     }
 
     std::expected<Version, UpdateError> UpdateManager::GetLocalVersion() noexcept {
-        std::lock_guard lock(mutex_);
-
-        if (cachedLocalVersion_) {
-            return *cachedLocalVersion_;
-        }
-
-        auto result = ExtractVersionFromExecutable();
-        if (result) {
-            cachedLocalVersion_ = *result;
-        }
-
-        return result;
+        return ExtractVersionFromExecutable();
     }
 
     std::expected<UpdateInfo, UpdateError> UpdateManager::CheckForUpdates() noexcept {
@@ -181,7 +170,7 @@ namespace hse {
             }
         }
 
-        auto installResult = InstallManager::Instance().InstallFiles(tempDir, gameBinPath);
+        auto installResult = InstallFiles(tempDir, gameBinPath);
         if (!installResult) {
             return std::unexpected(UpdateError::FileSystemError);
         }
@@ -213,7 +202,7 @@ namespace hse {
             .description = std::format("Downloading {}", outputPath.filename().string()),
             .minFileSize = minFileSize};
 
-        auto result = NetworkManager::Instance().DownloadFile(config);
+        auto result = DownloadFile(config);
         if (!result) {
             RemoveFileIfPresent(tempPath);
             return std::unexpected(UpdateError::NetworkError);
@@ -242,7 +231,7 @@ namespace hse {
             .description = "Downloading launcher update",
             .minFileSize = 50000};
 
-        auto downloadResult = NetworkManager::Instance().DownloadFile(config);
+        auto downloadResult = DownloadFile(config);
         if (!downloadResult) {
             Logger::error("Failed to download launcher update");
             return std::unexpected(UpdateError::NetworkError);
@@ -349,7 +338,7 @@ namespace hse {
     }
 
     std::expected<std::string, UpdateError> UpdateManager::FetchGitHubReleaseInfo() const noexcept {
-        auto result = NetworkManager::Instance().DownloadToString(std::string(GITHUB_API_URL));
+        auto result = DownloadToString(std::string(GITHUB_API_URL));
         if (!result) {
             return std::unexpected(UpdateError::NetworkError);
         }
@@ -482,7 +471,7 @@ namespace hse {
             return info;
         }
 
-        auto jsonResult = NetworkManager::Instance().DownloadToString(std::string(GITHUB_EXPERIMENTAL_API_URL));
+        auto jsonResult = DownloadToString(std::string(GITHUB_EXPERIMENTAL_API_URL));
         if (!jsonResult) {
             Logger::warn("No experimental release found, using stable releases only");
             return info;
@@ -499,9 +488,9 @@ namespace hse {
         info.downloadUrlLauncher = std::move(assets->launcherUrl);
 
         const std::string storedModTimestamp =
-            LauncherConfig::Instance().GetString("ExperimentalUpdate", "mod_timestamp", "").value_or("");
+            LauncherConfig::Instance().GetString("ExperimentalUpdate", "mod_timestamp", "");
         const std::string storedLauncherTimestamp =
-            LauncherConfig::Instance().GetString("ExperimentalUpdate", "launcher_timestamp", "").value_or("");
+            LauncherConfig::Instance().GetString("ExperimentalUpdate", "launcher_timestamp", "");
 
         info.modUpdateAvailable =
             !info.modTimestamp.empty() && (storedModTimestamp.empty() || info.modTimestamp > storedModTimestamp);

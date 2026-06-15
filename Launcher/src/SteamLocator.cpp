@@ -8,6 +8,29 @@
 
 namespace hse {
     namespace {
+        constexpr const char* STEAM_REGISTRY_KEY = R"(SOFTWARE\Wow6432Node\Valve\Steam)";
+        constexpr const char* STEAM_INSTALL_VALUE = "InstallPath";
+        constexpr const char* FULL_GAME_APP_ID = "2397300";
+        constexpr const char* DEMO_APP_ID = "2642680";
+        constexpr const char* FULL_GAME_FOLDER = "Half Sword";
+        constexpr const char* DEMO_GAME_FOLDER = "Half Sword Demo";
+        constexpr const char* BINARIES_SUBPATH = R"(HalfSwordUE5\Binaries\Win64)";
+
+        struct LibraryFolder {
+            std::filesystem::path path;
+            bool hasFullGame = false;
+            bool hasDemo = false;
+        };
+
+        [[nodiscard]] std::expected<std::string, SteamError> ReadSteamInstallPath() noexcept;
+        [[nodiscard]] std::expected<std::vector<LibraryFolder>, SteamError> ParseLibraryFolders(
+            const std::filesystem::path& vdfPath
+        ) noexcept;
+        [[nodiscard]] std::expected<GameLocation, SteamError> ResolveGamePath(
+            const std::filesystem::path& libraryPath, GameEdition edition
+        ) noexcept;
+        [[nodiscard]] GameEdition DetectEditionFromPath(const std::filesystem::path& path) noexcept;
+        [[nodiscard]] std::filesystem::path FindWin64Directory(const std::filesystem::path& basePath) noexcept;
 
         [[nodiscard]] std::string ExtractQuotedToken(std::string_view line, std::size_t tokenIndex) {
             std::size_t searchFrom = 0;
@@ -45,7 +68,7 @@ namespace hse {
 
     }
 
-    std::expected<GameLocation, SteamError> SteamLocator::LocateGame() noexcept {
+    std::expected<GameLocation, SteamError> LocateGame() noexcept {
         auto steamPath = ReadSteamInstallPath();
         if (!steamPath) {
             return std::unexpected(steamPath.error());
@@ -81,8 +104,7 @@ namespace hse {
         return std::unexpected(SteamError::GameNotFound);
     }
 
-    std::expected<GameLocation, SteamError> SteamLocator::LocateGameAt(const std::filesystem::path& manualPath
-    ) noexcept {
+    std::expected<GameLocation, SteamError> LocateGameAt(const std::filesystem::path& manualPath) noexcept {
         auto win64Dir = FindWin64Directory(manualPath);
         if (win64Dir.empty()) {
             return std::unexpected(SteamError::PathDoesNotExist);
@@ -103,7 +125,9 @@ namespace hse {
         return GameLocation{.binariesPath = win64Dir, .edition = DetectEditionFromPath(win64Dir)};
     }
 
-    std::expected<std::string, SteamError> SteamLocator::ReadSteamInstallPath() const noexcept {
+    namespace {
+
+    std::expected<std::string, SteamError> ReadSteamInstallPath() noexcept {
         HKEY hKey;
         LONG result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, STEAM_REGISTRY_KEY, 0, KEY_READ, &hKey);
         if (result != ERROR_SUCCESS) {
@@ -137,9 +161,8 @@ namespace hse {
         return installPath;
     }
 
-    std::expected<std::vector<SteamLocator::LibraryFolder>, SteamError> SteamLocator::ParseLibraryFolders(
-        const std::filesystem::path& vdfPath
-    ) const noexcept {
+    std::expected<std::vector<LibraryFolder>, SteamError> ParseLibraryFolders(const std::filesystem::path& vdfPath
+    ) noexcept {
         std::ifstream file(vdfPath);
         if (!file.is_open()) {
             Logger::error("Failed to open libraryfolders.vdf: %s", vdfPath.string().c_str());
@@ -204,9 +227,9 @@ namespace hse {
         return libraries;
     }
 
-    std::expected<GameLocation, SteamError> SteamLocator::ResolveGamePath(
+    std::expected<GameLocation, SteamError> ResolveGamePath(
         const std::filesystem::path& libraryPath, GameEdition edition
-    ) const noexcept {
+    ) noexcept {
         const char* gameFolder = (edition == GameEdition::FullGame) ? FULL_GAME_FOLDER : DEMO_GAME_FOLDER;
         auto binariesPath = libraryPath / "steamapps" / "common" / gameFolder / BINARIES_SUBPATH;
 
@@ -221,7 +244,7 @@ namespace hse {
         return GameLocation{.binariesPath = std::move(binariesPath), .edition = edition};
     }
 
-    GameEdition SteamLocator::DetectEditionFromPath(const std::filesystem::path& path) noexcept {
+    GameEdition DetectEditionFromPath(const std::filesystem::path& path) noexcept {
         std::string pathStr = path.string();
         std::ranges::transform(pathStr, pathStr.begin(), ::tolower);
         if (pathStr.find("demo") != std::string::npos) {
@@ -231,7 +254,7 @@ namespace hse {
         return GameEdition::FullGame;
     }
 
-    std::filesystem::path SteamLocator::FindWin64Directory(const std::filesystem::path& basePath) noexcept {
+    std::filesystem::path FindWin64Directory(const std::filesystem::path& basePath) noexcept {
         if (basePath.filename() == "Win64") {
             return basePath;
         }
@@ -255,5 +278,7 @@ namespace hse {
 
         return {};
     }
+
+    } // namespace
 
 }

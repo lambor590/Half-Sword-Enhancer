@@ -9,15 +9,11 @@
 
 namespace hse {
     enum class GameEdition : std::uint8_t;
-    class SteamLocator;
-    class InstallManager;
     class LauncherConfig;
 }
 
 class HSELauncher {
     hse::UpdateManager& updateManager;
-    hse::SteamLocator& steamLocator;
-    hse::InstallManager& installManager;
     hse::LauncherConfig& config;
 
     std::filesystem::path gameBinPath_;

@@ -61,11 +61,6 @@ namespace hse {
         return fullPath;
     }
 
-    [[nodiscard]] inline const std::string& getAppDataPath() {
-        static const std::string fullPath = getAppDataDirectory().string();
-        return fullPath;
-    }
-
     [[nodiscard]] inline bool TryGetCurrentExecutablePath(std::filesystem::path& path) noexcept {
         std::array<char, MAX_PATH> filePath{};
         if (!GetModuleFileNameA(nullptr, filePath.data(), static_cast<DWORD>(filePath.size()))) {

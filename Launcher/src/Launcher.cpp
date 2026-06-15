@@ -21,8 +21,6 @@ namespace {
 
 HSELauncher::HSELauncher()
     : updateManager(hse::UpdateManager::Instance()),
-      steamLocator(hse::SteamLocator::Instance()),
-      installManager(hse::InstallManager::Instance()),
       config(hse::LauncherConfig::Instance()),
       gameEdition_(hse::GameEdition::FullGame) {}
 
@@ -221,7 +219,7 @@ bool HSELauncher::LocateGame() {
     }
 
     hse::Logger::info("Searching for Half Sword installation...");
-    auto locateResult = steamLocator.LocateGame();
+    auto locateResult = hse::LocateGame();
     if (locateResult) {
         gameBinPath_ = locateResult->binariesPath;
         gameEdition_ = locateResult->edition;
@@ -235,7 +233,7 @@ bool HSELauncher::LocateGame() {
     std::filesystem::path manualPath = AskManualPath();
     if (manualPath.empty()) return false;
 
-    auto manualResult = steamLocator.LocateGameAt(manualPath);
+    auto manualResult = hse::LocateGameAt(manualPath);
     if (!manualResult) {
         hse::logAndShowError(
             "Invalid game path: " + manualPath.string(),
@@ -276,7 +274,7 @@ std::filesystem::path HSELauncher::AskManualPath() {
 }
 
 bool HSELauncher::CheckAndInstallMod() {
-    auto status = installManager.CheckInstallation(gameBinPath_);
+    auto status = hse::CheckInstallation(gameBinPath_);
 
 #ifdef EXPERIMENTAL_VERSION
     if (!status.modInstalled) {
@@ -482,7 +480,7 @@ int HSELauncher::Run(int /*argc*/, char* /*argv*/[]) {
             return 1;
         }
 
-        auto permResult = installManager.TestWritePermissions(gameBinPath_);
+        auto permResult = hse::TestWritePermissions(gameBinPath_);
         if (!permResult || !*permResult) {
             hse::logAndShowError(
                 "Cannot write to game folder: " + gameBinPath_.string(),

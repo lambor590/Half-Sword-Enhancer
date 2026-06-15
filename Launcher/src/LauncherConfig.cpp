@@ -27,8 +27,7 @@ namespace hse {
     }
 
     bool LauncherConfig::GetCheckForUpdates() const noexcept {
-        auto result = GetBool(LAUNCHER_SECTION, CHECK_FOR_UPDATES_KEY, true);
-        return result.value_or(true);
+        return GetBool(LAUNCHER_SECTION, CHECK_FOR_UPDATES_KEY, true);
     }
 
     std::expected<void, ConfigError> LauncherConfig::SetCheckForUpdates(bool enabled) noexcept {
@@ -40,8 +39,7 @@ namespace hse {
     }
 
     std::filesystem::path LauncherConfig::GetGamePath() const noexcept {
-        auto result = GetString(INSTALL_SECTION, GAME_PATH_KEY, "");
-        return result ? std::filesystem::path(*result) : std::filesystem::path();
+        return GetString(INSTALL_SECTION, GAME_PATH_KEY, "");
     }
 
     std::expected<void, ConfigError> LauncherConfig::SetGamePath(const std::filesystem::path& path) noexcept {
@@ -54,7 +52,7 @@ namespace hse {
 
     GameEdition LauncherConfig::GetGameEdition() const noexcept {
         auto result = GetString(INSTALL_SECTION, GAME_EDITION_KEY, FULL_EDITION);
-        return (result && *result == DEMO_EDITION) ? GameEdition::Demo : GameEdition::FullGame;
+        return (result == DEMO_EDITION) ? GameEdition::Demo : GameEdition::FullGame;
     }
 
     std::expected<void, ConfigError> LauncherConfig::SetGameEdition(GameEdition edition) noexcept {
@@ -62,12 +60,10 @@ namespace hse {
     }
 
     std::expected<void, ConfigError> LauncherConfig::SaveConfig() noexcept {
-        std::lock_guard lock(mutex_);
         return SaveConfigUnlocked();
     }
 
     std::expected<void, ConfigError> LauncherConfig::LoadConfig() noexcept {
-        std::lock_guard lock(mutex_);
         return LoadConfigUnlocked();
     }
 
