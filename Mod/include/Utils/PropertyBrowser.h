@@ -20,6 +20,7 @@ namespace PropertyBrowser {
 
     inline constexpr float K_SCALAR_WIDTH = 120.0f;
     inline constexpr float K_ENUM_WIDTH = 160.0f;
+    inline constexpr float K_VEC2_WIDTH = 180.0f;
     inline constexpr float K_VEC3_WIDTH = 240.0f;
 
     enum class PropType : uint8_t {
@@ -31,6 +32,7 @@ namespace PropertyBrowser {
         Enum,
         LinearColor,
         Color,
+        Vector2D,
         Vector,
         Rotator,
         Unsupported
@@ -110,6 +112,32 @@ namespace PropertyBrowser {
         return raw.substr(0, pos);
     }
 
+    [[nodiscard]] inline std::string ShortEnumValueName(const std::string& fullName) {
+        auto colonPos = fullName.rfind(':');
+        return colonPos != std::string::npos ? fullName.substr(colonPos + 1) : fullName;
+    }
+
+    [[nodiscard]] inline std::string FindUserDefinedEnumDisplayName(
+        SDK::UUserDefinedEnum* udEnum, const SDK::FName& valueName, const std::string& fullName,
+        const std::string& shortName
+    ) {
+        if (!udEnum) return {};
+
+        auto& displayMap = udEnum->DisplayNameMap;
+        for (int32_t i = 0; i < displayMap.NumAllocated(); ++i) {
+            if (!displayMap.IsValidIndex(i)) continue;
+
+            auto& pair = displayMap[i];
+            const std::string key = pair.Key().ToString();
+            if (pair.Key() != valueName && key != fullName && key != shortName) continue;
+
+            std::string display = pair.Value().ToString();
+            if (!display.empty()) return display;
+        }
+
+        return {};
+    }
+
     [[nodiscard]] inline PropType ClassifyProperty(SDK::FProperty* prop, SDK::UEnum*& outEnum) {
         outEnum = nullptr;
         auto castFlags = static_cast<SDK::EClassCastFlags>(prop->ClassPrivate->CastFlags);
@@ -140,6 +168,7 @@ namespace PropertyBrowser {
                 std::string structName = sp->Struct->GetName();
                 if (structName == "LinearColor") return PropType::LinearColor;
                 if (structName == "Color") return PropType::Color;
+                if (structName == "Vector2D") return PropType::Vector2D;
                 if (structName == "Vector") return PropType::Vector;
                 if (structName == "Rotator") return PropType::Rotator;
             }
@@ -163,24 +192,17 @@ namespace PropertyBrowser {
 
             std::string fullName = valueName.ToString();
             if (fullName.size() >= 4 && fullName.compare(fullName.size() - 4, 4, "_MAX") == 0) continue;
+            std::string shortName = ShortEnumValueName(fullName);
 
             if (udEnum) {
-                auto& displayMap = udEnum->DisplayNameMap;
-                bool found = false;
-                for (int32_t mi = 0; mi < displayMap.NumAllocated(); ++mi) {
-                    if (!displayMap.IsValidIndex(mi)) continue;
-                    auto& pair = displayMap[mi];
-                    if (pair.Key().ComparisonIndex == valueName.ComparisonIndex) {
-                        names.push_back(pair.Value().ToString());
-                        found = true;
-                        break;
-                    }
+                std::string displayName = FindUserDefinedEnumDisplayName(udEnum, valueName, fullName, shortName);
+                if (!displayName.empty()) {
+                    names.push_back(std::move(displayName));
+                    continue;
                 }
-                if (found) continue;
             }
 
-            auto colonPos = fullName.rfind(':');
-            names.push_back(colonPos != std::string::npos ? fullName.substr(colonPos + 1) : fullName);
+            names.push_back(std::move(shortName));
         }
         auto [it, _] = cache.emplace(enumPtr, std::move(names));
         return it->second;
@@ -258,6 +280,15 @@ namespace PropertyBrowser {
         ImGui::SetNextItemWidth(K_VEC3_WIDTH);
         bool committed = GuiUtils::DebouncedDragFloat3(label, tmp, speed, 0.0f, 0.0f, fmt);
         if (ImGui::IsItemEdited()) std::copy_n(tmp, 3, d);
+        return committed;
+    }
+
+    inline bool DragDouble2(const char* label, double* d, float speed, const char* fmt) {
+        float tmp[2] = {static_cast<float>(d[0]), static_cast<float>(d[1])};
+        ImGui::SetNextItemWidth(K_VEC2_WIDTH);
+        ImGui::DragFloat2(label, tmp, speed, 0.0f, 0.0f, fmt);
+        bool committed = ImGui::IsItemDeactivatedAfterEdit();
+        if (ImGui::IsItemEdited()) std::copy_n(tmp, 2, d);
         return committed;
     }
 
@@ -361,6 +392,9 @@ namespace PropertyBrowser {
                 ImGui::PopItemWidth();
                 break;
             }
+            case PropType::Vector2D:
+                changed = DragDouble2(prop.displayName.c_str(), reinterpret_cast<double*>(valuePtr), 0.1f, "%.2f");
+                break;
             case PropType::Vector:
                 changed = DragDouble3(prop.displayName.c_str(), reinterpret_cast<double*>(valuePtr), 0.1f, "%.2f");
                 break;
