@@ -311,6 +311,7 @@ namespace {
     void SetStatus(GuiUtils::StatusMessage& status, int changed, const char* message) {
         status.Set(changed > 0 ? message : "No NPCs matched", changed == 0);
     }
+
 }
 
 AIDirectorSection::AIDirectorSection(ModContext& ctx) : Section(ctx, SECTION) {
@@ -438,7 +439,6 @@ void AIDirectorSection::ApplyBehavior() {
                            selectedFearless](const RuntimeContextSnapshot& runtime) {
         int changed =
             ForEachTarget(runtime, selectedScope, selectedRadius, selectedTeam, [&](SDK::AWillie_BP_C* willie) {
-                if (!selectedFearless) willie->Fearless = false;
                 willie->Drunk = selectedDrunk;
                 willie->Body_Skill__Temp_ = selectedBodySkill;
                 willie->Weapon_Skill__Temp_ = selectedWeaponSkill;
@@ -447,9 +447,14 @@ void AIDirectorSection::ApplyBehavior() {
                 willie->AI_Invincibility_Rate = selectedInvincibility;
                 willie->AI_Armor_Invincibility_Rate = selectedArmorInvincibility;
                 SetAggression(willie, selectedAttack, selectedDefend, selectedRetreat, selectedStrafe);
+                ActorUtils::SetFearlessReinforced(willie, selectedFearless);
+                if (selectedFearless) {
+                    ActorUtils::ApplyFearlessEffect(willie);
+                } else {
+                    willie->Fearless = false;
+                }
 
                 if (auto* ai = ActorUtils::GetAIController(willie)) {
-                    if (!selectedFearless) ai->Fearless = false;
                     ai->Drunkness = selectedDrunk;
                     ai->Berserk_Rate = selectedBerserk;
                     ai->Parry_Rate = selectedParry;
@@ -460,9 +465,12 @@ void AIDirectorSection::ApplyBehavior() {
                     ai->Combat_Behavior = static_cast<SDK::EAI_CombatBehavior_Enum>(selectedCombat);
                     ai->Strafe_Enum = static_cast<SDK::EAI_Strafe_Enum>(selectedStrafeMode);
                     ai->Team_Int = willie->Team_Int;
+                    if (!selectedFearless) ai->Fearless = false;
                 }
-                if (selectedFearless) ActorUtils::ApplyFearlessEffect(willie);
             });
+        ActorUtils::SetFearlessReinforcementHooksEnabled(
+            ActorUtils::PruneFearlessReinforcementTargets(runtime.world, runtime.player)
+        );
         SetStatus(status, changed, "Behavior applied");
     });
 }
@@ -944,9 +952,9 @@ void AIDirectorSection::RestoreDirectiveState(const RuntimeContextSnapshot& runt
         willie->NPC_Dualist = it->second.willieDualist;
         if (auto* ai = ActorUtils::GetAIController(willie)) {
             ai->Team_Int = it->second.aiTeam;
-            ai->Target =
-                currentTargets.contains(it->second.target) ? reinterpret_cast<SDK::AWillie_BP_C*>(it->second.target)
-                                                           : nullptr;
+            ai->Target = currentTargets.contains(it->second.target)
+                             ? reinterpret_cast<SDK::AWillie_BP_C*>(it->second.target)
+                             : nullptr;
             ai->Target_Found = ai->Target ? it->second.targetFound : false;
             ai->Attack_Intent = it->second.attackIntent;
             ai->Defend_Intent = it->second.defendIntent;

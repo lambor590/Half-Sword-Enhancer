@@ -1,5 +1,9 @@
 #pragma once
 
+#include <unordered_set>
+#include <utility>
+
+#include "Hooks/GameHook.h"
 #include "SDK/AI_BP_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Engine_classes.hpp"
@@ -14,30 +18,52 @@ namespace ActorUtils {
                                                                            : nullptr;
     }
 
-    inline void ApplyFearlessEffect(SDK::AWillie_BP_C* willie, bool recoverKneel = true) noexcept {
+    inline void ApplyFearlessEffect(SDK::AWillie_BP_C* willie) noexcept {
         if (!willie) return;
 
+        const bool needsRecovery =
+            !willie->DED &&
+            (willie->Fallen || willie->Downed || willie->Give_Up || willie->Give_Up_2__Temp_ || willie->L_Kneel ||
+             willie->R_Kneel || willie->Gurgling || willie->Consciousness < GameConstants::DEFAULT_HEALTH ||
+             willie->Consciousness_2__Legs_ < GameConstants::DEFAULT_HEALTH);
         willie->Fearless = true;
         willie->Fear = 0.0;
         willie->Give_Up = false;
         willie->Give_Up_2__Temp_ = false;
+        willie->Pleading_rn = false;
         willie->Retreat = false;
         willie->Panic_Rate = 0.0;
         willie->AI_Immediate_Threat = false;
         willie->Pain_Shock = false;
+        if (willie->Fallen_Give_Up_TL) willie->Fallen_Give_Up_TL->Stop();
+        if (!willie->DED) {
+            if (willie->Consciousness_Cap < GameConstants::DEFAULT_HEALTH)
+                willie->Consciousness_Cap = GameConstants::DEFAULT_HEALTH;
+            if (willie->Consciousness < GameConstants::DEFAULT_HEALTH)
+                willie->Consciousness = GameConstants::DEFAULT_HEALTH;
+            if (willie->Consciousness_2__Legs_ < GameConstants::DEFAULT_HEALTH)
+                willie->Consciousness_2__Legs_ = GameConstants::DEFAULT_HEALTH;
+        }
         const bool wasKneeling = willie->L_Kneel || willie->R_Kneel;
-        if (recoverKneel && wasKneeling) willie->Un_Kneel_Event();
+        if (wasKneeling) willie->Un_Kneel_Event();
         willie->L_Kneel = false;
         willie->R_Kneel = false;
         willie->L_Kneel_Falling = false;
         willie->R_Kneel_Falling = false;
         willie->Give_Up_Weapon_To_Throat_Int = 0;
+        willie->AI_Stunned = false;
+        if (willie->Get_Up_Rate < GameConstants::GET_UP_RATE) willie->Get_Up_Rate = GameConstants::GET_UP_RATE;
+        if (willie->Get_Up_Rate_Interp < GameConstants::GET_UP_RATE)
+            willie->Get_Up_Rate_Interp = GameConstants::GET_UP_RATE;
+        if (willie->Crawl_Rate < GameConstants::GET_UP_RATE) willie->Crawl_Rate = GameConstants::GET_UP_RATE;
+        if (needsRecovery) willie->Player_Getting_Up_Pressed = true;
 
         auto* ai = GetAIController(willie);
         if (!ai) return;
 
         ai->Fearless = true;
         ai->My_Give_Up = false;
+        ai->My_Consciousness = willie->Consciousness;
         ai->Give_Up_Meter = 0.0;
         ai->Threat_Level = 0.0;
         ai->Being_Threatened = false;
@@ -51,6 +77,55 @@ namespace ActorUtils {
         ai->AI_Kneel = false;
         ai->Target_Give_Up = false;
         ai->Target_Unarmed = false;
+        ai->Block_Getting_Up = false;
+        ai->Not_Stunned = true;
+        if (needsRecovery) ai->Getting_Up = true;
+        ai->Getting_Up_Time_Lapsed = 0.0;
+        ai->Get_Up_Timer = 0.0;
+    }
+
+    inline std::unordered_set<SDK::AWillie_BP_C*>& FearlessReinforcementTargets() {
+        static std::unordered_set<SDK::AWillie_BP_C*> targets;
+        return targets;
+    }
+
+    inline void SetFearlessReinforced(SDK::AWillie_BP_C* willie, bool enabled) {
+        if (!willie) return;
+
+        auto& targets = FearlessReinforcementTargets();
+        if (enabled) {
+            targets.insert(willie);
+        } else {
+            targets.erase(willie);
+        }
+    }
+
+    inline bool IsFearlessReinforced(SDK::AWillie_BP_C* willie) {
+        return willie && FearlessReinforcementTargets().contains(willie);
+    }
+
+    inline void SetFearlessReinforcementHooksEnabled(bool enabled) {
+        static bool registered = false;
+        if (registered == enabled) return;
+
+        auto& hook = GameHook::Get();
+        if (!enabled) {
+            hook.UnregisterHook("Get Damage");
+            hook.UnregisterHook("Dismemberment Finish Event");
+            registered = false;
+            return;
+        }
+
+        auto reinforceFearless = [](GameHook::ProcessEventContext& context) {
+            if (!context.object || !context.object->IsA(SDK::AWillie_BP_C::StaticClass())) return;
+
+            auto* willie = static_cast<SDK::AWillie_BP_C*>(context.object);
+            if (!willie->DED && IsFearlessReinforced(willie)) ApplyFearlessEffect(willie);
+        };
+
+        hook.RegisterHook("Get Damage", reinforceFearless, true);
+        hook.RegisterHook("Dismemberment Finish Event", reinforceFearless, true);
+        registered = true;
     }
 
     template <typename Func>
@@ -72,6 +147,19 @@ namespace ActorUtils {
 
     template <typename Func> void ForEachWillie(SDK::UWorld* world, SDK::AWillie_BP_C* player, Func&& func) {
         ForEachWillieInRadius(world, player, GameConstants::MAX_DISTANCE, std::forward<Func>(func));
+    }
+
+    inline bool PruneFearlessReinforcementTargets(SDK::UWorld* world, SDK::AWillie_BP_C* player) {
+        auto& targets = FearlessReinforcementTargets();
+        if (targets.empty() || !world || !player) return !targets.empty();
+
+        std::unordered_set<SDK::AWillie_BP_C*> liveTargets;
+        liveTargets.reserve(targets.size());
+        ForEachWillie(world, player, [&](SDK::AWillie_BP_C* willie) {
+            if (targets.contains(willie)) liveTargets.insert(willie);
+        });
+        targets = std::move(liveTargets);
+        return !targets.empty();
     }
 
     inline void ApplyBiteState(SDK::AWillie_BP_C* willie, bool active) noexcept {
