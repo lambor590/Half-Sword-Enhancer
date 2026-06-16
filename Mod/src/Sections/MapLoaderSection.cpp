@@ -277,13 +277,13 @@ void MapLoaderSection::RenderMapSelector(MapRegistry& reg) {
 
         const char* preview = maps[filteredIndices[selectedFilteredIndex]].displayName.c_str();
         if (GuiUtils::BeginSizedCombo("##MapSelector", preview, cachedComboW)) {
-            for (int i = 0; i < static_cast<int>(filteredIndices.size()); ++i) {
+            GuiUtils::RenderClippedList(static_cast<int>(filteredIndices.size()), selectedFilteredIndex, [&](int i) {
                 const auto& entry = maps[filteredIndices[i]];
                 bool selected = (i == selectedFilteredIndex);
                 if (ImGui::Selectable(entry.displayName.c_str(), selected)) selectedFilteredIndex = i;
                 if (ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip))
                     ImGui::SetItemTooltip("%s", entry.packageName.c_str());
-            }
+            });
             ImGui::EndCombo();
         }
 
