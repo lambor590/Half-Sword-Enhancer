@@ -6,10 +6,7 @@
 #include "Menu/Preset.h"
 #include "Utils/CharacterOverrideSets.h"
 
-struct NPCOverrides
-    : CharacterPhysicalOverrides,
-      CharacterCombatOverrides,
-      CharacterBodyConditionOverrides {
+struct NPCOverrides : CharacterPhysicalOverrides, CharacterCombatOverrides, CharacterBodyConditionOverrides {
     IntOverride faceType;
     IntOverride eyeColor;
     RuntimeOverride hairLength;
@@ -18,7 +15,6 @@ struct NPCOverrides
     RuntimeOverride aiInvincibility;
     RuntimeOverride aiArmorInvincibility;
 
-    BoolOverride fearless;
     BoolOverride startKneeled;
     BoolOverride spawnInPants;
     BoolOverride clearSpawnArea;

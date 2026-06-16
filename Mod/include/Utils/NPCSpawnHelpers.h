@@ -38,13 +38,6 @@ namespace NPCSpawnHelpers {
                 MelaninToColor(static_cast<float>(ovr.hairColor.value));
     }
 
-    inline void ApplyAIFearlessOverride(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
-        if (!npc || !ovr.fearless.enabled) return;
-
-        npc->Fearless = ovr.fearless.value;
-        if (auto* ai = ActorUtils::GetAIController(npc)) ai->Fearless = ovr.fearless.value;
-    }
-
     inline void ApplyPropertyOverrides(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
         if (ovr.heightRate.enabled) npc->Height_Rate = ovr.heightRate.value;
         if (ovr.muscleRate.enabled) npc->Muscle_Rate = ovr.muscleRate.value;
@@ -58,7 +51,6 @@ namespace NPCSpawnHelpers {
         if (ovr.aiArmorInvincibility.enabled) npc->AI_Armor_Invincibility_Rate = ovr.aiArmorInvincibility.value;
         if (ovr.bodySkill.enabled) npc->Body_Skill__Temp_ = ovr.bodySkill.value;
 
-        if (ovr.fearless.enabled) npc->Fearless = ovr.fearless.value;
         if (ovr.startKneeled.enabled) npc->Start_Kneeled = ovr.startKneeled.value;
         if (ovr.spawnInPants.enabled) npc->Spawn_in_Pants = ovr.spawnInPants.value;
         if (ovr.clearSpawnArea.enabled) npc->Clear_Spawn_Area = ovr.clearSpawnArea.value;

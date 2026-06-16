@@ -2,10 +2,7 @@
 
 #include "Utils/CharacterOverrideSets.h"
 
-struct PlayerEditorOverrides
-    : CharacterPhysicalOverrides,
-      CharacterCombatOverrides,
-      CharacterBodyConditionOverrides {
+struct PlayerEditorOverrides : CharacterPhysicalOverrides, CharacterCombatOverrides, CharacterBodyConditionOverrides {
     RuntimeOverride health;
     RuntimeOverride backHealth;
     RuntimeOverride consciousness;
@@ -52,5 +49,4 @@ struct PlayerEditorOverrides
     RuntimeOverride drunk;
     RuntimeOverride fear;
     BoolOverride invulnerable;
-    BoolOverride fearless;
 };

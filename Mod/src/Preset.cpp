@@ -138,7 +138,6 @@ std::vector<OverrideGroupDescriptor> PlayerPresetData::GetOverrideGroups(PlayerP
         OverrideField("drunk", o.drunk),
         OverrideField("fear", o.fear),
         OverrideField("invulnerable", o.invulnerable),
-        OverrideField("fearless", o.fearless),
     };
 
     return {
@@ -181,11 +180,8 @@ std::vector<OverrideGroupDescriptor> NPCPresetData::GetOverrideGroups(NPCPresetD
         OverrideField("bodySkill", o.bodySkill),
     };
     behavior = {
-        OverrideField("fearless", o.fearless),
-        OverrideField("startKneeled", o.startKneeled),
-        OverrideField("spawnInPants", o.spawnInPants),
-        OverrideField("clearSpawnArea", o.clearSpawnArea),
-        OverrideField("drunk", o.drunk),
+        OverrideField("startKneeled", o.startKneeled),     OverrideField("spawnInPants", o.spawnInPants),
+        OverrideField("clearSpawnArea", o.clearSpawnArea), OverrideField("drunk", o.drunk),
         OverrideField("boltsInQuiver", o.boltsInQuiver),
     };
     body = {
@@ -479,8 +475,7 @@ void ArmorPresetData::DeserializeCustom(ArmorPresetData& data, const CSimpleIniA
 
 namespace {
 
-    template <typename TWeapons>
-    decltype(auto) ResolveWeaponSlot(TWeapons& weapons, int index) {
+    template <typename TWeapons> decltype(auto) ResolveWeaponSlot(TWeapons& weapons, int index) {
         switch (index) {
             case 0: return (weapons.WeaponHandR_2_64D3388F445655CA2E9E60B639016D17);
             case 1: return (weapons.WeaponHandL_4_4BF5616F480598D39F54058D5181EB86);

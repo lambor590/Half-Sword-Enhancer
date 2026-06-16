@@ -124,7 +124,6 @@ void MapLoaderSection::SpawnAutoNPCs(
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                 if (!npc) return;
 
-                NPCSpawnHelpers::ApplyAIFearlessOverride(npc, ovr);
                 NPCSpawnHelpers::ApplyHairColor(npc, ovr);
             }
         );

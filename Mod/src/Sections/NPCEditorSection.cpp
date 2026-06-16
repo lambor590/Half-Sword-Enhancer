@@ -76,9 +76,7 @@ void NPCEditorSection::BuildDescriptors() {
 
     physicalFields = {
         OverrideField("Height Rate", o.heightRate, 0.01f, "Character height multiplier (1.0 = normal)"),
-        OverrideField(
-            "Muscle Rate", o.muscleRate, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"
-        ),
+        OverrideField("Muscle Rate", o.muscleRate, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"),
         OverrideField(
             "Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.01f,
             "Controls how much random scale variation is suppressed"
@@ -86,36 +84,20 @@ void NPCEditorSection::BuildDescriptors() {
         OverrideField("Face Type", o.faceType, 0.1f, "Face mesh index"),
         OverrideField("Eye Color", o.eyeColor, 0.1f, "Eye color index"),
         OverrideField("Hair Length", o.hairLength, 0.01f, "Hair length (0 = bald, 1 = maximum)"),
-        OverrideField(
-            "Hair Color", o.hairColor, 0.01f, "Hair melanin (0 = blonde, 0.5 = brown, 1 = black)"
-        ),
+        OverrideField("Hair Color", o.hairColor, 0.01f, "Hair melanin (0 = blonde, 0.5 = brown, 1 = black)"),
     };
     combatFields = {
+        OverrideField("Damage Rate", o.damageRate, 0.1f, "Additional damage multiplier dealt by this NPC"),
+        OverrideField("Limb Damage Rate", o.limbDamageRate, 0.1f, "Additional limb-specific damage multiplier"),
         OverrideField(
-            "Damage Rate", o.damageRate, 0.1f, "Additional damage multiplier dealt by this NPC"
-        ),
-        OverrideField(
-            "Limb Damage Rate", o.limbDamageRate, 0.1f, "Additional limb-specific damage multiplier"
-        ),
-        OverrideField(
-            "Dismember Threshold", o.dismemberThreshold, 0.1f,
-            "Health threshold below which dismemberment can occur"
+            "Dismember Threshold", o.dismemberThreshold, 0.1f, "Health threshold below which dismemberment can occur"
         ),
         OverrideField("Regen Rate", o.regenRate, 0.01f, "Health regeneration rate per tick"),
-        OverrideField(
-            "AI Invincibility", o.aiInvincibility, 0.01f, "Rate at which AI ignores incoming damage"
-        ),
-        OverrideField(
-            "AI Armor Invincibility", o.aiArmorInvincibility, 0.01f,
-            "Rate at which AI armor ignores damage"
-        ),
-        OverrideField(
-            "Body Skill", o.bodySkill, 0.1f,
-            "Overall combat skill level affecting movement and reactions"
-        ),
+        OverrideField("AI Invincibility", o.aiInvincibility, 0.01f, "Rate at which AI ignores incoming damage"),
+        OverrideField("AI Armor Invincibility", o.aiArmorInvincibility, 0.01f, "Rate at which AI armor ignores damage"),
+        OverrideField("Body Skill", o.bodySkill, 0.1f, "Overall combat skill level affecting movement and reactions"),
     };
     behaviorFields = {
-        OverrideField("Fearless", o.fearless, "NPC never flees from combat"),
         OverrideField("Start Kneeled", o.startKneeled, "NPC spawns in a kneeling position"),
         OverrideField("Spawn in Pants", o.spawnInPants, "NPC spawns wearing only pants (no armor)"),
         OverrideField("Clear Spawn Area", o.clearSpawnArea, "Clear objects around spawn point before spawning"),
@@ -309,31 +291,33 @@ void NPCEditorSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>& b
             [this, weakBinding]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
                 if (auto binding = weakBinding.lock()) SpawnBindingNPC(*binding, runtime);
             },
-        .params = {
-            KeybindParam("bodyguard", "Bodyguard", &binding->bodyguard, "Will join your team"),
-            KeybindParam("mercenary", "Mercenary", &binding->npc.mercenary, "Generate with mercenary color scheme"),
-            KeybindParam(
-                "snap_to_ground", "Snap to Ground", &binding->spawn.snapToGround,
-                "Automatically adjust height to touch the ground"
-            ),
-            KeybindParam(
-                "distance_forward", "Distance Forward", &binding->spawn.distanceForward, 100.0f, 500.0f,
-                "How far in front the NPC appears"
-            ),
-            KeybindParam(
-                "distance_up", "Distance Up", &binding->spawn.distanceUp, 0.0f, 300.0f,
-                "Height offset for spawn position"
-            ),
-            KeybindParam(
-                "scale", "Scale", &binding->spawn.scale, 0.1f, 4.0f,
-                "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game doesn't "
-                "crash."
-            ),
-            KeybindParam(
-                "team", "Team", &binding->team, 0, 9,
-                "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
-            ),
-        },
+        .params =
+            {
+                KeybindParam("bodyguard", "Bodyguard", &binding->bodyguard, "Will join your team"),
+                KeybindParam("mercenary", "Mercenary", &binding->npc.mercenary, "Generate with mercenary color scheme"),
+                KeybindParam(
+                    "snap_to_ground", "Snap to Ground", &binding->spawn.snapToGround,
+                    "Automatically adjust height to touch the ground"
+                ),
+                KeybindParam(
+                    "distance_forward", "Distance Forward", &binding->spawn.distanceForward, 100.0f, 500.0f,
+                    "How far in front the NPC appears"
+                ),
+                KeybindParam(
+                    "distance_up", "Distance Up", &binding->spawn.distanceUp, 0.0f, 300.0f,
+                    "Height offset for spawn position"
+                ),
+                KeybindParam(
+                    "scale", "Scale", &binding->spawn.scale, 0.1f, 4.0f,
+                    "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game "
+                    "doesn't "
+                    "crash."
+                ),
+                KeybindParam(
+                    "team", "Team", &binding->team, 0, 9,
+                    "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
+                ),
+            },
     };
     binding->keybind.Init();
 }
@@ -370,7 +354,9 @@ void NPCEditorSection::LoadSpawnBindings() {
         binding->id = id;
         const auto section = NPCBindingSection(id);
         binding->key = config.GetInt(section, "key", -1);
-        std::snprintf(binding->name, sizeof(binding->name), "%s", config.GetString(section, "name", "Spawn NPC").c_str());
+        std::snprintf(
+            binding->name, sizeof(binding->name), "%s", config.GetString(section, "name", "Spawn NPC").c_str()
+        );
         binding->summary = config.GetString(section, "summary", binding->name);
         binding->spawn = {
             .distanceForward = config.GetFloat(section, "distance_forward", binding->spawn.distanceForward),

@@ -10,12 +10,9 @@ void PlayerEditorSection::BuildDescriptors() {
 
     physicalFields = {
         OverrideField(
-            "Height Rate", o.heightRate, 0.01f,
-            "Character height multiplier (1.0 = normal). Only takes effect at spawn"
+            "Height Rate", o.heightRate, 0.01f, "Character height multiplier (1.0 = normal). Only takes effect at spawn"
         ),
-        OverrideField(
-            "Muscle Rate", o.muscleRate, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"
-        ),
+        OverrideField("Muscle Rate", o.muscleRate, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"),
         OverrideField(
             "Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.01f,
             "Controls how much random scale variation is suppressed"
@@ -36,9 +33,7 @@ void PlayerEditorSection::BuildDescriptors() {
         OverrideField("Regen Rate", o.regenRate, 0.01f, "Health regeneration rate per tick"),
     };
     physicsFields = {
-        OverrideField(
-            "All Body Tonus", o.allBodyTonus, 1.0f, "Master body muscle tension (100 = normal)"
-        ),
+        OverrideField("All Body Tonus", o.allBodyTonus, 1.0f, "Master body muscle tension (100 = normal)"),
         OverrideField("Head##t", o.headTonus, 0.01f),
         OverrideField("Right Arm##t", o.armRTonus, 0.01f),
         OverrideField("Left Arm##t", o.armLTonus, 0.01f),
@@ -50,37 +45,26 @@ void PlayerEditorSection::BuildDescriptors() {
         OverrideField("Hit Rigidity", o.hitRigidity, 0.01f, "How rigid the body stays when hit"),
     };
     movementFields = {
-        OverrideField(
-            "Running Speed Rate", o.runningSpeedRate, 0.1f, "Running speed multiplier (1.5 = default)"
-        ),
+        OverrideField("Running Speed Rate", o.runningSpeedRate, 0.1f, "Running speed multiplier (1.5 = default)"),
         OverrideField("Walk Speed Rate", o.walkSpeedRateRun, 0.1f, "Walking/aiming speed rate"),
         OverrideField("Jump Rate", o.jumpRate, 0.1f, "Jump power multiplier"),
         OverrideField("Dodge Rate", o.dodgeRate, 0.1f, "Dodge speed/distance multiplier"),
         OverrideField("Crawl Rate", o.crawlRate, 0.01f, "Crawling speed multiplier"),
         OverrideField("Get Up Rate", o.getUpRate, 0.1f, "Speed of getting up from the ground"),
-        OverrideField(
-            "Fallen Rate", o.fallenRate, 0.01f, "Rate at which the character recovers from falling"
-        ),
+        OverrideField("Fallen Rate", o.fallenRate, 0.01f, "Rate at which the character recovers from falling"),
     };
     combatFields = {
         OverrideField("Damage Rate", o.damageRate, 0.1f, "Additional damage multiplier dealt"),
+        OverrideField("Limb Damage Rate", o.limbDamageRate, 0.1f, "Additional limb-specific damage multiplier"),
         OverrideField(
-            "Limb Damage Rate", o.limbDamageRate, 0.1f, "Additional limb-specific damage multiplier"
-        ),
-        OverrideField(
-            "Dismember Threshold", o.dismemberThreshold, 0.1f,
-            "Health threshold below which dismemberment can occur"
+            "Dismember Threshold", o.dismemberThreshold, 0.1f, "Health threshold below which dismemberment can occur"
         ),
         OverrideField("Stamina", o.stamina, 1.0f, "Current stamina level (100 = full)"),
         OverrideField("Swing R Burn", o.staminaBurnSwingR, 0.1f, "Stamina cost for right-hand swings"),
         OverrideField("Swing L Burn", o.staminaBurnSwingL, 0.1f, "Stamina cost for left-hand swings"),
         OverrideField("Dodge Burn", o.staminaBurnDodge, 0.1f, "Stamina cost for dodging"),
-        OverrideField(
-            "Grab Force R", o.grabForceR, 100.0f, "Right hand grip force limit (10000 = default)"
-        ),
-        OverrideField(
-            "Grab Force L", o.grabForceL, 100.0f, "Left hand grip force limit (10000 = default)"
-        ),
+        OverrideField("Grab Force R", o.grabForceR, 100.0f, "Right hand grip force limit (10000 = default)"),
+        OverrideField("Grab Force L", o.grabForceL, 100.0f, "Left hand grip force limit (10000 = default)"),
         OverrideField("Hands Rigidity", o.handsRigidity, 0.01f, "Punch impact force (0.666 = default)"),
         OverrideField("Body Skill", o.bodySkill, 0.1f, "Overall combat skill level"),
         OverrideField("Weapon Skill", o.weaponSkill, 0.1f, "Weapon handling skill level"),
@@ -97,7 +81,6 @@ void PlayerEditorSection::BuildDescriptors() {
         OverrideField("Drunk", o.drunk, 0.01f, "Drunkenness level (0 = sober, 1 = fully drunk)"),
         OverrideField("Fear", o.fear, 0.1f, "Fear level"),
         OverrideField("Invulnerable", o.invulnerable, "Immune to all damage"),
-        OverrideField("Fearless", o.fearless, "Never flees from combat"),
     };
 }
 
@@ -205,7 +188,6 @@ namespace {
             p->Invulnerable = v;
             p->BitPad_5C_0 = v;
         },
-        [](void* a, const OverrideDescriptor& f) { static_cast<P*>(a)->Fearless = GetBool(f); },
     };
 
 } // namespace
@@ -288,7 +270,6 @@ void PlayerEditorSection::ReadFromPlayer() {
     overrides.drunk.value = player->Drunk;
     overrides.fear.value = player->Fear;
     overrides.invulnerable.value = player->Invulnerable;
-    overrides.fearless.value = player->Fearless;
 
     presets.status.Set("Values read from player");
 }
@@ -484,21 +465,19 @@ PlayerEditorSection::PlayerEditorSection(ModContext& ctx) : Section(ctx, SECTION
 }
 
 void PlayerEditorSection::InitKeybinds() {
-    keybinds.Add(
-        {
-            .name = "Enforce Overrides",
-            .tooltip = "Continuously applies all enabled overrides to the player character every game tick",
-            .configSection = "EnforceOverrides",
-            .keyPtr = &enforceKey,
-            .callback =
-                [this](bool active, const RuntimeContextSnapshot& runtime) {
-                    auto* player = runtime.player;
-                    if (active && player) ApplyToPlayer(player);
-                },
-            .runOnToggle = true,
-            .events = {GameEvent::OffLedge},
-        }
-    );
+    keybinds.Add({
+        .name = "Enforce Overrides",
+        .tooltip = "Continuously applies all enabled overrides to the player character every game tick",
+        .configSection = "EnforceOverrides",
+        .keyPtr = &enforceKey,
+        .callback =
+            [this](bool active, const RuntimeContextSnapshot& runtime) {
+                auto* player = runtime.player;
+                if (active && player) ApplyToPlayer(player);
+            },
+        .runOnToggle = true,
+        .events = {GameEvent::OffLedge},
+    });
 }
 
 void PlayerEditorSection::Render() {

@@ -140,7 +140,6 @@ namespace SpawnWorkflow {
                 auto* npc = static_cast<SDK::AWillie_BP_C*>(actor);
                 if (!npc) return;
 
-                NPCSpawnHelpers::ApplyAIFearlessOverride(npc, overrides);
                 if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, overrides);
                 if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(world, npc, loadout);
             };
