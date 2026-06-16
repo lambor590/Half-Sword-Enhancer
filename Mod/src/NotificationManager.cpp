@@ -36,22 +36,31 @@ void NotificationManager::Initialize() noexcept {
     s_enabled = ConfigManager::Get().GetBool("Notifications", "enabled", true);
 }
 
-void NotificationManager::Update() noexcept {
+bool NotificationManager::Update() noexcept {
     if (!s_enabled) [[unlikely]] {
         if (!s_notifications.empty()) {
             s_notifications.clear();
         }
-        return;
+        return false;
     }
 
     if (s_notifications.empty()) [[likely]]
-        return;
+        return false;
 
     s_currentTime = GetTime();
 
     std::erase_if(s_notifications, [currentTime = s_currentTime](const Notification& notification) noexcept -> bool {
         return currentTime - notification.startTime >= notification.duration;
     });
+    return !s_notifications.empty();
+}
+
+void NotificationManager::CacheLayout(Notification& notification) noexcept {
+    if (notification.renderWidth > 0.0f) return;
+
+    const ImVec2 textSize = ImGui::CalcTextSize(notification.message.c_str());
+    notification.textHeight = textSize.y;
+    notification.renderWidth = (std::max)(textSize.x + TEXT_PADDING * 2.0f, MIN_NOTIFICATION_WIDTH);
 }
 
 void NotificationManager::Render() noexcept {
@@ -61,13 +70,12 @@ void NotificationManager::Render() noexcept {
     size_t visibleCount = 0;
     float maxWidth = MIN_NOTIFICATION_WIDTH;
 
-    for (const auto& notification : s_notifications) {
+    for (auto& notification : s_notifications) {
         const float elapsed = s_currentTime - notification.startTime;
         if (CalculateAlpha(elapsed, notification.duration) > 0.0f) {
             ++visibleCount;
-            const ImVec2 textSize = ImGui::CalcTextSize(notification.message.c_str());
-            const float notifWidth = textSize.x + TEXT_PADDING * 2.0f;
-            if (notifWidth > maxWidth) maxWidth = notifWidth;
+            CacheLayout(notification);
+            if (notification.renderWidth > maxWidth) maxWidth = notification.renderWidth;
         }
     }
 
@@ -97,15 +105,15 @@ void NotificationManager::Render() noexcept {
 
     if (ImGui::Begin("##notifications_container", nullptr, containerFlags)) [[likely]] {
         for (int i = static_cast<int>(s_notifications.size()) - 1; i >= 0; --i) {
-            const auto& notification = s_notifications[i];
+            auto& notification = s_notifications[i];
             const float elapsed = s_currentTime - notification.startTime;
             const float alpha = CalculateAlpha(elapsed, notification.duration);
 
             if (alpha <= 0.0f) [[unlikely]]
                 continue;
 
-            const ImVec2 textSize = ImGui::CalcTextSize(notification.message.c_str());
-            const float notifWidth = (std::max)(textSize.x + TEXT_PADDING * 2.0f, MIN_NOTIFICATION_WIDTH);
+            CacheLayout(notification);
+            const float notifWidth = notification.renderWidth;
 
             auto withAlpha = [alpha](const ImVec4& c) {
                 return ImVec4(c.x, c.y, c.z, c.w * alpha);
@@ -123,7 +131,7 @@ void NotificationManager::Render() noexcept {
             ImGui::PushID(i);
             if (ImGui::BeginChild("##notification", ImVec2(notifWidth, NOTIFICATION_HEIGHT), true, childFlags))
                 [[likely]] {
-                const float textY = (NOTIFICATION_HEIGHT - textSize.y) * 0.5f;
+                const float textY = (NOTIFICATION_HEIGHT - notification.textHeight) * 0.5f;
                 ImGui::SetCursorPos(ImVec2(TEXT_PADDING, textY));
                 ImGui::TextUnformatted(
                     notification.message.c_str(), notification.message.c_str() + notification.message.size()

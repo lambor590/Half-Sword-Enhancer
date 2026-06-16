@@ -8,6 +8,8 @@ struct Notification {
     std::string message;
     float startTime;
     float duration;
+    float textHeight = 0.0f;
+    float renderWidth = 0.0f;
 
     Notification(std::string&& msg, float dur = 2.5f) noexcept;
 };
@@ -33,7 +35,7 @@ private:
 
 public:
     static void Initialize() noexcept;
-    static void Update() noexcept;
+    [[nodiscard]] static bool Update() noexcept;
     static void Render() noexcept;
 
     static void NotifyHookToggle(std::string_view functionName, bool enabled) noexcept;
@@ -47,5 +49,6 @@ public:
 
 private:
     static void AddNotification(std::string&& message, float duration = 2.5f) noexcept;
+    static void CacheLayout(Notification& notification) noexcept;
     [[nodiscard]] static constexpr float CalculateAlpha(float elapsed, float duration) noexcept;
 };

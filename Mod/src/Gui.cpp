@@ -151,15 +151,12 @@ void Gui::Setup() {
 
 bool Gui::NeedsRendering() noexcept {
     if (isVisible.load(std::memory_order_relaxed)) [[unlikely]] {
-        NotificationManager::Update();
+        (void)NotificationManager::Update();
         return true;
     }
 
-    const bool hasNotifications = NotificationManager::IsEnabled() && NotificationManager::HasNotifications();
-    if (hasNotifications) [[unlikely]] {
-        NotificationManager::Update();
+    if (NotificationManager::HasNotifications() && NotificationManager::Update()) [[unlikely]]
         return true;
-    }
 
     if (s_showMismatchPopup) [[unlikely]]
         return true;
