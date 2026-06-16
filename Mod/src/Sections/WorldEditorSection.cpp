@@ -2,8 +2,33 @@
 #include "Menu/SectionStyle.h"
 
 #include "Hooks/GameHook.h"
+#include "SDK/Willie_BP_classes.hpp"
 
+#include <cstdio>
 #include <cstring>
+#include <utility>
+
+namespace {
+    const char* CollisionLabel(SDK::ECollisionEnabled mode) noexcept {
+        switch (mode) {
+            case SDK::ECollisionEnabled::NoCollision: return "No Collision";
+            case SDK::ECollisionEnabled::QueryOnly: return "Query Only";
+            case SDK::ECollisionEnabled::PhysicsOnly: return "Physics Only";
+            case SDK::ECollisionEnabled::QueryAndPhysics: return "Query + Physics";
+            case SDK::ECollisionEnabled::ProbeOnly: return "Probe Only";
+            case SDK::ECollisionEnabled::QueryAndProbe: return "Query + Probe";
+            default: return "Unknown";
+        }
+    }
+
+    bool SameLineIfRoom(const char* nextLabel) {
+        const auto& style = ImGui::GetStyle();
+        float width = ImGui::CalcTextSize(nextLabel).x + style.FramePadding.x * 2.0f + style.ItemSpacing.x;
+        if (ImGui::GetContentRegionAvail().x < width) return false;
+        ImGui::SameLine();
+        return true;
+    }
+} // namespace
 
 WorldEditorSection::WorldEditorSection(ModContext& ctx) : Section(ctx, SECTION) {}
 
@@ -17,6 +42,10 @@ void WorldEditorSection::ResetState() {
     selectedActorIndex = -1;
     browseTarget = nullptr;
     browseTargetIsComponent = false;
+    browseTargetIsActor = false;
+    selectedActor = nullptr;
+    selectedTargetIndex = -1;
+    browseTargets.clear();
     cachedWorld = nullptr;
     properties.clear();
     categories.clear();
@@ -48,6 +77,10 @@ void WorldEditorSection::ApplyFilter() {
     selectedActorIndex = -1;
     browseTarget = nullptr;
     browseTargetIsComponent = false;
+    browseTargetIsActor = false;
+    selectedActor = nullptr;
+    selectedTargetIndex = -1;
+    browseTargets.clear();
     properties.clear();
     categories.clear();
     visibleCategories.clear();
@@ -87,13 +120,39 @@ void WorldEditorSection::ApplyFilter() {
     SelectActor(restoreIdx);
 }
 
-void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& className) {
-    browseTarget = actor;
-    browseTargetIsComponent = false;
-    if (actor->RootComponent) {
-        browseTarget = actor->RootComponent;
-        browseTargetIsComponent = true;
-    }
+void WorldEditorSection::AddSceneComponentTargets(SDK::USceneComponent* component, int depth) {
+    if (!component) return;
+    for (const auto& target : browseTargets)
+        if (target.object == component) return;
+
+    std::string label(static_cast<size_t>(depth) * 2, ' ');
+    label += component->Class ? component->Class->GetName() : component->GetName();
+    if (selectedActor && component == selectedActor->RootComponent) label += " (root)";
+
+    browseTargets.push_back({component, std::move(label), false, true});
+
+    auto& children = component->AttachChildren;
+    for (int32_t i = 0; i < children.Num(); ++i)
+        AddSceneComponentTargets(children[i], depth + 1);
+}
+
+void WorldEditorSection::BuildBrowseTargets(SDK::AActor* actor, const std::string& className) {
+    browseTargets.clear();
+    selectedTargetIndex = -1;
+    if (!actor) return;
+
+    browseTargets.push_back({actor, "Actor: " + className, true, false});
+    if (actor->RootComponent) AddSceneComponentTargets(actor->RootComponent, 0);
+}
+
+void WorldEditorSection::SelectTarget(int index) {
+    if (index < 0 || index >= static_cast<int>(browseTargets.size())) return;
+    selectedTargetIndex = index;
+
+    const auto& target = browseTargets[index];
+    browseTarget = target.object;
+    browseTargetIsActor = target.isActor;
+    browseTargetIsComponent = target.isComponent;
 
     properties = PropertyBrowser::EnumerateProperties(browseTarget->Class);
     categories = PropertyBrowser::GroupByCategory(properties);
@@ -105,7 +164,13 @@ void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& clas
     for (const auto& p : properties)
         if (p.type != PropertyBrowser::PropType::Unsupported) ++supported;
 
-    infoText = className + " > " + browseTarget->Class->GetName() + " (" + std::to_string(supported) + " editable)";
+    infoText = target.label + " > " + browseTarget->Class->GetName() + " (" + std::to_string(supported) + " editable)";
+}
+
+void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& className) {
+    selectedActor = actor;
+    BuildBrowseTargets(actor, className);
+    SelectTarget(browseTargets.size() > 1 ? 1 : 0);
 }
 
 void WorldEditorSection::SelectActor(int index) {
@@ -144,15 +209,57 @@ void WorldEditorSection::FindByClassName(const char* className) {
 }
 
 void WorldEditorSection::QueueApply() {
+    if (browseTargetIsActor) {
+        auto* actor = static_cast<SDK::AActor*>(browseTarget);
+        GameHook::QueueAction([actor](const RuntimeContextSnapshot&) {
+            if (!actor || actor->IsActorBeingDestroyed()) return;
+            actor->SetActorHiddenInGame(actor->bHidden);
+            actor->SetActorEnableCollision(actor->GetActorEnableCollision());
+            actor->SetActorScale3D(actor->GetActorScale3D());
+            actor->K2_SetActorLocationAndRotation(
+                actor->K2_GetActorLocation(), actor->K2_GetActorRotation(), false, nullptr, true
+            );
+        });
+        return;
+    }
+
     if (!browseTargetIsComponent) return;
     auto* comp = static_cast<SDK::USceneComponent*>(browseTarget);
     bool isSkyLight = browseTarget->IsA(SDK::USkyLightComponent::StaticClass());
-    GameHook::QueueAction([comp, isSkyLight](const RuntimeContextSnapshot&) {
+    bool hidden = comp->bHiddenInGame;
+    bool visible = comp->bVisible;
+    auto collision = comp->IsA(SDK::UPrimitiveComponent::StaticClass())
+                         ? static_cast<SDK::UPrimitiveComponent*>(comp)->GetCollisionEnabled()
+                         : SDK::ECollisionEnabled::QueryAndPhysics;
+    GameHook::QueueAction([comp, hidden, visible, collision, isSkyLight](const RuntimeContextSnapshot&) {
+        comp->SetHiddenInGame(hidden, false);
         comp->SetVisibility(false, false);
         comp->SetVisibility(true, false);
+        comp->SetVisibility(visible, false);
         comp->K2_SetRelativeLocationAndRotation(comp->RelativeLocation, comp->RelativeRotation, false, nullptr, true);
+        comp->SetRelativeScale3D(comp->RelativeScale3D);
+        if (comp->IsA(SDK::UPrimitiveComponent::StaticClass())) {
+            auto* prim = static_cast<SDK::UPrimitiveComponent*>(comp);
+            prim->SetCollisionEnabled(collision);
+        }
         if (isSkyLight) static_cast<SDK::USkyLightComponent*>(comp)->RecaptureSky();
     });
+}
+
+void WorldEditorSection::QueueActorState(bool hidden, bool collision, bool tickEnabled) {
+    auto* actor = selectedActor;
+    GameHook::QueueAction([actor, hidden, collision, tickEnabled](const RuntimeContextSnapshot&) {
+        if (!actor || actor->IsActorBeingDestroyed()) return;
+        actor->SetActorHiddenInGame(hidden);
+        actor->SetActorEnableCollision(collision);
+        actor->SetActorTickEnabled(tickEnabled);
+    });
+}
+
+void WorldEditorSection::QueueComponentCollision(SDK::ECollisionEnabled collision) {
+    if (!browseTarget || !browseTarget->IsA(SDK::UPrimitiveComponent::StaticClass())) return;
+    auto* prim = static_cast<SDK::UPrimitiveComponent*>(browseTarget);
+    GameHook::QueueAction([prim, collision](const RuntimeContextSnapshot&) { prim->SetCollisionEnabled(collision); });
 }
 
 int WorldEditorSection::CountVisibleInCategory(
@@ -216,7 +323,7 @@ void WorldEditorSection::RenderActorSelector() {
     ImGui::SeparatorText(actorLabel);
 
     for (int i = 0; i < static_cast<int>(std::size(QUICK_FILTERS)); ++i) {
-        if (i > 0) ImGui::SameLine();
+        if (i > 0) SameLineIfRoom(QUICK_FILTERS[i].label);
         bool active = (actorSearchBuf[0] == '\0' && activeQuickFilter == i);
         if (active) ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
         if (ImGui::SmallButton(QUICK_FILTERS[i].label)) {
@@ -226,7 +333,7 @@ void WorldEditorSection::RenderActorSelector() {
         }
         if (active) ImGui::PopStyleColor();
     }
-    ImGui::SameLine();
+    SameLineIfRoom("UDS");
     if (findPending) ImGui::BeginDisabled();
     if (ImGui::SmallButton("UDS")) FindByClassName("Ultra_Dynamic_Sky_C");
     if (findPending) ImGui::EndDisabled();
@@ -249,13 +356,13 @@ void WorldEditorSection::RenderActorSelector() {
         const char* preview =
             (selectedActorIndex >= 0) ? filteredActors[selectedActorIndex].className.c_str() : "Select...";
         if (GuiUtils::BeginSizedCombo("##ActorSelector", preview, actorComboWidth)) {
-            for (int i = 0; i < static_cast<int>(filteredActors.size()); ++i) {
+            GuiUtils::RenderClippedList(static_cast<int>(filteredActors.size()), selectedActorIndex, [&](int i) {
                 ImGui::PushID(i);
                 bool sel = (i == selectedActorIndex);
                 if (ImGui::Selectable(filteredActors[i].className.c_str(), sel)) SelectActor(i);
                 if (sel) ImGui::SetItemDefaultFocus();
                 ImGui::PopID();
-            }
+            });
             ImGui::EndCombo();
         }
         if (browseTarget) {
@@ -270,6 +377,113 @@ void WorldEditorSection::RenderActorSelector() {
 
     if (!infoText.empty()) ImGui::TextDisabled("%s", infoText.c_str());
     status.Render();
+}
+
+void WorldEditorSection::RenderTargetSelector() {
+    if (browseTargets.empty()) return;
+
+    ImGui::SeparatorText("Target");
+
+    const char* preview = (selectedTargetIndex >= 0 && selectedTargetIndex < static_cast<int>(browseTargets.size()))
+                              ? browseTargets[selectedTargetIndex].label.c_str()
+                              : "Select...";
+    ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
+    if (ImGui::BeginCombo("##TargetSelector", preview)) {
+        for (int i = 0; i < static_cast<int>(browseTargets.size()); ++i) {
+            ImGui::PushID(i);
+            bool selected = i == selectedTargetIndex;
+            if (ImGui::Selectable(browseTargets[i].label.c_str(), selected)) SelectTarget(i);
+            if (selected) ImGui::SetItemDefaultFocus();
+            ImGui::PopID();
+        }
+        ImGui::EndCombo();
+    }
+}
+
+void WorldEditorSection::RenderTargetControls() {
+    if (!browseTarget) return;
+
+    ImGui::SeparatorText("Controls");
+
+    if (browseTargetIsActor) {
+        RenderActorControls();
+        return;
+    }
+
+    if (browseTargetIsComponent) RenderComponentControls();
+}
+
+void WorldEditorSection::RenderActorControls() {
+    if (!selectedActor) return;
+
+    bool hidden = selectedActor->bHidden;
+    bool collision = selectedActor->GetActorEnableCollision();
+    bool tickEnabled = selectedActor->IsActorTickEnabled();
+
+    if (ImGui::Checkbox("Hidden", &hidden)) QueueActorState(hidden, collision, tickEnabled);
+    ImGui::SameLine();
+    if (ImGui::Checkbox("Collision", &collision)) QueueActorState(hidden, collision, tickEnabled);
+    ImGui::SameLine();
+    if (ImGui::Checkbox("Tick", &tickEnabled)) QueueActorState(hidden, collision, tickEnabled);
+
+    if (ImGui::SmallButton("Move To Player")) {
+        auto* actor = selectedActor;
+        GameHook::QueueAction([actor](const RuntimeContextSnapshot& runtime) {
+            if (!actor || actor->IsActorBeingDestroyed() || !runtime.player) return;
+            actor->K2_SetActorLocationAndRotation(
+                runtime.player->K2_GetActorLocation(), runtime.player->K2_GetActorRotation(), false, nullptr, true
+            );
+        });
+    }
+    ImGui::SameLine();
+    if (ImGui::SmallButton("Bring Player Here")) {
+        auto* actor = selectedActor;
+        GameHook::QueueAction([actor](const RuntimeContextSnapshot& runtime) {
+            if (!actor || actor->IsActorBeingDestroyed() || !runtime.player) return;
+            runtime.player->K2_SetActorLocationAndRotation(
+                actor->K2_GetActorLocation(), actor->K2_GetActorRotation(), false, nullptr, true
+            );
+        });
+    }
+}
+
+void WorldEditorSection::RenderComponentControls() {
+    auto* comp = static_cast<SDK::USceneComponent*>(browseTarget);
+    if (PropertyBrowser::DragDouble3("Relative Location", &comp->RelativeLocation.X, 1.0f, "%.1f")) pendingApply = true;
+    if (PropertyBrowser::DragDouble3("Relative Rotation", &comp->RelativeRotation.Pitch, 0.5f, "%.1f"))
+        pendingApply = true;
+    if (PropertyBrowser::DragDouble3("Relative Scale", &comp->RelativeScale3D.X, 0.01f, "%.3f")) pendingApply = true;
+
+    bool visible = comp->bVisible;
+    if (ImGui::Checkbox("Visible", &visible)) {
+        GameHook::QueueAction([comp, visible](const RuntimeContextSnapshot&) { comp->SetVisibility(visible, false); });
+    }
+    ImGui::SameLine();
+    bool hidden = comp->bHiddenInGame;
+    if (ImGui::Checkbox("Hidden In Game", &hidden)) {
+        GameHook::QueueAction([comp, hidden](const RuntimeContextSnapshot&) { comp->SetHiddenInGame(hidden, false); });
+    }
+
+    if (browseTarget->IsA(SDK::UPrimitiveComponent::StaticClass())) {
+        auto* prim = static_cast<SDK::UPrimitiveComponent*>(browseTarget);
+        auto collision = prim->GetCollisionEnabled();
+        static float collisionComboW = GuiUtils::CalcComboWidth("Query + Physics");
+        if (GuiUtils::BeginSizedCombo("Collision Mode", CollisionLabel(collision), collisionComboW)) {
+            for (int i = 0; i <= static_cast<int>(SDK::ECollisionEnabled::QueryAndProbe); ++i) {
+                auto mode = static_cast<SDK::ECollisionEnabled>(i);
+                if (ImGui::Selectable(CollisionLabel(mode), mode == collision)) QueueComponentCollision(mode);
+                if (mode == collision) ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+    }
+
+    if (ImGui::SmallButton("Reset Relative Transform")) {
+        comp->RelativeLocation = {};
+        comp->RelativeRotation = {};
+        comp->RelativeScale3D = {1.0, 1.0, 1.0};
+        QueueApply();
+    }
 }
 
 void WorldEditorSection::RenderPropertyToolbar() {
@@ -308,6 +522,8 @@ void WorldEditorSection::Render() {
 
     if (!browseTarget) return;
 
+    RenderTargetSelector();
+    RenderTargetControls();
     RenderPropertyToolbar();
 
     ImGui::Spacing();
