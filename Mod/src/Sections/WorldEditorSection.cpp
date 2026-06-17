@@ -408,6 +408,15 @@ void WorldEditorSection::QueueActorState(bool hidden, bool collision, bool tickE
     });
 }
 
+void WorldEditorSection::QueueActorTransform(SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale) {
+    auto* actor = selectedActor;
+    GameHook::QueueAction([actor, location, rotation, scale](const RuntimeContextSnapshot&) {
+        if (!actor || actor->IsActorBeingDestroyed()) return;
+        actor->SetActorScale3D(scale);
+        actor->K2_SetActorLocationAndRotation(location, rotation, false, nullptr, true);
+    });
+}
+
 void WorldEditorSection::QueueComponentCollision(SDK::ECollisionEnabled collision) {
     if (!browseTarget || !browseTarget->IsA(SDK::UPrimitiveComponent::StaticClass())) return;
     auto* prim = static_cast<SDK::UPrimitiveComponent*>(browseTarget);
@@ -585,6 +594,17 @@ void WorldEditorSection::RenderTargetControls() {
 
 void WorldEditorSection::RenderActorControls() {
     if (!selectedActor) return;
+
+    SDK::FVector location = selectedActor->K2_GetActorLocation();
+    SDK::FRotator rotation = selectedActor->K2_GetActorRotation();
+    SDK::FVector scale = selectedActor->GetActorScale3D();
+
+    if (PropertyBrowser::DragDouble3("World Location", &location.X, 1.0f, "%.1f"))
+        QueueActorTransform(location, rotation, scale);
+    if (PropertyBrowser::DragDouble3("World Rotation", &rotation.Pitch, 0.5f, "%.1f"))
+        QueueActorTransform(location, rotation, scale);
+    if (PropertyBrowser::DragDouble3("World Scale", &scale.X, 0.01f, "%.3f"))
+        QueueActorTransform(location, rotation, scale);
 
     bool hidden = selectedActor->bHidden;
     bool collision = selectedActor->GetActorEnableCollision();

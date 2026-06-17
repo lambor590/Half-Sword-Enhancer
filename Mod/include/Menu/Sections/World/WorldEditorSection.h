@@ -87,6 +87,7 @@ private:
     void FindByClassName(const char* className);
     void QueueApply();
     void QueueActorState(bool hidden, bool collision, bool tickEnabled);
+    void QueueActorTransform(SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale);
     void QueueComponentCollision(SDK::ECollisionEnabled collision);
     int CountVisibleInCategory(const std::vector<const PropertyBrowser::PropertyInfo*>& props, size_t filterLen);
     void RenderCategory(
