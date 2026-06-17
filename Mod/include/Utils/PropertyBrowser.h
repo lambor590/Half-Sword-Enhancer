@@ -4,9 +4,11 @@
 #include <cstddef>
 #include <cctype>
 #include <cstdint>
+#include <cstdio>
 #include <map>
 #include <ranges>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -52,13 +54,59 @@ namespace PropertyBrowser {
     };
 
     struct WorldActor {
-        SDK::AActor* actor;
+        SDK::AActor* actor = nullptr;
         std::string className;
+        std::string instanceName;
+        std::string displayLabel;
+        float distanceToPlayer = -1.0f;
     };
 
-    [[nodiscard]] inline std::vector<WorldActor> FindWorldActors(SDK::UWorld* world) {
+    [[nodiscard]] inline std::string BuildActorDisplayLabel(
+        std::string_view className, std::string_view instanceName, float distanceToPlayer
+    ) {
+        std::string label;
+        if (distanceToPlayer >= 0.0f) {
+            char distance[32];
+            std::snprintf(distance, sizeof(distance), "%.1fm", distanceToPlayer);
+            label += distance;
+            label += " | ";
+        }
+
+        label += className;
+        if (!instanceName.empty() && instanceName != className) {
+            label += " | ";
+            label += instanceName;
+        }
+        return label;
+    }
+
+    [[nodiscard]] inline WorldActor BuildWorldActor(SDK::AActor* actor, const SDK::FVector* playerLocation = nullptr) {
+        WorldActor result;
+        if (!actor || !actor->Class) return result;
+
+        result.actor = actor;
+        result.className = actor->Class->GetName();
+        result.instanceName = actor->GetName();
+        if (playerLocation) {
+            const auto location = actor->K2_GetActorLocation();
+            result.distanceToPlayer = static_cast<float>(location.GetDistanceTo(*playerLocation) * 0.01);
+        }
+        result.displayLabel =
+            BuildActorDisplayLabel(result.className, result.instanceName, result.distanceToPlayer);
+        return result;
+    }
+
+    [[nodiscard]] inline std::vector<WorldActor> FindWorldActors(SDK::UWorld* world, SDK::AActor* player = nullptr) {
         std::vector<WorldActor> result;
         if (!world) return result;
+
+        SDK::FVector playerLocation{};
+        const SDK::FVector* playerLocationPtr = nullptr;
+        if (player) {
+            playerLocation = player->K2_GetActorLocation();
+            playerLocationPtr = &playerLocation;
+        }
+
         auto& levels = world->Levels;
         for (int32_t li = 0; li < levels.Num(); ++li) {
             auto* level = levels[li];
@@ -67,9 +115,18 @@ namespace PropertyBrowser {
             for (int32_t ai = 0; ai < actors.Num(); ++ai) {
                 auto* actor = actors[ai];
                 if (!actor || !actor->Class) continue;
-                result.push_back({actor, actor->Class->GetName()});
+                result.push_back(BuildWorldActor(actor, playerLocationPtr));
             }
         }
+
+        std::ranges::sort(result, [](const WorldActor& a, const WorldActor& b) {
+            if (a.distanceToPlayer >= 0.0f && b.distanceToPlayer >= 0.0f &&
+                a.distanceToPlayer != b.distanceToPlayer)
+                return a.distanceToPlayer < b.distanceToPlayer;
+            if (a.className != b.className) return a.className < b.className;
+            return a.instanceName < b.instanceName;
+        });
+
         return result;
     }
 

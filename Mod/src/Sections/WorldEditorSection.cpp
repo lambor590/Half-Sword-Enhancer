@@ -45,6 +45,8 @@ void WorldEditorSection::ResetState() {
     browseTargetIsActor = false;
     selectedActor = nullptr;
     selectedTargetIndex = -1;
+    selectedActorLabel.clear();
+    highlightMarker = {};
     browseTargets.clear();
     cachedWorld = nullptr;
     properties.clear();
@@ -56,11 +58,13 @@ void WorldEditorSection::ResetState() {
     infoText.clear();
     status = {};
     needsScan = true;
+    pickPending = false;
 }
 
 void WorldEditorSection::ScanAllActors() {
     needsScan = false;
-    auto* world = RenderWorld();
+    const auto playerWorld = RenderPlayerWorld();
+    auto* world = playerWorld.world;
 
     if (!world) {
         status.Set("World not available", true);
@@ -68,17 +72,27 @@ void WorldEditorSection::ScanAllActors() {
     }
 
     cachedWorld = world;
-    allActors = PropertyBrowser::FindWorldActors(world);
+    allActors = PropertyBrowser::FindWorldActors(world, playerWorld.player);
     ApplyFilter();
 }
 
+bool WorldEditorSection::ActorMatchesFilter(
+    const PropertyBrowser::WorldActor& actor, const char* filter, size_t filterLen
+) const {
+    return GuiUtils::MatchesFilter(actor.className.c_str(), actor.className.size(), filter, filterLen) ||
+           GuiUtils::MatchesFilter(actor.instanceName.c_str(), actor.instanceName.size(), filter, filterLen);
+}
+
 void WorldEditorSection::ApplyFilter() {
+    auto* restoreActor = selectedActor;
+
     filteredActors.clear();
     selectedActorIndex = -1;
     browseTarget = nullptr;
     browseTargetIsComponent = false;
     browseTargetIsActor = false;
     selectedActor = nullptr;
+    selectedActorLabel.clear();
     selectedTargetIndex = -1;
     browseTargets.clear();
     properties.clear();
@@ -92,32 +106,33 @@ void WorldEditorSection::ApplyFilter() {
     size_t filterLen = std::strlen(filter);
 
     for (auto& wa : allActors) {
-        if (filterLen == 0 || GuiUtils::MatchesFilter(wa.className.c_str(), wa.className.size(), filter, filterLen))
+        if (nearbyMode && (wa.distanceToPlayer < 0.0f || wa.distanceToPlayer > NEARBY_RANGE_METERS)) continue;
+        if (filterLen == 0 || ActorMatchesFilter(wa, filter, filterLen))
             filteredActors.push_back(wa);
     }
 
     if (filteredActors.empty()) {
-        status.Set("No actors match filter", true);
+        status.Set(nearbyMode ? "No nearby actors match filter" : "No actors match filter", true);
         return;
     }
 
     float maxW = 0;
     for (const auto& wa : filteredActors) {
-        float w = ImGui::CalcTextSize(wa.className.c_str()).x;
+        float w = ImGui::CalcTextSize(wa.displayLabel.c_str()).x;
         if (w > maxW) maxW = w;
     }
     actorComboWidth = GuiUtils::ComboWidthFromText(maxW);
 
-    int restoreIdx = 0;
-    if (!previousClassName.empty()) {
+    int restoreIdx = -1;
+    if (restoreActor) {
         for (int i = 0; i < static_cast<int>(filteredActors.size()); ++i) {
-            if (filteredActors[i].className == previousClassName) {
+            if (filteredActors[i].actor == restoreActor) {
                 restoreIdx = i;
                 break;
             }
         }
     }
-    SelectActor(restoreIdx);
+    SelectActor(restoreIdx >= 0 ? restoreIdx : 0);
 }
 
 void WorldEditorSection::AddSceneComponentTargets(SDK::USceneComponent* component, int depth) {
@@ -126,7 +141,13 @@ void WorldEditorSection::AddSceneComponentTargets(SDK::USceneComponent* componen
         if (target.object == component) return;
 
     std::string label(static_cast<size_t>(depth) * 2, ' ');
-    label += component->Class ? component->Class->GetName() : component->GetName();
+    const std::string className = component->Class ? component->Class->GetName() : component->GetName();
+    const std::string instanceName = component->GetName();
+    label += className;
+    if (!instanceName.empty() && instanceName != className) {
+        label += " | ";
+        label += instanceName;
+    }
     if (selectedActor && component == selectedActor->RootComponent) label += " (root)";
 
     browseTargets.push_back({component, std::move(label), false, true});
@@ -141,7 +162,13 @@ void WorldEditorSection::BuildBrowseTargets(SDK::AActor* actor, const std::strin
     selectedTargetIndex = -1;
     if (!actor) return;
 
-    browseTargets.push_back({actor, "Actor: " + className, true, false});
+    std::string label = "Actor: " + className;
+    const std::string instanceName = actor->GetName();
+    if (!instanceName.empty() && instanceName != className) {
+        label += " | ";
+        label += instanceName;
+    }
+    browseTargets.push_back({actor, std::move(label), true, false});
     if (actor->RootComponent) AddSceneComponentTargets(actor->RootComponent, 0);
 }
 
@@ -167,22 +194,147 @@ void WorldEditorSection::SelectTarget(int index) {
     infoText = target.label + " > " + browseTarget->Class->GetName() + " (" + std::to_string(supported) + " editable)";
 }
 
-void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& className) {
+void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& className, SDK::UObject* preferredTarget) {
     selectedActor = actor;
     BuildBrowseTargets(actor, className);
-    SelectTarget(browseTargets.size() > 1 ? 1 : 0);
+
+    int targetIndex = -1;
+    if (preferredTarget) {
+        for (int i = 0; i < static_cast<int>(browseTargets.size()); ++i) {
+            if (browseTargets[i].object == preferredTarget) {
+                targetIndex = i;
+                break;
+            }
+        }
+    }
+    if (targetIndex < 0) targetIndex = browseTargets.size() > 1 ? 1 : 0;
+    SelectTarget(targetIndex);
 }
 
 void WorldEditorSection::SelectActor(int index) {
     if (index < 0 || index >= static_cast<int>(filteredActors.size())) return;
     selectedActorIndex = index;
-    previousClassName = filteredActors[index].className;
+    selectedActorLabel = filteredActors[index].displayLabel;
     BrowseActor(filteredActors[index].actor, filteredActors[index].className);
 }
 
-void WorldEditorSection::SelectActorDirect(SDK::AActor* actor, const std::string& className) {
-    if (!actor) return;
-    BrowseActor(actor, className);
+void WorldEditorSection::SelectActorDirect(
+    SDK::AActor* actor, const std::string& className, SDK::UObject* preferredTarget
+) {
+    if (!actor || !actor->Class) return;
+    const std::string resolvedClassName = className.empty() ? actor->Class->GetName() : className;
+    selectedActorIndex = -1;
+    selectedActorLabel.clear();
+    for (int i = 0; i < static_cast<int>(filteredActors.size()); ++i) {
+        if (filteredActors[i].actor != actor) continue;
+        selectedActorIndex = i;
+        selectedActorLabel = filteredActors[i].displayLabel;
+        break;
+    }
+
+    if (selectedActorLabel.empty())
+        selectedActorLabel = PropertyBrowser::BuildActorDisplayLabel(resolvedClassName, actor->GetName(), -1.0f);
+    BrowseActor(actor, resolvedClassName, preferredTarget);
+}
+
+void WorldEditorSection::PickLookingAt() {
+    if (pickPending) return;
+    pickPending = true;
+    status.Set("Picking...");
+
+    GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
+        auto* world = runtime.world;
+        if (!world) {
+            status.Set("World not available", true);
+            pickPending = false;
+            return;
+        }
+
+        auto* camera = SDK::UGameplayStatics::GetPlayerCameraManager(world, 0);
+        if (!camera) {
+            status.Set("Camera not available", true);
+            pickPending = false;
+            return;
+        }
+
+        const SDK::FVector start = camera->GetCameraLocation();
+        const SDK::FVector end = start + SDK::UKismetMathLibrary::GetForwardVector(camera->GetCameraRotation()) * 20000.0;
+
+        SDK::TArray<SDK::EObjectTypeQuery> objectTypes;
+        for (int i = 0; i < static_cast<int>(SDK::EObjectTypeQuery::ObjectTypeQuery_MAX); ++i)
+            objectTypes.Add(static_cast<SDK::EObjectTypeQuery>(i));
+
+        SDK::TArray<SDK::AActor*> actorsToIgnore;
+        if (runtime.player) actorsToIgnore.Add(runtime.player);
+
+        SDK::FHitResult hitResult;
+        bool hit = SDK::UKismetSystemLibrary::LineTraceSingleForObjects(
+            world, start, end, objectTypes, true, actorsToIgnore, SDK::EDrawDebugTrace::ForDuration, &hitResult, true,
+            SDK::FLinearColor(0.2f, 0.7f, 1.0f, 1.0f), SDK::FLinearColor(1.0f, 0.9f, 0.1f, 1.0f), 0.5f
+        );
+
+        auto* component = hit ? hitResult.Component.Get() : nullptr;
+        auto* actor = component ? component->GetOwner() : nullptr;
+        if (!actor || !actor->Class || actor->IsActorBeingDestroyed()) {
+            status.Set("No actor under reticle", true);
+            pickPending = false;
+            return;
+        }
+
+        SelectActorDirect(actor, actor->Class->GetName(), component);
+        status.Set("Picked: " + selectedActorLabel);
+        pickPending = false;
+    });
+}
+
+void WorldEditorSection::HighlightSelected() {
+    auto* actor = selectedActor;
+    if (!actor) {
+        status.Set("No actor selected", true);
+        return;
+    }
+
+    auto* component = browseTargetIsComponent && browseTarget && browseTarget->IsA(SDK::USceneComponent::StaticClass())
+                          ? static_cast<SDK::USceneComponent*>(browseTarget)
+                          : nullptr;
+    highlightMarker = {actor, component, ImGui::GetTime() + 3.0};
+    status.Set("Highlighting selection...");
+}
+
+void WorldEditorSection::RenderHighlightMarker() {
+    if (!highlightMarker.actor && !highlightMarker.component) return;
+
+    const double now = ImGui::GetTime();
+    if (now >= highlightMarker.endTime) {
+        highlightMarker = {};
+        return;
+    }
+
+    auto* actor = highlightMarker.actor;
+    if (!actor || !actor->Class || actor->IsActorBeingDestroyed()) {
+        highlightMarker = {};
+        return;
+    }
+
+    auto* component = highlightMarker.component;
+    SDK::FVector worldPos =
+        component ? component->K2_GetComponentLocation() : actor->K2_GetActorLocation();
+
+    auto snapshot = RenderSnapshot();
+    if (!snapshot.controller) return;
+
+    SDK::FVector2D screen{};
+    if (!snapshot.controller->ProjectWorldLocationToScreen(worldPos, &screen, false)) return;
+
+    const auto pos = ImVec2(static_cast<float>(screen.X), static_cast<float>(screen.Y));
+    constexpr float radius = 24.0f;
+    constexpr ImU32 color = IM_COL32(26, 191, 255, 255);
+    auto* dl = ImGui::GetForegroundDrawList();
+    dl->AddCircle(pos, radius, color, 48, 3.0f);
+    dl->AddLine(ImVec2(pos.x - radius - 8.0f, pos.y), ImVec2(pos.x - 8.0f, pos.y), color, 3.0f);
+    dl->AddLine(ImVec2(pos.x + 8.0f, pos.y), ImVec2(pos.x + radius + 8.0f, pos.y), color, 3.0f);
+    dl->AddLine(ImVec2(pos.x, pos.y - radius - 8.0f), ImVec2(pos.x, pos.y - 8.0f), color, 3.0f);
+    dl->AddLine(ImVec2(pos.x, pos.y + 8.0f), ImVec2(pos.x, pos.y + radius + 8.0f), color, 3.0f);
 }
 
 void WorldEditorSection::FindByClassName(const char* className) {
@@ -322,6 +474,23 @@ void WorldEditorSection::RenderActorSelector() {
         std::snprintf(actorLabel, sizeof(actorLabel), "Actor");
     ImGui::SeparatorText(actorLabel);
 
+    bool wasPickPending = pickPending;
+    if (wasPickPending) ImGui::BeginDisabled();
+    if (ImGui::SmallButton("Pick Looking At")) PickLookingAt();
+    if (wasPickPending) ImGui::EndDisabled();
+    SameLineIfRoom("Highlight");
+    if (!selectedActor) ImGui::BeginDisabled();
+    if (ImGui::SmallButton("Highlight")) HighlightSelected();
+    if (!selectedActor) ImGui::EndDisabled();
+    SameLineIfRoom("Nearby");
+    bool wasNearbyMode = nearbyMode;
+    if (wasNearbyMode) ImGui::PushStyleColor(ImGuiCol_Button, ImGui::GetStyleColorVec4(ImGuiCol_ButtonActive));
+    if (ImGui::SmallButton("Nearby")) {
+        nearbyMode = !nearbyMode;
+        ScanAllActors();
+    }
+    if (wasNearbyMode) ImGui::PopStyleColor();
+
     for (int i = 0; i < static_cast<int>(std::size(QUICK_FILTERS)); ++i) {
         if (i > 0) SameLineIfRoom(QUICK_FILTERS[i].label);
         bool active = (actorSearchBuf[0] == '\0' && activeQuickFilter == i);
@@ -354,12 +523,13 @@ void WorldEditorSection::RenderActorSelector() {
 
     if (!filteredActors.empty()) {
         const char* preview =
-            (selectedActorIndex >= 0) ? filteredActors[selectedActorIndex].className.c_str() : "Select...";
+            (selectedActorIndex >= 0) ? filteredActors[selectedActorIndex].displayLabel.c_str()
+                                      : (!selectedActorLabel.empty() ? selectedActorLabel.c_str() : "Select...");
         if (GuiUtils::BeginSizedCombo("##ActorSelector", preview, actorComboWidth)) {
             GuiUtils::RenderClippedList(static_cast<int>(filteredActors.size()), selectedActorIndex, [&](int i) {
                 ImGui::PushID(i);
                 bool sel = (i == selectedActorIndex);
-                if (ImGui::Selectable(filteredActors[i].className.c_str(), sel)) SelectActor(i);
+                if (ImGui::Selectable(filteredActors[i].displayLabel.c_str(), sel)) SelectActor(i);
                 if (sel) ImGui::SetItemDefaultFocus();
                 ImGui::PopID();
             });
@@ -519,6 +689,7 @@ void WorldEditorSection::Render() {
     if (needsScan) ScanAllActors();
 
     RenderActorSelector();
+    RenderHighlightMarker();
 
     if (!browseTarget) return;
 

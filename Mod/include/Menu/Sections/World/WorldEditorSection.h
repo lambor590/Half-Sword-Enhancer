@@ -32,12 +32,14 @@ private:
     char actorSearchBuf[64] = "";
     char propSearchBuf[128] = "";
     std::string infoText;
+    std::string selectedActorLabel;
     GuiUtils::StatusMessage status;
-    std::string previousClassName;
     float actorComboWidth = 0;
     bool needsScan = true;
     bool liveMode = true;
     bool pendingApply = false;
+    bool nearbyMode = false;
+    bool pickPending = false;
     int activeQuickFilter = 0;
     int expandState = 0;
     bool findPending = false;
@@ -51,6 +53,13 @@ private:
     };
     std::vector<BrowseTarget> browseTargets;
 
+    struct HighlightMarker {
+        SDK::AActor* actor = nullptr;
+        SDK::USceneComponent* component = nullptr;
+        double endTime = 0.0;
+    };
+    HighlightMarker highlightMarker;
+
     struct QuickFilter {
         const char* label;
         const char* filter;
@@ -60,16 +69,21 @@ private:
         {"Volume", "Volume"}, {"Water", "Water"}, {"Camera", "Camera"}, {"Decal", "Decal"}, {"Audio", "Audio"},
         {"Prop", "Prop"},
     };
+    static constexpr float NEARBY_RANGE_METERS = 40.0f;
 
     void ResetState();
     void ScanAllActors();
     void ApplyFilter();
+    bool ActorMatchesFilter(const PropertyBrowser::WorldActor& actor, const char* filter, size_t filterLen) const;
     void AddSceneComponentTargets(SDK::USceneComponent* component, int depth);
     void BuildBrowseTargets(SDK::AActor* actor, const std::string& className);
-    void BrowseActor(SDK::AActor* actor, const std::string& className);
+    void BrowseActor(SDK::AActor* actor, const std::string& className, SDK::UObject* preferredTarget = nullptr);
     void SelectTarget(int index);
     void SelectActor(int index);
-    void SelectActorDirect(SDK::AActor* actor, const std::string& className);
+    void SelectActorDirect(SDK::AActor* actor, const std::string& className, SDK::UObject* preferredTarget = nullptr);
+    void PickLookingAt();
+    void HighlightSelected();
+    void RenderHighlightMarker();
     void FindByClassName(const char* className);
     void QueueApply();
     void QueueActorState(bool hidden, bool collision, bool tickEnabled);
