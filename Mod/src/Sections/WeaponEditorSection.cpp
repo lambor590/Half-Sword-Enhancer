@@ -963,11 +963,18 @@ void WeaponEditorSection::RenderMeshCombo(int slotIdx) {
 }
 
 void WeaponEditorSection::DrainPendingMeshEntries() {
-    if (!meshPendingReady.exchange(false, std::memory_order_acquire)) return;
+    const bool hasPendingEntries = meshPendingReady.exchange(false, std::memory_order_acquire);
+    const bool resolvePending = meshResolvePending.exchange(false, std::memory_order_acquire);
+
+    if (!hasPendingEntries) {
+        if (resolvePending) ResolveMeshOverrideIndices();
+        return;
+    }
 
     if (meshPendingIsFullReplace) {
         meshPool = std::move(pendingMeshEntries);
         meshSeen.clear();
+        meshSeen.reserve(meshPool.size());
         for (auto& e : meshPool)
             meshSeen.insert(e.mesh);
         meshScanQueued = false;
@@ -986,19 +993,50 @@ void WeaponEditorSection::DrainPendingMeshEntries() {
 void WeaponEditorSection::RebuildMeshDisplayCache() {
     staticMeshCount = 0;
     skeletalMeshCount = 0;
-    for (auto& entry : meshPool) {
+    meshPathIndex.clear();
+    meshObjectIndex.clear();
+    meshPathIndex.reserve(meshPool.size());
+    meshObjectIndex.reserve(meshPool.size());
+
+    for (int i = 0; i < static_cast<int>(meshPool.size()); ++i) {
+        auto& entry = meshPool[static_cast<size_t>(i)];
         if (entry.display.empty()) entry.display = MeshDisplayLabel(entry.name, entry.category, entry.type);
+        if (!entry.path.empty()) meshPathIndex.emplace(entry.path, i);
+        if (entry.mesh) meshObjectIndex.emplace(entry.mesh, i);
         if (entry.type == MeshType::Skeletal)
             ++skeletalMeshCount;
         else
             ++staticMeshCount;
     }
+    ResolveMeshOverrideIndices();
+}
+
+int WeaponEditorSection::FindMeshPoolIndexByPath(const std::string& path) const {
+    const auto it = meshPathIndex.find(path);
+    return it == meshPathIndex.end() ? -1 : it->second;
+}
+
+int WeaponEditorSection::FindMeshPoolIndexByObject(SDK::UObject* mesh) const {
+    if (!mesh) return -1;
+    const auto it = meshObjectIndex.find(mesh);
+    return it == meshObjectIndex.end() ? -1 : it->second;
+}
+
+void WeaponEditorSection::ResolveMeshOverrideIndices() {
+    for (auto& meshOverride : meshOverrides) {
+        if (!meshOverride.mesh) {
+            meshOverride.poolIndex = -1;
+            continue;
+        }
+
+        meshOverride.poolIndex = FindMeshPoolIndexByObject(meshOverride.mesh);
+        if (meshOverride.poolIndex >= 0)
+            meshOverride.meshType = meshPool[static_cast<size_t>(meshOverride.poolIndex)].type;
+    }
 }
 
 void WeaponEditorSection::RenderMeshTab() {
     ImGui::PushID("mesh");
-
-    DrainPendingMeshEntries();
 
     if (meshPool.empty()) QueueMeshScan();
 
@@ -1152,16 +1190,13 @@ void WeaponEditorSection::ApplyPresetData(WeaponPresetData d) {
 
         if (!d.meshPresets[i].enabled || d.meshPresets[i].meshPath.empty()) continue;
 
-        bool found = false;
-        for (int j = 0; j < static_cast<int>(meshPool.size()); ++j) {
-            if (meshPool[j].path == d.meshPresets[i].meshPath) {
-                meshOverrides[i].poolIndex = j;
-                meshOverrides[i].mesh = meshPool[j].mesh;
-                found = true;
-                break;
-            }
+        const int meshIndex = FindMeshPoolIndexByPath(d.meshPresets[i].meshPath);
+        if (meshIndex >= 0) {
+            meshOverrides[i].poolIndex = meshIndex;
+            meshOverrides[i].mesh = meshPool[static_cast<size_t>(meshIndex)].mesh;
+        } else {
+            pending.push_back({i, std::move(d.meshPresets[i].meshPath), d.meshPresets[i].meshType});
         }
-        if (!found) pending.push_back({i, std::move(d.meshPresets[i].meshPath), d.meshPresets[i].meshType});
     }
 
     if (!pending.empty()) {
@@ -1169,13 +1204,10 @@ void WeaponEditorSection::ApplyPresetData(WeaponPresetData d) {
             for (const auto& pl : pending) {
                 auto* loaded = LoadAssetByPath(pl.path.c_str());
                 if (!loaded) continue;
-                for (int j = 0; j < static_cast<int>(meshPool.size()); ++j) {
-                    if (meshPool[j].mesh == loaded) {
-                        meshOverrides[pl.slot].poolIndex = j;
-                        meshOverrides[pl.slot].mesh = loaded;
-                        break;
-                    }
-                }
+                meshOverrides[pl.slot].mesh = loaded;
+                meshOverrides[pl.slot].meshType = pl.meshType;
+                meshOverrides[pl.slot].poolIndex = -1;
+                meshResolvePending.store(true, std::memory_order_release);
             }
         });
     }
@@ -1240,6 +1272,7 @@ void WeaponEditorSection::Render() {
 
     preview.InvalidateIfDead(player, world);
     preview.SyncToggleState();
+    DrainPendingMeshEntries();
 
     keybinds.Render();
     ImGui::Spacing();

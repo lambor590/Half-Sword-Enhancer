@@ -4,6 +4,7 @@
 #include <string>
 #include <string_view>
 #include <atomic>
+#include <unordered_map>
 #include <unordered_set>
 
 #include "Menu/Section.h"
@@ -94,6 +95,8 @@ private:
     };
 
     std::vector<MeshPoolEntry> meshPool;
+    std::unordered_map<std::string, int> meshPathIndex;
+    std::unordered_map<SDK::UObject*, int> meshObjectIndex;
     std::unordered_set<SDK::UObject*> meshSeen;
     bool meshScanQueued = false;
     float meshComboWidth = 0.0f;
@@ -102,6 +105,7 @@ private:
 
     std::vector<MeshPoolEntry> pendingMeshEntries;
     std::atomic<bool> meshPendingReady{false};
+    std::atomic<bool> meshResolvePending{false};
     bool meshPendingIsFullReplace = false;
     char meshFilters[MODULE_SLOT_COUNT][64] = {};
     std::vector<int> filteredMeshIndices;
@@ -152,6 +156,9 @@ private:
     void RenderMeshCombo(int slotIdx);
     void DrainPendingMeshEntries();
     void RebuildMeshDisplayCache();
+    int FindMeshPoolIndexByPath(const std::string& path) const;
+    int FindMeshPoolIndexByObject(SDK::UObject* mesh) const;
+    void ResolveMeshOverrideIndices();
     void RenderMeshTab();
     void RenderStatsTab();
     WeaponPresetData BuildPresetData() const;
