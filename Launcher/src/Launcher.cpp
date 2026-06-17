@@ -261,13 +261,10 @@ std::filesystem::path HSELauncher::AskManualPath() {
     std::string path;
     std::getline(std::cin, path);
 
-    auto isQuote = [](char c) {
-        return c == '"' || c == '\'';
-    };
-    while (!path.empty() && isQuote(path.front()))
-        path.erase(path.begin());
-    while (!path.empty() && isQuote(path.back()))
-        path.pop_back();
+    const auto first = path.find_first_not_of("\"'");
+    if (first == std::string::npos) return {};
+    const auto last = path.find_last_not_of("\"'");
+    path = path.substr(first, last - first + 1);
 
     return std::filesystem::path(path);
 }
