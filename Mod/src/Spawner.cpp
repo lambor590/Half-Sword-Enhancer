@@ -23,6 +23,7 @@ namespace Spawner {
 
     namespace {
         std::unordered_map<std::string, SDK::UClass*> classCache;
+        const SDK::UWorld* cachedWorld = nullptr;
 
         constexpr std::array<std::pair<std::string_view, ActorType>, 14> TYPE_MAP = {
             {{"Willie_BP", ActorType::Willie},
@@ -120,7 +121,7 @@ namespace Spawner {
             SDK::FLinearColor(1.0f, 0.0f, 0.0f, 1.0f), SDK::FLinearColor(0.0f, 1.0f, 0.0f, 1.0f), 1.0f
         );
 
-        if (hit && hitResult.bBlockingHit) {
+        if (hit) {
             SDK::FVector groundPos = hitResult.Location;
             groundPos.Z += groundOffset;
             return groundPos;
@@ -133,6 +134,7 @@ namespace Spawner {
 
     void ClearCache() {
         classCache.clear();
+        cachedWorld = nullptr;
         EquipmentGenerator::ClearCache();
     }
 
@@ -142,6 +144,11 @@ namespace Spawner {
         std::function<void(SDK::AActor*)> postSpawnCallback
     ) {
         ActorType actorType = GetActorType(className);
+        if (world && cachedWorld != world) {
+            classCache.clear();
+            EquipmentGenerator::ClearCache();
+            cachedWorld = world;
+        }
 
         SDK::UClass* actorClass = LoadActorClass(className);
         if (!actorClass) {
@@ -184,7 +191,6 @@ namespace Spawner {
                 }
             } else
                 passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
-            if (!EquipmentGenerator::IsPassportValid(passport)) return;
             SpawnCustomizableFromPassport(world, passport, transform, snapToGround, callback);
             return;
         }
