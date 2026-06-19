@@ -317,13 +317,16 @@ void GameHook::ProcessGameThreadQueue() {
 
     {
         std::lock_guard<std::mutex> lock(queueMutex);
-        if (gameThreadQueue.empty()) return;
+        if (gameThreadQueue.empty()) {
+            hasQueuedActions.store(false, std::memory_order_release);
+            return;
+        }
         localQueue.swap(gameThreadQueue);
         hasQueuedActions.store(false, std::memory_order_release);
     }
 
+    const auto snapshot = ModContext::Get().RefreshGameThreadCache();
     for (auto& action : localQueue) {
-        auto snapshot = ModContext::Get().RefreshGameThreadCache();
         action(snapshot);
     }
 }
