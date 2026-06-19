@@ -1,5 +1,6 @@
 #include <fstream>
 #include <string>
+#include <string_view>
 #include <algorithm>
 #include <Windows.h>
 
@@ -32,28 +33,32 @@ namespace hse {
         [[nodiscard]] GameEdition DetectEditionFromPath(const std::filesystem::path& path) noexcept;
         [[nodiscard]] std::filesystem::path FindWin64Directory(const std::filesystem::path& basePath) noexcept;
 
-        [[nodiscard]] std::string ExtractQuotedToken(std::string_view line, std::size_t tokenIndex) {
-            std::size_t searchFrom = 0;
+        struct QuotedKeyValue {
+            std::string_view key;
+            std::string_view value;
+        };
 
-            for (std::size_t currentIndex = 0; currentIndex <= tokenIndex; ++currentIndex) {
-                const auto tokenStart = line.find('"', searchFrom);
-                if (tokenStart == std::string_view::npos) {
-                    return {};
-                }
+        [[nodiscard]] QuotedKeyValue ExtractQuotedKeyValue(std::string_view line) noexcept {
+            const auto keyStart = line.find('"');
+            if (keyStart == std::string_view::npos) return {};
 
-                const auto tokenEnd = line.find('"', tokenStart + 1);
-                if (tokenEnd == std::string_view::npos) {
-                    return {};
-                }
+            const auto keyEnd = line.find('"', keyStart + 1);
+            if (keyEnd == std::string_view::npos) return {};
 
-                if (currentIndex == tokenIndex) {
-                    return std::string(line.substr(tokenStart + 1, tokenEnd - tokenStart - 1));
-                }
-
-                searchFrom = tokenEnd + 1;
+            const auto valueStart = line.find('"', keyEnd + 1);
+            if (valueStart == std::string_view::npos) {
+                return {line.substr(keyStart + 1, keyEnd - keyStart - 1), {}};
             }
 
-            return {};
+            const auto valueEnd = line.find('"', valueStart + 1);
+            if (valueEnd == std::string_view::npos) {
+                return {line.substr(keyStart + 1, keyEnd - keyStart - 1), {}};
+            }
+
+            return {
+                line.substr(keyStart + 1, keyEnd - keyStart - 1),
+                line.substr(valueStart + 1, valueEnd - valueStart - 1),
+            };
         }
 
         [[nodiscard]] bool DirectoryContainsExecutable(const std::filesystem::path& directory) {
@@ -195,13 +200,12 @@ namespace hse {
                 continue;
             }
 
-            std::string key = ExtractQuotedToken(line, 0);
+            const auto [key, value] = ExtractQuotedKeyValue(line);
             if (key.empty()) continue;
 
             if (braceDepth == 2 && key == "path") {
-                std::string value = ExtractQuotedToken(line, 1);
                 if (!value.empty()) {
-                    current.path = value;
+                    current.path = std::filesystem::path(value);
                 }
             }
 
