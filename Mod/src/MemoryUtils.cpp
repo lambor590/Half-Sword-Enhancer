@@ -285,23 +285,19 @@ namespace MemoryUtils {
         auto& hookInfo = it->second;
 
         uint8_t firstByte = 0;
-        if (SafeReadMemory(hookedAddress, firstByte) && firstByte == 0xE9) {
-            int32_t jumpOffset = 0;
-            if (SafeReadMemory(hookedAddress + 1, jumpOffset)) {
-                uintptr_t jumpTarget = hookedAddress + REL_JUMP_SIZE + jumpOffset;
-                uintptr_t trampBase = hookInfo.trampolineBase;
-
-                bool isOurHook = trampBase != 0 && (jumpTarget >= trampBase) &&
-                                 (jumpTarget <= trampBase + TRAMPOLINE_BUFFER_SIZE * 2);
-
-                if (isOurHook) {
-                    MemCopy(
-                        reinterpret_cast<void*>(hookedAddress), hookInfo.originalBytes.data(),
-                        hookInfo.originalBytesSize
-                    );
-                }
-            }
+        int32_t jumpOffset = 0;
+        if (!SafeReadMemory(hookedAddress, firstByte) || firstByte != 0xE9 ||
+            !SafeReadMemory(hookedAddress + 1, jumpOffset)) {
+            return;
         }
+
+        const uintptr_t jumpTarget = hookedAddress + REL_JUMP_SIZE + jumpOffset;
+        const uintptr_t trampBase = hookInfo.trampolineBase;
+        const bool isOurHook =
+            trampBase != 0 && jumpTarget >= trampBase && jumpTarget <= trampBase + TRAMPOLINE_BUFFER_SIZE * 2;
+        if (!isOurHook) return;
+
+        MemCopy(reinterpret_cast<void*>(hookedAddress), hookInfo.originalBytes.data(), hookInfo.originalBytesSize);
 
         if (hookInfo.trampolineBase) {
             VirtualFree(reinterpret_cast<void*>(hookInfo.trampolineBase), 0, MEM_RELEASE);
