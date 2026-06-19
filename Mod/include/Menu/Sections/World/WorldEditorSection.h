@@ -39,6 +39,7 @@ private:
     bool liveMode = true;
     bool pendingApply = false;
     bool nearbyMode = false;
+    bool clickPickActive = false;
     bool pickPending = false;
     int activeQuickFilter = 0;
     int expandState = 0;
@@ -81,7 +82,8 @@ private:
     void SelectTarget(int index);
     void SelectActor(int index);
     void SelectActorDirect(SDK::AActor* actor, const std::string& className, SDK::UObject* preferredTarget = nullptr);
-    void PickLookingAt();
+    void PickClickedActor(ImVec2 screenPos, ImVec2 viewportPos, ImVec2 viewportSize);
+    void RenderClickPickOverlay();
     void HighlightSelected();
     void RenderHighlightMarker();
     void FindByClassName(const char* className);

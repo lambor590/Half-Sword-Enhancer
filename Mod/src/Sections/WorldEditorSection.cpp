@@ -9,6 +9,8 @@
 #include <utility>
 
 namespace {
+    constexpr double PICK_TRACE_DISTANCE = 20000.0;
+
     const char* CollisionLabel(SDK::ECollisionEnabled mode) noexcept {
         switch (mode) {
             case SDK::ECollisionEnabled::NoCollision: return "No Collision";
@@ -27,6 +29,21 @@ namespace {
         if (ImGui::GetContentRegionAvail().x < width) return false;
         ImGui::SameLine();
         return true;
+    }
+
+    SDK::AActor* ActorFromHit(const SDK::FHitResult& hitResult, SDK::USceneComponent*& outComponent) {
+        SDK::USceneComponent* component = hitResult.Component.Get();
+        outComponent = component;
+        if (component) return component->GetOwner();
+
+        auto* object = hitResult.HitObjectHandle.ReferenceObject.Get();
+        if (!object) return nullptr;
+        if (object->IsA(SDK::AActor::StaticClass())) return static_cast<SDK::AActor*>(object);
+        if (!object->IsA(SDK::USceneComponent::StaticClass())) return nullptr;
+
+        component = static_cast<SDK::USceneComponent*>(object);
+        outComponent = component;
+        return component->GetOwner();
     }
 } // namespace
 
@@ -58,6 +75,7 @@ void WorldEditorSection::ResetState() {
     infoText.clear();
     status = {};
     needsScan = true;
+    clickPickActive = false;
     pickPending = false;
 }
 
@@ -237,46 +255,50 @@ void WorldEditorSection::SelectActorDirect(
     BrowseActor(actor, resolvedClassName, preferredTarget);
 }
 
-void WorldEditorSection::PickLookingAt() {
-    if (pickPending) return;
+void WorldEditorSection::PickClickedActor(ImVec2 screenPos, ImVec2 viewportPos, ImVec2 viewportSize) {
     pickPending = true;
     status.Set("Picking...");
 
-    GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([this, screenPos, viewportPos, viewportSize](const RuntimeContextSnapshot& runtime) {
         auto* world = runtime.world;
-        if (!world) {
-            status.Set("World not available", true);
+        auto* controller = runtime.controller;
+        if (!world || !controller) {
+            status.Set(!world ? "World not available" : "Controller not available", true);
             pickPending = false;
             return;
         }
 
-        auto* camera = SDK::UGameplayStatics::GetPlayerCameraManager(world, 0);
-        if (!camera) {
-            status.Set("Camera not available", true);
-            pickPending = false;
-            return;
+        int32_t viewportX = 0;
+        int32_t viewportY = 0;
+        controller->GetViewportSize(&viewportX, &viewportY);
+        const float localX = screenPos.x - viewportPos.x;
+        const float localY = screenPos.y - viewportPos.y;
+        const float screenX = localX * static_cast<float>(viewportX) / viewportSize.x;
+        const float screenY = localY * static_cast<float>(viewportY) / viewportSize.y;
+
+        SDK::FVector start{};
+        SDK::FVector direction{};
+        const bool deprojected = controller->DeprojectScreenPositionToWorld(screenX, screenY, &start, &direction);
+
+        SDK::USceneComponent* component = nullptr;
+        SDK::AActor* actor = nullptr;
+        if (deprojected) {
+            const SDK::FVector end = start + direction * PICK_TRACE_DISTANCE;
+
+            SDK::TArray<SDK::AActor*> actorsToIgnore;
+            if (runtime.player) actorsToIgnore.Add(runtime.player);
+
+            SDK::FHitResult hitResult;
+            if (SDK::UKismetSystemLibrary::LineTraceSingle(
+                world, start, end, SDK::ETraceTypeQuery::TraceTypeQuery1, false, actorsToIgnore,
+                SDK::EDrawDebugTrace::ForDuration, &hitResult, true,
+                SDK::FLinearColor(0.2f, 0.7f, 1.0f, 1.0f), SDK::FLinearColor(1.0f, 0.9f, 0.1f, 1.0f), 0.5f
+            ))
+                actor = ActorFromHit(hitResult, component);
         }
 
-        const SDK::FVector start = camera->GetCameraLocation();
-        const SDK::FVector end = start + SDK::UKismetMathLibrary::GetForwardVector(camera->GetCameraRotation()) * 20000.0;
-
-        SDK::TArray<SDK::EObjectTypeQuery> objectTypes;
-        for (int i = 0; i < static_cast<int>(SDK::EObjectTypeQuery::ObjectTypeQuery_MAX); ++i)
-            objectTypes.Add(static_cast<SDK::EObjectTypeQuery>(i));
-
-        SDK::TArray<SDK::AActor*> actorsToIgnore;
-        if (runtime.player) actorsToIgnore.Add(runtime.player);
-
-        SDK::FHitResult hitResult;
-        bool hit = SDK::UKismetSystemLibrary::LineTraceSingleForObjects(
-            world, start, end, objectTypes, true, actorsToIgnore, SDK::EDrawDebugTrace::ForDuration, &hitResult, true,
-            SDK::FLinearColor(0.2f, 0.7f, 1.0f, 1.0f), SDK::FLinearColor(1.0f, 0.9f, 0.1f, 1.0f), 0.5f
-        );
-
-        auto* component = hit ? hitResult.Component.Get() : nullptr;
-        auto* actor = component ? component->GetOwner() : nullptr;
         if (!actor || !actor->Class || actor->IsActorBeingDestroyed()) {
-            status.Set("No actor under reticle", true);
+            status.Set("No actor under cursor", true);
             pickPending = false;
             return;
         }
@@ -285,6 +307,37 @@ void WorldEditorSection::PickLookingAt() {
         status.Set("Picked: " + selectedActorLabel);
         pickPending = false;
     });
+}
+
+void WorldEditorSection::RenderClickPickOverlay() {
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+    ImGui::SetNextWindowPos(viewport->Pos);
+    ImGui::SetNextWindowSize(viewport->Size);
+    ImGui::SetNextWindowFocus();
+
+    constexpr ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
+                                       ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBackground |
+                                       ImGuiWindowFlags_NoNav;
+
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+    if (ImGui::Begin("##WorldEditorClickPickOverlay", nullptr, flags)) {
+        ImGui::SetCursorPos(ImVec2(0.0f, 0.0f));
+        ImGui::InvisibleButton(
+            "##WorldEditorClickPickTarget", viewport->Size,
+            ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight
+        );
+
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+            clickPickActive = false;
+            status.Set("Pick cancelled");
+        } else if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+            clickPickActive = false;
+            PickClickedActor(ImGui::GetIO().MousePos, viewport->Pos, viewport->Size);
+        }
+    }
+    ImGui::End();
+    ImGui::PopStyleVar(2);
 }
 
 void WorldEditorSection::HighlightSelected() {
@@ -483,9 +536,12 @@ void WorldEditorSection::RenderActorSelector() {
         std::snprintf(actorLabel, sizeof(actorLabel), "Actor");
     ImGui::SeparatorText(actorLabel);
 
-    bool wasPickPending = pickPending;
+    bool wasPickPending = clickPickActive || pickPending;
     if (wasPickPending) ImGui::BeginDisabled();
-    if (ImGui::SmallButton("Pick Looking At")) PickLookingAt();
+    if (ImGui::SmallButton("Click Actor")) {
+        clickPickActive = true;
+        status.Set("Click an actor in the world");
+    }
     if (wasPickPending) ImGui::EndDisabled();
     SameLineIfRoom("Highlight");
     if (!selectedActor) ImGui::BeginDisabled();
@@ -708,29 +764,32 @@ void WorldEditorSection::Render() {
     if (world != cachedWorld) ResetState();
     if (needsScan) ScanAllActors();
 
+    const bool renderPickOverlay = clickPickActive;
     RenderActorSelector();
     RenderHighlightMarker();
 
-    if (!browseTarget) return;
+    if (browseTarget) {
+        RenderTargetSelector();
+        RenderTargetControls();
+        RenderPropertyToolbar();
 
-    RenderTargetSelector();
-    RenderTargetControls();
-    RenderPropertyToolbar();
+        ImGui::Spacing();
 
-    ImGui::Spacing();
+        size_t propFilterLen = std::strlen(propSearchBuf);
+        if (!visiblePropertiesReady || visiblePropertyFilter.size() != propFilterLen ||
+            std::memcmp(visiblePropertyFilter.data(), propSearchBuf, propFilterLen) != 0)
+            RebuildVisibleProperties(propFilterLen);
+        ImGui::BeginChild("##PropertyList", ImVec2(0, 0), ImGuiChildFlags_None);
+        for (auto& category : visibleCategories)
+            RenderCategory(category.name, category.props, propFilterLen);
+        expandState = 0;
+        ImGui::EndChild();
 
-    size_t propFilterLen = std::strlen(propSearchBuf);
-    if (!visiblePropertiesReady || visiblePropertyFilter.size() != propFilterLen ||
-        std::memcmp(visiblePropertyFilter.data(), propSearchBuf, propFilterLen) != 0)
-        RebuildVisibleProperties(propFilterLen);
-    ImGui::BeginChild("##PropertyList", ImVec2(0, 0), ImGuiChildFlags_None);
-    for (auto& category : visibleCategories)
-        RenderCategory(category.name, category.props, propFilterLen);
-    expandState = 0;
-    ImGui::EndChild();
-
-    if (pendingApply) {
-        QueueApply();
-        pendingApply = false;
+        if (pendingApply) {
+            QueueApply();
+            pendingApply = false;
+        }
     }
+
+    if (renderPickOverlay) RenderClickPickOverlay();
 }
