@@ -10,13 +10,8 @@
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
 #include "Utils/PossessState.h"
-#include "Logger.h"
-
-#include <string>
 
 namespace {
-    Logger g_kickLogger{"KickMultiplier"};
-    constexpr int KICK_DIAGNOSTIC_LOG_LIMIT = 32;
     constexpr double KICK_FOOT_MASS_WEIGHT = 1.0;
     constexpr double KICK_CALF_MASS_WEIGHT = 0.75;
     constexpr double KICK_THIGH_MASS_WEIGHT = 0.35;
@@ -41,18 +36,6 @@ namespace {
         if (weapon->Kick_Power < multiplier) {
             weapon->Kick_Power = multiplier;
         }
-    }
-
-    bool ShouldLogKickDiagnostic() noexcept {
-        static int logCount = 0;
-        if (logCount >= KICK_DIAGNOSTIC_LOG_LIMIT) return false;
-
-        ++logCount;
-        return true;
-    }
-
-    std::string NameForLog(const SDK::FName& name) {
-        return name.IsNone() ? std::string("<none>") : name.ToString();
     }
 
     const KickBoneSet& KickBones(bool leftKick) {
@@ -84,30 +67,6 @@ namespace {
 
     constexpr int KickImpulseTransferStepCount() noexcept {
         return static_cast<int>(sizeof(KICK_IMPULSE_TRANSFER_WEIGHTS) / sizeof(KICK_IMPULSE_TRANSFER_WEIGHTS[0]));
-    }
-
-    void LogKickSkip(
-        const char* reason,
-        bool leftKick,
-        SDK::AWeapon_Feet_C* foot,
-        SDK::UPrimitiveComponent* hitComponent,
-        SDK::UPrimitiveComponent* otherComponent,
-        const SDK::FHitResult& hit
-    ) {
-        if (!ShouldLogKickDiagnostic()) return;
-
-        const auto boneName = NameForLog(hit.BoneName);
-        const auto myBoneName = NameForLog(hit.MyBoneName);
-        g_kickLogger.Log(
-            "skip: reason=%s side=%s foot=%p hitComp=%p otherComp=%p boneName=%s myBoneName=%s",
-            reason,
-            leftKick ? "left" : "right",
-            foot,
-            hitComponent,
-            otherComponent,
-            boneName.c_str(),
-            myBoneName.c_str()
-        );
     }
 }
 
@@ -446,18 +405,6 @@ void PlayerAbilitiesSection::InitKeybinds() {
         const double weight = KICK_IMPULSE_TRANSFER_WEIGHTS[pendingKickImpulseStep];
         const auto impulse = pendingKickImpulse * weight;
         pendingKickImpulseComponent->AddImpulseAtLocation(impulse, pendingKickImpulseLocation, pendingKickImpulseBone);
-        if (ShouldLogKickDiagnostic()) {
-            const auto boneName = NameForLog(pendingKickImpulseBone);
-            g_kickLogger.Log(
-                "applied: transferStep=%d/%d weight=%.2f bone=%s sliceImpulse=%.3f totalImpulse=%.3f",
-                pendingKickImpulseStep + 1,
-                KickImpulseTransferStepCount(),
-                weight,
-                boneName.c_str(),
-                impulse.Magnitude(),
-                pendingKickImpulse.Magnitude()
-            );
-        }
 
         ++pendingKickImpulseStep;
         if (pendingKickImpulseStep >= KickImpulseTransferStepCount()) {
@@ -582,33 +529,16 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                 const double footSpeed = foot->Weapon_Velocity.Magnitude();
                                 if (multiplier <= 1.0 || footSpeed <= 0.001) return;
 
-                                if (!params->HitComponent->IsA(SDK::USkeletalMeshComponent::StaticClass())) {
-                                    LogKickSkip(
-                                        "target-not-skeletal", kickWindowLeft, foot, params->HitComponent, params->OtherComp,
-                                        params->Hit
-                                    );
-                                    return;
-                                }
-
-                                auto* targetMesh = static_cast<SDK::USkeletalMeshComponent*>(params->HitComponent);
+                                auto* targetMesh = params->HitComponent->IsA(SDK::USkeletalMeshComponent::StaticClass())
+                                                     ? static_cast<SDK::USkeletalMeshComponent*>(params->HitComponent)
+                                                     : nullptr;
+                                if (!targetMesh) return;
                                 const auto targetBone = params->Hit.MyBoneName;
-                                if (targetBone.IsNone()) {
-                                    LogKickSkip(
-                                        "missing-target-bone", kickWindowLeft, foot, params->HitComponent, params->OtherComp,
-                                        params->Hit
-                                    );
-                                    return;
-                                }
+                                if (targetBone.IsNone()) return;
 
                                 const double targetMass = targetMesh->GetBoneMass(targetBone, true);
                                 const double attackerMass = KickLimbMass(player->Mesh, kickWindowLeft);
-                                if (targetMass <= 0.001 || attackerMass <= 0.001) {
-                                    LogKickSkip(
-                                        "invalid-mass", kickWindowLeft, foot, params->HitComponent, params->OtherComp,
-                                        params->Hit
-                                    );
-                                    return;
-                                }
+                                if (targetMass <= 0.001 || attackerMass <= 0.001) return;
 
                                 auto direction = target->K2_GetActorLocation() - player->K2_GetActorLocation();
                                 direction.Z = 0.0;
@@ -625,13 +555,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                 }
 
                                 const double relativeSpeed = relativeVelocity.Magnitude();
-                                if (relativeSpeed <= 0.001) {
-                                    LogKickSkip(
-                                        "invalid-relative-velocity", kickWindowLeft, foot, params->HitComponent,
-                                        params->OtherComp, params->Hit
-                                    );
-                                    return;
-                                }
+                                if (relativeSpeed <= 0.001) return;
 
                                 direction = relativeVelocity / relativeSpeed;
                                 direction.Normalize();
@@ -645,34 +569,6 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                 pendingKickImpulseBone = targetBone;
                                 pendingKickImpulseStep = 0;
                                 applyPendingKickImpulse();
-                                if (ShouldLogKickDiagnostic()) {
-                                    const auto targetBoneName = NameForLog(targetBone);
-                                    const auto& attackerBones = KickBones(kickWindowLeft);
-                                    const auto footBoneName = NameForLog(attackerBones.foot);
-                                    const auto calfBoneName = NameForLog(attackerBones.calf);
-                                    const auto thighBoneName = NameForLog(attackerBones.thigh);
-                                    const double otherComponentMass = params->OtherComp ? params->OtherComp->GetMass() : 0.0;
-                                    g_kickLogger.Log(
-                                        "scheduled: side=%s attackerBones=%s+%s+%s targetBone=%s footSpeed=%.3f "
-                                        "relativeSpeed=%.3f multiplier=%.3f "
-                                        "attackerMass=%.3f targetMass=%.3f effectiveMass=%.3f impulse=%.3f "
-                                        "normalImpulse=%.3f otherCompMass=%.3f",
-                                        kickWindowLeft ? "left" : "right",
-                                        footBoneName.c_str(),
-                                        calfBoneName.c_str(),
-                                        thighBoneName.c_str(),
-                                        targetBoneName.c_str(),
-                                        footSpeed,
-                                        relativeSpeed,
-                                        multiplier,
-                                        attackerMass,
-                                        targetMass,
-                                        effectiveMass,
-                                        impulse.Magnitude(),
-                                        params->NormalImpulse.Magnitude(),
-                                        otherComponentMass
-                                    );
-                                }
                                 kickImpulseSpent = true;
                             },
                     },
