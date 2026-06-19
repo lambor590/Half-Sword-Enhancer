@@ -19,15 +19,12 @@
 #include "Menu/Sections/World/WorldActionsSection.h"
 #include "Menu/Sections/World/WorldEditorSection.h"
 #include "KeybindManager.h"
-#include "Logger.h"
 #include "NotificationManager.h"
 #include "Version.h"
 #include "Utils/GameBuildInfo.h"
 
 WNDPROC Gui::originalWndProc = nullptr;
 std::atomic<bool> Gui::isVisible = true;
-
-Logger logger("Gui");
 
 void Gui::Init(HWND newWindow) noexcept {
     window = newWindow;
@@ -145,7 +142,6 @@ void Gui::Setup() {
     menu.AddSection<LoadoutManagerSection>(ctx);
 
     originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
-    logger.Log("WndProc hooked successfully");
     setupComplete = true;
 }
 

@@ -134,7 +134,6 @@ void MapRegistry::PerformScan() {
         params.Filter.ClassPaths = SDK::TArray<SDK::FTopLevelAssetPath>(nullptr, 0, 0);
 
         const int32_t count = params.OutAssetData.Num();
-        g_logger.Log("Scan returned %d World assets under /Game", count);
 
         std::unordered_set<std::string> seenPackages;
         seenPackages.reserve(count);
@@ -167,8 +166,6 @@ void MapRegistry::PerformScan() {
 
         BuildCategories();
         displayWidthDirty = true;
-
-        g_logger.Log("Map scan complete: %zu maps in %zu categories", maps.size(), categories.size());
     } catch (...) {
         g_logger.Log("Map scan failed with exception");
     }

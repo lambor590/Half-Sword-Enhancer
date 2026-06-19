@@ -564,7 +564,6 @@ bool AssetOverrideManager::ScanFiles() {
             ++next.errors;
             continue;
         }
-        g_logger.Log("Texture override target: %s -> %s", entry.path().string().c_str(), target.c_str());
         files.push_back({entry.path(), std::move(target)});
     }
 
@@ -573,7 +572,6 @@ bool AssetOverrideManager::ScanFiles() {
     needsScan = false;
     needsLoad = true;
     needsApply = true;
-    g_logger.Log("Found %d texture override file(s)", next.files);
     return true;
 }
 

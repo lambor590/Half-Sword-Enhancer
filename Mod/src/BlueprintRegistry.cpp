@@ -102,7 +102,6 @@ void BlueprintRegistry::PerformScan() {
             SDK::TArray<SDK::FAssetData> results;
             SDK::UAssetRegistryHelpers::GetBlueprintAssets(filter, &results);
 
-            g_logger.Log("Asset Registry scan returned %d blueprints", results.Num());
             items.reserve(static_cast<size_t>(results.Num()) + GameConstants::WEAPON_TYPE_COUNT + customPaths.size());
 
             std::unordered_set<uint64_t> seenIds;
@@ -145,9 +144,6 @@ void BlueprintRegistry::PerformScan() {
             }
 
             scanSuccess = !items.empty();
-            if (scanSuccess) {
-                g_logger.Log("Scan complete: %zu items in %zu categories", items.size(), categories.size());
-            }
         }
     } catch (...) {
         g_logger.Log("Asset Registry scan failed with exception");
@@ -345,11 +341,6 @@ void BlueprintRegistry::ScanWeaponTiers() {
     }
 
     TierValidation::VALID_TIER_MASKS = scannedMasks;
-
-    int populated = 0;
-    for (int i = 1; i <= GameConstants::WEAPON_TYPE_COUNT; ++i)
-        if (scannedMasks[i] != 0) ++populated;
-    g_logger.Log("Weapon tier scan: populated %d/%d weapon type masks", populated, GameConstants::WEAPON_TYPE_COUNT);
 }
 
 void BlueprintRegistry::InjectCustomizableWeapons() {

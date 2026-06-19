@@ -36,7 +36,6 @@ private:
         bool commandQueueCaptured = false;
         bool commandQueueHookInstalled = false;
         bool dx12QueueMismatchLogged = false;
-        bool dx12FirstDrawLogged = false;
         RenderBackend backend = RenderBackend::Unknown;
         RenderBackend imguiBackend = RenderBackend::Unknown;
         uint8_t bufferCount = 0;

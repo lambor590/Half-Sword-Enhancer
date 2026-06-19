@@ -179,8 +179,6 @@ GameHook& GameHook::Get() {
 }
 
 bool GameHook::Hook() {
-    logger.Log("Hooking ProcessEvent");
-
     processEventAddress = SDK::InSDKUtils::GetImageBase() + SDK::Offsets::ProcessEvent;
     if (!processEventAddress) {
         logger.Log("Failed to resolve ProcessEvent address");
@@ -204,7 +202,6 @@ bool GameHook::Hook() {
 
     QueueAction([](const RuntimeContextSnapshot&) { GameBuildInfo::Query(); });
 
-    logger.Log("ProcessEvent hooked successfully!");
     return true;
 }
 
@@ -216,7 +213,6 @@ void GameHook::Unhook() {
     hookCount = 0;
     g_peCache.Clear();
     EventBus::Get().Clear();
-    logger.Log("ProcessEvent unhooked successfully!");
 }
 
 void GameHook::RegisterHook(std::string_view functionName, HookCallback callback, bool afterOriginal) {
@@ -288,11 +284,9 @@ void GameHook::SetUEConsoleEnabled(bool enabled) {
                 }
 
                 viewport->ViewportConsole = static_cast<SDK::UConsole*>(newConsole);
-                hook.logger.Log("Console object created successfully");
             }
         } else if (viewport && viewport->ViewportConsole) {
             viewport->ViewportConsole = nullptr;
-            hook.logger.Log("Console object destroyed");
         }
 
         SDK::UInputSettings* inputSettings = SDK::UInputSettings::GetDefaultObj();

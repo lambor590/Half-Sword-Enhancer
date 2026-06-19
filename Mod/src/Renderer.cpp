@@ -123,10 +123,6 @@ static inline void GetWindowDimensions(HWND handle, int& width, int& height) noe
 bool Renderer::Hook() {
     g_Renderer = this;
 
-    logger.Log("HookOnPresent: %p", &HookOnPresent);
-    logger.Log("HookOnResizeBuffers: %p", &HookOnResizeBuffers);
-    logger.Log("HookOnResizeBuffers1: %p", &HookOnResizeBuffers1);
-
     IDXGISwapChain* dummySwapChain = CreateDummySwapChain();
     if (!dummySwapChain) {
         logger.Log("Failed to create dummy swap chain, hooking aborted");
@@ -188,36 +184,15 @@ bool Renderer::CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept {
     commandQueue = newQueue;
     state.commandQueueCaptured = true;
     state.dx12QueueMismatchLogged = false;
-    const D3D12_COMMAND_QUEUE_DESC desc = newQueue->GetDesc();
-    logger.Log(
-        "D3D12 command queue captured: type=%u priority=%d flags=0x%08X nodeMask=%u", static_cast<UINT>(desc.Type),
-        desc.Priority, static_cast<UINT>(desc.Flags), desc.NodeMask
-    );
     return true;
 }
 
 void Renderer::BeforeResizeBuffers(
-    IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
+    IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT
 ) noexcept {
     state.inResize = true;
 
-    DXGI_SWAP_CHAIN_DESC desc{};
-    if (pThis && SUCCEEDED(pThis->GetDesc(&desc))) {
-        logger.Log(
-            "ResizeBuffers request: buffers=%u width=%u height=%u format=%u flags=0x%08X currentWindowed=%d "
-            "currentBuffers=%u currentSwapEffect=%u",
-            bufferCount, width, height, static_cast<UINT>(newFormat), swapChainFlags, desc.Windowed, desc.BufferCount,
-            static_cast<UINT>(desc.SwapEffect)
-        );
-    } else {
-        logger.Log(
-            "ResizeBuffers request: buffers=%u width=%u height=%u format=%u flags=0x%08X", bufferCount, width, height,
-            static_cast<UINT>(newFormat), swapChainFlags
-        );
-    }
-
     ReleaseD3DResourcesForResize();
-    logger.Log("ResizeBuffers overlay teardown completed");
 }
 
 void Renderer::AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexcept {
@@ -239,7 +214,6 @@ void Renderer::AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexc
     window.viewport = CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
     window.viewportDirty = true;
     state.needsInit = true;
-    logger.Log("ResizeBuffers completed: 0x%08X (%dx%d)", result, window.width, window.height);
 }
 
 void Renderer::RenderFrameD3D11() noexcept {
@@ -335,11 +309,6 @@ void Renderer::RenderFrameD3D12() noexcept {
         return;
     }
     target.fenceValue = fenceValue;
-
-    if (!state.dx12FirstDrawLogged) [[unlikely]] {
-        logger.Log("D3D12 overlay first frame rendered on buffer %u", bufferIdx);
-        state.dx12FirstDrawLogged = true;
-    }
 }
 
 void Renderer::RenderGuiToTarget(ID3D11RenderTargetView* renderTargetView) noexcept {
@@ -477,7 +446,6 @@ void Renderer::ReleaseRenderTargets() noexcept {
     d3d12RtvHeap.Reset();
     d3d12SkipLogCount = 0;
     state.dx12QueueMismatchLogged = false;
-    state.dx12FirstDrawLogged = false;
 }
 
 bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept {
@@ -488,7 +456,6 @@ bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept {
         d3d11Device = newD3D11Device;
         state.backend = RenderBackend::D3D11;
         state.renderFunc = &Renderer::RenderFrameD3D11;
-        logger.Log("Initializing D3D11 renderer");
         return InitD3D11();
     }
 
@@ -504,7 +471,6 @@ bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept {
         d3d12Device = newD3D12Device;
         state.backend = RenderBackend::D3D12;
         state.renderFunc = &Renderer::RenderFrameD3D12;
-        logger.Log("Initializing D3D12 renderer");
         return InitD3D12();
     }
 
@@ -529,7 +495,6 @@ bool Renderer::InitD3D11() noexcept {
 
     if (!InitOrReinitImGui()) [[unlikely]]
         return false;
-    logger.Log("D3D11 renderer initialized successfully (%dx%d)", window.width, window.height);
     return true;
 }
 
@@ -606,12 +571,6 @@ bool Renderer::InitD3D12() noexcept {
     }
 
     d3d12SkipLogCount = 0;
-    state.dx12FirstDrawLogged = false;
-    logger.Log(
-        "D3D12 renderer initialized successfully (%dx%d, buffers=%d format=%u swapEffect=%u flags=0x%08X)",
-        window.width, window.height, static_cast<int>(state.bufferCount), static_cast<UINT>(d3d12RenderTargetFormat),
-        static_cast<UINT>(desc.SwapEffect), desc.Flags
-    );
     return true;
 }
 

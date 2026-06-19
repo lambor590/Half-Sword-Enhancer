@@ -33,8 +33,6 @@ void ModRuntimeLifecycle::StartAsync() noexcept {
 }
 
 void ModRuntimeLifecycle::StartWorker() noexcept {
-    logger.Log("Starting Mod runtime lifecycle");
-
     try {
         if (!renderer.Hook()) {
             MarkStartupFailed("renderer hook");
@@ -76,7 +74,6 @@ void ModRuntimeLifecycle::StartWorker() noexcept {
     }
 
     state.store(State::Running, std::memory_order_release);
-    logger.Log("Mod runtime lifecycle started");
 }
 
 void ModRuntimeLifecycle::Stop() noexcept {
@@ -93,7 +90,6 @@ void ModRuntimeLifecycle::Stop() noexcept {
     if (startedStep == StartedStep::None) return;
 
     state.store(State::Stopping, std::memory_order_release);
-    logger.Log("Stopping Mod runtime lifecycle");
 
     auto cleanupDone = std::make_shared<std::promise<void>>();
     auto cleanupFuture = cleanupDone->get_future();
@@ -114,7 +110,6 @@ void ModRuntimeLifecycle::Stop() noexcept {
 
         cleanupThread.join();
         state.store(State::Stopped, std::memory_order_release);
-        logger.Log("Mod runtime lifecycle stopped");
     } catch (...) {
         logger.Log("Failed to create cleanup worker; cleaning up synchronously");
         StopStartedAdapters();
