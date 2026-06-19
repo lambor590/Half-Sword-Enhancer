@@ -102,6 +102,8 @@ private:
     void RenderTargetControls();
     void RenderActorControls();
     void RenderComponentControls();
+    void RenderMaterialInspector();
+    void RenderMaterialEntry(int index, SDK::UMaterialInterface* material);
     void RenderPropertyToolbar();
 
 public:

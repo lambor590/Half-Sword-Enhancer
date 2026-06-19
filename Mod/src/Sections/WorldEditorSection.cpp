@@ -3,6 +3,7 @@
 
 #include "Hooks/GameHook.h"
 #include "SDK/Willie_BP_classes.hpp"
+#include "Utils/PresetUtils.h"
 
 #include <cstdio>
 #include <cstring>
@@ -29,6 +30,50 @@ namespace {
         if (ImGui::GetContentRegionAvail().x < width) return false;
         ImGui::SameLine();
         return true;
+    }
+
+    [[nodiscard]] std::string StripDuplicateAssetObjectSuffix(std::string path) {
+        const size_t dotPos = path.rfind('.');
+        if (dotPos == std::string::npos) return path;
+
+        const size_t leafStart = path.find_last_of("/.", dotPos - 1);
+        const size_t packageLeafStart = leafStart == std::string::npos ? 0 : leafStart + 1;
+        const std::string packageLeaf = path.substr(packageLeafStart, dotPos - packageLeafStart);
+        const std::string objectName = path.substr(dotPos + 1);
+        if (objectName == packageLeaf) path.erase(dotPos);
+        return path;
+    }
+
+    void RenderCopyableObjectRow(
+        const char* label, const SDK::UObject* object, GuiUtils::StatusMessage& status, const char* successMessage
+    ) {
+        std::string value = object ? PresetUtils::ObjectToAbsolutePath(object) : "(null)";
+        if (object && value.empty()) {
+            value = object->GetFullName();
+            if (value.empty()) value = object->GetName();
+        }
+        if (object) value = StripDuplicateAssetObjectSuffix(std::move(value));
+        const std::string displayName = object ? object->GetName() : "(empty)";
+        const bool canCopy = !value.empty() && value != "(null)";
+
+        ImGui::PushID(label);
+        if (!canCopy) ImGui::BeginDisabled();
+        const bool clicked = ImGui::SmallButton("Copy");
+        if (!canCopy) ImGui::EndDisabled();
+
+        if (ImGui::IsItemHovered()) {
+            GuiUtils::BeginStyledTooltip();
+            ImGui::TextUnformatted(value.empty() ? "No value" : value.c_str());
+            GuiUtils::EndStyledTooltip();
+        }
+        if (clicked && canCopy) {
+            ImGui::SetClipboardText(value.c_str());
+            status.Set(successMessage);
+        }
+
+        ImGui::SameLine();
+        ImGui::TextWrapped("%s: %s", label, displayName.c_str());
+        ImGui::PopID();
     }
 
     SDK::AActor* ActorFromHit(const SDK::FHitResult& hitResult, SDK::USceneComponent*& outComponent) {
@@ -635,6 +680,85 @@ void WorldEditorSection::RenderTargetSelector() {
     }
 }
 
+void WorldEditorSection::RenderMaterialEntry(int index, SDK::UMaterialInterface* material) {
+    ImGui::PushID(index);
+
+    std::string materialName = material ? material->GetName() : "(empty)";
+    char label[160];
+    std::snprintf(label, sizeof(label), "Slot %d | %s", index, materialName.c_str());
+    const bool open = ImGui::TreeNodeEx(label, ImGuiTreeNodeFlags_DefaultOpen);
+    if (!open) {
+        ImGui::PopID();
+        return;
+    }
+
+    if (!material) {
+        ImGui::TextDisabled("No material");
+        ImGui::TreePop();
+        ImGui::PopID();
+        return;
+    }
+
+    RenderCopyableObjectRow("Material", material, status, "Material path copied");
+
+    auto* instance = material->IsA(SDK::UMaterialInstance::StaticClass()) ? static_cast<SDK::UMaterialInstance*>(material)
+                                                                          : nullptr;
+    if (!instance) {
+        ImGui::TextDisabled("No material instance texture parameters");
+        ImGui::TreePop();
+        ImGui::PopID();
+        return;
+    }
+
+    if (instance->Parent) RenderCopyableObjectRow("Parent", instance->Parent, status, "Parent material path copied");
+
+    auto renderTextureParams = [this](auto& params, const char* fallbackName) {
+        int rows = 0;
+        for (int i = 0; i < params.Num(); ++i) {
+            auto& param = params[i];
+            std::string paramName = param.ParameterInfo.Name.ToString();
+            if (paramName.empty()) paramName = fallbackName;
+            RenderCopyableObjectRow(paramName.c_str(), param.ParameterValue, status, "Texture path copied");
+            ++rows;
+        }
+        return rows;
+    };
+
+    const int textureRows =
+        renderTextureParams(instance->TextureParameterValues, "Texture") +
+        renderTextureParams(instance->RuntimeVirtualTextureParameterValues, "Runtime Virtual Texture") +
+        renderTextureParams(instance->SparseVolumeTextureParameterValues, "Sparse Volume Texture");
+
+    if (textureRows == 0) ImGui::TextDisabled("No texture parameters");
+
+    ImGui::TreePop();
+    ImGui::PopID();
+}
+
+void WorldEditorSection::RenderMaterialInspector() {
+    if (!browseTarget) return;
+
+    if (browseTarget->IsA(SDK::UDecalComponent::StaticClass())) {
+        ImGui::SeparatorText("Materials");
+        RenderMaterialEntry(0, static_cast<SDK::UDecalComponent*>(browseTarget)->GetDecalMaterial());
+        return;
+    }
+
+    if (!browseTarget->IsA(SDK::UPrimitiveComponent::StaticClass())) return;
+
+    ImGui::SeparatorText("Materials");
+
+    auto* primitive = static_cast<SDK::UPrimitiveComponent*>(browseTarget);
+    const int materialCount = primitive->GetNumMaterials();
+    if (materialCount <= 0) {
+        ImGui::TextDisabled("No material slots");
+        return;
+    }
+
+    for (int i = 0; i < materialCount; ++i)
+        RenderMaterialEntry(i, primitive->GetMaterial(i));
+}
+
 void WorldEditorSection::RenderTargetControls() {
     if (!browseTarget) return;
 
@@ -771,6 +895,7 @@ void WorldEditorSection::Render() {
     if (browseTarget) {
         RenderTargetSelector();
         RenderTargetControls();
+        RenderMaterialInspector();
         RenderPropertyToolbar();
 
         ImGui::Spacing();
