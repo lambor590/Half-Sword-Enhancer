@@ -128,6 +128,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
           Copy-Item "bin/HSEnhancerLauncher.exe" "release_files/"
           Copy-Item "bin/HSEnhancer.dll" "release_files/"
+          Copy-Item "bin/main.dll" "release_files/"
           if ($env:PROXY_CHANGED -eq "true") {
             Copy-Item "bin/winmm.dll" "release_files/"
           }
@@ -136,6 +137,8 @@ jobs:
           Copy-Item "Manual_Install.txt" "manual_install/README.txt"
           Copy-Item "bin/winmm.dll" "manual_install/"
           Copy-Item "bin/HSEnhancer.dll" "manual_install/"
+          New-Item -ItemType Directory -Force -Path "manual_install/ue4ss/Mods/HSEnhancer/dlls" | Out-Null
+          Copy-Item "bin/main.dll" "manual_install/ue4ss/Mods/HSEnhancer/dlls/"
           Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HSEnhancer.zip" -Force
 
           "### Build Complete" >> $env:GITHUB_STEP_SUMMARY

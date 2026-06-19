@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
     branches: [main]
-    paths: ['Mod/**', 'Launcher/**', 'Proxy/**', 'ext/**']
+    paths: ['Mod/**', 'Launcher/**', 'Proxy/**', 'UE4SSBridge/**', 'ext/**']
 
 permissions:
   contents: write
@@ -22,6 +22,7 @@ jobs:
     outputs:
       build_mod: ${{ steps.analyze.outputs.build_mod }}
       build_proxy: ${{ steps.analyze.outputs.build_proxy }}
+      build_bridge: ${{ steps.analyze.outputs.build_bridge }}
       build_launcher: ${{ steps.analyze.outputs.build_launcher }}
       has_changes: ${{ steps.analyze.outputs.has_changes }}
       current_commit: ${{ steps.analyze.outputs.current_commit }}
@@ -49,17 +50,19 @@ jobs:
 
           BUILD_MOD=$(git diff --quiet "$BASE_REF"..HEAD -- 'Mod/**' 'ext/**' && echo false || echo true)
           BUILD_PROXY=$(git diff --quiet "$BASE_REF"..HEAD -- 'Proxy/**' && echo false || echo true)
+          BUILD_BRIDGE=$(git diff --quiet "$BASE_REF"..HEAD -- 'UE4SSBridge/**' && echo false || echo true)
           BUILD_LAUNCHER=$(git diff --quiet "$BASE_REF"..HEAD -- 'Launcher/**' 'ext/**' && echo false || echo true)
-          HAS_CHANGES=$([[ "$BUILD_MOD" == "true" || "$BUILD_PROXY" == "true" || "$BUILD_LAUNCHER" == "true" ]] && echo true || echo false)
+          HAS_CHANGES=$([[ "$BUILD_MOD" == "true" || "$BUILD_PROXY" == "true" || "$BUILD_BRIDGE" == "true" || "$BUILD_LAUNCHER" == "true" ]] && echo true || echo false)
 
           echo "build_mod=$BUILD_MOD" >> $GITHUB_OUTPUT
           echo "build_proxy=$BUILD_PROXY" >> $GITHUB_OUTPUT
+          echo "build_bridge=$BUILD_BRIDGE" >> $GITHUB_OUTPUT
           echo "build_launcher=$BUILD_LAUNCHER" >> $GITHUB_OUTPUT
           echo "has_changes=$HAS_CHANGES" >> $GITHUB_OUTPUT
           echo "current_commit=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
 
           git log "$BASE_REF"..HEAD --pretty=format:"- %h: %s" --no-merges \
-            -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'ext/**' ':!Mod/SDK/**' > commits.txt
+            -- 'Mod/**' 'Launcher/**' 'Proxy/**' 'UE4SSBridge/**' 'ext/**' ':!Mod/SDK/**' > commits.txt
 
           git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
             -- 'Mod/**' ':!Mod/SDK/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' > mod.diff || true
@@ -69,6 +72,9 @@ jobs:
 
           git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
             -- 'Proxy/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' > proxy.diff || true
+
+          git log "$BASE_REF"..HEAD --no-merges --format=$'\n=== %h ===' -p \
+            -- 'UE4SSBridge/**' ':!*.vcxproj*' ':!*.rc' ':!*.filters' > bridge.diff || true
 
           echo "commits_content=$(cat commits.txt 2>/dev/null | jq -Rs . || echo '""')" >> $GITHUB_OUTPUT
           echo "$EXISTING_CHANGELOG" > existing_changelog.txt
@@ -94,6 +100,7 @@ jobs:
             - mod.diff: Changes in Mod/ project
             - launcher.diff: Changes in Launcher/ project
             - proxy.diff: Changes in Proxy/ project
+            - bridge.diff: Changes in UE4SSBridge/ project
             </resources>
 
             <classification>
@@ -185,6 +192,13 @@ jobs:
           MSBuild.exe "Proxy/Proxy.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:SolutionDir="$PWD/"
           if ($LASTEXITCODE -ne 0) { throw "Proxy build failed" }
 
+      - name: Build UE4SS bridge
+        if: needs.changelog.outputs.build_mod == 'true' || needs.changelog.outputs.build_bridge == 'true'
+        shell: pwsh
+        run: |
+          MSBuild.exe "UE4SSBridge/UE4SSBridge.vcxproj" /p:Configuration=Release /p:Platform=x64 /p:SolutionDir="$PWD/"
+          if ($LASTEXITCODE -ne 0) { throw "UE4SS bridge build failed" }
+
       - name: Build Launcher
         if: needs.changelog.outputs.build_launcher == 'true'
         shell: pwsh
@@ -197,6 +211,7 @@ jobs:
         env:
           MOD_CHANGED: ${{ needs.changelog.outputs.build_mod }}
           PROXY_CHANGED: ${{ needs.changelog.outputs.build_proxy }}
+          BRIDGE_CHANGED: ${{ needs.changelog.outputs.build_bridge }}
           LAUNCHER_CHANGED: ${{ needs.changelog.outputs.build_launcher }}
         run: |
           New-Item -ItemType Directory -Force -Path "release_files" | Out-Null
@@ -209,11 +224,19 @@ jobs:
             Copy-Item "bin/winmm.dll" "release_files/"
           }
 
-          if ($env:MOD_CHANGED -eq "true" -or $env:PROXY_CHANGED -eq "true") {
+          if ($env:MOD_CHANGED -eq "true" -or $env:BRIDGE_CHANGED -eq "true") {
+            Copy-Item "bin/main.dll" "release_files/"
+          }
+
+          if ($env:MOD_CHANGED -eq "true" -or $env:PROXY_CHANGED -eq "true" -or $env:BRIDGE_CHANGED -eq "true") {
             New-Item -ItemType Directory -Force -Path "manual_install" | Out-Null
             Copy-Item "Manual_Install.txt" "manual_install/README.txt"
             if ($env:MOD_CHANGED -eq "true") { Copy-Item "bin/HSEnhancer.dll" "manual_install/" }
             if ($env:PROXY_CHANGED -eq "true") { Copy-Item "bin/winmm.dll" "manual_install/" }
+            if ($env:MOD_CHANGED -eq "true" -or $env:BRIDGE_CHANGED -eq "true") {
+              New-Item -ItemType Directory -Force -Path "manual_install/ue4ss/Mods/HSEnhancer/dlls" | Out-Null
+              Copy-Item "bin/main.dll" "manual_install/ue4ss/Mods/HSEnhancer/dlls/"
+            }
             Compress-Archive -Path "manual_install/*" -DestinationPath "release_files/HSEnhancer.zip" -Force
           }
 
@@ -235,9 +258,6 @@ jobs:
     timeout-minutes: 10
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MOD_CHANGED: ${{ needs.changelog.outputs.build_mod }}
-      PROXY_CHANGED: ${{ needs.changelog.outputs.build_proxy }}
-      LAUNCHER_CHANGED: ${{ needs.changelog.outputs.build_launcher }}
       CURRENT_COMMIT: ${{ needs.changelog.outputs.current_commit }}
     steps:
       - uses: actions/download-artifact@v7
@@ -271,17 +291,11 @@ jobs:
             && gh release edit experimental-latest --repo "$REPO" --notes-file release_body.md \
             || gh release create experimental-latest --repo "$REPO" --title "Experimental Build" --notes-file release_body.md --prerelease
 
-          UPLOAD_FILES=""
-          [ "$MOD_CHANGED" = true ] && [ -f release_files/HSEnhancer.dll ] && UPLOAD_FILES="$UPLOAD_FILES release_files/HSEnhancer.dll"
-          [ "$PROXY_CHANGED" = true ] && [ -f release_files/winmm.dll ] && UPLOAD_FILES="$UPLOAD_FILES release_files/winmm.dll"
-          [ -f release_files/HSEnhancer.zip ] && UPLOAD_FILES="$UPLOAD_FILES release_files/HSEnhancer.zip"
-          [ "$LAUNCHER_CHANGED" = true ] && [ -f release_files/HSEnhancerLauncher.exe ] && UPLOAD_FILES="$UPLOAD_FILES release_files/HSEnhancerLauncher.exe"
-
-          [ -n "$UPLOAD_FILES" ] && gh release upload experimental-latest $UPLOAD_FILES --repo "$REPO" --clobber || true
+          gh release upload experimental-latest release_files/* --repo "$REPO" --clobber || true
 
           # TODO(v0.7.0): Remove dev-latest migration once all users have transitioned to experimental-latest
           if gh release view dev-latest --repo "$REPO" &>/dev/null; then
-            [ -n "$UPLOAD_FILES" ] && gh release upload dev-latest $UPLOAD_FILES --repo "$REPO" --clobber || true
+            gh release upload dev-latest release_files/* --repo "$REPO" --clobber || true
           fi
 
       - name: Discord notification
