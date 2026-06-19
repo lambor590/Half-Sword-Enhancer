@@ -9,6 +9,7 @@
 
 namespace hse {
     enum class GameEdition : std::uint8_t;
+    enum class InstallMode : std::uint8_t;
     class LauncherConfig;
 }
 
@@ -32,8 +33,11 @@ class HSELauncher {
     bool PerformSelfUpdate();
     bool LocateGame();
     std::filesystem::path AskManualPath();
+#ifdef EXPERIMENTAL_VERSION
+    hse::InstallMode GetInstallMode();
+#endif
     bool CheckAndInstallMod();
-    bool DownloadAndInstall(const hse::Version& version);
+    bool DownloadAndInstall(const hse::Version& version, hse::InstallMode installMode);
     void OfferGameLaunch();
     void ShowExitMessage(bool success);
 

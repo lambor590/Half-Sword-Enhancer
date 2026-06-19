@@ -24,6 +24,8 @@ namespace hse {
     constexpr const char* APP_FOLDER_NAME = "Half Sword Enhancer";
     constexpr const char* MOD_FILENAME = "HSEnhancer.dll";
     constexpr const char* PROXY_FILENAME = "winmm.dll";
+    constexpr const char* UE4SS_BRIDGE_FILENAME = "main.dll";
+    constexpr const char* UE4SS_MOD_NAME = "HSEnhancer";
 
     [[nodiscard]] inline bool IsGameRunning() noexcept {
         return FindWindowA("UnrealWindow", nullptr) != nullptr;

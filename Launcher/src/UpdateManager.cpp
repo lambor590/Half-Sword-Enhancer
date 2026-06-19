@@ -86,8 +86,8 @@ namespace hse {
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadToTempAndInstall(
-        std::string_view modUrl, std::string_view proxyUrl, const std::filesystem::path& gameBinPath,
-        std::uint32_t modMinSize
+        std::string_view modUrl, std::string_view proxyUrl, std::string_view bridgeUrl,
+        const std::filesystem::path& gameBinPath, InstallMode installMode, std::uint32_t modMinSize
     ) noexcept {
         const auto tempDir = getAppDataDirectory() / TEMP_FOLDER;
         auto cleanupTempDir = [&tempDir]() noexcept {
@@ -109,14 +109,21 @@ namespace hse {
             return modResult;
         }
 
-        if (!proxyUrl.empty()) {
+        if (installMode == InstallMode::Standalone && !proxyUrl.empty()) {
             auto proxyResult = DownloadModToPath(proxyUrl, tempDir / PROXY_FILENAME, 10000);
             if (!proxyResult) {
                 Logger::warn("Proxy not available in this release, skipping");
             }
         }
 
-        auto installResult = InstallFiles(tempDir, gameBinPath);
+        if (installMode == InstallMode::Ue4ss && !bridgeUrl.empty()) {
+            auto bridgeResult = DownloadModToPath(bridgeUrl, tempDir / UE4SS_BRIDGE_FILENAME, 1000);
+            if (!bridgeResult) {
+                Logger::warn("UE4SS bridge not available in this release");
+            }
+        }
+
+        auto installResult = InstallFiles(tempDir, gameBinPath, installMode);
         if (!installResult) {
             cleanupTempDir();
             return std::unexpected(UpdateError::FileSystemError);
@@ -127,11 +134,12 @@ namespace hse {
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallMod(
-        const Version& version, const std::filesystem::path& gameBinPath
+        const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
     ) noexcept {
         const auto versionStr = version.ToString();
         auto result = DownloadToTempAndInstall(
-            BuildReleaseUrl(versionStr, MOD_FILENAME), BuildReleaseUrl(versionStr, PROXY_FILENAME), gameBinPath
+            BuildReleaseUrl(versionStr, MOD_FILENAME), BuildReleaseUrl(versionStr, PROXY_FILENAME),
+            BuildReleaseUrl(versionStr, UE4SS_BRIDGE_FILENAME), gameBinPath, installMode
         );
         if (result) {
             Logger::info(std::format("Mod installed successfully (v{})", versionStr));
@@ -377,14 +385,20 @@ namespace hse {
     ) noexcept {
         const bool isMod = assetName == "HSEnhancer.dll";
         const bool isProxy = assetName == "winmm.dll";
+        const bool isBridge = assetName == UE4SS_BRIDGE_FILENAME;
         const bool isLauncher = assetName == "HSEnhancerLauncher.exe";
-        if (!isMod && !isProxy && !isLauncher) return {};
+        if (!isMod && !isProxy && !isBridge && !isLauncher) return {};
 
         auto url = ParseJsonStringField(object, "browser_download_url");
         if (!url) return std::unexpected(UpdateError::InvalidResponse);
 
         if (isProxy) {
             assets.proxyUrl = std::move(*url);
+            return {};
+        }
+
+        if (isBridge) {
+            assets.bridgeUrl = std::move(*url);
             return {};
         }
 
@@ -411,6 +425,12 @@ namespace hse {
             if (!object) return std::unexpected(object.error());
 
             if (auto stored = StoreExperimentalAsset(assets, assetName, *object); !stored) {
+                return std::unexpected(stored.error());
+            }
+        }
+
+        if (auto bridgeObject = ExtractExperimentalAsset(json, UE4SS_BRIDGE_FILENAME)) {
+            if (auto stored = StoreExperimentalAsset(assets, UE4SS_BRIDGE_FILENAME, *bridgeObject); !stored) {
                 return std::unexpected(stored.error());
             }
         }
@@ -450,6 +470,7 @@ namespace hse {
         info.launcherTimestamp = std::move(assets->launcherTimestamp);
         info.downloadUrlMod = std::move(assets->modUrl);
         info.downloadUrlProxy = std::move(assets->proxyUrl);
+        info.downloadUrlBridge = std::move(assets->bridgeUrl);
         info.downloadUrlLauncher = std::move(assets->launcherUrl);
 
         const std::string storedModTimestamp =
@@ -476,9 +497,11 @@ namespace hse {
     }
 
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallExperimentalMod(
-        const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath
+        const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath, InstallMode installMode
     ) noexcept {
-        auto result = DownloadToTempAndInstall(info.downloadUrlMod, info.downloadUrlProxy, gameBinPath, 30000);
+        auto result = DownloadToTempAndInstall(
+            info.downloadUrlMod, info.downloadUrlProxy, info.downloadUrlBridge, gameBinPath, installMode, 30000
+        );
         if (!result) return result;
 
         auto configResult =

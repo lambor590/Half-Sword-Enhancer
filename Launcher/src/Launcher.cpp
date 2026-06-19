@@ -1,5 +1,7 @@
 #include <iostream>
 #include <filesystem>
+#include <optional>
+#include <string_view>
 #include <thread>
 #include <chrono>
 #include <Windows.h>
@@ -17,6 +19,27 @@ namespace {
     constexpr int CONSOLE_RED = FOREGROUND_RED | FOREGROUND_INTENSITY;
     constexpr int CONSOLE_YELLOW = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
     constexpr int CONSOLE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+
+#ifdef EXPERIMENTAL_VERSION
+    constexpr std::string_view INSTALL_SECTION = "Install";
+    constexpr std::string_view INSTALL_MODE_KEY = "install_mode";
+    constexpr std::string_view INSTALL_MODE_STANDALONE = "standalone";
+    constexpr std::string_view INSTALL_MODE_UE4SS = "ue4ss";
+
+    [[nodiscard]] constexpr std::string_view InstallModeConfigValue(hse::InstallMode mode) noexcept {
+        return mode == hse::InstallMode::Ue4ss ? INSTALL_MODE_UE4SS : INSTALL_MODE_STANDALONE;
+    }
+
+    [[nodiscard]] constexpr const char* InstallModeName(hse::InstallMode mode) noexcept {
+        return mode == hse::InstallMode::Ue4ss ? "UE4SS" : "standalone";
+    }
+
+    [[nodiscard]] std::optional<hse::InstallMode> ParseInstallMode(std::string_view value) noexcept {
+        if (value == INSTALL_MODE_UE4SS) return hse::InstallMode::Ue4ss;
+        if (value == INSTALL_MODE_STANDALONE) return hse::InstallMode::Standalone;
+        return std::nullopt;
+    }
+#endif
 }
 
 HSELauncher::HSELauncher()
@@ -269,12 +292,51 @@ std::filesystem::path HSELauncher::AskManualPath() {
     return std::filesystem::path(path);
 }
 
+#ifdef EXPERIMENTAL_VERSION
+hse::InstallMode HSELauncher::GetInstallMode() {
+    if (auto stored = ParseInstallMode(config.GetString(INSTALL_SECTION, INSTALL_MODE_KEY, ""))) {
+        hse::Logger::info("Install mode: %s", InstallModeName(*stored));
+        return *stored;
+    }
+
+    const auto detectedMode = hse::DetectInstallMode(gameBinPath_);
+    std::string message =
+        "Choose how to install this closed-test build.\n\n"
+        "YES: UE4SS mode. Use this if UE4SS is installed; HSE will be installed as "
+        "ue4ss\\Mods\\HSEnhancer\\dlls\\main.dll.\n\n"
+        "NO: Standalone mode. HSE will use the winmm.dll proxy.\n\n";
+
+    message += detectedMode == hse::InstallMode::Ue4ss
+                   ? "UE4SS files were detected, so UE4SS mode is recommended."
+                   : "UE4SS was not detected, so standalone mode is recommended unless you install UE4SS yourself.";
+
+    const UINT defaultButton =
+        detectedMode == hse::InstallMode::Ue4ss ? MB_DEFBUTTON1 : MB_DEFBUTTON2;
+    const int result =
+        MessageBoxA(nullptr, message.c_str(), "Install Mode", MB_YESNO | MB_ICONQUESTION | defaultButton);
+    const auto installMode = result == IDYES ? hse::InstallMode::Ue4ss : hse::InstallMode::Standalone;
+
+    if (auto saveResult = config.SetString(INSTALL_SECTION, INSTALL_MODE_KEY, InstallModeConfigValue(installMode));
+        !saveResult) {
+        hse::Logger::warn("Failed to save install mode preference");
+    }
+
+    hse::Logger::info("Install mode selected: %s", InstallModeName(installMode));
+    return installMode;
+}
+#endif
+
 bool HSELauncher::CheckAndInstallMod() {
-    auto status = hse::CheckInstallation(gameBinPath_);
+#ifdef EXPERIMENTAL_VERSION
+    const auto installMode = GetInstallMode();
+#else
+    const auto installMode = hse::DetectInstallMode(gameBinPath_);
+#endif
+    const bool needsInstall = !hse::IsInstallationComplete(gameBinPath_, installMode);
 
 #ifdef EXPERIMENTAL_VERSION
-    if (!status.modInstalled) {
-        hse::Logger::info("Mod not installed. Downloading experimental build...");
+    if (needsInstall) {
+        hse::Logger::info("Mod files incomplete. Downloading experimental build...");
 
         if (!cachedExperimentalInfo_) {
             auto experimentalUpdateResult = updateManager.CheckForExperimentalUpdates();
@@ -299,10 +361,10 @@ bool HSELauncher::CheckAndInstallMod() {
                 );
                 return false;
             }
-            return DownloadAndInstall(stableInfo->remoteVersion);
+            return DownloadAndInstall(stableInfo->remoteVersion, installMode);
         }
 
-        auto result = updateManager.DownloadAndInstallExperimentalMod(info, gameBinPath_);
+        auto result = updateManager.DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
         if (!result) {
             hse::logAndShowError(
                 "Failed to install experimental mod",
@@ -333,7 +395,7 @@ bool HSELauncher::CheckAndInstallMod() {
                               "Do you want to install the stable version?";
         int result = MessageBoxA(nullptr, message.c_str(), "Stable Release Available", MB_YESNO | MB_ICONINFORMATION);
         if (result == IDYES) {
-            return DownloadAndInstall(stable.remoteVersion);
+            return DownloadAndInstall(stable.remoteVersion, installMode);
         }
     }
 
@@ -342,7 +404,7 @@ bool HSELauncher::CheckAndInstallMod() {
                               "Do you want to install the update now?";
         int result = MessageBoxA(nullptr, message.c_str(), "Mod Update Available", MB_YESNO | MB_ICONINFORMATION);
         if (result == IDYES) {
-            auto updateResult = updateManager.DownloadAndInstallExperimentalMod(info, gameBinPath_);
+            auto updateResult = updateManager.DownloadAndInstallExperimentalMod(info, gameBinPath_, installMode);
             if (!updateResult) {
                 hse::showError("Failed to update experimental mod files.");
                 return false;
@@ -368,15 +430,15 @@ bool HSELauncher::CheckAndInstallMod() {
 
     auto& updateInfo = *cachedUpdateInfo_;
 
-    if (!status.modInstalled) {
-        hse::Logger::info("Mod not installed. Downloading...");
+    if (needsInstall) {
+        hse::Logger::info("Mod files incomplete. Downloading...");
 
         if (!updateInfo.remoteVersion.IsValid()) {
             hse::logAndShowError("Invalid version information", "Received invalid version data from server.");
             return false;
         }
 
-        return DownloadAndInstall(updateInfo.remoteVersion);
+        return DownloadAndInstall(updateInfo.remoteVersion, installMode);
     }
 
     auto installedVersion = updateManager.GetInstalledModVersion(gameBinPath_);
@@ -413,7 +475,7 @@ bool HSELauncher::CheckAndInstallMod() {
     }
 
     if (needsUpdate) {
-        return DownloadAndInstall(updateInfo.remoteVersion);
+        return DownloadAndInstall(updateInfo.remoteVersion, installMode);
     }
 
     hse::Logger::info("Mod is up to date (v%s)", installedVersion->ToString().c_str());
@@ -421,8 +483,8 @@ bool HSELauncher::CheckAndInstallMod() {
 #endif
 }
 
-bool HSELauncher::DownloadAndInstall(const hse::Version& version) {
-    auto result = updateManager.DownloadAndInstallMod(version, gameBinPath_);
+bool HSELauncher::DownloadAndInstall(const hse::Version& version, hse::InstallMode installMode) {
+    auto result = updateManager.DownloadAndInstallMod(version, gameBinPath_, installMode);
     if (!result) {
         hse::logAndShowError(
             "Failed to install mod v" + version.ToString(),

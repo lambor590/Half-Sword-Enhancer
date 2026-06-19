@@ -6,8 +6,11 @@
 #include <optional>
 #include <compare>
 #include <filesystem>
+#include <cstdint>
 
 namespace hse {
+
+    enum class InstallMode : std::uint8_t;
 
     enum class UpdateError : std::uint8_t {
         VersionParsingFailed = 1,
@@ -59,6 +62,7 @@ namespace hse {
         std::string launcherTimestamp;
         std::string downloadUrlMod;
         std::string downloadUrlProxy;
+        std::string downloadUrlBridge;
         std::string downloadUrlLauncher;
     };
 #endif
@@ -78,7 +82,7 @@ namespace hse {
             const std::filesystem::path& gameBinPath
         ) noexcept;
         [[nodiscard]] std::expected<void, UpdateError> DownloadAndInstallMod(
-            const Version& version, const std::filesystem::path& gameBinPath
+            const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
         ) noexcept;
         [[nodiscard]] std::expected<void, UpdateError> DownloadModToPath(
             std::string_view downloadUrl, const std::filesystem::path& outputPath, std::uint32_t minFileSize = 300000
@@ -90,7 +94,7 @@ namespace hse {
 #ifdef EXPERIMENTAL_VERSION
         [[nodiscard]] std::expected<ExperimentalUpdateInfo, UpdateError> CheckForExperimentalUpdates() noexcept;
         [[nodiscard]] std::expected<void, UpdateError> DownloadAndInstallExperimentalMod(
-            const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath
+            const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath, InstallMode installMode
         ) noexcept;
 #endif
 
@@ -106,8 +110,8 @@ namespace hse {
 
         [[nodiscard]] static std::string BuildReleaseUrl(std::string_view version, std::string_view filename);
         [[nodiscard]] std::expected<void, UpdateError> DownloadToTempAndInstall(
-            std::string_view modUrl, std::string_view proxyUrl, const std::filesystem::path& gameBinPath,
-            std::uint32_t modMinSize = 300000
+            std::string_view modUrl, std::string_view proxyUrl, std::string_view bridgeUrl,
+            const std::filesystem::path& gameBinPath, InstallMode installMode, std::uint32_t modMinSize = 300000
         ) noexcept;
         [[nodiscard]] std::expected<Version, UpdateError> ExtractVersionFromExecutable() const noexcept;
         [[nodiscard]] static std::expected<Version, UpdateError> ExtractVersionFromFile(
@@ -125,6 +129,7 @@ namespace hse {
             std::string launcherTimestamp;
             std::string modUrl;
             std::string proxyUrl;
+            std::string bridgeUrl;
             std::string launcherUrl;
         };
 
