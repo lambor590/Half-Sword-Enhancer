@@ -45,14 +45,18 @@ Choose between the **Launcher** (recommended) or **Manual Install**.
 ### Manual Install
 
 1. Download the ZIP: [HSEnhancer.zip](https://github.com/lambor590/Half-Sword-Enhancer/releases/latest/download/HSEnhancer.zip)
-2. Extract both files into: `<Game Folder>\HalfSwordUE5\Binaries\Win64`
+2. Extract the files into: `<Game Folder>\HalfSwordUE5\Binaries\Win64`
 3. Launch the game normally — the mod loads automatically.
+
+### UE4SS
+
+If UE4SS is installed, the launcher uses UE4SS mode and installs HSE through `ue4ss/Mods/HSEnhancer/dlls/main.dll`. Remove or rename any old HSE `winmm.dll` in `<Game Folder>\HalfSwordUE5\Binaries\Win64` before launching, otherwise HSE can load twice.
 
 ### Comparison
 
 | Feature | Launcher | Manual Install |
 |---------|----------|----------------|
-| Setup | One-click | Copy 2 files to game folder |
+| Setup | One-click | Copy files to game folder |
 | Auto-updates | Yes | No |
 | Internet required | Only for update check | No |
 | Antivirus alerts | Possible (injection) | Rare |
@@ -239,9 +243,7 @@ Antivirus may block injection. Solutions:
 - Temporarily disable real-time protection
 
 #### Fatal Error on Boot
-1. Conflict with other mods. Remove from `<Game>\HalfSwordUE5\Binaries\Win64`:
-- `ue4ss.dll`
-- `winmm.dll` (if not from this mod)
+1. Conflict with other loaders. If using UE4SS, remove or rename old HSE `winmm.dll` to avoid double-loading. If not using UE4SS, remove third-party loader DLLs from `<Game>\HalfSwordUE5\Binaries\Win64`.
 
 2. Missing Visual C++ Redistributable. [Download Visual C++ Redistributable (x64)](https://aka.ms/vc14/vc_redist.x64.exe)
 3. Check your antivirus.

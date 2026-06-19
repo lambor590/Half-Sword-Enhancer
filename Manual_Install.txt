@@ -6,9 +6,23 @@ HOW TO INSTALL
 2. Place "winmm.dll" and "HSEnhancer.dll" in:
    <Game Folder>\HalfSwordUE5\Binaries\Win64
 
+UE4SS USERS
+
+If UE4SS is installed, remove or rename any old HSE "winmm.dll" in:
+   <Game Folder>\HalfSwordUE5\Binaries\Win64
+
+This avoids loading HSE twice. For manual UE4SS installs, keep "HSEnhancer.dll" in
+the Win64 folder, keep "ue4ss\Mods\HSEnhancer\dlls\main.dll" from the ZIP, and make
+sure ue4ss\Mods\mods.txt contains:
+   HSEnhancer : 1
+
+The launcher handles these UE4SS steps automatically.
+
 
 HOW TO UNINSTALL
 
 1. Delete the files you placed in the installation steps:
    - "winmm.dll"
    - "HSEnhancer.dll"
+   - "ue4ss\Mods\HSEnhancer\dlls\main.dll" (UE4SS only)
+   - remove "HSEnhancer : 1" from "ue4ss\Mods\mods.txt" (UE4SS only)
