@@ -7,7 +7,6 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
-#include <unordered_set>
 #include <vector>
 
 namespace SDK {
@@ -112,15 +111,16 @@ private:
     int RepairBloodMaterials();
     int ApplyToMaterialInstance(
         SDK::UMaterialInstanceDynamic* dynamicMaterial, SDK::UMaterialInterface* sourceMaterial,
-        std::unordered_set<size_t>* matchedTargets, ObjectPathCache& pathCache, bool allowRuntimeBloodTarget = false
+        std::vector<uint8_t>* matchedTargets, size_t* matchedTargetCount, ObjectPathCache& pathCache,
+        bool allowRuntimeBloodTarget = false
     );
     void ApplyToComponentSlot(
-        SDK::UPrimitiveComponent* component, int materialIndex, Stats& next,
-        std::unordered_set<size_t>* matchedTargets, ObjectPathCache& pathCache
+        SDK::UPrimitiveComponent* component, int materialIndex, Stats& next, std::vector<uint8_t>* matchedTargets,
+        size_t* matchedTargetCount, ObjectPathCache& pathCache
     );
     void ApplyToComponent(
-        SDK::UPrimitiveComponent* component, Stats& next, std::unordered_set<size_t>* matchedTargets,
-        ObjectPathCache& pathCache
+        SDK::UPrimitiveComponent* component, Stats& next, std::vector<uint8_t>* matchedTargets,
+        size_t* matchedTargetCount, ObjectPathCache& pathCache
     );
 
     std::vector<FileEntry> files;

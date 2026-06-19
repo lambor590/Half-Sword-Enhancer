@@ -209,7 +209,7 @@ namespace {
     template <typename LookupTexture, typename PathCache, typename Func>
     int ApplyMatchedTextureParameters(
         SDK::UMaterialInterface* material, LookupTexture&& lookupTexture, PathCache& pathCache,
-        std::unordered_set<size_t>* matchedTargets, Func&& func
+        std::vector<uint8_t>* matchedTargets, size_t* matchedTargetCount, Func&& func
     ) {
         auto* instance = AsMaterialInstance(material);
         if (!instance) return 0;
@@ -229,7 +229,11 @@ namespace {
                 const auto match = lookupTexture(pathIt->second.path, pathIt->second.hash);
                 if (!match.texture) continue;
 
-                if (matchedTargets) matchedTargets->insert(match.index);
+                if (matchedTargets && matchedTargetCount && match.index < matchedTargets->size() &&
+                    (*matchedTargets)[match.index] == 0) {
+                    (*matchedTargets)[match.index] = 1;
+                    ++(*matchedTargetCount);
+                }
                 updates += func(value.ParameterInfo, value.ParameterValue, match.texture) ? 1 : 0;
             }
             current = AsMaterialInstance(current->Parent);
@@ -705,7 +709,7 @@ int AssetOverrideManager::ApplyBloodDynamicMaterial(
 
     ObjectPathCache pathCache;
     pathCache.reserve(32);
-    return ApplyToMaterialInstance(dynamicMaterial, sourceMaterial, nullptr, pathCache, true);
+    return ApplyToMaterialInstance(dynamicMaterial, sourceMaterial, nullptr, nullptr, pathCache, true);
 }
 
 int AssetOverrideManager::ApplyBloodComponentMaterial(SDK::UPrimitiveComponent* component, int materialIndex) {
@@ -814,7 +818,8 @@ int AssetOverrideManager::RepairBloodMaterials() {
 
 int AssetOverrideManager::ApplyToMaterialInstance(
     SDK::UMaterialInstanceDynamic* dynamicMaterial, SDK::UMaterialInterface* sourceMaterial,
-    std::unordered_set<size_t>* matchedTargets, ObjectPathCache& pathCache, bool allowRuntimeBloodTarget
+    std::vector<uint8_t>* matchedTargets, size_t* matchedTargetCount, ObjectPathCache& pathCache,
+    bool allowRuntimeBloodTarget
 ) {
     if (!dynamicMaterial || !sourceMaterial) return 0;
     if ((!allowRuntimeBloodTarget && HasRuntimeBloodTarget(dynamicMaterial)) || HasRuntimeBloodTarget(sourceMaterial))
@@ -825,7 +830,7 @@ int AssetOverrideManager::ApplyToMaterialInstance(
     };
 
     return ApplyMatchedTextureParameters(
-        sourceMaterial, lookupTexture, pathCache, matchedTargets,
+        sourceMaterial, lookupTexture, pathCache, matchedTargets, matchedTargetCount,
         [dynamicMaterial](
             const SDK::FMaterialParameterInfo& parameter, SDK::UTexture* sourceTexture, SDK::UTexture2D* texture
         ) {
@@ -840,21 +845,21 @@ int AssetOverrideManager::ApplyToMaterialInstance(
 }
 
 void AssetOverrideManager::ApplyToComponent(
-    SDK::UPrimitiveComponent* component, Stats& next, std::unordered_set<size_t>* matchedTargets,
-    ObjectPathCache& pathCache
+    SDK::UPrimitiveComponent* component, Stats& next, std::vector<uint8_t>* matchedTargets,
+    size_t* matchedTargetCount, ObjectPathCache& pathCache
 ) {
     if (!component) return;
 
     ++next.scannedComponents;
     const int materialCount = component->GetNumMaterials();
     for (int materialIndex = 0; materialIndex < materialCount; ++materialIndex) {
-        ApplyToComponentSlot(component, materialIndex, next, matchedTargets, pathCache);
+        ApplyToComponentSlot(component, materialIndex, next, matchedTargets, matchedTargetCount, pathCache);
     }
 }
 
 void AssetOverrideManager::ApplyToComponentSlot(
-    SDK::UPrimitiveComponent* component, int materialIndex, Stats& next, std::unordered_set<size_t>* matchedTargets,
-    ObjectPathCache& pathCache
+    SDK::UPrimitiveComponent* component, int materialIndex, Stats& next, std::vector<uint8_t>* matchedTargets,
+    size_t* matchedTargetCount, ObjectPathCache& pathCache
 ) {
     if (!component || materialIndex < 0 || materialIndex >= component->GetNumMaterials()) return;
 
@@ -875,7 +880,7 @@ void AssetOverrideManager::ApplyToComponentSlot(
     if (!sourceMaterial) return;
 
     next.appliedMaterials += ApplyMatchedTextureParameters(
-        sourceMaterial, lookupTexture, pathCache, matchedTargets,
+        sourceMaterial, lookupTexture, pathCache, matchedTargets, matchedTargetCount,
         [this, component, materialIndex, sourceMaterial, &dynamicMaterial,
          &next](
             const SDK::FMaterialParameterInfo& parameter, SDK::UTexture* sourceTexture, SDK::UTexture2D* texture
@@ -933,7 +938,7 @@ void AssetOverrideManager::ApplyToComponentNow(
     ObjectPathCache pathCache;
     pathCache.reserve(32);
     ++next.scannedComponents;
-    ApplyToComponentSlot(component, materialIndex, next, nullptr, pathCache);
+    ApplyToComponentSlot(component, materialIndex, next, nullptr, nullptr, pathCache);
 
     StoreStats(next);
 }
@@ -975,7 +980,7 @@ void AssetOverrideManager::ApplyToCreatedMaterial(
 
     ObjectPathCache pathCache;
     pathCache.reserve(32);
-    const int updates = ApplyToMaterialInstance(dynamicMaterial, sourceMaterial, nullptr, pathCache);
+    const int updates = ApplyToMaterialInstance(dynamicMaterial, sourceMaterial, nullptr, nullptr, pathCache);
     next.appliedMaterials += updates;
 
     if (updates > 0) {
@@ -999,7 +1004,7 @@ void AssetOverrideManager::ApplyToActor(SDK::UWorld* world, SDK::AActor* actor) 
     ObjectPathCache pathCache;
     pathCache.reserve(64);
     ForEachActorPrimitiveComponent(actor, [this, &next, &pathCache](SDK::UPrimitiveComponent* component) {
-        ApplyToComponent(component, next, nullptr, pathCache);
+        ApplyToComponent(component, next, nullptr, nullptr, pathCache);
     });
 
     StoreStats(next);
@@ -1013,16 +1018,18 @@ void AssetOverrideManager::ApplyToWorld(SDK::UWorld* world) {
     next.unmatched = static_cast<int>(textures.size());
 
     if (!textures.empty()) {
-        std::unordered_set<size_t> matchedTargets;
+        std::vector<uint8_t> matchedTargets(textures.size(), 0);
+        size_t matchedTargetCount = 0;
         ObjectPathCache pathCache;
         pathCache.reserve(256);
 
         ForEachPrimitiveComponent(
-            world, [this, &next, &matchedTargets, &pathCache](SDK::UPrimitiveComponent* component) {
-                ApplyToComponent(component, next, &matchedTargets, pathCache);
+            world, [this, &next, &matchedTargets, &matchedTargetCount,
+                    &pathCache](SDK::UPrimitiveComponent* component) {
+                ApplyToComponent(component, next, &matchedTargets, &matchedTargetCount, pathCache);
             }
         );
-        next.unmatched = static_cast<int>(textures.size() - matchedTargets.size());
+        next.unmatched = static_cast<int>(textures.size() - matchedTargetCount);
     }
 
     appliedWorld = world;
