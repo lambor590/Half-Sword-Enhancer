@@ -22,6 +22,11 @@ extern "C" __declspec(dllexport) void HSE_Initialize() noexcept {
     ModRuntimeLifecycle::Get().StartAsync();
 }
 
+extern "C" __declspec(dllexport) void HSE_Shutdown() noexcept {
+    if (!lifecycleStarted.exchange(false, std::memory_order_acq_rel)) return;
+    ModRuntimeLifecycle::Get().Stop();
+}
+
 BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept {
     switch (reason) {
         case DLL_PROCESS_ATTACH: DisableThreadLibraryCalls(module);
@@ -34,9 +39,7 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept {
 #endif
             KeybindManager::Initialize();
             break;
-        case DLL_PROCESS_DETACH:
-            if (lifecycleStarted.load(std::memory_order_acquire)) ModRuntimeLifecycle::Get().Stop();
-            break;
+        case DLL_PROCESS_DETACH: HSE_Shutdown(); break;
     }
 
     return TRUE;

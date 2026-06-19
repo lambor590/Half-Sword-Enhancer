@@ -3,7 +3,7 @@
   <Target
     Name="InstallGameDll"
     AfterTargets="Build"
-    Condition="'$(InstallGameBinDir)'!='' and '$(ConfigurationType)'=='DynamicLibrary'">
+    Condition="'$(InstallGameBinDir)'!='' and '$(ConfigurationType)'=='DynamicLibrary' and '$(SkipGameInstall)'!='true'">
     <MakeDir Directories="$(InstallGameBinDir)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(InstallGameBinDir)" SkipUnchangedFiles="true" />
     <Message Text="Installed $(TargetFileName) to $(InstallGameBinDir)" Importance="high" />
