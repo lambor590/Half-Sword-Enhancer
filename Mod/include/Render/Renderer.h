@@ -17,7 +17,11 @@ using Present = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT);
 using ResizeBuffers = HRESULT(__stdcall*)(IDXGISwapChain*, UINT, UINT, UINT, DXGI_FORMAT, UINT);
 using ResizeBuffers1 =
     HRESULT(__stdcall*)(IDXGISwapChain3*, UINT, UINT, UINT, DXGI_FORMAT, UINT, const UINT*, IUnknown* const*);
-using ExecuteCommandLists = void(__stdcall*)(ID3D12CommandQueue*, UINT, const ID3D12CommandList**);
+using CreateSwapChain = HRESULT(__stdcall*)(IDXGIFactory*, IUnknown*, DXGI_SWAP_CHAIN_DESC*, IDXGISwapChain**);
+using CreateSwapChainForHwnd = HRESULT(__stdcall*)(
+    IDXGIFactory2*, IUnknown*, HWND, const DXGI_SWAP_CHAIN_DESC1*, const DXGI_SWAP_CHAIN_FULLSCREEN_DESC*,
+    IDXGIOutput*, IDXGISwapChain1**
+);
 
 class Renderer {
 public:
@@ -34,8 +38,8 @@ private:
         bool imguiRendererReady = false;
         bool inResize = false;
         bool commandQueueCaptured = false;
-        bool commandQueueHookInstalled = false;
         bool dx12QueueMismatchLogged = false;
+        bool dx12QueueMissingLogged = false;
         RenderBackend backend = RenderBackend::Unknown;
         RenderBackend imguiBackend = RenderBackend::Unknown;
         uint8_t bufferCount = 0;
@@ -57,8 +61,10 @@ private:
     uintptr_t resizeBuffersReturnAddress = 0;
     uintptr_t resizeBuffers1Address = 0;
     uintptr_t resizeBuffers1ReturnAddress = 0;
-    uintptr_t executeCommandListsAddress = 0;
-    uintptr_t executeCommandListsReturnAddress = 0;
+    uintptr_t createSwapChainAddress = 0;
+    uintptr_t createSwapChainReturnAddress = 0;
+    uintptr_t createSwapChainForHwndAddress = 0;
+    uintptr_t createSwapChainForHwndReturnAddress = 0;
 
     RenderState state;
 
@@ -100,11 +106,8 @@ private:
         uintptr_t resizeBuffers1DetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn,
         uintptr_t* outResize1Return
     );
-    ID3D12CommandQueue* CreateDummyCommandQueue();
-    bool HookCommandQueue(
-        ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* outExecReturn
-    );
-    void UnhookCommandQueue() noexcept;
+    [[nodiscard]] bool HookFactory();
+    void UnhookFactory() noexcept;
 
     void RenderFrameD3D11() noexcept;
     void RenderFrameD3D12() noexcept;
@@ -139,6 +142,7 @@ private:
         IDXGISwapChain* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags
     ) noexcept;
     void AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexcept;
+    bool CaptureCommandQueue(IUnknown* queueCandidate) noexcept;
     bool CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept;
     inline void SetViewportIfDirty() noexcept {
         if (window.viewportDirty) [[unlikely]] {
@@ -155,8 +159,12 @@ private:
         IDXGISwapChain3* pThis, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags,
         const UINT* creationNodeMask, IUnknown* const* presentQueue
     ) noexcept;
-    friend void __fastcall HookOnExecuteCommandLists(
-        ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists
+    friend HRESULT __fastcall HookOnCreateSwapChain(
+        IDXGIFactory* pThis, IUnknown* pDevice, DXGI_SWAP_CHAIN_DESC* pDesc, IDXGISwapChain** ppSwapChain
     ) noexcept;
-    friend void HookGetCommandQueue();
+    friend HRESULT __fastcall HookOnCreateSwapChainForHwnd(
+        IDXGIFactory2* pThis, IUnknown* pDevice, HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* pDesc,
+        const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* pFullscreenDesc, IDXGIOutput* pRestrictToOutput,
+        IDXGISwapChain1** ppSwapChain
+    ) noexcept;
 };

@@ -10,7 +10,8 @@ namespace {
     constexpr int VMT_PRESENT_OFFSET = 8;
     constexpr int VMT_RESIZE_BUFFERS_OFFSET = 13;
     constexpr int VMT_RESIZE_BUFFERS1_OFFSET = 39;
-    constexpr int VMT_EXECUTE_COMMAND_LISTS_OFFSET = 10;
+    constexpr int VMT_CREATE_SWAP_CHAIN_OFFSET = 10;
+    constexpr int VMT_CREATE_SWAP_CHAIN_FOR_HWND_OFFSET = 15;
     constexpr size_t PTR_SIZE = sizeof(size_t);
 
     constexpr size_t VMT_PRESENT_BYTE_OFFSET = PTR_SIZE * VMT_PRESENT_OFFSET;
@@ -89,28 +90,31 @@ HRESULT __fastcall HookOnResizeBuffers1(
     g_Renderer->BeforeResizeBuffers(pThis, bufferCount, width, height, newFormat, swapChainFlags);
     const HRESULT result = std::bit_cast<ResizeBuffers1>(g_Renderer->resizeBuffers1ReturnAddress
     )(pThis, bufferCount, width, height, newFormat, swapChainFlags, creationNodeMask, presentQueue);
+    if (SUCCEEDED(result) && presentQueue && bufferCount > 0) {
+        g_Renderer->CaptureCommandQueue(presentQueue[0]);
+    }
     g_Renderer->AfterResizeBuffers(width, height, result);
     return result;
 }
 
-void __fastcall HookOnExecuteCommandLists(
-    ID3D12CommandQueue* pThis, UINT numCommandLists, const ID3D12CommandList** ppCommandLists
+HRESULT __fastcall HookOnCreateSwapChain(
+    IDXGIFactory* pThis, IUnknown* pDevice, DXGI_SWAP_CHAIN_DESC* pDesc, IDXGISwapChain** ppSwapChain
 ) noexcept {
-    const bool captured =
-        pThis->GetDesc().Type == D3D12_COMMAND_LIST_TYPE_DIRECT && g_Renderer->CaptureCommandQueue(pThis);
-    const auto original = std::bit_cast<ExecuteCommandLists>(g_Renderer->executeCommandListsReturnAddress);
-    original(pThis, numCommandLists, ppCommandLists);
-    if (captured) [[unlikely]]
-        g_Renderer->UnhookCommandQueue();
+    const HRESULT result = std::bit_cast<CreateSwapChain>(g_Renderer->createSwapChainReturnAddress
+    )(pThis, pDevice, pDesc, ppSwapChain);
+    if (SUCCEEDED(result)) g_Renderer->CaptureCommandQueue(pDevice);
+    return result;
 }
 
-void HookGetCommandQueue() {
-    if (g_Renderer->state.commandQueueCaptured || g_Renderer->state.commandQueueHookInstalled) return;
-
-    ID3D12CommandQueue* cmdQueue = g_Renderer->CreateDummyCommandQueue();
-    g_Renderer->HookCommandQueue(
-        cmdQueue, (uintptr_t)&HookOnExecuteCommandLists, &g_Renderer->executeCommandListsReturnAddress
-    );
+HRESULT __fastcall HookOnCreateSwapChainForHwnd(
+    IDXGIFactory2* pThis, IUnknown* pDevice, HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* pDesc,
+    const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* pFullscreenDesc, IDXGIOutput* pRestrictToOutput,
+    IDXGISwapChain1** ppSwapChain
+) noexcept {
+    const HRESULT result = std::bit_cast<CreateSwapChainForHwnd>(g_Renderer->createSwapChainForHwndReturnAddress
+    )(pThis, pDevice, hWnd, pDesc, pFullscreenDesc, pRestrictToOutput, ppSwapChain);
+    if (SUCCEEDED(result)) g_Renderer->CaptureCommandQueue(pDevice);
+    return result;
 }
 
 static inline void GetWindowDimensions(HWND handle, int& width, int& height) noexcept {
@@ -137,6 +141,10 @@ bool Renderer::Hook() {
         logger.Log("Failed to hook swap chain");
         Cleanup();
         return false;
+    }
+
+    if (!HookFactory()) {
+        logger.Log("DXGI factory hooks unavailable; D3D12 command queue capture may be unavailable");
     }
 
     return true;
@@ -168,12 +176,15 @@ void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
 }
 
 bool Renderer::CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept {
-    if (state.commandQueueCaptured) [[likely]]
+    if (!newQueue) [[unlikely]]
         return false;
 
+    const D3D12_COMMAND_QUEUE_DESC desc = newQueue->GetDesc();
+    if (desc.Type != D3D12_COMMAND_LIST_TYPE_DIRECT) return false;
+
     ComPtr<ID3D12Device> queueDevice;
-    if (!d3d12Device.Get() || FAILED(newQueue->GetDevice(IID_PPV_ARGS(&queueDevice))) ||
-        queueDevice.Get() != d3d12Device.Get()) {
+    if (FAILED(newQueue->GetDevice(IID_PPV_ARGS(&queueDevice))) ||
+        (d3d12Device.Get() && queueDevice.Get() != d3d12Device.Get())) {
         if (!state.dx12QueueMismatchLogged) {
             logger.Log("D3D12 command queue ignored: device mismatch");
             state.dx12QueueMismatchLogged = true;
@@ -181,10 +192,22 @@ bool Renderer::CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept {
         return false;
     }
 
+    if (state.commandQueueCaptured && commandQueue.Get() == newQueue) [[likely]]
+        return false;
+
     commandQueue = newQueue;
     state.commandQueueCaptured = true;
     state.dx12QueueMismatchLogged = false;
+    state.dx12QueueMissingLogged = false;
     return true;
+}
+
+bool Renderer::CaptureCommandQueue(IUnknown* queueCandidate) noexcept {
+    if (!queueCandidate) return false;
+
+    ComPtr<ID3D12CommandQueue> newQueue;
+    if (FAILED(queueCandidate->QueryInterface(IID_PPV_ARGS(&newQueue)))) return false;
+    return CaptureCommandQueue(newQueue.Get());
 }
 
 void Renderer::BeforeResizeBuffers(
@@ -509,10 +532,11 @@ bool Renderer::InitD3D12() noexcept {
         }
     }
 
-    if (!commandQueue.Get()) HookGetCommandQueue();
-
     if (!commandQueue.Get()) {
-        logger.Log("Command queue not set for D3D12");
+        if (!state.dx12QueueMissingLogged) {
+            logger.Log("D3D12 command queue not captured yet");
+            state.dx12QueueMissingLogged = true;
+        }
         return false;
     }
 
@@ -715,9 +739,7 @@ void Renderer::Cleanup() noexcept {
         resizeBuffersReturnAddress = 0;
         resizeBuffers1ReturnAddress = 0;
     }
-    if (executeCommandListsAddress) {
-        UnhookCommandQueue();
-    }
+    UnhookFactory();
 
     ReleaseGraphicsResources();
     commandQueue.Reset();
@@ -801,27 +823,6 @@ IDXGISwapChain* Renderer::CreateDummySwapChain() {
     return swapChainResult;
 }
 
-ID3D12CommandQueue* Renderer::CreateDummyCommandQueue() {
-    ComPtr<ID3D12Device> device;
-    HRESULT hr = D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device));
-    if (FAILED(hr) || !device) {
-        logger.Log("D3D12CreateDevice failed: 0x%08X", hr);
-        return nullptr;
-    }
-
-    D3D12_COMMAND_QUEUE_DESC queueDesc{};
-    queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-
-    ID3D12CommandQueue* queue = nullptr;
-    hr = device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue));
-    if (FAILED(hr) || !queue) {
-        logger.Log("CreateCommandQueue failed: 0x%08X", hr);
-        return nullptr;
-    }
-
-    return queue;
-}
-
 bool Renderer::HookSwapChain(
     IDXGISwapChain* dummySwapChain, uintptr_t presentDetourFunction, uintptr_t resizeBuffersDetourFunction,
     uintptr_t resizeBuffers1DetourFunction, uintptr_t* outPresentReturn, uintptr_t* outResizeReturn,
@@ -864,34 +865,45 @@ bool Renderer::HookSwapChain(
     return true;
 }
 
-bool Renderer::HookCommandQueue(
-    ID3D12CommandQueue* dummyCommandQueue, uintptr_t executeCommandListsDetourFunction, uintptr_t* outExecReturn
-) {
-    if (!dummyCommandQueue) return false;
+bool Renderer::HookFactory() {
+    if (createSwapChainAddress || createSwapChainForHwndAddress) return true;
 
-    uintptr_t* vTable = *(uintptr_t**)dummyCommandQueue;
-    constexpr size_t EXECUTE_OFFSET = VMT_EXECUTE_COMMAND_LISTS_OFFSET;
-
-    uintptr_t executeAddr = vTable[EXECUTE_OFFSET];
-    if (!MemoryUtils::PlaceHook(executeAddr, executeCommandListsDetourFunction, outExecReturn)) {
-        logger.Log("Failed to hook D3D12 ExecuteCommandLists");
-        dummyCommandQueue->Release();
+    ComPtr<IDXGIFactory2> factory;
+    HRESULT hr = CreateDXGIFactory1(IID_PPV_ARGS(&factory));
+    if (FAILED(hr) || !factory) {
+        logger.Log("CreateDXGIFactory1 failed: 0x%08X", hr);
         return false;
     }
 
-    executeCommandListsAddress = executeAddr;
-    state.commandQueueHookInstalled = true;
+    auto* vmt = *reinterpret_cast<uintptr_t**>(factory.Get());
+    bool hooked = false;
+    auto hook = [&](uintptr_t address, uintptr_t detour, uintptr_t* outReturn, uintptr_t* outAddress,
+                    const char* name) {
+        if (MemoryUtils::PlaceHook(address, detour, outReturn)) {
+            *outAddress = address;
+            hooked = true;
+            return;
+        }
+        logger.Log("Failed to hook %s", name);
+    };
 
-    dummyCommandQueue->Release();
-    return state.commandQueueHookInstalled;
+    hook(
+        vmt[VMT_CREATE_SWAP_CHAIN_OFFSET], (uintptr_t)&HookOnCreateSwapChain, &createSwapChainReturnAddress,
+        &createSwapChainAddress, "DXGI CreateSwapChain"
+    );
+    hook(
+        vmt[VMT_CREATE_SWAP_CHAIN_FOR_HWND_OFFSET], (uintptr_t)&HookOnCreateSwapChainForHwnd,
+        &createSwapChainForHwndReturnAddress, &createSwapChainForHwndAddress, "DXGI CreateSwapChainForHwnd"
+    );
+    return hooked;
 }
 
-void Renderer::UnhookCommandQueue() noexcept {
-    if (state.commandQueueHookInstalled && executeCommandListsAddress) {
-        MemoryUtils::Unhook(executeCommandListsAddress);
-    }
+void Renderer::UnhookFactory() noexcept {
+    if (createSwapChainAddress) MemoryUtils::Unhook(createSwapChainAddress);
+    if (createSwapChainForHwndAddress) MemoryUtils::Unhook(createSwapChainForHwndAddress);
 
-    executeCommandListsAddress = 0;
-    executeCommandListsReturnAddress = 0;
-    state.commandQueueHookInstalled = false;
+    createSwapChainAddress = 0;
+    createSwapChainReturnAddress = 0;
+    createSwapChainForHwndAddress = 0;
+    createSwapChainForHwndReturnAddress = 0;
 }
