@@ -3,6 +3,7 @@
 #include "SDK/Willie_BP_classes.hpp"
 
 #include "Hooks/GameHook.h"
+#include "Utils/ArmorGenerationUi.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"
@@ -204,10 +205,11 @@ void LoadoutManagerSection::ClearAllWeapons() {
 
 void LoadoutManagerSection::GenerateArmorForSlot(SDK::EArmorSlots_Enum slotEnum) {
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
+    auto options = cfg.armorOptions;
 
-    GameHook::QueueAction([slotEnum, tier](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([slotEnum, tier, options](const RuntimeContextSnapshot& runtime) {
         if (!runtime.player || !runtime.world) return;
-        auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slotEnum, 0.5);
+        auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, slotEnum, options);
         if (!passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
 
         RemoveArmorSlot(runtime.player, slotEnum);
@@ -219,8 +221,9 @@ void LoadoutManagerSection::RandomizeAllArmor() {
     if (staggeredIdx < staggeredOps.size()) return;
 
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
+    auto options = cfg.armorOptions;
 
-    GameHook::QueueAction([this, tier](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([this, tier, options](const RuntimeContextSnapshot& runtime) {
         if (!runtime.player || !runtime.world) return;
         auto& dstMap = runtime.player->Currently_Equipped_Armor;
         std::vector<SDK::EArmorSlots_Enum> removeSlots;
@@ -228,7 +231,7 @@ void LoadoutManagerSection::RandomizeAllArmor() {
 
         for (auto it = begin(dstMap); it != end(dstMap); ++it) {
             removeSlots.push_back(it->Key());
-            auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, it->Key(), 0.5);
+            auto passport = EquipmentGenerator::GenerateArmor(runtime.world, tier, it->Key(), options);
             if (passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) newPassports.push_back(passport);
         }
 
@@ -443,6 +446,10 @@ void LoadoutManagerSection::RenderArmorTab() {
         return;
     }
 
+    GuiUtils::RenderFreeTierCombo("Generate Tier", cfg.generateTier);
+    ArmorGenerationUi::RenderOptions(cfg.armorOptions);
+
+    ImGui::Spacing();
     ImGui::PushID("actions");
     float halfWidth = (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
     if (ImGui::Button("Strip All Armor", ImVec2(halfWidth, 0))) StripAllArmor();

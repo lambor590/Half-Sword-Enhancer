@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Utils/ArmorGenerationOptions.h"
 #include "Utils/CustomizableWeapon.h"
 #include "SDK/BP_Generator_Weapons_Random_classes.hpp"
 #include "SDK/BP_Generator_Armor_Random_classes.hpp"
@@ -32,7 +33,8 @@ namespace EquipmentGenerator {
         const SDK::UWorld* world, CustomizableWeapon type, SDK::Enum_Ranks tier
     );
     SDK::FStr_Passport_Armor1 GenerateArmor(
-        const SDK::UWorld* world, SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot, double moduleChance = 0.5
+        const SDK::UWorld* world, SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot,
+        ArmorGenerationOptions options = {}
     );
     SDK::FStr_Passport_Character1 GenerateCharacter(
         const SDK::UWorld* world, SDK::UClass* actorClass, SDK::Enum_Nationalities nationality, SDK::Enum_Ranks tier,

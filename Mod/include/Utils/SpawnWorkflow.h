@@ -6,6 +6,7 @@
 
 #include "Core/ModContext.h"
 #include "Menu/SectionConfig.h"
+#include "Utils/ArmorGenerationOptions.h"
 #include "Utils/CustomizableWeapon.h"
 #include "Utils/LivePreviewManager.h"
 #include "Utils/LoadoutPresetSerializer.h"
@@ -49,6 +50,7 @@ namespace SpawnWorkflow {
         SDK::EArmorSlots_Enum armorSlot{};
         CustomizableWeapon customizable = CustomizableWeapon::None;
         SDK::Enum_Ranks tier{};
+        EquipmentGenerator::ArmorGenerationOptions armorOptions{};
     };
 
     bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request);

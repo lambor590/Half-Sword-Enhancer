@@ -7,6 +7,7 @@
 #include "Menu/Keybind.h"
 #include "Menu/Override.h"
 #include "Menu/SectionConfig.h"
+#include "Utils/ArmorGenerationOptions.h"
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/GameConstants.h"
 #include "Utils/LivePreviewManager.h"
@@ -19,7 +20,7 @@ public:
     struct Config {
         int armorSlotIndex = 0;
         int armorTier = 4;
-        float moduleChance = 0.5f;
+        EquipmentGenerator::ArmorGenerationOptions armorOptions;
         SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnKey = -1;
         PreviewConfig preview;
@@ -68,7 +69,9 @@ private:
     bool IsModularCore() const;
     void PopulateModulePoolForCurrentCore();
     void CreateBlankArmorPassport();
-    void QueueGeneration(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, double moduleChance);
+    void QueueGeneration(
+        SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, EquipmentGenerator::ArmorGenerationOptions options
+    );
     void GenerateArmorPassport();
     void RandomizeArmorPassport();
     void ApplyOverridesToActor(SDK::AActor* actor) const;

@@ -4,6 +4,7 @@
 #include <cstring>
 #include <utility>
 #include "Hooks/GameHook.h"
+#include "Utils/ArmorGenerationUi.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/PresetUtils.h"
@@ -93,15 +94,17 @@ void ArmorEditorSection::CreateBlankArmorPassport() {
     armorPassport.Price_27_8E3ADD54484EFC4A59FE9381485AC192 = 50.0;
 }
 
-void ArmorEditorSection::QueueGeneration(SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, double moduleChance) {
+void ArmorEditorSection::QueueGeneration(
+    SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, EquipmentGenerator::ArmorGenerationOptions options
+) {
     armorGenerationPending = true;
-    GameHook::QueueAction([this, slot, tier, moduleChance](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([this, slot, tier, options](const RuntimeContextSnapshot& runtime) {
         auto* world = runtime.world;
         if (!world) {
             armorGenerationPending = false;
             return;
         }
-        auto generated = EquipmentGenerator::GenerateArmor(world, tier, slot, moduleChance);
+        auto generated = EquipmentGenerator::GenerateArmor(world, tier, slot, options);
         if (EquipmentGenerator::IsArmorPassportValid(generated)) {
             armorPassport = generated;
             PopulateModulePoolForCurrentCore();
@@ -117,7 +120,7 @@ void ArmorEditorSection::GenerateArmorPassport() {
     cfg.armorTier = TierValidation::NearestValidTier(mask, cfg.armorTier);
     QueueGeneration(
         static_cast<SDK::EArmorSlots_Enum>(ARMOR_SLOTS[cfg.armorSlotIndex].slotEnum),
-        static_cast<SDK::Enum_Ranks>(cfg.armorTier), cfg.moduleChance
+        static_cast<SDK::Enum_Ranks>(cfg.armorTier), cfg.armorOptions
     );
 }
 
@@ -256,9 +259,7 @@ void ArmorEditorSection::RenderGenerationControls() {
     ImGui::SameLine();
     RenderArmorTierCombo();
 
-    ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
-    GuiUtils::DebouncedDragFloat("Module Chance", &cfg.moduleChance, 0.01f, 0.0f, 0.0f, "%.2f");
-    TooltipHelper::ShowTooltip("Probability of generating modular armor vs built armor");
+    ArmorGenerationUi::RenderOptions(cfg.armorOptions);
 
     ImGui::Spacing();
     if (ImGui::Button("Generate")) {

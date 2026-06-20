@@ -9,6 +9,7 @@
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
 #include "Menu/SectionConfig.h"
+#include "Utils/ArmorGenerationOptions.h"
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/PresetPickerState.h"
 #include "Utils/WeaponPresetSerializer.h"
@@ -21,6 +22,7 @@ public:
     struct Config {
         SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnTier = 4;
+        EquipmentGenerator::ArmorGenerationOptions armorOptions;
 
         uint8_t currentCategoryIndex = 0;
         uint8_t currentSubcategoryIndex = 0;
@@ -42,6 +44,7 @@ private:
         std::array<int, 3> modules{};
         SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int tier = 4;
+        EquipmentGenerator::ArmorGenerationOptions armorOptions;
         KeybindEntry keybind;
     };
 

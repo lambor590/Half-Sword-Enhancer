@@ -320,12 +320,15 @@ namespace EquipmentGenerator {
     }
 
     SDK::FStr_Passport_Armor1 GenerateArmor(
-        const SDK::UWorld* world, SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot, double moduleChance
+        const SDK::UWorld* world, SDK::Enum_Ranks tier, SDK::EArmorSlots_Enum slot, ArmorGenerationOptions options
     ) {
         SDK::FStr_Passport_Armor1 output{};
         auto* gen = GetArmorGenerator(world);
         if (gen) {
-            gen->Generate_Armor(tier, slot, moduleChance, false, &output);
+            gen->Generate_Armor(
+                tier, slot, options.moduleChance, false, options.forceMetalMaterial, options.steelType,
+                options.metalPiecesType, &output
+            );
         }
         return output;
     }

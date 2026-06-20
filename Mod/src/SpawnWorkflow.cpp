@@ -61,7 +61,8 @@ namespace SpawnWorkflow {
                     return true;
                 }
                 case ItemSpawnRequest::Kind::RandomArmor: {
-                    auto passport = EquipmentGenerator::GenerateArmor(world, request.tier, request.armorSlot, 0.5);
+                    auto passport =
+                        EquipmentGenerator::GenerateArmor(world, request.tier, request.armorSlot, request.armorOptions);
                     if (!EquipmentGenerator::IsArmorPassportValid(passport)) return false;
                     Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround);
                     return true;

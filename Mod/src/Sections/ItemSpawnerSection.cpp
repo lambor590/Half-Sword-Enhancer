@@ -8,6 +8,7 @@
 #include "DefaultStyle.h"
 #include "KeybindManager.h"
 
+#include "Utils/ArmorGenerationUi.h"
 #include "Utils/Spawner.h"
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
@@ -167,7 +168,10 @@ void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
         auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[cfg.currentItemIndex].slotEnum);
         SpawnWorkflow::QueueItemSpawn(
             snapshot, cfg.spawn,
-            {.kind = ItemSpawnRequest::Kind::RandomArmor, .armorSlot = slot, .tier = tier}
+            {.kind = ItemSpawnRequest::Kind::RandomArmor,
+             .armorSlot = slot,
+             .tier = tier,
+             .armorOptions = cfg.armorOptions}
         );
         return;
     }
@@ -211,7 +215,10 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
             auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[binding.armorSlot].slotEnum);
             SpawnWorkflow::SpawnItem(
                 runtime, binding.spawn,
-                {.kind = ItemSpawnRequest::Kind::RandomArmor, .armorSlot = slot, .tier = tier}
+                {.kind = ItemSpawnRequest::Kind::RandomArmor,
+                 .armorSlot = slot,
+                 .tier = tier,
+                 .armorOptions = binding.armorOptions}
             );
             break;
         }
@@ -316,6 +323,7 @@ void ItemSpawnerSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>&
 bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) const {
     binding.spawn = cfg.spawn;
     binding.tier = cfg.spawnTier;
+    binding.armorOptions = cfg.armorOptions;
 
     if (IsRandomArmorCategory()) {
         if (cfg.currentItemIndex >= GameConstants::ARMOR_SLOT_COUNT) return false;
@@ -382,6 +390,12 @@ void ItemSpawnerSection::LoadSpawnBindings() {
         binding->modules[1] = config.GetInt(section, "module_2", 0);
         binding->modules[2] = config.GetInt(section, "module_3", 0);
         binding->tier = config.GetInt(section, "tier", 4);
+        binding->armorOptions.moduleChance = config.GetFloat(section, "armor_module_chance", 0.5f);
+        binding->armorOptions.forceMetalMaterial = config.GetBool(section, "armor_force_metal_material", false);
+        binding->armorOptions.steelType =
+            EquipmentGenerator::SteelTypeFromIndex(config.GetInt(section, "armor_steel_type", 0));
+        binding->armorOptions.metalPiecesType =
+            EquipmentGenerator::SecondaryMetalTypeFromIndex(config.GetInt(section, "armor_secondary_metal_type", 0));
         binding->spawn = {
             .distanceForward = config.GetFloat(section, "distance_forward", binding->spawn.distanceForward),
             .distanceUp = config.GetFloat(section, "distance_up", binding->spawn.distanceUp),
@@ -420,6 +434,13 @@ void ItemSpawnerSection::SaveSpawnBindings() {
             config.SetInt(section, "module_2", binding.modules[1]);
             config.SetInt(section, "module_3", binding.modules[2]);
             config.SetInt(section, "tier", binding.tier);
+            config.SetFloat(section, "armor_module_chance", binding.armorOptions.moduleChance);
+            config.SetBool(section, "armor_force_metal_material", binding.armorOptions.forceMetalMaterial);
+            config.SetInt(section, "armor_steel_type", EquipmentGenerator::SteelTypeIndex(binding.armorOptions.steelType));
+            config.SetInt(
+                section, "armor_secondary_metal_type",
+                EquipmentGenerator::SecondaryMetalTypeIndex(binding.armorOptions.metalPiecesType)
+            );
             config.SetBool(section, "snap_to_ground", binding.spawn.snapToGround);
             config.SetFloat(section, "distance_forward", binding.spawn.distanceForward);
             config.SetFloat(section, "distance_up", binding.spawn.distanceUp);
@@ -585,6 +606,7 @@ void ItemSpawnerSection::RenderRandomArmorUI() {
     if (cfg.currentItemIndex < TierValidation::VALID_ARMOR_TIER_MASKS.size()) {
         RenderMaskedTierCombo("##ArmorTierCombo", TierValidation::VALID_ARMOR_TIER_MASKS[cfg.currentItemIndex]);
     }
+    ArmorGenerationUi::RenderOptions(cfg.armorOptions);
 }
 
 void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {

@@ -7,6 +7,7 @@
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
+#include "Utils/ArmorGenerationOptions.h"
 #include "Utils/GameConstants.h"
 #include "Utils/GlobalModulePool.h"
 #include "Utils/LoadoutPresetSerializer.h"
@@ -25,6 +26,7 @@ public:
         int applyKey = -1;
         int randomizeKey = -1;
         int generateTier = 4;
+        EquipmentGenerator::ArmorGenerationOptions armorOptions;
     };
 
 private:
