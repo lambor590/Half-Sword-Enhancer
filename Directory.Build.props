@@ -11,6 +11,8 @@
     <IsDebugBuild Condition="'$(Configuration)'=='Debug'">true</IsDebugBuild>
     <IsReleaseBuild Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release Experimental'">true</IsReleaseBuild>
     <ExperimentalBuild Condition="'$(Configuration)'=='Release Experimental'">true</ExperimentalBuild>
+    <OutDir Condition="'$(IsDebugBuild)'=='true'">$(SolutionDir)bin\Debug\</OutDir>
+    <OutDir Condition="'$(IsDebugBuild)'!='true'">$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(IsDebugBuild)'=='true'">
@@ -30,6 +32,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ExceptionHandling>Sync</ExceptionHandling>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalOptions>/Zc:__cplusplus /Zc:preprocessor %(AdditionalOptions)</AdditionalOptions>

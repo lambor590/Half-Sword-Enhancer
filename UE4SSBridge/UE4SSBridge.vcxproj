@@ -34,8 +34,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <TargetName>main</TargetName>
-    <OutDir Condition="'$(Configuration)'=='Debug'">$(SolutionDir)bin\Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)'!='Debug'">$(SolutionDir)bin\</OutDir>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
     <SkipGameInstall>true</SkipGameInstall>
     <LinkIncremental>false</LinkIncremental>
@@ -44,7 +42,6 @@
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

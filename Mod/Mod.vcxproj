@@ -48,8 +48,6 @@
     <LinkIncremental>false</LinkIncremental>
     <TargetName>HSEnhancer</TargetName>
     <IntDir>$(SolutionDir)bin\intermediate\$(TargetName)\$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)'=='Debug'">$(SolutionDir)bin\Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)'!='Debug'">$(SolutionDir)bin\</OutDir>
     <ExternalIncludePath>$(ProjectDir)ext;$(SolutionDir)ext;$(ProjectDir)SDK;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -59,7 +57,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(ProjectDir)include\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
