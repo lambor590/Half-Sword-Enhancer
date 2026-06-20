@@ -19,15 +19,15 @@ static void OpenDebugTerminal() noexcept {
 
 extern "C" __declspec(dllexport) void HSE_Initialize() noexcept {
     lifecycleStarted.store(true, std::memory_order_release);
-    ModRuntimeLifecycle::Get().StartAsync();
+    ModRuntimeLifecycle::StartAsync();
 }
 
 extern "C" __declspec(dllexport) void HSE_Shutdown() noexcept {
     if (!lifecycleStarted.exchange(false, std::memory_order_acq_rel)) return;
-    ModRuntimeLifecycle::Get().Stop();
+    ModRuntimeLifecycle::Stop();
 }
 
-BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept {
+BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID reserved) noexcept {
     switch (reason) {
         case DLL_PROCESS_ATTACH: DisableThreadLibraryCalls(module);
 #ifdef EXPERIMENTAL_VERSION
@@ -39,7 +39,10 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID) noexcept {
 #endif
             KeybindManager::Initialize();
             break;
-        case DLL_PROCESS_DETACH: HSE_Shutdown(); break;
+        case DLL_PROCESS_DETACH:
+            // reserved is non-null during process termination; avoid loader-lock cleanup work there.
+            if (!reserved) HSE_Shutdown();
+            break;
     }
 
     return TRUE;
