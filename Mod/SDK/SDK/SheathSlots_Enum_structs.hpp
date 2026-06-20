@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum SheathSlots_Enum.SheathSlots_Enum
 // NumValues: 0x0007
@@ -27,5 +26,4 @@ enum class ESheathSlots_Enum : uint8
 	SheathSlots_MAX                          = 6,
 };
 
-}
-
+SDK_NAMESPACE_END

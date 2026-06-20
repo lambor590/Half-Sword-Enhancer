@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_ArmorActor.BP_ArmorActor_C
 // 0x0048 (0x02D8 - 0x0290)
@@ -53,5 +52,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

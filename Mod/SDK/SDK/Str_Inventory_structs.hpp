@@ -14,8 +14,7 @@
 #include "Str_Passport_Weapon1_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Inventory.Str_Inventory
 // 0x0020 (0x0020 - 0x0000)
@@ -26,5 +25,4 @@ public:
 	TArray<struct FStr_Passport_Weapon1>          WeaponPssports_6_0FE43BA744FE0B9934051BA2CD2DD971; // 0x0010(0x0010)(Edit, BlueprintVisible)
 };
 
-}
-
+SDK_NAMESPACE_END

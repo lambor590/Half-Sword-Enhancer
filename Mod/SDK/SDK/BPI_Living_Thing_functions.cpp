@@ -14,8 +14,7 @@
 #include "BPI_Living_Thing_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_Living_Thing.BPI_Living_Thing_C.Attach Decal
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -98,5 +97,5 @@ void IBPI_Living_Thing_C::Get_Damage(const struct FVector& Impulse, const struct
 		*Damage_Out = Parms.Damage_Out;
 }
 
-}
 
+SDK_NAMESPACE_END

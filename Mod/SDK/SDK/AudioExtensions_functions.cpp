@@ -14,8 +14,7 @@
 #include "AudioExtensions_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AudioExtensions.AudioParameterControllerInterface.ResetParameters
 // (Native, Public, BlueprintCallable)
@@ -355,5 +354,5 @@ void IAudioParameterControllerInterface::SetTriggerParameter(class FName InName)
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

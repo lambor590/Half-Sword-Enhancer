@@ -10,16 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Engine_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
 #include "SlateCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Tavern_Mercenaries.UI_Tavern_Mercenaries_C
 // 0x0280 (0x0560 - 0x02E0)
@@ -177,5 +176,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

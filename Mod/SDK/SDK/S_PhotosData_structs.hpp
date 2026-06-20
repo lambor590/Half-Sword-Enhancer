@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct S_PhotosData.S_PhotosData
 // 0x0030 (0x0030 - 0x0000)
@@ -24,5 +23,4 @@ public:
 	class FString                                 ThumbnailFullPath_6_C9990D23483EE3E87BC72CBB65536E09; // 0x0020(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

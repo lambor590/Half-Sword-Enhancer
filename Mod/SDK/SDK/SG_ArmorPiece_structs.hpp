@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct SG_ArmorPiece.SG_ArmorPiece
 // 0x0020 (0x0020 - 0x0000)
@@ -24,5 +23,4 @@ public:
 	TArray<class UStaticMesh*>                    CollisionMeshes_24_AC37FD9D429CAB7D2261AF97C88B5016; // 0x0010(0x0010)(Edit, BlueprintVisible, SaveGame)
 };
 
-}
-
+SDK_NAMESPACE_END

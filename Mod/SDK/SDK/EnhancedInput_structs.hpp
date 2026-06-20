@@ -10,15 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
+#include "InputCore_structs.hpp"
 #include "GameplayTags_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Slate_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum EnhancedInput.EPlayerMappableKeySlot
 // NumValues: 0x0009
@@ -432,5 +431,4 @@ public:
 	uint8                                         Pad_9[0x7];                                        // 0x0009(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

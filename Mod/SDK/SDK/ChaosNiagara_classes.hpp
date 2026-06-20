@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Niagara_classes.hpp"
 #include "ChaosNiagara_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Niagara_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ChaosNiagara.NiagaraDataInterfaceChaosDestruction
 // 0x0310 (0x0348 - 0x0038)
@@ -142,5 +141,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

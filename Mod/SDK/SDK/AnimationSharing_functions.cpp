@@ -14,8 +14,7 @@
 #include "AnimationSharing_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AnimationSharing.AnimationSharingStateProcessor.GetAnimationStateEnum
 // (Native, Event, Public, BlueprintEvent)
@@ -214,5 +213,5 @@ void UAnimationSharingManager::RegisterActorWithSkeletonBP(class AActor* InActor
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

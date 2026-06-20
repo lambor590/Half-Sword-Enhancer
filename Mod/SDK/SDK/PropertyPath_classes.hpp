@@ -14,8 +14,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class PropertyPath.PropertyPathTestObject
 // 0x0158 (0x0180 - 0x0028)
@@ -65,5 +64,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

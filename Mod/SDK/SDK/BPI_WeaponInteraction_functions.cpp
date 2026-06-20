@@ -14,8 +14,7 @@
 #include "BPI_WeaponInteraction_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_WeaponInteraction.BPI_WeaponInteraction_C.Weapon HIt
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -46,5 +45,5 @@ void IBPI_WeaponInteraction_C::Weapon_HIt(class UPrimitiveComponent* Hit_Compone
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

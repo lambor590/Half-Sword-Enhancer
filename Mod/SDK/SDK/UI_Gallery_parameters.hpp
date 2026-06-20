@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
+#include "S_PhotosData_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "SlateCore_structs.hpp"
-#include "S_PhotosData_structs.hpp"
 #include "UMG_structs.hpp"
 #include "InputCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Gallery.UI_Gallery_C.CloseFullscreen
 // 0x0001 (0x0001 - 0x0000)
@@ -658,5 +658,5 @@ public:
 	TArray<struct FS_PhotosData>                  CallFunc_LoadPhotos_PhotosData;                    // 0x0060(0x0010)(ReferenceParm)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

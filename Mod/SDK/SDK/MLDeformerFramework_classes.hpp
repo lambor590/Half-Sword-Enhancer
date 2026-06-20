@@ -10,16 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "MLDeformerFramework_structs.hpp"
-#include "ComputeFramework_classes.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
 #include "Engine_classes.hpp"
 #include "OptimusCore_classes.hpp"
+#include "MLDeformerFramework_structs.hpp"
+#include "ComputeFramework_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class MLDeformerFramework.MLDeformerAsset
 // 0x0008 (0x0030 - 0x0028)
@@ -395,5 +394,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "ImageCore_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ImageCore.SharedImageConstRefBlueprintFns.GetHeight
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
@@ -202,5 +201,5 @@ bool USharedImageConstRefBlueprintFns::IsValid(const struct FSharedImageConstRef
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

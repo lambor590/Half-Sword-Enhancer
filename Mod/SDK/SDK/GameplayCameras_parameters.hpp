@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
+#include "GameplayCameras_structs.hpp"
 #include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "GameplayCameras_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function GameplayCameras.LegacyCameraShake.StartLegacyCameraShake
 // 0x0038 (0x0038 - 0x0000)
@@ -302,5 +302,5 @@ public:
 	class UCameraSystemEvaluator*                 ReturnValue;                                       // 0x0000(0x0008)(Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

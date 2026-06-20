@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum AI_CombatBehavior_Enum.AI_CombatBehavior_Enum
 // NumValues: 0x0007
@@ -27,5 +26,4 @@ enum class EAI_CombatBehavior_Enum : uint8
 	AI_CombatBehavior_MAX                    = 6,
 };
 
-}
-
+SDK_NAMESPACE_END

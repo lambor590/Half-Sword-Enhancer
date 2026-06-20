@@ -13,8 +13,8 @@
 #include "HairStrandsCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function HairStrandsCore.GroomAsset.GetDeformedGroupSections
 // 0x0010 (0x0010 - 0x0000)
@@ -504,5 +504,5 @@ public:
 	class UPhysicsAsset*                          InPhysicsAsset;                                    // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

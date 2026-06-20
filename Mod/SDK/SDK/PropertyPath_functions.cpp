@@ -14,8 +14,7 @@
 #include "PropertyPath_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function PropertyPath.PropertyPathTestObject.SetFloat
 // (Final, Native, Public)
@@ -216,5 +215,5 @@ struct FPropertyPathTestStruct UPropertyPathTestObject::GetStructRef() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

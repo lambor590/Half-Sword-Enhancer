@@ -13,8 +13,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Modular_Weapon_Grip.Modular_Weapon_Grip_C.ExecuteUbergraph_Modular_Weapon_Grip
 // 0x0004 (0x0004 - 0x0000)
@@ -51,5 +51,5 @@ public:
 	float                                         CallFunc_VLerp_Alpha_ImplicitCast_2;               // 0x0160(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

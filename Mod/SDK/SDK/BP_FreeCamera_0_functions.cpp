@@ -14,8 +14,7 @@
 #include "BP_FreeCamera_0_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_FreeCamera.BP_FreeCamera_C.ExecuteUbergraph_BP_FreeCamera
 // (Final, UbergraphFunction, HasDefaults)
@@ -84,5 +83,5 @@ void BP_FreeCamera_0::ABP_FreeCamera_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

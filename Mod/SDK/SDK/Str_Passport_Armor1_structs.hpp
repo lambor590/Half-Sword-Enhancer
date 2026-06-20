@@ -10,16 +10,17 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Passport_Armor1.Str_Passport_Armor1
-// 0x00A8 (0x00A8 - 0x0000)
+// 0x00D8 (0x00D8 - 0x0000)
 struct FStr_Passport_Armor1 final
 {
 public:
@@ -30,20 +31,25 @@ public:
 	int32                                         Module1_5_46B7198E4341C93CBF6AE989EF9898E4;        // 0x0010(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Module2_7_5B7940B84CFD673B25103D96E0AFEEB0;        // 0x0014(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Module3_9_E282C465414F6D4EF2A8039FBA847AD2;        // 0x0018(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393;  // 0x001C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           FabricColor2_17_4199336A482894E5BC99E69E52B50B1C;  // 0x002C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_3C[0x4];                                       // 0x003C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	double                                        Price_27_8E3ADD54484EFC4A59FE9381485AC192;         // 0x0040(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EArmorSlots_Enum                              Slot_30_7561CB484566A4512003EA96ED44F88D;          // 0x0048(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          ProvidesUpperAP_34_A85C3E3B4E4EF35DA44FFA960797B6C6; // 0x0049(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          ProvidesLowerAP_36_FFA5916240E32AC30239D58BCDD69D62; // 0x004A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          RequiresUpperAP_38_079BBCD74D92FB832584E8B776EC8A6E; // 0x004B(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          RequiresLowerAP_40_BF13845C4B210380A7A569A912A6F614; // 0x004C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_4D[0x3];                                       // 0x004D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<EArmorSlots_Enum, bool>                  SlotsBlocked_45_0807340240E57ACE5A59D39F5E998F51;  // 0x0050(0x0050)(Edit, BlueprintVisible)
-	bool                                          RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A; // 0x00A0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_Ranks                                    Tier_50_E497AE434B01B84C559DEE8A863BB42E;          // 0x00A1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           BackgroundColor_58_CD7AE55B4C46E5A79F8448BB9CDB3B82; // 0x001C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           LeatherColor_67_A8A17E654ED0341E58247C9B39D29597;  // 0x002C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393;  // 0x003C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           FabricColor2_17_4199336A482894E5BC99E69E52B50B1C;  // 0x004C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           FabricColor3_89_167D399343950DE18CC2F9AC76D99042;  // 0x005C(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   SteelType_84_7BA6626740476C2CD69648847A1E592F;     // 0x006C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESecondaryMetal_Type                          MetalPiecesType_81_203BFD454D41FA24B0B5C5838898AA60; // 0x006D(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          RustToggle_73_E4F1415F4A1E7AD75CAFD68BBA632FEF;    // 0x006E(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          DirtToggle_74_A166ACBE4A95555CCA980F98495E364A;    // 0x006F(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Price_27_8E3ADD54484EFC4A59FE9381485AC192;         // 0x0070(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EArmorSlots_Enum                              Slot_30_7561CB484566A4512003EA96ED44F88D;          // 0x0078(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          ProvidesUpperAP_34_A85C3E3B4E4EF35DA44FFA960797B6C6; // 0x0079(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          ProvidesLowerAP_36_FFA5916240E32AC30239D58BCDD69D62; // 0x007A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          RequiresUpperAP_38_079BBCD74D92FB832584E8B776EC8A6E; // 0x007B(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          RequiresLowerAP_40_BF13845C4B210380A7A569A912A6F614; // 0x007C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_7D[0x3];                                       // 0x007D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	TMap<EArmorSlots_Enum, bool>                  SlotsBlocked_45_0807340240E57ACE5A59D39F5E998F51;  // 0x0080(0x0050)(Edit, BlueprintVisible)
+	bool                                          RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A; // 0x00D0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Ranks                                    Tier_50_E497AE434B01B84C559DEE8A863BB42E;          // 0x00D1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

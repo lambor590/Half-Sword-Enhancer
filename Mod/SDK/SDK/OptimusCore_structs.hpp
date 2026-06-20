@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "ComputeFramework_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum OptimusCore.EOptimusPinMutability
 // NumValues: 0x0004
@@ -817,5 +816,4 @@ public:
 	struct FOptimusDataDomain                     DataDomain;                                        // 0x0018(0x0040)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

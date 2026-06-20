@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Quiver_Master.BP_Quiver_Master_C
 // 0x0040 (0x02D0 - 0x0290)
@@ -52,5 +51,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

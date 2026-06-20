@@ -14,8 +14,7 @@
 #include "BPI_Dismember_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_Dismember.BPI_Dismember_C.Dismember Cut
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -46,5 +45,5 @@ void IBPI_Dismember_C::Dismember_Cut(class FName bone, const struct FVector& Loc
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

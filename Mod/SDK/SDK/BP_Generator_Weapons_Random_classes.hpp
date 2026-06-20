@@ -12,13 +12,12 @@
 
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_WeaponType_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Generator_Weapons_Random.BP_Generator_Weapons_Random_C
 // 0x0020 (0x02B0 - 0x0290)
@@ -54,5 +53,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

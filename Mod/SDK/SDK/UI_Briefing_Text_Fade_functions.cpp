@@ -14,8 +14,7 @@
 #include "UI_Briefing_Text_Fade_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Briefing_Text_Fade.UI_Briefing_Text_Fade_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -70,5 +69,5 @@ class FText UUI_Briefing_Text_Fade_C::GetText()
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

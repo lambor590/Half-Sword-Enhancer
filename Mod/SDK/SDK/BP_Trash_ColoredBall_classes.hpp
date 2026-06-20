@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Trash_ColoredBall.BP_Trash_ColoredBall_C
 // 0x0018 (0x02A8 - 0x0290)
@@ -49,5 +48,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

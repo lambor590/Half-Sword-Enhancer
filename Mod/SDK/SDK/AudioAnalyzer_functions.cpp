@@ -14,8 +14,7 @@
 #include "AudioAnalyzer_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AudioAnalyzer.AudioAnalyzer.StartAnalyzing
 // (Final, RequiredAPI, BlueprintCosmetic, Native, Public, BlueprintCallable)
@@ -68,5 +67,5 @@ void UAudioAnalyzer::StopAnalyzing(const class UObject* WorldContextObject)
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

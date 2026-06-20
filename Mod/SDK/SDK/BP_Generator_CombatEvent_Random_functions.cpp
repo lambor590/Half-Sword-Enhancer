@@ -14,8 +14,7 @@
 #include "BP_Generator_CombatEvent_Random_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Generator_CombatEvent_Random.BP_Generator_CombatEvent_Random_C.ExecuteUbergraph_BP_Generator_CombatEvent_Random
 // (Final, UbergraphFunction)
@@ -74,5 +73,5 @@ void ABP_Generator_CombatEvent_Random_C::ReceiveBeginPlay()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

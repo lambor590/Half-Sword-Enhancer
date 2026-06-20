@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_FreeCamera.BP_FreeCamera_C
 // 0x0088 (0x0318 - 0x0290)
@@ -60,5 +59,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

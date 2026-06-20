@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "LiveLinkInterface_structs.hpp"
 #include "Engine_structs.hpp"
+#include "LiveLinkInterface_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct LiveLinkAnimationCore.AnimNode_LiveLinkPose
 // 0x0058 (0x0068 - 0x0010)
@@ -39,5 +38,4 @@ public:
 	struct FAnimNode_LiveLinkPose                 PoseNode;                                          // 0x0738(0x0068)(Edit, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

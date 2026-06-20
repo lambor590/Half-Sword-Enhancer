@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "DLSS_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "DLSS_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class DLSS.DLSSOverrideSettings
 // 0x0008 (0x0030 - 0x0028)
@@ -99,5 +98,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

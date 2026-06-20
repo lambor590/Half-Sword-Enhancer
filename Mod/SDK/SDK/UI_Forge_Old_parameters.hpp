@@ -11,17 +11,17 @@
 #include "Basic.hpp"
 
 #include "SlateCore_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
 #include "UMG_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
-#include "Str_CurrentlyForgedWeapon_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "Str_CurrentlyForgedWeapon_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Forge_Old.UI_Forge_Old_C.BndEvt__UI_Forge_Slider_0_K2Node_ComponentBoundEvent_18_OnFloatValueChangedEvent__DelegateSignature
 // 0x0004 (0x0004 - 0x0000)
@@ -1449,5 +1449,5 @@ public:
 	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

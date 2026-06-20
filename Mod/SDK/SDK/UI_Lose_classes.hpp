@@ -11,12 +11,11 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "Enum_PlayMode_structs.hpp"
 #include "UMG_classes.hpp"
+#include "Enum_PlayMode_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Lose.UI_Lose_C
 // 0x0070 (0x0350 - 0x02E0)
@@ -62,5 +61,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

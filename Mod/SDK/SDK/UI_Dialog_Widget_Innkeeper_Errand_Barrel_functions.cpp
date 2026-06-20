@@ -14,8 +14,7 @@
 #include "UI_Dialog_Widget_Innkeeper_Errand_Barrel_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Innkeeper_Errand_Barrel.UI_Dialog_Widget_Innkeeper_Errand_Barrel_C.BndEvt__UI_Dialog_Widget_Innkeeper_Errand_Barrel_Button_3_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -126,5 +125,5 @@ void UUI_Dialog_Widget_Innkeeper_Errand_Barrel_C::PreConstruct(bool IsDesignTime
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

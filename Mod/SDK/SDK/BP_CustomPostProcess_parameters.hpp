@@ -13,8 +13,8 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_CustomPostProcess.BP_CustomPostProcess_C.ExecuteUbergraph_BP_CustomPostProcess
 // 0x0700 (0x0700 - 0x0000)
@@ -42,5 +42,5 @@ public:
 	struct FPostProcessSettings                   PP_0;                                              // 0x0000(0x06F0)(BlueprintVisible, BlueprintReadOnly, Parm)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Fence_Bags.BP_Fence_Bags_C
 // 0x0048 (0x02D8 - 0x0290)
@@ -52,5 +51,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

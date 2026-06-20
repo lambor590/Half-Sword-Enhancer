@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass DA_Equipment_Loadout_Master.DA_Equipment_Loadout_Master_C
 // 0x00F0 (0x0120 - 0x0030)
@@ -39,5 +38,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct S_PostProcessRendering.S_PostProcessRendering
 // 0x0018 (0x0018 - 0x0000)
@@ -23,5 +22,4 @@ public:
 	class UMaterialInstance*                      PostProcessMaterialInstance_6_05BDD1DC4C41AF2EB4052BB350882357; // 0x0010(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

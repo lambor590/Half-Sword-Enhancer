@@ -14,8 +14,7 @@
 #include "UI_Hub_Tavern_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Hub_Tavern.UI_Hub_Tavern_C.BndEvt__UI_Hub_Tavern_Button_Fencer_K2Node_ComponentBoundEvent_17_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -718,5 +717,5 @@ void UUI_Hub_Tavern_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTim
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

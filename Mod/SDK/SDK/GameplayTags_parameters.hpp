@@ -13,8 +13,8 @@
 #include "GameplayTags_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function GameplayTags.BlueprintGameplayTagLibrary.AddGameplayTag
 // 0x0028 (0x0028 - 0x0000)
@@ -391,5 +391,5 @@ public:
 	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

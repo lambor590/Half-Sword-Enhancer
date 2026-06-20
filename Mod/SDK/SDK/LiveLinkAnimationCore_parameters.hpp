@@ -13,8 +13,8 @@
 #include "LiveLinkInterface_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function LiveLinkAnimationCore.LiveLinkInstance.EnableLiveLinkEvaluation
 // 0x0001 (0x0001 - 0x0000)
@@ -66,5 +66,5 @@ public:
 	TMap<class FName, float>                      CurveItems;                                        // 0x0000(0x0050)(Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

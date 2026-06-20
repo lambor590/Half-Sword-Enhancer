@@ -10,28 +10,29 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Willie_BP_classes.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP_DressUp.Willie_BP_DressUp_C
-// 0x0030 (0x4260 - 0x4230)
+// 0x0030 (0x4430 - 0x4400)
 class AWillie_BP_DressUp_C final : public AWillie_BP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_DressUp_C;                // 0x4230(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class UWidgetComponent*                       Widget;                                            // 0x4238(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Pointer_Scene;                                     // 0x4240(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                Default_Location;                                  // 0x4248(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_43F3[0x5];                                     // 0x43F3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_DressUp_C;                // 0x43F8(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class UWidgetComponent*                       Widget;                                            // 0x4400(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Pointer_Scene;                                     // 0x4408(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Default_Location;                                  // 0x4410(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_Willie_BP_DressUp(int32 EntryPoint);
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void Reset_Character();
 	void Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl__);
 	void UserConstructionScript();
 
@@ -50,5 +51,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

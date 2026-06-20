@@ -14,8 +14,8 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_FreeCamera.BP_FreeCamera_C.ExecuteUbergraph_BP_FreeCamera
 // 0x07C0 (0x07C0 - 0x0000)
@@ -188,5 +188,5 @@ public:
 	float                                         K2Node_VariableSet_CustomTimeDilation_ImplicitCast; // 0x0130(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

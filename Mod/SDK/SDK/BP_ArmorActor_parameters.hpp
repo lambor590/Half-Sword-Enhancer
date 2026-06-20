@@ -13,8 +13,8 @@
 #include "SkeletalMerging_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_ArmorActor.BP_ArmorActor_C.ExecuteUbergraph_BP_ArmorActor
 // 0x00A8 (0x00A8 - 0x0000)
@@ -45,5 +45,5 @@ public:
 	bool                                          CallFunc_Less_IntInt_ReturnValue_1;                // 0x00A4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

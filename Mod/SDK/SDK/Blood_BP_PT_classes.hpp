@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Blood_BP_PT.Blood_BP_PT_C
 // 0x01F8 (0x0488 - 0x0290)
@@ -88,5 +87,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

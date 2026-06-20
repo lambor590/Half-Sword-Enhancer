@@ -14,8 +14,7 @@
 #include "Str_Loadout_Armor_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Loadout_Equipment.Str_Loadout_Equipment
 // 0x08A0 (0x08A0 - 0x0000)
@@ -26,5 +25,4 @@ public:
 	struct FStr_Loadout_Armor                     Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04;         // 0x0850(0x0050)(Edit, BlueprintVisible, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

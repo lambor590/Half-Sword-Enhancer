@@ -14,8 +14,7 @@
 #include "UI_Dialog_Widget_Seer_PayOff_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Seer_PayOff.UI_Dialog_Widget_Seer_PayOff_C.BndEvt__UI_Dialog_Widget_Innkeeper_Welcome_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -266,5 +265,5 @@ void UUI_Dialog_Widget_Seer_PayOff_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

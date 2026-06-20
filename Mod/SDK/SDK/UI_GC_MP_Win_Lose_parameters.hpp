@@ -15,8 +15,8 @@
 #include "Enum_PlayerPlayCondition_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_GC_MP_Win_Lose.UI_GC_MP_Win_Lose_C.ExecuteUbergraph_UI_GC_MP_Win_Lose
 // 0x00A8 (0x00A8 - 0x0000)
@@ -138,5 +138,5 @@ public:
 	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

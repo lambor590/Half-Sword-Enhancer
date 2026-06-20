@@ -14,8 +14,7 @@
 #include "MovieScene_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct MediaCompositing.MovieSceneMediaPlayerPropertySectionTemplate
 // 0x0010 (0x0048 - 0x0038)
@@ -57,5 +56,4 @@ public:
 	class UMovieSceneMediaSection*                MediaSection;                                      // 0x0180(0x0008)(ExportObject, ZeroConstructor, InstancedReference, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPrivate, TObjectPtr)
 };
 
-}
-
+SDK_NAMESPACE_END

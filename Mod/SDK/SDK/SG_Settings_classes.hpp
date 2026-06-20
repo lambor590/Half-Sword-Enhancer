@@ -15,8 +15,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass SG_Settings.SG_Settings_C
 // 0x00B8 (0x00E0 - 0x0028)
@@ -73,5 +72,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

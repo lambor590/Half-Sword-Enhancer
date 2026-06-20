@@ -16,8 +16,7 @@
 #include "MovieSceneTracks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum NiagaraSimCaching.ENiagaraSimCacheSectionPlayMode
 // NumValues: 0x0003
@@ -69,5 +68,4 @@ public:
 	TArray<struct FMovieSceneNiagaraSectionTemplateParameter> CacheSections;                         // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 };
 
-}
-
+SDK_NAMESPACE_END

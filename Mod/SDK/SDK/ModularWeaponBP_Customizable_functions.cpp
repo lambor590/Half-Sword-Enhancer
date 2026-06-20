@@ -14,8 +14,7 @@
 #include "ModularWeaponBP_Customizable_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C.ExecuteUbergraph_ModularWeaponBP_Customizable
 // (Final, UbergraphFunction)
@@ -70,5 +69,5 @@ void AModularWeaponBP_Customizable_C::ReceiveTick(float DeltaSeconds)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

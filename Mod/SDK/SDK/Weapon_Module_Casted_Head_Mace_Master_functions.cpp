@@ -14,8 +14,7 @@
 #include "Weapon_Module_Casted_Head_Mace_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Weapon_Module_Casted_Head_Mace_Master.Weapon_Module_Casted_Head_Mace_Master_C.UserConstructionScript
 // (Event, Public, BlueprintCallable, BlueprintEvent)
@@ -30,5 +29,5 @@ void AWeapon_Module_Casted_Head_Mace_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

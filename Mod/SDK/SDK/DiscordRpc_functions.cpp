@@ -14,8 +14,7 @@
 #include "DiscordRpc_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function DiscordRpc.DiscordRpc.ClearPresence
 // (Final, Native, Public, BlueprintCallable)
@@ -173,5 +172,5 @@ int64 UDiscordRpc::GetStartTimeStamp() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

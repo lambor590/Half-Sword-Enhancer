@@ -14,8 +14,7 @@
 #include "UI_AudioSettings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_AudioSettings.UI_AudioSettings_C.BndEvt__UI_AudioSettings_BackButton_K2Node_ComponentBoundEvent_12_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -402,5 +401,5 @@ void UUI_AudioSettings_C::Tick(const struct FGeometry& MyGeometry, float InDelta
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

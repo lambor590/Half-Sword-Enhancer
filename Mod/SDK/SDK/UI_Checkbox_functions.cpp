@@ -14,8 +14,7 @@
 #include "UI_Checkbox_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Checkbox.UI_Checkbox_C.BndEvt__ToggleDoF_1_K2Node_ComponentBoundEvent_3_OnCheckBoxComponentStateChanged__DelegateSignature
 // (BlueprintEvent)
@@ -273,5 +272,5 @@ class UWidget* UUI_Checkbox_C::ToggleUsingArrows(EUINavigation Navigation_0)
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

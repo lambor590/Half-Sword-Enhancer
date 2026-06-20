@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_ScreenshotManager.BP_ScreenshotManager_C
 // 0x0720 (0x09B0 - 0x0290)
@@ -51,5 +50,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

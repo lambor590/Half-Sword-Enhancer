@@ -10,16 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "InterchangeCore_classes.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
-#include "InterchangeImport_structs.hpp"
+#include "InterchangeCore_classes.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "InterchangeImport_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class InterchangeImport.InterchangeAnimationPayloadInterface
 // 0x0000 (0x0000 - 0x0000)
@@ -1614,5 +1613,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

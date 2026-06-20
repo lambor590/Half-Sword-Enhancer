@@ -15,8 +15,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ChaosClothAssetEngine.ChaosClothComponent
 // 0x0030 (0x08F0 - 0x08C0)
@@ -107,5 +106,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

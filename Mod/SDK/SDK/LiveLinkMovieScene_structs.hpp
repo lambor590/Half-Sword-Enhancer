@@ -15,8 +15,7 @@
 #include "MovieSceneTracks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct LiveLinkMovieScene.LiveLinkPropertyData
 // 0x0058 (0x0058 - 0x0000)
@@ -50,5 +49,4 @@ public:
 	uint8                                         Pad_90[0x28];                                      // 0x0090(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

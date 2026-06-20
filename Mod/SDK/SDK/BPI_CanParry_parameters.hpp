@@ -13,8 +13,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BPI_CanParry.BPI_CanParry_C.Send Threat Location R
 // 0x0038 (0x0038 - 0x0000)
@@ -27,5 +27,5 @@ public:
 	bool                                          Nul;                                               // 0x0031(0x0001)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

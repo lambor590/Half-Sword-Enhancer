@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
+#include "SequencerScripting_structs.hpp"
 #include "MovieScene_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "MovieSceneTracks_structs.hpp"
-#include "SequencerScripting_structs.hpp"
 #include "Engine_structs.hpp"
+#include "MovieSceneTracks_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function SequencerScripting.MovieSceneScriptingActorReferenceKey.SetTime
 // 0x000C (0x000C - 0x0000)
@@ -3073,5 +3073,5 @@ public:
 	float                                         Start;                                             // 0x0014(0x0004)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

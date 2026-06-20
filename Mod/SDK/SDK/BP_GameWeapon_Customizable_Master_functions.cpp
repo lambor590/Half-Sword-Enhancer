@@ -13,8 +13,7 @@
 #include "BP_GameWeapon_Customizable_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_GameWeapon_Customizable_Master.BP_GameWeapon_Customizable_Master_C.Initialize
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -29,5 +28,5 @@ void UBP_GameWeapon_Customizable_Master_C::Initialize()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_classes.hpp"
 #include "InterchangeCore_classes.hpp"
 #include "InterchangeNodes_structs.hpp"
+#include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class InterchangeNodes.InterchangeAnimationTrackSetNode
 // 0x0030 (0x0090 - 0x0060)
@@ -1032,5 +1031,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
+#include "Enum_MaterialQuality_structs.hpp"
 #include "Modular_Weapon_Module_classes.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
-#include "Enum_MaterialQuality_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C
 // 0x0038 (0x0458 - 0x0420)
@@ -57,5 +56,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

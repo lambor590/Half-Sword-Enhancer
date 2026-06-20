@@ -14,8 +14,7 @@
 #include "Blood_BP_P4_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Blood_BP_P4.Blood_BP_P4_C.BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -384,5 +383,5 @@ void ABlood_BP_P4_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

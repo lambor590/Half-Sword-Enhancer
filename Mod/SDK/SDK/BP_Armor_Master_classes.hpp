@@ -10,24 +10,25 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DismembermentPart_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Enum_Clothing_Material_structs.hpp"
-#include "HideBodyPart_Enum_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Str_Medieval_Color_Swatches_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
+#include "Str_Medieval_Color_Swatches_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Master.BP_Armor_Master_C
-// 0x0650 (0x08E0 - 0x0290)
+// 0x0680 (0x0910 - 0x0290)
 #pragma pack(push, 0x1)
-class alignas(0x10) ABP_Armor_Master_C : public AActor
+class SDK_ALIGN(0x10) ABP_Armor_Master_C : public AActor
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0290(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
@@ -101,10 +102,12 @@ public:
 	bool                                          Requires_Lower_Arming_Points;                      // 0x080C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_80D[0x3];                                      // 0x080D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Price;                                             // 0x0810(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_Passport_Armor1                   Armor_Passport;                                    // 0x0818(0x00A8)(Edit, BlueprintVisible, ExposeOnSpawn, HasGetValueTypeHash)
-	class FName                                   Name_0;                                            // 0x08C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Overall_Weight;                                    // 0x08C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Don_t_take_slots;                                  // 0x08D0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   Armor_Passport;                                    // 0x0818(0x00D8)(Edit, BlueprintVisible, ExposeOnSpawn, HasGetValueTypeHash)
+	class FName                                   Name_0;                                            // 0x08F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Overall_Weight;                                    // 0x08F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Don_t_take_slots;                                  // 0x0900(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   Steel_Type;                                        // 0x0901(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESecondaryMetal_Type                          Metal_Pieces_Type;                                 // 0x0902(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__BP_Armor_Master_Armor_Mesh_Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -113,6 +116,7 @@ public:
 	void Recalculate_Weight();
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void Setup_Armor_Material(class USkeletalMeshComponent* AddedArmorMesh, const struct FStr_Passport_Armor1& Passport, class UMaterialInstanceDynamic* SetupArmorDynamicMaterial);
 	void UserConstructionScript();
 
 public:
@@ -131,5 +135,4 @@ public:
 };
 #pragma pack(pop)
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "UI_Warning_Multiplayer_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Warning_Multiplayer.UI_Warning_Multiplayer_C.BndEvt__UI_Warning_Multiplayer_Button_4_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -64,5 +63,5 @@ void UUI_Warning_Multiplayer_C::ExecuteUbergraph_UI_Warning_Multiplayer(int32 En
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

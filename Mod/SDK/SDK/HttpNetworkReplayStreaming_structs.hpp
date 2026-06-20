@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum HttpNetworkReplayStreaming.EHttpReplayResult
 // NumValues: 0x0009
@@ -29,5 +28,4 @@ enum class EHttpReplayResult : uint8
 	EHttpReplayResult_MAX                    = 8,
 };
 
-}
-
+SDK_NAMESPACE_END

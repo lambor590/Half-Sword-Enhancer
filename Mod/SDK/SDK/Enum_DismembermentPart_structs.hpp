@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_DismembermentPart.Enum_DismembermentPart
 // NumValues: 0x0010
@@ -36,5 +35,4 @@ enum class Enum_DismembermentPart : uint8
 	Enum_MAX                                 = 15,
 };
 
-}
-
+SDK_NAMESPACE_END

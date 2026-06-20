@@ -14,8 +14,7 @@
 #include "BP_Weapon_Ranged_Weapon_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C.ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Master
 // (Final, UbergraphFunction, HasDefaults)
@@ -78,5 +77,5 @@ void ABP_Weapon_Ranged_Weapon_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

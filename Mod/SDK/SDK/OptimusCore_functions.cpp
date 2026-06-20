@@ -14,8 +14,7 @@
 #include "OptimusCore_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function OptimusCore.OptimusDeformer.GetComponentBindings
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
@@ -1527,5 +1526,5 @@ class FName UOptimusNode::GetNodeName() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

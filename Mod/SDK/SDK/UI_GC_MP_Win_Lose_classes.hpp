@@ -16,8 +16,7 @@
 #include "Enum_PlayerPlayCondition_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_GC_MP_Win_Lose.UI_GC_MP_Win_Lose_C
 // 0x0058 (0x0338 - 0x02E0)
@@ -63,5 +62,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

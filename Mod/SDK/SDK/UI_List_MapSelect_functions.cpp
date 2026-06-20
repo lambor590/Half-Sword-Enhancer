@@ -14,8 +14,7 @@
 #include "UI_List_MapSelect_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_List_MapSelect.UI_List_MapSelect_C.BndEvt__UI_List_MapSelect_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -352,5 +351,5 @@ void UUI_List_MapSelect_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

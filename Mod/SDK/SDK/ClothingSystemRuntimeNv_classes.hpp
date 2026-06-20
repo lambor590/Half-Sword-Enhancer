@@ -17,8 +17,7 @@
 #include "ClothingSystemRuntimeInterface_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ClothingSystemRuntimeNv.ClothConfigNv
 // 0x0178 (0x01A0 - 0x0028)
@@ -145,5 +144,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "DA_Character_Names_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function DA_Character_Names_Master.DA_Character_Names_Master_C.Generate Name
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
@@ -37,5 +36,5 @@ void UDA_Character_Names_Master_C::Generate_Name(class FName* Name_0)
 		*Name_0 = Parms.Name_0;
 }
 
-}
 
+SDK_NAMESPACE_END

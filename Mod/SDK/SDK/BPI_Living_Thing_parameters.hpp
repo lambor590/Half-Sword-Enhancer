@@ -14,8 +14,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BPI_Living_Thing.BPI_Living_Thing_C.Attach Decal
 // 0x0078 (0x0078 - 0x0000)
@@ -56,5 +56,5 @@ public:
 	double                                        Damage_Out;                                        // 0x00B8(0x0008)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

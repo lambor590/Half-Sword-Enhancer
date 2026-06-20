@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "InterchangeCore_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "InterchangeCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum InterchangeEngine.EInterchangePipelineConfigurationDialogResult
 // NumValues: 0x0004
@@ -139,5 +138,4 @@ public:
 	uint8                                         Pad_B0[0x10];                                      // 0x00B0(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "Enum_PlayMode_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "Enum_PlayMode_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_DED.UI_DED_C
 // 0x00A0 (0x0380 - 0x02E0)
@@ -71,5 +70,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

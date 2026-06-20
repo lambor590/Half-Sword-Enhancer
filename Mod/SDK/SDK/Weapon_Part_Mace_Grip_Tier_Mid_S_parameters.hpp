@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Weapon_Part_Mace_Grip_Tier_Mid_S.Weapon_Part_Mace_Grip_Tier_Mid_S_C.UserConstructionScript
 // 0x0050 (0x0050 - 0x0000)
@@ -30,5 +30,5 @@ public:
 	bool                                          CallFunc_Contains_ReturnValue_1;                   // 0x0049(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

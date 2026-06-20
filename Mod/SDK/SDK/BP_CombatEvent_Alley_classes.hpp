@@ -13,8 +13,7 @@
 #include "BP_CombatEvent_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_CombatEvent_Alley.BP_CombatEvent_Alley_C
 // 0x0000 (0x0410 - 0x0410)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,13 +11,13 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
+#include "Enum_Characters_Tavern_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
-#include "Enum_Characters_Tavern_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Tavern_Dialog.UI_Tavern_Dialog_C
 // 0x0048 (0x0328 - 0x02E0)
@@ -61,5 +61,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

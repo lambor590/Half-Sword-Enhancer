@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum InterchangeImport.EMaterialXLuminanceMode
 // NumValues: 0x0006
@@ -46,5 +45,4 @@ enum class EMAterialXTextureSampleBlurKernel : uint32
 	EMAterialXTextureSampleBlurKernel_MAX    = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

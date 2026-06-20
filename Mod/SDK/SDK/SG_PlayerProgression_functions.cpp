@@ -14,8 +14,7 @@
 #include "SG_PlayerProgression_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function SG_PlayerProgression.SG_PlayerProgression_C.ExecuteUbergraph_SG_PlayerProgression
 // (Final, UbergraphFunction, HasDefaults)
@@ -56,5 +55,5 @@ void USG_PlayerProgression_C::Save_Rank_Equipment_Event(const struct FStr_Loadou
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

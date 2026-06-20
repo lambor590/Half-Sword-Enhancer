@@ -14,8 +14,7 @@
 #include "Paper2D_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Paper2D.PaperFlipbook.GetKeyFrameIndexAtTime
 // (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
@@ -1836,5 +1835,5 @@ void UPaperTerrainComponent::SetTerrainColor(const struct FLinearColor& NewColor
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

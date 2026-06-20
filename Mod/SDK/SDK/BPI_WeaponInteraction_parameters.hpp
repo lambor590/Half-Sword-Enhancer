@@ -14,8 +14,8 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BPI_WeaponInteraction.BPI_WeaponInteraction_C.Weapon HIt
 // 0x0130 (0x0130 - 0x0000)
@@ -31,5 +31,5 @@ public:
 	class UClass*                                 Weapon;                                            // 0x0128(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

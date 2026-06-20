@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Willie_Bones_Enum.Willie_Bones_Enum
 // NumValues: 0x0018
@@ -44,5 +43,4 @@ enum class EWillie_Bones_Enum : uint8
 	Willie_Bones_MAX                         = 23,
 };
 
-}
-
+SDK_NAMESPACE_END

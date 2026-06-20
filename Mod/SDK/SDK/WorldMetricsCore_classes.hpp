@@ -14,8 +14,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class WorldMetricsCore.WorldMetricsSubsystem
 // 0x2850 (0x2880 - 0x0030)
@@ -133,5 +132,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

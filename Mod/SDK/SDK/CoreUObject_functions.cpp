@@ -14,8 +14,7 @@
 #include "CoreUObject_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Predefined Function
 // Finds a UObject in the global object array by name, optionally with ECastFlags to reduce heavy string comparison
@@ -208,5 +207,5 @@ class UFunction* UClass::GetFunction(const char* ClassName, const char* FuncName
 	return nullptr;
 }
 
-}
 
+SDK_NAMESPACE_END

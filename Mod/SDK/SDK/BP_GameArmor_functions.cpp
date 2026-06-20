@@ -14,8 +14,7 @@
 #include "BP_GameArmor_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_GameArmor.BP_GameArmor_C.Initialize
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -30,5 +29,5 @@ void UBP_GameArmor_C::Initialize()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

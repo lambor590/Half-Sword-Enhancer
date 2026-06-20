@@ -14,8 +14,7 @@
 #include "MetasoundFrontend_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function MetasoundFrontend.MetasoundParameterPack.MakeMetasoundParameterPack
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -499,5 +498,5 @@ bool UMetasoundParameterPack::HasTrigger(class FName ParameterName) const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

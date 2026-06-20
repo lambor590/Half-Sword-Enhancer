@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "ModelingOperators_structs.hpp"
 #include "InteractiveToolsFramework_classes.hpp"
+#include "ModelingOperators_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ModelingOperators.RecomputeUVsToolProperties
 // 0x0038 (0x00E0 - 0x00A8)
@@ -135,5 +134,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

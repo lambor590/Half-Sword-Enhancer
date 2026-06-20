@@ -14,8 +14,7 @@
 #include "GooglePAD_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function GooglePAD.GooglePADFunctionLibrary.CancelDownload
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -490,5 +489,5 @@ EGooglePADErrorCode UGooglePADFunctionLibrary::ShowConfirmationDialog()
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "GI_Settings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function GI_Settings.GI_Settings_C.Check Insured Items
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -318,5 +317,5 @@ void UGI_Settings_C::Stop_Music()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

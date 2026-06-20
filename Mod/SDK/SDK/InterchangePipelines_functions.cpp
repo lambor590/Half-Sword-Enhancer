@@ -14,8 +14,7 @@
 #include "InterchangePipelines_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function InterchangePipelines.InterchangePipelineMeshesUtilities.CreateInterchangePipelineMeshesUtilities
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -448,5 +447,5 @@ void UInterchangePipelineMeshesUtilities::SetContext(const struct FInterchangePi
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

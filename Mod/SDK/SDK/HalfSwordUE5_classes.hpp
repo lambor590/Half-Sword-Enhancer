@@ -15,8 +15,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class HalfSwordUE5.FireComponent
 // 0x00A0 (0x0140 - 0x00A0)
@@ -201,5 +200,29 @@ public:
 	}
 };
 
-}
+// Class HalfSwordUE5.UWorkshopManagerSubsystem
+// 0x0028 (0x0058 - 0x0030)
+class UUWorkshopManagerSubsystem final : public UGameInstanceSubsystem
+{
+public:
+	uint8                                         Pad_30[0x28];                                      // 0x0030(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
+public:
+	void CreateWorkshopItem();
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("UWorkshopManagerSubsystem")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"UWorkshopManagerSubsystem")
+	}
+	static class UUWorkshopManagerSubsystem* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UUWorkshopManagerSubsystem>();
+	}
+};
+
+SDK_NAMESPACE_END

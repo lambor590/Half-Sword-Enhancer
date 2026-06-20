@@ -13,8 +13,8 @@
 #include "Enum_DayTime_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function DA_Tavern_Character_Master.DA_Tavern_Character_Master_C.Get Spawn Chance
 // 0x0020 (0x0020 - 0x0000)
@@ -28,5 +28,5 @@ public:
 	bool                                          CallFunc_Map_Find_ReturnValue;                     // 0x0018(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "SlateRHIRenderer_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function SlateRHIRenderer.SlateRHIRendererSettings.GetMutableSlatePostSetting
 // (Final, Native, Public, BlueprintCallable)
@@ -100,5 +99,5 @@ class USlateRHIPostBufferProcessor* USlateFXSubsystem::GetSlatePostProcessor(ESl
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

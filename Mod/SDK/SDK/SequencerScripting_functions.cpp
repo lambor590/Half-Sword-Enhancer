@@ -14,8 +14,7 @@
 #include "SequencerScripting_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function SequencerScripting.MovieSceneScriptingActorReferenceKey.SetTime
 // (Final, Native, Public, HasOutParams, HasDefaults, BlueprintCallable)
@@ -9131,5 +9130,5 @@ void USequencerScriptingRangeExtensions::SetStartSeconds(struct FSequencerScript
 	Range = std::move(Parms.Range);
 }
 
-}
 
+SDK_NAMESPACE_END

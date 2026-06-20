@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Enum_PlayCards_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_PlayCards_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_HalfSwordGameMode.BP_HalfSwordGameMode_C
 // 0x00F0 (0x0418 - 0x0328)
@@ -92,5 +91,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

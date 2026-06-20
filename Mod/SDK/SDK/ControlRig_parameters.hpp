@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "ControlRig_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "ControlRig_structs.hpp"
 #include "AnimationCore_structs.hpp"
 #include "Engine_structs.hpp"
 #include "RigVM_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function ControlRig.ControlRigShapeLibraryLink.SetShapeLibrary
 // 0x0028 (0x0028 - 0x0000)
@@ -2028,6 +2028,83 @@ public:
 	TArray<struct FRigElementKey>                 ReturnValue;                                       // 0x0010(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, NativeAccessSpecifierPublic)
 };
 
+// Function ControlRig.ControlRigTestData.CreateNewAsset
+// 0x0028 (0x0028 - 0x0000)
+struct ControlRigTestData_CreateNewAsset final
+{
+public:
+	class FString                                 InDesiredPackagePath;                              // 0x0000(0x0010)(Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FString                                 InBlueprintPathName;                               // 0x0010(0x0010)(Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class UControlRigTestData*                    ReturnValue;                                       // 0x0020(0x0008)(Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function ControlRig.ControlRigTestData.Record
+// 0x0018 (0x0018 - 0x0000)
+struct ControlRigTestData_Record final
+{
+public:
+	class UControlRig*                            InControlRig;                                      // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	double                                        InRecordingDuration;                               // 0x0008(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          ReturnValue;                                       // 0x0010(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
+// Function ControlRig.ControlRigTestData.SetupReplay
+// 0x0010 (0x0010 - 0x0000)
+struct ControlRigTestData_SetupReplay final
+{
+public:
+	class UControlRig*                            InControlRig;                                      // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bGroundTruth;                                      // 0x0008(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          ReturnValue;                                       // 0x0009(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_A[0x6];                                        // 0x000A(0x0006)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
+// Function ControlRig.ControlRigTestData.GetFrameIndexForTime
+// 0x0010 (0x0010 - 0x0000)
+struct ControlRigTestData_GetFrameIndexForTime final
+{
+public:
+	double                                        InSeconds;                                         // 0x0000(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bInput;                                            // 0x0008(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         ReturnValue;                                       // 0x000C(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function ControlRig.ControlRigTestData.GetPlaybackMode
+// 0x0001 (0x0001 - 0x0000)
+struct ControlRigTestData_GetPlaybackMode final
+{
+public:
+	EControlRigTestDataPlaybackMode               ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function ControlRig.ControlRigTestData.GetTimeRange
+// 0x0018 (0x0018 - 0x0000)
+struct ControlRigTestData_GetTimeRange final
+{
+public:
+	bool                                          bInput;                                            // 0x0000(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector2D                              ReturnValue;                                       // 0x0008(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function ControlRig.ControlRigTestData.IsRecording
+// 0x0001 (0x0001 - 0x0000)
+struct ControlRigTestData_IsRecording final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function ControlRig.ControlRigTestData.IsReplaying
+// 0x0001 (0x0001 - 0x0000)
+struct ControlRigTestData_IsReplaying final
+{
+public:
+	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
 // Function ControlRig.AnimNodeControlRigLibrary.ConvertToControlRig
 // 0x0028 (0x0028 - 0x0000)
 struct AnimNodeControlRigLibrary_ConvertToControlRig final
@@ -2608,83 +2685,6 @@ public:
 // Function ControlRig.ControlRigShapeActor.IsSelectedInEditor
 // 0x0001 (0x0001 - 0x0000)
 struct ControlRigShapeActor_IsSelectedInEditor final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function ControlRig.ControlRigTestData.CreateNewAsset
-// 0x0028 (0x0028 - 0x0000)
-struct ControlRigTestData_CreateNewAsset final
-{
-public:
-	class FString                                 InDesiredPackagePath;                              // 0x0000(0x0010)(Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FString                                 InBlueprintPathName;                               // 0x0010(0x0010)(Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class UControlRigTestData*                    ReturnValue;                                       // 0x0020(0x0008)(Parm, OutParm, ZeroConstructor, ReturnParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function ControlRig.ControlRigTestData.Record
-// 0x0018 (0x0018 - 0x0000)
-struct ControlRigTestData_Record final
-{
-public:
-	class UControlRig*                            InControlRig;                                      // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	double                                        InRecordingDuration;                               // 0x0008(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          ReturnValue;                                       // 0x0010(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
-// Function ControlRig.ControlRigTestData.SetupReplay
-// 0x0010 (0x0010 - 0x0000)
-struct ControlRigTestData_SetupReplay final
-{
-public:
-	class UControlRig*                            InControlRig;                                      // 0x0000(0x0008)(Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bGroundTruth;                                      // 0x0008(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          ReturnValue;                                       // 0x0009(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_A[0x6];                                        // 0x000A(0x0006)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
-// Function ControlRig.ControlRigTestData.GetFrameIndexForTime
-// 0x0010 (0x0010 - 0x0000)
-struct ControlRigTestData_GetFrameIndexForTime final
-{
-public:
-	double                                        InSeconds;                                         // 0x0000(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bInput;                                            // 0x0008(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         ReturnValue;                                       // 0x000C(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function ControlRig.ControlRigTestData.GetPlaybackMode
-// 0x0001 (0x0001 - 0x0000)
-struct ControlRigTestData_GetPlaybackMode final
-{
-public:
-	EControlRigTestDataPlaybackMode               ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function ControlRig.ControlRigTestData.GetTimeRange
-// 0x0018 (0x0018 - 0x0000)
-struct ControlRigTestData_GetTimeRange final
-{
-public:
-	bool                                          bInput;                                            // 0x0000(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FVector2D                              ReturnValue;                                       // 0x0008(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function ControlRig.ControlRigTestData.IsRecording
-// 0x0001 (0x0001 - 0x0000)
-struct ControlRigTestData_IsRecording final
-{
-public:
-	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function ControlRig.ControlRigTestData.IsReplaying
-// 0x0001 (0x0001 - 0x0000)
-struct ControlRigTestData_IsReplaying final
 {
 public:
 	bool                                          ReturnValue;                                       // 0x0000(0x0001)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
@@ -3356,5 +3356,5 @@ public:
 	TArray<struct FRigVMUserWorkflow>             ReturnValue;                                       // 0x0008(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

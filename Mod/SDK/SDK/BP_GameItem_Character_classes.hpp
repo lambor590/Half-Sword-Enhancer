@@ -14,8 +14,7 @@
 #include "BP_GameItem_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameItem_Character.BP_GameItem_Character_C
 // 0x0148 (0x01B0 - 0x0068)
@@ -43,5 +42,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

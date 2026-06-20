@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_ArmorElements.Str_ArmorElements
 // 0x0038 (0x0038 - 0x0000)
@@ -27,5 +26,4 @@ public:
 	struct FLinearColor                           Color3_9_D8B5A08742A87F5492F8138A4F686141;         // 0x0028(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

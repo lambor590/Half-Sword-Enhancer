@@ -14,8 +14,7 @@
 #include "Modular_Sword_Guard_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Modular_Sword_Guard_Master.Modular_Sword_Guard_Master_C.ExecuteUbergraph_Modular_Sword_Guard_Master
 // (Final, UbergraphFunction)
@@ -70,5 +69,5 @@ void AModular_Sword_Guard_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

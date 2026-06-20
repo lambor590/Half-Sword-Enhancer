@@ -14,8 +14,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class LiveLinkAnimationCore.LiveLinkInstance
 // 0x0000 (0x0370 - 0x0370)
@@ -90,5 +89,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

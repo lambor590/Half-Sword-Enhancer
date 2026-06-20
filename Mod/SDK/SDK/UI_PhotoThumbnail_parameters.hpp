@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "S_PhotosData_structs.hpp"
 #include "UMG_structs.hpp"
+#include "S_PhotosData_structs.hpp"
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_PhotoThumbnail.UI_PhotoThumbnail_C.Edges Visibility
 // 0x0005 (0x0005 - 0x0000)
@@ -113,5 +113,5 @@ public:
 	struct FS_PhotosData                          PhotoInfo;                                         // 0x0000(0x0030)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

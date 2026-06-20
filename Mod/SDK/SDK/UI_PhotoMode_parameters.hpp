@@ -10,21 +10,21 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "S_PostProcessRendering_structs.hpp"
 #include "S_PhotosData_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "UMG_structs.hpp"
 #include "SlateCore_structs.hpp"
+#include "S_PhotoResolutions_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
-#include "S_PhotoResolutions_structs.hpp"
-#include "E_ColorGradingMode_structs.hpp"
 #include "S_Logos_structs.hpp"
 #include "S_PostProcessFilter_structs.hpp"
+#include "E_ColorGradingMode_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_PhotoMode.UI_PhotoMode_C.ActiveTab
 // 0x0820 (0x0820 - 0x0000)
@@ -2158,5 +2158,5 @@ public:
 	ESlateVisibility                              K2Node_Select_Default;                             // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum Foliage.FoliageVertexColorMask
 // NumValues: 0x0006
@@ -124,5 +123,4 @@ public:
 	struct FRuntimeFloatCurve                     FalloffCurve;                                      // 0x0008(0x0088)(Edit, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

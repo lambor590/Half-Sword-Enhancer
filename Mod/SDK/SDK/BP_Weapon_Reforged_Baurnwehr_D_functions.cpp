@@ -14,8 +14,7 @@
 #include "BP_Weapon_Reforged_Baurnwehr_D_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Weapon_Reforged_Baurnwehr_D.BP_Weapon_Reforged_Baurnwehr_D_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -92,5 +91,5 @@ void ABP_Weapon_Reforged_Baurnwehr_D_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

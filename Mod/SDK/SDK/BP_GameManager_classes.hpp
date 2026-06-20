@@ -13,12 +13,11 @@
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Str_Passport_Character1_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameManager.BP_GameManager_C
 // 0x0038 (0x02C8 - 0x0290)
@@ -59,5 +58,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

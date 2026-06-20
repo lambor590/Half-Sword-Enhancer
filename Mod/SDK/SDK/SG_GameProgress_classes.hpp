@@ -10,23 +10,22 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_DayTime_structs.hpp"
+#include "Str_Passport_CombatEvent1_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Str_Inventory_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "Str_Passport_CombatEvent1_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
-#include "Enum_GameMode_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass SG_GameProgress.SG_GameProgress_C
 // 0x0878 (0x08A0 - 0x0028)
@@ -126,5 +125,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

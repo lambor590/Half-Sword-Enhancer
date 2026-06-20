@@ -14,8 +14,7 @@
 #include "UI_CharacterCreation_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_CharacterCreation.UI_CharacterCreation_C.BndEvt__UI_CharacterCreation_Button_0_K2Node_ComponentBoundEvent_13_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -618,5 +617,5 @@ void UUI_CharacterCreation_C::Set_Up_Trader_Item(class UObject* Item, class UObj
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -10,16 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
-#include "Enum_WeaponType_structs.hpp"
+#include "UMG_classes.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "Engine_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
-#include "UMG_classes.hpp"
+#include "Enum_WeaponType_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_CharacterCreation.UI_CharacterCreation_C
 // 0x0138 (0x0418 - 0x02E0)
@@ -107,5 +106,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

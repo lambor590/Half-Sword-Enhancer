@@ -14,8 +14,7 @@
 #include "BP_Generator_Armor_Random_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Generator_Armor_Random.BP_Generator_Armor_Random_C.Generate Armor
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
@@ -24,9 +23,12 @@ namespace SDK
 // EArmorSlots_Enum                        Slot                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Module_Spawn_Chance                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // bool                                    Mercenary_Colors                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Force_Armor_Metal_Material                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESteel_Type                             Armor_Steel_Type_Forced                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESecondaryMetal_Type                    Armor_Metal_Pieces_Type_Forced                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // struct FStr_Passport_Armor1*            Armor_Passport                                         (Parm, OutParm, HasGetValueTypeHash)
 
-void ABP_Generator_Armor_Random_C::Generate_Armor(Enum_Ranks Tier, EArmorSlots_Enum Slot, double Module_Spawn_Chance, bool Mercenary_Colors, struct FStr_Passport_Armor1* Armor_Passport)
+void ABP_Generator_Armor_Random_C::Generate_Armor(Enum_Ranks Tier, EArmorSlots_Enum Slot, double Module_Spawn_Chance, bool Mercenary_Colors, bool Force_Armor_Metal_Material, ESteel_Type Armor_Steel_Type_Forced, ESecondaryMetal_Type Armor_Metal_Pieces_Type_Forced, struct FStr_Passport_Armor1* Armor_Passport)
 {
 	static class UFunction* Func = nullptr;
 
@@ -39,6 +41,9 @@ void ABP_Generator_Armor_Random_C::Generate_Armor(Enum_Ranks Tier, EArmorSlots_E
 	Parms.Slot = Slot;
 	Parms.Module_Spawn_Chance = Module_Spawn_Chance;
 	Parms.Mercenary_Colors = Mercenary_Colors;
+	Parms.Force_Armor_Metal_Material = Force_Armor_Metal_Material;
+	Parms.Armor_Steel_Type_Forced = Armor_Steel_Type_Forced;
+	Parms.Armor_Metal_Pieces_Type_Forced = Armor_Metal_Pieces_Type_Forced;
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -46,5 +51,5 @@ void ABP_Generator_Armor_Random_C::Generate_Armor(Enum_Ranks Tier, EArmorSlots_E
 		*Armor_Passport = std::move(Parms.Armor_Passport);
 }
 
-}
 
+SDK_NAMESPACE_END

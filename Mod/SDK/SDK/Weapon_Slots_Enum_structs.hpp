@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Weapon_Slots_Enum.Weapon_Slots_Enum
 // NumValues: 0x0005
@@ -25,5 +24,4 @@ enum class EWeapon_Slots_Enum : uint8
 	Weapon_Slots_MAX                         = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "BPFL_PhotoModeUtilities_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPFL_PhotoModeUtilities.BPFL_PhotoModeUtilities_C.Directory Path Correction
 // (Static, Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -502,5 +501,5 @@ void UBPFL_PhotoModeUtilities_C::Screenshot__with_UI_(class UObject* World_Conte
 		*PhotoName = std::move(Parms.PhotoName);
 }
 
-}
 
+SDK_NAMESPACE_END

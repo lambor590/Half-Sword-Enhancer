@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class MobilePatchingUtils.MobileInstalledContent
 // 0x0020 (0x0048 - 0x0028)
@@ -101,5 +100,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

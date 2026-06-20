@@ -10,15 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Enum_CombatEvent_LoseConditions_structs.hpp"
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
-#include "Enum_DayTime_structs.hpp"
+#include "Enum_CombatEvent_LoseConditions_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_LevelManager.BP_LevelManager_C
 // 0x0040 (0x02D0 - 0x0290)
@@ -63,5 +62,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

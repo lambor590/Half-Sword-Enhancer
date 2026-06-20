@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Character_Body_Condition.Str_Character_Body_Condition
 // 0x0040 (0x0040 - 0x0000)
@@ -29,5 +28,4 @@ public:
 	double                                        LegLHealth_15_41C766B5460596C0804EA5B4B8F8EB36;    // 0x0038(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

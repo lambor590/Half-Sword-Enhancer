@@ -14,8 +14,7 @@
 #include "BP_Container_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Container_Master.BP_Container_Master_C.Collision Bug Check Event
 // (BlueprintCallable, BlueprintEvent)
@@ -104,5 +103,5 @@ void ABP_Container_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

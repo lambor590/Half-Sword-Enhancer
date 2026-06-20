@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
-#include "Enum_Ranks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Dialog_Widget_Fencer_FreeMode.UI_Dialog_Widget_Fencer_FreeMode_C
 // 0x0028 (0x0308 - 0x02E0)
@@ -56,5 +55,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

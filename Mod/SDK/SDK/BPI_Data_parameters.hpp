@@ -13,8 +13,8 @@
 #include "S_PhotosData_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BPI_Data.BPI_Data_C.SendPhotoData
 // 0x0030 (0x0030 - 0x0000)
@@ -34,5 +34,5 @@ public:
 	class UUI_TabButton_C*                        CommonButtonPressed;                               // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

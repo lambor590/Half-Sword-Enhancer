@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "StreamlineBlueprint_structs.hpp"
 #include "Engine_classes.hpp"
+#include "StreamlineBlueprint_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class StreamlineBlueprint.StreamlineLibrary
 // 0x0000 (0x0028 - 0x0028)
@@ -42,5 +41,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

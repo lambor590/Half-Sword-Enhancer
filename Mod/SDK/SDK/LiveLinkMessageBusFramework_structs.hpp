@@ -14,8 +14,7 @@
 #include "LiveLinkInterface_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct LiveLinkMessageBusFramework.LiveLinkPingMessage
 // 0x0014 (0x0014 - 0x0000)
@@ -84,5 +83,4 @@ public:
 	double                                        Time;                                              // 0x0088(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

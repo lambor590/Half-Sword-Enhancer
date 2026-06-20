@@ -14,8 +14,7 @@
 #include "RunningBlood_BP_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function RunningBlood_BP.RunningBlood_BP_C.Bleed Event
 // (BlueprintCallable, BlueprintEvent)
@@ -112,5 +111,5 @@ void ARunningBlood_BP_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

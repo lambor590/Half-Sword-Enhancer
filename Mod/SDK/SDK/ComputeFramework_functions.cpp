@@ -14,8 +14,7 @@
 #include "ComputeFramework_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ComputeFramework.ComputeGraphComponent.CreateDataProviders
 // (Final, Native, Public, BlueprintCallable)
@@ -81,5 +80,5 @@ void UComputeGraphComponent::QueueExecute()
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

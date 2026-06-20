@@ -11,12 +11,11 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Passport_Weapon1.Str_Passport_Weapon1
 // 0x0100 (0x0100 - 0x0000)
@@ -52,5 +51,4 @@ public:
 	Enum_Ranks                                    Tier_67_05026E6F43B7300AA8BACC9D9F9AB461;          // 0x00F8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

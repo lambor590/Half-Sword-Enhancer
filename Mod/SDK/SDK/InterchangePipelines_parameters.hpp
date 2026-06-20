@@ -13,8 +13,8 @@
 #include "InterchangePipelines_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function InterchangePipelines.InterchangePipelineMeshesUtilities.CreateInterchangePipelineMeshesUtilities
 // 0x0010 (0x0010 - 0x0000)
@@ -154,5 +154,5 @@ public:
 	struct FInterchangePipelineMeshesUtilitiesContext Context;                                       // 0x0000(0x0005)(ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

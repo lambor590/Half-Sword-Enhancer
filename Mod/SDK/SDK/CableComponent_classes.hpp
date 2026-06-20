@@ -15,8 +15,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class CableComponent.CableActor
 // 0x0008 (0x0298 - 0x0290)
@@ -93,5 +92,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -13,13 +13,12 @@
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
 #include "Engine_classes.hpp"
+#include "GeometryCache_structs.hpp"
 #include "Niagara_structs.hpp"
 #include "Niagara_classes.hpp"
-#include "GeometryCache_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class GeometryCache.GeometryCache
 // 0x0060 (0x0088 - 0x0028)
@@ -374,5 +373,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

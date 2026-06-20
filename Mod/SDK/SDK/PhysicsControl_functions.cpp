@@ -14,8 +14,7 @@
 #include "PhysicsControl_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function PhysicsControl.PhysicsControlBPLibrary.AddControlParameters
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable, BlueprintPure)
@@ -4221,5 +4220,5 @@ void UPhysicsControlInitializerComponent::CreateControls(class UPhysicsControlCo
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

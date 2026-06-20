@@ -10,16 +10,15 @@
 
 #include "Basic.hpp"
 
+#include "SheathSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Str_Inventory_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "UMG_classes.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Insurance.UI_Insurance_C
 // 0x0078 (0x0358 - 0x02E0)
@@ -68,5 +67,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

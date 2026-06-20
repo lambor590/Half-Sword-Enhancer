@@ -14,8 +14,7 @@
 #include "BP_Trash_ColoredBall_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Trash_ColoredBall.BP_Trash_ColoredBall_C.ExecuteUbergraph_BP_Trash_ColoredBall
 // (Final, UbergraphFunction)
@@ -106,5 +105,5 @@ void ABP_Trash_ColoredBall_C::Turn_Yellow()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

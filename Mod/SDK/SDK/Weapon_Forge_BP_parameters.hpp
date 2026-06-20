@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
+#include "Engine_structs.hpp"
 #include "GripType_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Weapon_Forge_BP.Weapon_Forge_BP_C.ExecuteUbergraph_Weapon_Forge_BP
 // 0x0080 (0x0080 - 0x0000)
@@ -228,5 +228,5 @@ public:
 	bool                                          K2Node_DynamicCast_bSuccess;                       // 0x0008(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

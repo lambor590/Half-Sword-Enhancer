@@ -14,8 +14,7 @@
 #include "ChaosFleshEngine_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ChaosFleshEngine.DeformablePhysicsComponent.EnableSimulation
 // (Final, Native, Public, BlueprintCallable)
@@ -253,5 +252,5 @@ void AFleshActor::EnableSimulation(class ADeformableSolverActor* Actor)
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "AI_BP_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AI_BP.AI_BP_C.Attack
 // (BlueprintCallable, BlueprintEvent)
@@ -40,6 +39,20 @@ void AAI_BP_C::Dash_Event()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("AI_BP_C", "Dash Event");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Initialize AI
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Initialize_AI()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Event Initialize AI");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -133,6 +146,20 @@ void AAI_BP_C::ReceiveTick(float DeltaSeconds)
 }
 
 
+// Function AI_BP.AI_BP_C.Rotate Dagger Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Rotate_Dagger_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Rotate Dagger Event");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function AI_BP.AI_BP_C.Stop That Blade
 // (BlueprintCallable, BlueprintEvent)
 
@@ -160,5 +187,5 @@ void AAI_BP_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

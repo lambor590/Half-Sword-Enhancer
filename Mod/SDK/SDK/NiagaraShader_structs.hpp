@@ -14,8 +14,7 @@
 #include "NiagaraCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum NiagaraShader.ENiagaraMipMapGenerationType
 // NumValues: 0x0007
@@ -178,5 +177,4 @@ public:
 	uint8                                         Pad_38[0x20];                                      // 0x0038(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "UI_Dialog_Widget_Merchant_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Merchant.UI_Dialog_Widget_Merchant_C.BndEvt__UI_Dialog_Widget_Merchant_Button_2_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -140,5 +139,5 @@ void UUI_Dialog_Widget_Merchant_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

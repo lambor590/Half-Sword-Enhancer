@@ -14,8 +14,7 @@
 #include "UI_HUD_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_HUD.UI_HUD_C.Aim Lock Is Off
 // (BlueprintCallable, BlueprintEvent)
@@ -140,5 +139,5 @@ void UUI_HUD_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

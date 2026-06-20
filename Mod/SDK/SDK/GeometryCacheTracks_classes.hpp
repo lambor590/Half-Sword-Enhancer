@@ -14,8 +14,7 @@
 #include "MovieScene_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class GeometryCacheTracks.MovieSceneGeometryCacheSection
 // 0x0048 (0x0138 - 0x00F0)
@@ -62,5 +61,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

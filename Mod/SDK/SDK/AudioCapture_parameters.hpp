@@ -13,8 +13,8 @@
 #include "AudioCapture_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function AudioCapture.AudioCapture.GetAudioCaptureDeviceInfo
 // 0x0014 (0x0014 - 0x0000)
@@ -60,5 +60,5 @@ public:
 	TDelegate<void(const TArray<struct FAudioInputDeviceInfo>& AvailableDevices)> OnObtainDevicesEvent; // 0x0008(0x0010)(ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

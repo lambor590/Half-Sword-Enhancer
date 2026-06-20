@@ -14,8 +14,7 @@
 #include "HSComputeShaders_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function HSComputeShaders.CSBloodSimActor.AddNewParticle
 // (Final, Native, Public, HasDefaults, BlueprintCallable)
@@ -43,5 +42,5 @@ void ACSBloodSimActor::AddNewParticle(const struct FVector4f& LocationAndSize, c
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

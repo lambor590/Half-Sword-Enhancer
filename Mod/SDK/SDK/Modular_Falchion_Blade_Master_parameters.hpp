@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
-#include "Engine_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ExecuteUbergraph_Modular_Falchion_Blade_Master
 // 0x00B0 (0x00B0 - 0x0000)
@@ -109,5 +109,5 @@ public:
 	float                                         CallFunc_SetMassOverrideInKg_MassInKg_ImplicitCast_1; // 0x03C4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

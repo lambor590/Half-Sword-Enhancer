@@ -14,8 +14,7 @@
 #include "BP_PlayerInventory_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_PlayerInventory.BP_PlayerInventory_C.ExecuteUbergraph_BP_PlayerInventory
 // (Final, UbergraphFunction)
@@ -64,5 +63,5 @@ void ABP_PlayerInventory_C::ReceiveBeginPlay()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "UI_Tevern_LowerPanel_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Tevern_LowerPanel.UI_Tevern_LowerPanel_C.BndEvt__UI_Tevern_LowerPanel_Button_Inventory_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -164,5 +163,5 @@ void UUI_Tevern_LowerPanel_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

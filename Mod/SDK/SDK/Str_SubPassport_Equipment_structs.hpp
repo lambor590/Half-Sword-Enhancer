@@ -10,15 +10,14 @@
 
 #include "Basic.hpp"
 
+#include "SheathSlots_Enum_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_SubPassport_Equipment.Str_SubPassport_Equipment
 // 0x00F0 (0x00F0 - 0x0000)
@@ -30,5 +29,4 @@ public:
 	TMap<Enum_Sides_RightLeft, struct FStr_Passport_Weapon1> WeaponinHands_23_B3FE643741AF91A6DFE51888205C0F05; // 0x00A0(0x0050)(Edit, BlueprintVisible)
 };
 
-}
-
+SDK_NAMESPACE_END

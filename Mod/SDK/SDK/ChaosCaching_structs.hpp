@@ -16,8 +16,7 @@
 #include "MovieScene_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ChaosCaching.ECacheMode
 // NumValues: 0x0004
@@ -204,5 +203,4 @@ public:
 	struct FMovieSceneChaosCacheSectionTemplateParameters Params;                                    // 0x0020(0x0030)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

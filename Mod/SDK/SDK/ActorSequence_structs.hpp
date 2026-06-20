@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ActorSequence.EActorSequenceObjectReferenceType
 // NumValues: 0x0004
@@ -55,5 +54,4 @@ public:
 	TArray<struct FActorSequenceObjectReferences> References;                                        // 0x0010(0x0010)(ZeroConstructor, NativeAccessSpecifierPrivate)
 };
 
-}
-
+SDK_NAMESPACE_END

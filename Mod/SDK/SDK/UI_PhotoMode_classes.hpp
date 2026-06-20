@@ -10,16 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "E_ColorGradingMode_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
-#include "E_ColorGradingMode_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_PhotoMode.UI_PhotoMode_C
 // 0x0C80 (0x0F60 - 0x02E0)
@@ -334,5 +333,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

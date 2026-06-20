@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct DirectLink.DirectLinkMsg_EndpointLifecycle
 // 0x0008 (0x0008 - 0x0000)
@@ -128,5 +127,4 @@ public:
 	TArray<int32>                                 Hashes;                                            // 0x0030(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

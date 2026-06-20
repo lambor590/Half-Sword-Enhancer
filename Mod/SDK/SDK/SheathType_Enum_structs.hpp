@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum SheathType_Enum.SheathType_Enum
 // NumValues: 0x0006
@@ -26,5 +25,4 @@ enum class ESheathType_Enum : uint8
 	SheathType_MAX                           = 5,
 };
 
-}
-
+SDK_NAMESPACE_END

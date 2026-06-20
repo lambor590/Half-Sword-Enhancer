@@ -14,8 +14,7 @@
 #include "Modular_Weapon_Grip_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Modular_Weapon_Grip.Modular_Weapon_Grip_C.ExecuteUbergraph_Modular_Weapon_Grip
 // (Final, UbergraphFunction)
@@ -64,5 +63,5 @@ void AModular_Weapon_Grip_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

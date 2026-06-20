@@ -13,8 +13,7 @@
 #include "Modular_Sword_Guard_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Guard_PA.Weapon_Sword_Guard_PA_C
 // 0x0000 (0x0448 - 0x0448)
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

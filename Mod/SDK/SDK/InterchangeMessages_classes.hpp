@@ -13,8 +13,7 @@
 #include "InterchangeCore_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class InterchangeMessages.InterchangeResultMeshWarning
 // 0x0010 (0x0080 - 0x0070)
@@ -172,5 +171,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

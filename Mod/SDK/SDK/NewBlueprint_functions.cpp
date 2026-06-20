@@ -14,8 +14,7 @@
 #include "NewBlueprint_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function NewBlueprint.NewBlueprint_C.ExecuteUbergraph_NewBlueprint
 // (Final, UbergraphFunction, HasDefaults)
@@ -110,5 +109,5 @@ void ANewBlueprint_C::ReceiveTick(float DeltaSeconds)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

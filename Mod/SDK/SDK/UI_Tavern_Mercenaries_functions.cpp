@@ -14,8 +14,7 @@
 #include "UI_Tavern_Mercenaries_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Tavern_Mercenaries.UI_Tavern_Mercenaries_C.BndEvt__UI_Tavern_Inventory_Button_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -1344,5 +1343,5 @@ void UUI_Tavern_Mercenaries_C::Set_Up_Trader_Item(class UObject* Item_0, class U
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

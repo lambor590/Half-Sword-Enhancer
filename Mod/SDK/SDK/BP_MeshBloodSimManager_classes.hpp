@@ -13,8 +13,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_MeshBloodSimManager.BP_MeshBloodSimManager_C
 // 0x00E8 (0x0378 - 0x0290)
@@ -52,5 +51,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

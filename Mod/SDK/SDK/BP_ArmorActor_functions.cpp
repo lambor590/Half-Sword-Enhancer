@@ -14,8 +14,7 @@
 #include "BP_ArmorActor_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_ArmorActor.BP_ArmorActor_C.ExecuteUbergraph_BP_ArmorActor
 // (Final, UbergraphFunction, HasDefaults)
@@ -64,5 +63,5 @@ void ABP_ArmorActor_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

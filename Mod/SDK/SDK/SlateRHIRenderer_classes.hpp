@@ -17,8 +17,7 @@
 #include "CoreUObject_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class SlateRHIRenderer.SlateRHIRendererSettings
 // 0x0050 (0x0088 - 0x0038)
@@ -115,5 +114,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

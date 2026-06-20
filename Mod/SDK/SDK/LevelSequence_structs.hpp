@@ -15,8 +15,7 @@
 #include "MovieScene_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct LevelSequence.LevelSequenceBindingReference
 // 0x0040 (0x0040 - 0x0000)
@@ -140,5 +139,4 @@ public:
 	struct FQualifiedFrameTime                    MasterTime;                                        // 0x00B8(0x0010)(Deprecated, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 };
 
-}
-
+SDK_NAMESPACE_END

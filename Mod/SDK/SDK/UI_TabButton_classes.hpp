@@ -16,8 +16,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_TabButton.UI_TabButton_C
 // 0x0070 (0x0350 - 0x02E0)
@@ -58,5 +57,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

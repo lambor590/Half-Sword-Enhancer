@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum HalfSwordUE5.ECollisionType
 // NumValues: 0x0003
@@ -32,5 +31,4 @@ enum class EVFXActorType : uint8
 	VFXActorType_MAX                         = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

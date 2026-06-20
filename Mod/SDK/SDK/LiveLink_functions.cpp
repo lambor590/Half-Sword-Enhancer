@@ -14,8 +14,7 @@
 #include "LiveLink_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function LiveLink.LiveLinkBlueprintLibrary.ChildCount
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable, BlueprintPure)
@@ -1504,5 +1503,5 @@ bool ULiveLinkBlueprintVirtualSubject::UpdateVirtualSubjectStaticData_Internal(c
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_Ranks.Enum_Ranks
 // NumValues: 0x000A
@@ -30,5 +29,4 @@ enum class Enum_Ranks : uint8
 	Enum_MAX                                 = 9,
 };
 
-}
-
+SDK_NAMESPACE_END

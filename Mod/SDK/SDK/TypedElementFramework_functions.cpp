@@ -14,8 +14,7 @@
 #include "TypedElementFramework_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function TypedElementFramework.TypedElementHandleLibrary.Equal
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
@@ -876,5 +875,5 @@ class UObject* UTypedElementRegistry::GetElementInterface(const struct FScriptTy
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

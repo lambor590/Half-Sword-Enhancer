@@ -14,8 +14,7 @@
 #include "Weapon_Part_MaceHead_K_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Weapon_Part_MaceHead_K.Weapon_Part_MaceHead_K_C.UserConstructionScript
 // (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -30,5 +29,5 @@ void AWeapon_Part_MaceHead_K_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

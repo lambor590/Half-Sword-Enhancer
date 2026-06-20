@@ -11,12 +11,11 @@
 #include "Basic.hpp"
 
 #include "Modular_Hafted_Head_Master_classes.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Part_Hafted_Head_BA.Weapon_Part_Hafted_Head_BA_C
 // 0x0020 (0x0450 - 0x0430)
@@ -46,5 +45,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

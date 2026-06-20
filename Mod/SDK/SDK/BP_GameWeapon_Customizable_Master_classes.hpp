@@ -14,8 +14,7 @@
 #include "BP_GameWeapon_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_GameWeapon_Customizable_Master.BP_GameWeapon_Customizable_Master_C
 // 0x0090 (0x01F0 - 0x0160)
@@ -55,5 +54,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

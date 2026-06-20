@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct Serialization.StructSerializerNumericTestStruct
 // 0x0030 (0x0030 - 0x0000)
@@ -226,5 +225,4 @@ public:
 	struct FStructSerializerLWCTypesTest          LWCTypes;                                          // 0x04A0(0x0360)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

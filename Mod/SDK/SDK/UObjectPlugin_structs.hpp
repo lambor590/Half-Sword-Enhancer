@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct UObjectPlugin.MyPluginStruct
 // 0x0010 (0x0010 - 0x0000)
@@ -22,5 +21,4 @@ public:
 	class FString                                 TestString;                                        // 0x0000(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

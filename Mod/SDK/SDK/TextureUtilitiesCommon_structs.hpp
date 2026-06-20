@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum TextureUtilitiesCommon.ETextureImportFloatingPointFormat
 // NumValues: 0x0005
@@ -36,5 +35,4 @@ enum class ETextureImportPNGInfill : uint8
 	ETextureImportPNGInfill_MAX              = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

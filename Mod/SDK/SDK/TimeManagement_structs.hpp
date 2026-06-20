@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum TimeManagement.EFrameNumberDisplayFormats
 // NumValues: 0x0006
@@ -63,5 +62,4 @@ public:
 	float                                         DistanceToOldestSampleSeconds;                     // 0x0004(0x0004)(BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

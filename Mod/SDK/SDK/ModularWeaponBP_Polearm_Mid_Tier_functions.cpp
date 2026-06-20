@@ -14,8 +14,7 @@
 #include "ModularWeaponBP_Polearm_Mid_Tier_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ModularWeaponBP_Polearm_Mid_Tier.ModularWeaponBP_Polearm_Mid_Tier_C.UserConstructionScript
 // (Event, Public, BlueprintCallable, BlueprintEvent)
@@ -30,5 +29,5 @@ void AModularWeaponBP_Polearm_Mid_Tier_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

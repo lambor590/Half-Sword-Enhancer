@@ -14,8 +14,7 @@
 #include "BPI_ApplySettings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_ApplySettings.BPI_ApplySettings_C.Apply Settings
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -36,5 +35,5 @@ void IBPI_ApplySettings_C::Apply_Settings(double FOV)
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

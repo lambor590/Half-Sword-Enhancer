@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum AudioPlatformConfiguration.ESoundwaveSampleRateSettings
 // NumValues: 0x0006
@@ -38,5 +37,4 @@ public:
 	int32                                         SoundCueQualityIndex;                              // 0x000C(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

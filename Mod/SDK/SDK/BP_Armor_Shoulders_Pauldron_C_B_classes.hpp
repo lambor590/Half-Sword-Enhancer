@@ -13,11 +13,10 @@
 #include "BP_Armor_Shoulders_Pauldron_C_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Shoulders_Pauldron_C_B.BP_Armor_Shoulders_Pauldron_C_B_C
-// 0x0000 (0x08E0 - 0x08E0)
+// 0x0000 (0x0910 - 0x0910)
 class ABP_Armor_Shoulders_Pauldron_C_B_C final : public ABP_Armor_Shoulders_Pauldron_C_C
 {
 public:
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "Willie_Torso_BP_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Willie_Torso_BP.Willie_Torso_BP_C.ExecuteUbergraph_Willie_Torso_BP
 // (Final, UbergraphFunction)
@@ -50,5 +49,5 @@ void AWillie_Torso_BP_C::ReceiveBeginPlay()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

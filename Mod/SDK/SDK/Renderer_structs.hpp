@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum Renderer.ESparseVolumeTexturePreviewAttribute
 // NumValues: 0x0009
@@ -29,5 +28,4 @@ enum class ESparseVolumeTexturePreviewAttribute : uint8
 	ESVTPA_MAX                               = 8,
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Severable_BodyParts_Enum.Severable_BodyParts_Enum
 // NumValues: 0x0010
@@ -36,5 +35,4 @@ enum class ESeverable_BodyParts_Enum : uint8
 	Severable_BodyParts_MAX                  = 15,
 };
 
-}
-
+SDK_NAMESPACE_END

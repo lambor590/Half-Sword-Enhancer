@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Niagara_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Blood_BP_P4.Blood_BP_P4_C
 // 0x0200 (0x0490 - 0x0290)
@@ -116,5 +115,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

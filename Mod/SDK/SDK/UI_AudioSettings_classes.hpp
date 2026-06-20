@@ -14,8 +14,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_AudioSettings.UI_AudioSettings_C
 // 0x00F0 (0x03D0 - 0x02E0)
@@ -94,5 +93,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

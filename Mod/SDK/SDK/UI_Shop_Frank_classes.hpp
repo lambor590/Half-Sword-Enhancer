@@ -11,12 +11,11 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "UMG_classes.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Shop_Frank.UI_Shop_Frank_C
 // 0x0060 (0x0340 - 0x02E0)
@@ -69,5 +68,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

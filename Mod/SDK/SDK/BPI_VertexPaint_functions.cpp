@@ -14,8 +14,7 @@
 #include "BPI_VertexPaint_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_VertexPaint.BPI_VertexPaint_C.Box Vertex Paint
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -44,5 +43,5 @@ void IBPI_VertexPaint_C::Box_Vertex_Paint(class UBoxComponent* Box, class FName 
 		*Nul = Parms.Nul;
 }
 
-}
 
+SDK_NAMESPACE_END

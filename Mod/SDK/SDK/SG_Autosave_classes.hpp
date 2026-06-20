@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass SG_Autosave.SG_Autosave_C
 // 0x0150 (0x0178 - 0x0028)
@@ -62,5 +61,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

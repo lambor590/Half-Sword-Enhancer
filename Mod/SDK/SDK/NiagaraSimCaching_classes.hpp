@@ -15,8 +15,7 @@
 #include "MovieScene_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class NiagaraSimCaching.MovieSceneNiagaraCacheSection
 // 0x0090 (0x0188 - 0x00F8)
@@ -69,5 +68,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

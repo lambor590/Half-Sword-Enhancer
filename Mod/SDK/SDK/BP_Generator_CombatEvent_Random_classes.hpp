@@ -15,8 +15,7 @@
 #include "Enum_Ranks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Generator_CombatEvent_Random.BP_Generator_CombatEvent_Random_C
 // 0x0018 (0x02A8 - 0x0290)
@@ -47,5 +46,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

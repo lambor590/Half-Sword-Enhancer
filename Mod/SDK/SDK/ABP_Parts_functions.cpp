@@ -14,8 +14,7 @@
 #include "ABP_Parts_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ABP_Parts.ABP_Parts_C.AnimGraph
 // (HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -133,5 +132,5 @@ void UABP_Parts_C::ExecuteUbergraph_ABP_Parts(int32 EntryPoint)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

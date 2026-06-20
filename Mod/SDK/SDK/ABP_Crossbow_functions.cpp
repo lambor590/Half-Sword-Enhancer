@@ -14,8 +14,7 @@
 #include "ABP_Crossbow_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ABP_Crossbow.ABP_Crossbow_C.AnimGraph
 // (HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -119,5 +118,5 @@ void UABP_Crossbow_C::ExecuteUbergraph_ABP_Crossbow(int32 EntryPoint)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

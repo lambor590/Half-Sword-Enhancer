@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "StreamlineBlueprint_structs.hpp"
 #include "Engine_classes.hpp"
 #include "StreamlineReflexBlueprint_structs.hpp"
+#include "StreamlineBlueprint_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class StreamlineReflexBlueprint.StreamlineLibraryReflex
 // 0x0000 (0x0028 - 0x0028)
@@ -49,5 +48,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

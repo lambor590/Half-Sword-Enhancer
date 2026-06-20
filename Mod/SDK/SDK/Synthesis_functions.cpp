@@ -14,8 +14,7 @@
 #include "Synthesis_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Synthesis.ModularSynthLibrary.AddModularSynthPresetToBankAsset
 // (Final, Native, Static, Private, HasOutParams, BlueprintCallable)
@@ -5758,5 +5757,5 @@ float USynthKnob::GetValue() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

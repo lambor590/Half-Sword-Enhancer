@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
-#include "Str_Passport_Character1_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Dialog_Widget_Seer_PayOff.UI_Dialog_Widget_Seer_PayOff_C
 // 0x0058 (0x0338 - 0x02E0)
@@ -67,5 +66,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

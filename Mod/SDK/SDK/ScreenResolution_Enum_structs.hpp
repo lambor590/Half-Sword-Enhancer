@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum ScreenResolution_Enum.ScreenResolution_Enum
 // NumValues: 0x0007
@@ -27,5 +26,4 @@ enum class EScreenResolution_Enum : uint8
 	ScreenResolution_MAX                     = 6,
 };
 
-}
-
+SDK_NAMESPACE_END

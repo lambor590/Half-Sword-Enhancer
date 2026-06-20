@@ -14,8 +14,7 @@
 #include "BP_HalfSwordGameMode_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Add Rank Points
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -168,5 +167,5 @@ void ABP_HalfSwordGameMode_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

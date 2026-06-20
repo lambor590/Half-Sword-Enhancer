@@ -14,8 +14,7 @@
 #include "SG_GameProgress_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function SG_GameProgress.SG_GameProgress_C.ExecuteUbergraph_SG_GameProgress
 // (Final, UbergraphFunction)
@@ -36,5 +35,5 @@ void USG_GameProgress_C::ExecuteUbergraph_SG_GameProgress(int32 EntryPoint)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -11,12 +11,11 @@
 #include "Basic.hpp"
 
 #include "Modular_Weapon_Grip_classes.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Polearm_Haft_Master.Weapon_Module_Polearm_Haft_Master_C
 // 0x0000 (0x05F8 - 0x05F8)
@@ -40,5 +39,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

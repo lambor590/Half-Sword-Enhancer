@@ -10,35 +10,35 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_CurrentlyForgedWeapon_structs.hpp"
+#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
+#include "StreamlineReflexBlueprint_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "ScreenResolution_Enum_structs.hpp"
-#include "Enum_DayTime_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Str_Inventory_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "StreamlineReflexBlueprint_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
-#include "Enum_GameMode_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
 #include "Enum_PlayMode_structs.hpp"
 #include "Enum_PlayerPlayCondition_structs.hpp"
+#include "Str_CurrentlyForgedWeapon_structs.hpp"
+#include "Enum_Maps_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GI_Settings.GI_Settings_C
-// 0x0C98 (0x0E58 - 0x01C0)
+// 0x0CA0 (0x0E60 - 0x01C0)
 class UGI_Settings_C final : public UGameInstance
 {
 public:
@@ -216,6 +216,12 @@ public:
 	int32                                         LightingQ;                                         // 0x0E48(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         ShadingQ;                                          // 0x0E4C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         DLSsFGIndex;                                       // 0x0E50(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Maps                                     Current_FreeMode_Map;                              // 0x0E54(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_DayTime                                  Current_FreeMode_Time;                             // 0x0E55(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          FreeMode_Foes_Amount_Random;                       // 0x0E56(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          FreeMode_Tier_Random;                              // 0x0E57(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          FreeMode_Map_Random;                               // 0x0E58(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          FreeMode_Time_Random;                              // 0x0E59(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Check_Insured_Items();
@@ -254,5 +260,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

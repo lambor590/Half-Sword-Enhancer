@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum FootStepping_Enum.FootStepping_Enum
 // NumValues: 0x0003
@@ -23,5 +22,4 @@ enum class EFootStepping_Enum : uint8
 	FootStepping_MAX                         = 2,
 };
 
-}
-
+SDK_NAMESPACE_END

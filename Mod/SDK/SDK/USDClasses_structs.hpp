@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum USDClasses.EUsdDrawMode
 // NumValues: 0x0006
@@ -160,5 +159,4 @@ public:
 	class FString                                 UnrealEngineVersion;                               // 0x0060(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

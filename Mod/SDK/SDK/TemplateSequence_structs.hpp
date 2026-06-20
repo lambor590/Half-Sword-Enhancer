@@ -14,8 +14,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum TemplateSequence.ETemplateSectionPropertyScaleType
 // NumValues: 0x0004
@@ -48,5 +47,4 @@ public:
 	struct FMovieSceneFloatChannel                FloatChannel;                                      // 0x0028(0x0110)(NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

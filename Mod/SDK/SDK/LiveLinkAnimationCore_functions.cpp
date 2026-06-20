@@ -14,8 +14,7 @@
 #include "LiveLinkAnimationCore_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function LiveLinkAnimationCore.LiveLinkInstance.EnableLiveLinkEvaluation
 // (Final, Native, Public, BlueprintCallable)
@@ -174,5 +173,5 @@ void ULiveLinkRemapAsset::RemapCurveElements(TMap<class FName, float>& CurveItem
 	CurveItems = std::move(Parms.CurveItems);
 }
 
-}
 
+SDK_NAMESPACE_END

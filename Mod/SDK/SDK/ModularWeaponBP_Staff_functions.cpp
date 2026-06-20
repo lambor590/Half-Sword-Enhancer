@@ -14,8 +14,7 @@
 #include "ModularWeaponBP_Staff_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ModularWeaponBP_Staff.ModularWeaponBP_Staff_C.BndEvt__ModularWeaponBP_Axe_Grip_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -78,5 +77,5 @@ void AModularWeaponBP_Staff_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

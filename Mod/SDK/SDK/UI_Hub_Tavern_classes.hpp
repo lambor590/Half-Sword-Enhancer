@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "Enum_DayTime_structs.hpp"
+#include "Engine_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Hub_Tavern.UI_Hub_Tavern_C
 // 0x0100 (0x03E0 - 0x02E0)
@@ -118,5 +117,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

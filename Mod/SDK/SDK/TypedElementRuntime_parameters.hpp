@@ -15,8 +15,8 @@
 #include "TypedElementFramework_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function TypedElementRuntime.TypedElementSelectionSetLibrary.DeselectElementsFromList
 // 0x0030 (0x0030 - 0x0000)
@@ -458,5 +458,5 @@ public:
 	uint8                                         Pad_29[0x7];                                       // 0x0029(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

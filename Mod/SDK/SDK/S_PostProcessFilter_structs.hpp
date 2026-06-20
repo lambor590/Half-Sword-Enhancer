@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct S_PostProcessFilter.S_PostProcessFilter
 // 0x0018 (0x0018 - 0x0000)
@@ -23,5 +22,4 @@ public:
 	class UTexture*                               LUT_23_EB6987724C6169DABD8D7A97944D3AAA;           // 0x0010(0x0008)(Edit, BlueprintVisible, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

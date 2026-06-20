@@ -13,8 +13,7 @@
 #include "Modular_PA_Head_Center_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Head_Center_Mid_Tier_002.Modular_PA_Head_Center_Mid_Tier_002_C
 // 0x0010 (0x0438 - 0x0428)
@@ -39,5 +38,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

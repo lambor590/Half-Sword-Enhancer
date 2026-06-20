@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ImageWriteQueue.EDesiredImageFormat
 // NumValues: 0x0005
@@ -39,5 +38,4 @@ public:
 	uint8                                         Pad_1A[0x46];                                      // 0x001A(0x0046)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

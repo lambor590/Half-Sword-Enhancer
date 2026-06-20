@@ -14,8 +14,7 @@
 #include "MovieScene_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function MovieScene.MovieSceneBoundObjectProxy.BP_GetBoundObjectForSequencer
 // (RequiredAPI, Event, Public, BlueprintCallable, BlueprintEvent)
@@ -1924,5 +1923,5 @@ class UMovieSceneSequence* UMovieSceneSubSection::GetSequence() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

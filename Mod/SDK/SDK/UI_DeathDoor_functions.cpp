@@ -14,8 +14,7 @@
 #include "UI_DeathDoor_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_DeathDoor.UI_DeathDoor_C.BndEvt__UI_DeathDoor_Button_Restart_1_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -216,5 +215,5 @@ void UUI_DeathDoor_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

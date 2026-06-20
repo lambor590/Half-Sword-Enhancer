@@ -13,8 +13,7 @@
 #include "Str_WeaponParts_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Str_Loadout_Weapons.Str_Loadout_Weapons
 // 0x0850 (0x0850 - 0x0000)
@@ -30,5 +29,4 @@ public:
 	struct FStr_WeaponParts                       WeaponBack_14_2CBE21CA47095EF150DD5791D72AC8C9;    // 0x0720(0x0130)(Edit, BlueprintVisible, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

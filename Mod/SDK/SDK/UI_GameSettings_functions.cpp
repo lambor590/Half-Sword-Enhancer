@@ -14,8 +14,7 @@
 #include "UI_GameSettings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_GameSettings.UI_GameSettings_C.BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -556,5 +555,5 @@ void UUI_GameSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaT
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

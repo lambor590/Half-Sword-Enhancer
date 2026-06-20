@@ -14,8 +14,7 @@
 #include "UI_Unlock_Lock_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Unlock_Lock.UI_Unlock_Lock_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -72,5 +71,5 @@ void UUI_Unlock_Lock_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTi
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

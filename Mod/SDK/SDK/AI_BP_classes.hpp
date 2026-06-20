@@ -10,22 +10,21 @@
 
 #include "Basic.hpp"
 
-#include "MeleeCombatRange_Enum_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "AIModule_structs.hpp"
 #include "AIModule_classes.hpp"
+#include "AI_AttackStage_Enum_structs.hpp"
+#include "MeleeCombatRange_Enum_structs.hpp"
 #include "Engine_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "GripType_Enum_structs.hpp"
 #include "AI_CombatBehavior_Enum_structs.hpp"
 #include "AI_Strafe_Enum_structs.hpp"
-#include "AI_AttackStage_Enum_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass AI_BP.AI_BP_C
-// 0x0488 (0x0840 - 0x03B8)
+// 0x04B0 (0x0868 - 0x03B8)
 class AAI_BP_C final : public AAIController
 {
 public:
@@ -71,7 +70,7 @@ public:
 	uint8                                         Pad_541[0x7];                                      // 0x0541(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Random_Float_Seed;                                 // 0x0548(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Target_Found;                                      // 0x0550(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Attck_Cooldown;                                    // 0x0551(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Attack_Cooldown;                                   // 0x0551(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_552[0x6];                                      // 0x0552(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Change_Attack_Rate;                                // 0x0558(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          No_Hands;                                          // 0x0560(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -192,15 +191,28 @@ public:
 	double                                        Drunkness;                                         // 0x0818(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                Strafe_Position;                                   // 0x0820(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Strafe_Right__Left__;                              // 0x0838(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_839[0x7];                                      // 0x0839(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                Threat_Direction;                                  // 0x0840(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Interrupted_Attacks_Count;                         // 0x0858(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Condition;                                         // 0x085C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          NewVar;                                            // 0x085D(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Helicopter_Cooldown;                               // 0x085E(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_85F[0x1];                                      // 0x085F(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         NewVar_1;                                          // 0x0860(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Pick_Up_Weapon_Found;                              // 0x0864(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Sprint;                                      // 0x0865(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          My_Leg_Is_Grabbed;                                 // 0x0866(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Attack();
 	void Dash_Event();
+	void Event_Initialize_AI();
 	void ExecuteUbergraph_AI_BP(int32 EntryPoint);
 	void Get_Insulted(class AWillie_BP_C* Other_Guy);
 	void Minus_Attack_Intent();
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);
+	void Rotate_Dagger_Event();
 	void Stop_That_Blade();
 	void UserConstructionScript();
 
@@ -219,5 +231,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

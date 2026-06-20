@@ -14,8 +14,7 @@
 #include "UI_Tavern_Inventory_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_0_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -558,6 +557,46 @@ void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Nod
 	Params::UI_Tavern_Inventory_C_BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Node_ComponentBoundEvent_3_SimpleListItemEventDynamic__DelegateSignature Parms{};
 
 	Parms.Item_0 = Item_0;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Slider_2_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Slider_2_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Slider_2_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_Tavern_Inventory_C_BndEvt__UI_Tavern_Inventory_Slider_2_K2Node_ComponentBoundEvent_20_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Slider_3_K2Node_ComponentBoundEvent_31_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Slider_3_K2Node_ComponentBoundEvent_31_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Slider_3_K2Node_ComponentBoundEvent_31_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_Tavern_Inventory_C_BndEvt__UI_Tavern_Inventory_Slider_3_K2Node_ComponentBoundEvent_31_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -2408,5 +2447,5 @@ void UUI_Tavern_Inventory_C::Set_Up_Trader_Item(class UObject* Item_0, class UOb
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

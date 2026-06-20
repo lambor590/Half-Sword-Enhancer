@@ -11,12 +11,12 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_structs.hpp"
-#include "Paper2D_structs.hpp"
 #include "SlateCore_structs.hpp"
+#include "Paper2D_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Paper2D.PaperFlipbook.GetKeyFrameIndexAtTime
 // 0x000C (0x000C - 0x0000)
@@ -597,5 +597,5 @@ public:
 	struct FLinearColor                           NewColor;                                          // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

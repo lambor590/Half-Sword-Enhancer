@@ -14,8 +14,8 @@
 #include "StreamlineBlueprint_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function StreamlineReflexBlueprint.StreamlineLibraryReflex.GetDefaultReflexMode
 // 0x0001 (0x0001 - 0x0000)
@@ -98,5 +98,5 @@ public:
 	EStreamlineReflexMode                         Mode;                                              // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

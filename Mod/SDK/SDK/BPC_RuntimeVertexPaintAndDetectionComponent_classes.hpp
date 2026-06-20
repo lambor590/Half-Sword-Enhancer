@@ -14,8 +14,7 @@
 #include "VertexPaintDetectionPlugin_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BPC_RuntimeVertexPaintAndDetectionComponent.BPC_RuntimeVertexPaintAndDetectionComponent_C
 // 0x0008 (0x04B0 - 0x04A8)
@@ -42,5 +41,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

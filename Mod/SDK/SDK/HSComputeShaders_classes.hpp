@@ -14,8 +14,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class HSComputeShaders.CSBloodSimActor
 // 0x00A0 (0x0330 - 0x0290)
@@ -126,5 +125,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

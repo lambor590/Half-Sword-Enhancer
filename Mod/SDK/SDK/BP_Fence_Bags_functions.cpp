@@ -14,8 +14,7 @@
 #include "BP_Fence_Bags_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Fence_Bags.BP_Fence_Bags_C.BndEvt__BP_Fence_Bags_Sphere_K2Node_ComponentBoundEvent_0_ComponentEndOverlapSignature__DelegateSignature
 // (BlueprintEvent)
@@ -90,5 +89,5 @@ void ABP_Fence_Bags_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

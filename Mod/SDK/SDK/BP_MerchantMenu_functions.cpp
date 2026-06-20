@@ -14,8 +14,7 @@
 #include "BP_MerchantMenu_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_MerchantMenu.BP_MerchantMenu_C.CloseMenu
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -44,5 +43,5 @@ void ABP_MerchantMenu_C::OpenMenu()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

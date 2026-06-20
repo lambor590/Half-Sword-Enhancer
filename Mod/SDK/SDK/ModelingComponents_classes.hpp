@@ -10,18 +10,17 @@
 
 #include "Basic.hpp"
 
-#include "DeveloperSettings_classes.hpp"
-#include "PhysicsCore_structs.hpp"
 #include "ModelingComponents_structs.hpp"
+#include "Engine_classes.hpp"
 #include "InteractiveToolsFramework_classes.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "DeveloperSettings_classes.hpp"
+#include "PhysicsCore_structs.hpp"
 #include "GeometryFramework_classes.hpp"
-#include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ModelingComponents.MeshTopologySelectionMechanic
 // 0x0B00 (0x0B30 - 0x0030)
@@ -1928,5 +1927,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

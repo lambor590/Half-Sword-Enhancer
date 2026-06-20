@@ -14,8 +14,7 @@
 #include "UI_NextFIght_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_NextFIght.UI_NextFIght_C.BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -344,5 +343,5 @@ void UUI_NextFIght_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

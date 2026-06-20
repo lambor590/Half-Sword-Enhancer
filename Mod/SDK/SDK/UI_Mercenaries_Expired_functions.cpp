@@ -14,8 +14,7 @@
 #include "UI_Mercenaries_Expired_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Mercenaries_Expired.UI_Mercenaries_Expired_C.BndEvt__UI_Mercenaries_Expired_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -200,5 +199,5 @@ void UUI_Mercenaries_Expired_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

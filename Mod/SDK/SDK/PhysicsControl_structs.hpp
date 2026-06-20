@@ -15,8 +15,7 @@
 #include "AnimGraphRuntime_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum PhysicsControl.EResetToCachedTargetBehavior
 // NumValues: 0x0003
@@ -497,5 +496,4 @@ public:
 	struct FPhysicsControlModifierData            BodyModifierData;                                  // 0x00C0(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

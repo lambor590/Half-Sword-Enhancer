@@ -14,8 +14,7 @@
 #include "BP_Armor_Body_Brestplate_A_T2_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C.ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2
 // (Final, UbergraphFunction)
@@ -70,5 +69,5 @@ void ABP_Armor_Body_Brestplate_A_T2_C::ReceiveTick(float DeltaSeconds)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

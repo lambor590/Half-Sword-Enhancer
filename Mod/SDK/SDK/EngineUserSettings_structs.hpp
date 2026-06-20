@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum EngineUserSettings.EGraphicsRHI
 // NumValues: 0x0004
@@ -35,5 +34,4 @@ enum class EShaderFormat : uint8
 	D3D_MAX                                  = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

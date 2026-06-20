@@ -13,8 +13,7 @@
 #include "Modular_Weapon_Grip_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Grip_Master.Weapon_Sword_Grip_Master_C
 // 0x0078 (0x0670 - 0x05F8)
@@ -51,5 +50,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

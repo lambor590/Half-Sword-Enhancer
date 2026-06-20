@@ -15,8 +15,7 @@
 #include "Enum_MaterialLayer_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Sword_Pommel_Master.Modular_Sword_Pommel_Master_C
 // 0x0030 (0x0450 - 0x0420)
@@ -52,5 +51,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "BP_Armor_Mocular_Core_Legs_Trousers_2_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Armor_Mocular_Core_Legs_Trousers_2.BP_Armor_Mocular_Core_Legs_Trousers_2_C.UserConstructionScript
 // (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -30,5 +29,5 @@ void ABP_Armor_Mocular_Core_Legs_Trousers_2_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

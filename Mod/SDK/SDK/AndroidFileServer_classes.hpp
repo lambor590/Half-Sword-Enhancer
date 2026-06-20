@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "Engine_classes.hpp"
 #include "AndroidFileServer_structs.hpp"
+#include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class AndroidFileServer.AndroidFileServerBPLibrary
 // 0x0000 (0x0028 - 0x0028)
@@ -41,5 +40,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

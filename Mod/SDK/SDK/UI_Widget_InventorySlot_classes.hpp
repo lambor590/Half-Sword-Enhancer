@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
-#include "Enum_InventorySlot_structs.hpp"
 #include "UMG_classes.hpp"
+#include "Enum_InventorySlot_structs.hpp"
+#include "Engine_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Widget_InventorySlot.UI_Widget_InventorySlot_C
 // 0x0038 (0x0318 - 0x02E0)
@@ -50,5 +49,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

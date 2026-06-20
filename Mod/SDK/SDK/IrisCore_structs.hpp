@@ -13,8 +13,7 @@
 #include "NetCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum IrisCore.EDataStreamSendStatus
 // NumValues: 0x0003
@@ -668,5 +667,4 @@ public:
 	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

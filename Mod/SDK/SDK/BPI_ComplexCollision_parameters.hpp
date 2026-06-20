@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "PhysicsCore_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "PhysicsCore_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BPI_ComplexCollision.BPI_ComplexCollision_C.Deal Complex Damage
 // 0x00D8 (0x00D8 - 0x0000)
@@ -47,5 +47,5 @@ public:
 	bool                                          Lower_Threshold_Out;                               // 0x00D0(0x0001)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

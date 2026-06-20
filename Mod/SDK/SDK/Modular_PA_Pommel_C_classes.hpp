@@ -13,8 +13,7 @@
 #include "Modular_PA_Pommel_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_PA_Pommel_C.Modular_PA_Pommel_C_C
 // 0x0010 (0x0440 - 0x0430)
@@ -39,5 +38,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

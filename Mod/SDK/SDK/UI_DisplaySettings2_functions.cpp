@@ -14,8 +14,7 @@
 #include "UI_DisplaySettings2_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_DisplaySettings2.UI_DisplaySettings2_C.BndEvt__Settings_UI_GraphicsDown_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -1505,5 +1504,5 @@ void UUI_DisplaySettings2_C::Tick(const struct FGeometry& MyGeometry, float InDe
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

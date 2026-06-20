@@ -14,8 +14,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_Armor_Legs_Hosen_Arming_A.BP_Armor_Legs_Hosen_Arming_A_C.UserConstructionScript
 // 0x0168 (0x0168 - 0x0000)
@@ -39,5 +39,5 @@ public:
 	struct FStr_Medieval_Color_Swatches           K2Node_Select_Default_2;                           // 0x0140(0x0028)(HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

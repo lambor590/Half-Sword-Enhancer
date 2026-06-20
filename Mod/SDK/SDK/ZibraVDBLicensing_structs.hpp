@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ZibraVDBLicensing.ZibraLicenseStatus
 // NumValues: 0x0007
@@ -94,5 +93,4 @@ public:
 	class FString                                 license_info;                                      // 0x0000(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "AssetTags_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AssetTags.AssetTagsSubsystem.CollectionExists
 // (Final, Native, Public, BlueprintCallable)
@@ -209,5 +208,5 @@ TArray<class FName> UAssetTagsSubsystem::K2_GetCollectionsContainingAsset(const 
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

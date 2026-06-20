@@ -14,8 +14,7 @@
 #include "UI_Jester_FreeMode_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.BndEvt__UI_Jester_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -108,6 +107,46 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_K2Node_Component
 	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_CheckBox_K2Node_ComponentBoundEvent_7_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
 
 	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_1_K2Node_ComponentBoundEvent_8_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_ComponentBoundEvent_9_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -307,6 +346,46 @@ class FText UUI_Jester_FreeMode_C::GetText_2()
 }
 
 
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.GetText_3
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Jester_FreeMode_C::GetText_3()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_3");
+
+	Params::UI_Jester_FreeMode_C_GetText_3 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.GetText_4
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Jester_FreeMode_C::GetText_4()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_4");
+
+	Params::UI_Jester_FreeMode_C_GetText_4 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.GetVisibility_0
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -386,5 +465,5 @@ void UUI_Jester_FreeMode_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

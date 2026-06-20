@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum ArmorSlots_Enum.ArmorSlots_Enum
 // NumValues: 0x0012
@@ -38,5 +37,4 @@ enum class EArmorSlots_Enum : uint8
 	ArmorSlots_MAX                           = 17,
 };
 
-}
-
+SDK_NAMESPACE_END

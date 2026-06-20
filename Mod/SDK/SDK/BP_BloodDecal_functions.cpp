@@ -14,8 +14,7 @@
 #include "BP_BloodDecal_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_BloodDecal.BP_BloodDecal_C.ExecuteUbergraph_BP_BloodDecal
 // (Final, UbergraphFunction)
@@ -50,5 +49,5 @@ void ABP_BloodDecal_C::ReceiveBeginPlay()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

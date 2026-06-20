@@ -14,8 +14,7 @@
 #include "Chaos_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ChaosFleshEngine.EDeformableExecutionModel
 // NumValues: 0x0004
@@ -48,6 +47,15 @@ public:
 	TArray<class UDeformablePhysicsComponent*>    DeformableComponents;                              // 0x0000(0x0010)(Edit, BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, ContainsInstancedReference, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
 };
 
+// ScriptStruct ChaosFleshEngine.SolverCollisionsGroup
+// 0x0002 (0x0002 - 0x0000)
+struct FSolverCollisionsGroup final
+{
+public:
+	bool                                          bDoSelfCollision;                                  // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bUseFloor;                                         // 0x0001(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
 // ScriptStruct ChaosFleshEngine.SolverTimingGroup
 // 0x0014 (0x0014 - 0x0000)
 struct FSolverTimingGroup final
@@ -71,15 +79,38 @@ public:
 	bool                                          CacheToFile;                                       // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct ChaosFleshEngine.SolverCorotatedConstraintsGroup
-// 0x0008 (0x0008 - 0x0000)
-struct FSolverCorotatedConstraintsGroup final
+// ScriptStruct ChaosFleshEngine.SolverQuasistaticsGroup
+// 0x0001 (0x0001 - 0x0000)
+struct FSolverQuasistaticsGroup final
 {
 public:
-	bool                                          bEnableCorotatedConstraint;                        // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bDoBlended;                                        // 0x0001(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_2[0x2];                                        // 0x0002(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         BlendedZeta;                                       // 0x0004(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bDoQuasistatics;                                   // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct ChaosFleshEngine.SolverEvolutionGroup
+// 0x0001 (0x0001 - 0x0000)
+struct FSolverEvolutionGroup final
+{
+public:
+	struct FSolverQuasistaticsGroup               SolverQuasistatics;                                // 0x0000(0x0001)(Edit, NoDestructor, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct ChaosFleshEngine.DeformableEndTickFunction
+// 0x0008 (0x0030 - 0x0028)
+struct FDeformableEndTickFunction final : public FTickFunction
+{
+public:
+	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
+// ScriptStruct ChaosFleshEngine.SolverGridBasedCollisionsGroup
+// 0x0008 (0x0008 - 0x0000)
+struct FSolverGridBasedCollisionsGroup final
+{
+public:
+	bool                                          bUseGridBasedConstraints;                          // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         GridDx;                                            // 0x0004(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct ChaosFleshEngine.CollisionSpringGroup
@@ -106,6 +137,17 @@ public:
 	struct FCollisionSpringGroup                  CollisionSpring;                                   // 0x0008(0x000C)(Edit, BlueprintVisible, BlueprintReadOnly, NoDestructor, NativeAccessSpecifierPublic)
 };
 
+// ScriptStruct ChaosFleshEngine.SolverCorotatedConstraintsGroup
+// 0x0008 (0x0008 - 0x0000)
+struct FSolverCorotatedConstraintsGroup final
+{
+public:
+	bool                                          bEnableCorotatedConstraint;                        // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bDoBlended;                                        // 0x0001(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_2[0x2];                                        // 0x0002(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         BlendedZeta;                                       // 0x0004(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
 // ScriptStruct ChaosFleshEngine.SolverConstraintsGroup
 // 0x0020 (0x0020 - 0x0000)
 struct FSolverConstraintsGroup final
@@ -118,41 +160,6 @@ public:
 	struct FSolverGaussSeidelConstraintsGroup     GaussSeidelConstraints;                            // 0x000C(0x0014)(Edit, BlueprintVisible, BlueprintReadOnly, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct ChaosFleshEngine.SolverQuasistaticsGroup
-// 0x0001 (0x0001 - 0x0000)
-struct FSolverQuasistaticsGroup final
-{
-public:
-	bool                                          bDoQuasistatics;                                   // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct ChaosFleshEngine.SolverGridBasedCollisionsGroup
-// 0x0008 (0x0008 - 0x0000)
-struct FSolverGridBasedCollisionsGroup final
-{
-public:
-	bool                                          bUseGridBasedConstraints;                          // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         GridDx;                                            // 0x0004(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct ChaosFleshEngine.SolverEvolutionGroup
-// 0x0001 (0x0001 - 0x0000)
-struct FSolverEvolutionGroup final
-{
-public:
-	struct FSolverQuasistaticsGroup               SolverQuasistatics;                                // 0x0000(0x0001)(Edit, NoDestructor, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct ChaosFleshEngine.SolverCollisionsGroup
-// 0x0002 (0x0002 - 0x0000)
-struct FSolverCollisionsGroup final
-{
-public:
-	bool                                          bDoSelfCollision;                                  // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bUseFloor;                                         // 0x0001(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct ChaosFleshEngine.SolverForcesGroup
 // 0x000C (0x000C - 0x0000)
 struct FSolverForcesGroup final
@@ -162,14 +169,6 @@ public:
 	float                                         Damping;                                           // 0x0004(0x0004)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	bool                                          bEnableGravity;                                    // 0x0008(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
-// ScriptStruct ChaosFleshEngine.DeformableEndTickFunction
-// 0x0008 (0x0030 - 0x0028)
-struct FDeformableEndTickFunction final : public FTickFunction
-{
-public:
-	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
 // ScriptStruct ChaosFleshEngine.FleshDeformerParameters
@@ -229,5 +228,4 @@ public:
 	float                                         InflationMultiplier;                               // 0x0010(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

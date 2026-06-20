@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Shop.UI_Shop_C.AddItem
 // 0x0028 (0x0028 - 0x0000)
@@ -264,5 +264,5 @@ public:
 	bool                                          CallFunc_Array_RemoveItem_ReturnValue_3;           // 0x0015(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

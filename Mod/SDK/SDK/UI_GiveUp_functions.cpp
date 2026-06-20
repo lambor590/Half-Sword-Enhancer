@@ -14,8 +14,7 @@
 #include "UI_GiveUp_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_GiveUp.UI_GiveUp_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -152,5 +151,5 @@ void UUI_GiveUp_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

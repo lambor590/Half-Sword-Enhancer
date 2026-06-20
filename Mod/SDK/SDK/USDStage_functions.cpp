@@ -14,8 +14,7 @@
 #include "USDStage_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function USDStage.UsdDynamicBindingResolverLibrary.ResolveWithStageActor
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
@@ -780,5 +779,5 @@ float AUsdStageActor::GetTime() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

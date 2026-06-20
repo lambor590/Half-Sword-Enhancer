@@ -14,8 +14,7 @@
 #include "ModularWeaponBP_DaggerRondel_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ModularWeaponBP_DaggerRondel.ModularWeaponBP_DaggerRondel_C.BndEvt__ModularWeaponBP_Axe1_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -78,5 +77,5 @@ void AModularWeaponBP_DaggerRondel_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

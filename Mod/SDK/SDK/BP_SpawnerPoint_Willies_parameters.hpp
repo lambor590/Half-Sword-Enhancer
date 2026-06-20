@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "Str_Character_Body_Condition_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Enum_SpwanerFaceRotation_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
+#include "Str_Character_Body_Condition_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_SpawnerPoint_Willies.BP_SpawnerPoint_Willies_C.ExecuteUbergraph_BP_SpawnerPoint_Willies
 // 0x1890 (0x1890 - 0x0000)
@@ -350,5 +350,5 @@ public:
 	float                                         CallFunc_SetSphereRadius_InSphereRadius_ImplicitCast; // 0x0014(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

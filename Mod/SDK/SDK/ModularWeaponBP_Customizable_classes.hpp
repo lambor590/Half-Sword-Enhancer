@@ -14,15 +14,14 @@
 #include "ModularWeaponBP_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_Customizable.ModularWeaponBP_Customizable_C
-// 0x0008 (0x0BC8 - 0x0BC0)
+// 0x0008 (0x0BE8 - 0x0BE0)
 class AModularWeaponBP_Customizable_C final : public AModularWeaponBP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_ModularWeaponBP_Customizable_C;     // 0x0BC0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FPointerToUberGraphFrame               UberGraphFrame_ModularWeaponBP_Customizable_C;     // 0x0BE0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
 	void ExecuteUbergraph_ModularWeaponBP_Customizable(int32 EntryPoint);
@@ -44,5 +43,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

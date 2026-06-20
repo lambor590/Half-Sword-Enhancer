@@ -14,8 +14,7 @@
 #include "RVPDPRapidJson_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function RVPDPRapidJson.RVPDPRapidJsonFunctionLibrary.DeserializeBool_Wrapper
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -2152,5 +2151,5 @@ void URVPDPRapidJsonFunctionLibrary::SerializeVectorArrayAsync(class UObject* Wo
 		*SerializedString = std::move(Parms.SerializedString);
 }
 
-}
 
+SDK_NAMESPACE_END

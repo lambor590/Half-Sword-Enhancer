@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_structs.hpp"
-#include "SlateCore_structs.hpp"
 #include "Engine_structs.hpp"
+#include "SlateCore_structs.hpp"
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class AdvancedWidgets.RadialSlider
 // 0x0688 (0x0800 - 0x0178)
@@ -97,5 +96,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

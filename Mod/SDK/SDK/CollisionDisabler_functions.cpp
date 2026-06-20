@@ -14,8 +14,7 @@
 #include "CollisionDisabler_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function CollisionDisabler.CollisionDisablerFunctionLibrary.CancelModifyCollision
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -483,5 +482,5 @@ void UCollisionDisablerFunctionLibrary::ModifyCollision(const struct FCollisionP
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

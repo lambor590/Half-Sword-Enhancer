@@ -18,8 +18,7 @@
 #include "DeveloperSettings_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ChaosSolverEngine.ChaosDebugDrawComponent
 // 0x0008 (0x00A8 - 0x00A0)
@@ -235,5 +234,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

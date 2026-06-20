@@ -10,15 +10,14 @@
 
 #include "Basic.hpp"
 
+#include "EngineUserSettings_structs.hpp"
 #include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "StreamlineReflexBlueprint_structs.hpp"
 #include "UMG_classes.hpp"
-#include "EngineUserSettings_structs.hpp"
+#include "StreamlineReflexBlueprint_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_DisplaySettings2.UI_DisplaySettings2_C
 // 0x0458 (0x0738 - 0x02E0)
@@ -286,5 +285,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

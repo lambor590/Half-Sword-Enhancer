@@ -14,8 +14,7 @@
 #include "BP_Weapon_Tool_Mallet_C_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Weapon_Tool_Mallet_C.BP_Weapon_Tool_Mallet_C_C.BndEvt__Buckler_Buckler_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
@@ -78,5 +77,5 @@ void ABP_Weapon_Tool_Mallet_C_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -11,14 +11,14 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "UMG_structs.hpp"
-#include "UMG_classes.hpp"
+#include "Enum_Maps_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "UMG_structs.hpp"
+#include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_NextFIght.UI_NextFIght_C
 // 0x0068 (0x0348 - 0x02E0)
@@ -38,6 +38,7 @@ public:
 	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x0330(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	class UDA_Equipment_Loadout_Master_C*         DA_Baron_Equipment;                                // 0x0338(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	bool                                          Canvas_Panel_Visible;                              // 0x0340(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Maps                                     NewVar;                                            // 0x0341(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_NextFIght_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
@@ -75,5 +76,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

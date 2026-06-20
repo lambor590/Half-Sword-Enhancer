@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_PlayerPlayCondition.Enum_PlayerPlayCondition
 // NumValues: 0x0005
@@ -25,5 +24,4 @@ enum class Enum_PlayerPlayCondition : uint8
 	Enum_MAX                                 = 4,
 };
 
-}
-
+SDK_NAMESPACE_END

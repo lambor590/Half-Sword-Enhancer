@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "TextureUtilitiesCommon_structs.hpp"
 #include "DeveloperSettings_classes.hpp"
+#include "TextureUtilitiesCommon_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class TextureUtilitiesCommon.TextureImportSettings
 // 0x0008 (0x0040 - 0x0038)
@@ -43,5 +42,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

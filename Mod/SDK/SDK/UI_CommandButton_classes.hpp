@@ -14,8 +14,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_CommandButton.UI_CommandButton_C
 // 0x0078 (0x0358 - 0x02E0)
@@ -61,5 +60,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

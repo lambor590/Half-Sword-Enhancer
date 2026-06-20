@@ -14,8 +14,7 @@
 #include "InterchangeCore_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function InterchangeCore.InterchangeFactoryBase.GetFactoryClass
 // (Native, Public, BlueprintCallable, BlueprintPure, Const)
@@ -2994,5 +2993,5 @@ bool UInterchangeUserDefinedAttributesAPI::RemoveUserDefinedAttribute(class UInt
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

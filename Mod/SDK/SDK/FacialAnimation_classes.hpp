@@ -13,8 +13,7 @@
 #include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class FacialAnimation.AudioCurveSourceComponent
 // 0x0040 (0x0C50 - 0x0C10)
@@ -40,5 +39,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

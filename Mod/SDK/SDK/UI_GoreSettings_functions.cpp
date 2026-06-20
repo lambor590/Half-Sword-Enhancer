@@ -14,8 +14,7 @@
 #include "UI_GoreSettings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -508,5 +507,5 @@ void UUI_GoreSettings_C::Tick(const struct FGeometry& MyGeometry, float InDeltaT
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

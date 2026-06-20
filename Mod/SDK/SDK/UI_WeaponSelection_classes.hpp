@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "LeftRight_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "UMG_classes.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
+#include "LeftRight_Enum_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_WeaponSelection.UI_WeaponSelection_C
 // 0x00B0 (0x0390 - 0x02E0)
@@ -98,5 +97,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

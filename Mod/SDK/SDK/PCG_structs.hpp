@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "StructUtils_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
+#include "StructUtils_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum PCG.EPCGAttributeAccessorFlags
 // NumValues: 0x0005
@@ -1838,5 +1837,4 @@ public:
 	uint8                                         Pad_81[0x7];                                       // 0x0081(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

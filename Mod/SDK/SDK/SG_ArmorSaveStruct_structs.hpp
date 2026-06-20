@@ -13,8 +13,7 @@
 #include "SG_ArmorPiece_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct SG_ArmorSaveStruct.SG_ArmorSaveStruct
 // 0x0020 (0x0020 - 0x0000)
@@ -26,5 +25,4 @@ public:
 	bool                                          IsEquipped_11_87F41D23456055D64CEB2D8C7A3497CB;    // 0x0018(0x0001)(Edit, BlueprintVisible, ZeroConstructor, SaveGame, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

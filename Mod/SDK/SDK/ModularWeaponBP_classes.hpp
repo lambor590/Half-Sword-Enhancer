@@ -10,27 +10,27 @@
 
 #include "Basic.hpp"
 
-#include "PhysicsCore_structs.hpp"
+#include "SheathType_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "GripType_Enum_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
+#include "PhysicsCore_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_GameMode_structs.hpp"
-#include "GripType_Enum_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
-#include "SheathType_Enum_structs.hpp"
 #include "SwitchGrip_Type_Enum_structs.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
+#include "Enum_ReverseGripType_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP.ModularWeaponBP_C
-// 0x0930 (0x0BC0 - 0x0290)
+// 0x0950 (0x0BE0 - 0x0290)
 class AModularWeaponBP_C : public AActor
 {
 public:
@@ -248,6 +248,12 @@ public:
 	bool                                          Flail_Strike;                                      // 0x0BB3(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Hit_Ground_Times;                                  // 0x0BB4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Amount_Of_Hits_Per_Moment;                         // 0x0BB8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_BBC[0x4];                                      // 0x0BBC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class AModularWeaponBP_C*>             Weapons_With_Disabled_Collision;                   // 0x0BC0(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
+	Enum_ReverseGripType                          Reverse_Grip_Type;                                 // 0x0BD0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          User_Incapacitated;                                // 0x0BD1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_BD2[0x6];                                      // 0x0BD2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        NewVar_4;                                          // 0x0BD8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -259,7 +265,7 @@ public:
 	void BndEvt__ModularWeaponBP_SubModule_2_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
 	void Clear_Stuck_Bone(class FName bone);
 	void Collision_Hit(class UPrimitiveComponent* Hit_Component, class AActor* Other_Actor_0, const struct FVector& Normal_Impulse_0, const struct FHitResult& Hit);
-	void Event_Reenable_Last_Parent_Collision_();
+	void Event_Reenable_Last_Parent_Collision();
 	void ExecuteUbergraph_ModularWeaponBP(int32 EntryPoint);
 	void GGAGA();
 	void ReceiveBeginPlay();
@@ -296,5 +302,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

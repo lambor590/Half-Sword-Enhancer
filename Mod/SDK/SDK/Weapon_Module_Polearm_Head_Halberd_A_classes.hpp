@@ -13,8 +13,7 @@
 #include "Weapon_Module_Polearm_Head_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Polearm_Head_Halberd_A.Weapon_Module_Polearm_Head_Halberd_A_C
 // 0x0020 (0x0450 - 0x0430)
@@ -41,5 +40,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

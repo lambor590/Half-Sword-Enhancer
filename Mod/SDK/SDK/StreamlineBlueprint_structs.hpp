@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum StreamlineBlueprint.EStreamlineFeature
 // NumValues: 0x0006
@@ -79,5 +78,4 @@ public:
 	struct FStreamlineVersion                     DetectedDriverVersion;                             // 0x0028(0x000C)(BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "Str_Loadout_Equipment_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Gauntlet_Progress_Struct.Gauntlet_Progress_Struct
 // 0x4DA0 (0x4DA0 - 0x0000)
@@ -32,5 +31,4 @@ public:
 	struct FStr_Loadout_Equipment                 EquipmentRank9_21_827C646A425A87C8F004BE92C6163E6A; // 0x4500(0x08A0)(Edit, BlueprintVisible, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -10,13 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_MeshBloodSim.BP_MeshBloodSim_C
 // 0x0060 (0x02F0 - 0x0290)
@@ -55,5 +54,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

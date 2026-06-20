@@ -14,8 +14,7 @@
 #include "Modular_Falchion_Blade_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Modular_Falchion_Blade_Master.Modular_Falchion_Blade_Master_C.ExecuteUbergraph_Modular_Falchion_Blade_Master
 // (Final, UbergraphFunction)
@@ -84,5 +83,5 @@ void AModular_Falchion_Blade_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

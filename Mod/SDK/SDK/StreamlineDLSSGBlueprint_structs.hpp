@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum StreamlineDLSSGBlueprint.EStreamlineDLSSGMode
 // NumValues: 0x0006
@@ -26,5 +25,4 @@ enum class EStreamlineDLSSGMode : uint8
 	EStreamlineDLSSGMode_MAX                 = 252,
 };
 
-}
-
+SDK_NAMESPACE_END

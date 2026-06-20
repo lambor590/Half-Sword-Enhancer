@@ -15,115 +15,8 @@
 #include "SlateCore_structs.hpp"
 
 
-namespace SDK::Params
-{
-
-// Function AudioWidgets.AudioSliderBase.GetLinValue
-// 0x0008 (0x0008 - 0x0000)
-struct AudioSliderBase_GetLinValue final
-{
-public:
-	float                                         OutputValue;                                       // 0x0000(0x0004)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         ReturnValue;                                       // 0x0004(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.GetOutputValue
-// 0x0008 (0x0008 - 0x0000)
-struct AudioSliderBase_GetOutputValue final
-{
-public:
-	float                                         InSliderValue;                                     // 0x0000(0x0004)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         ReturnValue;                                       // 0x0004(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.GetSliderValue
-// 0x0008 (0x0008 - 0x0000)
-struct AudioSliderBase_GetSliderValue final
-{
-public:
-	float                                         OutputValue;                                       // 0x0000(0x0004)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         ReturnValue;                                       // 0x0004(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetShowLabelOnlyOnHover
-// 0x0001 (0x0001 - 0x0000)
-struct AudioSliderBase_SetShowLabelOnlyOnHover final
-{
-public:
-	bool                                          bShowLabelOnlyOnHover;                             // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetShowUnitsText
-// 0x0001 (0x0001 - 0x0000)
-struct AudioSliderBase_SetShowUnitsText final
-{
-public:
-	bool                                          bShowUnitsText;                                    // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetSliderBackgroundColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioSliderBase_SetSliderBackgroundColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetSliderBarColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioSliderBase_SetSliderBarColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetSliderThumbColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioSliderBase_SetSliderThumbColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetTextLabelBackgroundColor
-// 0x0014 (0x0014 - 0x0000)
-struct AudioSliderBase_SetTextLabelBackgroundColor final
-{
-public:
-	struct FSlateColor                            InColor;                                           // 0x0000(0x0014)(Parm, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetUnitsText
-// 0x0010 (0x0010 - 0x0000)
-struct AudioSliderBase_SetUnitsText final
-{
-public:
-	class FText                                   Units;                                             // 0x0000(0x0010)(ConstParm, Parm, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetUnitsTextReadOnly
-// 0x0001 (0x0001 - 0x0000)
-struct AudioSliderBase_SetUnitsTextReadOnly final
-{
-public:
-	bool                                          bIsReadOnly;                                       // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetValueTextReadOnly
-// 0x0001 (0x0001 - 0x0000)
-struct AudioSliderBase_SetValueTextReadOnly final
-{
-public:
-	bool                                          bIsReadOnly;                                       // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// Function AudioWidgets.AudioSliderBase.SetWidgetBackgroundColor
-// 0x0010 (0x0010 - 0x0000)
-struct AudioSliderBase_SetWidgetBackgroundColor final
-{
-public:
-	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function AudioWidgets.AudioMeter.SetBackgroundColor
 // 0x0010 (0x0010 - 0x0000)
@@ -319,5 +212,112 @@ public:
 	EAudioRadialSliderLayout                      InLayout;                                          // 0x0000(0x0001)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
+// Function AudioWidgets.AudioSliderBase.GetLinValue
+// 0x0008 (0x0008 - 0x0000)
+struct AudioSliderBase_GetLinValue final
+{
+public:
+	float                                         OutputValue;                                       // 0x0000(0x0004)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         ReturnValue;                                       // 0x0004(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
 
+// Function AudioWidgets.AudioSliderBase.GetOutputValue
+// 0x0008 (0x0008 - 0x0000)
+struct AudioSliderBase_GetOutputValue final
+{
+public:
+	float                                         InSliderValue;                                     // 0x0000(0x0004)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         ReturnValue;                                       // 0x0004(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.GetSliderValue
+// 0x0008 (0x0008 - 0x0000)
+struct AudioSliderBase_GetSliderValue final
+{
+public:
+	float                                         OutputValue;                                       // 0x0000(0x0004)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         ReturnValue;                                       // 0x0004(0x0004)(Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetShowLabelOnlyOnHover
+// 0x0001 (0x0001 - 0x0000)
+struct AudioSliderBase_SetShowLabelOnlyOnHover final
+{
+public:
+	bool                                          bShowLabelOnlyOnHover;                             // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetShowUnitsText
+// 0x0001 (0x0001 - 0x0000)
+struct AudioSliderBase_SetShowUnitsText final
+{
+public:
+	bool                                          bShowUnitsText;                                    // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetSliderBackgroundColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioSliderBase_SetSliderBackgroundColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetSliderBarColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioSliderBase_SetSliderBarColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetSliderThumbColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioSliderBase_SetSliderThumbColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetTextLabelBackgroundColor
+// 0x0014 (0x0014 - 0x0000)
+struct AudioSliderBase_SetTextLabelBackgroundColor final
+{
+public:
+	struct FSlateColor                            InColor;                                           // 0x0000(0x0014)(Parm, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetUnitsText
+// 0x0010 (0x0010 - 0x0000)
+struct AudioSliderBase_SetUnitsText final
+{
+public:
+	class FText                                   Units;                                             // 0x0000(0x0010)(ConstParm, Parm, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetUnitsTextReadOnly
+// 0x0001 (0x0001 - 0x0000)
+struct AudioSliderBase_SetUnitsTextReadOnly final
+{
+public:
+	bool                                          bIsReadOnly;                                       // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetValueTextReadOnly
+// 0x0001 (0x0001 - 0x0000)
+struct AudioSliderBase_SetValueTextReadOnly final
+{
+public:
+	bool                                          bIsReadOnly;                                       // 0x0000(0x0001)(ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// Function AudioWidgets.AudioSliderBase.SetWidgetBackgroundColor
+// 0x0010 (0x0010 - 0x0000)
+struct AudioSliderBase_SetWidgetBackgroundColor final
+{
+public:
+	struct FLinearColor                           InValue;                                           // 0x0000(0x0010)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

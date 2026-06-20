@@ -18,8 +18,7 @@
 #include "AudioMixer_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class MediaAssets.MediaPlayer
 // 0x0140 (0x0168 - 0x0028)
@@ -556,5 +555,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

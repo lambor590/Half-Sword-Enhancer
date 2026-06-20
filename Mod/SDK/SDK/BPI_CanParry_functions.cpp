@@ -14,8 +14,7 @@
 #include "BPI_CanParry_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_CanParry.BPI_CanParry_C.Send Threat Location R
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -44,5 +43,5 @@ void IBPI_CanParry_C::Send_Threat_Location_R(const struct FVector& Threat_Locati
 		*Nul = Parms.Nul;
 }
 
-}
 
+SDK_NAMESPACE_END

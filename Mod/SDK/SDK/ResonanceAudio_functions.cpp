@@ -14,8 +14,7 @@
 #include "ResonanceAudio_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ResonanceAudio.ResonanceAudioBlueprintFunctionLibrary.GetGlobalReverbPreset
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -343,5 +342,5 @@ void UResonanceAudioSpatializationSourceSettings::SetSoundSourceSpread(float InS
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

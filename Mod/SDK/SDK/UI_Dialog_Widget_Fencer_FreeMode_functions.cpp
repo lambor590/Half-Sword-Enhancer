@@ -14,8 +14,7 @@
 #include "UI_Dialog_Widget_Fencer_FreeMode_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Fencer_FreeMode.UI_Dialog_Widget_Fencer_FreeMode_C.BndEvt__UI_Dialog_Widget_Fencer_Progression_Button_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -172,5 +171,5 @@ void UUI_Dialog_Widget_Fencer_FreeMode_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

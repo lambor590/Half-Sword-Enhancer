@@ -14,8 +14,7 @@
 #include "BPI_ComplexCollision_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_ComplexCollision.BPI_ComplexCollision_C.Deal Complex Damage
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -88,5 +87,5 @@ void IBPI_ComplexCollision_C::Deal_Complex_Damage(class UPrimitiveComponent* Hit
 		*Lower_Threshold_Out = Parms.Lower_Threshold_Out;
 }
 
-}
 
+SDK_NAMESPACE_END

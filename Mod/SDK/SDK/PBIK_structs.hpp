@@ -10,12 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "ControlRig_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum PBIK.EPBIKLimitType
 // NumValues: 0x0004
@@ -159,5 +158,4 @@ public:
 	struct FPBIKWorkData                          WorkData;                                          // 0x0260(0x0080)(Transient, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

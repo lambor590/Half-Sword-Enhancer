@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class CoreUObject.Object
 // 0x0028 (0x0028 - 0x0000)
@@ -68,6 +67,19 @@ public:
 	void ProcessEvent(class UFunction* Function, void* Parms) const
 	{
 		InSDKUtils::CallGameFunction(InSDKUtils::GetVirtualFunction<void(*)(const UObject*, class UFunction*, void*)>(this, Offsets::ProcessEventIdx), this, Function, Parms);
+	}
+
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("Object")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"Object")
+	}
+	static class UObject* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UObject>();
 	}
 };
 
@@ -1361,5 +1373,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

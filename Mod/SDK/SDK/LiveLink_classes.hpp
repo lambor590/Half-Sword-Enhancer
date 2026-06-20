@@ -12,15 +12,14 @@
 
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "Engine_classes.hpp"
 #include "LiveLinkInterface_structs.hpp"
 #include "LiveLinkInterface_classes.hpp"
 #include "TimeManagement_classes.hpp"
-#include "Engine_classes.hpp"
 #include "LiveLink_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class LiveLink.LiveLinkCustomTimeStep
 // 0x0090 (0x00C0 - 0x0030)
@@ -559,5 +558,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

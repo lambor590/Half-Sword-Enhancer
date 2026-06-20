@@ -18,8 +18,7 @@
 #include "DeveloperSettings_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class Landscape.LandscapeGizmoActor
 // 0x0000 (0x0290 - 0x0290)
@@ -423,7 +422,7 @@ public:
 // Class Landscape.LandscapeHeightfieldCollisionComponent
 // 0x0100 (0x0620 - 0x0520)
 #pragma pack(push, 0x1)
-class alignas(0x10) ULandscapeHeightfieldCollisionComponent : public UPrimitiveComponent
+class SDK_ALIGN(0x10) ULandscapeHeightfieldCollisionComponent : public UPrimitiveComponent
 {
 public:
 	TArray<class ULandscapeLayerInfoObject*>      ComponentLayerInfos;                               // 0x0518(0x0010)(ZeroConstructor, UObjectWrapper, NativeAccessSpecifierPublic, TObjectPtr)
@@ -1185,5 +1184,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

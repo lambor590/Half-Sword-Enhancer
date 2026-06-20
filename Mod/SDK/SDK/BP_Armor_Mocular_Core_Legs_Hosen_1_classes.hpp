@@ -13,15 +13,14 @@
 #include "BP_Armor_Modular_Core_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Mocular_Core_Legs_Hosen_1.BP_Armor_Mocular_Core_Legs_Hosen_1_C
-// 0x0010 (0x0A20 - 0x0A10)
+// 0x0010 (0x0A50 - 0x0A40)
 class ABP_Armor_Mocular_Core_Legs_Hosen_1_C final : public ABP_Armor_Modular_Core_Master_C
 {
 public:
-	class UFireComponent*                         fire;                                              // 0x0A10(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UFireComponent*                         fire;                                              // 0x0A40(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void UserConstructionScript();
@@ -41,5 +40,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

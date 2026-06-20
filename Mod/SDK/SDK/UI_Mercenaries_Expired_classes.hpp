@@ -14,8 +14,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Mercenaries_Expired.UI_Mercenaries_Expired_C
 // 0x0060 (0x0340 - 0x02E0)
@@ -63,5 +62,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

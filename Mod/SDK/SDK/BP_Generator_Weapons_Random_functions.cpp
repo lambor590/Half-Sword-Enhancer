@@ -14,8 +14,7 @@
 #include "BP_Generator_Weapons_Random_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Generator_Weapons_Random.BP_Generator_Weapons_Random_C.Add Weapon Module to Array
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -112,5 +111,5 @@ void ABP_Generator_Weapons_Random_C::ReceiveBeginPlay()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

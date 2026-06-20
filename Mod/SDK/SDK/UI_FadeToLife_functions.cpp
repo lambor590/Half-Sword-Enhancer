@@ -14,8 +14,7 @@
 #include "UI_FadeToLife_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_FadeToLife.UI_FadeToLife_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -50,5 +49,5 @@ void UUI_FadeToLife_C::ExecuteUbergraph_UI_FadeToLife(int32 EntryPoint)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

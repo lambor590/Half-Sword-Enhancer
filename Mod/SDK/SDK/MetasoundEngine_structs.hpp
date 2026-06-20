@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "AudioExtensions_structs.hpp"
-#include "MetasoundFrontend_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
+#include "MetasoundFrontend_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum MetasoundEngine.EMetaSoundMessageLevel
 // NumValues: 0x0004
@@ -126,5 +125,4 @@ public:
 	TScriptInterface<class IMetaSoundDocumentInterface> ExistingMetaSound;                           // 0x0010(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

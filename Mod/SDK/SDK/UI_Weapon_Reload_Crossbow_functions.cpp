@@ -14,8 +14,7 @@
 #include "UI_Weapon_Reload_Crossbow_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -450,5 +449,5 @@ void UUI_Weapon_Reload_Crossbow_C::Tick(const struct FGeometry& MyGeometry, floa
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "Modular_Weapon_Part_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function Modular_Weapon_Part_Master.Modular_Weapon_Part_Master_C.ExecuteUbergraph_Modular_Weapon_Part_Master
 // (Final, UbergraphFunction)
@@ -64,5 +63,5 @@ void AModular_Weapon_Part_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

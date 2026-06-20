@@ -14,8 +14,7 @@
 #include "UI_Tavern_Dialog_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Tavern_Dialog.UI_Tavern_Dialog_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -186,5 +185,5 @@ void UUI_Tavern_Dialog_C::Tick(const struct FGeometry& MyGeometry, float InDelta
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

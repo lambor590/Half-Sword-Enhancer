@@ -14,8 +14,7 @@
 #include "BP_Armor_Modular_Core_Master_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.ExecuteUbergraph_BP_Armor_Modular_Core_Master
 // (Final, UbergraphFunction, HasDefaults)
@@ -37,20 +36,6 @@ void ABP_Armor_Modular_Core_Master_C::ExecuteUbergraph_BP_Armor_Modular_Core_Mas
 }
 
 
-// Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ABP_Armor_Modular_Core_Master_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.Set Up Module
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
@@ -65,8 +50,22 @@ void ABP_Armor_Modular_Core_Master_C::Set_Up_Module()
 }
 
 
+// Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_Armor_Modular_Core_Master_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
+// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
 void ABP_Armor_Modular_Core_Master_C::UserConstructionScript()
 {
@@ -78,5 +77,5 @@ void ABP_Armor_Modular_Core_Master_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

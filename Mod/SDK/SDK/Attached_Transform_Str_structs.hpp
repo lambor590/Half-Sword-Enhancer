@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct Attached_Transform_Str.Attached_Transform_Str
 // 0x0068 (0x0068 - 0x0000)
@@ -30,5 +29,4 @@ public:
 	class UNiagaraComponent*                      ParticleEmitter_32_25BFC1104FF3AB1468C9B890BD786B4C; // 0x0060(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_NAMESPACE_END

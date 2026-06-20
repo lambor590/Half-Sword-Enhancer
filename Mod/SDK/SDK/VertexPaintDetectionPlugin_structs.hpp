@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "PhysicsCore_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "GameplayTags_structs.hpp"
 #include "Engine_structs.hpp"
+#include "PhysicsCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum VertexPaintDetectionPlugin.EPaintWithinAreaShape
 // NumValues: 0x0004
@@ -342,16 +341,6 @@ public:
 	struct FRVPDPPhysicsSurfaceDataInfo           ClosestVertexPhysicalSurfaceInfo;                  // 0x0098(0x0110)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPSkeletalMeshBonesToIncludeInfo
-// 0x0028 (0x0028 - 0x0000)
-struct FRVPDPSkeletalMeshBonesToIncludeInfo final
-{
-public:
-	class FName                                   ParentBoneName;                                    // 0x0000(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<class FName>                           BoneParentsToInclude;                              // 0x0008(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-	TArray<class FName>                           BoneChildsToInclude;                               // 0x0018(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPIncludeAmountOfPaintedColorsOfEachChannelSettings
 // 0x0018 (0x0018 - 0x0000)
 struct FRVPDPIncludeAmountOfPaintedColorsOfEachChannelSettings final
@@ -568,12 +557,14 @@ public:
 	struct FRVPDPClosestVertexDataOptimizationSettings ClosestVertexDataOptimizationSettings;        // 0x018C(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPRegisteredPhysicsSurfacesSettings
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPSkeletalMeshBoneVertexInfo
 // 0x0010 (0x0010 - 0x0000)
-struct FRVPDPRegisteredPhysicsSurfacesSettings final
+struct FRVPDPSkeletalMeshBoneVertexInfo final
 {
 public:
-	TArray<EPhysicalSurface>                      ChildSurfaces;                                     // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	int32                                         BoneFirstVertex;                                   // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	int32                                         BoneFirstSectionVertex;                            // 0x0004(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FName                                   BoneName;                                          // 0x0008(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPComponentToCheckIfIsWithinAreaInfo
@@ -719,20 +710,6 @@ public:
 	struct FRVPDPOverrideColorsToApplySettings    OverrideVertexColorsToApplySettings;               // 0x0130(0x0018)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPAutoAddColorSettings
-// 0x0318 (0x0318 - 0x0000)
-struct alignas(0x08) FRVPDPAutoAddColorSettings final
-{
-public:
-	bool                                          CanEverGetPaused;                                  // 0x0000(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         DelayBetweenTasks;                                 // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          StopAutoPaintingMeshIfFullyPainted;                // 0x0008(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          StopAutoPaintingMeshIfCompletelyEmpty;             // 0x0009(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          OnlyStartNewTaskIfChangeWasMadeByOwningPaintComponent; // 0x000A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_B[0x30D];                                      // 0x000B(0x030D)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPPaintLimitSettings
 // 0x000C (0x000C - 0x0000)
 struct FRVPDPPaintLimitSettings final
@@ -754,52 +731,6 @@ public:
 	struct FRVPDPPaintLimitSettings               VertexColorGreenChannelsLimit;                     // 0x0154(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	struct FRVPDPPaintLimitSettings               VertexColorBlueChannelsLimit;                      // 0x0160(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 	struct FRVPDPPaintLimitSettings               VertexColorAlphaChannelsLimit;                     // 0x016C(0x000C)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPSetVertexColorsSettings
-// 0x0010 (0x0188 - 0x0178)
-struct FRVPDPSetVertexColorsSettings final : public FRVPDPPaintDirectlyTaskSettings
-{
-public:
-	TArray<struct FColor>                         VertexColorsAtLOD0ToSet;                           // 0x0178(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPPaintTaskResultInfo
-// 0x0028 (0x0028 - 0x0000)
-struct FRVPDPPaintTaskResultInfo final
-{
-public:
-	bool                                          AnyVertexColorGotChanged;                          // 0x0000(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class FName>                           VertexColorAppliedToBones;                         // 0x0008(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-	TArray<EVertexColorChannel>                   ColorAppliedToVertexColorChannels;                 // 0x0018(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPSetVertexColorsUsingSerializedStringSettings
-// 0x0010 (0x0188 - 0x0178)
-struct FRVPDPSetVertexColorsUsingSerializedStringSettings final : public FRVPDPPaintDirectlyTaskSettings
-{
-public:
-	class FString                                 SerializedColorDataAtLOD0;                         // 0x0178(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPAutoPaintTaskResults
-// 0x0300 (0x0300 - 0x0000)
-struct FRVPDPAutoPaintTaskResults final
-{
-public:
-	class UPrimitiveComponent*                    MeshComponent;                                     // 0x0000(0x0008)(BlueprintVisible, ExportObject, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FRVPDPTaskResults                      TaskResultInfo;                                    // 0x0008(0x01A0)(BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
-	struct FRVPDPPaintTaskResultInfo              PaintTaskResultInfo;                               // 0x01A8(0x0028)(BlueprintVisible, NativeAccessSpecifierPublic)
-	struct FRVPDPAdditionalDataToPassThroughInfo  AdditionalData;                                    // 0x01D0(0x0130)(BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPStartNewRoundOfTasksInfo
-// 0x0050 (0x0050 - 0x0000)
-struct FRVPDPStartNewRoundOfTasksInfo final
-{
-public:
-	TMap<class UPrimitiveComponent*, struct FRVPDPAutoPaintTaskResults> NewRoundOfTasks;             // 0x0000(0x0050)(BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPClothPhysicsDampingSettings
@@ -889,6 +820,106 @@ struct FRVPDPClothPhysicsSetAirPressureSettings final
 {
 public:
 	struct FVector2D                              SetPressure_Pressure;                              // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPChaosClothPhysicsAtVertexColorChannelSettings
+// 0x0260 (0x0260 - 0x0000)
+struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings final
+{
+public:
+	bool                                          SetDamping;                                        // 0x0000(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsDampingSettings      ClothDampingSettingsWithNoColorPaintedAtChannel;   // 0x0004(0x0004)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsDampingSettings      ClothDampingSettingsWithFullColorPaintedAtChannel; // 0x0008(0x0004)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          SetGravity;                                        // 0x000C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_D[0x3];                                        // 0x000D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsGravitySettings      ClothGravitySettingsWithNoColorPaintedAtChannel;   // 0x0010(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsGravitySettings      ClothGravitySettingsWithFullColorPaintedAtChannel; // 0x0030(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          SetWind;                                           // 0x0050(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_51[0x7];                                       // 0x0051(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsWindSettings         ClothWindSettingsWithNoColorPaintedAtChannel;      // 0x0058(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsWindSettings         ClothWindSettingsWithFullColorPaintedAtChannel;    // 0x0098(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          SetAnimDrive;                                      // 0x00D8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_D9[0x7];                                       // 0x00D9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsAnimDriveSettings    ClothAnimDriveSettingsWithNoColorPaintedAtChannel; // 0x00E0(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsAnimDriveSettings    ClothAnimDriveSettingsWithFullColorPaintedAtChannel; // 0x0100(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          SetCollision;                                      // 0x0120(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_121[0x3];                                      // 0x0121(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsCollisionSettings    ClothCollisionSettingsWithNoColorPaintedAtChannel; // 0x0124(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsCollisionSettings    ClothCollisionSettingsWithFullColorPaintedAtChannel; // 0x0134(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          SetLongRangeAttachment;                            // 0x0144(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_145[0x3];                                      // 0x0145(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsLongRangeAttachmentSettings ClothLongRangeAttachmentSettingsWithNoColorPaintedAtChannel; // 0x0148(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsLongRangeAttachmentSettings ClothLongRangeAttachmentSettingsWithFullColorPaintedAtChannel; // 0x0168(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          SetMaterial;                                       // 0x0188(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_189[0x7];                                      // 0x0189(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsMaterialSettings     ClothMaterialSettingsWithNoColorPaintedAtChannel;  // 0x0190(0x0030)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsMaterialSettings     ClothMaterialSettingsWithFullColorPaintedAtChannel; // 0x01C0(0x0030)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          SetPhysicsVelocityScale;                           // 0x01F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1F1[0x7];                                      // 0x01F1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsVelocityScaleSettings ClothPhysicsVelocityScaleSettingsWithNoColorPaintedAtChannel; // 0x01F8(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsVelocityScaleSettings ClothPhysicsVelocityScaleSettingsWithFullColorPaintedAtChannel; // 0x0218(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          SetAirPressure;                                    // 0x0238(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_239[0x7];                                      // 0x0239(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRVPDPClothPhysicsSetAirPressureSettings ClothPhysicssAirPressureWithNoColorPaintedAtChannel; // 0x0240(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPClothPhysicsSetAirPressureSettings ClothPhysicssAirPressureWithFullColorPaintedAtChannel; // 0x0250(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPVertexChannelsChaosClothPhysicsSettings
+// 0x0980 (0x0980 - 0x0000)
+struct FRVPDPVertexChannelsChaosClothPhysicsSettings final
+{
+public:
+	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtRedChannel;     // 0x0000(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtGreenChannel;   // 0x0260(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtBlueChannel;    // 0x04C0(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtAlphaChannel;   // 0x0720(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPSetVertexColorsSettings
+// 0x0010 (0x0188 - 0x0178)
+struct FRVPDPSetVertexColorsSettings final : public FRVPDPPaintDirectlyTaskSettings
+{
+public:
+	TArray<struct FColor>                         VertexColorsAtLOD0ToSet;                           // 0x0178(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPPaintTaskResultInfo
+// 0x0028 (0x0028 - 0x0000)
+struct FRVPDPPaintTaskResultInfo final
+{
+public:
+	bool                                          AnyVertexColorGotChanged;                          // 0x0000(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class FName>                           VertexColorAppliedToBones;                         // 0x0008(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<EVertexColorChannel>                   ColorAppliedToVertexColorChannels;                 // 0x0018(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPSetVertexColorsUsingSerializedStringSettings
+// 0x0010 (0x0188 - 0x0178)
+struct FRVPDPSetVertexColorsUsingSerializedStringSettings final : public FRVPDPPaintDirectlyTaskSettings
+{
+public:
+	class FString                                 SerializedColorDataAtLOD0;                         // 0x0178(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPAutoPaintTaskResults
+// 0x0300 (0x0300 - 0x0000)
+struct FRVPDPAutoPaintTaskResults final
+{
+public:
+	class UPrimitiveComponent*                    MeshComponent;                                     // 0x0000(0x0008)(BlueprintVisible, ExportObject, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FRVPDPTaskResults                      TaskResultInfo;                                    // 0x0008(0x01A0)(BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
+	struct FRVPDPPaintTaskResultInfo              PaintTaskResultInfo;                               // 0x01A8(0x0028)(BlueprintVisible, NativeAccessSpecifierPublic)
+	struct FRVPDPAdditionalDataToPassThroughInfo  AdditionalData;                                    // 0x01D0(0x0130)(BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPStartNewRoundOfTasksInfo
+// 0x0050 (0x0050 - 0x0000)
+struct FRVPDPStartNewRoundOfTasksInfo final
+{
+public:
+	TMap<class UPrimitiveComponent*, struct FRVPDPAutoPaintTaskResults> NewRoundOfTasks;             // 0x0000(0x0050)(BlueprintVisible, ContainsInstancedReference, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPChaosClothPhysicsSettings
@@ -1251,14 +1282,24 @@ public:
 	struct FRVPDPGetClosestVertexDataComboPaintAtLocationSettings GetClosestVertexDataCombo;         // 0x04D0(0x0078)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPSkeletalMeshBoneVertexInfo
-// 0x0010 (0x0010 - 0x0000)
-struct FRVPDPSkeletalMeshBoneVertexInfo final
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPSkeletalMeshSectionInfo
+// 0x0058 (0x0058 - 0x0000)
+struct FRVPDPSkeletalMeshSectionInfo final
 {
 public:
-	int32                                         BoneFirstVertex;                                   // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	int32                                         BoneFirstSectionVertex;                            // 0x0004(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FName                                   BoneName;                                          // 0x0008(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	int32                                         AtSection;                                         // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	TMap<int32, struct FRVPDPSkeletalMeshBoneVertexInfo> SkeletalMeshBoneVertexInfo;                 // 0x0008(0x0050)(BlueprintVisible, BlueprintReadOnly, NativeAccessSpecifierPublic)
+};
+
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPSkeletalMeshBoneInfoPerLOD
+// 0x0058 (0x0058 - 0x0000)
+struct FRVPDPSkeletalMeshBoneInfoPerLOD final
+{
+public:
+	int32                                         Lod;                                               // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	TMap<int32, struct FRVPDPSkeletalMeshSectionInfo> SkeletalMeshSectionInfo;                       // 0x0008(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPPaintOnEntireMeshAtRandomVerticesSettings
@@ -1322,58 +1363,18 @@ public:
 	struct FRVPDPPaintSettingsOutsideOfArea       ColorToApplyToVerticesOutsideOfArea;               // 0x0480(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPChaosClothPhysicsAtVertexColorChannelSettings
-// 0x0260 (0x0260 - 0x0000)
-struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings final
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPAutoAddColorSettings
+// 0x0318 (0x0318 - 0x0000)
+struct alignas(0x08) FRVPDPAutoAddColorSettings final
 {
 public:
-	bool                                          SetDamping;                                        // 0x0000(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          CanEverGetPaused;                                  // 0x0000(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsDampingSettings      ClothDampingSettingsWithNoColorPaintedAtChannel;   // 0x0004(0x0004)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsDampingSettings      ClothDampingSettingsWithFullColorPaintedAtChannel; // 0x0008(0x0004)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          SetGravity;                                        // 0x000C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_D[0x3];                                        // 0x000D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsGravitySettings      ClothGravitySettingsWithNoColorPaintedAtChannel;   // 0x0010(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsGravitySettings      ClothGravitySettingsWithFullColorPaintedAtChannel; // 0x0030(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          SetWind;                                           // 0x0050(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_51[0x7];                                       // 0x0051(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsWindSettings         ClothWindSettingsWithNoColorPaintedAtChannel;      // 0x0058(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsWindSettings         ClothWindSettingsWithFullColorPaintedAtChannel;    // 0x0098(0x0040)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          SetAnimDrive;                                      // 0x00D8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_D9[0x7];                                       // 0x00D9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsAnimDriveSettings    ClothAnimDriveSettingsWithNoColorPaintedAtChannel; // 0x00E0(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsAnimDriveSettings    ClothAnimDriveSettingsWithFullColorPaintedAtChannel; // 0x0100(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          SetCollision;                                      // 0x0120(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_121[0x3];                                      // 0x0121(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsCollisionSettings    ClothCollisionSettingsWithNoColorPaintedAtChannel; // 0x0124(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsCollisionSettings    ClothCollisionSettingsWithFullColorPaintedAtChannel; // 0x0134(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          SetLongRangeAttachment;                            // 0x0144(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_145[0x3];                                      // 0x0145(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsLongRangeAttachmentSettings ClothLongRangeAttachmentSettingsWithNoColorPaintedAtChannel; // 0x0148(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsLongRangeAttachmentSettings ClothLongRangeAttachmentSettingsWithFullColorPaintedAtChannel; // 0x0168(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          SetMaterial;                                       // 0x0188(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_189[0x7];                                      // 0x0189(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsMaterialSettings     ClothMaterialSettingsWithNoColorPaintedAtChannel;  // 0x0190(0x0030)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsMaterialSettings     ClothMaterialSettingsWithFullColorPaintedAtChannel; // 0x01C0(0x0030)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          SetPhysicsVelocityScale;                           // 0x01F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1F1[0x7];                                      // 0x01F1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsVelocityScaleSettings ClothPhysicsVelocityScaleSettingsWithNoColorPaintedAtChannel; // 0x01F8(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsVelocityScaleSettings ClothPhysicsVelocityScaleSettingsWithFullColorPaintedAtChannel; // 0x0218(0x0020)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          SetAirPressure;                                    // 0x0238(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_239[0x7];                                      // 0x0239(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRVPDPClothPhysicsSetAirPressureSettings ClothPhysicssAirPressureWithNoColorPaintedAtChannel; // 0x0240(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPClothPhysicsSetAirPressureSettings ClothPhysicssAirPressureWithFullColorPaintedAtChannel; // 0x0250(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPVertexChannelsChaosClothPhysicsSettings
-// 0x0980 (0x0980 - 0x0000)
-struct FRVPDPVertexChannelsChaosClothPhysicsSettings final
-{
-public:
-	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtRedChannel;     // 0x0000(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtGreenChannel;   // 0x0260(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtBlueChannel;    // 0x04C0(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	struct FRVPDPChaosClothPhysicsAtVertexColorChannelSettings ClothPhysicsSettingsAtAlphaChannel;   // 0x0720(0x0260)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	float                                         DelayBetweenTasks;                                 // 0x0004(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          StopAutoPaintingMeshIfFullyPainted;                // 0x0008(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          StopAutoPaintingMeshIfCompletelyEmpty;             // 0x0009(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          OnlyStartNewTaskIfChangeWasMadeByOwningPaintComponent; // 0x000A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_B[0x30D];                                      // 0x000B(0x030D)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPStoredColorSnippetInfo
@@ -1476,6 +1477,14 @@ public:
 	TMap<EPhysicalSurface, struct FRVPDPPhysicsSurfaceBlendSettings> PhysicsSurfaceBlendingSettings; // 0x0008(0x0050)(Edit, BlueprintVisible, EditConst, NativeAccessSpecifierPublic)
 };
 
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPRegisteredPhysicsSurfacesSettings
+// 0x0010 (0x0010 - 0x0000)
+struct FRVPDPRegisteredPhysicsSurfacesSettings final
+{
+public:
+	TArray<EPhysicalSurface>                      ChildSurfaces;                                     // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+};
+
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPPaintOnLODSettings
 // 0x0004 (0x0004 - 0x0000)
 struct FRVPDPPaintOnLODSettings final
@@ -1484,24 +1493,14 @@ public:
 	int32                                         MaxAmountOfLODsToPaint;                            // 0x0000(0x0004)(Edit, BlueprintVisible, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPSkeletalMeshSectionInfo
-// 0x0058 (0x0058 - 0x0000)
-struct FRVPDPSkeletalMeshSectionInfo final
+// ScriptStruct VertexPaintDetectionPlugin.RVPDPSkeletalMeshBonesToIncludeInfo
+// 0x0028 (0x0028 - 0x0000)
+struct FRVPDPSkeletalMeshBonesToIncludeInfo final
 {
 public:
-	int32                                         AtSection;                                         // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<int32, struct FRVPDPSkeletalMeshBoneVertexInfo> SkeletalMeshBoneVertexInfo;                 // 0x0008(0x0050)(BlueprintVisible, BlueprintReadOnly, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct VertexPaintDetectionPlugin.RVPDPSkeletalMeshBoneInfoPerLOD
-// 0x0058 (0x0058 - 0x0000)
-struct FRVPDPSkeletalMeshBoneInfoPerLOD final
-{
-public:
-	int32                                         Lod;                                               // 0x0000(0x0004)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	TMap<int32, struct FRVPDPSkeletalMeshSectionInfo> SkeletalMeshSectionInfo;                       // 0x0008(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
+	class FName                                   ParentBoneName;                                    // 0x0000(0x0008)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TArray<class FName>                           BoneParentsToInclude;                              // 0x0008(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
+	TArray<class FName>                           BoneChildsToInclude;                               // 0x0018(0x0010)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, EditConst, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct VertexPaintDetectionPlugin.RVPDPRegisteredSkeletalMeshInfo
@@ -1515,5 +1514,4 @@ public:
 	TMap<class FName, struct FRVPDPSkeletalMeshBonesToIncludeInfo> SkeletalMeshBonesToInclude;       // 0x0018(0x0050)(Edit, BlueprintVisible, BlueprintReadOnly, EditConst, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

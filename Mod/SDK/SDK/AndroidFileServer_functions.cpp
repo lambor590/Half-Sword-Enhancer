@@ -14,8 +14,7 @@
 #include "AndroidFileServer_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function AndroidFileServer.AndroidFileServerBPLibrary.IsFileServerRunning
 // (Final, Native, Static, Public, BlueprintCallable)
@@ -103,5 +102,5 @@ bool UAndroidFileServerBPLibrary::StopFileServer(bool bUSB, bool bNetwork)
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

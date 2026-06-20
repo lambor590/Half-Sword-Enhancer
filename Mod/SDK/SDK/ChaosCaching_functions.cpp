@@ -14,8 +14,7 @@
 #include "ChaosCaching_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ChaosCaching.ChaosCacheManager.EnablePlayback
 // (Final, RequiredAPI, Native, Protected, BlueprintCallable)
@@ -258,5 +257,5 @@ void AChaosCacheManager::TriggerComponentByCache(class FName InCacheName)
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

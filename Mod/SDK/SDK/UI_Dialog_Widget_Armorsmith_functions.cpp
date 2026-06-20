@@ -14,8 +14,7 @@
 #include "UI_Dialog_Widget_Armorsmith_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Armorsmith.UI_Dialog_Widget_Armorsmith_C.BndEvt__UI_Dialog_Widget_Armorsmith_Button_4_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -112,5 +111,5 @@ void UUI_Dialog_Widget_Armorsmith_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

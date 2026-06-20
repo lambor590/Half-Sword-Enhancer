@@ -10,18 +10,18 @@
 
 #include "Basic.hpp"
 
-#include "SlateCore_structs.hpp"
-#include "Enum_WeaponType_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Str_SubPassport_Equipment_structs.hpp"
+#include "SlateCore_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
+#include "Enum_WeaponType_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_CharacterCreation.UI_CharacterCreation_C.BndEvt__UI_CharacterCreation_EditableText_0_K2Node_ComponentBoundEvent_6_OnEditableTextChangedEvent__DelegateSignature
 // 0x0010 (0x0010 - 0x0000)
@@ -484,5 +484,5 @@ public:
 	double                                        K2Node_VariableSet_Weight_ImplicitCast;            // 0x0158(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

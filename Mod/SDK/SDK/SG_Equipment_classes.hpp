@@ -12,12 +12,11 @@
 
 #include "Str_ArmorElements_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
-#include "Engine_classes.hpp"
 #include "SG_ArmorSaveStruct_structs.hpp"
+#include "Engine_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass SG_Equipment.SG_Equipment_C
 // 0x08F0 (0x0918 - 0x0028)
@@ -45,5 +44,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

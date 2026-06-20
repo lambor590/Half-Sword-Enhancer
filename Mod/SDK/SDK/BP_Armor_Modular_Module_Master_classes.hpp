@@ -11,18 +11,24 @@
 #include "Basic.hpp"
 
 #include "BP_Armor_Master_classes.hpp"
+#include "Steel_Type_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Module_Master.BP_Armor_Modular_Module_Master_C
-// 0x0000 (0x08E0 - 0x08E0)
+// 0x0000 (0x0910 - 0x0910)
 class ABP_Armor_Modular_Module_Master_C : public ABP_Armor_Master_C
 {
 public:
-	bool                                          Can_Replace_Core;                                  // 0x08D1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Force_Replace_Core;                                // 0x08D2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Can_Replace_Core;                                  // 0x0903(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Force_Replace_Core;                                // 0x0904(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   Parent_Steel_Type;                                 // 0x0905(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	ESecondaryMetal_Type                          Parent_Metal_Pieces_Type;                          // 0x0906(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+
+public:
+	void UserConstructionScript();
 
 public:
 	static class UClass* StaticClass()
@@ -39,5 +45,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

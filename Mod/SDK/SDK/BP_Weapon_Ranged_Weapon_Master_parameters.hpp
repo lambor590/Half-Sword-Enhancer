@@ -14,8 +14,8 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C.ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Master
 // 0x03C0 (0x03C0 - 0x0000)
@@ -39,5 +39,5 @@ public:
 	struct FHitResult                             CallFunc_K2_SetWorldTransform_SweepHitResult_1;    // 0x02C8(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

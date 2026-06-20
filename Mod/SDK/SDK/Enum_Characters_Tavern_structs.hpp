@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Enum_Characters_Tavern.Enum_Characters_Tavern
 // NumValues: 0x0009
@@ -29,5 +28,4 @@ enum class Enum_Characters_Tavern : uint8
 	Enum_Characters_MAX                      = 8,
 };
 
-}
-
+SDK_NAMESPACE_END

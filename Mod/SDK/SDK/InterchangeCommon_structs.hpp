@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum InterchangeCommon.EInterchangeMaterialXShaders
 // NumValues: 0x0009
@@ -67,5 +66,4 @@ enum class EInterchangeMaterialXVDF : uint8
 	EInterchangeMaterialXVDF_MAX             = 3,
 };
 
-}
-
+SDK_NAMESPACE_END

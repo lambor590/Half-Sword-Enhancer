@@ -10,17 +10,16 @@
 
 #include "Basic.hpp"
 
+#include "SheathSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
-#include "Enum_Ranks_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Jester.UI_Jester_C
 // 0x0070 (0x0350 - 0x02E0)
@@ -78,5 +77,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

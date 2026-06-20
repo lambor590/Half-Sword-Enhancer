@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Character1_structs.hpp"
 #include "UMG_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Seer_PayOff.UI_Dialog_Widget_Seer_PayOff_C.BndEvt__UI_Dialog_Widget_Seer_PayOff_Slider_5_K2Node_ComponentBoundEvent_6_OnFloatValueChangedEvent__DelegateSignature
 // 0x0004 (0x0004 - 0x0000)
@@ -178,5 +178,5 @@ public:
 	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

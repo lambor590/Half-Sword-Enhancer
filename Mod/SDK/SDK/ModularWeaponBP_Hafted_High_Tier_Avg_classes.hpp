@@ -13,11 +13,10 @@
 #include "ModularWeaponBP_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_Hafted_High_Tier_Avg.ModularWeaponBP_Hafted_High_Tier_Avg_C
-// 0x0000 (0x0BC0 - 0x0BC0)
+// 0x0000 (0x0BE0 - 0x0BE0)
 class AModularWeaponBP_Hafted_High_Tier_Avg_C final : public AModularWeaponBP_C
 {
 public:
@@ -35,5 +34,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "UI_PhotoMode_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_PhotoMode.UI_PhotoMode_C.ActiveTab
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -2444,5 +2443,5 @@ ESlateVisibility UUI_PhotoMode_C::UpDownCameraGamepadVisibility()
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

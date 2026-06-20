@@ -11,13 +11,12 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
-#include "Enum_Ranks_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Dialog_Widget_Fencer_Progression.UI_Dialog_Widget_Fencer_Progression_C
 // 0x0040 (0x0320 - 0x02E0)
@@ -66,5 +65,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

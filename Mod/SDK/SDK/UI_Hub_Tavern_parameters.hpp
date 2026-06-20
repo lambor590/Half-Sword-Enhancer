@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Character1_structs.hpp"
 #include "UMG_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "Enum_DayTime_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function UI_Hub_Tavern.UI_Hub_Tavern_C.ExecuteUbergraph_UI_Hub_Tavern
 // 0x0590 (0x0590 - 0x0000)
@@ -548,5 +548,5 @@ public:
 	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

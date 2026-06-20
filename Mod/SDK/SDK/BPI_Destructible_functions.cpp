@@ -13,8 +13,7 @@
 #include "BPI_Destructible_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_Destructible.BPI_Destructible_C.Temporarily Disable Destruction
 // (Public, BlueprintCallable, BlueprintEvent)
@@ -29,5 +28,5 @@ void IBPI_Destructible_C::Temporarily_Disable_Destruction()
 	AsUObject()->ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

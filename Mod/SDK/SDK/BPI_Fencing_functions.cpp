@@ -14,8 +14,7 @@
 #include "BPI_Fencing_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BPI_Fencing.BPI_Fencing_C.StopThatBlade
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent)
@@ -40,5 +39,5 @@ void IBPI_Fencing_C::StopThatBlade(double Power, bool* Nul)
 		*Nul = Parms.Nul;
 }
 
-}
 
+SDK_NAMESPACE_END

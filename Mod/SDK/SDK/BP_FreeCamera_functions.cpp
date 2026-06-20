@@ -14,8 +14,7 @@
 #include "BP_FreeCamera_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_FreeCamera.BP_FreeCamera_C.Create Grab Handle
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
@@ -204,5 +203,5 @@ void BP_FreeCamera::ABP_FreeCamera_C::Timeline__UpdateFunc()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -13,8 +13,8 @@
 #include "Enum_MaterialLayer_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Modular_PA_Head_SubModule_Master.Modular_PA_Head_SubModule_Master_C.UserConstructionScript
 // 0x0014 (0x0014 - 0x0000)
@@ -33,5 +33,5 @@ public:
 	Enum_MaterialLayer                            K2Node_Select_Default;                             // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

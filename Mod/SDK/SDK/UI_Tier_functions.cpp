@@ -14,8 +14,7 @@
 #include "UI_Tier_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Tier.UI_Tier_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -70,5 +69,5 @@ struct FSlateBrush UUI_Tier_C::GetBrush()
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "ZibraVDBRuntime_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function ZibraVDBRuntime.ZibraVDBAssetComponent.SetZibraVDBMaterialComponent
 // (Final, Native, Public, BlueprintCallable)
@@ -241,5 +240,5 @@ TArray<class FString> UZibraVDBVolume4::GetChannelNamesUI() const
 	return Parms.ReturnValue;
 }
 
-}
 
+SDK_NAMESPACE_END

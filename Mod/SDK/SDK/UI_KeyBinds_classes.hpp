@@ -15,8 +15,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_KeyBinds.UI_KeyBinds_C
 // 0x0A30 (0x0D10 - 0x02E0)
@@ -171,5 +170,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

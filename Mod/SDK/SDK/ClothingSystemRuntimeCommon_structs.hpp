@@ -14,8 +14,7 @@
 #include "ClothingSystemRuntimeInterface_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum ClothingSystemRuntimeCommon.EClothingWindMethod_Legacy
 // NumValues: 0x0003
@@ -164,5 +163,4 @@ public:
 	uint8                                         Pad_29[0x7];                                       // 0x0029(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-}
-
+SDK_NAMESPACE_END

@@ -13,8 +13,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // ScriptStruct DataflowCore.DataflowConnection
 // 0x0040 (0x0040 - 0x0000)
@@ -102,5 +101,4 @@ struct FDataflowTerminalNode : public FDataflowNode
 {
 };
 
-}
-
+SDK_NAMESPACE_END

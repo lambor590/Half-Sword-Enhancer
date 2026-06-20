@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum InterchangePipelines.EInterchangeForceMeshType
 // NumValues: 0x0004
@@ -111,5 +110,4 @@ public:
 	bool                                          bQueryGeometryOnlyIfNoInstance;                    // 0x0004(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

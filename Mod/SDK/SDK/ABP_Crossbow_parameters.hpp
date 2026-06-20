@@ -13,8 +13,8 @@
 #include "Engine_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function ABP_Crossbow.ABP_Crossbow_C.AnimGraph
 // 0x0010 (0x0010 - 0x0000)
@@ -49,5 +49,5 @@ public:
 	float                                         K2Node_StructMemberSet___FloatProperty_ImplicitCast; // 0x002C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "Enum_WeaponType_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Enum_WeaponType_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_Generator_Weapons_Random.BP_Generator_Weapons_Random_C.Add Weapon Module to Array
 // 0x0160 (0x0160 - 0x0000)
@@ -466,5 +466,5 @@ public:
 	float                                         CallFunc_LinearColorLerp_Alpha_ImplicitCast_3;     // 0x11F0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "BP_Constraint_Bite_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Constraint_Bite.BP_Constraint_Bite_C.ExecuteUbergraph_BP_Constraint_Bite
 // (Final, UbergraphFunction, HasDefaults)
@@ -70,5 +69,5 @@ void ABP_Constraint_Bite_C::ReceiveTick(float DeltaSeconds)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "UI_Dialog_Widget_Innkeeper_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Dialog_Widget_Innkeeper.UI_Dialog_Widget_Innkeeper_C.BndEvt__UI_Dialog_Widget_Innkeeper_Button_0_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -270,5 +269,5 @@ void UUI_Dialog_Widget_Innkeeper_C::Propose_Errand_Event()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Enum AppleImageUtils.ETextureRotationDirection
 // NumValues: 0x0009
@@ -50,5 +49,4 @@ public:
 	TArray<uint8>                                 ImageData;                                         // 0x0010(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 
-}
-
+SDK_NAMESPACE_END

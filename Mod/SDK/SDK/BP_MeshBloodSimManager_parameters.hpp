@@ -13,8 +13,8 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_MeshBloodSimManager.BP_MeshBloodSimManager_C.DoMeshBloodSim
 // 0x00E0 (0x00E0 - 0x0000)
@@ -56,5 +56,5 @@ public:
 	struct FVector4f                              CallFunc_AddNewParticle_LocationAndSize_ImplicitCast_1; // 0x00E0(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

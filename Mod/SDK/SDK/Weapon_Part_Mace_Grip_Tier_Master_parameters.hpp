@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function Weapon_Part_Mace_Grip_Tier_Master.Weapon_Part_Mace_Grip_Tier_Master_C.ExecuteUbergraph_Weapon_Part_Mace_Grip_Tier_Master
 // 0x0008 (0x0008 - 0x0000)
@@ -111,5 +111,5 @@ public:
 	class UTexture*                               K2Node_Select_Default_10;                          // 0x0198(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

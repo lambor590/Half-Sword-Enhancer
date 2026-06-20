@@ -14,8 +14,7 @@
 #include "UI_WinScreen_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_WinScreen.UI_WinScreen_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
@@ -70,5 +69,5 @@ void UUI_WinScreen_C::PreConstruct(bool IsDesignTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

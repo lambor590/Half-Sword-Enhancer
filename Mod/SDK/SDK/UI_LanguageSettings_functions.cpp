@@ -14,8 +14,7 @@
 #include "UI_LanguageSettings_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_LanguageSettings.UI_LanguageSettings_C.BndEvt__UI_Controls_Button_2_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
@@ -364,5 +363,5 @@ void UUI_LanguageSettings_C::Tick(const struct FGeometry& MyGeometry, float InDe
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

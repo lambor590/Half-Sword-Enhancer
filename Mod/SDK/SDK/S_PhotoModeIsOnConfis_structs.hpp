@@ -14,8 +14,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedStruct S_PhotoModeIsOnConfis.S_PhotoModeIsOnConfis
 // 0x0060 (0x0060 - 0x0000)
@@ -32,5 +31,4 @@ public:
 	struct FSlateColor                            ImageTint_13_3F3D0A0F4ADE39A55DB656BC5930B61A;     // 0x0048(0x0014)(Edit, BlueprintVisible)
 };
 
-}
-
+SDK_NAMESPACE_END

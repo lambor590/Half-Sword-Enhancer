@@ -11,8 +11,7 @@
 #include "Basic.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // UserDefinedEnum Weapon_Icon_Enum.Weapon_Icon_Enum
 // NumValues: 0x000B
@@ -31,5 +30,4 @@ enum class EWeapon_Icon_Enum : uint8
 	Weapon_Icon_MAX                          = 10,
 };
 
-}
-
+SDK_NAMESPACE_END

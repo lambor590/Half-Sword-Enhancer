@@ -14,8 +14,7 @@
 #include "BP_Weapon_Ranged_Weapon_Crossbow_Light_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Add Bolt
 // (BlueprintCallable, BlueprintEvent)
@@ -224,5 +223,5 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

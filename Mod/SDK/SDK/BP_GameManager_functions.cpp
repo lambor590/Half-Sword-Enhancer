@@ -14,8 +14,7 @@
 #include "BP_GameManager_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_GameManager.BP_GameManager_C.Create Pre-Made Weapon
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
@@ -162,5 +161,5 @@ void ABP_GameManager_C::ReceiveBeginPlay()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

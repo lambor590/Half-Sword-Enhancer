@@ -14,8 +14,8 @@
 #include "SG_ArmorPiece_structs.hpp"
 
 
-namespace SDK::Params
-{
+SDK_NAMESPACE_START
+SDK_PARAM_NAMESPACE_START
 
 // Function BP_PlayerInventory.BP_PlayerInventory_C.ExecuteUbergraph_BP_PlayerInventory
 // 0x0030 (0x0030 - 0x0000)
@@ -63,5 +63,5 @@ public:
 	int32                                         CallFunc_Array_Add_ReturnValue_1;                  // 0x0098(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-}
-
+SDK_PARAM_NAMESPACE_END
+SDK_NAMESPACE_END

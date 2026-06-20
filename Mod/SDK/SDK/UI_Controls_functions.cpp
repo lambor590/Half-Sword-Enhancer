@@ -14,8 +14,7 @@
 #include "UI_Controls_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function UI_Controls.UI_Controls_C.BndEvt__UI_Controls_BackButton_K2Node_ComponentBoundEvent_11_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
@@ -416,5 +415,5 @@ void UUI_Controls_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
 	UObject::ProcessEvent(Func, &Parms);
 }
 
-}
 
+SDK_NAMESPACE_END

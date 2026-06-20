@@ -14,8 +14,7 @@
 #include "GLTFExporter_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function GLTFExporter.GLTFExportOptions.ResetToDefault
 // (Final, Native, Public, BlueprintCallable)
@@ -92,5 +91,5 @@ void UGLTFProxyOptions::ResetToDefault()
 	Func->FunctionFlags = Flgs;
 }
 
-}
 
+SDK_NAMESPACE_END

@@ -14,8 +14,7 @@
 #include "BP_CustomPostProcess_parameters.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Function BP_CustomPostProcess.BP_CustomPostProcess_C.ExecuteUbergraph_BP_CustomPostProcess
 // (Final, UbergraphFunction, HasDefaults)
@@ -91,5 +90,5 @@ void ABP_CustomPostProcess_C::UserConstructionScript()
 	UObject::ProcessEvent(Func, nullptr);
 }
 
-}
 
+SDK_NAMESPACE_END

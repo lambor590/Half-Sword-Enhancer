@@ -14,8 +14,7 @@
 #include "CoreUObject_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // Class ArchVisCharacter.ArchVisCharacter
 // 0x0060 (0x06D0 - 0x0670)
@@ -76,5 +75,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

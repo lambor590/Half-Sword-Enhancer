@@ -13,8 +13,7 @@
 #include "Weapon_Module_Polearm_Head_Master_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Module_Polearm_Head_Bill_F.Weapon_Module_Polearm_Head_Bill_F_C
 // 0x0038 (0x0468 - 0x0430)
@@ -44,5 +43,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

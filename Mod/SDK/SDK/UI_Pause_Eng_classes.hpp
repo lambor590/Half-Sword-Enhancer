@@ -14,8 +14,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Pause_Eng.UI_Pause_Eng_C
 // 0x00E8 (0x03C8 - 0x02E0)
@@ -95,5 +94,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

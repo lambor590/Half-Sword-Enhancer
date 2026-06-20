@@ -15,8 +15,7 @@
 #include "SlateCore_structs.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_GameSettings.UI_GameSettings_C
 // 0x0100 (0x03E0 - 0x02E0)
@@ -106,5 +105,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END

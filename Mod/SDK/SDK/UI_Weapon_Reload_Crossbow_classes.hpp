@@ -15,8 +15,7 @@
 #include "UMG_classes.hpp"
 
 
-namespace SDK
-{
+SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C
 // 0x0078 (0x0358 - 0x02E0)
@@ -88,5 +87,4 @@ public:
 	}
 };
 
-}
-
+SDK_NAMESPACE_END
