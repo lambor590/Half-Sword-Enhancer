@@ -35,7 +35,6 @@ namespace ActorUtils {
         willie->Panic_Rate = 0.0;
         willie->AI_Immediate_Threat = false;
         willie->Pain_Shock = false;
-        if (willie->Fallen_Give_Up_TL) willie->Fallen_Give_Up_TL->Stop();
         if (!willie->DED) {
             if (willie->Consciousness_Cap < GameConstants::DEFAULT_HEALTH)
                 willie->Consciousness_Cap = GameConstants::DEFAULT_HEALTH;

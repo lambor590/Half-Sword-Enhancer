@@ -88,7 +88,7 @@ void MapLoaderSection::LoadMap(const std::string& packageName) {
         }
 
         std::wstring wideName(pn.begin(), pn.end());
-        auto levelName = SDK::BasicFilesImpleUtils::StringToName(wideName.c_str());
+        auto levelName = SDK::BasicFilesImplUtils::StringToName(wideName.c_str());
         SDK::UGameplayStatics::OpenLevel(world, levelName, true, SDK::FString(L""));
         levelNameDirty = true;
     });

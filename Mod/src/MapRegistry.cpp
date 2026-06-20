@@ -113,10 +113,10 @@ void MapRegistry::PerformScan() {
             return;
         }
 
-        SDK::FName gamePath = SDK::BasicFilesImpleUtils::StringToName(L"/Game");
+        SDK::FName gamePath = SDK::BasicFilesImplUtils::StringToName(L"/Game");
         SDK::FTopLevelAssetPath worldClassPath{};
-        worldClassPath.PackageName = SDK::BasicFilesImpleUtils::StringToName(L"/Script/Engine");
-        worldClassPath.AssetName = SDK::BasicFilesImpleUtils::StringToName(L"World");
+        worldClassPath.PackageName = SDK::BasicFilesImplUtils::StringToName(L"/Script/Engine");
+        worldClassPath.AssetName = SDK::BasicFilesImplUtils::StringToName(L"World");
 
         SDK::Params::AssetRegistry_GetAssets params{};
         params.Filter.PackagePaths = SDK::TArray<SDK::FName>(&gamePath, 1, 1);

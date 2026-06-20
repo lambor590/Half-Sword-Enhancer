@@ -75,7 +75,7 @@ namespace NPCSpawnHelpers {
 
     inline void ApplyHairColor(SDK::AWillie_BP_C* npc, const NPCOverrides& ovr) {
         if (ovr.hairColor.enabled && npc->Hair_Mat) {
-            auto melaninName = SDK::BasicFilesImpleUtils::StringToName(L"Melanin");
+            auto melaninName = SDK::BasicFilesImplUtils::StringToName(L"Melanin");
             npc->Hair_Mat->SetScalarParameterValue(melaninName, static_cast<float>(ovr.hairColor.value));
         }
     }

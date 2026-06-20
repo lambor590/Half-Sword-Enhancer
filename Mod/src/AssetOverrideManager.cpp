@@ -101,7 +101,7 @@ namespace {
     const SDK::FMaterialParameterInfo& BloodRtParameterInfo() {
         static const SDK::FMaterialParameterInfo parameter = [] {
             SDK::FMaterialParameterInfo info{};
-            info.Name = SDK::BasicFilesImpleUtils::StringToName(L"BloodRT");
+            info.Name = SDK::BasicFilesImplUtils::StringToName(L"BloodRT");
             info.Association = SDK::EMaterialParameterAssociation::GlobalParameter;
             info.Index = -1;
             return info;

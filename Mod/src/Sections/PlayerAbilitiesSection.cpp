@@ -40,14 +40,14 @@ namespace {
 
     const KickBoneSet& KickBones(bool leftKick) {
         static KickBoneSet left{
-            SDK::BasicFilesImpleUtils::StringToName(L"foot_l"),
-            SDK::BasicFilesImpleUtils::StringToName(L"calf_l"),
-            SDK::BasicFilesImpleUtils::StringToName(L"thigh_l"),
+            SDK::BasicFilesImplUtils::StringToName(L"foot_l"),
+            SDK::BasicFilesImplUtils::StringToName(L"calf_l"),
+            SDK::BasicFilesImplUtils::StringToName(L"thigh_l"),
         };
         static KickBoneSet right{
-            SDK::BasicFilesImpleUtils::StringToName(L"foot_r"),
-            SDK::BasicFilesImpleUtils::StringToName(L"calf_r"),
-            SDK::BasicFilesImpleUtils::StringToName(L"thigh_r"),
+            SDK::BasicFilesImplUtils::StringToName(L"foot_r"),
+            SDK::BasicFilesImplUtils::StringToName(L"calf_r"),
+            SDK::BasicFilesImplUtils::StringToName(L"thigh_r"),
         };
         return leftKick ? left : right;
     }
