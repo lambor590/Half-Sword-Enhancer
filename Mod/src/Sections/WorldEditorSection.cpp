@@ -3,6 +3,7 @@
 
 #include "Hooks/GameHook.h"
 #include "SDK/Willie_BP_classes.hpp"
+#include "Utils/ActorUtils.h"
 #include "Utils/PresetUtils.h"
 
 #include <cstdio>
@@ -159,7 +160,10 @@ void WorldEditorSection::ValidateSelection() {
         return;
     }
 
-    if (browseTarget && !IsLiveObject(browseTarget)) {
+    const bool targetUnavailable =
+        browseTarget && (browseTargetIsActor ? !IsLiveActor(static_cast<SDK::AActor*>(browseTarget))
+                                             : !IsLiveObject(browseTarget));
+    if (targetUnavailable) {
         ClearBrowseTarget();
         needsScan = true;
         status.Set("Selected target no longer available", true);
@@ -233,6 +237,7 @@ void WorldEditorSection::AddSceneComponentTargets(SDK::USceneComponent* componen
         if (target.object == component) return;
 
     std::string label(static_cast<size_t>(depth) * 2, ' ');
+    label += "Component: ";
     const std::string className = component->Class ? component->Class->GetName() : component->GetName();
     const std::string instanceName = component->GetName();
     label += className;
@@ -252,22 +257,61 @@ void WorldEditorSection::AddSceneComponentTargets(SDK::USceneComponent* componen
 void WorldEditorSection::BuildBrowseTargets(SDK::AActor* actor, const std::string& className) {
     browseTargets.clear();
     selectedTargetIndex = -1;
+    if (!IsLiveActor(actor)) return;
 
-    std::string label = "Actor: " + className;
-    const std::string instanceName = actor->GetName();
-    if (!instanceName.empty() && instanceName != className) {
-        label += " | ";
-        label += instanceName;
+    auto addActorTarget = [this](SDK::AActor* targetActor, const char* prefix, const std::string* classOverride = nullptr) {
+        if (!IsLiveActor(targetActor)) return;
+        for (const auto& target : browseTargets)
+            if (target.object == targetActor) return;
+
+        const std::string targetClassName =
+            classOverride && !classOverride->empty()
+                ? *classOverride
+                : (targetActor->Class ? targetActor->Class->GetName() : targetActor->GetName());
+        std::string label = std::string(prefix) + ": " + targetClassName;
+        const std::string instanceName = targetActor->GetName();
+        if (!instanceName.empty() && instanceName != targetClassName) {
+            label += " | ";
+            label += instanceName;
+        }
+        browseTargets.push_back({targetActor, std::move(label), true, false});
+    };
+
+    addActorTarget(actor, "Actor", &className);
+
+    if (actor->IsA(SDK::AWillie_BP_C::StaticClass())) {
+        auto* willie = static_cast<SDK::AWillie_BP_C*>(actor);
+        addActorTarget(ActorUtils::GetAIController(willie), "AI Controller");
+
+        auto& targetedBy = willie->Targeted_By_AI;
+        for (int32_t i = 0; i < targetedBy.Num(); ++i)
+            addActorTarget(targetedBy[i], "Targeted By AI");
+    } else if (actor->IsA(SDK::AAI_BP_C::StaticClass())) {
+        auto* ai = static_cast<SDK::AAI_BP_C*>(actor);
+        addActorTarget(ai->My_Pawn, "Controlled Willie");
+        addActorTarget(ai->Target, "Current Target");
+
+        auto& targets = ai->Targets_Array;
+        for (int32_t i = 0; i < targets.Num(); ++i)
+            addActorTarget(targets[i], "Known Target");
     }
-    browseTargets.push_back({actor, std::move(label), true, false});
+
     if (actor->RootComponent) AddSceneComponentTargets(actor->RootComponent, 0);
+}
+
+SDK::AActor* WorldEditorSection::SelectedTargetActor() const {
+    if (!browseTargetIsActor || !browseTarget) return nullptr;
+    auto* actor = static_cast<SDK::AActor*>(browseTarget);
+    return IsLiveActor(actor) ? actor : nullptr;
 }
 
 void WorldEditorSection::SelectTarget(int index) {
     if (index < 0 || index >= static_cast<int>(browseTargets.size())) return;
 
     const auto& target = browseTargets[index];
-    if (!IsLiveObject(target.object)) {
+    const bool targetUnavailable =
+        target.isActor ? !IsLiveActor(static_cast<SDK::AActor*>(target.object)) : !IsLiveObject(target.object);
+    if (targetUnavailable) {
         ClearBrowseTarget();
         needsScan = true;
         status.Set("Selected target no longer available", true);
@@ -310,7 +354,15 @@ void WorldEditorSection::BrowseActor(SDK::AActor* actor, const std::string& clas
             }
         }
     }
-    if (targetIndex < 0) targetIndex = browseTargets.size() > 1 ? 1 : 0;
+    if (targetIndex < 0) {
+        targetIndex = 0;
+        for (int i = 0; i < static_cast<int>(browseTargets.size()); ++i) {
+            if (browseTargets[i].isComponent) {
+                targetIndex = i;
+                break;
+            }
+        }
+    }
     SelectTarget(targetIndex);
 }
 
@@ -426,16 +478,18 @@ void WorldEditorSection::RenderClickPickOverlay() {
 }
 
 void WorldEditorSection::HighlightSelected() {
-    auto* actor = selectedActor;
+    auto* actor = SelectedTargetActor();
+    auto* component =
+        browseTargetIsComponent && IsLiveObject(browseTarget) && browseTarget->IsA(SDK::USceneComponent::StaticClass())
+            ? static_cast<SDK::USceneComponent*>(browseTarget)
+            : nullptr;
+    if (!actor && component) actor = component->GetOwner();
+    if (!actor) actor = selectedActor;
     if (!IsLiveActor(actor)) {
         status.Set("No actor selected", true);
         return;
     }
 
-    auto* component =
-        browseTargetIsComponent && IsLiveObject(browseTarget) && browseTarget->IsA(SDK::USceneComponent::StaticClass())
-            ? static_cast<SDK::USceneComponent*>(browseTarget)
-            : nullptr;
     highlightMarker = {actor, component, ImGui::GetTime() + 3.0};
     status.Set("Highlighting selection...");
 }
@@ -506,6 +560,7 @@ void WorldEditorSection::FindByClassName(const char* className) {
 void WorldEditorSection::QueueApply() {
     if (browseTargetIsActor) {
         auto* actor = static_cast<SDK::AActor*>(browseTarget);
+        if (!IsLiveActor(actor)) return;
         GameHook::QueueAction([actor](const RuntimeContextSnapshot&) {
             if (!IsLiveActor(actor)) return;
             actor->SetActorHiddenInGame(actor->bHidden);
@@ -543,8 +598,8 @@ void WorldEditorSection::QueueApply() {
     });
 }
 
-void WorldEditorSection::QueueActorState(bool hidden, bool collision, bool tickEnabled) {
-    auto* actor = selectedActor;
+void WorldEditorSection::QueueActorState(SDK::AActor* actor, bool hidden, bool collision, bool tickEnabled) {
+    if (!IsLiveActor(actor)) return;
     GameHook::QueueAction([actor, hidden, collision, tickEnabled](const RuntimeContextSnapshot&) {
         if (!IsLiveActor(actor)) return;
         actor->SetActorHiddenInGame(hidden);
@@ -553,8 +608,10 @@ void WorldEditorSection::QueueActorState(bool hidden, bool collision, bool tickE
     });
 }
 
-void WorldEditorSection::QueueActorTransform(SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale) {
-    auto* actor = selectedActor;
+void WorldEditorSection::QueueActorTransform(
+    SDK::AActor* actor, SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale
+) {
+    if (!IsLiveActor(actor)) return;
     GameHook::QueueAction([actor, location, rotation, scale](const RuntimeContextSnapshot&) {
         if (!IsLiveActor(actor)) return;
         actor->SetActorScale3D(scale);
@@ -798,31 +855,31 @@ void WorldEditorSection::RenderTargetControls() {
 }
 
 void WorldEditorSection::RenderActorControls() {
-    if (!IsLiveActor(selectedActor)) return;
+    auto* actor = SelectedTargetActor();
+    if (!IsLiveActor(actor)) return;
 
-    SDK::FVector location = selectedActor->K2_GetActorLocation();
-    SDK::FRotator rotation = selectedActor->K2_GetActorRotation();
-    SDK::FVector scale = selectedActor->GetActorScale3D();
+    SDK::FVector location = actor->K2_GetActorLocation();
+    SDK::FRotator rotation = actor->K2_GetActorRotation();
+    SDK::FVector scale = actor->GetActorScale3D();
 
     if (PropertyBrowser::DragDouble3("World Location", &location.X, 1.0f, "%.1f"))
-        QueueActorTransform(location, rotation, scale);
+        QueueActorTransform(actor, location, rotation, scale);
     if (PropertyBrowser::DragDouble3("World Rotation", &rotation.Pitch, 0.5f, "%.1f"))
-        QueueActorTransform(location, rotation, scale);
+        QueueActorTransform(actor, location, rotation, scale);
     if (PropertyBrowser::DragDouble3("World Scale", &scale.X, 0.01f, "%.3f"))
-        QueueActorTransform(location, rotation, scale);
+        QueueActorTransform(actor, location, rotation, scale);
 
-    bool hidden = selectedActor->bHidden;
-    bool collision = selectedActor->GetActorEnableCollision();
-    bool tickEnabled = selectedActor->IsActorTickEnabled();
+    bool hidden = actor->bHidden;
+    bool collision = actor->GetActorEnableCollision();
+    bool tickEnabled = actor->IsActorTickEnabled();
 
-    if (ImGui::Checkbox("Hidden", &hidden)) QueueActorState(hidden, collision, tickEnabled);
+    if (ImGui::Checkbox("Hidden", &hidden)) QueueActorState(actor, hidden, collision, tickEnabled);
     ImGui::SameLine();
-    if (ImGui::Checkbox("Collision", &collision)) QueueActorState(hidden, collision, tickEnabled);
+    if (ImGui::Checkbox("Collision", &collision)) QueueActorState(actor, hidden, collision, tickEnabled);
     ImGui::SameLine();
-    if (ImGui::Checkbox("Tick", &tickEnabled)) QueueActorState(hidden, collision, tickEnabled);
+    if (ImGui::Checkbox("Tick", &tickEnabled)) QueueActorState(actor, hidden, collision, tickEnabled);
 
     if (ImGui::SmallButton("Move To Player")) {
-        auto* actor = selectedActor;
         GameHook::QueueAction([actor](const RuntimeContextSnapshot& runtime) {
             if (!IsLiveActor(actor) || !runtime.player) return;
             actor->K2_SetActorLocationAndRotation(
@@ -832,7 +889,6 @@ void WorldEditorSection::RenderActorControls() {
     }
     ImGui::SameLine();
     if (ImGui::SmallButton("Bring Player Here")) {
-        auto* actor = selectedActor;
         GameHook::QueueAction([actor](const RuntimeContextSnapshot& runtime) {
             if (!IsLiveActor(actor) || !runtime.player) return;
             runtime.player->K2_SetActorLocationAndRotation(

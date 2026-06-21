@@ -80,6 +80,7 @@ private:
     void ApplyFilter();
     void AddSceneComponentTargets(SDK::USceneComponent* component, int depth);
     void BuildBrowseTargets(SDK::AActor* actor, const std::string& className);
+    SDK::AActor* SelectedTargetActor() const;
     void BrowseActor(SDK::AActor* actor, const std::string& className, SDK::UObject* preferredTarget = nullptr);
     void SelectTarget(int index);
     void SelectActor(int index);
@@ -90,8 +91,8 @@ private:
     void RenderHighlightMarker();
     void FindByClassName(const char* className);
     void QueueApply();
-    void QueueActorState(bool hidden, bool collision, bool tickEnabled);
-    void QueueActorTransform(SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale);
+    void QueueActorState(SDK::AActor* actor, bool hidden, bool collision, bool tickEnabled);
+    void QueueActorTransform(SDK::AActor* actor, SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale);
     void RenderCategory(
         const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props,
         size_t filterLen
