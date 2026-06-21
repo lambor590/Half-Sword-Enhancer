@@ -73,9 +73,11 @@ private:
     static constexpr float NEARBY_RANGE_METERS = 40.0f;
 
     void ResetState();
+    void ClearBrowseTarget();
+    void ClearUnavailableActorSelection();
+    void ValidateSelection();
     void ScanAllActors();
     void ApplyFilter();
-    bool ActorMatchesFilter(const PropertyBrowser::WorldActor& actor, const char* filter, size_t filterLen) const;
     void AddSceneComponentTargets(SDK::USceneComponent* component, int depth);
     void BuildBrowseTargets(SDK::AActor* actor, const std::string& className);
     void BrowseActor(SDK::AActor* actor, const std::string& className, SDK::UObject* preferredTarget = nullptr);
@@ -90,8 +92,6 @@ private:
     void QueueApply();
     void QueueActorState(bool hidden, bool collision, bool tickEnabled);
     void QueueActorTransform(SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale);
-    void QueueComponentCollision(SDK::ECollisionEnabled collision);
-    int CountVisibleInCategory(const std::vector<const PropertyBrowser::PropertyInfo*>& props, size_t filterLen);
     void RenderCategory(
         const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props,
         size_t filterLen
