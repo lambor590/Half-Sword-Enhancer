@@ -172,6 +172,46 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_2_K2Node_Component
 }
 
 
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_ComponentBoundEvent_11_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_ComponentBoundEvent_11_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_ComponentBoundEvent_11_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_3_K2Node_ComponentBoundEvent_11_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_Slider_4_K2Node_ComponentBoundEvent_14_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.BndEvt__UI_Jester_FreeMode_Slider_6_K2Node_ComponentBoundEvent_1_OnFloatValueChangedEvent__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -419,6 +459,46 @@ class FText UUI_Jester_FreeMode_C::GetText_4()
 		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_4");
 
 	Params::UI_Jester_FreeMode_C_GetText_4 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.GetText_5
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Jester_FreeMode_C::GetText_5()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_5");
+
+	Params::UI_Jester_FreeMode_C_GetText_5 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.GetText_6
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Jester_FreeMode_C::GetText_6()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetText_6");
+
+	Params::UI_Jester_FreeMode_C_GetText_6 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 

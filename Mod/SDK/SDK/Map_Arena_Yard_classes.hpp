@@ -6,7 +6,7 @@
 * https://github.com/Encryqed/Dumper-7
 */
 
-// Package: Map_Arena_Pit
+// Package: Map_Arena_Yard
 
 #include "Basic.hpp"
 
@@ -17,9 +17,9 @@
 
 SDK_NAMESPACE_START
 
-// BlueprintGeneratedClass Map_Arena_Pit.Map_Arena_Pit_C
-// 0x0068 (0x0300 - 0x0298)
-class AMap_Arena_Pit_C final : public ALevelScriptActor
+// BlueprintGeneratedClass Map_Arena_Yard.Map_Arena_Yard_C
+// 0x0058 (0x02F0 - 0x0298)
+class AMap_Arena_Yard_C final : public ALevelScriptActor
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0298(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
@@ -30,32 +30,30 @@ public:
 	TSoftObjectPtr<class UWorld>                  Lighting_Level;                                    // 0x02B8(0x0028)(Edit, BlueprintVisible, DisableEditOnInstance, UObjectWrapper, HasGetValueTypeHash)
 	bool                                          Map_Initiated;                                     // 0x02E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_2E1[0x7];                                      // 0x02E1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class AActor*>                         Other_Actor;                                       // 0x02E8(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
-	class AAmbientSound*                          AmbientSound_0_ExecuteUbergraph_Map_Arena_Pit_RefProperty; // 0x02F8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AAmbientSound*                          AmbientSound_0_ExecuteUbergraph_Map_Arena_Yard_RefProperty; // 0x02E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Trigger_Overlap_Lose(class UObject* Object);
 	void ReceiveTick(float DeltaSeconds_ReceiveTick);
 	void ReceiveBeginPlay();
-	void ExecuteUbergraph_Map_Arena_Pit(int32 EntryPoint);
+	void ExecuteUbergraph_Map_Arena_Yard(int32 EntryPoint);
 	void BndEvt__Map_Arena_Yard_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
 	void BndEvt__Map_Arena_Yard_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
 	void BndEvt__Map_Arena_Yard_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
 	void BndEvt__Map_Arena_Yard_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Map_Arena_Pit_TriggerVolume_4_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
 
 public:
 	static class UClass* StaticClass()
 	{
-		BP_STATIC_CLASS_IMPL("Map_Arena_Pit_C")
+		BP_STATIC_CLASS_IMPL("Map_Arena_Yard_C")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"Map_Arena_Pit_C")
+		STATIC_NAME_IMPL(L"Map_Arena_Yard_C")
 	}
-	static class AMap_Arena_Pit_C* GetDefaultObj()
+	static class AMap_Arena_Yard_C* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<AMap_Arena_Pit_C>();
+		return GetDefaultObjImpl<AMap_Arena_Yard_C>();
 	}
 };
 

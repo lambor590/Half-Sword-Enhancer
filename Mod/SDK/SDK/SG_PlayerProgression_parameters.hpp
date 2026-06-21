@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Gauntlet_Progress_Struct_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
+#include "Gauntlet_Progress_Struct_structs.hpp"
 
 
 SDK_NAMESPACE_START

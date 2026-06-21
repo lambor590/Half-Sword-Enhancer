@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
+#include "Enum_WeaponType_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Enum_WeaponType_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 
 
