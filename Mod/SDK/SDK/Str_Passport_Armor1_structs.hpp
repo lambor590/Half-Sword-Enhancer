@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Steel_Type_structs.hpp"
 #include "SecondaryMetal_Type_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 
 
 SDK_NAMESPACE_START

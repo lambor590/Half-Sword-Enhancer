@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "UMG_classes.hpp"
-#include "Enum_Ranks_structs.hpp"
-#include "SecondaryMetal_Type_structs.hpp"
-#include "Engine_structs.hpp"
 #include "Swatch_Type_structs.hpp"
 #include "Steel_Type_structs.hpp"
+#include "Engine_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
+#include "UMG_classes.hpp"
 
 
 SDK_NAMESPACE_START

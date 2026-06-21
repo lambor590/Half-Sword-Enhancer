@@ -44,6 +44,20 @@ void UGI_Settings_C::Clear_Equipment_Pool()
 }
 
 
+// Function GI_Settings.GI_Settings_C.Delete Save
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Delete_Save()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Delete Save");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function GI_Settings.GI_Settings_C.Event Generate Random Combat Events
 // (BlueprintCallable, BlueprintEvent)
 
@@ -53,6 +67,20 @@ void UGI_Settings_C::Event_Generate_Random_Combat_Events()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("GI_Settings_C", "Event Generate Random Combat Events");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function GI_Settings.GI_Settings_C.Event Refresh Outdated Armors
+// (BlueprintCallable, BlueprintEvent)
+
+void UGI_Settings_C::Event_Refresh_Outdated_Armors()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("GI_Settings_C", "Event Refresh Outdated Armors");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

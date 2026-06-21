@@ -65,7 +65,7 @@ void ABP_Armor_Modular_Core_Master_C::ReceiveBeginPlay()
 
 
 // Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.UserConstructionScript
-// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// (Event, Public, BlueprintCallable, BlueprintEvent)
 
 void ABP_Armor_Modular_Core_Master_C::UserConstructionScript()
 {

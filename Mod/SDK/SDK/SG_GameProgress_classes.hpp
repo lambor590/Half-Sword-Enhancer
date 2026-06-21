@@ -10,19 +10,19 @@
 
 #include "Basic.hpp"
 
-#include "Enum_DayTime_structs.hpp"
+#include "Enum_CombatEvent_Modes_structs.hpp"
+#include "Str_Passport_CombatEvent1_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_Passport_CombatEvent1_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
-#include "Enum_GameMode_structs.hpp"
+#include "Enum_DayTime_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Str_Inventory_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "Enum_CombatEvent_Modes_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -106,6 +106,7 @@ public:
 	bool                                          First_Start_Intro_Played;                          // 0x089C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          First_Start_Tutorial_Played;                       // 0x089D(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          First_Start_Innkeeper_Greeted;                     // 0x089E(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Armors_Refreshed;                                  // 0x089F(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_SG_GameProgress(int32 EntryPoint);

@@ -12,10 +12,10 @@
 
 #include "Str_Character_Body_Condition_structs.hpp"
 #include "SlateCore_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "UMG_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Str_Inventory_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 
 

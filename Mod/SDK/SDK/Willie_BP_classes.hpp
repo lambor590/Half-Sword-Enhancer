@@ -10,33 +10,33 @@
 
 #include "Basic.hpp"
 
+#include "Severable_BodyParts_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Severable_BodyParts_Enum_structs.hpp"
-#include "BodyPart_Enum_structs.hpp"
-#include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "GripType_Enum_structs.hpp"
-#include "VertexPaintDetectionPlugin_structs.hpp"
 #include "FootStepping_Enum_structs.hpp"
-#include "Attached_Transform_Str_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
+#include "GripType_Enum_structs.hpp"
+#include "BodyPart_Enum_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
 #include "Willie_Bones_Enum_structs.hpp"
+#include "Enum_CombatEvent_LoseConditions_structs.hpp"
+#include "Attached_Transform_Str_structs.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
 #include "Enum_VoiceType_structs.hpp"
+#include "VertexPaintDetectionPlugin_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"
 #include "ArmorSlotContents_structs.hpp"
-#include "Enum_GameMode_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
 #include "Enum_ReverseGripType_structs.hpp"
 #include "PhysicsCore_structs.hpp"
+#include "LeftRight_Enum_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
-#include "LeftRight_Enum_structs.hpp"
 #include "HideBodyPart_Enum_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 
@@ -44,9 +44,8 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP.Willie_BP_C
-// 0x3D90 (0x4400 - 0x0670)
-#pragma pack(push, 0x1)
-class SDK_ALIGN(0x10) AWillie_BP_C : public ACharacter
+// 0x3DC0 (0x4430 - 0x0670)
+class AWillie_BP_C : public ACharacter
 {
 public:
 	uint8                                         Pad_668[0x8];                                      // 0x0668(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
@@ -1433,6 +1432,14 @@ public:
 	bool                                          R_Leg_Being_Grabbed;                               // 0x43F0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          L_Leg_Being_Grabbed;                               // 0x43F1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Insulting;                                         // 0x43F2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_43F3[0x5];                                     // 0x43F3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRotator                               AI_Control_Rotation_Interp;                        // 0x43F8(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	double                                        Choke_To_Death_Rate;                               // 0x4410(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Alt_Thrust_Toggle__Old_;                           // 0x4418(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Alt_Thrust_Key_Down;                               // 0x4419(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_441A[0x6];                                     // 0x441A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        NewVar_28;                                         // 0x4420(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UPhysicalMaterial*                      Collision_Physical_Material;                       // 0x4428(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_and_Remove_Weapon_Weights(class AModularWeaponBP_C* Weapon, bool Add);
@@ -1726,6 +1733,5 @@ public:
 		return GetDefaultObjImpl<AWillie_BP_C>();
 	}
 };
-#pragma pack(pop)
 
 SDK_NAMESPACE_END

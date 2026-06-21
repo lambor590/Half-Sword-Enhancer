@@ -10,22 +10,22 @@
 
 #include "Basic.hpp"
 
-#include "Enum_DayTime_structs.hpp"
+#include "Enum_CombatEvent_Modes_structs.hpp"
+#include "StreamlineReflexBlueprint_structs.hpp"
+#include "ScreenResolution_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
-#include "StreamlineReflexBlueprint_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "ScreenResolution_Enum_structs.hpp"
-#include "Enum_GameMode_structs.hpp"
+#include "Enum_DayTime_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Str_Inventory_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
+#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "Enum_CombatEvent_Modes_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
 #include "Enum_PlayMode_structs.hpp"
 #include "Enum_PlayerPlayCondition_structs.hpp"
@@ -33,12 +33,14 @@
 #include "Enum_Maps_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GI_Settings.GI_Settings_C
-// 0x0CA0 (0x0E60 - 0x01C0)
+// 0x0CB8 (0x0E78 - 0x01C0)
 class UGI_Settings_C final : public UGameInstance
 {
 public:
@@ -222,11 +224,17 @@ public:
 	bool                                          FreeMode_Tier_Random;                              // 0x0E57(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          FreeMode_Map_Random;                               // 0x0E58(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          FreeMode_Time_Random;                              // 0x0E59(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Armors_Refreshed;                                  // 0x0E5A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E5B[0x5];                                      // 0x0E5B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<struct FStr_Passport_Armor1>           Armor_Passports;                                   // 0x0E60(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	bool                                          Free_Mode_Brawling;                                // 0x0E70(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Check_Insured_Items();
 	void Clear_Equipment_Pool();
+	void Delete_Save();
 	void Event_Generate_Random_Combat_Events();
+	void Event_Refresh_Outdated_Armors();
 	void ExecuteUbergraph_GI_Settings(int32 EntryPoint);
 	void Generate_Mercenaries();
 	void Load_Game();

@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Steel_Type_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "SecondaryMetal_Type_structs.hpp"
+#include "Steel_Type_structs.hpp"
 #include "Engine_structs.hpp"
 #include "SkeletalMerging_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
 
 
 SDK_NAMESPACE_START

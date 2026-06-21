@@ -16,9 +16,15 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Weapon_Sword_Guard_JB.Weapon_Sword_Guard_JB_C
-// 0x0000 (0x0448 - 0x0448)
+// 0x0020 (0x0468 - 0x0448)
 class AWeapon_Sword_Guard_JB_C final : public AModular_Sword_Guard_Master_C
 {
+public:
+	class USceneComponent*                        Tip7;                                              // 0x0448(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip6;                                              // 0x0450(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip5;                                              // 0x0458(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip4;                                              // 0x0460(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+
 public:
 	static class UClass* StaticClass()
 	{

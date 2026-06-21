@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "Enum_DayTime_structs.hpp"
 
 
 SDK_NAMESPACE_START

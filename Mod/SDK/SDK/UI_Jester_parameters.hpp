@@ -12,14 +12,14 @@
 
 #include "Str_Passport_CombatEvent1_structs.hpp"
 #include "UMG_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "SlateCore_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
+#include "SheathSlots_Enum_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
 
 
