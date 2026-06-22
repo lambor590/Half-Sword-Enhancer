@@ -14,6 +14,7 @@
 #include "Menu/Sections/Spawner/ItemSpawnerSection.h"
 #include "Menu/Sections/Spawner/NPCEditorSection.h"
 #include "Menu/Sections/World/AIDirectorSection.h"
+#include "Menu/Sections/World/FreeCameraSection.h"
 #include "Menu/Sections/World/MapLoaderSection.h"
 #include "Menu/Sections/World/SkyEditorSection.h"
 #include "Menu/Sections/World/WorldActionsSection.h"
@@ -130,6 +131,7 @@ void Gui::Setup() {
     menu.AddSection<GraphicsSection>(ctx);
     menu.AddSection<AIDirectorSection>(ctx);
     menu.AddSection<WorldActionsSection>(ctx);
+    menu.AddSection<FreeCameraSection>(ctx);
     menu.AddSection<WorldEditorSection>(ctx);
     menu.AddSection<SkyEditorSection>(ctx);
     menu.AddSection<MapLoaderSection>(ctx);

@@ -177,6 +177,7 @@
     <ClCompile Include="src\NPCSpawnHelpers.cpp" />
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
+    <ClCompile Include="src\FreeCameraManager.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />
     <ClCompile Include="src\AssetOverrideManager.cpp" />
     <ClCompile Include="src\Sections\GuiSection.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="src\Sections\GraphicsSection.cpp" />
     <ClCompile Include="src\Sections\AIDirectorSection.cpp" />
     <ClCompile Include="src\Sections\WorldActionsSection.cpp" />
+    <ClCompile Include="src\Sections\FreeCameraSection.cpp" />
     <ClCompile Include="src\Sections\WorldEditorSection.cpp" />
     <ClCompile Include="src\Sections\SkyEditorSection.cpp" />
     <ClCompile Include="src\Sections\MapLoaderSection.cpp" />
@@ -221,6 +223,7 @@
     <ClInclude Include="include\Menu\Sections\Player\PlayerAbilitiesSection.h" />
     <ClInclude Include="include\Menu\Sections\Player\PlayerEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\World\AIDirectorSection.h" />
+    <ClInclude Include="include\Menu\Sections\World\FreeCameraSection.h" />
     <ClInclude Include="include\Menu\Sections\World\WorldActionsSection.h" />
     <ClInclude Include="include\Menu\Sections\World\WorldEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\World\SkyEditorSection.h" />
@@ -242,6 +245,7 @@
     <ClInclude Include="include\Utils\ActorUtils.h" />
     <ClInclude Include="include\Utils\GuiUtils.h" />
     <ClInclude Include="include\Utils\GameBuildInfo.h" />
+    <ClInclude Include="include\Utils\FreeCameraManager.h" />
     <ClInclude Include="include\Utils\PresetUtils.h" />
     <ClInclude Include="include\Utils\PresetDataBase.h" />
     <ClInclude Include="include\Utils\PresetSectionState.h" />
