@@ -12,9 +12,9 @@
 
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_Loadout_Equipment_structs.hpp"
 #include "PlayerCharacter_Settings_Struct_structs.hpp"
 #include "Gauntlet_Progress_Struct_structs.hpp"
+#include "Str_Loadout_Equipment_structs.hpp"
 
 
 SDK_NAMESPACE_START

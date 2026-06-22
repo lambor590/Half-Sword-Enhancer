@@ -117,7 +117,7 @@ public:
 
 // Class HalfSwordUE5.LightingScalabilityManager
 // 0x0018 (0x02A8 - 0x0290)
-class ALightingScalabilityManager final : public AActor
+class ALightingScalabilityManager : public AActor
 {
 public:
 	TMulticastInlineDelegate<void(int32 NewValue)> OnEffectsQualityChanged;                          // 0x0290(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)

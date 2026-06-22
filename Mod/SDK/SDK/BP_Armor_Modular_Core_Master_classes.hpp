@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Str_ArmorProtection_structs.hpp"
 #include "Engine_structs.hpp"
+#include "Str_ArmorProtection_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "BP_Armor_Master_classes.hpp"
@@ -60,8 +60,8 @@ public:
 
 public:
 	void ExecuteUbergraph_BP_Armor_Modular_Core_Master(int32 EntryPoint);
-	void Set_Up_Module();
 	void ReceiveBeginPlay();
+	void Set_Up_Module();
 	void UserConstructionScript();
 
 public:

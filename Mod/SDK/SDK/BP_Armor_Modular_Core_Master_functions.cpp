@@ -36,20 +36,6 @@ void ABP_Armor_Modular_Core_Master_C::ExecuteUbergraph_BP_Armor_Modular_Core_Mas
 }
 
 
-// Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.Set Up Module
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_Armor_Modular_Core_Master_C::Set_Up_Module()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "Set Up Module");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.ReceiveBeginPlay
 // (Event, Protected, BlueprintEvent)
 
@@ -59,6 +45,20 @@ void ABP_Armor_Modular_Core_Master_C::ReceiveBeginPlay()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.Set Up Module
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void ABP_Armor_Modular_Core_Master_C::Set_Up_Module()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Armor_Modular_Core_Master_C", "Set Up Module");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Str_Loadout_Weapons_structs.hpp"
 #include "Str_Loadout_Armor_structs.hpp"
+#include "Str_Loadout_Weapons_structs.hpp"
 
 
 SDK_NAMESPACE_START
