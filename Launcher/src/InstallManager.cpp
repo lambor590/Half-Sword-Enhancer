@@ -30,6 +30,11 @@ namespace hse {
             return exists;
         }
 
+        [[nodiscard]] bool IsUe4ssInstalled(const std::filesystem::path& gameBinPath) noexcept {
+            return PathExists(gameBinPath / "ue4ss" / "UE4SS.dll", "ue4ss/UE4SS.dll") ||
+                   PathExists(ModsTxtPath(gameBinPath), "ue4ss/Mods/mods.txt");
+        }
+
         [[nodiscard]] bool IsHseModLine(std::string_view line) noexcept {
             size_t start = 0;
             while (start < line.size() && std::isspace(static_cast<unsigned char>(line[start])))
@@ -205,8 +210,18 @@ namespace hse {
         [[nodiscard]] std::expected<void, InstallError> InstallStandaloneFiles(
             const std::filesystem::path& sourcePath, const std::filesystem::path& gameBinPath
         ) noexcept {
+            const bool ue4ssInstalled = IsUe4ssInstalled(gameBinPath);
+
             if (auto disableResult = DisableUe4ssMod(gameBinPath); !disableResult) {
                 return disableResult;
+            }
+
+            if (!ue4ssInstalled) {
+                if (auto legacyLoaderResult =
+                        RemoveIfExists(gameBinPath / "dwmapi.dll", "legacy dwmapi.dll loader");
+                    !legacyLoaderResult) {
+                    return legacyLoaderResult;
+                }
             }
 
             if (auto proxyResult = CopyFromSource(sourcePath, gameBinPath / PROXY_FILENAME, PROXY_FILENAME, false);
@@ -245,10 +260,13 @@ namespace hse {
     } // namespace
 
     InstallMode DetectInstallMode(const std::filesystem::path& gameBinPath) noexcept {
-        if (PathExists(gameBinPath / "dwmapi.dll", "dwmapi.dll") ||
-            PathExists(gameBinPath / "ue4ss" / "UE4SS.dll", "ue4ss/UE4SS.dll") ||
-            PathExists(ModsTxtPath(gameBinPath), "ue4ss/Mods/mods.txt")) {
+        if (IsUe4ssInstalled(gameBinPath)) {
             return InstallMode::Ue4ss;
+        }
+
+        if (auto legacyLoaderResult = RemoveIfExists(gameBinPath / "dwmapi.dll", "legacy dwmapi.dll loader");
+            !legacyLoaderResult) {
+            Logger::warn("Continuing after failed legacy dwmapi.dll cleanup");
         }
 
         return InstallMode::Standalone;
