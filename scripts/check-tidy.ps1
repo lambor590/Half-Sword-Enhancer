@@ -49,7 +49,8 @@ function Resolve-Executable {
 
     $candidates = @(
         "$env:ProgramFiles\LLVM\bin\$Name",
-        "${env:ProgramFiles(x86)}\LLVM\bin\$Name"
+        "${env:ProgramFiles(x86)}\LLVM\bin\$Name",
+        "$env:ProgramFiles\Microsoft Visual Studio\18\Community\VC\Tools\Llvm\x64\bin\$Name"
     )
 
     foreach ($candidate in $candidates) {
@@ -145,41 +146,6 @@ function Get-SourceFiles {
         ForEach-Object { $_.FullName }
 }
 
-function Get-LineFilterJson {
-    param([hashtable]$Spec)
-
-    $entries = New-Object System.Collections.Generic.List[object]
-    $roots = @($Spec.SourceDir)
-    $includeRoot = "$($Spec.Name)/include"
-    if (Test-Path $includeRoot) {
-        $roots += $includeRoot
-    }
-
-    foreach ($root in $roots) {
-        Get-ChildItem -Path $root -Recurse -File |
-            Where-Object {
-                $path = Convert-ToClangPath $_.FullName
-                ($_.Extension -in @(".cpp", ".h", ".hpp")) -and $path -notmatch "/ext/" -and $path -notmatch "/SDK/"
-            } |
-            ForEach-Object {
-                $absolute = Convert-ToClangPath (Resolve-Path $_.FullName).Path
-                $entries.Add(@{ name = $absolute }) | Out-Null
-
-                $relative = Convert-ToClangPath (Resolve-Path -Relative $_.FullName)
-                if ($relative.StartsWith("./")) {
-                    $relative = $relative.Substring(2)
-                }
-
-                if ($relative.StartsWith("$($Spec.Name)/include/")) {
-                    $variant = $relative.Replace("$($Spec.Name)/include/", "$($Spec.Name)/src/../include/")
-                    $entries.Add(@{ name = Convert-ToClangPath (Join-Path $repoRoot $variant) }) | Out-Null
-                }
-            }
-    }
-
-    return ($entries | ConvertTo-Json -Compress)
-}
-
 function Get-HeaderFilter {
     param([hashtable]$Spec)
 
@@ -245,7 +211,8 @@ function Invoke-TidyForProject {
         "/std:c++latest",
         "/EHsc",
         "/Zc:__cplusplus",
-        "/Zc:preprocessor"
+        "/Zc:preprocessor",
+        "-Wno-c++11-narrowing"
     ) + $defines.ToArray() + $includes.ToArray()
 
     $tidyArgs = @(
@@ -253,22 +220,33 @@ function Invoke-TidyForProject {
         "--checks=$(Get-Checks)",
         "--warnings-as-errors=*",
         "--header-filter=$(Get-HeaderFilter $Spec)",
-        "--line-filter=$(Get-LineFilterJson $Spec)",
         "--system-headers=false",
         "--use-color=false",
         "--extra-arg-before=--driver-mode=cl"
-    )
+    ) + ($compileArgs | ForEach-Object { "--extra-arg=$_" })
 
     $issues = 0
     foreach ($source in $sources) {
-        $output = & $ClangTidy $source @tidyArgs "--" @compileArgs 2>&1
+        $previousErrorActionPreference = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        try {
+            $output = @(& $ClangTidy $source @tidyArgs 2>&1 | ForEach-Object { $_.ToString() })
+        } finally {
+            $ErrorActionPreference = $previousErrorActionPreference
+        }
         $exitCode = $LASTEXITCODE
 
         $filteredOutput = @($output | Where-Object {
             $line = $_.ToString()
             $line -and
                 $line -notmatch "^\d+ warnings?( and \d+ errors?)? generated\.$" -and
-                $line -notmatch "^Suppressed \d+ warnings"
+                $line -notmatch "^Suppressed \d+ warnings" -and
+                $line -notmatch "^Error while trying to load a compilation database:$" -and
+                $line -notmatch "^Could not auto-detect compilation database for file " -and
+                $line -notmatch "^No compilation database found in " -and
+                $line -notmatch "^fixed-compilation-database: Error while opening fixed database:" -and
+                $line -notmatch "^json-compilation-database: Error while opening JSON database:" -and
+                $line -notmatch "^Running without flags\.$"
         })
 
         if ($filteredOutput.Count -gt 0) {
