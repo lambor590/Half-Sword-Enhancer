@@ -524,7 +524,7 @@ void PlayerEditorSection::Render() {
         case 5: RenderSkillsStateTab(); break;
         case 6:
             presets.RenderPresetsTab(
-                [this]() { return BuildPresetData(); }, [this](PlayerPresetData d) { ApplyPresetData(std::move(d)); }
+                [this]() { return BuildPresetData(); }, [this](const PlayerPresetData& d) { ApplyPresetData(d); }
             );
             break;
         default: break;

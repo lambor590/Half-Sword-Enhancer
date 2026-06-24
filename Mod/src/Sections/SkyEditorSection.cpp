@@ -26,9 +26,9 @@ void SkyEditorSection::ReadInitialValues() {
         auto* lightComp = static_cast<SDK::ULightComponent*>(sunComp);
         sunIntensity = static_cast<SDK::ULightComponentBase*>(sunComp)->Intensity;
         auto lc = static_cast<SDK::ULightComponentBase*>(sunComp)->LightColor;
-        sunColor[0] = lc.R / 255.f;
-        sunColor[1] = lc.G / 255.f;
-        sunColor[2] = lc.B / 255.f;
+        sunColor[0] = static_cast<float>(lc.R) / 255.0f;
+        sunColor[1] = static_cast<float>(lc.G) / 255.0f;
+        sunColor[2] = static_cast<float>(lc.B) / 255.0f;
         sunTemperature = lightComp->Temperature;
         sunSourceAngle = sunComp->LightSourceAngle;
         sunSoftAngle = sunComp->LightSourceSoftAngle;
@@ -57,9 +57,9 @@ void SkyEditorSection::ReadInitialValues() {
     if (skyLightComp) {
         skyLightIntensity = static_cast<SDK::ULightComponentBase*>(skyLightComp)->Intensity;
         auto lc = static_cast<SDK::ULightComponentBase*>(skyLightComp)->LightColor;
-        skyLightColor[0] = lc.R / 255.f;
-        skyLightColor[1] = lc.G / 255.f;
-        skyLightColor[2] = lc.B / 255.f;
+        skyLightColor[0] = static_cast<float>(lc.R) / 255.0f;
+        skyLightColor[1] = static_cast<float>(lc.G) / 255.0f;
+        skyLightColor[2] = static_cast<float>(lc.B) / 255.0f;
         auto& lh = skyLightComp->LowerHemisphereColor;
         lowerHemiColor[0] = lh.R;
         lowerHemiColor[1] = lh.G;

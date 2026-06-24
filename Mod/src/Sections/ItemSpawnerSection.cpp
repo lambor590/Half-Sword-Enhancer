@@ -79,12 +79,12 @@ bool ItemSpawnerSection::IsCurrentItemModularArmor(const BlueprintEntry& item) c
            item.classPath.find("Modular_Core") != std::string::npos;
 }
 
-bool ItemSpawnerSection::IsRandomArmorCategory() const noexcept {
+bool ItemSpawnerSection::IsRandomArmorCategory() const {
     auto& reg = BlueprintRegistry::Get();
     return cfg.currentCategoryIndex == static_cast<uint8_t>(reg.GetCategoryCount());
 }
 
-const BlueprintRegistry::SubcategoryData* ItemSpawnerSection::GetCurrentSubcategory() const noexcept {
+const BlueprintRegistry::SubcategoryData* ItemSpawnerSection::GetCurrentSubcategory() const {
     auto& reg = BlueprintRegistry::Get();
     if (cfg.currentCategoryIndex >= reg.GetCategoryCount()) return nullptr;
     auto& cat = reg.GetCategory(cfg.currentCategoryIndex);
@@ -108,7 +108,7 @@ void ItemSpawnerSection::RenderMaskedTierCombo(const char* comboLabel, uint16_t 
     }
 }
 
-void ItemSpawnerSection::UpdateItemNamesCache() noexcept {
+void ItemSpawnerSection::UpdateItemNamesCache() {
     auto& reg = BlueprintRegistry::Get();
     if (cfg.currentCategoryIndex >= reg.GetCategoryCount()) return;
 
@@ -158,7 +158,7 @@ void ItemSpawnerSection::UpdateFilteredItems() {
     cachedFilteredWidth = GuiUtils::ComboWidthFromText(maxW);
 }
 
-void ItemSpawnerSection::SpawnSelectedItem() const noexcept {
+void ItemSpawnerSection::SpawnSelectedItem() const {
     auto snapshot = RenderSnapshot();
     if (!snapshot.player || !snapshot.world) return;
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
@@ -250,7 +250,7 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
     }
 }
 
-void ItemSpawnerSection::SpawnCustomPath() const noexcept {
+void ItemSpawnerSection::SpawnCustomPath() const {
     if (customPathBuffer[0] == '\0') return;
     auto snapshot = RenderSnapshot();
     if (!snapshot.player || !snapshot.world) return;

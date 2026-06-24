@@ -230,7 +230,7 @@ void ArmorEditorSection::SpawnFromPassport() {
         };
     }
 
-    SpawnWorkflow::QueueArmorSpawn(snapshot, cfg.spawn, armorPassport, std::move(callback));
+    SpawnWorkflow::QueueArmorSpawn(snapshot, cfg.spawn, armorPassport, callback);
 }
 
 void ArmorEditorSection::RenderGenerationControls() {
@@ -444,7 +444,7 @@ void ArmorEditorSection::Render() {
         case 2: RenderStatsTab(); break;
         case 3:
             presets.RenderPresetsTab(
-                [this]() { return BuildPresetData(); }, [this](ArmorPresetData d) { ApplyPresetData(std::move(d)); }
+                [this]() { return BuildPresetData(); }, [this](const ArmorPresetData& d) { ApplyPresetData(d); }
             );
             break;
         default: break;

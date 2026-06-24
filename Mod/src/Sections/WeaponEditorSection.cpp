@@ -750,9 +750,9 @@ void WeaponEditorSection::RenderModulesTab() {
                             !weaponPaths.gripModule.empty() || !weaponPaths.pommelModule.empty() ||
                             !weaponPaths.subModule1.empty() || !weaponPaths.subModule2.empty();
     if (hasModules) {
-        static const std::string weaponClassPath =
+        static const std::string WEAPON_CLASS_PATH =
             PresetUtils::ObjectToAbsolutePath(SDK::AModularWeaponBP_C::StaticClass());
-        weaponPaths.weaponClass = weaponClassPath;
+        weaponPaths.weaponClass = WEAPON_CLASS_PATH;
         weaponPassport.WeaponClass_54_B478ECF7499977809745A3973AD678EC = SDK::AModularWeaponBP_C::StaticClass();
     } else {
         weaponPaths.weaponClass.clear();

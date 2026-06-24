@@ -22,8 +22,12 @@ static Logger g_logger("Spawner");
 namespace Spawner {
 
     namespace {
-        std::unordered_map<std::string, SDK::UClass*> classCache;
         const SDK::UWorld* cachedWorld = nullptr;
+
+        std::unordered_map<std::string, SDK::UClass*>& ClassCache() {
+            static std::unordered_map<std::string, SDK::UClass*> classCache;
+            return classCache;
+        }
 
         constexpr std::array<std::pair<std::string_view, ActorType>, 14> TYPE_MAP = {
             {{"Willie_BP", ActorType::Willie},
@@ -39,7 +43,8 @@ namespace Spawner {
              {"Dagger", ActorType::Tool},
              {"Tool", ActorType::Tool},
              {"BP_Modular", ActorType::Armor},
-             {"Armor", ActorType::Armor}}};
+             {"Armor", ActorType::Armor}}
+        };
 
         constexpr std::array<float, 6> GROUND_OFFSETS = {{
             50.0f, // Willie
@@ -51,6 +56,7 @@ namespace Spawner {
         }};
 
         SDK::UClass* LoadActorClass(const std::string& classPath) {
+            auto& classCache = ClassCache();
             auto [it, inserted] = classCache.try_emplace(classPath, nullptr);
             if (!inserted) return it->second;
 
@@ -85,7 +91,7 @@ namespace Spawner {
 
     SDK::AActor* DeferredSpawn(
         const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform,
-        std::function<void(SDK::AActor*)> preFinishCallback
+        const std::function<void(SDK::AActor*)>& preFinishCallback
     ) {
         auto* actor = SDK::UGameplayStatics::BeginDeferredActorSpawnFromClass(
             world, actorClass, transform, SDK::ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn,
@@ -104,7 +110,7 @@ namespace Spawner {
     }
 
     SDK::FVector GetGroundPosition(
-        const SDK::UWorld* world, SDK::FVector position, float groundOffset, float traceDistance
+        const SDK::UWorld* world, const SDK::FVector& position, float groundOffset, float traceDistance
     ) {
         SDK::FHitResult hitResult;
         SDK::FVector startPos = position;
@@ -133,19 +139,19 @@ namespace Spawner {
     }
 
     void ClearCache() {
-        classCache.clear();
+        ClassCache().clear();
         cachedWorld = nullptr;
         EquipmentGenerator::ClearCache();
     }
 
     void SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
-        std::function<void(SDK::AActor*)> callback, bool snapToGround, SDK::Enum_Ranks tier,
-        std::function<void(SDK::AActor*)> postSpawnCallback
+        const std::function<void(SDK::AActor*)>& callback, bool snapToGround, SDK::Enum_Ranks tier,
+        const std::function<void(SDK::AActor*)>& postSpawnCallback
     ) {
         ActorType actorType = GetActorType(className);
         if (world && cachedWorld != world) {
-            classCache.clear();
+            ClassCache().clear();
             EquipmentGenerator::ClearCache();
             cachedWorld = world;
         }
@@ -222,7 +228,7 @@ namespace Spawner {
 
     void SpawnArmorFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,
-        bool snapToGround, std::function<void(SDK::AActor*)> callback
+        bool snapToGround, const std::function<void(SDK::AActor*)>& callback
     ) {
         SDK::UClass* armorClass = passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43;
         if (!armorClass) return;
@@ -244,7 +250,7 @@ namespace Spawner {
 
     void SpawnCustomizableFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform,
-        bool snapToGround, std::function<void(SDK::AActor*)> callback
+        bool snapToGround, const std::function<void(SDK::AActor*)>& callback
     ) {
         if (!EquipmentGenerator::IsPassportValid(passport)) return;
 

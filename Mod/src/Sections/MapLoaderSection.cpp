@@ -98,12 +98,12 @@ void MapLoaderSection::SpawnAutoNPCs(
     SDK::UWorld* w, SDK::AWillie_BP_C* willie, const NPCPresetData& npcPreset, int npcCount
 ) {
     for (int n = 0; n < npcCount; ++n) {
-        float angle = (6.2832f / npcCount) * n;
+        float angle = (6.2832f / static_cast<float>(npcCount)) * static_cast<float>(n);
         float dist = 300.0f;
         SDK::FTransform npcTransform = willie->GetTransform();
         auto fwd = willie->GetActorForwardVector();
-        npcTransform.Translation.X += fwd.X * dist + std::cos(angle) * 100.0f * n;
-        npcTransform.Translation.Y += fwd.Y * dist + std::sin(angle) * 100.0f * n;
+        npcTransform.Translation.X += fwd.X * dist + std::cos(angle) * 100.0f * static_cast<float>(n);
+        npcTransform.Translation.Y += fwd.Y * dist + std::sin(angle) * 100.0f * static_cast<float>(n);
         npcTransform.Scale3D = {1.0, 1.0, 1.0};
 
         auto nationality = static_cast<SDK::Enum_Nationalities>(std::clamp(npcPreset.nationality, 0, 6));

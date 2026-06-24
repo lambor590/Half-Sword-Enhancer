@@ -23,14 +23,14 @@ namespace {
         SDK::FName thigh;
     };
 
-    SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) noexcept {
+    SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) {
         auto* weapon = player ? (leftKick ? player->Foot_L_Weapon : player->Foot_R_Weapon) : nullptr;
         return weapon && weapon->IsA(SDK::AWeapon_Feet_C::StaticClass()) ? static_cast<SDK::AWeapon_Feet_C*>(weapon)
                                                                          : nullptr;
     }
 
     void BoostFootWeapon(SDK::AWeapon_Feet_C* weapon, float configuredMultiplier) noexcept {
-        const double multiplier = static_cast<double>(configuredMultiplier);
+        const auto multiplier = static_cast<double>(configuredMultiplier);
         if (!weapon || multiplier <= 1.0) return;
 
         if (weapon->Kick_Power < multiplier) {
@@ -525,7 +525,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                         : nullptr;
                                 if (foot != kickWindowFoot || foot->Parent_Actor != player) return;
 
-                                const double multiplier = static_cast<double>(cfg.kickPowerMultiplier);
+                                const auto multiplier = static_cast<double>(cfg.kickPowerMultiplier);
                                 const double footSpeed = foot->Weapon_Velocity.Magnitude();
                                 if (multiplier <= 1.0 || footSpeed <= 0.001) return;
 

@@ -11,6 +11,8 @@
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "SDK/Enum_Weapon_Material_Type_structs.hpp"
 
+#include <memory>
+
 namespace {
 
     void CopyPassportToSlot(const SDK::FStr_Passport_Weapon1& passport, SDK::FStr_WeaponParts& slot) {
@@ -320,7 +322,9 @@ void LoadoutManagerSection::ImportArmorPreset(SDK::EArmorSlots_Enum slotEnum) {
 void LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPresetData& data) {
     if (!RenderPlayer()) return;
 
-    GameHook::QueueAction([this, data](const RuntimeContextSnapshot& runtime) {
+    auto preset = std::make_shared<const LoadoutPresetData>(data);
+    GameHook::QueueAction([this, preset](const RuntimeContextSnapshot& runtime) {
+        const auto& data = *preset;
         auto* world = runtime.world;
         auto* player = runtime.player;
         if (!player || !world) return;
@@ -486,16 +490,16 @@ void LoadoutManagerSection::RenderArmorTab() {
         if (open) {
             if (hasArmor) {
                 bool colorChanged = false;
-                float col1[4] = {
-                    passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.R,
-                    passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.G,
-                    passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.B,
-                    passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.A};
-                float col2[4] = {
-                    passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.R,
-                    passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.G,
-                    passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.B,
-                    passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.A};
+                float col1[4] =
+                    {passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.R,
+                     passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.G,
+                     passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.B,
+                     passport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393.A};
+                float col2[4] =
+                    {passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.R,
+                     passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.G,
+                     passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.B,
+                     passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C.A};
 
                 ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.65f);
                 if (ImGui::ColorEdit4(
@@ -685,28 +689,24 @@ LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : Section(ctx, SEC
 }
 
 void LoadoutManagerSection::InitKeybinds() {
-    keybinds.Add(
-        {
-            .name = "Apply Loadout",
-            .tooltip = "Reapply the current equipment to the player",
-            .configSection = "ApplyLoadout",
-            .keyPtr = &cfg.applyKey,
-            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { ApplyArmorToPlayer(); },
-        }
-    );
+    keybinds.Add({
+        .name = "Apply Loadout",
+        .tooltip = "Reapply the current equipment to the player",
+        .configSection = "ApplyLoadout",
+        .keyPtr = &cfg.applyKey,
+        .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { ApplyArmorToPlayer(); },
+    });
 
-    keybinds.Add(
-        {
-            .name = "Randomize Equipment",
-            .tooltip = "Generate random armor for all equipped slots",
-            .configSection = "RandomizeEquipment",
-            .keyPtr = &cfg.randomizeKey,
-            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { RandomizeAllArmor(); },
-            .params =
-                {KeybindParam("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
-                 KeybindParam("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")},
-        }
-    );
+    keybinds.Add({
+        .name = "Randomize Equipment",
+        .tooltip = "Generate random armor for all equipped slots",
+        .configSection = "RandomizeEquipment",
+        .keyPtr = &cfg.randomizeKey,
+        .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { RandomizeAllArmor(); },
+        .params =
+            {KeybindParam("live_preview", "Live Preview", &cfg.livePreview, "Auto-apply changes to the player"),
+             KeybindParam("tier", "Generate Tier", &cfg.generateTier, 0, 8, "Tier for generated equipment")},
+    });
 }
 
 void LoadoutManagerSection::Render() {
@@ -755,7 +755,7 @@ void LoadoutManagerSection::Render() {
             presets.status.Render();
             presets.RenderPresetsTab(
                 [this]() { return BuildPresetFromPlayer(); },
-                [this](LoadoutPresetData d) { ApplyLoadoutPreset(std::move(d)); }, player != nullptr
+                [this](const LoadoutPresetData& d) { ApplyLoadoutPreset(d); }, player != nullptr
             );
             break;
         default: break;

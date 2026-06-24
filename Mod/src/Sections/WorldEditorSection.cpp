@@ -161,8 +161,8 @@ void WorldEditorSection::ValidateSelection() {
     }
 
     const bool targetUnavailable =
-        browseTarget && (browseTargetIsActor ? !IsLiveActor(static_cast<SDK::AActor*>(browseTarget))
-                                             : !IsLiveObject(browseTarget));
+        browseTarget &&
+        (browseTargetIsActor ? !IsLiveActor(static_cast<SDK::AActor*>(browseTarget)) : !IsLiveObject(browseTarget));
     if (targetUnavailable) {
         ClearBrowseTarget();
         needsScan = true;
@@ -259,23 +259,24 @@ void WorldEditorSection::BuildBrowseTargets(SDK::AActor* actor, const std::strin
     selectedTargetIndex = -1;
     if (!IsLiveActor(actor)) return;
 
-    auto addActorTarget = [this](SDK::AActor* targetActor, const char* prefix, const std::string* classOverride = nullptr) {
-        if (!IsLiveActor(targetActor)) return;
-        for (const auto& target : browseTargets)
-            if (target.object == targetActor) return;
+    auto addActorTarget =
+        [this](SDK::AActor* targetActor, const char* prefix, const std::string* classOverride = nullptr) {
+            if (!IsLiveActor(targetActor)) return;
+            for (const auto& target : browseTargets)
+                if (target.object == targetActor) return;
 
-        const std::string targetClassName =
-            classOverride && !classOverride->empty()
-                ? *classOverride
-                : (targetActor->Class ? targetActor->Class->GetName() : targetActor->GetName());
-        std::string label = std::string(prefix) + ": " + targetClassName;
-        const std::string instanceName = targetActor->GetName();
-        if (!instanceName.empty() && instanceName != targetClassName) {
-            label += " | ";
-            label += instanceName;
-        }
-        browseTargets.push_back({targetActor, std::move(label), true, false});
-    };
+            const std::string targetClassName =
+                classOverride && !classOverride->empty()
+                    ? *classOverride
+                    : (targetActor->Class ? targetActor->Class->GetName() : targetActor->GetName());
+            std::string label = std::string(prefix) + ": " + targetClassName;
+            const std::string instanceName = targetActor->GetName();
+            if (!instanceName.empty() && instanceName != targetClassName) {
+                label += " | ";
+                label += instanceName;
+            }
+            browseTargets.push_back({targetActor, std::move(label), true, false});
+        };
 
     addActorTarget(actor, "Actor", &className);
 
@@ -452,13 +453,13 @@ void WorldEditorSection::RenderClickPickOverlay() {
     ImGui::SetNextWindowSize(viewport->Size);
     ImGui::SetNextWindowFocus();
 
-    constexpr ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
+    constexpr ImGuiWindowFlags FLAGS = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove |
                                        ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBackground |
                                        ImGuiWindowFlags_NoNav;
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    if (ImGui::Begin("##WorldEditorClickPickOverlay", nullptr, flags)) {
+    if (ImGui::Begin("##WorldEditorClickPickOverlay", nullptr, FLAGS)) {
         ImGui::SetCursorPos(ImVec2(0.0f, 0.0f));
         ImGui::InvisibleButton(
             "##WorldEditorClickPickTarget", viewport->Size,
@@ -524,14 +525,14 @@ void WorldEditorSection::RenderHighlightMarker() {
     if (!snapshot.controller->ProjectWorldLocationToScreen(worldPos, &screen, false)) return;
 
     const auto pos = ImVec2(static_cast<float>(screen.X), static_cast<float>(screen.Y));
-    constexpr float radius = 24.0f;
-    constexpr ImU32 color = IM_COL32(26, 191, 255, 255);
+    constexpr float RADIUS = 24.0f;
+    constexpr ImU32 COLOR = IM_COL32(26, 191, 255, 255);
     auto* dl = ImGui::GetForegroundDrawList();
-    dl->AddCircle(pos, radius, color, 48, 3.0f);
-    dl->AddLine(ImVec2(pos.x - radius - 8.0f, pos.y), ImVec2(pos.x - 8.0f, pos.y), color, 3.0f);
-    dl->AddLine(ImVec2(pos.x + 8.0f, pos.y), ImVec2(pos.x + radius + 8.0f, pos.y), color, 3.0f);
-    dl->AddLine(ImVec2(pos.x, pos.y - radius - 8.0f), ImVec2(pos.x, pos.y - 8.0f), color, 3.0f);
-    dl->AddLine(ImVec2(pos.x, pos.y + 8.0f), ImVec2(pos.x, pos.y + radius + 8.0f), color, 3.0f);
+    dl->AddCircle(pos, RADIUS, COLOR, 48, 3.0f);
+    dl->AddLine(ImVec2(pos.x - RADIUS - 8.0f, pos.y), ImVec2(pos.x - 8.0f, pos.y), COLOR, 3.0f);
+    dl->AddLine(ImVec2(pos.x + 8.0f, pos.y), ImVec2(pos.x + RADIUS + 8.0f, pos.y), COLOR, 3.0f);
+    dl->AddLine(ImVec2(pos.x, pos.y - RADIUS - 8.0f), ImVec2(pos.x, pos.y - 8.0f), COLOR, 3.0f);
+    dl->AddLine(ImVec2(pos.x, pos.y + 8.0f), ImVec2(pos.x, pos.y + RADIUS + 8.0f), COLOR, 3.0f);
 }
 
 void WorldEditorSection::FindByClassName(const char* className) {
@@ -609,7 +610,7 @@ void WorldEditorSection::QueueActorState(SDK::AActor* actor, bool hidden, bool c
 }
 
 void WorldEditorSection::QueueActorTransform(
-    SDK::AActor* actor, SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale
+    SDK::AActor* actor, const SDK::FVector& location, const SDK::FRotator& rotation, const SDK::FVector& scale
 ) {
     if (!IsLiveActor(actor)) return;
     GameHook::QueueAction([actor, location, rotation, scale](const RuntimeContextSnapshot&) {

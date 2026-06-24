@@ -543,7 +543,7 @@ void NPCEditorSection::Render() {
             break;
         case 5:
             presets.RenderPresetsTab(
-                [this]() { return BuildPresetData(); }, [this](NPCPresetData d) { ApplyPresetData(std::move(d)); }
+                [this]() { return BuildPresetData(); }, [this](const NPCPresetData& d) { ApplyPresetData(d); }
             );
             break;
         default: break;

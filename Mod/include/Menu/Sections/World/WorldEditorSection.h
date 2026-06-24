@@ -92,7 +92,9 @@ private:
     void FindByClassName(const char* className);
     void QueueApply();
     void QueueActorState(SDK::AActor* actor, bool hidden, bool collision, bool tickEnabled);
-    void QueueActorTransform(SDK::AActor* actor, SDK::FVector location, SDK::FRotator rotation, SDK::FVector scale);
+    void QueueActorTransform(
+        SDK::AActor* actor, const SDK::FVector& location, const SDK::FRotator& rotation, const SDK::FVector& scale
+    );
     void RenderCategory(
         const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props,
         size_t filterLen

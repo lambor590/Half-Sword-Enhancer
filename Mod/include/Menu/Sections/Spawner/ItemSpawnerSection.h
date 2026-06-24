@@ -83,14 +83,14 @@ private:
     static inline uint8_t lastCategoryIndex = 255;
     static inline uint8_t lastSubcategoryIndex = 255;
 
-    bool IsRandomArmorCategory() const noexcept;
-    const BlueprintRegistry::SubcategoryData* GetCurrentSubcategory() const noexcept;
+    bool IsRandomArmorCategory() const;
+    const BlueprintRegistry::SubcategoryData* GetCurrentSubcategory() const;
     void RenderMaskedTierCombo(const char* comboLabel, uint16_t mask);
-    void UpdateItemNamesCache() noexcept;
+    void UpdateItemNamesCache();
     void UpdateFilteredItems();
-    void SpawnSelectedItem() const noexcept;
+    void SpawnSelectedItem() const;
     void SpawnBindingItem(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const;
-    void SpawnCustomPath() const noexcept;
+    void SpawnCustomPath() const;
     void SpawnWeaponFromPreset();
     void SpawnArmorFromPreset();
     void InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding);

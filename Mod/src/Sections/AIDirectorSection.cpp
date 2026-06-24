@@ -1,5 +1,6 @@
 #include "Menu/Sections/World/AIDirectorSection.h"
 
+#include <bit>
 #include <chrono>
 #include <iterator>
 #include <unordered_set>
@@ -40,8 +41,8 @@ namespace {
     constexpr int DIRECTIVE_HOSTILE_ALT_TEAM = 32;
 
     double NowSeconds() {
-        static const auto start = std::chrono::steady_clock::now();
-        return std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
+        static const auto START = std::chrono::steady_clock::now();
+        return std::chrono::duration<double>(std::chrono::steady_clock::now() - START).count();
     }
 
     const char* DirectiveLabel(AIDirectorSection::Directive directive) {
@@ -788,8 +789,7 @@ void AIDirectorSection::ApplyDirective(const RuntimeContextSnapshot& runtime, bo
 
             if (runtime.world) {
                 ActorUtils::ForEachWillieInRadius(
-                    runtime.world, player, GameConstants::MAX_DISTANCE,
-                    [&](SDK::AWillie_BP_C* candidate) {
+                    runtime.world, player, GameConstants::MAX_DISTANCE, [&](SDK::AWillie_BP_C* candidate) {
                         if (targetSet.contains(reinterpret_cast<uintptr_t>(candidate))) return;
                         setTeam(candidate, DIRECTIVE_HOSTILE_TEAM);
                         enemiesBuffer.push_back(candidate);
@@ -953,7 +953,7 @@ void AIDirectorSection::RestoreDirectiveState(const RuntimeContextSnapshot& runt
         if (auto* ai = ActorUtils::GetAIController(willie)) {
             ai->Team_Int = it->second.aiTeam;
             ai->Target = currentTargets.contains(it->second.target)
-                             ? reinterpret_cast<SDK::AWillie_BP_C*>(it->second.target)
+                             ? std::bit_cast<SDK::AWillie_BP_C*>(it->second.target)
                              : nullptr;
             ai->Target_Found = ai->Target ? it->second.targetFound : false;
             ai->Attack_Intent = it->second.attackIntent;
@@ -1093,11 +1093,11 @@ void AIDirectorSection::RenderAdvanced() {
         ImGui::EndCombo();
     }
 
-    float invincibility = static_cast<float>(aiInvincibility);
+    auto invincibility = static_cast<float>(aiInvincibility);
     if (GuiUtils::DebouncedDragFloat("AI Invincibility", &invincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
         aiInvincibility = invincibility;
 
-    float armorInvincibility = static_cast<float>(aiArmorInvincibility);
+    auto armorInvincibility = static_cast<float>(aiArmorInvincibility);
     if (GuiUtils::DebouncedDragFloat("AI Armor Invincibility", &armorInvincibility, 0.01f, 0.0f, 10.0f, "%.2f"))
         aiArmorInvincibility = armorInvincibility;
 

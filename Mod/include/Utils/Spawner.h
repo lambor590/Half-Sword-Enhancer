@@ -29,24 +29,25 @@ namespace Spawner {
     /// can use it directly instead of duplicating the pattern.
     SDK::AActor* DeferredSpawn(
         const SDK::UWorld* world, SDK::UClass* actorClass, const SDK::FTransform& transform,
-        std::function<void(SDK::AActor*)> preFinishCallback = nullptr
+        const std::function<void(SDK::AActor*)>& preFinishCallback = nullptr
     );
 
     SDK::FVector GetGroundPosition(
-        const SDK::UWorld* world, SDK::FVector position, float groundOffset = 50.0f, float traceDistance = 1000.0f
+        const SDK::UWorld* world, const SDK::FVector& position, float groundOffset = 50.0f,
+        float traceDistance = 1000.0f
     );
     void SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
-        std::function<void(SDK::AActor*)> callback = nullptr, bool snapToGround = false,
-        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER, std::function<void(SDK::AActor*)> postSpawnCallback = nullptr
+        const std::function<void(SDK::AActor*)>& callback = nullptr, bool snapToGround = false,
+        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER, const std::function<void(SDK::AActor*)>& postSpawnCallback = nullptr
     );
     void SpawnArmorFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,
-        bool snapToGround = false, std::function<void(SDK::AActor*)> callback = nullptr
+        bool snapToGround = false, const std::function<void(SDK::AActor*)>& callback = nullptr
     );
     void SpawnCustomizableFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Weapon1& passport, const SDK::FTransform& transform,
-        bool snapToGround = false, std::function<void(SDK::AActor*)> callback = nullptr
+        bool snapToGround = false, const std::function<void(SDK::AActor*)>& callback = nullptr
     );
 
     SDK::UClass* LoadClass(const std::string& classPath);
