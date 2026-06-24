@@ -1,3 +1,4 @@
+#include <cmath>
 #include <string>
 #include <vector>
 
@@ -107,7 +108,7 @@ namespace EquipmentGenerator {
             if (stats.HasNameTierRange()) return candidate.nameTier;
             if (stats.HasPriceRange() && candidate.module)
                 return static_cast<int>(
-                    ((candidate.module->Price - stats.minPrice) * 8.0 / (stats.maxPrice - stats.minPrice)) + 0.5
+                    std::lround((candidate.module->Price - stats.minPrice) * 8.0 / (stats.maxPrice - stats.minPrice))
                 );
             return -1;
         }

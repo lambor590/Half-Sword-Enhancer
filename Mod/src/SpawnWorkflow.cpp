@@ -191,8 +191,9 @@ namespace SpawnWorkflow {
     ) {
         return QueueSpawn(
             snapshot, spawn,
-            [passport, classPaths = std::move(classPaths),
-             onSpawned](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) mutable {
+            [passport, classPaths = std::move(classPaths), onSpawned = std::move(onSpawned)](
+                SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround
+            ) mutable {
                 if (!world) return;
                 Spawner::LoadWeaponClasses(passport, classPaths);
                 if (!EquipmentGenerator::IsPassportValid(passport)) return;
@@ -234,7 +235,9 @@ namespace SpawnWorkflow {
     ) {
         return QueueSpawn(
             snapshot, spawn,
-            [passport, onSpawned](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
+            [passport,
+             onSpawned =
+                 std::move(onSpawned)](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
                 if (world) Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround, onSpawned);
             }
         );
@@ -267,8 +270,7 @@ namespace SpawnWorkflow {
 
     bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request) {
         return SpawnNow(
-            runtime, spawn,
-            [&request](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
+            runtime, spawn, [&request](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
                 return SpawnItemAt(world, request, transform, snapToGround);
             }
         );
