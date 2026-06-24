@@ -24,6 +24,8 @@
 #include "Version.h"
 #include "Utils/GameBuildInfo.h"
 
+#include <bit>
+
 WNDPROC Gui::originalWndProc = nullptr;
 std::atomic<bool> Gui::isVisible = true;
 
@@ -143,7 +145,8 @@ void Gui::Setup() {
     menu.AddSection<WeaponEditorSection>(ctx);
     menu.AddSection<LoadoutManagerSection>(ctx);
 
-    originalWndProc = (WNDPROC)SetWindowLongPtr(window, GWLP_WNDPROC, (LONG_PTR)WndProc);
+    const auto wndProc = static_cast<WNDPROC>(WndProc);
+    originalWndProc = std::bit_cast<WNDPROC>(SetWindowLongPtr(window, GWLP_WNDPROC, std::bit_cast<LONG_PTR>(wndProc)));
     setupComplete = true;
 }
 

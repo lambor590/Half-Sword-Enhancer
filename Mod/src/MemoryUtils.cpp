@@ -4,6 +4,7 @@
 
 #include <Windows.h>
 #include <array>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -36,19 +37,26 @@ namespace {
         uintptr_t trampolineBase = 0;
     };
 
-    std::unordered_map<uintptr_t, HookRecord> g_hooks;
+    std::unordered_map<uintptr_t, HookRecord>& Hooks() {
+        static std::unordered_map<uintptr_t, HookRecord> hooks;
+        return hooks;
+    }
+
+    template <typename T> [[nodiscard]] T* Ptr(uintptr_t address) noexcept {
+        return std::bit_cast<T*>(address);
+    }
 
     class ScopedPageProtection {
-      public:
+    public:
         ScopedPageProtection(uintptr_t address, size_t size) noexcept : address(address), size(size) {
             if (!address || !size) return;
-            active = VirtualProtect(reinterpret_cast<void*>(address), size, PAGE_EXECUTE_READWRITE, &oldProtection) != 0;
+            active = VirtualProtect(Ptr<void>(address), size, PAGE_EXECUTE_READWRITE, &oldProtection) != 0;
         }
 
         ~ScopedPageProtection() noexcept {
             if (!active) return;
             DWORD dummy = 0;
-            VirtualProtect(reinterpret_cast<void*>(address), size, oldProtection, &dummy);
+            VirtualProtect(Ptr<void>(address), size, oldProtection, &dummy);
         }
 
         [[nodiscard]] bool IsActive() const noexcept { return active; }
@@ -56,7 +64,7 @@ namespace {
         ScopedPageProtection(const ScopedPageProtection&) = delete;
         ScopedPageProtection& operator=(const ScopedPageProtection&) = delete;
 
-      private:
+    private:
         uintptr_t address = 0;
         size_t size = 0;
         DWORD oldProtection = 0;
@@ -64,12 +72,12 @@ namespace {
     };
 
     static bool FlushCode(uintptr_t address, size_t size) noexcept {
-        return FlushInstructionCache(GetCurrentProcess(), reinterpret_cast<const void*>(address), size) != 0;
+        return FlushInstructionCache(GetCurrentProcess(), Ptr<const void>(address), size) != 0;
     }
 
     template <typename T> static inline bool SafeReadMemory(uintptr_t address, T& output) noexcept {
         __try {
-            output = *reinterpret_cast<const T*>(address);
+            output = *Ptr<const T>(address);
             return true;
         } __except (EXCEPTION_EXECUTE_HANDLER) {
             return false;
@@ -78,7 +86,7 @@ namespace {
 
     template <size_t N> static inline bool SafeReadMemoryArray(uintptr_t address, uint8_t (&output)[N]) noexcept {
         __try {
-            std::memcpy(output, reinterpret_cast<const void*>(address), N);
+            std::memcpy(output, Ptr<const void>(address), N);
             return true;
         } __except (EXCEPTION_EXECUTE_HANDLER) {
             return false;
@@ -115,7 +123,10 @@ namespace {
             } else if (byte == 0x66) {
                 operandSize16 = true;
                 offset++;
-            } else if (byte == 0x67 || byte == 0xF0 || byte == 0xF2 || byte == 0xF3 || byte == 0x26 || byte == 0x2E || byte == 0x36 || byte == 0x3E || byte == 0x64 || byte == 0x65) {
+            } else if (
+                byte == 0x67 || byte == 0xF0 || byte == 0xF2 || byte == 0xF3 || byte == 0x26 || byte == 0x2E ||
+                byte == 0x36 || byte == 0x3E || byte == 0x64 || byte == 0x65
+            ) {
                 offset++;
             } else {
                 break;
@@ -137,11 +148,11 @@ namespace {
 
             if (info.opcode >= 0x80 && info.opcode <= 0x8F) {
                 immSize = 4;
-            } else if ((info.opcode >= 0x10 && info.opcode <= 0x17) ||
-                       (info.opcode >= 0x28 && info.opcode <= 0x2F) ||
-                       (info.opcode >= 0x40 && info.opcode <= 0x76) || info.opcode == 0xAE ||
-                       info.opcode == 0xAF || (info.opcode >= 0xB0 && info.opcode <= 0xB7) ||
-                       (info.opcode >= 0xC2 && info.opcode <= 0xC6)) {
+            } else if (
+                (info.opcode >= 0x10 && info.opcode <= 0x17) || (info.opcode >= 0x28 && info.opcode <= 0x2F) ||
+                (info.opcode >= 0x40 && info.opcode <= 0x76) || info.opcode == 0xAE || info.opcode == 0xAF ||
+                (info.opcode >= 0xB0 && info.opcode <= 0xB7) || (info.opcode >= 0xC2 && info.opcode <= 0xC6)
+            ) {
                 hasModRM = true;
             }
         } else {
@@ -158,9 +169,8 @@ namespace {
             }
 
             if (opcode == 0x6A || opcode == 0x6B || opcode == 0xA8 || opcode == 0xEB ||
-                (opcode >= 0x70 && opcode <= 0x7F) || (opcode >= 0xE0 && opcode <= 0xE3)) {
-                immSize = 1;
-            } else if (opcode == 0x80 || opcode == 0x82 || opcode == 0x83 || opcode == 0xC6) {
+                (opcode >= 0x70 && opcode <= 0x7F) || (opcode >= 0xE0 && opcode <= 0xE3) || opcode == 0x80 ||
+                opcode == 0x82 || opcode == 0x83 || opcode == 0xC6 || (opcode >= 0xB0 && opcode <= 0xB7)) {
                 immSize = 1;
             } else if (opcode == 0x81 || opcode == 0x69 || opcode == 0xC7) {
                 immSize = operandSize16 ? 2 : 4;
@@ -168,8 +178,6 @@ namespace {
                 immSize = 4;
             } else if (opcode == 0xA0 || opcode == 0xA1 || opcode == 0xA2 || opcode == 0xA3) {
                 immSize = 8;
-            } else if (opcode >= 0xB0 && opcode <= 0xB7) {
-                immSize = 1;
             } else if (opcode >= 0xB8 && opcode <= 0xBF) {
                 immSize = hasRex ? 8 : 4;
             }
@@ -244,7 +252,7 @@ namespace {
             return false;
         }
 
-        uint8_t* ptr = reinterpret_cast<uint8_t*>(address);
+        auto* ptr = Ptr<uint8_t>(address);
 
         if (absolute) {
             std::memcpy(ptr, ABS_JUMP_HEADER, ABS_JUMP_HEADER_SIZE);
@@ -270,20 +278,21 @@ namespace {
         size_t alignedSize = (numBytes + si.dwPageSize - 1) & ~(static_cast<unsigned long long>(si.dwPageSize) - 1);
 
         for (uintptr_t i = lowerBound; i < higherBound; i += ALLOCATION_INCREMENT) {
-            if (uintptr_t addr =
-                    (uintptr_t)VirtualAlloc((void*)i, alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE)) {
+            if (auto* allocation =
+                    VirtualAlloc(Ptr<void>(i), alignedSize, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE)) {
+                const auto addr = std::bit_cast<uintptr_t>(allocation);
                 if (addr >= lowerBound && addr <= higherBound) {
-                    std::memset(reinterpret_cast<void*>(addr), NOP_INSTRUCTION, numBytes);
+                    std::memset(allocation, NOP_INSTRUCTION, numBytes);
                     return addr;
                 }
-                VirtualFree((void*)addr, 0, MEM_RELEASE);
+                VirtualFree(allocation, 0, MEM_RELEASE);
             }
         }
         return 0;
     }
 
     static bool FixupRelativeOffsets(uintptr_t trampolineAddr, uintptr_t originalAddr, size_t size) {
-        uint8_t* code = reinterpret_cast<uint8_t*>(trampolineAddr);
+        auto* code = Ptr<uint8_t>(trampolineAddr);
 
         for (size_t pos = 0; pos < size;) {
             if (IsAbsoluteJumpStub(code + pos, size - pos)) {
@@ -308,24 +317,20 @@ namespace {
 
             if (!instr.twoByteOpcode && (instr.opcode == 0xE9 || instr.opcode == 0xE8) &&
                 instrLen >= instr.opcodeOffset + REL_JUMP_SIZE) {
-                int32_t* rel = reinterpret_cast<int32_t*>(code + pos + instr.opcodeOffset + 1);
+                auto* rel = reinterpret_cast<int32_t*>(code + pos + instr.opcodeOffset + 1);
                 uintptr_t target = (originalAddr + pos + instrLen) + static_cast<int64_t>(*rel);
-                int64_t newRel =
-                    static_cast<int64_t>(target) - static_cast<int64_t>(trampolineAddr + pos + instrLen);
-                if (newRel >= std::numeric_limits<int32_t>::min() &&
-                    newRel <= std::numeric_limits<int32_t>::max()) {
+                int64_t newRel = static_cast<int64_t>(target) - static_cast<int64_t>(trampolineAddr + pos + instrLen);
+                if (newRel >= std::numeric_limits<int32_t>::min() && newRel <= std::numeric_limits<int32_t>::max()) {
                     *rel = static_cast<int32_t>(newRel);
                 } else {
                     logger.Log("Relative offset fixup out of 32-bit range at trampoline+{:#x}", pos);
                     return false;
                 }
             } else if (instr.ripRelative) {
-                int32_t* disp = reinterpret_cast<int32_t*>(code + pos + instr.ripRelativeDispOffset);
+                auto* disp = reinterpret_cast<int32_t*>(code + pos + instr.ripRelativeDispOffset);
                 uintptr_t target = (originalAddr + pos + instrLen) + static_cast<int64_t>(*disp);
-                int64_t newDisp =
-                    static_cast<int64_t>(target) - static_cast<int64_t>(trampolineAddr + pos + instrLen);
-                if (newDisp >= std::numeric_limits<int32_t>::min() &&
-                    newDisp <= std::numeric_limits<int32_t>::max()) {
+                int64_t newDisp = static_cast<int64_t>(target) - static_cast<int64_t>(trampolineAddr + pos + instrLen);
+                if (newDisp >= std::numeric_limits<int32_t>::min() && newDisp <= std::numeric_limits<int32_t>::max()) {
                     *disp = static_cast<int32_t>(newDisp);
                 } else {
                     logger.Log("RIP-relative fixup out of 32-bit range at trampoline+{:#x}", pos);
@@ -348,7 +353,8 @@ namespace MemoryUtils {
         }
 
         *returnAddress = 0;
-        if (g_hooks.contains(addressToHook)) {
+        auto& hooks = Hooks();
+        if (hooks.contains(addressToHook)) {
             logger.Log("Hook already installed at {:#x}", addressToHook);
             return false;
         }
@@ -368,21 +374,21 @@ namespace MemoryUtils {
         }
 
         uintptr_t originalInstructions = trampoline + FAR_JUMP_SIZE + PROTECTION_BUFFER;
-        std::memcpy(reinterpret_cast<void*>(originalInstructions), reinterpret_cast<void*>(addressToHook), clearance);
+        std::memcpy(Ptr<void>(originalInstructions), Ptr<const void>(addressToHook), clearance);
 
         HookRecord hookInfo;
         if (clearance > hookInfo.originalBytes.size()) {
-            VirtualFree(reinterpret_cast<void*>(trampoline), 0, MEM_RELEASE);
+            VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
             return false;
         }
 
         hookInfo.originalBytesSize = clearance;
         hookInfo.trampolineBase = trampoline;
-        std::memcpy(hookInfo.originalBytes.data(), reinterpret_cast<void*>(originalInstructions), clearance);
+        std::memcpy(hookInfo.originalBytes.data(), Ptr<const void>(originalInstructions), clearance);
 
         if (!PlaceJump(trampoline + PROTECTION_BUFFER, destinationAddress, true, FAR_JUMP_SIZE) ||
             !PlaceJump(trampoline + trampolineSize - FAR_JUMP_SIZE, addressToHook + clearance, true, FAR_JUMP_SIZE)) {
-            VirtualFree(reinterpret_cast<void*>(trampoline), 0, MEM_RELEASE);
+            VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
             return false;
         }
 
@@ -391,35 +397,34 @@ namespace MemoryUtils {
         uint8_t firstByte = 0;
         uint8_t jumpStub[ABS_JUMP_HEADER_SIZE];
         if (!SafeReadMemory(originalInstructions, firstByte)) {
-            VirtualFree(reinterpret_cast<void*>(trampoline), 0, MEM_RELEASE);
+            VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
             return false;
         }
 
-        if (SafeReadMemoryArray(originalInstructions, jumpStub) &&
-            IsAbsoluteJumpStub(jumpStub, sizeof(jumpStub)) &&
+        if (SafeReadMemoryArray(originalInstructions, jumpStub) && IsAbsoluteJumpStub(jumpStub, sizeof(jumpStub)) &&
             SafeReadMemory(originalInstructions + ABS_JUMP_HEADER_SIZE, absoluteJumpTarget) && absoluteJumpTarget) {
             resolvedReturnAddress = absoluteJumpTarget;
         } else if (firstByte == 0xE9) {
             int32_t rel = 0;
             if (!SafeReadMemory(originalInstructions + 1, rel)) {
-                VirtualFree(reinterpret_cast<void*>(trampoline), 0, MEM_RELEASE);
+                VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
                 return false;
             }
             resolvedReturnAddress = (addressToHook + REL_JUMP_SIZE) + static_cast<int64_t>(rel);
         } else {
             if (!FixupRelativeOffsets(originalInstructions, addressToHook, clearance) ||
                 !FlushCode(originalInstructions, clearance)) {
-                VirtualFree(reinterpret_cast<void*>(trampoline), 0, MEM_RELEASE);
+                VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
                 return false;
             }
             resolvedReturnAddress = originalInstructions;
         }
 
-        g_hooks.emplace(addressToHook, hookInfo);
+        hooks.emplace(addressToHook, hookInfo);
 
         if (!PlaceJump(addressToHook, trampoline, false, clearance)) {
-            g_hooks.erase(addressToHook);
-            VirtualFree(reinterpret_cast<void*>(trampoline), 0, MEM_RELEASE);
+            hooks.erase(addressToHook);
+            VirtualFree(Ptr<void>(trampoline), 0, MEM_RELEASE);
             return false;
         }
 
@@ -427,9 +432,10 @@ namespace MemoryUtils {
         return true;
     }
 
-    void Unhook(uintptr_t hookedAddress) noexcept {
-        auto it = g_hooks.find(hookedAddress);
-        if (it == g_hooks.end()) return;
+    void Unhook(uintptr_t hookedAddress) {
+        auto& hooks = Hooks();
+        auto it = hooks.find(hookedAddress);
+        if (it == hooks.end()) return;
 
         auto& hookInfo = it->second;
 
@@ -449,15 +455,15 @@ namespace MemoryUtils {
             ScopedPageProtection protection(hookedAddress, hookInfo.originalBytesSize);
             if (!protection.IsActive()) return;
 
-            std::memcpy(reinterpret_cast<void*>(hookedAddress), hookInfo.originalBytes.data(), hookInfo.originalBytesSize);
+            std::memcpy(Ptr<void>(hookedAddress), hookInfo.originalBytes.data(), hookInfo.originalBytesSize);
             FlushCode(hookedAddress, hookInfo.originalBytesSize);
         }
 
         if (hookInfo.trampolineBase) {
-            VirtualFree(reinterpret_cast<void*>(hookInfo.trampolineBase), 0, MEM_RELEASE);
+            VirtualFree(Ptr<void>(hookInfo.trampolineBase), 0, MEM_RELEASE);
         }
 
-        g_hooks.erase(it);
+        hooks.erase(it);
     }
 
 }

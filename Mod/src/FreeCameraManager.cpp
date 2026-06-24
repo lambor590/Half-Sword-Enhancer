@@ -16,13 +16,13 @@ namespace {
         return controller && controller->Pawn ? static_cast<SDK::AActor*>(controller->Pawn) : nullptr;
     }
 
-    [[nodiscard]] SDK::ADebugCameraController* AsDebugCameraController(SDK::APlayerController* controller) noexcept {
+    [[nodiscard]] SDK::ADebugCameraController* AsDebugCameraController(SDK::APlayerController* controller) {
         return controller && controller->IsA(SDK::ADebugCameraController::StaticClass())
                    ? static_cast<SDK::ADebugCameraController*>(controller)
                    : nullptr;
     }
 
-    [[nodiscard]] SDK::APlayerController* UnwrapOriginalController(SDK::APlayerController* controller) noexcept {
+    [[nodiscard]] SDK::APlayerController* UnwrapOriginalController(SDK::APlayerController* controller) {
         for (int depth = 0; depth < 4; ++depth) {
             auto* debug = AsDebugCameraController(controller);
             if (!debug || !debug->OriginalControllerRef || debug->OriginalControllerRef == controller) break;

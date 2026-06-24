@@ -55,7 +55,7 @@ namespace {
 
         alignas(64) Slot slots[TABLE_SIZE];
 
-        ProcessEventCache() { Clear(); }
+        ProcessEventCache() noexcept { Clear(); }
 
         void Clear() noexcept {
             std::memset(slots, 0, sizeof(slots));
@@ -103,7 +103,7 @@ namespace {
         }
     };
 
-    static ProcessEventCache g_peCache;
+    static ProcessEventCache peCache;
     static thread_local uint32_t g_hookSuppressionDepth = 0;
 
     struct ScopedHookSuppression {
@@ -131,7 +131,7 @@ __declspec(noinline) static const ProcessEventCache::Slot* ResolveAndCache(
             break;
         }
     }
-    return g_peCache.Insert(function, resolved, nameHash == ProcessEventCache::RECEIVE_TICK_HASH);
+    return peCache.Insert(function, resolved, nameHash == ProcessEventCache::RECEIVE_TICK_HASH);
 }
 
 void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
@@ -147,7 +147,7 @@ void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void
 
     const bool hasQueuedActions = GameHook::hasQueuedActions.load(std::memory_order_relaxed);
     if (hasQueuedActions || hook.hookCount) [[unlikely]] {
-        const auto* slot = g_peCache.Lookup(pFunc);
+        const auto* slot = peCache.Lookup(pFunc);
         if (!slot) [[unlikely]] {
             slot = ResolveAndCache(pFunc, hook.hooks.data(), hook.hookCount);
         }
@@ -211,7 +211,7 @@ void GameHook::Unhook() {
     for (uint8_t i = 0; i < hookCount; ++i)
         hooks[i] = {};
     hookCount = 0;
-    g_peCache.Clear();
+    peCache.Clear();
     EventBus::Get().Clear();
 }
 
@@ -244,7 +244,7 @@ void GameHook::RegisterHook(uint64_t hash, HookCallback callback, bool afterOrig
         } else {
             entry.beforeCallback = std::move(callback);
         }
-        g_peCache.Clear();
+        peCache.Clear();
     } else {
         logger.Log("Max ProcessEvent hooks reached");
     }
@@ -258,7 +258,7 @@ void GameHook::UnregisterHook(uint64_t hash) {
                 hooks[i] = std::move(hooks[hookCount]);
             }
             hooks[hookCount] = {};
-            g_peCache.Clear();
+            peCache.Clear();
             return;
         }
     }

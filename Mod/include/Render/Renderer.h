@@ -113,13 +113,13 @@ private:
     void RenderFrameD3D12() noexcept;
     void RenderGuiToTarget(ID3D11RenderTargetView* renderTargetView) noexcept;
 
-    bool InitD3DResources(IDXGISwapChain* sc) noexcept;
-    bool InitD3D11() noexcept;
-    bool InitD3D12() noexcept;
+    bool InitD3DResources(IDXGISwapChain* sc);
+    bool InitD3D11();
+    bool InitD3D12();
     bool InitOrReinitImGui() noexcept;
-    bool CreateRenderTargets() noexcept;
+    bool CreateRenderTargets();
     bool CreateD3D11RenderTarget() noexcept;
-    bool CreateD3D12RenderTargets() noexcept;
+    bool CreateD3D12RenderTargets();
     bool CreateD3D12RtvHeap() noexcept;
     bool CreateD3D12SrvHeap() noexcept;
     void ReleaseRenderTargets() noexcept;

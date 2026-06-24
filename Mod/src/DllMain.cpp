@@ -43,6 +43,7 @@ BOOL WINAPI DllMain(HMODULE module, DWORD reason, LPVOID reserved) noexcept {
             // reserved is non-null during process termination; avoid loader-lock cleanup work there.
             if (!reserved) HSE_Shutdown();
             break;
+        default: break;
     }
 
     return TRUE;

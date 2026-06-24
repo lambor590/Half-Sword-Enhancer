@@ -108,7 +108,7 @@ namespace {
         ImGui::Checkbox("##en", field.enabled);
         ImGui::SameLine();
         if (!*field.enabled) ImGui::BeginDisabled();
-        float val = static_cast<float>(*static_cast<double*>(field.value));
+        auto val = static_cast<float>(*static_cast<double*>(field.value));
         ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
         GuiUtils::DebouncedDragFloat(field.name, &val, field.speed, 0.0f, 0.0f, "%.3f");
         GuiUtils::StoreEdited(*static_cast<double*>(field.value), val);

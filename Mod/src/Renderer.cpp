@@ -151,28 +151,33 @@ bool Renderer::Hook() {
 }
 
 void Renderer::OnPresent(IDXGISwapChain* pThis, UINT flags) noexcept {
-    if (state.inResize) [[unlikely]]
-        return;
-    if (flags & DXGI_PRESENT_TEST) [[unlikely]]
-        return;
+    try {
+        if (state.inResize) [[unlikely]]
+            return;
+        if (flags & DXGI_PRESENT_TEST) [[unlikely]]
+            return;
 
-    if (swapChain.Get() && pThis != swapChain.Get()) [[unlikely]] {
-        logger.Log("Swap chain changed, recreating overlay resources");
+        if (swapChain.Get() && pThis != swapChain.Get()) [[unlikely]] {
+            logger.Log("Swap chain changed, recreating overlay resources");
+            ReleaseD3DResourcesForResize();
+        }
+
+        if (state.needsInit) [[unlikely]] {
+            if (!InitD3DResources(pThis)) [[unlikely]]
+                return;
+            state.needsInit = false;
+        }
+
+        if (!state.imguiRendererReady || !state.renderFunc) [[unlikely]]
+            return;
+        if (!Gui::NeedsRendering()) [[likely]]
+            return;
+
+        (this->*state.renderFunc)();
+    } catch (...) {
+        state.needsInit = true;
         ReleaseD3DResourcesForResize();
     }
-
-    if (state.needsInit) [[unlikely]] {
-        if (!InitD3DResources(pThis)) [[unlikely]]
-            return;
-        state.needsInit = false;
-    }
-
-    if (!state.imguiRendererReady || !state.renderFunc) [[unlikely]]
-        return;
-    if (!Gui::NeedsRendering()) [[likely]]
-        return;
-
-    (this->*state.renderFunc)();
 }
 
 bool Renderer::CaptureCommandQueue(ID3D12CommandQueue* newQueue) noexcept {
@@ -230,8 +235,8 @@ void Renderer::AfterResizeBuffers(UINT width, UINT height, HRESULT result) noexc
     if ((width == 0 || height == 0) && window.handle) {
         GetWindowDimensions(window.handle, window.width, window.height);
     } else {
-        window.width = width;
-        window.height = height;
+        window.width = static_cast<int>(width);
+        window.height = static_cast<int>(height);
     }
 
     window.viewport = CreateViewport(static_cast<float>(window.width), static_cast<float>(window.height));
@@ -385,7 +390,7 @@ bool Renderer::InitOrReinitImGui() noexcept {
     return true;
 }
 
-bool Renderer::CreateRenderTargets() noexcept {
+bool Renderer::CreateRenderTargets() {
     ReleaseRenderTargets();
     return state.backend == RenderBackend::D3D12 ? CreateD3D12RenderTargets() : CreateD3D11RenderTarget();
 }
@@ -428,7 +433,7 @@ bool Renderer::CreateD3D12SrvHeap() noexcept {
     return true;
 }
 
-bool Renderer::CreateD3D12RenderTargets() noexcept {
+bool Renderer::CreateD3D12RenderTargets() {
     if (!CreateD3D12RtvHeap()) [[unlikely]]
         return false;
 
@@ -471,7 +476,7 @@ void Renderer::ReleaseRenderTargets() noexcept {
     state.dx12QueueMismatchLogged = false;
 }
 
-bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept {
+bool Renderer::InitD3DResources(IDXGISwapChain* sc) {
     swapChain = sc;
 
     ComPtr<ID3D11Device> newD3D11Device;
@@ -501,7 +506,7 @@ bool Renderer::InitD3DResources(IDXGISwapChain* sc) noexcept {
     return false;
 }
 
-bool Renderer::InitD3D11() noexcept {
+bool Renderer::InitD3D11() {
     d3d11Device->GetImmediateContext(&d3d11Context);
 
     DXGI_SWAP_CHAIN_DESC desc;
@@ -521,7 +526,7 @@ bool Renderer::InitD3D11() noexcept {
     return true;
 }
 
-bool Renderer::InitD3D12() noexcept {
+bool Renderer::InitD3D12() {
     if (commandQueue.Get()) {
         ComPtr<ID3D12Device> queueDevice;
         if (FAILED(commandQueue->GetDevice(IID_PPV_ARGS(&queueDevice))) || queueDevice.Get() != d3d12Device.Get()) {
@@ -709,8 +714,8 @@ void Renderer::AllocateD3D12SrvDescriptor(
 
     D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle = renderer->d3d12SrvHeap->GetCPUDescriptorHandleForHeapStart();
     D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle = renderer->d3d12SrvHeap->GetGPUDescriptorHandleForHeapStart();
-    cpuHandle.ptr += descriptorIndex * renderer->d3d12SrvDescriptorSize;
-    gpuHandle.ptr += descriptorIndex * renderer->d3d12SrvDescriptorSize;
+    cpuHandle.ptr += static_cast<SIZE_T>(descriptorIndex) * renderer->d3d12SrvDescriptorSize;
+    gpuHandle.ptr += static_cast<UINT64>(descriptorIndex) * renderer->d3d12SrvDescriptorSize;
     *outCpuHandle = cpuHandle;
     *outGpuHandle = gpuHandle;
 }
