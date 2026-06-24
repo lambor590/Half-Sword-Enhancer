@@ -23,8 +23,8 @@ namespace hse {
         GameEdition edition;
     };
 
-    [[nodiscard]] std::expected<GameLocation, SteamError> LocateGame() noexcept;
+    [[nodiscard]] std::expected<GameLocation, SteamError> LocateGame();
     [[nodiscard]] std::expected<GameLocation, SteamError> LocateGameAt(const std::filesystem::path& manualPath
-    ) noexcept;
+    );
 
 }

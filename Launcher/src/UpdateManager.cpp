@@ -24,7 +24,8 @@ namespace hse {
         for (size_t i = 0; i < 3 && !versionString.empty(); ++i) {
             const auto dotPos = versionString.find('.');
             const auto segEnd = (dotPos != std::string_view::npos) ? dotPos : versionString.size();
-            std::from_chars(versionString.data(), versionString.data() + segEnd, *components[i]);
+            const char* first = &versionString.front();
+            std::from_chars(first, first + segEnd, *components[i]);
             if (dotPos == std::string_view::npos) break;
             versionString.remove_prefix(dotPos + 1);
         }
@@ -40,11 +41,11 @@ namespace hse {
         );
     }
 
-    std::expected<Version, UpdateError> UpdateManager::GetLocalVersion() noexcept {
+    std::expected<Version, UpdateError> UpdateManager::GetLocalVersion() {
         return ExtractVersionFromExecutable();
     }
 
-    std::expected<UpdateInfo, UpdateError> UpdateManager::CheckForUpdates() noexcept {
+    std::expected<UpdateInfo, UpdateError> UpdateManager::CheckForUpdates() {
         auto localVersionResult = GetLocalVersion();
         if (!localVersionResult) {
             return std::unexpected(localVersionResult.error());
@@ -76,8 +77,9 @@ namespace hse {
         return info;
     }
 
-    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(const std::filesystem::path& gameBinPath
-    ) noexcept {
+    std::expected<Version, UpdateError> UpdateManager::GetInstalledModVersion(
+        const std::filesystem::path& gameBinPath
+    ) {
         const auto dllPath = gameBinPath / MOD_FILENAME;
         if (!std::filesystem::exists(dllPath)) {
             return std::unexpected(UpdateError::FileSystemError);
@@ -88,9 +90,9 @@ namespace hse {
     std::expected<void, UpdateError> UpdateManager::DownloadToTempAndInstall(
         std::string_view modUrl, std::string_view proxyUrl, std::string_view bridgeUrl,
         const std::filesystem::path& gameBinPath, InstallMode installMode, std::uint32_t modMinSize
-    ) noexcept {
+    ) {
         const auto tempDir = getAppDataDirectory() / TEMP_FOLDER;
-        auto cleanupTempDir = [&tempDir]() noexcept {
+        auto cleanupTempDir = [&tempDir]() {
             std::error_code ec;
             std::filesystem::remove_all(tempDir, ec);
         };
@@ -135,7 +137,7 @@ namespace hse {
 
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallMod(
         const Version& version, const std::filesystem::path& gameBinPath, InstallMode installMode
-    ) noexcept {
+    ) {
         const auto versionStr = version.ToString();
         auto result = DownloadToTempAndInstall(
             BuildReleaseUrl(versionStr, MOD_FILENAME), BuildReleaseUrl(versionStr, PROXY_FILENAME),
@@ -149,17 +151,18 @@ namespace hse {
 
     std::expected<void, UpdateError> UpdateManager::DownloadModToPath(
         std::string_view downloadUrl, const std::filesystem::path& outputPath, std::uint32_t minFileSize
-    ) noexcept {
+    ) {
         const auto tempPath = std::filesystem::path(outputPath.string() + ".tmp");
 
         DownloadConfig config{
             .url = std::string(downloadUrl),
             .outputPath = tempPath,
             .description = std::format("Downloading {}", outputPath.filename().string()),
-            .minFileSize = minFileSize};
+            .minFileSize = minFileSize
+        };
 
         auto result = DownloadFile(config);
-        auto removeTemp = [&tempPath]() noexcept {
+        auto removeTemp = [&tempPath]() {
             std::error_code ignored;
             std::filesystem::remove(tempPath, ignored);
         };
@@ -186,7 +189,7 @@ namespace hse {
 
     std::expected<void, UpdateError> UpdateManager::UpdateLauncher(
         std::string_view downloadUrl, std::string_view timestamp
-    ) noexcept {
+    ) {
         std::filesystem::path currentExePath;
         if (!TryGetCurrentExecutablePath(currentExePath)) {
             Logger::error("Failed to get current executable path");
@@ -202,7 +205,8 @@ namespace hse {
             .url = std::string(downloadUrl),
             .outputPath = tempPath,
             .description = "Downloading launcher update",
-            .minFileSize = 50000};
+            .minFileSize = 50000
+        };
 
         auto downloadResult = DownloadFile(config);
         if (!downloadResult) {
@@ -277,7 +281,7 @@ namespace hse {
         ExitProcess(0);
     }
 
-    std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromExecutable() const noexcept {
+    std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromExecutable() const {
         std::filesystem::path filePath;
         if (!TryGetCurrentExecutablePath(filePath)) {
             return std::unexpected(UpdateError::FileSystemError);
@@ -286,8 +290,7 @@ namespace hse {
         return ExtractVersionFromFile(filePath);
     }
 
-    std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromFile(const std::filesystem::path& filePath
-    ) noexcept {
+    std::expected<Version, UpdateError> UpdateManager::ExtractVersionFromFile(const std::filesystem::path& filePath) {
         const auto pathStr = filePath.string();
         const DWORD verSize = GetFileVersionInfoSizeA(pathStr.c_str(), nullptr);
         if (verSize == 0) {
@@ -310,7 +313,7 @@ namespace hse {
         );
     }
 
-    std::expected<std::string, UpdateError> UpdateManager::FetchGitHubReleaseInfo() const noexcept {
+    std::expected<std::string, UpdateError> UpdateManager::FetchGitHubReleaseInfo() const {
         auto result = DownloadToString(std::string(GITHUB_API_URL));
         if (!result) {
             return std::unexpected(UpdateError::NetworkError);
@@ -321,7 +324,7 @@ namespace hse {
 
     std::expected<std::string, UpdateError> UpdateManager::ParseJsonStringField(
         std::string_view json, std::string_view fieldName
-    ) noexcept {
+    ) {
         std::string fieldPrefix;
         fieldPrefix.reserve(fieldName.size() + 5);
         fieldPrefix += '"';
@@ -342,7 +345,7 @@ namespace hse {
         return std::string(json.substr(startPos, endPos - startPos));
     }
 
-    std::expected<Version, UpdateError> UpdateManager::ParseVersionFromJson(std::string_view json) const noexcept {
+    std::expected<Version, UpdateError> UpdateManager::ParseVersionFromJson(std::string_view json) const {
         auto versionStr = ParseJsonStringField(json, "tag_name");
         if (!versionStr) {
             return std::unexpected(UpdateError::VersionParsingFailed);
@@ -354,7 +357,7 @@ namespace hse {
 #ifdef EXPERIMENTAL_VERSION
     std::expected<std::string_view, UpdateError> UpdateManager::ExtractExperimentalAsset(
         std::string_view json, std::string_view assetName
-    ) noexcept {
+    ) {
         std::string namePattern;
         namePattern.reserve(assetName.size() + 10);
         namePattern += "\"name\":\"";
@@ -382,7 +385,7 @@ namespace hse {
 
     std::expected<void, UpdateError> UpdateManager::StoreExperimentalAsset(
         ExperimentalAssets& assets, std::string_view assetName, std::string_view object
-    ) noexcept {
+    ) {
         const bool isMod = assetName == "HSEnhancer.dll";
         const bool isProxy = assetName == "winmm.dll";
         const bool isBridge = assetName == UE4SS_BRIDGE_FILENAME;
@@ -417,7 +420,7 @@ namespace hse {
 
     std::expected<UpdateManager::ExperimentalAssets, UpdateError> UpdateManager::ParseExperimentalAssets(
         std::string_view json
-    ) noexcept {
+    ) {
         ExperimentalAssets assets;
 
         for (std::string_view assetName : {"HSEnhancer.dll", "winmm.dll", "HSEnhancerLauncher.exe"}) {
@@ -443,7 +446,7 @@ namespace hse {
         return assets;
     }
 
-    std::expected<ExperimentalUpdateInfo, UpdateError> UpdateManager::CheckForExperimentalUpdates() noexcept {
+    std::expected<ExperimentalUpdateInfo, UpdateError> UpdateManager::CheckForExperimentalUpdates() {
         ExperimentalUpdateInfo info;
 
         auto stableResult = CheckForUpdates();
@@ -498,7 +501,7 @@ namespace hse {
 
     std::expected<void, UpdateError> UpdateManager::DownloadAndInstallExperimentalMod(
         const ExperimentalUpdateInfo& info, const std::filesystem::path& gameBinPath, InstallMode installMode
-    ) noexcept {
+    ) {
         auto result = DownloadToTempAndInstall(
             info.downloadUrlMod, info.downloadUrlProxy, info.downloadUrlBridge, gameBinPath, installMode, 30000
         );

@@ -30,7 +30,7 @@ namespace hse {
             return exists;
         }
 
-        [[nodiscard]] bool IsUe4ssInstalled(const std::filesystem::path& gameBinPath) noexcept {
+        [[nodiscard]] bool IsUe4ssInstalled(const std::filesystem::path& gameBinPath) {
             return PathExists(gameBinPath / "ue4ss" / "UE4SS.dll", "ue4ss/UE4SS.dll") ||
                    PathExists(ModsTxtPath(gameBinPath), "ue4ss/Mods/mods.txt");
         }
@@ -40,10 +40,10 @@ namespace hse {
             while (start < line.size() && std::isspace(static_cast<unsigned char>(line[start])))
                 ++start;
 
-            constexpr std::string_view modName{UE4SS_MOD_NAME};
-            if (line.substr(start, modName.size()) != modName) return false;
+            constexpr std::string_view MOD_NAME{UE4SS_MOD_NAME};
+            if (line.substr(start, MOD_NAME.size()) != MOD_NAME) return false;
 
-            const size_t end = start + modName.size();
+            const size_t end = start + MOD_NAME.size();
             return end == line.size() || line[end] == ':' || std::isspace(static_cast<unsigned char>(line[end]));
         }
 
@@ -71,7 +71,7 @@ namespace hse {
         [[nodiscard]] std::expected<void, InstallError> CopyFromSource(
             const std::filesystem::path& sourcePath, const std::filesystem::path& destination, const char* filename,
             bool required
-        ) noexcept {
+        ) {
             std::error_code ec;
             const auto sourceFile = sourcePath / filename;
 
@@ -110,7 +110,7 @@ namespace hse {
 
         [[nodiscard]] std::expected<void, InstallError> EnableUe4ssMod(
             const std::filesystem::path& gameBinPath
-        ) noexcept {
+        ) {
             const auto modsTxt = ModsTxtPath(gameBinPath);
             std::error_code ec;
             std::filesystem::create_directories(modsTxt.parent_path(), ec);
@@ -159,7 +159,7 @@ namespace hse {
 
         [[nodiscard]] std::expected<void, InstallError> DisableUe4ssMod(
             const std::filesystem::path& gameBinPath
-        ) noexcept {
+        ) {
             const auto modsTxt = ModsTxtPath(gameBinPath);
             std::error_code ec;
             if (!std::filesystem::exists(modsTxt, ec)) {
@@ -209,7 +209,7 @@ namespace hse {
 
         [[nodiscard]] std::expected<void, InstallError> InstallStandaloneFiles(
             const std::filesystem::path& sourcePath, const std::filesystem::path& gameBinPath
-        ) noexcept {
+        ) {
             const bool ue4ssInstalled = IsUe4ssInstalled(gameBinPath);
 
             if (auto disableResult = DisableUe4ssMod(gameBinPath); !disableResult) {
@@ -234,7 +234,7 @@ namespace hse {
 
         [[nodiscard]] std::expected<void, InstallError> InstallUe4ssFiles(
             const std::filesystem::path& sourcePath, const std::filesystem::path& gameBinPath
-        ) noexcept {
+        ) {
             const auto modsPath = Ue4ssModsPath(gameBinPath);
             Logger::info("Using UE4SS Mods directory: %s", modsPath.string().c_str());
 
@@ -259,7 +259,7 @@ namespace hse {
 
     } // namespace
 
-    InstallMode DetectInstallMode(const std::filesystem::path& gameBinPath) noexcept {
+    InstallMode DetectInstallMode(const std::filesystem::path& gameBinPath) {
         if (IsUe4ssInstalled(gameBinPath)) {
             return InstallMode::Ue4ss;
         }
@@ -272,7 +272,7 @@ namespace hse {
         return InstallMode::Standalone;
     }
 
-    bool IsInstallationComplete(const std::filesystem::path& gameBinPath, InstallMode mode) noexcept {
+    bool IsInstallationComplete(const std::filesystem::path& gameBinPath, InstallMode mode) {
         std::error_code ec;
 
         const bool proxyInstalled = std::filesystem::exists(gameBinPath / PROXY_FILENAME, ec);
@@ -297,7 +297,7 @@ namespace hse {
 
     std::expected<void, InstallError> InstallFiles(
         const std::filesystem::path& sourcePath, const std::filesystem::path& gameBinPath, InstallMode mode
-    ) noexcept {
+    ) {
         auto installResult = mode == InstallMode::Ue4ss ? InstallUe4ssFiles(sourcePath, gameBinPath)
                                                         : InstallStandaloneFiles(sourcePath, gameBinPath);
         if (!installResult) {
@@ -310,7 +310,7 @@ namespace hse {
         return {};
     }
 
-    std::expected<bool, InstallError> TestWritePermissions(const std::filesystem::path& gameBinPath) noexcept {
+    std::expected<bool, InstallError> TestWritePermissions(const std::filesystem::path& gameBinPath) {
         std::error_code ec;
         const bool pathExists = std::filesystem::exists(gameBinPath, ec);
         if (ec) {

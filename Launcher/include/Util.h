@@ -49,7 +49,9 @@ namespace hse {
     [[nodiscard]] inline const std::filesystem::path& getAppDataDirectory() {
         static const std::filesystem::path fullPath = []() {
             char appDataPath[MAX_PATH];
-            if (FAILED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appDataPath))) fail("Failed to get AppData path");
+            if (FAILED(SHGetFolderPathA(nullptr, CSIDL_APPDATA, nullptr, 0, appDataPath))) {
+                fail("Failed to get AppData path");
+            }
 
             auto appPath = std::filesystem::path(appDataPath) / APP_FOLDER_NAME;
             std::error_code ec;
