@@ -4,7 +4,7 @@ static constexpr int FUNC_COUNT = 180;
 
 extern "C" FARPROC originalFuncs[FUNC_COUNT]{};
 
-static HMODULE hOriginalDLL = NULL;
+static HMODULE hOriginalDLL = nullptr;
 
 namespace {
     HMODULE LoadOriginalDLL() {
@@ -25,7 +25,7 @@ namespace {
         }
 
         MessageBoxA(
-            NULL,
+            nullptr,
             "Could not find 'HSEnhancer.dll'."
             "\n\nPlease make sure the file is named 'HSEnhancer.dll' and is in the same folder as the game.",
             "Half Sword Enhancer", MB_OK | MB_ICONINFORMATION
@@ -40,7 +40,7 @@ static DWORD WINAPI BootstrapMod(LPVOID) {
 }
 
 // clang-format off
-static constexpr const char* kFuncNames[FUNC_COUNT] =
+static constexpr const char* FUNC_NAMES[FUNC_COUNT] =
     {"CloseDriver",
      "DefDriverProc",
      "DriverCallback",
@@ -225,16 +225,16 @@ static constexpr const char* kFuncNames[FUNC_COUNT] =
 
 static void CacheOriginalFunctions() {
     for (int i = 0; i < FUNC_COUNT; i++)
-        originalFuncs[i] = GetProcAddress(hOriginalDLL, kFuncNames[i]);
+        originalFuncs[i] = GetProcAddress(hOriginalDLL, FUNC_NAMES[i]);
 }
 
-BOOL APIENTRY DllMain(HMODULE /*hModule*/, DWORD ul_reason_for_call, LPVOID /*lpReserved*/) {
-    if (ul_reason_for_call == DLL_PROCESS_ATTACH) {
+BOOL APIENTRY DllMain(HMODULE /*hModule*/, DWORD reasonForCall, LPVOID /*lpReserved*/) {
+    if (reasonForCall == DLL_PROCESS_ATTACH) {
         hOriginalDLL = LoadOriginalDLL();
         CacheOriginalFunctions();
         HANDLE bootstrapThread = CreateThread(nullptr, 0, BootstrapMod, nullptr, 0, nullptr);
         if (bootstrapThread) CloseHandle(bootstrapThread);
-    } else if (ul_reason_for_call == DLL_PROCESS_DETACH) {
+    } else if (reasonForCall == DLL_PROCESS_DETACH) {
         if (hOriginalDLL) FreeLibrary(hOriginalDLL);
     }
     return TRUE;
