@@ -21,12 +21,12 @@ namespace {
     constexpr int CONSOLE_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
 
 #ifdef EXPERIMENTAL_VERSION
-    constexpr std::string_view INSTALL_SECTION = "Install";
-    constexpr std::string_view INSTALL_MODE_KEY = "install_mode";
-    constexpr std::string_view INSTALL_MODE_STANDALONE = "standalone";
-    constexpr std::string_view INSTALL_MODE_UE4SS = "ue4ss";
+    constexpr const char* INSTALL_SECTION = "Install";
+    constexpr const char* INSTALL_MODE_KEY = "install_mode";
+    constexpr const char* INSTALL_MODE_STANDALONE = "standalone";
+    constexpr const char* INSTALL_MODE_UE4SS = "ue4ss";
 
-    [[nodiscard]] constexpr std::string_view InstallModeConfigValue(hse::InstallMode mode) noexcept {
+    [[nodiscard]] constexpr const char* InstallModeConfigValue(hse::InstallMode mode) noexcept {
         return mode == hse::InstallMode::Ue4ss ? INSTALL_MODE_UE4SS : INSTALL_MODE_STANDALONE;
     }
 
@@ -42,9 +42,7 @@ namespace {
 #endif
 }
 
-HSELauncher::HSELauncher()
-    : config(hse::LauncherConfig::Instance()),
-      gameEdition_(hse::GameEdition::FullGame) {}
+HSELauncher::HSELauncher() : config(hse::LauncherConfig::Instance()), gameEdition_(hse::GameEdition::FullGame) {}
 
 void HSELauncher::SetupConsole() {
     auto localVersionResult = updateManager.GetLocalVersion();
@@ -129,7 +127,7 @@ bool HSELauncher::AskForUpdatePreference() {
         "Update Settings", MB_YESNO | MB_ICONQUESTION
     );
     bool enableUpdates = (result == IDYES);
-    (void)config.SetCheckForUpdates(enableUpdates);
+    [[maybe_unused]] const auto saveResult = config.SetCheckForUpdates(enableUpdates);
     hse::Logger::info(enableUpdates ? "User enabled update checking" : "User disabled update checking");
     return enableUpdates;
 }
@@ -245,8 +243,8 @@ bool HSELauncher::LocateGame() {
     if (locateResult) {
         gameBinPath_ = locateResult->binariesPath;
         gameEdition_ = locateResult->edition;
-        (void)config.SetGamePath(gameBinPath_);
-        (void)config.SetGameEdition(gameEdition_);
+        [[maybe_unused]] const auto savePathResult = config.SetGamePath(gameBinPath_);
+        [[maybe_unused]] const auto saveEditionResult = config.SetGameEdition(gameEdition_);
         hse::Logger::info("Game found: %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_));
         return true;
     }
@@ -268,8 +266,8 @@ bool HSELauncher::LocateGame() {
 
     gameBinPath_ = manualResult->binariesPath;
     gameEdition_ = manualResult->edition;
-    (void)config.SetGamePath(gameBinPath_);
-    (void)config.SetGameEdition(gameEdition_);
+    [[maybe_unused]] const auto savePathResult = config.SetGamePath(gameBinPath_);
+    [[maybe_unused]] const auto saveEditionResult = config.SetGameEdition(gameEdition_);
     hse::Logger::info(
         "Game found (manual): %s (%s)", gameBinPath_.string().c_str(), hse::GameEditionName(gameEdition_)
     );
@@ -300,18 +298,16 @@ hse::InstallMode HSELauncher::GetInstallMode() {
     }
 
     const auto detectedMode = hse::DetectInstallMode(gameBinPath_);
-    std::string message =
-        "Choose how to install this closed-test build.\n\n"
-        "YES: UE4SS mode. Use this if UE4SS is installed; HSE will be installed as "
-        "ue4ss\\Mods\\HSEnhancer\\dlls\\main.dll.\n\n"
-        "NO: Standalone mode. HSE will use the winmm.dll proxy.\n\n";
+    std::string message = "Choose how to install this closed-test build.\n\n"
+                          "YES: UE4SS mode. Use this if UE4SS is installed; HSE will be installed as "
+                          "ue4ss\\Mods\\HSEnhancer\\dlls\\main.dll.\n\n"
+                          "NO: Standalone mode. HSE will use the winmm.dll proxy.\n\n";
 
     message += detectedMode == hse::InstallMode::Ue4ss
                    ? "UE4SS files were detected, so UE4SS mode is recommended."
                    : "UE4SS was not detected, so standalone mode is recommended unless you install UE4SS yourself.";
 
-    const UINT defaultButton =
-        detectedMode == hse::InstallMode::Ue4ss ? MB_DEFBUTTON1 : MB_DEFBUTTON2;
+    const UINT defaultButton = detectedMode == hse::InstallMode::Ue4ss ? MB_DEFBUTTON1 : MB_DEFBUTTON2;
     const int result =
         MessageBoxA(nullptr, message.c_str(), "Install Mode", MB_YESNO | MB_ICONQUESTION | defaultButton);
     const auto installMode = result == IDYES ? hse::InstallMode::Ue4ss : hse::InstallMode::Standalone;

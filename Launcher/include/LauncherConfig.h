@@ -18,37 +18,32 @@ namespace hse {
 
     class LauncherConfig {
     public:
-        static LauncherConfig& Instance() noexcept {
+        static LauncherConfig& Instance() {
             static LauncherConfig instance;
             return instance;
         }
 
-        [[nodiscard]] bool GetCheckForUpdates() const noexcept;
-        [[nodiscard]] std::expected<void, ConfigError> SetCheckForUpdates(bool enabled) noexcept;
+        [[nodiscard]] bool GetCheckForUpdates() const;
+        [[nodiscard]] std::expected<void, ConfigError> SetCheckForUpdates(bool enabled);
 
-        [[nodiscard]] bool HasCheckForUpdatesSetting() const noexcept;
+        [[nodiscard]] bool HasCheckForUpdatesSetting() const;
         [[nodiscard]] bool IsFirstRun() const noexcept { return isFirstRun_; }
 
-        [[nodiscard]] std::filesystem::path GetGamePath() const noexcept;
-        [[nodiscard]] std::expected<void, ConfigError> SetGamePath(const std::filesystem::path& path) noexcept;
-        [[nodiscard]] bool HasGamePath() const noexcept;
+        [[nodiscard]] std::filesystem::path GetGamePath() const;
+        [[nodiscard]] std::expected<void, ConfigError> SetGamePath(const std::filesystem::path& path);
+        [[nodiscard]] bool HasGamePath() const;
 
-        [[nodiscard]] GameEdition GetGameEdition() const noexcept;
-        [[nodiscard]] std::expected<void, ConfigError> SetGameEdition(GameEdition edition) noexcept;
+        [[nodiscard]] GameEdition GetGameEdition() const;
+        [[nodiscard]] std::expected<void, ConfigError> SetGameEdition(GameEdition edition);
 
-        [[nodiscard]] bool GetBool(std::string_view section, std::string_view key, bool defaultValue = false
-        ) const noexcept;
-        [[nodiscard]] std::string GetString(
-            std::string_view section, std::string_view key, std::string_view defaultValue = ""
-        ) const noexcept;
+        [[nodiscard]] bool GetBool(const char* section, const char* key, bool defaultValue = false) const;
+        [[nodiscard]] std::string GetString(const char* section, const char* key, const char* defaultValue = "") const;
 
-        [[nodiscard]] std::expected<void, ConfigError> SetBool(
-            std::string_view section, std::string_view key, bool value
-        ) noexcept;
+        [[nodiscard]] std::expected<void, ConfigError> SetBool(const char* section, const char* key, bool value);
 
         [[nodiscard]] std::expected<void, ConfigError> SetString(
-            std::string_view section, std::string_view key, std::string_view value
-        ) noexcept;
+            const char* section, const char* key, std::string_view value
+        );
 
     private:
         std::filesystem::path configPath_;
@@ -62,15 +57,15 @@ namespace hse {
         LauncherConfig(LauncherConfig&&) = delete;
         LauncherConfig& operator=(LauncherConfig&&) = delete;
 
-        [[nodiscard]] std::expected<void, ConfigError> SaveConfig() noexcept;
-        [[nodiscard]] std::expected<void, ConfigError> LoadConfig() noexcept;
+        [[nodiscard]] std::expected<void, ConfigError> SaveConfig();
+        [[nodiscard]] std::expected<void, ConfigError> LoadConfig();
 
-        [[nodiscard]] std::expected<void, ConfigError> SaveConfigUnlocked() noexcept;
-        [[nodiscard]] std::expected<void, ConfigError> LoadConfigUnlocked() noexcept;
-        [[nodiscard]] bool HasKey(std::string_view section, std::string_view key) const noexcept;
+        [[nodiscard]] std::expected<void, ConfigError> SaveConfigUnlocked();
+        [[nodiscard]] std::expected<void, ConfigError> LoadConfigUnlocked();
+        [[nodiscard]] bool HasKey(const char* section, const char* key) const;
     };
 
-    inline std::expected<void, ConfigError> LauncherConfig::SaveConfigUnlocked() noexcept {
+    inline std::expected<void, ConfigError> LauncherConfig::SaveConfigUnlocked() {
         const auto saveResult = ini_.SaveFile(configPath_.string().c_str());
         if (saveResult >= 0) {
             return {};
@@ -91,11 +86,12 @@ namespace hse {
             return {};
         }
 
-        return std::unexpected(retryResult == SI_FILE ? ConfigError::WritePermissionDenied
-                                                      : ConfigError::InvalidFormat);
+        return std::unexpected(
+            retryResult == SI_FILE ? ConfigError::WritePermissionDenied : ConfigError::InvalidFormat
+        );
     }
 
-    inline std::expected<void, ConfigError> LauncherConfig::LoadConfigUnlocked() noexcept {
+    inline std::expected<void, ConfigError> LauncherConfig::LoadConfigUnlocked() {
         const auto loadResult = ini_.LoadFile(configPath_.string().c_str());
         if (loadResult >= 0) {
             return {};
@@ -104,35 +100,30 @@ namespace hse {
         return std::unexpected(loadResult == SI_FILE ? ConfigError::FileNotFound : ConfigError::InvalidFormat);
     }
 
-    inline bool LauncherConfig::HasKey(std::string_view section, std::string_view key) const noexcept {
-        return ini_.KeyExists(section.data(), key.data());
+    inline bool LauncherConfig::HasKey(const char* section, const char* key) const {
+        return ini_.KeyExists(section, key);
     }
 
-    inline bool LauncherConfig::GetBool(std::string_view section, std::string_view key, bool defaultValue) const noexcept {
-        return ini_.GetBoolValue(section.data(), key.data(), defaultValue);
+    inline bool LauncherConfig::GetBool(const char* section, const char* key, bool defaultValue) const {
+        return ini_.GetBoolValue(section, key, defaultValue);
     }
 
-    inline std::string LauncherConfig::GetString(
-        std::string_view section, std::string_view key, std::string_view defaultValue
-    ) const noexcept {
-        std::string default_str(defaultValue);
-        return std::string(ini_.GetValue(section.data(), key.data(), default_str.c_str()));
+    inline std::string LauncherConfig::GetString(const char* section, const char* key, const char* defaultValue) const {
+        return std::string(ini_.GetValue(section, key, defaultValue));
     }
 
-    inline std::expected<void, ConfigError> LauncherConfig::SetBool(
-        std::string_view section, std::string_view key, bool value
-    ) noexcept {
-        if (ini_.SetBoolValue(section.data(), key.data(), value) < 0) {
+    inline std::expected<void, ConfigError> LauncherConfig::SetBool(const char* section, const char* key, bool value) {
+        if (ini_.SetBoolValue(section, key, value) < 0) {
             return std::unexpected(ConfigError::InvalidValue);
         }
         return SaveConfigUnlocked();
     }
 
     inline std::expected<void, ConfigError> LauncherConfig::SetString(
-        std::string_view section, std::string_view key, std::string_view value
-    ) noexcept {
-        std::string value_str(value);
-        if (ini_.SetValue(section.data(), key.data(), value_str.c_str()) < 0) {
+        const char* section, const char* key, std::string_view value
+    ) {
+        const std::string valueStr(value);
+        if (ini_.SetValue(section, key, valueStr.c_str()) < 0) {
             return std::unexpected(ConfigError::InvalidValue);
         }
         return SaveConfigUnlocked();

@@ -11,7 +11,7 @@
 
 namespace hse {
     namespace {
-        constexpr std::wstring_view USER_AGENT = L"Half Sword Enhancer Updater";
+        constexpr wchar_t USER_AGENT[] = L"Half Sword Enhancer Updater";
         constexpr std::size_t BUFFER_SIZE = 16384;
 
         struct HttpConnection {
@@ -21,54 +21,46 @@ namespace hse {
             bool secure = true;
         };
 
-        class WinHttpSession {
-        public:
+        struct WinHttpSession {
             explicit WinHttpSession(
                 HINTERNET session = nullptr, HINTERNET connection = nullptr, HINTERNET request = nullptr
             ) noexcept
-                : session_(session), connection_(connection), request_(request) {}
+                : sessionHandle(session), connectionHandle(connection), requestHandle(request) {}
 
             ~WinHttpSession() noexcept {
-                if (request_) WinHttpCloseHandle(request_);
-                if (connection_) WinHttpCloseHandle(connection_);
-                if (session_) WinHttpCloseHandle(session_);
+                if (requestHandle) WinHttpCloseHandle(requestHandle);
+                if (connectionHandle) WinHttpCloseHandle(connectionHandle);
+                if (sessionHandle) WinHttpCloseHandle(sessionHandle);
             }
 
             WinHttpSession(const WinHttpSession&) = delete;
             WinHttpSession& operator=(const WinHttpSession&) = delete;
 
             WinHttpSession(WinHttpSession&& other) noexcept
-                : session_(std::exchange(other.session_, nullptr)),
-                  connection_(std::exchange(other.connection_, nullptr)),
-                  request_(std::exchange(other.request_, nullptr)) {}
+                : sessionHandle(std::exchange(other.sessionHandle, nullptr)),
+                  connectionHandle(std::exchange(other.connectionHandle, nullptr)),
+                  requestHandle(std::exchange(other.requestHandle, nullptr)) {}
 
             WinHttpSession& operator=(WinHttpSession&& other) noexcept {
                 if (this != &other) {
-                    if (request_) WinHttpCloseHandle(request_);
-                    if (connection_) WinHttpCloseHandle(connection_);
-                    if (session_) WinHttpCloseHandle(session_);
+                    if (requestHandle) WinHttpCloseHandle(requestHandle);
+                    if (connectionHandle) WinHttpCloseHandle(connectionHandle);
+                    if (sessionHandle) WinHttpCloseHandle(sessionHandle);
 
-                    session_ = std::exchange(other.session_, nullptr);
-                    connection_ = std::exchange(other.connection_, nullptr);
-                    request_ = std::exchange(other.request_, nullptr);
+                    sessionHandle = std::exchange(other.sessionHandle, nullptr);
+                    connectionHandle = std::exchange(other.connectionHandle, nullptr);
+                    requestHandle = std::exchange(other.requestHandle, nullptr);
                 }
                 return *this;
             }
 
-            [[nodiscard]] HINTERNET session() const noexcept { return session_; }
-            [[nodiscard]] HINTERNET connection() const noexcept { return connection_; }
-            [[nodiscard]] HINTERNET request() const noexcept { return request_; }
+            [[nodiscard]] explicit operator bool() const noexcept {
+                return sessionHandle && connectionHandle && requestHandle;
+            }
 
-            void set_session(HINTERNET handle) noexcept { session_ = handle; }
-            void set_connection(HINTERNET handle) noexcept { connection_ = handle; }
-            void set_request(HINTERNET handle) noexcept { request_ = handle; }
-
-            [[nodiscard]] explicit operator bool() const noexcept { return session_ && connection_ && request_; }
-
-        private:
-            HINTERNET session_;
-            HINTERNET connection_;
-            HINTERNET request_;
+            HINTERNET sessionHandle = nullptr;
+            HINTERNET connectionHandle = nullptr;
+            HINTERNET requestHandle = nullptr;
         };
 
         struct FileHandle {
@@ -113,7 +105,7 @@ namespace hse {
         template <typename Sink>
         [[nodiscard]] std::expected<std::uint32_t, NetworkError> StreamResponse(
             HINTERNET request, std::vector<char>& buffer, Sink&& sink
-        ) noexcept {
+        ) {
             std::uint32_t totalBytes = 0;
 
             while (true) {
@@ -145,7 +137,7 @@ namespace hse {
             }
         }
 
-        [[nodiscard]] std::expected<HttpConnection, NetworkError> ParseUrl(const std::string& url) noexcept {
+        [[nodiscard]] std::expected<HttpConnection, NetworkError> ParseUrl(const std::string& url) {
             const std::wstring wUrl(url.begin(), url.end());
 
             std::vector<wchar_t> hostBuffer(256);
@@ -173,28 +165,32 @@ namespace hse {
                 .host = std::wstring(hostBuffer.data(), urlComp.dwHostNameLength),
                 .path = std::move(path),
                 .port = urlComp.nPort,
-                .secure = (urlComp.nScheme == INTERNET_SCHEME_HTTPS)};
+                .secure = (urlComp.nScheme == INTERNET_SCHEME_HTTPS)
+            };
         }
 
-        [[nodiscard]] std::expected<WinHttpSession, NetworkError> CreateSession(const HttpConnection& connection) noexcept {
+        [[nodiscard]] std::expected<WinHttpSession, NetworkError> CreateSession(
+            const HttpConnection& connection
+        ) noexcept {
             WinHttpSession session;
 
-            session.set_session(WinHttpOpen(USER_AGENT.data(), WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, nullptr, nullptr, 0));
+            session.sessionHandle = WinHttpOpen(USER_AGENT, WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, nullptr, nullptr, 0);
 
-            if (!session.session()) {
+            if (!session.sessionHandle) {
                 return std::unexpected(NetworkError::ConnectionFailed);
             }
 
-            session.set_connection(WinHttpConnect(session.session(), connection.host.c_str(), connection.port, 0));
+            session.connectionHandle =
+                WinHttpConnect(session.sessionHandle, connection.host.c_str(), connection.port, 0);
 
-            if (!session.connection()) {
+            if (!session.connectionHandle) {
                 return std::unexpected(NetworkError::ConnectionFailed);
             }
 
-            session.set_request(WinHttpOpenRequest(
-                session.connection(), L"GET", connection.path.c_str(), nullptr, nullptr, WINHTTP_DEFAULT_ACCEPT_TYPES,
-                connection.secure ? WINHTTP_FLAG_SECURE : 0
-            ));
+            session.requestHandle = WinHttpOpenRequest(
+                session.connectionHandle, L"GET", connection.path.c_str(), nullptr, nullptr,
+                WINHTTP_DEFAULT_ACCEPT_TYPES, connection.secure ? WINHTTP_FLAG_SECURE : 0
+            );
 
             if (!session) {
                 return std::unexpected(NetworkError::RequestFailed);
@@ -211,7 +207,8 @@ namespace hse {
             const auto receiveTimeoutMs = static_cast<int>(receiveTimeout.count());
             WinHttpSetTimeouts(request, connectTimeoutMs, connectTimeoutMs, connectTimeoutMs, receiveTimeoutMs);
 
-            if (!WinHttpSendRequest(request, nullptr, 0, nullptr, 0, 0, 0) || !WinHttpReceiveResponse(request, nullptr)) {
+            if (!WinHttpSendRequest(request, nullptr, 0, nullptr, 0, 0, 0) ||
+                !WinHttpReceiveResponse(request, nullptr)) {
                 return std::unexpected(NetworkError::RequestFailed);
             }
 
@@ -230,7 +227,7 @@ namespace hse {
 
     }
 
-    std::expected<void, NetworkError> DownloadFile(const DownloadConfig& config) noexcept {
+    std::expected<void, NetworkError> DownloadFile(const DownloadConfig& config) {
         hse::Logger::info(config.description + "...");
 
         auto connection = ParseUrl(config.url);
@@ -243,7 +240,7 @@ namespace hse {
             return std::unexpected(session.error());
         }
 
-        auto sendResult = SendRequest(session->request(), config.connectTimeout, config.receiveTimeout);
+        auto sendResult = SendRequest(session->requestHandle, config.connectTimeout, config.receiveTimeout);
         if (!sendResult) {
             return std::unexpected(sendResult.error());
         }
@@ -257,14 +254,15 @@ namespace hse {
 
         std::vector<char> buffer(BUFFER_SIZE);
         auto totalBytes = StreamResponse(
-            session->request(), buffer,
+            session->requestHandle, buffer,
             [&fileHandle](const char* data, DWORD size) noexcept -> std::expected<void, NetworkError> {
-            DWORD bytesWritten = 0;
-            if (!WriteFile(fileHandle.handle, data, size, &bytesWritten, nullptr) || bytesWritten != size) {
-                return std::unexpected(NetworkError::DownloadFailed);
+                DWORD bytesWritten = 0;
+                if (!WriteFile(fileHandle.handle, data, size, &bytesWritten, nullptr) || bytesWritten != size) {
+                    return std::unexpected(NetworkError::DownloadFailed);
+                }
+                return std::expected<void, NetworkError>{};
             }
-            return std::expected<void, NetworkError>{};
-        });
+        );
         if (!totalBytes) {
             return std::unexpected(totalBytes.error());
         }
@@ -276,7 +274,7 @@ namespace hse {
         return {};
     }
 
-    std::expected<std::string, NetworkError> DownloadToString(const std::string& url) noexcept {
+    std::expected<std::string, NetworkError> DownloadToString(const std::string& url) {
         auto connection = ParseUrl(url);
         if (!connection) {
             return std::unexpected(connection.error());
@@ -287,14 +285,14 @@ namespace hse {
             return std::unexpected(session.error());
         }
 
-        auto sendResult = SendRequest(session->request());
+        auto sendResult = SendRequest(session->requestHandle);
         if (!sendResult) {
             return std::unexpected(sendResult.error());
         }
 
         std::string result;
         std::vector<char> buffer(BUFFER_SIZE);
-        auto downloadResult = StreamResponse(session->request(), buffer, [&result](const char* data, DWORD size) noexcept {
+        auto downloadResult = StreamResponse(session->requestHandle, buffer, [&result](const char* data, DWORD size) {
             result.append(data, size);
             return std::expected<void, NetworkError>{};
         });

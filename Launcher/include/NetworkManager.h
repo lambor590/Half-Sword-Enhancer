@@ -26,7 +26,7 @@ namespace hse {
         std::uint32_t minFileSize = 0;
     };
 
-    [[nodiscard]] std::expected<void, NetworkError> DownloadFile(const DownloadConfig& config) noexcept;
-    [[nodiscard]] std::expected<std::string, NetworkError> DownloadToString(const std::string& url) noexcept;
+    [[nodiscard]] std::expected<void, NetworkError> DownloadFile(const DownloadConfig& config);
+    [[nodiscard]] std::expected<std::string, NetworkError> DownloadToString(const std::string& url);
 
 }
