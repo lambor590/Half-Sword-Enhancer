@@ -66,7 +66,7 @@ void MenuManager::RenderMenu() {
     ImGui::PopStyleVar();
 }
 
-void MenuManager::UpdateSearchResults() noexcept {
+void MenuManager::UpdateSearchResults() {
     searchResults.clear();
 
     if (searchBuffer[0] == '\0') {
@@ -90,7 +90,7 @@ void MenuManager::UpdateSearchResults() noexcept {
 }
 
 void MenuManager::RebuildRenderGroups(MenuTab tab) {
-    const size_t tabIndex = static_cast<size_t>(tab);
+    const auto tabIndex = static_cast<size_t>(tab);
     auto& groups = renderGroups[tabIndex];
     groups.clear();
 

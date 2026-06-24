@@ -99,14 +99,14 @@ namespace {
     }
 
     const SDK::FMaterialParameterInfo& BloodRtParameterInfo() {
-        static const SDK::FMaterialParameterInfo parameter = [] {
+        static const SDK::FMaterialParameterInfo PARAMETER = [] {
             SDK::FMaterialParameterInfo info{};
             info.Name = SDK::BasicFilesImplUtils::StringToName(L"BloodRT");
             info.Association = SDK::EMaterialParameterAssociation::GlobalParameter;
             info.Index = -1;
             return info;
         }();
-        return parameter;
+        return PARAMETER;
     }
 
     SDK::UTexture* GetBloodRenderTarget(SDK::UMaterialInstanceDynamic* dynamicMaterial) {

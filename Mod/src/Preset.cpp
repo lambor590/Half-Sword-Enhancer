@@ -13,6 +13,24 @@
 #include "Utils/ArmorPresetSerializer.h"
 #include "Utils/LoadoutPresetSerializer.h"
 
+namespace {
+    int ParseInt(const char* text, int defaultValue = 0) {
+        if (!text) return defaultValue;
+
+        char* end = nullptr;
+        const long value = std::strtol(text, &end, 10);
+        return end == text ? defaultValue : static_cast<int>(value);
+    }
+
+    double ParseDouble(const char* text, double defaultValue = 0.0) {
+        if (!text) return defaultValue;
+
+        char* end = nullptr;
+        const double value = std::strtod(text, &end);
+        return end == text ? defaultValue : value;
+    }
+}
+
 // Unified field serialize/deserialize
 
 void SerializePresetFields(std::span<const PresetFieldDescriptor> fields, CSimpleIniA& ini) {
@@ -51,9 +69,9 @@ void DeserializePresetFields(std::span<const PresetFieldDescriptor> fields, cons
 
         switch (f.type) {
             case PresetFieldType::String: *static_cast<std::string*>(f.value) = raw ? raw : ""; break;
-            case PresetFieldType::Int: *static_cast<int*>(f.value) = raw ? std::atoi(raw) : 0; break;
-            case PresetFieldType::Double: *static_cast<double*>(f.value) = raw ? std::atof(raw) : 0.0; break;
-            case PresetFieldType::Bool: *static_cast<bool*>(f.value) = raw ? (std::atoi(raw) != 0) : false; break;
+            case PresetFieldType::Int: *static_cast<int*>(f.value) = ParseInt(raw); break;
+            case PresetFieldType::Double: *static_cast<double*>(f.value) = ParseDouble(raw); break;
+            case PresetFieldType::Bool: *static_cast<bool*>(f.value) = ParseInt(raw) != 0; break;
             case PresetFieldType::Vec3: *static_cast<SDK::FVector*>(f.value) = PresetUtils::StringToVec(raw); break;
             case PresetFieldType::Rotator: *static_cast<SDK::FRotator*>(f.value) = PresetUtils::StringToRot(raw); break;
             case PresetFieldType::Color: {
@@ -308,13 +326,13 @@ void WeaponPresetData::DeserializeCustom(WeaponPresetData& data, const CSimpleIn
 
     // Material enums
     p.MaterialMetalSteel_37_AB7A28C94B176CF81A6C8BA34AC57C36 =
-        static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialSteel", "3")));
+        static_cast<SDK::Enum_MaterialLayer>(ParseInt(ini.GetValue("Passport", "materialSteel", "3"), 3));
     p.MaterialMetalColored_39_DC2EAC244758A8D82855CC940784A1D2 =
-        static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialColored", "0")));
+        static_cast<SDK::Enum_MaterialLayer>(ParseInt(ini.GetValue("Passport", "materialColored", "0")));
     p.MaterialWeood_41_E0B3C8DB48943B878AEFA3AB01E7B99A =
-        static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialWood", "14")));
+        static_cast<SDK::Enum_MaterialLayer>(ParseInt(ini.GetValue("Passport", "materialWood", "14"), 14));
     p.MaterialLeather_43_41D1114148FDB4FE4DACC8A2F4CA9FEB =
-        static_cast<SDK::Enum_MaterialLayer>(std::atoi(ini.GetValue("Passport", "materialLeather", "10")));
+        static_cast<SDK::Enum_MaterialLayer>(ParseInt(ini.GetValue("Passport", "materialLeather", "10"), 10));
 
     // Colors
     static constexpr SDK::FLinearColor DEFAULT_WOOD_COLOR = {0.4f, 0.26f, 0.13f, 1.0f};
@@ -326,7 +344,7 @@ void WeaponPresetData::DeserializeCustom(WeaponPresetData& data, const CSimpleIn
 
     // Tier
     p.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 =
-        static_cast<SDK::Enum_Ranks>(std::atoi(ini.GetValue("Passport", "tier", "4")));
+        static_cast<SDK::Enum_Ranks>(ParseInt(ini.GetValue("Passport", "tier", "4"), 4));
 
     // Mesh overrides
     static constexpr const char* MESH_KEYS[] = {"head", "guard", "grip", "pommel"};
@@ -442,11 +460,12 @@ void ArmorPresetData::SerializeCustom(const ArmorPresetData& data, CSimpleIniA& 
 void ArmorPresetData::DeserializeCustom(ArmorPresetData& data, const CSimpleIniA& ini) {
     auto& p = data.passport;
 
-    p.ID_54_C6BBB1A64A3828B5AB1D8E804EC7C8F7 = std::atoi(ini.GetValue("Passport", "id", "0"));
-    p.CoreRemoved_12_5CFF8F6D4A05C15812594CAF6771C66B = std::atoi(ini.GetValue("Passport", "coreRemoved", "0")) != 0;
-    p.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = std::atoi(ini.GetValue("Passport", "module1", "0"));
-    p.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = std::atoi(ini.GetValue("Passport", "module2", "0"));
-    p.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = std::atoi(ini.GetValue("Passport", "module3", "0"));
+    p.ID_54_C6BBB1A64A3828B5AB1D8E804EC7C8F7 = ParseInt(ini.GetValue("Passport", "id", "0"));
+    p.CoreRemoved_12_5CFF8F6D4A05C15812594CAF6771C66B =
+        ParseInt(ini.GetValue("Passport", "coreRemoved", "0")) != 0;
+    p.Module1_5_46B7198E4341C93CBF6AE989EF9898E4 = ParseInt(ini.GetValue("Passport", "module1", "0"));
+    p.Module2_7_5B7940B84CFD673B25103D96E0AFEEB0 = ParseInt(ini.GetValue("Passport", "module2", "0"));
+    p.Module3_9_E282C465414F6D4EF2A8039FBA847AD2 = ParseInt(ini.GetValue("Passport", "module3", "0"));
 
     static constexpr SDK::FLinearColor DEFAULT_FABRIC_COLOR = {0.5f, 0.5f, 0.5f, 1.0f};
     p.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 =
@@ -454,21 +473,21 @@ void ArmorPresetData::DeserializeCustom(ArmorPresetData& data, const CSimpleIniA
     p.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C =
         PresetUtils::StringToColor(ini.GetValue("Passport", "fabricColor2", nullptr), DEFAULT_FABRIC_COLOR);
 
-    p.Price_27_8E3ADD54484EFC4A59FE9381485AC192 = std::atof(ini.GetValue("Passport", "price", "50.0"));
+    p.Price_27_8E3ADD54484EFC4A59FE9381485AC192 = ParseDouble(ini.GetValue("Passport", "price", "50.0"), 50.0);
     p.Slot_30_7561CB484566A4512003EA96ED44F88D =
-        static_cast<SDK::EArmorSlots_Enum>(std::atoi(ini.GetValue("Passport", "slot", "0")));
+        static_cast<SDK::EArmorSlots_Enum>(ParseInt(ini.GetValue("Passport", "slot", "0")));
     p.ProvidesUpperAP_34_A85C3E3B4E4EF35DA44FFA960797B6C6 =
-        std::atoi(ini.GetValue("Passport", "providesUpperAP", "0")) != 0;
+        ParseInt(ini.GetValue("Passport", "providesUpperAP", "0")) != 0;
     p.ProvidesLowerAP_36_FFA5916240E32AC30239D58BCDD69D62 =
-        std::atoi(ini.GetValue("Passport", "providesLowerAP", "0")) != 0;
+        ParseInt(ini.GetValue("Passport", "providesLowerAP", "0")) != 0;
     p.RequiresUpperAP_38_079BBCD74D92FB832584E8B776EC8A6E =
-        std::atoi(ini.GetValue("Passport", "requiresUpperAP", "0")) != 0;
+        ParseInt(ini.GetValue("Passport", "requiresUpperAP", "0")) != 0;
     p.RequiresLowerAP_40_BF13845C4B210380A7A569A912A6F614 =
-        std::atoi(ini.GetValue("Passport", "requiresLowerAP", "0")) != 0;
+        ParseInt(ini.GetValue("Passport", "requiresLowerAP", "0")) != 0;
     p.RequiresModuleHirarchy_47_9ED58E2C48514BE5153606977BE68B6A =
-        std::atoi(ini.GetValue("Passport", "requiresModuleHierarchy", "0")) != 0;
+        ParseInt(ini.GetValue("Passport", "requiresModuleHierarchy", "0")) != 0;
     p.Tier_50_E497AE434B01B84C559DEE8A863BB42E =
-        static_cast<SDK::Enum_Ranks>(std::atoi(ini.GetValue("Passport", "tier", "4")));
+        static_cast<SDK::Enum_Ranks>(ParseInt(ini.GetValue("Passport", "tier", "4"), 4));
 }
 
 // LoadoutPresetData descriptors + utilities
@@ -616,6 +635,6 @@ void LoadoutPresetData::DeserializeCustom(LoadoutPresetData& data, const CSimple
         wp.headSize = PresetUtils::StringToVec(ini.GetValue(section, "headSize", ""));
         wp.guardSize = PresetUtils::StringToVec(ini.GetValue(section, "guardSize", ""));
         wp.pommelSize = PresetUtils::StringToVec(ini.GetValue(section, "pommelSize", ""));
-        wp.coaInt = std::atoi(ini.GetValue(section, "coaInt", "0"));
+        wp.coaInt = ParseInt(ini.GetValue(section, "coaInt", "0"));
     }
 }

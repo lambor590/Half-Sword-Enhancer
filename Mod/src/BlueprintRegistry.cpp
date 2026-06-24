@@ -140,7 +140,7 @@ void BlueprintRegistry::PerformScan() {
                 entry.displayName = CleanDisplayName(assetName);
                 entry.classPath = asset.PackageName.GetRawString() + "." + assetName + "_C";
 
-                AddItem(std::move(entry), category, subcategory);
+                AddItem(entry, category, subcategory);
             }
 
             scanSuccess = !items.empty();
@@ -352,7 +352,7 @@ void BlueprintRegistry::InjectCustomizableWeapons() {
         BlueprintEntry entry;
         entry.displayName = GameConstants::WEAPON_TYPE_NAMES[i];
         entry.customizable = static_cast<CustomizableWeapon>(i + 1);
-        AddItem(std::move(entry), "Weapons", "Customizable");
+        AddItem(entry, "Weapons", "Customizable");
     }
 }
 
@@ -363,7 +363,7 @@ void BlueprintRegistry::InjectCustomPaths() {
         BlueprintEntry entry;
         entry.classPath = path;
         entry.displayName = DisplayNameFromClassPath(path);
-        AddItem(std::move(entry), "Custom", "Saved");
+        AddItem(entry, "Custom", "Saved");
     }
 }
 
@@ -509,7 +509,7 @@ void BlueprintRegistry::AddCustomPath(const std::string& path) {
         BlueprintEntry entry;
         entry.classPath = path;
         entry.displayName = DisplayNameFromClassPath(path);
-        AddItem(std::move(entry), "Custom", "Saved");
+        AddItem(entry, "Custom", "Saved");
         SortCategories();
         RebuildItemLocations();
         RebuildSearchIndex();
@@ -518,7 +518,7 @@ void BlueprintRegistry::AddCustomPath(const std::string& path) {
 
 void BlueprintRegistry::RemoveCustomPath(size_t index) {
     if (index >= customPaths.size()) return;
-    customPaths.erase(customPaths.begin() + index);
+    customPaths.erase(customPaths.begin() + static_cast<std::ptrdiff_t>(index));
     SaveCustomPaths();
 }
 

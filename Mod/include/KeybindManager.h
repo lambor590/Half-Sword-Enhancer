@@ -36,7 +36,7 @@ private:
         bool keyWasCaptured = false;
     };
 
-    static std::map<int*, Binding> s_bindings;
+    static std::map<int*, Binding>& Bindings();
     static bool s_initialized;
 
     static HotData s_hotData;
@@ -48,15 +48,14 @@ private:
             valid[i] = (i != 0 && i != VK_LWIN && i != VK_RWIN && i != VK_APPS);
         }
         return valid;
-    }
-    ();
+    }();
 
 public:
     static void Initialize() noexcept;
     static void RegisterKeybind(
         int* keyPtr, Callback callback, std::string name = "", bool isToggle = false, Callback onUnbound = {}
-    ) noexcept;
-    static void UnregisterKeybind(int* keyPtr) noexcept;
+    );
+    static void UnregisterKeybind(int* keyPtr);
     static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;
     static bool ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept;
     static void StartWaitingForRebind() noexcept;
@@ -180,19 +179,19 @@ public:
         return GetKeyNameConstexpr(static_cast<unsigned char>(vKey)).data();
     }
 
-    static bool ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept;
+    static bool ProcessKeyEvent(UINT msg, WPARAM wParam);
 
     static int& GetToggleGuiKey() noexcept { return s_hotData.toggleGuiKey; }
     static int& GetUnbindKey() noexcept { return s_coldData.unbindKey; }
     static void SaveKeybinds() noexcept;
 
     static bool IsKeyBound(int key, int* excludeKeyPtr = nullptr) noexcept;
-    static void RemoveBinding(int key, int* excludeKeyPtr = nullptr) noexcept;
-    static std::string GetBoundName(int key, int* excludeKeyPtr = nullptr) noexcept;
-    static std::vector<std::string> GetAllBoundNames(int key, int* excludeKeyPtr = nullptr) noexcept;
+    static void RemoveBinding(int key, int* excludeKeyPtr = nullptr);
+    static std::string GetBoundName(int key, int* excludeKeyPtr = nullptr);
+    static std::vector<std::string> GetAllBoundNames(int key, int* excludeKeyPtr = nullptr);
     static int GetBindingCount(int key, int* excludeKeyPtr = nullptr) noexcept;
-    static void UpdateBinding(int* keyPtr) noexcept;
-    static void UpdateBindingName(int* keyPtr, std::string name) noexcept;
+    static void UpdateBinding(int* keyPtr);
+    static void UpdateBindingName(int* keyPtr, std::string name);
 
 private:
     static const std::vector<Binding*>* FindBindings(int key) noexcept;

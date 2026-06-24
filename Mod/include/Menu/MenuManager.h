@@ -73,7 +73,7 @@ private:
     bool searchActive = false;
     std::vector<SearchResult> searchResults;
 
-    void UpdateSearchResults() noexcept;
+    void UpdateSearchResults();
     void RebuildRenderGroups(MenuTab tab);
     void SelectSection(Section* section, MenuTab tab);
 

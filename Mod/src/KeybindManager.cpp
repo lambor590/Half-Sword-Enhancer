@@ -7,7 +7,6 @@
 #include "NotificationManager.h"
 #include "Gui.h"
 
-std::map<int*, KeybindManager::Binding> KeybindManager::s_bindings;
 bool KeybindManager::s_initialized = false;
 
 KeybindManager::HotData KeybindManager::s_hotData;
@@ -17,6 +16,11 @@ namespace {
     constexpr bool IsIndexedKey(int key) noexcept {
         return key >= 0 && key < 256;
     }
+}
+
+std::map<int*, KeybindManager::Binding>& KeybindManager::Bindings() {
+    static std::map<int*, Binding> bindings;
+    return bindings;
 }
 
 void KeybindManager::Initialize() noexcept {
@@ -33,7 +37,7 @@ void KeybindManager::Initialize() noexcept {
 
 void KeybindManager::RegisterKeybind(
     int* keyPtr, Callback callback, std::string name, bool isToggle, Callback onUnbound
-) noexcept {
+) {
     bool expected = false;
     if (!s_hotData.processingKeyEvent.compare_exchange_strong(expected, true, std::memory_order_acquire)) {
         return;
@@ -42,18 +46,20 @@ void KeybindManager::RegisterKeybind(
     UnregisterKeybind(keyPtr);
 
     int currentKey = *keyPtr;
-    s_bindings[keyPtr] = {std::move(callback), keyPtr, std::move(name), isToggle, currentKey, std::move(onUnbound)};
+    auto& bindings = Bindings();
+    bindings[keyPtr] = {std::move(callback), keyPtr, std::move(name), isToggle, currentKey, std::move(onUnbound)};
 
     if (IsIndexedKey(currentKey)) {
-        s_hotData.keyToBindings[static_cast<size_t>(currentKey)].push_back(&s_bindings[keyPtr]);
+        s_hotData.keyToBindings[static_cast<size_t>(currentKey)].push_back(&bindings[keyPtr]);
     }
 
     s_hotData.processingKeyEvent.store(false, std::memory_order_release);
 }
 
-void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
-    auto it = s_bindings.find(keyPtr);
-    if (it == s_bindings.end()) return;
+void KeybindManager::UnregisterKeybind(int* keyPtr) {
+    auto& bindings = Bindings();
+    auto it = bindings.find(keyPtr);
+    if (it == bindings.end()) return;
 
     Binding& binding = it->second;
     if (IsIndexedKey(binding.currentKey)) {
@@ -61,7 +67,7 @@ void KeybindManager::UnregisterKeybind(int* keyPtr) noexcept {
         std::erase(vec, &binding);
     }
 
-    s_bindings.erase(it);
+    bindings.erase(it);
 }
 
 constexpr bool KeybindManager::IsRelevantMessage(UINT msg) noexcept {
@@ -84,7 +90,7 @@ int KeybindManager::ExtractKeyCode(UINT msg, WPARAM wParam) noexcept {
     }
 }
 
-bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
+bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) {
     if (!IsRelevantMessage(msg)) [[likely]] {
         return false;
     }
@@ -106,15 +112,15 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) noexcept {
         return false;
     }
 
-    static thread_local std::vector<Binding*> s_bindingCache;
-    s_bindingCache.clear();
-    s_bindingCache.reserve(bindings->size());
+    static thread_local std::vector<Binding*> bindingCache;
+    bindingCache.clear();
+    bindingCache.reserve(bindings->size());
 
     for (Binding* binding : *bindings) {
-        s_bindingCache.push_back(binding);
+        bindingCache.push_back(binding);
     }
 
-    for (const Binding* binding : s_bindingCache) {
+    for (const Binding* binding : bindingCache) {
         binding->callback();
 
         if (!binding->name.empty()) [[likely]] {
@@ -185,27 +191,27 @@ bool KeybindManager::IsKeyBound(int key, int* excludeKeyPtr) noexcept {
     return bindings->size() > (hasExcluded ? 1 : 0);
 }
 
-void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) noexcept {
+void KeybindManager::RemoveBinding(int key, int* excludeKeyPtr) {
     if (!IsIndexedKey(key)) return;
 
-    auto& bindings = s_hotData.keyToBindings[static_cast<size_t>(key)];
-    if (bindings.empty()) return;
+    auto& keyBindings = s_hotData.keyToBindings[static_cast<size_t>(key)];
+    if (keyBindings.empty()) return;
 
     auto foundIt =
-        std::ranges::find_if(bindings, [excludeKeyPtr](const Binding* b) { return b->keyPtr != excludeKeyPtr; });
+        std::ranges::find_if(keyBindings, [excludeKeyPtr](const Binding* b) { return b->keyPtr != excludeKeyPtr; });
 
-    if (foundIt != bindings.end()) {
+    if (foundIt != keyBindings.end()) {
         Binding* binding = *foundIt;
         *(binding->keyPtr) = -1;
         if (binding->onUnbound) {
             binding->onUnbound();
         }
-        s_bindings.erase(binding->keyPtr);
-        bindings.erase(foundIt);
+        Bindings().erase(binding->keyPtr);
+        keyBindings.erase(foundIt);
     }
 }
 
-std::string KeybindManager::GetBoundName(int key, int* excludeKeyPtr) noexcept {
+std::string KeybindManager::GetBoundName(int key, int* excludeKeyPtr) {
     auto* bindings = FindBindings(key);
     if (!bindings) [[likely]]
         return {};
@@ -218,7 +224,7 @@ std::string KeybindManager::GetBoundName(int key, int* excludeKeyPtr) noexcept {
     return {};
 }
 
-std::vector<std::string> KeybindManager::GetAllBoundNames(int key, int* excludeKeyPtr) noexcept {
+std::vector<std::string> KeybindManager::GetAllBoundNames(int key, int* excludeKeyPtr) {
     auto* bindings = FindBindings(key);
     if (!bindings) [[likely]]
         return {};
@@ -247,14 +253,15 @@ int KeybindManager::GetBindingCount(int key, int* excludeKeyPtr) noexcept {
     return static_cast<int>(bindings->size() - (hasExcluded ? 1 : 0));
 }
 
-void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
+void KeybindManager::UpdateBinding(int* keyPtr) {
     bool expected = false;
     if (!s_hotData.processingKeyEvent.compare_exchange_strong(expected, true, std::memory_order_acquire)) {
         return;
     }
 
-    auto it = s_bindings.find(keyPtr);
-    if (it == s_bindings.end()) {
+    auto& bindings = Bindings();
+    auto it = bindings.find(keyPtr);
+    if (it == bindings.end()) {
         s_hotData.processingKeyEvent.store(false, std::memory_order_release);
         return;
     }
@@ -281,9 +288,10 @@ void KeybindManager::UpdateBinding(int* keyPtr) noexcept {
     s_hotData.processingKeyEvent.store(false, std::memory_order_release);
 }
 
-void KeybindManager::UpdateBindingName(int* keyPtr, std::string name) noexcept {
-    auto it = s_bindings.find(keyPtr);
-    if (it != s_bindings.end()) {
+void KeybindManager::UpdateBindingName(int* keyPtr, std::string name) {
+    auto& bindings = Bindings();
+    auto it = bindings.find(keyPtr);
+    if (it != bindings.end()) {
         it->second.name = std::move(name);
     }
 }

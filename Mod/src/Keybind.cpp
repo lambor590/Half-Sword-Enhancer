@@ -13,7 +13,7 @@
 
 KeybindParam::KeybindParam(
     std::string_view name, std::string_view displayName, int* value, int minVal, int maxVal, std::string_view tooltip
-) noexcept
+)
     : name(name), displayName(displayName), tooltip(tooltip), type(Type::Int), valuePtr(value) {
     minValue.intMin = minVal;
     maxValue.intMax = maxVal;
@@ -23,7 +23,7 @@ KeybindParam::KeybindParam(
 KeybindParam::KeybindParam(
     std::string_view name, std::string_view displayName, float* value, float minVal, float maxVal,
     std::string_view tooltip
-) noexcept
+)
     : name(name), displayName(displayName), tooltip(tooltip), type(Type::Float), valuePtr(value) {
     minValue.floatMin = minVal;
     maxValue.floatMax = maxVal;
@@ -32,7 +32,7 @@ KeybindParam::KeybindParam(
 
 KeybindParam::KeybindParam(
     std::string_view name, std::string_view displayName, bool* value, std::string_view tooltip
-) noexcept
+)
     : name(name), displayName(displayName), tooltip(tooltip), type(Type::Bool), valuePtr(value) {
     id = "##param_" + std::string(name);
 }
@@ -59,11 +59,11 @@ namespace {
     constexpr float ITEM_WIDTH_160 = 160.0f;
     constexpr float FRAME_BORDER_SIZE = 1.0f;
 
-    constexpr std::string_view PRESS_KEY_TEXT = "Press a key...";
-    constexpr std::string_view CONFIGURE_FORMAT = "Configure %s";
-    constexpr std::string_view CHANGE_KEYBIND_TEXT = "Change keybind";
-    constexpr std::string_view KEY_CONFLICT_FORMAT = "Key %s is already bound to %s. What do you want to do?";
-    constexpr std::string_view KEY_MULTI_CONFLICT_FORMAT =
+    constexpr char PRESS_KEY_TEXT[] = "Press a key...";
+    constexpr char CONFIGURE_FORMAT[] = "Configure %s";
+    constexpr char CHANGE_KEYBIND_TEXT[] = "Change keybind";
+    constexpr char KEY_CONFLICT_FORMAT[] = "Key %s is already bound to %s. What do you want to do?";
+    constexpr char KEY_MULTI_CONFLICT_FORMAT[] =
         "Key %s is already bound to %d functions. What do you want to do?";
 
     constexpr bool IsKeyUnbound(int key) noexcept {
@@ -97,7 +97,7 @@ namespace {
     };
 
     void RenderKeyButton(const char* id, bool& waitingForKey, int key, int& pendingOriginalKey) {
-        const char* keyText = waitingForKey ? PRESS_KEY_TEXT.data() : KeybindManager::GetKeyName(key);
+        const char* keyText = waitingForKey ? PRESS_KEY_TEXT : KeybindManager::GetKeyName(key);
         const ButtonStyleRAII style(IsKeyUnbound(key));
 
         const float textWidth = ImGui::CalcTextSize(keyText).x;
@@ -113,7 +113,7 @@ namespace {
 
         if (ImGui::IsItemHovered()) [[unlikely]] {
             GuiUtils::BeginStyledTooltip();
-            ImGui::TextColored(DefaultStyle::PARCHMENT, CHANGE_KEYBIND_TEXT.data());
+            ImGui::TextColored(DefaultStyle::PARCHMENT, CHANGE_KEYBIND_TEXT);
             GuiUtils::EndStyledTooltip();
         }
     }
@@ -133,7 +133,7 @@ namespace {
 
         if (ImGui::IsItemHovered()) {
             GuiUtils::BeginStyledTooltip();
-            ImGui::Text(CONFIGURE_FORMAT.data(), name.c_str());
+            ImGui::Text(CONFIGURE_FORMAT, name.c_str());
             GuiUtils::EndStyledTooltip();
         }
         return clicked;
@@ -287,11 +287,11 @@ namespace {
             if (count == 1) {
                 const char* conflictName = names.empty() ? "Unknown" : names[0].c_str();
                 ImGui::Text(
-                    KEY_CONFLICT_FORMAT.data(), KeybindManager::GetKeyName(entry.pendingConflictKey), conflictName
+                    KEY_CONFLICT_FORMAT, KeybindManager::GetKeyName(entry.pendingConflictKey), conflictName
                 );
             } else {
                 ImGui::Text(
-                    KEY_MULTI_CONFLICT_FORMAT.data(), KeybindManager::GetKeyName(entry.pendingConflictKey), count
+                    KEY_MULTI_CONFLICT_FORMAT, KeybindManager::GetKeyName(entry.pendingConflictKey), count
                 );
                 ImGui::Spacing();
                 ImGui::Text("Currently bound to:");

@@ -32,16 +32,16 @@ struct KeybindParam {
     KeybindParam(
         std::string_view name, std::string_view displayName, int* value, int minVal = 0, int maxVal = 100,
         std::string_view tooltip = ""
-    ) noexcept;
+    );
 
     KeybindParam(
         std::string_view name, std::string_view displayName, float* value, float minVal = 0.0f, float maxVal = 1.0f,
         std::string_view tooltip = ""
-    ) noexcept;
+    );
 
     KeybindParam(
         std::string_view name, std::string_view displayName, bool* value, std::string_view tooltip = ""
-    ) noexcept;
+    );
 };
 
 struct KeybindFunctionHook {

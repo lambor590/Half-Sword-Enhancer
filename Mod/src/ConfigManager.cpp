@@ -72,42 +72,61 @@ void ConfigManager::LoadConfig() {
 }
 
 int ConfigManager::GetInt(std::string_view section, std::string_view key, int defaultValue) {
-    return ini.GetLongValue(section.data(), key.data(), defaultValue);
+    const std::string sectionName(section);
+    const std::string keyName(key);
+    return ini.GetLongValue(sectionName.c_str(), keyName.c_str(), defaultValue);
 }
 
 bool ConfigManager::GetBool(std::string_view section, std::string_view key, bool defaultValue) {
-    return ini.GetBoolValue(section.data(), key.data(), defaultValue);
+    const std::string sectionName(section);
+    const std::string keyName(key);
+    return ini.GetBoolValue(sectionName.c_str(), keyName.c_str(), defaultValue);
 }
 
 float ConfigManager::GetFloat(std::string_view section, std::string_view key, float defaultValue) {
-    return static_cast<float>(ini.GetDoubleValue(section.data(), key.data(), defaultValue));
+    const std::string sectionName(section);
+    const std::string keyName(key);
+    return static_cast<float>(ini.GetDoubleValue(sectionName.c_str(), keyName.c_str(), defaultValue));
 }
 
 std::string ConfigManager::GetString(std::string_view section, std::string_view key, std::string_view defaultValue) {
-    return ini.GetValue(section.data(), key.data(), defaultValue.data());
+    const std::string sectionName(section);
+    const std::string keyName(key);
+    const std::string defaultValueStr(defaultValue);
+    return ini.GetValue(sectionName.c_str(), keyName.c_str(), defaultValueStr.c_str());
 }
 
 void ConfigManager::SetInt(std::string_view section, std::string_view key, int value) {
-    ini.SetLongValue(section.data(), key.data(), value);
+    const std::string sectionName(section);
+    const std::string keyName(key);
+    ini.SetLongValue(sectionName.c_str(), keyName.c_str(), value);
     SaveConfigDeferred();
 }
 
 void ConfigManager::SetBool(std::string_view section, std::string_view key, bool value) {
-    ini.SetBoolValue(section.data(), key.data(), value);
+    const std::string sectionName(section);
+    const std::string keyName(key);
+    ini.SetBoolValue(sectionName.c_str(), keyName.c_str(), value);
     SaveConfigDeferred();
 }
 
 void ConfigManager::SetFloat(std::string_view section, std::string_view key, float value) {
-    ini.SetDoubleValue(section.data(), key.data(), value);
+    const std::string sectionName(section);
+    const std::string keyName(key);
+    ini.SetDoubleValue(sectionName.c_str(), keyName.c_str(), value);
     SaveConfigDeferred();
 }
 
 void ConfigManager::SetString(std::string_view section, std::string_view key, std::string_view value) {
-    ini.SetValue(section.data(), key.data(), value.data());
+    const std::string sectionName(section);
+    const std::string keyName(key);
+    const std::string valueStr(value);
+    ini.SetValue(sectionName.c_str(), keyName.c_str(), valueStr.c_str());
     SaveConfigDeferred();
 }
 
 void ConfigManager::DeleteSection(std::string_view section) {
-    ini.Delete(section.data(), nullptr);
+    const std::string sectionName(section);
+    ini.Delete(sectionName.c_str(), nullptr);
     SaveConfigDeferred();
 }

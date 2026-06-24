@@ -38,17 +38,17 @@ public:
     [[nodiscard]] static bool Update() noexcept;
     static void Render() noexcept;
 
-    static void NotifyHookToggle(std::string_view functionName, bool enabled) noexcept;
-    static void NotifyOneTimeAction(std::string_view actionName) noexcept;
+    static void NotifyHookToggle(std::string_view functionName, bool enabled);
+    static void NotifyOneTimeAction(std::string_view actionName);
 
     static bool IsEnabled() noexcept { return s_enabled; }
-    static void SetEnabled(bool enabled) noexcept;
+    static void SetEnabled(bool enabled);
     static bool HasNotifications() noexcept { return !s_notifications.empty(); }
 
     static float GetTime() noexcept;
 
 private:
-    static void AddNotification(std::string&& message, float duration = 2.5f) noexcept;
+    static void AddNotification(std::string&& message, float duration = 2.5f);
     static void CacheLayout(Notification& notification) noexcept;
     [[nodiscard]] static constexpr float CalculateAlpha(float elapsed, float duration) noexcept;
 };

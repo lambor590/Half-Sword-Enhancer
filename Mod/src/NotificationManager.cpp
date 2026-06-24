@@ -86,14 +86,14 @@ void NotificationManager::Render() noexcept {
     const float containerWidth = maxWidth;
     const ImVec2 containerPos{viewport->Pos.x + viewport->Size.x - containerWidth - PADDING, viewport->Pos.y + PADDING};
 
-    static constexpr ImGuiWindowFlags containerFlags =
+    static constexpr ImGuiWindowFlags CONTAINER_FLAGS =
         ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoMove |
         ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
-    static constexpr ImGuiWindowFlags childFlags =
+    static constexpr ImGuiWindowFlags CHILD_FLAGS =
         ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
 
     ImGui::SetNextWindowPos(containerPos);
-    ImGui::SetNextWindowSize(ImVec2(containerWidth, HEIGHT_PLUS_PADDING * visibleCount - PADDING));
+    ImGui::SetNextWindowSize(ImVec2(containerWidth, HEIGHT_PLUS_PADDING * static_cast<float>(visibleCount) - PADDING));
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
@@ -103,7 +103,7 @@ void NotificationManager::Render() noexcept {
     ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 1.5f);
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
-    if (ImGui::Begin("##notifications_container", nullptr, containerFlags)) [[likely]] {
+    if (ImGui::Begin("##notifications_container", nullptr, CONTAINER_FLAGS)) [[likely]] {
         for (int i = static_cast<int>(s_notifications.size()) - 1; i >= 0; --i) {
             auto& notification = s_notifications[i];
             const float elapsed = s_currentTime - notification.startTime;
@@ -129,7 +129,7 @@ void NotificationManager::Render() noexcept {
             ImGui::SetCursorPosX(containerWidth - notifWidth);
 
             ImGui::PushID(i);
-            if (ImGui::BeginChild("##notification", ImVec2(notifWidth, NOTIFICATION_HEIGHT), true, childFlags))
+            if (ImGui::BeginChild("##notification", ImVec2(notifWidth, NOTIFICATION_HEIGHT), true, CHILD_FLAGS))
                 [[likely]] {
                 const float textY = (NOTIFICATION_HEIGHT - notification.textHeight) * 0.5f;
                 ImGui::SetCursorPos(ImVec2(TEXT_PADDING, textY));
@@ -149,7 +149,7 @@ void NotificationManager::Render() noexcept {
     ImGui::PopStyleVar(6);
 }
 
-void NotificationManager::AddNotification(std::string&& message, float duration) noexcept {
+void NotificationManager::AddNotification(std::string&& message, float duration) {
     if (!s_enabled) [[unlikely]]
         return;
 
@@ -160,7 +160,7 @@ void NotificationManager::AddNotification(std::string&& message, float duration)
     s_notifications.emplace_back(std::move(message), duration);
 }
 
-void NotificationManager::NotifyHookToggle(std::string_view functionName, bool enabled) noexcept {
+void NotificationManager::NotifyHookToggle(std::string_view functionName, bool enabled) {
     if (!s_enabled) [[unlikely]]
         return;
 
@@ -174,18 +174,18 @@ void NotificationManager::NotifyHookToggle(std::string_view functionName, bool e
     AddNotification(std::move(message));
 }
 
-void NotificationManager::NotifyOneTimeAction(std::string_view actionName) noexcept {
+void NotificationManager::NotifyOneTimeAction(std::string_view actionName) {
     if (!s_enabled) [[unlikely]]
         return;
 
-    static constexpr float actionDuration = 2.0f;
+    static constexpr float ACTION_DURATION = 2.0f;
 
     std::string message;
     message.reserve(EXECUTED_PREFIX.size() + actionName.size());
     message.append(EXECUTED_PREFIX);
     message.append(actionName);
 
-    AddNotification(std::move(message), actionDuration);
+    AddNotification(std::move(message), ACTION_DURATION);
 }
 
 [[nodiscard]] constexpr float NotificationManager::CalculateAlpha(float elapsed, float duration) noexcept {
@@ -201,7 +201,7 @@ void NotificationManager::NotifyOneTimeAction(std::string_view actionName) noexc
     return 1.0f;
 }
 
-void NotificationManager::SetEnabled(bool enabled) noexcept {
+void NotificationManager::SetEnabled(bool enabled) {
     if (s_enabled == enabled) return;
 
     s_enabled = enabled;
