@@ -11,53 +11,90 @@
 
 static Logger g_logger("MapRegistry");
 
-bool MapRegistry::IsInternalMapAsset(std::string_view packageName, std::string_view packagePath) {
-    static constexpr std::string_view BAD_SUFFIXES[] = {
-        "_BuiltData", "_HLOD", "_Minimap", "_NavData", "_Overview", "_Collision", "_LevelMetrics",
-    };
-    for (auto suffix : BAD_SUFFIXES) {
-        if (packageName.ends_with(suffix)) return true;
+namespace {
+    constexpr std::string_view BASE_GAME_CATEGORY = "Base Game";
+    constexpr std::string_view MODDED_CATEGORY = "Modded";
+
+    bool IsInternalMapAsset(std::string_view packageName, std::string_view packagePath) {
+        static constexpr std::string_view BAD_SUFFIXES[] = {
+            "_BuiltData", "_HLOD", "_Minimap", "_NavData", "_Overview", "_Collision", "_LevelMetrics",
+            "_Details", "_Lighting", "_PhysicsProps", "_VFX",
+        };
+        for (auto suffix : BAD_SUFFIXES) {
+            if (packageName.ends_with(suffix)) return true;
+        }
+
+        static constexpr std::string_view INTERNAL_TOKENS[] = {
+            "LevelInstance",
+            "levelinstance",
+            "__ExternalActors__",
+            "__ExternalObjects__",
+        };
+        for (auto token : INTERNAL_TOKENS) {
+            if (packageName.find(token) != std::string_view::npos || packagePath.find(token) != std::string_view::npos)
+                return true;
+        }
+
+        static constexpr std::string_view SUBMAP_PATHS[] = {
+            "/Game/Maps/LevelInstances",
+            "/Game/Maps/Lighting",
+            "/Game/Maps/VFX_Level_Layer",
+            "/Game/Maps/VFX_arena_cutting_volumetric_particles",
+            "/Game/Maps/Arena_Cellar",
+            "/Game/Maps/Arena_LordsHall",
+            "/Game/Maps/Arenas/Arena_Alley",
+            "/Game/Maps/Arenas/Arena_Ambush",
+            "/Game/Maps/Arenas/Arena_Pit",
+            "/Game/Maps/Arenas/Arena_Slums",
+        };
+        for (auto submapPath : SUBMAP_PATHS) {
+            if (packagePath == submapPath ||
+                (packagePath.starts_with(submapPath) && packagePath[submapPath.size()] == '/'))
+                return true;
+        }
+
+        return false;
     }
 
-    static constexpr std::string_view INTERNAL_TOKENS[] = {
-        "LevelInstance",
-        "levelinstance",
-        "__ExternalActors__",
-        "__ExternalObjects__",
-    };
-    for (auto token : INTERNAL_TOKENS) {
-        if (packageName.find(token) != std::string_view::npos || packagePath.find(token) != std::string_view::npos)
-            return true;
+    bool IsKnownBaseGameMap(std::string_view packageName) {
+        static constexpr std::string_view BASE_GAME_MAPS[] = {
+            "/Game/Maps/Abyss/Abyss_Map_Open_EA",
+            "/Game/Maps/Arena_Cutting_Map",
+            "/Game/Maps/Arenas/Map_Arena_Alley",
+            "/Game/Maps/Arenas/Map_Arena_Ambush_Test",
+            "/Game/Maps/Arenas/Map_Arena_Cellar",
+            "/Game/Maps/Arenas/Map_Arena_EastTower",
+            "/Game/Maps/Arenas/Map_Arena_LordsHall",
+            "/Game/Maps/Arenas/Map_Arena_Pit",
+            "/Game/Maps/Arenas/Map_Arena_Slums",
+            "/Game/Maps/Arenas/Map_Arena_Yard",
+            "/Game/Maps/Map_Hub_Tavern_Frank",
+            "/Game/Maps/Menus/Map_Menu_SplashScreens",
+            "/Game/Maps/Menus/Map_Menu_Startup",
+            "/Game/Maps/Test/Map_Test_Empty",
+            "/Game/Maps/Workshop_Smithery_Map",
+        };
+
+        return std::ranges::find(BASE_GAME_MAPS, packageName) != std::ranges::end(BASE_GAME_MAPS);
     }
 
-    return false;
-}
+    std::string CleanMapName(std::string_view packageName) {
+        auto lastSlash = packageName.rfind('/');
+        if (lastSlash != std::string_view::npos) packageName = packageName.substr(lastSlash + 1);
 
-bool MapRegistry::IsBaseGameMapPath(std::string_view path) {
-    return path.starts_with("/Game/Maps");
-}
+        std::string name(packageName);
+        for (char& c : name) {
+            if (c == '_') c = ' ';
+        }
 
-std::string MapRegistry::CategorizeByPath(std::string_view packagePath) {
-    if (IsBaseGameMapPath(packagePath)) return std::string(BASE_GAME_CATEGORY);
-    return std::string(MODDED_CATEGORY);
-}
-
-std::string MapRegistry::CleanMapName(std::string_view packageName) {
-    auto lastSlash = packageName.rfind('/');
-    if (lastSlash != std::string_view::npos) packageName = packageName.substr(lastSlash + 1);
-
-    std::string name(packageName);
-    for (char& c : name) {
-        if (c == '_') c = ' ';
+        auto start = name.find_first_not_of(' ');
+        if (start == std::string::npos) return {};
+        auto end = name.find_last_not_of(' ');
+        if (start == 0 && end == name.size() - 1) return name;
+        name.erase(end + 1);
+        name.erase(0, start);
+        return name;
     }
-
-    auto start = name.find_first_not_of(' ');
-    if (start == std::string::npos) return {};
-    auto end = name.find_last_not_of(' ');
-    if (start == 0 && end == name.size() - 1) return name;
-    name.erase(end + 1);
-    name.erase(0, start);
-    return name;
 }
 
 void MapRegistry::BuildCategories() {
@@ -143,15 +180,17 @@ void MapRegistry::PerformScan() {
             const auto& asset = params.OutAssetData[i];
 
             std::string packageName = asset.PackageName.GetRawString();
+            std::string packagePath = asset.PackagePath.GetRawString();
             if (!seenPackages.insert(packageName).second) continue;
 
-            std::string packagePath = asset.PackagePath.GetRawString();
             if (IsInternalMapAsset(packageName, packagePath)) continue;
 
             std::string displayName = CleanMapName(packageName);
             if (displayName.empty()) continue;
 
-            maps.push_back({std::move(displayName), std::move(packageName), CategorizeByPath(packagePath)});
+            std::string category = IsKnownBaseGameMap(packageName) ? std::string(BASE_GAME_CATEGORY)
+                                                                   : std::string(MODDED_CATEGORY);
+            maps.push_back({std::move(displayName), std::move(packageName), std::move(category)});
         }
 
         std::ranges::sort(maps, [](const MapEntry& a, const MapEntry& b) {
