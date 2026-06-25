@@ -34,6 +34,17 @@ static bool HasValidAssetPrefix(const std::string& assetName) {
     return false;
 }
 
+static bool HasPathSegment(const std::string& path, std::string_view segment) {
+    std::string needle = "/" + std::string(segment);
+    size_t pos = path.find(needle);
+    while (pos != std::string::npos) {
+        const size_t after = pos + needle.size();
+        if (after == path.size() || path[after] == '/') return true;
+        pos = path.find(needle, pos + 1);
+    }
+    return false;
+}
+
 namespace {
     constexpr std::array<char, 256> BuildLowerTable() {
         std::array<char, 256> table{};
@@ -127,6 +138,9 @@ void BlueprintRegistry::PerformScan() {
                 if (assetName.find("BP_GameWeapon_Customizable_") == 0) continue;
 
                 if (assetName.find("_Master") != std::string::npos) continue;
+                if (packagePath == "/Game/Assets/Weapons/Blueprints/Built_Weapons" &&
+                    assetName.starts_with("ModularWeaponBP_"))
+                    continue;
 
                 auto [category, subcategory] = CategorizeByPath(packagePath, assetName);
                 if (category.empty()) continue;
@@ -202,12 +216,12 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
     const std::string& path, const std::string& assetName
 ) {
     if (path.find("/Weapons/") != std::string::npos) {
-        if (path.find("/Tools/") != std::string::npos) return {"Weapons", "Tools"};
-        if (path.find("/Reforged/") != std::string::npos) return {"Weapons", "Reforged"};
-        if (path.find("/Improvized/") != std::string::npos) return {"Weapons", "Improvised"};
-        if (path.find("/Ranged/") != std::string::npos) return {"Weapons", "Ranged"};
-        if (path.find("/Treasure/") != std::string::npos) return {"Weapons", "Treasure"};
-        if (path.find("/Unique/") != std::string::npos) return {"Weapons", "Unique"};
+        if (HasPathSegment(path, "Tools")) return {"Weapons", "Tools"};
+        if (HasPathSegment(path, "Reforged")) return {"Weapons", "Reforged"};
+        if (HasPathSegment(path, "Improvized")) return {"Weapons", "Improvised"};
+        if (HasPathSegment(path, "Ranged")) return {"Weapons", "Ranged"};
+        if (HasPathSegment(path, "Treasure")) return {"Weapons", "Treasure"};
+        if (HasPathSegment(path, "Unique")) return {"Weapons", "Unique"};
         if (assetName.find("Shield") != std::string::npos) return {"Weapons", "Shields"};
         if (assetName.find("Trap") != std::string::npos) return {"Weapons", "Traps"};
         return {"Weapons", "General"};
