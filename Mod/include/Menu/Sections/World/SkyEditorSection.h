@@ -1,10 +1,9 @@
 #pragma once
 
-#include <string>
 #include <atomic>
+#include <vector>
 
 #include "Menu/Section.h"
-#include "Utils/GuiUtils.h"
 #include "SDK/Engine_classes.hpp"
 
 class SkyEditorSection : public Section {
@@ -15,26 +14,26 @@ private:
     static constexpr int TAB_COUNT = 5;
     static constexpr const char* TAB_LABELS[TAB_COUNT] = {"Sun", "Atmosphere", "Sky Light", "Fog", "Clouds"};
 
-    SDK::AActor* sunActor = nullptr;
     SDK::UDirectionalLightComponent* sunComp = nullptr;
     SDK::USkyAtmosphereComponent* atmoComp = nullptr;
     SDK::USkyLightComponent* skyLightComp = nullptr;
     SDK::UExponentialHeightFogComponent* fogComp = nullptr;
     SDK::UVolumetricCloudComponent* cloudComp = nullptr;
     SDK::UWorld* cachedWorld = nullptr;
+    std::vector<SDK::UDirectionalLightComponent*> sunTargets;
 
-    bool initialized = false;
     bool searchPending = false;
     std::atomic<bool> componentsReady{false};
     int activeTab = 0;
-    GuiUtils::StatusMessage status;
-    std::string infoText;
 
     float sunPitch = 45.0f;
     float sunYaw = 0.0f;
     float sunIntensity = 10.0f;
     float sunColor[3] = {1.f, 1.f, 1.f};
     float sunTemperature = 6500.f;
+    bool sunUseTemperature = false;
+    bool sunOverrideActive = false;
+    std::atomic<bool> sunOverrideQueued{false};
     float sunSourceAngle = 0.5357f;
     float sunSoftAngle = 0.0f;
     float sunBloomScale = 1.0f;
@@ -70,12 +69,10 @@ private:
     void ResetState();
     void ReadInitialValues();
     void FindComponents();
-    void ApplySunRotation(bool recapture = true);
-    void ApplySunLight();
+    void QueueApplySunState();
     void ApplyAtmosphere();
     void ApplySkyLight();
     void ApplyFog();
-    void ApplySunExtended();
     void ApplyClouds();
     void ApplyPreset(float pitch);
     void RenderSunTab();
@@ -83,9 +80,10 @@ private:
     void RenderSkyLightTab();
     void RenderFogTab();
     void RenderCloudsTab();
-    bool RenderComponentStatus();
+    bool UpdateComponentScan();
 
 public:
     explicit SkyEditorSection(ModContext& ctx);
+    void OnOpen() override;
     void Render() override;
 };
