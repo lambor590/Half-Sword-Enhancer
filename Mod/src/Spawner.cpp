@@ -166,18 +166,17 @@ namespace Spawner {
             actorType = ActorType::Unknown;
 
         if (actorType == ActorType::Weapon) {
-            if (className.find("Built_Weapons") != std::string::npos) {
-                const std::string_view classPath = className;
-                constexpr std::string_view ROOT_TEMPLATE_PREFIX = "/Blueprints/Built_Weapons/ModularWeaponBP_";
-                const size_t rootTemplatePos = classPath.find(ROOT_TEMPLATE_PREFIX);
-                if (rootTemplatePos != std::string_view::npos &&
-                    classPath.find('/', rootTemplatePos + ROOT_TEMPLATE_PREFIX.size()) == std::string_view::npos) {
-                    g_logger.Log("Skipping non-spawnable built weapon template: %s", className.c_str());
-                    return;
-                }
-            } else {
+            if (className.find("Built_Weapons") == std::string::npos) {
                 auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
                 SpawnCustomizableFromPassport(world, passport, transform, snapToGround, callback);
+                return;
+            }
+
+            constexpr std::string_view ROOT_TEMPLATE_PREFIX = "/Blueprints/Built_Weapons/ModularWeaponBP_";
+            const std::string_view classPath = className;
+            const size_t rootTemplatePos = classPath.find(ROOT_TEMPLATE_PREFIX);
+            if (rootTemplatePos != std::string_view::npos &&
+                classPath.find('/', rootTemplatePos + ROOT_TEMPLATE_PREFIX.size()) == std::string_view::npos) {
                 return;
             }
         }

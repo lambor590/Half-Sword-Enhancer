@@ -1,6 +1,7 @@
 #include <ranges>
 #include <string_view>
 #include <array>
+#include <utility>
 #include <unordered_set>
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/GameConstants.h"
@@ -9,6 +10,7 @@
 #include "Hooks/GameHook.h"
 #include "SDK/BP_GameWeapon_Customizable_Master_classes.hpp"
 #include "SDK/AssetRegistry_classes.hpp"
+#include "SDK/AssetRegistry_parameters.hpp"
 #include "ConfigManager.h"
 #include "Logger.h"
 
@@ -17,6 +19,11 @@ static Logger g_logger("BlueprintRegistry");
 static constexpr std::string_view VALID_ASSET_PREFIXES[] = {
     "BP_GameWeapon_", "BP_Weapon_", "BP_Armor_", "BP_Container_", "BP_Prop_", "BP_Fence_",
     "BP_Quiver_",     "BP_Candle",  "Shield_",   "Chain_BP",      "Trap_",
+};
+
+static constexpr std::pair<std::string_view, std::string_view> WEAPON_PATH_CATEGORIES[] = {
+    {"Tools", "Tools"},       {"Reforged", "Reforged"}, {"Improvized", "Improvised"},
+    {"Ranged", "Ranged"},     {"Treasure", "Treasure"}, {"Unique", "Unique"},
 };
 
 static std::string DisplayNameFromClassPath(const std::string& path) {
@@ -71,6 +78,39 @@ namespace {
             lowered.push_back(LOWER_TABLE[static_cast<unsigned char>(c)]);
         return lowered;
     }
+
+    bool IsBlueprintAsset(const SDK::FAssetData& asset) {
+        const std::string assetClass = asset.AssetClass.ToString();
+        if (assetClass == "Blueprint" || assetClass == "BlueprintGeneratedClass") return true;
+
+        return asset.AssetClassPath.PackageName.GetRawString() == "/Script/Engine" &&
+               (asset.AssetClassPath.AssetName.ToString() == "Blueprint" ||
+                asset.AssetClassPath.AssetName.ToString() == "BlueprintGeneratedClass");
+    }
+
+    void GetGameAssets(SDK::UObject* registryObj, SDK::TArray<SDK::FAssetData>& results) {
+        if (!registryObj) return;
+
+        static SDK::UFunction* getAssetsFn = nullptr;
+        if (!getAssetsFn) getAssetsFn = SDK::IAssetRegistry::StaticClass()->GetFunction("AssetRegistry", "GetAssets");
+        if (!getAssetsFn) return;
+
+        SDK::FName gamePath = SDK::BasicFilesImplUtils::StringToName(L"/Game");
+
+        SDK::Params::AssetRegistry_GetAssets params{};
+        params.Filter.PackagePaths = SDK::TArray<SDK::FName>(&gamePath, 1, 1);
+        params.Filter.bRecursivePaths = true;
+        params.bSkipARFilteredAssets = false;
+
+        auto flags = getAssetsFn->FunctionFlags;
+        getAssetsFn->FunctionFlags |= 0x400;
+        registryObj->ProcessEvent(getAssetsFn, &params);
+        getAssetsFn->FunctionFlags = flags;
+
+        params.Filter.PackagePaths = SDK::TArray<SDK::FName>(nullptr, 0, 0);
+
+        results = params.OutAssetData;
+    }
 }
 
 void BlueprintRegistry::RequestScan() {
@@ -104,14 +144,11 @@ void BlueprintRegistry::PerformScan() {
 
     try {
         auto si = SDK::UAssetRegistryHelpers::GetAssetRegistry();
-        auto* registry = reinterpret_cast<SDK::IAssetRegistry*>(si.GetObjectRef());
+        auto* registryObj = si.GetObjectRef();
 
-        if (registry) {
-            SDK::FARFilter filter{};
-            filter.bRecursivePaths = true;
-
+        if (registryObj) {
             SDK::TArray<SDK::FAssetData> results;
-            SDK::UAssetRegistryHelpers::GetBlueprintAssets(filter, &results);
+            GetGameAssets(registryObj, results);
 
             items.reserve(static_cast<size_t>(results.Num()) + GameConstants::WEAPON_TYPE_COUNT + customPaths.size());
 
@@ -119,6 +156,7 @@ void BlueprintRegistry::PerformScan() {
             seenIds.reserve(static_cast<size_t>(results.Num()));
             for (int32_t i = 0; i < results.Num(); ++i) {
                 auto& asset = results[i];
+                if (!IsBlueprintAsset(asset)) continue;
 
                 std::string packagePath = asset.PackagePath.GetRawString();
                 if (packagePath.find("/Game/") != 0) continue;
@@ -134,6 +172,7 @@ void BlueprintRegistry::PerformScan() {
                 if (!seenIds.insert(nameKey).second) continue;
 
                 std::string assetName = asset.AssetName.ToString();
+                if (assetName.ends_with("_C")) assetName.resize(assetName.size() - 2);
 
                 if (assetName.find("BP_GameWeapon_Customizable_") == 0) continue;
 
@@ -216,12 +255,9 @@ std::pair<std::string_view, std::string_view> BlueprintRegistry::CategorizeByPat
     const std::string& path, const std::string& assetName
 ) {
     if (path.find("/Weapons/") != std::string::npos) {
-        if (HasPathSegment(path, "Tools")) return {"Weapons", "Tools"};
-        if (HasPathSegment(path, "Reforged")) return {"Weapons", "Reforged"};
-        if (HasPathSegment(path, "Improvized")) return {"Weapons", "Improvised"};
-        if (HasPathSegment(path, "Ranged")) return {"Weapons", "Ranged"};
-        if (HasPathSegment(path, "Treasure")) return {"Weapons", "Treasure"};
-        if (HasPathSegment(path, "Unique")) return {"Weapons", "Unique"};
+        for (auto [segment, subcategory] : WEAPON_PATH_CATEGORIES) {
+            if (HasPathSegment(path, segment)) return {"Weapons", subcategory};
+        }
         if (assetName.find("Shield") != std::string::npos) return {"Weapons", "Shields"};
         if (assetName.find("Trap") != std::string::npos) return {"Weapons", "Traps"};
         return {"Weapons", "General"};
