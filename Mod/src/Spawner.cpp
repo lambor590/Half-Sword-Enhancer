@@ -11,8 +11,6 @@
 #include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/ModularWeaponBP_Customizable_classes.hpp"
 #include "SDK/BP_Armor_Master_classes.hpp"
-#include "SDK/BP_GameManager_classes.hpp"
-#include "SDK/BP_GameManager_parameters.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "Hooks/GameHook.h"
 #include "Logger.h"
@@ -168,37 +166,20 @@ namespace Spawner {
             actorType = ActorType::Unknown;
 
         if (actorType == ActorType::Weapon) {
-            SDK::FStr_Passport_Weapon1 passport{};
             if (className.find("Built_Weapons") != std::string::npos) {
-                static SDK::UFunction* createFn = nullptr;
-                if (!createFn)
-                    createFn = SDK::ABP_GameManager_C::StaticClass()
-                                   ->GetFunction("BP_GameManager_C", "Create Pre-Made Weapon");
-
-                auto* manager =
-                    createFn ? SDK::UGameplayStatics::GetActorOfClass(world, SDK::ABP_GameManager_C::StaticClass())
-                             : nullptr;
-                if (manager) {
-                    SDK::Params::BP_GameManager_C_Create_Pre_Made_Weapon params{};
-                    const SDK::FVector unitScale{1.0, 1.0, 1.0};
-                    auto& input = params.Str_Passport_Weapon;
-                    input.WeaponClass_54_B478ECF7499977809745A3973AD678EC = actorClass;
-                    input.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = unitScale;
-                    input.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = unitScale;
-                    input.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF = unitScale;
-                    input.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E = unitScale;
-                    input.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7 = 1.0;
-                    input.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927 = 1.0;
-                    input.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 = 1.0;
-                    input.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 = 1.0;
-                    input.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 = tier;
-                    manager->ProcessEvent(createFn, &params);
-                    passport = params.Weapon_Passport;
+                const std::string_view classPath = className;
+                constexpr std::string_view ROOT_TEMPLATE_PREFIX = "/Blueprints/Built_Weapons/ModularWeaponBP_";
+                const size_t rootTemplatePos = classPath.find(ROOT_TEMPLATE_PREFIX);
+                if (rootTemplatePos != std::string_view::npos &&
+                    classPath.find('/', rootTemplatePos + ROOT_TEMPLATE_PREFIX.size()) == std::string_view::npos) {
+                    g_logger.Log("Skipping non-spawnable built weapon template: %s", className.c_str());
+                    return;
                 }
-            } else
-                passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
-            SpawnCustomizableFromPassport(world, passport, transform, snapToGround, callback);
-            return;
+            } else {
+                auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
+                SpawnCustomizableFromPassport(world, passport, transform, snapToGround, callback);
+                return;
+            }
         }
 
         SDK::FTransform finalTransform = transform;
