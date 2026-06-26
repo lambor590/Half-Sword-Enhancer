@@ -13,11 +13,13 @@
 #include "Utils/SpawnWorkflow.h"
 #include "Utils/TierValidation.h"
 #include "Utils/GuiUtils.h"
+#include "Utils/WeaponGenerationUi.h"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
 namespace {
     using ItemSpawnRequest = SpawnWorkflow::ItemSpawnRequest;
 
+    constexpr const char* ITEM_SPAWNER_SECTION = "ItemSpawner";
     constexpr const char* ITEM_BINDINGS_SECTION = "ItemSpawnBindings";
     constexpr const char* ITEM_BINDING_PREFIX = "ItemSpawnBinding_";
 
@@ -199,7 +201,10 @@ void ItemSpawnerSection::SpawnSelectedItem() const {
     } else if (!item.classPath.empty()) {
         SpawnWorkflow::QueueItemSpawn(
             snapshot, cfg.spawn,
-            {.kind = ItemSpawnRequest::Kind::ClassPath, .classPath = item.classPath, .tier = tier}
+            {.kind = ItemSpawnRequest::Kind::ClassPath,
+             .classPath = item.classPath,
+             .tier = tier,
+             .weaponSpecificType = WeaponGenerationUi::SpecificTypeFromIndex(cfg.weaponSpecificType)}
         );
     }
 }
@@ -244,7 +249,10 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
             if (!binding.classPath.empty())
                 SpawnWorkflow::SpawnItem(
                     runtime, binding.spawn,
-                    {.kind = ItemSpawnRequest::Kind::ClassPath, .classPath = binding.classPath, .tier = tier}
+                    {.kind = ItemSpawnRequest::Kind::ClassPath,
+                     .classPath = binding.classPath,
+                     .tier = tier,
+                     .weaponSpecificType = WeaponGenerationUi::SpecificTypeFromIndex(binding.weaponSpecificType)}
                 );
             break;
     }
@@ -257,7 +265,10 @@ void ItemSpawnerSection::SpawnCustomPath() const {
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
     SpawnWorkflow::QueueItemSpawn(
         snapshot, cfg.spawn,
-        {.kind = ItemSpawnRequest::Kind::ClassPath, .classPath = customPathBuffer, .tier = tier}
+        {.kind = ItemSpawnRequest::Kind::ClassPath,
+         .classPath = customPathBuffer,
+         .tier = tier,
+         .weaponSpecificType = WeaponGenerationUi::SpecificTypeFromIndex(cfg.weaponSpecificType)}
     );
 }
 
@@ -287,6 +298,10 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
 }
 
 ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, SECTION) {
+    cfg.weaponSpecificType =
+        ConfigManager::Get().GetInt(
+            ITEM_SPAWNER_SECTION, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, cfg.weaponSpecificType
+        );
     LoadSpawnBindings();
 }
 
@@ -323,6 +338,7 @@ void ItemSpawnerSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>&
 bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) const {
     binding.spawn = cfg.spawn;
     binding.tier = cfg.spawnTier;
+    binding.weaponSpecificType = cfg.weaponSpecificType;
     binding.armorOptions = cfg.armorOptions;
 
     if (IsRandomArmorCategory()) {
@@ -385,6 +401,8 @@ void ItemSpawnerSection::LoadSpawnBindings() {
         binding->source = static_cast<BindingSource>(config.GetInt(section, "source", 0));
         binding->classPath = config.GetString(section, "class_path", "");
         binding->customizable = config.GetInt(section, "customizable", 0);
+        binding->weaponSpecificType =
+            config.GetInt(section, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, binding->weaponSpecificType);
         binding->armorSlot = config.GetInt(section, "armor_slot", 0);
         binding->modules[0] = config.GetInt(section, "module_1", 0);
         binding->modules[1] = config.GetInt(section, "module_2", 0);
@@ -429,6 +447,7 @@ void ItemSpawnerSection::SaveSpawnBindings() {
             config.SetInt(section, "source", static_cast<int>(binding.source));
             config.SetString(section, "class_path", binding.classPath);
             config.SetInt(section, "customizable", binding.customizable);
+            config.SetInt(section, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, binding.weaponSpecificType);
             config.SetInt(section, "armor_slot", binding.armorSlot);
             config.SetInt(section, "module_1", binding.modules[0]);
             config.SetInt(section, "module_2", binding.modules[1]);
@@ -661,6 +680,15 @@ void ItemSpawnerSection::RenderBlueprintItemUI(BlueprintRegistry& reg) {
             RenderMaskedTierCombo(
                 "##TierCombo", TierValidation::VALID_TIER_MASKS[static_cast<uint8_t>(currentItem.customizable)]
             );
+        } else if (Spawner::GetActorType(currentItem.classPath) == Spawner::ActorType::Weapon) {
+            GuiUtils::RenderFreeTierCombo("Tier", cfg.spawnTier);
+            ImGui::SameLine();
+            if (WeaponGenerationUi::RenderSpecificTypeCombo("Weapon Type", cfg.weaponSpecificType)) {
+                ConfigManager::Get().SetInt(
+                    ITEM_SPAWNER_SECTION, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, cfg.weaponSpecificType
+                );
+            }
+            TooltipHelper::ShowTooltip("Specific weapon type filter used by the game's random weapon generator");
         }
 
         if (IsCurrentItemModularArmor(currentItem)) {

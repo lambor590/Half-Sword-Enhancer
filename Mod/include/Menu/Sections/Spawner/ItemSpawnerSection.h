@@ -22,6 +22,7 @@ public:
     struct Config {
         SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int spawnTier = 4;
+        int weaponSpecificType = 0;
         EquipmentGenerator::ArmorGenerationOptions armorOptions;
 
         uint8_t currentCategoryIndex = 0;
@@ -44,6 +45,7 @@ private:
         std::array<int, 3> modules{};
         SpawnConfig spawn{.distanceForward = 150.0f, .distanceUp = 50.0f};
         int tier = 4;
+        int weaponSpecificType = 0;
         EquipmentGenerator::ArmorGenerationOptions armorOptions;
         KeybindEntry keybind;
     };
