@@ -43,6 +43,14 @@ struct SDK_ALIGN(0x01) FTypedElementDataStorageColumn
 };
 #pragma pack(pop)
 
+// ScriptStruct TypedElementFramework.TypedElementFloatValueCacheColumn
+// 0x0004 (0x0004 - 0x0000)
+struct FTypedElementFloatValueCacheColumn final : public FTypedElementDataStorageColumn
+{
+public:
+	float                                         Value;                                             // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
 // ScriptStruct TypedElementFramework.TypedElementAlertColumn
 // 0x0020 (0x0020 - 0x0000)
 struct FTypedElementAlertColumn final : public FTypedElementDataStorageColumn
@@ -54,12 +62,12 @@ public:
 	uint8                                         Pad_1B[0x5];                                       // 0x001B(0x0005)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-// ScriptStruct TypedElementFramework.TypedElementSelectionColumn
+// ScriptStruct TypedElementFramework.TypedElementScriptStructTypeInfoColumn
 // 0x0008 (0x0008 - 0x0000)
-struct FTypedElementSelectionColumn final : public FTypedElementDataStorageColumn
+struct alignas(0x04) FTypedElementScriptStructTypeInfoColumn final : public FTypedElementDataStorageColumn
 {
 public:
-	class FName                                   SelectionSet;                                      // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_0[0x8];                                        // 0x0000(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
 // ScriptStruct TypedElementFramework.ScriptTypedElementHandle
@@ -86,6 +94,14 @@ public:
 	uint8                                         Pad_0[0x8];                                        // 0x0000(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// ScriptStruct TypedElementFramework.TypedElementI32IntValueCacheColumn
+// 0x0004 (0x0004 - 0x0000)
+struct FTypedElementI32IntValueCacheColumn final : public FTypedElementDataStorageColumn
+{
+public:
+	int32                                         Value;                                             // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
 // ScriptStruct TypedElementFramework.TypedElementExternalObjectColumn
 // 0x0008 (0x0008 - 0x0000)
 struct alignas(0x08) FTypedElementExternalObjectColumn final : public FTypedElementDataStorageColumn
@@ -110,20 +126,20 @@ public:
 	uint8                                         Pad_0[0x28];                                       // 0x0000(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-// ScriptStruct TypedElementFramework.TypedElementFloatValueCacheColumn
-// 0x0004 (0x0004 - 0x0000)
-struct FTypedElementFloatValueCacheColumn final : public FTypedElementDataStorageColumn
-{
-public:
-	float                                         Value;                                             // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct TypedElementFramework.TypedElementParentColumn
 // 0x0008 (0x0008 - 0x0000)
 struct alignas(0x08) FTypedElementParentColumn final : public FTypedElementDataStorageColumn
 {
 public:
 	uint8                                         Pad_0[0x8];                                        // 0x0000(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
+// ScriptStruct TypedElementFramework.TypedElementViewportColorColumn
+// 0x0001 (0x0001 - 0x0000)
+struct FTypedElementViewportColorColumn final : public FTypedElementDataStorageColumn
+{
+public:
+	uint8                                         SelectionOutlineColorIndex;                        // 0x0000(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct TypedElementFramework.TypedElementUnresolvedParentColumn
@@ -310,12 +326,28 @@ public:
 	struct FSCCUserInfo                           LockedBy;                                          // 0x0000(0x0010)(NativeAccessSpecifierPublic)
 };
 
+// ScriptStruct TypedElementFramework.TypedElementSelectionColumn
+// 0x0008 (0x0008 - 0x0000)
+struct FTypedElementSelectionColumn final : public FTypedElementDataStorageColumn
+{
+public:
+	class FName                                   SelectionSet;                                      // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+
 // ScriptStruct TypedElementFramework.TypedElementSlateWidgetReferenceColumn
 // 0x0020 (0x0020 - 0x0000)
 struct alignas(0x08) FTypedElementSlateWidgetReferenceColumn final : public FTypedElementDataStorageColumn
 {
 public:
 	uint8                                         Pad_0[0x20];                                       // 0x0000(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
+// ScriptStruct TypedElementFramework.TypedElementU64IntValueCacheColumn
+// 0x0008 (0x0008 - 0x0000)
+struct FTypedElementU64IntValueCacheColumn final : public FTypedElementDataStorageColumn
+{
+public:
+	uint64                                        Value;                                             // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct TypedElementFramework.TypedElementSlateWidgetReferenceDeletesRowTag
@@ -338,14 +370,6 @@ struct FTestColumnB final : public FTypedElementDataStorageColumn
 {
 public:
 	uint8                                         Pad_0[0x1];                                        // 0x0000(0x0001)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
-// ScriptStruct TypedElementFramework.TypedElementViewportColorColumn
-// 0x0001 (0x0001 - 0x0000)
-struct FTypedElementViewportColorColumn final : public FTypedElementDataStorageColumn
-{
-public:
-	uint8                                         SelectionOutlineColorIndex;                        // 0x0000(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct TypedElementFramework.TestColumnC
@@ -428,36 +452,12 @@ public:
 	uint8                                         Pad_0[0x8];                                        // 0x0000(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
-// ScriptStruct TypedElementFramework.TypedElementScriptStructTypeInfoColumn
-// 0x0008 (0x0008 - 0x0000)
-struct alignas(0x04) FTypedElementScriptStructTypeInfoColumn final : public FTypedElementDataStorageColumn
-{
-public:
-	uint8                                         Pad_0[0x8];                                        // 0x0000(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-
 // ScriptStruct TypedElementFramework.TypedElementU32IntValueCacheColumn
 // 0x0004 (0x0004 - 0x0000)
 struct FTypedElementU32IntValueCacheColumn final : public FTypedElementDataStorageColumn
 {
 public:
 	uint32                                        Value;                                             // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct TypedElementFramework.TypedElementI32IntValueCacheColumn
-// 0x0004 (0x0004 - 0x0000)
-struct FTypedElementI32IntValueCacheColumn final : public FTypedElementDataStorageColumn
-{
-public:
-	int32                                         Value;                                             // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-
-// ScriptStruct TypedElementFramework.TypedElementU64IntValueCacheColumn
-// 0x0008 (0x0008 - 0x0000)
-struct FTypedElementU64IntValueCacheColumn final : public FTypedElementDataStorageColumn
-{
-public:
-	uint64                                        Value;                                             // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct TypedElementFramework.TypedElementI64IntValueCacheColumn

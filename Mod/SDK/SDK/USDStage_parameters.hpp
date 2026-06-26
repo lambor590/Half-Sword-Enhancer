@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "UnrealUSDWrapper_structs.hpp"
 #include "USDStage_structs.hpp"
 #include "MovieScene_structs.hpp"
+#include "UnrealUSDWrapper_structs.hpp"
 
 
 SDK_NAMESPACE_START

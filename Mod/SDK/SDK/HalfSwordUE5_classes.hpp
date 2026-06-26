@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "Engine_classes.hpp"
-#include "HalfSwordUE5_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "HalfSwordUE5_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -117,7 +117,7 @@ public:
 
 // Class HalfSwordUE5.LightingScalabilityManager
 // 0x0018 (0x02A8 - 0x0290)
-class ALightingScalabilityManager : public AActor
+class ALightingScalabilityManager final : public AActor
 {
 public:
 	TMulticastInlineDelegate<void(int32 NewValue)> OnEffectsQualityChanged;                          // 0x0290(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)

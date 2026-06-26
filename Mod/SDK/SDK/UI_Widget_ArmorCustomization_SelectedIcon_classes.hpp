@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "Steel_Type_structs.hpp"
-#include "Engine_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "Engine_structs.hpp"
 #include "Swatch_Type_structs.hpp"
 #include "SecondaryMetal_Type_structs.hpp"
 #include "UMG_classes.hpp"
@@ -33,6 +33,7 @@ public:
 	Enum_Ranks                                    SwatchRank;                                        // 0x0301(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	ESteel_Type                                   SteelType;                                         // 0x0302(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	ESecondaryMetal_Type                          SecondaryMetalType;                                // 0x0303(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          IsTempAttachmentIcon;                              // 0x0304(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();

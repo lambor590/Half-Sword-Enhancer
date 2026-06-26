@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "Steel_Type_structs.hpp"
-#include "Engine_classes.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Engine_classes.hpp"
+#include "Steel_Type_structs.hpp"
 #include "SecondaryMetal_Type_structs.hpp"
 
 

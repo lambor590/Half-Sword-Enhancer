@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "InputCore_structs.hpp"
+#include "Engine_structs.hpp"
 #include "GameplayTags_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Slate_structs.hpp"
@@ -258,14 +258,6 @@ public:
 	class UInputAction*                           BlockingAction;                                    // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic, TObjectPtr)
 };
 
-// ScriptStruct EnhancedInput.InjectedInputArray
-// 0x0010 (0x0010 - 0x0000)
-struct FInjectedInputArray final
-{
-public:
-	TArray<struct FInjectedInput>                 Injected;                                          // 0x0000(0x0010)(ZeroConstructor, Transient, NativeAccessSpecifierPublic)
-};
-
 // ScriptStruct EnhancedInput.MapPlayerKeyArgs
 // 0x0040 (0x0040 - 0x0000)
 struct FMapPlayerKeyArgs final
@@ -379,6 +371,14 @@ struct alignas(0x08) FKeyConsumptionOptions final
 {
 public:
 	uint8                                         Pad_0[0x18];                                       // 0x0000(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+
+// ScriptStruct EnhancedInput.InjectedInputArray
+// 0x0010 (0x0010 - 0x0000)
+struct FInjectedInputArray final
+{
+public:
+	TArray<struct FInjectedInput>                 Injected;                                          // 0x0000(0x0010)(ZeroConstructor, Transient, NativeAccessSpecifierPublic)
 };
 
 // ScriptStruct EnhancedInput.InputActionInstance

@@ -478,6 +478,26 @@ void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_WeaponSheathedR2
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_CheckBox_0_K2Node_ComponentBoundEvent_32_OnCheckBoxComponentStateChanged__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_CheckBox_0_K2Node_ComponentBoundEvent_32_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_CheckBox_0_K2Node_ComponentBoundEvent_32_OnCheckBoxComponentStateChanged__DelegateSignature");
+
+	Params::UI_Tavern_Inventory_C_BndEvt__UI_Tavern_Inventory_CheckBox_0_K2Node_ComponentBoundEvent_32_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+
+	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Player_Items_List_K2Node_ComponentBoundEvent_1_OnListEntryInitializedDynamic__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -1751,6 +1771,26 @@ struct FSlateBrush UUI_Tavern_Inventory_C::GetBrush_9()
 		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetBrush_9");
 
 	Params::UI_Tavern_Inventory_C_GetBrush_9 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetCheckedState
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ECheckBoxState UUI_Tavern_Inventory_C::GetCheckedState()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetCheckedState");
+
+	Params::UI_Tavern_Inventory_C_GetCheckedState Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 

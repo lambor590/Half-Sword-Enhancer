@@ -10,17 +10,16 @@
 
 #include "Basic.hpp"
 
+#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
+#include "Str_Inventory_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "StreamlineReflexBlueprint_structs.hpp"
 #include "ScreenResolution_Enum_structs.hpp"
 #include "Enum_DayTime_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
-#include "Str_Inventory_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
@@ -29,10 +28,12 @@
 #include "Str_Character_Body_Condition_structs.hpp"
 #include "Enum_PlayMode_structs.hpp"
 #include "Enum_PlayerPlayCondition_structs.hpp"
+#include "SheathSlots_Enum_structs.hpp"
+#include "StreamlineReflexBlueprint_structs.hpp"
 #include "Str_CurrentlyForgedWeapon_structs.hpp"
 #include "Enum_Maps_structs.hpp"
+#include "Enum_WeaponType_Specific_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
 #include "Steel_Type_structs.hpp"
 #include "SecondaryMetal_Type_structs.hpp"
 
@@ -40,7 +41,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GI_Settings.GI_Settings_C
-// 0x0CC8 (0x0E88 - 0x01C0)
+// 0x0D18 (0x0ED8 - 0x01C0)
 class UGI_Settings_C final : public UGameInstance
 {
 public:
@@ -231,6 +232,17 @@ public:
 	uint8                                         Pad_E71[0x7];                                      // 0x0E71(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Free_Mode_Opponents_Height;                        // 0x0E78(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Free_Mode_Opponents_Weight;                        // 0x0E80(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_WeaponType_Specific                      Free_Mode_Opponents_Weapons_Type;                  // 0x0E88(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_E89[0x7];                                      // 0x0E89(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Forge_Weapon_Pommel_Mass_Setting;                  // 0x0E90(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Pommel_Size_Setting;                  // 0x0E98(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Grip_Size_Setting;                    // 0x0EA0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Grip_Mass_Setting;                    // 0x0EA8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Guard_Size_Setting;                   // 0x0EB0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Guard_Mass_Setting;                   // 0x0EB8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Head_Size_Setting;                    // 0x0EC0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Forge_Weapon_Head_Mass_Setting;                    // 0x0EC8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Old_Willie;                                        // 0x0ED0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Check_Insured_Items();

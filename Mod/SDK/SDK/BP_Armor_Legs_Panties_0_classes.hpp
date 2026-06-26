@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "BP_Armor_Modular_Core_Master_classes.hpp"
+#include "BP_Armor_Master_classes.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Legs_Panties.BP_Armor_Legs_Panties_C
-// 0x0000 (0x0A40 - 0x0A40)
-class BP_Armor_Legs_Panties_0::ABP_Armor_Legs_Panties_C final : public ABP_Armor_Modular_Core_Master_C
+// 0x0000 (0x0910 - 0x0910)
+class BP_Armor_Legs_Panties_0::ABP_Armor_Legs_Panties_C final : public ABP_Armor_Master_C
 {
 public:
 	static class UClass* StaticClass()

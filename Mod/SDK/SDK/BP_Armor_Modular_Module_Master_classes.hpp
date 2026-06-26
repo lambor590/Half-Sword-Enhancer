@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
+#include "BP_Armor_Master_classes.hpp"
 #include "Steel_Type_structs.hpp"
 #include "SecondaryMetal_Type_structs.hpp"
-#include "BP_Armor_Master_classes.hpp"
 
 
 SDK_NAMESPACE_START

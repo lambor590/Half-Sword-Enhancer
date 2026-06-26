@@ -10,15 +10,16 @@
 
 #include "Basic.hpp"
 
-#include "Steel_Type_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
+#include "Enum_Nationalities_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Str_Medieval_Color_Swatches_structs.hpp"
-#include "Enum_Nationalities_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "SecondaryMetal_Type_structs.hpp"
 #include "Enum_WeaponType_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "Enum_WeaponType_Specific_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 

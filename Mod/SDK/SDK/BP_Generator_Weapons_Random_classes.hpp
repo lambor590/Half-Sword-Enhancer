@@ -10,10 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
-#include "Engine_classes.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "Engine_structs.hpp"
+#include "Engine_classes.hpp"
+#include "Enum_WeaponType_Specific_structs.hpp"
 #include "Enum_WeaponType_structs.hpp"
 
 
@@ -35,7 +36,7 @@ public:
 public:
 	void Add_Weapon_Module_to_Array(class UClass* Weapon_Module, Enum_Ranks Tier_In, double* Module_Price, Enum_Ranks* Tier_Out);
 	void ExecuteUbergraph_BP_Generator_Weapons_Random(int32 EntryPoint);
-	void Generate_Weapon(Enum_WeaponType Weapon_Type_Enum, Enum_Ranks Tier, bool Spawn_Specific_Weapon, class UClass* Specific_Class, const struct FStr_Passport_Weapon1& Specific_Passport, struct FStr_Passport_Weapon1* Weapon_Passport);
+	void Generate_Weapon(Enum_WeaponType Weapon_Type_Enum, Enum_Ranks Tier, bool Spawn_Specific_Weapon, class UClass* Specific_Class, const struct FStr_Passport_Weapon1& Specific_Passport, Enum_WeaponType_Specific Weapon_Type_Specific, struct FStr_Passport_Weapon1* Weapon_Passport);
 	void ReceiveBeginPlay();
 
 public:

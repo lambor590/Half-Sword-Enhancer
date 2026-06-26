@@ -10,13 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
-#include "Str_ArmorProtection_structs.hpp"
+#include "BP_Armor_Master_classes.hpp"
+#include "Steel_Type_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
-#include "BP_Armor_Master_classes.hpp"
+#include "Engine_structs.hpp"
+#include "Str_ArmorProtection_structs.hpp"
 #include "HideBodyPart_Enum_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -57,6 +58,7 @@ public:
 	bool                                          Block_Lower_Leg_Muscles;                           // 0x0A37(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Block_Shoulder_Muscles;                            // 0x0A38(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Block_Arm_Muscles;                                 // 0x0A39(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   Steel_Type_Module;                                 // 0x0A3A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_BP_Armor_Modular_Core_Master(int32 EntryPoint);

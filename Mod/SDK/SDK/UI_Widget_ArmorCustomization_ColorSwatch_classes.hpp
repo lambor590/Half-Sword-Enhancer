@@ -11,8 +11,9 @@
 #include "Basic.hpp"
 
 #include "Steel_Type_structs.hpp"
-#include "Engine_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "Engine_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Swatch_Type_structs.hpp"
 #include "SecondaryMetal_Type_structs.hpp"
 #include "UMG_classes.hpp"
@@ -21,7 +22,7 @@
 SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Widget_ArmorCustomization_ColorSwatch.UI_Widget_ArmorCustomization_ColorSwatch_C
-// 0x0028 (0x0308 - 0x02E0)
+// 0x0038 (0x0318 - 0x02E0)
 class UUI_Widget_ArmorCustomization_ColorSwatch_C final : public UUserWidget
 {
 public:
@@ -33,6 +34,9 @@ public:
 	Enum_Ranks                                    SwatchRank;                                        // 0x0301(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	ESteel_Type                                   SteelType;                                         // 0x0302(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	ESecondaryMetal_Type                          SecondaryMetalType;                                // 0x0303(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          IsTempAttachmentIcon;                              // 0x0304(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_305[0x3];                                      // 0x0305(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FLinearColor                           TempColor;                                         // 0x0308(0x0010)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_Widget_ArmorCustomization_ColorSwatch_ColorSwatchBackground_Btn_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();

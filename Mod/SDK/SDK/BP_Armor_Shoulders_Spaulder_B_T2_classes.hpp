@@ -17,7 +17,7 @@ SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Shoulders_Spaulder_B_T2.BP_Armor_Shoulders_Spaulder_B_T2_C
 // 0x0000 (0x0910 - 0x0910)
-class ABP_Armor_Shoulders_Spaulder_B_T2_C final : public ABP_Armor_Master_C
+class ABP_Armor_Shoulders_Spaulder_B_T2_C : public ABP_Armor_Master_C
 {
 public:
 	static class UClass* StaticClass()

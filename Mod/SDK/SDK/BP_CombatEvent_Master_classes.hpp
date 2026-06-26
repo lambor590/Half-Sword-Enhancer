@@ -13,8 +13,8 @@
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_Ranks_structs.hpp"
 
 
 SDK_NAMESPACE_START
