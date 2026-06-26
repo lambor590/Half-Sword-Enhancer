@@ -7,6 +7,7 @@ namespace SDK {
     class ACameraActor;
     class ADebugCameraController;
     class APlayerController;
+    class UObject;
     class UCheatManager;
     class UPlayer;
     class UWorld;
@@ -19,11 +20,18 @@ struct FreeCameraSettings {
     bool ignoreTimeDilation = true;
 };
 
+struct ScreenOverlaySettings {
+    bool visualEffects = true;
+    bool resultMenus = true;
+    bool onlyInFreeCamera = true;
+};
+
 class FreeCameraManager {
 public:
     static FreeCameraManager& Get();
 
     void Apply(bool enabled, bool lockPlayerInput, FreeCameraSettings settings);
+    void ConfigureScreenOverlays(ScreenOverlaySettings settings);
 
     FreeCameraManager(const FreeCameraManager&) = delete;
     FreeCameraManager& operator=(const FreeCameraManager&) = delete;
@@ -44,9 +52,15 @@ private:
     void RestoreOriginalPlayerController();
     void ClearState() noexcept;
     void ApplyPlayerInputLock(const RuntimeContextSnapshot& runtime, bool locked, const FreeCameraSettings& settings);
+    void ApplyScreenOverlayVisibility(const RuntimeContextSnapshot& runtime);
+    void ApplyConstructedScreenOverlay(SDK::UObject* object);
+    void RestoreGameplayInput(const SDK::UObject* worldContext);
+    [[nodiscard]] bool ShouldHideScreenOverlays() const noexcept;
 
     bool active = false;
     bool playerInputLocked = false;
+    int hiddenResultMenuCount = 0;
+    ScreenOverlaySettings screenOverlays;
     SDK::UWorld* activeWorld = nullptr;
     SDK::APlayerController* originalController = nullptr;
     SDK::UPlayer* originalPlayer = nullptr;

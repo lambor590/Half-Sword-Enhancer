@@ -143,6 +143,9 @@
     <ClCompile Include="SDK\SDK\SG_PlayerProgression_functions.cpp">
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
     </ClCompile>
+    <ClCompile Include="SDK\SDK\UMG_functions.cpp">
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+    </ClCompile>
     <ClCompile Include="src\ConfigManager.cpp" />
     <ClCompile Include="src\KeybindManager.cpp" />
     <ClCompile Include="src\DefaultStyle.cpp" />

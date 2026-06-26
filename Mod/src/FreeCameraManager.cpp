@@ -1,11 +1,21 @@
 #include "Utils/FreeCameraManager.h"
 
 #include <algorithm>
+#include <unordered_map>
 
 #include "Hooks/GameHook.h"
 
 #include "SDK/Engine_classes.hpp"
+#include "SDK/Engine_parameters.hpp"
 #include "SDK/Engine_structs.hpp"
+#include "SDK/UI_DED_classes.hpp"
+#include "SDK/UI_DeathDoor_classes.hpp"
+#include "SDK/UI_GiveUp_classes.hpp"
+#include "SDK/UI_HUD_classes.hpp"
+#include "SDK/UI_Lose_classes.hpp"
+#include "SDK/UI_WIN_classes.hpp"
+#include "SDK/UI_WinScreen_classes.hpp"
+#include "SDK/UMG_classes.hpp"
 
 namespace {
     [[nodiscard]] float CustomFov(const FreeCameraSettings& settings) noexcept {
@@ -30,6 +40,84 @@ namespace {
         }
         return controller;
     }
+
+    bool SetScreenOverlayHidden(SDK::UWidget* widget, bool hidden) {
+        if (!widget) return false;
+
+        struct SavedWidgetState {
+            SDK::ESlateVisibility visibility = SDK::ESlateVisibility::Visible;
+            bool enabled = true;
+        };
+
+        static std::unordered_map<SDK::UWidget*, SavedWidgetState> saved;
+        if (hidden) {
+            const bool changed = saved.find(widget) == saved.end();
+            if (changed) {
+                saved.emplace(widget, SavedWidgetState{widget->GetVisibility(), widget->GetIsEnabled()});
+            }
+            widget->SetIsEnabled(false);
+            widget->SetVisibility(SDK::ESlateVisibility::Collapsed);
+            return changed;
+        }
+
+        auto it = saved.find(widget);
+        if (it == saved.end()) return false;
+        widget->SetIsEnabled(it->second.enabled);
+        widget->SetVisibility(it->second.visibility);
+        saved.erase(it);
+        return true;
+    }
+
+    void SetHudEffectWidgetsHidden(SDK::UUI_HUD_C* hud, bool hidden) {
+        if (!hud) return;
+
+        SetScreenOverlayHidden(hud->ArmLDmg, hidden);
+        SetScreenOverlayHidden(hud->ArmRDmg, hidden);
+        SetScreenOverlayHidden(hud->Black, hidden);
+        SetScreenOverlayHidden(hud->HeadDmg, hidden);
+        SetScreenOverlayHidden(hud->HPDmg1, hidden);
+        SetScreenOverlayHidden(hud->HPDmg2, hidden);
+        SetScreenOverlayHidden(hud->HPDmg3, hidden);
+        SetScreenOverlayHidden(hud->LegLDmg, hidden);
+        SetScreenOverlayHidden(hud->LegRDmg, hidden);
+        SetScreenOverlayHidden(hud->TextHurt, hidden);
+        SetScreenOverlayHidden(hud->TextWin, hidden);
+        SetScreenOverlayHidden(hud->Vignette, hidden);
+        SetScreenOverlayHidden(hud->Vignette_Pain, hidden);
+        SetScreenOverlayHidden(hud->Vignette_WakeUp, hidden);
+    }
+
+    [[nodiscard]] bool IsResultMenu(SDK::UObject* object) {
+        return object->IsA(SDK::UUI_Lose_C::StaticClass()) ||
+               object->IsA(SDK::UUI_DeathDoor_C::StaticClass()) ||
+               object->IsA(SDK::UUI_DED_C::StaticClass()) ||
+               object->IsA(SDK::UUI_GiveUp_C::StaticClass()) ||
+               object->IsA(SDK::UUI_WIN_C::StaticClass()) ||
+               object->IsA(SDK::UUI_WinScreen_C::StaticClass());
+    }
+
+    template <typename Widget>
+    int ApplyScreenOverlayClass(SDK::UObject* worldContext, bool hidden) {
+        SDK::TArray<SDK::UUserWidget*> widgets;
+        SDK::UWidgetBlueprintLibrary::GetAllWidgetsOfClass(worldContext, &widgets, Widget::StaticClass(), false);
+        int delta = 0;
+        for (int i = 0; i < widgets.Num(); ++i) {
+            if (SetScreenOverlayHidden(widgets[i], hidden)) {
+                delta += hidden ? 1 : -1;
+            }
+        }
+        return delta;
+    }
+
+    void ApplyHudEffectWidgets(SDK::UObject* worldContext, bool hidden) {
+        SDK::TArray<SDK::UUserWidget*> widgets;
+        SDK::UWidgetBlueprintLibrary::GetAllWidgetsOfClass(
+            worldContext, &widgets, SDK::UUI_HUD_C::StaticClass(), false
+        );
+        for (int i = 0; i < widgets.Num(); ++i) {
+            SetHudEffectWidgetsHidden(static_cast<SDK::UUI_HUD_C*>(widgets[i]), hidden);
+        }
+    }
 }
 
 FreeCameraManager& FreeCameraManager::Get() {
@@ -48,6 +136,34 @@ void FreeCameraManager::Apply(bool enabled, bool lockPlayerInput, FreeCameraSett
     });
 }
 
+void FreeCameraManager::ConfigureScreenOverlays(ScreenOverlaySettings settings) {
+    GameHook::QueueAction([settings](const RuntimeContextSnapshot& runtime) {
+        auto& manager = FreeCameraManager::Get();
+        manager.screenOverlays = settings;
+        GameHook::Get().RegisterHook(
+            "Construct",
+            [](GameHook::ProcessEventContext& context) {
+                FreeCameraManager::Get().ApplyConstructedScreenOverlay(context.object);
+            },
+            true
+        );
+        GameHook::Get().RegisterHook(
+            "SetGamePaused",
+            [](GameHook::ProcessEventContext& context) {
+                auto& manager = FreeCameraManager::Get();
+                const auto* params = context.Params<SDK::Params::GameplayStatics_SetGamePaused>();
+                if (!params || !params->bPaused || !manager.screenOverlays.resultMenus ||
+                    !manager.ShouldHideScreenOverlays() || manager.hiddenResultMenuCount <= 0) {
+                    return;
+                }
+                manager.RestoreGameplayInput(params->WorldContextObject);
+            },
+            true
+        );
+        manager.ApplyScreenOverlayVisibility(runtime);
+    });
+}
+
 void FreeCameraManager::Enable(
     const RuntimeContextSnapshot& runtime, bool lockPlayerInput, const FreeCameraSettings& settings
 ) {
@@ -62,6 +178,7 @@ void FreeCameraManager::Enable(
         if (wasPlayerInputLocked && playerInputLocked) {
             ApplyDebugCameraSettings(settings);
         }
+        ApplyScreenOverlayVisibility(runtime);
         return;
     }
 
@@ -72,6 +189,7 @@ void FreeCameraManager::Enable(
     playerInputLocked = false;
 
     ApplyPlayerInputLock(runtime, lockPlayerInput, settings);
+    ApplyScreenOverlayVisibility(runtime);
 }
 
 void FreeCameraManager::Disable(const RuntimeContextSnapshot& runtime) {
@@ -97,6 +215,7 @@ void FreeCameraManager::Disable(const RuntimeContextSnapshot& runtime) {
     }
 
     ClearState();
+    ApplyScreenOverlayVisibility(runtime);
 }
 
 bool FreeCameraManager::EnsureCheatManager() {
@@ -333,4 +452,66 @@ void FreeCameraManager::ClearState() noexcept {
     debugController = nullptr;
     originalViewTarget = nullptr;
     frozenCameraActor = nullptr;
+}
+
+bool FreeCameraManager::ShouldHideScreenOverlays() const noexcept {
+    return (screenOverlays.visualEffects || screenOverlays.resultMenus) &&
+           (!screenOverlays.onlyInFreeCamera || active);
+}
+
+void FreeCameraManager::ApplyConstructedScreenOverlay(SDK::UObject* object) {
+    if (!ShouldHideScreenOverlays() || !object) return;
+    if (screenOverlays.visualEffects && object->IsA(SDK::UUI_HUD_C::StaticClass())) {
+        SetHudEffectWidgetsHidden(static_cast<SDK::UUI_HUD_C*>(object), true);
+        return;
+    }
+    if (!screenOverlays.resultMenus || !IsResultMenu(object)) return;
+    if (SetScreenOverlayHidden(static_cast<SDK::UWidget*>(object), true)) {
+        ++hiddenResultMenuCount;
+    }
+    RestoreGameplayInput(object);
+}
+
+void FreeCameraManager::ApplyScreenOverlayVisibility(const RuntimeContextSnapshot& runtime) {
+    if (!runtime.world) return;
+
+    const bool hidden = ShouldHideScreenOverlays();
+    const bool hideResultMenus = hidden && screenOverlays.resultMenus;
+    ApplyHudEffectWidgets(runtime.world, hidden && screenOverlays.visualEffects);
+    const int resultMenuDelta =
+        ApplyScreenOverlayClass<SDK::UUI_Lose_C>(runtime.world, hideResultMenus) +
+        ApplyScreenOverlayClass<SDK::UUI_DeathDoor_C>(runtime.world, hideResultMenus) +
+        ApplyScreenOverlayClass<SDK::UUI_DED_C>(runtime.world, hideResultMenus) +
+        ApplyScreenOverlayClass<SDK::UUI_GiveUp_C>(runtime.world, hideResultMenus) +
+        ApplyScreenOverlayClass<SDK::UUI_WIN_C>(runtime.world, hideResultMenus) +
+        ApplyScreenOverlayClass<SDK::UUI_WinScreen_C>(runtime.world, hideResultMenus);
+    hiddenResultMenuCount += resultMenuDelta;
+    if (hiddenResultMenuCount < 0) hiddenResultMenuCount = 0;
+    if (hideResultMenus && resultMenuDelta > 0) {
+        RestoreGameplayInput(runtime.world);
+    }
+}
+
+void FreeCameraManager::RestoreGameplayInput(const SDK::UObject* worldContext) {
+    worldContext = worldContext ? worldContext : SDK::UWorld::GetWorld();
+    if (!worldContext) return;
+
+    if (SDK::UGameplayStatics::IsGamePaused(worldContext)) {
+        SDK::UGameplayStatics::SetGamePaused(worldContext, false);
+    }
+
+    auto* controller = SDK::UGameplayStatics::GetPlayerController(worldContext, 0);
+    if (!controller && debugController) {
+        controller = static_cast<SDK::APlayerController*>(debugController);
+    }
+    if (!controller) {
+        controller = originalController;
+    }
+    if (!controller) return;
+
+    SDK::UWidgetBlueprintLibrary::SetInputMode_GameOnly(controller, false);
+    SDK::UWidgetBlueprintLibrary::SetFocusToGameViewport();
+    controller->bShowMouseCursor = false;
+    controller->SetIgnoreMoveInput(false);
+    controller->SetIgnoreLookInput(false);
 }
