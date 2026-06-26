@@ -26,6 +26,7 @@ public:
         int applyKey = -1;
         int randomizeKey = -1;
         int generateTier = 4;
+        int weaponSpecificType = 0;
         EquipmentGenerator::ArmorGenerationOptions armorOptions;
     };
 

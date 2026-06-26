@@ -2,11 +2,13 @@
 #include "Menu/SectionStyle.h"
 #include "SDK/Willie_BP_classes.hpp"
 
+#include "ConfigManager.h"
 #include "Hooks/GameHook.h"
 #include "Utils/ArmorGenerationUi.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"
+#include "Utils/WeaponGenerationUi.h"
 #include "Utils/WeaponPassportBuilder.h"
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 #include "SDK/Enum_Weapon_Material_Type_structs.hpp"
@@ -14,6 +16,7 @@
 #include <memory>
 
 namespace {
+    constexpr const char* LOADOUT_CONFIG_SECTION = "LoadoutManager";
 
     void CopyPassportToSlot(const SDK::FStr_Passport_Weapon1& passport, SDK::FStr_WeaponParts& slot) {
         slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066 =
@@ -257,10 +260,11 @@ void LoadoutManagerSection::RandomizeAllArmor() {
 void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
     auto type = static_cast<SDK::Enum_WeaponType>(0);
+    auto specificType = WeaponGenerationUi::SpecificTypeFromIndex(cfg.weaponSpecificType);
 
-    GameHook::QueueAction([slotIndex, tier, type](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([slotIndex, tier, type, specificType](const RuntimeContextSnapshot& runtime) {
         if (!runtime.player || !runtime.world) return;
-        auto passport = EquipmentGenerator::GenerateWeapon(runtime.world, type, tier);
+        auto passport = EquipmentGenerator::GenerateWeapon(runtime.world, type, tier, specificType);
 
         auto& weapons = runtime.player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
@@ -621,6 +625,18 @@ void LoadoutManagerSection::RenderWeaponsTab() {
 
     EnsureModulePool();
 
+    GuiUtils::RenderFreeTierCombo("Generate Tier", cfg.generateTier);
+    TooltipHelper::ShowTooltip("Quality tier for generated weapons");
+
+    ImGui::SameLine();
+    if (WeaponGenerationUi::RenderSpecificTypeCombo("Weapon Type", cfg.weaponSpecificType)) {
+        ConfigManager::Get().SetInt(
+            LOADOUT_CONFIG_SECTION, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, cfg.weaponSpecificType
+        );
+    }
+    TooltipHelper::ShowTooltip("Specific weapon type filter used by the game's random weapon generator");
+    ImGui::Spacing();
+
     if (ImGui::Button("Clear All Weapons", ImVec2(ImGui::GetContentRegionAvail().x, 0))) ClearAllWeapons();
 
     weaponPicker.Render("Weapon Preset##wp");
@@ -686,6 +702,10 @@ void LoadoutManagerSection::RenderWeaponsTab() {
 
 LoadoutManagerSection::LoadoutManagerSection(ModContext& ctx) : Section(ctx, SECTION) {
     InitKeybinds();
+    cfg.weaponSpecificType =
+        ConfigManager::Get().GetInt(
+            LOADOUT_CONFIG_SECTION, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, cfg.weaponSpecificType
+        );
 }
 
 void LoadoutManagerSection::InitKeybinds() {
