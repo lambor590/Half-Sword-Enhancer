@@ -159,6 +159,30 @@ namespace GuiUtils {
         return ComboWidthFromText(maxW);
     }
 
+    inline bool RenderEnumCombo(const char* label, int& value, const std::vector<std::string>& names) {
+        if (names.empty()) return false;
+        if (value < 0 || value >= static_cast<int>(names.size())) value = 0;
+
+        float maxW = ImGui::CalcTextSize("Unknown").x;
+        for (const auto& name : names) {
+            const float width = ImGui::CalcTextSize(name.c_str()).x;
+            if (width > maxW) maxW = width;
+        }
+
+        bool changed = false;
+        if (BeginSizedCombo(label, names[value].c_str(), ComboWidthFromText(maxW))) {
+            for (int i = 0; i < static_cast<int>(names.size()); ++i) {
+                if (ImGui::Selectable(names[i].c_str(), value == i)) {
+                    value = i;
+                    changed = true;
+                }
+                if (value == i) ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+        return changed;
+    }
+
     inline constexpr auto LOWER_TABLE = [] {
         std::array<char, 256> t{};
         for (int i = 0; i < 256; ++i)
