@@ -18,7 +18,7 @@ SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C
 // 0x0000 (0x0910 - 0x0910)
-class ABP_Armor_Body_Brestplate_A_T2_C : public ABP_Armor_Master_C
+class ABP_Armor_Body_Brestplate_A_T2_C final : public ABP_Armor_Master_C
 {
 public:
 	uint8                                         Pad_903[0x5];                                      // 0x0903(0x0005)(Fixing Size After Last Property [ Dumper-7 ])

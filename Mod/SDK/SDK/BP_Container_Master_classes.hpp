@@ -15,15 +15,15 @@
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "Enum_WeaponType_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_WeaponType_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Container_Master.BP_Container_Master_C
 // 0x0778 (0x0A08 - 0x0290)
-class ABP_Container_Master_C : public AActor
+class ABP_Container_Master_C final : public AActor
 {
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0290(0x0008)(ZeroConstructor, Transient, DuplicateTransient)

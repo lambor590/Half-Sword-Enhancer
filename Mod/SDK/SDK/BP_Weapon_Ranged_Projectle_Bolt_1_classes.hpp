@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Weapon_Ranged_Projectle_Bolt_1.BP_Weapon_Ranged_Projectle_Bolt_1_C
-// 0x0000 (0x0C08 - 0x0C08)
+// 0x0000 (0x0C10 - 0x0C10)
 class ABP_Weapon_Ranged_Projectle_Bolt_1_C final : public ABP_Weapon_Ranged_Projectle_Master_C
 {
 public:

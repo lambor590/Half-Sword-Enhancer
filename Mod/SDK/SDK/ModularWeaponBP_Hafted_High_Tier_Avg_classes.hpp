@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_Hafted_High_Tier_Avg.ModularWeaponBP_Hafted_High_Tier_Avg_C
-// 0x0000 (0x0BE0 - 0x0BE0)
+// 0x0000 (0x0BE8 - 0x0BE8)
 class AModularWeaponBP_Hafted_High_Tier_Avg_C final : public AModularWeaponBP_C
 {
 public:

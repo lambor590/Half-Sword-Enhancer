@@ -1214,6 +1214,20 @@ void AWillie_BP_C::Event_Block_L_OffHand_Grab()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Event Check Bone Dislocation Status
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Check_Bone_Dislocation_Status()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Event Check Bone Dislocation Status");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Event Check Dismembered Part Distance
 // (BlueprintCallable, BlueprintEvent)
 

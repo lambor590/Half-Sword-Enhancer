@@ -13,10 +13,11 @@
 #include "Enum_DismembermentPart_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "CoreUObject_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "FootStepping_Enum_structs.hpp"
-#include "GripType_Enum_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Severable_BodyParts_Enum_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
 #include "BodyPart_Enum_structs.hpp"
@@ -25,8 +26,6 @@
 #include "Weapon_Slots_Enum_structs.hpp"
 #include "LeftRight_Enum_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "Str_Passport_Character1_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
 #include "Enum_ReverseGripType_structs.hpp"
 #include "Steel_Type_structs.hpp"
@@ -34,6 +33,7 @@
 #include "VertexPaintDetectionPlugin_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"
 #include "ArmorSlotContents_structs.hpp"
+#include "Enum_CombatEvent_LoseConditions_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
@@ -1498,6 +1498,7 @@ public:
 	class USceneComponent*                        Dismember_Bone_Location_Parent;                    // 0x45E8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        Dismember_Bone_Location_Child;                     // 0x45F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	bool                                          Dismembered_Part_Collision_Disabled;               // 0x45F8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Dismember_Collision_Can_Be_Enabled;                // 0x45F9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_and_Remove_Weapon_Weights(class AModularWeaponBP_C* Weapon, bool Add);
@@ -1563,6 +1564,7 @@ public:
 	void Event_Block_Attach_Offhand_But_Play_Animatipn();
 	void Event_Block_L_Hand_Offhand_Attach__Dup_();
 	void Event_Block_L_OffHand_Grab();
+	void Event_Check_Bone_Dislocation_Status();
 	void Event_Check_Dismembered_Part_Distance();
 	void Event_Clear_Sheathed_Weapon_Slots();
 	void Event_Detach_Grab_Point_L();

@@ -14,8 +14,8 @@
 #include "Enum_MaterialLayer_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_WeaponType_Specific_structs.hpp"
 #include "Enum_WeaponType_structs.hpp"
+#include "Enum_WeaponType_Specific_structs.hpp"
 
 
 SDK_NAMESPACE_START

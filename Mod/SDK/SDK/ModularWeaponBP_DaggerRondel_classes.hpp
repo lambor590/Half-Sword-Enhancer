@@ -17,17 +17,17 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_DaggerRondel.ModularWeaponBP_DaggerRondel_C
-// 0x0038 (0x0C18 - 0x0BE0)
+// 0x0038 (0x0C20 - 0x0BE8)
 class AModularWeaponBP_DaggerRondel_C final : public AModularWeaponBP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_ModularWeaponBP_DaggerRondel_C;     // 0x0BE0(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class USceneComponent*                        Tip2;                                              // 0x0BE8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UBoxComponent*                          Box;                                               // 0x0BF0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UArrowComponent*                        Arrow3;                                            // 0x0BF8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Tip1;                                              // 0x0C00(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Base1_0;                                           // 0x0C08(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Blade1;                                            // 0x0C10(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	struct FPointerToUberGraphFrame               UberGraphFrame_ModularWeaponBP_DaggerRondel_C;     // 0x0BE8(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	class USceneComponent*                        Tip2;                                              // 0x0BF0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UBoxComponent*                          Box;                                               // 0x0BF8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UArrowComponent*                        Arrow3;                                            // 0x0C00(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Tip1;                                              // 0x0C08(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Base1_0;                                           // 0x0C10(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Blade1;                                            // 0x0C18(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__ModularWeaponBP_Axe1_Blade1_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);

@@ -58,6 +58,20 @@ void ABP_LevelManager_C::Clean_Up_Map()
 }
 
 
+// Function BP_LevelManager.BP_LevelManager_C.Event Respawn Respawnable Objects With Delay
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_LevelManager_C::Event_Respawn_Respawnable_Objects_With_Delay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_LevelManager_C", "Event Respawn Respawnable Objects With Delay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function BP_LevelManager.BP_LevelManager_C.ExecuteUbergraph_BP_LevelManager
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:

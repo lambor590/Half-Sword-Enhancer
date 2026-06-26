@@ -18,8 +18,8 @@
 #include "S_PhotosData_structs.hpp"
 #include "S_PostProcessRendering_structs.hpp"
 #include "S_PhotoResolutions_structs.hpp"
-#include "S_Logos_structs.hpp"
 #include "S_PostProcessFilter_structs.hpp"
+#include "S_Logos_structs.hpp"
 #include "E_ColorGradingMode_structs.hpp"
 
 

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_Hafted_Mid_Tier_Long.ModularWeaponBP_Hafted_Mid_Tier_Long_C
-// 0x0000 (0x0BE0 - 0x0BE0)
+// 0x0000 (0x0BE8 - 0x0BE8)
 class AModularWeaponBP_Hafted_Mid_Tier_Long_C final : public AModularWeaponBP_C
 {
 public:

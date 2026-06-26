@@ -41,6 +41,7 @@ public:
 	void Check_Availabe_Mercenaries();
 	void Clean_Up_and_Spawn_Actors();
 	void Clean_Up_Map();
+	void Event_Respawn_Respawnable_Objects_With_Delay();
 	void ExecuteUbergraph_BP_LevelManager(int32 EntryPoint);
 	void Fade_Out_Event(double Delay);
 	void ReceiveBeginPlay();

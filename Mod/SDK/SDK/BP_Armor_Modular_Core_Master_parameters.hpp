@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
+#include "SkeletalMerging_structs.hpp"
+#include "Str_ArmorProtection_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Enum_DismembermentPart_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "SkeletalMerging_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Str_ArmorProtection_structs.hpp"
 #include "HideBodyPart_Enum_structs.hpp"
 #include "Steel_Type_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
@@ -24,30 +24,34 @@ SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
 // Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.ExecuteUbergraph_BP_Armor_Modular_Core_Master
-// 0x0180 (0x0180 - 0x0000)
+// 0x0198 (0x0198 - 0x0000)
 struct BP_Armor_Modular_Core_Master_C_ExecuteUbergraph_BP_Armor_Modular_Core_Master final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UClass*                                 CallFunc_GetObjectClass_ReturnValue;               // 0x0008(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class USkeletalMesh*                          CallFunc_GetSkeletalMeshAsset_ReturnValue;         // 0x0010(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0018(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1C[0x4];                                       // 0x001C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSkeletalMeshMergeParams               K2Node_MakeStruct_SkeletalMeshMergeParams;         // 0x0020(0x0040)()
-	class USkeletalMesh*                          CallFunc_MergeMeshes_ReturnValue;                  // 0x0060(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0068(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x006C(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x006D(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_6E[0x2];                                       // 0x006E(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	class USkeletalMesh*                          CallFunc_GetSkeletalMeshAsset_ReturnValue_1;       // 0x0070(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_Array_AddUnique_ReturnValue_1;            // 0x0078(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_7C[0x4];                                       // 0x007C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_ArmorProtection                   K2Node_MakeStruct_Str_ArmorProtection;             // 0x0080(0x0020)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x00A0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x00A1(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_A2[0x6];                                       // 0x00A2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1;             // 0x00A8(0x00D8)(HasGetValueTypeHash)
+	class FName                                   Temp_name_Variable;                                // 0x0004(0x0008)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   Temp_name_Variable_1;                              // 0x000C(0x0008)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Array_RemoveItem_ReturnValue;             // 0x0014(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_15[0x3];                                       // 0x0015(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	class USkeletalMesh*                          CallFunc_GetSkeletalMeshAsset_ReturnValue;         // 0x0018(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_24[0x4];                                       // 0x0024(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSkeletalMeshMergeParams               K2Node_MakeStruct_SkeletalMeshMergeParams;         // 0x0028(0x0040)()
+	class USkeletalMesh*                          CallFunc_MergeMeshes_ReturnValue;                  // 0x0068(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0070(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0074(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0075(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_76[0x2];                                       // 0x0076(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	class USkeletalMesh*                          CallFunc_GetSkeletalMeshAsset_ReturnValue_1;       // 0x0078(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_Array_AddUnique_ReturnValue_1;            // 0x0080(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_84[0x4];                                       // 0x0084(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FStr_ArmorProtection                   K2Node_MakeStruct_Str_ArmorProtection;             // 0x0088(0x0020)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue;                      // 0x00A8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsValid_ReturnValue_1;                    // 0x00A9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_AA[0x6];                                       // 0x00AA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class UClass*                                 CallFunc_GetObjectClass_ReturnValue;               // 0x00B0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Armor1                   K2Node_MakeStruct_Str_Passport_Armor1;             // 0x00B8(0x00D8)(HasGetValueTypeHash)
+	bool                                          CallFunc_Array_RemoveItem_ReturnValue_1;           // 0x0190(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C.Set Up Module

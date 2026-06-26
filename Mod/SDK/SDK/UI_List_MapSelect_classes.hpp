@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
+#include "Str_Passport_CombatEvent1_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Str_Passport_CombatEvent1_structs.hpp"
 #include "UMG_classes.hpp"
 
 
