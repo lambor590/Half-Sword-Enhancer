@@ -8,7 +8,15 @@
 #include "Utils/GuiUtils.h"
 
 GuiSection::GuiSection(ModContext& ctx)
-    : Section(ctx, SECTION), notificationsEnabled(NotificationManager::IsEnabled()) {}
+    : Section(ctx, SECTION), notificationsEnabled(NotificationManager::IsEnabled()) {
+    auto& config = ConfigManager::Get();
+    screenOverlays.visualEffects =
+        config.GetBool(SCREEN_OVERLAYS_CONFIG, "visual_effects", screenOverlays.visualEffects);
+    screenOverlays.resultMenus = config.GetBool(SCREEN_OVERLAYS_CONFIG, "result_menus", screenOverlays.resultMenus);
+    screenOverlays.onlyInFreeCamera =
+        config.GetBool(SCREEN_OVERLAYS_CONFIG, "only_in_free_camera", screenOverlays.onlyInFreeCamera);
+    FreeCameraManager::Get().ConfigureScreenOverlays(screenOverlays);
+}
 
 void GuiSection::Render() {
     const SectionStyle::StyleRAII style;
@@ -47,6 +55,8 @@ void GuiSection::Render() {
         GameHook::Get().SetUEConsoleEnabled(ueConsoleEnabled);
     }
 
+    RenderScreenOverlaySettings();
+
     if (changed) [[unlikely]]
         KeybindManager::SaveKeybinds();
 }
@@ -69,4 +79,25 @@ bool GuiSection::RenderKeybind(const char* label, const char* tooltip, bool& wai
     }
 
     return KeybindManager::HandleKeyPress(waitingForKey, key);
+}
+
+void GuiSection::RenderScreenOverlaySettings() {
+    ImGui::Spacing();
+    ImGui::SeparatorText(SCREEN_OVERLAYS_LABEL);
+
+    bool changed =
+        GuiUtils::CheckboxWithTooltip(VISUAL_EFFECTS_LABEL, &screenOverlays.visualEffects, VISUAL_EFFECTS_TOOLTIP);
+    changed |= GuiUtils::CheckboxWithTooltip(RESULT_MENUS_LABEL, &screenOverlays.resultMenus, RESULT_MENUS_TOOLTIP);
+    changed |= GuiUtils::CheckboxWithTooltip(
+        ONLY_FREE_CAMERA_LABEL, &screenOverlays.onlyInFreeCamera, ONLY_FREE_CAMERA_TOOLTIP
+    );
+
+    if (!changed) return;
+    auto& config = ConfigManager::Get();
+    config.BatchSave([&]() {
+        config.SetBool(SCREEN_OVERLAYS_CONFIG, "visual_effects", screenOverlays.visualEffects);
+        config.SetBool(SCREEN_OVERLAYS_CONFIG, "result_menus", screenOverlays.resultMenus);
+        config.SetBool(SCREEN_OVERLAYS_CONFIG, "only_in_free_camera", screenOverlays.onlyInFreeCamera);
+    });
+    FreeCameraManager::Get().ConfigureScreenOverlays(screenOverlays);
 }
