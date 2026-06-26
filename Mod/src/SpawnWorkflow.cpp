@@ -50,7 +50,10 @@ namespace SpawnWorkflow {
             switch (request.kind) {
                 case ItemSpawnRequest::Kind::ClassPath: {
                     if (request.classPath.empty()) return false;
-                    Spawner::SpawnActor(world, request.classPath, transform, nullptr, snapToGround, request.tier);
+                    Spawner::SpawnActor(
+                        world, request.classPath, transform, nullptr, snapToGround, request.tier, nullptr,
+                        request.weaponSpecificType
+                    );
                     return true;
                 }
                 case ItemSpawnRequest::Kind::GeneratedCustomizableWeapon: {

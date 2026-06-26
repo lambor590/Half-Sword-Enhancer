@@ -209,7 +209,8 @@ namespace EquipmentGenerator {
     }
 
     SDK::FStr_Passport_Weapon1 GenerateWeapon(
-        const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier
+        const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier,
+        SDK::Enum_WeaponType_Specific specificType
     ) {
         SDK::FStr_Passport_Weapon1 output{};
         auto* gen = GetWeaponGenerator(world);
@@ -217,14 +218,15 @@ namespace EquipmentGenerator {
 
         SDK::FStr_Passport_Weapon1 emptyPassport{};
         for (int i = 0; i < MAX_ATTEMPTS; ++i) {
-            gen->Generate_Weapon(type, tier, false, nullptr, emptyPassport, &output);
+            gen->Generate_Weapon(type, tier, false, nullptr, emptyPassport, specificType, &output);
             if (IsPassportValid(output)) return output;
         }
         return output;
     }
 
     SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(
-        const SDK::UWorld* world, SDK::UClass* weaponClass, SDK::Enum_Ranks tier
+        const SDK::UWorld* world, SDK::UClass* weaponClass, SDK::Enum_Ranks tier,
+        SDK::Enum_WeaponType_Specific specificType
     ) {
         SDK::FStr_Passport_Weapon1 output{};
         auto* gen = GetWeaponGenerator(world);
@@ -232,7 +234,9 @@ namespace EquipmentGenerator {
 
         SDK::FStr_Passport_Weapon1 emptyPassport{};
         for (int i = 0; i < MAX_ATTEMPTS; ++i) {
-            gen->Generate_Weapon(SDK::Enum_WeaponType::NewEnumerator0, tier, true, weaponClass, emptyPassport, &output);
+            gen->Generate_Weapon(
+                SDK::Enum_WeaponType::NewEnumerator0, tier, true, weaponClass, emptyPassport, specificType, &output
+            );
             if (IsPassportValid(output)) return output;
         }
         return output;

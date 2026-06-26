@@ -14,6 +14,7 @@
 #include "Utils/WeaponClassPaths.h"
 #include "SDK/Engine_classes.hpp"
 #include "SDK/Enum_Nationalities_structs.hpp"
+#include "SDK/Enum_WeaponType_Specific_structs.hpp"
 #include "SDK/Str_Passport_Armor1_structs.hpp"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 
@@ -50,6 +51,7 @@ namespace SpawnWorkflow {
         SDK::EArmorSlots_Enum armorSlot{};
         CustomizableWeapon customizable = CustomizableWeapon::None;
         SDK::Enum_Ranks tier{};
+        SDK::Enum_WeaponType_Specific weaponSpecificType = SDK::Enum_WeaponType_Specific::NewEnumerator7;
         EquipmentGenerator::ArmorGenerationOptions armorOptions{};
     };
 

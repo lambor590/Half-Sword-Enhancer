@@ -7,6 +7,7 @@
 #include "Menu/SectionConfig.h"
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
+#include "SDK/Enum_WeaponType_Specific_structs.hpp"
 #include "SDK/Str_Passport_Weapon1_structs.hpp"
 #include "SDK/Str_Passport_Armor1_structs.hpp"
 
@@ -39,7 +40,8 @@ namespace Spawner {
     void SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
         const std::function<void(SDK::AActor*)>& callback = nullptr, bool snapToGround = false,
-        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER, const std::function<void(SDK::AActor*)>& postSpawnCallback = nullptr
+        SDK::Enum_Ranks tier = DEFAULT_SPAWN_TIER, const std::function<void(SDK::AActor*)>& postSpawnCallback = nullptr,
+        SDK::Enum_WeaponType_Specific weaponSpecificType = SDK::Enum_WeaponType_Specific::NewEnumerator7
     );
     void SpawnArmorFromPassport(
         const SDK::UWorld* world, const SDK::FStr_Passport_Armor1& passport, const SDK::FTransform& transform,

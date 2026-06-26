@@ -145,7 +145,7 @@ namespace Spawner {
     void SpawnActor(
         const SDK::UWorld* world, const std::string& className, const SDK::FTransform& transform,
         const std::function<void(SDK::AActor*)>& callback, bool snapToGround, SDK::Enum_Ranks tier,
-        const std::function<void(SDK::AActor*)>& postSpawnCallback
+        const std::function<void(SDK::AActor*)>& postSpawnCallback, SDK::Enum_WeaponType_Specific weaponSpecificType
     ) {
         ActorType actorType = GetActorType(className);
         if (world && cachedWorld != world) {
@@ -167,7 +167,7 @@ namespace Spawner {
 
         if (actorType == ActorType::Weapon) {
             if (className.find("Built_Weapons") == std::string::npos) {
-                auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier);
+                auto passport = EquipmentGenerator::GenerateSpecificWeapon(world, actorClass, tier, weaponSpecificType);
                 SpawnCustomizableFromPassport(world, passport, transform, snapToGround, callback);
                 return;
             }
