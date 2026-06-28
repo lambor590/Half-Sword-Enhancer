@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <unordered_set>
 #include <utility>
 
@@ -105,12 +106,17 @@ namespace ActorUtils {
 
     inline void SetFearlessReinforcementHooksEnabled(bool enabled) {
         static bool registered = false;
+        static std::array<GameHook::HookHandle, 2> hookHandles{
+            GameHook::INVALID_HOOK_HANDLE, GameHook::INVALID_HOOK_HANDLE
+        };
         if (registered == enabled) return;
 
         auto& hook = GameHook::Get();
         if (!enabled) {
-            hook.UnregisterHook("Get Damage");
-            hook.UnregisterHook("Dismemberment Finish Event");
+            for (auto& handle : hookHandles) {
+                hook.Unsubscribe(handle);
+                handle = GameHook::INVALID_HOOK_HANDLE;
+            }
             registered = false;
             return;
         }
@@ -122,8 +128,8 @@ namespace ActorUtils {
             if (!willie->DED && IsFearlessReinforced(willie)) ApplyFearlessEffect(willie);
         };
 
-        hook.RegisterHook("Get Damage", reinforceFearless, true);
-        hook.RegisterHook("Dismemberment Finish Event", reinforceFearless, true);
+        hookHandles[0] = hook.Subscribe("Get Damage", GameHook::HookPhase::After, reinforceFearless);
+        hookHandles[1] = hook.Subscribe("Dismemberment Finish Event", GameHook::HookPhase::After, reinforceFearless);
         registered = true;
     }
 

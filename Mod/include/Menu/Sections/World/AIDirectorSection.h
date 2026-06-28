@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "Menu/EventBus.h"
 #include "Menu/Section.h"
 #include "Utils/GuiUtils.h"
 
@@ -109,6 +110,7 @@ private:
     std::unordered_map<uintptr_t, ActorState> originalStates;
     std::vector<SDK::AWillie_BP_C*> targetsBuffer;
     std::vector<SDK::AWillie_BP_C*> enemiesBuffer;
+    EventBus::SubscriptionHandle directiveTickSubscription = EventBus::INVALID_SUBSCRIPTION;
     StatusSummary summary;
 
     int team = 0;

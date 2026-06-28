@@ -9,6 +9,7 @@
 
 #include "Core/ModContext.h"
 #include "Hooks/GameHook.h"
+#include "Menu/EventBus.h"
 #include "Menu/GameEvent.h"
 
 class ModContext;
@@ -47,7 +48,8 @@ struct KeybindParam {
 struct KeybindFunctionHook {
     std::string_view functionName;
     GameHook::HookCallback callback;
-    bool afterOriginal = false;
+    GameHook::HookPhase phase = GameHook::HookPhase::Before;
+    GameHook::HookHandle handle = GameHook::INVALID_HOOK_HANDLE;
 };
 
 struct KeybindEntry {
@@ -60,6 +62,7 @@ struct KeybindEntry {
     bool isEnabled = false;
 
     std::vector<GameEvent> events;
+    EventBus::SubscriptionGroup eventSubscriptions;
     std::vector<KeybindFunctionHook> functionHooks;
 
     /// UI state -- managed by rendering.

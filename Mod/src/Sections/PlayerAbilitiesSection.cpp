@@ -475,7 +475,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                             [openKickWindow](GameHook::ProcessEventContext& context) {
                                 openKickWindow(true, context);
                             },
-                        .afterOriginal = true,
+                        .phase = GameHook::HookPhase::After,
                     },
                     KeybindFunctionHook{
                         .functionName = "Kick R Timeline__UpdateFunc",
@@ -483,7 +483,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                             [openKickWindow](GameHook::ProcessEventContext& context) {
                                 openKickWindow(false, context);
                             },
-                        .afterOriginal = true,
+                        .phase = GameHook::HookPhase::After,
                     },
                     KeybindFunctionHook{
                         .functionName = "Kick L Timeline__FinishedFunc",
@@ -491,7 +491,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                             [closeKickWindow](GameHook::ProcessEventContext& context) {
                                 closeKickWindow(true, context);
                             },
-                        .afterOriginal = true,
+                        .phase = GameHook::HookPhase::After,
                     },
                     KeybindFunctionHook{
                         .functionName = "Kick R Timeline__FinishedFunc",
@@ -499,7 +499,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                             [closeKickWindow](GameHook::ProcessEventContext& context) {
                                 closeKickWindow(false, context);
                             },
-                        .afterOriginal = true,
+                        .phase = GameHook::HookPhase::After,
                     },
                     KeybindFunctionHook{
                         .functionName =

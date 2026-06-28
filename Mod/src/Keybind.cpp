@@ -180,29 +180,35 @@ namespace {
     }
 
     void SetEventsEnabled(KeybindEntry* entry, bool enabled) {
-        for (auto evt : entry->events) {
-            if (enabled) {
-                EventBus::Get().Subscribe(evt, entry, [entry](const RuntimeContextSnapshot& runtime) {
-                    entry->callback(entry->isEnabled, runtime);
+        entry->eventSubscriptions.Clear();
+        if (enabled) {
+            for (auto evt : entry->events) {
+                (void)entry->eventSubscriptions.Subscribe(evt, [entry](EventBus::EventContext& context) {
+                    if (!entry->isEnabled || !entry->callback) return;
+                    entry->callback(entry->isEnabled, context.Runtime());
                 });
-            } else {
-                EventBus::Get().Unsubscribe(evt, entry);
             }
         }
     }
 
     void SetFunctionHooksEnabled(KeybindEntry* entry, bool enabled) {
-        for (const auto& hook : entry->functionHooks) {
+        for (size_t i = 0; i < entry->functionHooks.size(); ++i) {
+            auto& hook = entry->functionHooks[i];
             if (enabled) {
-                GameHook::QueueAction([name = hook.functionName, callback = hook.callback,
-                                            afterOriginal = hook.afterOriginal](
+                GameHook::QueueAction([entry, i, name = hook.functionName, callback = hook.callback,
+                                           phase = hook.phase](
                                            const RuntimeContextSnapshot&
                                        ) mutable {
-                    GameHook::Get().RegisterHook(name, std::move(callback), afterOriginal);
+                    if (!entry->isEnabled || i >= entry->functionHooks.size() || !callback) return;
+                    if (entry->functionHooks[i].handle != GameHook::INVALID_HOOK_HANDLE) return;
+                    entry->functionHooks[i].handle =
+                        GameHook::Get().Subscribe(name, phase, std::move(callback));
                 });
             } else {
-                GameHook::QueueAction([name = hook.functionName](const RuntimeContextSnapshot&) {
-                    GameHook::Get().UnregisterHook(name);
+                const auto handle = hook.handle;
+                hook.handle = GameHook::INVALID_HOOK_HANDLE;
+                GameHook::QueueAction([handle](const RuntimeContextSnapshot&) {
+                    GameHook::Get().Unsubscribe(handle);
                 });
             }
         }

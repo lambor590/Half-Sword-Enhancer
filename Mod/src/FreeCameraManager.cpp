@@ -140,26 +140,29 @@ void FreeCameraManager::ConfigureScreenOverlays(ScreenOverlaySettings settings) 
     GameHook::QueueAction([settings](const RuntimeContextSnapshot& runtime) {
         auto& manager = FreeCameraManager::Get();
         manager.screenOverlays = settings;
-        GameHook::Get().RegisterHook(
-            "Construct",
-            [](GameHook::ProcessEventContext& context) {
-                FreeCameraManager::Get().ApplyConstructedScreenOverlay(context.object);
-            },
-            true
-        );
-        GameHook::Get().RegisterHook(
-            "SetGamePaused",
-            [](GameHook::ProcessEventContext& context) {
-                auto& manager = FreeCameraManager::Get();
-                const auto* params = context.Params<SDK::Params::GameplayStatics_SetGamePaused>();
-                if (!params || !params->bPaused || !manager.screenOverlays.resultMenus ||
-                    !manager.ShouldHideScreenOverlays() || manager.hiddenResultMenuCount <= 0) {
-                    return;
+        auto& hook = GameHook::Get();
+        if (manager.screenOverlayConstructHook == GameHook::INVALID_HOOK_HANDLE) {
+            manager.screenOverlayConstructHook = hook.Subscribe(
+                "Construct", GameHook::HookPhase::After,
+                [](GameHook::ProcessEventContext& context) {
+                    FreeCameraManager::Get().ApplyConstructedScreenOverlay(context.object);
                 }
-                manager.RestoreGameplayInput(params->WorldContextObject);
-            },
-            true
-        );
+            );
+        }
+        if (manager.screenOverlayPauseHook == GameHook::INVALID_HOOK_HANDLE) {
+            manager.screenOverlayPauseHook = hook.Subscribe(
+                "SetGamePaused", GameHook::HookPhase::After,
+                [](GameHook::ProcessEventContext& context) {
+                    auto& manager = FreeCameraManager::Get();
+                    const auto* params = context.Params<SDK::Params::GameplayStatics_SetGamePaused>();
+                    if (!params || !params->bPaused || !manager.screenOverlays.resultMenus ||
+                        !manager.ShouldHideScreenOverlays() || manager.hiddenResultMenuCount <= 0) {
+                        return;
+                    }
+                    manager.RestoreGameplayInput(params->WorldContextObject);
+                }
+            );
+        }
         manager.ApplyScreenOverlayVisibility(runtime);
     });
 }

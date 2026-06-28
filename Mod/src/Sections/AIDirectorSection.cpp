@@ -635,7 +635,8 @@ void AIDirectorSection::SetDirective(Directive directive) {
     activeDirective.store(static_cast<int>(directive));
 
     if (disabling) {
-        EventBus::Get().Unsubscribe(GameEvent::OnTick, this);
+        EventBus::Get().Unsubscribe(directiveTickSubscription);
+        directiveTickSubscription = EventBus::INVALID_SUBSCRIPTION;
         GameHook::QueueAction([this](const RuntimeContextSnapshot& runtime) {
             RestoreDirectiveState(runtime);
             status.Set("Directive cleared");
@@ -644,8 +645,8 @@ void AIDirectorSection::SetDirective(Directive directive) {
     }
 
     if (wasInactive) {
-        EventBus::Get().Subscribe(GameEvent::OnTick, this, [this](const RuntimeContextSnapshot& runtime) {
-            OnDirectiveTick(runtime);
+        directiveTickSubscription = EventBus::Get().Subscribe(GameEvent::OnTick, [this](EventBus::EventContext& event) {
+            OnDirectiveTick(event.Runtime());
         });
     }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/ModContext.h"
+#include "Hooks/GameHook.h"
 
 namespace SDK {
     class AActor;
@@ -60,6 +61,8 @@ private:
     bool active = false;
     bool playerInputLocked = false;
     int hiddenResultMenuCount = 0;
+    GameHook::HookHandle screenOverlayConstructHook = GameHook::INVALID_HOOK_HANDLE;
+    GameHook::HookHandle screenOverlayPauseHook = GameHook::INVALID_HOOK_HANDLE;
     ScreenOverlaySettings screenOverlays;
     SDK::UWorld* activeWorld = nullptr;
     SDK::APlayerController* originalController = nullptr;

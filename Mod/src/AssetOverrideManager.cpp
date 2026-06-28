@@ -2,7 +2,9 @@
 
 #include <algorithm>
 #include <cctype>
+#include <string_view>
 #include <system_error>
+#include <utility>
 
 #include "ConfigManager.h"
 #include "Hooks/GameHook.h"
@@ -449,27 +451,33 @@ bool AssetOverrideManager::Initialize() {
         };
 
         auto& hook = GameHook::Get();
-        hook.RegisterHook("ReceiveBeginPlay", applyActor, true);
-        hook.RegisterHook("SetMaterial", applySetMaterial, true);
-        hook.RegisterHook("SetMaterialByName", applySetMaterialByName, true);
-        hook.RegisterHook("CreateDynamicMaterialInstance", prepareCreatedMaterial, false);
-        hook.RegisterHook("CreateDynamicMaterialInstance", applyCreatedMaterial, true);
-        hook.RegisterHook("CreateAndSetMaterialInstanceDynamic", prepareCreatedAndSetMaterial, false);
-        hook.RegisterHook("CreateAndSetMaterialInstanceDynamic", applyCreatedAndSetMaterial, true);
-        hook.RegisterHook(
-            "CreateAndSetMaterialInstanceDynamicFromMaterial", prepareCreatedAndSetMaterialFromMaterial, false
+        (void)hook.Subscribe("ReceiveBeginPlay", GameHook::HookPhase::After, applyActor);
+        (void)hook.Subscribe("SetMaterial", GameHook::HookPhase::After, applySetMaterial);
+        (void)hook.Subscribe("SetMaterialByName", GameHook::HookPhase::After, applySetMaterialByName);
+        (void)hook.Subscribe("CreateDynamicMaterialInstance", GameHook::HookPhase::Before, prepareCreatedMaterial);
+        (void)hook.Subscribe("CreateDynamicMaterialInstance", GameHook::HookPhase::After, applyCreatedMaterial);
+        (void)hook.Subscribe(
+            "CreateAndSetMaterialInstanceDynamic", GameHook::HookPhase::Before, prepareCreatedAndSetMaterial
         );
-        hook.RegisterHook(
-            "CreateAndSetMaterialInstanceDynamicFromMaterial", applyCreatedAndSetMaterialFromMaterial, true
+        (void)hook.Subscribe(
+            "CreateAndSetMaterialInstanceDynamic", GameHook::HookPhase::After, applyCreatedAndSetMaterial
         );
-        hook.RegisterHook("SetTextureParameterValue", applyTextureParameter, false);
-        hook.RegisterHook("SetTextureParameterValueByInfo", applyTextureParameterByInfo, false);
-        hook.RegisterHook("Initialize", prepareBloodMeshInitialize, false);
-        hook.RegisterHook("Initialize", applyBloodMeshInitialize, true);
-        hook.RegisterHook("DoMeshBloodSim", applyBloodDoMesh, true);
-        hook.RegisterHook("UpdateSimulations", applyBloodUpdateSimulations, true);
-        hook.RegisterHook("AddNewParticle", applyBloodAddNewParticle, true);
-        hook.RegisterHook("ReceiveParticleData", applyReceiveParticleData, true);
+        (void)hook.Subscribe(
+            "CreateAndSetMaterialInstanceDynamicFromMaterial", GameHook::HookPhase::Before,
+            prepareCreatedAndSetMaterialFromMaterial
+        );
+        (void)hook.Subscribe(
+            "CreateAndSetMaterialInstanceDynamicFromMaterial", GameHook::HookPhase::After,
+            applyCreatedAndSetMaterialFromMaterial
+        );
+        (void)hook.Subscribe("SetTextureParameterValue", GameHook::HookPhase::Before, applyTextureParameter);
+        (void)hook.Subscribe("SetTextureParameterValueByInfo", GameHook::HookPhase::Before, applyTextureParameterByInfo);
+        (void)hook.Subscribe("Initialize", GameHook::HookPhase::Before, prepareBloodMeshInitialize);
+        (void)hook.Subscribe("Initialize", GameHook::HookPhase::After, applyBloodMeshInitialize);
+        (void)hook.Subscribe("DoMeshBloodSim", GameHook::HookPhase::After, applyBloodDoMesh);
+        (void)hook.Subscribe("UpdateSimulations", GameHook::HookPhase::After, applyBloodUpdateSimulations);
+        (void)hook.Subscribe("AddNewParticle", GameHook::HookPhase::After, applyBloodAddNewParticle);
+        (void)hook.Subscribe("ReceiveParticleData", GameHook::HookPhase::After, applyReceiveParticleData);
     });
     return true;
 }
