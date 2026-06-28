@@ -1,8 +1,9 @@
 #include "Hooks/GameHook.h"
+
 #include "ConfigManager.h"
 #include "Core/ModContext.h"
-#include "Menu/EventBus.h"
 #include "MemoryUtils.h"
+#include "Menu/EventBus.h"
 #include "Utils/CompileTimeHash.h"
 #include "Utils/GameBuildInfo.h"
 
@@ -10,9 +11,11 @@
 #include "SDK/CoreUObject_classes.hpp"
 #include "SDK/Engine_classes.hpp"
 
+#include <algorithm>
 #include <bit>
 #include <cstring>
 #include <intrin.h>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -27,84 +30,92 @@ std::mutex GameHook::queueMutex;
 std::atomic<bool> GameHook::hasQueuedActions{false};
 
 namespace {
-    // Fibonacci hash: multiply by golden ratio constant, then shift to extract
-    // high bits. This spreads clustered pointers (from pool allocators) across
-    // the full table range. UFunction pointers from UE5's allocator tend to
-    // differ only in low bits; a multiplicative hash uses ALL bits of the
-    // pointer, yielding near-perfect distribution.
+    constexpr uint64_t RECEIVE_TICK_HASH = HS::Hash::FNV1A("ReceiveTick");
+
     FORCE_INLINE size_t FibonacciHash(uintptr_t key) noexcept {
         constexpr uint64_t PHI64 = 0x9E3779B97F4A7C15ULL;
         return static_cast<size_t>((key * PHI64) >> 52);
     }
+}
 
+namespace GameHookDetail {
+    struct ProcessEventCacheSlot {
+        SDK::UFunction* key = nullptr;
+        void* beforeListeners = nullptr;
+        void* afterListeners = nullptr;
+        uint32_t generation = 0;
+        bool isReceiveTick = false;
+    };
+}
+
+namespace {
     struct ProcessEventCache {
         static constexpr size_t TABLE_SIZE = 4096;
         static constexpr size_t TABLE_MASK = TABLE_SIZE - 1;
         static constexpr size_t MAX_PROBES = 8;
-        static constexpr int8_t EMPTY = -2;
-        static constexpr int8_t NOT_HOOKED = -1;
-        static constexpr uint64_t RECEIVE_TICK_HASH = HS::Hash::FNV1A("ReceiveTick");
 
-        struct alignas(16) Slot {
-            SDK::UFunction* key;
-            int8_t hookIdx;
-            bool isReceiveTick;
-        };
-
-        static_assert(sizeof(Slot) == 16);
+        using Slot = GameHookDetail::ProcessEventCacheSlot;
 
         alignas(64) Slot slots[TABLE_SIZE];
+        uint32_t generation = 1;
 
-        ProcessEventCache() noexcept { Clear(); }
+        ProcessEventCache() noexcept { ForceClear(); }
 
         void Clear() noexcept {
-            std::memset(slots, 0, sizeof(slots));
-            for (size_t i = 0; i < TABLE_SIZE; ++i) {
-                slots[i].hookIdx = EMPTY;
+            if (++generation == 0) {
+                ForceClear();
+                generation = 1;
             }
+        }
+
+        void ForceClear() noexcept {
+            std::memset(slots, 0, sizeof(slots));
         }
 
         FORCE_INLINE const Slot* Lookup(SDK::UFunction* function) const noexcept {
             const auto raw = reinterpret_cast<uintptr_t>(function);
             const size_t idx = FibonacciHash(raw);
 
-            // Prefetch the second cache line we might touch (idx+4 slots ahead).
-            // The first cache line will be demand-loaded; the second is speculative.
             _mm_prefetch(reinterpret_cast<const char*>(&slots[(idx + 4) & TABLE_MASK]), _MM_HINT_T0);
 
             {
-                const auto& s = slots[idx & TABLE_MASK];
-                if (s.key == function) [[likely]]
-                    return &s;
-                if (s.hookIdx == EMPTY) return nullptr;
+                const auto& slot = slots[idx & TABLE_MASK];
+                if (slot.generation != generation) return nullptr;
+                if (slot.key == function) [[likely]]
+                    return &slot;
             }
 
             for (size_t i = 1; i < MAX_PROBES; ++i) {
-                const auto& s = slots[(idx + i) & TABLE_MASK];
-                if (s.key == function) return &s;
-                if (s.hookIdx == EMPTY) return nullptr;
+                const auto& slot = slots[(idx + i) & TABLE_MASK];
+                if (slot.generation != generation) return nullptr;
+                if (slot.key == function) return &slot;
             }
             return nullptr;
         }
 
-        Slot* Insert(SDK::UFunction* function, int8_t hookIdx, bool isReceiveTick) noexcept {
+        Slot* Insert(
+            SDK::UFunction* function, void* beforeListeners, void* afterListeners, bool isReceiveTick
+        ) noexcept {
             const size_t idx = FibonacciHash(reinterpret_cast<uintptr_t>(function));
             for (size_t i = 0; i < MAX_PROBES; ++i) {
-                auto& s = slots[(idx + i) & TABLE_MASK];
-                if (s.hookIdx == EMPTY || s.key == function) {
-                    s.key = function;
-                    s.hookIdx = hookIdx;
-                    s.isReceiveTick = isReceiveTick;
-                    return &s;
+                auto& slot = slots[(idx + i) & TABLE_MASK];
+                if (slot.generation != generation || slot.key == function) {
+                    slot.generation = generation;
+                    slot.key = function;
+                    slot.beforeListeners = beforeListeners;
+                    slot.afterListeners = afterListeners;
+                    slot.isReceiveTick = isReceiveTick;
+                    return &slot;
                 }
             }
-            slots[idx & TABLE_MASK] = {function, hookIdx, isReceiveTick};
+
+            slots[idx & TABLE_MASK] = {function, beforeListeners, afterListeners, generation, isReceiveTick};
             return &slots[idx & TABLE_MASK];
         }
     };
 
     static ProcessEventCache peCache;
-    static thread_local uint32_t g_hookSuppressionDepth = 0;
+    static thread_local uint8_t g_hookSuppressionDepth = 0;
 
     struct ScopedHookSuppression {
         ScopedHookSuppression() noexcept { ++g_hookSuppressionDepth; }
@@ -113,25 +124,7 @@ namespace {
         ScopedHookSuppression(const ScopedHookSuppression&) = delete;
         ScopedHookSuppression& operator=(const ScopedHookSuppression&) = delete;
     };
-}
 
-// Slow path: resolve a UFunction we haven't seen before. Marked noinline
-// so the fast path in OnProcessEvent stays compact (fewer registers spilled,
-// smaller icache footprint, better branch prediction).
-__declspec(noinline) static const ProcessEventCache::Slot* ResolveAndCache(
-    SDK::UFunction* function, const GameHook::HookEntry* hookArray, uint8_t hookCount
-) noexcept {
-    std::string funcName = function->GetName();
-    uint64_t nameHash = HS::Hash::FNV1A(funcName.c_str());
-
-    int8_t resolved = ProcessEventCache::NOT_HOOKED;
-    for (uint8_t i = 0; i < hookCount; ++i) {
-        if (hookArray[i].nameHash == nameHash) {
-            resolved = static_cast<int8_t>(i);
-            break;
-        }
-    }
-    return peCache.Insert(function, resolved, nameHash == ProcessEventCache::RECEIVE_TICK_HASH);
 }
 
 void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void* parms) noexcept {
@@ -142,34 +135,54 @@ void __stdcall OnProcessEvent(SDK::UObject* pObject, SDK::UFunction* pFunc, void
         return;
     }
 
-    GameHook::ProcessEventContext context{pObject, pFunc, parms};
-    const GameHook::HookEntry* entry = nullptr;
+    const bool queued = GameHook::hasQueuedActions.load(std::memory_order_relaxed);
+    if (!queued && hook.hooks.empty()) [[likely]] {
+        originalProcessEvent(pObject, pFunc, parms);
+        return;
+    }
 
-    const bool hasQueuedActions = GameHook::hasQueuedActions.load(std::memory_order_relaxed);
-    if (hasQueuedActions || hook.hookCount) [[unlikely]] {
-        const auto* slot = peCache.Lookup(pFunc);
-        if (!slot) [[unlikely]] {
-            slot = ResolveAndCache(pFunc, hook.hooks.data(), hook.hookCount);
-        }
+    const auto* slot = peCache.Lookup(pFunc);
+    if (!slot) [[unlikely]] {
+        slot = hook.ResolveAndCache(pFunc);
+    }
 
-        if (hasQueuedActions && slot->isReceiveTick) [[unlikely]] {
+    if (queued && slot->isReceiveTick) [[unlikely]] {
+        const auto generationBeforeQueue = peCache.generation;
+
+        {
             const ScopedHookSuppression suppressHooks;
             GameHook::ProcessGameThreadQueue();
         }
 
-        if (slot->hookIdx >= 0) [[unlikely]] {
-            entry = &hook.hooks[slot->hookIdx];
-            if (entry->beforeCallback) {
-                const ScopedHookSuppression suppressHooks;
-                entry->beforeCallback(context);
-            }
+        if (generationBeforeQueue != peCache.generation) [[unlikely]] {
+            originalProcessEvent(pObject, pFunc, parms);
+            return;
         }
     }
 
+    auto* beforeListeners = static_cast<GameHook::ListenerList*>(slot->beforeListeners);
+    auto* afterListeners = static_cast<GameHook::ListenerList*>(slot->afterListeners);
+    if (!beforeListeners && !afterListeners) {
+        originalProcessEvent(pObject, pFunc, parms);
+        return;
+    }
+
+    GameHook::ProcessEventContext context{pObject, pFunc, parms};
+    if (beforeListeners) {
+        ++g_hookSuppressionDepth;
+        GameHook::DispatchListeners(*beforeListeners, context);
+        --g_hookSuppressionDepth;
+    }
+
+    if (context.IsCancelled()) [[unlikely]]
+        return;
+
     originalProcessEvent(pObject, pFunc, parms);
-    if (entry && entry->afterCallback) [[unlikely]] {
-        const ScopedHookSuppression suppressHooks;
-        entry->afterCallback(context);
+
+    if (afterListeners) {
+        ++g_hookSuppressionDepth;
+        GameHook::DispatchListeners(*afterListeners, context);
+        --g_hookSuppressionDepth;
     }
 }
 
@@ -179,6 +192,10 @@ GameHook& GameHook::Get() {
 }
 
 bool GameHook::Hook() {
+    hooks.reserve(32);
+    hookIndex.reserve(32);
+    listenerIndex.reserve(64);
+
     processEventAddress = SDK::InSDKUtils::GetImageBase() + SDK::Offsets::ProcessEvent;
     if (!processEventAddress) {
         logger.Log("Failed to resolve ProcessEvent address");
@@ -208,59 +225,63 @@ bool GameHook::Hook() {
 void GameHook::Unhook() {
     hooked = false;
     MemoryUtils::Unhook(processEventAddress);
-    for (uint8_t i = 0; i < hookCount; ++i)
-        hooks[i] = {};
-    hookCount = 0;
-    peCache.Clear();
+
+    {
+        std::lock_guard<std::mutex> lock(queueMutex);
+        gameThreadQueue.clear();
+        hasQueuedActions.store(false, std::memory_order_release);
+    }
+
     EventBus::Get().Clear();
+
+    hooks.clear();
+    hookIndex.clear();
+    listenerIndex.clear();
+    nextHookHandle = 1;
+    InvalidateDispatchCaches();
 }
 
-void GameHook::RegisterHook(std::string_view functionName, HookCallback callback, bool afterOriginal) {
-    RegisterHook(HS::Hash::FNV1A(functionName), std::move(callback), afterOriginal);
-}
+GameHook::HookHandle GameHook::Subscribe(std::string_view functionName, HookPhase phase, HookCallback callback) {
+    if (functionName.empty() || !callback) return INVALID_HOOK_HANDLE;
 
-void GameHook::UnregisterHook(std::string_view functionName) {
-    UnregisterHook(HS::Hash::FNV1A(functionName));
-}
+    const uint64_t nameHash = HS::Hash::FNV1A(functionName);
+    const size_t previousHookCapacity = hooks.capacity();
+    auto* entry = EnsureHookEntry(nameHash);
 
-void GameHook::RegisterHook(uint64_t hash, HookCallback callback, bool afterOriginal) {
-    if (!callback) return;
+    const auto entryIndex = static_cast<size_t>(entry - hooks.data());
+    auto& listeners = ListenersFor(*entry, phase);
+    const bool phaseWasEmpty = listeners.Empty();
+    const auto handle = AllocateHandle();
+    const size_t slot = AddListener(listeners, handle, std::move(callback));
 
-    for (uint8_t i = 0; i < hookCount; ++i) {
-        if (hooks[i].nameHash == hash) {
-            if (afterOriginal) {
-                hooks[i].afterCallback = std::move(callback);
-            } else {
-                hooks[i].beforeCallback = std::move(callback);
-            }
-            return;
-        }
+    if (listenerIndex.size() <= handle) {
+        listenerIndex.resize(static_cast<size_t>(handle) + 1);
     }
-    if (hookCount < MAX_HOOKS) {
-        auto& entry = hooks[hookCount++];
-        entry.nameHash = hash;
-        if (afterOriginal) {
-            entry.afterCallback = std::move(callback);
-        } else {
-            entry.beforeCallback = std::move(callback);
-        }
-        peCache.Clear();
-    } else {
-        logger.Log("Max ProcessEvent hooks reached");
+    listenerIndex[handle] = {.entryIndex = entryIndex, .slot = slot, .phase = phase};
+
+    if (phaseWasEmpty || hooks.capacity() != previousHookCapacity) {
+        InvalidateDispatchCaches();
     }
+    return handle;
 }
 
-void GameHook::UnregisterHook(uint64_t hash) {
-    for (uint8_t i = 0; i < hookCount; ++i) {
-        if (hooks[i].nameHash == hash) {
-            --hookCount;
-            if (i != hookCount) {
-                hooks[i] = std::move(hooks[hookCount]);
-            }
-            hooks[hookCount] = {};
-            peCache.Clear();
-            return;
-        }
+void GameHook::Unsubscribe(HookHandle handle) {
+    if (handle == INVALID_HOOK_HANDLE) return;
+    if (handle >= listenerIndex.size()) return;
+
+    const auto location = listenerIndex[handle];
+    if (location.entryIndex == INVALID_INDEX || location.entryIndex >= hooks.size()) return;
+
+    auto& entry = hooks[location.entryIndex];
+    auto& listeners = ListenersFor(entry, location.phase);
+    RemoveListenerAt(listeners, location.slot, location.entryIndex, location.phase);
+
+    listenerIndex[handle] = {};
+
+    if (entry.before.Empty() && entry.after.Empty()) {
+        RemoveHookEntryAt(location.entryIndex);
+    } else if (listeners.Empty()) {
+        InvalidateDispatchCaches();
     }
 }
 
@@ -300,6 +321,8 @@ void GameHook::SetUEConsoleEnabled(bool enabled) {
 }
 
 void GameHook::QueueAction(QueuedAction action) {
+    if (!action) return;
+
     std::lock_guard<std::mutex> lock(queueMutex);
     gameThreadQueue.push_back(std::move(action));
     hasQueuedActions.store(true, std::memory_order_release);
@@ -321,6 +344,141 @@ void GameHook::ProcessGameThreadQueue() {
 
     const auto snapshot = ModContext::Get().RefreshGameThreadCache();
     for (auto& action : localQueue) {
-        action(snapshot);
+        try {
+            action(snapshot);
+        } catch (...) {
+            GameHook::Get().logger.Log("Queued game-thread action failed");
+        }
     }
+}
+
+GameHook::HookHandle GameHook::AllocateHandle() noexcept {
+    if (nextHookHandle == INVALID_HOOK_HANDLE) ++nextHookHandle;
+    return nextHookHandle++;
+}
+
+std::vector<GameHook::HookIndexEntry>::iterator GameHook::LowerBoundHookIndex(uint64_t nameHash) noexcept {
+    return std::lower_bound(hookIndex.begin(), hookIndex.end(), nameHash, [](const HookIndexEntry& entry, uint64_t hash) {
+        return entry.nameHash < hash;
+    });
+}
+
+GameHook::HookEntry* GameHook::FindHookEntry(uint64_t nameHash) noexcept {
+    const auto it = LowerBoundHookIndex(nameHash);
+    return it == hookIndex.end() || it->nameHash != nameHash ? nullptr : &hooks[it->entryIndex];
+}
+
+GameHook::HookEntry* GameHook::EnsureHookEntry(uint64_t nameHash) {
+    const auto it = LowerBoundHookIndex(nameHash);
+    if (it != hookIndex.end() && it->nameHash == nameHash) return &hooks[it->entryIndex];
+
+    const size_t entryIndex = hooks.size();
+    hooks.push_back({.nameHash = nameHash});
+    hookIndex.insert(it, {.nameHash = nameHash, .entryIndex = entryIndex});
+    return &hooks.back();
+}
+
+GameHook::ListenerList& GameHook::ListenersFor(HookEntry& entry, HookPhase phase) noexcept {
+    return phase == HookPhase::Before ? entry.before : entry.after;
+}
+
+size_t GameHook::AddListener(ListenerList& listeners, HookHandle handle, HookCallback callback) {
+    if (listeners.Empty()) {
+        listeners.firstHandle = handle;
+        listeners.firstCallback = std::move(callback);
+        return 0;
+    }
+
+    if (listeners.extra.empty()) {
+        listeners.extra.reserve(3);
+    }
+    listeners.extra.push_back({.handle = handle, .callback = std::move(callback)});
+    return listeners.extra.size();
+}
+
+void GameHook::RemoveListenerAt(ListenerList& listeners, size_t slot, size_t entryIndex, HookPhase phase) {
+    if (slot == 0) {
+        if (listeners.extra.empty()) {
+            listeners.firstHandle = INVALID_HOOK_HANDLE;
+            listeners.firstCallback = {};
+            return;
+        }
+
+        auto promoted = std::move(listeners.extra.back());
+        listeners.extra.pop_back();
+        listeners.firstHandle = promoted.handle;
+        listeners.firstCallback = std::move(promoted.callback);
+        listenerIndex[promoted.handle] = {.entryIndex = entryIndex, .slot = 0, .phase = phase};
+        return;
+    }
+
+    const size_t extraIndex = slot - 1;
+
+    const size_t lastIndex = listeners.extra.size() - 1;
+    if (extraIndex != lastIndex) {
+        listeners.extra[extraIndex] = std::move(listeners.extra[lastIndex]);
+        listenerIndex[listeners.extra[extraIndex].handle] = {.entryIndex = entryIndex, .slot = slot, .phase = phase};
+    }
+    listeners.extra.pop_back();
+}
+
+void GameHook::DispatchListeners(ListenerList& listeners, ProcessEventContext& context) {
+    listeners.firstCallback(context);
+
+    for (auto& listener : listeners.extra) {
+        listener.callback(context);
+    }
+}
+
+void GameHook::RemoveHookEntryAt(size_t entryIndex) noexcept {
+    const uint64_t removedHash = hooks[entryIndex].nameHash;
+    const size_t lastIndex = hooks.size() - 1;
+
+    hookIndex.erase(LowerBoundHookIndex(removedHash));
+
+    if (entryIndex != lastIndex) {
+        const uint64_t movedHash = hooks[lastIndex].nameHash;
+        hooks[entryIndex] = std::move(hooks[lastIndex]);
+
+        LowerBoundHookIndex(movedHash)->entryIndex = entryIndex;
+        RelocateEntryListeners(hooks[entryIndex], entryIndex);
+    }
+
+    hooks.pop_back();
+    InvalidateDispatchCaches();
+}
+
+void GameHook::RelocateEntryListeners(HookEntry& entry, size_t entryIndex) noexcept {
+    auto relocate = [this, entryIndex](ListenerList& listeners, HookPhase phase) {
+        if (listeners.firstHandle != INVALID_HOOK_HANDLE) {
+            listenerIndex[listeners.firstHandle] = {.entryIndex = entryIndex, .slot = 0, .phase = phase};
+        }
+
+        for (size_t i = 0; i < listeners.extra.size(); ++i) {
+            listenerIndex[listeners.extra[i].handle] = {.entryIndex = entryIndex, .slot = i + 1, .phase = phase};
+        }
+    };
+
+    relocate(entry.before, HookPhase::Before);
+    relocate(entry.after, HookPhase::After);
+}
+
+void GameHook::InvalidateDispatchCaches() noexcept {
+    peCache.Clear();
+}
+
+GameHookDetail::ProcessEventCacheSlot* GameHook::ResolveAndCache(SDK::UFunction* function) noexcept {
+    std::string funcName = function->GetName();
+    const uint64_t nameHash = HS::Hash::FNV1A(funcName);
+    auto* entry = FindHookEntry(nameHash);
+
+    ListenerList* beforeListeners = nullptr;
+    ListenerList* afterListeners = nullptr;
+
+    if (entry) {
+        if (!entry->before.Empty()) beforeListeners = &entry->before;
+        if (!entry->after.Empty()) afterListeners = &entry->after;
+    }
+
+    return peCache.Insert(function, beforeListeners, afterListeners, nameHash == RECEIVE_TICK_HASH);
 }

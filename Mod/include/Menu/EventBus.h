@@ -1,27 +1,80 @@
 #pragma once
 
-/// Integrates with GameHook's ProcessEvent dispatch to fire callbacks on game events.
-
+#include <array>
+#include <cstdint>
 #include <functional>
 #include <vector>
 
 #include "Core/ModContext.h"
+#include "Hooks/GameHook.h"
 #include "Menu/GameEvent.h"
 
-/// All subscriptions and dispatches happen on the game thread via GameHook::QueueAction.
 class EventBus {
 public:
     static EventBus& Get();
 
-    /// Callbacks fire on the game thread.
-    void Subscribe(GameEvent event, void* id, std::function<void(const RuntimeContextSnapshot&)> callback);
+    using SubscriptionHandle = uint64_t;
+    static constexpr SubscriptionHandle INVALID_SUBSCRIPTION = 0;
 
-    void Unsubscribe(GameEvent event, void* id);
+    class EventContext {
+    public:
+        EventContext(
+            GameEvent event,
+            const RuntimeContextSnapshot& runtime,
+            GameHook::ProcessEventContext& processEvent,
+            bool cancellable
+        ) noexcept
+            : event(event), runtime(runtime), processEvent(processEvent), cancellable(cancellable) {}
 
-    /// Called by GameHook's ProcessEvent path.
-    void Dispatch(GameEvent event);
+        [[nodiscard]] GameEvent Event() const noexcept { return event; }
+        [[nodiscard]] const RuntimeContextSnapshot& Runtime() const noexcept { return runtime; }
+        [[nodiscard]] const GameHook::ProcessEventContext& ProcessEvent() const noexcept { return processEvent; }
+        [[nodiscard]] bool CanCancel() const noexcept { return cancellable; }
+        [[nodiscard]] bool IsCancelled() const noexcept { return processEvent.IsCancelled(); }
 
-    /// Returns the UE function name that maps to this GameEvent for ProcessEvent hooking.
+        bool Cancel() const noexcept {
+            if (!cancellable) return false;
+
+            processEvent.Cancel();
+            return true;
+        }
+
+        template <typename T>
+        [[nodiscard]] T* Params() const noexcept {
+            return processEvent.Params<T>();
+        }
+
+    private:
+        GameEvent event;
+        const RuntimeContextSnapshot& runtime;
+        GameHook::ProcessEventContext& processEvent;
+        bool cancellable = false;
+    };
+
+    using EventCallback = std::function<void(EventContext&)>;
+
+    [[nodiscard]] SubscriptionHandle Subscribe(GameEvent event, EventCallback callback);
+    void Unsubscribe(SubscriptionHandle handle);
+
+    class SubscriptionGroup {
+    public:
+        SubscriptionGroup() = default;
+        ~SubscriptionGroup();
+
+        SubscriptionGroup(const SubscriptionGroup&) = delete;
+        SubscriptionGroup& operator=(const SubscriptionGroup&) = delete;
+        SubscriptionGroup(SubscriptionGroup&& other) noexcept;
+        SubscriptionGroup& operator=(SubscriptionGroup&& other) noexcept;
+
+        [[nodiscard]] SubscriptionHandle Subscribe(GameEvent event, EventCallback callback);
+        void Clear();
+
+    private:
+        std::vector<SubscriptionHandle> handles;
+    };
+
+    void Dispatch(GameEvent event, GameHook::ProcessEventContext& processEvent);
+
     static constexpr const char* GetEventFunctionName(GameEvent event) noexcept {
         constexpr const char* EVENT_NAMES[] = {
             "OnWalkingOffLedge",
@@ -32,19 +85,31 @@ public:
 
     static constexpr size_t EVENT_COUNT = 2;
 
-    /// Remove all subscriptions and unregister all hooks. Called during Unhook.
     void Clear();
 
     EventBus(const EventBus&) = delete;
     EventBus& operator=(const EventBus&) = delete;
 
 private:
+    static constexpr size_t INVALID_INDEX = static_cast<size_t>(-1);
+
     EventBus() = default;
 
     struct Subscriber {
-        void* id;
-        std::function<void(const RuntimeContextSnapshot&)> callback;
+        SubscriptionHandle handle = INVALID_SUBSCRIPTION;
+        EventCallback callback;
     };
 
-    std::vector<Subscriber> subscribers[EVENT_COUNT];
+    struct SubscriberLocation {
+        size_t eventIndex = INVALID_INDEX;
+        size_t subscriberIndex = INVALID_INDEX;
+    };
+
+    void AddSubscriber(GameEvent event, SubscriptionHandle handle, EventCallback callback);
+    void RemoveSubscriber(SubscriptionHandle handle);
+
+    std::array<std::vector<Subscriber>, EVENT_COUNT> subscribers;
+    std::array<GameHook::HookHandle, EVENT_COUNT> eventHookHandles{};
+    std::vector<SubscriberLocation> subscriberIndex;
+    SubscriptionHandle nextHandle = 1;
 };
