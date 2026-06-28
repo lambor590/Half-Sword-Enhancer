@@ -197,6 +197,7 @@ namespace PropertyBrowser {
 
     [[nodiscard]] inline PropType ClassifyProperty(SDK::FProperty* prop, SDK::UEnum*& outEnum) {
         outEnum = nullptr;
+        if (!prop || !prop->ClassPrivate) return PropType::Unsupported;
         auto castFlags = static_cast<SDK::EClassCastFlags>(prop->ClassPrivate->CastFlags);
 
         if (castFlags & SDK::EClassCastFlags::BoolProperty) return PropType::Bool;
