@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 #include "SlateCore_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"

@@ -17,20 +17,20 @@ SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Legs_Cuisse_B.BP_Armor_Legs_Cuisse_B_C
 // 0x0000 (0x0910 - 0x0910)
-class ABP_Armor_Legs_Cuisse_B_C final : public ABP_Armor_Master_C
+class BP_Armor_Legs_Cuisse_B::ABP_Armor_Legs_Cuisse_B_C final : public ABP_Armor_Master_C
 {
 public:
 	static class UClass* StaticClass()
 	{
-		BP_STATIC_CLASS_IMPL("BP_Armor_Legs_Cuisse_B_C")
+		BP_STATIC_CLASS_IMPL_FULLNAME("BlueprintGeneratedClass BP_Armor_Legs_Cuisse_B.BP_Armor_Legs_Cuisse_B_C")
 	}
 	static const class FName& StaticName()
 	{
 		STATIC_NAME_IMPL(L"BP_Armor_Legs_Cuisse_B_C")
 	}
-	static class ABP_Armor_Legs_Cuisse_B_C* GetDefaultObj()
+	static class BP_Armor_Legs_Cuisse_B::ABP_Armor_Legs_Cuisse_B_C* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<ABP_Armor_Legs_Cuisse_B_C>();
+		return GetDefaultObjImpl<BP_Armor_Legs_Cuisse_B::ABP_Armor_Legs_Cuisse_B_C>();
 	}
 };
 

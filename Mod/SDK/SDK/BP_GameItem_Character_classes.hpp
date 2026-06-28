@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "BP_GameItem_classes.hpp"
 #include "Str_Passport_Character1_structs.hpp"
+#include "BP_GameItem_classes.hpp"
 
 
 SDK_NAMESPACE_START

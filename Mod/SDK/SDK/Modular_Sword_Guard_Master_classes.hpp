@@ -12,8 +12,8 @@
 
 #include "Enum_MaterialLayer_structs.hpp"
 #include "Engine_structs.hpp"
-#include "Enum_MaterialQuality_structs.hpp"
 #include "Modular_Weapon_Module_classes.hpp"
+#include "Enum_MaterialQuality_structs.hpp"
 
 
 SDK_NAMESPACE_START

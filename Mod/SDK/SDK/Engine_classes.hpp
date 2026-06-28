@@ -36462,7 +36462,7 @@ public:
 
 // Class Engine.PackedLevelActor
 // 0x0000 (0x0330 - 0x0330)
-class APackedLevelActor final : public ALevelInstance
+class APackedLevelActor : public ALevelInstance
 {
 public:
 	static class UClass* StaticClass()

@@ -17,7 +17,7 @@ SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Arms_Chains_T1.BP_Armor_Arms_Chains_T1_C
 // 0x0000 (0x0910 - 0x0910)
-class ABP_Armor_Arms_Chains_T1_C final : public ABP_Armor_Master_C
+class ABP_Armor_Arms_Chains_T1_C : public ABP_Armor_Master_C
 {
 public:
 	static class UClass* StaticClass()

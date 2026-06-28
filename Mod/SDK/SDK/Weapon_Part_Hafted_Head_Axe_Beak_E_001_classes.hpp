@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
+#include "Enum_MaterialLayer_structs.hpp"
 #include "Modular_Hafted_Head_Master_classes.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
 
 
 SDK_NAMESPACE_START

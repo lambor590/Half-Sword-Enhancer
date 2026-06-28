@@ -11,19 +11,27 @@
 
 namespace BP_FreeCamera_0 { class ABP_FreeCamera_C; }
 
-namespace ABP_CouterTransformCorrection { struct FAnimBlueprintGeneratedConstantData; }
-
-namespace BP_FreeCamera { class ABP_FreeCamera_C; }
-
 namespace ABP_CopyPose1 { struct FAnimBlueprintGeneratedConstantData; }
+
+namespace BP_Armor_Legs_Cuisse_B { class ABP_Armor_Legs_Cuisse_B_C; }
 
 namespace ABP_CopyPose2 { struct FAnimBlueprintGeneratedConstantData; }
 
+namespace BP_Armor_Head_Barbute_A_0 { class ABP_Armor_Head_Barbute_A_C; }
+
 namespace ABP_CopyPose { struct FAnimBlueprintGeneratedConstantData; }
 
-namespace BP_Armor_Legs_Panties_0 { class ABP_Armor_Legs_Panties_C; }
+namespace BP_Armor_Legs_Cuisse_B_0 { class ABP_Armor_Legs_Cuisse_B_C; }
 
 namespace BP_Armor_Legs_Panties { class ABP_Armor_Legs_Panties_C; }
+
+namespace BP_FreeCamera { class ABP_FreeCamera_C; }
+
+namespace ABP_CouterTransformCorrection { struct FAnimBlueprintGeneratedConstantData; }
+
+namespace BP_Armor_Head_Barbute_A { class ABP_Armor_Head_Barbute_A_C; }
+
+namespace BP_Armor_Legs_Panties_0 { class ABP_Armor_Legs_Panties_C; }
 
 
 namespace ABP_Willie

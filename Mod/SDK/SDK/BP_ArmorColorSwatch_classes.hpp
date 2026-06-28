@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Engine_classes.hpp"
 #include "STR_ArmorTierColorSwatch_structs.hpp"
+#include "Engine_classes.hpp"
 
 
 SDK_NAMESPACE_START

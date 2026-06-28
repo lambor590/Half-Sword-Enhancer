@@ -14,8 +14,8 @@
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
 
 
 SDK_NAMESPACE_START
