@@ -1,3 +1,5 @@
+#include <vector>
+
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
 #include "Menu/SectionStyle.h"
 
@@ -9,7 +11,7 @@
 #include "Hooks/GameHook.h"
 #include "Utils/GameConstants.h"
 #include "Utils/ActorUtils.h"
-#include "Utils/PossessState.h"
+#include "Utils/BoneControl.h"
 
 namespace {
     constexpr double KICK_FOOT_MASS_WEIGHT = 1.0;
@@ -68,6 +70,7 @@ namespace {
     constexpr int KickImpulseTransferStepCount() noexcept {
         return static_cast<int>(sizeof(KICK_IMPULSE_TRANSFER_WEIGHTS) / sizeof(KICK_IMPULSE_TRANSFER_WEIGHTS[0]));
     }
+
 }
 
 PlayerAbilitiesSection::PlayerAbilitiesSection(ModContext& ctx) : Section(ctx, SECTION) {
@@ -308,6 +311,115 @@ void PlayerAbilitiesSection::InitKeybinds() {
                      "no_body_weakening", "No Body Weakening", &cfg.bodyTonusNoBodyWeakening,
                      "Prevents body parts from becoming weak or limp when getting hit"
                  )},
+        }
+    );
+
+    auto boneSettings = [this](bool playerScope, bool active) {
+        if (!active) return BoneControl::Settings{};
+        return BoneControl::Settings{
+            .blockDislocation = playerScope ? cfg.blockBoneDislocation : cfg.blockEnemyBoneDislocation,
+            .breakStrengthMultiplier = playerScope ? cfg.boneBreakStrengthMultiplier
+                                                   : cfg.enemyBoneBreakStrengthMultiplier,
+            .massMultiplier = playerScope ? cfg.boneMassMultiplier : cfg.enemyBoneMassMultiplier,
+        };
+    };
+
+    auto handleBoneControlHook = [boneSettings](
+                                     bool playerScope, bool cancelDislocationCheck,
+                                     GameHook::ProcessEventContext& context
+                                 ) {
+        auto* willie = BoneControl::WillieOwner(context.object);
+        if (!BoneControl::MatchesScope(willie, playerScope)) return;
+
+        const auto settings = boneSettings(playerScope, true);
+        const bool willCancel =
+            cancelDislocationCheck && settings.blockDislocation && BoneControl::ShouldCancelBreak(context, willie);
+        BoneControl::Apply(willie, settings, cancelDislocationCheck);
+        if (willCancel) {
+            context.Cancel();
+        }
+    };
+
+    auto makeBoneControlHooks = [handleBoneControlHook](bool playerScope) {
+        auto apply = [handleBoneControlHook, playerScope](GameHook::ProcessEventContext& context) {
+            handleBoneControlHook(playerScope, false, context);
+        };
+        auto block = [handleBoneControlHook, playerScope](GameHook::ProcessEventContext& context) {
+            handleBoneControlHook(playerScope, true, context);
+        };
+
+        return std::vector<KeybindFunctionHook>{
+            {"ReceiveBeginPlay", apply, GameHook::HookPhase::After},
+            {"Setup Simulated Bones Array", apply, GameHook::HookPhase::After},
+            {"ReceiveTick", apply},
+            {"Get Damage", apply},
+            {"Get Damage", apply, GameHook::HookPhase::After},
+            {"Event Check Bone Dislocation Status", block},
+            {"Break Arm L", block},
+            {"Break Arm R", block},
+            {"Break Leg L", block},
+            {"Break Leg R", block},
+            {"Break Back", block},
+            {"Break Head", block},
+            {"Break L Constraint", block},
+            {"Break R Constraint", block},
+            {"BreakConstraint", block},
+            {"Snap Neck", block},
+        };
+    };
+
+    auto addBoneControl =
+        [&](bool playerScope, const char* name, const char* tooltip, const char* section, int* key, bool* block,
+            float* strength, float* mass, const char* blockTooltip, const char* strengthTooltip,
+            const char* massTooltip) {
+            keybinds.Add(
+                {
+                    .name = name,
+                    .tooltip = tooltip,
+                    .configSection = section,
+                    .keyPtr = key,
+                    .callback =
+                        [boneSettings, playerScope](bool active, const RuntimeContextSnapshot& runtime) {
+                            BoneControl::ApplyToScope(runtime, playerScope, boneSettings(playerScope, active));
+                        },
+                    .runOnToggle = true,
+                    .functionHooks = makeBoneControlHooks(playerScope),
+                    .params =
+                        {KeybindParam("block_dislocation", "Disable Dislocation", block, blockTooltip),
+                         KeybindParam(
+                             "break_strength_multiplier", "Break Strength", strength, 0.0f, 0.0f, strengthTooltip
+                         ),
+                         KeybindParam("mass_multiplier", "Mass Multiplier", mass, 0.0f, 0.0f, massTooltip)},
+                }
+            );
+        };
+
+    addBoneControl(
+        true, "Bone Control", "Controls your bone snapping, dislocation resistance, and body mass scaling",
+        "BoneControl", &cfg.boneControlKey, &cfg.blockBoneDislocation, &cfg.boneBreakStrengthMultiplier,
+        &cfg.boneMassMultiplier, "Prevents the bone dislocation check from applying to you",
+        "Multiplies bone break thresholds when Disable Dislocation is off",
+        "Scales physical body mass; high values strongly affect ragdoll and impact behavior"
+    );
+    addBoneControl(
+        false, "Enemy Bone Control", "Controls enemy bone snapping, dislocation resistance, and body mass scaling",
+        "EnemyBoneControl", &cfg.enemyBoneControlKey, &cfg.blockEnemyBoneDislocation,
+        &cfg.enemyBoneBreakStrengthMultiplier, &cfg.enemyBoneMassMultiplier,
+        "Prevents the bone dislocation check from applying to enemies",
+        "Multiplies enemy bone break thresholds when Disable Dislocation is off",
+        "Scales enemy physical body mass; high values strongly affect ragdoll and impact behavior"
+    );
+
+    keybinds.Add(
+        {
+            .name = "Break Enemy Bones",
+            .tooltip = "Runs the game's bone break functions on all enemies",
+            .configSection = "BreakEnemyBones",
+            .keyPtr = &cfg.enemyBreakBonesKey,
+            .callback =
+                []([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
+                    BoneControl::BreakEnemies(runtime);
+                },
         }
     );
 

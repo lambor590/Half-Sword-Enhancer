@@ -36,6 +36,9 @@ public:
         int enemyBiteKey = -1;
         int enemyBiteAllKey = -1;
         int enemyDrunkKey = -1;
+        int boneControlKey = -1;
+        int enemyBoneControlKey = -1;
+        int enemyBreakBonesKey = -1;
 
         float jumpForce = 5000.0f;
         float playerRunMultiplier = 1.0f;
@@ -54,6 +57,12 @@ public:
         float enemyConsciousnessMultiplier = 1.0f;
         int consciousnessMultiplierKey = -1;
         int enemyConsciousnessMultiplierKey = -1;
+        bool blockBoneDislocation = true;
+        bool blockEnemyBoneDislocation = true;
+        float boneBreakStrengthMultiplier = 1.0f;
+        float enemyBoneBreakStrengthMultiplier = 1.0f;
+        float boneMassMultiplier = 1.0f;
+        float enemyBoneMassMultiplier = 1.0f;
     };
 
 private:
