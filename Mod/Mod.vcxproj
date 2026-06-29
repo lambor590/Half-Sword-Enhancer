@@ -182,6 +182,7 @@
     <ClCompile Include="src\GameBuildInfo.cpp" />
     <ClCompile Include="src\FreeCameraManager.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />
+    <ClCompile Include="src\BoneControl.cpp" />
     <ClCompile Include="src\AssetOverrideManager.cpp" />
     <ClCompile Include="src\Sections\GuiSection.cpp" />
     <ClCompile Include="src\Sections\AssetOverridesSection.cpp" />
@@ -246,6 +247,7 @@
     <ClInclude Include="resource\resource.h" />
     <ClInclude Include="include\Utils\GameConstants.h" />
     <ClInclude Include="include\Utils\ActorUtils.h" />
+    <ClInclude Include="include\Utils\BoneControl.h" />
     <ClInclude Include="include\Utils\GuiUtils.h" />
     <ClInclude Include="include\Utils\GameBuildInfo.h" />
     <ClInclude Include="include\Utils\FreeCameraManager.h" />
