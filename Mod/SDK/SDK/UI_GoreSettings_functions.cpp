@@ -156,6 +156,26 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundE
 }
 
 
+// Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// float                                   Value                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature(float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature");
+
+	Params::UI_GoreSettings_C_BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature Parms{};
+
+	Parms.Value = Value;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GoreSettings_GraphicsDown_K2Node_ComponentBoundEvent_19_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
 
@@ -299,6 +319,26 @@ float UUI_GoreSettings_C::Get_Gore_Value()
 		Func = Class->GetFunction("UI_GoreSettings_C", "Get Gore Value");
 
 	Params::UI_GoreSettings_C_Get_Gore_Value Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_GoreSettings.UI_GoreSettings_C.Get_BodyDensitySlid_1_Value
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+float UUI_GoreSettings_C::Get_BodyDensitySlid_1_Value()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "Get_BodyDensitySlid_1_Value");
+
+	Params::UI_GoreSettings_C_Get_BodyDensitySlid_1_Value Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 

@@ -114,6 +114,48 @@ void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_3_K2Node_Compone
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_33_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_34_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_4_K2Node_ComponentBoundEvent_37_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_Button_Bevor_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
 
@@ -473,6 +515,62 @@ void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_Button_WeaponSheathedR2
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_Button_WeaponSheathedR2_K2Node_ComponentBoundEvent_25_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_36_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_1_K2Node_ComponentBoundEvent_38_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_35_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Tavern_Inventory_C::BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "BndEvt__UI_Tavern_Inventory_ButtonModuleGripDown_K2Node_ComponentBoundEvent_39_OnButtonClickedEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -1558,6 +1656,26 @@ ESlateVisibility UUI_Tavern_Inventory_C::Get_TextBlock_4_Visibility()
 }
 
 
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.Get_TextBlock_9_Text
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
+
+class FText UUI_Tavern_Inventory_C::Get_TextBlock_9_Text()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "Get_TextBlock_9_Text");
+
+	Params::UI_Tavern_Inventory_C_Get_TextBlock_9_Text Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetBrush
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
@@ -2391,6 +2509,26 @@ ESlateVisibility UUI_Tavern_Inventory_C::GetVisibility_6()
 		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetVisibility_6");
 
 	Params::UI_Tavern_Inventory_C_GetVisibility_6 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Tavern_Inventory.UI_Tavern_Inventory_C.GetVisibility_7
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Tavern_Inventory_C::GetVisibility_7()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Tavern_Inventory_C", "GetVisibility_7");
+
+	Params::UI_Tavern_Inventory_C_GetVisibility_7 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 

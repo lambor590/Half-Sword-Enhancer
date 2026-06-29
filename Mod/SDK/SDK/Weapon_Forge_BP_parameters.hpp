@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "GripType_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 
 

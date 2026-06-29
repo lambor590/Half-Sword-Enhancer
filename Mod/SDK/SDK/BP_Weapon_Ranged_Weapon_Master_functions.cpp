@@ -16,6 +16,26 @@
 
 SDK_NAMESPACE_START
 
+// Function BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C.Event Set Bolt Representation Default Position
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector2D&                 Bolt_Representation_Default_Position_0                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Ranged_Weapon_Master_C::Event_Set_Bolt_Representation_Default_Position(const struct FVector2D& Bolt_Representation_Default_Position_0)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Master_C", "Event Set Bolt Representation Default Position");
+
+	Params::BP_Weapon_Ranged_Weapon_Master_C_Event_Set_Bolt_Representation_Default_Position Parms{};
+
+	Parms.Bolt_Representation_Default_Position_0 = std::move(Bolt_Representation_Default_Position_0);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C.ExecuteUbergraph_BP_Weapon_Ranged_Weapon_Master
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -52,15 +72,21 @@ void ABP_Weapon_Ranged_Weapon_Master_C::Grab_Bolt_Representation()
 
 // Function BP_Weapon_Ranged_Weapon_Master.BP_Weapon_Ranged_Weapon_Master_C.Release Bolt Representation
 // (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector2D&                 NewParam                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Weapon_Ranged_Weapon_Master_C::Release_Bolt_Representation()
+void ABP_Weapon_Ranged_Weapon_Master_C::Release_Bolt_Representation(const struct FVector2D& NewParam)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Master_C", "Release Bolt Representation");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::BP_Weapon_Ranged_Weapon_Master_C_Release_Bolt_Representation Parms{};
+
+	Parms.NewParam = std::move(NewParam);
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

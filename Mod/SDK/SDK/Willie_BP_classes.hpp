@@ -10,43 +10,44 @@
 
 #include "Basic.hpp"
 
+#include "BodyPart_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_Loadout_Equipment_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Severable_BodyParts_Enum_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 #include "GripType_Enum_structs.hpp"
-#include "Str_Passport_Armor1_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "SheathSlots_Enum_structs.hpp"
 #include "FootStepping_Enum_structs.hpp"
-#include "Enum_GameMode_structs.hpp"
-#include "BodyPart_Enum_structs.hpp"
+#include "Severable_BodyParts_Enum_structs.hpp"
+#include "Enum_Sides_RightLeft_structs.hpp"
 #include "Willie_Bones_Enum_structs.hpp"
 #include "Attached_Transform_Str_structs.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
-#include "LeftRight_Enum_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "Enum_ReverseGripType_structs.hpp"
-#include "Steel_Type_structs.hpp"
+#include "Str_Loadout_Equipment_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
 #include "Enum_VoiceType_structs.hpp"
 #include "VertexPaintDetectionPlugin_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"
-#include "Str_Passport_Character1_structs.hpp"
 #include "ArmorSlotContents_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
+#include "Enum_ReverseGripType_structs.hpp"
 #include "PhysicsCore_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
+#include "Steel_Type_structs.hpp"
 #include "SheathType_Enum_structs.hpp"
-#include "HideBodyPart_Enum_structs.hpp"
-#include "Enum_Sides_RightLeft_structs.hpp"
+#include "LeftRight_Enum_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP.Willie_BP_C
-// 0x3F90 (0x4600 - 0x0670)
-class AWillie_BP_C : public ACharacter
+// 0x3FB0 (0x4620 - 0x0670)
+#pragma pack(push, 0x1)
+class SDK_ALIGN(0x10) AWillie_BP_C : public ACharacter
 {
 public:
 	uint8                                         Pad_668[0x8];                                      // 0x0668(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
@@ -1499,6 +1500,12 @@ public:
 	class USceneComponent*                        Dismember_Bone_Location_Child;                     // 0x45F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	bool                                          Dismembered_Part_Collision_Disabled;               // 0x45F8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Dismember_Collision_Can_Be_Enabled;                // 0x45F9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_45FA[0x6];                                     // 0x45FA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Bone_Snapping;                                     // 0x4600(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Force_Fall;                                        // 0x4608(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Bend_Over_Extreme;                                 // 0x4609(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_460A[0x6];                                     // 0x460A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Paint_Interp;                                      // 0x4610(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_and_Remove_Weapon_Weights(class AModularWeaponBP_C* Weapon, bool Add);
@@ -1544,7 +1551,7 @@ public:
 	void Create_Sheath_Constraint_R(EWeapon_Slots_Enum Slot);
 	class USceneComponent* Current_Offhand_Position_Scene();
 	double Damage_Rate();
-	void Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power_0, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out);
+	void Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power_0, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, bool Extra_High_Velocity, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out);
 	void Death();
 	void Death_Timeline__FinishedFunc();
 	void Death_Timeline__UpdateFunc();
@@ -1561,6 +1568,7 @@ public:
 	void End_Arrow_Time_Event();
 	void Event_Add_Blood_EmitterTo_Hit_Object(const struct FTransform& SpawnTransform, double Spawn_Rate, class USceneComponent* Parent);
 	void Event_Add_Sheathed_Weapon();
+	void Event_Bend_Over_Extreme();
 	void Event_Block_Attach_Offhand_But_Play_Animatipn();
 	void Event_Block_L_Hand_Offhand_Attach__Dup_();
 	void Event_Block_L_OffHand_Grab();
@@ -1579,6 +1587,7 @@ public:
 	void Event_Reverse_Grip();
 	void Event_Set_Physics_Substep_Time();
 	void Event_Slide_Right_Hand_Along_Shaft();
+	void Event_Swap_Hands_AI();
 	void Event_Temporary_Block_Sheathing_After_Grab();
 	void ExecuteUbergraph_Willie_BP(int32 EntryPoint);
 	void Fall();
@@ -1806,5 +1815,6 @@ public:
 		return GetDefaultObjImpl<AWillie_BP_C>();
 	}
 };
+#pragma pack(pop)
 
 SDK_NAMESPACE_END

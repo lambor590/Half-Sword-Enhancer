@@ -13,10 +13,10 @@
 #include "PhysicsCore_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
-#include "Str_Equipment_Loadout_Old_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "Str_Equipment_Loadout_Old_structs.hpp"
 
 
 SDK_NAMESPACE_START

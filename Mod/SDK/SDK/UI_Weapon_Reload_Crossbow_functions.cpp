@@ -72,6 +72,20 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2
 }
 
 
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature
 // (BlueprintEvent)
 
@@ -100,20 +114,6 @@ void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2
 }
 
 
-// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Weapon_Reload_Crossbow_C::BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.BndEvt__UI_Weapon_Reload_Crossbow_Slider_0_K2Node_ComponentBoundEvent_0_OnMouseCaptureBeginEvent__DelegateSignature
 // (BlueprintEvent)
 
@@ -137,6 +137,20 @@ void UUI_Weapon_Reload_Crossbow_C::Close_Widget()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "Close Widget");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Weapon_Reload_Crossbow.UI_Weapon_Reload_Crossbow_C.Construct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_Weapon_Reload_Crossbow_C::Construct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Weapon_Reload_Crossbow_C", "Construct");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Armor1_structs.hpp"
-#include "Str_ArmorProtection_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
-#include "Steel_Type_structs.hpp"
-#include "HideBodyPart_Enum_structs.hpp"
 #include "SkeletalMerging_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "Enum_DismembermentPart_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
+#include "Str_ArmorProtection_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "Str_Passport_Armor1_structs.hpp"
 
 
 SDK_NAMESPACE_START

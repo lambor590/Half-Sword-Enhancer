@@ -16,6 +16,40 @@
 
 SDK_NAMESPACE_START
 
+// Function BP_Prop_Cooking_Utencil_Pot_001.BP_Prop_Cooking_Utencil_Pot_001_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_Prop_Cooking_Utencil_Pot_001_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Prop_Cooking_Utencil_Pot_001_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Prop_Cooking_Utencil_Pot_001.BP_Prop_Cooking_Utencil_Pot_001_C.ExecuteUbergraph_BP_Prop_Cooking_Utencil_Pot_001
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Prop_Cooking_Utencil_Pot_001_C::ExecuteUbergraph_BP_Prop_Cooking_Utencil_Pot_001(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Prop_Cooking_Utencil_Pot_001_C", "ExecuteUbergraph_BP_Prop_Cooking_Utencil_Pot_001");
+
+	Params::BP_Prop_Cooking_Utencil_Pot_001_C_ExecuteUbergraph_BP_Prop_Cooking_Utencil_Pot_001 Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Prop_Cooking_Utencil_Pot_001.BP_Prop_Cooking_Utencil_Pot_001_C.BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -41,40 +75,6 @@ void ABP_Prop_Cooking_Utencil_Pot_001_C::BndEvt__Barrel_BP_SM_Barrel_K2Node_Comp
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Prop_Cooking_Utencil_Pot_001.BP_Prop_Cooking_Utencil_Pot_001_C.ExecuteUbergraph_BP_Prop_Cooking_Utencil_Pot_001
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Prop_Cooking_Utencil_Pot_001_C::ExecuteUbergraph_BP_Prop_Cooking_Utencil_Pot_001(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Cooking_Utencil_Pot_001_C", "ExecuteUbergraph_BP_Prop_Cooking_Utencil_Pot_001");
-
-	Params::BP_Prop_Cooking_Utencil_Pot_001_C_ExecuteUbergraph_BP_Prop_Cooking_Utencil_Pot_001 Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Prop_Cooking_Utencil_Pot_001.BP_Prop_Cooking_Utencil_Pot_001_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ABP_Prop_Cooking_Utencil_Pot_001_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Cooking_Utencil_Pot_001_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

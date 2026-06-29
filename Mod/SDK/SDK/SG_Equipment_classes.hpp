@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Str_ArmorElements_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
+#include "Str_ArmorElements_structs.hpp"
 #include "SG_ArmorSaveStruct_structs.hpp"
 #include "Engine_classes.hpp"
 

@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 
 
 SDK_NAMESPACE_START

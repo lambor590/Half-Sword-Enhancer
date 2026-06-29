@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP_Zombie.Willie_BP_Zombie_C
-// 0x0000 (0x4600 - 0x4600)
+// 0x0000 (0x4620 - 0x4620)
 class AWillie_BP_Zombie_C final : public AWillie_BP_C
 {
 public:

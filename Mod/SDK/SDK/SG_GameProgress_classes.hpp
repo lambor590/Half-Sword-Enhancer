@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Inventory_structs.hpp"
-#include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Enum_DayTime_structs.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
@@ -108,6 +108,7 @@ public:
 	bool                                          First_Start_Innkeeper_Greeted;                     // 0x089E(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Armors_Refreshed;                                  // 0x089F(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Old_Willie;                                        // 0x08A0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Ranks                                    Free_Mode_Rendom_Equipment_Tier;                   // 0x08A1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_SG_GameProgress(int32 EntryPoint);

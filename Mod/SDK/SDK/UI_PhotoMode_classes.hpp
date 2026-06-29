@@ -13,9 +13,9 @@
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "E_ColorGradingMode_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
+#include "E_ColorGradingMode_structs.hpp"
 
 
 SDK_NAMESPACE_START

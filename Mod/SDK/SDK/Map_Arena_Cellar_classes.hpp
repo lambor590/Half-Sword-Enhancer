@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "Enum_GameMode_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_GameMode_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
 
 
 SDK_NAMESPACE_START

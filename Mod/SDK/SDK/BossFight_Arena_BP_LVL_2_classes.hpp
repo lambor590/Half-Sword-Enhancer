@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "BossFight_Arena_BP_classes.hpp"
 #include "Engine_structs.hpp"
+#include "BossFight_Arena_BP_classes.hpp"
 
 
 SDK_NAMESPACE_START

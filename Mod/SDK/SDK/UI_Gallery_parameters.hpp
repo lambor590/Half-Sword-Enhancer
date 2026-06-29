@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
+#include "S_PhotosData_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "UMG_structs.hpp"
-#include "S_PhotosData_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "InputCore_structs.hpp"
 

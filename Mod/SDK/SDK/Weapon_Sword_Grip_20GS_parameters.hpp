@@ -24,7 +24,7 @@ struct Weapon_Sword_Grip_20GS_C_UserConstructionScript final
 public:
 	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue_UserConstructionScript; // 0x0000(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	struct FVector                                CallFunc_MakeVector_ReturnValue_UserConstructionScript; // 0x0008(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             CallFunc_K2_SetRelativeLocation_SweepHitResult;    // 0x0020(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	struct FHitResult                             CallFunc_K2_SetRelativeLocation_SweepHitResult_UserConstructionScript; // 0x0020(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
 };
 
 SDK_PARAM_NAMESPACE_END

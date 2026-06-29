@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "S_PhotosData_structs.hpp"
-#include "S_PostProcessRendering_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "S_PostProcessRendering_structs.hpp"
 #include "UMG_structs.hpp"
+#include "S_PhotosData_structs.hpp"
 #include "SlateCore_structs.hpp"
-#include "S_PhotoResolutions_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
+#include "S_PhotoResolutions_structs.hpp"
 #include "S_PostProcessFilter_structs.hpp"
 #include "S_Logos_structs.hpp"
 #include "E_ColorGradingMode_structs.hpp"

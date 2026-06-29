@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Enum_NoisePattern_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Enum_ShapeType_structs.hpp"
 #include "Enum_DistortionPattern_structs.hpp"
 #include "Engine_classes.hpp"

@@ -46,17 +46,19 @@ public:
 	bool                                          Bolt_Hovered;                                      // 0x0352(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Bolt_Clicked;                                      // 0x0353(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Quiver_Hovered;                                    // 0x0354(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Cloase_Widget_Fail_Safe;                           // 0x0355(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Weapon_Reload_Crossbow_Button_0_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Weapon_Reload_Crossbow_Button_1_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Weapon_Reload_Crossbow_Button_2_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
 	void BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Weapon_Reload_Crossbow_Button_3_K2Node_ComponentBoundEvent_6_OnButtonClickedEvent__DelegateSignature();
 	void BndEvt__UI_Weapon_Reload_Crossbow_Slider_0_K2Node_ComponentBoundEvent_0_OnMouseCaptureBeginEvent__DelegateSignature();
 	void Close_Widget();
+	void Construct();
 	void ExecuteUbergraph_UI_Weapon_Reload_Crossbow(int32 EntryPoint);
 	bool GetbIsEnabled();
 	float GetValue();

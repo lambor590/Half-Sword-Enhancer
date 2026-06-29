@@ -164,15 +164,21 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Forget_Loaded_Bolt()
 
 // Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Release Bolt Representation
 // (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector2D&                 NewParam                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Release_Bolt_Representation()
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Release_Bolt_Representation(const struct FVector2D& NewParam)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Release Bolt Representation");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_Release_Bolt_Representation Parms{};
+
+	Parms.NewParam = std::move(NewParam);
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

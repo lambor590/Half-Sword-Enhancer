@@ -10,21 +10,21 @@
 
 #include "Basic.hpp"
 
-#include "MeleeCombatRange_Enum_structs.hpp"
 #include "Engine_structs.hpp"
-#include "AI_AttackStage_Enum_structs.hpp"
-#include "AI_CombatBehavior_Enum_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "GripType_Enum_structs.hpp"
 #include "AI_Strafe_Enum_structs.hpp"
+#include "GripType_Enum_structs.hpp"
+#include "MeleeCombatRange_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "AI_CombatBehavior_Enum_structs.hpp"
 #include "AIModule_structs.hpp"
 #include "AIModule_classes.hpp"
+#include "AI_AttackStage_Enum_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass AI_BP.AI_BP_C
-// 0x04B8 (0x0870 - 0x03B8)
+// 0x04C8 (0x0880 - 0x03B8)
 class AAI_BP_C final : public AAIController
 {
 public:
@@ -203,8 +203,13 @@ public:
 	bool                                          Block_Sprint;                                      // 0x0865(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          My_Leg_Is_Grabbed;                                 // 0x0866(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          NewVar_2;                                          // 0x0867(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          NewVar_3;                                          // 0x0868(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Attack_Anyway;                                     // 0x0868(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Being_Feinted;                                     // 0x0869(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          NewVar_4;                                          // 0x086A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_86B[0x1];                                      // 0x086B(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         Selection_0;                                       // 0x086C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Strangle_Rate;                                     // 0x0870(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Being_Grabbed;                                     // 0x0878(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Attack();
