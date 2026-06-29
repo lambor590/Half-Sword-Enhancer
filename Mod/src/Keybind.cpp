@@ -8,6 +8,7 @@
 #include "imgui/imgui.h"
 #include "ConfigManager.h"
 #include "KeybindManager.h"
+#include "NotificationManager.h"
 #include "DefaultStyle.h"
 #include "Utils/GuiUtils.h"
 
@@ -235,6 +236,9 @@ namespace {
             [entryPtr]() {
                 if (entryPtr->IsToggle()) {
                     ToggleEntry(entryPtr, !entryPtr->isEnabled);
+                    if (!entryPtr->name.empty()) {
+                        NotificationManager::NotifyHookToggle(entryPtr->name, entryPtr->isEnabled);
+                    }
                 } else {
                     QueueEntryCallback(entryPtr, true);
                 }

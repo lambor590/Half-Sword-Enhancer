@@ -123,12 +123,8 @@ bool KeybindManager::ProcessKeyEvent(UINT msg, WPARAM wParam) {
     for (const Binding* binding : bindingCache) {
         binding->callback();
 
-        if (!binding->name.empty()) [[likely]] {
-            if (binding->isToggle) {
-                NotificationManager::NotifyHookToggle(binding->name, true);
-            } else {
-                NotificationManager::NotifyOneTimeAction(binding->name);
-            }
+        if (!binding->name.empty() && !binding->isToggle) [[likely]] {
+            NotificationManager::NotifyOneTimeAction(binding->name);
         }
     }
 
