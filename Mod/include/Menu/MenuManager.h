@@ -9,6 +9,8 @@
 #include "MenuTab.h"
 
 class ModContext;
+struct KeybindEntry;
+class KeybindList;
 struct ImVec2;
 
 class MenuManager {
@@ -54,6 +56,8 @@ private:
     struct SearchResult {
         MenuTab tab;
         Section* section;
+        KeybindList* keybinds;
+        KeybindEntry* entry;
     };
 
     struct RenderGroup {

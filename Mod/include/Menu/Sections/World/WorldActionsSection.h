@@ -36,4 +36,5 @@ private:
 public:
     explicit WorldActionsSection(ModContext& ctx);
     void Render() override;
+    KeybindList* GetSearchKeybinds() noexcept override { return &keybinds; }
 };

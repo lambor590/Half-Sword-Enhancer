@@ -1,3 +1,4 @@
+#include <cmath>
 #include <string>
 #include <algorithm>
 #include <utility>
@@ -124,6 +125,18 @@ namespace {
             isDisabled ? DISABLED_NAME_COLOR : DefaultStyle::PARCHMENT, "%.*s", static_cast<int>(name.size()),
             name.data()
         );
+    }
+
+    void DrawSearchHighlight(const ImVec2& min, const ImVec2& max) {
+        const float pulse = 0.5f + 0.5f * static_cast<float>(std::sin(ImGui::GetTime() * 5.0));
+        ImVec4 fill = DefaultStyle::BRIGHT_BRASS;
+        fill.w = 0.05f + pulse * 0.09f;
+        ImVec4 border = DefaultStyle::BRIGHT_BRASS;
+        border.w = 0.48f + pulse * 0.42f;
+
+        ImDrawList* dl = ImGui::GetWindowDrawList();
+        dl->AddRectFilled(min, max, ImGui::ColorConvertFloat4ToU32(fill), 3.0f);
+        dl->AddRect(min, max, ImGui::ColorConvertFloat4ToU32(border), 3.0f, 0, 1.5f + pulse);
     }
 
     bool RenderParametersButton(const char* buttonId, const std::string& name) {
@@ -387,8 +400,18 @@ void TooltipHelper::InvalidateCache() {
 }
 
 
-void KeybindEntry::Render() {
+void KeybindEntry::Render(bool highlight, bool scrollIntoView) {
+    ImVec2 rowMin{};
+    ImVec2 rowMax{};
+    if (highlight) rowMin = ImGui::GetCursorScreenPos();
+
     RenderKeyButton(keyId.c_str(), waitingForKey, *keyPtr, pendingOriginalKey);
+    if (highlight) rowMax = ImGui::GetItemRectMax();
+    auto includeLastItem = [&rowMax]() {
+        const ImVec2 itemMax = ImGui::GetItemRectMax();
+        rowMax.x = (std::max)(rowMax.x, itemMax.x);
+        rowMax.y = (std::max)(rowMax.y, itemMax.y);
+    };
     ImGui::SameLine();
 
     if (IsToggle()) {
@@ -396,6 +419,7 @@ void KeybindEntry::Render() {
         if (ImGui::Checkbox(checkId.c_str(), &currentEnabled) && currentEnabled != isEnabled) {
             ToggleEntry(this, currentEnabled);
         }
+        if (highlight) includeLastItem();
         ImGui::SameLine();
         RenderName(name, !isEnabled && IsKeyUnbound(*keyPtr));
         TooltipHelper::ShowTooltip(tooltip);
@@ -403,11 +427,13 @@ void KeybindEntry::Render() {
         RenderName(name, IsKeyUnbound(*keyPtr));
         TooltipHelper::ShowTooltip(tooltip);
     }
+    if (highlight) includeLastItem();
 
     if (!params.empty()) {
         if (RenderParametersButton(paramButtonId.c_str(), name)) {
             ImGui::OpenPopup(popupId.c_str());
         }
+        if (highlight) includeLastItem();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::K_POPUP_PADDING);
         if (ImGui::BeginPopup(popupId.c_str())) {
@@ -425,16 +451,31 @@ void KeybindEntry::Render() {
 
     HandleKeyAssignment(*this);
     RenderConflictPopup(*this);
+
+    if (highlight) {
+        if (scrollIntoView) ImGui::SetScrollHereY(0.45f);
+        DrawSearchHighlight(ImVec2(rowMin.x - 2.0f, rowMin.y - 2.0f), ImVec2(rowMax.x + 2.0f, rowMax.y + 2.0f));
+    }
 }
 
 void KeybindList::Render() {
+    if (highlightedEntry && ImGui::GetTime() > highlightUntil) highlightedEntry = nullptr;
+
     const size_t count = entries.size();
     for (size_t i = 0; i < count; ++i) {
-        entries[i].Render();
+        const bool highlight = highlightedEntry == &entries[i];
+        entries[i].Render(highlight, highlight && scrollHighlightedEntry);
+        if (highlight) scrollHighlightedEntry = false;
         if (i + 1 < count) {
             ImGui::Spacing();
         }
     }
+}
+
+void KeybindList::RequestHighlight(const KeybindEntry* entry) {
+    highlightedEntry = entry;
+    highlightUntil = ImGui::GetTime() + 2.0;
+    scrollHighlightedEntry = true;
 }
 
 

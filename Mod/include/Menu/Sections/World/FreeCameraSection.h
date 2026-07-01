@@ -12,6 +12,7 @@ public:
     ~FreeCameraSection() override;
 
     void Render() override;
+    KeybindList* GetSearchKeybinds() noexcept override { return &keybinds; }
 
 private:
     struct Config {

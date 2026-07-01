@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstring>
 
+#include "Menu/Keybind.h"
 #include "Utils/GuiUtils.h"
 #include "imgui/imgui.h"
 
@@ -81,9 +82,13 @@ void MenuManager::UpdateSearchResults() {
         const MenuTab tab = TAB_ORDER[i].first;
         auto& sects = sections[i];
         for (auto& section : sects) {
-            const char* name = section->GetName();
-            if (GuiUtils::MatchesFilter(name, std::strlen(name), searchBuffer, needleLen)) {
-                searchResults.push_back({tab, section.get()});
+            auto* keybinds = section->GetSearchKeybinds();
+            if (!keybinds) continue;
+
+            for (auto& entry : keybinds->Entries()) {
+                if (GuiUtils::MatchesFilter(entry.name.c_str(), entry.name.size(), searchBuffer, needleLen)) {
+                    searchResults.push_back({tab, section.get(), keybinds, &entry});
+                }
             }
         }
     }
@@ -173,17 +178,15 @@ void MenuManager::RenderSearchResults() {
 
         ImGui::Indent(SECTION_INDENT);
 
-        bool isSelected = selectedSection == result.section;
         ImGui::PushStyleColor(ImGuiCol_Header, BRASS_MEDIUM);
-        if (ImGui::Selectable(result.section->GetName(), isSelected)) {
+        ImGui::PushID(result.entry);
+        if (ImGui::Selectable(result.entry->name.c_str(), false)) {
             SelectSection(result.section, result.tab);
+            result.keybinds->RequestHighlight(result.entry);
             shouldClearSearch = true;
         }
+        ImGui::PopID();
         ImGui::PopStyleColor();
-
-        if (isSelected) {
-            DrawSelectionAccent();
-        }
 
         ImGui::Unindent(SECTION_INDENT);
 

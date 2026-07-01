@@ -46,4 +46,5 @@ private:
 public:
     explicit PlayerEditorSection(ModContext& ctx);
     void Render() override;
+    KeybindList* GetSearchKeybinds() noexcept override { return &keybinds; }
 };

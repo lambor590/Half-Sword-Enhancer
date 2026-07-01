@@ -82,4 +82,5 @@ private:
 public:
     explicit PlayerAbilitiesSection(ModContext& ctx);
     void Render() override;
+    KeybindList* GetSearchKeybinds() noexcept override { return &keybinds; }
 };

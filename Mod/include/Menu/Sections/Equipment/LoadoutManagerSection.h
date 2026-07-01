@@ -100,4 +100,5 @@ private:
 public:
     explicit LoadoutManagerSection(ModContext& ctx);
     void Render() override;
+    KeybindList* GetSearchKeybinds() noexcept override { return &keybinds; }
 };

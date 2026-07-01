@@ -3,6 +3,8 @@
 #include "Core/ModContext.h"
 #include "Menu/MenuTab.h"
 
+class KeybindList;
+
 struct SectionDefinition {
     MenuTab tab;
     const char* name;
@@ -35,6 +37,7 @@ public:
 
     virtual void Render() = 0;
     virtual void OnOpen() {}
+    virtual KeybindList* GetSearchKeybinds() noexcept { return nullptr; }
 
     const char* GetName() const noexcept { return definition.name; }
     const char* GetGroup() const noexcept { return definition.group; }

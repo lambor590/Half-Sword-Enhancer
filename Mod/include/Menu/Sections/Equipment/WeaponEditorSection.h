@@ -171,4 +171,5 @@ public:
     explicit WeaponEditorSection(ModContext& ctx);
     void OnOpen() override;
     void Render() override;
+    KeybindList* GetSearchKeybinds() noexcept override { return &keybinds; }
 };

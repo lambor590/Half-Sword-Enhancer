@@ -83,16 +83,21 @@ struct KeybindEntry {
 
     bool IsToggle() const noexcept { return runOnToggle || !events.empty() || !functionHooks.empty(); }
     void Init();
-    void Render();
+    void Render(bool highlight = false, bool scrollIntoView = false);
 };
 
 class KeybindList {
 public:
     void Add(KeybindEntry entry);
     void Render();
+    void RequestHighlight(const KeybindEntry* entry);
+    std::deque<KeybindEntry>& Entries() noexcept { return entries; }
 
 private:
     std::deque<KeybindEntry> entries;
+    const KeybindEntry* highlightedEntry = nullptr;
+    double highlightUntil = 0.0;
+    bool scrollHighlightedEntry = false;
 };
 
 /// Cached config read.

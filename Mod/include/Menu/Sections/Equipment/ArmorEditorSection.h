@@ -90,4 +90,5 @@ private:
 public:
     explicit ArmorEditorSection(ModContext& ctx);
     void Render() override;
+    KeybindList* GetSearchKeybinds() noexcept override { return &keybinds; }
 };
