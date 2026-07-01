@@ -1,3 +1,5 @@
+#include <chrono>
+#include <cmath>
 #include <vector>
 
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
@@ -5,7 +7,9 @@
 
 #include "SDK/AIModule_classes.hpp"
 #include "SDK/Engine_classes.hpp"
+#include "SDK/ModularWeaponBP_classes.hpp"
 #include "SDK/Weapon_Feet_classes.hpp"
+#include "SDK/Weapon_Fists_classes.hpp"
 #include "SDK/Willie_BP_classes.hpp"
 #include "SDK/Willie_BP_parameters.hpp"
 #include "Hooks/GameHook.h"
@@ -18,6 +22,11 @@ namespace {
     constexpr double KICK_CALF_MASS_WEIGHT = 0.75;
     constexpr double KICK_THIGH_MASS_WEIGHT = 0.35;
     constexpr double KICK_IMPULSE_TRANSFER_WEIGHTS[] = {0.35, 0.40, 0.25};
+    constexpr double KNOCKBACK_MIN_SPEED = 0.001;
+    constexpr double KNOCKBACK_MIN_SPEED_SQ = KNOCKBACK_MIN_SPEED * KNOCKBACK_MIN_SPEED;
+    constexpr double KNOCKBACK_MIN_DISTANCE_SQ = 1.0;
+    constexpr auto PUNCH_KNOCKBACK_CONTACT_GAP = std::chrono::milliseconds(150);
+    constexpr double PUNCH_KNOCKBACK_RESET_RATIO = 0.35;
 
     struct KickBoneSet {
         SDK::FName foot;
@@ -25,13 +34,23 @@ namespace {
         SDK::FName thigh;
     };
 
+    struct PunchKnockbackContact {
+        SDK::AWeapon_Fists_C* fist = nullptr;
+        SDK::AWillie_BP_C* target = nullptr;
+        SDK::FName targetBone{};
+        std::chrono::steady_clock::time_point lastSeen;
+        double appliedImpulse = 0.0;
+    };
+
+    std::vector<PunchKnockbackContact> g_punchKnockbackContacts;
+
     SDK::AWeapon_Feet_C* GetKickFoot(SDK::AWillie_BP_C* player, bool leftKick) {
         auto* weapon = player ? (leftKick ? player->Foot_L_Weapon : player->Foot_R_Weapon) : nullptr;
         return weapon && weapon->IsA(SDK::AWeapon_Feet_C::StaticClass()) ? static_cast<SDK::AWeapon_Feet_C*>(weapon)
                                                                          : nullptr;
     }
 
-    void BoostFootWeapon(SDK::AWeapon_Feet_C* weapon, float configuredMultiplier) noexcept {
+    void BoostWeaponKnockback(SDK::AModularWeaponBP_C* weapon, float configuredMultiplier) noexcept {
         const auto multiplier = static_cast<double>(configuredMultiplier);
         if (!weapon || multiplier <= 1.0) return;
 
@@ -63,8 +82,91 @@ namespace {
              + static_cast<double>(mesh->GetBoneMass(bones.thigh, true)) * KICK_THIGH_MASS_WEIGHT;
     }
 
-    double Dot(const SDK::FVector& a, const SDK::FVector& b) noexcept {
-        return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+    double BoneMass(SDK::USkeletalMeshComponent* mesh, const SDK::TArray<SDK::FName>& bones) {
+        if (!mesh) return 0.0;
+
+        double mass = 0.0;
+        for (const auto& bone : bones) {
+            if (!bone.IsNone()) mass += static_cast<double>(mesh->GetBoneMass(bone, true));
+        }
+        return mass;
+    }
+
+    double PunchLimbMass(SDK::AWillie_BP_C* attacker, SDK::AWeapon_Fists_C* fist) {
+        if (!attacker || !attacker->Mesh || !fist) return 0.0;
+
+        if (fist == attacker->Weapon_L || fist == attacker->Weapon_L_0) {
+            return BoneMass(attacker->Mesh, attacker->L_Arm_Bones);
+        }
+        if (fist == attacker->Weapon_R || fist == attacker->Weapon_R_0) {
+            return BoneMass(attacker->Mesh, attacker->R_Arm_Bones);
+        }
+        return 0.0;
+    }
+
+    bool ComputeKnockbackImpulse(
+        SDK::AWillie_BP_C* attacker, SDK::AWillie_BP_C* target, SDK::UPrimitiveComponent* hitComponent,
+        const SDK::FVector& weaponVelocity, const SDK::FVector& impactPoint, const SDK::FName& targetBone,
+        double attackerMass, double multiplier, SDK::FVector& impulse
+    ) {
+        if (!attacker || !target || attacker == target || !hitComponent || multiplier <= 1.0) return false;
+
+        const double weaponSpeedSq = weaponVelocity.Dot(weaponVelocity);
+        if (weaponSpeedSq <= KNOCKBACK_MIN_SPEED_SQ) return false;
+
+        auto* targetMesh = hitComponent->IsA(SDK::USkeletalMeshComponent::StaticClass())
+                             ? static_cast<SDK::USkeletalMeshComponent*>(hitComponent)
+                             : nullptr;
+        if (!targetMesh || targetBone.IsNone()) return false;
+
+        const double targetMass = targetMesh->GetBoneMass(targetBone, true);
+        if (targetMass <= 0.001 || attackerMass <= 0.001) return false;
+
+        auto outwardDirection = target->K2_GetActorLocation() - attacker->K2_GetActorLocation();
+        outwardDirection.Z = 0.0;
+        const double distanceSq = outwardDirection.Dot(outwardDirection);
+        if (distanceSq <= KNOCKBACK_MIN_DISTANCE_SQ) return false;
+
+        const double weaponSpeed = std::sqrt(weaponSpeedSq);
+        const auto direction = weaponVelocity * (1.0 / weaponSpeed);
+        if (direction.Dot(outwardDirection) < 0.0) return false;
+
+        const auto relativeVelocity =
+            weaponVelocity - targetMesh->GetPhysicsLinearVelocityAtPoint(impactPoint, targetBone);
+        const double relativeSpeed = relativeVelocity.Dot(direction);
+        if (relativeSpeed <= 0.001) return false;
+
+        const double effectiveMass = (attackerMass * targetMass) / (attackerMass + targetMass);
+        impulse = direction * (relativeSpeed * effectiveMass * (multiplier - 1.0));
+        return true;
+    }
+
+    PunchKnockbackContact* TouchPunchKnockbackContact(
+        SDK::AWeapon_Fists_C* fist, SDK::AWillie_BP_C* target, const SDK::FName& targetBone
+    ) {
+        if (!fist || !target || targetBone.IsNone()) return nullptr;
+
+        const auto now = std::chrono::steady_clock::now();
+        const auto staleBefore = now - PUNCH_KNOCKBACK_CONTACT_GAP;
+        std::erase_if(g_punchKnockbackContacts, [staleBefore](const PunchKnockbackContact& contact) {
+            return !contact.fist || !contact.target || contact.lastSeen < staleBefore;
+        });
+
+        for (auto& contact : g_punchKnockbackContacts) {
+            if (contact.fist == fist && contact.target == target && contact.targetBone == targetBone) {
+                contact.lastSeen = now;
+                return &contact;
+            }
+        }
+
+        g_punchKnockbackContacts.push_back(PunchKnockbackContact{
+            .fist = fist,
+            .target = target,
+            .targetBone = targetBone,
+            .lastSeen = now,
+            .appliedImpulse = 0.0,
+        });
+        return &g_punchKnockbackContacts.back();
     }
 
     constexpr int KickImpulseTransferStepCount() noexcept {
@@ -324,10 +426,8 @@ void PlayerAbilitiesSection::InitKeybinds() {
         };
     };
 
-    auto handleBoneControlHook = [boneSettings](
-                                     bool playerScope, bool cancelDislocationCheck,
-                                     GameHook::ProcessEventContext& context
-                                 ) {
+    auto handleBoneControlHook =
+        [boneSettings](bool playerScope, bool cancelDislocationCheck, GameHook::ProcessEventContext& context) {
         auto* willie = BoneControl::WillieOwner(context.object);
         if (!BoneControl::MatchesScope(willie, playerScope)) return;
 
@@ -340,17 +440,36 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     };
 
-    auto makeBoneControlHooks = [handleBoneControlHook](bool playerScope) {
-        auto apply = [handleBoneControlHook, playerScope](GameHook::ProcessEventContext& context) {
+    auto markSpawnedWillie = [](bool playerScope, GameHook::ProcessEventContext& context) {
+        auto* willie = BoneControl::WillieOwner(context.object);
+        if (!BoneControl::MatchesScope(willie, playerScope)) return;
+
+        BoneControl::MarkSpawnedWillie(willie);
+    };
+
+    auto applyPendingSpawnMass = [boneSettings](bool playerScope, GameHook::ProcessEventContext& context) {
+        auto* willie = BoneControl::WillieOwner(context.object);
+        if (!BoneControl::MatchesScope(willie, playerScope)) return;
+
+        BoneControl::ApplyPendingSpawnMass(willie, boneSettings(playerScope, true));
+    };
+
+    auto makeBoneControlHooks = [handleBoneControlHook, markSpawnedWillie, applyPendingSpawnMass](bool playerScope) {
+        auto apply = [handleBoneControlHook, applyPendingSpawnMass, playerScope](GameHook::ProcessEventContext& context) {
             handleBoneControlHook(playerScope, false, context);
+            applyPendingSpawnMass(playerScope, context);
+        };
+        auto applyAndMarkPending = [handleBoneControlHook, markSpawnedWillie,
+                                    playerScope](GameHook::ProcessEventContext& context) {
+            handleBoneControlHook(playerScope, false, context);
+            markSpawnedWillie(playerScope, context);
         };
         auto block = [handleBoneControlHook, playerScope](GameHook::ProcessEventContext& context) {
             handleBoneControlHook(playerScope, true, context);
         };
 
         return std::vector<KeybindFunctionHook>{
-            {"ReceiveBeginPlay", apply, GameHook::HookPhase::After},
-            {"Setup Simulated Bones Array", apply, GameHook::HookPhase::After},
+            {"ReceiveBeginPlay", applyAndMarkPending, GameHook::HookPhase::After},
             {"ReceiveTick", apply},
             {"Get Damage", apply},
             {"Get Damage", apply, GameHook::HookPhase::After},
@@ -380,6 +499,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
                     .keyPtr = key,
                     .callback =
                         [boneSettings, playerScope](bool active, const RuntimeContextSnapshot& runtime) {
+                            if (!active) BoneControl::ClearPendingSpawnMass(playerScope);
                             BoneControl::ApplyToScope(runtime, playerScope, boneSettings(playerScope, active));
                         },
                     .runOnToggle = true,
@@ -551,7 +671,7 @@ void PlayerAbilitiesSection::InitKeybinds() {
         } else {
             target->Kick_Rate_R *= multiplier;
         }
-        BoostFootWeapon(foot, multiplier);
+        BoostWeaponKnockback(foot, multiplier);
     };
 
     auto closeKickWindow = [this, clearPendingKickImpulse](bool leftKick, GameHook::ProcessEventContext& context) {
@@ -637,44 +757,17 @@ void PlayerAbilitiesSection::InitKeybinds() {
                                         : nullptr;
                                 if (foot != kickWindowFoot || foot->Parent_Actor != player) return;
 
-                                const auto multiplier = static_cast<double>(cfg.kickPowerMultiplier);
-                                const double footSpeed = foot->Weapon_Velocity.Magnitude();
-                                if (multiplier <= 1.0 || footSpeed <= 0.001) return;
-
-                                auto* targetMesh = params->HitComponent->IsA(SDK::USkeletalMeshComponent::StaticClass())
-                                                     ? static_cast<SDK::USkeletalMeshComponent*>(params->HitComponent)
-                                                     : nullptr;
-                                if (!targetMesh) return;
                                 const auto targetBone = params->Hit.MyBoneName;
-                                if (targetBone.IsNone()) return;
-
-                                const double targetMass = targetMesh->GetBoneMass(targetBone, true);
                                 const double attackerMass = KickLimbMass(player->Mesh, kickWindowLeft);
-                                if (targetMass <= 0.001 || attackerMass <= 0.001) return;
+                                SDK::FVector impulse{};
+                                if (!ComputeKnockbackImpulse(
+                                        player, target, params->HitComponent, foot->Weapon_Velocity,
+                                        params->Hit.ImpactPoint, targetBone, attackerMass,
+                                        static_cast<double>(cfg.kickPowerMultiplier), impulse
+                                    ))
+                                    return;
 
-                                auto direction = target->K2_GetActorLocation() - player->K2_GetActorLocation();
-                                direction.Z = 0.0;
-                                const double distance = direction.Magnitude();
-                                if (distance <= 1.0) return;
-
-                                direction /= distance;
-                                auto relativeVelocity =
-                                    foot->Weapon_Velocity
-                                    - targetMesh->GetPhysicsLinearVelocityAtPoint(params->Hit.ImpactPoint, targetBone);
-                                const double outwardSpeed = Dot(relativeVelocity, direction);
-                                if (outwardSpeed < 0.0) {
-                                    relativeVelocity -= direction * outwardSpeed;
-                                }
-
-                                const double relativeSpeed = relativeVelocity.Magnitude();
-                                if (relativeSpeed <= 0.001) return;
-
-                                direction = relativeVelocity / relativeSpeed;
-                                direction.Normalize();
-
-                                const double effectiveMass = (attackerMass * targetMass) / (attackerMass + targetMass);
-                                const auto impulse = direction * (relativeSpeed * effectiveMass * (multiplier - 1.0));
-                                BoostFootWeapon(foot, cfg.kickPowerMultiplier);
+                                BoostWeaponKnockback(foot, cfg.kickPowerMultiplier);
                                 pendingKickImpulseComponent = params->HitComponent;
                                 pendingKickImpulse = impulse;
                                 pendingKickImpulseLocation = params->Hit.ImpactPoint;
@@ -689,6 +782,87 @@ void PlayerAbilitiesSection::InitKeybinds() {
                 "kick_power_multiplier", "Power Multiplier", &cfg.kickPowerMultiplier, 1.0f, 100.0f,
                 "Multiplies the mass-aware physical impulse applied by kicks"
             )},
+        }
+    );
+
+    keybinds.Add(
+        {
+            .name = "Knockback Multiplier",
+            .tooltip = "Multiplies the physical impulse applied by punches",
+            .configSection = "KnockbackMultiplier",
+            .keyPtr = &cfg.knockbackMultiplierKey,
+            .functionHooks =
+                {
+                    KeybindFunctionHook{
+                        .functionName =
+                            "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature",
+                        .callback =
+                            [this](GameHook::ProcessEventContext& context) {
+                                auto* params = context.Params<
+                                    SDK::Params::
+                                        Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature>();
+                                if (!params || !params->HitComponent) return;
+
+                                auto* target =
+                                    context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                                        ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                                        : nullptr;
+                                auto* fist =
+                                    params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Fists_C::StaticClass())
+                                        ? static_cast<SDK::AWeapon_Fists_C*>(params->OtherActor)
+                                        : nullptr;
+                                auto* attacker = fist ? fist->Parent_Actor : nullptr;
+                                if (!fist || !target || !attacker || attacker == target) return;
+                                if (!BoneControl::MatchesScope(attacker, true) && !cfg.knockbackAffectsEnemies) return;
+
+                                const auto targetBone = params->Hit.MyBoneName;
+                                auto* contact = TouchPunchKnockbackContact(fist, target, targetBone);
+                                const double fistMass = PunchLimbMass(attacker, fist);
+                                SDK::FVector impulse{};
+                                if (!ComputeKnockbackImpulse(
+                                        attacker, target, params->HitComponent, fist->Weapon_Velocity,
+                                        params->Hit.ImpactPoint, targetBone, fistMass,
+                                        static_cast<double>(cfg.knockbackMultiplier), impulse
+                                    )) {
+                                    if (contact) contact->appliedImpulse = 0.0;
+                                    return;
+                                }
+
+                                if (contact) {
+                                    const double contactImpulse = impulse.Magnitude();
+                                    if (contact->appliedImpulse > 0.001
+                                        && contactImpulse < contact->appliedImpulse * PUNCH_KNOCKBACK_RESET_RATIO) {
+                                        contact->appliedImpulse = contactImpulse;
+                                    }
+
+                                    const double remainingImpulse = contactImpulse - contact->appliedImpulse;
+                                    if (remainingImpulse <= 0.001) {
+                                        return;
+                                    }
+
+                                    if (remainingImpulse < contactImpulse) {
+                                        impulse *= remainingImpulse / contactImpulse;
+                                    }
+                                    contact->appliedImpulse = contactImpulse;
+                                }
+
+                                BoostWeaponKnockback(fist, cfg.knockbackMultiplier);
+
+                                params->HitComponent->AddImpulseAtLocation(
+                                    impulse, params->Hit.ImpactPoint, targetBone
+                                );
+                            },
+                    },
+                },
+            .params =
+                {KeybindParam(
+                     "knockback_multiplier", "Multiplier", &cfg.knockbackMultiplier, 1.0f, 100.0f,
+                     "Multiplies the physical impulse applied by punches"
+                 ),
+                 KeybindParam(
+                     "apply_to_enemies", "Apply To Enemies", &cfg.knockbackAffectsEnemies,
+                     "Lets enemy punches use this multiplier too"
+                 )},
         }
     );
 

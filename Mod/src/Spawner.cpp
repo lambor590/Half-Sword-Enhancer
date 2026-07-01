@@ -4,6 +4,7 @@
 
 #include "Utils/Spawner.h"
 #include "Utils/AssetOverrideManager.h"
+#include "Utils/BoneControl.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/WeaponPresetSerializer.h"
 #include "SDK/CoreUObject_classes.hpp"
@@ -103,6 +104,9 @@ namespace Spawner {
             actor, transform, SDK::ESpawnActorScaleMethod::SelectDefaultAtRuntime
         );
         if (finishedActor) actor = finishedActor;
+        if (actor && actor->IsA(SDK::AWillie_BP_C::StaticClass())) {
+            BoneControl::MarkSpawnedWillie(static_cast<SDK::AWillie_BP_C*>(actor));
+        }
         AssetOverrideManager::Get().RequestActorApply(actor);
         return actor;
     }

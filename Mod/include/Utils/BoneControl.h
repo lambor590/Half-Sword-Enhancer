@@ -19,6 +19,9 @@ namespace BoneControl {
     bool MatchesScope(SDK::AWillie_BP_C* willie, bool playerScope) noexcept;
     bool ShouldCancelBreak(GameHook::ProcessEventContext& context, SDK::AWillie_BP_C* willie);
 
+    void MarkSpawnedWillie(SDK::AWillie_BP_C* willie);
+    void ClearPendingSpawnMass(bool playerScope);
+    void ApplyPendingSpawnMass(SDK::AWillie_BP_C* willie, const Settings& settings);
     void Apply(SDK::AWillie_BP_C* willie, const Settings& settings, bool force = false);
     void ApplyToScope(const RuntimeContextSnapshot& runtime, bool playerScope, const Settings& settings, bool force = true);
     void BreakAll(SDK::AWillie_BP_C* willie);

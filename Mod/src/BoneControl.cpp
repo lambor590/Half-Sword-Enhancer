@@ -1,6 +1,7 @@
 #include "Utils/BoneControl.h"
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <utility>
 #include <vector>
@@ -13,6 +14,7 @@
 namespace BoneControl {
     namespace {
         constexpr double NO_DISLOCATION_STRENGTH_MULTIPLIER = 1'000'000.0;
+        constexpr float MASS_SCALE_EPSILON = 0.001f;
 
         struct ConstraintBaseline {
             SDK::UPhysicsConstraintComponent* component = nullptr;
@@ -33,7 +35,14 @@ namespace BoneControl {
             float mass = -1.0f;
         };
 
+        struct PendingSpawnMass {
+            SDK::AWillie_BP_C* willie = nullptr;
+            int objectIndex = -1;
+            bool sawConfiguredMass = false;
+        };
+
         std::vector<std::pair<SDK::AWillie_BP_C*, WillieBaseline>> g_baselines;
+        std::vector<PendingSpawnMass> g_pendingSpawnMass;
 
         WillieBaseline& BaselineFor(SDK::AWillie_BP_C* willie) {
             for (auto& [storedWillie, baseline] : g_baselines) {
@@ -71,6 +80,20 @@ namespace BoneControl {
         void ForEachBoneMesh(SDK::AWillie_BP_C* willie, Fn&& fn) {
             if (willie->Mesh) fn(willie->Mesh);
             if (willie->BoneCore && willie->BoneCore != willie->Mesh) fn(willie->BoneCore);
+        }
+
+        PendingSpawnMass* FindPendingSpawnMass(SDK::AWillie_BP_C* willie) {
+            if (!willie) return nullptr;
+            for (auto& pending : g_pendingSpawnMass) {
+                if (pending.willie == willie && pending.objectIndex == willie->Index) return &pending;
+            }
+            return nullptr;
+        }
+
+        void RemovePendingSpawnMass(SDK::AWillie_BP_C* willie, int objectIndex) {
+            std::erase_if(g_pendingSpawnMass, [willie, objectIndex](const PendingSpawnMass& pending) {
+                return pending.willie == willie && pending.objectIndex == objectIndex;
+            });
         }
 
         bool IsDislocationConstraint(SDK::AWillie_BP_C* willie, SDK::UPhysicsConstraintComponent* component) {
@@ -183,14 +206,6 @@ namespace BoneControl {
             }
         }
 
-        void ApplyMassScaleToBones(
-            SDK::USkeletalMeshComponent* mesh, const SDK::TArray<SDK::FName>& bones, float multiplier
-        ) {
-            for (const auto& bone : bones) {
-                if (!bone.IsNone()) mesh->SetMassScale(bone, multiplier);
-            }
-        }
-
         void ApplyMassScaleToThresholdBones(
             SDK::USkeletalMeshComponent* mesh, SDK::TMap<SDK::FName, double>& map, float multiplier
         ) {
@@ -199,15 +214,24 @@ namespace BoneControl {
             }
         }
 
-        void ApplyMassScaleToMesh(SDK::AWillie_BP_C* willie, SDK::USkeletalMeshComponent* mesh, float multiplier) {
-            mesh->SetAllMassScale(multiplier);
-
+        template <typename Fn>
+        void ForEachMassScaleBone(SDK::AWillie_BP_C* willie, Fn&& fn) {
             for (const auto* bones :
                  {&willie->Rigid_Bones, &willie->Upper_Torso_Bones, &willie->Lower_Torso_Bones, &willie->R_Arm_Bones,
                   &willie->L_Arm_Bones, &willie->R_Leg_Bones, &willie->L_Leg_Bones, &willie->Neck_Bones,
                   &willie->Head_Bones, &willie->Breakable_Bones_List}) {
-                ApplyMassScaleToBones(mesh, *bones, multiplier);
+                for (const auto& bone : *bones) {
+                    if (!bone.IsNone()) fn(bone);
+                }
             }
+        }
+
+        void ApplyMassScaleToMesh(SDK::AWillie_BP_C* willie, SDK::USkeletalMeshComponent* mesh, float multiplier) {
+            mesh->SetAllMassScale(multiplier);
+
+            ForEachMassScaleBone(willie, [&](const SDK::FName& bone) {
+                mesh->SetMassScale(bone, multiplier);
+            });
             ApplyMassScaleToThresholdBones(mesh, willie->Bones_Linear_Breakable_Limits, multiplier);
             ApplyMassScaleToThresholdBones(mesh, willie->Bones_Angular_Breakable_Limits, multiplier);
         }
@@ -216,6 +240,20 @@ namespace BoneControl {
             ForEachBoneMesh(willie, [&](SDK::USkeletalMeshComponent* mesh) {
                 ApplyMassScaleToMesh(willie, mesh, multiplier);
             });
+        }
+
+        bool HasMassScale(SDK::AWillie_BP_C* willie, float multiplier) {
+            bool checkedBone = false;
+            bool matched = true;
+            ForEachBoneMesh(willie, [&](SDK::USkeletalMeshComponent* mesh) {
+                if (!matched) return;
+                ForEachMassScaleBone(willie, [&](const SDK::FName& bone) {
+                    if (!matched) return;
+                    checkedBone = true;
+                    matched = std::abs(mesh->GetMassScale(bone) - multiplier) <= MASS_SCALE_EPSILON;
+                });
+            });
+            return checkedBone && matched;
         }
     }
 
@@ -230,8 +268,9 @@ namespace BoneControl {
     }
 
     bool MatchesScope(SDK::AWillie_BP_C* willie, bool playerScope) noexcept {
-        if (playerScope) return IsPlayer(willie);
-        return willie && !IsPlayer(willie) && willie != PossessState::GetOriginalPawn();
+        const bool isPlayer = IsPlayer(willie);
+        if (playerScope) return isPlayer;
+        return willie && !isPlayer && willie != PossessState::GetOriginalPawn();
     }
 
     bool ShouldCancelBreak(GameHook::ProcessEventContext& context, SDK::AWillie_BP_C* willie) {
@@ -239,6 +278,40 @@ namespace BoneControl {
             return IsDislocationConstraint(willie, static_cast<SDK::UPhysicsConstraintComponent*>(context.object));
         }
         return true;
+    }
+
+    void MarkSpawnedWillie(SDK::AWillie_BP_C* willie) {
+        if (!willie || FindPendingSpawnMass(willie)) return;
+        g_pendingSpawnMass.push_back({.willie = willie, .objectIndex = willie->Index});
+    }
+
+    void ClearPendingSpawnMass(bool playerScope) {
+        std::erase_if(g_pendingSpawnMass, [playerScope](const PendingSpawnMass& pending) {
+            return !pending.willie || pending.willie->Index != pending.objectIndex ||
+                   MatchesScope(pending.willie, playerScope);
+        });
+    }
+
+    void ApplyPendingSpawnMass(SDK::AWillie_BP_C* willie, const Settings& settings) {
+        auto* pending = FindPendingSpawnMass(willie);
+        if (!pending) return;
+
+        if (settings.massMultiplier == 1.0f) {
+            RemovePendingSpawnMass(willie, pending->objectIndex);
+            return;
+        }
+
+        if (HasMassScale(willie, settings.massMultiplier)) {
+            pending->sawConfiguredMass = true;
+            return;
+        }
+
+        Apply(willie, settings, true);
+        if (pending->sawConfiguredMass) {
+            RemovePendingSpawnMass(willie, pending->objectIndex);
+        } else {
+            pending->sawConfiguredMass = true;
+        }
     }
 
     void Apply(SDK::AWillie_BP_C* willie, const Settings& settings, bool force) {

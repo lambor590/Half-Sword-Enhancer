@@ -24,6 +24,7 @@ public:
         int noPainKey = -1;
         int noKickCooldownKey = -1;
         int kickMultiplierKey = -1;
+        int knockbackMultiplierKey = -1;
         int enemyNoPainKey = -1;
         int ragdollKey = -1;
         int enemyRagdollKey = -1;
@@ -53,6 +54,8 @@ public:
         float biteAllRange = 500.0f;
         float enemyDrunkLevel = 1.0f;
         float kickPowerMultiplier = 1.0f;
+        float knockbackMultiplier = 1.0f;
+        bool knockbackAffectsEnemies = false;
         float consciousnessMultiplier = 1.0f;
         float enemyConsciousnessMultiplier = 1.0f;
         int consciousnessMultiplierKey = -1;
