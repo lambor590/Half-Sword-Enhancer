@@ -119,7 +119,6 @@ private:
 
     GlobalModulePool& globalModules = GlobalModulePool::Get();
 
-    static void ClearWeaponPassportPadding(SDK::FStr_Passport_Weapon1& p);
     static const char* ExtractCategory(const std::string& fullName);
     static bool HasExcludedPath(const std::string& fullName);
     static bool HasExcludedName(std::string_view name);

@@ -15,8 +15,6 @@ namespace SDK {
     class AWillie_BP_C;
 }
 
-struct WeaponClassPaths;
-
 namespace Spawner {
     enum class ActorType : std::uint8_t { Willie, Weapon, Shield, Tool, Armor, Unknown };
     inline constexpr SDK::Enum_Ranks DEFAULT_SPAWN_TIER = SDK::Enum_Ranks::NewEnumerator4;
@@ -63,5 +61,4 @@ namespace Spawner {
         const SDK::UWorld* world, SDK::AWillie_BP_C* willie, const SDK::FStr_Passport_Armor1& passport
     );
 
-    void LoadWeaponClasses(SDK::FStr_Passport_Weapon1& passport, const WeaponClassPaths& paths);
 }

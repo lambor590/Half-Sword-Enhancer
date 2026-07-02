@@ -11,6 +11,7 @@
 #include "Hooks/GameHook.h"
 #include "Utils/BlueprintRegistry.h"
 #include "Utils/CustomizableWeapon.h"
+#include "Utils/EquipmentApplication.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/PresetUtils.h"
@@ -54,12 +55,6 @@ namespace {
     }
 
 } // anonymous namespace
-
-void WeaponEditorSection::ClearWeaponPassportPadding(SDK::FStr_Passport_Weapon1& p) {
-    std::memset(p.Pad_14, 0, sizeof(p.Pad_14));
-    std::memset(p.Pad_EC, 0, sizeof(p.Pad_EC));
-    std::memset(reinterpret_cast<uint8_t*>(&p) + 0xF9, 0, 7);
-}
 
 const char* WeaponEditorSection::ExtractCategory(const std::string& fullName) {
     if (fullName.find("/Weapons/") != std::string::npos) return "Weapon";
@@ -346,20 +341,8 @@ void WeaponEditorSection::ApplyMeshToPreview() {
 }
 
 void WeaponEditorSection::CreateBlankWeaponPassport() {
-    weaponPassport = {};
     weaponPaths = {};
-    weaponPassport.HeadSize_21_2D425E61473B8F64FBAB51B223459D57 = {1.0, 1.0, 1.0};
-    weaponPassport.GuardSize_23_5A1AA0E04708E86FEFF61E974DDA8704 = {1.0, 1.0, 1.0};
-    weaponPassport.GripSize_25_AC1660814C4C25C521AAA8830FE8ECCF = {1.0, 1.0, 1.0};
-    weaponPassport.PommelSize_27_660CC00C49C26D503E16B2BC58CE115E = {1.0, 1.0, 1.0};
-    weaponPassport.CustomMassScaleHead_30_B95872A242AD944E2CE4D493F718F9D7 = 1.0;
-    weaponPassport.CustomMassScaleGuard_51_3A9024E74306B7BB5D186087011D1927 = 1.0;
-    weaponPassport.CustomMassScaleGrip_32_0EAADEE0419C05C6DB38F0AE134A9B10 = 1.0;
-    weaponPassport.CustomMassScalePommel_34_0AB28D814BDEF17D408D0DAA3A453173 = 1.0;
-    weaponPassport.ColorWood_46_F3AE05AD4495EBCD1D354C8025D7C743 = {0.4f, 0.26f, 0.13f, 1.0f};
-    weaponPassport.ColorLeather_48_DC45F07E4C0C3280278212A7158EE638 = {0.3f, 0.18f, 0.08f, 1.0f};
-    weaponPassport.Tier_67_05026E6F43B7300AA8BACC9D9F9AB461 = static_cast<SDK::Enum_Ranks>(4);
-    weaponPassport.Price_60_83FE5A624EA188485BBE4E9C8606AEE5 = 100.0;
+    weaponPassport = EquipmentApplication::DefaultWeaponPassport();
 }
 
 void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier) {
@@ -371,7 +354,7 @@ void WeaponEditorSection::QueueGeneration(CustomizableWeapon type, SDK::Enum_Ran
             return;
         }
         auto generated = EquipmentGenerator::GenerateCustomizableWeapon(world, type, tier);
-        ClearWeaponPassportPadding(generated);
+        EquipmentApplication::ClearWeaponPassportPadding(generated);
         if (!EquipmentGenerator::IsPassportValid(generated)) {
             SetStatus("Generation failed for this type/tier", true);
         } else {
@@ -542,7 +525,7 @@ void WeaponEditorSection::SpawnPreview() {
     }
 
     lastPreviewedPassport = weaponPassport;
-    ClearWeaponPassportPadding(lastPreviewedPassport);
+    EquipmentApplication::ClearWeaponPassportPadding(lastPreviewedPassport);
     lastPreviewedPaths = weaponPaths;
     lastPreviewedProps = runtimeProps;
 
@@ -1164,12 +1147,12 @@ WeaponPresetData WeaponEditorSection::BuildPresetData() const {
 
 void WeaponEditorSection::ApplyPresetData(WeaponPresetData d) {
     weaponPassport = d.passport;
-    ClearWeaponPassportPadding(weaponPassport);
+    EquipmentApplication::ClearWeaponPassportPadding(weaponPassport);
     weaponPaths = d.classPaths;
     runtimeProps = d.runtimeProps;
 
     GameHook::QueueAction([this, paths = std::move(d.classPaths)](const RuntimeContextSnapshot&) {
-        Spawner::LoadWeaponClasses(weaponPassport, paths);
+        EquipmentApplication::ResolveWeaponPassportClasses(weaponPassport, paths);
     });
 
     struct PendingMeshLoad {

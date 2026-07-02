@@ -9,11 +9,7 @@
 #include "SDK/Str_Character_Body_Condition_structs.hpp"
 #include "Utils/ActorUtils.h"
 
-struct LoadoutPresetData;
-
 namespace NPCSpawnHelpers {
-    void ApplyNPCLoadout(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout);
-
     inline SDK::FLinearColor MelaninToColor(float melanin) {
         float m = std::clamp(melanin, 0.0f, 1.0f);
         float inv = 1.0f - m;

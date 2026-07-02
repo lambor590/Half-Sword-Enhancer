@@ -288,17 +288,4 @@ namespace Spawner {
         return BuildSpawnTransform(player, cfg.distanceForward, cfg.distanceUp, cfg.scale);
     }
 
-    void LoadWeaponClasses(SDK::FStr_Passport_Weapon1& passport, const WeaponClassPaths& paths) {
-        auto load = [](SDK::UClass*& target, const std::string& path) {
-            target = path.empty() ? nullptr : LoadClass(path);
-        };
-        load(passport.WeaponClass_54_B478ECF7499977809745A3973AD678EC, paths.weaponClass);
-        load(passport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, paths.headModule);
-        load(passport.GuardModule_13_6DD2B06245505E53B529D090333012F0, paths.guardModule);
-        load(passport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, paths.gripModule);
-        load(passport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, paths.pommelModule);
-        load(passport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, paths.subModule1);
-        load(passport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, paths.subModule2);
-    }
-
 }

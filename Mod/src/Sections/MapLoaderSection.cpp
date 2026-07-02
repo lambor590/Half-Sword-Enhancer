@@ -3,6 +3,7 @@
 #include "Hooks/GameHook.h"
 
 #include "Utils/MapRegistry.h"
+#include "Utils/EquipmentApplication.h"
 #include "Utils/GuiUtils.h"
 #include "Utils/Spawner.h"
 #include "Utils/NPCSpawnHelpers.h"
@@ -190,7 +191,7 @@ void MapLoaderSection::SpawnPlayer() {
         controller->Possess(willie);
         willie->Set_Up_Armor(true, false);
 
-        if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(world, willie, loadout);
+        if (hasLoadout) EquipmentApplication::ApplyNPCLoadoutNow(world, willie, loadout);
         if (hasNPCPreset) SpawnAutoNPCs(world, willie, npcPreset, npcCount);
     });
 }
