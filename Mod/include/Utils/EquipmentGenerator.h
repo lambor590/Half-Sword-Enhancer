@@ -25,7 +25,8 @@ namespace EquipmentGenerator {
 
     SDK::FStr_Passport_Weapon1 GenerateWeapon(
         const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier,
-        SDK::Enum_WeaponType_Specific specificType = SDK::Enum_WeaponType_Specific::NewEnumerator7
+        SDK::Enum_WeaponType_Specific specificType = SDK::Enum_WeaponType_Specific::NewEnumerator7,
+        bool generateGreatsword = false
     );
     SDK::FStr_Passport_Weapon1 GenerateSpecificWeapon(
         const SDK::UWorld* world, SDK::UClass* weaponClass, SDK::Enum_Ranks tier,

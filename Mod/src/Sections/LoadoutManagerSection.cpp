@@ -224,11 +224,14 @@ void LoadoutManagerSection::RandomizeAllArmor() {
 void LoadoutManagerSection::GenerateWeaponForSlot(int slotIndex) {
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.generateTier);
     auto type = static_cast<SDK::Enum_WeaponType>(0);
-    auto specificType = WeaponGenerationUi::SpecificTypeFromIndex(cfg.weaponSpecificType);
+    const bool generateGreatsword = WeaponGenerationUi::IsGreatswordIndex(cfg.weaponSpecificType);
+    auto specificType =
+        generateGreatsword ? WeaponGenerationUi::TWO_HANDED_SWORDS
+                           : WeaponGenerationUi::SpecificTypeFromIndex(cfg.weaponSpecificType);
 
-    GameHook::QueueAction([slotIndex, tier, type, specificType](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([slotIndex, tier, type, specificType, generateGreatsword](const RuntimeContextSnapshot& runtime) {
         if (!runtime.player || !runtime.world) return;
-        auto passport = EquipmentGenerator::GenerateWeapon(runtime.world, type, tier, specificType);
+        auto passport = EquipmentGenerator::GenerateWeapon(runtime.world, type, tier, specificType, generateGreatsword);
 
         auto& weapons = runtime.player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
@@ -520,7 +523,7 @@ void LoadoutManagerSection::RenderWeaponsTab() {
     TooltipHelper::ShowTooltip("Quality tier for generated weapons");
 
     ImGui::SameLine();
-    if (WeaponGenerationUi::RenderSpecificTypeCombo("Weapon Type", cfg.weaponSpecificType)) {
+    if (WeaponGenerationUi::RenderSpecificTypeCombo("Weapon Type", cfg.weaponSpecificType, true)) {
         ConfigManager::Get().SetInt(
             LOADOUT_CONFIG_SECTION, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, cfg.weaponSpecificType
         );

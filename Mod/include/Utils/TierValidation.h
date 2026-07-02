@@ -7,7 +7,7 @@
 
 namespace TierValidation {
 
-    inline std::array<uint16_t, 20> VALID_TIER_MASKS = {{}};
+    inline std::array<uint16_t, GameConstants::WEAPON_TYPE_COUNT + 1> VALID_TIER_MASKS = {{}};
 
     static constexpr std::array<uint16_t, 15> VALID_ARMOR_TIER_MASKS = {{
         0x0FE,

@@ -7,6 +7,8 @@
 
 namespace WeaponGenerationUi {
     inline constexpr const char* SPECIFIC_TYPE_CONFIG_KEY = "weapon_specific_type";
+    inline constexpr int GREATSWORD_INDEX = static_cast<int>(SDK::Enum_WeaponType_Specific::Enum_WeaponType_MAX);
+    inline constexpr auto TWO_HANDED_SWORDS = SDK::Enum_WeaponType_Specific::NewEnumerator1;
 
     inline SDK::UEnum* SpecificTypeEnum() {
         static SDK::UEnum* enumPtr = nullptr;
@@ -23,8 +25,11 @@ namespace WeaponGenerationUi {
         return static_cast<SDK::Enum_WeaponType_Specific>(value);
     }
 
-    inline bool RenderSpecificTypeCombo(const char* label, int& value) {
-        const auto names = PropertyBrowser::BuildEnumNames(SpecificTypeEnum());
+    inline bool IsGreatswordIndex(int value) noexcept { return value == GREATSWORD_INDEX; }
+
+    inline bool RenderSpecificTypeCombo(const char* label, int& value, bool includeGreatsword = false) {
+        auto names = PropertyBrowser::BuildEnumNames(SpecificTypeEnum());
+        if (includeGreatsword) names.emplace_back("Greatsword");
         return GuiUtils::RenderEnumCombo(label, value, names);
     }
 }

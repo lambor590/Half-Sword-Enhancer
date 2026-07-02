@@ -30,9 +30,9 @@ namespace GameConstants {
     static_assert(std::size(ARMOR_SLOTS) == ARMOR_SLOT_COUNT);
 
     inline constexpr const char* WEAPON_TYPE_NAMES[] = {
-        "Arming Sword", "Short Sword",  "Long Sword",    "Short Mace",  "Mace",         "Long Mace",     "Short Hafted",
-        "Hafted",       "Long Hafted",  "Short Polearm", "Polearm",     "Long Polearm", "Short Pollaxe", "Pollaxe",
-        "Long Pollaxe", "Short Casted", "Casted",        "Long Casted", "Messer"};
+        "Arming Sword", "Short Sword",   "Long Sword",    "Great Sword", "Short Mace",  "Mace",         "Long Mace",
+        "Short Hafted", "Hafted",        "Long Hafted",   "Short Polearm", "Polearm",   "Long Polearm", "Short Pollaxe",
+        "Pollaxe",      "Long Pollaxe",  "Short Casted",  "Casted",      "Long Casted", "Messer"};
     inline constexpr int WEAPON_TYPE_COUNT = static_cast<int>(std::size(WEAPON_TYPE_NAMES));
 
     inline constexpr const char* MATERIAL_LAYER_NAMES[] = {

@@ -7,6 +7,7 @@ enum class CustomizableWeapon : uint8_t {
     SwordArming,
     SwordShort,
     SwordLong,
+    SwordGreat,
     MaceShort,
     Mace,
     MaceLong,

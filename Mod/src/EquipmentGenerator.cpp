@@ -1,5 +1,6 @@
 #include <cmath>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Utils/EquipmentGenerator.h"
@@ -11,6 +12,7 @@
 #include "SDK/BP_GameWeapon_Customizable_Sword_Arming_classes.hpp"
 #include "SDK/BP_GameWeapon_Customizable_Sword_Short_classes.hpp"
 #include "SDK/BP_GameWeapon_Customizable_Sword_Long_classes.hpp"
+#include "SDK/BP_GameWeapon_Customizable_Sword_Great_classes.hpp"
 #include "SDK/BP_GameWeapon_Customizable_Mace_classes.hpp"
 #include "SDK/BP_GameWeapon_Customizable_Mace_Short_classes.hpp"
 #include "SDK/BP_GameWeapon_Customizable_Mace_Long_classes.hpp"
@@ -210,17 +212,22 @@ namespace EquipmentGenerator {
 
     SDK::FStr_Passport_Weapon1 GenerateWeapon(
         const SDK::UWorld* world, SDK::Enum_WeaponType type, SDK::Enum_Ranks tier,
-        SDK::Enum_WeaponType_Specific specificType
+        SDK::Enum_WeaponType_Specific specificType, bool generateGreatsword
     ) {
         SDK::FStr_Passport_Weapon1 output{};
         auto* gen = GetWeaponGenerator(world);
         if (!gen) return output;
 
+        const bool previousGenerateGreatsword = std::exchange(gen->Generate_Greatsword, generateGreatsword);
         SDK::FStr_Passport_Weapon1 emptyPassport{};
         for (int i = 0; i < MAX_ATTEMPTS; ++i) {
             gen->Generate_Weapon(type, tier, false, nullptr, emptyPassport, specificType, &output);
-            if (IsPassportValid(output)) return output;
+            if (IsPassportValid(output)) {
+                gen->Generate_Greatsword = previousGenerateGreatsword;
+                return output;
+            }
         }
+        gen->Generate_Greatsword = previousGenerateGreatsword;
         return output;
     }
 
@@ -247,6 +254,7 @@ namespace EquipmentGenerator {
             case CustomizableWeapon::SwordArming: return SDK::UBP_GameWeapon_Customizable_Sword_Arming_C::StaticClass();
             case CustomizableWeapon::SwordShort: return SDK::UBP_GameWeapon_Customizable_Sword_Short_C::StaticClass();
             case CustomizableWeapon::SwordLong: return SDK::UBP_GameWeapon_Customizable_Sword_Long_C::StaticClass();
+            case CustomizableWeapon::SwordGreat: return SDK::UBP_GameWeapon_Customizable_Sword_Great_C::StaticClass();
             case CustomizableWeapon::MaceShort: return SDK::UBP_GameWeapon_Customizable_Mace_Short_C::StaticClass();
             case CustomizableWeapon::Mace: return SDK::UBP_GameWeapon_Customizable_Mace_C::StaticClass();
             case CustomizableWeapon::MaceLong: return SDK::UBP_GameWeapon_Customizable_Mace_Long_C::StaticClass();
