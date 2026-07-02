@@ -14,7 +14,7 @@
 #include "Menu/SectionConfig.h"
 #include "Utils/GuiUtils.h"
 
-namespace SpawnBindingPersistence {
+namespace SpawnBindings {
     struct SpawnParamConfig {
         const char* forwardLabel;
         float forwardMin;
@@ -29,7 +29,7 @@ namespace SpawnBindingPersistence {
         const char* scaleTooltip;
     };
 
-    struct StoreConfig {
+    struct BindingConfig {
         const char* indexSection;
         const char* bindingPrefix;
         const char* defaultName;
@@ -41,7 +41,7 @@ namespace SpawnBindingPersistence {
         SpawnParamConfig spawnParams;
     };
 
-    inline std::string BindingSection(const StoreConfig& config, int id) {
+    inline std::string BindingSection(const BindingConfig& config, int id) {
         return std::string(config.bindingPrefix) + std::to_string(id);
     }
 
@@ -60,11 +60,13 @@ namespace SpawnBindingPersistence {
     }
 
     template <class Binding>
-    void LoadCommon(ConfigManager& config, Binding& binding, std::string_view section, const StoreConfig& storeConfig) {
+    void LoadCommon(
+        ConfigManager& config, Binding& binding, std::string_view section, const BindingConfig& bindingConfig
+    ) {
         binding.key = config.GetInt(section, "key", -1);
         std::snprintf(
             binding.name, sizeof(binding.name), "%s",
-            config.GetString(section, "name", storeConfig.defaultName).c_str()
+            config.GetString(section, "name", bindingConfig.defaultName).c_str()
         );
         binding.summary = config.GetString(section, "summary", binding.name);
         binding.spawn = {
@@ -87,11 +89,11 @@ namespace SpawnBindingPersistence {
     }
 
     template <class Binding, class Adapter>
-    class Store {
+    class BindingList {
     public:
-        Store(
+        BindingList(
             std::vector<std::shared_ptr<Binding>>& bindings, int& nextBindingId, int& pendingDeleteBindingId,
-            const StoreConfig& config, Adapter adapter
+            const BindingConfig& config, Adapter adapter
         )
             : bindings(bindings),
               nextBindingId(nextBindingId),
@@ -114,7 +116,7 @@ namespace SpawnBindingPersistence {
                 binding->id = id;
                 const auto section = BindingSection(config, id);
                 LoadCommon(configManager, *binding, section, config);
-                adapter.LoadPayload(*binding, configManager, section);
+                adapter.LoadFields(*binding, configManager, section);
                 InitKeybind(binding, section);
                 nextBindingId = (std::max)(nextBindingId, id + 1);
                 bindings.push_back(std::move(binding));
@@ -136,7 +138,7 @@ namespace SpawnBindingPersistence {
 
                     const auto section = BindingSection(config, binding.id);
                     SaveCommon(configManager, binding, section);
-                    adapter.SavePayload(binding, configManager, section);
+                    adapter.SaveFields(binding, configManager, section);
                 }
             });
         }
@@ -144,7 +146,7 @@ namespace SpawnBindingPersistence {
         void AddFromCurrentSelection() {
             auto binding = std::make_shared<Binding>();
             binding->id = nextBindingId++;
-            if (!adapter.CaptureNew(*binding)) return;
+            if (!adapter.Capture(*binding)) return;
             std::snprintf(binding->name, sizeof(binding->name), "%s", binding->summary.c_str());
             InitKeybind(binding, BindingSection(config, binding->id));
             bindings.push_back(std::move(binding));
@@ -173,7 +175,7 @@ namespace SpawnBindingPersistence {
                 }
                 ImGui::SameLine();
                 if (ImGui::Button("Update")) {
-                    adapter.UpdateExisting(binding);
+                    (void)adapter.Capture(binding);
                     binding.keybind.tooltip = binding.summary;
                     Save();
                 }
@@ -205,7 +207,7 @@ namespace SpawnBindingPersistence {
                 .keyPtr = &binding->key,
                 .callback =
                     [adapter = adapter, weakBinding]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                        if (auto binding = weakBinding.lock()) adapter.Execute(*binding, runtime);
+                        if (auto binding = weakBinding.lock()) adapter.Spawn(*binding, runtime);
                     },
                 .params = std::move(params),
             };
@@ -249,7 +251,7 @@ namespace SpawnBindingPersistence {
         std::vector<std::shared_ptr<Binding>>& bindings;
         int& nextBindingId;
         int& pendingDeleteBindingId;
-        const StoreConfig& config;
+        const BindingConfig& config;
         Adapter adapter;
     };
 }

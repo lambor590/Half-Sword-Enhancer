@@ -41,7 +41,7 @@ namespace SpawnWorkflow {
         SDK::FStr_Passport_Armor1 passport, ActorCallback onPreviewReady = nullptr
     );
 
-    struct ItemSpawnRequest {
+    struct ItemSpawnParams {
         enum class Kind { ClassPath, GeneratedCustomizableWeapon, RandomArmor, ModularArmor, ArmorPreset };
 
         Kind kind = Kind::ClassPath;
@@ -56,10 +56,10 @@ namespace SpawnWorkflow {
         EquipmentGenerator::ArmorGenerationOptions armorOptions{};
     };
 
-    bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request);
-    bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnRequest request);
+    bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnParams& request);
+    bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnParams request);
 
-    struct NPCSpawnRequest {
+    struct NPCSpawnParams {
         std::string classPath;
         SDK::Enum_Nationalities nationality{};
         SDK::Enum_Ranks tier{};
@@ -71,6 +71,6 @@ namespace SpawnWorkflow {
         LoadoutPresetData loadout{};
     };
 
-    bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnRequest& request);
-    bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnRequest request);
+    bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnParams& request);
+    bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnParams request);
 }

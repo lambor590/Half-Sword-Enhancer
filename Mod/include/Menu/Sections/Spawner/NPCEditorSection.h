@@ -42,7 +42,7 @@ private:
         std::string summary;
         KeybindEntry keybind;
     };
-    struct BindingAdapter;
+    struct BindingOps;
 
     struct NPCTypeInfo {
         const char* displayName;

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <utility>
 
-#include "Menu/Sections/Spawner/SpawnBindingPersistence.h"
+#include "Menu/Sections/Spawner/SpawnBindings.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
 
@@ -11,7 +11,7 @@
 #include "Utils/SpawnWorkflow.h"
 
 namespace {
-    constexpr SpawnBindingPersistence::StoreConfig NPC_BINDING_STORE_CONFIG{
+    constexpr SpawnBindings::BindingConfig NPC_BINDING_CONFIG{
         .indexSection = "NPCSpawnBindings",
         .bindingPrefix = "NPCSpawnBinding_",
         .defaultName = "Spawn NPC",
@@ -153,7 +153,7 @@ void NPCEditorSection::SpawnNPC() {
     auto snapshot = RenderSnapshot();
     if (!snapshot.player || !snapshot.world) return;
 
-    SpawnWorkflow::NPCSpawnRequest request{
+    SpawnWorkflow::NPCSpawnParams request{
         .classPath = GetNPCClassName(),
         .nationality = static_cast<SDK::Enum_Nationalities>(cfg.npcNationality),
         .tier = static_cast<SDK::Enum_Ranks>(cfg.npcTier),
@@ -174,7 +174,7 @@ void NPCEditorSection::SpawnNPC() {
 void NPCEditorSection::SpawnBindingNPC(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
     if (!runtime.world || !runtime.player) return;
 
-    SpawnWorkflow::NPCSpawnRequest request{
+    SpawnWorkflow::NPCSpawnParams request{
         .classPath = GetNPCClassName(binding.npc.npcTypeIndex),
         .nationality = static_cast<SDK::Enum_Nationalities>(binding.npc.nationality),
         .tier = static_cast<SDK::Enum_Ranks>(binding.npc.tier),
@@ -298,19 +298,17 @@ NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
     LoadSpawnBindings();
 }
 
-struct NPCEditorSection::BindingAdapter {
+struct NPCEditorSection::BindingOps {
     static constexpr size_t EXTRA_PARAM_COUNT = 3;
 
     NPCEditorSection& owner;
 
-    bool CaptureNew(SpawnBinding& binding) const {
-        Capture(binding);
+    bool Capture(SpawnBinding& binding) const {
+        ReadSelection(binding);
         return true;
     }
 
-    void UpdateExisting(SpawnBinding& binding) const { Capture(binding); }
-
-    void LoadPayload(SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
+    void LoadFields(SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
         binding.bodyguard = config.GetBool(section, "bodyguard", false);
         binding.team = config.GetInt(section, "team", 0);
         binding.npc.npcTypeIndex = config.GetInt(section, "npc_type", 0);
@@ -322,7 +320,7 @@ struct NPCEditorSection::BindingAdapter {
         LoadOverrides(section, binding.npc);
     }
 
-    void SavePayload(const SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
+    void SaveFields(const SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
         config.SetBool(section, "bodyguard", binding.bodyguard);
         config.SetInt(section, "team", binding.team);
         config.SetInt(section, "npc_type", binding.npc.npcTypeIndex);
@@ -335,7 +333,7 @@ struct NPCEditorSection::BindingAdapter {
         SaveOverrides(section, npc);
     }
 
-    void Execute(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
+    void Spawn(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
         owner.SpawnBindingNPC(binding, runtime);
     }
 
@@ -354,7 +352,7 @@ struct NPCEditorSection::BindingAdapter {
     }
 
 private:
-    void Capture(SpawnBinding& binding) const {
+    void ReadSelection(SpawnBinding& binding) const {
         binding.spawn = owner.cfg.spawn;
         binding.bodyguard = owner.cfg.bodyguard;
         binding.team = owner.cfg.npcTeam;
@@ -367,15 +365,15 @@ private:
 };
 
 void NPCEditorSection::LoadSpawnBindings() {
-    SpawnBindingPersistence::Store<SpawnBinding, BindingAdapter>(
-        spawnBindings, nextBindingId, pendingDeleteBindingId, NPC_BINDING_STORE_CONFIG, BindingAdapter{*this}
+    SpawnBindings::BindingList<SpawnBinding, BindingOps>(
+        spawnBindings, nextBindingId, pendingDeleteBindingId, NPC_BINDING_CONFIG, BindingOps{*this}
     )
         .Load();
 }
 
 void NPCEditorSection::RenderSpawnBindings() {
-    SpawnBindingPersistence::Store<SpawnBinding, BindingAdapter>(
-        spawnBindings, nextBindingId, pendingDeleteBindingId, NPC_BINDING_STORE_CONFIG, BindingAdapter{*this}
+    SpawnBindings::BindingList<SpawnBinding, BindingOps>(
+        spawnBindings, nextBindingId, pendingDeleteBindingId, NPC_BINDING_CONFIG, BindingOps{*this}
     )
         .Render();
 }

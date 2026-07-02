@@ -49,7 +49,7 @@ private:
         EquipmentGenerator::ArmorGenerationOptions armorOptions;
         KeybindEntry keybind;
     };
-    struct BindingAdapter;
+    struct BindingOps;
 
     Config cfg;
 

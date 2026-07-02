@@ -44,12 +44,12 @@ namespace SpawnWorkflow {
         }
 
         bool SpawnItemAt(
-            SDK::UWorld* world, const ItemSpawnRequest& request, const SDK::FTransform& transform, bool snapToGround
+            SDK::UWorld* world, const ItemSpawnParams& request, const SDK::FTransform& transform, bool snapToGround
         ) {
             if (!world) return false;
 
             switch (request.kind) {
-                case ItemSpawnRequest::Kind::ClassPath: {
+                case ItemSpawnParams::Kind::ClassPath: {
                     if (request.classPath.empty()) return false;
                     Spawner::SpawnActor(
                         world, request.classPath, transform, nullptr, snapToGround, request.tier, nullptr,
@@ -57,21 +57,21 @@ namespace SpawnWorkflow {
                     );
                     return true;
                 }
-                case ItemSpawnRequest::Kind::GeneratedCustomizableWeapon: {
+                case ItemSpawnParams::Kind::GeneratedCustomizableWeapon: {
                     auto passport =
                         EquipmentGenerator::GenerateCustomizableWeapon(world, request.customizable, request.tier);
                     if (!EquipmentGenerator::IsPassportValid(passport)) return false;
                     Spawner::SpawnCustomizableFromPassport(world, passport, transform, snapToGround);
                     return true;
                 }
-                case ItemSpawnRequest::Kind::RandomArmor: {
+                case ItemSpawnParams::Kind::RandomArmor: {
                     auto passport =
                         EquipmentGenerator::GenerateArmor(world, request.tier, request.armorSlot, request.armorOptions);
                     if (!EquipmentGenerator::IsArmorPassportValid(passport)) return false;
                     Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround);
                     return true;
                 }
-                case ItemSpawnRequest::Kind::ModularArmor: {
+                case ItemSpawnParams::Kind::ModularArmor: {
                     if (request.classPath.empty()) return false;
 
                     auto* coreClass = Spawner::LoadClass(request.classPath);
@@ -85,7 +85,7 @@ namespace SpawnWorkflow {
                     Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround);
                     return true;
                 }
-                case ItemSpawnRequest::Kind::ArmorPreset: {
+                case ItemSpawnParams::Kind::ArmorPreset: {
                     auto passport = request.armorPassport;
                     if (!request.armorCorePath.empty())
                         passport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 =
@@ -107,7 +107,7 @@ namespace SpawnWorkflow {
             return false;
         }
 
-        SpawnConfig BuildNPCSpawnConfig(const SpawnConfig& spawn, const NPCOverrides& overrides) {
+        SpawnConfig AdjustNPCSpawnScale(const SpawnConfig& spawn, const NPCOverrides& overrides) {
             SpawnConfig adjusted = spawn;
             if (overrides.heightRate.enabled) {
                 adjusted.scale = static_cast<float>(0.875 + overrides.heightRate.value * 0.125);
@@ -116,7 +116,7 @@ namespace SpawnWorkflow {
         }
 
         bool SpawnNPCAt(
-            SDK::UWorld* world, const NPCSpawnRequest& request, int playerTeam, const SDK::FTransform& transform,
+            SDK::UWorld* world, const NPCSpawnParams& request, int playerTeam, const SDK::FTransform& transform,
             bool snapToGround
         ) {
             if (!world || request.classPath.empty()) return false;
@@ -146,7 +146,7 @@ namespace SpawnWorkflow {
                 if (!npc) return;
 
                 if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, overrides);
-                if (hasLoadout) EquipmentApplication::ApplyNPCLoadoutNow(world, npc, loadout);
+                if (hasLoadout) EquipmentApplication::ApplyNPCLoadout(world, npc, loadout);
             };
 
             Spawner::SpawnActor(
@@ -173,17 +173,17 @@ namespace SpawnWorkflow {
         }
 
         void FinishPreviewActor(
-            const LivePreviewManager::PreviewRequestToken& token, SDK::UWorld* world, SDK::AActor* actor,
+            const LivePreviewManager::PreviewToken& token, SDK::UWorld* world, SDK::AActor* actor,
             ActorCallback& onSpawned, ActorCallback& onReady, PreviewPrepareFn prepare
         ) {
             if (!actor) return;
-            if (!LivePreviewManager::IsRequestCurrent(token)) {
+            if (!LivePreviewManager::IsCurrent(token)) {
                 actor->K2_DestroyActor();
                 return;
             }
 
             if (onSpawned) onSpawned(actor);
-            if (!LivePreviewManager::IsRequestCurrent(token)) {
+            if (!LivePreviewManager::IsCurrent(token)) {
                 actor->K2_DestroyActor();
                 return;
             }
@@ -226,7 +226,7 @@ namespace SpawnWorkflow {
         SDK::FStr_Passport_Weapon1 passport, WeaponClassPaths classPaths, ActorCallback onSpawned,
         ActorCallback onPreviewReady
     ) {
-        auto token = preview.BeginSpawnRequest();
+        auto token = preview.BeginPreview();
 
         return QueueWithPlacement(
             snapshot, spawn,
@@ -268,7 +268,7 @@ namespace SpawnWorkflow {
         const RuntimeContextSnapshot& snapshot, LivePreviewManager& preview, const SpawnConfig& spawn,
         SDK::FStr_Passport_Armor1 passport, ActorCallback onPreviewReady
     ) {
-        auto token = preview.BeginSpawnRequest();
+        auto token = preview.BeginPreview();
 
         return QueueWithPlacement(
             snapshot, spawn,
@@ -291,7 +291,7 @@ namespace SpawnWorkflow {
         );
     }
 
-    bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request) {
+    bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnParams& request) {
         return RunWithPlacement(
             runtime, spawn,
             [&request](
@@ -302,7 +302,7 @@ namespace SpawnWorkflow {
         );
     }
 
-    bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnRequest request) {
+    bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnParams request) {
         return QueueWithPlacement(
             snapshot, spawn,
             [request = std::move(request)](
@@ -313,8 +313,8 @@ namespace SpawnWorkflow {
         );
     }
 
-    bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnRequest& request) {
-        auto adjustedSpawn = BuildNPCSpawnConfig(spawn, request.overrides);
+    bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnParams& request) {
+        auto adjustedSpawn = AdjustNPCSpawnScale(spawn, request.overrides);
 
         return RunWithPlacement(
             runtime, adjustedSpawn,
@@ -327,8 +327,8 @@ namespace SpawnWorkflow {
         );
     }
 
-    bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnRequest request) {
-        auto adjustedSpawn = BuildNPCSpawnConfig(spawn, request.overrides);
+    bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnParams request) {
+        auto adjustedSpawn = AdjustNPCSpawnScale(spawn, request.overrides);
 
         return QueueWithPlacement(
             snapshot, adjustedSpawn,

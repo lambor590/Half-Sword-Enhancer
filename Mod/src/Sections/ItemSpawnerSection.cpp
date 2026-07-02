@@ -1,6 +1,6 @@
 #include "Menu/Sections/Spawner/ItemSpawnerSection.h"
 
-#include "Menu/Sections/Spawner/SpawnBindingPersistence.h"
+#include "Menu/Sections/Spawner/SpawnBindings.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
 
@@ -13,11 +13,11 @@
 #include "SDK/BP_Armor_Modular_Core_Master_classes.hpp"
 
 namespace {
-    using ItemSpawnRequest = SpawnWorkflow::ItemSpawnRequest;
+    using ItemSpawnParams = SpawnWorkflow::ItemSpawnParams;
 
     constexpr const char* ITEM_SPAWNER_SECTION = "ItemSpawner";
 
-    constexpr SpawnBindingPersistence::StoreConfig ITEM_BINDING_STORE_CONFIG{
+    constexpr SpawnBindings::BindingConfig ITEM_BINDING_CONFIG{
         .indexSection = "ItemSpawnBindings",
         .bindingPrefix = "ItemSpawnBinding_",
         .defaultName = "Spawn Item",
@@ -185,7 +185,7 @@ void ItemSpawnerSection::SpawnSelectedItem() const {
         auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[cfg.currentItemIndex].slotEnum);
         SpawnWorkflow::QueueItemSpawn(
             snapshot, cfg.spawn,
-            {.kind = ItemSpawnRequest::Kind::RandomArmor,
+            {.kind = ItemSpawnParams::Kind::RandomArmor,
              .armorSlot = slot,
              .tier = tier,
              .armorOptions = cfg.armorOptions}
@@ -202,21 +202,21 @@ void ItemSpawnerSection::SpawnSelectedItem() const {
     if (item.customizable != CustomizableWeapon::None) {
         SpawnWorkflow::QueueItemSpawn(
             snapshot, cfg.spawn,
-            {.kind = ItemSpawnRequest::Kind::GeneratedCustomizableWeapon,
+            {.kind = ItemSpawnParams::Kind::GeneratedCustomizableWeapon,
              .customizable = item.customizable,
              .tier = tier}
         );
     } else if (IsCurrentItemModularArmor(item)) {
         SpawnWorkflow::QueueItemSpawn(
             snapshot, cfg.spawn,
-            {.kind = ItemSpawnRequest::Kind::ModularArmor,
+            {.kind = ItemSpawnParams::Kind::ModularArmor,
              .classPath = item.classPath,
              .modules = {armorModules.selected[0], armorModules.selected[1], armorModules.selected[2]}}
         );
     } else if (!item.classPath.empty()) {
         SpawnWorkflow::QueueItemSpawn(
             snapshot, cfg.spawn,
-            {.kind = ItemSpawnRequest::Kind::ClassPath,
+            {.kind = ItemSpawnParams::Kind::ClassPath,
              .classPath = item.classPath,
              .tier = tier,
              .weaponSpecificType = WeaponGenerationUi::SpecificTypeFromIndex(cfg.weaponSpecificType)}
@@ -235,7 +235,7 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
             auto slot = static_cast<SDK::EArmorSlots_Enum>(GameConstants::ARMOR_SLOTS[binding.armorSlot].slotEnum);
             SpawnWorkflow::SpawnItem(
                 runtime, binding.spawn,
-                {.kind = ItemSpawnRequest::Kind::RandomArmor,
+                {.kind = ItemSpawnParams::Kind::RandomArmor,
                  .armorSlot = slot,
                  .tier = tier,
                  .armorOptions = binding.armorOptions}
@@ -245,7 +245,7 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
         case BindingSource::CustomizableWeapon: {
             SpawnWorkflow::SpawnItem(
                 runtime, binding.spawn,
-                {.kind = ItemSpawnRequest::Kind::GeneratedCustomizableWeapon,
+                {.kind = ItemSpawnParams::Kind::GeneratedCustomizableWeapon,
                  .customizable = static_cast<CustomizableWeapon>(binding.customizable),
                  .tier = tier}
             );
@@ -254,7 +254,7 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
         case BindingSource::ModularArmor: {
             SpawnWorkflow::SpawnItem(
                 runtime, binding.spawn,
-                {.kind = ItemSpawnRequest::Kind::ModularArmor,
+                {.kind = ItemSpawnParams::Kind::ModularArmor,
                  .classPath = binding.classPath,
                  .modules = binding.modules}
             );
@@ -264,7 +264,7 @@ void ItemSpawnerSection::SpawnBindingItem(const SpawnBinding& binding, const Run
             if (!binding.classPath.empty())
                 SpawnWorkflow::SpawnItem(
                     runtime, binding.spawn,
-                    {.kind = ItemSpawnRequest::Kind::ClassPath,
+                    {.kind = ItemSpawnParams::Kind::ClassPath,
                      .classPath = binding.classPath,
                      .tier = tier,
                      .weaponSpecificType = WeaponGenerationUi::SpecificTypeFromIndex(binding.weaponSpecificType)}
@@ -280,7 +280,7 @@ void ItemSpawnerSection::SpawnCustomPath() const {
     auto tier = static_cast<SDK::Enum_Ranks>(cfg.spawnTier);
     SpawnWorkflow::QueueItemSpawn(
         snapshot, cfg.spawn,
-        {.kind = ItemSpawnRequest::Kind::ClassPath,
+        {.kind = ItemSpawnParams::Kind::ClassPath,
          .classPath = customPathBuffer,
          .tier = tier,
          .weaponSpecificType = WeaponGenerationUi::SpecificTypeFromIndex(cfg.weaponSpecificType)}
@@ -306,7 +306,7 @@ void ItemSpawnerSection::SpawnArmorFromPreset() {
 
     SpawnWorkflow::QueueItemSpawn(
         snapshot, cfg.spawn,
-        {.kind = ItemSpawnRequest::Kind::ArmorPreset,
+        {.kind = ItemSpawnParams::Kind::ArmorPreset,
          .armorCorePath = std::move(data.armorCorePath),
          .armorPassport = data.passport}
     );
@@ -320,16 +320,14 @@ ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, SECTION) 
     LoadSpawnBindings();
 }
 
-struct ItemSpawnerSection::BindingAdapter {
+struct ItemSpawnerSection::BindingOps {
     static constexpr size_t EXTRA_PARAM_COUNT = 0;
 
     ItemSpawnerSection& owner;
 
-    bool CaptureNew(SpawnBinding& binding) const { return owner.CaptureCurrentSelection(binding); }
+    bool Capture(SpawnBinding& binding) const { return owner.CaptureCurrentSelection(binding); }
 
-    void UpdateExisting(SpawnBinding& binding) const { (void)owner.CaptureCurrentSelection(binding); }
-
-    void LoadPayload(SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
+    void LoadFields(SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
         binding.source = static_cast<BindingSource>(config.GetInt(section, "source", 0));
         binding.classPath = config.GetString(section, "class_path", "");
         binding.customizable = config.GetInt(section, "customizable", 0);
@@ -348,7 +346,7 @@ struct ItemSpawnerSection::BindingAdapter {
             EquipmentGenerator::SecondaryMetalTypeFromIndex(config.GetInt(section, "armor_secondary_metal_type", 0));
     }
 
-    void SavePayload(const SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
+    void SaveFields(const SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
         config.SetInt(section, "source", static_cast<int>(binding.source));
         config.SetString(section, "class_path", binding.classPath);
         config.SetInt(section, "customizable", binding.customizable);
@@ -367,7 +365,7 @@ struct ItemSpawnerSection::BindingAdapter {
         );
     }
 
-    void Execute(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
+    void Spawn(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
         owner.SpawnBindingItem(binding, runtime);
     }
 
@@ -415,15 +413,15 @@ bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) const {
 }
 
 void ItemSpawnerSection::LoadSpawnBindings() {
-    SpawnBindingPersistence::Store<SpawnBinding, BindingAdapter>(
-        spawnBindings, nextBindingId, pendingDeleteBindingId, ITEM_BINDING_STORE_CONFIG, BindingAdapter{*this}
+    SpawnBindings::BindingList<SpawnBinding, BindingOps>(
+        spawnBindings, nextBindingId, pendingDeleteBindingId, ITEM_BINDING_CONFIG, BindingOps{*this}
     )
         .Load();
 }
 
 void ItemSpawnerSection::RenderSpawnBindings() {
-    SpawnBindingPersistence::Store<SpawnBinding, BindingAdapter>(
-        spawnBindings, nextBindingId, pendingDeleteBindingId, ITEM_BINDING_STORE_CONFIG, BindingAdapter{*this}
+    SpawnBindings::BindingList<SpawnBinding, BindingOps>(
+        spawnBindings, nextBindingId, pendingDeleteBindingId, ITEM_BINDING_CONFIG, BindingOps{*this}
     )
         .Render();
 }

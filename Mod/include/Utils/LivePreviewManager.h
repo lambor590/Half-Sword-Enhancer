@@ -11,19 +11,19 @@
 #include "SDK/Engine_classes.hpp"
 
 class LivePreviewManager {
-    struct PreviewRequestState;
+    struct PreviewState;
 
 public:
     using CleanupFn = std::function<void()>;
 
-    struct PreviewRequestToken {
+    struct PreviewToken {
     private:
         friend class LivePreviewManager;
 
-        PreviewRequestToken(std::weak_ptr<PreviewRequestState> requestState, std::uint64_t requestGeneration)
+        PreviewToken(std::weak_ptr<PreviewState> requestState, std::uint64_t requestGeneration)
             : state(requestState), generation(requestGeneration) {}
 
-        std::weak_ptr<PreviewRequestState> state;
+        std::weak_ptr<PreviewState> state;
         std::uint64_t generation = 0;
     };
 
@@ -46,7 +46,7 @@ public:
         state->onCleanup = fn;
     }
 
-    PreviewRequestToken BeginSpawnRequest() {
+    PreviewToken BeginPreview() {
         auto state = previewState;
         const auto generation = state->generation.fetch_add(1, std::memory_order_acq_rel) + 1;
         state->enabled.store(cfg.livePreview, std::memory_order_release);
@@ -55,12 +55,12 @@ public:
         return {state, generation};
     }
 
-    [[nodiscard]] static bool IsRequestCurrent(const PreviewRequestToken& token) {
-        return IsRequestCurrent(token.state.lock(), token.generation);
+    [[nodiscard]] static bool IsCurrent(const PreviewToken& token) {
+        return IsCurrent(token.state.lock(), token.generation);
     }
 
     [[nodiscard]] static bool SetPreviewActor(
-        const PreviewRequestToken& token, SDK::AActor* actor, SDK::UWorld* world
+        const PreviewToken& token, SDK::AActor* actor, SDK::UWorld* world
     ) {
         auto state = token.state.lock();
         if (!state) return false;
@@ -69,7 +69,7 @@ public:
         double yaw = 0.0;
         {
             std::lock_guard<std::mutex> lock(state->actorMutex);
-            if (!IsRequestCurrent(state, token.generation)) return false;
+            if (!IsCurrent(state, token.generation)) return false;
 
             state->previewWorld.store(world, std::memory_order_release);
             state->previewActor.store(actor, std::memory_order_release);
@@ -150,7 +150,7 @@ public:
 private:
     static constexpr double REFRESH_COOLDOWN = 0.2;
 
-    struct PreviewRequestState {
+    struct PreviewState {
         std::mutex actorMutex;
         std::mutex cleanupMutex;
         std::atomic<std::uint64_t> generation{0};
@@ -163,8 +163,8 @@ private:
         CleanupFn onCleanup;
     };
 
-    [[nodiscard]] static bool IsRequestCurrent(
-        const std::shared_ptr<PreviewRequestState>& state, std::uint64_t generation
+    [[nodiscard]] static bool IsCurrent(
+        const std::shared_ptr<PreviewState>& state, std::uint64_t generation
     ) {
         return state && state->alive.load(std::memory_order_acquire) &&
                state->enabled.load(std::memory_order_acquire) &&
@@ -197,7 +197,7 @@ private:
     bool forceRefresh = false;
     bool prevEnabled = false;
 
-    std::shared_ptr<PreviewRequestState> previewState = std::make_shared<PreviewRequestState>();
+    std::shared_ptr<PreviewState> previewState = std::make_shared<PreviewState>();
 
     struct RotationQueueState {
         std::atomic_bool queued{false};

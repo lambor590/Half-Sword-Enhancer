@@ -235,7 +235,7 @@
     <ClInclude Include="include\Menu\Sections\World\MapLoaderSection.h" />
     <ClInclude Include="include\Menu\Sections\Spawner\ItemSpawnerSection.h" />
     <ClInclude Include="include\Menu\Sections\Spawner\NPCEditorSection.h" />
-    <ClInclude Include="include\Menu\Sections\Spawner\SpawnBindingPersistence.h" />
+    <ClInclude Include="include\Menu\Sections\Spawner\SpawnBindings.h" />
     <ClInclude Include="include\Menu\Sections\Equipment\WeaponEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Equipment\ArmorEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Equipment\LoadoutManagerSection.h" />
