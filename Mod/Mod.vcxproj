@@ -177,9 +177,10 @@
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Spawner.cpp" />
     <ClCompile Include="src\SpawnWorkflow.cpp" />
-    <ClCompile Include="src\NPCSpawnHelpers.cpp" />
+    <ClCompile Include="src\EquipmentApplication.cpp" />
     <ClCompile Include="src\EquipmentGenerator.cpp" />
     <ClCompile Include="src\GameBuildInfo.cpp" />
+    <ClCompile Include="src\AIDirector.cpp" />
     <ClCompile Include="src\FreeCameraManager.cpp" />
     <ClCompile Include="src\BlueprintRegistry.cpp" />
     <ClCompile Include="src\BoneControl.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="include\Menu\Sections\World\MapLoaderSection.h" />
     <ClInclude Include="include\Menu\Sections\Spawner\ItemSpawnerSection.h" />
     <ClInclude Include="include\Menu\Sections\Spawner\NPCEditorSection.h" />
+    <ClInclude Include="include\Menu\Sections\Spawner\SpawnBindingPersistence.h" />
     <ClInclude Include="include\Menu\Sections\Equipment\WeaponEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Equipment\ArmorEditorSection.h" />
     <ClInclude Include="include\Menu\Sections\Equipment\LoadoutManagerSection.h" />
@@ -243,10 +245,12 @@
     <ClInclude Include="include\NotificationManager.h" />
     <ClInclude Include="include\Utils\Spawner.h" />
     <ClInclude Include="include\Utils\SpawnWorkflow.h" />
+    <ClInclude Include="include\Utils\EquipmentApplication.h" />
     <ClInclude Include="include\Render\Renderer.h" />
     <ClInclude Include="resource\resource.h" />
     <ClInclude Include="include\Utils\GameConstants.h" />
     <ClInclude Include="include\Utils\ActorUtils.h" />
+    <ClInclude Include="include\Utils\AIDirector.h" />
     <ClInclude Include="include\Utils\BoneControl.h" />
     <ClInclude Include="include\Utils\GuiUtils.h" />
     <ClInclude Include="include\Utils\GameBuildInfo.h" />
