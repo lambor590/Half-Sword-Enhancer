@@ -340,7 +340,7 @@ void WeaponEditorSection::ApplyMeshToPreview() {
     ApplyMeshOverrides(weapon, BuildMeshSnapshot(), skeletalPreviewComps);
 }
 
-void WeaponEditorSection::CreateBlankWeaponPassport() {
+void WeaponEditorSection::ResetWeaponPassport() {
     weaponPaths = {};
     weaponPassport = EquipmentApplication::DefaultWeaponPassport();
 }
@@ -547,7 +547,7 @@ void WeaponEditorSection::SpawnPreview() {
     );
 }
 
-void WeaponEditorSection::SpawnFromPassport() {
+void WeaponEditorSection::SpawnWeapon() {
     auto snapshot = RenderSnapshot();
     if (!snapshot.player || !snapshot.world) return;
 
@@ -678,7 +678,7 @@ void WeaponEditorSection::RenderGenerationControls() {
     if (!player || !world) ImGui::EndDisabled();
 
     ImGui::SameLine();
-    if (ImGui::Button("Reset")) CreateBlankWeaponPassport();
+    if (ImGui::Button("Reset")) ResetWeaponPassport();
     TooltipHelper::ShowTooltip("Clear all passport data to blank defaults");
 
     if (weaponGenerationPending) {
@@ -1204,13 +1204,13 @@ void WeaponEditorSection::RenderSpawnFooter() {
     auto [world, player] = RenderPlayerWorld();
 
     if (!player || !world) ImGui::BeginDisabled();
-    if (ImGui::Button("Spawn Weapon", ImVec2(-1, 0))) SpawnFromPassport();
+    if (ImGui::Button("Spawn Weapon", ImVec2(-1, 0))) SpawnWeapon();
     TooltipHelper::ShowTooltip("Spawn the weapon with current settings. Disables live preview");
     if (!player || !world) ImGui::EndDisabled();
 }
 
 WeaponEditorSection::WeaponEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
-    CreateBlankWeaponPassport();
+    ResetWeaponPassport();
     BuildDescriptors();
     InitKeybinds();
 
@@ -1231,7 +1231,7 @@ void WeaponEditorSection::InitKeybinds() {
             .tooltip = "Spawns the currently edited weapon with runtime overrides applied",
             .configSection = "SpawnWeapon",
             .keyPtr = &cfg.spawnKey,
-            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnFromPassport(); },
+            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnWeapon(); },
             .params =
                 {KeybindParam(
                      "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned weapon to the ground"

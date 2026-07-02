@@ -86,7 +86,7 @@ void ArmorEditorSection::PopulateModulePoolForCurrentCore() {
     armorModules.populated = true;
 }
 
-void ArmorEditorSection::CreateBlankArmorPassport() {
+void ArmorEditorSection::ResetArmorPassport() {
     armorPassport = {};
     armorPassport.FabricColor1_15_4C7C24744C4F50FFAFB62DB50DE29393 = {0.5f, 0.5f, 0.5f, 1.0f};
     armorPassport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = {0.5f, 0.5f, 0.5f, 1.0f};
@@ -216,7 +216,7 @@ void ArmorEditorSection::RenderArmorTierCombo() {
     }
 }
 
-void ArmorEditorSection::SpawnFromPassport() {
+void ArmorEditorSection::SpawnArmor() {
     if (!armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43) return;
     auto snapshot = RenderSnapshot();
     if (!snapshot.player || !snapshot.world) return;
@@ -270,7 +270,7 @@ void ArmorEditorSection::RenderGenerationControls() {
         if (player && world) RandomizeArmorPassport();
     }
     ImGui::SameLine();
-    if (ImGui::Button("Reset")) CreateBlankArmorPassport();
+    if (ImGui::Button("Reset")) ResetArmorPassport();
 
     if (armorGenerationPending) {
         ImGui::SameLine();
@@ -388,7 +388,7 @@ void ArmorEditorSection::ApplyPresetData(const ArmorPresetData& d) {
 }
 
 ArmorEditorSection::ArmorEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
-    CreateBlankArmorPassport();
+    ResetArmorPassport();
     BuildDescriptors();
     InitKeybinds();
 }
@@ -400,7 +400,7 @@ void ArmorEditorSection::InitKeybinds() {
             .tooltip = "Spawns the currently edited armor with runtime overrides applied",
             .configSection = "SpawnArmor",
             .keyPtr = &cfg.spawnKey,
-            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnFromPassport(); },
+            .callback = [this]([[maybe_unused]] bool, const RuntimeContextSnapshot&) { SpawnArmor(); },
             .params =
                 {KeybindParam(
                      "snap_to_ground", "Snap to Ground", &cfg.spawn.snapToGround, "Snap spawned armor to the ground"
@@ -455,7 +455,7 @@ void ArmorEditorSection::Render() {
     bool canSpawn = armorPassport.ArmorCore_3_F6B7C69C4BD7D9720DB91EB635EE2B43 != nullptr;
     if (!canSpawn) ImGui::BeginDisabled();
     if (ImGui::Button("Spawn Armor", ImVec2(-1, 0))) {
-        if (player && world) SpawnFromPassport();
+        if (player && world) SpawnArmor();
     }
     if (!canSpawn) ImGui::EndDisabled();
 

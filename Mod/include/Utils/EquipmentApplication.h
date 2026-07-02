@@ -23,8 +23,8 @@ namespace EquipmentApplication {
     void ResolveWeaponPassportClasses(SDK::FStr_Passport_Weapon1& passport, const WeaponClassPaths& paths);
     void ClearWeaponSlot(SDK::FStr_WeaponParts& slot);
 
-    bool EquipHandWeaponFromSlot(SDK::AWillie_BP_C* willie, int slotIndex, const SDK::FStr_WeaponParts& slot);
+    bool EquipWeaponSlot(SDK::AWillie_BP_C* willie, int slotIndex, const SDK::FStr_WeaponParts& slot);
 
-    void WritePlayerLoadoutState(SDK::AWillie_BP_C& player, const LoadoutPresetData& loadout);
-    void ApplyNPCLoadoutNow(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout);
+    void WritePlayerLoadout(SDK::AWillie_BP_C& player, const LoadoutPresetData& loadout);
+    void ApplyNPCLoadout(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout);
 }

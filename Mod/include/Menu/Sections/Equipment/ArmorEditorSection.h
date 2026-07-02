@@ -68,7 +68,7 @@ private:
 
     bool IsModularCore() const;
     void PopulateModulePoolForCurrentCore();
-    void CreateBlankArmorPassport();
+    void ResetArmorPassport();
     void QueueGeneration(
         SDK::EArmorSlots_Enum slot, SDK::Enum_Ranks tier, EquipmentGenerator::ArmorGenerationOptions options
     );
@@ -78,7 +78,7 @@ private:
     void SpawnPreview();
     static bool PassportChanged(const SDK::FStr_Passport_Armor1& a, const SDK::FStr_Passport_Armor1& b);
     void RenderArmorTierCombo();
-    void SpawnFromPassport();
+    void SpawnArmor();
     void RenderGenerationControls();
     void RenderModulesTab();
     void RenderColorsTab();

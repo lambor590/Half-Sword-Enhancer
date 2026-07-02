@@ -135,13 +135,13 @@ private:
     );
     MeshSnapshot BuildMeshSnapshot() const;
     void ApplyMeshToPreview();
-    void CreateBlankWeaponPassport();
+    void ResetWeaponPassport();
     void QueueGeneration(CustomizableWeapon type, SDK::Enum_Ranks tier);
     void GenerateWeaponPassport();
     void RandomizeWeaponPassport();
     void ApplyOverridesToActor(SDK::AActor* actor) const;
     void SpawnPreview();
-    void SpawnFromPassport();
+    void SpawnWeapon();
     static void RenderVectorDrag(const char* label, SDK::FVector& vec, float speed = 0.01f);
     static void RenderMassDrag(const char* label, double& mass, float speed = 0.01f);
     void RenderWeaponTypeCombo();

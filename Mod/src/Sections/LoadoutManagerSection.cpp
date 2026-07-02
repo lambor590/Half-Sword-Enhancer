@@ -142,7 +142,7 @@ void LoadoutManagerSection::ApplyWeaponToPlayer(int slotIndex) {
         if (!player) return;
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
-        EquipmentApplication::EquipHandWeaponFromSlot(player, slotIndex, slot);
+        EquipmentApplication::EquipWeaponSlot(player, slotIndex, slot);
     });
 }
 
@@ -285,7 +285,7 @@ void LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPresetData& data) {
         auto* player = runtime.player;
         if (!player || !world) return;
 
-        EquipmentApplication::WritePlayerLoadoutState(*player, data);
+        EquipmentApplication::WritePlayerLoadout(*player, data);
 
         BuildArmorOps(pendingStaggeredOps, player);
         hasPendingStaggeredOps.store(true, std::memory_order_release);
@@ -293,7 +293,7 @@ void LoadoutManagerSection::ApplyLoadoutPreset(const LoadoutPresetData& data) {
         auto& weapons = player->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         for (int slotIndex = 0; slotIndex < 2; ++slotIndex) {
             auto& slot = LoadoutPresetData::GetWeaponSlot(weapons, slotIndex);
-            EquipmentApplication::EquipHandWeaponFromSlot(player, slotIndex, slot);
+            EquipmentApplication::EquipWeaponSlot(player, slotIndex, slot);
         }
     });
 }

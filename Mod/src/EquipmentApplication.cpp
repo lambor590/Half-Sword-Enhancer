@@ -191,7 +191,7 @@ namespace EquipmentApplication {
         slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980 = nullptr;
     }
 
-    bool EquipHandWeaponFromSlot(SDK::AWillie_BP_C* willie, int slotIndex, const SDK::FStr_WeaponParts& slot) {
+    bool EquipWeaponSlot(SDK::AWillie_BP_C* willie, int slotIndex, const SDK::FStr_WeaponParts& slot) {
         if (!willie || (slotIndex != 0 && slotIndex != 1)) return false;
 
         auto* weaponClass = slot.WeaponBPClass_51_5C40F9BE43F7897FB12AACA75C2AD066;
@@ -206,7 +206,7 @@ namespace EquipmentApplication {
         return true;
     }
 
-    void WritePlayerLoadoutState(SDK::AWillie_BP_C& player, const LoadoutPresetData& loadout) {
+    void WritePlayerLoadout(SDK::AWillie_BP_C& player, const LoadoutPresetData& loadout) {
         auto& weapons = player.Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
         auto& equipArmorMap = player.Load_Equipment.Armor_84_A1BA4DD44FD262BCA53B9DACF03CDF04
                                   .ArmorinSlots_31_702A9C5C40C7F4335C6B4687EC09936A;
@@ -252,7 +252,7 @@ namespace EquipmentApplication {
         }
     }
 
-    void ApplyNPCLoadoutNow(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout) {
+    void ApplyNPCLoadout(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout) {
         for (const auto& armorSlot : loadout.armorSlots) {
             SDK::FStr_Passport_Armor1 armorPassport{};
             if (!BuildLoadoutArmorPassport(armorPassport, armorSlot)) continue;
