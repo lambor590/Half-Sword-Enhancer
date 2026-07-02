@@ -9,6 +9,7 @@
 #include "Logger.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Render/Renderer.h"
+#include "Utils/AIDirector.h"
 #include "Utils/AssetOverrideManager.h"
 
 namespace {
@@ -27,7 +28,10 @@ namespace {
 
     void StopStartedAdapters() noexcept {
         try {
-            if (startedStep == StartedStep::GameHook) GameHook::Get().Unhook();
+            if (startedStep == StartedStep::GameHook) {
+                AIDirector::Get().OnRuntimeShutdown();
+                GameHook::Get().Unhook();
+            }
             if (startedStep != StartedStep::None) renderer.Cleanup();
             startedStep = StartedStep::None;
         } catch (...) {
