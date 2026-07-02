@@ -1,12 +1,8 @@
 #include "Menu/Sections/Spawner/ItemSpawnerSection.h"
 
-#include <algorithm>
-#include <cstdio>
-
+#include "Menu/Sections/Spawner/SpawnBindingPersistence.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
-#include "DefaultStyle.h"
-#include "KeybindManager.h"
 
 #include "Utils/ArmorGenerationUi.h"
 #include "Utils/Spawner.h"
@@ -20,12 +16,31 @@ namespace {
     using ItemSpawnRequest = SpawnWorkflow::ItemSpawnRequest;
 
     constexpr const char* ITEM_SPAWNER_SECTION = "ItemSpawner";
-    constexpr const char* ITEM_BINDINGS_SECTION = "ItemSpawnBindings";
-    constexpr const char* ITEM_BINDING_PREFIX = "ItemSpawnBinding_";
 
-    std::string ItemBindingSection(int id) {
-        return std::string(ITEM_BINDING_PREFIX) + std::to_string(id);
-    }
+    constexpr SpawnBindingPersistence::StoreConfig ITEM_BINDING_STORE_CONFIG{
+        .indexSection = "ItemSpawnBindings",
+        .bindingPrefix = "ItemSpawnBinding_",
+        .defaultName = "Spawn Item",
+        .addTooltip = "Save the current item selection as its own keybind",
+        .emptyText = "No item spawn bindings saved",
+        .updateTooltip = "Replace this binding with the current item selection",
+        .deletePopupTitle = "Delete Item Binding",
+        .deletePrompt = "Delete item spawn binding?",
+        .spawnParams =
+            {
+                .forwardLabel = "Forward Distance",
+                .forwardMin = 50.0f,
+                .forwardMax = 300.0f,
+                .forwardTooltip = "How far in front the item appears",
+                .upLabel = "Up Distance",
+                .upMin = 0.0f,
+                .upMax = 200.0f,
+                .upTooltip = "Height offset for spawn position",
+                .scaleMin = 0.1f,
+                .scaleMax = 5.0f,
+                .scaleTooltip = "Size multiplier for the spawned item",
+            },
+    };
 }
 
 void ItemSpawnerSection::PopulateModulesForCore(SDK::UClass* coreClass) {
@@ -305,35 +320,63 @@ ItemSpawnerSection::ItemSpawnerSection(ModContext& ctx) : Section(ctx, SECTION) 
     LoadSpawnBindings();
 }
 
-void ItemSpawnerSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding) {
-    std::weak_ptr<SpawnBinding> weakBinding = binding;
-    binding->keybind = {
-        .name = binding->name,
-        .tooltip = binding->summary,
-        .configSection = ItemBindingSection(binding->id),
-        .keyPtr = &binding->key,
-        .callback =
-            [this, weakBinding]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                if (auto binding = weakBinding.lock()) SpawnBindingItem(*binding, runtime);
-            },
-        .params = {
-            KeybindParam(
-                "snap_to_ground", "Snap to Ground", &binding->spawn.snapToGround,
-                "Automatically adjust height to touch the ground"
-            ),
-            KeybindParam(
-                "distance_forward", "Forward Distance", &binding->spawn.distanceForward, 50.0f, 300.0f,
-                "How far in front the item appears"
-            ),
-            KeybindParam(
-                "distance_up", "Up Distance", &binding->spawn.distanceUp, 0.0f, 200.0f,
-                "Height offset for spawn position"
-            ),
-            KeybindParam("scale", "Scale", &binding->spawn.scale, 0.1f, 5.0f, "Size multiplier for the spawned item"),
-        },
-    };
-    binding->keybind.Init();
-}
+struct ItemSpawnerSection::BindingAdapter {
+    static constexpr size_t EXTRA_PARAM_COUNT = 0;
+
+    ItemSpawnerSection& owner;
+
+    bool CaptureNew(SpawnBinding& binding) const { return owner.CaptureCurrentSelection(binding); }
+
+    void UpdateExisting(SpawnBinding& binding) const { (void)owner.CaptureCurrentSelection(binding); }
+
+    void LoadPayload(SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
+        binding.source = static_cast<BindingSource>(config.GetInt(section, "source", 0));
+        binding.classPath = config.GetString(section, "class_path", "");
+        binding.customizable = config.GetInt(section, "customizable", 0);
+        binding.weaponSpecificType =
+            config.GetInt(section, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, binding.weaponSpecificType);
+        binding.armorSlot = config.GetInt(section, "armor_slot", 0);
+        binding.modules[0] = config.GetInt(section, "module_1", 0);
+        binding.modules[1] = config.GetInt(section, "module_2", 0);
+        binding.modules[2] = config.GetInt(section, "module_3", 0);
+        binding.tier = config.GetInt(section, "tier", 4);
+        binding.armorOptions.moduleChance = config.GetFloat(section, "armor_module_chance", 0.5f);
+        binding.armorOptions.forceMetalMaterial = config.GetBool(section, "armor_force_metal_material", false);
+        binding.armorOptions.steelType =
+            EquipmentGenerator::SteelTypeFromIndex(config.GetInt(section, "armor_steel_type", 0));
+        binding.armorOptions.metalPiecesType =
+            EquipmentGenerator::SecondaryMetalTypeFromIndex(config.GetInt(section, "armor_secondary_metal_type", 0));
+    }
+
+    void SavePayload(const SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
+        config.SetInt(section, "source", static_cast<int>(binding.source));
+        config.SetString(section, "class_path", binding.classPath);
+        config.SetInt(section, "customizable", binding.customizable);
+        config.SetInt(section, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, binding.weaponSpecificType);
+        config.SetInt(section, "armor_slot", binding.armorSlot);
+        config.SetInt(section, "module_1", binding.modules[0]);
+        config.SetInt(section, "module_2", binding.modules[1]);
+        config.SetInt(section, "module_3", binding.modules[2]);
+        config.SetInt(section, "tier", binding.tier);
+        config.SetFloat(section, "armor_module_chance", binding.armorOptions.moduleChance);
+        config.SetBool(section, "armor_force_metal_material", binding.armorOptions.forceMetalMaterial);
+        config.SetInt(section, "armor_steel_type", EquipmentGenerator::SteelTypeIndex(binding.armorOptions.steelType));
+        config.SetInt(
+            section, "armor_secondary_metal_type",
+            EquipmentGenerator::SecondaryMetalTypeIndex(binding.armorOptions.metalPiecesType)
+        );
+    }
+
+    void Execute(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
+        owner.SpawnBindingItem(binding, runtime);
+    }
+
+    void AppendLeadingParams([[maybe_unused]] SpawnBinding& binding, [[maybe_unused]] std::vector<KeybindParam>& params)
+        const {}
+
+    void AppendTrailingParams([[maybe_unused]] SpawnBinding& binding, [[maybe_unused]] std::vector<KeybindParam>& params)
+        const {}
+};
 
 bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) const {
     binding.spawn = cfg.spawn;
@@ -371,169 +414,18 @@ bool ItemSpawnerSection::CaptureCurrentSelection(SpawnBinding& binding) const {
     return true;
 }
 
-void ItemSpawnerSection::AddBindingFromCurrentSelection() {
-    auto binding = std::make_shared<SpawnBinding>();
-    binding->id = nextBindingId++;
-    if (!CaptureCurrentSelection(*binding)) return;
-    std::snprintf(binding->name, sizeof(binding->name), "%s", binding->summary.c_str());
-    InitBindingKeybind(binding);
-    spawnBindings.push_back(std::move(binding));
-    SaveSpawnBindings();
-}
-
 void ItemSpawnerSection::LoadSpawnBindings() {
-    auto& config = ConfigManager::Get();
-    nextBindingId = config.GetInt(ITEM_BINDINGS_SECTION, "next_id", 1);
-    const int count = (std::min)(config.GetInt(ITEM_BINDINGS_SECTION, "count", 0), 64);
-
-    for (int i = 0; i < count; ++i) {
-        char idKey[16];
-        std::snprintf(idKey, sizeof(idKey), "id_%d", i);
-        const int id = config.GetInt(ITEM_BINDINGS_SECTION, idKey, 0);
-        if (id <= 0) continue;
-
-        auto binding = std::make_shared<SpawnBinding>();
-        binding->id = id;
-        const auto section = ItemBindingSection(id);
-        binding->key = config.GetInt(section, "key", -1);
-        std::snprintf(binding->name, sizeof(binding->name), "%s", config.GetString(section, "name", "Spawn Item").c_str());
-        binding->summary = config.GetString(section, "summary", binding->name);
-        binding->source = static_cast<BindingSource>(config.GetInt(section, "source", 0));
-        binding->classPath = config.GetString(section, "class_path", "");
-        binding->customizable = config.GetInt(section, "customizable", 0);
-        binding->weaponSpecificType =
-            config.GetInt(section, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, binding->weaponSpecificType);
-        binding->armorSlot = config.GetInt(section, "armor_slot", 0);
-        binding->modules[0] = config.GetInt(section, "module_1", 0);
-        binding->modules[1] = config.GetInt(section, "module_2", 0);
-        binding->modules[2] = config.GetInt(section, "module_3", 0);
-        binding->tier = config.GetInt(section, "tier", 4);
-        binding->armorOptions.moduleChance = config.GetFloat(section, "armor_module_chance", 0.5f);
-        binding->armorOptions.forceMetalMaterial = config.GetBool(section, "armor_force_metal_material", false);
-        binding->armorOptions.steelType =
-            EquipmentGenerator::SteelTypeFromIndex(config.GetInt(section, "armor_steel_type", 0));
-        binding->armorOptions.metalPiecesType =
-            EquipmentGenerator::SecondaryMetalTypeFromIndex(config.GetInt(section, "armor_secondary_metal_type", 0));
-        binding->spawn = {
-            .distanceForward = config.GetFloat(section, "distance_forward", binding->spawn.distanceForward),
-            .distanceUp = config.GetFloat(section, "distance_up", binding->spawn.distanceUp),
-            .scale = config.GetFloat(section, "scale", binding->spawn.scale),
-            .snapToGround = config.GetBool(section, "snap_to_ground", binding->spawn.snapToGround),
-        };
-
-        InitBindingKeybind(binding);
-        nextBindingId = (std::max)(nextBindingId, id + 1);
-        spawnBindings.push_back(std::move(binding));
-    }
-}
-
-void ItemSpawnerSection::SaveSpawnBindings() {
-    auto& config = ConfigManager::Get();
-    config.BatchSave([&] {
-        config.DeleteSection(ITEM_BINDINGS_SECTION);
-        config.SetInt(ITEM_BINDINGS_SECTION, "next_id", nextBindingId);
-        config.SetInt(ITEM_BINDINGS_SECTION, "count", static_cast<int>(spawnBindings.size()));
-
-        for (size_t i = 0; i < spawnBindings.size(); ++i) {
-            const auto& binding = *spawnBindings[i];
-            char idKey[16];
-            std::snprintf(idKey, sizeof(idKey), "id_%zu", i);
-            config.SetInt(ITEM_BINDINGS_SECTION, idKey, binding.id);
-
-            const auto section = ItemBindingSection(binding.id);
-            config.SetString(section, "name", binding.name);
-            config.SetString(section, "summary", binding.summary);
-            config.SetInt(section, "key", binding.key);
-            config.SetInt(section, "source", static_cast<int>(binding.source));
-            config.SetString(section, "class_path", binding.classPath);
-            config.SetInt(section, "customizable", binding.customizable);
-            config.SetInt(section, WeaponGenerationUi::SPECIFIC_TYPE_CONFIG_KEY, binding.weaponSpecificType);
-            config.SetInt(section, "armor_slot", binding.armorSlot);
-            config.SetInt(section, "module_1", binding.modules[0]);
-            config.SetInt(section, "module_2", binding.modules[1]);
-            config.SetInt(section, "module_3", binding.modules[2]);
-            config.SetInt(section, "tier", binding.tier);
-            config.SetFloat(section, "armor_module_chance", binding.armorOptions.moduleChance);
-            config.SetBool(section, "armor_force_metal_material", binding.armorOptions.forceMetalMaterial);
-            config.SetInt(section, "armor_steel_type", EquipmentGenerator::SteelTypeIndex(binding.armorOptions.steelType));
-            config.SetInt(
-                section, "armor_secondary_metal_type",
-                EquipmentGenerator::SecondaryMetalTypeIndex(binding.armorOptions.metalPiecesType)
-            );
-            config.SetBool(section, "snap_to_ground", binding.spawn.snapToGround);
-            config.SetFloat(section, "distance_forward", binding.spawn.distanceForward);
-            config.SetFloat(section, "distance_up", binding.spawn.distanceUp);
-            config.SetFloat(section, "scale", binding.spawn.scale);
-        }
-    });
+    SpawnBindingPersistence::Store<SpawnBinding, BindingAdapter>(
+        spawnBindings, nextBindingId, pendingDeleteBindingId, ITEM_BINDING_STORE_CONFIG, BindingAdapter{*this}
+    )
+        .Load();
 }
 
 void ItemSpawnerSection::RenderSpawnBindings() {
-    if (ImGui::Button("Add Spawn Binding")) AddBindingFromCurrentSelection();
-    TooltipHelper::ShowTooltip("Save the current item selection as its own keybind");
-
-    if (spawnBindings.empty()) {
-        ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "No item spawn bindings saved");
-        return;
-    }
-
-    for (auto& bindingPtr : spawnBindings) {
-        auto& binding = *bindingPtr;
-        ImGui::PushID(binding.id);
-        ImGui::Separator();
-
-        ImGui::SetNextItemWidth(220.0f);
-        if (ImGui::InputText("##BindingName", binding.name, sizeof(binding.name))) {
-            binding.keybind.name = binding.name;
-            KeybindManager::UpdateBindingName(&binding.key, binding.name);
-            SaveSpawnBindings();
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Update")) {
-            CaptureCurrentSelection(binding);
-            binding.keybind.tooltip = binding.summary;
-            SaveSpawnBindings();
-        }
-        TooltipHelper::ShowTooltip("Replace this binding with the current item selection");
-        ImGui::SameLine();
-        if (ImGui::Button("Delete")) pendingDeleteBindingId = binding.id;
-
-        ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "%s", binding.summary.c_str());
-        binding.keybind.Render();
-        ImGui::PopID();
-    }
-
-    ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::K_POPUP_PADDING);
-    if (pendingDeleteBindingId != -1) ImGui::OpenPopup("Delete Item Binding");
-    if (ImGui::BeginPopupModal(
-            "Delete Item Binding", nullptr,
-            ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings
-        )) {
-        ImGui::Text("Delete item spawn binding?");
-        ImGui::Spacing();
-        if (ImGui::Button("Delete")) {
-            auto it = std::find_if(spawnBindings.begin(), spawnBindings.end(), [this](const auto& binding) {
-                return binding->id == pendingDeleteBindingId;
-            });
-            if (it != spawnBindings.end()) {
-                KeybindManager::UnregisterKeybind((*it)->keybind.keyPtr);
-                ConfigManager::Get().DeleteSection(ItemBindingSection((*it)->id));
-                spawnBindings.erase(it);
-                SaveSpawnBindings();
-            }
-            pendingDeleteBindingId = -1;
-            ImGui::CloseCurrentPopup();
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Cancel")) {
-            pendingDeleteBindingId = -1;
-            ImGui::CloseCurrentPopup();
-        }
-        ImGui::EndPopup();
-    }
-    ImGui::PopStyleVar();
-    ImGui::PopStyleColor();
+    SpawnBindingPersistence::Store<SpawnBinding, BindingAdapter>(
+        spawnBindings, nextBindingId, pendingDeleteBindingId, ITEM_BINDING_STORE_CONFIG, BindingAdapter{*this}
+    )
+        .Render();
 }
 
 void ItemSpawnerSection::RenderSearchResults(BlueprintRegistry& reg) {

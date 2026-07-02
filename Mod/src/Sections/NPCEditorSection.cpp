@@ -1,24 +1,42 @@
 #include "Menu/Sections/Spawner/NPCEditorSection.h"
 
 #include <algorithm>
-#include <cstdio>
 #include <utility>
 
+#include "Menu/Sections/Spawner/SpawnBindingPersistence.h"
 #include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
-#include "DefaultStyle.h"
-#include "KeybindManager.h"
 
 #include "Utils/GuiUtils.h"
 #include "Utils/SpawnWorkflow.h"
 
 namespace {
-    constexpr const char* NPC_BINDINGS_SECTION = "NPCSpawnBindings";
-    constexpr const char* NPC_BINDING_PREFIX = "NPCSpawnBinding_";
-
-    std::string NPCBindingSection(int id) {
-        return std::string(NPC_BINDING_PREFIX) + std::to_string(id);
-    }
+    constexpr SpawnBindingPersistence::StoreConfig NPC_BINDING_STORE_CONFIG{
+        .indexSection = "NPCSpawnBindings",
+        .bindingPrefix = "NPCSpawnBinding_",
+        .defaultName = "Spawn NPC",
+        .addTooltip = "Save the current NPC setup as its own keybind",
+        .emptyText = "No NPC spawn bindings saved",
+        .updateTooltip = "Replace this binding with the current NPC setup",
+        .deletePopupTitle = "Delete NPC Binding",
+        .deletePrompt = "Delete NPC spawn binding?",
+        .spawnParams =
+            {
+                .forwardLabel = "Distance Forward",
+                .forwardMin = 100.0f,
+                .forwardMax = 500.0f,
+                .forwardTooltip = "How far in front the NPC appears",
+                .upLabel = "Distance Up",
+                .upMin = 0.0f,
+                .upMax = 300.0f,
+                .upTooltip = "Height offset for spawn position",
+                .scaleMin = 0.1f,
+                .scaleMax = 4.0f,
+                .scaleTooltip =
+                    "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game "
+                    "doesn't crash.",
+            },
+    };
 
     std::string OverrideKey(const char* group, const char* name, const char* suffix) {
         return std::string(group) + "_" + name + "_" + suffix;
@@ -280,214 +298,86 @@ NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
     LoadSpawnBindings();
 }
 
-void NPCEditorSection::InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding) {
-    std::weak_ptr<SpawnBinding> weakBinding = binding;
-    binding->keybind = {
-        .name = binding->name,
-        .tooltip = binding->summary,
-        .configSection = NPCBindingSection(binding->id),
-        .keyPtr = &binding->key,
-        .callback =
-            [this, weakBinding]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                if (auto binding = weakBinding.lock()) SpawnBindingNPC(*binding, runtime);
-            },
-        .params =
-            {
-                KeybindParam("bodyguard", "Bodyguard", &binding->bodyguard, "Will join your team"),
-                KeybindParam("mercenary", "Mercenary", &binding->npc.mercenary, "Generate with mercenary color scheme"),
-                KeybindParam(
-                    "snap_to_ground", "Snap to Ground", &binding->spawn.snapToGround,
-                    "Automatically adjust height to touch the ground"
-                ),
-                KeybindParam(
-                    "distance_forward", "Distance Forward", &binding->spawn.distanceForward, 100.0f, 500.0f,
-                    "How far in front the NPC appears"
-                ),
-                KeybindParam(
-                    "distance_up", "Distance Up", &binding->spawn.distanceUp, 0.0f, 300.0f,
-                    "Height offset for spawn position"
-                ),
-                KeybindParam(
-                    "scale", "Scale", &binding->spawn.scale, 0.1f, 4.0f,
-                    "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game "
-                    "doesn't "
-                    "crash."
-                ),
-                KeybindParam(
-                    "team", "Team", &binding->team, 0, 9,
-                    "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
-                ),
-            },
-    };
-    binding->keybind.Init();
-}
+struct NPCEditorSection::BindingAdapter {
+    static constexpr size_t EXTRA_PARAM_COUNT = 3;
 
-void NPCEditorSection::AddBindingFromCurrentSelection() {
-    auto binding = std::make_shared<SpawnBinding>();
-    binding->id = nextBindingId++;
-    binding->spawn = cfg.spawn;
-    binding->bodyguard = cfg.bodyguard;
-    binding->team = cfg.npcTeam;
-    binding->npc = BuildPresetData();
-    binding->hasLoadout = loadoutPicker.HasSelection();
-    if (binding->hasLoadout) binding->loadoutPath = loadoutPicker.SelectedPath().string();
-    binding->summary = NPC_TYPES[std::clamp(binding->npc.npcTypeIndex, 0, NPC_TYPES_COUNT - 1)].displayName;
-    if (binding->hasLoadout) binding->summary += " + Loadout";
-    std::snprintf(binding->name, sizeof(binding->name), "%s", binding->summary.c_str());
-    InitBindingKeybind(binding);
-    spawnBindings.push_back(std::move(binding));
-    SaveSpawnBindings();
-}
+    NPCEditorSection& owner;
+
+    bool CaptureNew(SpawnBinding& binding) const {
+        Capture(binding);
+        return true;
+    }
+
+    void UpdateExisting(SpawnBinding& binding) const { Capture(binding); }
+
+    void LoadPayload(SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
+        binding.bodyguard = config.GetBool(section, "bodyguard", false);
+        binding.team = config.GetInt(section, "team", 0);
+        binding.npc.npcTypeIndex = config.GetInt(section, "npc_type", 0);
+        binding.npc.nationality = config.GetInt(section, "nationality", 0);
+        binding.npc.tier = config.GetInt(section, "tier", 4);
+        binding.npc.mercenary = config.GetBool(section, "mercenary", false);
+        binding.hasLoadout = config.GetBool(section, "has_loadout", false);
+        binding.loadoutPath = config.GetString(section, "loadout_path", "");
+        LoadOverrides(section, binding.npc);
+    }
+
+    void SavePayload(const SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
+        config.SetBool(section, "bodyguard", binding.bodyguard);
+        config.SetInt(section, "team", binding.team);
+        config.SetInt(section, "npc_type", binding.npc.npcTypeIndex);
+        config.SetInt(section, "nationality", binding.npc.nationality);
+        config.SetInt(section, "tier", binding.npc.tier);
+        config.SetBool(section, "mercenary", binding.npc.mercenary);
+        config.SetBool(section, "has_loadout", binding.hasLoadout);
+        config.SetString(section, "loadout_path", binding.loadoutPath);
+        auto npc = binding.npc;
+        SaveOverrides(section, npc);
+    }
+
+    void Execute(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
+        owner.SpawnBindingNPC(binding, runtime);
+    }
+
+    void AppendLeadingParams(SpawnBinding& binding, std::vector<KeybindParam>& params) const {
+        params.emplace_back("bodyguard", "Bodyguard", &binding.bodyguard, "Will join your team");
+        params.emplace_back(
+            "mercenary", "Mercenary", &binding.npc.mercenary, "Generate with mercenary color scheme"
+        );
+    }
+
+    void AppendTrailingParams(SpawnBinding& binding, std::vector<KeybindParam>& params) const {
+        params.emplace_back(
+            "team", "Team", &binding.team, 0, 9,
+            "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
+        );
+    }
+
+private:
+    void Capture(SpawnBinding& binding) const {
+        binding.spawn = owner.cfg.spawn;
+        binding.bodyguard = owner.cfg.bodyguard;
+        binding.team = owner.cfg.npcTeam;
+        binding.npc = owner.BuildPresetData();
+        binding.hasLoadout = owner.loadoutPicker.HasSelection();
+        binding.loadoutPath = binding.hasLoadout ? owner.loadoutPicker.SelectedPath().string() : "";
+        binding.summary = NPC_TYPES[std::clamp(binding.npc.npcTypeIndex, 0, NPC_TYPES_COUNT - 1)].displayName;
+        if (binding.hasLoadout) binding.summary += " + Loadout";
+    }
+};
 
 void NPCEditorSection::LoadSpawnBindings() {
-    auto& config = ConfigManager::Get();
-    nextBindingId = config.GetInt(NPC_BINDINGS_SECTION, "next_id", 1);
-    const int count = (std::min)(config.GetInt(NPC_BINDINGS_SECTION, "count", 0), 64);
-
-    for (int i = 0; i < count; ++i) {
-        char idKey[16];
-        std::snprintf(idKey, sizeof(idKey), "id_%d", i);
-        const int id = config.GetInt(NPC_BINDINGS_SECTION, idKey, 0);
-        if (id <= 0) continue;
-
-        auto binding = std::make_shared<SpawnBinding>();
-        binding->id = id;
-        const auto section = NPCBindingSection(id);
-        binding->key = config.GetInt(section, "key", -1);
-        std::snprintf(
-            binding->name, sizeof(binding->name), "%s", config.GetString(section, "name", "Spawn NPC").c_str()
-        );
-        binding->summary = config.GetString(section, "summary", binding->name);
-        binding->spawn = {
-            .distanceForward = config.GetFloat(section, "distance_forward", binding->spawn.distanceForward),
-            .distanceUp = config.GetFloat(section, "distance_up", binding->spawn.distanceUp),
-            .scale = config.GetFloat(section, "scale", binding->spawn.scale),
-            .snapToGround = config.GetBool(section, "snap_to_ground", binding->spawn.snapToGround),
-        };
-        binding->bodyguard = config.GetBool(section, "bodyguard", false);
-        binding->team = config.GetInt(section, "team", 0);
-        binding->npc.npcTypeIndex = config.GetInt(section, "npc_type", 0);
-        binding->npc.nationality = config.GetInt(section, "nationality", 0);
-        binding->npc.tier = config.GetInt(section, "tier", 4);
-        binding->npc.mercenary = config.GetBool(section, "mercenary", false);
-        binding->hasLoadout = config.GetBool(section, "has_loadout", false);
-        binding->loadoutPath = config.GetString(section, "loadout_path", "");
-        LoadOverrides(section, binding->npc);
-
-        InitBindingKeybind(binding);
-        nextBindingId = (std::max)(nextBindingId, id + 1);
-        spawnBindings.push_back(std::move(binding));
-    }
-}
-
-void NPCEditorSection::SaveSpawnBindings() {
-    auto& config = ConfigManager::Get();
-    config.BatchSave([&] {
-        config.DeleteSection(NPC_BINDINGS_SECTION);
-        config.SetInt(NPC_BINDINGS_SECTION, "next_id", nextBindingId);
-        config.SetInt(NPC_BINDINGS_SECTION, "count", static_cast<int>(spawnBindings.size()));
-
-        for (size_t i = 0; i < spawnBindings.size(); ++i) {
-            const auto& binding = *spawnBindings[i];
-            char idKey[16];
-            std::snprintf(idKey, sizeof(idKey), "id_%zu", i);
-            config.SetInt(NPC_BINDINGS_SECTION, idKey, binding.id);
-
-            const auto section = NPCBindingSection(binding.id);
-            config.SetString(section, "name", binding.name);
-            config.SetString(section, "summary", binding.summary);
-            config.SetInt(section, "key", binding.key);
-            config.SetBool(section, "snap_to_ground", binding.spawn.snapToGround);
-            config.SetFloat(section, "distance_forward", binding.spawn.distanceForward);
-            config.SetFloat(section, "distance_up", binding.spawn.distanceUp);
-            config.SetFloat(section, "scale", binding.spawn.scale);
-            config.SetBool(section, "bodyguard", binding.bodyguard);
-            config.SetInt(section, "team", binding.team);
-            config.SetInt(section, "npc_type", binding.npc.npcTypeIndex);
-            config.SetInt(section, "nationality", binding.npc.nationality);
-            config.SetInt(section, "tier", binding.npc.tier);
-            config.SetBool(section, "mercenary", binding.npc.mercenary);
-            config.SetBool(section, "has_loadout", binding.hasLoadout);
-            config.SetString(section, "loadout_path", binding.loadoutPath);
-            auto npc = binding.npc;
-            SaveOverrides(section, npc);
-        }
-    });
+    SpawnBindingPersistence::Store<SpawnBinding, BindingAdapter>(
+        spawnBindings, nextBindingId, pendingDeleteBindingId, NPC_BINDING_STORE_CONFIG, BindingAdapter{*this}
+    )
+        .Load();
 }
 
 void NPCEditorSection::RenderSpawnBindings() {
-    if (ImGui::Button("Add Spawn Binding")) AddBindingFromCurrentSelection();
-    TooltipHelper::ShowTooltip("Save the current NPC setup as its own keybind");
-
-    if (spawnBindings.empty()) {
-        ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "No NPC spawn bindings saved");
-        return;
-    }
-
-    for (auto& bindingPtr : spawnBindings) {
-        auto& binding = *bindingPtr;
-        ImGui::PushID(binding.id);
-        ImGui::Separator();
-
-        ImGui::SetNextItemWidth(220.0f);
-        if (ImGui::InputText("##BindingName", binding.name, sizeof(binding.name))) {
-            binding.keybind.name = binding.name;
-            KeybindManager::UpdateBindingName(&binding.key, binding.name);
-            SaveSpawnBindings();
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Update")) {
-            binding.spawn = cfg.spawn;
-            binding.bodyguard = cfg.bodyguard;
-            binding.team = cfg.npcTeam;
-            binding.npc = BuildPresetData();
-            binding.hasLoadout = loadoutPicker.HasSelection();
-            binding.loadoutPath = binding.hasLoadout ? loadoutPicker.SelectedPath().string() : "";
-            binding.summary = NPC_TYPES[std::clamp(binding.npc.npcTypeIndex, 0, NPC_TYPES_COUNT - 1)].displayName;
-            if (binding.hasLoadout) binding.summary += " + Loadout";
-            binding.keybind.tooltip = binding.summary;
-            SaveSpawnBindings();
-        }
-        TooltipHelper::ShowTooltip("Replace this binding with the current NPC setup");
-        ImGui::SameLine();
-        if (ImGui::Button("Delete")) pendingDeleteBindingId = binding.id;
-
-        ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "%s", binding.summary.c_str());
-        binding.keybind.Render();
-        ImGui::PopID();
-    }
-
-    ImGui::PushStyleColor(ImGuiCol_ModalWindowDimBg, ImVec4(0, 0, 0, 0.6f));
-    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, GuiUtils::K_POPUP_PADDING);
-    if (pendingDeleteBindingId != -1) ImGui::OpenPopup("Delete NPC Binding");
-    if (ImGui::BeginPopupModal(
-            "Delete NPC Binding", nullptr,
-            ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings
-        )) {
-        ImGui::Text("Delete NPC spawn binding?");
-        ImGui::Spacing();
-        if (ImGui::Button("Delete")) {
-            auto it = std::find_if(spawnBindings.begin(), spawnBindings.end(), [this](const auto& binding) {
-                return binding->id == pendingDeleteBindingId;
-            });
-            if (it != spawnBindings.end()) {
-                KeybindManager::UnregisterKeybind((*it)->keybind.keyPtr);
-                ConfigManager::Get().DeleteSection(NPCBindingSection((*it)->id));
-                spawnBindings.erase(it);
-                SaveSpawnBindings();
-            }
-            pendingDeleteBindingId = -1;
-            ImGui::CloseCurrentPopup();
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Cancel")) {
-            pendingDeleteBindingId = -1;
-            ImGui::CloseCurrentPopup();
-        }
-        ImGui::EndPopup();
-    }
-    ImGui::PopStyleVar();
-    ImGui::PopStyleColor();
+    SpawnBindingPersistence::Store<SpawnBinding, BindingAdapter>(
+        spawnBindings, nextBindingId, pendingDeleteBindingId, NPC_BINDING_STORE_CONFIG, BindingAdapter{*this}
+    )
+        .Render();
 }
 
 void NPCEditorSection::Render() {

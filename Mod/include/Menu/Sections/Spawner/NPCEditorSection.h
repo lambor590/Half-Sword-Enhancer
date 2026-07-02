@@ -42,6 +42,7 @@ private:
         std::string summary;
         KeybindEntry keybind;
     };
+    struct BindingAdapter;
 
     struct NPCTypeInfo {
         const char* displayName;
@@ -93,10 +94,7 @@ private:
     void RenderCombatTab();
     void RenderBehaviorTab();
     void RenderBodyConditionTab();
-    void InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding);
-    void AddBindingFromCurrentSelection();
     void LoadSpawnBindings();
-    void SaveSpawnBindings();
     void RenderSpawnBindings();
 
 public:

@@ -49,6 +49,7 @@ private:
         EquipmentGenerator::ArmorGenerationOptions armorOptions;
         KeybindEntry keybind;
     };
+    struct BindingAdapter;
 
     Config cfg;
 
@@ -95,11 +96,8 @@ private:
     void SpawnCustomPath() const;
     void SpawnWeaponFromPreset();
     void SpawnArmorFromPreset();
-    void InitBindingKeybind(const std::shared_ptr<SpawnBinding>& binding);
-    void AddBindingFromCurrentSelection();
     bool CaptureCurrentSelection(SpawnBinding& binding) const;
     void LoadSpawnBindings();
-    void SaveSpawnBindings();
     void RenderSpawnBindings();
 
 public:
