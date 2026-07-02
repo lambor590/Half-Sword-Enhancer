@@ -3154,6 +3154,26 @@ ESlateVisibility UUI_Forge_Old_C::GetVisibility_21()
 }
 
 
+// Function UI_Forge_Old.UI_Forge_Old_C.GetVisibility_22
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ESlateVisibility UUI_Forge_Old_C::GetVisibility_22()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Forge_Old_C", "GetVisibility_22");
+
+	Params::UI_Forge_Old_C_GetVisibility_22 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
 // Function UI_Forge_Old.UI_Forge_Old_C.GetVisibility_3
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:

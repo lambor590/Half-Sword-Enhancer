@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DismembermentPart_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "Str_ArmorProtection_structs.hpp"
-#include "Engine_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "Engine_structs.hpp"
 #include "BP_Armor_Master_classes.hpp"
 #include "Steel_Type_structs.hpp"
+#include "Str_ArmorProtection_structs.hpp"
 #include "HideBodyPart_Enum_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
 
 
 SDK_NAMESPACE_START

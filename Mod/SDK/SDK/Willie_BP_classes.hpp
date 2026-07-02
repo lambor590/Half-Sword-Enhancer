@@ -10,58 +10,58 @@
 
 #include "Basic.hpp"
 
-#include "BodyPart_Enum_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Str_Passport_Character1_structs.hpp"
-#include "GripType_Enum_structs.hpp"
-#include "Enum_DismembermentPart_structs.hpp"
+#include "Severable_BodyParts_Enum_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
-#include "FootStepping_Enum_structs.hpp"
-#include "Severable_BodyParts_Enum_structs.hpp"
-#include "Enum_Sides_RightLeft_structs.hpp"
 #include "Willie_Bones_Enum_structs.hpp"
+#include "VertexPaintDetectionPlugin_structs.hpp"
+#include "FootStepping_Enum_structs.hpp"
+#include "BodyPart_Enum_structs.hpp"
 #include "Attached_Transform_Str_structs.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "Enum_ReverseGripType_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
-#include "Enum_GameMode_structs.hpp"
 #include "Enum_VoiceType_structs.hpp"
-#include "VertexPaintDetectionPlugin_structs.hpp"
-#include "HideBodyPart_Enum_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"
 #include "ArmorSlotContents_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
+#include "SheathType_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
-#include "Enum_ReverseGripType_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 #include "Steel_Type_structs.hpp"
-#include "SheathType_Enum_structs.hpp"
 #include "LeftRight_Enum_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
+#include "Enum_Sides_RightLeft_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP.Willie_BP_C
-// 0x3FB0 (0x4620 - 0x0670)
+// 0x3FC0 (0x4630 - 0x0670)
 #pragma pack(push, 0x1)
 class SDK_ALIGN(0x10) AWillie_BP_C : public ACharacter
 {
 public:
 	uint8                                         Pad_668[0x8];                                      // 0x0668(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0670(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	class USceneComponent*                        Grabbed_Willie_Location_Scene_L;                   // 0x0678(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Grabbed_Willie_Location_Scene_R;                   // 0x0680(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Kneee1;                                            // 0x0688(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Kneee;                                             // 0x0690(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USkeletalMeshComponent*                 CharacterMesh_Head;                                // 0x0698(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UGroomComponent*                        Hair;                                              // 0x06A0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UStaticMeshComponent*                   Aim_Spline_Scene_Sphere;                           // 0x06A8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USceneComponent*                        Aim_Spline_Scene;                                  // 0x06B0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class USplineComponent*                       Aim_Spline;                                        // 0x06B8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-	class UBoxComponent*                          Box1;                                              // 0x06C0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UBoxComponent*                          Box1;                                              // 0x0678(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Grabbed_Willie_Location_Scene_L;                   // 0x0680(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Grabbed_Willie_Location_Scene_R;                   // 0x0688(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Kneee1;                                            // 0x0690(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Kneee;                                             // 0x0698(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USkeletalMeshComponent*                 CharacterMesh_Head;                                // 0x06A0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UGroomComponent*                        Hair;                                              // 0x06A8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UStaticMeshComponent*                   Aim_Spline_Scene_Sphere;                           // 0x06B0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USceneComponent*                        Aim_Spline_Scene;                                  // 0x06B8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class USplineComponent*                       Aim_Spline;                                        // 0x06C0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USphereComponent*                       DM_Sphere_Foot_L_10;                               // 0x06C8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USphereComponent*                       DM_Sphere_Foot_L_9;                                // 0x06D0(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	class USphereComponent*                       DM_Sphere_Foot_L_8;                                // 0x06D8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
@@ -1506,6 +1506,15 @@ public:
 	bool                                          Bend_Over_Extreme;                                 // 0x4609(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_460A[0x6];                                     // 0x460A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Paint_Interp;                                      // 0x4610(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Alt_Thrust_Classic_Pending;                        // 0x4618(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Blossfechten_Gear;                                 // 0x4619(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	Enum_DismembermentPart                        Currently_Dismembered_Part;                        // 0x461A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Spawned_Upped_Body_Arm_R__Hidden;                  // 0x461B(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Spawned_Upped_Body_Arm_L__Hidden;                  // 0x461C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Spawned_Upped_Body_Head_Hidden;                    // 0x461D(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Spine_Breaking;                              // 0x461E(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Classic_Half_Swording_Toggle;                      // 0x461F(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Get_Up_FailSafe;                                   // 0x4620(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_and_Remove_Weapon_Weights(class AModularWeaponBP_C* Weapon, bool Add);
@@ -1574,11 +1583,12 @@ public:
 	void Event_Block_L_OffHand_Grab();
 	void Event_Check_Bone_Dislocation_Status();
 	void Event_Check_Dismembered_Part_Distance();
+	void Event_Check_If_Weapons_Are_Incapacitated();
 	void Event_Clear_Sheathed_Weapon_Slots();
 	void Event_Detach_Grab_Point_L();
 	void Event_Detach_Grab_Point_R();
 	void Event_Grab_Crossbow_String();
-	void Event_Is_Grabbed();
+	void Event_Is_Grabbed(bool Disable_Weapons_Momentary);
 	void Event_Lose_Match();
 	void Event_Master_Stroke_Switch(bool Master_Stroke_Grip_0);
 	void Event_Release_Crossbow_String();
@@ -1609,11 +1619,11 @@ public:
 	void Helmet_Muffle_Voice();
 	void InpActEvt_B_K2Node_InputDebugKeyEvent_0(const struct FKey& Key, const struct FInputActionValue& ActionValue);
 	void InpActEvt_CapsLock_K2Node_InputKeyEvent_2(const struct FKey& Key);
-	void InpActEvt_Change_Camera_K2Node_InputActionEvent_0(const struct FKey& Key);
+	void InpActEvt_Change_Camera_K2Node_InputActionEvent_2(const struct FKey& Key);
 	void InpActEvt_Crouch_Hold_K2Node_InputActionEvent_10(const struct FKey& Key);
 	void InpActEvt_Crouch_Hold_K2Node_InputActionEvent_9(const struct FKey& Key);
-	void InpActEvt_Crouch_Key_K2Node_InputActionEvent_4(const struct FKey& Key);
-	void InpActEvt_Crouch_Key_K2Node_InputActionEvent_5(const struct FKey& Key);
+	void InpActEvt_Crouch_Key_K2Node_InputActionEvent_6(const struct FKey& Key);
+	void InpActEvt_Crouch_Key_K2Node_InputActionEvent_7(const struct FKey& Key);
 	void InpActEvt_Grab_Left_K2Node_InputActionEvent_18(const struct FKey& Key);
 	void InpActEvt_Grab_Left_K2Node_InputActionEvent_19(const struct FKey& Key);
 	void InpActEvt_Grab_Right_K2Node_InputActionEvent_20(const struct FKey& Key);
@@ -1631,21 +1641,21 @@ public:
 	void InpActEvt_Key_Right_K2Node_InputActionEvent_28(const struct FKey& Key);
 	void InpActEvt_Key_Right_K2Node_InputActionEvent_29(const struct FKey& Key);
 	void InpActEvt_N_K2Node_InputDebugKeyEvent_1(const struct FKey& Key, const struct FInputActionValue& ActionValue);
-	void InpActEvt_Pause_K2Node_InputActionEvent_1(const struct FKey& Key);
+	void InpActEvt_Pause_K2Node_InputActionEvent_3(const struct FKey& Key);
 	void InpActEvt_PhotoMode_K2Node_InputActionEvent_32(const struct FKey& Key);
 	void InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const struct FKey& Key);
 	void InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1(const struct FKey& Key);
-	void InpActEvt_Run_K2Node_InputActionEvent_2(const struct FKey& Key);
-	void InpActEvt_Run_K2Node_InputActionEvent_3(const struct FKey& Key);
-	void InpActEvt_SloMo_K2Node_InputActionEvent_6(const struct FKey& Key);
+	void InpActEvt_Run_K2Node_InputActionEvent_4(const struct FKey& Key);
+	void InpActEvt_Run_K2Node_InputActionEvent_5(const struct FKey& Key);
+	void InpActEvt_SloMo_K2Node_InputActionEvent_8(const struct FKey& Key);
 	void InpActEvt_Swap_Hands_K2Node_InputActionEvent_16(const struct FKey& Key);
 	void InpActEvt_Swap_Hands_K2Node_InputActionEvent_17(const struct FKey& Key);
 	void InpActEvt_Talk_K2Node_InputActionEvent_22(const struct FKey& Key);
 	void InpActEvt_Talk_K2Node_InputActionEvent_23(const struct FKey& Key);
 	void InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_11(const struct FKey& Key);
 	void InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_12(const struct FKey& Key);
-	void InpActEvt_Thrust_K2Node_InputActionEvent_7(const struct FKey& Key);
-	void InpActEvt_Thrust_K2Node_InputActionEvent_8(const struct FKey& Key);
+	void InpActEvt_Thrust_K2Node_InputActionEvent_0(const struct FKey& Key);
+	void InpActEvt_Thrust_K2Node_InputActionEvent_1(const struct FKey& Key);
 	void InpActEvt_Toggle_Camera_Lock_K2Node_InputActionEvent_13(const struct FKey& Key);
 	void InpAxisEvt_Left_Arm_Axis_K2Node_InputAxisEvent_3(float AxisValue);
 	void InpAxisEvt_Left_Guard_Axis_K2Node_InputAxisEvent_7(float AxisValue);

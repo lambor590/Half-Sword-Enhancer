@@ -17,7 +17,7 @@
 SDK_NAMESPACE_START
 
 // Function Map_Test_Empty.Map_Test_Empty_C.ExecuteUbergraph_Map_Test_Empty
-// (Final, UbergraphFunction)
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 

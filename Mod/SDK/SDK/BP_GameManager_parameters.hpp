@@ -167,7 +167,7 @@ public:
 };
 
 // Function BP_GameManager.BP_GameManager_C.Generate Random Combat Event
-// 0x0110 (0x0110 - 0x0000)
+// 0x0120 (0x0120 - 0x0000)
 struct BP_GameManager_C_Generate_Random_Combat_Event final
 {
 public:
@@ -200,6 +200,8 @@ public:
 	uint8                                         Pad_BE[0x2];                                       // 0x00BE(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FStr_Passport_CombatEvent1             CallFunc_Generate_Combat_Event_Passport;           // 0x00C0(0x0048)(HasGetValueTypeHash)
 	int32                                         CallFunc_Array_AddUnique_ReturnValue;              // 0x0108(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_10C[0x4];                                      // 0x010C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0110(0x0010)(ZeroConstructor, HasGetValueTypeHash)
 };
 
 // Function BP_GameManager.BP_GameManager_C.Generate Random Equipment

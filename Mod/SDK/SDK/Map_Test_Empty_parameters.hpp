@@ -10,16 +10,26 @@
 
 #include "Basic.hpp"
 
+#include "CoreUObject_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
+
 
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
 // Function Map_Test_Empty.Map_Test_Empty_C.ExecuteUbergraph_Map_Test_Empty
-// 0x0004 (0x0004 - 0x0000)
+// 0x0190 (0x0190 - 0x0000)
 struct Map_Test_Empty_C_ExecuteUbergraph_Map_Test_Empty final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4[0xC];                                        // 0x0004(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FTransform                             CallFunc_MakeTransform_ReturnValue;                // 0x0010(0x0060)(IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue; // 0x0070(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_1; // 0x0078(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class ABP_Generator_Weapons_Random_C*         CallFunc_FinishSpawningActor_ReturnValue;          // 0x0080(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AModularWeaponBP_C*                     CallFunc_FinishSpawningActor_ReturnValue_1;        // 0x0088(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FStr_Passport_Weapon1                  CallFunc_Generate_Weapon_Weapon_Passport;          // 0x0090(0x0100)(NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

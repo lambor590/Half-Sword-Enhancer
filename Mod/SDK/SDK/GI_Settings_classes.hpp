@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
+#include "Str_Passport_Character1_structs.hpp"
 #include "Str_Inventory_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "ScreenResolution_Enum_structs.hpp"
 #include "Enum_DayTime_structs.hpp"
-#include "Str_Passport_Character1_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "Str_SubPassport_AvailableArmorInSlots_structs.hpp"
@@ -41,7 +41,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass GI_Settings.GI_Settings_C
-// 0x0D20 (0x0EE0 - 0x01C0)
+// 0x0D28 (0x0EE8 - 0x01C0)
 class UGI_Settings_C final : public UGameInstance
 {
 public:
@@ -246,6 +246,9 @@ public:
 	Enum_Ranks                                    Free_Mode_Rendom_Equipment_Tier;                   // 0x0ED1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_ED2[0x6];                                      // 0x0ED2(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Bone_Snapping;                                     // 0x0ED8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Classic_Alt_Thrust_Toggle;                         // 0x0EE0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Free_Mode_Blossfechten;                            // 0x0EE1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Classic_HalfSwording_Toggle;                       // 0x0EE2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Check_Insured_Items();

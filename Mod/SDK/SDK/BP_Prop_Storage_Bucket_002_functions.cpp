@@ -16,26 +16,6 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_Prop_Storage_Bucket_002.BP_Prop_Storage_Bucket_002_C.ExecuteUbergraph_BP_Prop_Storage_Bucket_002
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Prop_Storage_Bucket_002_C::ExecuteUbergraph_BP_Prop_Storage_Bucket_002(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Storage_Bucket_002_C", "ExecuteUbergraph_BP_Prop_Storage_Bucket_002");
-
-	Params::BP_Prop_Storage_Bucket_002_C_ExecuteUbergraph_BP_Prop_Storage_Bucket_002 Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function BP_Prop_Storage_Bucket_002.BP_Prop_Storage_Bucket_002_C.BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -59,6 +39,26 @@ void ABP_Prop_Storage_Bucket_002_C::BndEvt__Barrel_BP_SM_Barrel_K2Node_Component
 	Parms.OtherComp = OtherComp;
 	Parms.NormalImpulse = std::move(NormalImpulse);
 	Parms.Hit = std::move(Hit);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Prop_Storage_Bucket_002.BP_Prop_Storage_Bucket_002_C.ExecuteUbergraph_BP_Prop_Storage_Bucket_002
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Prop_Storage_Bucket_002_C::ExecuteUbergraph_BP_Prop_Storage_Bucket_002(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Prop_Storage_Bucket_002_C", "ExecuteUbergraph_BP_Prop_Storage_Bucket_002");
+
+	Params::BP_Prop_Storage_Bucket_002_C_ExecuteUbergraph_BP_Prop_Storage_Bucket_002 Parms{};
+
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

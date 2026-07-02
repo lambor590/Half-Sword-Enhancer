@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "S_PhotosData_structs.hpp"
 #include "Engine_classes.hpp"
+#include "S_PhotosData_structs.hpp"
 
 
 SDK_NAMESPACE_START

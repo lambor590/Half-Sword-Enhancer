@@ -14,9 +14,9 @@
 #include "SlateCore_structs.hpp"
 #include "PlayerCharacter_Settings_Struct_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "PhysicsCore_structs.hpp"
 #include "Engine_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "PhysicsCore_structs.hpp"
 
 
 SDK_NAMESPACE_START

@@ -18,7 +18,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass SG_Settings.SG_Settings_C
-// 0x00C0 (0x00E8 - 0x0028)
+// 0x00C8 (0x00F0 - 0x0028)
 class USG_Settings_C final : public USaveGame
 {
 public:
@@ -58,6 +58,8 @@ public:
 	int32                                         Current_Language;                                  // 0x00D8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_DC[0x4];                                       // 0x00DC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Bone_Density;                                      // 0x00E0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Classic_Alt_Thrust_Toggle;                         // 0x00E8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Classic_HalfSwording_Toggle;                       // 0x00E9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	static class UClass* StaticClass()

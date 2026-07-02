@@ -32,6 +32,7 @@ public:
 	Enum_MaterialLayer                            Custom_Material_Colored_Metal;                     // 0x02A9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	Enum_MaterialLayer                            Custom_Material_Colored_Wood;                      // 0x02AA(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	Enum_MaterialLayer                            Custom_Material_Colored_Leather;                   // 0x02AB(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Generate_Greatsword;                               // 0x02AC(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Add_Weapon_Module_to_Array(class UClass* Weapon_Module, Enum_Ranks Tier_In, double* Module_Price, Enum_Ranks* Tier_Out);

@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "Enum_PlayCards_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Str_Equipment_Loadout_Old_structs.hpp"
+#include "Enum_PlayCards_structs.hpp"
 
 
 SDK_NAMESPACE_START

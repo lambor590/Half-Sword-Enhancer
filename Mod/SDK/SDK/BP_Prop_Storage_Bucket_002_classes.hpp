@@ -27,8 +27,8 @@ public:
 	class USceneComponent*                        DefaultSceneRoot;                                  // 0x02A8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_BP_Prop_Storage_Bucket_002(int32 EntryPoint);
 	void BndEvt__Barrel_BP_SM_Barrel_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void ExecuteUbergraph_BP_Prop_Storage_Bucket_002(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

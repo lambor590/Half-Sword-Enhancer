@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "Engine_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
 #include "UMG_classes.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"

@@ -15,7 +15,9 @@
 #include "Enum_CombatEvent_Modes_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Str_Passport_CombatEvent1_structs.hpp"
+#include "SheathSlots_Enum_structs.hpp"
 #include "UMG_classes.hpp"
+#include "Enum_Sides_RightLeft_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -81,6 +83,7 @@ public:
 	class FText GetText_1();
 	class FText GetText_2();
 	void PreConstruct(bool IsDesignTime);
+	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
 
 public:
 	static class UClass* StaticClass()

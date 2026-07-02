@@ -112,6 +112,26 @@ void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_1_K2Node_Compone
 }
 
 
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature
+// (BlueprintEvent)
+// Parameters:
+// bool                                    bIsChecked                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Jester_FreeMode_C::BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature(bool bIsChecked)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature");
+
+	Params::UI_Jester_FreeMode_C_BndEvt__UI_Jester_FreeMode_CheckBox_2_K2Node_ComponentBoundEvent_13_OnCheckBoxComponentStateChanged__DelegateSignature Parms{};
+
+	Parms.bIsChecked = bIsChecked;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.BndEvt__UI_Jester_FreeMode_CheckBox_K2Node_ComponentBoundEvent_7_OnCheckBoxComponentStateChanged__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -359,6 +379,26 @@ ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState_1()
 		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetCheckedState_1");
 
 	Params::UI_Jester_FreeMode_C_GetCheckedState_1 Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Jester_FreeMode.UI_Jester_FreeMode_C.GetCheckedState_2
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// ECheckBoxState                          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+ECheckBoxState UUI_Jester_FreeMode_C::GetCheckedState_2()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Jester_FreeMode_C", "GetCheckedState_2");
+
+	Params::UI_Jester_FreeMode_C_GetCheckedState_2 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 

@@ -10,20 +10,20 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
-#include "Engine_classes.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Str_Passport_Character1_structs.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Enum_PlayMode_structs.hpp"
+#include "Engine_structs.hpp"
+#include "Engine_classes.hpp"
 #include "Enum_GameMode_structs.hpp"
 #include "Enum_SpwanerFaceRotation_structs.hpp"
+#include "Enum_PlayMode_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_SpawnerPoint_Willies.BP_SpawnerPoint_Willies_C
-// 0x0428 (0x06B8 - 0x0290)
+// 0x0430 (0x06C0 - 0x0290)
 class ABP_SpawnerPoint_Willies_C final : public AActor
 {
 public:
@@ -61,6 +61,7 @@ public:
 	struct FStr_Passport_Character1               Spawned_mercenary;                                 // 0x0570(0x0140)(Edit, BlueprintVisible, DisableEditOnInstance, HasGetValueTypeHash)
 	int32                                         Random_Sparring_Partner_ID;                        // 0x06B0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Required_Combatants_Amount;                        // 0x06B4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	bool                                          Blossfechten_Gear;                                 // 0x06B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_BP_SpawnerPoint_Willies(int32 EntryPoint);

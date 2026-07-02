@@ -1258,6 +1258,20 @@ void AWillie_BP_C::Event_Check_Dismembered_Part_Distance()
 }
 
 
+// Function Willie_BP.Willie_BP_C.Event Check If Weapons Are Incapacitated
+// (BlueprintCallable, BlueprintEvent)
+
+void AWillie_BP_C::Event_Check_If_Weapons_Are_Incapacitated()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_C", "Event Check If Weapons Are Incapacitated");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP.Willie_BP_C.Event Clear Sheathed Weapon Slots
 // (BlueprintCallable, BlueprintEvent)
 
@@ -1316,15 +1330,21 @@ void AWillie_BP_C::Event_Grab_Crossbow_String()
 
 // Function Willie_BP.Willie_BP_C.Event Is Grabbed
 // (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Disable_Weapons_Momentary                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_C::Event_Is_Grabbed()
+void AWillie_BP_C::Event_Is_Grabbed(bool Disable_Weapons_Momentary)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("Willie_BP_C", "Event Is Grabbed");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::Willie_BP_C_Event_Is_Grabbed Parms{};
+
+	Parms.Disable_Weapons_Momentary = Disable_Weapons_Momentary;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -1891,19 +1911,19 @@ void AWillie_BP_C::InpActEvt_CapsLock_K2Node_InputKeyEvent_2(const struct FKey& 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Change Camera_K2Node_InputActionEvent_0
+// Function Willie_BP.Willie_BP_C.InpActEvt_Change Camera_K2Node_InputActionEvent_2
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Change_Camera_K2Node_InputActionEvent_0(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Change_Camera_K2Node_InputActionEvent_2(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Change Camera_K2Node_InputActionEvent_0");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Change Camera_K2Node_InputActionEvent_2");
 
-	Params::Willie_BP_C_InpActEvt_Change_Camera_K2Node_InputActionEvent_0 Parms{};
+	Params::Willie_BP_C_InpActEvt_Change_Camera_K2Node_InputActionEvent_2 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1951,19 +1971,19 @@ void AWillie_BP_C::InpActEvt_Crouch_Hold_K2Node_InputActionEvent_9(const struct 
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Key_K2Node_InputActionEvent_4
+// Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Key_K2Node_InputActionEvent_6
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_4(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_6(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Key_K2Node_InputActionEvent_4");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Key_K2Node_InputActionEvent_6");
 
-	Params::Willie_BP_C_InpActEvt_Crouch_Key_K2Node_InputActionEvent_4 Parms{};
+	Params::Willie_BP_C_InpActEvt_Crouch_Key_K2Node_InputActionEvent_6 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -1971,19 +1991,19 @@ void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_4(const struct F
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Key_K2Node_InputActionEvent_5
+// Function Willie_BP.Willie_BP_C.InpActEvt_Crouch Key_K2Node_InputActionEvent_7
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_5(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Crouch_Key_K2Node_InputActionEvent_7(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Key_K2Node_InputActionEvent_5");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Crouch Key_K2Node_InputActionEvent_7");
 
-	Params::Willie_BP_C_InpActEvt_Crouch_Key_K2Node_InputActionEvent_5 Parms{};
+	Params::Willie_BP_C_InpActEvt_Crouch_Key_K2Node_InputActionEvent_7 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2333,19 +2353,19 @@ void AWillie_BP_C::InpActEvt_N_K2Node_InputDebugKeyEvent_1(const struct FKey& Ke
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Pause_K2Node_InputActionEvent_1
+// Function Willie_BP.Willie_BP_C.InpActEvt_Pause_K2Node_InputActionEvent_3
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Pause_K2Node_InputActionEvent_1(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Pause_K2Node_InputActionEvent_3(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Pause_K2Node_InputActionEvent_1");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Pause_K2Node_InputActionEvent_3");
 
-	Params::Willie_BP_C_InpActEvt_Pause_K2Node_InputActionEvent_1 Parms{};
+	Params::Willie_BP_C_InpActEvt_Pause_K2Node_InputActionEvent_3 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2413,19 +2433,19 @@ void AWillie_BP_C::InpActEvt_RightMouseButton_K2Node_InputKeyEvent_1(const struc
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Run_K2Node_InputActionEvent_2
+// Function Willie_BP.Willie_BP_C.InpActEvt_Run_K2Node_InputActionEvent_4
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_2(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_4(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Run_K2Node_InputActionEvent_2");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Run_K2Node_InputActionEvent_4");
 
-	Params::Willie_BP_C_InpActEvt_Run_K2Node_InputActionEvent_2 Parms{};
+	Params::Willie_BP_C_InpActEvt_Run_K2Node_InputActionEvent_4 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2433,19 +2453,19 @@ void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_2(const struct FKey& Ke
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Run_K2Node_InputActionEvent_3
+// Function Willie_BP.Willie_BP_C.InpActEvt_Run_K2Node_InputActionEvent_5
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_3(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_5(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Run_K2Node_InputActionEvent_3");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Run_K2Node_InputActionEvent_5");
 
-	Params::Willie_BP_C_InpActEvt_Run_K2Node_InputActionEvent_3 Parms{};
+	Params::Willie_BP_C_InpActEvt_Run_K2Node_InputActionEvent_5 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2453,19 +2473,19 @@ void AWillie_BP_C::InpActEvt_Run_K2Node_InputActionEvent_3(const struct FKey& Ke
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_SloMo_K2Node_InputActionEvent_6
+// Function Willie_BP.Willie_BP_C.InpActEvt_SloMo_K2Node_InputActionEvent_8
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_SloMo_K2Node_InputActionEvent_6(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_SloMo_K2Node_InputActionEvent_8(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_SloMo_K2Node_InputActionEvent_6");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_SloMo_K2Node_InputActionEvent_8");
 
-	Params::Willie_BP_C_InpActEvt_SloMo_K2Node_InputActionEvent_6 Parms{};
+	Params::Willie_BP_C_InpActEvt_SloMo_K2Node_InputActionEvent_8 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2593,19 +2613,19 @@ void AWillie_BP_C::InpActEvt_Thrust_Gamepad_K2Node_InputActionEvent_12(const str
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Thrust_K2Node_InputActionEvent_7
+// Function Willie_BP.Willie_BP_C.InpActEvt_Thrust_K2Node_InputActionEvent_0
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_7(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_0(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust_K2Node_InputActionEvent_7");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust_K2Node_InputActionEvent_0");
 
-	Params::Willie_BP_C_InpActEvt_Thrust_K2Node_InputActionEvent_7 Parms{};
+	Params::Willie_BP_C_InpActEvt_Thrust_K2Node_InputActionEvent_0 Parms{};
 
 	Parms.Key = std::move(Key);
 
@@ -2613,19 +2633,19 @@ void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_7(const struct FKey&
 }
 
 
-// Function Willie_BP.Willie_BP_C.InpActEvt_Thrust_K2Node_InputActionEvent_8
+// Function Willie_BP.Willie_BP_C.InpActEvt_Thrust_K2Node_InputActionEvent_1
 // (BlueprintEvent)
 // Parameters:
 // const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_8(const struct FKey& Key)
+void AWillie_BP_C::InpActEvt_Thrust_K2Node_InputActionEvent_1(const struct FKey& Key)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust_K2Node_InputActionEvent_8");
+		Func = Class->GetFunction("Willie_BP_C", "InpActEvt_Thrust_K2Node_InputActionEvent_1");
 
-	Params::Willie_BP_C_InpActEvt_Thrust_K2Node_InputActionEvent_8 Parms{};
+	Params::Willie_BP_C_InpActEvt_Thrust_K2Node_InputActionEvent_1 Parms{};
 
 	Parms.Key = std::move(Key);
 
