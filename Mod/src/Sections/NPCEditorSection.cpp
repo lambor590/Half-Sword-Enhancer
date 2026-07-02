@@ -118,6 +118,7 @@ void NPCEditorSection::BuildDescriptors() {
     behaviorFields = {
         OverrideField("Start Kneeled", o.startKneeled, "NPC spawns in a kneeling position"),
         OverrideField("Spawn in Pants", o.spawnInPants, "NPC spawns wearing only pants (no armor)"),
+        OverrideField("Blossfechten Gear", o.blossfechtenGear, "NPC spawns with Blossfechten gear setup"),
         OverrideField("Clear Spawn Area", o.clearSpawnArea, "Clear objects around spawn point before spawning"),
         OverrideField("Drunk", o.drunk, 0.01f, "Drunkenness level (0 = sober, 1 = fully drunk)"),
         OverrideField("Bolts in Quiver", o.boltsInQuiver, 0.1f, "Number of crossbow bolts the NPC carries"),

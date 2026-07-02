@@ -17,6 +17,7 @@ struct NPCOverrides : CharacterPhysicalOverrides, CharacterCombatOverrides, Char
 
     BoolOverride startKneeled;
     BoolOverride spawnInPants;
+    BoolOverride blossfechtenGear;
     BoolOverride clearSpawnArea;
     RuntimeOverride drunk;
     IntOverride boltsInQuiver;

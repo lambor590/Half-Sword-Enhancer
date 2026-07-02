@@ -199,6 +199,7 @@ std::vector<OverrideGroupDescriptor> NPCPresetData::GetOverrideGroups(NPCPresetD
     };
     behavior = {
         OverrideField("startKneeled", o.startKneeled),     OverrideField("spawnInPants", o.spawnInPants),
+        OverrideField("blossfechtenGear", o.blossfechtenGear),
         OverrideField("clearSpawnArea", o.clearSpawnArea), OverrideField("drunk", o.drunk),
         OverrideField("boltsInQuiver", o.boltsInQuiver),
     };

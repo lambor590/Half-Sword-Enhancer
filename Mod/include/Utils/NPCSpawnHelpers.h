@@ -49,6 +49,7 @@ namespace NPCSpawnHelpers {
 
         if (ovr.startKneeled.enabled) npc->Start_Kneeled = ovr.startKneeled.value;
         if (ovr.spawnInPants.enabled) npc->Spawn_in_Pants = ovr.spawnInPants.value;
+        if (ovr.blossfechtenGear.enabled) npc->Blossfechten_Gear = ovr.blossfechtenGear.value;
         if (ovr.clearSpawnArea.enabled) npc->Clear_Spawn_Area = ovr.clearSpawnArea.value;
         if (ovr.drunk.enabled) npc->Drunk = ovr.drunk.value;
         if (ovr.boltsInQuiver.enabled) npc->Bolts_in_Quiver = ovr.boltsInQuiver.value;
