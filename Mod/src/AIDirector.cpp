@@ -19,7 +19,7 @@ namespace {
     constexpr int DIRECTIVE_HOSTILE_TEAM = 31;
     constexpr int DIRECTIVE_HOSTILE_ALT_TEAM = 32;
 
-    double NowSeconds() {
+    double ElapsedSeconds() {
         static const auto START = std::chrono::steady_clock::now();
         return std::chrono::duration<double>(std::chrono::steady_clock::now() - START).count();
     }
@@ -40,13 +40,13 @@ namespace {
 
     template <typename Func>
     int ForEachTarget(
-        const RuntimeContextSnapshot& runtime, AIDirector::TargetQuery query, Func&& func
+        const RuntimeContextSnapshot& runtime, AIDirector::TargetFilter query, Func&& func
     ) {
         auto* world = runtime.world;
         auto* player = runtime.player;
         if (!world || !player) return 0;
 
-        if (query.scope == AIDirector::Scope::NearestEnemy) {
+        if (query.scope == AIDirector::Scope::NearestNpc) {
             auto* nearest = ActorUtils::FindNearestWillie(world, player, player, GameConstants::MAX_DISTANCE);
             if (!nearest) return 0;
             func(nearest);
@@ -292,60 +292,60 @@ AIDirector::AIDirector() {
     originalStates.reserve(64);
 }
 
-void AIDirector::RefreshStatus(TargetQuery query) {
+void AIDirector::RefreshStatus(TargetFilter query) {
     GameHook::QueueAction([query](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().RefreshStatusNow(runtime, query);
+        AIDirector::Get().RefreshStatus(runtime, query);
     });
 }
 
-void AIDirector::SetAITick(TargetQuery query, bool enabled) {
+void AIDirector::SetAITick(TargetFilter query, bool enabled) {
     GameHook::QueueAction([query, enabled](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().SetAITickNow(runtime, query, enabled);
+        AIDirector::Get().SetAITick(runtime, query, enabled);
     });
 }
 
-void AIDirector::StopAI(TargetQuery query) {
+void AIDirector::StopAI(TargetFilter query) {
     ClearDirective();
     GameHook::QueueAction([query](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().StopAINow(runtime, query);
+        AIDirector::Get().StopAI(runtime, query);
     });
 }
 
-void AIDirector::ApplyBehavior(TargetQuery query, BehaviorSettings settings) {
+void AIDirector::ApplyBehavior(TargetFilter query, BehaviorSettings settings) {
     GameHook::QueueAction([query, settings](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().ApplyBehaviorNow(runtime, query, settings);
+        AIDirector::Get().ApplyBehavior(runtime, query, settings);
     });
 }
 
-void AIDirector::ApplyTeam(TargetQuery query, int newTeam) {
+void AIDirector::ApplyTeam(TargetFilter query, int newTeam) {
     GameHook::QueueAction([query, newTeam](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().ApplyTeamNow(runtime, query, newTeam);
+        AIDirector::Get().ApplyTeam(runtime, query, newTeam);
     });
 }
 
-void AIDirector::ApplyProfile(TargetQuery query, Profile profile) {
+void AIDirector::ApplyProfile(TargetFilter query, Profile profile) {
     GameHook::QueueAction([query, profile](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().ApplyProfileNow(runtime, query, profile);
+        AIDirector::Get().ApplyProfile(runtime, query, profile);
     });
 }
 
-void AIDirector::SetTarget(TargetQuery query, TargetMode mode) {
+void AIDirector::SetTarget(TargetFilter query, TargetMode mode) {
     GameHook::QueueAction([query, mode](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().SetTargetNow(runtime, query, mode);
+        AIDirector::Get().SetTarget(runtime, query, mode);
     });
 }
 
-void AIDirector::TriggerImpulse(TargetQuery query, Impulse impulse) {
+void AIDirector::TriggerImpulse(TargetFilter query, Impulse impulse) {
     GameHook::QueueAction([query, impulse](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().TriggerImpulseNow(runtime, query, impulse);
+        AIDirector::Get().TriggerImpulse(runtime, query, impulse);
     });
 }
 
-void AIDirector::ToggleDirective(TargetQuery query, Directive directive) {
+void AIDirector::ToggleDirective(TargetFilter query, Directive directive) {
     SetDirective(query, ActiveDirective() == directive ? Directive::None : directive);
 }
 
-void AIDirector::SetDirective(TargetQuery query, Directive directive) {
+void AIDirector::SetDirective(TargetFilter query, Directive directive) {
     if (directive == Directive::None) {
         ClearDirective();
         return;
@@ -359,7 +359,7 @@ void AIDirector::SetDirective(TargetQuery query, Directive directive) {
 
     const bool switchingDirective = previousDirective != Directive::None;
     GameHook::QueueAction([query, directive, switchingDirective](const RuntimeContextSnapshot& runtime) {
-        AIDirector::Get().StartDirectiveNow(runtime, query, directive, switchingDirective);
+        AIDirector::Get().StartDirective(runtime, query, directive, switchingDirective);
     });
 }
 
@@ -374,7 +374,7 @@ void AIDirector::ClearDirective() {
     activeDirective.store(static_cast<int>(Directive::None), std::memory_order_release);
     EnsureDirectiveTickSubscription();
 
-    GameHook::QueueAction([](const RuntimeContextSnapshot& runtime) { AIDirector::Get().ClearDirectiveNow(runtime); });
+    GameHook::QueueAction([](const RuntimeContextSnapshot& runtime) { AIDirector::Get().ClearDirective(runtime); });
 }
 
 AIDirector::Directive AIDirector::ActiveDirective() const noexcept {
@@ -479,8 +479,8 @@ void AIDirector::UnsubscribeDirectiveTickIfIdle() {
     directiveTickSubscription = EventBus::INVALID_SUBSCRIPTION;
 }
 
-void AIDirector::StartDirectiveNow(
-    const RuntimeContextSnapshot& runtime, TargetQuery query, Directive directive, bool switchingDirective
+void AIDirector::StartDirective(
+    const RuntimeContextSnapshot& runtime, TargetFilter query, Directive directive, bool switchingDirective
 ) {
     std::lock_guard lock(directiveMutex);
     if (ActiveDirective() != directive) return;
@@ -488,7 +488,7 @@ void AIDirector::StartDirectiveNow(
     directiveQuery = query;
     if ((switchingDirective || pendingDirectiveRestore) && !RestoreDirectiveState(runtime, nullptr)) {
         pendingDirectiveInitialTrigger = true;
-        nextDirectiveApplyTime = NowSeconds() + DIRECTIVE_INTERVAL_SECONDS;
+        nextDirectiveApplyTime = ElapsedSeconds() + DIRECTIVE_INTERVAL_SECONDS;
         return;
     }
 
@@ -496,10 +496,10 @@ void AIDirector::StartDirectiveNow(
     pendingDirectiveInitialTrigger = false;
     nextDirectiveApplyTime = 0.0;
     ApplyDirective(runtime, true);
-    nextDirectiveApplyTime = NowSeconds() + DIRECTIVE_INTERVAL_SECONDS;
+    nextDirectiveApplyTime = ElapsedSeconds() + DIRECTIVE_INTERVAL_SECONDS;
 }
 
-void AIDirector::ClearDirectiveNow(const RuntimeContextSnapshot& runtime) {
+void AIDirector::ClearDirective(const RuntimeContextSnapshot& runtime) {
     std::lock_guard lock(directiveMutex);
     pendingDirectiveRestore = pendingDirectiveRestore || !originalStates.empty();
     pendingDirectiveInitialTrigger = false;
@@ -507,14 +507,14 @@ void AIDirector::ClearDirectiveNow(const RuntimeContextSnapshot& runtime) {
     if (RestoreDirectiveState(runtime, "Directive cleared")) {
         UnsubscribeDirectiveTickIfIdle();
     } else {
-        nextDirectiveApplyTime = NowSeconds() + DIRECTIVE_INTERVAL_SECONDS;
+        nextDirectiveApplyTime = ElapsedSeconds() + DIRECTIVE_INTERVAL_SECONDS;
     }
 }
 
 void AIDirector::OnDirectiveTick(const RuntimeContextSnapshot& runtime) {
     std::lock_guard lock(directiveMutex);
 
-    const double now = NowSeconds();
+    const double now = ElapsedSeconds();
     if (now < nextDirectiveApplyTime) return;
 
     bool triggerInitialApply = false;
@@ -615,7 +615,7 @@ bool AIDirector::RestoreDirectiveState(const RuntimeContextSnapshot& runtime, co
 void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool triggerAttack) {
     if (PublishUnavailable(runtime)) return;
 
-    const TargetQuery selectedQuery = directiveQuery;
+    const TargetFilter selectedQuery = directiveQuery;
     const bool publishResult = triggerAttack;
 
     targetsBuffer.clear();
@@ -859,7 +859,7 @@ void AIDirector::ApplyDirective(const RuntimeContextSnapshot& runtime, bool trig
     }
 }
 
-void AIDirector::RefreshStatusNow(const RuntimeContextSnapshot& runtime, TargetQuery query) {
+void AIDirector::RefreshStatus(const RuntimeContextSnapshot& runtime, TargetFilter query) {
     if (PublishUnavailable(runtime)) return;
 
     StatusSummary next;
@@ -903,7 +903,7 @@ void AIDirector::RefreshStatusNow(const RuntimeContextSnapshot& runtime, TargetQ
     PublishStatus(next, std::move(result));
 }
 
-void AIDirector::SetAITickNow(const RuntimeContextSnapshot& runtime, TargetQuery query, bool enabled) {
+void AIDirector::SetAITick(const RuntimeContextSnapshot& runtime, TargetFilter query, bool enabled) {
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;
@@ -918,7 +918,7 @@ void AIDirector::SetAITickNow(const RuntimeContextSnapshot& runtime, TargetQuery
     PublishResult(result, enabled ? "AI tick enabled" : "AI tick disabled", true);
 }
 
-void AIDirector::StopAINow(const RuntimeContextSnapshot& runtime, TargetQuery query) {
+void AIDirector::StopAI(const RuntimeContextSnapshot& runtime, TargetFilter query) {
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;
@@ -937,8 +937,8 @@ void AIDirector::StopAINow(const RuntimeContextSnapshot& runtime, TargetQuery qu
     PublishResult(result, "AI stopped", true);
 }
 
-void AIDirector::ApplyBehaviorNow(
-    const RuntimeContextSnapshot& runtime, TargetQuery query, const BehaviorSettings& settings
+void AIDirector::ApplyBehavior(
+    const RuntimeContextSnapshot& runtime, TargetFilter query, const BehaviorSettings& settings
 ) {
     if (PublishUnavailable(runtime)) return;
 
@@ -982,7 +982,7 @@ void AIDirector::ApplyBehaviorNow(
     PublishResult(result, "Behavior applied", false);
 }
 
-void AIDirector::ApplyTeamNow(const RuntimeContextSnapshot& runtime, TargetQuery query, int newTeam) {
+void AIDirector::ApplyTeam(const RuntimeContextSnapshot& runtime, TargetFilter query, int newTeam) {
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;
@@ -998,7 +998,7 @@ void AIDirector::ApplyTeamNow(const RuntimeContextSnapshot& runtime, TargetQuery
     PublishResult(result, "Team applied", false);
 }
 
-void AIDirector::ApplyProfileNow(const RuntimeContextSnapshot& runtime, TargetQuery query, Profile profile) {
+void AIDirector::ApplyProfile(const RuntimeContextSnapshot& runtime, TargetFilter query, Profile profile) {
     if (PublishUnavailable(runtime)) return;
 
     const int playerTeam = runtime.player ? runtime.player->Team_Int : 0;
@@ -1011,7 +1011,7 @@ void AIDirector::ApplyProfileNow(const RuntimeContextSnapshot& runtime, TargetQu
     PublishResult(result, "Profile applied", false);
 }
 
-void AIDirector::SetTargetNow(const RuntimeContextSnapshot& runtime, TargetQuery query, TargetMode mode) {
+void AIDirector::SetTarget(const RuntimeContextSnapshot& runtime, TargetFilter query, TargetMode mode) {
     if (PublishUnavailable(runtime)) return;
 
     std::lock_guard lock(directiveMutex);
@@ -1064,7 +1064,7 @@ void AIDirector::SetTargetNow(const RuntimeContextSnapshot& runtime, TargetQuery
     PublishResult(result, message, true);
 }
 
-void AIDirector::TriggerImpulseNow(const RuntimeContextSnapshot& runtime, TargetQuery query, Impulse impulse) {
+void AIDirector::TriggerImpulse(const RuntimeContextSnapshot& runtime, TargetFilter query, Impulse impulse) {
     if (PublishUnavailable(runtime)) return;
 
     MutationResult result;

@@ -19,8 +19,8 @@ public:
     static AIDirector& Get();
 
     enum class Scope : int {
-        AllEnemies,
-        NearestEnemy,
+        AllNPCs,
+        NearestNpc,
         Radius,
         Team,
         TargetingPlayer,
@@ -60,8 +60,8 @@ public:
     enum class TargetMode : int { Player, NearestNpc, Clear };
     enum class Impulse : int { Attack, Dash, StopBlade };
 
-    struct TargetQuery {
-        Scope scope = Scope::AllEnemies;
+    struct TargetFilter {
+        Scope scope = Scope::AllNPCs;
         float radius = 1000.0f;
         int team = 0;
     };
@@ -115,16 +115,16 @@ public:
         Directive activeDirective = Directive::None;
     };
 
-    void RefreshStatus(TargetQuery query);
-    void SetAITick(TargetQuery query, bool enabled);
-    void StopAI(TargetQuery query);
-    void ApplyBehavior(TargetQuery query, BehaviorSettings settings);
-    void ApplyTeam(TargetQuery query, int newTeam);
-    void ApplyProfile(TargetQuery query, Profile profile);
-    void SetTarget(TargetQuery query, TargetMode mode);
-    void TriggerImpulse(TargetQuery query, Impulse impulse);
-    void ToggleDirective(TargetQuery query, Directive directive);
-    void SetDirective(TargetQuery query, Directive directive);
+    void RefreshStatus(TargetFilter query);
+    void SetAITick(TargetFilter query, bool enabled);
+    void StopAI(TargetFilter query);
+    void ApplyBehavior(TargetFilter query, BehaviorSettings settings);
+    void ApplyTeam(TargetFilter query, int newTeam);
+    void ApplyProfile(TargetFilter query, Profile profile);
+    void SetTarget(TargetFilter query, TargetMode mode);
+    void TriggerImpulse(TargetFilter query, Impulse impulse);
+    void ToggleDirective(TargetFilter query, Directive directive);
+    void SetDirective(TargetFilter query, Directive directive);
     void ClearDirective();
     [[nodiscard]] Directive ActiveDirective() const noexcept;
     void OnRuntimeShutdown() noexcept;
@@ -173,16 +173,16 @@ private:
         bool aiDualist = false;
     };
 
-    void RefreshStatusNow(const RuntimeContextSnapshot& runtime, TargetQuery query);
-    void SetAITickNow(const RuntimeContextSnapshot& runtime, TargetQuery query, bool enabled);
-    void StopAINow(const RuntimeContextSnapshot& runtime, TargetQuery query);
-    void ApplyBehaviorNow(const RuntimeContextSnapshot& runtime, TargetQuery query, const BehaviorSettings& settings);
-    void ApplyTeamNow(const RuntimeContextSnapshot& runtime, TargetQuery query, int newTeam);
-    void ApplyProfileNow(const RuntimeContextSnapshot& runtime, TargetQuery query, Profile profile);
-    void SetTargetNow(const RuntimeContextSnapshot& runtime, TargetQuery query, TargetMode mode);
-    void TriggerImpulseNow(const RuntimeContextSnapshot& runtime, TargetQuery query, Impulse impulse);
-    void StartDirectiveNow(const RuntimeContextSnapshot& runtime, TargetQuery query, Directive directive, bool switchingDirective);
-    void ClearDirectiveNow(const RuntimeContextSnapshot& runtime);
+    void RefreshStatus(const RuntimeContextSnapshot& runtime, TargetFilter query);
+    void SetAITick(const RuntimeContextSnapshot& runtime, TargetFilter query, bool enabled);
+    void StopAI(const RuntimeContextSnapshot& runtime, TargetFilter query);
+    void ApplyBehavior(const RuntimeContextSnapshot& runtime, TargetFilter query, const BehaviorSettings& settings);
+    void ApplyTeam(const RuntimeContextSnapshot& runtime, TargetFilter query, int newTeam);
+    void ApplyProfile(const RuntimeContextSnapshot& runtime, TargetFilter query, Profile profile);
+    void SetTarget(const RuntimeContextSnapshot& runtime, TargetFilter query, TargetMode mode);
+    void TriggerImpulse(const RuntimeContextSnapshot& runtime, TargetFilter query, Impulse impulse);
+    void StartDirective(const RuntimeContextSnapshot& runtime, TargetFilter query, Directive directive, bool switchingDirective);
+    void ClearDirective(const RuntimeContextSnapshot& runtime);
     void ApplyDirective(const RuntimeContextSnapshot& runtime, bool triggerAttack);
     void OnDirectiveTick(const RuntimeContextSnapshot& runtime);
     bool RestoreDirectiveState(const RuntimeContextSnapshot& runtime, const char* successMessage);
@@ -200,7 +200,7 @@ private:
     Snapshot snapshot;
     std::uint64_t nextResultSequence = 0;
     std::atomic<int> activeDirective{static_cast<int>(Directive::None)};
-    TargetQuery directiveQuery;
+    TargetFilter directiveQuery;
     bool pendingDirectiveRestore = false;
     bool pendingDirectiveInitialTrigger = false;
     double nextDirectiveApplyTime = 0.0;

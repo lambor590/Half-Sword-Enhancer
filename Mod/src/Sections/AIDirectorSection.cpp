@@ -7,7 +7,7 @@
 
 namespace {
     constexpr const char* SCOPE_LABELS[] = {
-        "All Enemies",  "Nearest Enemy", "Radius",    "Team",        "Targeting Player", "Has AI",
+        "All NPCs",  "Nearest NPC", "Radius",    "Team",        "Targeting Player", "Has AI",
         "Tick Enabled", "Has Target",    "No Target", "Player Team", "Not Player Team",
     };
 
@@ -47,11 +47,11 @@ void AIDirectorSection::OnOpen() {
     RefreshStatus();
 }
 
-AIDirector::TargetQuery AIDirectorSection::CurrentTargetQuery() const noexcept {
+AIDirector::TargetFilter AIDirectorSection::SelectedTargets() const noexcept {
     return {.scope = scope, .radius = radius, .team = team};
 }
 
-AIDirector::BehaviorSettings AIDirectorSection::CurrentBehaviorSettings() const noexcept {
+AIDirector::BehaviorSettings AIDirectorSection::SelectedBehavior() const noexcept {
     return {
         .bodySkill = bodySkill,
         .weaponSkill = weaponSkill,
@@ -86,15 +86,15 @@ void AIDirectorSection::SyncDirectorSnapshot() {
 }
 
 void AIDirectorSection::RefreshStatus() {
-    AIDirector::Get().RefreshStatus(CurrentTargetQuery());
+    AIDirector::Get().RefreshStatus(SelectedTargets());
 }
 
 void AIDirectorSection::SetAITick(bool enabled) {
-    AIDirector::Get().SetAITick(CurrentTargetQuery(), enabled);
+    AIDirector::Get().SetAITick(SelectedTargets(), enabled);
 }
 
 void AIDirectorSection::StopAI() {
-    AIDirector::Get().StopAI(CurrentTargetQuery());
+    AIDirector::Get().StopAI(SelectedTargets());
 }
 
 void AIDirectorSection::AttackPlayer() {
@@ -102,15 +102,15 @@ void AIDirectorSection::AttackPlayer() {
 }
 
 void AIDirectorSection::ApplyBehavior() {
-    AIDirector::Get().ApplyBehavior(CurrentTargetQuery(), CurrentBehaviorSettings());
+    AIDirector::Get().ApplyBehavior(SelectedTargets(), SelectedBehavior());
 }
 
 void AIDirectorSection::ApplyTeam() {
-    AIDirector::Get().ApplyTeam(CurrentTargetQuery(), teamOverride);
+    AIDirector::Get().ApplyTeam(SelectedTargets(), newTeam);
 }
 
 void AIDirectorSection::ApplyProfile() {
-    AIDirector::Get().ApplyProfile(CurrentTargetQuery(), profile);
+    AIDirector::Get().ApplyProfile(SelectedTargets(), profile);
 }
 
 void AIDirectorSection::FightEachOther() {
@@ -122,35 +122,35 @@ void AIDirectorSection::ProtectPlayer() {
 }
 
 void AIDirectorSection::ToggleDirective(Directive directive) {
-    AIDirector::Get().ToggleDirective(CurrentTargetQuery(), directive);
+    AIDirector::Get().ToggleDirective(SelectedTargets(), directive);
 }
 
 void AIDirectorSection::ForceTargetPlayer() {
-    AIDirector::Get().SetTarget(CurrentTargetQuery(), AIDirector::TargetMode::Player);
+    AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::Player);
 }
 
 void AIDirectorSection::ForceTargetNearest() {
-    AIDirector::Get().SetTarget(CurrentTargetQuery(), AIDirector::TargetMode::NearestNpc);
+    AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::NearestNpc);
 }
 
 void AIDirectorSection::ClearTargets() {
-    AIDirector::Get().SetTarget(CurrentTargetQuery(), AIDirector::TargetMode::Clear);
+    AIDirector::Get().SetTarget(SelectedTargets(), AIDirector::TargetMode::Clear);
 }
 
 void AIDirectorSection::ForceAttack() {
-    AIDirector::Get().TriggerImpulse(CurrentTargetQuery(), AIDirector::Impulse::Attack);
+    AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::Attack);
 }
 
 void AIDirectorSection::ForceDash() {
-    AIDirector::Get().TriggerImpulse(CurrentTargetQuery(), AIDirector::Impulse::Dash);
+    AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::Dash);
 }
 
 void AIDirectorSection::StopBlades() {
-    AIDirector::Get().TriggerImpulse(CurrentTargetQuery(), AIDirector::Impulse::StopBlade);
+    AIDirector::Get().TriggerImpulse(SelectedTargets(), AIDirector::Impulse::StopBlade);
 }
 
 void AIDirectorSection::SetDirective(Directive directive) {
-    AIDirector::Get().SetDirective(CurrentTargetQuery(), directive);
+    AIDirector::Get().SetDirective(SelectedTargets(), directive);
 }
 
 void AIDirectorSection::RenderScope() {
@@ -280,7 +280,7 @@ void AIDirectorSection::RenderAdvanced() {
     if (ImGui::Button("Apply Behavior")) ApplyBehavior();
 
     ImGui::SeparatorText("Teams");
-    GuiUtils::DebouncedDragInt("New Team", &teamOverride, 0.2f, 0, 32);
+    GuiUtils::DebouncedDragInt("New Team", &newTeam, 0.2f, 0, 32);
     if (ImGui::Button("Apply Team")) ApplyTeam();
 }
 

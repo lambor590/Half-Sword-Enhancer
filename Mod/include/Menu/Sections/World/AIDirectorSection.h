@@ -15,14 +15,14 @@ public:
     using Directive = AIDirector::Directive;
 
 private:
-    Scope scope = Scope::AllEnemies;
+    Scope scope = Scope::AllNPCs;
     Profile profile = Profile::Aggressive;
     Directive activeDirective = Directive::None;
     AIDirector::StatusSummary summary;
     uint64_t lastDirectorResultSequence = 0;
 
     int team = 0;
-    int teamOverride = 0;
+    int newTeam = 0;
     int combatBehavior = 0;
     int strafeMode = 0;
     float radius = 1000.0f;
@@ -46,8 +46,8 @@ private:
 
     GuiUtils::StatusMessage status;
 
-    AIDirector::TargetQuery CurrentTargetQuery() const noexcept;
-    AIDirector::BehaviorSettings CurrentBehaviorSettings() const noexcept;
+    AIDirector::TargetFilter SelectedTargets() const noexcept;
+    AIDirector::BehaviorSettings SelectedBehavior() const noexcept;
     void SyncDirectorSnapshot();
 
     void RefreshStatus();
