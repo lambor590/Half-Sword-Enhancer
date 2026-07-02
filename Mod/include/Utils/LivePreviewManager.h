@@ -1,96 +1,203 @@
 #pragma once
 
 #include <atomic>
+#include <cstdint>
 #include <functional>
 #include <memory>
+#include <mutex>
 #include "imgui/imgui.h"
 #include "Hooks/GameHook.h"
 #include "Menu/SectionConfig.h"
 #include "SDK/Engine_classes.hpp"
 
 class LivePreviewManager {
+    struct PreviewRequestState;
+
 public:
     using CleanupFn = std::function<void()>;
 
-    explicit LivePreviewManager(PreviewConfig& cfg) : cfg(cfg) {}
-    ~LivePreviewManager() { Destroy(); }
+    struct PreviewRequestToken {
+    private:
+        friend class LivePreviewManager;
 
-    void SetPreviewActor(SDK::AActor* actor, SDK::UWorld* world) {
-        previewActor = actor;
-        previewWorld = world;
-        if (actor && cfg.autoRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, yaw, 0.0}, true);
+        PreviewRequestToken(std::weak_ptr<PreviewRequestState> requestState, std::uint64_t requestGeneration)
+            : state(requestState), generation(requestGeneration) {}
+
+        std::weak_ptr<PreviewRequestState> state;
+        std::uint64_t generation = 0;
+    };
+
+    explicit LivePreviewManager(PreviewConfig& cfg) : cfg(cfg) {}
+    ~LivePreviewManager() {
+        previewState->alive.store(false, std::memory_order_release);
+        previewState->enabled.store(false, std::memory_order_release);
+        Destroy();
     }
-    [[nodiscard]] SDK::AActor* GetPreviewActor() const { return previewActor; }
+
+    [[nodiscard]] SDK::AActor* GetPreviewActor() const {
+        auto* state = previewState.get();
+        return state->previewActor.load(std::memory_order_acquire);
+    }
     [[nodiscard]] bool IsEnabled() const { return cfg.livePreview; }
 
-    void SetCleanupCallback(const CleanupFn& fn) { onCleanup = fn; }
+    void SetCleanupCallback(const CleanupFn& fn) {
+        auto* state = previewState.get();
+        std::lock_guard<std::mutex> lock(state->cleanupMutex);
+        state->onCleanup = fn;
+    }
+
+    PreviewRequestToken BeginSpawnRequest() {
+        auto state = previewState;
+        const auto generation = state->generation.fetch_add(1, std::memory_order_acq_rel) + 1;
+        state->enabled.store(cfg.livePreview, std::memory_order_release);
+        state->autoRotate.store(cfg.autoRotate, std::memory_order_release);
+        DestroyPreviewActor();
+        return {state, generation};
+    }
+
+    [[nodiscard]] static bool IsRequestCurrent(const PreviewRequestToken& token) {
+        return IsRequestCurrent(token.state.lock(), token.generation);
+    }
+
+    [[nodiscard]] static bool SetPreviewActor(
+        const PreviewRequestToken& token, SDK::AActor* actor, SDK::UWorld* world
+    ) {
+        auto state = token.state.lock();
+        if (!state) return false;
+
+        bool shouldRotate = false;
+        double yaw = 0.0;
+        {
+            std::lock_guard<std::mutex> lock(state->actorMutex);
+            if (!IsRequestCurrent(state, token.generation)) return false;
+
+            state->previewWorld.store(world, std::memory_order_release);
+            state->previewActor.store(actor, std::memory_order_release);
+            shouldRotate = actor && state->autoRotate.load(std::memory_order_acquire);
+            yaw = state->yaw.load(std::memory_order_acquire);
+        }
+
+        if (shouldRotate) actor->K2_SetActorRotation(SDK::FRotator{0.0, yaw, 0.0}, true);
+        return true;
+    }
 
     void Disable() {
         cfg.livePreview = false;
+        previewState->enabled.store(false, std::memory_order_release);
         prevEnabled = false;
         Destroy();
     }
 
     void Destroy() {
-        if (!previewActor) return;
-        if (onCleanup) onCleanup();
-        SDK::AActor* actor = previewActor;
-        SDK::UWorld* world = previewWorld;
-        previewActor = nullptr;
-        previewWorld = nullptr;
-        GameHook::QueueAction([actor, world](const RuntimeContextSnapshot& runtime) {
-            if (actor && runtime.world == world) actor->K2_DestroyActor();
-        });
+        previewState->generation.fetch_add(1, std::memory_order_acq_rel);
+        DestroyPreviewActor();
     }
 
     void Rotate() {
-        if (!previewActor || !cfg.autoRotate) return;
+        if (!cfg.autoRotate) return;
+
+        auto* state = previewState.get();
+        auto* actor = state->previewActor.load(std::memory_order_acquire);
+        if (!actor) return;
+
+        double yaw = state->yaw.load(std::memory_order_acquire);
         yaw += cfg.rotationSpeed * static_cast<double>(ImGui::GetIO().DeltaTime);
         if (yaw >= 360.0) yaw -= 360.0;
         if (yaw < 0.0) yaw += 360.0;
+        state->yaw.store(yaw, std::memory_order_release);
+        auto* world = state->previewWorld.load(std::memory_order_acquire);
+
         rotationState->yaw.store(yaw, std::memory_order_release);
         if (rotationState->queued.exchange(true, std::memory_order_acq_rel)) return;
 
-        SDK::AActor* actor = previewActor;
-        SDK::UWorld* world = previewWorld;
-        auto state = rotationState;
-        GameHook::QueueAction([actor, world, state](const RuntimeContextSnapshot& runtime) {
-            state->queued.store(false, std::memory_order_release);
-            const double y = state->yaw.load(std::memory_order_acquire);
+        auto queuedRotation = rotationState;
+        GameHook::QueueAction([actor, world, queuedRotation](const RuntimeContextSnapshot& runtime) {
+            queuedRotation->queued.store(false, std::memory_order_release);
+            const double y = queuedRotation->yaw.load(std::memory_order_acquire);
             if (actor && runtime.world == world) actor->K2_SetActorRotation(SDK::FRotator{0.0, y, 0.0}, true);
         });
     }
 
     void SyncToggleState() {
         bool enabled = cfg.livePreview;
+        previewState->enabled.store(enabled, std::memory_order_release);
         if (enabled && !prevEnabled) forceRefresh = true;
-        if (!enabled && prevEnabled && previewActor) Destroy();
+        const bool destroy = !enabled && prevEnabled;
         prevEnabled = enabled;
+
+        if (destroy) Destroy();
     }
 
     template <typename SpawnFn> void Update(bool needsRefresh, SpawnFn&& spawnFn) {
         if (!needsRefresh && !forceRefresh) return;
         forceRefresh = false;
-        if (previewActor && (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN)) return;
+        auto* state = previewState.get();
+        if (state->previewActor.load(std::memory_order_acquire) &&
+            (ImGui::GetTime() - lastChangeTime < REFRESH_COOLDOWN))
+            return;
         lastChangeTime = ImGui::GetTime();
         spawnFn();
     }
 
     void InvalidateIfDead(const SDK::AWillie_BP_C* player, const SDK::UWorld* world) {
-        if (previewActor && (!player || !world || world != previewWorld)) {
-            Destroy();
-        }
+        auto* state = previewState.get();
+        const bool destroy = state->previewActor.load(std::memory_order_acquire) &&
+                             (!player || !world || world != state->previewWorld.load(std::memory_order_acquire));
+
+        if (destroy) Destroy();
     }
 
 private:
     static constexpr double REFRESH_COOLDOWN = 0.2;
 
-    SDK::AActor* previewActor = nullptr;
-    SDK::UWorld* previewWorld = nullptr;
+    struct PreviewRequestState {
+        std::mutex actorMutex;
+        std::mutex cleanupMutex;
+        std::atomic<std::uint64_t> generation{0};
+        std::atomic_bool enabled{false};
+        std::atomic_bool alive{true};
+        std::atomic_bool autoRotate{false};
+        std::atomic<SDK::AActor*> previewActor{nullptr};
+        std::atomic<SDK::UWorld*> previewWorld{nullptr};
+        std::atomic<double> yaw{0.0};
+        CleanupFn onCleanup;
+    };
+
+    [[nodiscard]] static bool IsRequestCurrent(
+        const std::shared_ptr<PreviewRequestState>& state, std::uint64_t generation
+    ) {
+        return state && state->alive.load(std::memory_order_acquire) &&
+               state->enabled.load(std::memory_order_acquire) &&
+               state->generation.load(std::memory_order_acquire) == generation;
+    }
+
+    void DestroyPreviewActor() {
+        SDK::AActor* actor = nullptr;
+        SDK::UWorld* world = nullptr;
+        CleanupFn cleanup;
+        auto* state = previewState.get();
+        {
+            std::lock_guard<std::mutex> lock(state->actorMutex);
+            actor = state->previewActor.exchange(nullptr, std::memory_order_acq_rel);
+            world = state->previewWorld.exchange(nullptr, std::memory_order_acq_rel);
+        }
+
+        if (!actor) return;
+        {
+            std::lock_guard<std::mutex> lock(state->cleanupMutex);
+            cleanup = state->onCleanup;
+        }
+        if (cleanup) cleanup();
+        GameHook::QueueAction([actor, world](const RuntimeContextSnapshot& runtime) {
+            if (actor && runtime.world == world) actor->K2_DestroyActor();
+        });
+    }
+
     double lastChangeTime = 0.0;
-    double yaw = 0.0;
     bool forceRefresh = false;
     bool prevEnabled = false;
+
+    std::shared_ptr<PreviewRequestState> previewState = std::make_shared<PreviewRequestState>();
 
     struct RotationQueueState {
         std::atomic_bool queued{false};
@@ -99,5 +206,4 @@ private:
     std::shared_ptr<RotationQueueState> rotationState = std::make_shared<RotationQueueState>();
 
     PreviewConfig& cfg;
-    CleanupFn onCleanup;
 };

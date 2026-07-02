@@ -21,6 +21,7 @@
 namespace SpawnWorkflow {
     using ActorCallback = std::function<void(SDK::AActor*)>;
 
+    // Queue* returns whether the request was accepted/enqueued; the game-thread spawn can still fail later.
     bool QueueWeaponSpawn(
         const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Weapon1 passport,
         WeaponClassPaths classPaths, ActorCallback onSpawned = nullptr

@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "Hooks/GameHook.h"
+#include "Utils/EquipmentApplication.h"
 #include "Utils/EquipmentGenerator.h"
 #include "Utils/NPCSpawnHelpers.h"
 #include "Utils/Spawner.h"
@@ -14,7 +15,7 @@ namespace SpawnWorkflow {
     namespace {
         using PreviewPrepareFn = void (*)(SDK::AActor*);
 
-        bool BuildSpawnTransform(
+        bool TryBuildSpawnTransform(
             const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FTransform& outTransform
         ) {
             if (!snapshot.world || !snapshot.player) return false;
@@ -23,21 +24,21 @@ namespace SpawnWorkflow {
         }
 
         template <typename SpawnFn>
-        bool SpawnNow(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, SpawnFn&& spawnFn) {
+        bool RunWithPlacement(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, SpawnFn&& spawnFn) {
             SDK::FTransform transform{};
-            if (!BuildSpawnTransform(runtime, spawn, transform)) return false;
-            return spawnFn(runtime.world, transform, spawn.snapToGround);
+            if (!TryBuildSpawnTransform(runtime, spawn, transform)) return false;
+            return spawnFn(runtime, transform, spawn.snapToGround);
         }
 
         template <typename SpawnFn>
-        bool QueueSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SpawnFn&& spawnFn) {
-            SDK::FTransform transform{};
-            if (!BuildSpawnTransform(snapshot, spawn, transform)) return false;
+        bool QueueWithPlacement(const RuntimeContextSnapshot& snapshot, SpawnConfig spawn, SpawnFn&& spawnFn) {
+            if (!snapshot.world || !snapshot.player) return false;
 
-            const bool snap = spawn.snapToGround;
-            GameHook::QueueAction([spawnFn = std::forward<SpawnFn>(spawnFn), transform,
-                                   snap](const RuntimeContextSnapshot& runtime) mutable {
-                spawnFn(runtime.world, transform, snap);
+            GameHook::QueueAction([spawnFn = std::forward<SpawnFn>(spawnFn),
+                                   spawn](const RuntimeContextSnapshot& runtime) mutable {
+                SDK::FTransform transform{};
+                if (!TryBuildSpawnTransform(runtime, spawn, transform)) return;
+                spawnFn(runtime, transform, spawn.snapToGround);
             });
             return true;
         }
@@ -145,7 +146,7 @@ namespace SpawnWorkflow {
                 if (!npc) return;
 
                 if (hasOverrides) NPCSpawnHelpers::ApplyHairColor(npc, overrides);
-                if (hasLoadout) NPCSpawnHelpers::ApplyNPCLoadout(world, npc, loadout);
+                if (hasLoadout) EquipmentApplication::ApplyNPCLoadoutNow(world, npc, loadout);
             };
 
             Spawner::SpawnActor(
@@ -172,19 +173,37 @@ namespace SpawnWorkflow {
         }
 
         void FinishPreviewActor(
-            LivePreviewManager* preview, SDK::UWorld* world, SDK::AActor* actor, ActorCallback& onSpawned,
-            ActorCallback& onReady, PreviewPrepareFn prepare
+            const LivePreviewManager::PreviewRequestToken& token, SDK::UWorld* world, SDK::AActor* actor,
+            ActorCallback& onSpawned, ActorCallback& onReady, PreviewPrepareFn prepare
         ) {
             if (!actor) return;
-            if (onSpawned) onSpawned(actor);
-            if (!preview->IsEnabled()) {
+            if (!LivePreviewManager::IsRequestCurrent(token)) {
                 actor->K2_DestroyActor();
                 return;
             }
 
+            if (onSpawned) onSpawned(actor);
+            if (!LivePreviewManager::IsRequestCurrent(token)) {
+                actor->K2_DestroyActor();
+                return;
+            }
             prepare(actor);
             if (onReady) onReady(actor);
-            preview->SetPreviewActor(actor, world);
+            if (!LivePreviewManager::SetPreviewActor(token, actor, world)) actor->K2_DestroyActor();
+        }
+
+        template <typename ActorCallbackFn>
+        bool SpawnWeaponPassportAt(
+            SDK::UWorld* world, SDK::FStr_Passport_Weapon1& passport, const WeaponClassPaths& classPaths,
+            const SDK::FTransform& transform, bool snapToGround, ActorCallbackFn&& onSpawned
+        ) {
+            if (!world) return false;
+            EquipmentApplication::ResolveWeaponPassportClasses(passport, classPaths);
+            if (!EquipmentGenerator::IsPassportValid(passport)) return false;
+            Spawner::SpawnCustomizableFromPassport(
+                world, passport, transform, snapToGround, std::forward<ActorCallbackFn>(onSpawned)
+            );
+            return true;
         }
     }
 
@@ -192,15 +211,12 @@ namespace SpawnWorkflow {
         const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Weapon1 passport,
         WeaponClassPaths classPaths, ActorCallback onSpawned
     ) {
-        return QueueSpawn(
+        return QueueWithPlacement(
             snapshot, spawn,
             [passport, classPaths = std::move(classPaths), onSpawned = std::move(onSpawned)](
-                SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround
+                const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
             ) mutable {
-                if (!world) return;
-                Spawner::LoadWeaponClasses(passport, classPaths);
-                if (!EquipmentGenerator::IsPassportValid(passport)) return;
-                Spawner::SpawnCustomizableFromPassport(world, passport, transform, snapToGround, onSpawned);
+                SpawnWeaponPassportAt(runtime.world, passport, classPaths, transform, snapToGround, onSpawned);
             }
         );
     }
@@ -210,21 +226,20 @@ namespace SpawnWorkflow {
         SDK::FStr_Passport_Weapon1 passport, WeaponClassPaths classPaths, ActorCallback onSpawned,
         ActorCallback onPreviewReady
     ) {
-        preview.Destroy();
+        auto token = preview.BeginSpawnRequest();
 
-        LivePreviewManager* previewPtr = &preview;
-        return QueueSpawn(
+        return QueueWithPlacement(
             snapshot, spawn,
-            [previewPtr, passport, classPaths = std::move(classPaths), onSpawned,
-             onPreviewReady](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) mutable {
-                if (!world) return;
-                Spawner::LoadWeaponClasses(passport, classPaths);
-                if (!EquipmentGenerator::IsPassportValid(passport)) return;
-                Spawner::SpawnCustomizableFromPassport(
-                    world, passport, transform, snapToGround,
-                    [previewPtr, world, onSpawned, onPreviewReady](SDK::AActor* actor) mutable {
+            [token, passport, classPaths = std::move(classPaths), onSpawned,
+             onPreviewReady](
+                const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
+            ) mutable {
+                auto* world = runtime.world;
+                SpawnWeaponPassportAt(
+                    world, passport, classPaths, transform, snapToGround,
+                    [token, world, onSpawned, onPreviewReady](SDK::AActor* actor) mutable {
                         FinishPreviewActor(
-                            previewPtr, world, actor, onSpawned, onPreviewReady, PrepareWeaponPreviewActor
+                            token, world, actor, onSpawned, onPreviewReady, PrepareWeaponPreviewActor
                         );
                     }
                 );
@@ -236,12 +251,15 @@ namespace SpawnWorkflow {
         const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, SDK::FStr_Passport_Armor1 passport,
         ActorCallback onSpawned
     ) {
-        return QueueSpawn(
+        return QueueWithPlacement(
             snapshot, spawn,
             [passport,
-             onSpawned =
-                 std::move(onSpawned)](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                if (world) Spawner::SpawnArmorFromPassport(world, passport, transform, snapToGround, onSpawned);
+            onSpawned = std::move(onSpawned)](
+                const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
+            ) {
+                if (runtime.world) {
+                    Spawner::SpawnArmorFromPassport(runtime.world, passport, transform, snapToGround, onSpawned);
+                }
             }
         );
     }
@@ -250,20 +268,22 @@ namespace SpawnWorkflow {
         const RuntimeContextSnapshot& snapshot, LivePreviewManager& preview, const SpawnConfig& spawn,
         SDK::FStr_Passport_Armor1 passport, ActorCallback onPreviewReady
     ) {
-        preview.Destroy();
+        auto token = preview.BeginSpawnRequest();
 
-        LivePreviewManager* previewPtr = &preview;
-        return QueueSpawn(
+        return QueueWithPlacement(
             snapshot, spawn,
-            [previewPtr, passport,
-             onPreviewReady](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) mutable {
+            [token, passport,
+             onPreviewReady](
+                const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
+            ) mutable {
+                auto* world = runtime.world;
                 if (!world) return;
                 Spawner::SpawnArmorFromPassport(
                     world, passport, transform, snapToGround,
-                    [previewPtr, world, onPreviewReady](SDK::AActor* actor) mutable {
+                    [token, world, onPreviewReady](SDK::AActor* actor) mutable {
                         ActorCallback onSpawned = nullptr;
                         FinishPreviewActor(
-                            previewPtr, world, actor, onSpawned, onPreviewReady, PrepareArmorPreviewActor
+                            token, world, actor, onSpawned, onPreviewReady, PrepareArmorPreviewActor
                         );
                     }
                 );
@@ -272,18 +292,23 @@ namespace SpawnWorkflow {
     }
 
     bool SpawnItem(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const ItemSpawnRequest& request) {
-        return SpawnNow(
-            runtime, spawn, [&request](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                return SpawnItemAt(world, request, transform, snapToGround);
+        return RunWithPlacement(
+            runtime, spawn,
+            [&request](
+                const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
+            ) {
+                return SpawnItemAt(runtime.world, request, transform, snapToGround);
             }
         );
     }
 
     bool QueueItemSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, ItemSpawnRequest request) {
-        return QueueSpawn(
+        return QueueWithPlacement(
             snapshot, spawn,
-            [request = std::move(request)](SDK::UWorld* world, const SDK::FTransform& transform, bool snapToGround) {
-                SpawnItemAt(world, request, transform, snapToGround);
+            [request = std::move(request)](
+                const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
+            ) {
+                SpawnItemAt(runtime.world, request, transform, snapToGround);
             }
         );
     }
@@ -291,24 +316,28 @@ namespace SpawnWorkflow {
     bool SpawnNPC(const RuntimeContextSnapshot& runtime, const SpawnConfig& spawn, const NPCSpawnRequest& request) {
         auto adjustedSpawn = BuildNPCSpawnConfig(spawn, request.overrides);
 
-        SDK::FTransform transform{};
-        if (!BuildSpawnTransform(runtime, adjustedSpawn, transform)) return false;
-
-        return SpawnNPCAt(runtime.world, request, runtime.player->Team_Int, transform, adjustedSpawn.snapToGround);
+        return RunWithPlacement(
+            runtime, adjustedSpawn,
+            [&request](
+                const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
+            ) {
+                if (!runtime.player) return false;
+                return SpawnNPCAt(runtime.world, request, runtime.player->Team_Int, transform, snapToGround);
+            }
+        );
     }
 
     bool QueueNPCSpawn(const RuntimeContextSnapshot& snapshot, const SpawnConfig& spawn, NPCSpawnRequest request) {
         auto adjustedSpawn = BuildNPCSpawnConfig(spawn, request.overrides);
 
-        SDK::FTransform transform{};
-        if (!BuildSpawnTransform(snapshot, adjustedSpawn, transform)) return false;
-
-        const int playerTeam = snapshot.player->Team_Int;
-        const bool snap = adjustedSpawn.snapToGround;
-        GameHook::QueueAction([request = std::move(request), transform, playerTeam,
-                               snap](const RuntimeContextSnapshot& runtime) {
-            SpawnNPCAt(runtime.world, request, playerTeam, transform, snap);
-        });
-        return true;
+        return QueueWithPlacement(
+            snapshot, adjustedSpawn,
+            [request = std::move(request)](
+                const RuntimeContextSnapshot& runtime, const SDK::FTransform& transform, bool snapToGround
+            ) {
+                if (!runtime.player) return;
+                SpawnNPCAt(runtime.world, request, runtime.player->Team_Int, transform, snapToGround);
+            }
+        );
     }
 }
