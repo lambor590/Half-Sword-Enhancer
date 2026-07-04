@@ -2,7 +2,10 @@
 
 #include <cstdint>
 #include <cstring>
+#include <memory>
+#include <vector>
 
+#include "Hooks/GameHook.h"
 #include "Utils/LoadoutPresetSerializer.h"
 #include "Utils/Spawner.h"
 #include "SDK/Enum_Weapon_Material_Type_structs.hpp"
@@ -42,6 +45,28 @@ namespace EquipmentApplication {
             passport.FabricColor2_17_4199336A482894E5BC99E69E52B50B1C = armorSlot.color2;
             passport.Slot_30_7561CB484566A4512003EA96ED44F88D = armorSlot.slot;
             return true;
+        }
+
+        void QueueNPCArmorPickup(
+            SDK::UWorld* world, SDK::AWillie_BP_C* npc,
+            std::shared_ptr<const std::vector<SDK::FStr_Passport_Armor1>> armorPassports, std::size_t index,
+            int retries
+        ) {
+            constexpr int MAX_PICKUP_RETRIES = 8;
+
+            GameHook::QueueAction([world, npc, armorPassports = std::move(armorPassports),
+                                   index, retries](const RuntimeContextSnapshot& runtime) {
+                if (!runtime.world || runtime.world != world || !npc || npc->IsActorBeingDestroyed()) return;
+
+                if (index >= armorPassports->size()) {
+                    npc->Set_Up_Armor(true, false);
+                    return;
+                }
+
+                const bool pickedUp = Spawner::SpawnAndEquipArmor(runtime.world, npc, (*armorPassports)[index]);
+                const bool retry = !pickedUp && retries < MAX_PICKUP_RETRIES;
+                QueueNPCArmorPickup(world, npc, armorPassports, retry ? index : index + 1, retry ? retries + 1 : 0);
+            });
         }
 
         SDK::FStr_Passport_Weapon1 BuildWeaponPassportFromSlot(const SDK::FStr_WeaponParts& slot) {
@@ -253,11 +278,13 @@ namespace EquipmentApplication {
     }
 
     void ApplyNPCLoadout(SDK::UWorld* world, SDK::AWillie_BP_C* npc, const LoadoutPresetData& loadout) {
+        if (!world || !npc) return;
+
+        auto armorPassports = std::make_shared<std::vector<SDK::FStr_Passport_Armor1>>();
+        armorPassports->reserve(loadout.armorSlots.size());
         for (const auto& armorSlot : loadout.armorSlots) {
             SDK::FStr_Passport_Armor1 armorPassport{};
-            if (!BuildLoadoutArmorPassport(armorPassport, armorSlot)) continue;
-
-            Spawner::SpawnAndEquipArmor(world, npc, armorPassport);
+            if (BuildLoadoutArmorPassport(armorPassport, armorSlot)) armorPassports->push_back(armorPassport);
         }
 
         auto& weapons = npc->Load_Equipment.Weapons_83_06F076E247B54D0D9942B383323C1968;
@@ -269,6 +296,6 @@ namespace EquipmentApplication {
             WriteLoadoutWeaponSlot(slot, weaponSlot);
         }
 
-        npc->Set_Up_Armor(true, false);
+        QueueNPCArmorPickup(world, npc, armorPassports, 0, 0);
     }
 }
