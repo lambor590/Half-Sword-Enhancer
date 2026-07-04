@@ -451,31 +451,32 @@ void LoadoutManagerSection::RenderWeaponSlotModules(SDK::FStr_WeaponParts& slot)
         return;
     }
 
+    auto& modules = modulePool.all;
     GuiUtils::RenderGlobalModuleCombo(
-        "Head", slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F, modulePool.heads, moduleFilters[0],
-        modulePool.cachedWidths[0]
+        "Head", slot.HeadModule_19_B043442745EED9AD1BE7929F0A06DB8F, modules.heads, moduleFilters[0],
+        modules.cachedWidths[0]
     );
     GuiUtils::RenderGlobalModuleCombo(
-        "Guard", slot.GuardModule_21_774015784EB0300D2671C894D57ED144, modulePool.guards, moduleFilters[1],
-        modulePool.cachedWidths[1]
+        "Guard", slot.GuardModule_21_774015784EB0300D2671C894D57ED144, modules.guards, moduleFilters[1],
+        modules.cachedWidths[1]
     );
     GuiUtils::RenderGlobalModuleCombo(
-        "Grip", slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867, modulePool.grips, moduleFilters[2],
-        modulePool.cachedWidths[2]
+        "Grip", slot.GripModule_38_15B14C3F4E9701389A9B35A3B0909867, modules.grips, moduleFilters[2],
+        modules.cachedWidths[2]
     );
     GuiUtils::RenderGlobalModuleCombo(
-        "Pommel", slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984, modulePool.pommels, moduleFilters[3],
-        modulePool.cachedWidths[3]
+        "Pommel", slot.PommelModule_22_4F6D0ABC4AA88CF780EE1C9649F96984, modules.pommels, moduleFilters[3],
+        modules.cachedWidths[3]
     );
-    if (!modulePool.subMods1.empty())
+    if (!modules.subMods1.empty())
         GuiUtils::RenderGlobalModuleCombo(
-            "Sub-Mod 1", slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0, modulePool.subMods1, moduleFilters[4],
-            modulePool.cachedWidths[4]
+            "Sub-Mod 1", slot.HeadSubModule1_66_EA08538346D6DADCE01E8B8B7B50A9A0, modules.subMods1, moduleFilters[4],
+            modules.cachedWidths[4]
         );
-    if (!modulePool.subMods2.empty())
+    if (!modules.subMods2.empty())
         GuiUtils::RenderGlobalModuleCombo(
-            "Sub-Mod 2", slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980, modulePool.subMods2, moduleFilters[5],
-            modulePool.cachedWidths[5]
+            "Sub-Mod 2", slot.HeadSubModule2_67_491313E24CE70DD60B5A6D88ED4B5980, modules.subMods2, moduleFilters[5],
+            modules.cachedWidths[5]
         );
 }
 

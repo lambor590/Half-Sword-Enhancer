@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cmath>
 #include <tuple>
 #include <algorithm>
 #include <span>
@@ -468,28 +469,48 @@ int WeaponEditorSection::CountAllActive() const {
 
 namespace {
 
+    template <typename Entry>
+    const Entry* FindModulePath(const std::string& currentPath, const std::vector<Entry>& options) {
+        if (currentPath.empty()) return nullptr;
+        for (const auto& e : options) {
+            if (e.path == currentPath) return &e;
+        }
+        return nullptr;
+    }
+
     using W = SDK::AModularWeaponBP_C;
+    constexpr double MAX_WEAPON_RUNTIME_VALUE = 1'000'000.0;
+
+    double SafeWeaponRuntimeDouble(const OverrideDescriptor& f) {
+        const double value = GetDouble(f);
+        if (!std::isfinite(value)) return 0.0;
+        return std::clamp(value, 0.0, MAX_WEAPON_RUNTIME_VALUE);
+    }
+
+    int SafeWeaponRuntimeInt(const OverrideDescriptor& f) {
+        return std::clamp(GetInt(f), 0, static_cast<int>(MAX_WEAPON_RUNTIME_VALUE));
+    }
 
     static constexpr OverrideSetter COMBAT_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Rigidity = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Edge_Sharpness = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Raw_Damage = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Cutting_Rate = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Stab_Rate = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Def_Rating = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Grip_Rate = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Draw_Cut_Rate = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Tip_Sharpness = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Kick_Power = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Rigidity = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Edge_Sharpness = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Raw_Damage = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Cutting_Rate = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Stab_Rate = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Def_Rating = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Grip_Rate = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Draw_Cut_Rate = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Tip_Sharpness = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Kick_Power = SafeWeaponRuntimeDouble(f); },
     };
 
     static constexpr OverrideSetter PHYSICS_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Mat_Density = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Mat_Density = SafeWeaponRuntimeDouble(f); },
     };
 
     static constexpr OverrideSetter DISMEMBER_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Sharp = GetInt(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Blunt = GetInt(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Sharp = SafeWeaponRuntimeInt(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Blunt = SafeWeaponRuntimeInt(f); },
     };
 
     static constexpr OverrideSetter TOGGLE_SETTERS[] = {
@@ -499,10 +520,18 @@ namespace {
     };
 
     static constexpr OverrideSetter STAMINA_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->R_Hand_Stamina_Burn_Rate = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->L_Hand_Stamina_Burn_Rate = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->TwoH_Default_Stamina_Burn_Rate = GetDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->TwoH_Alt_Stamina_Burn_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) {
+            static_cast<W*>(a)->R_Hand_Stamina_Burn_Rate = SafeWeaponRuntimeDouble(f);
+        },
+        [](void* a, const OverrideDescriptor& f) {
+            static_cast<W*>(a)->L_Hand_Stamina_Burn_Rate = SafeWeaponRuntimeDouble(f);
+        },
+        [](void* a, const OverrideDescriptor& f) {
+            static_cast<W*>(a)->TwoH_Default_Stamina_Burn_Rate = SafeWeaponRuntimeDouble(f);
+        },
+        [](void* a, const OverrideDescriptor& f) {
+            static_cast<W*>(a)->TwoH_Alt_Stamina_Burn_Rate = SafeWeaponRuntimeDouble(f);
+        },
     };
 
 } // namespace
@@ -698,35 +727,87 @@ void WeaponEditorSection::RenderModulesTab() {
         return;
     }
 
+    auto modulePathFits = [](const std::string& path, const auto& options) {
+        return path.empty() || FindModulePath(path, options);
+    };
+    auto pathsFit = [&](const GlobalModuleSet& set) {
+        return modulePathFits(weaponPaths.headModule, set.heads) &&
+               modulePathFits(weaponPaths.guardModule, set.guards) &&
+               modulePathFits(weaponPaths.gripModule, set.grips) &&
+               modulePathFits(weaponPaths.pommelModule, set.pommels) &&
+               modulePathFits(weaponPaths.subModule1, set.subMods1) &&
+               modulePathFits(weaponPaths.subModule2, set.subMods2);
+    };
+    int moduleType = cfg.weaponType;
+    if (!pathsFit(globalModules.ForType(moduleType))) {
+        for (int type = 1; type <= GameConstants::WEAPON_TYPE_COUNT; ++type) {
+            if (pathsFit(globalModules.ForType(type))) {
+                moduleType = type;
+                break;
+            }
+        }
+    }
+
+    auto& modules = globalModules.ForType(moduleType);
+    auto syncPath = [](SDK::UClass*& current, std::string& path, const auto& options) {
+        if (const auto* entry = FindModulePath(path, options)) {
+            current = entry->cls;
+        } else if (!path.empty()) {
+            path.clear();
+            current = nullptr;
+        }
+    };
+
+    syncPath(
+        weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, weaponPaths.headModule, modules.heads
+    );
+    syncPath(
+        weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, weaponPaths.guardModule, modules.guards
+    );
+    syncPath(
+        weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, weaponPaths.gripModule, modules.grips
+    );
+    syncPath(
+        weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, weaponPaths.pommelModule, modules.pommels
+    );
+    syncPath(
+        weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, weaponPaths.subModule1,
+        modules.subMods1
+    );
+    syncPath(
+        weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, weaponPaths.subModule2,
+        modules.subMods2
+    );
+
     GuiUtils::RenderGlobalModuleCombo(
-        "Head", weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, globalModules.heads, moduleFilters[0],
-        globalModules.cachedWidths[0], true, &weaponPaths.headModule
+        "Head", weaponPassport.HeadModule_11_62DF53134688807E1DA7F4A20E9F7139, modules.heads, moduleFilters[0],
+        modules.cachedWidths[0], true, &weaponPaths.headModule
     );
     GuiUtils::RenderGlobalModuleCombo(
-        "Guard", weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, globalModules.guards, moduleFilters[1],
-        globalModules.cachedWidths[1], true, &weaponPaths.guardModule
+        "Guard", weaponPassport.GuardModule_13_6DD2B06245505E53B529D090333012F0, modules.guards, moduleFilters[1],
+        modules.cachedWidths[1], true, &weaponPaths.guardModule
     );
     GuiUtils::RenderGlobalModuleCombo(
-        "Grip", weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, globalModules.grips, moduleFilters[2],
-        globalModules.cachedWidths[2], true, &weaponPaths.gripModule
+        "Grip", weaponPassport.GripModule_18_F4DF51EB4E742195B8C6BAB17E4C5DB4, modules.grips, moduleFilters[2],
+        modules.cachedWidths[2], true, &weaponPaths.gripModule
     );
     GuiUtils::RenderGlobalModuleCombo(
-        "Pommel", weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, globalModules.pommels,
-        moduleFilters[3], globalModules.cachedWidths[3], true, &weaponPaths.pommelModule
+        "Pommel", weaponPassport.PommelModule_15_561B01324BFCD4360DAE9A95299BB9D6, modules.pommels,
+        moduleFilters[3], modules.cachedWidths[3], true, &weaponPaths.pommelModule
     );
-    if (!globalModules.subMods1.empty()) {
+    if (!modules.subMods1.empty()) {
         GuiUtils::RenderGlobalModuleCombo(
-            "Sub-Mod 1", weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, globalModules.subMods1,
-            moduleFilters[4], globalModules.cachedWidths[4], true, &weaponPaths.subModule1
+            "Sub-Mod 1", weaponPassport.HeadSubModule1_7_ABBFD017411F42A4950B1C9F2360A30D, modules.subMods1,
+            moduleFilters[4], modules.cachedWidths[4], true, &weaponPaths.subModule1
         );
     }
-    if (!globalModules.subMods2.empty()) {
+    if (!modules.subMods2.empty()) {
         GuiUtils::RenderGlobalModuleCombo(
-            "Sub-Mod 2", weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, globalModules.subMods2,
-            moduleFilters[5], globalModules.cachedWidths[5], true, &weaponPaths.subModule2
+            "Sub-Mod 2", weaponPassport.HeadSubModule2_9_90AAA8304C7794E1BF814C9354A1A7E9, modules.subMods2,
+            moduleFilters[5], modules.cachedWidths[5], true, &weaponPaths.subModule2
         );
     }
-    if (globalModules.subMods1.empty() && globalModules.subMods2.empty())
+    if (modules.subMods1.empty() && modules.subMods2.empty())
         ImGui::TextDisabled("No sub-modules available for this weapon type");
 
     const bool hasModules = !weaponPaths.headModule.empty() || !weaponPaths.guardModule.empty() ||
