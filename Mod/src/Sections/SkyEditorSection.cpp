@@ -2,10 +2,28 @@
 #include "Menu/SectionStyle.h"
 #include "Hooks/GameHook.h"
 #include "Utils/GuiUtils.h"
+#include "SDK/Enum_DayTime_structs.hpp"
+#include "SDK/GI_Settings_classes.hpp"
 
 #include <utility>
 
 namespace {
+    struct SkyTimePreset {
+        const char* label;
+        SDK::Enum_DayTime dayTime;
+        float sunPitch;
+        float sunYaw;
+    };
+
+    constexpr SkyTimePreset K_TIME_PRESETS[] = {
+        {"Morning", SDK::Enum_DayTime::NewEnumerator0, 24.596f, 125.602f},
+        {"Day", SDK::Enum_DayTime::NewEnumerator1, -54.212f, 53.548f},
+        {"Evening", SDK::Enum_DayTime::NewEnumerator2, -11.875f, 149.903f},
+        {"Night", SDK::Enum_DayTime::NewEnumerator3, -36.412f, 113.579f},
+    };
+
+    constexpr int K_TIME_PRESET_COUNT = static_cast<int>(sizeof(K_TIME_PRESETS) / sizeof(K_TIME_PRESETS[0]));
+
     [[nodiscard]] bool IsLiveObject(const SDK::UObject* object) {
         return object && object->Index >= 0 && SDK::UObject::GObjects->GetByIndex(object->Index) == object;
     }
@@ -295,8 +313,20 @@ void SkyEditorSection::ApplyClouds() {
     });
 }
 
-void SkyEditorSection::ApplyPreset(float pitch) {
-    sunPitch = pitch;
+void SkyEditorSection::ApplyPreset(int presetIndex) {
+    if (presetIndex < 0 || presetIndex >= K_TIME_PRESET_COUNT) return;
+
+    const auto preset = K_TIME_PRESETS[presetIndex];
+    sunPitch = preset.sunPitch;
+    sunYaw = preset.sunYaw;
+
+    GameHook::QueueAction([dayTime = preset.dayTime](const RuntimeContextSnapshot& runtime) {
+        if (!runtime.world) return;
+        auto* gameInstance = SDK::UGameplayStatics::GetGameInstance(runtime.world);
+        if (!gameInstance || !gameInstance->IsA(SDK::UGI_Settings_C::StaticClass())) return;
+        static_cast<SDK::UGI_Settings_C*>(gameInstance)->Day_Time = dayTime;
+    });
+
     if (sunComp) QueueApplySunState();
 }
 
@@ -460,11 +490,10 @@ void SkyEditorSection::Render() {
     ImGui::PopItemWidth();
 
     ImGui::Spacing();
-    if (ImGui::Button("Day")) ApplyPreset(45.f);
-    ImGui::SameLine();
-    if (ImGui::Button("Sunset")) ApplyPreset(2.f);
-    ImGui::SameLine();
-    if (ImGui::Button("Night")) ApplyPreset(-30.f);
+    for (int i = 0; i < K_TIME_PRESET_COUNT; ++i) {
+        if (i > 0) ImGui::SameLine();
+        if (ImGui::Button(K_TIME_PRESETS[i].label)) ApplyPreset(i);
+    }
 
     ImGui::Spacing();
     GuiUtils::RenderUnderlineTabs("##SkyTabs", activeTab, TAB_LABELS, TAB_COUNT);

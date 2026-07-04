@@ -74,7 +74,7 @@ private:
     void ApplySkyLight();
     void ApplyFog();
     void ApplyClouds();
-    void ApplyPreset(float pitch);
+    void ApplyPreset(int presetIndex);
     void RenderSunTab();
     void RenderAtmoTab();
     void RenderSkyLightTab();
