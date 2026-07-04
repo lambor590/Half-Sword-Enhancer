@@ -5,6 +5,7 @@
 #include "SDK/Enum_DayTime_structs.hpp"
 #include "SDK/GI_Settings_classes.hpp"
 
+#include <string>
 #include <utility>
 
 namespace {
@@ -23,6 +24,161 @@ namespace {
     };
 
     constexpr int K_TIME_PRESET_COUNT = static_cast<int>(sizeof(K_TIME_PRESETS) / sizeof(K_TIME_PRESETS[0]));
+
+    struct LightingPresetSet {
+        const char* mapToken;
+        const wchar_t* levels[K_TIME_PRESET_COUNT];
+    };
+
+    constexpr const wchar_t* K_DEFAULT_LIGHTING_PRESETS[K_TIME_PRESET_COUNT] = {
+        L"/Game/Maps/Lighting/Lighting_Morning",
+        L"/Game/Maps/Lighting/Arena_Cutting_Map_Lighting",
+        L"/Game/Maps/Lighting/Arena_Cutting_Map_Lighting_Evening",
+        L"/Game/Maps/Lighting/Arena_Cutting_Map_Lighting_Night",
+    };
+
+    constexpr LightingPresetSet K_MAP_LIGHTING_PRESETS[] = {
+        {"Map_Arena_Ambush", {
+             L"/Game/Maps/Lighting/Arena_Ambush_Map_Morning_Lighting",
+             L"/Game/Maps/Lighting/Arena_Ambush_Map_Lighting",
+             L"/Game/Maps/Lighting/Arena_Ambush_Map_Evening_Lighting",
+             L"/Game/Maps/Lighting/Arena_Ambush_Map_Night_Lighting",
+         }},
+        {"Map_Arena_EastTower", {
+             L"/Game/Maps/Lighting/Map_Arena_EastTower_Dawn_Lighting",
+             L"/Game/Maps/Lighting/Map_Arena_EastTower_Lighting",
+             L"/Game/Maps/Lighting/Map_Arena_EastTower_Dawn_Lighting",
+             L"/Game/Maps/Lighting/Map_Arena_EastTower_Night_Lighting",
+         }},
+        {"Map_Arena_Slums", {
+             L"/Game/Maps/Lighting/Map_Arena_Slums_Morning_Lighting",
+             L"/Game/Maps/Lighting/Map_Arena_Slums_Lighting",
+             L"/Game/Maps/Lighting/Map_Arena_Slums_Evening_Lighting_2",
+             L"/Game/Maps/Lighting/Map_Arena_Slums_Night_Lighting",
+         }},
+        {"Map_Arena_Cellar", {
+             L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
+             L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
+             L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
+             L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
+         }},
+        {"Map_Arena_LordsHall", {
+             L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
+             L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
+             L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
+             L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
+         }},
+        {"Workshop_Smithery_Map", {
+             L"/Game/Maps/Lighting/Workshop_Smithery_Map_Lighting",
+             L"/Game/Maps/Lighting/Workshop_Smithery_Map_Lighting",
+             L"/Game/Maps/Lighting/Workshop_Smithery_Map_Lighting",
+             L"/Game/Maps/Lighting/Workshop_Smithery_Map_Lighting",
+         }},
+    };
+
+    constexpr const wchar_t* K_KNOWN_LIGHTING_LEVELS[] = {
+        L"/Game/Maps/Lighting/Arena_Ambush_Map_Evening_Lighting",
+        L"/Game/Maps/Lighting/Arena_Ambush_Map_Lighting",
+        L"/Game/Maps/Lighting/Arena_Ambush_Map_Morning_Lighting",
+        L"/Game/Maps/Lighting/Arena_Ambush_Map_Night_Lighting",
+        L"/Game/Maps/Lighting/Arena_Cellar_Map_Lighting",
+        L"/Game/Maps/Lighting/Arena_Cutting_Map_Lighting",
+        L"/Game/Maps/Lighting/Arena_Cutting_Map_Lighting_Evening",
+        L"/Game/Maps/Lighting/Arena_Cutting_Map_Lighting_Night",
+        L"/Game/Maps/Lighting/Arena_LordsHall_Map_Lighting",
+        L"/Game/Maps/Lighting/Lighting_Morning",
+        L"/Game/Maps/Lighting/Lighting_Overcast_001",
+        L"/Game/Maps/Lighting/Map_Arena_EastTower_Dawn_Lighting",
+        L"/Game/Maps/Lighting/Map_Arena_EastTower_Lighting",
+        L"/Game/Maps/Lighting/Map_Arena_EastTower_Night_Lighting",
+        L"/Game/Maps/Lighting/Map_Arena_Slums_Evening_Lighting_2",
+        L"/Game/Maps/Lighting/Map_Arena_Slums_Lighting",
+        L"/Game/Maps/Lighting/Map_Arena_Slums_Morning_Lighting",
+        L"/Game/Maps/Lighting/Map_Arena_Slums_Night_Lighting",
+        L"/Game/Maps/Lighting/Workshop_Smithery_Map_Lighting",
+    };
+
+    [[nodiscard]] const wchar_t* LightingLevelForPreset(const std::string& currentLevel, int presetIndex) {
+        for (const auto& presetSet : K_MAP_LIGHTING_PRESETS) {
+            if (currentLevel.find(presetSet.mapToken) != std::string::npos) return presetSet.levels[presetIndex];
+        }
+        return K_DEFAULT_LIGHTING_PRESETS[presetIndex];
+    }
+
+    SDK::FLatentActionInfo LatentAction(int32_t uuid) {
+        SDK::FLatentActionInfo info{};
+        info.UUID = uuid;
+        return info;
+    }
+
+    SDK::FName PackageName(const wchar_t* path) {
+        return SDK::BasicFilesImplUtils::StringToName(path);
+    }
+
+    [[nodiscard]] std::string NarrowPath(const wchar_t* path) {
+        std::string result;
+        if (!path) return result;
+
+        while (*path) {
+            result.push_back(static_cast<char>(*path));
+            ++path;
+        }
+        return result;
+    }
+
+    [[nodiscard]] bool IsKnownLightingLevel(const std::string& packageName) {
+        for (const wchar_t* knownLevel : K_KNOWN_LIGHTING_LEVELS) {
+            if (packageName == NarrowPath(knownLevel)) return true;
+        }
+        return false;
+    }
+
+    void SetStreamLevelTarget(SDK::ULevelStreaming* streamingLevel, bool shouldLoad) {
+        if (!streamingLevel) return;
+
+        streamingLevel->bShouldBlockOnLoad = true;
+        streamingLevel->bShouldBlockOnUnload = true;
+        if (shouldLoad) {
+            streamingLevel->SetShouldBeLoaded(true);
+            streamingLevel->SetShouldBeVisible(true);
+            return;
+        }
+
+        streamingLevel->SetShouldBeVisible(false);
+        streamingLevel->SetShouldBeLoaded(false);
+    }
+
+    void ApplyLightingPresetLevel(SDK::UWorld* world, const wchar_t* levelPath) {
+        if (!world || !levelPath) return;
+
+        const std::string targetLevel = NarrowPath(levelPath);
+        bool foundExistingTarget = false;
+        for (int32_t i = 0; i < world->StreamingLevels.Num(); ++i) {
+            auto* streamingLevel = world->StreamingLevels[i];
+            if (!streamingLevel) continue;
+
+            const std::string packageName = streamingLevel->GetWorldAssetPackageFName().GetRawString();
+            if (!IsKnownLightingLevel(packageName)) continue;
+
+            const bool shouldLoad = packageName == targetLevel;
+            foundExistingTarget = foundExistingTarget || shouldLoad;
+            SetStreamLevelTarget(streamingLevel, shouldLoad);
+        }
+
+        if (foundExistingTarget) {
+            SDK::UGameplayStatics::FlushLevelStreaming(world);
+            return;
+        }
+
+        int32_t uuid = 1000;
+        for (const wchar_t* loadedLevel : K_KNOWN_LIGHTING_LEVELS) {
+            SDK::UGameplayStatics::UnloadStreamLevel(world, PackageName(loadedLevel), LatentAction(uuid++), true);
+        }
+
+        SDK::UGameplayStatics::FlushLevelStreaming(world);
+        SDK::UGameplayStatics::LoadStreamLevel(world, PackageName(levelPath), true, true, LatentAction(uuid));
+        SDK::UGameplayStatics::FlushLevelStreaming(world);
+    }
 
     [[nodiscard]] bool IsLiveObject(const SDK::UObject* object) {
         return object && object->Index >= 0 && SDK::UObject::GObjects->GetByIndex(object->Index) == object;
@@ -320,14 +476,18 @@ void SkyEditorSection::ApplyPreset(int presetIndex) {
     sunPitch = preset.sunPitch;
     sunYaw = preset.sunYaw;
 
-    GameHook::QueueAction([dayTime = preset.dayTime](const RuntimeContextSnapshot& runtime) {
+    GameHook::QueueAction([presetIndex, dayTime = preset.dayTime](const RuntimeContextSnapshot& runtime) {
         if (!runtime.world) return;
         auto* gameInstance = SDK::UGameplayStatics::GetGameInstance(runtime.world);
-        if (!gameInstance || !gameInstance->IsA(SDK::UGI_Settings_C::StaticClass())) return;
-        static_cast<SDK::UGI_Settings_C*>(gameInstance)->Day_Time = dayTime;
+        if (gameInstance && gameInstance->IsA(SDK::UGI_Settings_C::StaticClass())) {
+            static_cast<SDK::UGI_Settings_C*>(gameInstance)->Day_Time = dayTime;
+        }
+
+        const auto currentLevel = SDK::UGameplayStatics::GetCurrentLevelName(runtime.world, true).ToString();
+        ApplyLightingPresetLevel(runtime.world, LightingLevelForPreset(currentLevel, presetIndex));
     });
 
-    if (sunComp) QueueApplySunState();
+    FindComponents();
 }
 
 void SkyEditorSection::RenderSunTab() {
