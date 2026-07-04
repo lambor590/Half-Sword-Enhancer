@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
 #include "SDK/Engine_structs.hpp"
@@ -54,6 +56,7 @@ public:
         float biteAllRange = 500.0f;
         float enemyDrunkLevel = 1.0f;
         float kickPowerMultiplier = 1.0f;
+        bool kickMultiplierAffectsEnemies = false;
         float knockbackMultiplier = 1.0f;
         bool knockbackAffectsEnemies = false;
         float consciousnessMultiplier = 1.0f;
@@ -71,14 +74,17 @@ public:
 private:
     Config cfg;
     KeybindList keybinds;
-    SDK::AWeapon_Feet_C* kickWindowFoot = nullptr;
-    bool kickWindowLeft = false;
-    bool kickImpulseSpent = false;
-    SDK::UPrimitiveComponent* pendingKickImpulseComponent = nullptr;
-    SDK::FVector pendingKickImpulse{};
-    SDK::FVector pendingKickImpulseLocation{};
-    SDK::FName pendingKickImpulseBone{};
-    int pendingKickImpulseStep = 0;
+    struct KickWindow {
+        SDK::AWeapon_Feet_C* foot = nullptr;
+        bool left = false;
+        bool impulseSpent = false;
+        SDK::UPrimitiveComponent* pendingImpulseComponent = nullptr;
+        SDK::FVector pendingImpulse{};
+        SDK::FVector pendingImpulseLocation{};
+        SDK::FName pendingImpulseBone{};
+        int pendingImpulseStep = 0;
+    };
+    std::vector<KickWindow> kickWindows;
 
     void InitKeybinds();
 

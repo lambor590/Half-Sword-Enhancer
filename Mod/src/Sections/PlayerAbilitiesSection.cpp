@@ -618,79 +618,76 @@ void PlayerAbilitiesSection::InitKeybinds() {
         }
     );
 
-    auto clearPendingKickImpulse = [this]() {
-        pendingKickImpulseComponent = nullptr;
-        pendingKickImpulse = {};
-        pendingKickImpulseLocation = {};
-        pendingKickImpulseBone = {};
-        pendingKickImpulseStep = 0;
+    auto findKickWindow = [this](SDK::AWeapon_Feet_C* foot) -> KickWindow* {
+        for (auto& window : kickWindows) {
+            if (window.foot == foot) return &window;
+        }
+        return nullptr;
     };
 
-    auto applyPendingKickImpulse = [this, clearPendingKickImpulse]() {
-        if (!pendingKickImpulseComponent) return;
+    auto clearPendingKickImpulse = [](KickWindow& window) {
+        window.pendingImpulseComponent = nullptr;
+        window.pendingImpulse = {};
+        window.pendingImpulseLocation = {};
+        window.pendingImpulseBone = {};
+        window.pendingImpulseStep = 0;
+    };
 
-        if (pendingKickImpulseStep >= KickImpulseTransferStepCount()) {
-            clearPendingKickImpulse();
+    auto applyPendingKickImpulse = [clearPendingKickImpulse](KickWindow& window) {
+        if (!window.pendingImpulseComponent) return;
+
+        if (window.pendingImpulseStep >= KickImpulseTransferStepCount()) {
+            clearPendingKickImpulse(window);
             return;
         }
 
-        const double weight = KICK_IMPULSE_TRANSFER_WEIGHTS[pendingKickImpulseStep];
-        const auto impulse = pendingKickImpulse * weight;
-        pendingKickImpulseComponent->AddImpulseAtLocation(impulse, pendingKickImpulseLocation, pendingKickImpulseBone);
+        const double weight = KICK_IMPULSE_TRANSFER_WEIGHTS[window.pendingImpulseStep];
+        const auto impulse = window.pendingImpulse * weight;
+        window.pendingImpulseComponent->AddImpulseAtLocation(
+            impulse, window.pendingImpulseLocation, window.pendingImpulseBone
+        );
 
-        ++pendingKickImpulseStep;
-        if (pendingKickImpulseStep >= KickImpulseTransferStepCount()) {
-            clearPendingKickImpulse();
+        ++window.pendingImpulseStep;
+        if (window.pendingImpulseStep >= KickImpulseTransferStepCount()) {
+            clearPendingKickImpulse(window);
         }
     };
 
-    auto openKickWindow = [this, applyPendingKickImpulse](bool leftKick, GameHook::ProcessEventContext& context) {
-        const auto& snapshot = ModContext::Get().GetRenderSnapshot();
-        auto* player = snapshot.player;
-        if (!player) return;
-
-        auto* willie = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
-                         ? static_cast<SDK::AWillie_BP_C*>(context.object)
-                         : nullptr;
-        if (context.object != player && (!willie || !willie->Player)) return;
+    auto openKickWindow = [this, findKickWindow, applyPendingKickImpulse](
+                              bool leftKick, GameHook::ProcessEventContext& context
+                          ) {
+        auto* attacker = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                           ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                           : nullptr;
+        if (!attacker) return;
+        if (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies) return;
 
         const float multiplier = cfg.kickPowerMultiplier;
-        auto* target = willie ? willie : player;
-        auto* foot = GetKickFoot(target, leftKick);
+        auto* foot = GetKickFoot(attacker, leftKick);
         if (!foot || multiplier <= 1.0f) return;
-        if (kickWindowFoot == foot) {
-            applyPendingKickImpulse();
+        if (auto* window = findKickWindow(foot)) {
+            applyPendingKickImpulse(*window);
             return;
         }
 
-        kickWindowFoot = foot;
-        kickWindowLeft = leftKick;
-        kickImpulseSpent = false;
+        auto& window = kickWindows.emplace_back();
+        window.foot = foot;
+        window.left = leftKick;
+        window.impulseSpent = false;
         if (leftKick) {
-            target->Kick_Rate_L *= multiplier;
+            attacker->Kick_Rate_L *= multiplier;
         } else {
-            target->Kick_Rate_R *= multiplier;
+            attacker->Kick_Rate_R *= multiplier;
         }
         BoostWeaponKnockback(foot, multiplier);
     };
 
-    auto closeKickWindow = [this, clearPendingKickImpulse](bool leftKick, GameHook::ProcessEventContext& context) {
-        const auto& snapshot = ModContext::Get().GetRenderSnapshot();
-        auto* player = snapshot.player;
-        if (!player) return;
-
-        auto* willie = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
-                         ? static_cast<SDK::AWillie_BP_C*>(context.object)
-                         : nullptr;
-        if (context.object != player && (!willie || !willie->Player)) return;
-
-        auto* target = willie ? willie : player;
-        if (kickWindowFoot != GetKickFoot(target, leftKick)) return;
-
-        kickWindowFoot = nullptr;
-        kickWindowLeft = false;
-        kickImpulseSpent = false;
-        clearPendingKickImpulse();
+    auto closeKickWindow = [this](bool leftKick, GameHook::ProcessEventContext& context) {
+        auto* attacker = context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
+                           ? static_cast<SDK::AWillie_BP_C*>(context.object)
+                           : nullptr;
+        auto* foot = GetKickFoot(attacker, leftKick);
+        std::erase_if(kickWindows, [foot](const KickWindow& window) { return window.foot == foot; });
     };
 
     keybinds.Add(
@@ -737,51 +734,59 @@ void PlayerAbilitiesSection::InitKeybinds() {
                         .functionName =
                             "BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature",
                         .callback =
-                            [this, applyPendingKickImpulse](GameHook::ProcessEventContext& context) {
+                            [this, findKickWindow, applyPendingKickImpulse](GameHook::ProcessEventContext& context) {
                                 auto* params = context.Params<
                                     SDK::Params::
                                         Willie_BP_C_BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature>();
-                                if (!params) return;
+                                if (!params || !params->HitComponent) return;
 
                                 auto* target =
                                     context.object && context.object->IsA(SDK::AWillie_BP_C::StaticClass())
                                         ? static_cast<SDK::AWillie_BP_C*>(context.object)
                                         : nullptr;
-                                auto* player = ModContext::Get().GetRenderSnapshot().player;
-                                if (!target || !player || target == player || !params->HitComponent) return;
-                                if (!kickWindowFoot || kickImpulseSpent) return;
 
                                 auto* foot =
                                     params->OtherActor && params->OtherActor->IsA(SDK::AWeapon_Feet_C::StaticClass())
                                         ? static_cast<SDK::AWeapon_Feet_C*>(params->OtherActor)
                                         : nullptr;
-                                if (foot != kickWindowFoot || foot->Parent_Actor != player) return;
+                                auto* attacker = foot ? foot->Parent_Actor : nullptr;
+                                if (!foot || !target || !attacker || attacker == target) return;
+                                if (!BoneControl::MatchesScope(attacker, true) && !cfg.kickMultiplierAffectsEnemies)
+                                    return;
+
+                                auto* window = findKickWindow(foot);
+                                if (!window || window->impulseSpent) return;
 
                                 const auto targetBone = params->Hit.MyBoneName;
-                                const double attackerMass = KickLimbMass(player->Mesh, kickWindowLeft);
+                                const double attackerMass = KickLimbMass(attacker->Mesh, window->left);
                                 SDK::FVector impulse{};
                                 if (!ComputeKnockbackImpulse(
-                                        player, target, params->HitComponent, foot->Weapon_Velocity,
+                                        attacker, target, params->HitComponent, foot->Weapon_Velocity,
                                         params->Hit.ImpactPoint, targetBone, attackerMass,
                                         static_cast<double>(cfg.kickPowerMultiplier), impulse
                                     ))
                                     return;
 
                                 BoostWeaponKnockback(foot, cfg.kickPowerMultiplier);
-                                pendingKickImpulseComponent = params->HitComponent;
-                                pendingKickImpulse = impulse;
-                                pendingKickImpulseLocation = params->Hit.ImpactPoint;
-                                pendingKickImpulseBone = targetBone;
-                                pendingKickImpulseStep = 0;
-                                applyPendingKickImpulse();
-                                kickImpulseSpent = true;
+                                window->pendingImpulseComponent = params->HitComponent;
+                                window->pendingImpulse = impulse;
+                                window->pendingImpulseLocation = params->Hit.ImpactPoint;
+                                window->pendingImpulseBone = targetBone;
+                                window->pendingImpulseStep = 0;
+                                applyPendingKickImpulse(*window);
+                                window->impulseSpent = true;
                             },
                     },
                 },
-            .params = {KeybindParam(
-                "kick_power_multiplier", "Power Multiplier", &cfg.kickPowerMultiplier, 1.0f, 100.0f,
-                "Multiplies the mass-aware physical impulse applied by kicks"
-            )},
+            .params =
+                {KeybindParam(
+                     "kick_power_multiplier", "Power Multiplier", &cfg.kickPowerMultiplier, 1.0f, 100.0f,
+                     "Multiplies the mass-aware physical impulse applied by kicks"
+                 ),
+                 KeybindParam(
+                     "apply_to_enemies", "Apply To Enemies", &cfg.kickMultiplierAffectsEnemies,
+                     "Lets enemy kicks use this multiplier too"
+                 )},
         }
     );
 
