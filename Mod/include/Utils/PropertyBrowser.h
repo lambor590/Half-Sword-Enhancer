@@ -37,6 +37,14 @@ namespace PropertyBrowser {
         Vector2D,
         Vector,
         Rotator,
+        Struct,
+        Object,
+        Name,
+        String,
+        Text,
+        Array,
+        Map,
+        Set,
         Unsupported
     };
 
@@ -49,6 +57,8 @@ namespace PropertyBrowser {
         int32_t elementSize = 0;
         float enumComboWidth = K_ENUM_WIDTH;
         PropType type = PropType::Unsupported;
+        SDK::UStruct* structType = nullptr;
+        std::string typeName;
         uint8_t fieldMask = 0;
         uint8_t byteOffset = 0;
     };
@@ -195,8 +205,45 @@ namespace PropertyBrowser {
         return {};
     }
 
-    [[nodiscard]] inline PropType ClassifyProperty(SDK::FProperty* prop, SDK::UEnum*& outEnum) {
+    [[nodiscard]] inline bool IsEditable(PropType type) noexcept {
+        switch (type) {
+            case PropType::Float:
+            case PropType::Double:
+            case PropType::Int:
+            case PropType::Bool:
+            case PropType::Byte:
+            case PropType::Enum:
+            case PropType::LinearColor:
+            case PropType::Color:
+            case PropType::Vector2D:
+            case PropType::Vector:
+            case PropType::Rotator:
+            case PropType::Struct: return true;
+            default: return false;
+        }
+    }
+
+    [[nodiscard]] inline bool IsVisible(PropType type) noexcept {
+        return type != PropType::Unsupported;
+    }
+
+    [[nodiscard]] inline bool IsLiveObject(const SDK::UObject* object) {
+        if (!object || !object->Class || object->Index < 0) return false;
+        if (SDK::UObject::GObjects->GetByIndex(object->Index) != object) return false;
+        return !(object->Flags & SDK::EObjectFlags::BeginDestroyed) &&
+               !(object->Flags & SDK::EObjectFlags::FinishDestroyed);
+    }
+
+    [[nodiscard]] inline std::string FieldClassName(const SDK::FProperty* prop) {
+        return prop && prop->ClassPrivate ? prop->ClassPrivate->Name.ToString() : "Unsupported";
+    }
+
+    [[nodiscard]] inline PropType ClassifyProperty(
+        SDK::FProperty* prop, SDK::UEnum*& outEnum, SDK::UStruct*& outStruct, SDK::UClass*& outObjectClass
+    ) {
         outEnum = nullptr;
+        outStruct = nullptr;
+        outObjectClass = nullptr;
         if (!prop || !prop->ClassPrivate) return PropType::Unsupported;
         auto castFlags = static_cast<SDK::EClassCastFlags>(prop->ClassPrivate->CastFlags);
 
@@ -220,6 +267,20 @@ namespace PropertyBrowser {
             return PropType::Enum;
         }
 
+        if (castFlags & SDK::EClassCastFlags::NameProperty) return PropType::Name;
+        if (castFlags & SDK::EClassCastFlags::StrProperty) return PropType::String;
+        if (castFlags & SDK::EClassCastFlags::TextProperty) return PropType::Text;
+
+        if (castFlags & SDK::EClassCastFlags::ObjectPropertyBase) {
+            auto* op = static_cast<SDK::FObjectPropertyBase*>(prop);
+            outObjectClass = op->PropertyClass;
+            return PropType::Object;
+        }
+
+        if (castFlags & SDK::EClassCastFlags::ArrayProperty) return PropType::Array;
+        if (castFlags & SDK::EClassCastFlags::MapProperty) return PropType::Map;
+        if (castFlags & SDK::EClassCastFlags::SetProperty) return PropType::Set;
+
         if (castFlags & SDK::EClassCastFlags::StructProperty) {
             auto* sp = static_cast<SDK::FStructProperty*>(prop);
             if (sp->Struct) {
@@ -229,6 +290,10 @@ namespace PropertyBrowser {
                 if (structName == "Vector2D") return PropType::Vector2D;
                 if (structName == "Vector") return PropType::Vector;
                 if (structName == "Rotator") return PropType::Rotator;
+                if (sp->Struct->ChildProperties) {
+                    outStruct = sp->Struct;
+                    return PropType::Struct;
+                }
             }
         }
 
@@ -281,7 +346,9 @@ namespace PropertyBrowser {
                 auto* prop = static_cast<SDK::FProperty*>(field);
 
                 SDK::UEnum* enumPtr = nullptr;
-                PropType type = ClassifyProperty(prop, enumPtr);
+                SDK::UStruct* structPtr = nullptr;
+                SDK::UClass* objectClass = nullptr;
+                PropType type = ClassifyProperty(prop, enumPtr, structPtr, objectClass);
 
                 std::string rawName = prop->Name.ToString();
 
@@ -292,6 +359,10 @@ namespace PropertyBrowser {
                 info.offset = prop->Offset;
                 info.elementSize = prop->ElementSize;
                 info.type = type;
+                info.structType = structPtr;
+                info.typeName = FieldClassName(prop);
+                if (structPtr) info.typeName = structPtr->GetName();
+                if (objectClass) info.typeName = objectClass->GetName();
 
                 if (type == PropType::Bool) {
                     auto* bp = static_cast<SDK::FBoolProperty*>(prop);
@@ -333,6 +404,30 @@ namespace PropertyBrowser {
         return map;
     }
 
+    [[nodiscard]] inline bool PropertyMatchesFilter(const PropertyInfo& prop, const char* filter, size_t filterLen);
+
+    [[nodiscard]] inline bool StructMatchesFilter(
+        SDK::UStruct* structType, const char* filter, size_t filterLen, int depth = 0
+    ) {
+        if (!structType || filterLen == 0 || depth > 6) return false;
+
+        auto props = EnumerateProperties(structType);
+        for (const auto& prop : props) {
+            if (PropertyMatchesFilter(prop, filter, filterLen)) return true;
+            if (prop.type == PropType::Struct && StructMatchesFilter(prop.structType, filter, filterLen, depth + 1))
+                return true;
+        }
+        return false;
+    }
+
+    [[nodiscard]] inline bool PropertyMatchesFilter(const PropertyInfo& prop, const char* filter, size_t filterLen) {
+        if (filterLen == 0) return true;
+        if (GuiUtils::MatchesFilter(prop.displayName.c_str(), prop.displayName.size(), filter, filterLen)) return true;
+        if (GuiUtils::MatchesFilter(prop.rawName.c_str(), prop.rawName.size(), filter, filterLen)) return true;
+        if (GuiUtils::MatchesFilter(prop.typeName.c_str(), prop.typeName.size(), filter, filterLen)) return true;
+        return prop.type == PropType::Struct && StructMatchesFilter(prop.structType, filter, filterLen);
+    }
+
     inline bool DragDouble3(const char* label, double* d, float speed, const char* fmt) {
         float tmp[3] = {static_cast<float>(d[0]), static_cast<float>(d[1]), static_cast<float>(d[2])};
         ImGui::SetNextItemWidth(K_VEC3_WIDTH);
@@ -348,6 +443,47 @@ namespace PropertyBrowser {
         bool committed = ImGui::IsItemDeactivatedAfterEdit();
         if (ImGui::IsItemEdited()) std::copy_n(tmp, 2, d);
         return committed;
+    }
+
+    inline bool RenderPropertyWidget(const PropertyInfo& prop, std::byte* objectBytes);
+
+    inline bool RenderStructWidget(const PropertyInfo& prop, std::byte* structBytes) {
+        if (!prop.structType) {
+            ImGui::TextDisabled("%s: unsupported struct", prop.displayName.c_str());
+            return false;
+        }
+
+        auto props = EnumerateProperties(prop.structType);
+        int editableCount = 0;
+        for (const auto& nested : props)
+            if (IsEditable(nested.type)) ++editableCount;
+
+        char label[192];
+        std::snprintf(label, sizeof(label), "%s (%d)", prop.displayName.c_str(), editableCount);
+        const bool open = ImGui::TreeNodeEx(label, ImGuiTreeNodeFlags_None);
+        if (!open) return false;
+
+        bool changed = false;
+        auto categories = GroupByCategory(props);
+        for (auto& [category, categoryProps] : categories) {
+            char categoryLabel[160];
+            std::snprintf(categoryLabel, sizeof(categoryLabel), "%s (%zu)", category.c_str(), categoryProps.size());
+            if (!ImGui::TreeNodeEx(categoryLabel, ImGuiTreeNodeFlags_DefaultOpen)) continue;
+
+            for (const auto* nested : categoryProps) {
+                if (!IsVisible(nested->type)) continue;
+                changed |= RenderPropertyWidget(*nested, structBytes);
+            }
+
+            ImGui::TreePop();
+        }
+
+        ImGui::TreePop();
+        return changed;
+    }
+
+    inline void RenderReadOnlyTextValue(const PropertyInfo& prop, const std::string& value) {
+        ImGui::TextDisabled("%s: %s", prop.displayName.c_str(), value.empty() ? "(empty)" : value.c_str());
     }
 
     inline bool RenderPropertyWidget(const PropertyInfo& prop, std::byte* objectBytes) {
@@ -458,6 +594,37 @@ namespace PropertyBrowser {
                 break;
             case PropType::Rotator:
                 changed = DragDouble3(prop.displayName.c_str(), reinterpret_cast<double*>(valuePtr), 0.5f, "%.1f");
+                break;
+            case PropType::Struct:
+                changed = RenderStructWidget(prop, reinterpret_cast<std::byte*>(valuePtr));
+                break;
+            case PropType::Object: {
+                auto* object = *reinterpret_cast<SDK::UObject**>(valuePtr);
+                const bool live = IsLiveObject(object);
+                std::string value = live ? object->GetName() : "(null)";
+                RenderReadOnlyTextValue(prop, value);
+                if (live && ImGui::IsItemHovered()) {
+                    GuiUtils::BeginStyledTooltip();
+                    ImGui::TextUnformatted(object->GetFullName().c_str());
+                    GuiUtils::EndStyledTooltip();
+                }
+                break;
+            }
+            case PropType::Name:
+                RenderReadOnlyTextValue(prop, reinterpret_cast<SDK::FName*>(valuePtr)->ToString());
+                break;
+            case PropType::String:
+                RenderReadOnlyTextValue(prop, reinterpret_cast<SDK::FString*>(valuePtr)->ToString());
+                break;
+            case PropType::Text: {
+                auto* text = reinterpret_cast<SDK::FText*>(valuePtr);
+                RenderReadOnlyTextValue(prop, text && text->TextData ? text->ToString() : "");
+                break;
+            }
+            case PropType::Array:
+            case PropType::Map:
+            case PropType::Set:
+                ImGui::TextDisabled("%s: %s container", prop.displayName.c_str(), prop.typeName.c_str());
                 break;
             case PropType::Unsupported: break;
         }

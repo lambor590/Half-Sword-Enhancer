@@ -8,6 +8,7 @@
 #include "Menu/Sections/Equipment/WeaponEditorSection.h"
 #include "Menu/Sections/Player/PlayerAbilitiesSection.h"
 #include "Menu/Sections/Player/PlayerEditorSection.h"
+#include "Menu/Sections/Player/SaveEditorSection.h"
 #include "Menu/Sections/Settings/AssetOverridesSection.h"
 #include "Menu/Sections/Settings/GraphicsSection.h"
 #include "Menu/Sections/Settings/GuiSection.h"
@@ -139,6 +140,7 @@ void Gui::Setup() {
     menu.AddSection<MapLoaderSection>(ctx);
     menu.AddSection<PlayerAbilitiesSection>(ctx);
     menu.AddSection<PlayerEditorSection>(ctx);
+    menu.AddSection<SaveEditorSection>(ctx);
     menu.AddSection<NPCEditorSection>(ctx);
     menu.AddSection<ItemSpawnerSection>(ctx);
     menu.AddSection<ArmorEditorSection>(ctx);

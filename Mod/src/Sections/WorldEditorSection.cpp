@@ -332,7 +332,7 @@ void WorldEditorSection::SelectTarget(int index) {
 
     int supported = 0;
     for (const auto& p : properties)
-        if (p.type != PropertyBrowser::PropType::Unsupported) ++supported;
+        if (PropertyBrowser::IsEditable(p.type)) ++supported;
 
     infoText = target.label + " > " + browseTarget->Class->GetName() + " (" + std::to_string(supported) + " editable)";
 }
@@ -648,9 +648,9 @@ void WorldEditorSection::RebuildVisibleProperties(size_t filterLen) {
         visible.name = catName;
         visible.props.reserve(catProps.size());
         for (const auto* p : catProps) {
-            if (p->type == PropertyBrowser::PropType::Unsupported) continue;
+            if (!PropertyBrowser::IsVisible(p->type)) continue;
             if (filterLen > 0 &&
-                !GuiUtils::MatchesFilter(p->displayName.c_str(), p->displayName.size(), propSearchBuf, filterLen))
+                !PropertyBrowser::PropertyMatchesFilter(*p, propSearchBuf, filterLen))
                 continue;
             visible.props.push_back(p);
         }
