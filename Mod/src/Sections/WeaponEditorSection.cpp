@@ -3,7 +3,6 @@
 
 #include <cstdio>
 #include <cstring>
-#include <cmath>
 #include <tuple>
 #include <algorithm>
 #include <span>
@@ -479,38 +478,27 @@ namespace {
     }
 
     using W = SDK::AModularWeaponBP_C;
-    constexpr double MAX_WEAPON_RUNTIME_VALUE = 1'000'000.0;
-
-    double SafeWeaponRuntimeDouble(const OverrideDescriptor& f) {
-        const double value = GetDouble(f);
-        if (!std::isfinite(value)) return 0.0;
-        return std::clamp(value, 0.0, MAX_WEAPON_RUNTIME_VALUE);
-    }
-
-    int SafeWeaponRuntimeInt(const OverrideDescriptor& f) {
-        return std::clamp(GetInt(f), 0, static_cast<int>(MAX_WEAPON_RUNTIME_VALUE));
-    }
 
     static constexpr OverrideSetter COMBAT_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Rigidity = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Edge_Sharpness = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Raw_Damage = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Cutting_Rate = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Stab_Rate = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Def_Rating = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Grip_Rate = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Draw_Cut_Rate = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Tip_Sharpness = SafeWeaponRuntimeDouble(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Kick_Power = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Rigidity = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Edge_Sharpness = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Raw_Damage = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Cutting_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Stab_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Def_Rating = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Grip_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Draw_Cut_Rate = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Tip_Sharpness = GetDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Kick_Power = GetDouble(f); },
     };
 
     static constexpr OverrideSetter PHYSICS_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Mat_Density = SafeWeaponRuntimeDouble(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Mat_Density = GetDouble(f); },
     };
 
     static constexpr OverrideSetter DISMEMBER_SETTERS[] = {
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Sharp = SafeWeaponRuntimeInt(f); },
-        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Blunt = SafeWeaponRuntimeInt(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Sharp = GetInt(f); },
+        [](void* a, const OverrideDescriptor& f) { static_cast<W*>(a)->Dismemberment_Level_Blunt = GetInt(f); },
     };
 
     static constexpr OverrideSetter TOGGLE_SETTERS[] = {
@@ -521,16 +509,16 @@ namespace {
 
     static constexpr OverrideSetter STAMINA_SETTERS[] = {
         [](void* a, const OverrideDescriptor& f) {
-            static_cast<W*>(a)->R_Hand_Stamina_Burn_Rate = SafeWeaponRuntimeDouble(f);
+            static_cast<W*>(a)->R_Hand_Stamina_Burn_Rate = GetDouble(f);
         },
         [](void* a, const OverrideDescriptor& f) {
-            static_cast<W*>(a)->L_Hand_Stamina_Burn_Rate = SafeWeaponRuntimeDouble(f);
+            static_cast<W*>(a)->L_Hand_Stamina_Burn_Rate = GetDouble(f);
         },
         [](void* a, const OverrideDescriptor& f) {
-            static_cast<W*>(a)->TwoH_Default_Stamina_Burn_Rate = SafeWeaponRuntimeDouble(f);
+            static_cast<W*>(a)->TwoH_Default_Stamina_Burn_Rate = GetDouble(f);
         },
         [](void* a, const OverrideDescriptor& f) {
-            static_cast<W*>(a)->TwoH_Alt_Stamina_Burn_Rate = SafeWeaponRuntimeDouble(f);
+            static_cast<W*>(a)->TwoH_Alt_Stamina_Burn_Rate = GetDouble(f);
         },
     };
 
