@@ -16,6 +16,14 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function Willie_BP_NoBrain.Willie_BP_NoBrain_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Willie_BP_NoBrain_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds_ReceiveTick;                          // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function Willie_BP_NoBrain.Willie_BP_NoBrain_C.ExecuteUbergraph_Willie_BP_NoBrain
 // 0x0028 (0x0028 - 0x0000)
 struct Willie_BP_NoBrain_C_ExecuteUbergraph_Willie_BP_NoBrain final
@@ -25,14 +33,6 @@ public:
 	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FRotator                               CallFunc_K2_GetComponentRotation_ReturnValue;      // 0x0008(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor)
 	float                                         K2Node_Event_DeltaSeconds;                         // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Willie_BP_NoBrain.Willie_BP_NoBrain_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Willie_BP_NoBrain_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

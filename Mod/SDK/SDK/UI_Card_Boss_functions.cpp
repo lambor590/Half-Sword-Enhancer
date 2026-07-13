@@ -16,157 +16,61 @@
 
 SDK_NAMESPACE_START
 
-// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Card_Boss_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Card_Boss_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Card_Boss_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Card_Boss_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Card_Boss_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Card_Boss_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Card_Boss.UI_Card_Boss_C.Construct
+// Function UI_Card_Boss.UI_Card_Boss_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
-
-void UUI_Card_Boss_C::Construct()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "Construct");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Card_Boss.UI_Card_Boss_C.ExecuteUbergraph_UI_Card_Boss
-// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FGeometry&                 MyGeometry_Tick                                        (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// float                                   InDeltaTime_Tick                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Card_Boss_C::ExecuteUbergraph_UI_Card_Boss(int32 EntryPoint)
+void UUI_Card_Boss_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "ExecuteUbergraph_UI_Card_Boss");
+		Func = Class->GetFunction("UI_Card_Boss_C", "Tick");
 
-	Params::UI_Card_Boss_C_ExecuteUbergraph_UI_Card_Boss Parms{};
+	Params::UI_Card_Boss_C_Tick Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.MyGeometry_Tick = std::move(MyGeometry_Tick);
+	Parms.InDeltaTime_Tick = InDeltaTime_Tick;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function UI_Card_Boss.UI_Card_Boss_C.GetPercent
+// Function UI_Card_Boss.UI_Card_Boss_C.PreConstruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// bool                                    IsDesignTime_PreConstruct                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Card_Boss_C::PreConstruct(bool IsDesignTime_PreConstruct)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Card_Boss_C", "PreConstruct");
+
+	Params::UI_Card_Boss_C_PreConstruct Parms{};
+
+	Parms.IsDesignTime_PreConstruct = IsDesignTime_PreConstruct;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Card_Boss.UI_Card_Boss_C.GetVisibility_0
 // (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-float UUI_Card_Boss_C::GetPercent()
+ESlateVisibility UUI_Card_Boss_C::GetVisibility_0()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "GetPercent");
+		Func = Class->GetFunction("UI_Card_Boss_C", "GetVisibility_0");
 
-	Params::UI_Card_Boss_C_GetPercent Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function UI_Card_Boss.UI_Card_Boss_C.GetText
-// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
-
-class FText UUI_Card_Boss_C::GetText()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "GetText");
-
-	Params::UI_Card_Boss_C_GetText Parms{};
+	Params::UI_Card_Boss_C_GetVisibility_0 Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -194,19 +98,19 @@ class FText UUI_Card_Boss_C::GetText_0()
 }
 
 
-// Function UI_Card_Boss.UI_Card_Boss_C.GetVisibility_0
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Function UI_Card_Boss.UI_Card_Boss_C.GetText
+// (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// ESlateVisibility                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class FText                             ReturnValue                                            (Parm, OutParm, ReturnParm)
 
-ESlateVisibility UUI_Card_Boss_C::GetVisibility_0()
+class FText UUI_Card_Boss_C::GetText()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "GetVisibility_0");
+		Func = Class->GetFunction("UI_Card_Boss_C", "GetText");
 
-	Params::UI_Card_Boss_C_GetVisibility_0 Parms{};
+	Params::UI_Card_Boss_C_GetText Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -214,45 +118,141 @@ ESlateVisibility UUI_Card_Boss_C::GetVisibility_0()
 }
 
 
-// Function UI_Card_Boss.UI_Card_Boss_C.PreConstruct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Function UI_Card_Boss.UI_Card_Boss_C.GetPercent
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
-// bool                                    IsDesignTime                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Card_Boss_C::PreConstruct(bool IsDesignTime)
+float UUI_Card_Boss_C::GetPercent()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "PreConstruct");
+		Func = Class->GetFunction("UI_Card_Boss_C", "GetPercent");
 
-	Params::UI_Card_Boss_C_PreConstruct Parms{};
+	Params::UI_Card_Boss_C_GetPercent Parms{};
 
-	Parms.IsDesignTime = IsDesignTime;
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function UI_Card_Boss.UI_Card_Boss_C.ExecuteUbergraph_UI_Card_Boss
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Card_Boss_C::ExecuteUbergraph_UI_Card_Boss(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Card_Boss_C", "ExecuteUbergraph_UI_Card_Boss");
+
+	Params::UI_Card_Boss_C_ExecuteUbergraph_UI_Card_Boss Parms{};
+
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function UI_Card_Boss.UI_Card_Boss_C.Tick
+// Function UI_Card_Boss.UI_Card_Boss_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
-// Parameters:
-// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Card_Boss_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
+void UUI_Card_Boss_C::Construct()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Card_Boss_C", "Tick");
+		Func = Class->GetFunction("UI_Card_Boss_C", "Construct");
 
-	Params::UI_Card_Boss_C_Tick Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.MyGeometry = std::move(MyGeometry);
-	Parms.InDeltaTime = InDeltaTime;
 
-	UObject::ProcessEvent(Func, &Parms);
+// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Card_Boss_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Card_Boss_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Card_Boss_C::BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Card_Boss_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Card_Boss_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Card_Boss.UI_Card_Boss_C.BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Card_Boss_C::BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Card_Boss_C", "BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

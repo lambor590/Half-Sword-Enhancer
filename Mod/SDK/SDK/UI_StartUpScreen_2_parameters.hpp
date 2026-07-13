@@ -16,6 +16,14 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function UI_StartUpScreen_2.UI_StartUpScreen_2_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
+// 0x0018 (0x0018 - 0x0000)
+struct UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
 // Function UI_StartUpScreen_2.UI_StartUpScreen_2_C.ExecuteUbergraph_UI_StartUpScreen_2
 // 0x0048 (0x0048 - 0x0000)
 struct UI_StartUpScreen_2_C_ExecuteUbergraph_UI_StartUpScreen_2 final
@@ -31,14 +39,6 @@ public:
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_1;        // 0x0030(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UUI_StartUpScreen_3_C*                  CallFunc_Create_ReturnValue;                       // 0x0038(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue;                // 0x0040(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function UI_StartUpScreen_2.UI_StartUpScreen_2_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
-// 0x0018 (0x0018 - 0x0000)
-struct UI_StartUpScreen_2_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

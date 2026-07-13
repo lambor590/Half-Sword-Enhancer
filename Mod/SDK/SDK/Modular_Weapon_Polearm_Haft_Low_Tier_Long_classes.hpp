@@ -16,12 +16,9 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Modular_Weapon_Polearm_Haft_Low_Tier_Long.Modular_Weapon_Polearm_Haft_Low_Tier_Long_C
-// 0x0008 (0x0600 - 0x05F8)
+// 0x0000 (0x05F8 - 0x05F8)
 class AModular_Weapon_Polearm_Haft_Low_Tier_Long_C final : public AModular_Weapon_Polearm_Haft_Master_C
 {
-public:
-	class USceneComponent*                        Tip1;                                              // 0x05F8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
-
 public:
 	static class UClass* StaticClass()
 	{

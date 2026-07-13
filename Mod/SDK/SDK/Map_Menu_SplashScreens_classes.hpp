@@ -24,8 +24,8 @@ public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x0298(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
-	void ExecuteUbergraph_Map_Menu_SplashScreens(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Map_Menu_SplashScreens(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

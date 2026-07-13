@@ -27,9 +27,9 @@ public:
 	class UVerticalBox*                           ShortcutesSection;                                 // 0x02F8(0x0008)(BlueprintVisible, ExportObject, BlueprintReadOnly, ZeroConstructor, DisableEditOnInstance, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 
 public:
-	void Construct();
-	void ExecuteUbergraph_W_PaintOverlay(int32 EntryPoint);
 	void PlayHintMsg(const class FText& Text);
+	void ExecuteUbergraph_W_PaintOverlay(int32 EntryPoint);
+	void Construct();
 
 public:
 	static class UClass* StaticClass()

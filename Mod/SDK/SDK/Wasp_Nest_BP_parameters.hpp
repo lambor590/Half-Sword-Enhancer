@@ -17,16 +17,12 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
-// Function Wasp_Nest_BP.Wasp_Nest_BP_C.BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
-// 0x0128 (0x0128 - 0x0000)
-struct Wasp_Nest_BP_C_BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature final
+// Function Wasp_Nest_BP.Wasp_Nest_BP_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Wasp_Nest_BP_C_ReceiveTick final
 {
 public:
-	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	float                                         DeltaSeconds_ReceiveTick;                          // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function Wasp_Nest_BP.Wasp_Nest_BP_C.ExecuteUbergraph_Wasp_Nest_BP
@@ -148,12 +144,16 @@ public:
 	float                                         CallFunc_SetVolumeMultiplier_NewVolumeMultiplier_ImplicitCast; // 0x074C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function Wasp_Nest_BP.Wasp_Nest_BP_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Wasp_Nest_BP_C_ReceiveTick final
+// Function Wasp_Nest_BP.Wasp_Nest_BP_C.BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
+// 0x0128 (0x0128 - 0x0000)
+struct Wasp_Nest_BP_C_BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature final
 {
 public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    HitComponent;                                      // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    OtherComp;                                         // 0x0010(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                NormalImpulse;                                     // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FHitResult                             Hit;                                               // 0x0030(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
 };
 
 SDK_PARAM_NAMESPACE_END

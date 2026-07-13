@@ -16,6 +16,20 @@
 
 SDK_NAMESPACE_START
 
+// Function Map_Menu_Startup.Map_Menu_Startup_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AMap_Menu_Startup_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Menu_Startup_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Map_Menu_Startup.Map_Menu_Startup_C.ExecuteUbergraph_Map_Menu_Startup
 // (Final, UbergraphFunction)
 // Parameters:
@@ -33,20 +47,6 @@ void AMap_Menu_Startup_C::ExecuteUbergraph_Map_Menu_Startup(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Map_Menu_Startup.Map_Menu_Startup_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AMap_Menu_Startup_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Menu_Startup_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

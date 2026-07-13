@@ -16,6 +16,26 @@
 
 SDK_NAMESPACE_START
 
+// Function ST_Lever.ST_Lever_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
+// Parameters:
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AST_Lever_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ST_Lever_C", "ReceiveTick");
+
+	Params::ST_Lever_C_ReceiveTick Parms{};
+
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function ST_Lever.ST_Lever_C.ExecuteUbergraph_ST_Lever
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -31,26 +51,6 @@ void AST_Lever_C::ExecuteUbergraph_ST_Lever(int32 EntryPoint)
 	Params::ST_Lever_C_ExecuteUbergraph_ST_Lever Parms{};
 
 	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function ST_Lever.ST_Lever_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AST_Lever_C::ReceiveTick(float DeltaSeconds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_Lever_C", "ReceiveTick");
-
-	Params::ST_Lever_C_ReceiveTick Parms{};
-
-	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

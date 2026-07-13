@@ -36,6 +36,28 @@ void ABP_Container_Master_C::Collision_Bug_Check_Event(class UPrimitiveComponent
 }
 
 
+// Function BP_Container_Master.BP_Container_Master_C.Event Spawn Sound Detector
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Sound_Volume                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class USceneComponent*                  Last_Hit_Part                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Container_Master_C::Event_Spawn_Sound_Detector(double Sound_Volume, class USceneComponent* Last_Hit_Part)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Container_Master_C", "Event Spawn Sound Detector");
+
+	Params::BP_Container_Master_C_Event_Spawn_Sound_Detector Parms{};
+
+	Parms.Sound_Volume = Sound_Volume;
+	Parms.Last_Hit_Part = Last_Hit_Part;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Container_Master.BP_Container_Master_C.ExecuteUbergraph_BP_Container_Master
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Waist_Foulds_T1.BP_Armor_Waist_Foulds_T1_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Waist_Foulds_T1_C final : public ABP_Armor_Waist_Foulds_T2_C
 {
 public:

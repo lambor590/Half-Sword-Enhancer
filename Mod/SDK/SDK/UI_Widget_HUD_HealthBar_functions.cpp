@@ -16,21 +16,21 @@
 
 SDK_NAMESPACE_START
 
-// Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.ExecuteUbergraph_UI_Widget_HUD_HealthBar
-// (Final, UbergraphFunction)
+// Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.PreConstruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    IsDesignTime_PreConstruct                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Widget_HUD_HealthBar_C::ExecuteUbergraph_UI_Widget_HUD_HealthBar(int32 EntryPoint)
+void UUI_Widget_HUD_HealthBar_C::PreConstruct(bool IsDesignTime_PreConstruct)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_HUD_HealthBar_C", "ExecuteUbergraph_UI_Widget_HUD_HealthBar");
+		Func = Class->GetFunction("UI_Widget_HUD_HealthBar_C", "PreConstruct");
 
-	Params::UI_Widget_HUD_HealthBar_C_ExecuteUbergraph_UI_Widget_HUD_HealthBar Parms{};
+	Params::UI_Widget_HUD_HealthBar_C_PreConstruct Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.IsDesignTime_PreConstruct = IsDesignTime_PreConstruct;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -56,21 +56,21 @@ float UUI_Widget_HUD_HealthBar_C::GetPercent()
 }
 
 
-// Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.PreConstruct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.ExecuteUbergraph_UI_Widget_HUD_HealthBar
+// (Final, UbergraphFunction)
 // Parameters:
-// bool                                    IsDesignTime                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Widget_HUD_HealthBar_C::PreConstruct(bool IsDesignTime)
+void UUI_Widget_HUD_HealthBar_C::ExecuteUbergraph_UI_Widget_HUD_HealthBar(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Widget_HUD_HealthBar_C", "PreConstruct");
+		Func = Class->GetFunction("UI_Widget_HUD_HealthBar_C", "ExecuteUbergraph_UI_Widget_HUD_HealthBar");
 
-	Params::UI_Widget_HUD_HealthBar_C_PreConstruct Parms{};
+	Params::UI_Widget_HUD_HealthBar_C_ExecuteUbergraph_UI_Widget_HUD_HealthBar Parms{};
 
-	Parms.IsDesignTime = IsDesignTime;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

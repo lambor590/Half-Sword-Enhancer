@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Legs_Panties.BP_Armor_Legs_Panties_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class BP_Armor_Legs_Panties::ABP_Armor_Legs_Panties_C final : public ABP_Armor_Master_C
 {
 public:

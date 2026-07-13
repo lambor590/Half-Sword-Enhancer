@@ -314,4 +314,11 @@ public:
 	float                                         DesiredHeight;                                     // 0x0024(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction AudioWidgets.OnAudioRadialSliderValueChangedEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace AudioWidgets
+{
+using FDelegateSignature_OnAudioRadialSliderValueChangedEvent = void(float Value);
+}
+
 SDK_NAMESPACE_END

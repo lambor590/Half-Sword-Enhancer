@@ -150,15 +150,21 @@ void UGI_Settings_C::LoadKeyMappings()
 
 // Function GI_Settings.GI_Settings_C.Override Player Character Equipment
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    Keep_Exact_Values                                      (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UGI_Settings_C::Override_Player_Character_Equipment()
+void UGI_Settings_C::Override_Player_Character_Equipment(bool Keep_Exact_Values)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("GI_Settings_C", "Override Player Character Equipment");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::GI_Settings_C_Override_Player_Character_Equipment Parms{};
+
+	Parms.Keep_Exact_Values = Keep_Exact_Values;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

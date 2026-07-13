@@ -12,12 +12,12 @@
 
 #include "InputCore_structs.hpp"
 #include "Engine_classes.hpp"
-#include "EnhancedInput_structs.hpp"
 #include "GameplayTags_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
 #include "DeveloperSettings_structs.hpp"
 #include "DeveloperSettings_classes.hpp"
+#include "EnhancedInput_structs.hpp"
 
 
 SDK_NAMESPACE_START

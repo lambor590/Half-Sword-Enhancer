@@ -68,6 +68,7 @@ public:
 	void Add_Rank_Points();
 	void Clear_Proxy_Model_Locations();
 	void DED();
+	void Event_Spawn_DED_UI();
 	void ExecuteUbergraph_BP_HalfSwordGameMode(int32 EntryPoint);
 	void Minus_Enemy();
 	void Multiplayer_Match_Win_Check();

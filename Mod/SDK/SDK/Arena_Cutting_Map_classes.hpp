@@ -80,22 +80,22 @@ public:
 	bool                                          NewVar_2;                                          // 0x1880(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
-	void Clean_Blood(float Amount_to_Apply);
-	void Clear_Old_Actors();
-	void ExecuteUbergraph_Arena_Cutting_Map(int32 EntryPoint);
-	void LevelReset();
-	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
-	void Timeline_0__FinishedFunc();
-	void Timeline_0__UpdateFunc();
-	void Timeline_1__FinishedFunc();
 	void Timeline_1__UpdateFunc();
+	void Timeline_1__FinishedFunc();
+	void Timeline_0__UpdateFunc();
+	void Timeline_0__FinishedFunc();
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
+	void ReceiveBeginPlay();
+	void LevelReset();
+	void ExecuteUbergraph_Arena_Cutting_Map(int32 EntryPoint);
+	void Clear_Old_Actors();
+	void Clean_Blood(float Amount_to_Apply);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_ActorBoundEvent_5_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
+	void BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor);
 
 public:
 	static class UClass* StaticClass()

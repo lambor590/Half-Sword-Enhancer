@@ -16,35 +16,43 @@
 
 SDK_NAMESPACE_START
 
-// Function UI_Video_Intro.UI_Video_Intro_C.Construct
+// Function UI_Video_Intro.UI_Video_Intro_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// const struct FGeometry&                 MyGeometry_Tick                                        (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// float                                   InDeltaTime_Tick                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Video_Intro_C::Construct()
+void UUI_Video_Intro_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "Construct");
+		Func = Class->GetFunction("UI_Video_Intro_C", "Tick");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::UI_Video_Intro_C_Tick Parms{};
+
+	Parms.MyGeometry_Tick = std::move(MyGeometry_Tick);
+	Parms.InDeltaTime_Tick = InDeltaTime_Tick;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function UI_Video_Intro.UI_Video_Intro_C.ExecuteUbergraph_UI_Video_Intro
-// (Final, UbergraphFunction, HasDefaults)
+// Function UI_Video_Intro.UI_Video_Intro_C.PreConstruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    IsDesignTime_PreConstruct                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Video_Intro_C::ExecuteUbergraph_UI_Video_Intro(int32 EntryPoint)
+void UUI_Video_Intro_C::PreConstruct(bool IsDesignTime_PreConstruct)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "ExecuteUbergraph_UI_Video_Intro");
+		Func = Class->GetFunction("UI_Video_Intro_C", "PreConstruct");
 
-	Params::UI_Video_Intro_C_ExecuteUbergraph_UI_Video_Intro Parms{};
+	Params::UI_Video_Intro_C_PreConstruct Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.IsDesignTime_PreConstruct = IsDesignTime_PreConstruct;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -70,45 +78,37 @@ void UUI_Video_Intro_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKe
 }
 
 
-// Function UI_Video_Intro.UI_Video_Intro_C.PreConstruct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Function UI_Video_Intro.UI_Video_Intro_C.ExecuteUbergraph_UI_Video_Intro
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
-// bool                                    IsDesignTime                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Video_Intro_C::PreConstruct(bool IsDesignTime)
+void UUI_Video_Intro_C::ExecuteUbergraph_UI_Video_Intro(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "PreConstruct");
+		Func = Class->GetFunction("UI_Video_Intro_C", "ExecuteUbergraph_UI_Video_Intro");
 
-	Params::UI_Video_Intro_C_PreConstruct Parms{};
+	Params::UI_Video_Intro_C_ExecuteUbergraph_UI_Video_Intro Parms{};
 
-	Parms.IsDesignTime = IsDesignTime;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function UI_Video_Intro.UI_Video_Intro_C.Tick
+// Function UI_Video_Intro.UI_Video_Intro_C.Construct
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
-// Parameters:
-// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Video_Intro_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
+void UUI_Video_Intro_C::Construct()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Video_Intro_C", "Tick");
+		Func = Class->GetFunction("UI_Video_Intro_C", "Construct");
 
-	Params::UI_Video_Intro_C_Tick Parms{};
-
-	Parms.MyGeometry = std::move(MyGeometry);
-	Parms.InDeltaTime = InDeltaTime;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

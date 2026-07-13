@@ -251,4 +251,11 @@ public:
 	uint8                                         Pad_34[0x4];                                       // 0x0034(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction Paper2D.FlipbookFinishedPlaySignature__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Paper2D
+{
+using FDelegateSignature_FlipbookFinishedPlaySignature = void();
+}
+
 SDK_NAMESPACE_END

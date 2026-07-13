@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Head_Barbute_A.BP_Armor_Head_Barbute_A_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class BP_Armor_Head_Barbute_A_0::ABP_Armor_Head_Barbute_A_C final : public ABP_Armor_Master_C
 {
 public:

@@ -16,23 +16,17 @@
 
 SDK_NAMESPACE_START
 
-// Function BossFight_Arena_BP.BossFight_Arena_BP_C.ExecuteUbergraph_BossFight_Arena_BP
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function BossFight_Arena_BP.BossFight_Arena_BP_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
 
-void ABossFight_Arena_BP_C::ExecuteUbergraph_BossFight_Arena_BP(int32 EntryPoint)
+void ABossFight_Arena_BP_C::ReceiveBeginPlay()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_C", "ExecuteUbergraph_BossFight_Arena_BP");
+		Func = Class->GetFunction("BossFight_Arena_BP_C", "ReceiveBeginPlay");
 
-	Params::BossFight_Arena_BP_C_ExecuteUbergraph_BossFight_Arena_BP Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -50,17 +44,23 @@ void ABossFight_Arena_BP_C::GREAT_ENEMY_FELLED()
 }
 
 
-// Function BossFight_Arena_BP.BossFight_Arena_BP_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function BossFight_Arena_BP.BossFight_Arena_BP_C.ExecuteUbergraph_BossFight_Arena_BP
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABossFight_Arena_BP_C::ReceiveBeginPlay()
+void ABossFight_Arena_BP_C::ExecuteUbergraph_BossFight_Arena_BP(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("BossFight_Arena_BP_C", "ExecuteUbergraph_BossFight_Arena_BP");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::BossFight_Arena_BP_C_ExecuteUbergraph_BossFight_Arena_BP Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

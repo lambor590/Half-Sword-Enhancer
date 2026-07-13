@@ -16,138 +16,25 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Flashlight
-// 0x0038 (0x0038 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Flashlight final
-{
-public:
-	struct FVector                                StartLocation;                                     // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                EndLocation;                                       // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        ConeAngle;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Flashlight-Strength
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Trail
 // 0x0008 (0x0008 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Flashlight_Strength final
+struct BPI_UltraVolumetricsInteraction_C_Trail final
 {
 public:
-	double                                        Strength;                                          // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UTextureRenderTarget2D*                 RT_texture;                                        // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Grenade
-// 0x0020 (0x0020 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Grenade final
-{
-public:
-	struct FVector                                Location;                                          // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Radius;                                            // 0x0018(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Line3dLocations
-// 0x0030 (0x0030 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Line3dLocations final
-{
-public:
-	struct FVector                                StartPoint;                                        // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                EndPoint;                                          // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Line3dWidth
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.RT-Paint
 // 0x0008 (0x0008 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Line3dWidth final
+struct BPI_UltraVolumetricsInteraction_C_RT_Paint final
 {
 public:
-	double                                        Width;                                             // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UTextureRenderTarget2D*                 RT;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.PaintResult
-// 0x0008 (0x0008 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_PaintResult final
-{
-public:
-	class UTexture2D*                             PaintTex;                                          // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile1
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile9
 // 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile1 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile10
-// 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile10 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile2
-// 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile2 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile3
-// 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile3 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile4
-// 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile4 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile5
-// 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile5 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile6
-// 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile6 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile7
-// 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile7 final
+struct BPI_UltraVolumetricsInteraction_C_Projectile9 final
 {
 public:
 	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -167,9 +54,9 @@ public:
 	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile9
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile7
 // 0x0040 (0x0040 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Projectile9 final
+struct BPI_UltraVolumetricsInteraction_C_Projectile7 final
 {
 public:
 	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -178,20 +65,133 @@ public:
 	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.RT-Paint
-// 0x0008 (0x0008 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_RT_Paint final
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile6
+// 0x0040 (0x0040 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Projectile6 final
 {
 public:
-	class UTextureRenderTarget2D*                 RT;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Trail
-// 0x0008 (0x0008 - 0x0000)
-struct BPI_UltraVolumetricsInteraction_C_Trail final
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile5
+// 0x0040 (0x0040 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Projectile5 final
 {
 public:
-	class UTextureRenderTarget2D*                 RT_texture;                                        // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile4
+// 0x0040 (0x0040 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Projectile4 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile3
+// 0x0040 (0x0040 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Projectile3 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile2
+// 0x0040 (0x0040 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Projectile2 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile10
+// 0x0040 (0x0040 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Projectile10 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile1
+// 0x0040 (0x0040 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Projectile1 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.PaintResult
+// 0x0008 (0x0008 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_PaintResult final
+{
+public:
+	class UTexture2D*                             PaintTex;                                          // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Line3dWidth
+// 0x0008 (0x0008 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Line3dWidth final
+{
+public:
+	double                                        Width;                                             // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Line3dLocations
+// 0x0030 (0x0030 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Line3dLocations final
+{
+public:
+	struct FVector                                StartPoint;                                        // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                EndPoint;                                          // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Grenade
+// 0x0020 (0x0020 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Grenade final
+{
+public:
+	struct FVector                                Location;                                          // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Radius;                                            // 0x0018(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Flashlight-Strength
+// 0x0008 (0x0008 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Flashlight_Strength final
+{
+public:
+	double                                        Strength;                                          // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Flashlight
+// 0x0038 (0x0038 - 0x0000)
+struct BPI_UltraVolumetricsInteraction_C_Flashlight final
+{
+public:
+	struct FVector                                StartLocation;                                     // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                EndLocation;                                       // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        ConeAngle;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

@@ -26,4 +26,18 @@ public:
 	bool                                          bTeleport;                                         // 0x0005(0x0001)(Edit, BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction LiveLinkComponents.LiveLinkTickDelegate__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace LiveLinkComponents
+{
+using FDelegateSignature_LiveLinkTickDelegate = void(float DeltaTime);
+}
+
+// DelegateFunction LiveLinkComponents.OnControllerMapUpdatedDelegate__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace LiveLinkComponents
+{
+using FDelegateSignature_OnControllerMapUpdatedDelegate = void();
+}
+
 SDK_NAMESPACE_END

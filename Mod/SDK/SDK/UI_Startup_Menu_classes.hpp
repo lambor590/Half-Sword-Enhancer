@@ -36,24 +36,24 @@ public:
 	class ABP_HalfSwordGameMode_C*                As_BP_Half_Sword_Game_Mode;                        // 0x0340(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature();
-	void Construct();
-	void ExecuteUbergraph_UI_Startup_Menu(int32 EntryPoint);
-	class FText GetText();
+	void Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick);
+	void PreConstruct(bool IsDesignTime_PreConstruct);
 	void InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key);
-	void PreConstruct(bool IsDesignTime);
-	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
+	class FText GetText();
+	void ExecuteUbergraph_UI_Startup_Menu(int32 EntryPoint);
+	void Construct();
+	void BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature();
 
 public:
 	static class UClass* StaticClass()

@@ -18,14 +18,447 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.AlignBrush
-// 0x0128 (0x0128 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_AlignBrush final
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Trail
+// 0x0008 (0x0008 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Trail final
 {
 public:
-	struct FVector                                CallFunc_GetActorUpVector_ReturnValue;             // 0x0000(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FRotator                               CallFunc_Conv_VectorToRotator_ReturnValue;         // 0x0018(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor)
-	struct FHitResult                             CallFunc_K2_SetWorldRotation_SweepHitResult;       // 0x0030(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	class UTextureRenderTarget2D*                 RT_texture;                                        // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.ScaleBrush
+// 0x0578 (0x0578 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_ScaleBrush final
+{
+public:
+	struct FHitResult                             Hit;                                               // 0x0000(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	double                                        BrushSize;                                         // 0x00F8(0x0008)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           BrushScaling;                                      // 0x0100(0x0010)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FRandomStream                          CallFunc_MakeRandomStream_ReturnValue;             // 0x0110(0x0008)(ZeroConstructor, NoDestructor)
+	struct FVector2D                              CallFunc_FindCollisionUV_UV;                       // 0x0118(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_FindCollisionUV_ReturnValue;              // 0x0128(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_129[0x7];                                      // 0x0129(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                CallFunc_RandomUnitVectorFromStream_ReturnValue;   // 0x0130(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BreakHitResult_bBlockingHit;              // 0x0148(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_BreakHitResult_bInitialOverlap;           // 0x0149(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_14A[0x2];                                      // 0x014A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         CallFunc_BreakHitResult_Time;                      // 0x014C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         CallFunc_BreakHitResult_Distance;                  // 0x0150(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_154[0x4];                                      // 0x0154(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                CallFunc_BreakHitResult_Location;                  // 0x0158(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_BreakHitResult_ImpactPoint;               // 0x0170(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_BreakHitResult_Normal;                    // 0x0188(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_BreakHitResult_ImpactNormal;              // 0x01A0(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UPhysicalMaterial*                      CallFunc_BreakHitResult_PhysMat;                   // 0x01B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 CallFunc_BreakHitResult_HitActor;                  // 0x01C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    CallFunc_BreakHitResult_HitComponent;              // 0x01C8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	class FName                                   CallFunc_BreakHitResult_HitBoneName;               // 0x01D0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   CallFunc_BreakHitResult_BoneName;                  // 0x01D8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_BreakHitResult_HitItem;                   // 0x01E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_BreakHitResult_ElementIndex;              // 0x01E4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         CallFunc_BreakHitResult_FaceIndex;                 // 0x01E8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_1EC[0x4];                                      // 0x01EC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                CallFunc_BreakHitResult_TraceStart;                // 0x01F0(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_BreakHitResult_TraceEnd;                  // 0x0208(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Cross_VectorVector_ReturnValue;           // 0x0220(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Normal_ReturnValue;                       // 0x0238(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Multiply_VectorFloat_ReturnValue;         // 0x0250(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Cross_VectorVector_ReturnValue_1;         // 0x0268(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Add_VectorVector_ReturnValue;             // 0x0280(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_Normal_ReturnValue_1;                     // 0x0298(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FHitResult                             CallFunc_MakeHitResult_ReturnValue;                // 0x02B0(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	struct FVector                                CallFunc_Multiply_VectorFloat_ReturnValue_1;       // 0x03A8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector2D                              CallFunc_FindCollisionUV_UV_1;                     // 0x03C0(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_FindCollisionUV_ReturnValue_1;            // 0x03D0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_3D1[0x7];                                      // 0x03D1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                CallFunc_Add_VectorVector_ReturnValue_1;           // 0x03D8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector2D                              CallFunc_Subtract_Vector2DVector2D_ReturnValue;    // 0x03F0(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FHitResult                             CallFunc_MakeHitResult_ReturnValue_1;              // 0x0400(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
+	double                                        CallFunc_DotProduct2D_ReturnValue;                 // 0x04F8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector2D                              CallFunc_FindCollisionUV_UV_2;                     // 0x0500(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_FindCollisionUV_ReturnValue_2;            // 0x0510(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_511[0x7];                                      // 0x0511(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector2D                              CallFunc_Subtract_Vector2DVector2D_ReturnValue_1;  // 0x0518(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector2D                              CallFunc_Add_Vector2DVector2D_ReturnValue;         // 0x0528(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_DotProduct2D_ReturnValue_1;               // 0x0538(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_VSize2D_ReturnValue;                      // 0x0540(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_MakeVector_ReturnValue;                   // 0x0548(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0560(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           CallFunc_Conv_VectorToLinearColor_ReturnValue;     // 0x0568(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.RT-Paint
+// 0x0008 (0x0008 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_RT_Paint final
+{
+public:
+	class UTextureRenderTarget2D*                 RT;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile9
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile9 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile8
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile8 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile7
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile7 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile6
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile6 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile5
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile5 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile4
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile4 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile3
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile3 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile2
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile2 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile10
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile10 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile1
+// 0x0040 (0x0040 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Projectile1 final
+{
+public:
+	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.PaintResult
+// 0x0008 (0x0008 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_PaintResult final
+{
+public:
+	class UTexture2D*                             PaintTex;                                          // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Line3dWidth
+// 0x0008 (0x0008 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Line3dWidth final
+{
+public:
+	double                                        Width;                                             // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Line3dLocations
+// 0x0030 (0x0030 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Line3dLocations final
+{
+public:
+	struct FVector                                StartPoint;                                        // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                EndPoint;                                          // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_X_K2Node_InputKeyEvent_4
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_X_K2Node_InputKeyEvent_4 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_W_K2Node_InputKeyEvent_9
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_W_K2Node_InputKeyEvent_9 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_W_K2Node_InputKeyEvent_8
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_W_K2Node_InputKeyEvent_8 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_S_K2Node_InputKeyEvent_11
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_S_K2Node_InputKeyEvent_11 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_S_K2Node_InputKeyEvent_10
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_S_K2Node_InputKeyEvent_10 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_RightMouseButton_K2Node_InputKeyEvent_21
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_21 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_RightMouseButton_K2Node_InputKeyEvent_20
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_20 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_Q_K2Node_InputKeyEvent_17
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_Q_K2Node_InputKeyEvent_17 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_Q_K2Node_InputKeyEvent_16
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_Q_K2Node_InputKeyEvent_16 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_MouseScrollUp_K2Node_InputKeyEvent_0
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_MouseScrollUp_K2Node_InputKeyEvent_0 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_MouseScrollDown_K2Node_InputKeyEvent_1
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_MouseScrollDown_K2Node_InputKeyEvent_1 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_M_K2Node_InputKeyEvent_7
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_M_K2Node_InputKeyEvent_7 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_LeftShift_K2Node_InputKeyEvent_3
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_LeftShift_K2Node_InputKeyEvent_3 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_LeftShift_K2Node_InputKeyEvent_2
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_LeftShift_K2Node_InputKeyEvent_2 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_6
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_6 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_5
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_5 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_E_K2Node_InputKeyEvent_19
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_E_K2Node_InputKeyEvent_19 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_E_K2Node_InputKeyEvent_18
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_E_K2Node_InputKeyEvent_18 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_D_K2Node_InputKeyEvent_15
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_D_K2Node_InputKeyEvent_15 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_D_K2Node_InputKeyEvent_14
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_D_K2Node_InputKeyEvent_14 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_A_K2Node_InputKeyEvent_13
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_A_K2Node_InputKeyEvent_13 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_A_K2Node_InputKeyEvent_12
+// 0x0018 (0x0018 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_InpActEvt_A_K2Node_InputKeyEvent_12 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Grenade
+// 0x0020 (0x0020 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Grenade final
+{
+public:
+	struct FVector                                Location;                                          // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Radius;                                            // 0x0018(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.GetUVPosition
+// 0x00D8 (0x00D8 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_GetUVPosition final
+{
+public:
+	class USceneComponent*                        Target;                                            // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                Location;                                          // 0x0008(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           Vector4;                                           // 0x0020(0x0010)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_K2_GetComponentScale_ReturnValue;         // 0x0030(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_InverseTransformLocation_ReturnValue;     // 0x0048(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_BreakVector_X;                            // 0x0060(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_BreakVector_Y;                            // 0x0068(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_BreakVector_Z;                            // 0x0070(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_BreakVector_X_1;                          // 0x0078(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_BreakVector_Y_1;                          // 0x0080(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_BreakVector_Z_1;                          // 0x0088(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_MapRangeClamped_ReturnValue;              // 0x0090(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0098(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_MapRangeClamped_ReturnValue_1;            // 0x00A0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Divide_DoubleDouble_ReturnValue;          // 0x00A8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        CallFunc_Divide_DoubleDouble_ReturnValue_1;        // 0x00B0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FLinearColor                           K2Node_MakeStruct_LinearColor;                     // 0x00B8(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_MakeStruct_A_ImplicitCast;                  // 0x00C8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_MakeStruct_B_ImplicitCast;                  // 0x00CC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_MakeStruct_G_ImplicitCast;                  // 0x00D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         K2Node_MakeStruct_R_ImplicitCast;                  // 0x00D4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Flashlight-Strength
+// 0x0008 (0x0008 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Flashlight_Strength final
+{
+public:
+	double                                        Strength;                                          // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Flashlight
+// 0x0038 (0x0038 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_Flashlight final
+{
+public:
+	struct FVector                                StartLocation;                                     // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                EndLocation;                                       // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        ConeAngle;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.ExecuteUbergraph_BP_UltraVolumetricsPainter
@@ -269,447 +702,14 @@ public:
 	float                                         CallFunc_AddControllerYawInput_Val_ImplicitCast;   // 0x14A0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Flashlight
-// 0x0038 (0x0038 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Flashlight final
+// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.AlignBrush
+// 0x0128 (0x0128 - 0x0000)
+struct BP_UltraVolumetricsPainter_C_AlignBrush final
 {
 public:
-	struct FVector                                StartLocation;                                     // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                EndLocation;                                       // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        ConeAngle;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Flashlight-Strength
-// 0x0008 (0x0008 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Flashlight_Strength final
-{
-public:
-	double                                        Strength;                                          // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.GetUVPosition
-// 0x00D8 (0x00D8 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_GetUVPosition final
-{
-public:
-	class USceneComponent*                        Target;                                            // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                Location;                                          // 0x0008(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           Vector4;                                           // 0x0020(0x0010)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_K2_GetComponentScale_ReturnValue;         // 0x0030(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_InverseTransformLocation_ReturnValue;     // 0x0048(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_BreakVector_X;                            // 0x0060(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_BreakVector_Y;                            // 0x0068(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_BreakVector_Z;                            // 0x0070(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_BreakVector_X_1;                          // 0x0078(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_BreakVector_Y_1;                          // 0x0080(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_BreakVector_Z_1;                          // 0x0088(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_MapRangeClamped_ReturnValue;              // 0x0090(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0098(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_MapRangeClamped_ReturnValue_1;            // 0x00A0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Divide_DoubleDouble_ReturnValue;          // 0x00A8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Divide_DoubleDouble_ReturnValue_1;        // 0x00B0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           K2Node_MakeStruct_LinearColor;                     // 0x00B8(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_MakeStruct_A_ImplicitCast;                  // 0x00C8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_MakeStruct_B_ImplicitCast;                  // 0x00CC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_MakeStruct_G_ImplicitCast;                  // 0x00D0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         K2Node_MakeStruct_R_ImplicitCast;                  // 0x00D4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Grenade
-// 0x0020 (0x0020 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Grenade final
-{
-public:
-	struct FVector                                Location;                                          // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Radius;                                            // 0x0018(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_A_K2Node_InputKeyEvent_12
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_A_K2Node_InputKeyEvent_12 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_A_K2Node_InputKeyEvent_13
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_A_K2Node_InputKeyEvent_13 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_D_K2Node_InputKeyEvent_14
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_D_K2Node_InputKeyEvent_14 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_D_K2Node_InputKeyEvent_15
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_D_K2Node_InputKeyEvent_15 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_E_K2Node_InputKeyEvent_18
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_E_K2Node_InputKeyEvent_18 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_E_K2Node_InputKeyEvent_19
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_E_K2Node_InputKeyEvent_19 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_5
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_5 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_6
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_LeftMouseButton_K2Node_InputKeyEvent_6 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_LeftShift_K2Node_InputKeyEvent_2
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_LeftShift_K2Node_InputKeyEvent_2 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_LeftShift_K2Node_InputKeyEvent_3
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_LeftShift_K2Node_InputKeyEvent_3 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_M_K2Node_InputKeyEvent_7
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_M_K2Node_InputKeyEvent_7 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_MouseScrollDown_K2Node_InputKeyEvent_1
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_MouseScrollDown_K2Node_InputKeyEvent_1 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_MouseScrollUp_K2Node_InputKeyEvent_0
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_MouseScrollUp_K2Node_InputKeyEvent_0 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_Q_K2Node_InputKeyEvent_16
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_Q_K2Node_InputKeyEvent_16 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_Q_K2Node_InputKeyEvent_17
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_Q_K2Node_InputKeyEvent_17 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_RightMouseButton_K2Node_InputKeyEvent_20
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_20 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_RightMouseButton_K2Node_InputKeyEvent_21
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_RightMouseButton_K2Node_InputKeyEvent_21 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_S_K2Node_InputKeyEvent_10
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_S_K2Node_InputKeyEvent_10 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_S_K2Node_InputKeyEvent_11
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_S_K2Node_InputKeyEvent_11 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_W_K2Node_InputKeyEvent_8
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_W_K2Node_InputKeyEvent_8 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_W_K2Node_InputKeyEvent_9
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_W_K2Node_InputKeyEvent_9 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.InpActEvt_X_K2Node_InputKeyEvent_4
-// 0x0018 (0x0018 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_InpActEvt_X_K2Node_InputKeyEvent_4 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Line3dLocations
-// 0x0030 (0x0030 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Line3dLocations final
-{
-public:
-	struct FVector                                StartPoint;                                        // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                EndPoint;                                          // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Line3dWidth
-// 0x0008 (0x0008 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Line3dWidth final
-{
-public:
-	double                                        Width;                                             // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.PaintResult
-// 0x0008 (0x0008 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_PaintResult final
-{
-public:
-	class UTexture2D*                             PaintTex;                                          // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile1
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile1 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile10
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile10 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile2
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile2 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile3
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile3 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile4
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile4 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile5
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile5 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile6
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile6 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile7
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile7 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile8
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile8 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Projectile9
-// 0x0040 (0x0040 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Projectile9 final
-{
-public:
-	struct FVector                                Start;                                             // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                End;                                               // 0x0018(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        FadeSpeed;                                         // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        Size;                                              // 0x0038(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.RT-Paint
-// 0x0008 (0x0008 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_RT_Paint final
-{
-public:
-	class UTextureRenderTarget2D*                 RT;                                                // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.ScaleBrush
-// 0x0578 (0x0578 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_ScaleBrush final
-{
-public:
-	struct FHitResult                             Hit;                                               // 0x0000(0x00F8)(ConstParm, BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, IsPlainOldData, NoDestructor, ContainsInstancedReference)
-	double                                        BrushSize;                                         // 0x00F8(0x0008)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           BrushScaling;                                      // 0x0100(0x0010)(Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FRandomStream                          CallFunc_MakeRandomStream_ReturnValue;             // 0x0110(0x0008)(ZeroConstructor, NoDestructor)
-	struct FVector2D                              CallFunc_FindCollisionUV_UV;                       // 0x0118(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_FindCollisionUV_ReturnValue;              // 0x0128(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_129[0x7];                                      // 0x0129(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FVector                                CallFunc_RandomUnitVectorFromStream_ReturnValue;   // 0x0130(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BreakHitResult_bBlockingHit;              // 0x0148(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_BreakHitResult_bInitialOverlap;           // 0x0149(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_14A[0x2];                                      // 0x014A(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         CallFunc_BreakHitResult_Time;                      // 0x014C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         CallFunc_BreakHitResult_Distance;                  // 0x0150(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_154[0x4];                                      // 0x0154(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FVector                                CallFunc_BreakHitResult_Location;                  // 0x0158(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_BreakHitResult_ImpactPoint;               // 0x0170(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_BreakHitResult_Normal;                    // 0x0188(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_BreakHitResult_ImpactNormal;              // 0x01A0(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UPhysicalMaterial*                      CallFunc_BreakHitResult_PhysMat;                   // 0x01B8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 CallFunc_BreakHitResult_HitActor;                  // 0x01C0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class UPrimitiveComponent*                    CallFunc_BreakHitResult_HitComponent;              // 0x01C8(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-	class FName                                   CallFunc_BreakHitResult_HitBoneName;               // 0x01D0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FName                                   CallFunc_BreakHitResult_BoneName;                  // 0x01D8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_BreakHitResult_HitItem;                   // 0x01E0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_BreakHitResult_ElementIndex;              // 0x01E4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         CallFunc_BreakHitResult_FaceIndex;                 // 0x01E8(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_1EC[0x4];                                      // 0x01EC(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FVector                                CallFunc_BreakHitResult_TraceStart;                // 0x01F0(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_BreakHitResult_TraceEnd;                  // 0x0208(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_Cross_VectorVector_ReturnValue;           // 0x0220(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_Normal_ReturnValue;                       // 0x0238(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_Multiply_VectorFloat_ReturnValue;         // 0x0250(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_Cross_VectorVector_ReturnValue_1;         // 0x0268(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_Add_VectorVector_ReturnValue;             // 0x0280(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_Normal_ReturnValue_1;                     // 0x0298(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             CallFunc_MakeHitResult_ReturnValue;                // 0x02B0(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
-	struct FVector                                CallFunc_Multiply_VectorFloat_ReturnValue_1;       // 0x03A8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector2D                              CallFunc_FindCollisionUV_UV_1;                     // 0x03C0(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_FindCollisionUV_ReturnValue_1;            // 0x03D0(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_3D1[0x7];                                      // 0x03D1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FVector                                CallFunc_Add_VectorVector_ReturnValue_1;           // 0x03D8(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector2D                              CallFunc_Subtract_Vector2DVector2D_ReturnValue;    // 0x03F0(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FHitResult                             CallFunc_MakeHitResult_ReturnValue_1;              // 0x0400(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
-	double                                        CallFunc_DotProduct2D_ReturnValue;                 // 0x04F8(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector2D                              CallFunc_FindCollisionUV_UV_2;                     // 0x0500(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          CallFunc_FindCollisionUV_ReturnValue_2;            // 0x0510(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_511[0x7];                                      // 0x0511(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FVector2D                              CallFunc_Subtract_Vector2DVector2D_ReturnValue_1;  // 0x0518(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector2D                              CallFunc_Add_Vector2DVector2D_ReturnValue;         // 0x0528(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_DotProduct2D_ReturnValue_1;               // 0x0538(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_VSize2D_ReturnValue;                      // 0x0540(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FVector                                CallFunc_MakeVector_ReturnValue;                   // 0x0548(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        CallFunc_Multiply_DoubleDouble_ReturnValue;        // 0x0560(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FLinearColor                           CallFunc_Conv_VectorToLinearColor_ReturnValue;     // 0x0568(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_UltraVolumetricsPainter.BP_UltraVolumetricsPainter_C.Trail
-// 0x0008 (0x0008 - 0x0000)
-struct BP_UltraVolumetricsPainter_C_Trail final
-{
-public:
-	class UTextureRenderTarget2D*                 RT_texture;                                        // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	struct FVector                                CallFunc_GetActorUpVector_ReturnValue;             // 0x0000(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FRotator                               CallFunc_Conv_VectorToRotator_ReturnValue;         // 0x0018(0x0018)(ZeroConstructor, IsPlainOldData, NoDestructor)
+	struct FHitResult                             CallFunc_K2_SetWorldRotation_SweepHitResult;       // 0x0030(0x00F8)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
 };
 
 SDK_PARAM_NAMESPACE_END

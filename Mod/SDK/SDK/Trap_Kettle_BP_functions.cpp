@@ -16,6 +16,20 @@
 
 SDK_NAMESPACE_START
 
+// Function Trap_Kettle_BP.Trap_Kettle_BP_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ATrap_Kettle_BP_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Trap_Kettle_BP_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Trap_Kettle_BP.Trap_Kettle_BP_C.ExecuteUbergraph_Trap_Kettle_BP
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -33,20 +47,6 @@ void ATrap_Kettle_BP_C::ExecuteUbergraph_Trap_Kettle_BP(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Trap_Kettle_BP.Trap_Kettle_BP_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ATrap_Kettle_BP_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Trap_Kettle_BP_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

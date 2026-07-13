@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_DayTime_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -30,9 +30,9 @@ public:
 	bool                                          Map_Initiated;                                     // 0x02D8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Map_Arena_EastTower(int32 EntryPoint);
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
 	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_Map_Arena_EastTower(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

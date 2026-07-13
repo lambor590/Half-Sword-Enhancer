@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "BossFight_Arena_BP_classes.hpp"
+#include "Engine_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -29,9 +29,9 @@ public:
 	class AWillie_BP_C*                           Minion_2;                                          // 0x0490(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_BossFight_Arena_BP_LVL_5(int32 EntryPoint);
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
 	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_BossFight_Arena_BP_LVL_5(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

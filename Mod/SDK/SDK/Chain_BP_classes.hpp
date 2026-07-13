@@ -36,9 +36,9 @@ public:
 	TArray<struct FVector>                        Sound_Component_Velocities_New_1;                  // 0x02F8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
 
 public:
-	void ExecuteUbergraph_Chain_BP(int32 EntryPoint);
-	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
+	void ExecuteUbergraph_Chain_BP(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

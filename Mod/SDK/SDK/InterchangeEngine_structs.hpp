@@ -138,4 +138,18 @@ public:
 	uint8                                         Pad_B0[0x10];                                      // 0x00B0(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction InterchangeEngine.OnImportDoneDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace InterchangeEngine
+{
+using FDelegateSignature_OnImportDoneDynamic = void(const TArray<class UObject*>& Objects);
+}
+
+// DelegateFunction InterchangeEngine.OnObjectImportDoneDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace InterchangeEngine
+{
+using FDelegateSignature_OnObjectImportDoneDynamic = void(class UObject* Object);
+}
+
 SDK_NAMESPACE_END

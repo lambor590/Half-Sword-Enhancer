@@ -16,11 +16,11 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Mocular_Core_Legs_Trousers_1.BP_Armor_Mocular_Core_Legs_Trousers_1_C
-// 0x0010 (0x0A50 - 0x0A40)
+// 0x0000 (0x0A70 - 0x0A70)
 class ABP_Armor_Mocular_Core_Legs_Trousers_1_C final : public ABP_Armor_Modular_Core_Master_C
 {
 public:
-	class UFireComponent*                         fire;                                              // 0x0A40(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
+	class UFireComponent*                         fire;                                              // 0x0A68(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void UserConstructionScript();

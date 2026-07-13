@@ -10,14 +10,14 @@
 
 #include "Basic.hpp"
 
-#include "Weapon_Icon_Enum_structs.hpp"
-#include "GripType_Enum_structs.hpp"
-#include "Engine_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Modular_Weapon_Part_Master_classes.hpp"
-#include "SheathType_Enum_structs.hpp"
-#include "SwitchGrip_Type_Enum_structs.hpp"
 #include "Enum_ReverseGripType_structs.hpp"
+#include "Engine_structs.hpp"
+#include "GripType_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "SheathType_Enum_structs.hpp"
+#include "Weapon_Icon_Enum_structs.hpp"
+#include "SwitchGrip_Type_Enum_structs.hpp"
+#include "Modular_Weapon_Part_Master_classes.hpp"
 
 
 SDK_NAMESPACE_START

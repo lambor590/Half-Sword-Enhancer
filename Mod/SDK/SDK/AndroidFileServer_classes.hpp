@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "AndroidFileServer_structs.hpp"
 #include "Engine_classes.hpp"
+#include "AndroidFileServer_structs.hpp"
 
 
 SDK_NAMESPACE_START

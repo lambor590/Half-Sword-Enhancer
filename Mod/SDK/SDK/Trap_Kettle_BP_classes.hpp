@@ -29,8 +29,8 @@ public:
 	bool                                          Last_Link_Simulates_Physics;                       // 0x02B4(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Trap_Kettle_BP(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Trap_Kettle_BP(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

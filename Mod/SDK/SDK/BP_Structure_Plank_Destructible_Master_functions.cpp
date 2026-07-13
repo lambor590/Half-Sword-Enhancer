@@ -16,35 +16,29 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.ExecuteUbergraph_BP_Structure_Plank_Destructible_Master
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.UserConstructionScript
+// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void ABP_Structure_Plank_Destructible_Master_C::ExecuteUbergraph_BP_Structure_Plank_Destructible_Master(int32 EntryPoint)
+void ABP_Structure_Plank_Destructible_Master_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "ExecuteUbergraph_BP_Structure_Plank_Destructible_Master");
+		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "UserConstructionScript");
 
-	Params::BP_Structure_Plank_Destructible_Master_C_ExecuteUbergraph_BP_Structure_Plank_Destructible_Master Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.Temporarily Disable Destruction
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void ABP_Structure_Plank_Destructible_Master_C::ReceiveBeginPlay()
+void ABP_Structure_Plank_Destructible_Master_C::Temporarily_Disable_Destruction()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "Temporarily Disable Destruction");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -70,31 +64,37 @@ void ABP_Structure_Plank_Destructible_Master_C::ReceiveTick(float DeltaSeconds)
 }
 
 
-// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.Temporarily Disable Destruction
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
 
-void ABP_Structure_Plank_Destructible_Master_C::Temporarily_Disable_Destruction()
+void ABP_Structure_Plank_Destructible_Master_C::ReceiveBeginPlay()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "Temporarily Disable Destruction");
+		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "ReceiveBeginPlay");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.UserConstructionScript
-// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function BP_Structure_Plank_Destructible_Master.BP_Structure_Plank_Destructible_Master_C.ExecuteUbergraph_BP_Structure_Plank_Destructible_Master
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Structure_Plank_Destructible_Master_C::UserConstructionScript()
+void ABP_Structure_Plank_Destructible_Master_C::ExecuteUbergraph_BP_Structure_Plank_Destructible_Master(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "UserConstructionScript");
+		Func = Class->GetFunction("BP_Structure_Plank_Destructible_Master_C", "ExecuteUbergraph_BP_Structure_Plank_Destructible_Master");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::BP_Structure_Plank_Destructible_Master_C_ExecuteUbergraph_BP_Structure_Plank_Destructible_Master Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

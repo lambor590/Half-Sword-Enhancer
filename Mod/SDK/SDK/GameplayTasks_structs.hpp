@@ -56,4 +56,18 @@ public:
 	uint8                                         Pad_0[0x2];                                        // 0x0000(0x0002)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction GameplayTasks.GameplayTaskSpawnActorDelegate__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace GameplayTasks
+{
+using FDelegateSignature_GameplayTaskSpawnActorDelegate = void(class AActor* SpawnedActor);
+}
+
+// DelegateFunction GameplayTasks.OnClaimedResourcesChangeSignature__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace GameplayTasks
+{
+using FDelegateSignature_OnClaimedResourcesChangeSignature = void(const struct FGameplayResourceSet& NewlyClaimed, const struct FGameplayResourceSet& FreshlyReleased);
+}
+
 SDK_NAMESPACE_END

@@ -16,6 +16,20 @@
 
 SDK_NAMESPACE_START
 
+// Function Trap_BP.Trap_BP_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ATrap_BP_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Trap_BP_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Trap_BP.Trap_BP_C.ExecuteUbergraph_Trap_BP
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -36,15 +50,15 @@ void ATrap_BP_C::ExecuteUbergraph_Trap_BP(int32 EntryPoint)
 }
 
 
-// Function Trap_BP.Trap_BP_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function Trap_BP.Trap_BP_C.Event Activate Trap
+// (BlueprintCallable, BlueprintEvent)
 
-void ATrap_BP_C::ReceiveBeginPlay()
+void ATrap_BP_C::Event_Activate_Trap()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Trap_BP_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("Trap_BP_C", "Event Activate Trap");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

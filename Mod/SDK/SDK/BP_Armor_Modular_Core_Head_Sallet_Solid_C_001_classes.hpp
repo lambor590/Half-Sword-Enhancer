@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Core_Head_Sallet_Solid_C_001.BP_Armor_Modular_Core_Head_Sallet_Solid_C_001_C
-// 0x0000 (0x0A40 - 0x0A40)
+// 0x0000 (0x0A70 - 0x0A70)
 class ABP_Armor_Modular_Core_Head_Sallet_Solid_C_001_C final : public ABP_Armor_Modular_Core_Master_C
 {
 public:

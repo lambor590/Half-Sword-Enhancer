@@ -16,86 +16,178 @@
 
 SDK_NAMESPACE_START
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Timeline_1__UpdateFunc
 // (BlueprintEvent)
-// Parameters:
-// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
+void AArena_Cutting_Map_C::Timeline_1__UpdateFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_1__UpdateFunc");
 
-	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.OverlappedActor = OverlappedActor;
-	Parms.OtherActor = OtherActor;
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Timeline_1__FinishedFunc
+// (BlueprintEvent)
+
+void AArena_Cutting_Map_C::Timeline_1__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_1__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Timeline_0__UpdateFunc
+// (BlueprintEvent)
+
+void AArena_Cutting_Map_C::Timeline_0__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_0__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Timeline_0__FinishedFunc
+// (BlueprintEvent)
+
+void AArena_Cutting_Map_C::Timeline_0__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_0__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
+// Parameters:
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AArena_Cutting_Map_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "ReceiveTick");
+
+	Params::Arena_Cutting_Map_C_ReceiveTick Parms{};
+
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature
-// (BlueprintEvent)
-// Parameters:
-// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
 
-void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
+void AArena_Cutting_Map_C::ReceiveBeginPlay()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "ReceiveBeginPlay");
 
-	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.OverlappedActor = OverlappedActor;
-	Parms.OtherActor = OtherActor;
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.LevelReset
+// (BlueprintAuthorityOnly, Event, Public, BlueprintEvent)
+
+void AArena_Cutting_Map_C::LevelReset()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "LevelReset");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.ExecuteUbergraph_Arena_Cutting_Map
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AArena_Cutting_Map_C::ExecuteUbergraph_Arena_Cutting_Map(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "ExecuteUbergraph_Arena_Cutting_Map");
+
+	Params::Arena_Cutting_Map_C_ExecuteUbergraph_Arena_Cutting_Map Parms{};
+
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature
-// (BlueprintEvent)
-// Parameters:
-// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Clear Old Actors
+// (BlueprintCallable, BlueprintEvent)
 
-void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
+void AArena_Cutting_Map_C::Clear_Old_Actors()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature");
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "Clear Old Actors");
 
-	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.OverlappedActor = OverlappedActor;
-	Parms.OtherActor = OtherActor;
+
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Clean Blood
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// float                                   Amount_to_Apply                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AArena_Cutting_Map_C::Clean_Blood(float Amount_to_Apply)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "Clean Blood");
+
+	Params::Arena_Cutting_Map_C_Clean_Blood Parms{};
+
+	Parms.Amount_to_Apply = Amount_to_Apply;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
 // class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
+void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature");
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature");
 
-	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature Parms{};
+	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
 	Parms.OverlappedActor = OverlappedActor;
 	Parms.OtherActor = OtherActor;
@@ -126,20 +218,20 @@ void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_4_K2Node_Acto
 }
 
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
 // class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 // class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
+void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature");
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature");
 
-	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_ActorBoundEvent_4_ActorBeginOverlapSignature__DelegateSignature Parms{};
+	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_3_K2Node_ActorBoundEvent_3_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
 	Parms.OverlappedActor = OverlappedActor;
 	Parms.OtherActor = OtherActor;
@@ -148,161 +240,69 @@ void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_5_K2Node_Acto
 }
 
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Clean Blood
-// (BlueprintCallable, BlueprintEvent)
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature
+// (BlueprintEvent)
 // Parameters:
-// float                                   Amount_to_Apply                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AArena_Cutting_Map_C::Clean_Blood(float Amount_to_Apply)
+void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Clean Blood");
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature");
 
-	Params::Arena_Cutting_Map_C_Clean_Blood Parms{};
+	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_2_K2Node_ActorBoundEvent_2_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
-	Parms.Amount_to_Apply = Amount_to_Apply;
+	Parms.OverlappedActor = OverlappedActor;
+	Parms.OtherActor = OtherActor;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Clear Old Actors
-// (BlueprintCallable, BlueprintEvent)
-
-void AArena_Cutting_Map_C::Clear_Old_Actors()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Clear Old Actors");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.ExecuteUbergraph_Arena_Cutting_Map
-// (Final, UbergraphFunction, HasDefaults)
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature
+// (BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AArena_Cutting_Map_C::ExecuteUbergraph_Arena_Cutting_Map(int32 EntryPoint)
+void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "ExecuteUbergraph_Arena_Cutting_Map");
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
 
-	Params::Arena_Cutting_Map_C_ExecuteUbergraph_Arena_Cutting_Map Parms{};
+	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_1_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.OverlappedActor = OverlappedActor;
+	Parms.OtherActor = OtherActor;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.LevelReset
-// (BlueprintAuthorityOnly, Event, Public, BlueprintEvent)
-
-void AArena_Cutting_Map_C::LevelReset()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "LevelReset");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AArena_Cutting_Map_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function Arena_Cutting_Map.Arena_Cutting_Map_C.BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature
+// (BlueprintEvent)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AArena_Cutting_Map_C::ReceiveTick(float DeltaSeconds)
+void AArena_Cutting_Map_C::BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "ReceiveTick");
+		Func = Class->GetFunction("Arena_Cutting_Map_C", "BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
 
-	Params::Arena_Cutting_Map_C_ReceiveTick Parms{};
+	Params::Arena_Cutting_Map_C_BndEvt__Arena_Cutting_Map_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.OverlappedActor = OverlappedActor;
+	Parms.OtherActor = OtherActor;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Timeline_0__FinishedFunc
-// (BlueprintEvent)
-
-void AArena_Cutting_Map_C::Timeline_0__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_0__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Timeline_0__UpdateFunc
-// (BlueprintEvent)
-
-void AArena_Cutting_Map_C::Timeline_0__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_0__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Timeline_1__FinishedFunc
-// (BlueprintEvent)
-
-void AArena_Cutting_Map_C::Timeline_1__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_1__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Arena_Cutting_Map.Arena_Cutting_Map_C.Timeline_1__UpdateFunc
-// (BlueprintEvent)
-
-void AArena_Cutting_Map_C::Timeline_1__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Arena_Cutting_Map_C", "Timeline_1__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

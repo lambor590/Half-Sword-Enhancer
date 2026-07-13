@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_GreatSword.ModularWeaponBP_GreatSword_C
-// 0x0000 (0x0BE8 - 0x0BE8)
+// 0x0000 (0x0BF8 - 0x0BF8)
 class AModularWeaponBP_GreatSword_C final : public AModularWeaponBP_C
 {
 public:

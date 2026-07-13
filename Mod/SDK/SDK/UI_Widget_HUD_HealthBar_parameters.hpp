@@ -14,13 +14,12 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
-// Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.ExecuteUbergraph_UI_Widget_HUD_HealthBar
-// 0x0008 (0x0008 - 0x0000)
-struct UI_Widget_HUD_HealthBar_C_ExecuteUbergraph_UI_Widget_HUD_HealthBar final
+// Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.PreConstruct
+// 0x0001 (0x0001 - 0x0000)
+struct UI_Widget_HUD_HealthBar_C_PreConstruct final
 {
 public:
-	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          K2Node_Event_IsDesignTime;                         // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          IsDesignTime_PreConstruct;                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.GetPercent
@@ -32,12 +31,13 @@ public:
 	float                                         K2Node_FunctionResult_ReturnValue_ImplicitCast;    // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.PreConstruct
-// 0x0001 (0x0001 - 0x0000)
-struct UI_Widget_HUD_HealthBar_C_PreConstruct final
+// Function UI_Widget_HUD_HealthBar.UI_Widget_HUD_HealthBar_C.ExecuteUbergraph_UI_Widget_HUD_HealthBar
+// 0x0008 (0x0008 - 0x0000)
+struct UI_Widget_HUD_HealthBar_C_ExecuteUbergraph_UI_Widget_HUD_HealthBar final
 {
 public:
-	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          K2Node_Event_IsDesignTime;                         // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

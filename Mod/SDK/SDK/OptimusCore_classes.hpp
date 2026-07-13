@@ -1392,7 +1392,7 @@ public:
 
 // Class OptimusCore.OptimusValueContainer
 // 0x0000 (0x0028 - 0x0028)
-class UOptimusValueContainer final : public UObject
+class UOptimusValueContainer : public UObject
 {
 public:
 	static class UClass* StaticClass()
@@ -2535,7 +2535,7 @@ public:
 
 // Class OptimusCore.OptimusNode_ConstantValue
 // 0x0018 (0x0120 - 0x0108)
-class UOptimusNode_ConstantValue final : public UOptimusNode
+class UOptimusNode_ConstantValue : public UOptimusNode
 {
 public:
 	uint8                                         Pad_108[0x18];                                     // 0x0108(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])

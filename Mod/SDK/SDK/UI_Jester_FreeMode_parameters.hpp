@@ -11,9 +11,9 @@
 #include "Basic.hpp"
 
 #include "SlateCore_structs.hpp"
-#include "Enum_Maps_structs.hpp"
-#include "UMG_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "UMG_structs.hpp"
+#include "Enum_Maps_structs.hpp"
 
 
 SDK_NAMESPACE_START

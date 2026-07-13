@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "GeometryCollectionTracks_structs.hpp"
 #include "MovieScene_classes.hpp"
+#include "GeometryCollectionTracks_structs.hpp"
 
 
 SDK_NAMESPACE_START

@@ -17,7 +17,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Trap_BP.Trap_BP_C
-// 0x0028 (0x02B8 - 0x0290)
+// 0x0030 (0x02C0 - 0x0290)
 class ATrap_BP_C final : public AActor
 {
 public:
@@ -27,10 +27,13 @@ public:
 	class USceneComponent*                        DefaultSceneRoot;                                  // 0x02A8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 	int32                                         Max_Chain_Links;                                   // 0x02B0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 	bool                                          Last_Link_Simulates_Physics;                       // 0x02B4(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	uint8                                         Pad_2B5[0x3];                                      // 0x02B5(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	class AModularWeaponBP_C*                     As_Modular_Weapon_BP;                              // 0x02B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Trap_BP(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Trap_BP(int32 EntryPoint);
+	void Event_Activate_Trap();
 
 public:
 	static class UClass* StaticClass()

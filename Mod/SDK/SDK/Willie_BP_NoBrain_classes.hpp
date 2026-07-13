@@ -17,16 +17,16 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP_NoBrain.Willie_BP_NoBrain_C
-// 0x0000 (0x4630 - 0x4630)
+// 0x0000 (0x4750 - 0x4750)
 class AWillie_BP_NoBrain_C final : public AWillie_BP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_NoBrain_C;                // 0x4628(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_NoBrain_C;                // 0x4748(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
-	void ExecuteUbergraph_Willie_BP_NoBrain(int32 EntryPoint);
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
 	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_Willie_BP_NoBrain(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

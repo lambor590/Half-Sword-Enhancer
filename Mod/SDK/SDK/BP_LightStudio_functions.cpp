@@ -16,29 +16,29 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_LightStudio.BP_LightStudio_C.AtmosphereDensity
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function BP_LightStudio.BP_LightStudio_C.UserConstructionScript
+// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void ABP_LightStudio_C::AtmosphereDensity()
+void ABP_LightStudio_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "AtmosphereDensity");
+		Func = Class->GetFunction("BP_LightStudio_C", "UserConstructionScript");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_LightStudio.BP_LightStudio_C.CalculateSunColor
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function BP_LightStudio.BP_LightStudio_C.SunMobility
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void ABP_LightStudio_C::CalculateSunColor()
+void ABP_LightStudio_C::SunMobility()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "CalculateSunColor");
+		Func = Class->GetFunction("BP_LightStudio_C", "SunMobility");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -65,29 +65,29 @@ void ABP_LightStudio_C::NormalizedSunAngle(double* Angle)
 }
 
 
-// Function BP_LightStudio.BP_LightStudio_C.SunMobility
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function BP_LightStudio.BP_LightStudio_C.CalculateSunColor
+// (Public, BlueprintCallable, BlueprintEvent)
 
-void ABP_LightStudio_C::SunMobility()
+void ABP_LightStudio_C::CalculateSunColor()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "SunMobility");
+		Func = Class->GetFunction("BP_LightStudio_C", "CalculateSunColor");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_LightStudio.BP_LightStudio_C.UserConstructionScript
-// (Event, Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Function BP_LightStudio.BP_LightStudio_C.AtmosphereDensity
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void ABP_LightStudio_C::UserConstructionScript()
+void ABP_LightStudio_C::AtmosphereDensity()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightStudio_C", "UserConstructionScript");
+		Func = Class->GetFunction("BP_LightStudio_C", "AtmosphereDensity");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

@@ -10,55 +10,58 @@
 
 #include "Basic.hpp"
 
-#include "Enum_DismembermentPart_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "Str_ArmorProtection_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "BP_Armor_Master_classes.hpp"
 #include "Steel_Type_structs.hpp"
-#include "Str_ArmorProtection_structs.hpp"
-#include "HideBodyPart_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Core_Master.BP_Armor_Modular_Core_Master_C
-// 0x0130 (0x0A40 - 0x0910)
-class ABP_Armor_Modular_Core_Master_C : public ABP_Armor_Master_C
+// 0x0150 (0x0A70 - 0x0920)
+#pragma pack(push, 0x1)
+class SDK_ALIGN(0x10) ABP_Armor_Modular_Core_Master_C : public ABP_Armor_Master_C
 {
 public:
-	uint8                                         Pad_903[0x5];                                      // 0x0903(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Modular_Core_Master_C;     // 0x0908(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
-	TArray<class UClass*>                         Available_Modules_1;                               // 0x0910(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Available_Modules_2;                               // 0x0920(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UClass*>                         Available_Modules_3;                               // 0x0930(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class USkeletalMesh*>                  Skel_Meshes_To_Merge;                              // 0x0940(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	int32                                         Installed_Module_1_Int;                            // 0x0950(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Installed_Module_2_Int;                            // 0x0954(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	int32                                         Installed_Module_3_Int;                            // 0x0958(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Core_Removable;                                    // 0x095C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Core_Removed;                                      // 0x095D(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_95E[0x2];                                      // 0x095E(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	TArray<class UStaticMesh*>                    Collision_Meshes_Module_1;                         // 0x0960(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UStaticMesh*>                    Collision_Meshes_Module_2;                         // 0x0970(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	TArray<class UStaticMesh*>                    Collision_Meshes_Module_3;                         // 0x0980(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
-	struct FStr_ArmorProtection                   Protection_Core;                                   // 0x0990(0x0020)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_ArmorProtection                   Protection_Module_1;                               // 0x09B0(0x0020)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_ArmorProtection                   Protection_Module_2;                               // 0x09D0(0x0020)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	struct FStr_ArmorProtection                   Protection_Module_3;                               // 0x09F0(0x0020)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Requires_Module_Hierarchy;                         // 0x0A10(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_A11[0x3];                                      // 0x0A11(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	class FName                                   Attachment_1_Name;                                 // 0x0A14(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FName                                   Attachment_2_Name;                                 // 0x0A1C(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FName                                   Attachment_3_Name;                                 // 0x0A24(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class FName                                   Core_Name;                                         // 0x0A2C(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	Enum_Ranks                                    Tier;                                              // 0x0A34(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Block_Body_Muscles;                                // 0x0A35(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Block_Upper_Leg_Muscles;                           // 0x0A36(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Block_Lower_Leg_Muscles;                           // 0x0A37(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Block_Shoulder_Muscles;                            // 0x0A38(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Block_Arm_Muscles;                                 // 0x0A39(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESteel_Type                                   Steel_Type_Module;                                 // 0x0A3A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Modular_Core_Master_C;     // 0x0918(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	TArray<class UClass*>                         Available_Modules_1;                               // 0x0920(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Available_Modules_2;                               // 0x0930(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UClass*>                         Available_Modules_3;                               // 0x0940(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class USkeletalMesh*>                  Skel_Meshes_To_Merge;                              // 0x0950(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	int32                                         Installed_Module_1_Int;                            // 0x0960(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Installed_Module_2_Int;                            // 0x0964(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Installed_Module_3_Int;                            // 0x0968(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Core_Removable;                                    // 0x096C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Core_Removed;                                      // 0x096D(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_96E[0x2];                                      // 0x096E(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class UStaticMesh*>                    Collision_Meshes_Module_1;                         // 0x0970(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UStaticMesh*>                    Collision_Meshes_Module_2;                         // 0x0980(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TArray<class UStaticMesh*>                    Collision_Meshes_Module_3;                         // 0x0990(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	struct FStr_ArmorProtection                   Protection_Core;                                   // 0x09A0(0x0020)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_ArmorProtection                   Protection_Module_1;                               // 0x09C0(0x0020)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_ArmorProtection                   Protection_Module_2;                               // 0x09E0(0x0020)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	struct FStr_ArmorProtection                   Protection_Module_3;                               // 0x0A00(0x0020)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Requires_Module_Hierarchy;                         // 0x0A20(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_A21[0x3];                                      // 0x0A21(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	class FName                                   Attachment_1_Name;                                 // 0x0A24(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   Attachment_2_Name;                                 // 0x0A2C(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   Attachment_3_Name;                                 // 0x0A34(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class FName                                   Core_Name;                                         // 0x0A3C(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	Enum_Ranks                                    Tier;                                              // 0x0A44(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Body_Muscles;                                // 0x0A45(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Upper_Leg_Muscles;                           // 0x0A46(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Lower_Leg_Muscles;                           // 0x0A47(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Shoulder_Muscles;                            // 0x0A48(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Block_Arm_Muscles;                                 // 0x0A49(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   Steel_Type_Module;                                 // 0x0A4A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_A4B[0x5];                                      // 0x0A4B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                Offset_Camera_Position__Helmet_;                   // 0x0A50(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_BP_Armor_Modular_Core_Master(int32 EntryPoint);
@@ -80,5 +83,6 @@ public:
 		return GetDefaultObjImpl<ABP_Armor_Modular_Core_Master_C>();
 	}
 };
+#pragma pack(pop)
 
 SDK_NAMESPACE_END

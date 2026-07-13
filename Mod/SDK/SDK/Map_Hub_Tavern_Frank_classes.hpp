@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_DayTime_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -27,10 +27,10 @@ public:
 	Enum_DayTime                                  Day_Time;                                          // 0x02A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Day_Time_Change();
-	void ExecuteUbergraph_Map_Hub_Tavern_Frank(int32 EntryPoint);
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
 	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_Map_Hub_Tavern_Frank(int32 EntryPoint);
+	void Day_Time_Change();
 
 public:
 	static class UClass* StaticClass()

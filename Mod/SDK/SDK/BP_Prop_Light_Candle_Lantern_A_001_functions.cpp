@@ -16,6 +16,26 @@
 
 SDK_NAMESPACE_START
 
+// Function BP_Prop_Light_Candle_Lantern_A_001.BP_Prop_Light_Candle_Lantern_A_001_C.ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Prop_Light_Candle_Lantern_A_001_C::ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Prop_Light_Candle_Lantern_A_001_C", "ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001");
+
+	Params::BP_Prop_Light_Candle_Lantern_A_001_C_ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001 Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Prop_Light_Candle_Lantern_A_001.BP_Prop_Light_Candle_Lantern_A_001_C.BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -39,26 +59,6 @@ void ABP_Prop_Light_Candle_Lantern_A_001_C::BndEvt__BP_Prop_Arena_Undercroft_Can
 	Parms.OtherComp = OtherComp;
 	Parms.NormalImpulse = std::move(NormalImpulse);
 	Parms.Hit = std::move(Hit);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Prop_Light_Candle_Lantern_A_001.BP_Prop_Light_Candle_Lantern_A_001_C.ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Prop_Light_Candle_Lantern_A_001_C::ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Candle_Lantern_A_001_C", "ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001");
-
-	Params::BP_Prop_Light_Candle_Lantern_A_001_C_ExecuteUbergraph_BP_Prop_Light_Candle_Lantern_A_001 Parms{};
-
-	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

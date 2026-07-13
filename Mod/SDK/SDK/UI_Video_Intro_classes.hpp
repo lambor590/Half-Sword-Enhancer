@@ -32,11 +32,11 @@ public:
 	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x0318(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Construct();
-	void ExecuteUbergraph_UI_Video_Intro(int32 EntryPoint);
+	void Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick);
+	void PreConstruct(bool IsDesignTime_PreConstruct);
 	void InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key);
-	void PreConstruct(bool IsDesignTime);
-	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
+	void ExecuteUbergraph_UI_Video_Intro(int32 EntryPoint);
+	void Construct();
 
 public:
 	static class UClass* StaticClass()

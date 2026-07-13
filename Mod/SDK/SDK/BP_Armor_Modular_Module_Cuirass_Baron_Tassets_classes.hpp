@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Module_Cuirass_Baron_Tassets.BP_Armor_Modular_Module_Cuirass_Baron_Tassets_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Modular_Module_Cuirass_Baron_Tassets_C final : public ABP_Armor_Modular_Module_Master_C
 {
 public:

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Module_Hands_Gauntlets_Baron_Gloves1.BP_Armor_Modular_Module_Hands_Gauntlets_Baron_Gloves1_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Modular_Module_Hands_Gauntlets_Baron_Gloves1_C final : public ABP_Armor_Modular_Module_Master_C
 {
 public:

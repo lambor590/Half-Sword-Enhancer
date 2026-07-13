@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "GLTFExporter_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "GLTFExporter_structs.hpp"
 #include "CoreUObject_classes.hpp"
 
 

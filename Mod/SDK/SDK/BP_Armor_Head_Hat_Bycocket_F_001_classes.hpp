@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Head_Hat_Bycocket_F_001.BP_Armor_Head_Hat_Bycocket_F_001_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Head_Hat_Bycocket_F_001_C final : public ABP_Armor_Master_C
 {
 public:

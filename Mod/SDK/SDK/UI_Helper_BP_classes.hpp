@@ -33,10 +33,10 @@ public:
 	class USceneComponent*                        Target;                                            // 0x02E0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Add_Handle_Event(class UPrimitiveComponent* Component, class FName InBoneName, const struct FVector& GrabLocation, class USceneComponent* Target_0);
-	void Destroy_Handle_Event();
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
 	void ExecuteUbergraph_UI_Helper_BP(int32 EntryPoint);
-	void ReceiveTick(float DeltaSeconds);
+	void Destroy_Handle_Event();
+	void Add_Handle_Event(class UPrimitiveComponent* Component, class FName InBoneName, const struct FVector& GrabLocation, class USceneComponent* Target);
 
 public:
 	static class UClass* StaticClass()

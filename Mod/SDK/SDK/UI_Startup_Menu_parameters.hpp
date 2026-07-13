@@ -18,6 +18,40 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function UI_Startup_Menu.UI_Startup_Menu_C.Tick
+// 0x003C (0x003C - 0x0000)
+struct UI_Startup_Menu_C_Tick final
+{
+public:
+	struct FGeometry                              MyGeometry_Tick;                                   // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+	float                                         InDeltaTime_Tick;                                  // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.PreConstruct
+// 0x0001 (0x0001 - 0x0000)
+struct UI_Startup_Menu_C_PreConstruct final
+{
+public:
+	bool                                          IsDesignTime_PreConstruct;                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
+// 0x0018 (0x0018 - 0x0000)
+struct UI_Startup_Menu_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.GetText
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Startup_Menu_C_GetText final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_MakeLiteralText_ReturnValue;              // 0x0010(0x0010)()
+};
+
 // Function UI_Startup_Menu.UI_Startup_Menu_C.ExecuteUbergraph_UI_Startup_Menu
 // 0x0240 (0x0240 - 0x0000)
 struct UI_Startup_Menu_C_ExecuteUbergraph_UI_Startup_Menu final
@@ -60,40 +94,6 @@ public:
 	class UUI_DisplaySettings2_C*                 CallFunc_Create_ReturnValue_3;                     // 0x0228(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue_2;        // 0x0230(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class UUI_DisplaySettings2_C*                 CallFunc_Create_ReturnValue_4;                     // 0x0238(0x0008)(ZeroConstructor, InstancedReference, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.GetText
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Startup_Menu_C_GetText final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_MakeLiteralText_ReturnValue;              // 0x0010(0x0010)()
-};
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
-// 0x0018 (0x0018 - 0x0000)
-struct UI_Startup_Menu_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.PreConstruct
-// 0x0001 (0x0001 - 0x0000)
-struct UI_Startup_Menu_C_PreConstruct final
-{
-public:
-	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.Tick
-// 0x003C (0x003C - 0x0000)
-struct UI_Startup_Menu_C_Tick final
-{
-public:
-	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

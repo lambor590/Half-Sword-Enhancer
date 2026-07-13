@@ -10,27 +10,26 @@
 
 #include "Basic.hpp"
 
-#include "Enum_Ranks_structs.hpp"
-#include "GripType_Enum_structs.hpp"
-#include "Enum_MaterialLayer_structs.hpp"
+#include "SheathType_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "PhysicsCore_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "SheathType_Enum_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "Enum_MaterialQuality_structs.hpp"
 #include "SwitchGrip_Type_Enum_structs.hpp"
-#include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_MaterialLayer_structs.hpp"
+#include "PhysicsCore_structs.hpp"
 #include "Enum_Weapon_Material_Type_structs.hpp"
+#include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_Ranks_structs.hpp"
 #include "Enum_GameMode_structs.hpp"
 #include "Enum_ReverseGripType_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP.ModularWeaponBP_C
-// 0x0958 (0x0BE8 - 0x0290)
+// 0x0968 (0x0BF8 - 0x0290)
 class AModularWeaponBP_C : public AActor
 {
 public:
@@ -255,6 +254,8 @@ public:
 	bool                                          User_Incapacitated;                                // 0x0BD9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_BDA[0x6];                                      // 0x0BDA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        NewVar_4;                                          // 0x0BE0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Accumulated_Noise;                                 // 0x0BE8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          NewVar_5;                                          // 0x0BF0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__ModularWeaponBP_BaseMesh_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -285,7 +286,6 @@ public:
 	void Turn_On_Collision();
 	void Unsheathed_Mode();
 	void UserConstructionScript();
-	void Vertex_Paint();
 	void Weapon_HIt(class UPrimitiveComponent* Hit_Component, const struct FVector& Weapon_Velocity_0, const struct FHitResult& Hit_Result_0, double EdgeAllignment_Dot, bool Laser_temp_, class UClass* Weapon);
 
 public:

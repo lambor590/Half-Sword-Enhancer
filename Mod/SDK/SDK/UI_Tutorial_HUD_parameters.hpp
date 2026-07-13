@@ -16,6 +16,206 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_9
+// 0x0050 (0x0050 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_9 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0020(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0040(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_8
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_8 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_7
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_7 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_6
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_6 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_5
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_5 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_4
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_4 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_3
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_3 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_2
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_2 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_19
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_19 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_18
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_18 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_17
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_17 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_16
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_16 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_15
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_15 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_14
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_14 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_13
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_13 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_12
+// 0x0060 (0x0060 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_12 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FString                                 CallFunc_MakeLiteralString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0020(0x0010)()
+	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0050(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_11
+// 0x0060 (0x0060 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_11 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FString                                 CallFunc_MakeLiteralString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0020(0x0010)()
+	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash)
+	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0050(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_10
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_10 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_1
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_1 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_0
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText_0 final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
+// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText
+// 0x0020 (0x0020 - 0x0000)
+struct UI_Tutorial_HUD_C_GetText final
+{
+public:
+	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
+	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
+};
+
 // Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.Get Text From Action Mapping
 // 0x00D0 (0x00D0 - 0x0000)
 struct UI_Tutorial_HUD_C_Get_Text_From_Action_Mapping final
@@ -48,206 +248,6 @@ public:
 	uint8                                         Pad_C1[0x3];                                       // 0x00C1(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         CallFunc_Array_Length_ReturnValue_1;               // 0x00C4(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_0
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_0 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_1
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_1 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_10
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_10 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_11
-// 0x0060 (0x0060 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_11 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FString                                 CallFunc_MakeLiteralString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0020(0x0010)()
-	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0050(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_12
-// 0x0060 (0x0060 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_12 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FString                                 CallFunc_MakeLiteralString_ReturnValue;            // 0x0010(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0020(0x0010)()
-	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0040(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0050(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_13
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_13 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_14
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_14 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_15
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_15 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_16
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_16 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_17
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_17 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_18
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_18 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_19
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_19 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_2
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_2 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_3
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_3 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_4
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_4 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_5
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_5 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_6
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_6 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_7
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_7 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_8
-// 0x0020 (0x0020 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_8 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-};
-
-// Function UI_Tutorial_HUD.UI_Tutorial_HUD_C.GetText_9
-// 0x0050 (0x0050 - 0x0000)
-struct UI_Tutorial_HUD_C_GetText_9 final
-{
-public:
-	class FText                                   ReturnValue;                                       // 0x0000(0x0010)(Parm, OutParm, ReturnParm)
-	class FText                                   CallFunc_Get_Text_From_Action_Mapping_ReturnValue; // 0x0010(0x0010)()
-	class FString                                 CallFunc_Conv_TextToString_ReturnValue;            // 0x0020(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FString                                 CallFunc_Concat_StrStr_ReturnValue;                // 0x0030(0x0010)(ZeroConstructor, HasGetValueTypeHash)
-	class FText                                   CallFunc_Conv_StringToText_ReturnValue;            // 0x0040(0x0010)()
 };
 
 SDK_PARAM_NAMESPACE_END

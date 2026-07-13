@@ -20,7 +20,8 @@ SDK_NAMESPACE_START
 class IBPI_ApplySettings_C final
 {
 public:
-	void Apply_Settings(double FOV);
+	void Apply_Gameplay_Settings();
+	void Apply_Settings();
 
 public:
 	static class UClass* StaticClass()

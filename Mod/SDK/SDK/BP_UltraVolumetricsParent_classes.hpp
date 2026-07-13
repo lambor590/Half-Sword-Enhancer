@@ -10,16 +10,16 @@
 
 #include "Basic.hpp"
 
-#include "Enum_SplineAnimTrigger_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "Enum_SplineAnim_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_ShapeType_structs.hpp"
-#include "CoreUObject_structs.hpp"
+#include "Enum_Fog_Quality_structs.hpp"
 #include "Enum_NoisePattern_structs.hpp"
 #include "Struct_FogQualityVars_structs.hpp"
+#include "Enum_ShapeType_structs.hpp"
 #include "Enum_DistortionPattern_structs.hpp"
-#include "Enum_Fog_Quality_structs.hpp"
-#include "Enum_SplineAnim_structs.hpp"
+#include "Enum_SplineAnimTrigger_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -114,56 +114,56 @@ public:
 	double                                        SequencerTime;                                     // 0x04E0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, Interp, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void AddSplineSMC(bool AddToArray_);
-	void ApplyPreset();
-	void ApplySeed();
-	void ContractPersistentAnim(double Alpha);
-	void CreateNewPreset();
-	void DestroyComponent();
-	void DistanceCheck();
-	void DistanceQuality(TDelegate<void()> Delegate);
-	void ExecuteUbergraph_BP_UltraVolumetricsParent(int32 EntryPoint);
-	void ExpandPersistentAnim(double Alpha);
-	void Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle);
-	void Flashlight_Strength(double Strength);
-	void Fog_Quality__GridPixelSize(class FString* Output);
-	void Fog_Quality__GridSizeZ(class FString* Output);
-	void FogQualitySet();
-	void GetDefaultQualityVars();
-	void Grenade(const struct FVector& Location, double Radius);
-	void InitializeSpline();
-	void Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint);
-	void Line3dWidth(double Width);
-	void MoveAlongSplineAnim(double Alpha);
-	void PaintResult(class UTexture2D* PaintTex);
-	void PanningDirectionDebug();
-	void Parameters();
-	void PlaySpline();
-	void Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void QualityDistanceDebug();
-	void Randomize();
-	void ReceiveBeginPlay();
-	void ResetFogQuality();
-	void RT_Paint(class UTextureRenderTarget2D* RT);
-	void SetAllParameters(Enum_NoisePattern Noise_Patterm, Enum_ShapeType Shape_Type_0, double Shape_Edge_Falloff_0, bool Local_Space_Coordinates__0, bool Use_DF_, double DF___Height, double DF___Contrast, double Opacity_0, double SelfShadowAmount, double SelfShadow_Contrast, bool Self_Shadow_from_Directional_Light__0, const struct FVector& Noise_Size, double Noise___Power, double Noise___Multiply_0, const struct FVector& Panning_speed_0, double Rotation_Speed_0, const struct FLinearColor& Color_0, const struct FLinearColor& Emissive_Color_0, double SinePanAmount, double Godray_Amount, double Godrays_Scale_0, Enum_DistortionPattern Distortion_Pattern_0, const struct FVector2D& Distortion_Scale_0, double Distortion_Strength, double Distortion_Z_Strength, double Far_Fade_Distance_0, double Near_Fade_Distance_0, double Flowmap_Strength_0, bool Allow_Interaction__0);
-	void SetRandom();
-	void SplineAnimTimeline__FinishedFunc();
-	void SplineAnimTimeline__UpdateFunc();
-	void StartSplineAnimation();
-	void StopSplineAnim(bool Break);
-	void Trail(class UTextureRenderTarget2D* RT_texture);
-	void UpdateParameters();
-	void UpdateSequencer();
 	void UserConstructionScript();
+	void UpdateSequencer();
+	void UpdateParameters();
+	void Trail(class UTextureRenderTarget2D* RT_texture);
+	void StopSplineAnim(bool Break);
+	void StartSplineAnimation();
+	void SplineAnimTimeline__UpdateFunc();
+	void SplineAnimTimeline__FinishedFunc();
+	void SetRandom();
+	void SetAllParameters(Enum_NoisePattern Noise_Patterm, Enum_ShapeType Shape_Type_0, double Shape_Edge_Falloff_0, bool Local_Space_Coordinates__0, bool Use_DF_, double DF___Height, double DF___Contrast, double Opacity_0, double SelfShadowAmount, double SelfShadow_Contrast, bool Self_Shadow_from_Directional_Light__0, const struct FVector& Noise_Size, double Noise___Power, double Noise___Multiply_0, const struct FVector& Panning_speed_0, double Rotation_Speed_0, const struct FLinearColor& Color_0, const struct FLinearColor& Emissive_Color_0, double SinePanAmount, double Godray_Amount, double Godrays_Scale_0, Enum_DistortionPattern Distortion_Pattern_0, const struct FVector2D& Distortion_Scale_0, double Distortion_Strength, double Distortion_Z_Strength, double Far_Fade_Distance_0, double Near_Fade_Distance_0, double Flowmap_Strength_0, bool Allow_Interaction__0);
+	void RT_Paint(class UTextureRenderTarget2D* RT);
+	void ResetFogQuality();
+	void ReceiveBeginPlay();
+	void Randomize();
+	void QualityDistanceDebug();
+	void Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void PlaySpline();
+	void Parameters();
+	void PanningDirectionDebug();
+	void PaintResult(class UTexture2D* PaintTex);
+	void MoveAlongSplineAnim(double Alpha);
+	void Line3dWidth(double Width);
+	void Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint);
+	void InitializeSpline();
+	void Grenade(const struct FVector& Location, double Radius);
+	void GetDefaultQualityVars();
+	void FogQualitySet();
+	void Fog_Quality__GridSizeZ(class FString* Output);
+	void Fog_Quality__GridPixelSize(class FString* Output);
+	void Flashlight_Strength(double Strength);
+	void Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle);
+	void ExpandPersistentAnim(double Alpha);
+	void ExecuteUbergraph_BP_UltraVolumetricsParent(int32 EntryPoint);
+	void DistanceQuality(TDelegate<void()> Delegate);
+	void DistanceCheck();
+	void DestroyComponent();
+	void CreateNewPreset();
+	void ContractPersistentAnim(double Alpha);
+	void ApplySeed();
+	void ApplyPreset();
+	void AddSplineSMC(bool AddToArray_);
 
 public:
 	static class UClass* StaticClass()

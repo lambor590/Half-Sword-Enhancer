@@ -16,8 +16,22 @@
 
 SDK_NAMESPACE_START
 
+// Function Map_Test_Empty.Map_Test_Empty_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AMap_Test_Empty_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Test_Empty_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Map_Test_Empty.Map_Test_Empty_C.ExecuteUbergraph_Map_Test_Empty
-// (Final, UbergraphFunction, HasDefaults)
+// (Final, UbergraphFunction)
 // Parameters:
 // int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
@@ -33,20 +47,6 @@ void AMap_Test_Empty_C::ExecuteUbergraph_Map_Test_Empty(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Map_Test_Empty.Map_Test_Empty_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AMap_Test_Empty_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Test_Empty_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Body_Gambeson_A_T2.BP_Armor_Body_Gambeson_A_T2_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Body_Gambeson_A_T2_C : public ABP_Armor_Body_Gambeson_A_T1_C
 {
 public:

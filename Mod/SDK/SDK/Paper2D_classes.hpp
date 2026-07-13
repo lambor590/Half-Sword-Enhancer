@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Paper2D_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Paper2D_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
 

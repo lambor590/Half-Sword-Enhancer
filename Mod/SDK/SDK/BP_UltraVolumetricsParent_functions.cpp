@@ -16,783 +16,141 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.AddSplineSMC
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// bool                                    AddToArray_                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
 
-void ABP_UltraVolumetricsParent_C::AddSplineSMC(bool AddToArray_)
+void ABP_UltraVolumetricsParent_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "AddSplineSMC");
-
-	Params::BP_UltraVolumetricsParent_C_AddSplineSMC Parms{};
-
-	Parms.AddToArray_ = AddToArray_;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ApplyPreset
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::ApplyPreset()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ApplyPreset");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UserConstructionScript");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ApplySeed
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::ApplySeed()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ApplySeed");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ContractPersistentAnim
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Alpha                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::ContractPersistentAnim(double Alpha)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ContractPersistentAnim");
-
-	Params::BP_UltraVolumetricsParent_C_ContractPersistentAnim Parms{};
-
-	Parms.Alpha = Alpha;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.CreateNewPreset
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::CreateNewPreset()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "CreateNewPreset");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.DestroyComponent
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::DestroyComponent()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DestroyComponent");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.DistanceCheck
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::DistanceCheck()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DistanceCheck");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.DistanceQuality
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// TDelegate<void()>                       Delegate                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::DistanceQuality(TDelegate<void()> Delegate)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DistanceQuality");
-
-	Params::BP_UltraVolumetricsParent_C_DistanceQuality Parms{};
-
-	Parms.Delegate = Delegate;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ExecuteUbergraph_BP_UltraVolumetricsParent
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::ExecuteUbergraph_BP_UltraVolumetricsParent(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ExecuteUbergraph_BP_UltraVolumetricsParent");
-
-	Params::BP_UltraVolumetricsParent_C_ExecuteUbergraph_BP_UltraVolumetricsParent Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ExpandPersistentAnim
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Alpha                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::ExpandPersistentAnim(double Alpha)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ExpandPersistentAnim");
-
-	Params::BP_UltraVolumetricsParent_C_ExpandPersistentAnim Parms{};
-
-	Parms.Alpha = Alpha;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Flashlight
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   StartLocation                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   EndLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  ConeAngle                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Flashlight");
-
-	Params::BP_UltraVolumetricsParent_C_Flashlight Parms{};
-
-	Parms.StartLocation = std::move(StartLocation);
-	Parms.EndLocation = std::move(EndLocation);
-	Parms.ConeAngle = ConeAngle;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Flashlight-Strength
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Strength                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Flashlight_Strength(double Strength)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Flashlight-Strength");
-
-	Params::BP_UltraVolumetricsParent_C_Flashlight_Strength Parms{};
-
-	Parms.Strength = Strength;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Fog Quality- GridPixelSize
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FString*                          Output                                                 (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Fog_Quality__GridPixelSize(class FString* Output)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Fog Quality- GridPixelSize");
-
-	Params::BP_UltraVolumetricsParent_C_Fog_Quality__GridPixelSize Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Output != nullptr)
-		*Output = std::move(Parms.Output);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Fog Quality- GridSizeZ
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// class FString*                          Output                                                 (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Fog_Quality__GridSizeZ(class FString* Output)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Fog Quality- GridSizeZ");
-
-	Params::BP_UltraVolumetricsParent_C_Fog_Quality__GridSizeZ Parms{};
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Output != nullptr)
-		*Output = std::move(Parms.Output);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.FogQualitySet
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::FogQualitySet()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "FogQualitySet");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.GetDefaultQualityVars
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::GetDefaultQualityVars()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "GetDefaultQualityVars");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Grenade
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Grenade(const struct FVector& Location, double Radius)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Grenade");
-
-	Params::BP_UltraVolumetricsParent_C_Grenade Parms{};
-
-	Parms.Location = std::move(Location);
-	Parms.Radius = Radius;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.InitializeSpline
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.UpdateSequencer
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void ABP_UltraVolumetricsParent_C::InitializeSpline()
+void ABP_UltraVolumetricsParent_C::UpdateSequencer()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "InitializeSpline");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UpdateSequencer");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Line3dLocations
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   StartPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   EndPoint                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Line3dLocations");
-
-	Params::BP_UltraVolumetricsParent_C_Line3dLocations Parms{};
-
-	Parms.StartPoint = std::move(StartPoint);
-	Parms.EndPoint = std::move(EndPoint);
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Line3dWidth
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Width                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Line3dWidth(double Width)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Line3dWidth");
-
-	Params::BP_UltraVolumetricsParent_C_Line3dWidth Parms{};
-
-	Parms.Width = Width;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.MoveAlongSplineAnim
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Alpha                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::MoveAlongSplineAnim(double Alpha)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "MoveAlongSplineAnim");
-
-	Params::BP_UltraVolumetricsParent_C_MoveAlongSplineAnim Parms{};
-
-	Parms.Alpha = Alpha;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.PaintResult
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UTexture2D*                       PaintTex                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::PaintResult(class UTexture2D* PaintTex)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PaintResult");
-
-	Params::BP_UltraVolumetricsParent_C_PaintResult Parms{};
-
-	Parms.PaintTex = PaintTex;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.PanningDirectionDebug
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::PanningDirectionDebug()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PanningDirectionDebug");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Parameters
-// (Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::Parameters()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Parameters");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.PlaySpline
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.UpdateParameters
 // (BlueprintCallable, BlueprintEvent)
 
-void ABP_UltraVolumetricsParent_C::PlaySpline()
+void ABP_UltraVolumetricsParent_C::UpdateParameters()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PlaySpline");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UpdateParameters");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile1
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Trail
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UTextureRenderTarget2D*           RT_texture                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void ABP_UltraVolumetricsParent_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+void ABP_UltraVolumetricsParent_C::Trail(class UTextureRenderTarget2D* RT_texture)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile1");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Trail");
 
-	Params::BP_UltraVolumetricsParent_C_Projectile1 Parms{};
+	Params::BP_UltraVolumetricsParent_C_Trail Parms{};
 
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
+	Parms.RT_texture = RT_texture;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile10
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.StopSplineAnim
+// (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    Break                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_UltraVolumetricsParent_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+void ABP_UltraVolumetricsParent_C::StopSplineAnim(bool Break)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile10");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "StopSplineAnim");
 
-	Params::BP_UltraVolumetricsParent_C_Projectile10 Parms{};
+	Params::BP_UltraVolumetricsParent_C_StopSplineAnim Parms{};
 
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
+	Parms.Break = Break;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile2
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.StartSplineAnimation
+// (BlueprintCallable, BlueprintEvent)
 
-void ABP_UltraVolumetricsParent_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+void ABP_UltraVolumetricsParent_C::StartSplineAnimation()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile2");
-
-	Params::BP_UltraVolumetricsParent_C_Projectile2 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile3
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile3");
-
-	Params::BP_UltraVolumetricsParent_C_Projectile3 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile4
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile4");
-
-	Params::BP_UltraVolumetricsParent_C_Projectile4 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile5
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile5");
-
-	Params::BP_UltraVolumetricsParent_C_Projectile5 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile6
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile6");
-
-	Params::BP_UltraVolumetricsParent_C_Projectile6 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile7
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile7");
-
-	Params::BP_UltraVolumetricsParent_C_Projectile7 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile8
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile8");
-
-	Params::BP_UltraVolumetricsParent_C_Projectile8 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile9
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile9");
-
-	Params::BP_UltraVolumetricsParent_C_Projectile9 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.QualityDistanceDebug
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::QualityDistanceDebug()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "QualityDistanceDebug");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "StartSplineAnimation");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Randomize
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.SplineAnimTimeline__UpdateFunc
+// (BlueprintEvent)
 
-void ABP_UltraVolumetricsParent_C::Randomize()
+void ABP_UltraVolumetricsParent_C::SplineAnimTimeline__UpdateFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Randomize");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SplineAnimTimeline__UpdateFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.SplineAnimTimeline__FinishedFunc
+// (BlueprintEvent)
 
-void ABP_UltraVolumetricsParent_C::ReceiveBeginPlay()
+void ABP_UltraVolumetricsParent_C::SplineAnimTimeline__FinishedFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SplineAnimTimeline__FinishedFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ResetFogQuality
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.SetRandom
 // (Public, BlueprintCallable, BlueprintEvent)
 
-void ABP_UltraVolumetricsParent_C::ResetFogQuality()
+void ABP_UltraVolumetricsParent_C::SetRandom()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ResetFogQuality");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SetRandom");
 
 	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.RT-Paint
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UTextureRenderTarget2D*           RT                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void ABP_UltraVolumetricsParent_C::RT_Paint(class UTextureRenderTarget2D* RT)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "RT-Paint");
-
-	Params::BP_UltraVolumetricsParent_C_RT_Paint Parms{};
-
-	Parms.RT = RT;
-
-	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -872,141 +230,783 @@ void ABP_UltraVolumetricsParent_C::SetAllParameters(Enum_NoisePattern Noise_Patt
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.SetRandom
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.RT-Paint
 // (Public, BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::SetRandom()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SetRandom");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.SplineAnimTimeline__FinishedFunc
-// (BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::SplineAnimTimeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SplineAnimTimeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.SplineAnimTimeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::SplineAnimTimeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "SplineAnimTimeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.StartSplineAnimation
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::StartSplineAnimation()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "StartSplineAnimation");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.StopSplineAnim
-// (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// bool                                    Break                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UTextureRenderTarget2D*           RT                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void ABP_UltraVolumetricsParent_C::StopSplineAnim(bool Break)
+void ABP_UltraVolumetricsParent_C::RT_Paint(class UTextureRenderTarget2D* RT)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "StopSplineAnim");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "RT-Paint");
 
-	Params::BP_UltraVolumetricsParent_C_StopSplineAnim Parms{};
+	Params::BP_UltraVolumetricsParent_C_RT_Paint Parms{};
 
-	Parms.Break = Break;
+	Parms.RT = RT;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Trail
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ResetFogQuality
 // (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UTextureRenderTarget2D*           RT_texture                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void ABP_UltraVolumetricsParent_C::Trail(class UTextureRenderTarget2D* RT_texture)
+void ABP_UltraVolumetricsParent_C::ResetFogQuality()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Trail");
-
-	Params::BP_UltraVolumetricsParent_C_Trail Parms{};
-
-	Parms.RT_texture = RT_texture;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.UpdateParameters
-// (BlueprintCallable, BlueprintEvent)
-
-void ABP_UltraVolumetricsParent_C::UpdateParameters()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UpdateParameters");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ResetFogQuality");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.UpdateSequencer
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Randomize
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::Randomize()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Randomize");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.QualityDistanceDebug
 // (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
 
-void ABP_UltraVolumetricsParent_C::UpdateSequencer()
+void ABP_UltraVolumetricsParent_C::QualityDistanceDebug()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UpdateSequencer");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "QualityDistanceDebug");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile9
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_UltraVolumetricsParent_C::UserConstructionScript()
+void ABP_UltraVolumetricsParent_C::Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "UserConstructionScript");
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile9");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile9 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile8
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile8");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile8 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile7
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile7");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile7 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile6
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile6");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile6 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile5
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile5");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile5 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile4
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile4");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile4 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile3
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile3");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile3 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile2
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile2");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile2 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile10
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile10");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile10 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Projectile1
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Projectile1");
+
+	Params::BP_UltraVolumetricsParent_C_Projectile1 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.PlaySpline
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::PlaySpline()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PlaySpline");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Parameters
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::Parameters()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Parameters");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.PanningDirectionDebug
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::PanningDirectionDebug()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PanningDirectionDebug");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.PaintResult
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UTexture2D*                       PaintTex                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::PaintResult(class UTexture2D* PaintTex)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "PaintResult");
+
+	Params::BP_UltraVolumetricsParent_C_PaintResult Parms{};
+
+	Parms.PaintTex = PaintTex;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.MoveAlongSplineAnim
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Alpha                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::MoveAlongSplineAnim(double Alpha)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "MoveAlongSplineAnim");
+
+	Params::BP_UltraVolumetricsParent_C_MoveAlongSplineAnim Parms{};
+
+	Parms.Alpha = Alpha;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Line3dWidth
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Width                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Line3dWidth(double Width)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Line3dWidth");
+
+	Params::BP_UltraVolumetricsParent_C_Line3dWidth Parms{};
+
+	Parms.Width = Width;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Line3dLocations
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   StartPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   EndPoint                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Line3dLocations");
+
+	Params::BP_UltraVolumetricsParent_C_Line3dLocations Parms{};
+
+	Parms.StartPoint = std::move(StartPoint);
+	Parms.EndPoint = std::move(EndPoint);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.InitializeSpline
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::InitializeSpline()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "InitializeSpline");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Grenade
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Grenade(const struct FVector& Location, double Radius)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Grenade");
+
+	Params::BP_UltraVolumetricsParent_C_Grenade Parms{};
+
+	Parms.Location = std::move(Location);
+	Parms.Radius = Radius;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.GetDefaultQualityVars
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::GetDefaultQualityVars()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "GetDefaultQualityVars");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.FogQualitySet
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::FogQualitySet()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "FogQualitySet");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Fog Quality- GridSizeZ
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FString*                          Output                                                 (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Fog_Quality__GridSizeZ(class FString* Output)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Fog Quality- GridSizeZ");
+
+	Params::BP_UltraVolumetricsParent_C_Fog_Quality__GridSizeZ Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Output != nullptr)
+		*Output = std::move(Parms.Output);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Fog Quality- GridPixelSize
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// class FString*                          Output                                                 (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Fog_Quality__GridPixelSize(class FString* Output)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Fog Quality- GridPixelSize");
+
+	Params::BP_UltraVolumetricsParent_C_Fog_Quality__GridPixelSize Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Output != nullptr)
+		*Output = std::move(Parms.Output);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Flashlight-Strength
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Strength                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Flashlight_Strength(double Strength)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Flashlight-Strength");
+
+	Params::BP_UltraVolumetricsParent_C_Flashlight_Strength Parms{};
+
+	Parms.Strength = Strength;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.Flashlight
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   StartLocation                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   EndLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  ConeAngle                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "Flashlight");
+
+	Params::BP_UltraVolumetricsParent_C_Flashlight Parms{};
+
+	Parms.StartLocation = std::move(StartLocation);
+	Parms.EndLocation = std::move(EndLocation);
+	Parms.ConeAngle = ConeAngle;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ExpandPersistentAnim
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Alpha                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::ExpandPersistentAnim(double Alpha)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ExpandPersistentAnim");
+
+	Params::BP_UltraVolumetricsParent_C_ExpandPersistentAnim Parms{};
+
+	Parms.Alpha = Alpha;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ExecuteUbergraph_BP_UltraVolumetricsParent
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::ExecuteUbergraph_BP_UltraVolumetricsParent(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ExecuteUbergraph_BP_UltraVolumetricsParent");
+
+	Params::BP_UltraVolumetricsParent_C_ExecuteUbergraph_BP_UltraVolumetricsParent Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.DistanceQuality
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// TDelegate<void()>                       Delegate                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::DistanceQuality(TDelegate<void()> Delegate)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DistanceQuality");
+
+	Params::BP_UltraVolumetricsParent_C_DistanceQuality Parms{};
+
+	Parms.Delegate = Delegate;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.DistanceCheck
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::DistanceCheck()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DistanceCheck");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.DestroyComponent
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::DestroyComponent()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "DestroyComponent");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.CreateNewPreset
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::CreateNewPreset()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "CreateNewPreset");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ContractPersistentAnim
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Alpha                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::ContractPersistentAnim(double Alpha)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ContractPersistentAnim");
+
+	Params::BP_UltraVolumetricsParent_C_ContractPersistentAnim Parms{};
+
+	Parms.Alpha = Alpha;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ApplySeed
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::ApplySeed()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ApplySeed");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.ApplyPreset
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_UltraVolumetricsParent_C::ApplyPreset()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "ApplyPreset");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_UltraVolumetricsParent.BP_UltraVolumetricsParent_C.AddSplineSMC
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    AddToArray_                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_UltraVolumetricsParent_C::AddSplineSMC(bool AddToArray_)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_UltraVolumetricsParent_C", "AddSplineSMC");
+
+	Params::BP_UltraVolumetricsParent_C_AddSplineSMC Parms{};
+
+	Parms.AddToArray_ = AddToArray_;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

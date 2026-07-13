@@ -16,23 +16,75 @@
 
 SDK_NAMESPACE_START
 
-// Function Map_Arena_Slums.Map_Arena_Slums_C.BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature
-// (BlueprintEvent)
+// Function Map_Arena_Slums.Map_Arena_Slums_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Arena_Slums_C::BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
+void AMap_Arena_Slums_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
+		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveTick");
 
-	Params::Map_Arena_Slums_C_BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature Parms{};
+	Params::Map_Arena_Slums_C_ReceiveTick Parms{};
 
-	Parms.OverlappedActor = OverlappedActor;
-	Parms.OtherActor = OtherActor;
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Map_Arena_Slums.Map_Arena_Slums_C.ReceiveEndPlay
+// (Event, Protected, BlueprintEvent)
+// Parameters:
+// EEndPlayReason                          EndPlayReason_ReceiveEndPlay                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AMap_Arena_Slums_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveEndPlay");
+
+	Params::Map_Arena_Slums_C_ReceiveEndPlay Parms{};
+
+	Parms.EndPlayReason_ReceiveEndPlay = EndPlayReason_ReceiveEndPlay;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Map_Arena_Slums.Map_Arena_Slums_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AMap_Arena_Slums_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Map_Arena_Slums.Map_Arena_Slums_C.ExecuteUbergraph_Map_Arena_Slums
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AMap_Arena_Slums_C::ExecuteUbergraph_Map_Arena_Slums(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Arena_Slums_C", "ExecuteUbergraph_Map_Arena_Slums");
+
+	Params::Map_Arena_Slums_C_ExecuteUbergraph_Map_Arena_Slums Parms{};
+
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -60,75 +112,23 @@ void AMap_Arena_Slums_C::BndEvt__Map_Arena_Slums_TriggerVolume_1_K2Node_ActorBou
 }
 
 
-// Function Map_Arena_Slums.Map_Arena_Slums_C.ExecuteUbergraph_Map_Arena_Slums
-// (Final, UbergraphFunction, HasDefaults)
+// Function Map_Arena_Slums.Map_Arena_Slums_C.BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature
+// (BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Arena_Slums_C::ExecuteUbergraph_Map_Arena_Slums(int32 EntryPoint)
+void AMap_Arena_Slums_C::BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "ExecuteUbergraph_Map_Arena_Slums");
+		Func = Class->GetFunction("Map_Arena_Slums_C", "BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature");
 
-	Params::Map_Arena_Slums_C_ExecuteUbergraph_Map_Arena_Slums Parms{};
+	Params::Map_Arena_Slums_C_BndEvt__Map_Arena_Slums_TriggerVolume_0_K2Node_ActorBoundEvent_0_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Map_Arena_Slums.Map_Arena_Slums_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AMap_Arena_Slums_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Map_Arena_Slums.Map_Arena_Slums_C.ReceiveEndPlay
-// (Event, Protected, BlueprintEvent)
-// Parameters:
-// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AMap_Arena_Slums_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveEndPlay");
-
-	Params::Map_Arena_Slums_C_ReceiveEndPlay Parms{};
-
-	Parms.EndPlayReason = EndPlayReason;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Map_Arena_Slums.Map_Arena_Slums_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AMap_Arena_Slums_C::ReceiveTick(float DeltaSeconds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Slums_C", "ReceiveTick");
-
-	Params::Map_Arena_Slums_C_ReceiveTick Parms{};
-
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.OverlappedActor = OverlappedActor;
+	Parms.OtherActor = OtherActor;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

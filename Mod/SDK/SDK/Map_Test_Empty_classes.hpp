@@ -30,8 +30,8 @@ public:
 	struct FStr_Passport_Weapon1                  Weapon_Passport;                                   // 0x02B8(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Map_Test_Empty(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Map_Test_Empty(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

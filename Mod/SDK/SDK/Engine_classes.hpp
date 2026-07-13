@@ -10,14 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "IrisCore_classes.hpp"
-#include "Chaos_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
-#include "AudioPlatformConfiguration_structs.hpp"
+#include "Chaos_structs.hpp"
 #include "FieldNotification_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
+#include "AudioPlatformConfiguration_structs.hpp"
 #include "DeveloperSettings_structs.hpp"
 #include "DeveloperSettings_classes.hpp"
 #include "PhysicsCore_structs.hpp"
@@ -28,6 +27,7 @@
 #include "NetCore_classes.hpp"
 #include "AudioExtensions_structs.hpp"
 #include "AudioExtensions_classes.hpp"
+#include "IrisCore_classes.hpp"
 #include "PacketHandler_classes.hpp"
 
 
@@ -35135,7 +35135,7 @@ public:
 	uint8                                         Pad_30[0x20];                                      // 0x0030(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
-	int32 AddDisplayDelegate(const TDelegate<void(class FText* OutText, struct FLinearColor* OutColor)>& Delegate);
+	int32 AddDisplayDelegate(const TDelegate<bool(class FText* OutText, struct FLinearColor* OutColor)>& Delegate);
 	void AddTimedDisplay(const class FText& Text, const struct FLinearColor& Color, float Duration, const struct FVector2D& DisplayOffset);
 	void RemoveDisplayDelegate(const int32 IndexToRemove);
 

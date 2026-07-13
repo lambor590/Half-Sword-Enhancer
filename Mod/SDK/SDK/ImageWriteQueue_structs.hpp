@@ -38,4 +38,11 @@ public:
 	uint8                                         Pad_1A[0x46];                                      // 0x001A(0x0046)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction ImageWriteQueue.OnImageWriteComplete__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace ImageWriteQueue
+{
+using FDelegateSignature_OnImageWriteComplete = void(bool bSuccess);
+}
+
 SDK_NAMESPACE_END

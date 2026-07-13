@@ -1458,4 +1458,11 @@ struct FTestMovieSceneEvalTemplate final : public FMovieSceneEvalTemplate
 {
 };
 
+// DelegateFunction MovieScene.OnMovieSceneSequencePlayerEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace MovieScene
+{
+using FDelegateSignature_OnMovieSceneSequencePlayerEvent = void();
+}
+
 SDK_NAMESPACE_END

@@ -33,9 +33,9 @@ public:
 	class AStaticMeshActor*                       StaticMeshActor_1_ExecuteUbergraph_Map_Arena_Cellar_RefProperty; // 0x03C8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Map_Arena_Cellar(int32 EntryPoint);
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
 	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_Map_Arena_Cellar(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

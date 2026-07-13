@@ -16,57 +16,17 @@
 
 SDK_NAMESPACE_START
 
-// Function W_UV-Switch.W_UV-Switch_C.BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
+// Function W_UV-Switch.W_UV-Switch_C.SwitchOnSave
+// (BlueprintCallable, BlueprintEvent)
 
-void UW_UV_Switch_C::BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
+void UW_UV_Switch_C::SwitchOnSave()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
+		Func = Class->GetFunction("W_UV-Switch_C", "SwitchOnSave");
 
 	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function W_UV-Switch.W_UV-Switch_C.ExecuteUbergraph_W_UV-Switch
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void UW_UV_Switch_C::ExecuteUbergraph_W_UV_Switch(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "ExecuteUbergraph_W_UV-Switch");
-
-	Params::W_UV_Switch_C_ExecuteUbergraph_W_UV_Switch Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function W_UV-Switch.W_UV-Switch_C.PreConstruct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
-// Parameters:
-// bool                                    IsDesignTime                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void UW_UV_Switch_C::PreConstruct(bool IsDesignTime)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "PreConstruct");
-
-	Params::W_UV_Switch_C_PreConstruct Parms{};
-
-	Parms.IsDesignTime = IsDesignTime;
-
-	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -91,15 +51,55 @@ void UW_UV_Switch_C::SetStyle(struct FButtonStyle* Style)
 }
 
 
-// Function W_UV-Switch.W_UV-Switch_C.SwitchOnSave
-// (BlueprintCallable, BlueprintEvent)
+// Function W_UV-Switch.W_UV-Switch_C.PreConstruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// bool                                    IsDesignTime_PreConstruct                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UW_UV_Switch_C::SwitchOnSave()
+void UW_UV_Switch_C::PreConstruct(bool IsDesignTime_PreConstruct)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("W_UV-Switch_C", "SwitchOnSave");
+		Func = Class->GetFunction("W_UV-Switch_C", "PreConstruct");
+
+	Params::W_UV_Switch_C_PreConstruct Parms{};
+
+	Parms.IsDesignTime_PreConstruct = IsDesignTime_PreConstruct;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function W_UV-Switch.W_UV-Switch_C.ExecuteUbergraph_W_UV-Switch
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UW_UV_Switch_C::ExecuteUbergraph_W_UV_Switch(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("W_UV-Switch_C", "ExecuteUbergraph_W_UV-Switch");
+
+	Params::W_UV_Switch_C_ExecuteUbergraph_W_UV_Switch Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function W_UV-Switch.W_UV-Switch_C.BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UW_UV_Switch_C::BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("W_UV-Switch_C", "BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

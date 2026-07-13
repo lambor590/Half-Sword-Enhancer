@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
+#include "CoreUObject_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -242,5 +242,19 @@ public:
 	float                                         CellHeight;                                        // 0x0004(0x0004)(Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 	float                                         AgentMaxStepHeight;                                // 0x0008(0x0004)(Edit, ZeroConstructor, Config, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
+
+// DelegateFunction NavigationSystem.OnNavDataGenericEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace NavigationSystem
+{
+using FDelegateSignature_OnNavDataGenericEvent = void(class ANavigationData* NavData);
+}
+
+// DelegateFunction NavigationSystem.OnNavigationPathUpdated__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace NavigationSystem
+{
+using FDelegateSignature_OnNavigationPathUpdated = void(class UNavigationPath* AffectedPath, ENavPathEvent PathEvent);
+}
 
 SDK_NAMESPACE_END

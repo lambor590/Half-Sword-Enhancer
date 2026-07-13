@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_Dagger_T2.ModularWeaponBP_Dagger_T2_C
-// 0x0000 (0x0BE8 - 0x0BE8)
+// 0x0000 (0x0BF8 - 0x0BF8)
 class AModularWeaponBP_Dagger_T2_C final : public AModularWeaponBP_C
 {
 public:

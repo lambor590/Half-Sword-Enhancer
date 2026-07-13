@@ -27,8 +27,8 @@ public:
 	class UStaticMeshComponent*                   Cube;                                              // 0x02B8(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Activate_Event();
 	void ExecuteUbergraph_ST_LeverActivated_Child(int32 EntryPoint);
+	void Activate_Event();
 
 public:
 	static class UClass* StaticClass()

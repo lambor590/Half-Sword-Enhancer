@@ -16,21 +16,21 @@
 
 SDK_NAMESPACE_START
 
-// Function Willie_BP_NoBrain.Willie_BP_NoBrain_C.ExecuteUbergraph_Willie_BP_NoBrain
-// (Final, UbergraphFunction)
+// Function Willie_BP_NoBrain.Willie_BP_NoBrain_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_NoBrain_C::ExecuteUbergraph_Willie_BP_NoBrain(int32 EntryPoint)
+void AWillie_BP_NoBrain_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_NoBrain_C", "ExecuteUbergraph_Willie_BP_NoBrain");
+		Func = Class->GetFunction("Willie_BP_NoBrain_C", "ReceiveTick");
 
-	Params::Willie_BP_NoBrain_C_ExecuteUbergraph_Willie_BP_NoBrain Parms{};
+	Params::Willie_BP_NoBrain_C_ReceiveTick Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -50,21 +50,21 @@ void AWillie_BP_NoBrain_C::ReceiveBeginPlay()
 }
 
 
-// Function Willie_BP_NoBrain.Willie_BP_NoBrain_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function Willie_BP_NoBrain.Willie_BP_NoBrain_C.ExecuteUbergraph_Willie_BP_NoBrain
+// (Final, UbergraphFunction)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AWillie_BP_NoBrain_C::ReceiveTick(float DeltaSeconds)
+void AWillie_BP_NoBrain_C::ExecuteUbergraph_Willie_BP_NoBrain(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_NoBrain_C", "ReceiveTick");
+		Func = Class->GetFunction("Willie_BP_NoBrain_C", "ExecuteUbergraph_Willie_BP_NoBrain");
 
-	Params::Willie_BP_NoBrain_C_ReceiveTick Parms{};
+	Params::Willie_BP_NoBrain_C_ExecuteUbergraph_Willie_BP_NoBrain Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

@@ -1088,4 +1088,74 @@ public:
 	uint8                                         Pad_A[0x6];                                        // 0x000A(0x0006)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction Synthesis.NumTablesChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_NumTablesChanged = void();
+}
+
+// DelegateFunction Synthesis.OnControllerCaptureBeginEventSynth2D__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnControllerCaptureBeginEventSynth2D = void();
+}
+
+// DelegateFunction Synthesis.OnControllerCaptureEndEventSynth2D__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnControllerCaptureEndEventSynth2D = void();
+}
+
+// DelegateFunction Synthesis.OnEnvelopeFollowerUpdate__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnEnvelopeFollowerUpdate = void(float EnvelopeValue);
+}
+
+// DelegateFunction Synthesis.OnFloatValueChangedEventSynth2D__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnFloatValueChangedEventSynth2D = void(float Value);
+}
+
+// DelegateFunction Synthesis.OnMouseCaptureBeginEventSynth2D__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnMouseCaptureBeginEventSynth2D = void();
+}
+
+// DelegateFunction Synthesis.OnMouseCaptureEndEventSynth2D__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnMouseCaptureEndEventSynth2D = void();
+}
+
+// DelegateFunction Synthesis.OnSampleLoaded__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnSampleLoaded = void();
+}
+
+// DelegateFunction Synthesis.OnSamplePlaybackProgress__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnSamplePlaybackProgress = void(float ProgressPercent, float ProgressTimeSeconds);
+}
+
+// DelegateFunction Synthesis.OnTableAltered__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Synthesis
+{
+using FDelegateSignature_OnTableAltered = void(int32 TableIndex);
+}
+
 SDK_NAMESPACE_END

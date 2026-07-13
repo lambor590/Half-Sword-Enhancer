@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "Engine_classes.hpp"
-#include "ResonanceAudio_structs.hpp"
-#include "AudioExtensions_classes.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "ResonanceAudio_structs.hpp"
+#include "AudioExtensions_classes.hpp"
+#include "Engine_classes.hpp"
 
 
 SDK_NAMESPACE_START

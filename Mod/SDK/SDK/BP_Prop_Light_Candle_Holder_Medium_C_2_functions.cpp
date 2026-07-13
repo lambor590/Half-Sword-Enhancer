@@ -16,6 +16,40 @@
 
 SDK_NAMESPACE_START
 
+// Function BP_Prop_Light_Candle_Holder_Medium_C_2.BP_Prop_Light_Candle_Holder_Medium_C_2_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_Prop_Light_Candle_Holder_Medium_C_2_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Prop_Light_Candle_Holder_Medium_C_2_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Prop_Light_Candle_Holder_Medium_C_2.BP_Prop_Light_Candle_Holder_Medium_C_2_C.ExecuteUbergraph_BP_Prop_Light_Candle_Holder_Medium_C_2
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Prop_Light_Candle_Holder_Medium_C_2_C::ExecuteUbergraph_BP_Prop_Light_Candle_Holder_Medium_C_2(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Prop_Light_Candle_Holder_Medium_C_2_C", "ExecuteUbergraph_BP_Prop_Light_Candle_Holder_Medium_C_2");
+
+	Params::BP_Prop_Light_Candle_Holder_Medium_C_2_C_ExecuteUbergraph_BP_Prop_Light_Candle_Holder_Medium_C_2 Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Prop_Light_Candle_Holder_Medium_C_2.BP_Prop_Light_Candle_Holder_Medium_C_2_C.BndEvt__BP_Prop_Arena_Undercroft_Candle_Holder_Large_B_001_Holder_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -41,40 +75,6 @@ void ABP_Prop_Light_Candle_Holder_Medium_C_2_C::BndEvt__BP_Prop_Arena_Undercroft
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Prop_Light_Candle_Holder_Medium_C_2.BP_Prop_Light_Candle_Holder_Medium_C_2_C.ExecuteUbergraph_BP_Prop_Light_Candle_Holder_Medium_C_2
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_Prop_Light_Candle_Holder_Medium_C_2_C::ExecuteUbergraph_BP_Prop_Light_Candle_Holder_Medium_C_2(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Candle_Holder_Medium_C_2_C", "ExecuteUbergraph_BP_Prop_Light_Candle_Holder_Medium_C_2");
-
-	Params::BP_Prop_Light_Candle_Holder_Medium_C_2_C_ExecuteUbergraph_BP_Prop_Light_Candle_Holder_Medium_C_2 Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_Prop_Light_Candle_Holder_Medium_C_2.BP_Prop_Light_Candle_Holder_Medium_C_2_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ABP_Prop_Light_Candle_Holder_Medium_C_2_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Candle_Holder_Medium_C_2_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

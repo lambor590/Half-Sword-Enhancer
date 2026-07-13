@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "Enum_CombatEvent_Modes_structs.hpp"
-#include "Enum_DayTime_structs.hpp"
 #include "Enum_CombatEvent_LoseConditions_structs.hpp"
 
 

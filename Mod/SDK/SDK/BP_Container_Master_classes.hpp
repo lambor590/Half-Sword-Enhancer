@@ -14,15 +14,15 @@
 #include "Enum_Ranks_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_WeaponType_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "Str_Passport_Weapon1_structs.hpp"
+#include "Enum_WeaponType_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Container_Master.BP_Container_Master_C
-// 0x0778 (0x0A08 - 0x0290)
+// 0x0780 (0x0A10 - 0x0290)
 class ABP_Container_Master_C : public AActor
 {
 public:
@@ -90,9 +90,11 @@ public:
 	bool                                          Spawn_Armor_L;                                     // 0x0901(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_902[0x6];                                      // 0x0902(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FStr_Passport_Weapon1                  Treasure_Passport;                                 // 0x0908(0x0100)(Edit, BlueprintVisible, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Accumulated_Noise;                                 // 0x0A08(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Collision_Bug_Check_Event(class UPrimitiveComponent* Target);
+	void Event_Spawn_Sound_Detector(double Sound_Volume, class USceneComponent* Last_Hit_Part);
 	void ExecuteUbergraph_BP_Container_Master(int32 EntryPoint);
 	void ReceiveBeginPlay();
 	void ReceiveTick(float DeltaSeconds);

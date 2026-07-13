@@ -16,17 +16,23 @@
 
 SDK_NAMESPACE_START
 
-// Function W_PaintOverlay.W_PaintOverlay_C.Construct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Function W_PaintOverlay.W_PaintOverlay_C.PlayHintMsg
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const class FText&                      Text                                                   (BlueprintVisible, BlueprintReadOnly, Parm)
 
-void UW_PaintOverlay_C::Construct()
+void UW_PaintOverlay_C::PlayHintMsg(const class FText& Text)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintOverlay_C", "Construct");
+		Func = Class->GetFunction("W_PaintOverlay_C", "PlayHintMsg");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::W_PaintOverlay_C_PlayHintMsg Parms{};
+
+	Parms.Text = std::move(Text);
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -50,23 +56,17 @@ void UW_PaintOverlay_C::ExecuteUbergraph_W_PaintOverlay(int32 EntryPoint)
 }
 
 
-// Function W_PaintOverlay.W_PaintOverlay_C.PlayHintMsg
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const class FText&                      Text                                                   (BlueprintVisible, BlueprintReadOnly, Parm)
+// Function W_PaintOverlay.W_PaintOverlay_C.Construct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
 
-void UW_PaintOverlay_C::PlayHintMsg(const class FText& Text)
+void UW_PaintOverlay_C::Construct()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintOverlay_C", "PlayHintMsg");
+		Func = Class->GetFunction("W_PaintOverlay_C", "Construct");
 
-	Params::W_PaintOverlay_C_PlayHintMsg Parms{};
-
-	Parms.Text = std::move(Text);
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

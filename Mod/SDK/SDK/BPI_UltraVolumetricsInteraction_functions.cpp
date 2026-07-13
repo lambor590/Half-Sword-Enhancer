@@ -16,135 +16,47 @@
 
 SDK_NAMESPACE_START
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Flashlight
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Trail
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// const struct FVector&                   StartLocation                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   EndLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  ConeAngle                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UTextureRenderTarget2D*           RT_texture                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_UltraVolumetricsInteraction_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
+void IBPI_UltraVolumetricsInteraction_C::Trail(class UTextureRenderTarget2D* RT_texture)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Flashlight");
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Trail");
 
-	Params::BPI_UltraVolumetricsInteraction_C_Flashlight Parms{};
+	Params::BPI_UltraVolumetricsInteraction_C_Trail Parms{};
 
-	Parms.StartLocation = std::move(StartLocation);
-	Parms.EndLocation = std::move(EndLocation);
-	Parms.ConeAngle = ConeAngle;
+	Parms.RT_texture = RT_texture;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Flashlight-Strength
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.RT-Paint
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// double                                  Strength                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UTextureRenderTarget2D*           RT                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_UltraVolumetricsInteraction_C::Flashlight_Strength(double Strength)
+void IBPI_UltraVolumetricsInteraction_C::RT_Paint(class UTextureRenderTarget2D* RT)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Flashlight-Strength");
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "RT-Paint");
 
-	Params::BPI_UltraVolumetricsInteraction_C_Flashlight_Strength Parms{};
+	Params::BPI_UltraVolumetricsInteraction_C_RT_Paint Parms{};
 
-	Parms.Strength = Strength;
+	Parms.RT = RT;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Grenade
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Grenade(const struct FVector& Location, double Radius)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Grenade");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Grenade Parms{};
-
-	Parms.Location = std::move(Location);
-	Parms.Radius = Radius;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Line3dLocations
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   StartPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   EndPoint                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Line3dLocations");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Line3dLocations Parms{};
-
-	Parms.StartPoint = std::move(StartPoint);
-	Parms.EndPoint = std::move(EndPoint);
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Line3dWidth
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Width                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Line3dWidth(double Width)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Line3dWidth");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Line3dWidth Parms{};
-
-	Parms.Width = Width;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.PaintResult
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UTexture2D*                       PaintTex                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::PaintResult(class UTexture2D* PaintTex)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "PaintResult");
-
-	Params::BPI_UltraVolumetricsInteraction_C_PaintResult Parms{};
-
-	Parms.PaintTex = PaintTex;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile1
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile9
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -152,196 +64,14 @@ void IBPI_UltraVolumetricsInteraction_C::PaintResult(class UTexture2D* PaintTex)
 // double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_UltraVolumetricsInteraction_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+void IBPI_UltraVolumetricsInteraction_C::Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile1");
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile9");
 
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile1 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile10
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile10");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile10 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile2
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile2");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile2 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile3
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile3");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile3 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile4
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile4");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile4 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile5
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile5");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile5 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile6
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile6");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile6 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	AsUObject()->ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile7
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void IBPI_UltraVolumetricsInteraction_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile7");
-
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile7 Parms{};
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile9 Parms{};
 
 	Parms.Start = std::move(Start);
 	Parms.End = std::move(End);
@@ -378,7 +108,7 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile8(const struct FVector& Start
 }
 
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile9
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile7
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -386,14 +116,14 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile8(const struct FVector& Start
 // double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_UltraVolumetricsInteraction_C::Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+void IBPI_UltraVolumetricsInteraction_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile9");
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile7");
 
-	Params::BPI_UltraVolumetricsInteraction_C_Projectile9 Parms{};
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile7 Parms{};
 
 	Parms.Start = std::move(Start);
 	Parms.End = std::move(End);
@@ -404,41 +134,311 @@ void IBPI_UltraVolumetricsInteraction_C::Projectile9(const struct FVector& Start
 }
 
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.RT-Paint
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile6
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class UTextureRenderTarget2D*           RT                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_UltraVolumetricsInteraction_C::RT_Paint(class UTextureRenderTarget2D* RT)
+void IBPI_UltraVolumetricsInteraction_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "RT-Paint");
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile6");
 
-	Params::BPI_UltraVolumetricsInteraction_C_RT_Paint Parms{};
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile6 Parms{};
 
-	Parms.RT = RT;
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 }
 
 
-// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Trail
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile5
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class UTextureRenderTarget2D*           RT_texture                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void IBPI_UltraVolumetricsInteraction_C::Trail(class UTextureRenderTarget2D* RT_texture)
+void IBPI_UltraVolumetricsInteraction_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Trail");
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile5");
 
-	Params::BPI_UltraVolumetricsInteraction_C_Trail Parms{};
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile5 Parms{};
 
-	Parms.RT_texture = RT_texture;
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile4
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile4");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile4 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile3
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile3");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile3 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile2
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile2");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile2 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile10
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile10");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile10 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Projectile1
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Projectile1");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Projectile1 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.PaintResult
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UTexture2D*                       PaintTex                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::PaintResult(class UTexture2D* PaintTex)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "PaintResult");
+
+	Params::BPI_UltraVolumetricsInteraction_C_PaintResult Parms{};
+
+	Parms.PaintTex = PaintTex;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Line3dWidth
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Width                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Line3dWidth(double Width)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Line3dWidth");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Line3dWidth Parms{};
+
+	Parms.Width = Width;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Line3dLocations
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   StartPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   EndPoint                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Line3dLocations");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Line3dLocations Parms{};
+
+	Parms.StartPoint = std::move(StartPoint);
+	Parms.EndPoint = std::move(EndPoint);
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Grenade
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Grenade(const struct FVector& Location, double Radius)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Grenade");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Grenade Parms{};
+
+	Parms.Location = std::move(Location);
+	Parms.Radius = Radius;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Flashlight-Strength
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Strength                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Flashlight_Strength(double Strength)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Flashlight-Strength");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Flashlight_Strength Parms{};
+
+	Parms.Strength = Strength;
+
+	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPI_UltraVolumetricsInteraction.BPI_UltraVolumetricsInteraction_C.Flashlight
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   StartLocation                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   EndLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  ConeAngle                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void IBPI_UltraVolumetricsInteraction_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = AsUObject()->Class->GetFunction("BPI_UltraVolumetricsInteraction_C", "Flashlight");
+
+	Params::BPI_UltraVolumetricsInteraction_C_Flashlight Parms{};
+
+	Parms.StartLocation = std::move(StartLocation);
+	Parms.EndLocation = std::move(EndLocation);
+	Parms.ConeAngle = ConeAngle;
 
 	AsUObject()->ProcessEvent(Func, &Parms);
 }

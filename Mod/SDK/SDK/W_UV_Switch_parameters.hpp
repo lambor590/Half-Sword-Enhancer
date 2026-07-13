@@ -16,6 +16,27 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function W_UV-Switch.W_UV-Switch_C.SetStyle
+// 0x08E0 (0x08E0 - 0x0000)
+struct W_UV_Switch_C_SetStyle final
+{
+public:
+	struct FButtonStyle                           Style;                                             // 0x0000(0x03F0)(Parm, OutParm)
+	struct FSlateColor                            K2Node_MakeStruct_SlateColor;                      // 0x03F0(0x0014)()
+	struct FMargin                                K2Node_MakeStruct_Margin;                          // 0x0404(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor)
+	uint8                                         Pad_414[0xC];                                      // 0x0414(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0420(0x00D0)()
+	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle;                     // 0x04F0(0x03F0)()
+};
+
+// Function W_UV-Switch.W_UV-Switch_C.PreConstruct
+// 0x0001 (0x0001 - 0x0000)
+struct W_UV_Switch_C_PreConstruct final
+{
+public:
+	bool                                          IsDesignTime_PreConstruct;                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function W_UV-Switch.W_UV-Switch_C.ExecuteUbergraph_W_UV-Switch
 // 0x0420 (0x0420 - 0x0000)
 struct W_UV_Switch_C_ExecuteUbergraph_W_UV_Switch final
@@ -32,27 +53,6 @@ public:
 	class UUMGSequencePlayer*                     CallFunc_PlayAnimation_ReturnValue_2;              // 0x0020(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_28[0x8];                                       // 0x0028(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FButtonStyle                           CallFunc_SetStyle_Style;                           // 0x0030(0x03F0)()
-};
-
-// Function W_UV-Switch.W_UV-Switch_C.PreConstruct
-// 0x0001 (0x0001 - 0x0000)
-struct W_UV_Switch_C_PreConstruct final
-{
-public:
-	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function W_UV-Switch.W_UV-Switch_C.SetStyle
-// 0x08E0 (0x08E0 - 0x0000)
-struct W_UV_Switch_C_SetStyle final
-{
-public:
-	struct FButtonStyle                           Style;                                             // 0x0000(0x03F0)(Parm, OutParm)
-	struct FSlateColor                            K2Node_MakeStruct_SlateColor;                      // 0x03F0(0x0014)()
-	struct FMargin                                K2Node_MakeStruct_Margin;                          // 0x0404(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor)
-	uint8                                         Pad_414[0xC];                                      // 0x0414(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSlateBrush                            K2Node_MakeStruct_SlateBrush;                      // 0x0420(0x00D0)()
-	struct FButtonStyle                           K2Node_MakeStruct_ButtonStyle;                     // 0x04F0(0x03F0)()
 };
 
 SDK_PARAM_NAMESPACE_END

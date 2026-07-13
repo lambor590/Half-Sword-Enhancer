@@ -25,9 +25,9 @@ public:
 	class USceneComponent*                        DefaultSceneRoot;                                  // 0x0298(0x0008)(BlueprintVisible, ZeroConstructor, InstancedReference, NonTransactional, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Activate_Event();
-	void ExecuteUbergraph_ST_LeverActivated_Master(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ExecuteUbergraph_ST_LeverActivated_Master(int32 EntryPoint);
+	void Activate_Event();
 
 public:
 	static class UClass* StaticClass()

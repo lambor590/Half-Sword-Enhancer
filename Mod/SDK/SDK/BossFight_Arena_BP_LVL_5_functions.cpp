@@ -16,21 +16,21 @@
 
 SDK_NAMESPACE_START
 
-// Function BossFight_Arena_BP_LVL_5.BossFight_Arena_BP_LVL_5_C.ExecuteUbergraph_BossFight_Arena_BP_LVL_5
-// (Final, UbergraphFunction)
+// Function BossFight_Arena_BP_LVL_5.BossFight_Arena_BP_LVL_5_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABossFight_Arena_BP_LVL_5_C::ExecuteUbergraph_BossFight_Arena_BP_LVL_5(int32 EntryPoint)
+void ABossFight_Arena_BP_LVL_5_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_LVL_5_C", "ExecuteUbergraph_BossFight_Arena_BP_LVL_5");
+		Func = Class->GetFunction("BossFight_Arena_BP_LVL_5_C", "ReceiveTick");
 
-	Params::BossFight_Arena_BP_LVL_5_C_ExecuteUbergraph_BossFight_Arena_BP_LVL_5 Parms{};
+	Params::BossFight_Arena_BP_LVL_5_C_ReceiveTick Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -50,21 +50,21 @@ void ABossFight_Arena_BP_LVL_5_C::ReceiveBeginPlay()
 }
 
 
-// Function BossFight_Arena_BP_LVL_5.BossFight_Arena_BP_LVL_5_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function BossFight_Arena_BP_LVL_5.BossFight_Arena_BP_LVL_5_C.ExecuteUbergraph_BossFight_Arena_BP_LVL_5
+// (Final, UbergraphFunction)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABossFight_Arena_BP_LVL_5_C::ReceiveTick(float DeltaSeconds)
+void ABossFight_Arena_BP_LVL_5_C::ExecuteUbergraph_BossFight_Arena_BP_LVL_5(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BossFight_Arena_BP_LVL_5_C", "ReceiveTick");
+		Func = Class->GetFunction("BossFight_Arena_BP_LVL_5_C", "ExecuteUbergraph_BossFight_Arena_BP_LVL_5");
 
-	Params::BossFight_Arena_BP_LVL_5_C_ReceiveTick Parms{};
+	Params::BossFight_Arena_BP_LVL_5_C_ExecuteUbergraph_BossFight_Arena_BP_LVL_5 Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

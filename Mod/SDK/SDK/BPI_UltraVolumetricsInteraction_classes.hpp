@@ -20,24 +20,24 @@ SDK_NAMESPACE_START
 class IBPI_UltraVolumetricsInteraction_C final
 {
 public:
-	void Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle);
-	void Flashlight_Strength(double Strength);
-	void Grenade(const struct FVector& Location, double Radius);
-	void Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint);
-	void Line3dWidth(double Width);
-	void PaintResult(class UTexture2D* PaintTex);
-	void Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
-	void RT_Paint(class UTextureRenderTarget2D* RT);
 	void Trail(class UTextureRenderTarget2D* RT_texture);
+	void RT_Paint(class UTextureRenderTarget2D* RT);
+	void Projectile9(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size);
+	void PaintResult(class UTexture2D* PaintTex);
+	void Line3dWidth(double Width);
+	void Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint);
+	void Grenade(const struct FVector& Location, double Radius);
+	void Flashlight_Strength(double Strength);
+	void Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle);
 
 public:
 	static class UClass* StaticClass()

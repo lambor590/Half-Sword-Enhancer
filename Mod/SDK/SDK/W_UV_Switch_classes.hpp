@@ -33,11 +33,11 @@ public:
 	bool                                          CanSwitch_;                                        // 0x0328(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
-	void ExecuteUbergraph_W_UV_Switch(int32 EntryPoint);
-	void PreConstruct(bool IsDesignTime);
-	void SetStyle(struct FButtonStyle* Style);
 	void SwitchOnSave();
+	void SetStyle(struct FButtonStyle* Style);
+	void PreConstruct(bool IsDesignTime_PreConstruct);
+	void ExecuteUbergraph_W_UV_Switch(int32 EntryPoint);
+	void BndEvt__Button_42_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
 
 public:
 	static class UClass* StaticClass()

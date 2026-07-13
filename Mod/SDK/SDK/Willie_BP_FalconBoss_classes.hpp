@@ -17,15 +17,15 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP_FalconBoss.Willie_BP_FalconBoss_C
-// 0x0000 (0x4630 - 0x4630)
+// 0x0000 (0x4750 - 0x4750)
 class AWillie_BP_FalconBoss_C final : public AWillie_BP_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_FalconBoss_C;             // 0x4628(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FPointerToUberGraphFrame               UberGraphFrame_Willie_BP_FalconBoss_C;             // 0x4748(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
-	void ExecuteUbergraph_Willie_BP_FalconBoss(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Willie_BP_FalconBoss(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

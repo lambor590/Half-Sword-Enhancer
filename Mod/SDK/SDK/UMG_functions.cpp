@@ -396,9 +396,9 @@ void UWidget::SetNavigationRuleBase(EUINavigation Direction, EUINavigationRule R
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
 // EUINavigation                           Direction                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TDelegate<void(EUINavigation Navigation)>InCustomDelegate                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TDelegate<class UWidget*(EUINavigation Navigation)>InCustomDelegate                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UWidget::SetNavigationRuleCustom(EUINavigation Direction, TDelegate<void(EUINavigation Navigation)> InCustomDelegate)
+void UWidget::SetNavigationRuleCustom(EUINavigation Direction, TDelegate<class UWidget*(EUINavigation Navigation)> InCustomDelegate)
 {
 	static class UFunction* Func = nullptr;
 
@@ -423,9 +423,9 @@ void UWidget::SetNavigationRuleCustom(EUINavigation Direction, TDelegate<void(EU
 // (Final, RequiredAPI, Native, Public, BlueprintCallable)
 // Parameters:
 // EUINavigation                           Direction                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TDelegate<void(EUINavigation Navigation)>InCustomDelegate                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TDelegate<class UWidget*(EUINavigation Navigation)>InCustomDelegate                                       (Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UWidget::SetNavigationRuleCustomBoundary(EUINavigation Direction, TDelegate<void(EUINavigation Navigation)> InCustomDelegate)
+void UWidget::SetNavigationRuleCustomBoundary(EUINavigation Direction, TDelegate<class UWidget*(EUINavigation Navigation)> InCustomDelegate)
 {
 	static class UFunction* Func = nullptr;
 

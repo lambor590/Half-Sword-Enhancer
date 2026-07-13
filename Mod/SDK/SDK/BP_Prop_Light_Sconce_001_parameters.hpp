@@ -14,6 +14,14 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function BP_Prop_Light_Sconce_001.BP_Prop_Light_Sconce_001_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct BP_Prop_Light_Sconce_001_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds_ReceiveTick;                          // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function BP_Prop_Light_Sconce_001.BP_Prop_Light_Sconce_001_C.ExecuteUbergraph_BP_Prop_Light_Sconce_001
 // 0x0008 (0x0008 - 0x0000)
 struct BP_Prop_Light_Sconce_001_C_ExecuteUbergraph_BP_Prop_Light_Sconce_001 final
@@ -21,14 +29,6 @@ struct BP_Prop_Light_Sconce_001_C_ExecuteUbergraph_BP_Prop_Light_Sconce_001 fina
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	float                                         K2Node_Event_DeltaSeconds;                         // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function BP_Prop_Light_Sconce_001.BP_Prop_Light_Sconce_001_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct BP_Prop_Light_Sconce_001_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

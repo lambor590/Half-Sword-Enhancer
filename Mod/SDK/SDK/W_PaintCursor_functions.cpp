@@ -16,35 +16,25 @@
 
 SDK_NAMESPACE_START
 
-// Function W_PaintCursor.W_PaintCursor_C.Construct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
-
-void UW_PaintCursor_C::Construct()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintCursor_C", "Construct");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function W_PaintCursor.W_PaintCursor_C.ExecuteUbergraph_W_PaintCursor
-// (Final, UbergraphFunction, HasDefaults)
+// Function W_PaintCursor.W_PaintCursor_C.SetUVPos
+// (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   U_Pos                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   V_Pos                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    On_                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UW_PaintCursor_C::ExecuteUbergraph_W_PaintCursor(int32 EntryPoint)
+void UW_PaintCursor_C::SetUVPos(int32 U_Pos, int32 V_Pos, bool On_)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintCursor_C", "ExecuteUbergraph_W_PaintCursor");
+		Func = Class->GetFunction("W_PaintCursor_C", "SetUVPos");
 
-	Params::W_PaintCursor_C_ExecuteUbergraph_W_PaintCursor Parms{};
+	Params::W_PaintCursor_C_SetUVPos Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.U_Pos = U_Pos;
+	Parms.V_Pos = V_Pos;
+	Parms.On_ = On_;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -72,27 +62,37 @@ void UW_PaintCursor_C::SetBrushIcon(int32 V_Pos, bool On_)
 }
 
 
-// Function W_PaintCursor.W_PaintCursor_C.SetUVPos
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function W_PaintCursor.W_PaintCursor_C.ExecuteUbergraph_W_PaintCursor
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
-// int32                                   U_Pos                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// int32                                   V_Pos                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// bool                                    On_                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UW_PaintCursor_C::SetUVPos(int32 U_Pos, int32 V_Pos, bool On_)
+void UW_PaintCursor_C::ExecuteUbergraph_W_PaintCursor(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("W_PaintCursor_C", "SetUVPos");
+		Func = Class->GetFunction("W_PaintCursor_C", "ExecuteUbergraph_W_PaintCursor");
 
-	Params::W_PaintCursor_C_SetUVPos Parms{};
+	Params::W_PaintCursor_C_ExecuteUbergraph_W_PaintCursor Parms{};
 
-	Parms.U_Pos = U_Pos;
-	Parms.V_Pos = V_Pos;
-	Parms.On_ = On_;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function W_PaintCursor.W_PaintCursor_C.Construct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UW_PaintCursor_C::Construct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("W_PaintCursor_C", "Construct");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

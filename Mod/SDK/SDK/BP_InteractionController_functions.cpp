@@ -16,706 +16,157 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_InteractionController.BP_InteractionController_C.ExecuteUbergraph_BP_InteractionController
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function BP_InteractionController.BP_InteractionController_C.UserConstructionScript
+// (Event, Public, BlueprintCallable, BlueprintEvent)
 
-void ABP_InteractionController_C::ExecuteUbergraph_BP_InteractionController(int32 EntryPoint)
+void ABP_InteractionController_C::UserConstructionScript()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "ExecuteUbergraph_BP_InteractionController");
-
-	Params::BP_InteractionController_C_ExecuteUbergraph_BP_InteractionController Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Flashlight
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   StartLocation                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   EndLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  ConeAngle                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Flashlight");
-
-	Params::BP_InteractionController_C_Flashlight Parms{};
-
-	Parms.StartLocation = std::move(StartLocation);
-	Parms.EndLocation = std::move(EndLocation);
-	Parms.ConeAngle = ConeAngle;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Flashlight-Strength
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Strength                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Flashlight_Strength(double Strength)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Flashlight-Strength");
-
-	Params::BP_InteractionController_C_Flashlight_Strength Parms{};
-
-	Parms.Strength = Strength;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Grenade
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Location_0                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Grenade(const struct FVector& Location_0, double Radius)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Grenade");
-
-	Params::BP_InteractionController_C_Grenade Parms{};
-
-	Parms.Location_0 = std::move(Location_0);
-	Parms.Radius = Radius;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.InitializeCapture
-// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
-
-void ABP_InteractionController_C::InitializeCapture()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "InitializeCapture");
+		Func = Class->GetFunction("BP_InteractionController_C", "UserConstructionScript");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Line3dLocations
+// Function BP_InteractionController.BP_InteractionController_C.Trail
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// const struct FVector&                   StartPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   EndPoint                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UTextureRenderTarget2D*           RT_texture                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void ABP_InteractionController_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
+void ABP_InteractionController_C::Trail(class UTextureRenderTarget2D* RT_texture)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Line3dLocations");
+		Func = Class->GetFunction("BP_InteractionController_C", "Trail");
 
-	Params::BP_InteractionController_C_Line3dLocations Parms{};
+	Params::BP_InteractionController_C_Trail Parms{};
 
-	Parms.StartPoint = std::move(StartPoint);
-	Parms.EndPoint = std::move(EndPoint);
+	Parms.RT_texture = RT_texture;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Line3dWidth
+// Function BP_InteractionController.BP_InteractionController_C.SetRingTexture
 // (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// double                                  Width                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_InteractionController_C::Line3dWidth(double Width)
+void ABP_InteractionController_C::SetRingTexture()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Line3dWidth");
+		Func = Class->GetFunction("BP_InteractionController_C", "SetRingTexture");
 
-	Params::BP_InteractionController_C_Line3dWidth Parms{};
-
-	Parms.Width = Width;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.MakeVec4
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-struct FLinearColor ABP_InteractionController_C::MakeVec4(const struct FVector& Start, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "MakeVec4");
-
-	Params::BP_InteractionController_C_MakeVec4 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	return Parms.ReturnValue;
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.PaintResult
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UTexture2D*                       PaintTex                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::PaintResult(class UTexture2D* PaintTex)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "PaintResult");
-
-	Params::BP_InteractionController_C_PaintResult Parms{};
-
-	Parms.PaintTex = PaintTex;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.PlayerTransforms
-// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
-// Parameters:
-// double                                  FwdDistance                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         Location_0                                             (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         FwdVecDistance                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// struct FVector*                         FwdVec                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::PlayerTransforms(double FwdDistance, struct FVector* Location_0, struct FVector* FwdVecDistance, struct FVector* FwdVec)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "PlayerTransforms");
-
-	Params::BP_InteractionController_C_PlayerTransforms Parms{};
-
-	Parms.FwdDistance = FwdDistance;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	if (Location_0 != nullptr)
-		*Location_0 = std::move(Parms.Location_0);
-
-	if (FwdVecDistance != nullptr)
-		*FwdVecDistance = std::move(Parms.FwdVecDistance);
-
-	if (FwdVec != nullptr)
-		*FwdVec = std::move(Parms.FwdVec);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile1
+// Function BP_InteractionController.BP_InteractionController_C.SetProjectileParams
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const class FString&                    ProjectileName                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
-void ABP_InteractionController_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+void ABP_InteractionController_C::SetProjectileParams(const struct FVector& Start, const struct FVector& End, double Size, const class FString& ProjectileName)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1");
+		Func = Class->GetFunction("BP_InteractionController_C", "SetProjectileParams");
 
-	Params::BP_InteractionController_C_Projectile1 Parms{};
+	Params::BP_InteractionController_C_SetProjectileParams Parms{};
 
 	Parms.Start = std::move(Start);
 	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
 	Parms.Size = Size;
+	Parms.ProjectileName = std::move(ProjectileName);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Projectile10
+// Function BP_InteractionController.BP_InteractionController_C.RT-Paint
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UTextureRenderTarget2D*           RT                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void ABP_InteractionController_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+void ABP_InteractionController_C::RT_Paint(class UTextureRenderTarget2D* RT)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10");
+		Func = Class->GetFunction("BP_InteractionController_C", "RT-Paint");
 
-	Params::BP_InteractionController_C_Projectile10 Parms{};
+	Params::BP_InteractionController_C_RT_Paint Parms{};
 
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
+	Parms.RT = RT;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Projectile10Timeline__FinishedFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile10Timeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile10Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile10Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10Timeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile1Timeline__FinishedFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile1Timeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile1Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile1Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1Timeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile2
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function BP_InteractionController.BP_InteractionController_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_InteractionController_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+void ABP_InteractionController_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2");
+		Func = Class->GetFunction("BP_InteractionController_C", "ReceiveTick");
 
-	Params::BP_InteractionController_C_Projectile2 Parms{};
+	Params::BP_InteractionController_C_ReceiveTick Parms{};
 
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Projectile2Timeline__FinishedFunc
-// (BlueprintEvent)
+// Function BP_InteractionController.BP_InteractionController_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
 
-void ABP_InteractionController_C::Projectile2Timeline__FinishedFunc()
+void ABP_InteractionController_C::ReceiveBeginPlay()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2Timeline__FinishedFunc");
+		Func = Class->GetFunction("BP_InteractionController_C", "ReceiveBeginPlay");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Projectile2Timeline__UpdateFunc
+// Function BP_InteractionController.BP_InteractionController_C.Projectile9Timeline__UpdateFunc
 // (BlueprintEvent)
 
-void ABP_InteractionController_C::Projectile2Timeline__UpdateFunc()
+void ABP_InteractionController_C::Projectile9Timeline__UpdateFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2Timeline__UpdateFunc");
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile9Timeline__UpdateFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Projectile3
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3");
-
-	Params::BP_InteractionController_C_Projectile3 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile3Timeline__FinishedFunc
+// Function BP_InteractionController.BP_InteractionController_C.Projectile9Timeline__FinishedFunc
 // (BlueprintEvent)
 
-void ABP_InteractionController_C::Projectile3Timeline__FinishedFunc()
+void ABP_InteractionController_C::Projectile9Timeline__FinishedFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile3Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile3Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3Timeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile4
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4");
-
-	Params::BP_InteractionController_C_Projectile4 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile4Timeline__FinishedFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile4Timeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile4Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile4Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4Timeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile5
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5");
-
-	Params::BP_InteractionController_C_Projectile5 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile5Timeline__FinishedFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile5Timeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile5Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile5Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5Timeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile6
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6");
-
-	Params::BP_InteractionController_C_Projectile6 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile6Timeline__FinishedFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile6Timeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile6Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile6Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6Timeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile7
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7");
-
-	Params::BP_InteractionController_C_Projectile7 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile7Timeline__FinishedFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile7Timeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile7Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile7Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7Timeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile8
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8");
-
-	Params::BP_InteractionController_C_Projectile8 Parms{};
-
-	Parms.Start = std::move(Start);
-	Parms.End = std::move(End);
-	Parms.FadeSpeed = FadeSpeed;
-	Parms.Size = Size;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile8Timeline__FinishedFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile8Timeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.Projectile8Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void ABP_InteractionController_C::Projectile8Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8Timeline__UpdateFunc");
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile9Timeline__FinishedFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -747,159 +198,708 @@ void ABP_InteractionController_C::Projectile9(const struct FVector& Start, const
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Projectile9Timeline__FinishedFunc
+// Function BP_InteractionController.BP_InteractionController_C.Projectile8Timeline__UpdateFunc
 // (BlueprintEvent)
 
-void ABP_InteractionController_C::Projectile9Timeline__FinishedFunc()
+void ABP_InteractionController_C::Projectile8Timeline__UpdateFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile9Timeline__FinishedFunc");
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8Timeline__UpdateFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Projectile9Timeline__UpdateFunc
+// Function BP_InteractionController.BP_InteractionController_C.Projectile8Timeline__FinishedFunc
 // (BlueprintEvent)
 
-void ABP_InteractionController_C::Projectile9Timeline__UpdateFunc()
+void ABP_InteractionController_C::Projectile8Timeline__FinishedFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Projectile9Timeline__UpdateFunc");
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8Timeline__FinishedFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ABP_InteractionController_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::ReceiveTick(float DeltaSeconds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "ReceiveTick");
-
-	Params::BP_InteractionController_C_ReceiveTick Parms{};
-
-	Parms.DeltaSeconds = DeltaSeconds;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.RT-Paint
-// (Public, BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UTextureRenderTarget2D*           RT                                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-
-void ABP_InteractionController_C::RT_Paint(class UTextureRenderTarget2D* RT)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "RT-Paint");
-
-	Params::BP_InteractionController_C_RT_Paint Parms{};
-
-	Parms.RT = RT;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_InteractionController.BP_InteractionController_C.SetProjectileParams
+// Function BP_InteractionController.BP_InteractionController_C.Projectile8
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
 // const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 // double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-// const class FString&                    ProjectileName                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
 
-void ABP_InteractionController_C::SetProjectileParams(const struct FVector& Start, const struct FVector& End, double Size, const class FString& ProjectileName)
+void ABP_InteractionController_C::Projectile8(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "SetProjectileParams");
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile8");
 
-	Params::BP_InteractionController_C_SetProjectileParams Parms{};
+	Params::BP_InteractionController_C_Projectile8 Parms{};
 
 	Parms.Start = std::move(Start);
 	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
 	Parms.Size = Size;
-	Parms.ProjectileName = std::move(ProjectileName);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.SetRingTexture
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function BP_InteractionController.BP_InteractionController_C.Projectile7Timeline__UpdateFunc
+// (BlueprintEvent)
 
-void ABP_InteractionController_C::SetRingTexture()
+void ABP_InteractionController_C::Projectile7Timeline__UpdateFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "SetRingTexture");
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7Timeline__UpdateFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.Trail
+// Function BP_InteractionController.BP_InteractionController_C.Projectile7Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile7Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile7
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class UTextureRenderTarget2D*           RT_texture                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_InteractionController_C::Trail(class UTextureRenderTarget2D* RT_texture)
+void ABP_InteractionController_C::Projectile7(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "Trail");
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile7");
 
-	Params::BP_InteractionController_C_Trail Parms{};
+	Params::BP_InteractionController_C_Projectile7 Parms{};
 
-	Parms.RT_texture = RT_texture;
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function BP_InteractionController.BP_InteractionController_C.UserConstructionScript
-// (Event, Public, BlueprintCallable, BlueprintEvent)
+// Function BP_InteractionController.BP_InteractionController_C.Projectile6Timeline__UpdateFunc
+// (BlueprintEvent)
 
-void ABP_InteractionController_C::UserConstructionScript()
+void ABP_InteractionController_C::Projectile6Timeline__UpdateFunc()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_InteractionController_C", "UserConstructionScript");
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6Timeline__UpdateFunc");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile6Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile6Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile6
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Projectile6(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile6");
+
+	Params::BP_InteractionController_C_Projectile6 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile5Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile5Timeline__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile5Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile5Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile5
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Projectile5(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile5");
+
+	Params::BP_InteractionController_C_Projectile5 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile4Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile4Timeline__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile4Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile4Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile4
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Projectile4(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile4");
+
+	Params::BP_InteractionController_C_Projectile4 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile3Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile3Timeline__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile3Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile3Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile3
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Projectile3(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile3");
+
+	Params::BP_InteractionController_C_Projectile3 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile2Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile2Timeline__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile2Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile2Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile2
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Projectile2(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile2");
+
+	Params::BP_InteractionController_C_Projectile2 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile1Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile1Timeline__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile1Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile1Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile10Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile10Timeline__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile10Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void ABP_InteractionController_C::Projectile10Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile10
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Projectile10(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile10");
+
+	Params::BP_InteractionController_C_Projectile10 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Projectile1
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   End                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  FadeSpeed                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Projectile1(const struct FVector& Start, const struct FVector& End, double FadeSpeed, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Projectile1");
+
+	Params::BP_InteractionController_C_Projectile1 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.End = std::move(End);
+	Parms.FadeSpeed = FadeSpeed;
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.PlayerTransforms
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// double                                  FwdDistance                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         Location                                               (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         FwdVecDistance                                         (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         FwdVec                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::PlayerTransforms(double FwdDistance, struct FVector* Location, struct FVector* FwdVecDistance, struct FVector* FwdVec)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "PlayerTransforms");
+
+	Params::BP_InteractionController_C_PlayerTransforms Parms{};
+
+	Parms.FwdDistance = FwdDistance;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (Location != nullptr)
+		*Location = std::move(Parms.Location);
+
+	if (FwdVecDistance != nullptr)
+		*FwdVecDistance = std::move(Parms.FwdVecDistance);
+
+	if (FwdVec != nullptr)
+		*FwdVec = std::move(Parms.FwdVec);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.PaintResult
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UTexture2D*                       PaintTex                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::PaintResult(class UTexture2D* PaintTex)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "PaintResult");
+
+	Params::BP_InteractionController_C_PaintResult Parms{};
+
+	Parms.PaintTex = PaintTex;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.MakeVec4
+// (Public, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// const struct FVector&                   Start                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Size                                                   (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FLinearColor                     ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+struct FLinearColor ABP_InteractionController_C::MakeVec4(const struct FVector& Start, double Size)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "MakeVec4");
+
+	Params::BP_InteractionController_C_MakeVec4 Parms{};
+
+	Parms.Start = std::move(Start);
+	Parms.Size = Size;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	return Parms.ReturnValue;
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Line3dWidth
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Width                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Line3dWidth(double Width)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Line3dWidth");
+
+	Params::BP_InteractionController_C_Line3dWidth Parms{};
+
+	Parms.Width = Width;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Line3dLocations
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   StartPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   EndPoint                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Line3dLocations(const struct FVector& StartPoint, const struct FVector& EndPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Line3dLocations");
+
+	Params::BP_InteractionController_C_Line3dLocations Parms{};
+
+	Parms.StartPoint = std::move(StartPoint);
+	Parms.EndPoint = std::move(EndPoint);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.InitializeCapture
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void ABP_InteractionController_C::InitializeCapture()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "InitializeCapture");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Grenade
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   Location                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  Radius                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Grenade(const struct FVector& Location, double Radius)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Grenade");
+
+	Params::BP_InteractionController_C_Grenade Parms{};
+
+	Parms.Location = std::move(Location);
+	Parms.Radius = Radius;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Flashlight-Strength
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Strength                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Flashlight_Strength(double Strength)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Flashlight-Strength");
+
+	Params::BP_InteractionController_C_Flashlight_Strength Parms{};
+
+	Parms.Strength = Strength;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.Flashlight
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const struct FVector&                   StartLocation                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   EndLocation                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// double                                  ConeAngle                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::Flashlight(const struct FVector& StartLocation, const struct FVector& EndLocation, double ConeAngle)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "Flashlight");
+
+	Params::BP_InteractionController_C_Flashlight Parms{};
+
+	Parms.StartLocation = std::move(StartLocation);
+	Parms.EndLocation = std::move(EndLocation);
+	Parms.ConeAngle = ConeAngle;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_InteractionController.BP_InteractionController_C.ExecuteUbergraph_BP_InteractionController
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_InteractionController_C::ExecuteUbergraph_BP_InteractionController(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_InteractionController_C", "ExecuteUbergraph_BP_InteractionController");
+
+	Params::BP_InteractionController_C_ExecuteUbergraph_BP_InteractionController Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

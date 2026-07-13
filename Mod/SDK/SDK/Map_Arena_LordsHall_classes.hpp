@@ -25,8 +25,8 @@ public:
 	class UGI_Settings_C*                         As_GI_Settings;                                    // 0x02A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Map_Arena_LordsHall(int32 EntryPoint);
 	void ReceiveBeginPlay();
+	void ExecuteUbergraph_Map_Arena_LordsHall(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Engine_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -122,5 +122,19 @@ public:
 	uint8                                         Pad_1[0x7];                                        // 0x0001(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FRuntimeFloatCurve                     FalloffCurve;                                      // 0x0008(0x0088)(Edit, NativeAccessSpecifierPublic)
 };
+
+// DelegateFunction Foliage.InstancePointDamageSignature__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Foliage
+{
+using FDelegateSignature_InstancePointDamageSignature = void(int32 InstanceIndex, float Damage, class AController* InstigatedBy, const struct FVector& HitLocation, const struct FVector& ShotFromDirection, const class UDamageType* DamageType, class AActor* DamageCauser);
+}
+
+// DelegateFunction Foliage.InstanceRadialDamageSignature__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace Foliage
+{
+using FDelegateSignature_InstanceRadialDamageSignature = void(const TArray<int32>& Instances, const TArray<float>& Damages, class AController* InstigatedBy, const struct FVector& Origin, float MaxRadius, const class UDamageType* DamageType, class AActor* DamageCauser);
+}
 
 SDK_NAMESPACE_END

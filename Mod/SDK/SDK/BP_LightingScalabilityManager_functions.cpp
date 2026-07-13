@@ -16,75 +16,21 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.ExecuteUbergraph_BP_LightingScalabilityManager
-// (Final, UbergraphFunction)
+// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.SetVisibilityForLowMedium
+// (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    NewVisbility                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_LightingScalabilityManager_C::ExecuteUbergraph_BP_LightingScalabilityManager(int32 EntryPoint)
+void ABP_LightingScalabilityManager_C::SetVisibilityForLowMedium(bool NewVisbility)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ExecuteUbergraph_BP_LightingScalabilityManager");
+		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "SetVisibilityForLowMedium");
 
-	Params::BP_LightingScalabilityManager_C_ExecuteUbergraph_BP_LightingScalabilityManager Parms{};
+	Params::BP_LightingScalabilityManager_C_SetVisibilityForLowMedium Parms{};
 
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.OnEffectsQualityChanged_Event
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// int32                                   NewValue                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_LightingScalabilityManager_C::OnEffectsQualityChanged_Event(int32 NewValue)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "OnEffectsQualityChanged_Event");
-
-	Params::BP_LightingScalabilityManager_C_OnEffectsQualityChanged_Event Parms{};
-
-	Parms.NewValue = NewValue;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ABP_LightingScalabilityManager_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.ReceiveEndPlay
-// (Event, Protected, BlueprintEvent)
-// Parameters:
-// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABP_LightingScalabilityManager_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ReceiveEndPlay");
-
-	Params::BP_LightingScalabilityManager_C_ReceiveEndPlay Parms{};
-
-	Parms.EndPlayReason = EndPlayReason;
+	Parms.NewVisbility = NewVisbility;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -110,21 +56,75 @@ void ABP_LightingScalabilityManager_C::SetVisibilityForHighEpic(bool NewVisbilit
 }
 
 
-// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.SetVisibilityForLowMedium
-// (Public, BlueprintCallable, BlueprintEvent)
+// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.ReceiveEndPlay
+// (Event, Protected, BlueprintEvent)
 // Parameters:
-// bool                                    NewVisbility                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// EEndPlayReason                          EndPlayReason_ReceiveEndPlay                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_LightingScalabilityManager_C::SetVisibilityForLowMedium(bool NewVisbility)
+void ABP_LightingScalabilityManager_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "SetVisibilityForLowMedium");
+		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ReceiveEndPlay");
 
-	Params::BP_LightingScalabilityManager_C_SetVisibilityForLowMedium Parms{};
+	Params::BP_LightingScalabilityManager_C_ReceiveEndPlay Parms{};
 
-	Parms.NewVisbility = NewVisbility;
+	Parms.EndPlayReason_ReceiveEndPlay = EndPlayReason_ReceiveEndPlay;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_LightingScalabilityManager_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.OnEffectsQualityChanged_Event
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// int32                                   NewValue                                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_LightingScalabilityManager_C::OnEffectsQualityChanged_Event(int32 NewValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "OnEffectsQualityChanged_Event");
+
+	Params::BP_LightingScalabilityManager_C_OnEffectsQualityChanged_Event Parms{};
+
+	Parms.NewValue = NewValue;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_LightingScalabilityManager.BP_LightingScalabilityManager_C.ExecuteUbergraph_BP_LightingScalabilityManager
+// (Final, UbergraphFunction)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_LightingScalabilityManager_C::ExecuteUbergraph_BP_LightingScalabilityManager(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_LightingScalabilityManager_C", "ExecuteUbergraph_BP_LightingScalabilityManager");
+
+	Params::BP_LightingScalabilityManager_C_ExecuteUbergraph_BP_LightingScalabilityManager Parms{};
+
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

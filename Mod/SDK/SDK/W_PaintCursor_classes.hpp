@@ -27,10 +27,10 @@ public:
 	class UMaterialInstanceDynamic*               BrushIconsMID;                                     // 0x02F8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Construct();
-	void ExecuteUbergraph_W_PaintCursor(int32 EntryPoint);
-	void SetBrushIcon(int32 V_Pos, bool On_);
 	void SetUVPos(int32 U_Pos, int32 V_Pos, bool On_);
+	void SetBrushIcon(int32 V_Pos, bool On_);
+	void ExecuteUbergraph_W_PaintCursor(int32 EntryPoint);
+	void Construct();
 
 public:
 	static class UClass* StaticClass()

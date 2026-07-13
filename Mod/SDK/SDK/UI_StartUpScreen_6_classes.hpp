@@ -30,10 +30,10 @@ public:
 	bool                                          Is_Opened;                                         // 0x0310(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature();
-	void Construct();
 	void ExecuteUbergraph_UI_StartUpScreen_6(int32 EntryPoint);
+	void Construct();
+	void BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_1_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature();
 
 public:
 	static class UClass* StaticClass()

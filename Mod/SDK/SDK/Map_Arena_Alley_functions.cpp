@@ -16,25 +16,37 @@
 
 SDK_NAMESPACE_START
 
-// Function Map_Arena_Alley.Map_Arena_Alley_C.BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature
-// (BlueprintEvent)
+// Function Map_Arena_Alley.Map_Arena_Alley_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Arena_Alley_C::BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
+void AMap_Arena_Alley_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Alley_C", "BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
+		Func = Class->GetFunction("Map_Arena_Alley_C", "ReceiveTick");
 
-	Params::Map_Arena_Alley_C_BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature Parms{};
+	Params::Map_Arena_Alley_C_ReceiveTick Parms{};
 
-	Parms.OverlappedActor = OverlappedActor;
-	Parms.OtherActor = OtherActor;
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Map_Arena_Alley.Map_Arena_Alley_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AMap_Arena_Alley_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Arena_Alley_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
@@ -58,35 +70,23 @@ void AMap_Arena_Alley_C::ExecuteUbergraph_Map_Arena_Alley(int32 EntryPoint)
 }
 
 
-// Function Map_Arena_Alley.Map_Arena_Alley_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AMap_Arena_Alley_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Alley_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Map_Arena_Alley.Map_Arena_Alley_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function Map_Arena_Alley.Map_Arena_Alley_C.BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature
+// (BlueprintEvent)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OverlappedActor                                        (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// class AActor*                           OtherActor                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Arena_Alley_C::ReceiveTick(float DeltaSeconds)
+void AMap_Arena_Alley_C::BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature(class AActor* OverlappedActor, class AActor* OtherActor)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Alley_C", "ReceiveTick");
+		Func = Class->GetFunction("Map_Arena_Alley_C", "BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature");
 
-	Params::Map_Arena_Alley_C_ReceiveTick Parms{};
+	Params::Map_Arena_Alley_C_BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.OverlappedActor = OverlappedActor;
+	Parms.OtherActor = OtherActor;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

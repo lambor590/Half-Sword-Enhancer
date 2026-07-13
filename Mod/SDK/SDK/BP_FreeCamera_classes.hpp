@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "PhysicsCore_structs.hpp"
-#include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "CoreUObject_structs.hpp"
+#include "PhysicsCore_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
+#include "ArmorSlots_Enum_structs.hpp"
 
 
 SDK_NAMESPACE_START

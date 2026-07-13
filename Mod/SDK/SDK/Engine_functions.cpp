@@ -111612,10 +111612,10 @@ int32 UPhysicsSettings::GetPhysicsHistoryCount() const
 // Function Engine.ViewportStatsSubsystem.AddDisplayDelegate
 // (Final, RequiredAPI, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// const TDelegate<void(class FText* OutText, struct FLinearColor* OutColor)>&Delegate                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const TDelegate<bool(class FText* OutText, struct FLinearColor* OutColor)>&Delegate                                               (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-int32 UViewportStatsSubsystem::AddDisplayDelegate(const TDelegate<void(class FText* OutText, struct FLinearColor* OutColor)>& Delegate)
+int32 UViewportStatsSubsystem::AddDisplayDelegate(const TDelegate<bool(class FText* OutText, struct FLinearColor* OutColor)>& Delegate)
 {
 	static class UFunction* Func = nullptr;
 

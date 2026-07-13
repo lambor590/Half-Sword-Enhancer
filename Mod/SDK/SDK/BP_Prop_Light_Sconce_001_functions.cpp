@@ -16,21 +16,21 @@
 
 SDK_NAMESPACE_START
 
-// Function BP_Prop_Light_Sconce_001.BP_Prop_Light_Sconce_001_C.ExecuteUbergraph_BP_Prop_Light_Sconce_001
-// (Final, UbergraphFunction)
+// Function BP_Prop_Light_Sconce_001.BP_Prop_Light_Sconce_001_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Prop_Light_Sconce_001_C::ExecuteUbergraph_BP_Prop_Light_Sconce_001(int32 EntryPoint)
+void ABP_Prop_Light_Sconce_001_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Sconce_001_C", "ExecuteUbergraph_BP_Prop_Light_Sconce_001");
+		Func = Class->GetFunction("BP_Prop_Light_Sconce_001_C", "ReceiveTick");
 
-	Params::BP_Prop_Light_Sconce_001_C_ExecuteUbergraph_BP_Prop_Light_Sconce_001 Parms{};
+	Params::BP_Prop_Light_Sconce_001_C_ReceiveTick Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -50,21 +50,21 @@ void ABP_Prop_Light_Sconce_001_C::ReceiveBeginPlay()
 }
 
 
-// Function BP_Prop_Light_Sconce_001.BP_Prop_Light_Sconce_001_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function BP_Prop_Light_Sconce_001.BP_Prop_Light_Sconce_001_C.ExecuteUbergraph_BP_Prop_Light_Sconce_001
+// (Final, UbergraphFunction)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Prop_Light_Sconce_001_C::ReceiveTick(float DeltaSeconds)
+void ABP_Prop_Light_Sconce_001_C::ExecuteUbergraph_BP_Prop_Light_Sconce_001(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Prop_Light_Sconce_001_C", "ReceiveTick");
+		Func = Class->GetFunction("BP_Prop_Light_Sconce_001_C", "ExecuteUbergraph_BP_Prop_Light_Sconce_001");
 
-	Params::BP_Prop_Light_Sconce_001_C_ReceiveTick Parms{};
+	Params::BP_Prop_Light_Sconce_001_C_ExecuteUbergraph_BP_Prop_Light_Sconce_001 Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

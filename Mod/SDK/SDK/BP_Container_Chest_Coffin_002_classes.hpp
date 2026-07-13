@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Container_Chest_Coffin_002.BP_Container_Chest_Coffin_002_C
-// 0x0000 (0x0A48 - 0x0A48)
+// 0x0000 (0x0A50 - 0x0A50)
 class ABP_Container_Chest_Coffin_002_C final : public ABP_Container_Chest_001_C
 {
 public:

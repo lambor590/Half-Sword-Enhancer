@@ -17,7 +17,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Barrel_Destructable_Constraits.BP_Barrel_Destructable_Constraits_C
-// 0x0198 (0x05D8 - 0x0440)
+// 0x01A0 (0x05E0 - 0x0440)
 class ABP_Barrel_Destructable_Constraits_C final : public AFireComponentActorBase
 {
 public:
@@ -65,39 +65,42 @@ public:
 	TArray<class UPrimitiveComponent*>            Self_2;                                            // 0x05B0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 	TArray<class USceneComponent*>                Attach_to_Component;                               // 0x05C0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
 	bool                                          Respawn_Self__Collisions_Hack_;                    // 0x05D0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	uint8                                         Pad_5D1[0x7];                                      // 0x05D1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Accumulated_Noise;                                 // 0x05D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void Barrel_Is_Broken_Func();
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_10_K2Node_ComponentBoundEvent_14_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_11_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_12_K2Node_ComponentBoundEvent_17_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_13_K2Node_ComponentBoundEvent_18_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_14_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_15_K2Node_ComponentBoundEvent_12_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_16_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_17_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_18_K2Node_ComponentBoundEvent_16_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_19_K2Node_ComponentBoundEvent_8_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_1_K2Node_ComponentBoundEvent_11_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_2_K2Node_ComponentBoundEvent_10_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_3_K2Node_ComponentBoundEvent_9_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_4_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_5_K2Node_ComponentBoundEvent_6_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_6_K2Node_ComponentBoundEvent_15_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_7_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_8_K2Node_ComponentBoundEvent_13_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_9_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
-	void Constraits_Broken_Delegate(int32 ConstraintIndex);
-	void Disable_COliision_Func(class UStaticMeshComponent* InputPin);
-	void ExecuteUbergraph_BP_Barrel_Destructable_Constraits(int32 EntryPoint);
-	void Make_Fragile_Temporary();
-	void NewFunction(class UPrimitiveComponent* self2, const struct FVector& A, class AActor* InputPin, const struct FHitResult& InputPin1);
-	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
-	void Reset_Sound_Threshold();
-	void Spawn_Sound_On_Hit(class USceneComponent* AttachToComponent, const struct FVector& A, const struct FHitResult& Hit);
-	void Temporarily_Disable_Destruction();
 	void UserConstructionScript();
+	void Temporarily_Disable_Destruction();
+	void Spawn_Sound_On_Hit(class USceneComponent* AttachToComponent, const struct FVector& A, const struct FHitResult& Hit);
+	void Reset_Sound_Threshold();
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
+	void ReceiveBeginPlay();
+	void NewFunction(class UPrimitiveComponent* self2, const struct FVector& A, class AActor* InputPin, const struct FHitResult& InputPin1);
+	void Make_Fragile_Temporary();
+	void ExecuteUbergraph_BP_Barrel_Destructable_Constraits(int32 EntryPoint);
+	void Event_Spawn_Sound_Detector(double Sound_Volume, class USceneComponent* Last_Hit_Part);
+	void Disable_COliision_Func(class UStaticMeshComponent* InputPin);
+	void Constraits_Broken_Delegate(int32 ConstraintIndex);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_9_K2Node_ComponentBoundEvent_3_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_8_K2Node_ComponentBoundEvent_13_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_7_K2Node_ComponentBoundEvent_4_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_6_K2Node_ComponentBoundEvent_15_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_5_K2Node_ComponentBoundEvent_6_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_4_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_3_K2Node_ComponentBoundEvent_9_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_2_K2Node_ComponentBoundEvent_10_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_1_K2Node_ComponentBoundEvent_11_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_19_K2Node_ComponentBoundEvent_8_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_18_K2Node_ComponentBoundEvent_16_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_17_K2Node_ComponentBoundEvent_2_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_16_K2Node_ComponentBoundEvent_5_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_15_K2Node_ComponentBoundEvent_12_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_14_K2Node_ComponentBoundEvent_1_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_13_K2Node_ComponentBoundEvent_18_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_12_K2Node_ComponentBoundEvent_17_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_11_K2Node_ComponentBoundEvent_7_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void BndEvt__BP_Barrel_Destructable_Constraits_SM_Prop_Barrel_AA_Destruction_001_10_K2Node_ComponentBoundEvent_14_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
+	void Barrel_Is_Broken_Func();
 
 public:
 	static class UClass* StaticClass()

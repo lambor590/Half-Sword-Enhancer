@@ -79,9 +79,9 @@ public:
 	TArray<class AWillie_BP_C*>                   Spawned_Enemies;                                   // 0x0458(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
 
 public:
-	void ExecuteUbergraph_BossFight_Arena_BP(int32 EntryPoint);
-	void GREAT_ENEMY_FELLED();
 	void ReceiveBeginPlay();
+	void GREAT_ENEMY_FELLED();
+	void ExecuteUbergraph_BossFight_Arena_BP(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

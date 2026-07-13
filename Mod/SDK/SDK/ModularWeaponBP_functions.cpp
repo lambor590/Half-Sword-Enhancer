@@ -579,20 +579,6 @@ void AModularWeaponBP_C::UserConstructionScript()
 }
 
 
-// Function ModularWeaponBP.ModularWeaponBP_C.Vertex Paint
-// (BlueprintCallable, BlueprintEvent)
-
-void AModularWeaponBP_C::Vertex_Paint()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ModularWeaponBP_C", "Vertex Paint");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function ModularWeaponBP.ModularWeaponBP_C.Weapon HIt
 // (Public, BlueprintCallable, BlueprintEvent)
 // Parameters:

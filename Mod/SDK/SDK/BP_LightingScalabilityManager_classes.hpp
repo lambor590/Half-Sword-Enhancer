@@ -38,12 +38,12 @@ public:
 	int32                                         PreviousLumenQuality;                              // 0x0318(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_BP_LightingScalabilityManager(int32 EntryPoint);
-	void OnEffectsQualityChanged_Event(int32 NewValue);
-	void ReceiveBeginPlay();
-	void ReceiveEndPlay(EEndPlayReason EndPlayReason);
-	void SetVisibilityForHighEpic(bool NewVisbility);
 	void SetVisibilityForLowMedium(bool NewVisbility);
+	void SetVisibilityForHighEpic(bool NewVisbility);
+	void ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay);
+	void ReceiveBeginPlay();
+	void OnEffectsQualityChanged_Event(int32 NewValue);
+	void ExecuteUbergraph_BP_LightingScalabilityManager(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

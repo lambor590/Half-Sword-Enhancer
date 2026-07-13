@@ -10,15 +10,15 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_DayTime_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Map_Arena_Yard.Map_Arena_Yard_C
-// 0x0058 (0x02F0 - 0x0298)
+// 0x0060 (0x02F8 - 0x0298)
 class AMap_Arena_Yard_C final : public ALevelScriptActor
 {
 public:
@@ -30,7 +30,8 @@ public:
 	TSoftObjectPtr<class UWorld>                  Lighting_Level;                                    // 0x02B8(0x0028)(Edit, BlueprintVisible, DisableEditOnInstance, UObjectWrapper, HasGetValueTypeHash)
 	bool                                          Map_Initiated;                                     // 0x02E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_2E1[0x7];                                      // 0x02E1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	class AAmbientSound*                          AmbientSound_0_ExecuteUbergraph_Map_Arena_Yard_RefProperty; // 0x02E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AVolumetricCloud*                       VolumetricCloud_3_ExecuteUbergraph_Map_Arena_Yard_RefProperty; // 0x02E8(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AAmbientSound*                          AmbientSound_0_ExecuteUbergraph_Map_Arena_Yard_RefProperty; // 0x02F0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void Trigger_Overlap_Lose(class UObject* Object);

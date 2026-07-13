@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "LeftRight_Enum_structs.hpp"
 #include "Engine_structs.hpp"
+#include "LeftRight_Enum_structs.hpp"
 #include "UMG_classes.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
 

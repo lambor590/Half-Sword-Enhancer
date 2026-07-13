@@ -16,6 +16,20 @@
 
 SDK_NAMESPACE_START
 
+// Function Map_Menu_SplashScreens.Map_Menu_SplashScreens_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AMap_Menu_SplashScreens_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Menu_SplashScreens_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Map_Menu_SplashScreens.Map_Menu_SplashScreens_C.ExecuteUbergraph_Map_Menu_SplashScreens
 // (Final, UbergraphFunction)
 // Parameters:
@@ -33,20 +47,6 @@ void AMap_Menu_SplashScreens_C::ExecuteUbergraph_Map_Menu_SplashScreens(int32 En
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Map_Menu_SplashScreens.Map_Menu_SplashScreens_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AMap_Menu_SplashScreens_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Menu_SplashScreens_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

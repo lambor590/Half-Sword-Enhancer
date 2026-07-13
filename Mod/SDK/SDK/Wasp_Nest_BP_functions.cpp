@@ -16,6 +16,88 @@
 
 SDK_NAMESPACE_START
 
+// Function Wasp_Nest_BP.Wasp_Nest_BP_C.Timeline__UpdateFunc
+// (BlueprintEvent)
+
+void AWasp_Nest_BP_C::Timeline__UpdateFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Wasp_Nest_BP_C", "Timeline__UpdateFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Wasp_Nest_BP.Wasp_Nest_BP_C.Timeline__FinishedFunc
+// (BlueprintEvent)
+
+void AWasp_Nest_BP_C::Timeline__FinishedFunc()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Wasp_Nest_BP_C", "Timeline__FinishedFunc");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Wasp_Nest_BP.Wasp_Nest_BP_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
+// Parameters:
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWasp_Nest_BP_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Wasp_Nest_BP_C", "ReceiveTick");
+
+	Params::Wasp_Nest_BP_C_ReceiveTick Parms{};
+
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Wasp_Nest_BP.Wasp_Nest_BP_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AWasp_Nest_BP_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Wasp_Nest_BP_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function Wasp_Nest_BP.Wasp_Nest_BP_C.ExecuteUbergraph_Wasp_Nest_BP
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AWasp_Nest_BP_C::ExecuteUbergraph_Wasp_Nest_BP(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Wasp_Nest_BP_C", "ExecuteUbergraph_Wasp_Nest_BP");
+
+	Params::Wasp_Nest_BP_C_ExecuteUbergraph_Wasp_Nest_BP Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function Wasp_Nest_BP.Wasp_Nest_BP_C.BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature
 // (HasOutParams, BlueprintEvent)
 // Parameters:
@@ -41,88 +123,6 @@ void AWasp_Nest_BP_C::BndEvt__Wasp_Nest_BP_SM_Trap_WaspNest_A_001_K2Node_Compone
 	Parms.Hit = std::move(Hit);
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Wasp_Nest_BP.Wasp_Nest_BP_C.ExecuteUbergraph_Wasp_Nest_BP
-// (Final, UbergraphFunction, HasDefaults)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AWasp_Nest_BP_C::ExecuteUbergraph_Wasp_Nest_BP(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "ExecuteUbergraph_Wasp_Nest_BP");
-
-	Params::Wasp_Nest_BP_C_ExecuteUbergraph_Wasp_Nest_BP Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Wasp_Nest_BP.Wasp_Nest_BP_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AWasp_Nest_BP_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Wasp_Nest_BP.Wasp_Nest_BP_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AWasp_Nest_BP_C::ReceiveTick(float DeltaSeconds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "ReceiveTick");
-
-	Params::Wasp_Nest_BP_C_ReceiveTick Parms{};
-
-	Parms.DeltaSeconds = DeltaSeconds;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Wasp_Nest_BP.Wasp_Nest_BP_C.Timeline__FinishedFunc
-// (BlueprintEvent)
-
-void AWasp_Nest_BP_C::Timeline__FinishedFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "Timeline__FinishedFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Wasp_Nest_BP.Wasp_Nest_BP_C.Timeline__UpdateFunc
-// (BlueprintEvent)
-
-void AWasp_Nest_BP_C::Timeline__UpdateFunc()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Wasp_Nest_BP_C", "Timeline__UpdateFunc");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

@@ -10,34 +10,35 @@
 
 #include "Basic.hpp"
 
-#include "GripType_Enum_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "FootStepping_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Severable_BodyParts_Enum_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "SheathSlots_Enum_structs.hpp"
-#include "Willie_Bones_Enum_structs.hpp"
-#include "VertexPaintDetectionPlugin_structs.hpp"
-#include "FootStepping_Enum_structs.hpp"
-#include "BodyPart_Enum_structs.hpp"
+#include "Steel_Type_structs.hpp"
+#include "GripType_Enum_structs.hpp"
 #include "Attached_Transform_Str_structs.hpp"
+#include "Enum_GameMode_structs.hpp"
+#include "ArmorSlotContents_structs.hpp"
+#include "VertexPaintDetectionPlugin_structs.hpp"
+#include "Severable_BodyParts_Enum_structs.hpp"
+#include "Enum_CombatEvent_LoseConditions_structs.hpp"
+#include "BodyPart_Enum_structs.hpp"
+#include "PhysicsCore_structs.hpp"
+#include "Willie_Bones_Enum_structs.hpp"
+#include "Str_Passport_Character1_structs.hpp"
 #include "Weapon_Slots_Enum_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
-#include "Enum_ReverseGripType_structs.hpp"
+#include "Str_Character_Body_Condition_structs.hpp"
+#include "SheathSlots_Enum_structs.hpp"
 #include "Str_Loadout_Equipment_structs.hpp"
 #include "Enum_VoiceType_structs.hpp"
 #include "Enum_DismembermentPart_structs.hpp"
 #include "Enum_SheathSlot_Concrete_structs.hpp"
-#include "ArmorSlotContents_structs.hpp"
-#include "Str_Passport_Character1_structs.hpp"
-#include "Enum_CombatEvent_LoseConditions_structs.hpp"
-#include "SheathType_Enum_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "Str_Character_Body_Condition_structs.hpp"
-#include "Enum_GameMode_structs.hpp"
-#include "PhysicsCore_structs.hpp"
-#include "Steel_Type_structs.hpp"
+#include "Enum_ReverseGripType_structs.hpp"
+#include "SheathType_Enum_structs.hpp"
 #include "LeftRight_Enum_structs.hpp"
+#include "SecondaryMetal_Type_structs.hpp"
 #include "HideBodyPart_Enum_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 
@@ -45,7 +46,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass Willie_BP.Willie_BP_C
-// 0x3FC0 (0x4630 - 0x0670)
+// 0x40E0 (0x4750 - 0x0670)
 #pragma pack(push, 0x1)
 class SDK_ALIGN(0x10) AWillie_BP_C : public ACharacter
 {
@@ -1432,8 +1433,8 @@ public:
 	float                                         Shield_On_Shoulder_Weight;                         // 0x4390(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_4394[0x4];                                     // 0x4394(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	double                                        Weapons_on_Waist_Weight;                           // 0x4398(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        NewVar_26;                                         // 0x43A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	double                                        NewVar_27;                                         // 0x43A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Equipment_Weight_To_Strength;                      // 0x43A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Equipment_Weight_To_Strength_Upper;                // 0x43A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	class USceneComponent*                        GrabPoint_L_0;                                     // 0x43B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
 	bool                                          Block_Attach_Offhand_But_Play_ANimation;           // 0x43B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Temporary_Block_Sheathing_after_Grab;              // 0x43B9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
@@ -1515,6 +1516,53 @@ public:
 	bool                                          Block_Spine_Breaking;                              // 0x461E(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Classic_Half_Swording_Toggle;                      // 0x461F(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	double                                        Get_Up_FailSafe;                                   // 0x4620(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Force_Death;                                       // 0x4628(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4629[0x7];                                     // 0x4629(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class AWeapon_Fists_C*                        Sapwned_R_Hand_Weapon_Upper_Body;                  // 0x4630(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class AWeapon_Fists_C*                        Sapwned_L_Hand_Weapon_Upper_Body;                  // 0x4638(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	double                                        Angelic_Touch_2;                                   // 0x4640(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Grip_Just_Changed_2H;                              // 0x4648(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4649[0x7];                                     // 0x4649(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRotator                               A;                                                 // 0x4650(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	struct FVector                                Helmet_FPV_Offset;                                 // 0x4668(0x0018)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Lock_On_Strength;                                  // 0x4680(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Was_Just_Touched;                                  // 0x4688(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4689[0x7];                                     // 0x4689(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Noise_Produced_in_Last_Second;                     // 0x4690(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Noise_Produced_Second_Ago;                         // 0x4698(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Voice_Noise;                                       // 0x46A0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Total_Noise;                                       // 0x46A8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          AI_In_Combat;                                      // 0x46B0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_46B1[0x7];                                     // 0x46B1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        In_Light_Meter;                                    // 0x46B8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Noise_Produced_in_Last_Second__Allies_;            // 0x46C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        In_Light_Meter__Pre_Armor_;                        // 0x46C8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Shade_Level;                                       // 0x46D0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Step_Sound_Shoe_R;                                 // 0x46D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	double                                        Step_Sound_Shoe_L;                                 // 0x46E0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Splatter_Decal_Spawn_On_Cooldown;                  // 0x46E8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Has_Hand_R;                                        // 0x46E9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Has_Hand_L;                                        // 0x46EA(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_46EB[0x5];                                     // 0x46EB(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Head_Lock_Rate;                                    // 0x46F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Force_Disable_Vertex_Paint;                        // 0x46F8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_46F9[0x7];                                     // 0x46F9(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UMaterialInstanceDynamic*               Head_Material;                                     // 0x4700(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	bool                                          Force_DIsable_Hair;                                // 0x4708(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4709[0x7];                                     // 0x4709(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Dead_Weight_Scale;                                 // 0x4710(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Hand_R_Torn_Off;                                   // 0x4718(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Hand_L_Torn_Off;                                   // 0x4719(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_471A[0x6];                                     // 0x471A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
+	class AActor*                                 Last_Touched_By_Actor;                             // 0x4720(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
+	class UPrimitiveComponent*                    Last_Hit_By_Weapon;                                // 0x4728(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, NoDestructor, HasGetValueTypeHash)
+	bool                                          Force_Disable_Dismemberment;                       // 0x4730(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Leg_R_Torn_Off;                                    // 0x4731(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Leg_L_Torn_Off;                                    // 0x4732(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Putting_Armor_on_R_Hand_Lower;                     // 0x4733(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Putting_Armor_on_L_Hand_Lower;                     // 0x4734(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4735[0x3];                                     // 0x4735(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	TArray<class AModularWeaponBP_C*>             Impaled_By;                                        // 0x4738(0x0010)(Edit, BlueprintVisible, DisableEditOnTemplate, DisableEditOnInstance)
 
 public:
 	void Add_and_Remove_Weapon_Weights(class AModularWeaponBP_C* Weapon, bool Add);
@@ -1522,7 +1570,9 @@ public:
 	void Add_Vertex_Paint_Blood(const struct FVector& Location, class FName bone, double Size, double Rate, int32 Channel);
 	void AI__Unstuck_Jammed_Weapons();
 	void Ai_Finish_Thrust();
-	void Apply_Settings(double FOV);
+	void AI_Get_Alerted(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location);
+	void Apply_Gameplay_Settings();
+	void Apply_Settings();
 	void Apply_Vertex_Paint_on_New_Armor_Event();
 	void Assign_L_Weapon_Slot();
 	void Assign_R_Weapon_Slot();
@@ -1534,6 +1584,8 @@ public:
 	void BndEvt__BP_ThirdPersonCharacter_Mesh_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
 	void BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_0_VertexColorGetAllVertexColorsOnly__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetColorsOnlySettings& GotAllVertexColorsWithSettings, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
 	void BndEvt__Willie_BP_BPC_RuntimeVertexPaintAndDetectionComponent_K2Node_ComponentBoundEvent_2_VertexColorGetClosestVertexData__DelegateSignature(const struct FRVPDPTaskResults& TaskResultInfo, const struct FRVPDPGetClosestVertexDataSettings& DetectedMeshWithSettings, const struct FRVPDPClosestVertexDataResults& ClosestVertexInfo, const struct FRVPDPEstimatedColorAtHitLocationInfo& EstimatedColorAtHitLocationInfo, const struct FRVPDPAverageColorInAreaInfo& AvarageColorInAreaInfo, const struct FRVPDPAdditionalDataToPassThroughInfo& AdditionalData);
+	void BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_0_ComponentBeginOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const struct FHitResult& SweepResult);
+	void BndEvt__Willie_BP_Mesh_K2Node_ComponentBoundEvent_1_ComponentEndOverlapSignature__DelegateSignature(class UPrimitiveComponent* OverlappedComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	void Body_Skill_Up();
 	void Box_Vertex_Paint(class UBoxComponent* Box, class FName Hit_Bone, class UPrimitiveComponent* Hit_Primitive_Component, bool* Nul);
 	void BOXXX(class UBoxComponent* VP_Collision_Box_1, class UBoxComponent* VP_Collision_Box_2);
@@ -1560,7 +1612,7 @@ public:
 	void Create_Sheath_Constraint_R(EWeapon_Slots_Enum Slot);
 	class USceneComponent* Current_Offhand_Position_Scene();
 	double Damage_Rate();
-	void Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power_0, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, bool Extra_High_Velocity, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out);
+	void Deal_Complex_Damage(class UPrimitiveComponent* Hit_Component_0, class UPrimitiveComponent* Collided_Component, class FName Hit_Bone, const struct FVector& Location, const struct FVector& Normal, const struct FVector& Hit_Velocity, const struct FVector& Hit_Impulse, double Cutting_Power_0, double Stab_Rate, double Rigidity, int32 Blunt_Destruction_Int, bool Lower_Threshold_In, bool Damage_Parent_Bone_, double Kick_Power, class UBoxComponent* Hit_Box, bool Extra_High_Velocity, double Draw_Cut, EPhysicalSurface* Hit_Surface, double* Damage_Out, double* Cutting_Rate_Out, double* Rigidity_Out, double* Material_Density_Out, bool* Lower_Threshold_Out);
 	void Death();
 	void Death_Timeline__FinishedFunc();
 	void Death_Timeline__UpdateFunc();
@@ -1583,17 +1635,22 @@ public:
 	void Event_Block_L_OffHand_Grab();
 	void Event_Check_Bone_Dislocation_Status();
 	void Event_Check_Dismembered_Part_Distance();
+	void Event_Check_If_Soul_Goes_To_Hell();
 	void Event_Check_If_Weapons_Are_Incapacitated();
 	void Event_Clear_Sheathed_Weapon_Slots();
 	void Event_Detach_Grab_Point_L();
 	void Event_Detach_Grab_Point_R();
 	void Event_Grab_Crossbow_String();
+	void Event_Grip_Just_Changed();
 	void Event_Is_Grabbed(bool Disable_Weapons_Momentary);
 	void Event_Lose_Match();
 	void Event_Master_Stroke_Switch(bool Master_Stroke_Grip_0);
 	void Event_Release_Crossbow_String();
 	void Event_Released_Grabbed_Willie_Collision_Enable_L(class AWillie_BP_C* Grabbed_Other_Willie);
 	void Event_Released_Grabbed_Willie_Collision_Enable_R(class AWillie_BP_C* Grabbed_Other_Willie);
+	void Event_Reset_Noise();
+	void Event_Reset_Noises__Allies_();
+	void Event_Reset_Voice_Noise();
 	void Event_Reverse_Grip();
 	void Event_Set_Physics_Substep_Time();
 	void Event_Slide_Right_Hand_Along_Shaft();
@@ -1611,14 +1668,15 @@ public:
 	double Find_Sheath_Length(class AModularWeaponBP_C* InputPin);
 	void Force_Finish_Match();
 	void Force_TPP();
-	void Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power_0, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab__0, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double* Damage_Out);
+	void Get_Damage(const struct FVector& Impulse, const struct FVector& Velocity, const struct FVector& Location, const struct FVector& Normal, class FName bone, double Raw_Damage, double Cutting_Power_0, bool Inside, class UPrimitiveComponent* Damaged_Mesh, int32 Dism_Blunt, bool Lower_Threshold, bool Shockwave, class UPrimitiveComponent* Hit_By_Component, bool Stab__0, class UBoxComponent* Hit_Box, double Pain_Rate, bool Hit_Flesh, double Draw_Cut, double* Damage_Out);
 	void Get_Insulted(double Other_Guy_Weight, double Other_Guy_Protection, bool Other_Guy_Armed, class AWillie_BP_C* Other_Guy);
 	void Get_Up__Pal(class AWillie_BP_C* Pal);
 	void Grab_Specific_Object_L_H(class UPrimitiveComponent* Grab_Component_L_0, const struct FVector& NewLocation);
 	void Grab_Specific_Object_R_H(class UPrimitiveComponent* Grab_Component_R_0, const struct FVector& NewLocation);
 	void Helmet_Muffle_Voice();
-	void InpActEvt_B_K2Node_InputDebugKeyEvent_0(const struct FKey& Key, const struct FInputActionValue& ActionValue);
-	void InpActEvt_CapsLock_K2Node_InputKeyEvent_2(const struct FKey& Key);
+	void Initialize_Camera_Settings();
+	void InpActEvt_B_K2Node_InputDebugKeyEvent_2(const struct FKey& Key, const struct FInputActionValue& ActionValue);
+	void InpActEvt_CapsLock_K2Node_InputKeyEvent_3(const struct FKey& Key);
 	void InpActEvt_Change_Camera_K2Node_InputActionEvent_2(const struct FKey& Key);
 	void InpActEvt_Crouch_Hold_K2Node_InputActionEvent_10(const struct FKey& Key);
 	void InpActEvt_Crouch_Hold_K2Node_InputActionEvent_9(const struct FKey& Key);
@@ -1628,7 +1686,7 @@ public:
 	void InpActEvt_Grab_Left_K2Node_InputActionEvent_19(const struct FKey& Key);
 	void InpActEvt_Grab_Right_K2Node_InputActionEvent_20(const struct FKey& Key);
 	void InpActEvt_Grab_Right_K2Node_InputActionEvent_21(const struct FKey& Key);
-	void InpActEvt_H_K2Node_InputKeyEvent_3(const struct FKey& Key);
+	void InpActEvt_H_K2Node_InputKeyEvent_4(const struct FKey& Key);
 	void InpActEvt_Inventory_K2Node_InputActionEvent_33(const struct FKey& Key);
 	void InpActEvt_Jump_K2Node_InputActionEvent_14(const struct FKey& Key);
 	void InpActEvt_Jump_K2Node_InputActionEvent_15(const struct FKey& Key);
@@ -1640,7 +1698,9 @@ public:
 	void InpActEvt_Key_Left_K2Node_InputActionEvent_31(const struct FKey& Key);
 	void InpActEvt_Key_Right_K2Node_InputActionEvent_28(const struct FKey& Key);
 	void InpActEvt_Key_Right_K2Node_InputActionEvent_29(const struct FKey& Key);
-	void InpActEvt_N_K2Node_InputDebugKeyEvent_1(const struct FKey& Key, const struct FInputActionValue& ActionValue);
+	void InpActEvt_M_K2Node_InputDebugKeyEvent_1(const struct FKey& Key, const struct FInputActionValue& ActionValue);
+	void InpActEvt_MiddleMouseButton_K2Node_InputKeyEvent_2(const struct FKey& Key);
+	void InpActEvt_N_K2Node_InputDebugKeyEvent_0(const struct FKey& Key, const struct FInputActionValue& ActionValue);
 	void InpActEvt_Pause_K2Node_InputActionEvent_3(const struct FKey& Key);
 	void InpActEvt_PhotoMode_K2Node_InputActionEvent_32(const struct FKey& Key);
 	void InpActEvt_RightMouseButton_K2Node_InputKeyEvent_0(const struct FKey& Key);
@@ -1678,8 +1738,6 @@ public:
 	void L_Step_Timeline__FinishedFunc();
 	void L_Step_Timeline__UpdateFunc();
 	void Muscle_Motor(class USkeletalMeshComponent* Body_Mesh, bool UpperBody);
-	double NewFunction();
-	double NewFunction_0();
 	void Paint_Blood_Bleed(const struct FVector& Location, class FName BoneName, double Size, double Rate);
 	void Paint_Blood_Splash(const struct FVector& Location, class FName BoneName, double Size, double Rate);
 	void Pick_Up_Armor(class USceneComponent* Picked_Armor, class ABP_Armor_Master_C* Armor_Actor, bool* Picked_Up);
@@ -1701,7 +1759,7 @@ public:
 	void Release_Grab_R();
 	void Release_No_Dismember_Bones();
 	void Release_Offhand();
-	void Remove_Armor(const struct FTransform& SpawnTransform, const EArmorSlots_Enum& Slot, class ABP_Armor_Modular_Core_Master_C** Spawned_Armor1);
+	void Remove_Armor(const struct FTransform& SpawnTransform, const EArmorSlots_Enum& Slot, class USkeletalMeshComponent* Disable_Collision_With, class ABP_Armor_Modular_Core_Master_C** Spawned_Armor1);
 	void Remove_Hat();
 	void Rescale_Character();
 	void Reset_Blood_Bleed();
@@ -1713,6 +1771,7 @@ public:
 	void Reset_Latest_VP_Damage();
 	void Reset_OffHand_Locked();
 	void Reset_Parry();
+	void Reset_Splatter_Spawn_Cooldown();
 	void Reset_Step_Sound_L();
 	void Reset_Step_Sound_R();
 	void Reset_Sustained_Damage();
@@ -1721,7 +1780,9 @@ public:
 	void Send_My_Regards_to_Dress_Up_Darling();
 	void Send_Threat_Location_R(const struct FVector& Threat_Location_0, const struct FVector& Offset, bool Immediate, bool* Nul);
 	void Set_Character_Height();
-	void Set_Pain_Location(class FName BoneName, const struct FVector& A);
+	double Set_Equipment_Weight_to_Strength();
+	double Set_Equipment_Weight_to_Strength_Upper();
+	void Set_Pain_Location(class FName BoneName, const struct FVector& A_0);
 	void Set_Physics_LOD_Int(const class AActor* OtherActor, int32* Out_LOD);
 	void Set_Up_Armor(bool Clear_Previous, bool No_Check_Block__Kostyl__);
 	void Set_Up_Left_Hand_Weapon(class UClass* Weapon_Class, class AModularWeaponBP_C* Weapon_L_0, bool Dropped_With_no_Damage, bool Destroy_Previous, const struct FStr_Passport_Weapon1& Weapon_Passport);

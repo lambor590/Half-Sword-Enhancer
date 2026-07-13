@@ -44,6 +44,44 @@ void AAI_BP_C::Dash_Event()
 }
 
 
+// Function AI_BP.AI_BP_C.Event Alert Allies Nearby
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Alert_Allies_Nearby()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Event Alert Allies Nearby");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Get Into Combat State
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  In_TIme                                                (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class AWillie_BP_C*                     Attack_This_Target                                     (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+// const struct FVector&                   At_This_Location                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AAI_BP_C::Event_Get_Into_Combat_State(double In_TIme, class AWillie_BP_C* Attack_This_Target, const struct FVector& At_This_Location)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Event Get Into Combat State");
+
+	Params::AI_BP_C_Event_Get_Into_Combat_State Parms{};
+
+	Parms.In_TIme = In_TIme;
+	Parms.Attack_This_Target = Attack_This_Target;
+	Parms.At_This_Location = std::move(At_This_Location);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function AI_BP.AI_BP_C.Event Initialize AI
 // (BlueprintCallable, BlueprintEvent)
 
@@ -53,6 +91,76 @@ void AAI_BP_C::Event_Initialize_AI()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("AI_BP_C", "Event Initialize AI");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Release Touch
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Release_Touch()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Event Release Touch");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Reset Touch
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Reset_Touch()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Event Reset Touch");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Search For Enemy
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Search_For_Enemy()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Event Search For Enemy");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Touch
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Touch()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Event Touch");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function AI_BP.AI_BP_C.Event Unsheathe Weapon
+// (BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Event_Unsheathe_Weapon()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Event Unsheathe Weapon");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -75,6 +183,20 @@ void AAI_BP_C::ExecuteUbergraph_AI_BP(int32 EntryPoint)
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function AI_BP.AI_BP_C.Func Sent Insult And Alert Allies
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AAI_BP_C::Func_Sent_Insult_And_Alert_Allies()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AI_BP_C", "Func Sent Insult And Alert Allies");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

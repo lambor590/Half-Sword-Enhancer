@@ -28,9 +28,9 @@ public:
 	double                                        Speed;                                             // 0x02B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_BP_MW_Wind(int32 EntryPoint);
-	void ReceiveTick(float DeltaSeconds);
 	void UserConstructionScript();
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
+	void ExecuteUbergraph_BP_MW_Wind(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

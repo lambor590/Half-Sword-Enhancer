@@ -39,4 +39,11 @@ public:
 	float                                         Altitude;                                          // 0x0014(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 
+// DelegateFunction LocationServicesBPLibrary.LocationServicesData_OnLocationChanged__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace LocationServicesBPLibrary
+{
+using FDelegateSignature_LocationServicesData_OnLocationChanged = void(const struct FLocationServicesData& LocationData);
+}
+
 SDK_NAMESPACE_END

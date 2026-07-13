@@ -16,6 +16,14 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function Map_Arena_EastTower.Map_Arena_EastTower_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Map_Arena_EastTower_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds_ReceiveTick;                          // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function Map_Arena_EastTower.Map_Arena_EastTower_C.ExecuteUbergraph_Map_Arena_EastTower
 // 0x00F8 (0x00F8 - 0x0000)
 struct Map_Arena_EastTower_C_ExecuteUbergraph_Map_Arena_EastTower final
@@ -45,14 +53,6 @@ public:
 	Enum_DayTime                                  K2Node_Select_Default_1;                           // 0x00F4(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	Enum_DayTime                                  K2Node_Select_Default_2;                           // 0x00F5(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x00F6(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Map_Arena_EastTower.Map_Arena_EastTower_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Map_Arena_EastTower_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

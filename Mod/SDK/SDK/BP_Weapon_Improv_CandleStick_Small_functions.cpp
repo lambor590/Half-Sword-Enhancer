@@ -30,6 +30,26 @@ void ABP_Weapon_Improv_CandleStick_Small_C::UserConstructionScript()
 }
 
 
+// Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
+// Parameters:
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Improv_CandleStick_Small_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Improv_CandleStick_Small_C", "ReceiveTick");
+
+	Params::BP_Weapon_Improv_CandleStick_Small_C_ReceiveTick Parms{};
+
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_Weapon_Improv_CandleStick_Small.BP_Weapon_Improv_CandleStick_Small_C.ReceiveBeginPlay
 // (Event, Protected, BlueprintEvent)
 

@@ -16,7 +16,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass ModularWeaponBP_Polearm_Mid_Tier.ModularWeaponBP_Polearm_Mid_Tier_C
-// 0x0000 (0x0BE8 - 0x0BE8)
+// 0x0000 (0x0BF8 - 0x0BF8)
 class AModularWeaponBP_Polearm_Mid_Tier_C final : public AModularWeaponBP_C
 {
 public:

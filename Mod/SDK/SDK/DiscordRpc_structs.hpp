@@ -57,4 +57,46 @@ public:
 	uint8                                         Pad_B9[0x7];                                       // 0x00B9(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction DiscordRpc.DiscordConnected__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordRpc
+{
+using FDelegateSignature_DiscordConnected = void(const struct FDiscordUserData& joinRequest);
+}
+
+// DelegateFunction DiscordRpc.DiscordDisconnected__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordRpc
+{
+using FDelegateSignature_DiscordDisconnected = void(int32 ErrorCode, const class FString& errorMessage);
+}
+
+// DelegateFunction DiscordRpc.DiscordErrored__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordRpc
+{
+using FDelegateSignature_DiscordErrored = void(int32 ErrorCode, const class FString& errorMessage);
+}
+
+// DelegateFunction DiscordRpc.DiscordJoin__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordRpc
+{
+using FDelegateSignature_DiscordJoin = void(const class FString& joinSecret);
+}
+
+// DelegateFunction DiscordRpc.DiscordJoinRequest__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordRpc
+{
+using FDelegateSignature_DiscordJoinRequest = void(const struct FDiscordUserData& joinRequest);
+}
+
+// DelegateFunction DiscordRpc.DiscordSpectate__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordRpc
+{
+using FDelegateSignature_DiscordSpectate = void(const class FString& spectateSecret);
+}
+
 SDK_NAMESPACE_END

@@ -16,15 +16,35 @@
 
 SDK_NAMESPACE_START
 
-// Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.Day Time Change
-// (BlueprintCallable, BlueprintEvent)
+// Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
+// Parameters:
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Hub_Tavern_Frank_C::Day_Time_Change()
+void AMap_Hub_Tavern_Frank_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "Day Time Change");
+		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "ReceiveTick");
+
+	Params::Map_Hub_Tavern_Frank_C_ReceiveTick Parms{};
+
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AMap_Hub_Tavern_Frank_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "ReceiveBeginPlay");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -50,37 +70,17 @@ void AMap_Hub_Tavern_Frank_C::ExecuteUbergraph_Map_Hub_Tavern_Frank(int32 EntryP
 }
 
 
-// Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.Day Time Change
+// (BlueprintCallable, BlueprintEvent)
 
-void AMap_Hub_Tavern_Frank_C::ReceiveBeginPlay()
+void AMap_Hub_Tavern_Frank_C::Day_Time_Change()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "Day Time Change");
 
 	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AMap_Hub_Tavern_Frank_C::ReceiveTick(float DeltaSeconds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Hub_Tavern_Frank_C", "ReceiveTick");
-
-	Params::Map_Hub_Tavern_Frank_C_ReceiveTick Parms{};
-
-	Parms.DeltaSeconds = DeltaSeconds;
-
-	UObject::ProcessEvent(Func, &Parms);
 }
 
 

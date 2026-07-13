@@ -139,4 +139,11 @@ public:
 	struct FQualifiedFrameTime                    MasterTime;                                        // 0x00B8(0x0010)(Deprecated, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
 };
 
+// DelegateFunction LevelSequence.OnLevelSequencePlayerCameraCutEvent__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace LevelSequence
+{
+using FDelegateSignature_OnLevelSequencePlayerCameraCutEvent = void(class UCameraComponent* CameraComponent);
+}
+
 SDK_NAMESPACE_END

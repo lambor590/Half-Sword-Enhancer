@@ -17,6 +17,14 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function Map_Arena_Cellar.Map_Arena_Cellar_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Map_Arena_Cellar_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds_ReceiveTick;                          // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function Map_Arena_Cellar.Map_Arena_Cellar_C.ExecuteUbergraph_Map_Arena_Cellar
 // 0x0220 (0x0220 - 0x0000)
 struct Map_Arena_Cellar_C_ExecuteUbergraph_Map_Arena_Cellar final
@@ -73,14 +81,6 @@ public:
 	class AActor*                                 CallFunc_BeginDeferredActorSpawnFromClass_ReturnValue_2; // 0x0200(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class AModularWeaponBP_C*                     CallFunc_FinishSpawningActor_ReturnValue_2;        // 0x0208(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	class FText                                   Temp_text_Variable;                                // 0x0210(0x0010)(ConstParm)
-};
-
-// Function Map_Arena_Cellar.Map_Arena_Cellar_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Map_Arena_Cellar_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

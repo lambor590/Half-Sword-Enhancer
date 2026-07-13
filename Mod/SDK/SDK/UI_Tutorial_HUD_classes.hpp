@@ -43,28 +43,28 @@ public:
 	class UTextBlock*                             TextBlock_40;                                      // 0x0380(0x0008)(ExportObject, ZeroConstructor, InstancedReference, RepSkip, NoDestructor, PersistentInstance, HasGetValueTypeHash)
 
 public:
-	class FText Get_Text_From_Action_Mapping(class FName ActionName);
-	class FText GetText();
-	class FText GetText_0();
-	class FText GetText_1();
-	class FText GetText_10();
-	class FText GetText_11();
-	class FText GetText_12();
-	class FText GetText_13();
-	class FText GetText_14();
-	class FText GetText_15();
-	class FText GetText_16();
-	class FText GetText_17();
-	class FText GetText_18();
-	class FText GetText_19();
-	class FText GetText_2();
-	class FText GetText_3();
-	class FText GetText_4();
-	class FText GetText_5();
-	class FText GetText_6();
-	class FText GetText_7();
-	class FText GetText_8();
 	class FText GetText_9();
+	class FText GetText_8();
+	class FText GetText_7();
+	class FText GetText_6();
+	class FText GetText_5();
+	class FText GetText_4();
+	class FText GetText_3();
+	class FText GetText_2();
+	class FText GetText_19();
+	class FText GetText_18();
+	class FText GetText_17();
+	class FText GetText_16();
+	class FText GetText_15();
+	class FText GetText_14();
+	class FText GetText_13();
+	class FText GetText_12();
+	class FText GetText_11();
+	class FText GetText_10();
+	class FText GetText_1();
+	class FText GetText_0();
+	class FText GetText();
+	class FText Get_Text_From_Action_Mapping(class FName ActionName);
 
 public:
 	static class UClass* StaticClass()

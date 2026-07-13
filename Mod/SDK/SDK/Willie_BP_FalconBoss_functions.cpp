@@ -16,6 +16,20 @@
 
 SDK_NAMESPACE_START
 
+// Function Willie_BP_FalconBoss.Willie_BP_FalconBoss_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AWillie_BP_FalconBoss_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Willie_BP_FalconBoss_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Willie_BP_FalconBoss.Willie_BP_FalconBoss_C.ExecuteUbergraph_Willie_BP_FalconBoss
 // (Final, UbergraphFunction)
 // Parameters:
@@ -33,20 +47,6 @@ void AWillie_BP_FalconBoss_C::ExecuteUbergraph_Willie_BP_FalconBoss(int32 EntryP
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Willie_BP_FalconBoss.Willie_BP_FalconBoss_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AWillie_BP_FalconBoss_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Willie_BP_FalconBoss_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

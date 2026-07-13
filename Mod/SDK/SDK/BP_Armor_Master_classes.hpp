@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "Enum_DismembermentPart_structs.hpp"
+#include "Enum_Clothing_Material_structs.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
+#include "HideBodyPart_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "Enum_DismembermentPart_structs.hpp"
 #include "Str_Medieval_Color_Swatches_structs.hpp"
-#include "HideBodyPart_Enum_structs.hpp"
-#include "Enum_Clothing_Material_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
 #include "Steel_Type_structs.hpp"
@@ -26,7 +26,7 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Master.BP_Armor_Master_C
-// 0x0680 (0x0910 - 0x0290)
+// 0x0690 (0x0920 - 0x0290)
 #pragma pack(push, 0x1)
 class SDK_ALIGN(0x10) ABP_Armor_Master_C : public AActor
 {
@@ -108,6 +108,9 @@ public:
 	bool                                          Don_t_take_slots;                                  // 0x0900(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	ESteel_Type                                   Steel_Type;                                        // 0x0901(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	ESecondaryMetal_Type                          Metal_Pieces_Type;                                 // 0x0902(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_903[0x5];                                      // 0x0903(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	double                                        Accumulated_Noise;                                 // 0x0908(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class USkeletalMeshComponent*                 Disable_Collision_With;                            // 0x0910(0x0008)(Edit, BlueprintVisible, ZeroConstructor, InstancedReference, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
 	void BndEvt__BP_Armor_Master_Armor_Mesh_Skeletal_K2Node_ComponentBoundEvent_0_ComponentHitSignature__DelegateSignature(class UPrimitiveComponent* HitComponent, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, const struct FVector& NormalImpulse, const struct FHitResult& Hit);
@@ -115,7 +118,6 @@ public:
 	void ExecuteUbergraph_BP_Armor_Master(int32 EntryPoint);
 	void Recalculate_Weight();
 	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
 	void Setup_Armor_Material(class USkeletalMeshComponent* AddedArmorMesh, const struct FStr_Passport_Armor1& Passport, class UMaterialInstanceDynamic* SetupArmorDynamicMaterial);
 	void UserConstructionScript();
 

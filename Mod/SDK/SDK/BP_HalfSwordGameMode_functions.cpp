@@ -58,6 +58,20 @@ void ABP_HalfSwordGameMode_C::DED()
 }
 
 
+// Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.Event Spawn DED UI
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_HalfSwordGameMode_C::Event_Spawn_DED_UI()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_HalfSwordGameMode_C", "Event Spawn DED UI");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function BP_HalfSwordGameMode.BP_HalfSwordGameMode_C.ExecuteUbergraph_BP_HalfSwordGameMode
 // (Final, UbergraphFunction)
 // Parameters:

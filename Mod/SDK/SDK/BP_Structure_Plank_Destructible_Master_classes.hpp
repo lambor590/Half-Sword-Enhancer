@@ -35,11 +35,11 @@ public:
 	float                                         StartUp_Delay;                                     // 0x02DC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_BP_Structure_Plank_Destructible_Master(int32 EntryPoint);
-	void ReceiveBeginPlay();
-	void ReceiveTick(float DeltaSeconds);
-	void Temporarily_Disable_Destruction();
 	void UserConstructionScript();
+	void Temporarily_Disable_Destruction();
+	void ReceiveTick(float DeltaSeconds);
+	void ReceiveBeginPlay();
+	void ExecuteUbergraph_BP_Structure_Plank_Destructible_Master(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

@@ -16,203 +16,63 @@
 
 SDK_NAMESPACE_START
 
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature
-// (BlueprintEvent)
-
-void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_Startup_Menu.UI_Startup_Menu_C.Construct
+// Function UI_Startup_Menu.UI_Startup_Menu_C.Tick
 // (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Parameters:
+// const struct FGeometry&                 MyGeometry_Tick                                        (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+// float                                   InDeltaTime_Tick                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Startup_Menu_C::Construct()
+void UUI_Startup_Menu_C::Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "Construct");
+		Func = Class->GetFunction("UI_Startup_Menu_C", "Tick");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::UI_Startup_Menu_C_Tick Parms{};
+
+	Parms.MyGeometry_Tick = std::move(MyGeometry_Tick);
+	Parms.InDeltaTime_Tick = InDeltaTime_Tick;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
-// Function UI_Startup_Menu.UI_Startup_Menu_C.ExecuteUbergraph_UI_Startup_Menu
-// (Final, UbergraphFunction, HasDefaults)
+// Function UI_Startup_Menu.UI_Startup_Menu_C.PreConstruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    IsDesignTime_PreConstruct                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_Startup_Menu_C::ExecuteUbergraph_UI_Startup_Menu(int32 EntryPoint)
+void UUI_Startup_Menu_C::PreConstruct(bool IsDesignTime_PreConstruct)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "ExecuteUbergraph_UI_Startup_Menu");
+		Func = Class->GetFunction("UI_Startup_Menu_C", "PreConstruct");
 
-	Params::UI_Startup_Menu_C_ExecuteUbergraph_UI_Startup_Menu Parms{};
+	Params::UI_Startup_Menu_C_PreConstruct Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.IsDesignTime_PreConstruct = IsDesignTime_PreConstruct;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
+// (BlueprintEvent)
+// Parameters:
+// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+
+void UUI_Startup_Menu_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
+
+	Params::UI_Startup_Menu_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 Parms{};
+
+	Parms.Key = std::move(Key);
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -238,65 +98,205 @@ class FText UUI_Startup_Menu_C::GetText()
 }
 
 
-// Function UI_Startup_Menu.UI_Startup_Menu_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
+// Function UI_Startup_Menu.UI_Startup_Menu_C.ExecuteUbergraph_UI_Startup_Menu
+// (Final, UbergraphFunction, HasDefaults)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UUI_Startup_Menu_C::ExecuteUbergraph_UI_Startup_Menu(int32 EntryPoint)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "ExecuteUbergraph_UI_Startup_Menu");
+
+	Params::UI_Startup_Menu_C_ExecuteUbergraph_UI_Startup_Menu Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.Construct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_Startup_Menu_C::Construct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "Construct");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature
 // (BlueprintEvent)
-// Parameters:
-// const struct FKey&                      Key                                                    (BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
 
-void UUI_Startup_Menu_C::InpActEvt_AnyKey_K2Node_InputKeyEvent_0(const struct FKey& Key)
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "InpActEvt_AnyKey_K2Node_InputKeyEvent_0");
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_3_OnButtonClickedEvent__DelegateSignature");
 
-	Params::UI_Startup_Menu_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 Parms{};
-
-	Parms.Key = std::move(Key);
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Startup_Menu.UI_Startup_Menu_C.PreConstruct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
-// Parameters:
-// bool                                    IsDesignTime                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
 
-void UUI_Startup_Menu_C::PreConstruct(bool IsDesignTime)
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "PreConstruct");
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature");
 
-	Params::UI_Startup_Menu_C_PreConstruct Parms{};
-
-	Parms.IsDesignTime = IsDesignTime;
-
-	UObject::ProcessEvent(Func, &Parms);
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 
-// Function UI_Startup_Menu.UI_Startup_Menu_C.Tick
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
-// Parameters:
-// const struct FGeometry&                 MyGeometry                                             (BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-// float                                   InDeltaTime                                            (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
 
-void UUI_Startup_Menu_C::Tick(const struct FGeometry& MyGeometry, float InDeltaTime)
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_Startup_Menu_C", "Tick");
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_4_OnButtonHoverEvent__DelegateSignature");
 
-	Params::UI_Startup_Menu_C_Tick Parms{};
+	UObject::ProcessEvent(Func, nullptr);
+}
 
-	Parms.MyGeometry = std::move(MyGeometry);
-	Parms.InDeltaTime = InDeltaTime;
 
-	UObject::ProcessEvent(Func, &Parms);
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_4_K2Node_ComponentBoundEvent_11_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_9_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_3_K2Node_ComponentBoundEvent_8_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_6_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_2_K2Node_ComponentBoundEvent_10_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_7_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_1_K2Node_ComponentBoundEvent_5_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_2_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_Startup_Menu.UI_Startup_Menu_C.BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_Startup_Menu_C::BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_Startup_Menu_C", "BndEvt__UI_Startup_Menu_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

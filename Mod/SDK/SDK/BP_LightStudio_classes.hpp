@@ -91,11 +91,11 @@ public:
 	class UMaterialInstance*                      MIC_HDRI;                                          // 0x0460(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void AtmosphereDensity();
-	void CalculateSunColor();
-	void NormalizedSunAngle(double* Angle);
-	void SunMobility();
 	void UserConstructionScript();
+	void SunMobility();
+	void NormalizedSunAngle(double* Angle);
+	void CalculateSunColor();
+	void AtmosphereDensity();
 
 public:
 	static class UClass* StaticClass()

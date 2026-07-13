@@ -18,14 +18,14 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Modular_Module_Master.BP_Armor_Modular_Module_Master_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Modular_Module_Master_C : public ABP_Armor_Master_C
 {
 public:
-	bool                                          Can_Replace_Core;                                  // 0x0903(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          Force_Replace_Core;                                // 0x0904(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	ESteel_Type                                   Parent_Steel_Type;                                 // 0x0905(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
-	ESecondaryMetal_Type                          Parent_Metal_Pieces_Type;                          // 0x0906(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	bool                                          Can_Replace_Core;                                  // 0x0918(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Force_Replace_Core;                                // 0x0919(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	ESteel_Type                                   Parent_Steel_Type;                                 // 0x091A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
+	ESecondaryMetal_Type                          Parent_Metal_Pieces_Type;                          // 0x091B(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
 	void UserConstructionScript();

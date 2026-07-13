@@ -16,15 +16,35 @@
 
 SDK_NAMESPACE_START
 
-// Function UI_StartUpScreen_6.UI_StartUpScreen_6_C.BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
-// (BlueprintEvent)
+// Function UI_StartUpScreen_6.UI_StartUpScreen_6_C.ExecuteUbergraph_UI_StartUpScreen_6
+// (Final, UbergraphFunction)
+// Parameters:
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void UUI_StartUpScreen_6_C::BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
+void UUI_StartUpScreen_6_C::ExecuteUbergraph_UI_StartUpScreen_6(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_6_C", "BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
+		Func = Class->GetFunction("UI_StartUpScreen_6_C", "ExecuteUbergraph_UI_StartUpScreen_6");
+
+	Params::UI_StartUpScreen_6_C_ExecuteUbergraph_UI_StartUpScreen_6 Parms{};
+
+	Parms.EntryPoint = EntryPoint;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function UI_StartUpScreen_6.UI_StartUpScreen_6_C.Construct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_StartUpScreen_6_C::Construct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_StartUpScreen_6_C", "Construct");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -44,37 +64,17 @@ void UUI_StartUpScreen_6_C::BndEvt__UI_StartUpScreen_6_Button_0_K2Node_Component
 }
 
 
-// Function UI_StartUpScreen_6.UI_StartUpScreen_6_C.Construct
-// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+// Function UI_StartUpScreen_6.UI_StartUpScreen_6_C.BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
 
-void UUI_StartUpScreen_6_C::Construct()
+void UUI_StartUpScreen_6_C::BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_6_C", "Construct");
+		Func = Class->GetFunction("UI_StartUpScreen_6_C", "BndEvt__UI_StartUpScreen_6_Button_0_K2Node_ComponentBoundEvent_0_OnButtonHoverEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function UI_StartUpScreen_6.UI_StartUpScreen_6_C.ExecuteUbergraph_UI_StartUpScreen_6
-// (Final, UbergraphFunction)
-// Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void UUI_StartUpScreen_6_C::ExecuteUbergraph_UI_StartUpScreen_6(int32 EntryPoint)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("UI_StartUpScreen_6_C", "ExecuteUbergraph_UI_StartUpScreen_6");
-
-	Params::UI_StartUpScreen_6_C_ExecuteUbergraph_UI_StartUpScreen_6 Parms{};
-
-	Parms.EntryPoint = EntryPoint;
-
-	UObject::ProcessEvent(Func, &Parms);
 }
 
 

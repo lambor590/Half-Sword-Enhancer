@@ -16,20 +16,6 @@
 
 SDK_NAMESPACE_START
 
-// Function ST_LeverActivated_Child.ST_LeverActivated_Child_C.Activate Event
-// (BlueprintCallable, BlueprintEvent)
-
-void AST_LeverActivated_Child_C::Activate_Event()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("ST_LeverActivated_Child_C", "Activate Event");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function ST_LeverActivated_Child.ST_LeverActivated_Child_C.ExecuteUbergraph_ST_LeverActivated_Child
 // (Final, UbergraphFunction)
 // Parameters:
@@ -47,6 +33,20 @@ void AST_LeverActivated_Child_C::ExecuteUbergraph_ST_LeverActivated_Child(int32 
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function ST_LeverActivated_Child.ST_LeverActivated_Child_C.Activate Event
+// (BlueprintCallable, BlueprintEvent)
+
+void AST_LeverActivated_Child_C::Activate_Event()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("ST_LeverActivated_Child_C", "Activate Event");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

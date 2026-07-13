@@ -177,4 +177,11 @@ public:
 	uint8                                         Pad_38[0x20];                                      // 0x0038(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction NiagaraShader.OnNiagaraScriptCompilationComplete__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace NiagaraShader
+{
+using FDelegateSignature_OnNiagaraScriptCompilationComplete = void();
+}
+
 SDK_NAMESPACE_END

@@ -16,21 +16,21 @@
 
 SDK_NAMESPACE_START
 
-// Function Map_Arena_EastTower.Map_Arena_EastTower_C.ExecuteUbergraph_Map_Arena_EastTower
-// (Final, UbergraphFunction, HasDefaults)
+// Function Map_Arena_EastTower.Map_Arena_EastTower_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Arena_EastTower_C::ExecuteUbergraph_Map_Arena_EastTower(int32 EntryPoint)
+void AMap_Arena_EastTower_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_EastTower_C", "ExecuteUbergraph_Map_Arena_EastTower");
+		Func = Class->GetFunction("Map_Arena_EastTower_C", "ReceiveTick");
 
-	Params::Map_Arena_EastTower_C_ExecuteUbergraph_Map_Arena_EastTower Parms{};
+	Params::Map_Arena_EastTower_C_ReceiveTick Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -50,21 +50,21 @@ void AMap_Arena_EastTower_C::ReceiveBeginPlay()
 }
 
 
-// Function Map_Arena_EastTower.Map_Arena_EastTower_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
+// Function Map_Arena_EastTower.Map_Arena_EastTower_C.ExecuteUbergraph_Map_Arena_EastTower
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Arena_EastTower_C::ReceiveTick(float DeltaSeconds)
+void AMap_Arena_EastTower_C::ExecuteUbergraph_Map_Arena_EastTower(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_EastTower_C", "ReceiveTick");
+		Func = Class->GetFunction("Map_Arena_EastTower_C", "ExecuteUbergraph_Map_Arena_EastTower");
 
-	Params::Map_Arena_EastTower_C_ReceiveTick Parms{};
+	Params::Map_Arena_EastTower_C_ExecuteUbergraph_Map_Arena_EastTower Parms{};
 
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

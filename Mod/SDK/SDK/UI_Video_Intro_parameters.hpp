@@ -17,6 +17,31 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function UI_Video_Intro.UI_Video_Intro_C.Tick
+// 0x003C (0x003C - 0x0000)
+struct UI_Video_Intro_C_Tick final
+{
+public:
+	struct FGeometry                              MyGeometry_Tick;                                   // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
+	float                                         InDeltaTime_Tick;                                  // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Video_Intro.UI_Video_Intro_C.PreConstruct
+// 0x0001 (0x0001 - 0x0000)
+struct UI_Video_Intro_C_PreConstruct final
+{
+public:
+	bool                                          IsDesignTime_PreConstruct;                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function UI_Video_Intro.UI_Video_Intro_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
+// 0x0018 (0x0018 - 0x0000)
+struct UI_Video_Intro_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 final
+{
+public:
+	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
+};
+
 // Function UI_Video_Intro.UI_Video_Intro_C.ExecuteUbergraph_UI_Video_Intro
 // 0x00A0 (0x00A0 - 0x0000)
 struct UI_Video_Intro_C_ExecuteUbergraph_UI_Video_Intro final
@@ -43,31 +68,6 @@ public:
 	uint8                                         Pad_89[0x7];                                       // 0x0089(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
 	class APlayerController*                      CallFunc_GetPlayerController_ReturnValue;          // 0x0090(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_Not_PreBool_ReturnValue_1;                // 0x0098(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function UI_Video_Intro.UI_Video_Intro_C.InpActEvt_AnyKey_K2Node_InputKeyEvent_0
-// 0x0018 (0x0018 - 0x0000)
-struct UI_Video_Intro_C_InpActEvt_AnyKey_K2Node_InputKeyEvent_0 final
-{
-public:
-	struct FKey                                   Key;                                               // 0x0000(0x0018)(BlueprintVisible, BlueprintReadOnly, Parm, HasGetValueTypeHash)
-};
-
-// Function UI_Video_Intro.UI_Video_Intro_C.PreConstruct
-// 0x0001 (0x0001 - 0x0000)
-struct UI_Video_Intro_C_PreConstruct final
-{
-public:
-	bool                                          IsDesignTime;                                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function UI_Video_Intro.UI_Video_Intro_C.Tick
-// 0x003C (0x003C - 0x0000)
-struct UI_Video_Intro_C_Tick final
-{
-public:
-	struct FGeometry                              MyGeometry;                                        // 0x0000(0x0038)(BlueprintVisible, BlueprintReadOnly, Parm, IsPlainOldData, NoDestructor)
-	float                                         InDeltaTime;                                       // 0x0038(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

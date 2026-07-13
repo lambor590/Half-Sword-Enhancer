@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "UMG_structs.hpp"
 #include "Enum_Ranks_structs.hpp"
+#include "UMG_structs.hpp"
 #include "Str_Character_Body_Condition_structs.hpp"
 
 

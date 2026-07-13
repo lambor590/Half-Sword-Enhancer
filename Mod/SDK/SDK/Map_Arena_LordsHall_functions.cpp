@@ -16,6 +16,20 @@
 
 SDK_NAMESPACE_START
 
+// Function Map_Arena_LordsHall.Map_Arena_LordsHall_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void AMap_Arena_LordsHall_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Arena_LordsHall_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function Map_Arena_LordsHall.Map_Arena_LordsHall_C.ExecuteUbergraph_Map_Arena_LordsHall
 // (Final, UbergraphFunction)
 // Parameters:
@@ -33,20 +47,6 @@ void AMap_Arena_LordsHall_C::ExecuteUbergraph_Map_Arena_LordsHall(int32 EntryPoi
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Map_Arena_LordsHall.Map_Arena_LordsHall_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void AMap_Arena_LordsHall_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_LordsHall_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 

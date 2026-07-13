@@ -26,9 +26,9 @@ public:
 	class ABP_Barrel_Destructable_Constraits_C*   My_Barrel;                                         // 0x02F0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnTemplate, NoDestructor, ExposeOnSpawn, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_UI_Widget_HUD_HealthBar(int32 EntryPoint);
+	void PreConstruct(bool IsDesignTime_PreConstruct);
 	float GetPercent();
-	void PreConstruct(bool IsDesignTime);
+	void ExecuteUbergraph_UI_Widget_HUD_HealthBar(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

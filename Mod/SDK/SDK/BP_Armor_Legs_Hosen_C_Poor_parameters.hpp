@@ -22,12 +22,12 @@ SDK_PARAM_NAMESPACE_START
 struct BP_Armor_Legs_Hosen_C_Poor_C_UserConstructionScript final
 {
 public:
-	int32                                         Temp_int_Variable;                                 // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	int32                                         Temp_int_Variable_UserConstructionScript;          // 0x0000(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Temp_int_Variable_1;                               // 0x0004(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Temp_int_Variable_2;                               // 0x0008(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_C[0x4];                                        // 0x000C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FStr_Medieval_Color_Swatches           K2Node_Select_Default;                             // 0x0010(0x0028)(HasGetValueTypeHash)
-	struct FStr_Medieval_Color_Swatches           K2Node_Select_Default_1;                           // 0x0038(0x0028)(HasGetValueTypeHash)
+	struct FStr_Medieval_Color_Swatches           K2Node_Select_Default_UserConstructionScript;      // 0x0010(0x0028)(HasGetValueTypeHash)
+	struct FStr_Medieval_Color_Swatches           K2Node_Select_Default_1_UserConstructionScript;    // 0x0038(0x0028)(HasGetValueTypeHash)
 	TArray<struct FLinearColor>                   K2Node_MakeArray_Array;                            // 0x0060(0x0010)(ReferenceParm)
 	struct FStr_Medieval_Color_Swatches           K2Node_MakeStruct_Str_Medieval_Color_Swatches;     // 0x0070(0x0028)(HasGetValueTypeHash)
 	TArray<struct FLinearColor>                   K2Node_MakeArray_Array_1;                          // 0x0098(0x0010)(ReferenceParm)
@@ -36,7 +36,7 @@ public:
 	struct FStr_Medieval_Color_Swatches           K2Node_MakeStruct_Str_Medieval_Color_Swatches_2;   // 0x00E0(0x0028)(HasGetValueTypeHash)
 	TArray<struct FLinearColor>                   K2Node_MakeArray_Array_3;                          // 0x0108(0x0010)(ReferenceParm)
 	struct FStr_Medieval_Color_Swatches           K2Node_MakeStruct_Str_Medieval_Color_Swatches_3;   // 0x0118(0x0028)(HasGetValueTypeHash)
-	struct FStr_Medieval_Color_Swatches           K2Node_Select_Default_2;                           // 0x0140(0x0028)(HasGetValueTypeHash)
+	struct FStr_Medieval_Color_Swatches           K2Node_Select_Default_2_UserConstructionScript;    // 0x0140(0x0028)(HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

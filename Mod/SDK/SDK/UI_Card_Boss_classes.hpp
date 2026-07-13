@@ -43,20 +43,20 @@ public:
 	int32                                         Add_Points;                                        // 0x0358(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
-	void BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature();
-	void BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature();
-	void Construct();
-	void ExecuteUbergraph_UI_Card_Boss(int32 EntryPoint);
-	float GetPercent();
-	class FText GetText();
-	class FText GetText_0();
+	void Tick(const struct FGeometry& MyGeometry_Tick, float InDeltaTime_Tick);
+	void PreConstruct(bool IsDesignTime_PreConstruct);
 	ESlateVisibility GetVisibility_0();
-	void PreConstruct(bool IsDesignTime);
-	void Tick(const struct FGeometry& MyGeometry, float InDeltaTime);
+	class FText GetText_0();
+	class FText GetText();
+	float GetPercent();
+	void ExecuteUbergraph_UI_Card_Boss(int32 EntryPoint);
+	void Construct();
+	void BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_2_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_1_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Cards_Card_1_K2Node_ComponentBoundEvent_0_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_8_OnButtonClickedEvent__DelegateSignature();
+	void BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_7_OnButtonHoverEvent__DelegateSignature();
+	void BndEvt__UI_Cards_Button_88_K2Node_ComponentBoundEvent_3_OnButtonHoverEvent__DelegateSignature();
 
 public:
 	static class UClass* StaticClass()

@@ -36,20 +36,6 @@ void ABP_Container_Chest_002_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 }
 
 
-// Function BP_Container_Chest_002.BP_Container_Chest_002_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
-
-void ABP_Container_Chest_002_C::ReceiveBeginPlay()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_Container_Chest_002_C", "ReceiveBeginPlay");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function BP_Container_Chest_002.BP_Container_Chest_002_C.ExecuteUbergraph_BP_Container_Chest_002
 // (Final, UbergraphFunction, HasDefaults)
 // Parameters:
@@ -67,6 +53,20 @@ void ABP_Container_Chest_002_C::ExecuteUbergraph_BP_Container_Chest_002(int32 En
 	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Container_Chest_002.BP_Container_Chest_002_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
+
+void ABP_Container_Chest_002_C::ReceiveBeginPlay()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Container_Chest_002_C", "ReceiveBeginPlay");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

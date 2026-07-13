@@ -10,18 +10,18 @@
 
 #include "Basic.hpp"
 
-#include "BP_Container_Chest_001_classes.hpp"
 #include "Engine_structs.hpp"
+#include "BP_Container_Chest_001_classes.hpp"
 
 
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Container_Chest_Coffin_001.BP_Container_Chest_Coffin_001_C
-// 0x0008 (0x0A50 - 0x0A48)
+// 0x0008 (0x0A58 - 0x0A50)
 class ABP_Container_Chest_Coffin_001_C final : public ABP_Container_Chest_001_C
 {
 public:
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Container_Chest_Coffin_001_C;    // 0x0A48(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Container_Chest_Coffin_001_C;    // 0x0A50(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
 	void ReceiveBeginPlay();

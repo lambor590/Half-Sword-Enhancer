@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "UDS_and_UDW_State_structs.hpp"
 #include "UDS_Project_Mode_structs.hpp"
 #include "Engine_structs.hpp"
+#include "UDS_and_UDW_State_structs.hpp"
 
 
 SDK_NAMESPACE_START

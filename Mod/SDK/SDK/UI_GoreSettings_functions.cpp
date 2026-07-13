@@ -156,6 +156,76 @@ void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Button_2_K2Node_ComponentBoundE
 }
 
 
+// Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_21_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_22_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Game_Button_1_K2Node_ComponentBoundEvent_27_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_10_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GoreSettings_C::BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GameSettings_Language_Button_K2Node_ComponentBoundEvent_19_OnButtonHoverEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GoreSettings_BodyDensitySlid_1_K2Node_ComponentBoundEvent_2_OnFloatValueChangedEvent__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -199,6 +269,20 @@ void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_GraphicsUp_K2Node_ComponentBoun
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GoreSettings_GraphicsUp_K2Node_ComponentBoundEvent_18_OnButtonClickedEvent__DelegateSignature");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GoreSettings.UI_GoreSettings_C.BndEvt__UI_GoreSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature
+// (BlueprintEvent)
+
+void UUI_GoreSettings_C::BndEvt__UI_GoreSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "BndEvt__UI_GoreSettings_Language_Button_K2Node_ComponentBoundEvent_4_OnButtonClickedEvent__DelegateSignature");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -281,6 +365,34 @@ void UUI_GoreSettings_C::Construct()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("UI_GoreSettings_C", "Construct");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GoreSettings.UI_GoreSettings_C.Destruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UUI_GoreSettings_C::Destruct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "Destruct");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function UI_GoreSettings.UI_GoreSettings_C.Event Force Apply Settings
+// (BlueprintCallable, BlueprintEvent)
+
+void UUI_GoreSettings_C::Event_Force_Apply_Settings()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("UI_GoreSettings_C", "Event Force Apply Settings");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

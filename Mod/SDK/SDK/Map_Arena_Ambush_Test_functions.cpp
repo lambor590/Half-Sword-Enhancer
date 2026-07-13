@@ -16,21 +16,41 @@
 
 SDK_NAMESPACE_START
 
-// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ExecuteUbergraph_Map_Arena_Ambush_Test
-// (Final, UbergraphFunction, HasDefaults)
+// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ReceiveTick
+// (Event, Public, BlueprintEvent)
 // Parameters:
-// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// float                                   DeltaSeconds_ReceiveTick                               (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Arena_Ambush_Test_C::ExecuteUbergraph_Map_Arena_Ambush_Test(int32 EntryPoint)
+void AMap_Arena_Ambush_Test_C::ReceiveTick(float DeltaSeconds_ReceiveTick)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ExecuteUbergraph_Map_Arena_Ambush_Test");
+		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ReceiveTick");
 
-	Params::Map_Arena_Ambush_Test_C_ExecuteUbergraph_Map_Arena_Ambush_Test Parms{};
+	Params::Map_Arena_Ambush_Test_C_ReceiveTick Parms{};
 
-	Parms.EntryPoint = EntryPoint;
+	Parms.DeltaSeconds_ReceiveTick = DeltaSeconds_ReceiveTick;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ReceiveEndPlay
+// (Event, Protected, BlueprintEvent)
+// Parameters:
+// EEndPlayReason                          EndPlayReason_ReceiveEndPlay                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AMap_Arena_Ambush_Test_C::ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ReceiveEndPlay");
+
+	Params::Map_Arena_Ambush_Test_C_ReceiveEndPlay Parms{};
+
+	Parms.EndPlayReason_ReceiveEndPlay = EndPlayReason_ReceiveEndPlay;
 
 	UObject::ProcessEvent(Func, &Parms);
 }
@@ -50,41 +70,21 @@ void AMap_Arena_Ambush_Test_C::ReceiveBeginPlay()
 }
 
 
-// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ReceiveEndPlay
-// (Event, Protected, BlueprintEvent)
+// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ExecuteUbergraph_Map_Arena_Ambush_Test
+// (Final, UbergraphFunction, HasDefaults)
 // Parameters:
-// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// int32                                   EntryPoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void AMap_Arena_Ambush_Test_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
+void AMap_Arena_Ambush_Test_C::ExecuteUbergraph_Map_Arena_Ambush_Test(int32 EntryPoint)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ReceiveEndPlay");
+		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ExecuteUbergraph_Map_Arena_Ambush_Test");
 
-	Params::Map_Arena_Ambush_Test_C_ReceiveEndPlay Parms{};
+	Params::Map_Arena_Ambush_Test_C_ExecuteUbergraph_Map_Arena_Ambush_Test Parms{};
 
-	Parms.EndPlayReason = EndPlayReason;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ReceiveTick
-// (Event, Public, BlueprintEvent)
-// Parameters:
-// float                                   DeltaSeconds                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AMap_Arena_Ambush_Test_C::ReceiveTick(float DeltaSeconds)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Map_Arena_Ambush_Test_C", "ReceiveTick");
-
-	Params::Map_Arena_Ambush_Test_C_ReceiveTick Parms{};
-
-	Parms.DeltaSeconds = DeltaSeconds;
+	Parms.EntryPoint = EntryPoint;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

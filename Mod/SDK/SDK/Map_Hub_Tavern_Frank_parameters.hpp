@@ -16,6 +16,14 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
+// Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Map_Hub_Tavern_Frank_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds_ReceiveTick;                          // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
 // Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.ExecuteUbergraph_Map_Hub_Tavern_Frank
 // 0x00D0 (0x00D0 - 0x0000)
 struct Map_Hub_Tavern_Frank_C_ExecuteUbergraph_Map_Hub_Tavern_Frank final
@@ -63,14 +71,6 @@ public:
 	bool                                          CallFunc_BooleanAND_ReturnValue_2;                 // 0x00C8(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_Not_PreBool_ReturnValue_3;                // 0x00C9(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_BooleanAND_ReturnValue_3;                 // 0x00CA(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Map_Hub_Tavern_Frank.Map_Hub_Tavern_Frank_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Map_Hub_Tavern_Frank_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

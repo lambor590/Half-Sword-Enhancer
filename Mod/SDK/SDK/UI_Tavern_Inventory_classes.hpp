@@ -11,21 +11,21 @@
 #include "Basic.hpp"
 
 #include "Enum_Ranks_structs.hpp"
+#include "UMG_structs.hpp"
+#include "UMG_classes.hpp"
 #include "ArmorSlots_Enum_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Str_Passport_Armor1_structs.hpp"
-#include "SheathType_Enum_structs.hpp"
 #include "SlateCore_structs.hpp"
 #include "SheathSlots_Enum_structs.hpp"
-#include "UMG_structs.hpp"
-#include "UMG_classes.hpp"
+#include "SheathType_Enum_structs.hpp"
 #include "Enum_Sides_RightLeft_structs.hpp"
 
 
 SDK_NAMESPACE_START
 
 // WidgetBlueprintGeneratedClass UI_Tavern_Inventory.UI_Tavern_Inventory_C
-// 0x0388 (0x0668 - 0x02E0)
+// 0x0390 (0x0670 - 0x02E0)
 class UUI_Tavern_Inventory_C final : public UUserWidget
 {
 public:
@@ -134,6 +134,7 @@ public:
 	bool                                          Selected_Armor_Unlocks_Upper_Arming_Points;        // 0x0665(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Muscles_Hovered;                                   // 0x0666(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Randomize_Equipment_Button_Hover;                  // 0x0667(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          Can_Be_Naked;                                      // 0x0668(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void BndEvt__UI_Tavern_Inventory_Button_0_K2Node_ComponentBoundEvent_25_OnButtonHoverEvent__DelegateSignature();

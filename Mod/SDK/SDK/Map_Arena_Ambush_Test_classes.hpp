@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
+#include "Enum_DayTime_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Enum_DayTime_structs.hpp"
 
 
 SDK_NAMESPACE_START
@@ -32,10 +32,10 @@ public:
 	class AAmbientSound*                          AmbientSound_0_ExecuteUbergraph_Map_Arena_Ambush_Test_RefProperty; // 0x02E0(0x0008)(ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 
 public:
-	void ExecuteUbergraph_Map_Arena_Ambush_Test(int32 EntryPoint);
+	void ReceiveTick(float DeltaSeconds_ReceiveTick);
+	void ReceiveEndPlay(EEndPlayReason EndPlayReason_ReceiveEndPlay);
 	void ReceiveBeginPlay();
-	void ReceiveEndPlay(EEndPlayReason EndPlayReason);
-	void ReceiveTick(float DeltaSeconds);
+	void ExecuteUbergraph_Map_Arena_Ambush_Test(int32 EntryPoint);
 
 public:
 	static class UClass* StaticClass()

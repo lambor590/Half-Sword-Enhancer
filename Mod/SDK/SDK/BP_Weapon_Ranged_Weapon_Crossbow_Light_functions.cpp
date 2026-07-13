@@ -58,6 +58,20 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Load_Bolt()
 }
 
 
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Make Bolt Temporily Undetachable
+// (BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Make_Bolt_Temporily_Undetachable()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Make Bolt Temporily Undetachable");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Quiver Minus Bolt
 // (BlueprintCallable, BlueprintEvent)
 
@@ -97,6 +111,26 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Shoot()
 		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Shoot");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Event Spawn Sound Detector
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// double                                  Sound                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Event_Spawn_Sound_Detector(double Sound)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Event Spawn Sound Detector");
+
+	Params::BP_Weapon_Ranged_Weapon_Crossbow_Light_C_Event_Spawn_Sound_Detector Parms{};
+
+	Parms.Sound = Sound;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -213,6 +247,20 @@ void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::ReceiveTick(float DeltaSeconds)
 	Parms.DeltaSeconds = DeltaSeconds;
 
 	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BP_Weapon_Ranged_Weapon_Crossbow_Light.BP_Weapon_Ranged_Weapon_Crossbow_Light_C.Set Weapon Damping Pick Up
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void ABP_Weapon_Ranged_Weapon_Crossbow_Light_C::Set_Weapon_Damping_Pick_Up()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_Weapon_Ranged_Weapon_Crossbow_Light_C", "Set Weapon Damping Pick Up");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 

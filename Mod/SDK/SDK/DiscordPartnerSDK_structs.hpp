@@ -342,4 +342,956 @@ public:
 	uint8                                         Pad_0[0x8];                                        // 0x0000(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 
+// DelegateFunction DiscordPartnerSDK.DiscordCallOnParticipantChangedDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordCallOnParticipantChangedDynamic = void(const struct FDiscordUniqueID& UserId, bool added);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordCallOnParticipantChangedMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordCallOnParticipantChangedMulticast = void(const struct FDiscordUniqueID& UserId, bool added);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordCallOnSpeakingStatusChangedDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordCallOnSpeakingStatusChangedDynamic = void(const struct FDiscordUniqueID& UserId, bool isPlayingSound);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordCallOnSpeakingStatusChangedMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordCallOnSpeakingStatusChangedMulticast = void(const struct FDiscordUniqueID& UserId, bool isPlayingSound);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordCallOnStatusChangedDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordCallOnStatusChangedDynamic = void(EDiscordCallStatus Status, EDiscordCallError Error, int32 errorDetail);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordCallOnStatusChangedMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordCallOnStatusChangedMulticast = void(EDiscordCallStatus Status, EDiscordCallError Error, int32 errorDetail);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordCallOnVoiceStateChangedDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordCallOnVoiceStateChangedDynamic = void(const struct FDiscordUniqueID& UserId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordCallOnVoiceStateChangedMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordCallOnVoiceStateChangedMulticast = void(const struct FDiscordUniqueID& UserId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientAcceptActivityInviteCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientAcceptActivityInviteCallbackDynamic = void(class UDiscordClientResult* Result, const class FString& joinSecret);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientAcceptActivityInviteCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientAcceptActivityInviteCallbackMulticast = void(class UDiscordClientResult* Result, const class FString& joinSecret);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientActivityInviteCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientActivityInviteCallbackDynamic = void(class UDiscordActivityInvite* invite);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientActivityInviteCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientActivityInviteCallbackMulticast = void(class UDiscordActivityInvite* invite);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientActivityJoinCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientActivityJoinCallbackDynamic = void(const class FString& joinSecret);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientActivityJoinCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientActivityJoinCallbackMulticast = void(const class FString& joinSecret);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientActivityJoinWithApplicationCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientActivityJoinWithApplicationCallbackDynamic = void(const struct FDiscordUniqueID& ApplicationId, const class FString& joinSecret);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientActivityJoinWithApplicationCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientActivityJoinWithApplicationCallbackMulticast = void(const struct FDiscordUniqueID& ApplicationId, const class FString& joinSecret);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientAuthorizationCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientAuthorizationCallbackDynamic = void(class UDiscordClientResult* Result, const class FString& code, const class FString& redirectUri);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientAuthorizationCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientAuthorizationCallbackMulticast = void(class UDiscordClientResult* Result, const class FString& code, const class FString& redirectUri);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientAuthorizeDeviceScreenClosedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientAuthorizeDeviceScreenClosedCallbackDynamic = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientAuthorizeDeviceScreenClosedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientAuthorizeDeviceScreenClosedCallbackMulticast = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientAuthorizeRequestCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientAuthorizeRequestCallbackDynamic = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientAuthorizeRequestCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientAuthorizeRequestCallbackMulticast = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientCreateOrJoinLobbyCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientCreateOrJoinLobbyCallbackDynamic = void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& LobbyId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientCreateOrJoinLobbyCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientCreateOrJoinLobbyCallbackMulticast = void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& LobbyId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientDeleteUserMessageCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientDeleteUserMessageCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientDeleteUserMessageCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientDeleteUserMessageCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientDeviceChangeCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientDeviceChangeCallbackDynamic = void(const TArray<class UDiscordAudioDevice*>& inputDevices, const TArray<class UDiscordAudioDevice*>& outputDevices);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientDeviceChangeCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientDeviceChangeCallbackMulticast = void(const TArray<class UDiscordAudioDevice*>& inputDevices, const TArray<class UDiscordAudioDevice*>& outputDevices);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientEditUserMessageCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientEditUserMessageCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientEditUserMessageCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientEditUserMessageCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientEndCallCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientEndCallCallbackDynamic = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientEndCallCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientEndCallCallbackMulticast = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientEndCallsCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientEndCallsCallbackDynamic = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientEndCallsCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientEndCallsCallbackMulticast = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientExchangeChildTokenCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientExchangeChildTokenCallbackDynamic = void(class UDiscordClientResult* Result, const class FString& accessToken, EDiscordAuthorizationTokenType tokenType, int32 expiresIn, const class FString& Scopes);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientExchangeChildTokenCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientExchangeChildTokenCallbackMulticast = void(class UDiscordClientResult* Result, const class FString& accessToken, EDiscordAuthorizationTokenType tokenType, int32 expiresIn, const class FString& Scopes);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientFetchCurrentUserCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientFetchCurrentUserCallbackDynamic = void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& ID, const class FString& Name_0);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientFetchCurrentUserCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientFetchCurrentUserCallbackMulticast = void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& ID, const class FString& Name_0);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetCurrentInputDeviceCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetCurrentInputDeviceCallbackDynamic = void(class UDiscordAudioDevice* device);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetCurrentInputDeviceCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetCurrentInputDeviceCallbackMulticast = void(class UDiscordAudioDevice* device);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetCurrentOutputDeviceCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetCurrentOutputDeviceCallbackDynamic = void(class UDiscordAudioDevice* device);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetCurrentOutputDeviceCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetCurrentOutputDeviceCallbackMulticast = void(class UDiscordAudioDevice* device);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetDiscordClientConnectedUserCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetDiscordClientConnectedUserCallbackDynamic = void(class UDiscordClientResult* Result, class UDiscordUserHandle* User);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetDiscordClientConnectedUserCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetDiscordClientConnectedUserCallbackMulticast = void(class UDiscordClientResult* Result, class UDiscordUserHandle* User);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetGuildChannelsCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetGuildChannelsCallbackDynamic = void(class UDiscordClientResult* Result, const TArray<class UDiscordGuildChannel*>& guildChannels);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetGuildChannelsCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetGuildChannelsCallbackMulticast = void(class UDiscordClientResult* Result, const TArray<class UDiscordGuildChannel*>& guildChannels);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetInputDevicesCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetInputDevicesCallbackDynamic = void(const TArray<class UDiscordAudioDevice*>& devices);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetInputDevicesCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetInputDevicesCallbackMulticast = void(const TArray<class UDiscordAudioDevice*>& devices);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetLobbyMessagesCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetLobbyMessagesCallbackDynamic = void(class UDiscordClientResult* Result, const TArray<class UDiscordMessageHandle*>& messages);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetLobbyMessagesCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetLobbyMessagesCallbackMulticast = void(class UDiscordClientResult* Result, const TArray<class UDiscordMessageHandle*>& messages);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetOutputDevicesCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetOutputDevicesCallbackDynamic = void(const TArray<class UDiscordAudioDevice*>& devices);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetOutputDevicesCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetOutputDevicesCallbackMulticast = void(const TArray<class UDiscordAudioDevice*>& devices);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetUserGuildsCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetUserGuildsCallbackDynamic = void(class UDiscordClientResult* Result, const TArray<class UDiscordGuildMinimal*>& guilds);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientGetUserGuildsCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientGetUserGuildsCallbackMulticast = void(class UDiscordClientResult* Result, const TArray<class UDiscordGuildMinimal*>& guilds);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientJoinLinkedLobbyGuildCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientJoinLinkedLobbyGuildCallbackDynamic = void(class UDiscordClientResult* Result, const class FString& inviteUrl);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientJoinLinkedLobbyGuildCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientJoinLinkedLobbyGuildCallbackMulticast = void(class UDiscordClientResult* Result, const class FString& inviteUrl);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLeaveLobbyCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLeaveLobbyCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLeaveLobbyCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLeaveLobbyCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLinkOrUnlinkChannelCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLinkOrUnlinkChannelCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLinkOrUnlinkChannelCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLinkOrUnlinkChannelCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyCreatedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyCreatedCallbackDynamic = void(const struct FDiscordUniqueID& LobbyId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyCreatedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyCreatedCallbackMulticast = void(const struct FDiscordUniqueID& LobbyId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyDeletedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyDeletedCallbackDynamic = void(const struct FDiscordUniqueID& LobbyId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyDeletedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyDeletedCallbackMulticast = void(const struct FDiscordUniqueID& LobbyId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyMemberAddedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyMemberAddedCallbackDynamic = void(const struct FDiscordUniqueID& LobbyId, const struct FDiscordUniqueID& memberId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyMemberAddedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyMemberAddedCallbackMulticast = void(const struct FDiscordUniqueID& LobbyId, const struct FDiscordUniqueID& memberId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyMemberRemovedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyMemberRemovedCallbackDynamic = void(const struct FDiscordUniqueID& LobbyId, const struct FDiscordUniqueID& memberId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyMemberRemovedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyMemberRemovedCallbackMulticast = void(const struct FDiscordUniqueID& LobbyId, const struct FDiscordUniqueID& memberId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyMemberUpdatedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyMemberUpdatedCallbackDynamic = void(const struct FDiscordUniqueID& LobbyId, const struct FDiscordUniqueID& memberId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyMemberUpdatedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyMemberUpdatedCallbackMulticast = void(const struct FDiscordUniqueID& LobbyId, const struct FDiscordUniqueID& memberId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyUpdatedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyUpdatedCallbackDynamic = void(const struct FDiscordUniqueID& LobbyId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLobbyUpdatedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLobbyUpdatedCallbackMulticast = void(const struct FDiscordUniqueID& LobbyId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLogCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLogCallbackDynamic = void(const class FString& Message, EDiscordLoggingSeverity Severity);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientLogCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientLogCallbackMulticast = void(const class FString& Message, EDiscordLoggingSeverity Severity);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientMessageCreatedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientMessageCreatedCallbackDynamic = void(const struct FDiscordUniqueID& MessageId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientMessageCreatedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientMessageCreatedCallbackMulticast = void(const struct FDiscordUniqueID& MessageId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientMessageDeletedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientMessageDeletedCallbackDynamic = void(const struct FDiscordUniqueID& MessageId, const struct FDiscordUniqueID& ChannelId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientMessageDeletedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientMessageDeletedCallbackMulticast = void(const struct FDiscordUniqueID& MessageId, const struct FDiscordUniqueID& ChannelId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientMessageUpdatedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientMessageUpdatedCallbackDynamic = void(const struct FDiscordUniqueID& MessageId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientMessageUpdatedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientMessageUpdatedCallbackMulticast = void(const struct FDiscordUniqueID& MessageId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientNoAudioInputCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientNoAudioInputCallbackDynamic = void(bool inputDetected);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientNoAudioInputCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientNoAudioInputCallbackMulticast = void(bool inputDetected);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientOnStatusChangedDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientOnStatusChangedDynamic = void(EDiscordClientStatus Status, EDiscordClientError Error, int32 errorDetail);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientOnStatusChangedMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientOnStatusChangedMulticast = void(EDiscordClientStatus Status, EDiscordClientError Error, int32 errorDetail);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientOpenConnectedGamesSettingsInDiscordCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientOpenConnectedGamesSettingsInDiscordCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientOpenConnectedGamesSettingsInDiscordCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientOpenConnectedGamesSettingsInDiscordCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientOpenMessageInDiscordCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientOpenMessageInDiscordCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientOpenMessageInDiscordCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientOpenMessageInDiscordCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientProvisionalUserMergeRequiredCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientProvisionalUserMergeRequiredCallbackDynamic = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientProvisionalUserMergeRequiredCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientProvisionalUserMergeRequiredCallbackMulticast = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientRelationshipCreatedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientRelationshipCreatedCallbackDynamic = void(const struct FDiscordUniqueID& UserId, bool isDiscordRelationshipUpdate);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientRelationshipCreatedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientRelationshipCreatedCallbackMulticast = void(const struct FDiscordUniqueID& UserId, bool isDiscordRelationshipUpdate);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientRelationshipDeletedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientRelationshipDeletedCallbackDynamic = void(const struct FDiscordUniqueID& UserId, bool isDiscordRelationshipUpdate);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientRelationshipDeletedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientRelationshipDeletedCallbackMulticast = void(const struct FDiscordUniqueID& UserId, bool isDiscordRelationshipUpdate);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientRelationshipGroupsUpdatedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientRelationshipGroupsUpdatedCallbackDynamic = void(const struct FDiscordUniqueID& UserId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientRelationshipGroupsUpdatedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientRelationshipGroupsUpdatedCallbackMulticast = void(const struct FDiscordUniqueID& UserId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientRevokeTokenCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientRevokeTokenCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientRevokeTokenCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientRevokeTokenCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSendActivityInviteCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSendActivityInviteCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSendActivityInviteCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSendActivityInviteCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSendFriendRequestCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSendFriendRequestCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSendFriendRequestCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSendFriendRequestCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSendUserMessageCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSendUserMessageCallbackDynamic = void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& MessageId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSendUserMessageCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSendUserMessageCallbackMulticast = void(class UDiscordClientResult* Result, const struct FDiscordUniqueID& MessageId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSetInputDeviceCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSetInputDeviceCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSetInputDeviceCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSetInputDeviceCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSetOutputDeviceCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSetOutputDeviceCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientSetOutputDeviceCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientSetOutputDeviceCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientTokenExchangeCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientTokenExchangeCallbackDynamic = void(class UDiscordClientResult* Result, const class FString& accessToken, const class FString& RefreshToken, EDiscordAuthorizationTokenType tokenType, int32 expiresIn, const class FString& Scopes);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientTokenExchangeCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientTokenExchangeCallbackMulticast = void(class UDiscordClientResult* Result, const class FString& accessToken, const class FString& RefreshToken, EDiscordAuthorizationTokenType tokenType, int32 expiresIn, const class FString& Scopes);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientTokenExpirationCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientTokenExpirationCallbackDynamic = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientTokenExpirationCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientTokenExpirationCallbackMulticast = void();
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUnmergeIntoProvisionalAccountCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUnmergeIntoProvisionalAccountCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUnmergeIntoProvisionalAccountCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUnmergeIntoProvisionalAccountCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateProvisionalAccountDisplayNameCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateProvisionalAccountDisplayNameCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateProvisionalAccountDisplayNameCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateProvisionalAccountDisplayNameCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateRelationshipCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateRelationshipCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateRelationshipCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateRelationshipCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateRichPresenceCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateRichPresenceCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateRichPresenceCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateRichPresenceCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateStatusCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateStatusCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateStatusCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateStatusCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateTokenCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateTokenCallbackDynamic = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUpdateTokenCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUpdateTokenCallbackMulticast = void(class UDiscordClientResult* Result);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserAudioCapturedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserAudioCapturedCallbackDynamic = void(int64 Data, const struct FDiscordUniqueID& samplesPerChannel, int32 SampleRate, const struct FDiscordUniqueID& Channels);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserAudioCapturedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserAudioCapturedCallbackMulticast = void(int64 Data, const struct FDiscordUniqueID& samplesPerChannel, int32 SampleRate, const struct FDiscordUniqueID& Channels);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserAudioReceivedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserAudioReceivedCallbackDynamic = void(const struct FDiscordUniqueID& UserId, int64 Data, const struct FDiscordUniqueID& samplesPerChannel, int32 SampleRate, const struct FDiscordUniqueID& Channels, bool* outShouldMute);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserAudioReceivedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserAudioReceivedCallbackMulticast = void(const struct FDiscordUniqueID& UserId, int64 Data, const struct FDiscordUniqueID& samplesPerChannel, int32 SampleRate, const struct FDiscordUniqueID& Channels, bool* outShouldMute);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserMessageSummariesCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserMessageSummariesCallbackDynamic = void(class UDiscordClientResult* Result, const TArray<class UDiscordUserMessageSummary*>& summaries);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserMessageSummariesCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserMessageSummariesCallbackMulticast = void(class UDiscordClientResult* Result, const TArray<class UDiscordUserMessageSummary*>& summaries);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserMessagesWithLimitCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserMessagesWithLimitCallbackDynamic = void(class UDiscordClientResult* Result, const TArray<class UDiscordMessageHandle*>& messages);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserMessagesWithLimitCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserMessagesWithLimitCallbackMulticast = void(class UDiscordClientResult* Result, const TArray<class UDiscordMessageHandle*>& messages);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserUpdatedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserUpdatedCallbackDynamic = void(const struct FDiscordUniqueID& UserId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientUserUpdatedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientUserUpdatedCallbackMulticast = void(const struct FDiscordUniqueID& UserId);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientVoiceParticipantChangedCallbackDynamic__DelegateSignature
+// FunctionFlags: Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientVoiceParticipantChangedCallbackDynamic = void(const struct FDiscordUniqueID& LobbyId, const struct FDiscordUniqueID& memberId, bool added);
+}
+
+// DelegateFunction DiscordPartnerSDK.DiscordClientVoiceParticipantChangedCallbackMulticast__DelegateSignature
+// FunctionFlags: MulticastDelegate | Public | Delegate
+namespace DiscordPartnerSDK
+{
+using FDelegateSignature_DiscordClientVoiceParticipantChangedCallbackMulticast = void(const struct FDiscordUniqueID& LobbyId, const struct FDiscordUniqueID& memberId, bool added);
+}
+
 SDK_NAMESPACE_END

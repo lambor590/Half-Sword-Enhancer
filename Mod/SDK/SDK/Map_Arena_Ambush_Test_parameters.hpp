@@ -10,12 +10,28 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "Enum_DayTime_structs.hpp"
+#include "Engine_structs.hpp"
 
 
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
+
+// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Map_Arena_Ambush_Test_C_ReceiveTick final
+{
+public:
+	float                                         DeltaSeconds_ReceiveTick;                          // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+
+// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ReceiveEndPlay
+// 0x0001 (0x0001 - 0x0000)
+struct Map_Arena_Ambush_Test_C_ReceiveEndPlay final
+{
+public:
+	EEndPlayReason                                EndPlayReason_ReceiveEndPlay;                      // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
 
 // Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ExecuteUbergraph_Map_Arena_Ambush_Test
 // 0x0128 (0x0128 - 0x0000)
@@ -51,22 +67,6 @@ public:
 	EEndPlayReason                                K2Node_Event_EndPlayReason;                        // 0x0121(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	Enum_DayTime                                  K2Node_Select_Default_3;                           // 0x0122(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x0123(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ReceiveEndPlay
-// 0x0001 (0x0001 - 0x0000)
-struct Map_Arena_Ambush_Test_C_ReceiveEndPlay final
-{
-public:
-	EEndPlayReason                                EndPlayReason;                                     // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-
-// Function Map_Arena_Ambush_Test.Map_Arena_Ambush_Test_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Map_Arena_Ambush_Test_C_ReceiveTick final
-{
-public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

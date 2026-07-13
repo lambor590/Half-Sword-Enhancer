@@ -17,12 +17,11 @@
 SDK_NAMESPACE_START
 
 // BlueprintGeneratedClass BP_Armor_Body_Brestplate_A_T2.BP_Armor_Body_Brestplate_A_T2_C
-// 0x0000 (0x0910 - 0x0910)
+// 0x0000 (0x0920 - 0x0920)
 class ABP_Armor_Body_Brestplate_A_T2_C : public ABP_Armor_Master_C
 {
 public:
-	uint8                                         Pad_903[0x5];                                      // 0x0903(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C;    // 0x0908(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
+	struct FPointerToUberGraphFrame               UberGraphFrame_BP_Armor_Body_Brestplate_A_T2_C;    // 0x0918(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 
 public:
 	void ExecuteUbergraph_BP_Armor_Body_Brestplate_A_T2(int32 EntryPoint);

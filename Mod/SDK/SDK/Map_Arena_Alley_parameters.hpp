@@ -16,13 +16,12 @@
 SDK_NAMESPACE_START
 SDK_PARAM_NAMESPACE_START
 
-// Function Map_Arena_Alley.Map_Arena_Alley_C.BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature
-// 0x0010 (0x0010 - 0x0000)
-struct Map_Arena_Alley_C_BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature final
+// Function Map_Arena_Alley.Map_Arena_Alley_C.ReceiveTick
+// 0x0004 (0x0004 - 0x0000)
+struct Map_Arena_Alley_C_ReceiveTick final
 {
 public:
-	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
-	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	float                                         DeltaSeconds_ReceiveTick;                          // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
 // Function Map_Arena_Alley.Map_Arena_Alley_C.ExecuteUbergraph_Map_Arena_Alley
@@ -77,12 +76,13 @@ public:
 	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue;            // 0x017A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 
-// Function Map_Arena_Alley.Map_Arena_Alley_C.ReceiveTick
-// 0x0004 (0x0004 - 0x0000)
-struct Map_Arena_Alley_C_ReceiveTick final
+// Function Map_Arena_Alley.Map_Arena_Alley_C.BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature
+// 0x0010 (0x0010 - 0x0000)
+struct Map_Arena_Alley_C_BndEvt__Map_Arena_Alley_TriggerBox_0_K2Node_ActorBoundEvent_1_ActorBeginOverlapSignature__DelegateSignature final
 {
 public:
-	float                                         DeltaSeconds;                                      // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OverlappedActor;                                   // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
+	class AActor*                                 OtherActor;                                        // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, NoDestructor, HasGetValueTypeHash)
 };
 
 SDK_PARAM_NAMESPACE_END

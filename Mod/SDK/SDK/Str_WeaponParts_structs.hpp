@@ -11,8 +11,8 @@
 #include "Basic.hpp"
 
 #include "CoreUObject_structs.hpp"
-#include "Enum_Weapon_Material_Type_structs.hpp"
 #include "Enum_MaterialLayer_structs.hpp"
+#include "Enum_Weapon_Material_Type_structs.hpp"
 
 
 SDK_NAMESPACE_START

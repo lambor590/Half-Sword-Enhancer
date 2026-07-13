@@ -16,15 +16,15 @@
 
 SDK_NAMESPACE_START
 
-// Function ST_LeverActivated_Master.ST_LeverActivated_Master_C.Activate Event
-// (BlueprintCallable, BlueprintEvent)
+// Function ST_LeverActivated_Master.ST_LeverActivated_Master_C.ReceiveBeginPlay
+// (Event, Protected, BlueprintEvent)
 
-void AST_LeverActivated_Master_C::Activate_Event()
+void AST_LeverActivated_Master_C::ReceiveBeginPlay()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("ST_LeverActivated_Master_C", "Activate Event");
+		Func = Class->GetFunction("ST_LeverActivated_Master_C", "ReceiveBeginPlay");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
@@ -50,15 +50,15 @@ void AST_LeverActivated_Master_C::ExecuteUbergraph_ST_LeverActivated_Master(int3
 }
 
 
-// Function ST_LeverActivated_Master.ST_LeverActivated_Master_C.ReceiveBeginPlay
-// (Event, Protected, BlueprintEvent)
+// Function ST_LeverActivated_Master.ST_LeverActivated_Master_C.Activate Event
+// (BlueprintCallable, BlueprintEvent)
 
-void AST_LeverActivated_Master_C::ReceiveBeginPlay()
+void AST_LeverActivated_Master_C::Activate_Event()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("ST_LeverActivated_Master_C", "ReceiveBeginPlay");
+		Func = Class->GetFunction("ST_LeverActivated_Master_C", "Activate Event");
 
 	UObject::ProcessEvent(Func, nullptr);
 }
