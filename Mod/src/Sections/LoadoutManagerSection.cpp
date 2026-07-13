@@ -63,7 +63,7 @@ void LoadoutManagerSection::RemoveArmorSlot(SDK::AWillie_BP_C* p, SDK::EArmorSlo
     SDK::FTransform transform{};
     transform.Scale3D = {1.0, 1.0, 1.0};
     SDK::ABP_Armor_Modular_Core_Master_C* dropped = nullptr;
-    p->Remove_Armor(transform, slot, &dropped);
+    p->Remove_Armor(transform, slot, nullptr, &dropped);
     if (dropped) dropped->K2_DestroyActor();
 }
 
