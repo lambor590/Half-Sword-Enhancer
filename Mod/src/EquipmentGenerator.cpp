@@ -353,7 +353,7 @@ namespace EquipmentGenerator {
         SDK::FStr_Passport_Character1 output{};
         auto* gen = GetCharacterGenerator(world);
         if (gen) {
-            gen->Generate_Character(actorClass, nationality, tier, mercenary, &output);
+            gen->Generate_Character(actorClass, nationality, tier, mercenary, false, &output);
         }
         return output;
     }
