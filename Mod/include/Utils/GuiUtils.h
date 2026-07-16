@@ -1,21 +1,21 @@
 #pragma once
 
+#include <algorithm>
 #include <array>
 #include <cfloat>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
-#include <functional>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "imgui/imgui.h"
-#include "ConfigManager.h"
 #include "DefaultStyle.h"
 #include "Utils/PresetUtils.h"
 #include "Menu/SectionConfig.h"
-#include "Utils/OverrideTypes.h"
 #include "Utils/GameConstants.h"
 #include "SDK/Basic.hpp"
 #include "SDK/Enum_Ranks_structs.hpp"
@@ -27,6 +27,55 @@ namespace GuiUtils {
     inline constexpr float K_DRAG_WIDTH = 120.0f;
     inline constexpr float K_COMBO_MIN_WIDTH = 90.0f;
     inline constexpr float K_COMBO_SEARCH_MIN_WIDTH = 140.0f;
+    inline constexpr float K_COLOR_FIELD_MIN_WIDTH = 220.0f;
+    inline constexpr float K_COLOR_FIELD_MAX_WIDTH = 480.0f;
+    inline constexpr float K_COLOR_FIELD_WIDTH_RATIO = 0.7f;
+    inline bool g_helpTooltipsEnabled = true;
+
+    struct WidthSpec {
+        float min = 0.0f;
+        float preferred = 0.0f;
+        float max = FLT_MAX;
+    };
+
+    [[nodiscard]] inline float ResolveControlWidth(WidthSpec spec, float intrinsicWidth = 0.0f) noexcept {
+        const float available = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
+        const float maximum = (std::min)(available, spec.max > 0.0f ? spec.max : available);
+        const float minimum = (std::min)(maximum, (std::max)(1.0f, spec.min));
+        const float preferred = spec.preferred > 0.0f ? spec.preferred : intrinsicWidth;
+        return (std::clamp)(preferred > 0.0f ? preferred : minimum, minimum, maximum);
+    }
+
+    inline void SetNextFieldWidth(WidthSpec spec) noexcept {
+        ImGui::SetNextItemWidth(ResolveControlWidth(spec, spec.preferred));
+    }
+
+    inline void SetNextColorFieldWidth(const char* label) noexcept {
+        const float available = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
+        const float visibleLabelWidth = label && label[0] != '\0' ? ImGui::CalcTextSize(label, nullptr, true).x +
+                                                                        ImGui::GetStyle().ItemInnerSpacing.x
+                                                                  : 0.0f;
+        const float maximum = (std::max)(1.0f, available - visibleLabelWidth);
+        const float preferred =
+            (std::clamp)(available * K_COLOR_FIELD_WIDTH_RATIO, K_COLOR_FIELD_MIN_WIDTH, K_COLOR_FIELD_MAX_WIDTH);
+        ImGui::SetNextItemWidth((std::min)(maximum, preferred));
+    }
+
+    [[nodiscard]] inline bool SameLineIfFits(float nextItemWidth) noexcept {
+        const float nextItemLeft = ImGui::GetItemRectMax().x + ImGui::GetStyle().ItemSpacing.x;
+        const float contentRight = ImGui::GetWindowPos().x + ImGui::GetWindowContentRegionMax().x;
+        if (nextItemLeft + nextItemWidth > contentRight) return false;
+        ImGui::SameLine();
+        return true;
+    }
+
+    inline void SetHelpTooltipsEnabled(bool enabled) noexcept {
+        g_helpTooltipsEnabled = enabled;
+    }
+
+    [[nodiscard]] inline bool HelpTooltipsEnabled() noexcept {
+        return g_helpTooltipsEnabled;
+    }
 
     inline bool DebouncedDragFloat(
         const char* label, float* value, float speed, float minValue = 0.0f, float maxValue = 0.0f,
@@ -59,13 +108,6 @@ namespace GuiUtils {
         return ImGui::IsItemDeactivatedAfterEdit();
     }
 
-    inline bool DebouncedSliderFloat(
-        const char* label, float* value, float minValue, float maxValue, const char* format = "%.3f"
-    ) {
-        ImGui::SliderFloat(label, value, minValue, maxValue, format);
-        return ImGui::IsItemDeactivatedAfterEdit();
-    }
-
     inline void StoreEdited(double& target, float value) noexcept {
         if (ImGui::IsItemEdited()) target = value;
     }
@@ -88,13 +130,30 @@ namespace GuiUtils {
         ImGui::PopStyleVar();
     }
 
+    inline void ClippedTextTooltip(const char* text, const char* textEnd = nullptr) {
+        if (!text || !ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled)) return;
+        if (!textEnd) textEnd = text + std::strlen(text);
+        BeginStyledTooltip();
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 28.0f);
+        ImGui::TextUnformatted(text, textEnd);
+        ImGui::PopTextWrapPos();
+        EndStyledTooltip();
+    }
+
+    inline void HelpTooltip(std::string_view tooltip) {
+        if (!g_helpTooltipsEnabled || tooltip.empty() ||
+            !ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
+            return;
+        BeginStyledTooltip();
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 28.0f);
+        ImGui::TextUnformatted(tooltip.data(), tooltip.data() + tooltip.size());
+        ImGui::PopTextWrapPos();
+        EndStyledTooltip();
+    }
+
     [[nodiscard]] inline bool CheckboxWithTooltip(const char* label, bool* value, const char* tooltip) {
         bool changed = ImGui::Checkbox(label, value);
-        if (ImGui::IsItemHovered()) {
-            BeginStyledTooltip();
-            ImGui::Text("%s", tooltip);
-            EndStyledTooltip();
-        }
+        HelpTooltip(tooltip);
         return changed;
     }
 
@@ -104,9 +163,8 @@ namespace GuiUtils {
     }
 
     inline void PrepareNextCombo(float width, ImGuiComboFlags flags = 0) noexcept {
-        const float available = ImGui::GetContentRegionAvail().x;
         const float popupWidth = width > K_COMBO_MIN_WIDTH ? width : K_COMBO_MIN_WIDTH;
-        if (available > K_COMBO_MIN_WIDTH && width > available) width = available;
+        const float controlWidth = ResolveControlWidth({K_COMBO_MIN_WIDTH, width, FLT_MAX}, width);
 
         float popupMaxHeight = FLT_MAX;
         if ((flags & ImGuiComboFlags_HeightLargest) == 0) {
@@ -121,20 +179,46 @@ namespace GuiUtils {
                              style.WindowPadding.y * 2.0f;
         }
 
-        ImGui::SetNextItemWidth(width > K_COMBO_MIN_WIDTH ? width : K_COMBO_MIN_WIDTH);
+        ImGui::SetNextItemWidth(controlWidth);
         ImGui::SetNextWindowSizeConstraints(ImVec2(popupWidth, 0.0f), ImVec2(FLT_MAX, popupMaxHeight));
+    }
+
+    inline void ShowClippedComboPreviewTooltip(
+        const char* preview, float controlWidth, ImGuiComboFlags flags, bool comboOpen
+    ) {
+        if (comboOpen || !preview || (flags & ImGuiComboFlags_NoPreview) != 0) return;
+        const auto& style = ImGui::GetStyle();
+        const float previewWidth =
+            (std::max)(0.0f, controlWidth - ImGui::GetFrameHeight() - style.FramePadding.x * 2.0f);
+        if (ImGui::CalcTextSize(preview).x > previewWidth) ClippedTextTooltip(preview);
     }
 
     [[nodiscard]] inline bool BeginSizedCombo(
         const char* label, const char* preview, float width, ImGuiComboFlags flags = 0
     ) noexcept {
+        const float controlWidth = ResolveControlWidth({K_COMBO_MIN_WIDTH, width, FLT_MAX}, width);
         PrepareNextCombo(width, flags);
-        return ImGui::BeginCombo(label, preview, flags);
+        const bool open = ImGui::BeginCombo(label, preview, flags);
+        ShowClippedComboPreviewTooltip(preview, controlWidth, flags, open);
+        return open;
+    }
+
+    [[nodiscard]] inline bool BeginSizedCombo(
+        const char* label, const char* preview, WidthSpec width, ImGuiComboFlags flags = 0
+    ) noexcept {
+        const float intrinsicWidth = preview ? ComboWidthFromText(ImGui::CalcTextSize(preview).x) : K_COMBO_MIN_WIDTH;
+        const float controlWidth = ResolveControlWidth(width, intrinsicWidth);
+        const float popupWidth = width.preferred > 0.0f ? width.preferred : intrinsicWidth;
+        PrepareNextCombo((std::max)(controlWidth, popupWidth), flags);
+        ImGui::SetNextItemWidth(controlWidth);
+        const bool open = ImGui::BeginCombo(label, preview, flags);
+        ShowClippedComboPreviewTooltip(preview, controlWidth, flags, open);
+        return open;
     }
 
     inline void SetComboSearchWidth(float width) noexcept {
         const float searchWidth = width - ImGui::GetStyle().WindowPadding.x * 2.0f;
-        ImGui::SetNextItemWidth(searchWidth > K_COMBO_SEARCH_MIN_WIDTH ? searchWidth : K_COMBO_SEARCH_MIN_WIDTH);
+        ImGui::SetNextItemWidth(ResolveControlWidth({K_COMBO_SEARCH_MIN_WIDTH, searchWidth, FLT_MAX}, searchWidth));
     }
 
     [[nodiscard]] inline float CalcComboWidth(const char* widestItem) {
@@ -159,18 +243,14 @@ namespace GuiUtils {
         return ComboWidthFromText(maxW);
     }
 
-    inline bool RenderEnumCombo(const char* label, int& value, const std::vector<std::string>& names) {
+    inline bool RenderEnumCombo(
+        const char* label, int& value, const std::vector<std::string>& names, float maxTextWidthEm
+    ) {
         if (names.empty()) return false;
         if (value < 0 || value >= static_cast<int>(names.size())) value = 0;
 
-        float maxW = ImGui::CalcTextSize("Unknown").x;
-        for (const auto& name : names) {
-            const float width = ImGui::CalcTextSize(name.c_str()).x;
-            if (width > maxW) maxW = width;
-        }
-
         bool changed = false;
-        if (BeginSizedCombo(label, names[value].c_str(), ComboWidthFromText(maxW))) {
+        if (BeginSizedCombo(label, names[value].c_str(), ComboWidthFromText(maxTextWidthEm * ImGui::GetFontSize()))) {
             for (int i = 0; i < static_cast<int>(names.size()); ++i) {
                 if (ImGui::Selectable(names[i].c_str(), value == i)) {
                     value = i;
@@ -195,17 +275,15 @@ namespace GuiUtils {
     [[nodiscard]] inline bool MatchesFilter(const char* name, size_t nameLen, const char* filter, size_t filterLen) {
         if (filterLen == 0) return true;
         if (filterLen > nameLen) return false;
-        char filterLower[128];
-        size_t fl = filterLen < 128 ? filterLen : 127;
-        for (size_t j = 0; j < fl; ++j)
-            filterLower[j] = LOWER_TABLE[static_cast<unsigned char>(filter[j])];
-        const size_t limit = nameLen - fl;
+        const size_t limit = nameLen - filterLen;
+        const char first = LOWER_TABLE[static_cast<unsigned char>(filter[0])];
         for (size_t i = 0; i <= limit; ++i) {
-            if (LOWER_TABLE[static_cast<unsigned char>(name[i])] != filterLower[0]) continue;
+            if (LOWER_TABLE[static_cast<unsigned char>(name[i])] != first) continue;
             size_t j = 1;
-            while (j < fl && LOWER_TABLE[static_cast<unsigned char>(name[i + j])] == filterLower[j])
+            while (j < filterLen && LOWER_TABLE[static_cast<unsigned char>(name[i + j])] ==
+                                        LOWER_TABLE[static_cast<unsigned char>(filter[j])])
                 ++j;
-            if (j == fl) return true;
+            if (j == filterLen) return true;
         }
         return false;
     }
@@ -235,96 +313,185 @@ namespace GuiUtils {
         StoreEdited(price, val);
     }
 
-    inline void RenderOverrideDrag(const char* label, RuntimeOverride& ovr, float speed = 0.1f) {
-        ImGui::PushID(label);
-        ImGui::Checkbox("##en", &ovr.enabled);
-        ImGui::SameLine();
-        if (!ovr.enabled) ImGui::BeginDisabled();
-        auto val = static_cast<float>(ovr.value);
-        ImGui::SetNextItemWidth(K_DRAG_WIDTH);
-        DebouncedDragFloat(label, &val, speed, 0.0f, 0.0f, "%.3f");
-        StoreEdited(ovr.value, val);
-        if (!ovr.enabled) ImGui::EndDisabled();
-        ImGui::PopID();
+    enum class ButtonTone : uint8_t { Default, Primary, Danger, Quiet };
+
+    [[nodiscard]] inline const char* VisibleLabelEnd(const char* label) noexcept {
+        if (const char* idMarker = std::strstr(label, "##")) return idMarker;
+        return label + std::strlen(label);
     }
 
-    inline void RenderOverrideInt(const char* label, IntOverride& ovr, float speed = 0.1f) {
-        ImGui::PushID(label);
-        ImGui::Checkbox("##en", &ovr.enabled);
-        ImGui::SameLine();
-        if (!ovr.enabled) ImGui::BeginDisabled();
-        ImGui::SetNextItemWidth(K_DRAG_WIDTH);
-        DebouncedDragInt(label, &ovr.value, speed, 0, 0);
-        if (!ovr.enabled) ImGui::EndDisabled();
-        ImGui::PopID();
+    [[nodiscard]] inline float ButtonNaturalWidth(const char* label) noexcept {
+        const char* visibleEnd = VisibleLabelEnd(label);
+        return ImGui::CalcTextSize(label, visibleEnd).x + ImGui::GetStyle().FramePadding.x * 2.0f;
     }
 
-    inline void RenderOverrideBool(const char* label, BoolOverride& ovr) {
-        static constexpr const char* TRISTATE[] = {"Default", "No", "Yes"};
-        static float tristateW = CalcComboWidth(TRISTATE, 3);
-
-        int current = ovr.enabled ? (ovr.value ? 2 : 1) : 0;
-        ImGui::PushID(label);
-        PrepareNextCombo(tristateW);
-        if (ImGui::Combo(label, &current, TRISTATE, 3)) {
-            ovr.enabled = (current != 0);
-            ovr.value = (current == 2);
-        }
-        ImGui::PopID();
+    [[nodiscard]] inline float CheckboxNaturalWidth(const char* label) noexcept {
+        const char* visibleEnd = VisibleLabelEnd(label);
+        const float labelWidth = ImGui::CalcTextSize(label, visibleEnd).x;
+        return ImGui::GetFrameHeight() + (labelWidth > 0.0f ? ImGui::GetStyle().ItemInnerSpacing.x + labelWidth : 0.0f);
     }
 
-    inline constexpr float UNDERLINE_TAB_HPAD = 12.0f;
-    inline constexpr float UNDERLINE_TAB_VPAD = 4.0f;
-    inline constexpr float UNDERLINE_THICKNESS = 2.0f;
-    inline constexpr float UNDERLINE_GAP = 6.0f;
-    inline constexpr float TAB_SPACING = 4.0f;
+    [[nodiscard]] inline bool SameLineIfFitsButton(const char* label) noexcept {
+        return SameLineIfFits(ButtonNaturalWidth(label));
+    }
 
-    inline void RenderUnderlineTabs(const char* id, int& activeTab, const char* const* labels, int count) {
-        ImGui::PushID(id);
-        ImDrawList* dl = ImGui::GetWindowDrawList();
-        ImVec2 cursor = ImGui::GetCursorScreenPos();
-        float textH = ImGui::GetTextLineHeight();
-        float rowH = textH + UNDERLINE_TAB_VPAD * 2;
-        float availWidth = ImGui::GetContentRegionAvail().x;
+    [[nodiscard]] inline bool SameLineIfFitsCheckbox(const char* label) noexcept {
+        return SameLineIfFits(CheckboxNaturalWidth(label));
+    }
 
-        static const ImU32 ACTIVE_COL = ImGui::ColorConvertFloat4ToU32(DefaultStyle::OLD_BRASS);
-        static const ImU32 INACTIVE_COL = ImGui::ColorConvertFloat4ToU32(DefaultStyle::TEXT_DISABLED);
-        static const ImU32 HOVER_COL = ImGui::ColorConvertFloat4ToU32(DefaultStyle::PARCHMENT_DARK);
-        static const ImU32 BASELINE_COL = ImGui::ColorConvertFloat4ToU32(
-            ImVec4(DefaultStyle::MEDIUM_WOOD.x, DefaultStyle::MEDIUM_WOOD.y, DefaultStyle::MEDIUM_WOOD.z, 0.35f)
-        );
+    [[nodiscard]] inline bool Button(
+        const char* label, ButtonTone tone = ButtonTone::Default, ImVec2 size = ImVec2(0.0f, 0.0f)
+    ) {
+        const char* visibleEnd = VisibleLabelEnd(label);
+        const float naturalWidth = ImGui::CalcTextSize(label, visibleEnd).x + ImGui::GetStyle().FramePadding.x * 2.0f;
+        const float available = (std::max)(1.0f, ImGui::GetContentRegionAvail().x);
+        if (size.x < 0.0f)
+            size.x = available;
+        else if (size.x == 0.0f)
+            size.x = ResolveControlWidth({0.0f, naturalWidth, FLT_MAX}, naturalWidth);
+        else
+            size.x = (std::min)(size.x, available);
 
-        float x = cursor.x;
-        for (int i = 0; i < count; ++i) {
-            ImVec2 textSize = ImGui::CalcTextSize(labels[i]);
-            float tabW = textSize.x + UNDERLINE_TAB_HPAD * 2;
-
-            ImGui::PushID(i);
-            ImGui::SetCursorScreenPos(ImVec2(x, cursor.y));
-            if (ImGui::InvisibleButton("##tab", ImVec2(tabW, rowH))) activeTab = i;
-            bool hovered = ImGui::IsItemHovered();
-            if (i < count - 1) ImGui::SameLine(0, TAB_SPACING);
-
-            bool isActive = (i == activeTab);
-            ImU32 textCol = isActive ? ACTIVE_COL : (hovered ? HOVER_COL : INACTIVE_COL);
-            ImVec2 textPos(x + UNDERLINE_TAB_HPAD, cursor.y + UNDERLINE_TAB_VPAD);
-            dl->AddText(textPos, textCol, labels[i]);
-
-            if (isActive) {
-                float lineY = cursor.y + rowH;
-                dl->AddLine(ImVec2(x, lineY), ImVec2(x + tabW, lineY), ACTIVE_COL, UNDERLINE_THICKNESS);
+        const bool clipped = naturalWidth > size.x + 0.5f;
+        std::string renderedLabel;
+        const char* effectiveLabel = label;
+        if (clipped) {
+            constexpr std::string_view ELLIPSIS = "...";
+            const float availableTextWidth = (std::max)(0.0f, size.x - ImGui::GetStyle().FramePadding.x * 2.0f);
+            const float ellipsisWidth = ImGui::CalcTextSize(ELLIPSIS.data(), ELLIPSIS.data() + ELLIPSIS.size()).x;
+            size_t visibleBytes = static_cast<size_t>(visibleEnd - label);
+            while (visibleBytes > 0 &&
+                   ImGui::CalcTextSize(label, label + visibleBytes).x + ellipsisWidth > availableTextWidth) {
+                --visibleBytes;
+                while (visibleBytes > 0 && (static_cast<unsigned char>(label[visibleBytes]) & 0xC0U) == 0x80U) {
+                    --visibleBytes;
+                }
             }
 
-            x += tabW + TAB_SPACING;
-            ImGui::PopID();
+            renderedLabel.assign(label, visibleBytes);
+            renderedLabel.append(ELLIPSIS);
+            renderedLabel.append("###");
+            renderedLabel.append(label);
+            effectiveLabel = renderedLabel.c_str();
         }
 
-        float baselineY = cursor.y + rowH + 1.0f;
-        dl->AddLine(ImVec2(cursor.x, baselineY), ImVec2(cursor.x + availWidth, baselineY), BASELINE_COL, 1.0f);
+        int pushedColors = 0;
+        switch (tone) {
+            case ButtonTone::Default: break;
+            case ButtonTone::Primary:
+                ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::OLD_BRASS);
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::BRIGHT_BRASS);
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::PARCHMENT_DARK);
+                ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::DARK_INK);
+                pushedColors = 4;
+                break;
+            case ButtonTone::Danger:
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.55f, 0.16f, 0.13f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.74f, 0.23f, 0.18f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.42f, 0.10f, 0.08f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::PARCHMENT);
+                pushedColors = 4;
+                break;
+            case ButtonTone::Quiet:
+                ImGui::PushStyleColor(ImGuiCol_Button, DefaultStyle::CLEAR);
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, DefaultStyle::HEADER);
+                ImGui::PushStyleColor(ImGuiCol_ButtonActive, DefaultStyle::HEADER_ACTIVE);
+                ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::PARCHMENT_DARK);
+                pushedColors = 4;
+                break;
+        }
 
-        ImGui::SetCursorScreenPos(ImVec2(cursor.x, baselineY + UNDERLINE_GAP));
-        ImGui::Spacing();
+        const bool pressed = ImGui::Button(effectiveLabel, size);
+        if (pushedColors > 0) ImGui::PopStyleColor(pushedColors);
+        if (clipped) ClippedTextTooltip(label, visibleEnd);
+        return pressed;
+    }
+
+    [[nodiscard]] inline bool Button(const char* label, ButtonTone tone, WidthSpec width) {
+        const float resolved = ResolveControlWidth(width, ButtonNaturalWidth(label));
+        return Button(label, tone, ImVec2(resolved, 0.0f));
+    }
+
+    enum class CalloutTone : uint8_t { Info, Success, Warning, Error };
+
+    struct CalloutResult {
+        bool actionClicked = false;
+        bool dismissed = false;
+    };
+
+    inline CalloutResult RenderCallout(
+        const char* id, std::string_view message, CalloutTone tone, bool dismissible = false,
+        const char* actionLabel = nullptr
+    ) {
+        static constexpr std::array BACKGROUNDS = {
+            ImVec4{0.12f, 0.24f, 0.32f, 0.72f},
+            ImVec4{0.12f, 0.28f, 0.16f, 0.72f},
+            ImVec4{0.32f, 0.23f, 0.08f, 0.72f},
+            ImVec4{0.32f, 0.10f, 0.08f, 0.72f},
+        };
+        const ImVec4 background = BACKGROUNDS[static_cast<size_t>(tone)];
+
+        const auto& style = ImGui::GetStyle();
+        const float messageWidth =
+            message.empty() ? 0.0f : ImGui::CalcTextSize(message.data(), message.data() + message.size()).x;
+        float actionWidth = actionLabel ? ButtonNaturalWidth(actionLabel) : 0.0f;
+        if (dismissible) {
+            if (actionLabel) actionWidth += style.ItemSpacing.x;
+            actionWidth += ButtonNaturalWidth("Dismiss");
+        }
+        constexpr float CALLOUT_MIN_WIDTH = 140.0f;
+        constexpr float CALLOUT_MAX_WIDTH = 560.0f;
+        const float preferredWidth = (std::max)(messageWidth, actionWidth) + K_TOOLTIP_PADDING.x * 2.0f;
+        const float calloutWidth =
+            ResolveControlWidth({CALLOUT_MIN_WIDTH, preferredWidth, CALLOUT_MAX_WIDTH}, preferredWidth);
+
+        CalloutResult result;
+        ImGui::PushID(id);
+        ImGui::PushStyleColor(ImGuiCol_ChildBg, background);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, K_TOOLTIP_PADDING);
+        ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 4.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_ChildBorderSize, 0.0f);
+
+        constexpr ImGuiChildFlags CHILD_FLAGS =
+            ImGuiChildFlags_AlwaysUseWindowPadding | ImGuiChildFlags_AutoResizeY | ImGuiChildFlags_NavFlattened;
+        constexpr ImGuiWindowFlags WINDOW_FLAGS =
+            ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoSavedSettings;
+        const bool visible = ImGui::BeginChild("##callout", ImVec2(calloutWidth, 0.0f), CHILD_FLAGS, WINDOW_FLAGS);
+        if (visible) {
+            if (!message.empty()) {
+                ImGui::PushTextWrapPos(0.0f);
+                ImGui::TextUnformatted(message.data(), message.data() + message.size());
+                ImGui::PopTextWrapPos();
+            }
+
+            if (actionLabel || dismissible) {
+                if (actionLabel) result.actionClicked = Button(actionLabel, ButtonTone::Primary);
+                if (actionLabel && dismissible) (void)SameLineIfFits(ButtonNaturalWidth("Dismiss"));
+                if (dismissible) result.dismissed = Button("Dismiss", ButtonTone::Quiet);
+            }
+        }
+        ImGui::EndChild();
+
+        ImGui::PopStyleVar(3);
+        ImGui::PopStyleColor();
         ImGui::PopID();
+        return result;
+    }
+
+    inline void RenderUnderlineTabs(const char* id, int& activeTab, const char* const* labels, int count) {
+        if (!labels || count <= 0) return;
+        activeTab = std::clamp(activeTab, 0, count - 1);
+
+        if (ImGui::BeginTabBar(id, ImGuiTabBarFlags_FittingPolicyResizeDown)) {
+            for (int i = 0; i < count; ++i) {
+                if (ImGui::BeginTabItem(labels[i])) {
+                    activeTab = i;
+                    ImGui::EndTabItem();
+                }
+            }
+            ImGui::EndTabBar();
+        }
+        ImGui::Spacing();
     }
 
     struct StatusMessage {
@@ -332,28 +499,30 @@ namespace GuiUtils {
         double time = 0.0;
         bool isError = false;
 
-        void Set(const std::string& msg, bool error = false) {
-            text = msg;
+        void Set(std::string msg, bool error = false) {
+            text = std::move(msg);
             time = ImGui::GetTime();
             isError = error;
         }
 
         void Render() {
             if (text.empty()) return;
-            if (ImGui::GetTime() - time > 3.0) {
+            if (!isError && ImGui::GetTime() - time > 3.0) {
                 text.clear();
                 return;
             }
-            ImVec4 color = isError ? ImVec4(1.0f, 0.4f, 0.4f, 1.0f) : ImVec4(0.4f, 1.0f, 0.4f, 1.0f);
-            ImGui::TextColored(color, "%s", text.c_str());
+
+            ImGui::PushID(this);
+            const auto tone = isError ? CalloutTone::Error : CalloutTone::Success;
+            if (RenderCallout("##status", text, tone, isError).dismissed) text.clear();
+            ImGui::PopID();
         }
     };
 
     inline void RenderColorEditor(const char* label, SDK::FLinearColor& color) {
-        ImGui::PushItemWidth(ImGui::GetContentRegionAvail().x * 0.75f);
+        SetNextColorFieldWidth(label);
         float col[4] = {color.R, color.G, color.B, color.A};
         if (ImGui::ColorEdit4(label, col)) color = {col[0], col[1], col[2], col[3]};
-        ImGui::PopItemWidth();
     }
 
     inline void RenderFreeTierCombo(const char* label, SDK::Enum_Ranks& tier) {
@@ -380,6 +549,64 @@ namespace GuiUtils {
         }
     }
 
+    using PresetUtils::PresetPathsEqual;
+
+    [[nodiscard]] inline std::string PresetDisplayPath(
+        const std::filesystem::path& path, const std::filesystem::path& presetsDir, bool includeExtension = false
+    ) {
+        auto relative = path.lexically_relative(presetsDir);
+        if (relative.empty() || (!relative.empty() && *relative.begin() == std::filesystem::path{".."}))
+            relative = path.filename();
+        if (!includeExtension) relative.replace_extension();
+        return PresetUtils::PathToUtf8(relative);
+    }
+
+    [[nodiscard]] inline bool TryPresetPathFromName(
+        const std::filesystem::path& presetsDir, const char* name, std::filesystem::path& path, std::string& error
+    ) {
+        std::filesystem::path relative;
+        if (!PresetUtils::TryNormalizePresetRelativePath(name ? name : "", relative, error)) {
+            path.clear();
+            return false;
+        }
+        path = (presetsDir / relative).lexically_normal();
+        return true;
+    }
+
+    inline void SortPresetTree(PresetUtils::PresetTreeNode& node) {
+        auto compareText = [](const std::string& lhs, const std::string& rhs) {
+            std::string lhsKey = lhs;
+            std::string rhsKey = rhs;
+            for (char& c : lhsKey)
+                c = LOWER_TABLE[static_cast<unsigned char>(c)];
+            for (char& c : rhsKey)
+                c = LOWER_TABLE[static_cast<unsigned char>(c)];
+            return lhsKey == rhsKey ? lhs < rhs : lhsKey < rhsKey;
+        };
+
+        std::sort(node.children.begin(), node.children.end(), [&](const auto& lhs, const auto& rhs) {
+            return compareText(lhs.name, rhs.name);
+        });
+        std::sort(node.presets.begin(), node.presets.end(), [](const auto& lhs, const auto& rhs) {
+            if (PresetPathsEqual(lhs.path, rhs.path))
+                return PresetUtils::PathToUtf8(lhs.path) < PresetUtils::PathToUtf8(rhs.path);
+            return PresetUtils::PathLess(lhs.path, rhs.path);
+        });
+        for (auto& child : node.children)
+            SortPresetTree(child);
+    }
+
+    [[nodiscard]] inline const PresetListEntry* FindPresetTreeEntryByPath(
+        const PresetUtils::PresetTreeNode& node, const std::filesystem::path& path
+    ) {
+        for (const auto& preset : node.presets)
+            if (PresetPathsEqual(preset.path, path)) return &preset;
+        for (const auto& child : node.children) {
+            if (const auto* found = FindPresetTreeEntryByPath(child, path)) return found;
+        }
+        return nullptr;
+    }
+
     struct PresetTreeAction {
         enum class Type : uint8_t { None, Load, Delete };
         Type type = Type::None;
@@ -387,80 +614,273 @@ namespace GuiUtils {
         ImVec2 popupAnchor{};
     };
 
-    [[nodiscard]] inline PresetTreeAction RenderPresetTree(const PresetUtils::PresetTreeNode& node) {
+    [[nodiscard]] inline PresetTreeAction RenderPresetRow(
+        const PresetListEntry& preset, const std::string& displayLabel, const char* loadLabel
+    ) {
         PresetTreeAction action;
-        static const float LOAD_W = ImGui::CalcTextSize("Load").x + ImGui::GetStyle().FramePadding.x * 2;
-        static const float DEL_W = ImGui::CalcTextSize("Del").x + ImGui::GetStyle().FramePadding.x * 2;
-        static const float BUTTONS_WIDTH = LOAD_W + DEL_W + ImGui::GetStyle().ItemSpacing.x * 2;
+        const auto& style = ImGui::GetStyle();
+        const float loadWidth = ImGui::CalcTextSize(loadLabel).x + style.FramePadding.x * 2.0f;
+        const float deleteWidth = ImGui::CalcTextSize("Delete").x + style.FramePadding.x * 2.0f;
+        const float buttonsWidth = loadWidth + deleteWidth + style.ItemSpacing.x * 2.0f;
+        const float labelWidth = (std::max)(1.0f, ImGui::GetContentRegionAvail().x - buttonsWidth);
+        ImGui::PushID(&preset);
+        const std::string effectiveLabel = preset.valid ? displayLabel : "[Unavailable] " + displayLabel;
+        if (!preset.valid) ImGui::BeginDisabled();
+        const bool rowClicked = ImGui::Selectable(
+            effectiveLabel.c_str(), false, ImGuiSelectableFlags_AllowDoubleClick, ImVec2(labelWidth, 0.0f)
+        );
+        if (!preset.valid) ImGui::EndDisabled();
+        if (ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled)) {
+            if (!preset.error.empty()) ImGui::SetItemTooltip("%s", preset.error.c_str());
+        }
+        if (preset.valid && rowClicked && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+            action = {PresetTreeAction::Type::Load, preset.path};
 
+        ImGui::SameLine();
+        if (!preset.valid) ImGui::BeginDisabled();
+        if (ImGui::Button(loadLabel)) action = {PresetTreeAction::Type::Load, preset.path};
+        if (!preset.valid) ImGui::EndDisabled();
+        ImGui::SameLine();
+        if (ImGui::Button("Delete")) {
+            const ImVec2 min = ImGui::GetItemRectMin();
+            const ImVec2 max = ImGui::GetItemRectMax();
+            action = {PresetTreeAction::Type::Delete, preset.path, ImVec2((min.x + max.x) * 0.5f, min.y)};
+        }
+        ImGui::PopID();
+        return action;
+    }
+
+    [[nodiscard]] inline bool PresetEntryMatchesFilter(
+        const PresetListEntry& preset, const std::filesystem::path& presetsDir, const char* filter, size_t filterLen
+    ) {
+        const auto displayPath = PresetDisplayPath(preset.path, presetsDir);
+        return MatchesFilter(preset.name.c_str(), preset.name.size(), filter, filterLen) ||
+               MatchesFilter(displayPath.c_str(), displayPath.size(), filter, filterLen);
+    }
+
+    [[nodiscard]] inline bool PresetTreeHasMatches(
+        const PresetUtils::PresetTreeNode& node, const std::filesystem::path& presetsDir, const char* filter,
+        size_t filterLen
+    ) {
+        for (const auto& preset : node.presets)
+            if (PresetEntryMatchesFilter(preset, presetsDir, filter, filterLen)) return true;
+        for (const auto& child : node.children)
+            if (PresetTreeHasMatches(child, presetsDir, filter, filterLen)) return true;
+        return false;
+    }
+
+    [[nodiscard]] inline PresetTreeAction RenderPresetTree(
+        const PresetUtils::PresetTreeNode& node, const std::filesystem::path& presetsDir, const char* loadLabel
+    ) {
+        PresetTreeAction action;
         for (const auto& child : node.children) {
             if (ImGui::TreeNode(child.name.c_str())) {
-                auto childAction = RenderPresetTree(child);
+                auto childAction = RenderPresetTree(child, presetsDir, loadLabel);
                 if (childAction.type != PresetTreeAction::Type::None) action = std::move(childAction);
                 ImGui::TreePop();
             }
         }
 
-        for (size_t i = 0; i < node.presets.size(); ++i) {
-            ImGui::PushID(static_cast<int>(i));
-            float textW = ImGui::GetContentRegionAvail().x - BUTTONS_WIDTH;
-
-            ImGui::AlignTextToFramePadding();
-            ImGui::TextUnformatted(node.presets[i].name.c_str());
-            if (textW > 0) ImGui::SameLine(textW);
-            if (ImGui::Button("Load")) action = {PresetTreeAction::Type::Load, node.presets[i].path};
-            ImGui::SameLine();
-            if (ImGui::Button("Del")) {
-                const ImVec2 min = ImGui::GetItemRectMin();
-                const ImVec2 max = ImGui::GetItemRectMax();
-                action = {PresetTreeAction::Type::Delete, node.presets[i].path, ImVec2((min.x + max.x) * 0.5f, min.y)};
-            }
-            ImGui::PopID();
+        for (const auto& preset : node.presets) {
+            auto rowAction = RenderPresetRow(preset, preset.name, loadLabel);
+            if (rowAction.type != PresetTreeAction::Type::None) action = std::move(rowAction);
         }
+        return action;
+    }
 
+    [[nodiscard]] inline PresetTreeAction RenderFilteredPresetTree(
+        const PresetUtils::PresetTreeNode& node, const std::filesystem::path& presetsDir, const char* filter,
+        size_t filterLen, const char* loadLabel
+    ) {
+        PresetTreeAction action;
+        for (const auto& preset : node.presets) {
+            if (!PresetEntryMatchesFilter(preset, presetsDir, filter, filterLen)) continue;
+            auto rowAction = RenderPresetRow(preset, PresetDisplayPath(preset.path, presetsDir), loadLabel);
+            if (rowAction.type != PresetTreeAction::Type::None) action = std::move(rowAction);
+        }
+        for (const auto& child : node.children) {
+            auto childAction = RenderFilteredPresetTree(child, presetsDir, filter, filterLen, loadLabel);
+            if (childAction.type != PresetTreeAction::Type::None) action = std::move(childAction);
+        }
         return action;
     }
 
     struct PresetPanelState {
         char* nameBuf;
         size_t nameBufSize;
+        char* searchBuf;
+        size_t searchBufSize;
         bool& listDirty;
         PresetUtils::PresetTreeNode& tree;
         StatusMessage& status;
         std::filesystem::path& pendingDeletePath;
         ImVec2& pendingDeletePopupAnchor;
+        std::filesystem::path& editingPath;
+        std::string& pendingOverwriteName;
         bool canSave = true;
+        bool canInteract = true;
+        const char* loadLabel = "Load";
     };
 
-    using PresetCallback = std::function<void()>;
-    using PresetNameCallback = std::function<void(const char*)>;
-    using PresetPathCallback = std::function<void(const std::filesystem::path&)>;
-
+    template <typename RefreshFn, typename SaveFn, typename LoadFn, typename DeleteFn>
     inline void RenderPresetPanel(
-        PresetPanelState& state, const std::filesystem::path& presetsDir, const PresetCallback& refreshTree,
-        PresetNameCallback onSave, PresetPathCallback onLoad, PresetPathCallback onDelete
+        PresetPanelState& state, const std::filesystem::path& presetsDir, RefreshFn&& refreshTree, SaveFn&& onSave,
+        LoadFn&& onLoad, DeleteFn&& onDelete
     ) {
-        ImGui::SeparatorText("Save");
-        static float btnWidth = ImGui::CalcTextSize("Save").x + ImGui::GetStyle().FramePadding.x * 2;
-        ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnWidth - ImGui::GetStyle().ItemSpacing.x);
-        ImGui::InputTextWithHint("##PresetName", "folder/name...", state.nameBuf, state.nameBufSize);
-        ImGui::SameLine();
-        bool canSave = state.nameBuf[0] != '\0' && state.canSave;
-        if (!canSave) ImGui::BeginDisabled();
-        if (ImGui::Button("Save")) onSave(state.nameBuf);
-        if (!canSave) ImGui::EndDisabled();
+        ImGui::SeparatorText("Preset");
 
-        ImGui::SeparatorText("Presets");
+        // Refresh only on catalog changes/user request. The resulting tree is
+        // also the render-thread cache used for overwrite labels, avoiding a
+        // filesystem stat on every frame.
         if (state.listDirty) refreshTree();
+
+        const bool hasDraft = state.nameBuf[0] != '\0' || !state.editingPath.empty();
+        if (!hasDraft || !state.canInteract) ImGui::BeginDisabled();
+        if (ImGui::Button("New Preset")) {
+            state.nameBuf[0] = '\0';
+            state.editingPath.clear();
+            state.status.Set("Ready for a new preset");
+        }
+        if (!hasDraft || !state.canInteract) ImGui::EndDisabled();
+        ImGui::SameLine();
+        if (state.editingPath.empty()) {
+            ImGui::TextDisabled("New preset");
+        } else {
+            const auto displayPath = PresetDisplayPath(state.editingPath, presetsDir, true);
+            ImGui::TextDisabled("Current:");
+            ImGui::SameLine();
+            ImGui::TextWrapped("%s", displayPath.c_str());
+        }
+
+        std::filesystem::path targetPath;
+        std::string targetValidationError;
+        const bool targetValid = TryPresetPathFromName(presetsDir, state.nameBuf, targetPath, targetValidationError);
+        const bool updating =
+            targetValid && !state.editingPath.empty() && PresetPathsEqual(targetPath, state.editingPath);
+        const auto* targetEntry = targetValid ? FindPresetTreeEntryByPath(state.tree, targetPath) : nullptr;
+        const bool targetExists = targetEntry != nullptr;
+        const bool targetCanBeOverwritten = !targetEntry || targetEntry->valid;
+        const bool overwriting = targetExists && !updating;
+        const char* saveLabel =
+            updating ? "Update" : (overwriting ? "Overwrite" : (state.editingPath.empty() ? "Save" : "Save As"));
+        const auto& style = ImGui::GetStyle();
+        const float saveWidth = ImGui::CalcTextSize(saveLabel).x + style.FramePadding.x * 2.0f;
+        const float inputWidth = (std::max)(1.0f, ImGui::GetContentRegionAvail().x - saveWidth - style.ItemSpacing.x);
+        ImGui::SetNextItemWidth(inputWidth);
+        if (!state.canInteract) ImGui::BeginDisabled();
+        const bool saveFromEnter = ImGui::InputTextWithHint(
+            "##PresetName", "name or folder/name...", state.nameBuf, state.nameBufSize,
+            ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll
+        );
+        if (!state.canInteract) ImGui::EndDisabled();
+        ImGui::SameLine();
+        const bool canSave =
+            state.nameBuf[0] != '\0' && targetValid && targetCanBeOverwritten && state.canSave && state.canInteract;
+        if (!canSave) ImGui::BeginDisabled();
+        const bool saveFromButton = ImGui::Button(saveLabel);
+        if (!canSave) ImGui::EndDisabled();
+        if (canSave && (saveFromEnter || saveFromButton)) {
+            if (updating) {
+                onSave(state.nameBuf, true);
+            } else {
+                std::error_code targetFilesystemError;
+                const bool existsNow =
+                    overwriting || std::filesystem::is_regular_file(targetPath, targetFilesystemError);
+                if (targetFilesystemError) {
+                    state.status.Set("Couldn't check that preset name", true);
+                } else if (existsNow) {
+                    if (!targetExists) refreshTree();
+                    const auto* currentTarget = FindPresetTreeEntryByPath(state.tree, targetPath);
+                    if (!currentTarget || !currentTarget->valid) {
+                        state.status.Set("This preset is damaged. Delete it before reusing this name.", true);
+                    } else {
+                        state.pendingOverwriteName = state.nameBuf;
+                        ImGui::OpenPopup("##overwrite_preset_confirm");
+                    }
+                } else {
+                    onSave(state.nameBuf, false);
+                }
+            }
+        }
+        if (state.nameBuf[0] != '\0' && !targetValid) {
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
+            ImGui::TextWrapped("%s", targetValidationError.c_str());
+            ImGui::PopStyleColor();
+        }
+        if (targetValid && !targetCanBeOverwritten) {
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
+            ImGui::TextWrapped("This preset is damaged. Delete it before reusing this name.");
+            ImGui::PopStyleColor();
+        }
+
+        if (ImGui::BeginPopupModal(
+                "##overwrite_preset_confirm", nullptr,
+                ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoTitleBar
+            )) {
+            std::filesystem::path pendingTargetPath;
+            std::string pendingTargetError;
+            const bool pendingTargetValid = TryPresetPathFromName(
+                presetsDir, state.pendingOverwriteName.c_str(), pendingTargetPath, pendingTargetError
+            );
+            const auto* pendingTarget =
+                pendingTargetValid ? FindPresetTreeEntryByPath(state.tree, pendingTargetPath) : nullptr;
+            ImGui::TextUnformatted("A preset already exists at:");
+            ImGui::TextWrapped(
+                "%s", pendingTargetValid ? PresetDisplayPath(pendingTargetPath, presetsDir, true).c_str()
+                                         : pendingTargetError.c_str()
+            );
+            ImGui::Spacing();
+            ImGui::TextUnformatted("Replace it with the current values?");
+            const bool canConfirmOverwrite = pendingTargetValid && pendingTarget && pendingTarget->valid;
+            if (!canConfirmOverwrite) ImGui::BeginDisabled();
+            if (ImGui::Button("Overwrite")) {
+                onSave(state.pendingOverwriteName.c_str(), true);
+                state.pendingOverwriteName.clear();
+                ImGui::CloseCurrentPopup();
+            }
+            if (!canConfirmOverwrite) ImGui::EndDisabled();
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel")) {
+                state.pendingOverwriteName.clear();
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::EndPopup();
+        }
+        if (!state.pendingOverwriteName.empty() && !ImGui::IsPopupOpen("##overwrite_preset_confirm")) {
+            state.pendingOverwriteName.clear();
+        }
+
+        ImGui::SeparatorText("Saved Presets");
+
+        const float refreshWidth = ImGui::CalcTextSize("Refresh List").x + style.FramePadding.x * 2.0f;
+        const float searchWidth =
+            (std::max)(1.0f, ImGui::GetContentRegionAvail().x - refreshWidth - style.ItemSpacing.x);
+        ImGui::SetNextItemWidth(searchWidth);
+        ImGui::InputTextWithHint("##PresetSearch", "Search presets...", state.searchBuf, state.searchBufSize);
+        ImGui::SameLine();
+        if (ImGui::Button("Refresh List")) refreshTree();
 
         if (state.tree.presets.empty() && state.tree.children.empty()) {
             ImGui::TextDisabled("No saved presets");
         } else {
-            ImGui::BeginChild(
-                "##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders
-            );
-            auto action = RenderPresetTree(state.tree);
-            ImGui::EndChild();
+            const size_t filterLen = std::strlen(state.searchBuf);
+            const bool hasMatches =
+                filterLen == 0 || PresetTreeHasMatches(state.tree, presetsDir, state.searchBuf, filterLen);
+            PresetTreeAction action;
+            if (!state.canInteract) ImGui::BeginDisabled();
+            if (!hasMatches) {
+                ImGui::TextDisabled("No matching presets");
+            } else {
+                ImGui::BeginChild(
+                    "##presetList", ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 8), ImGuiChildFlags_Borders
+                );
+                action =
+                    filterLen == 0
+                        ? RenderPresetTree(state.tree, presetsDir, state.loadLabel)
+                        : RenderFilteredPresetTree(state.tree, presetsDir, state.searchBuf, filterLen, state.loadLabel);
+                ImGui::EndChild();
+            }
+            if (!state.canInteract) ImGui::EndDisabled();
 
             if (action.type == PresetTreeAction::Type::Load)
                 onLoad(action.path);
@@ -471,31 +891,32 @@ namespace GuiUtils {
             }
         }
 
-        constexpr ImVec2 DELETE_POPUP_SIZE{220.0f, 88.0f};
         ImVec2 popupAnchor = state.pendingDeletePopupAnchor;
         popupAnchor.y -= ImGui::GetStyle().ItemSpacing.y;
         ImGui::SetNextWindowPos(popupAnchor, ImGuiCond_Always, ImVec2(0.5f, 1.0f));
-        ImGui::SetNextWindowSize(DELETE_POPUP_SIZE, ImGuiCond_Always);
+        const float viewportWidth = ImGui::GetMainViewport()->WorkSize.x;
+        const float popupMaxWidth = (std::max)(260.0f, (std::min)(560.0f, viewportWidth - 32.0f));
+        ImGui::SetNextWindowSizeConstraints(ImVec2(260.0f, 0.0f), ImVec2(popupMaxWidth, FLT_MAX));
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, K_POPUP_PADDING);
         if (ImGui::BeginPopup(
-                "##delete_preset_confirm", ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings |
-                                               ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize |
-                                               ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
+                "##delete_preset_confirm", ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar |
+                                               ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoMove
             )) {
             const auto relativePath = state.pendingDeletePath.lexically_relative(presetsDir);
             const auto displayPath =
-                (relativePath.empty() ? state.pendingDeletePath.filename() : relativePath).string();
+                PresetUtils::PathToUtf8(relativePath.empty() ? state.pendingDeletePath.filename() : relativePath);
 
-            ImGui::Text("Delete preset?");
-            ImGui::TextUnformatted(displayPath.c_str());
+            ImGui::TextUnformatted("Delete preset?");
+            ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + popupMaxWidth - K_POPUP_PADDING.x * 2.0f);
+            ImGui::TextWrapped("%s", displayPath.c_str());
+            ImGui::PopTextWrapPos();
 
             if (ImGui::Button("Delete")) {
                 onDelete(state.pendingDeletePath);
                 state.pendingDeletePath.clear();
                 ImGui::CloseCurrentPopup();
             }
-            const float cancelWidth = ImGui::CalcTextSize("Cancel").x + ImGui::GetStyle().FramePadding.x * 2.0f;
-            ImGui::SameLine(DELETE_POPUP_SIZE.x - K_POPUP_PADDING.x * 2.0f - cancelWidth);
+            ImGui::SameLine();
             if (ImGui::Button("Cancel")) {
                 state.pendingDeletePath.clear();
                 ImGui::CloseCurrentPopup();
@@ -503,11 +924,12 @@ namespace GuiUtils {
             ImGui::EndPopup();
         }
         ImGui::PopStyleVar();
-        if (!state.pendingDeletePath.empty() && !ImGui::IsPopupOpen("##delete_preset_confirm"))
+        if (!state.pendingDeletePath.empty() && !ImGui::IsPopupOpen("##delete_preset_confirm")) {
             state.pendingDeletePath.clear();
+        }
 
         ImGui::Spacing();
-        if (ImGui::Button("Open Presets Folder", ImVec2(-1, 0))) PresetUtils::OpenInExplorer(presetsDir);
+        if (Button("Open Presets Folder")) PresetUtils::OpenInExplorer(presetsDir);
     }
 
     inline void RenderOverrideCount(int count) {
@@ -519,15 +941,15 @@ namespace GuiUtils {
 
     inline void RenderPreviewControls(PreviewConfig& preview, const char* itemType = "preview") {
         char label[64];
-        std::snprintf(label, sizeof(label), "Auto-spawn a %s that updates as you edit", itemType);
-        (void)CheckboxWithTooltip("Live Preview", &preview.livePreview, label);
+        std::snprintf(label, sizeof(label), "See changes on a nearby %s immediately", itemType);
+        (void)CheckboxWithTooltip("Preview Changes", &preview.livePreview, label);
         if (preview.livePreview) {
             ImGui::SameLine();
-            std::snprintf(label, sizeof(label), "Continuously rotate the %s", itemType);
-            (void)CheckboxWithTooltip("Auto-Rotate", &preview.autoRotate, label);
+            std::snprintf(label, sizeof(label), "Keep the %s turning for easier viewing", itemType);
+            (void)CheckboxWithTooltip("Rotate Preview", &preview.autoRotate, label);
             if (preview.autoRotate) {
                 ImGui::SetNextItemWidth(K_DRAG_WIDTH);
-                DebouncedDragFloat("Rotation Speed", &preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
+                DebouncedDragFloat("Preview Speed", &preview.rotationSpeed, 1.0f, -360.0f, 360.0f, "%.0f deg/s");
             }
         }
     }
@@ -540,8 +962,7 @@ namespace GuiUtils {
         ImGui::BeginChild(id, ImVec2(0, scrollH));
     }
 
-    template <typename RenderFn>
-    inline void RenderClippedList(int itemCount, int includeIndex, RenderFn&& renderItem) {
+    template <typename RenderFn> inline void RenderClippedList(int itemCount, int includeIndex, RenderFn&& renderItem) {
         ImGuiListClipper clipper;
         clipper.Begin(itemCount);
         if (includeIndex >= 0 && includeIndex < itemCount) clipper.IncludeItemByIndex(includeIndex);
@@ -588,7 +1009,7 @@ namespace GuiUtils {
         if (!BeginSizedCombo(label, preview, cachedWidth)) return;
 
         SetComboSearchWidth(cachedWidth);
-        ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
+        ImGui::InputTextWithHint("##filter", "Search parts...", filterBuf, 64);
 
         const size_t filterLen = std::strlen(filterBuf);
         const bool hasFilter = filterLen > 0;
@@ -636,7 +1057,7 @@ namespace GuiUtils {
         float& cachedWidth
     ) {
         if (available.empty()) {
-            ImGui::TextDisabled("No %s modules available", label);
+            ImGui::TextDisabled("No %s options available", label);
             return;
         }
 
@@ -656,7 +1077,7 @@ namespace GuiUtils {
         if (!BeginSizedCombo(label, preview, cachedWidth)) return;
 
         SetComboSearchWidth(cachedWidth);
-        ImGui::InputTextWithHint("##filter", "Search modules...", filterBuf, 64);
+        ImGui::InputTextWithHint("##filter", "Search parts...", filterBuf, 64);
 
         const size_t filterLen = std::strlen(filterBuf);
         const bool hasFilter = filterLen > 0;
@@ -674,8 +1095,7 @@ namespace GuiUtils {
 
         auto renderEntry = [&](int i) {
             const auto& entry = available[static_cast<size_t>(i)];
-            if (hasFilter && !MatchesFilter(entry.name.c_str(), entry.name.size(), filterBuf, filterLen))
-                return;
+            if (hasFilter && !MatchesFilter(entry.name.c_str(), entry.name.size(), filterBuf, filterLen)) return;
             bool selected = (moduleIndex == i + 1);
             if (ImGui::Selectable(entry.name.c_str(), selected)) moduleIndex = i + 1;
             if (selected) ImGui::SetItemDefaultFocus();
