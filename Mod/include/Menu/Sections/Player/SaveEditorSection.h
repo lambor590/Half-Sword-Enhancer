@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -10,7 +11,9 @@
 
 class SaveEditorSection : public Section {
 public:
-    static constexpr SectionDefinition SECTION{MenuTab::Player, "Save Editor"};
+    static constexpr SectionDefinition SECTION{
+        MenuTab::Player, "Save Editor", "Change the contents of any Half Sword save."
+    };
 
 private:
     struct SaveSlot {
@@ -24,9 +27,14 @@ private:
         bool playerProgression = false;
     };
 
-    struct VisibleCategory {
-        std::string name;
-        std::vector<const PropertyBrowser::PropertyInfo*> props;
+    enum class Operation : std::uint8_t { Load, Save };
+
+    struct OperationResult {
+        Operation operation = Operation::Load;
+        SDK::USaveGame* object = nullptr;
+        std::string slotName;
+        std::string message;
+        bool error = false;
     };
 
     std::vector<SaveSlot> saveSlots;
@@ -35,20 +43,16 @@ private:
     SDK::USaveGame* selectedObject = nullptr;
     std::string selectedObjectLabel;
     std::string selectedSourceLabel;
-    std::vector<PropertyBrowser::PropertyInfo> properties;
-    PropertyBrowser::CategoryMap categories;
-    std::vector<VisibleCategory> visibleCategories;
-    std::string visiblePropertyFilter;
+    PropertyBrowser::PanelState propertyPanel;
     GuiUtils::StatusMessage status;
     char slotNameBuf[128] = "";
-    char propSearchBuf[128] = "";
-    bool visiblePropertiesReady = false;
     bool slotsNeedRefresh = true;
     bool objectsNeedScan = true;
     bool showAllSaveGames = false;
     bool pendingLoad = false;
     bool pendingSave = false;
-    int expandState = 0;
+    std::mutex operationResultMutex;
+    std::vector<OperationResult> operationResults;
 
     void SetSlotName(const std::string& slotName);
     void RefreshSlots();
@@ -56,16 +60,12 @@ private:
     void ClearSelectedObject();
     void SelectSaveObject(SDK::USaveGame* object, const std::string& sourceLabel, const std::string& slotName);
     void ValidateSelection();
+    void PublishOperationResult(OperationResult result);
+    void DrainOperationResults();
     void LoadSelectedSlot();
     void SaveSelectedSlot();
-    void RebuildVisibleProperties(size_t filterLen);
     void RenderSlotControls();
     void RenderObjectControls();
-    void RenderPropertyToolbar();
-    void RenderCategory(
-        const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props,
-        size_t filterLen
-    );
     void RenderProperties();
 
 public:

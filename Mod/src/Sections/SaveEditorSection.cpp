@@ -1,12 +1,10 @@
 #include "Menu/Sections/Player/SaveEditorSection.h"
-#include "Menu/SectionStyle.h"
 
 #include "Hooks/GameHook.h"
 #include "SDK/Engine_classes.hpp"
 
 #include <algorithm>
 #include <cstdlib>
-#include <cstring>
 #include <filesystem>
 #include <cstdio>
 #include <utility>
@@ -14,16 +12,15 @@
 namespace {
     constexpr const char* PLAYER_PROGRESS_CLASS = "SG_PlayerProgression_C";
     constexpr const char* DEFAULT_PLAYER_SLOT = "SG Gauntlet Progress";
+    constexpr GuiUtils::WidthSpec SAVE_FIELD_WIDTH{140.0f, 320.0f, 480.0f};
 
     [[nodiscard]] std::filesystem::path SaveGameDir() {
         char* localAppData = nullptr;
         size_t len = 0;
-        if (_dupenv_s(&localAppData, &len, "LOCALAPPDATA") != 0 || !localAppData)
-            return {};
+        if (_dupenv_s(&localAppData, &len, "LOCALAPPDATA") != 0 || !localAppData) return {};
 
         std::filesystem::path dir;
-        if (localAppData[0] != '\0')
-            dir = std::filesystem::path(localAppData) / "HalfSwordUE5" / "Saved" / "SaveGames";
+        if (localAppData[0] != '\0') dir = std::filesystem::path(localAppData) / "HalfSwordUE5" / "Saved" / "SaveGames";
         std::free(localAppData);
         return dir;
     }
@@ -42,15 +39,13 @@ namespace {
     }
 
     [[nodiscard]] std::string SaveObjectLabel(SDK::USaveGame* object, bool playerProgression) {
-        if (!IsLiveSaveGame(object)) return "(invalid)";
+        if (!IsLiveSaveGame(object)) return "Unavailable Save";
+        if (playerProgression) return "Player Progress";
 
-        std::string label = object->Class ? object->Class->GetName() : object->GetName();
-        const std::string instanceName = object->GetName();
-        if (!instanceName.empty() && instanceName != label) {
-            label += " | ";
-            label += instanceName;
-        }
-        if (playerProgression) label += " | player progression";
+        std::string label = object->Class ? object->Class->GetName() : "Other Save";
+        if (label.ends_with("_C")) label.resize(label.size() - 2);
+        if (label.starts_with("SG_")) label.erase(0, 3);
+        std::ranges::replace(label, '_', ' ');
         return label;
     }
 } // namespace
@@ -140,7 +135,7 @@ void SaveEditorSection::ScanLiveSaves() {
     });
 
     if (!selectedObject && !saveObjects.empty()) {
-        SelectSaveObject(saveObjects.front().object, "live object", "");
+        SelectSaveObject(saveObjects.front().object, "Current game", "");
     }
 }
 
@@ -148,11 +143,7 @@ void SaveEditorSection::ClearSelectedObject() {
     selectedObject = nullptr;
     selectedObjectLabel.clear();
     selectedSourceLabel.clear();
-    properties.clear();
-    categories.clear();
-    visibleCategories.clear();
-    visiblePropertyFilter.clear();
-    visiblePropertiesReady = false;
+    propertyPanel.Clear();
 }
 
 void SaveEditorSection::SelectSaveObject(
@@ -160,7 +151,7 @@ void SaveEditorSection::SelectSaveObject(
 ) {
     if (!IsLiveSaveGame(object)) {
         ClearSelectedObject();
-        status.Set("Save object not available", true);
+        status.Set("This save is unavailable.", true);
         return;
     }
 
@@ -169,24 +160,45 @@ void SaveEditorSection::SelectSaveObject(
     selectedSourceLabel = sourceLabel;
     if (!slotName.empty()) SetSlotName(slotName);
 
-    properties = PropertyBrowser::EnumerateProperties(object->Class);
-    categories = PropertyBrowser::GroupByCategory(properties);
-    visibleCategories.clear();
-    visiblePropertyFilter.clear();
-    visiblePropertiesReady = false;
+    propertyPanel.SetType(object->Class);
+    const int editableCount = propertyPanel.EditableCount();
 
-    int editableCount = 0;
-    for (const auto& prop : properties)
-        if (PropertyBrowser::IsEditable(prop.type)) ++editableCount;
-
-    status.Set("Selected " + selectedObjectLabel + " (" + std::to_string(editableCount) + " editable)");
+    status.Set("Ready to edit " + selectedObjectLabel + " (" + std::to_string(editableCount) + " values).");
 }
 
 void SaveEditorSection::ValidateSelection() {
     if (selectedObject && !IsLiveSaveGame(selectedObject)) {
         ClearSelectedObject();
         objectsNeedScan = true;
-        status.Set("Selected save object no longer available", true);
+        status.Set("The selected save is no longer available.", true);
+    }
+}
+
+void SaveEditorSection::PublishOperationResult(OperationResult result) {
+    std::lock_guard lock(operationResultMutex);
+    operationResults.push_back(std::move(result));
+}
+
+void SaveEditorSection::DrainOperationResults() {
+    std::vector<OperationResult> results;
+    {
+        std::lock_guard lock(operationResultMutex);
+        results.swap(operationResults);
+    }
+
+    for (auto& result : results) {
+        if (result.operation == Operation::Load) {
+            pendingLoad = false;
+            if (result.object) {
+                SelectSaveObject(result.object, "Opened from " + result.slotName, result.slotName);
+                objectsNeedScan = true;
+                continue;
+            }
+        } else {
+            pendingSave = false;
+            slotsNeedRefresh = true;
+        }
+        status.Set(result.message, result.error);
     }
 }
 
@@ -195,103 +207,101 @@ void SaveEditorSection::LoadSelectedSlot() {
 
     std::string slotName = slotNameBuf;
     if (slotName.empty()) {
-        status.Set("Slot name required", true);
+        status.Set("Enter a save name.", true);
         return;
     }
 
     pendingLoad = true;
-    status.Set("Loading " + slotName + "...");
     std::wstring wideSlot = Widen(slotName);
 
-    GameHook::QueueAction([this, slotName = std::move(slotName), wideSlot = std::move(wideSlot)](
-                              const RuntimeContextSnapshot&
-                          ) {
+    const bool queued = GameHook::QueueAction([this, slotName = std::move(slotName),
+                                               wideSlot = std::move(wideSlot)](const RuntimeContextSnapshot&) {
         SDK::FString slot(wideSlot.c_str());
         if (!SDK::UGameplayStatics::DoesSaveGameExist(slot, 0)) {
-            status.Set("Slot not found: " + slotName, true);
-            pendingLoad = false;
+            PublishOperationResult({
+                .operation = Operation::Load,
+                .message = "No save named '" + slotName + "' was found.",
+                .error = true,
+            });
             return;
         }
 
         auto* save = SDK::UGameplayStatics::LoadGameFromSlot(slot, 0);
         if (!save || !save->IsA(SDK::USaveGame::StaticClass())) {
-            status.Set("Could not load save slot", true);
-            pendingLoad = false;
+            PublishOperationResult({
+                .operation = Operation::Load,
+                .message = "Could not open the selected save",
+                .error = true,
+            });
             return;
         }
 
-        SelectSaveObject(save, "slot: " + slotName, slotName);
-        objectsNeedScan = true;
-        pendingLoad = false;
+        PublishOperationResult({
+            .operation = Operation::Load,
+            .object = save,
+            .slotName = slotName,
+        });
     });
+    if (!queued) {
+        pendingLoad = false;
+        status.Set("Could not open the selected save", true);
+    }
 }
 
 void SaveEditorSection::SaveSelectedSlot() {
     if (pendingSave) return;
     if (!IsLiveSaveGame(selectedObject)) {
-        status.Set("No save object selected", true);
+        status.Set("Choose a save to edit.", true);
         return;
     }
 
     std::string slotName = slotNameBuf;
     if (slotName.empty()) {
-        status.Set("Slot name required", true);
+        status.Set("Enter a save name.", true);
         return;
     }
 
     auto* save = selectedObject;
     pendingSave = true;
-    status.Set("Saving " + slotName + "...");
     std::wstring wideSlot = Widen(slotName);
 
-    GameHook::QueueAction([this, save, slotName = std::move(slotName), wideSlot = std::move(wideSlot)](
-                              const RuntimeContextSnapshot&
-                          ) {
+    const bool queued = GameHook::QueueAction([this, save, slotName = std::move(slotName),
+                                               wideSlot = std::move(wideSlot)](const RuntimeContextSnapshot&) {
         if (!IsLiveSaveGame(save)) {
-            status.Set("Save object no longer available", true);
-            pendingSave = false;
+            PublishOperationResult({
+                .operation = Operation::Save,
+                .message = "The selected save is no longer available",
+                .error = true,
+            });
             return;
         }
 
         const bool ok = SDK::UGameplayStatics::SaveGameToSlot(save, SDK::FString(wideSlot.c_str()), 0);
-        status.Set(ok ? "Saved " + slotName : "Save failed", !ok);
-        slotsNeedRefresh = true;
-        pendingSave = false;
+        PublishOperationResult({
+            .operation = Operation::Save,
+            .message = ok ? "Saved as '" + slotName + "'." : "The changes could not be saved.",
+            .error = !ok,
+        });
     });
-}
-
-void SaveEditorSection::RebuildVisibleProperties(size_t filterLen) {
-    visibleCategories.clear();
-    visiblePropertyFilter.assign(propSearchBuf, filterLen);
-    visiblePropertiesReady = true;
-
-    for (auto& [catName, catProps] : categories) {
-        VisibleCategory visible;
-        visible.name = catName;
-        visible.props.reserve(catProps.size());
-        for (const auto* prop : catProps) {
-            if (!PropertyBrowser::IsVisible(prop->type)) continue;
-            if (filterLen > 0 && !PropertyBrowser::PropertyMatchesFilter(*prop, propSearchBuf, filterLen)) continue;
-            visible.props.push_back(prop);
-        }
-        if (!visible.props.empty()) visibleCategories.push_back(std::move(visible));
+    if (!queued) {
+        pendingSave = false;
+        status.Set("Could not save the changes", true);
     }
 }
 
 void SaveEditorSection::RenderSlotControls() {
-    ImGui::SeparatorText("Save Slots");
-
-    if (ImGui::SmallButton("Refresh")) RefreshSlots();
-    ImGui::SameLine();
-    if (pendingLoad) ImGui::BeginDisabled();
-    if (ImGui::SmallButton("Load")) LoadSelectedSlot();
-    if (pendingLoad) ImGui::EndDisabled();
+    ImGui::SeparatorText("Saved Games");
+    ImGui::PushTextWrapPos(0.0f);
+    ImGui::TextDisabled("Choose a saved game or enter a new name.");
+    ImGui::PopTextWrapPos();
+    const bool operationPending = pendingLoad || pendingSave;
 
     const char* preview = selectedSlotIndex >= 0 && selectedSlotIndex < static_cast<int>(saveSlots.size())
                               ? saveSlots[selectedSlotIndex].slotName.c_str()
                               : "(none)";
-    ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-    if (ImGui::BeginCombo("##SaveSlotSelector", preview)) {
+    ImGui::TextUnformatted("Open Save");
+    if (operationPending) ImGui::BeginDisabled();
+    if (GuiUtils::BeginSizedCombo("##SaveSlotSelector", preview, SAVE_FIELD_WIDTH)) {
         for (int i = 0; i < static_cast<int>(saveSlots.size()); ++i) {
             char label[192];
             std::snprintf(
@@ -307,108 +317,107 @@ void SaveEditorSection::RenderSlotControls() {
         }
         ImGui::EndCombo();
     }
+    if (operationPending) ImGui::EndDisabled();
 
-    ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-    ImGui::InputText("Target Slot", slotNameBuf, sizeof(slotNameBuf));
+    if (saveSlots.empty()) {
+        GuiUtils::RenderCallout(
+            "save-slots-empty", "No saved games were found. You can still enter a save name manually.",
+            GuiUtils::CalloutTone::Info
+        );
+    }
+
+    ImGui::TextUnformatted("Save As");
+    if (operationPending) ImGui::BeginDisabled();
+    GuiUtils::SetNextFieldWidth(SAVE_FIELD_WIDTH);
+    ImGui::InputText("##TargetSlot", slotNameBuf, sizeof(slotNameBuf));
+    if (operationPending) ImGui::EndDisabled();
+
+    if (operationPending) ImGui::BeginDisabled();
+    if (GuiUtils::Button("Refresh Saves")) RefreshSlots();
+    (void)GuiUtils::SameLineIfFitsButton("Open Selected Save");
+    const bool canLoad = slotNameBuf[0] != '\0';
+    if (!canLoad) ImGui::BeginDisabled();
+    if (GuiUtils::Button("Open Selected Save", GuiUtils::ButtonTone::Primary)) LoadSelectedSlot();
+    if (!canLoad) ImGui::EndDisabled();
+    if (operationPending) ImGui::EndDisabled();
 }
 
 void SaveEditorSection::RenderObjectControls() {
-    ImGui::SeparatorText("Save Objects");
+    ImGui::SeparatorText("Edit Save");
+    ImGui::PushTextWrapPos(0.0f);
+    ImGui::TextDisabled("Open a saved game or use the one currently active, then change its values below.");
+    ImGui::PopTextWrapPos();
+    const bool operationPending = pendingLoad || pendingSave;
 
     bool rescan = false;
-    if (ImGui::SmallButton("Rescan")) rescan = true;
-    ImGui::SameLine();
-    if (ImGui::Checkbox("All", &showAllSaveGames)) rescan = true;
+    if (operationPending) ImGui::BeginDisabled();
+    if (ImGui::Button("Refresh Available Saves")) rescan = true;
+    (void)GuiUtils::SameLineIfFitsCheckbox("Include Other Saves");
+    if (ImGui::Checkbox("Include Other Saves", &showAllSaveGames)) rescan = true;
+    GuiUtils::HelpTooltip("Also show saves that do not contain player progress.");
     if (rescan) ScanLiveSaves();
 
     const char* preview = selectedObject ? selectedObjectLabel.c_str() : "(none)";
-    ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x);
-    if (ImGui::BeginCombo("##LiveSaveSelector", preview)) {
+    ImGui::TextUnformatted("Save to Edit");
+    if (GuiUtils::BeginSizedCombo("##LiveSaveSelector", preview, SAVE_FIELD_WIDTH)) {
         for (int i = 0; i < static_cast<int>(saveObjects.size()); ++i) {
             const bool selected = saveObjects[i].object == selectedObject;
             if (ImGui::Selectable(saveObjects[i].label.c_str(), selected)) {
-                SelectSaveObject(saveObjects[i].object, "live object", "");
+                SelectSaveObject(saveObjects[i].object, "Current game", "");
             }
             if (selected) ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
     }
+    if (operationPending) ImGui::EndDisabled();
 
     if (selectedObject) {
-        if (pendingSave || slotNameBuf[0] == '\0') ImGui::BeginDisabled();
-        if (ImGui::SmallButton("Save")) SaveSelectedSlot();
-        if (pendingSave || slotNameBuf[0] == '\0') ImGui::EndDisabled();
-        ImGui::SameLine();
-        ImGui::TextDisabled("%s", selectedSourceLabel.empty() ? "live object" : selectedSourceLabel.c_str());
+        ImGui::TextDisabled("%s", selectedSourceLabel.empty() ? "Current game" : selectedSourceLabel.c_str());
+        const bool canSave = !operationPending && slotNameBuf[0] != '\0';
+        if (!canSave) ImGui::BeginDisabled();
+        if (GuiUtils::Button("Save Changes", GuiUtils::ButtonTone::Primary)) ImGui::OpenPopup("Replace Save");
+        if (!canSave) ImGui::EndDisabled();
     } else {
-        ImGui::TextDisabled("No save object selected");
+        GuiUtils::RenderCallout(
+            "save-object-empty", "No save selected. Open a saved game or choose the current save to begin.",
+            GuiUtils::CalloutTone::Info
+        );
     }
 
+    if (ImGui::BeginPopupModal("Replace Save", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::TextWrapped(
+            "Save these changes as '%s'? An existing save with that name will be replaced.", slotNameBuf
+        );
+        ImGui::Spacing();
+        if (GuiUtils::Button("Replace Save", GuiUtils::ButtonTone::Danger)) {
+            SaveSelectedSlot();
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (GuiUtils::Button("Cancel", GuiUtils::ButtonTone::Quiet)) ImGui::CloseCurrentPopup();
+        ImGui::EndPopup();
+    }
+
+    if (pendingLoad || pendingSave) {
+        GuiUtils::RenderCallout(
+            "save-operation-progress", pendingLoad ? "Opening save..." : "Saving changes...",
+            GuiUtils::CalloutTone::Info
+        );
+    }
     status.Render();
-}
-
-void SaveEditorSection::RenderPropertyToolbar() {
-    ImGui::SeparatorText("Properties");
-
-    float btnW = ImGui::CalcTextSize("+").x + ImGui::GetStyle().FramePadding.x * 2;
-    float btnsW = btnW * 2 + ImGui::GetStyle().ItemSpacing.x;
-    ImGui::SetNextItemWidth(ImGui::GetContentRegionAvail().x - btnsW - ImGui::GetStyle().ItemSpacing.x);
-    if (ImGui::InputTextWithHint("##SavePropFilter", "Search properties...", propSearchBuf, sizeof(propSearchBuf))) {
-        visiblePropertiesReady = false;
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("+", ImVec2(btnW, 0))) expandState = 1;
-    if (ImGui::IsItemHovered()) {
-        GuiUtils::BeginStyledTooltip();
-        ImGui::TextUnformatted("Expand all");
-        GuiUtils::EndStyledTooltip();
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("-", ImVec2(btnW, 0))) expandState = -1;
-    if (ImGui::IsItemHovered()) {
-        GuiUtils::BeginStyledTooltip();
-        ImGui::TextUnformatted("Collapse all");
-        GuiUtils::EndStyledTooltip();
-    }
-}
-
-void SaveEditorSection::RenderCategory(
-    const std::string& categoryName, const std::vector<const PropertyBrowser::PropertyInfo*>& props, size_t filterLen
-) {
-    char label[128];
-    std::snprintf(label, sizeof(label), "%s (%zu)", categoryName.c_str(), props.size());
-
-    if (expandState != 0) ImGui::SetNextItemOpen(expandState > 0);
-    const bool open = ImGui::TreeNodeEx(label, filterLen > 0 ? ImGuiTreeNodeFlags_DefaultOpen : 0);
-    if (!open) return;
-
-    for (const auto* prop : props)
-        PropertyBrowser::RenderPropertyWidget(*prop, reinterpret_cast<std::byte*>(selectedObject));
-
-    ImGui::TreePop();
 }
 
 void SaveEditorSection::RenderProperties() {
     if (!selectedObject) return;
-
-    RenderPropertyToolbar();
-
-    const size_t filterLen = std::strlen(propSearchBuf);
-    if (!visiblePropertiesReady || visiblePropertyFilter.size() != filterLen ||
-        std::memcmp(visiblePropertyFilter.data(), propSearchBuf, filterLen) != 0)
-        RebuildVisibleProperties(filterLen);
-
-    ImGui::BeginChild("##SavePropertyList", ImVec2(0, 0), ImGuiChildFlags_None);
-    for (auto& category : visibleCategories)
-        RenderCategory(category.name, category.props, filterLen);
-    expandState = 0;
-    if (visibleCategories.empty()) ImGui::TextDisabled("No properties match filter");
-    ImGui::EndChild();
+    if (pendingLoad || pendingSave) ImGui::BeginDisabled();
+    PropertyBrowser::RenderPanel(
+        propertyPanel, reinterpret_cast<std::byte*>(selectedObject), "##SavePropFilter", "##SavePropertyList", true
+    );
+    if (pendingLoad || pendingSave) ImGui::EndDisabled();
 }
 
 void SaveEditorSection::Render() {
-    const SectionStyle::StyleRAII style;
-
+    DrainOperationResults();
     if (slotsNeedRefresh) RefreshSlots();
     if (objectsNeedScan) ScanLiveSaves();
     ValidateSelection();
