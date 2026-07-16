@@ -8,13 +8,13 @@ class KeybindList;
 struct SectionDefinition {
     MenuTab tab;
     const char* name;
-    const char* group = nullptr;
+    const char* description;
 };
 
 class Section {
 protected:
     ModContext& ctx;
-    const SectionDefinition definition;
+    const SectionDefinition* sectionDefinition;
 
     struct PlayerWorld {
         SDK::UWorld* world = nullptr;
@@ -32,15 +32,17 @@ protected:
     }
 
 public:
-    Section(ModContext& ctx, SectionDefinition definition) noexcept : ctx(ctx), definition(definition) {}
+    Section(ModContext& ctx, const SectionDefinition& definition) noexcept : ctx(ctx), sectionDefinition(&definition) {}
+    Section(ModContext&, SectionDefinition&&) = delete;
     virtual ~Section() = default;
 
     virtual void Render() = 0;
     virtual void OnOpen() {}
     virtual KeybindList* GetSearchKeybinds() noexcept { return nullptr; }
 
-    const char* GetName() const noexcept { return definition.name; }
-    const char* GetGroup() const noexcept { return definition.group; }
+    MenuTab GetTab() const noexcept { return sectionDefinition->tab; }
+    const char* GetName() const noexcept { return sectionDefinition->name; }
+    const char* GetDescription() const noexcept { return sectionDefinition->description; }
 
     Section(const Section&) = delete;
     Section& operator=(const Section&) = delete;
