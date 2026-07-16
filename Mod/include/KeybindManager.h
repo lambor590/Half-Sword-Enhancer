@@ -1,8 +1,10 @@
 #pragma once
 
 #include <Windows.h>
+#include <cstdint>
 #include <functional>
 #include <map>
+#include <mutex>
 #include <vector>
 #include <string>
 #include <string_view>
@@ -12,8 +14,11 @@
 class KeybindManager {
 public:
     using Callback = std::function<void()>;
+    enum class RebindResult : uint8_t { None, Assigned, Cancelled };
 
 private:
+    enum class RebindPhase : uint8_t { Idle, Waiting, Assigned, Cancelled };
+
     struct Binding {
         Callback callback;
         int* keyPtr = nullptr;
@@ -25,15 +30,16 @@ private:
 
     struct HotData {
         std::array<std::vector<Binding*>, 256> keyToBindings;
-        int toggleGuiKey = VK_INSERT;
-        std::atomic<bool> processingKeyEvent{false};
+        std::mutex bindingsMutex;
+        std::atomic<int> toggleGuiKey{VK_INSERT};
     };
 
     struct ColdData {
-        int unbindKey = VK_DELETE;
-        bool waitingForRebind = false;
+        std::atomic<int> unbindKey{VK_DELETE};
+        std::mutex rebindMutex;
+        const void* rebindOwner = nullptr;
+        RebindPhase rebindPhase = RebindPhase::Idle;
         int capturedKey = -1;
-        bool keyWasCaptured = false;
     };
 
     static std::map<int*, Binding>& Bindings();
@@ -42,7 +48,7 @@ private:
     static HotData s_hotData;
     static ColdData s_coldData;
 
-    static inline const std::array<bool, 256> s_validKeys = []() constexpr {
+    static constexpr std::array<bool, 256> s_validKeys = [] {
         std::array<bool, 256> valid{};
         for (size_t i = 0; i < 256; ++i) {
             valid[i] = (i != 0 && i != VK_LWIN && i != VK_RWIN && i != VK_APPS);
@@ -50,21 +56,37 @@ private:
         return valid;
     }();
 
+    static constexpr std::array<const char*, 10> DIGIT_NAMES = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    static constexpr std::array<const char*, 26> LETTER_NAMES = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
+                                                                 "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+                                                                 "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    static constexpr std::array<const char*, 10> NUMPAD_NAMES = {"Numpad 0", "Numpad 1", "Numpad 2", "Numpad 3",
+                                                                 "Numpad 4", "Numpad 5", "Numpad 6", "Numpad 7",
+                                                                 "Numpad 8", "Numpad 9"};
+    static constexpr std::array<const char*, 12> FUNCTION_KEY_NAMES = {"F1", "F2", "F3", "F4",  "F5",  "F6",
+                                                                       "F7", "F8", "F9", "F10", "F11", "F12"};
+
 public:
     static void Initialize() noexcept;
     static void RegisterKeybind(
         int* keyPtr, Callback callback, std::string name = "", bool isToggle = false, Callback onUnbound = {}
     );
     static void UnregisterKeybind(int* keyPtr);
-    static bool HandleKeyPress(bool& waitingForKey, int& key) noexcept;
-    static bool ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept;
-    static void StartWaitingForRebind() noexcept;
+    static void BeginRebind(const void* owner) noexcept;
     static void CancelRebind() noexcept;
+    static RebindResult PollRebind(const void* owner, int& key) noexcept;
+    static bool IsRebinding(const void* owner) noexcept;
+    static bool ProcessRebindEvent(UINT msg, WPARAM wParam) noexcept;
     static bool IsValidKey(int key) noexcept;
 
     static constexpr std::string_view GetKeyNameConstexpr(unsigned char index) noexcept {
+        if (index >= '0' && index <= '9') return DIGIT_NAMES[index - '0'];
+        if (index >= 'A' && index <= 'Z') return LETTER_NAMES[index - 'A'];
+        if (index >= VK_NUMPAD0 && index <= VK_NUMPAD9) return NUMPAD_NAMES[index - VK_NUMPAD0];
+        if (index >= VK_F1 && index <= VK_F12) return FUNCTION_KEY_NAMES[index - VK_F1];
+
         switch (index) {
-            case 255: return "Unbound";
+            case 255: return "No key";
             case VK_LSHIFT: return "Left Shift";
             case VK_RSHIFT: return "Right Shift";
             case VK_SHIFT: return "Shift";
@@ -94,16 +116,6 @@ public:
             case VK_SCROLL: return "Scroll Lock";
             case VK_PAUSE: return "Pause";
             case VK_NUMLOCK: return "Num Lock";
-            case VK_NUMPAD0: return "Numpad 0";
-            case VK_NUMPAD1: return "Numpad 1";
-            case VK_NUMPAD2: return "Numpad 2";
-            case VK_NUMPAD3: return "Numpad 3";
-            case VK_NUMPAD4: return "Numpad 4";
-            case VK_NUMPAD5: return "Numpad 5";
-            case VK_NUMPAD6: return "Numpad 6";
-            case VK_NUMPAD7: return "Numpad 7";
-            case VK_NUMPAD8: return "Numpad 8";
-            case VK_NUMPAD9: return "Numpad 9";
             case VK_MULTIPLY: return "Numpad *";
             case VK_ADD: return "Numpad +";
             case VK_SUBTRACT: return "Numpad -";
@@ -123,54 +135,6 @@ public:
             case VK_MBUTTON: return "MMB";
             case VK_XBUTTON1: return "Mouse 4";
             case VK_XBUTTON2: return "Mouse 5";
-            case VK_F1: return "F1";
-            case VK_F2: return "F2";
-            case VK_F3: return "F3";
-            case VK_F4: return "F4";
-            case VK_F5: return "F5";
-            case VK_F6: return "F6";
-            case VK_F7: return "F7";
-            case VK_F8: return "F8";
-            case VK_F9: return "F9";
-            case VK_F10: return "F10";
-            case VK_F11: return "F11";
-            case VK_F12: return "F12";
-            case '0': return "0";
-            case '1': return "1";
-            case '2': return "2";
-            case '3': return "3";
-            case '4': return "4";
-            case '5': return "5";
-            case '6': return "6";
-            case '7': return "7";
-            case '8': return "8";
-            case '9': return "9";
-            case 'A': return "A";
-            case 'B': return "B";
-            case 'C': return "C";
-            case 'D': return "D";
-            case 'E': return "E";
-            case 'F': return "F";
-            case 'G': return "G";
-            case 'H': return "H";
-            case 'I': return "I";
-            case 'J': return "J";
-            case 'K': return "K";
-            case 'L': return "L";
-            case 'M': return "M";
-            case 'N': return "N";
-            case 'O': return "O";
-            case 'P': return "P";
-            case 'Q': return "Q";
-            case 'R': return "R";
-            case 'S': return "S";
-            case 'T': return "T";
-            case 'U': return "U";
-            case 'V': return "V";
-            case 'W': return "W";
-            case 'X': return "X";
-            case 'Y': return "Y";
-            case 'Z': return "Z";
             default: return "Unknown";
         }
     }
@@ -180,21 +144,23 @@ public:
     }
 
     static bool ProcessKeyEvent(UINT msg, WPARAM wParam);
+    static bool ProcessToggleGuiEvent(UINT msg, WPARAM wParam) noexcept;
 
-    static int& GetToggleGuiKey() noexcept { return s_hotData.toggleGuiKey; }
-    static int& GetUnbindKey() noexcept { return s_coldData.unbindKey; }
-    static void SaveKeybinds() noexcept;
+    static int GetToggleGuiKey() noexcept { return s_hotData.toggleGuiKey.load(std::memory_order_acquire); }
+    static int GetUnbindKey() noexcept { return s_coldData.unbindKey.load(std::memory_order_acquire); }
+    static void SetToggleGuiKey(int key) noexcept { s_hotData.toggleGuiKey.store(key, std::memory_order_release); }
+    static void SetUnbindKey(int key) noexcept { s_coldData.unbindKey.store(key, std::memory_order_release); }
+    static void SaveKeybinds();
 
-    static bool IsKeyBound(int key, int* excludeKeyPtr = nullptr) noexcept;
     static void RemoveBinding(int key, int* excludeKeyPtr = nullptr);
     static std::string GetBoundName(int key, int* excludeKeyPtr = nullptr);
     static std::vector<std::string> GetAllBoundNames(int key, int* excludeKeyPtr = nullptr);
-    static int GetBindingCount(int key, int* excludeKeyPtr = nullptr) noexcept;
-    static void UpdateBinding(int* keyPtr);
+    static int GetBindingCount(int key, int* excludeKeyPtr = nullptr);
     static void UpdateBindingName(int* keyPtr, std::string name);
 
 private:
     static const std::vector<Binding*>* FindBindings(int key) noexcept;
+    static void UnregisterKeybindLocked(int* keyPtr);
     static int ExtractKeyCode(UINT msg, WPARAM wParam) noexcept;
     static constexpr bool IsRelevantMessage(UINT msg) noexcept;
 };
