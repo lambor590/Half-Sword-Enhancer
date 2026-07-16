@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <atomic>
 #include <cstdio>
 #include <memory>
 #include <string>
@@ -12,6 +13,7 @@
 #include "KeybindManager.h"
 #include "Menu/Keybind.h"
 #include "Menu/SectionConfig.h"
+#include "Menu/SectionStyle.h"
 #include "Utils/GuiUtils.h"
 
 namespace SpawnBindings {
@@ -45,51 +47,78 @@ namespace SpawnBindings {
         return std::string(config.bindingPrefix) + std::to_string(id);
     }
 
-    inline void AppendSpawnParams(
-        std::vector<KeybindParam>& params, SpawnConfig& spawn, const SpawnParamConfig& config
+    template <typename Number>
+    void AppendSpawnParams(
+        std::vector<KeybindParam>& params, Number& distanceForward, Number& distanceUp, Number& scale,
+        bool& snapToGround, const SpawnParamConfig& config
     ) {
         params.emplace_back(
-            "snap_to_ground", "Snap to Ground", &spawn.snapToGround, "Automatically adjust height to touch the ground"
+            "snap_to_ground", "Place on Ground", &snapToGround, "Place the spawned character or item on the ground"
         );
         params.emplace_back(
-            "distance_forward", config.forwardLabel, &spawn.distanceForward, config.forwardMin, config.forwardMax,
+            "distance_forward", config.forwardLabel, &distanceForward, config.forwardMin, config.forwardMax,
             config.forwardTooltip
         );
-        params.emplace_back("distance_up", config.upLabel, &spawn.distanceUp, config.upMin, config.upMax, config.upTooltip);
-        params.emplace_back("scale", "Scale", &spawn.scale, config.scaleMin, config.scaleMax, config.scaleTooltip);
+        params.emplace_back("distance_up", config.upLabel, &distanceUp, config.upMin, config.upMax, config.upTooltip);
+        params.emplace_back("scale", "Size", &scale, config.scaleMin, config.scaleMax, config.scaleTooltip);
+    }
+
+    inline std::string EncodeData(std::string_view value) {
+        static constexpr char HEX[] = "0123456789abcdef";
+        std::string encoded(value.size() * 2, '\0');
+        for (std::size_t index = 0; index < value.size(); ++index) {
+            const auto byte = static_cast<unsigned char>(value[index]);
+            encoded[index * 2] = HEX[byte >> 4U];
+            encoded[index * 2 + 1] = HEX[byte & 0x0FU];
+        }
+        return encoded;
+    }
+
+    inline bool DecodeData(std::string_view encoded, std::string& value) {
+        const auto digit = [](char c) {
+            if (c >= '0' && c <= '9') return c - '0';
+            if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+            if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+            return -1;
+        };
+        if (encoded.size() % 2 != 0) return false;
+        value.resize(encoded.size() / 2);
+        for (std::size_t index = 0; index < value.size(); ++index) {
+            const int high = digit(encoded[index * 2]);
+            const int low = digit(encoded[index * 2 + 1]);
+            if (high < 0 || low < 0) return false;
+            value[index] = static_cast<char>((high << 4U) | low);
+        }
+        return true;
     }
 
     template <class Binding>
-    void LoadCommon(
-        ConfigManager& config, Binding& binding, std::string_view section, const BindingConfig& bindingConfig
-    ) {
-        binding.key = config.GetInt(section, "key", -1);
+    void LoadCommon(ConfigManager& config, Binding& binding, const char* section, const BindingConfig& bindingConfig) {
         std::snprintf(
             binding.name, sizeof(binding.name), "%s",
             config.GetString(section, "name", bindingConfig.defaultName).c_str()
         );
-        binding.summary = config.GetString(section, "summary", binding.name);
-        binding.spawn = {
-            .distanceForward = config.GetFloat(section, "distance_forward", binding.spawn.distanceForward),
-            .distanceUp = config.GetFloat(section, "distance_up", binding.spawn.distanceUp),
-            .scale = config.GetFloat(section, "scale", binding.spawn.scale),
-            .snapToGround = config.GetBool(section, "snap_to_ground", binding.spawn.snapToGround),
-        };
     }
 
-    template <class Binding>
-    void SaveCommon(ConfigManager& config, const Binding& binding, std::string_view section) {
+    template <class Binding> void SaveCommon(ConfigManager& config, const Binding& binding, const char* section) {
         config.SetString(section, "name", binding.name);
-        config.SetString(section, "summary", binding.summary);
-        config.SetInt(section, "key", binding.key);
-        config.SetBool(section, "snap_to_ground", binding.spawn.snapToGround);
-        config.SetFloat(section, "distance_forward", binding.spawn.distanceForward);
-        config.SetFloat(section, "distance_up", binding.spawn.distanceUp);
-        config.SetFloat(section, "scale", binding.spawn.scale);
     }
 
     template <class Binding, class Adapter>
-    class BindingList {
+    void PersistBinding(Binding& binding, const BindingConfig& config, const Adapter& adapter) {
+        (void)adapter.Refresh(binding);
+        binding.keybind.tooltip = binding.summary;
+        binding.spawnSnapshot.store(adapter.MakeSnapshot(binding), std::memory_order_release);
+
+        auto& configManager = ConfigManager::Get();
+        const auto section = BindingSection(config, binding.id);
+        configManager.BatchSave([&] {
+            SaveCommon(configManager, binding, section.c_str());
+            adapter.SaveFields(binding, configManager, section.c_str());
+        });
+    }
+
+    template <class Binding, class Adapter> class BindingList {
     public:
         BindingList(
             std::vector<std::shared_ptr<Binding>>& bindings, int& nextBindingId, int& pendingDeleteBindingId,
@@ -115,15 +144,15 @@ namespace SpawnBindings {
                 auto binding = std::make_shared<Binding>();
                 binding->id = id;
                 const auto section = BindingSection(config, id);
-                LoadCommon(configManager, *binding, section, config);
-                adapter.LoadFields(*binding, configManager, section);
+                LoadCommon(configManager, *binding, section.c_str(), config);
+                adapter.LoadFields(*binding, configManager, section.c_str());
                 InitKeybind(binding, section);
                 nextBindingId = (std::max)(nextBindingId, id + 1);
                 bindings.push_back(std::move(binding));
             }
         }
 
-        void Save() {
+        void Save(bool publishSpawnSnapshots = true) {
             auto& configManager = ConfigManager::Get();
             configManager.BatchSave([&] {
                 configManager.DeleteSection(config.indexSection);
@@ -137,10 +166,11 @@ namespace SpawnBindings {
                     configManager.SetInt(config.indexSection, idKey, binding.id);
 
                     const auto section = BindingSection(config, binding.id);
-                    SaveCommon(configManager, binding, section);
-                    adapter.SaveFields(binding, configManager, section);
+                    SaveCommon(configManager, binding, section.c_str());
+                    adapter.SaveFields(binding, configManager, section.c_str());
                 }
             });
+            if (publishSpawnSnapshots) PublishAllSpawnSnapshots();
         }
 
         void AddFromCurrentSelection() {
@@ -148,14 +178,15 @@ namespace SpawnBindings {
             binding->id = nextBindingId++;
             if (!adapter.Capture(*binding)) return;
             std::snprintf(binding->name, sizeof(binding->name), "%s", binding->summary.c_str());
-            InitKeybind(binding, BindingSection(config, binding->id));
-            bindings.push_back(std::move(binding));
-            Save();
+            const auto section = BindingSection(config, binding->id);
+            bindings.push_back(binding);
+            Save(false);
+            InitKeybind(binding, section);
         }
 
         void Render() {
-            if (ImGui::Button("Add Spawn Binding")) AddFromCurrentSelection();
-            TooltipHelper::ShowTooltip(config.addTooltip);
+            if (GuiUtils::Button("Add Spawn Shortcut")) AddFromCurrentSelection();
+            GuiUtils::HelpTooltip(config.addTooltip);
 
             if (bindings.empty()) {
                 ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "%s", config.emptyText);
@@ -167,23 +198,33 @@ namespace SpawnBindings {
                 ImGui::PushID(binding.id);
                 ImGui::Separator();
 
-                ImGui::SetNextItemWidth(220.0f);
+                const auto& style = ImGui::GetStyle();
+                const float inputWidth =
+                    GuiUtils::ResolveControlWidth({SectionStyle::FIELD_MIN_WIDTH, 220.0f, 220.0f}, 220.0f);
+                const float actionsWidth = GuiUtils::ButtonNaturalWidth("Use Current Setup") + style.ItemSpacing.x +
+                                           GuiUtils::ButtonNaturalWidth("Delete");
+                const bool actionsFit =
+                    inputWidth + style.ItemSpacing.x + actionsWidth <= ImGui::GetContentRegionAvail().x;
+                ImGui::SetNextItemWidth(inputWidth);
                 if (ImGui::InputText("##BindingName", binding.name, sizeof(binding.name))) {
                     binding.keybind.name = binding.name;
                     KeybindManager::UpdateBindingName(&binding.key, binding.name);
-                    Save();
                 }
-                ImGui::SameLine();
-                if (ImGui::Button("Update")) {
-                    (void)adapter.Capture(binding);
-                    binding.keybind.tooltip = binding.summary;
-                    Save();
+                if (ImGui::IsItemDeactivatedAfterEdit()) SaveName(binding);
+                if (actionsFit) ImGui::SameLine();
+                if (GuiUtils::Button("Use Current Setup")) {
+                    if (adapter.Capture(binding)) {
+                        binding.keybind.tooltip = binding.summary;
+                        SaveBinding(binding);
+                    }
                 }
-                TooltipHelper::ShowTooltip(config.updateTooltip);
-                ImGui::SameLine();
-                if (ImGui::Button("Delete")) pendingDeleteBindingId = binding.id;
+                GuiUtils::HelpTooltip(config.updateTooltip);
+                (void)GuiUtils::SameLineIfFitsButton("Delete");
+                if (GuiUtils::Button("Delete")) pendingDeleteBindingId = binding.id;
 
-                ImGui::TextColored(DefaultStyle::PARCHMENT_DARK, "%s", binding.summary.c_str());
+                ImGui::PushStyleColor(ImGuiCol_Text, DefaultStyle::PARCHMENT_DARK);
+                ImGui::TextWrapped("%s", binding.summary.c_str());
+                ImGui::PopStyleColor();
                 binding.keybind.Render();
                 ImGui::PopID();
             }
@@ -191,27 +232,57 @@ namespace SpawnBindings {
             RenderDeletePopup();
         }
 
+        void PublishSnapshots() const { PublishAllSpawnSnapshots(); }
+
     private:
-        void InitKeybind(const std::shared_ptr<Binding>& binding, std::string_view section) {
+        void SaveName(const Binding& binding) const {
+            auto& configManager = ConfigManager::Get();
+            const auto section = BindingSection(config, binding.id);
+            configManager.SetString(section.c_str(), "name", binding.name);
+            configManager.SaveConfig();
+        }
+
+        void SaveBinding(Binding& binding) const { PersistBinding(binding, config, adapter); }
+
+        void PublishSpawnSnapshot(Binding& binding) const {
+            adapter.Refresh(binding);
+            binding.keybind.tooltip = binding.summary;
+            binding.spawnSnapshot.store(adapter.MakeSnapshot(binding), std::memory_order_release);
+        }
+
+        void PublishAllSpawnSnapshots() const {
+            for (auto& binding : bindings)
+                PublishSpawnSnapshot(*binding);
+        }
+
+        void InitKeybind(const std::shared_ptr<Binding>& binding, const std::string& section) {
             std::weak_ptr<Binding> weakBinding = binding;
             std::vector<KeybindParam> params;
-            params.reserve(4 + Adapter::EXTRA_PARAM_COUNT);
-            adapter.AppendLeadingParams(*binding, params);
-            AppendSpawnParams(params, binding->spawn, config.spawnParams);
-            adapter.AppendTrailingParams(*binding, params);
+            adapter.AppendParams(*binding, params, config.spawnParams);
 
-            binding->keybind = {
+            KeybindEntry definition{
                 .name = binding->name,
                 .tooltip = binding->summary,
-                .configSection = std::string(section),
+                .configSection = section,
                 .keyPtr = &binding->key,
                 .callback =
                     [adapter = adapter, weakBinding]([[maybe_unused]] bool, const RuntimeContextSnapshot& runtime) {
-                        if (auto binding = weakBinding.lock()) adapter.Spawn(*binding, runtime);
+                        const auto bindingLifetime = weakBinding.lock();
+                        if (!bindingLifetime) return;
+                        const auto snapshot = bindingLifetime->spawnSnapshot.load(std::memory_order_acquire);
+                        if (snapshot) adapter.Spawn(*snapshot, runtime);
                     },
+                .persistParams = false,
                 .params = std::move(params),
+                .onParamsChanged =
+                    [bindingConfig = config, bindingAdapter = adapter, weakBinding]() {
+                        if (const auto bindingLifetime = weakBinding.lock())
+                            PersistBinding(*bindingLifetime, bindingConfig, bindingAdapter);
+                    },
             };
+            binding->keybind.AdoptDefinition(definition);
             binding->keybind.Init();
+            PublishSpawnSnapshot(*binding);
         }
 
         void RenderDeletePopup() {
@@ -230,9 +301,10 @@ namespace SpawnBindings {
                     });
                     if (it != bindings.end()) {
                         KeybindManager::UnregisterKeybind((*it)->keybind.keyPtr);
-                        ConfigManager::Get().DeleteSection(BindingSection(config, (*it)->id));
+                        const auto section = BindingSection(config, (*it)->id);
+                        ConfigManager::Get().DeleteSection(section.c_str());
                         bindings.erase(it);
-                        Save();
+                        Save(false);
                     }
                     pendingDeleteBindingId = -1;
                     ImGui::CloseCurrentPopup();

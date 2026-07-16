@@ -1,22 +1,30 @@
 #pragma once
 
-#include <vector>
+#include <array>
+#include <atomic>
+#include <cstdint>
 #include <memory>
+#include <mutex>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "Menu/Section.h"
 #include "Menu/Keybind.h"
 #include "Menu/Override.h"
 #include "Menu/SectionConfig.h"
 #include "Utils/NPCPresetSerializer.h"
+#include "Utils/LoadoutPresetResolver.h"
+#include "Utils/PresetLinkPickerState.h"
 #include "Utils/PresetSectionState.h"
-#include "Utils/PresetPickerState.h"
-#include "Utils/LoadoutPresetSerializer.h"
-
-#define WILLIE_PATH(s) "/Game/Character/Blueprints" s
+#include "Utils/SpawnWorkflow.h"
 
 class NPCEditorSection : public Section {
 public:
-    static constexpr SectionDefinition SECTION{MenuTab::Spawner, "NPC Editor"};
+    static constexpr SectionDefinition SECTION{
+        MenuTab::Spawner, "NPC Editor", "Create reusable NPCs with their appearance, behavior, and equipment."
+    };
 
     struct Config {
         SpawnConfig spawn{.distanceForward = 200.0f, .distanceUp = 0.0f};
@@ -29,52 +37,37 @@ public:
     };
 
 private:
+    struct SpawnSnapshot {
+        NPCPresetData npc;
+    };
+
     struct SpawnBinding {
         int id = 0;
         int key = -1;
         char name[64] = "";
-        SpawnConfig spawn{.distanceForward = 200.0f, .distanceUp = 0.0f};
-        bool bodyguard = false;
-        int team = 0;
         NPCPresetData npc;
-        bool hasLoadout = false;
-        std::string loadoutPath;
+        std::string resolutionError;
         std::string summary;
         KeybindEntry keybind;
+        std::atomic<std::shared_ptr<const SpawnSnapshot>> spawnSnapshot;
     };
     struct BindingOps;
 
-    struct NPCTypeInfo {
-        const char* displayName;
-        const char* className;
-    };
-
-    static constexpr int SPECIAL_TEAM_ID = 1337;
-
     Config cfg;
-
-    static constexpr NPCTypeInfo NPC_TYPES[] = {
-        {"Regular", WILLIE_PATH("/Willie_BP.Willie_BP_C")},
-        {"No Brain", WILLIE_PATH("/Willie_BP_NoBrain.Willie_BP_NoBrain_C")},
-        {"Zombie", WILLIE_PATH("/Willie_BP_Zombie.Willie_BP_Zombie_C")},
-        {"DressUp", WILLIE_PATH("/Willie_BP_DressUp.Willie_BP_DressUp_C")},
-        {"Torso", WILLIE_PATH("/Willie_Torso_BP.Willie_Torso_BP_C")},
-        {"Falcon Boss", WILLIE_PATH("/Unique/Willie_BP_FalconBoss.Willie_BP_FalconBoss_C")},
-        {"Grim Reaper", WILLIE_PATH("/Unique/Willie_BP_GrimReaper.Willie_BP_GrimReaper_C")}};
-#undef WILLIE_PATH
-    static constexpr int NPC_TYPES_COUNT = sizeof(NPC_TYPES) / sizeof(NPC_TYPES[0]);
-
-    static constexpr const char* NATIONALITY_NAMES[] = {"English", "French", "German", "Italian",
-                                                        "Spanish", "Slavic", "Nordic"};
-    static constexpr int NATIONALITY_COUNT = 7;
 
     NPCOverrides overrides{};
     std::vector<std::shared_ptr<SpawnBinding>> spawnBindings;
     int nextBindingId = 1;
     int pendingDeleteBindingId = -1;
+    struct SpawnFeedbackState {
+        std::mutex feedbackMutex;
+        std::optional<std::pair<std::string, bool>> feedback;
+    };
+    std::shared_ptr<SpawnFeedbackState> spawnFeedbackState = std::make_shared<SpawnFeedbackState>();
+    std::array<std::uint64_t, 3> spawnBindingCatalogRevisions{};
 
     PresetSectionState<NPCPresetSerializer> presets;
-    PresetPickerState<LoadoutPresetSerializer> loadoutPicker;
+    PresetLinkPickerState<LoadoutPresetSerializer> loadoutPresetLink;
     int activeTab = 0;
 
     std::vector<OverrideDescriptor> physicalFields;
@@ -84,10 +77,13 @@ private:
 
     void BuildDescriptors();
     int CountAllActive() const;
-    const char* GetNPCClassName(int npcTypeIndex) const noexcept;
-    const char* GetNPCClassName() const noexcept;
+    bool ResolveNPCLoadout(std::optional<ResolvedLoadoutPresetData>& resolved, std::string& error);
     void SpawnNPC();
-    void SpawnBindingNPC(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const;
+    void SpawnBindingNPC(const SpawnSnapshot& binding, const RuntimeContextSnapshot& runtime) const;
+    void ConsumeSpawnFeedback();
+    [[nodiscard]] SpawnWorkflow::SpawnCompletion MakeSpawnCompletion(std::string action) const;
+    static void StoreSpawnFeedback(const std::shared_ptr<SpawnFeedbackState>& state, std::string message, bool error);
+    void PublishSpawnFeedback(std::string message, bool error) const;
     NPCPresetData BuildPresetData() const;
     void ApplyPresetData(const NPCPresetData& d);
     void RenderPhysicalTab();

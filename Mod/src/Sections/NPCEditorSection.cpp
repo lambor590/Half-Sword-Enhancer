@@ -4,10 +4,10 @@
 #include <utility>
 
 #include "Menu/Sections/Spawner/SpawnBindings.h"
-#include "Menu/SectionStyle.h"
 #include "ConfigManager.h"
 
 #include "Utils/GuiUtils.h"
+#include "Utils/PresetLinkResolution.h"
 #include "Utils/SpawnWorkflow.h"
 
 namespace {
@@ -15,77 +15,66 @@ namespace {
         .indexSection = "NPCSpawnBindings",
         .bindingPrefix = "NPCSpawnBinding_",
         .defaultName = "Spawn NPC",
-        .addTooltip = "Save the current NPC setup as its own keybind",
-        .emptyText = "No NPC spawn bindings saved",
-        .updateTooltip = "Replace this binding with the current NPC setup",
-        .deletePopupTitle = "Delete NPC Binding",
-        .deletePrompt = "Delete NPC spawn binding?",
-        .spawnParams =
-            {
-                .forwardLabel = "Distance Forward",
-                .forwardMin = 100.0f,
-                .forwardMax = 500.0f,
-                .forwardTooltip = "How far in front the NPC appears",
-                .upLabel = "Distance Up",
-                .upMin = 0.0f,
-                .upMax = 300.0f,
-                .upTooltip = "Height offset for spawn position",
-                .scaleMin = 0.1f,
-                .scaleMax = 4.0f,
-                .scaleTooltip =
-                    "Size multiplier for the spawned NPC. Adjust the height offset to match the scale so the game "
-                    "doesn't crash.",
-            },
+        .addTooltip = "Create a shortcut for the current NPC and placement",
+        .emptyText = "No NPC spawn shortcuts saved",
+        .updateTooltip = "Use the current NPC and placement for this shortcut",
+        .deletePopupTitle = "Delete NPC Shortcut",
+        .deletePrompt = "Delete this NPC spawn shortcut?",
+        .spawnParams = {
+            .forwardLabel = "Distance",
+            .forwardMin = static_cast<float>(NPCPresetData::K_MIN_SPAWN_DISTANCE_FORWARD),
+            .forwardMax = static_cast<float>(NPCPresetData::K_MAX_SPAWN_DISTANCE_FORWARD),
+            .forwardTooltip = "How far in front the NPC appears",
+            .upLabel = "Height",
+            .upMin = static_cast<float>(NPCPresetData::K_MIN_SPAWN_DISTANCE_UP),
+            .upMax = static_cast<float>(NPCPresetData::K_MAX_SPAWN_DISTANCE_UP),
+            .upTooltip = "How high above the player the NPC appears",
+            .scaleMin = static_cast<float>(NPCPresetData::K_MIN_SPAWN_SCALE),
+            .scaleMax = static_cast<float>(NPCPresetData::K_MAX_SPAWN_SCALE),
+            .scaleTooltip = "NPC size; larger NPCs may need more height",
+        },
     };
 
-    std::string OverrideKey(const char* group, const char* name, const char* suffix) {
-        return std::string(group) + "_" + name + "_" + suffix;
+    SpawnConfig NPCSpawnConfig(const NPCPresetData& npc) {
+        return {
+            .distanceForward = static_cast<float>(npc.spawnDistanceForward),
+            .distanceUp = static_cast<float>(npc.spawnDistanceUp),
+            .scale = static_cast<float>(npc.spawnScale),
+            .snapToGround = npc.snapToGround,
+        };
     }
 
-    void SaveOverrides(std::string_view section, NPCPresetData& npc) {
-        auto& config = ConfigManager::Get();
-        for (const auto& group : NPCPresetData::GetOverrideGroups(npc)) {
-            for (const auto& field : group.fields) {
-                config.SetBool(section, OverrideKey(group.section, field.name, "enabled"), *field.enabled);
-                switch (field.type) {
-                    case OverrideFieldType::Double:
-                        config.SetFloat(
-                            section, OverrideKey(group.section, field.name, "value"),
-                            static_cast<float>(*static_cast<double*>(field.value))
-                        );
-                        break;
-                    case OverrideFieldType::Int:
-                        config.SetInt(section, OverrideKey(group.section, field.name, "value"), GetInt(field));
-                        break;
-                    case OverrideFieldType::Bool:
-                        config.SetBool(section, OverrideKey(group.section, field.name, "value"), GetBool(field));
-                        break;
-                }
-            }
+    bool ResolveLoadoutLink(
+        const PresetLink<LoadoutPresetData>& link, std::optional<ResolvedLoadoutPresetData>& resolved,
+        std::string& error
+    ) {
+        resolved.reset();
+        error.clear();
+        if (IsEmptyPresetLink(link)) return true;
+
+        auto resolution = LoadoutPresetResolver{}.Resolve(link);
+        if (!resolution.success || !resolution.value) {
+            error = PresetLinkResolution::FormatDiagnostic(resolution);
+            if (error.empty()) error = "Loadout preset is unavailable";
+            return false;
         }
+
+        const auto validation = LoadoutPresetResolver::ValidateForNPC(*resolution.value);
+        if (!validation) {
+            error = validation.error;
+            return false;
+        }
+
+        resolved = std::move(*resolution.value);
+        return true;
     }
 
-    void LoadOverrides(std::string_view section, NPCPresetData& npc) {
-        auto& config = ConfigManager::Get();
-        for (const auto& group : NPCPresetData::GetOverrideGroups(npc)) {
-            for (const auto& field : group.fields) {
-                *field.enabled = config.GetBool(section, OverrideKey(group.section, field.name, "enabled"), false);
-                switch (field.type) {
-                    case OverrideFieldType::Double:
-                        *static_cast<double*>(field.value) =
-                            config.GetFloat(section, OverrideKey(group.section, field.name, "value"), 0.0f);
-                        break;
-                    case OverrideFieldType::Int:
-                        *static_cast<int*>(field.value) =
-                            config.GetInt(section, OverrideKey(group.section, field.name, "value"), 0);
-                        break;
-                    case OverrideFieldType::Bool:
-                        *static_cast<bool*>(field.value) =
-                            config.GetBool(section, OverrideKey(group.section, field.name, "value"), false);
-                        break;
-                }
-            }
-        }
+    std::array<std::uint64_t, 3> BindingCatalogRevisions() {
+        return {
+            LoadoutPresetSerializer::GetCatalogRevision(),
+            WeaponPresetSerializer::GetCatalogRevision(),
+            ArmorPresetSerializer::GetCatalogRevision(),
+        };
     }
 }
 
@@ -93,34 +82,31 @@ void NPCEditorSection::BuildDescriptors() {
     auto& o = overrides;
 
     physicalFields = {
-        OverrideField("Height Rate", o.heightRate, 0.01f, "Character height multiplier (1.0 = normal)"),
-        OverrideField("Muscle Rate", o.muscleRate, 0.01f, "Character muscle/bulk multiplier (1.0 = normal)"),
+        OverrideField("Height", o.heightRate, 0.01f, "Character height (1.0 = normal)"),
+        OverrideField("Body Build", o.muscleRate, 0.01f, "Character muscle and bulk (1.0 = normal)"),
         OverrideField(
-            "Scale Mutation Inhibitor", o.scaleMutationInhibitor, 0.01f,
-            "Controls how much random scale variation is suppressed"
+            "Size Consistency", o.scaleMutationInhibitor, 0.01f, "Higher values make body proportions more even"
         ),
-        OverrideField("Face Type", o.faceType, 0.1f, "Face mesh index"),
-        OverrideField("Eye Color", o.eyeColor, 0.1f, "Eye color index"),
+        OverrideField("Face", o.faceType, 0.1f, "Choose a face style"),
+        OverrideField("Eye Color", o.eyeColor, 0.1f, "Choose an eye color"),
         OverrideField("Hair Length", o.hairLength, 0.01f, "Hair length (0 = bald, 1 = maximum)"),
-        OverrideField("Hair Color", o.hairColor, 0.01f, "Hair melanin (0 = blonde, 0.5 = brown, 1 = black)"),
+        OverrideField("Hair Color", o.hairColor, 0.01f, "0 = blonde, 0.5 = brown, 1 = black"),
     };
     combatFields = {
-        OverrideField("Damage Rate", o.damageRate, 0.1f, "Additional damage multiplier dealt by this NPC"),
-        OverrideField("Limb Damage Rate", o.limbDamageRate, 0.1f, "Additional limb-specific damage multiplier"),
-        OverrideField(
-            "Dismember Threshold", o.dismemberThreshold, 0.1f, "Health threshold below which dismemberment can occur"
-        ),
-        OverrideField("Regen Rate", o.regenRate, 0.01f, "Health regeneration rate per tick"),
-        OverrideField("AI Invincibility", o.aiInvincibility, 0.01f, "Rate at which AI ignores incoming damage"),
-        OverrideField("AI Armor Invincibility", o.aiArmorInvincibility, 0.01f, "Rate at which AI armor ignores damage"),
-        OverrideField("Body Skill", o.bodySkill, 0.1f, "Overall combat skill level affecting movement and reactions"),
+        OverrideField("Damage", o.damageRate, 0.1f, "Overall damage dealt by this NPC"),
+        OverrideField("Limb Damage", o.limbDamageRate, 0.1f, "Damage dealt to individual limbs"),
+        OverrideField("Limb Severing", o.dismemberThreshold, 0.1f, "Higher values make limbs easier to sever"),
+        OverrideField("Health Recovery", o.regenRate, 0.01f, "How quickly health returns"),
+        OverrideField("Damage Resistance", o.aiInvincibility, 0.01f, "Resistance to incoming damage"),
+        OverrideField("Armor Resistance", o.aiArmorInvincibility, 0.01f, "How much damage the NPC's armor ignores"),
+        OverrideField("Combat Skill", o.bodySkill, 0.1f, "Overall combat ability, movement, and reactions"),
     };
     behaviorFields = {
-        OverrideField("Start Kneeled", o.startKneeled, "NPC spawns in a kneeling position"),
-        OverrideField("Spawn in Pants", o.spawnInPants, "NPC spawns wearing only pants (no armor)"),
-        OverrideField("Blossfechten Gear", o.blossfechtenGear, "NPC spawns with Blossfechten gear setup"),
-        OverrideField("Clear Spawn Area", o.clearSpawnArea, "Clear objects around spawn point before spawning"),
-        OverrideField("Drunk", o.drunk, 0.01f, "Drunkenness level (0 = sober, 1 = fully drunk)"),
+        OverrideField("Start Kneeling", o.startKneeled, "NPC starts in a kneeling position"),
+        OverrideField("Pants Only", o.spawnInPants, "NPC wears pants without armor"),
+        OverrideField("Blossfechten Gear", o.blossfechtenGear, "NPC wears Blossfechten gear"),
+        OverrideField("Clear Nearby Objects", o.clearSpawnArea, "Remove objects around the NPC"),
+        OverrideField("Drunkenness", o.drunk, 0.01f, "0 = sober, 1 = fully drunk"),
         OverrideField("Bolts in Quiver", o.boltsInQuiver, 0.1f, "Number of crossbow bolts the NPC carries"),
     };
     bodyConditionFields = {
@@ -140,57 +126,108 @@ int NPCEditorSection::CountAllActive() const {
            CountActive(bodyConditionFields);
 }
 
-const char* NPCEditorSection::GetNPCClassName(int npcTypeIndex) const noexcept {
-    if (npcTypeIndex >= 0 && npcTypeIndex < NPC_TYPES_COUNT) [[likely]]
-        return NPC_TYPES[npcTypeIndex].className;
-    return NPC_TYPES[0].className;
+SpawnWorkflow::SpawnCompletion NPCEditorSection::MakeSpawnCompletion(std::string action) const {
+    const std::weak_ptr<SpawnFeedbackState> weakState = spawnFeedbackState;
+    return [weakState, action = std::move(action)](const SpawnWorkflow::SpawnResult& result) {
+        const auto state = weakState.lock();
+        if (!state) return;
+        if (result.success) {
+            StoreSpawnFeedback(state, action + " spawned", false);
+            return;
+        }
+        StoreSpawnFeedback(
+            state,
+            action +
+                " failed: " + (result.error.empty() ? std::string("the setup could not be completed") : result.error),
+            true
+        );
+    };
 }
 
-const char* NPCEditorSection::GetNPCClassName() const noexcept {
-    return GetNPCClassName(cfg.npcTypeIndex);
+void NPCEditorSection::StoreSpawnFeedback(
+    const std::shared_ptr<SpawnFeedbackState>& state, std::string message, bool error
+) {
+    std::lock_guard lock(state->feedbackMutex);
+    state->feedback = std::pair{std::move(message), error};
+}
+
+void NPCEditorSection::PublishSpawnFeedback(std::string message, bool error) const {
+    StoreSpawnFeedback(spawnFeedbackState, std::move(message), error);
+}
+
+bool NPCEditorSection::ResolveNPCLoadout(std::optional<ResolvedLoadoutPresetData>& resolved, std::string& error) {
+    if (!loadoutPresetLink.HasLink()) {
+        resolved.reset();
+        error.clear();
+        return true;
+    }
+    if (!ResolveLoadoutLink(loadoutPresetLink.GetLink(), resolved, error)) {
+        loadoutPresetLink.MarkBroken(error);
+        return false;
+    }
+
+    loadoutPresetLink.MarkHealthy();
+    return true;
 }
 
 void NPCEditorSection::SpawnNPC() {
     auto snapshot = RenderSnapshot();
-    if (!snapshot.player || !snapshot.world) return;
-
-    SpawnWorkflow::NPCSpawnParams request{
-        .classPath = GetNPCClassName(),
-        .nationality = static_cast<SDK::Enum_Nationalities>(cfg.npcNationality),
-        .tier = static_cast<SDK::Enum_Ranks>(cfg.npcTier),
-        .mercenary = cfg.npcMercenary,
-        .bodyguard = cfg.bodyguard,
-        .team = cfg.npcTeam,
-        .overrides = overrides,
-    };
-
-    if (loadoutPicker.HasSelection()) {
-        request.loadout = LoadoutPresetSerializer::LoadFromFile(loadoutPicker.SelectedPath());
-        request.hasLoadout = request.loadout.success;
+    if (!snapshot.player || !snapshot.world) {
+        presets.status.Set("Open a map before spawning an NPC", true);
+        return;
     }
 
-    SpawnWorkflow::QueueNPCSpawn(snapshot, cfg.spawn, std::move(request));
+    std::optional<ResolvedLoadoutPresetData> resolved;
+    if (loadoutPresetLink.HasLink()) {
+        std::string validationError;
+        if (!ResolveNPCLoadout(resolved, validationError) || !resolved) {
+            presets.status.Set("Loadout preset: " + validationError, true);
+            return;
+        }
+    }
+
+    const auto preset = BuildPresetData();
+    auto requestResult = SpawnWorkflow::BuildNPCSpawnParams(preset, std::move(resolved));
+    if (!requestResult) {
+        presets.status.Set("NPC preset: " + requestResult.error(), true);
+        return;
+    }
+    auto request = std::move(*requestResult);
+    request.onComplete = MakeSpawnCompletion("NPC");
+    const bool queued = SpawnWorkflow::QueueNPCSpawn(snapshot, NPCSpawnConfig(preset), std::move(request));
+    presets.status.Set(queued ? "Spawning NPC..." : "Could not spawn NPC", !queued);
 }
 
-void NPCEditorSection::SpawnBindingNPC(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
-    if (!runtime.world || !runtime.player) return;
-
-    SpawnWorkflow::NPCSpawnParams request{
-        .classPath = GetNPCClassName(binding.npc.npcTypeIndex),
-        .nationality = static_cast<SDK::Enum_Nationalities>(binding.npc.nationality),
-        .tier = static_cast<SDK::Enum_Ranks>(binding.npc.tier),
-        .mercenary = binding.npc.mercenary,
-        .bodyguard = binding.bodyguard,
-        .team = binding.team,
-        .overrides = binding.npc.overrides,
-    };
-
-    if (binding.hasLoadout && !binding.loadoutPath.empty()) {
-        request.loadout = LoadoutPresetSerializer::LoadFromFile(binding.loadoutPath);
-        request.hasLoadout = request.loadout.success;
+void NPCEditorSection::SpawnBindingNPC(const SpawnSnapshot& binding, const RuntimeContextSnapshot& runtime) const {
+    if (!runtime.world || !runtime.player) {
+        PublishSpawnFeedback("NPC shortcut failed: open a map first", true);
+        return;
     }
 
-    SpawnWorkflow::SpawnNPC(runtime, binding.spawn, request);
+    std::optional<ResolvedLoadoutPresetData> loadout;
+    std::string resolutionError;
+    if (!ResolveLoadoutLink(binding.npc.loadout, loadout, resolutionError)) {
+        PublishSpawnFeedback("NPC shortcut failed: " + resolutionError, true);
+        return;
+    }
+    auto requestResult = SpawnWorkflow::BuildNPCSpawnParams(binding.npc, std::move(loadout));
+    if (!requestResult) {
+        PublishSpawnFeedback("NPC shortcut failed: " + requestResult.error(), true);
+        return;
+    }
+    auto request = std::move(*requestResult);
+    request.onComplete = MakeSpawnCompletion("NPC");
+    (void)SpawnWorkflow::SpawnNPC(runtime, NPCSpawnConfig(binding.npc), request);
+}
+
+void NPCEditorSection::ConsumeSpawnFeedback() {
+    std::optional<std::pair<std::string, bool>> feedback;
+    {
+        std::lock_guard lock(spawnFeedbackState->feedbackMutex);
+        feedback = std::move(spawnFeedbackState->feedback);
+        spawnFeedbackState->feedback.reset();
+    }
+    if (feedback) presets.status.Set(feedback->first, feedback->second);
 }
 
 NPCPresetData NPCEditorSection::BuildPresetData() const {
@@ -199,16 +236,34 @@ NPCPresetData NPCEditorSection::BuildPresetData() const {
     d.nationality = cfg.npcNationality;
     d.tier = cfg.npcTier;
     d.mercenary = cfg.npcMercenary;
+    d.bodyguard = cfg.bodyguard;
+    d.team = cfg.npcTeam;
+    d.spawnDistanceForward = cfg.spawn.distanceForward;
+    d.spawnDistanceUp = cfg.spawn.distanceUp;
+    d.spawnScale = cfg.spawn.scale;
+    d.snapToGround = cfg.spawn.snapToGround;
     d.overrides = overrides;
+    d.loadout = loadoutPresetLink.GetLink();
     return d;
 }
 
 void NPCEditorSection::ApplyPresetData(const NPCPresetData& d) {
-    cfg.npcTypeIndex = std::clamp(d.npcTypeIndex, 0, NPC_TYPES_COUNT - 1);
-    cfg.npcNationality = std::clamp(d.nationality, 0, NATIONALITY_COUNT - 1);
-    cfg.npcTier = std::clamp(d.tier, 0, 8);
+    cfg.npcTypeIndex = std::clamp(d.npcTypeIndex, 0, static_cast<int>(NPCPresetData::K_TYPES.size()) - 1);
+    cfg.npcNationality = std::clamp(d.nationality, 0, static_cast<int>(NPCPresetData::K_NATIONALITY_NAMES.size()) - 1);
+    cfg.npcTier = std::clamp(d.tier, NPCPresetData::K_MIN_TIER, NPCPresetData::K_MAX_TIER);
     cfg.npcMercenary = d.mercenary;
+    cfg.bodyguard = d.bodyguard;
+    cfg.npcTeam = d.team;
+    cfg.spawn.distanceForward = static_cast<float>(d.spawnDistanceForward);
+    cfg.spawn.distanceUp = static_cast<float>(d.spawnDistanceUp);
+    cfg.spawn.scale = static_cast<float>(d.spawnScale);
+    cfg.spawn.snapToGround = d.snapToGround;
     overrides = d.overrides;
+    loadoutPresetLink.SetLink(d.loadout);
+    std::optional<ResolvedLoadoutPresetData> resolved;
+    std::string loadoutError;
+    if (!ResolveNPCLoadout(resolved, loadoutError))
+        presets.status.Set("This NPC preset uses an unavailable loadout: " + loadoutError, true);
 }
 
 void NPCEditorSection::RenderPhysicalTab() {
@@ -252,10 +307,10 @@ void NPCEditorSection::RenderBehaviorTab() {
 void NPCEditorSection::RenderBodyConditionTab() {
     ImGui::PushID("bodycond");
 
-    ImGui::SeparatorText("Starting Health Per Limb");
-    TooltipHelper::ShowTooltip("Override starting health for each body part (0 = default game value)");
+    ImGui::SeparatorText("Starting Limb Health");
+    GuiUtils::HelpTooltip("Set the starting health of each body part. 0 uses the default value.");
 
-    if (ImGui::Button("Reset All")) {
+    if (ImGui::Button("Clear Limb Health")) {
         overrides.headHealth = {};
         overrides.neckHealth = {};
         overrides.armRHealth = {};
@@ -265,7 +320,7 @@ void NPCEditorSection::RenderBodyConditionTab() {
         overrides.legRHealth = {};
         overrides.legLHealth = {};
     }
-    TooltipHelper::ShowTooltip("Disable all body condition overrides");
+    GuiUtils::HelpTooltip("Use the default starting health for every limb");
 
     ImGui::Spacing();
     if (ImGui::BeginTable("##bodyparts", 2, ImGuiTableFlags_None)) {
@@ -300,68 +355,103 @@ NPCEditorSection::NPCEditorSection(ModContext& ctx) : Section(ctx, SECTION) {
 }
 
 struct NPCEditorSection::BindingOps {
-    static constexpr size_t EXTRA_PARAM_COUNT = 3;
-
     NPCEditorSection& owner;
 
+    static void UpdateSummary(SpawnBinding& binding) {
+        if (binding.npc.id.empty()) {
+            binding.summary = "Unavailable NPC shortcut";
+            return;
+        }
+        binding.summary =
+            NPCPresetData::K_TYPES
+                [std::clamp(binding.npc.npcTypeIndex, 0, static_cast<int>(NPCPresetData::K_TYPES.size()) - 1)]
+                    .displayName;
+        if (!binding.resolutionError.empty())
+            binding.summary += " + Unavailable";
+        else if (!IsEmptyPresetLink(binding.npc.loadout))
+            binding.summary += " + Loadout";
+    }
+
+    static bool Refresh(SpawnBinding& binding) {
+        if (binding.npc.id.empty()) {
+            if (binding.resolutionError.empty()) binding.resolutionError = "saved shortcut is unavailable";
+            UpdateSummary(binding);
+            return false;
+        }
+
+        binding.resolutionError.clear();
+        if (auto validation = binding.npc.ValidateForSave(); !validation) {
+            binding.resolutionError = std::move(validation.error);
+            UpdateSummary(binding);
+            return false;
+        }
+        std::optional<ResolvedLoadoutPresetData> resolved;
+        (void)ResolveLoadoutLink(binding.npc.loadout, resolved, binding.resolutionError);
+        UpdateSummary(binding);
+        return binding.resolutionError.empty();
+    }
+
     bool Capture(SpawnBinding& binding) const {
-        ReadSelection(binding);
+        SpawnBinding candidate;
+        candidate.id = binding.id;
+        candidate.npc = owner.BuildPresetData();
+        candidate.npc.name = "NPC shortcut";
+        candidate.npc.id = "npc-binding-" + std::to_string(binding.id);
+        if (!Refresh(candidate)) {
+            owner.presets.status.Set("Cannot create NPC shortcut: " + candidate.resolutionError, true);
+            return false;
+        }
+
+        binding.npc = std::move(candidate.npc);
+        binding.resolutionError = std::move(candidate.resolutionError);
+        binding.summary = std::move(candidate.summary);
         return true;
     }
 
-    void LoadFields(SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
-        binding.bodyguard = config.GetBool(section, "bodyguard", false);
-        binding.team = config.GetInt(section, "team", 0);
-        binding.npc.npcTypeIndex = config.GetInt(section, "npc_type", 0);
-        binding.npc.nationality = config.GetInt(section, "nationality", 0);
-        binding.npc.tier = config.GetInt(section, "tier", 4);
-        binding.npc.mercenary = config.GetBool(section, "mercenary", false);
-        binding.hasLoadout = config.GetBool(section, "has_loadout", false);
-        binding.loadoutPath = config.GetString(section, "loadout_path", "");
-        LoadOverrides(section, binding.npc);
+    void LoadFields(SpawnBinding& binding, ConfigManager& config, const char* section) const {
+        std::string serialized;
+        if (!SpawnBindings::DecodeData(config.GetString(section, "data_hex", ""), serialized)) {
+            binding.resolutionError = "saved shortcut is unavailable";
+            UpdateSummary(binding);
+            return;
+        }
+        auto loaded = NPCPresetSerializer::DeserializeFromIniResult(serialized);
+        if (!loaded.success) {
+            binding.resolutionError = "saved shortcut is unavailable";
+            UpdateSummary(binding);
+            return;
+        }
+        binding.npc = std::move(loaded.value);
+        Refresh(binding);
     }
 
-    void SaveFields(const SpawnBinding& binding, ConfigManager& config, std::string_view section) const {
-        config.SetBool(section, "bodyguard", binding.bodyguard);
-        config.SetInt(section, "team", binding.team);
-        config.SetInt(section, "npc_type", binding.npc.npcTypeIndex);
-        config.SetInt(section, "nationality", binding.npc.nationality);
-        config.SetInt(section, "tier", binding.npc.tier);
-        config.SetBool(section, "mercenary", binding.npc.mercenary);
-        config.SetBool(section, "has_loadout", binding.hasLoadout);
-        config.SetString(section, "loadout_path", binding.loadoutPath);
-        auto npc = binding.npc;
-        SaveOverrides(section, npc);
+    void SaveFields(const SpawnBinding& binding, ConfigManager& config, const char* section) const {
+        if (binding.npc.id.empty()) return;
+        const auto encoded = SpawnBindings::EncodeData(NPCPresetSerializer::SerializeToIni(binding.npc));
+        config.SetString(section, "data_hex", encoded.c_str());
     }
 
-    void Spawn(const SpawnBinding& binding, const RuntimeContextSnapshot& runtime) const {
-        owner.SpawnBindingNPC(binding, runtime);
+    std::shared_ptr<const SpawnSnapshot> MakeSnapshot(const SpawnBinding& binding) const {
+        return std::make_shared<const SpawnSnapshot>(SpawnSnapshot{.npc = binding.npc});
     }
 
-    void AppendLeadingParams(SpawnBinding& binding, std::vector<KeybindParam>& params) const {
-        params.emplace_back("bodyguard", "Bodyguard", &binding.bodyguard, "Will join your team");
-        params.emplace_back(
-            "mercenary", "Mercenary", &binding.npc.mercenary, "Generate with mercenary color scheme"
+    void Spawn(const SpawnSnapshot& snapshot, const RuntimeContextSnapshot& runtime) const {
+        owner.SpawnBindingNPC(snapshot, runtime);
+    }
+
+    void AppendParams(
+        SpawnBinding& binding, std::vector<KeybindParam>& params, const SpawnBindings::SpawnParamConfig& config
+    ) const {
+        params.emplace_back("bodyguard", "Bodyguard", &binding.npc.bodyguard, "Will fight on your side");
+        params.emplace_back("mercenary", "Mercenary", &binding.npc.mercenary, "Use mercenary colors");
+        SpawnBindings::AppendSpawnParams(
+            params, binding.npc.spawnDistanceForward, binding.npc.spawnDistanceUp, binding.npc.spawnScale,
+            binding.npc.snapToGround, config
         );
-    }
-
-    void AppendTrailingParams(SpawnBinding& binding, std::vector<KeybindParam>& params) const {
         params.emplace_back(
-            "team", "Team", &binding.team, 0, 9,
-            "Assign the NPC to a team number. 0-4 are the default teams. 0 means no team."
+            "team", "Alliance", &binding.npc.team, NPCPresetData::K_MIN_TEAM, NPCPresetData::K_MAX_TEAM,
+            "Choose which side the NPC fights for. 0 means no alliance; 1-4 are the standard alliances."
         );
-    }
-
-private:
-    void ReadSelection(SpawnBinding& binding) const {
-        binding.spawn = owner.cfg.spawn;
-        binding.bodyguard = owner.cfg.bodyguard;
-        binding.team = owner.cfg.npcTeam;
-        binding.npc = owner.BuildPresetData();
-        binding.hasLoadout = owner.loadoutPicker.HasSelection();
-        binding.loadoutPath = binding.hasLoadout ? owner.loadoutPicker.SelectedPath().string() : "";
-        binding.summary = NPC_TYPES[std::clamp(binding.npc.npcTypeIndex, 0, NPC_TYPES_COUNT - 1)].displayName;
-        if (binding.hasLoadout) binding.summary += " + Loadout";
     }
 };
 
@@ -370,69 +460,190 @@ void NPCEditorSection::LoadSpawnBindings() {
         spawnBindings, nextBindingId, pendingDeleteBindingId, NPC_BINDING_CONFIG, BindingOps{*this}
     )
         .Load();
+    spawnBindingCatalogRevisions = BindingCatalogRevisions();
 }
 
 void NPCEditorSection::RenderSpawnBindings() {
-    SpawnBindings::BindingList<SpawnBinding, BindingOps>(
+    auto bindings = SpawnBindings::BindingList<SpawnBinding, BindingOps>(
         spawnBindings, nextBindingId, pendingDeleteBindingId, NPC_BINDING_CONFIG, BindingOps{*this}
-    )
-        .Render();
+    );
+    const auto revisions = BindingCatalogRevisions();
+    if (revisions != spawnBindingCatalogRevisions) {
+        spawnBindingCatalogRevisions = revisions;
+        bindings.PublishSnapshots();
+    }
+
+    const bool hasLoadoutLinks = std::ranges::any_of(spawnBindings, [](const auto& binding) {
+        return binding && !IsEmptyPresetLink(binding->npc.loadout);
+    });
+    if (hasLoadoutLinks) {
+        if (ImGui::SmallButton("Check Saved Shortcuts")) {
+            bindings.PublishSnapshots();
+            const auto brokenCount = std::ranges::count_if(spawnBindings, [](const auto& binding) {
+                return binding && !IsEmptyPresetLink(binding->npc.loadout) && !binding->resolutionError.empty();
+            });
+            if (brokenCount == 0)
+                presets.status.Set("All NPC shortcuts are ready");
+            else
+                presets.status.Set("Unavailable NPC shortcuts: " + std::to_string(brokenCount), true);
+        }
+    }
+
+    bindings.Render();
 }
 
 void NPCEditorSection::Render() {
-    const SectionStyle::StyleRAII style;
-
-    RenderSpawnBindings();
-    ImGui::Spacing();
+    ConsumeSpawnFeedback();
+    ImGui::SeparatorText("New NPC");
 
     auto npcGetter = [](void* data, int idx) -> const char* {
-        return static_cast<const NPCTypeInfo*>(data)[idx].displayName;
+        return static_cast<const NPCPresetData::TypeInfo*>(data)[idx].displayName;
     };
-    static float npcTypeComboW = GuiUtils::CalcComboWidth(npcGetter, (void*)NPC_TYPES, NPC_TYPES_COUNT);
-    static float nationalityComboW = GuiUtils::CalcComboWidth(NATIONALITY_NAMES, NATIONALITY_COUNT);
-    GuiUtils::PrepareNextCombo(npcTypeComboW);
-    ImGui::Combo("##NPCTypeSelector", &cfg.npcTypeIndex, npcGetter, (void*)NPC_TYPES, NPC_TYPES_COUNT);
-    TooltipHelper::ShowTooltip("Choose which NPC class to spawn");
-    ImGui::SameLine();
-    GuiUtils::PrepareNextCombo(nationalityComboW);
-    ImGui::Combo("##NationalitySelector", &cfg.npcNationality, NATIONALITY_NAMES, NATIONALITY_COUNT);
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(GuiUtils::CachedTierComboWidth());
-    GuiUtils::DebouncedDragInt("##NPCTierSlider", &cfg.npcTier, 0.1f, 0, 8, "Tier %d");
+    constexpr int NPC_TYPE_COUNT = static_cast<int>(NPCPresetData::K_TYPES.size());
+    constexpr int NATIONALITY_COUNT = static_cast<int>(NPCPresetData::K_NATIONALITY_NAMES.size());
+    static float npcTypeComboW =
+        GuiUtils::CalcComboWidth(npcGetter, (void*)NPCPresetData::K_TYPES.data(), NPC_TYPE_COUNT);
+    static float nationalityComboW =
+        GuiUtils::CalcComboWidth(NPCPresetData::K_NATIONALITY_NAMES.data(), NATIONALITY_COUNT);
+    static float setupControlWidth =
+        (std::
+             max)({npcTypeComboW, nationalityComboW, GuiUtils::K_DRAG_WIDTH, GuiUtils::CheckboxNaturalWidth("Place on Ground")});
+    constexpr ImGuiTableFlags SETUP_TABLE_FLAGS = ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_NoSavedSettings;
+    if (ImGui::BeginTable("##NPCSpawnSetup", 3, SETUP_TABLE_FLAGS)) {
+        ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_WidthFixed, setupControlWidth);
+        ImGui::TableSetupColumn("Nationality", ImGuiTableColumnFlags_WidthFixed, setupControlWidth);
+        ImGui::TableSetupColumn("Tier", ImGuiTableColumnFlags_WidthFixed, setupControlWidth);
+
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        ImGui::TextDisabled("Type");
+
+        ImGui::TableNextColumn();
+        ImGui::TextDisabled("Nationality");
+
+        ImGui::TableNextColumn();
+        ImGui::TextDisabled("Tier");
+
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        GuiUtils::PrepareNextCombo(setupControlWidth);
+        ImGui::Combo(
+            "##NPCTypeSelector", &cfg.npcTypeIndex, npcGetter, (void*)NPCPresetData::K_TYPES.data(), NPC_TYPE_COUNT
+        );
+        GuiUtils::HelpTooltip("Choose the kind of NPC to spawn");
+
+        ImGui::TableNextColumn();
+        GuiUtils::PrepareNextCombo(setupControlWidth);
+        ImGui::Combo(
+            "##NationalitySelector", &cfg.npcNationality, NPCPresetData::K_NATIONALITY_NAMES.data(), NATIONALITY_COUNT
+        );
+
+        ImGui::TableNextColumn();
+        ImGui::SetNextItemWidth(setupControlWidth);
+        GuiUtils::DebouncedDragInt(
+            "##NPCTierSlider", &cfg.npcTier, 0.1f, NPCPresetData::K_MIN_TIER, NPCPresetData::K_MAX_TIER, "%d"
+        );
+
+        ImGui::TableNextRow();
+        ImGui::TableNextColumn();
+        ImGui::Checkbox("Mercenary", &cfg.npcMercenary);
+        ImGui::TableNextColumn();
+        ImGui::Checkbox("Bodyguard", &cfg.bodyguard);
+        ImGui::TableNextColumn();
+        ImGui::Checkbox("Place on Ground", &cfg.spawn.snapToGround);
+        ImGui::EndTable();
+    }
+    if (ImGui::TreeNode("Placement")) {
+        ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
+        ImGui::DragFloat(
+            "Distance", &cfg.spawn.distanceForward, 1.0f,
+            static_cast<float>(NPCPresetData::K_MIN_SPAWN_DISTANCE_FORWARD),
+            static_cast<float>(NPCPresetData::K_MAX_SPAWN_DISTANCE_FORWARD), "%.0f"
+        );
+        ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
+        ImGui::DragFloat(
+            "Height", &cfg.spawn.distanceUp, 1.0f, static_cast<float>(NPCPresetData::K_MIN_SPAWN_DISTANCE_UP),
+            static_cast<float>(NPCPresetData::K_MAX_SPAWN_DISTANCE_UP), "%.0f"
+        );
+        ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
+        ImGui::DragFloat(
+            "Size", &cfg.spawn.scale, 0.01f, static_cast<float>(NPCPresetData::K_MIN_SPAWN_SCALE),
+            static_cast<float>(NPCPresetData::K_MAX_SPAWN_SCALE), "%.2f"
+        );
+        ImGui::SetNextItemWidth(GuiUtils::K_DRAG_WIDTH);
+        ImGui::DragInt("Alliance", &cfg.npcTeam, 0.1f, NPCPresetData::K_MIN_TEAM, NPCPresetData::K_MAX_TEAM);
+        ImGui::TreePop();
+    }
+
+    const bool canSpawn = RenderWorld() != nullptr;
+    if (!canSpawn) ImGui::BeginDisabled();
+    if (GuiUtils::Button("Spawn NPC", GuiUtils::ButtonTone::Primary)) SpawnNPC();
+    if (!canSpawn) ImGui::EndDisabled();
+    if (!canSpawn && ImGui::IsItemHovered(ImGuiHoveredFlags_ForTooltip | ImGuiHoveredFlags_AllowWhenDisabled))
+        ImGui::SetItemTooltip("Open a map before spawning an NPC");
+
+    if (ImGui::TreeNode("Spawn Shortcuts")) {
+        RenderSpawnBindings();
+        ImGui::TreePop();
+    }
 
     ImGui::Spacing();
-    if (ImGui::Button("Reset All Overrides")) {
+    if (GuiUtils::Button("Clear Custom NPC Stats", GuiUtils::ButtonTone::Danger)) {
         overrides = {};
     }
-    TooltipHelper::ShowTooltip("Disable all NPC property overrides");
+    GuiUtils::HelpTooltip("Disable every custom NPC value");
     GuiUtils::RenderOverrideCount(CountAllActive());
     presets.status.Render();
 
     ImGui::Spacing();
     ImGui::BeginChild("##npc_scroll", ImVec2(0, 0));
 
-    static constexpr const char* NPC_TAB_LABELS[] = {"Physical",       "Combat",    "Behavior",
-                                                     "Body Condition", "Equipment", "Presets"};
+    static constexpr const char* NPC_TAB_LABELS[] = {"Body",        "Combat",    "Behavior",
+                                                     "Limb Health", "Equipment", "Presets"};
     GuiUtils::RenderUnderlineTabs("##NPCEditorTabs", activeTab, NPC_TAB_LABELS, 6);
     switch (activeTab) {
         case 0: RenderPhysicalTab(); break;
         case 1: RenderCombatTab(); break;
         case 2: RenderBehaviorTab(); break;
         case 3: RenderBodyConditionTab(); break;
-        case 4:
+        case 4: {
             ImGui::PushID("equipment");
-            loadoutPicker.Render("Loadout Preset");
-            if (loadoutPicker.HasSelection())
+            const bool refreshed = loadoutPresetLink.RefreshIfCatalogChanged();
+            const bool changed = loadoutPresetLink.Render("Loadout Preset");
+            if (loadoutPresetLink.HasLink() && (refreshed || changed)) {
+                std::optional<ResolvedLoadoutPresetData> resolved;
+                std::string error;
+                if (!ResolveNPCLoadout(resolved, error)) presets.status.Set("NPC loadout: " + error, true);
+            }
+            if (loadoutPresetLink.HasLink() && !loadoutPresetLink.IsBroken())
                 ImGui::TextColored(
-                    ImVec4(0.6f, 1.0f, 0.6f, 1.0f), "Equipment from preset will replace generated equipment"
+                    ImVec4(0.6f, 1.0f, 0.6f, 1.0f), "Selected weapons will be used instead of random equipment"
                 );
+            else if (loadoutPresetLink.HasLink())
+                ImGui::TextDisabled("Choose an available loadout before spawning");
             else
-                ImGui::TextDisabled("No preset selected — NPC will use randomly generated equipment");
+                ImGui::TextDisabled("No preset selected - NPC will use random equipment");
+            ImGui::TextDisabled("Only weapons from this loadout can be used for NPCs");
             ImGui::PopID();
             break;
+        }
         case 5:
+            if (loadoutPresetLink.RefreshIfCatalogChanged() && loadoutPresetLink.HasLink()) {
+                std::optional<ResolvedLoadoutPresetData> resolved;
+                std::string error;
+                if (!ResolveNPCLoadout(resolved, error)) presets.status.Set("NPC loadout: " + error, true);
+            }
+            if (loadoutPresetLink.IsBroken()) {
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f));
+                ImGui::TextWrapped("This loadout is unavailable: %s", loadoutPresetLink.GetDiagnostic().c_str());
+                ImGui::PopStyleColor();
+            }
             presets.RenderPresetsTab(
-                [this]() { return BuildPresetData(); }, [this](const NPCPresetData& d) { ApplyPresetData(d); }
+                [this]() {
+                    auto data = BuildPresetData();
+                    return PresetBuildResult<NPCPresetData>::Success(std::move(data));
+                },
+                [this](const NPCPresetData& d) { ApplyPresetData(d); }
             );
             break;
         default: break;
