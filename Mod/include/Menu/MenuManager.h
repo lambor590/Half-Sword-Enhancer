@@ -1,8 +1,8 @@
 #pragma once
 
 #include <array>
+#include <cstdint>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "Section.h"
@@ -10,8 +10,6 @@
 
 class ModContext;
 struct KeybindEntry;
-class KeybindList;
-struct ImVec2;
 
 class MenuManager {
 public:
@@ -23,27 +21,22 @@ public:
     template <typename T> void AddSection(ModContext& ctx) {
         const MenuTab tab = T::SECTION.tab;
         auto& sectionVec = sections[static_cast<size_t>(tab)];
-        if (sectionVec.empty()) {
-            sectionVec.reserve(8);
-        }
         sectionVec.push_back(std::make_unique<T>(ctx));
         if (!selectedSection) selectedSection = sectionVec.back().get();
-        RebuildRenderGroups(tab);
     }
 
+    void LoadNavigationState();
     void RenderMenu();
 
 private:
     static constexpr size_t TAB_COUNT = static_cast<size_t>(MenuTab::Count);
 
-    static constexpr std::array<std::pair<MenuTab, const char*>, TAB_COUNT> TAB_ORDER = {
-        {{MenuTab::Player, "Player"},
-         {MenuTab::World, "World"},
-         {MenuTab::Spawner, "Spawner"},
-         {MenuTab::Equipment, "Equipment"},
-         {MenuTab::Settings, "Settings"}}};
+    static constexpr std::array<const char*, TAB_COUNT> TAB_LABELS =
+        {"Player", "World", "Spawn", "Equipment", "Settings"};
 
-    static constexpr float SIDEBAR_MIN_WIDTH = 60.0f;
+    static constexpr float SIDEBAR_MIN_WIDTH = 150.0f;
+    static constexpr float SIDEBAR_MAX_WIDTH = 360.0f;
+    static constexpr float CONTENT_MIN_WIDTH = 320.0f;
     static constexpr float SPLITTER_THICKNESS = 4.0f;
     static constexpr float SECTION_INDENT = 14.0f;
     static constexpr float SIDEBAR_HPAD = 10.0f;
@@ -53,39 +46,37 @@ private:
 
     MenuManager() = default;
 
-    struct SearchResult {
-        MenuTab tab;
-        Section* section;
-        KeybindList* keybinds;
-        KeybindEntry* entry;
-    };
+    enum class SearchResultType : uint8_t { Category, Section, Action };
 
-    struct RenderGroup {
-        const char* name = nullptr;
-        std::vector<Section*> sections;
+    struct SearchResult {
+        SearchResultType type;
+        Section* section;
+        KeybindEntry* entry = nullptr;
     };
 
     std::array<std::vector<std::unique_ptr<Section>>, TAB_COUNT> sections;
-    std::array<std::vector<RenderGroup>, TAB_COUNT> renderGroups;
     Section* selectedSection = nullptr;
     Section* openedSection = nullptr;
-    MenuTab openCategory = MenuTab::Player;
-    float sidebarWidth = 140.0f;
-    bool sidebarVisible = true;
+    float sidebarWidth = 190.0f;
+    bool focusSearch = false;
+    size_t activeSearchResult = 0;
+    bool scrollToActiveSearchResult = false;
 
     char searchBuffer[128] = "";
-    bool searchActive = false;
     std::vector<SearchResult> searchResults;
 
+    static constexpr const char* GetTabLabel(MenuTab tab) noexcept { return TAB_LABELS[static_cast<size_t>(tab)]; }
+    void ClearSearch() noexcept;
     void UpdateSearchResults();
-    void RebuildRenderGroups(MenuTab tab);
-    void SelectSection(Section* section, MenuTab tab);
+    void ActivateSearchResult(SearchResult result);
+    void SelectSection(Section* section);
 
-    // --- Sidebar rendering ---
+    void RenderContent();
+    void RenderSectionDescription();
     void RenderSidebar();
     void RenderSearchBar();
     void RenderSearchResults();
-    void RenderSplitter();
+    void RenderSplitter(float maximumSidebarWidth);
     void RenderCategoryHeader(const char* label, MenuTab tab, bool& firstVisible);
     void RenderCategorySections(MenuTab tab);
 };
