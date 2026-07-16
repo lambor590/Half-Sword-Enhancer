@@ -39,17 +39,32 @@
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src</SourcePath>
     <LinkIncremental>false</LinkIncremental>
+    <GeneratedExportsDir>$(IntDir)generated\</GeneratedExportsDir>
+    <GeneratedExportsHeader>$(GeneratedExportsDir)winmm_exports.generated.h</GeneratedExportsHeader>
+    <GeneratedExportsAsm>$(GeneratedExportsDir)winmm_exports.generated.inc</GeneratedExportsAsm>
+    <GeneratedModuleDefinition>$(GeneratedExportsDir)winmm.generated.def</GeneratedModuleDefinition>
   </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(GeneratedExportsDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableUAC>false</EnableUAC>
+      <ImportLibrary>NULL</ImportLibrary>
+      <ModuleDefinitionFile>$(GeneratedModuleDefinition)</ModuleDefinitionFile>
+      <AdditionalOptions>/NOEXP /NOIMPLIB %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <MASM>
+      <IncludePaths>$(GeneratedExportsDir);%(IncludePaths)</IncludePaths>
+    </MASM>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableUAC>false</EnableUAC>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -57,13 +72,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableUAC>false</EnableUAC>
-      <ImportLibrary>NULL</ImportLibrary>
-      <ModuleDefinitionFile>src\winmm.def</ModuleDefinitionFile>
-      <AdditionalOptions>/NOEXP /NOIMPLIB %(AdditionalOptions)</AdditionalOptions>
-    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\DllMain.cpp" />
@@ -75,11 +83,17 @@
     <ResourceCompile Include="resource\Proxy.rc" />
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="src\trampolines.asm" />
+    <MASM Include="src\trampolines.asm">
+      <AdditionalDependencies>$(GeneratedExportsAsm);%(AdditionalDependencies)</AdditionalDependencies>
+    </MASM>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\winmm.def" />
+    <None Include="tools\GenerateWinmmExports.ps1" />
   </ItemGroup>
+  <Target Name="GenerateAndVerifyWinmmExports" BeforeTargets="PrepareForBuild">
+    <Exec Command="pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(ProjectDir)tools\GenerateWinmmExports.ps1&quot; -DefinitionFile &quot;$(ProjectDir)src\winmm.def&quot; -CppOutput &quot;$(GeneratedExportsHeader)&quot; -AsmOutput &quot;$(GeneratedExportsAsm)&quot; -ModuleDefinitionOutput &quot;$(GeneratedModuleDefinition)&quot; -ExpectedCount 180" />
+  </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
