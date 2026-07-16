@@ -8,11 +8,12 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SUPPRESSIONS="$SCRIPT_DIR/complexity-suppressions.txt"
+cd "$SCRIPT_DIR/.."
 
 echo "Running complexity analysis..."
 echo ""
 
-WARNINGS=$(lizard Mod/src/ Mod/include/ Launcher/src/ Proxy/src/ \
+WARNINGS=$(lizard Mod/src/ Mod/include/ Launcher/src/ Launcher/include/ Proxy/src/ UE4SSBridge/src/ \
     --exclude "Mod/SDK/*" --exclude "Mod/ext/*" --exclude "ext/*" \
     --CCN 15 --length 100 --arguments 10 \
     --sort cyclomatic_complexity -w 2>&1)
@@ -33,7 +34,7 @@ if [ -f "$SUPPRESSIONS" ]; then
     ' "$SUPPRESSIONS" | paste -sd '|' -)
 
     if [ -n "$SUPPRESSION_PATTERN" ]; then
-        FILTERED=$(grep -Ev "$SUPPRESSION_PATTERN" <<< "$WARNINGS" || true)
+        FILTERED=$(grep -Ev "$SUPPRESSION_PATTERN" <<< "$WARNINGS")
     fi
 fi
 
