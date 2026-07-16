@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mutex>
 #include <vector>
 
 #include "Menu/Section.h"
@@ -10,11 +11,15 @@
 
 class PlayerEditorSection : public Section {
 public:
-    static constexpr SectionDefinition SECTION{MenuTab::Player, "Editor"};
+    static constexpr SectionDefinition SECTION{
+        MenuTab::Player, "Player Editor", "Change player health, body, movement, combat, and skills."
+    };
 
 private:
     int enforceKey = -1;
     PlayerEditorOverrides overrides{};
+    std::mutex publishedOverridesMutex;
+    PlayerEditorOverrides publishedOverrides{};
     KeybindList keybinds;
 
     PresetSectionState<PlayerPresetSerializer> presets;
@@ -32,6 +37,7 @@ private:
     void BuildDescriptors();
     int CountAllActive() const;
     void ApplyToPlayer(SDK::AWillie_BP_C* p);
+    void PublishOverrides();
     void ReadFromPlayer();
     PlayerPresetData BuildPresetData() const;
     void ApplyPresetData(const PlayerPresetData& d);
